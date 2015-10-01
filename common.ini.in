@@ -3,8 +3,19 @@
 [app:main]
 use = egg:c2corg_ui
 
-pyramid.default_locale_name = en
+pyramid.default_locale_name = fr
 
 version = {version}
 
 logging.level = {logging_level}
+
+# pyramid_closure configuration
+pyramid_closure.roots_with_prefix =
+    __CLOSURE_LIBRARY_PATH__/closure/goog __CLOSURE_LIBRARY_PATH__/closure/goog
+    c2corg_ui:static/js %(here)s/c2corg_ui/static/js
+    %(here)s/node_modules/openlayers %(here)s/node_modules/openlayers
+    %(here)s/node_modules/ngeo %(here)s/node_modules/ngeo
+
+# used for the "node_modules" and "closure" static views
+node_modules_path = %(here)s/node_modules/
+closure_library_path = __CLOSURE_LIBRARY_PATH__

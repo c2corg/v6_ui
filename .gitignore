@@ -1,4 +1,6 @@
 /.build
+/c2corg_ui/static/build
+/node_modules
 /common.ini
 /development.ini
 /production.ini
@@ -8,3 +10,4 @@
 /MANIFEST
 *.pyc
 *.egg-info
+*.po~

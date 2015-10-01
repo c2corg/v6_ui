@@ -10,8 +10,9 @@ with open(os.path.join(here, 'CHANGES.txt')) as f:
 
 requires = [
     'pyramid',
-    'pyramid_chameleon',
     'pyramid_debugtoolbar',
+    'pyramid_mako',
+    'pyramid_closure',
     'waitress',
     ]
 
@@ -28,7 +29,7 @@ setup(name='c2corg_ui',
       author='',
       author_email='',
       url='',
-      keywords='web pyramid pylons',
+      keywords='web pyramid pylons closure',
       packages=find_packages(),
       include_package_data=True,
       zip_safe=False,

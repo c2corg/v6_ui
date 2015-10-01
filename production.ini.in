@@ -10,8 +10,9 @@ pyramid.reload_templates = false
 pyramid.debug_authorization = false
 pyramid.debug_notfound = false
 pyramid.debug_routematch = false
-pyramid.default_locale_name = en
 pyramid.includes =
+    pyramid_closure
+    pyramid_mako
 
 ###
 # wsgi server configuration
