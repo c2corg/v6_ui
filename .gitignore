@@ -1,0 +1,10 @@
+/.build
+/common.ini
+/development.ini
+/production.ini
+/test.ini
+/apache/app-c2corg_ui.wsgi
+/apache/wsgi.conf
+/MANIFEST
+*.pyc
+*.egg-info

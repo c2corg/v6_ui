@@ -1,0 +1,10 @@
+# common configuration between production.ini and development.ini
+
+[app:main]
+use = egg:c2corg_ui
+
+pyramid.default_locale_name = en
+
+version = {version}
+
+logging.level = {logging_level}

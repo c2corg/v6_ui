@@ -4,13 +4,14 @@
 ###
 
 [app:main]
-use = egg:c2corg_ui
+use = config:common.ini
 
 pyramid.reload_templates = false
 pyramid.debug_authorization = false
 pyramid.debug_notfound = false
 pyramid.debug_routematch = false
 pyramid.default_locale_name = en
+pyramid.includes =
 
 ###
 # wsgi server configuration
@@ -19,7 +20,7 @@ pyramid.default_locale_name = en
 [server:main]
 use = egg:waitress#main
 host = 0.0.0.0
-port = 6543
+port = 6553
 
 ###
 # logging configuration

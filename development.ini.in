@@ -4,7 +4,7 @@
 ###
 
 [app:main]
-use = egg:c2corg_ui
+use = config:common.ini
 
 pyramid.reload_templates = true
 pyramid.debug_authorization = false
@@ -14,9 +14,12 @@ pyramid.default_locale_name = en
 pyramid.includes =
     pyramid_debugtoolbar
 
+# disable version in dev mode
+version =
+
 # By default, the toolbar only appears for clients from IP addresses
 # '127.0.0.1' and '::1'.
-# debugtoolbar.hosts = 127.0.0.1 ::1
+debugtoolbar.hosts = 0.0.0.0/0
 
 ###
 # wsgi server configuration
@@ -25,7 +28,7 @@ pyramid.includes =
 [server:main]
 use = egg:waitress#main
 host = 0.0.0.0
-port = 6543
+port = {debug_port}
 
 ###
 # logging configuration

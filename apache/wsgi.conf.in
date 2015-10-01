@@ -1,0 +1,13 @@
+# wsgi application
+WSGIDaemonProcess c2corg_ui-{instanceid} python-path={site_packages}
+
+WSGIScriptAlias {base_url} {base_dir}/apache/app-c2corg_ui.wsgi
+
+<Location {base_url}>
+  WSGIProcessGroup c2corg_ui-{instanceid}
+  WSGIApplicationGroup %{{GLOBAL}}
+</Location>
+
+# force https
+# RewriteCond %{{HTTP:X-Forwarded-Proto}} !https
+# RewriteRule ^/?(.*) https://%{{SERVER_NAME}}/$1 [R=301,L]

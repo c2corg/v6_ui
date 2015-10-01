@@ -1,0 +1,5 @@
+include config/dev
+
+export debug_port = 6553
+export instanceid = main
+export base_url = /${instanceid}
