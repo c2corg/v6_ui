@@ -22,6 +22,9 @@
   <body>
     <h1 translate>Hello!</h1>
     <div id="map" ngeo-map="mainCtrl.map"></div>
+    <ul>
+      <li><a href="${request.route_url('waypoints')}">Waypoints</a></li>
+    </ul>
 % if debug:
     <script>
       // We should really use the empty string for CLOSURE_BASE_PATH for there
