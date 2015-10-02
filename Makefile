@@ -158,9 +158,6 @@ $(SITE_PACKAGES)/c2corg_ui.egg-link: .build/venv requirements.txt setup.py
 
 development.ini production.ini: common.ini
 
-common.ini: common.ini.in
-	sed 's|__CLOSURE_LIBRARY_PATH__|$(CLOSURE_LIBRARY_PATH)|g' $< > $@
-
 apache/app-c2corg_ui.wsgi: production.ini
 
 apache/wsgi.conf: apache/app-c2corg_ui.wsgi
@@ -168,3 +165,4 @@ apache/wsgi.conf: apache/app-c2corg_ui.wsgi
 %: %.in $(CONFIG_MAKEFILE)
 	scripts/env_replace < $< > $@
 	chmod --reference $< $@
+	sed -i 's|__CLOSURE_LIBRARY_PATH__|$(CLOSURE_LIBRARY_PATH)|g' $@
