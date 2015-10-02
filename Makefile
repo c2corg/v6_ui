@@ -63,7 +63,7 @@ test: .build/venv/bin/nosetests
 	.build/venv/bin/nosetests
 
 .PHONY: flake8
-lint: .build/venv/bin/flake8
+flake8: .build/venv/bin/flake8
 	.build/venv/bin/flake8 c2corg_ui
 
 .PHONY: lint
