@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Waypoint ${waypoint['document_id']}</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <h1>Waypoint ${waypoint['document_id']}</h1>
+    <ul>
+      <li>Name: ${' / '.join([locale['title'] for locale in waypoint['locales']])}</li>
+      <li>Elevation: ${waypoint['elevation']}</li>
+  </body>
+</html>

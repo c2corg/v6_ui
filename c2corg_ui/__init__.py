@@ -12,7 +12,11 @@ def main(global_config, **settings):
                            cache_max_age=3600)
     config.add_static_view('closure', settings.get('closure_library_path'),
                            cache_max_age=3600)
+
     config.add_route('index', '/')
-    config.add_route('waypoints', '/waypoints')
+
+    config.add_route('waypoints_index', '/waypoints')
+    config.add_route('waypoints_view', '/waypoints/{id}')
+
     config.scan()
     return config.make_wsgi_app()

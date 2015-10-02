@@ -3,3 +3,4 @@ include config/dev
 export debug_port = 6555
 export instanceid = alex
 export base_url = /${instanceid}
+export api_url = http://c2corgv6-demo.gis.internal:6545 

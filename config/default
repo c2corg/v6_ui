@@ -10,4 +10,6 @@ host = c2corgv6.demo-camptocamp.com
 url = http://$(host)
 internalurl = http://localhost
 
+export api_url = http://$(host)/main
+
 export logging_level = WARNING

@@ -6,5 +6,13 @@
   </head>
   <body>
     <h1>Waypoints</h1>
+    <ul>
+    % for waypoint in waypoints:
+      <%
+      id = waypoint['document_id']
+      names = ' / '.join([locale['title'] for locale in waypoint['locales']])
+      %>
+      <li><a href="${request.route_url('waypoints_view', id=id)}">${names}</a> (id ${id})</li>
+    % endfor
   </body>
 </html>

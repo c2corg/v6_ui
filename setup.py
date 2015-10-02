@@ -14,6 +14,7 @@ requires = [
     'pyramid_mako',
     'pyramid_closure',
     'waitress',
+    'httplib2',
     ]
 
 setup(name='c2corg_ui',
