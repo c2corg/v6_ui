@@ -1,32 +1,21 @@
 from pyramid.view import view_config
 
-import httplib2
-import json
+from c2corg_ui.views.document import Document
 
 
-# TODO: factorize in a parent Document class?
-class Waypoint(object):
+class Waypoint(Document):
 
     _API_ROUTE = 'waypoints'
-
-    def __init__(self, request):
-        self.request = request
-        self.settings = request.registry.settings
 
     @view_config(route_name='waypoints_index',
                  renderer='c2corg_ui:templates/waypoint/index.html')
     def index(self):
         url = '%s/%s' % (self.settings['api_url'], self._API_ROUTE)
-        http = httplib2.Http()
-        resp, content = http.request(url)
-        if resp.status == 200:
-            waypoints = json.loads(content)
-        else:
-            waypoints = {}
-        # TODO: add message tool for handling errors
+        resp, content = self._call_api(url)
+        # TODO: error handling
         return {
             'debug': 'debug' in self.request.params,
-            'waypoints': waypoints
+            'waypoints': content if resp.status == 200 else {}
         }
 
     @view_config(route_name='waypoints_view',
@@ -37,14 +26,9 @@ class Waypoint(object):
             self._API_ROUTE,
             int(self.request.matchdict['id'])
         )
-        http = httplib2.Http()
-        resp, content = http.request(url)
-        if resp.status == 200:
-            waypoint = json.loads(content)
-        else:
-            waypoint = {}
-        # TODO: add message tool for handling errors
+        resp, content = self._call_api(url)
+        # TODO: error handling
         return {
             'debug': 'debug' in self.request.params,
-            'waypoint': waypoint
+            'waypoint': content if resp.status == 200 else {}
         }
