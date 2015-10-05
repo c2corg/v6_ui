@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Route ${route['document_id']}</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <h1>Route ${route['document_id']}</h1>
+    <ul>
+      <li>Name: ${' / '.join([locale['title'] for locale in route['locales']])}</li>
+      <li>Height: ${route['height']}</li>
+  </body>
+</html>
