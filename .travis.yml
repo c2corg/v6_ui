@@ -1,0 +1,15 @@
+sudo: false
+language: python
+
+python:
+- 2.7
+
+install:
+- make -f config/travis .build/dev-requirements.timestamp
+- make -f config/travis install
+
+script:
+- make -f config/travis check
+
+notifications:
+  email: false
