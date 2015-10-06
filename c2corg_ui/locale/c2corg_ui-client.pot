@@ -4,5 +4,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: c2corg_ui/templates/index.html
-msgid "Hello!"
+msgid "Routes"
+msgstr ""
+
+#: c2corg_ui/templates/index.html
+msgid "Waypoints"
+msgstr ""
+
+#: c2corg_ui/templates/index.html
+msgid "Welcome to Camptocamp.org"
 msgstr ""

@@ -11,5 +11,13 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: c2corg_ui/templates/index.html
-msgid "Hello!"
-msgstr "Bonjour !"
+msgid "Routes"
+msgstr "Itinéraires"
+
+#: c2corg_ui/templates/index.html
+msgid "Waypoints"
+msgstr "Points de passage"
+
+#: c2corg_ui/templates/index.html
+msgid "Welcome to Camptocamp.org"
+msgstr "Bienvenue sur Camptocamp.org"
