@@ -10,9 +10,12 @@
     % for waypoint in waypoints:
       <%
       id = waypoint['document_id']
-      names = ' / '.join([locale['title'] for locale in waypoint['locales']])
       %>
-      <li><a href="${request.route_url('waypoints_view', id=id)}">${names}</a> (id ${id})</li>
+      <li>
+      % for locale in waypoint['locales']:
+        <a href="${request.route_url('waypoints_view', id=id, culture=locale['culture'])}">${locale['title']}</a>
+      % endfor
+      (id ${id})</li>
     % endfor
   </body>
 </html>

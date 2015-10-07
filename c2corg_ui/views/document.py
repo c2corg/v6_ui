@@ -1,6 +1,10 @@
 import httplib2
 import json
 
+from pyramid.httpexceptions import HTTPBadRequest
+
+from c2corg_ui.attributes import available_cultures
+
 
 class Document(object):
 
@@ -21,3 +25,15 @@ class Document(object):
             # TODO
             pass
         return resp, json.loads(content)
+
+    def _validate_id_culture(self):
+        try:
+            id = int(self.request.matchdict['id'])
+        except Exception:
+            raise HTTPBadRequest("Incorrect id")
+
+        culture = str(self.request.matchdict['culture'])
+        if culture not in available_cultures:
+            raise HTTPBadRequest("Incorrect culture")
+
+        return id, culture
