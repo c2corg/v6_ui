@@ -11,9 +11,12 @@
     % for route in routes:
       <%
       id = route['document_id']
-      names = ' / '.join([locale['title'] for locale in route['locales']])
       %>
-      <li><a href="${request.route_url('routes_view', id=id)}">${names}</a> (id ${id})</li>
+      <li>
+      % for locale in route['locales']:
+        <a href="${request.route_url('routes_view', id=id, culture=locale['culture'])}">${locale['title']}</a>
+      % endfor
+      (id ${id})</li>
     % endfor
   </body>
 </html>

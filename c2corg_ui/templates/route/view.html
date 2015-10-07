@@ -1,14 +1,34 @@
+<%
+locales = route['locales']
+attrs = filter(lambda l: 'culture' in l and l['culture'] == culture, locales)
+locale = attrs[0];
+# FIXME: what if desired culture is not available?
+route_title = locale['title']
+route_id = route['document_id']
+%>
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Route ${route['document_id']}</title>
+    <title>${route_title}</title>
     <meta charset="utf-8">
   </head>
   <body>
     <%include file="../header.html"/>
-    <h1>Route ${route['document_id']}</h1>
+    <h1>${route_title}</h1>
     <ul>
-      <li>Name: ${' / '.join([locale['title'] for locale in route['locales']])}</li>
-      <li>Height: ${route['height']}</li>
+      <li>Id: ${route_id}</li>
+      <li>Culture: ${culture}</li>
+      <li>Height: ${route['height']} m</li>
+    </ul>
+    % if len(locales) > 1:
+      <p>View in other culture:</p>
+      <ul>
+      % for l in locales:
+        % if l['culture'] != culture:
+          <li><a href="${request.route_url('routes_view', id=route_id, culture=l['culture'])}">${l['title']}</a> (${l['culture']})</li>
+        % endif
+      % endfor
+      </ul>
+    % endif
   </body>
 </html>

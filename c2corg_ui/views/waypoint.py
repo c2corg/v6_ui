@@ -12,7 +12,7 @@ class Waypoint(Document):
     def index(self):
         url = '%s/%s' % (self.settings['api_url'], self._API_ROUTE)
         resp, content = self._call_api(url)
-        # TODO: error handling
+        # TODO: error handling (not found, etc.)
         return {
             'debug': 'debug' in self.request.params,
             'waypoints': content if resp.status == 200 else {}
