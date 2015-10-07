@@ -1,22 +1,20 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Routes</title>
-    <meta charset="utf-8">
-  </head>
-  <body>
-    <%include file="../header.html"/>
-    <h1>Routes</h1>
-    <ul>
-    % for route in routes:
-      <%
-      id = route['document_id']
-      %>
-      <li>
-      % for locale in route['locales']:
-        <a href="${request.route_url('routes_view', id=id, culture=locale['culture'])}">${locale['title']}</a>
-      % endfor
-      (id ${id})</li>
-    % endfor
-  </body>
-</html>
+<%inherit file="../base.html"/>
+
+<%block name="pagetitle">
+Routes
+</%block>
+
+<h1>Routes</h1>
+<ul>
+% for route in routes:
+  <%
+  id = route['document_id']
+  %>
+  <li>
+  % for locale in route['locales']:
+    <a href="${request.route_url('routes_view', id=id, culture=locale['culture'])}">${locale['title']}</a>
+  % endfor
+  (id ${id})</li>
+% endfor
+</ul>
+<div id="map" ngeo-map="mainCtrl.map"></div>

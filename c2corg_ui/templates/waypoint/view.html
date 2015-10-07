@@ -6,29 +6,26 @@ locale = attrs[0];
 waypoint_title = locale['title']
 waypoint_id = waypoint['document_id']
 %>\
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>${waypoint_title}</title>
-    <meta charset="utf-8">
-  </head>
-  <body>
-    <%include file="../header.html"/>
-    <h1>${waypoint_title}</h1>
-    <ul>
-      <li>Id: ${waypoint_id}</li>
-      <li>Culture: ${culture}</li>
-      <li>Elevation: ${waypoint['elevation']} m</li>
-    </ul>
-    % if len(locales) > 1:
-      <p>View in other culture:</p>
-      <ul>
-      % for l in locales:
-        % if l['culture'] != culture:
-          <li><a href="${request.route_url('waypoints_view', id=waypoint_id, culture=l['culture'])}">${l['title']}</a> (${l['culture']})</li>
-        % endif
-      % endfor
-      </ul>
+<%inherit file="../base.html"/>
+
+<%block name="pagetitle">
+FIXME waypoint name
+</%block>
+
+<h1>${waypoint_title}</h1>
+<ul>
+  <li>Id: ${waypoint_id}</li>
+  <li>Culture: ${culture}</li>
+  <li>Elevation: ${waypoint['elevation']} m</li>
+</ul>
+% if len(locales) > 1:
+  <p>View in other culture:</p>
+  <ul>
+  % for l in locales:
+    % if l['culture'] != culture:
+      <li><a href="${request.route_url('waypoints_view', id=waypoint_id, culture=l['culture'])}">${l['title']}</a> (${l['culture']})</li>
     % endif
-  </body>
-</html>
+  % endfor
+  </ul>
+% endif
+<div id="map" ngeo-map="mainCtrl.map"></div>

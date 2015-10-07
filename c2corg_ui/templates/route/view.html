@@ -6,29 +6,26 @@ locale = attrs[0];
 route_title = locale['title']
 route_id = route['document_id']
 %>\
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>${route_title}</title>
-    <meta charset="utf-8">
-  </head>
-  <body>
-    <%include file="../header.html"/>
-    <h1>${route_title}</h1>
-    <ul>
-      <li>Id: ${route_id}</li>
-      <li>Culture: ${culture}</li>
-      <li>Height: ${route['height']} m</li>
-    </ul>
-    % if len(locales) > 1:
-      <p>View in other culture:</p>
-      <ul>
-      % for l in locales:
-        % if l['culture'] != culture:
-          <li><a href="${request.route_url('routes_view', id=route_id, culture=l['culture'])}">${l['title']}</a> (${l['culture']})</li>
-        % endif
-      % endfor
-      </ul>
+<%inherit file="../base.html"/>
+
+<%block name="pagetitle">
+FIXME route name
+</%block>
+
+<h1>${route_title}</h1>
+<ul>
+  <li>Id: ${route_id}</li>
+  <li>Culture: ${culture}</li>
+  <li>Height: ${route['height']} m</li>
+</ul>
+% if len(locales) > 1:
+  <p>View in other culture:</p>
+  <ul>
+  % for l in locales:
+    % if l['culture'] != culture:
+      <li><a href="${request.route_url('routes_view', id=route_id, culture=l['culture'])}">${l['title']}</a> (${l['culture']})</li>
     % endif
-  </body>
-</html>
+  % endfor
+  </ul>
+% endif
+<div id="map" ngeo-map="mainCtrl.map"></div>

@@ -1,22 +1,20 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Waypoints</title>
-    <meta charset="utf-8">
-  </head>
-  <body>
-    <%include file="../header.html"/>
-    <h1>Waypoints</h1>
-    <ul>
-    % for waypoint in waypoints:
-      <%
-      id = waypoint['document_id']
-      %>
-      <li>
-      % for locale in waypoint['locales']:
-        <a href="${request.route_url('waypoints_view', id=id, culture=locale['culture'])}">${locale['title']}</a>
-      % endfor
-      (id ${id})</li>
-    % endfor
-  </body>
-</html>
+<%inherit file="../base.html"/>
+
+<%block name="pagetitle">
+Waypoints 
+</%block>
+
+<h1>Waypoints</h1>
+<ul>
+% for waypoint in waypoints:
+  <%
+  id = waypoint['document_id']
+  %>
+  <li>
+  % for locale in waypoint['locales']:
+    <a href="${request.route_url('waypoints_view', id=id, culture=locale['culture'])}">${locale['title']}</a>
+  % endfor
+  (id ${id})</li>
+% endfor
+</ul>
+<div id="map" ngeo-map="mainCtrl.map"></div>
