@@ -5,6 +5,7 @@
     <meta charset="utf-8">
   </head>
   <body>
+    <%include file="../header.html"/>
     <h1>Route ${route['document_id']}</h1>
     <ul>
       <li>Name: ${' / '.join([locale['title'] for locale in route['locales']])}</li>
