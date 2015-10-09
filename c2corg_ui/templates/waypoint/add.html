@@ -1,0 +1,35 @@
+<%inherit file="../base.html"/>
+
+<%block name="pagetitle">
+Adding a waypoint
+</%block>
+
+<h1>Adding a waypoint</h1>
+<form>
+<ul>
+  <li>Culture:
+    <select name="culture">
+    % for culture in available_cultures:
+      <option value="${culture}">${culture}</option>
+    % endfor
+    </select>
+  </li>
+  <li>Type:
+    <select name="waypoint_type">
+    % for waypoint_type in waypoint_types:
+      <option value="${waypoint_type}">${waypoint_type}</option> 
+    % endfor
+    </select>
+  </li>
+  <li>Title: <input type="text" name="title" value="" /></li>
+  <li>Elevation: <input type="text" name="elevation" value="" /> m</li>
+  <li>Maps info: <input type="text" name="maps_info" value="" /></li>
+  <li>Pesdestrian access: <textarea name="pedestrian_access"></textarea></li>
+</ul>
+<p>
+<button>Save</button>
+<a href="${request.route_url('waypoints_index')}">Cancel</a>
+</p>
+</form>
+<h2>Georeferencing the waypoint</h2>
+<div id="map" ngeo-map="mainCtrl.map"></div>

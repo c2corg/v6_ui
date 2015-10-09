@@ -17,6 +17,8 @@ def main(global_config, **settings):
 
     config.add_route('waypoints_index', '/waypoints')
     config.add_route('waypoints_view', '/waypoints/{id}/{culture}')
+    config.add_route('waypoints_add', '/waypoints/add')
+    config.add_route('waypoints_edit', '/waypoints/edit/{id}/{culture}')
 
     config.add_route('routes_index', '/routes')
     config.add_route('routes_view', '/routes/{id}/{culture}')

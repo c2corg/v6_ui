@@ -1,0 +1,23 @@
+<%
+locales = waypoint['locales']
+attrs = filter(lambda l: 'culture' in l and l['culture'] == culture, locales)
+locale = attrs[0];
+# FIXME: what if desired culture is not available?
+waypoint_title = locale['title']
+waypoint_id = waypoint['document_id']
+%>\
+<%inherit file="../base.html"/>
+
+<%block name="pagetitle">
+FIXME waypoint editing
+</%block>
+
+<h1>Editing a waypoint</h1>
+<form>
+<ul>
+  <li>Id: ${waypoint_id}</li>
+  <li>Culture: ${culture}</li>
+  <li>Name: <input type="text" value="${waypoint_title}" /></li>
+  <li>Elevation: <input type="text" value="${waypoint['elevation']}" /> m</li>
+</ul>
+</form>
