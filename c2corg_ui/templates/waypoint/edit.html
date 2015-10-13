@@ -1,23 +1,64 @@
 <%
-locales = waypoint['locales']
-attrs = filter(lambda l: 'culture' in l and l['culture'] == culture, locales)
-locale = attrs[0];
-# FIXME: what if desired culture is not available?
-waypoint_title = locale['title']
-waypoint_id = waypoint['document_id']
+culture = current_culture
+updating_doc = waypoint and culture
+if updating_doc:
+    locales = waypoint['locales']
+    attrs = filter(lambda l: 'culture' in l and l['culture'] == culture, locales)
+    locale = attrs[0];
+    waypoint_title = locale['title']
+    waypoint_id = waypoint['document_id']
+else:
+    waypoint_title = ''
+    locale = None
 %>\
 <%inherit file="../base.html"/>
+<%namespace file="../helpers.mako" import="get_attr"/>
 
 <%block name="pagetitle">
-FIXME waypoint editing
+FIXME: Adding/editing a waypoint
 </%block>
 
-<h1>Editing a waypoint</h1>
+<h1>${'Editing ' + waypoint_title if waypoint_title else 'Adding a waypoint'}</h1>
 <form>
 <ul>
-  <li>Id: ${waypoint_id}</li>
-  <li>Culture: ${culture}</li>
-  <li>Name: <input type="text" value="${waypoint_title}" /></li>
-  <li>Elevation: <input type="text" value="${waypoint['elevation']}" /> m</li>
+  <li>Culture:
+    % if culture:
+      ${culture}
+      <input type="hidden" name="culture" value="${culture}" />
+    % else:
+      <select name="culture">
+      % for culture in available_cultures:
+        <option value="${culture}">${culture}</option>
+      % endfor
+      </select>
+    % endif
+  </li>
+  <li>Type:
+    <select name="waypoint_type">
+    % for waypoint_type in waypoint_types:
+      <%
+      selected = ' selected' if waypoint and waypoint_type == waypoint['waypoint_type'] else ''
+      %>
+      <option value="${waypoint_type}"${selected}>${waypoint_type}</option> 
+    % endfor
+    </select>
+  </li>
+  <li>Title: <input type="text" name="title" value="${waypoint_title}" /></li>
+  <li>Elevation: <input type="text" name="elevation" value="${get_attr(waypoint, 'elevation')}" /> m</li>
+  <li>Maps info: <input type="text" name="maps_info" value="${get_attr(waypoint, 'maps_info')}" /></li>
+  <li>Description: <textarea name="description">${get_attr(locale, 'description')}</textarea></li>
+  <li>Pesdestrian access: <textarea name="pedestrian_access">${get_attr(locale, 'pedestrian_access')}</textarea></li>
 </ul>
+<p>
+<button>Save</button>
+<%
+if updating_doc:
+    cancel_url = request.route_url('waypoints_view', id=waypoint_id, culture=culture)
+else:
+    cancel_url = request.route_url('waypoints_index')
+%>
+<a href="${cancel_url}">Cancel</a>
+</p>
 </form>
+<h2>Georeferencing the waypoint</h2>
+<div id="map" ngeo-map="mainCtrl.map"></div>

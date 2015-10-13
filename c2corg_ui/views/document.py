@@ -14,6 +14,9 @@ class Document(object):
     def __init__(self, request):
         self.request = request
         self.settings = request.registry.settings
+        self.template_input = {
+            'debug': 'debug' in self.request.params
+        }
 
     def _call_api(self, url, method='GET', body=None, headers=None):
         http = httplib2.Http()
@@ -21,10 +24,9 @@ class Document(object):
             resp, content = http.request(
                 url, method=method, body=body, headers=headers
             )
+            return resp, json.loads(content)
         except Exception:
-            # TODO
-            pass
-        return resp, json.loads(content)
+            return {'status': 500}, {}
 
     def _validate_id_culture(self):
         try:
@@ -37,3 +39,20 @@ class Document(object):
             raise HTTPBadRequest("Incorrect culture")
 
         return id, culture
+
+    def _get_document(self, id, culture):
+        # TODO: get only the current culture
+        url = '%s/%s/%d' % (
+            self.settings['api_url'],
+            self._API_ROUTE,
+            id
+        )
+        resp, content = self._call_api(url)
+        # TODO: better error handling
+        return content if resp.status == 200 else None
+
+    def _get_documents(self):
+        url = '%s/%s' % (self.settings['api_url'], self._API_ROUTE)
+        resp, content = self._call_api(url)
+        # TODO: better error handling
+        return content if resp.status == 200 else []
