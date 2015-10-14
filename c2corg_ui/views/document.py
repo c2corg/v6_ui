@@ -41,7 +41,8 @@ class Document(object):
         return id, culture
 
     def _get_document(self, id, culture):
-        # TODO: get only the current culture
+        # TODO: get only the current culture with ?l=fr
+        # but we need to know the other available cultures...
         url = '%s/%s/%d' % (
             self.settings['api_url'],
             self._API_ROUTE,
@@ -49,7 +50,24 @@ class Document(object):
         )
         resp, content = self._call_api(url)
         # TODO: better error handling
-        return content if resp.status == 200 else None
+        # FIXME: what if desired culture is not available?
+        # either return 404 or select another culture (culture = ...)
+        document = content if resp.status == 200 else None
+        # We need to pass locale data to Mako as a dedicated object to make it
+        # available in parent template:
+        locale = None
+        other_cultures = {}
+        if document and 'locales' in document:
+            for l in document['locales']:
+                if 'culture' not in l:
+                    continue
+                if l['culture'] == culture:
+                    locale = l
+                else:
+                    other_cultures[l['culture']] = {
+                        'title': l['title']
+                    }
+        return document, locale, other_cultures
 
     def _get_documents(self):
         url = '%s/%s' % (self.settings['api_url'], self._API_ROUTE)

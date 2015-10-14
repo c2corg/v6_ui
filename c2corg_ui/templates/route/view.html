@@ -1,30 +1,23 @@
+<%inherit file="../base.html"/>
 <%
-locales = route['locales']
-attrs = filter(lambda l: 'culture' in l and l['culture'] == culture, locales)
-locale = attrs[0];
-# FIXME: what if desired culture is not available?
-route_title = locale['title']
 route_id = route['document_id']
 %>\
-<%inherit file="../base.html"/>
 
 <%block name="pagetitle">
-FIXME route name
+${locale['title']}
 </%block>
 
-<h1>${route_title}</h1>
+<h1>${self.pagetitle()}</h1>
 <ul>
   <li>Id: ${route_id}</li>
   <li>Culture: ${culture}</li>
   <li>Height: ${route['height']} m</li>
 </ul>
-% if len(locales) > 1:
+% if other_cultures:
   <p>View in other culture:</p>
   <ul>
-  % for l in locales:
-    % if l['culture'] != culture:
-      <li><a href="${request.route_url('routes_view', id=route_id, culture=l['culture'])}">${l['title']}</a> (${l['culture']})</li>
-    % endif
+  % for l in other_cultures:
+    <li><a href="${request.route_url('routes_view', id=route_id, culture=l)}">${other_cultures[l]['title']}</a> (${l})</li>
   % endfor
   </ul>
 % endif

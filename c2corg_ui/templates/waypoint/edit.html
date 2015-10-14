@@ -1,24 +1,17 @@
+<%inherit file="../base.html"/>
+<%namespace file="../helpers.mako" import="get_attr"/>
 <%
 culture = current_culture
 updating_doc = waypoint and culture
 if updating_doc:
-    locales = waypoint['locales']
-    attrs = filter(lambda l: 'culture' in l and l['culture'] == culture, locales)
-    locale = attrs[0];
-    waypoint_title = locale['title']
     waypoint_id = waypoint['document_id']
-else:
-    waypoint_title = ''
-    locale = None
 %>\
-<%inherit file="../base.html"/>
-<%namespace file="../helpers.mako" import="get_attr"/>
 
 <%block name="pagetitle">
-FIXME: Adding/editing a waypoint
+${'Editing waypoint %s' % locale['title'] if locale is not None else 'Adding a waypoint'}
 </%block>
 
-<h1>${'Editing ' + waypoint_title if waypoint_title else 'Adding a waypoint'}</h1>
+<h1>${self.pagetitle()}</h1>
 <form>
 <ul>
   <li>Culture:
@@ -43,7 +36,7 @@ FIXME: Adding/editing a waypoint
     % endfor
     </select>
   </li>
-  <li>Title: <input type="text" name="title" value="${waypoint_title}" /></li>
+  <li>Title: <input type="text" name="title" value="${get_attr(locale, 'title')}" /></li>
   <li>Elevation: <input type="text" name="elevation" value="${get_attr(waypoint, 'elevation')}" /> m</li>
   <li>Maps info: <input type="text" name="maps_info" value="${get_attr(waypoint, 'maps_info')}" /></li>
   <li>Description: <textarea name="description">${get_attr(locale, 'description')}</textarea></li>

@@ -20,9 +20,12 @@ class Waypoint(Document):
                  renderer='c2corg_ui:templates/waypoint/view.html')
     def view(self):
         id, culture = self._validate_id_culture()
+        waypoint, locale, other_cultures = self._get_document(id, culture)
         self.template_input.update({
             'culture': culture,
-            'waypoint': self._get_document(id, culture)
+            'waypoint': waypoint,
+            'locale': locale,
+            'other_cultures': other_cultures
         })
         return self.template_input
 
@@ -33,9 +36,10 @@ class Waypoint(Document):
     def edit(self):
         try:
             id, culture = self._validate_id_culture()
-            waypoint = self._get_document(id, culture)
+            waypoint, locale, other_cultures = self._get_document(id, culture)
         except Exception:
             waypoint = None
+            locale = None
             culture = None
             id = None
 
@@ -43,6 +47,7 @@ class Waypoint(Document):
             'available_cultures': available_cultures,
             'waypoint_types': waypoint_types,
             'waypoint': waypoint,
+            'locale': locale,
             'current_culture': culture
         })
         return self.template_input
