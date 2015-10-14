@@ -1,0 +1,57 @@
+<%inherit file="../base.html"/>
+<%namespace file="../helpers.mako" import="get_attr"/>
+<%
+culture = current_culture
+updating_doc = route and culture
+if updating_doc:
+    route_id = route['document_id']
+%>\
+
+<%block name="pagetitle">
+${'Editing route %s' % locale['title'] if locale is not None else 'Adding a route'}
+</%block>
+
+<h1>${self.pagetitle()}</h1>
+<form>
+<ul>
+  <li>Culture:
+    % if culture:
+      ${culture}
+      <input type="hidden" name="culture" value="${culture}" />
+    % else:
+      <select name="culture">
+      % for culture in available_cultures:
+        <option value="${culture}">${culture}</option>
+      % endfor
+      </select>
+    % endif
+  </li>
+  <li>Activities:
+    <select name="activities">
+    % for activity in activities:
+      <%
+      selected = ' selected' if route and activity == route['activities'] else ''
+      %>
+      <option value="${activity}"${selected}>${activity}</option> 
+    % endfor
+    </select>
+    (FIXME: use checkboxes)
+  </li>
+  <li>Title: <input type="text" name="title" value="${get_attr(locale, 'title')}" /></li>
+  <li>Height: <input type="text" name="height" value="${get_attr(route, 'height')}" /> m</li>
+  <li>Description: <textarea name="description">${get_attr(locale, 'description')}</textarea></li>
+  <li>Gear: <textarea name="gear">${get_attr(locale, 'gear')}</textarea></li>
+</ul>
+<p>
+<button>Save</button>
+<%
+if updating_doc:
+    cancel_url = request.route_url('routes_view', id=route_id, culture=culture)
+else:
+    cancel_url = request.route_url('routes_index')
+%>
+<a href="${cancel_url}">Cancel</a>
+</p>
+</form>
+<h2>Georeferencing the route</h2>
+<div id="map" ngeo-map="mainCtrl.map"></div>

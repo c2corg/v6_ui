@@ -22,6 +22,8 @@ def main(global_config, **settings):
 
     config.add_route('routes_index', '/routes')
     config.add_route('routes_view', '/routes/{id}/{culture}')
+    config.add_route('routes_add', '/routes/add')
+    config.add_route('routes_edit', '/routes/edit/{id}/{culture}')
 
     config.scan(ignore='c2corg_ui.tests')
     return config.make_wsgi_app()
