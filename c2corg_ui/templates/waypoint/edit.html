@@ -12,22 +12,24 @@ ${'Editing waypoint %s' % locale['title'] if locale is not None else 'Adding a w
 </%block>
 
 <h1>${self.pagetitle()}</h1>
-<form>
-<ul>
-  <li>Culture:
+<form novalidate ng-submit="mainCtrl.saveEditedDocument(waypointEditingForm.$valid)" name="waypointEditingForm">
+  <div id="culture-group" class="form-group">
+    <label>Culture</label>
     % if culture:
       ${culture}
-      <input type="hidden" name="culture" value="${culture}" />
+      <input type="hidden" name="culture" ng-model="waypoint.culture" value="${culture}" />
     % else:
-      <select name="culture">
+      <select name="culture" ng-model="waypoint.culture" class="form-control" required>
       % for culture in available_cultures:
         <option value="${culture}">${culture}</option>
       % endfor
       </select>
+      <span class="help-block"></span>
     % endif
-  </li>
-  <li>Type:
-    <select name="waypoint_type">
+  </div>
+  <div id="waypoint_type-group" class="form-group">
+    <label>Type</label>
+    <select name="waypoint_type" ng-model="waypoint.waypoint_type" class="form-control" required>
     % for waypoint_type in waypoint_types:
       <%
       selected = ' selected' if waypoint and waypoint_type == waypoint['waypoint_type'] else ''
@@ -35,23 +37,44 @@ ${'Editing waypoint %s' % locale['title'] if locale is not None else 'Adding a w
       <option value="${waypoint_type}"${selected}>${waypoint_type}</option> 
     % endfor
     </select>
+    <span class="help-block"></span>
   </li>
-  <li>Title: <input type="text" name="title" value="${get_attr(locale, 'title')}" /></li>
-  <li>Elevation: <input type="text" name="elevation" value="${get_attr(waypoint, 'elevation')}" /> m</li>
-  <li>Maps info: <input type="text" name="maps_info" value="${get_attr(waypoint, 'maps_info')}" /></li>
-  <li>Description: <textarea name="description">${get_attr(locale, 'description')}</textarea></li>
-  <li>Pesdestrian access: <textarea name="pedestrian_access">${get_attr(locale, 'pedestrian_access')}</textarea></li>
-</ul>
-<p>
-<button>Save</button>
-<%
-if updating_doc:
-    cancel_url = request.route_url('waypoints_view', id=waypoint_id, culture=culture)
-else:
-    cancel_url = request.route_url('waypoints_index')
-%>
-<a href="${cancel_url}">Cancel</a>
-</p>
+  </div>
+  <div id="title-group">
+    <label>Title</label>
+    <input type="text" name="title" ng-model="waypoint.title" ng-init="waypoint.title='${get_attr(locale, 'title')}'" class="form-control" required />
+    <span class="help-block"></span>
+  </div>
+  <div id="elevation-group">
+    <label>Elevation</label>
+    <input type="text" name="elevation" ng-model="waypoint.elevation" ng-init="waypoint.elevation=${get_attr(waypoint, 'elevation')}" class="form-control" required /> m
+    <span class="help-block"></span>
+  </div>
+  <div id="maps_info-group">
+    <label>Maps info</label>
+    <input type="text" name="maps_info" ng-model="waypoint.maps_info" ng-init="waypoint.maps_info='${get_attr(waypoint, 'maps_info')}'" class="form-control" />
+    <span class="help-block"></span>
+  </div>
+  <div id="description-group">
+    <label>Description</label>
+    <textarea name="description" ng-model="waypoint.description" class="form-control">${get_attr(locale, 'description')}</textarea>
+    <span class="help-block"></span>
+  </div>
+  <div id="pedestrian_access-group">
+    <label>Pesdestrian access</label>
+    <textarea name="pedestrian_access" ng-model="waypoint.pedestrian_access" class="form-control" placeholder="Describe here the way to this WP">${get_attr(locale, 'pedestrian_access')}</textarea>
+    <span class="help-block"></span>
+  </div>
+  <p>
+    <button type="submit" class="btn btn-primary" ng-disabled="waypointEditingForm.$invalid">Save</button>
+    <%
+    if updating_doc:
+        cancel_url = request.route_url('waypoints_view', id=waypoint_id, culture=culture)
+    else:
+        cancel_url = request.route_url('waypoints_index')
+    %>
+    <a href="${cancel_url}">Cancel</a>
+  </p>
 </form>
 <h2>Georeferencing the waypoint</h2>
 <div id="map" ngeo-map="mainCtrl.map"></div>

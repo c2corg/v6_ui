@@ -68,4 +68,13 @@ app.MainController.prototype.switchLanguage = function(lang) {
 };
 
 
+/**
+ * @param {boolean} isValid True if form is valid.
+ * @export
+ */
+app.MainController.prototype.saveEditedDocument = function(isValid) {
+  alert('bou');
+};
+
+
 app.module.controller('MainController', app.MainController);
