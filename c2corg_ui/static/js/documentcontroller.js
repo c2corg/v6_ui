@@ -73,7 +73,18 @@ app.DocumentController.prototype.switchLanguage = function(lang) {
  * @export
  */
 app.DocumentController.prototype.saveEditedDocument = function(isValid) {
-  alert('bou');
+  // FIXME
+  alert('doc save data');
+};
+
+
+/**
+ * @param {number} id Document id.
+ * @param {string} culture Document culture.
+ * @export
+ */
+app.DocumentController.prototype.feedModel = function(id, culture) {
+  // FIXME
 };
 
 
