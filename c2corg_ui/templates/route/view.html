@@ -1,4 +1,4 @@
-<%inherit file="../base.html"/>
+<%inherit file="route_base.html"/>
 <%
 route_id = route['document_id']
 %>\
@@ -21,7 +21,7 @@ ${locale['title']}
   % endfor
   </ul>
 % endif
-<div id="map" ngeo-map="mainCtrl.map"></div>
+<div id="map" ngeo-map="routeCtrl.map"></div>
 <ul>
   <li>History (TODO)</li>
   <li><a href="${request.route_url('routes_edit', id=route_id, culture=culture)}">Edit</a></li>

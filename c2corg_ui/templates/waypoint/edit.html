@@ -1,4 +1,4 @@
-<%inherit file="../base.html"/>
+<%inherit file="waypoint_base.html"/>
 <%namespace file="../helpers.mako" import="get_attr"/>
 <%
 culture = current_culture
@@ -12,7 +12,7 @@ ${'Editing waypoint %s' % locale['title'] if locale is not None else 'Adding a w
 </%block>
 
 <h1>${self.pagetitle()}</h1>
-<form novalidate ng-submit="mainCtrl.saveEditedDocument(waypointEditingForm.$valid)" name="waypointEditingForm">
+<form novalidate ng-submit="wpCtrl.saveEditedDocument(waypointEditingForm.$valid)" name="waypointEditingForm">
   <div id="culture-group" class="form-group">
     <label>Culture</label>
     % if culture:
@@ -77,4 +77,4 @@ ${'Editing waypoint %s' % locale['title'] if locale is not None else 'Adding a w
   </p>
 </form>
 <h2>Georeferencing the waypoint</h2>
-<div id="map" ngeo-map="mainCtrl.map"></div>
+<div id="map" ngeo-map="wpCtrl.map"></div>

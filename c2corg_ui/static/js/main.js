@@ -6,4 +6,7 @@
  */
 goog.provide('app.main');
 
-goog.require('app.MainController');
+goog.require('app.DocumentController');
+goog.require('app.RouteController');
+goog.require('app.WaypointController');
+// FIXME: make a separated main.js file for each document type?

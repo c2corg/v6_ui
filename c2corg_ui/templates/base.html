@@ -4,7 +4,9 @@
     closure_library_path = settings.get('closure_library_path')
 %>\
 <!DOCTYPE html>
-<html lang={{mainCtrl.lang}} ng-app="app" ng-controller="MainController as mainCtrl">
+<%block name="htmltag">\
+<html lang={{docCtrl.lang}} ng-app="app" ng-controller="DocumentController as docCtrl">
+</%block>\
   <head>
     <title><%block name="pagetitle">Camptocamp.org</%block></title>
     <meta charset="utf-8">

@@ -1,4 +1,4 @@
-goog.provide('app.MainController');
+goog.provide('app.DocumentController');
 
 goog.require('app');
 goog.require('ngeo.mapDirective');
@@ -16,7 +16,7 @@ goog.require('ol.source.OSM');
  * @export
  * @ngInject
  */
-app.MainController = function(gettextCatalog, langUrlTemplate) {
+app.DocumentController = function(gettextCatalog, langUrlTemplate) {
 
   /**
    * @type {angularGettext.Catalog}
@@ -60,7 +60,7 @@ app.MainController = function(gettextCatalog, langUrlTemplate) {
  * @param {string} lang Language code.
  * @export
  */
-app.MainController.prototype.switchLanguage = function(lang) {
+app.DocumentController.prototype.switchLanguage = function(lang) {
   this.gettextCatalog_.setCurrentLanguage(lang);
   this.gettextCatalog_.loadRemote(
       this.langUrlTemplate_.replace('__lang__', lang));
@@ -72,9 +72,9 @@ app.MainController.prototype.switchLanguage = function(lang) {
  * @param {boolean} isValid True if form is valid.
  * @export
  */
-app.MainController.prototype.saveEditedDocument = function(isValid) {
+app.DocumentController.prototype.saveEditedDocument = function(isValid) {
   alert('bou');
 };
 
 
-app.module.controller('MainController', app.MainController);
+app.module.controller('DocumentController', app.DocumentController);
