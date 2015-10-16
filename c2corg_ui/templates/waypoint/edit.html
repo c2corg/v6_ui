@@ -12,7 +12,7 @@ ${'Editing waypoint %s' % locale['title'] if locale is not None else 'Adding a w
 </%block>
 
 <h1>${self.pagetitle()}</h1>
-<form novalidate ng-submit="wpCtrl.saveEditedDocument(waypointEditingForm.$valid)" name="waypointEditingForm">
+<form novalidate ng-submit="wpCtrl.saveEditedDocument(wpForm.$valid)" name="wpForm">
   <div id="culture-group" class="form-group">
     <label>Culture</label>
     % if culture:
@@ -24,7 +24,9 @@ ${'Editing waypoint %s' % locale['title'] if locale is not None else 'Adding a w
         <option value="${culture}">${culture}</option>
       % endfor
       </select>
-      <span class="help-block"></span>
+      <div class="help-block" ng-messages="wpForm.culture.$error" ng-if="wpForm.culture.$touched">
+        <p ng-message="required">Culture is required.</p> 
+      </div>
     % endif
   </div>
   <div id="waypoint_type-group" class="form-group">
@@ -37,18 +39,26 @@ ${'Editing waypoint %s' % locale['title'] if locale is not None else 'Adding a w
       <option value="${waypoint_type}"${selected}>${waypoint_type}</option> 
     % endfor
     </select>
-    <span class="help-block"></span>
+    <div class="help-block" ng-messages="wpForm.waypoint_type.$error" ng-if="wpForm.waypoint_type.$touched">
+      <p ng-message="required">Type is required.</p> 
+    </div>
   </li>
   </div>
   <div id="title-group">
     <label>Title</label>
-    <input type="text" name="title" ng-model="waypoint.title" ng-init="waypoint.title='${get_attr(locale, 'title')}'" class="form-control" required />
-    <span class="help-block"></span>
+    <input type="text" name="title" ng-model="waypoint.title" ng-init="waypoint.title='${get_attr(locale, 'title')}'" class="form-control" required ng-minlength="3" />
+    <div class="help-block" ng-messages="wpForm.title.$error" ng-if="wpForm.title.$touched">
+      <p ng-message="required">Title is required.</p> 
+      <p ng-message="minlength">Title is too short.</p>
+    </div>
   </div>
   <div id="elevation-group">
     <label>Elevation</label>
-    <input type="text" name="elevation" ng-model="waypoint.elevation" ng-init="waypoint.elevation=${get_attr(waypoint, 'elevation')}" class="form-control" required /> m
-    <span class="help-block"></span>
+    <input type="number" name="elevation" ng-model="waypoint.elevation" ng-init="waypoint.elevation=${get_attr(waypoint, 'elevation')}" class="form-control" required ng-maxlength="4" /> m
+    <div class="help-block" ng-messages="wpForm.elevation.$error" ng-if="wpForm.elevation.$touched">
+      <p ng-message="required">Elevation is required.</p> 
+      <p ng-message="maxlength">Elevation must be smaller than 9999 m.</p>
+    </div>
   </div>
   <div id="maps_info-group">
     <label>Maps info</label>
@@ -66,7 +76,7 @@ ${'Editing waypoint %s' % locale['title'] if locale is not None else 'Adding a w
     <span class="help-block"></span>
   </div>
   <p>
-    <button type="submit" class="btn btn-primary" ng-disabled="waypointEditingForm.$invalid">Save</button>
+    <button type="submit" class="btn btn-primary" ng-disabled="wpForm.$invalid">Save</button>
     <%
     if updating_doc:
         cancel_url = request.route_url('waypoints_view', id=waypoint_id, culture=culture)

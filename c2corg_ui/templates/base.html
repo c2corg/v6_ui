@@ -48,11 +48,13 @@
       window.CLOSURE_NO_DEPS = true;
     </script>
     <script src="${request.static_url('%s/angular-gettext/dist/angular-gettext.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%s/angular-messages/angular-messages.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/closure/goog/base.js' % closure_library_path)}"></script>
     <script src="${request.route_url('deps.js')}"></script>
     <script src="${request.static_url('c2corg_ui:static/js/main.js')}"></script>
 % else:
     <script src="${request.static_url('%s/angular-gettext/dist/angular-gettext.min.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%s/angular-messages/angular-messages.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('c2corg_ui:static/build/build.js')}"></script>
 % endif
     <script>
