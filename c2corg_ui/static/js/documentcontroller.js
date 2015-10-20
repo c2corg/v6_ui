@@ -12,11 +12,12 @@ goog.require('ol.source.OSM');
 /**
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @param {string} langUrlTemplate Language URL template.
+ * @param {string} apiUrl Base URL of the API.
  * @constructor
  * @export
  * @ngInject
  */
-app.DocumentController = function(gettextCatalog, langUrlTemplate) {
+app.DocumentController = function(gettextCatalog, langUrlTemplate, apiUrl) {
 
   /**
    * @type {angularGettext.Catalog}
@@ -29,6 +30,12 @@ app.DocumentController = function(gettextCatalog, langUrlTemplate) {
    * @private
    */
   this.langUrlTemplate_ = langUrlTemplate;
+
+  /**
+   * @type {string}
+   * @protected
+   */
+  this.apiUrl = apiUrl;
 
   /**
    * @type {string}
@@ -74,7 +81,7 @@ app.DocumentController.prototype.switchLanguage = function(lang) {
  */
 app.DocumentController.prototype.saveEditedDocument = function(isValid) {
   // FIXME
-  alert('doc save data');
+  alert('doc save data to ' + this.apiUrl);
 };
 
 

@@ -8,13 +8,14 @@ goog.require('app.DocumentController');
 /**
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @param {string} langUrlTemplate Language URL template.
+ * @param {string} apiUrl Base URL of the API.
  * @constructor
  * @extends {app.DocumentController}
  * @export
  * @ngInject
  */
-app.RouteController = function(gettextCatalog, langUrlTemplate) {
-  goog.base(this, gettextCatalog, langUrlTemplate);
+app.RouteController = function(gettextCatalog, langUrlTemplate, apiUrl) {
+  goog.base(this, gettextCatalog, langUrlTemplate, apiUrl);
 };
 goog.inherits(app.RouteController, app.DocumentController);
 
@@ -24,7 +25,7 @@ goog.inherits(app.RouteController, app.DocumentController);
  * @export
  */
 app.RouteController.prototype.saveEditedDocument = function(isValid) {
-  alert('route save data');
+  alert('route save data to ' + this.apiUrl);
 };
 
 

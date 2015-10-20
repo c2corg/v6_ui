@@ -15,7 +15,8 @@ class Document(object):
         self.request = request
         self.settings = request.registry.settings
         self.template_input = {
-            'debug': 'debug' in self.request.params
+            'debug': 'debug' in self.request.params,
+            'api_url': self.settings['api_url']
         }
 
     def _call_api(self, url, method='GET', body=None, headers=None):
