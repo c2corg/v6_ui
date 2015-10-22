@@ -71,9 +71,9 @@ ${'Editing waypoint %s' % locale['title'] if locale is not None else 'Adding a w
     <textarea name="description" ng-model="waypoint.locale.description" class="form-control">${get_attr(locale, 'description')}</textarea>
     <span class="help-block"></span>
   </div>
-  <div id="pedestrian_access-group">
-    <label>Pesdestrian access</label>
-    <textarea name="pedestrian_access" ng-model="waypoint.locale.pedestrian_access" class="form-control" placeholder="Describe here the way to this WP">${get_attr(locale, 'pedestrian_access')}</textarea>
+  <div id="access-group">
+    <label>Access</label>
+    <textarea name="access" ng-model="waypoint.locale.access" class="form-control" placeholder="Describe here the way to this WP">${get_attr(locale, 'access')}</textarea>
     <span class="help-block"></span>
   </div>
   <p>
