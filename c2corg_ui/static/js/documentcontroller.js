@@ -10,6 +10,8 @@ goog.require('ol.source.OSM');
 
 
 /**
+ * @param {angular.Scope} $scope Scope.
+ * @param {angular.$http} $http
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @param {string} langUrlTemplate Language URL template.
  * @param {string} apiUrl Base URL of the API.
@@ -17,7 +19,18 @@ goog.require('ol.source.OSM');
  * @export
  * @ngInject
  */
-app.DocumentController = function(gettextCatalog, langUrlTemplate, apiUrl) {
+app.DocumentController = function($scope, $http, gettextCatalog,
+    langUrlTemplate, apiUrl) {
+
+  /**
+   * @protected
+   */
+  this.scope = $scope;
+
+  /**
+   * @protected
+   */
+  this.http = $http;
 
   /**
    * @type {angularGettext.Catalog}
@@ -42,6 +55,18 @@ app.DocumentController = function(gettextCatalog, langUrlTemplate, apiUrl) {
    * @export
    */
   this.lang;
+
+  /**
+   * @type {string}
+   * @protected
+   */
+  this.baseRoute = '/documents';
+
+  /**
+   * @type {string}
+   * @protected
+   */
+  this.modelname = 'document';
 
   /**
    * @type {ol.Map}
@@ -76,12 +101,56 @@ app.DocumentController.prototype.switchLanguage = function(lang) {
 
 
 /**
+ * @return {Object}
+ * @protected
+ */
+app.DocumentController.prototype.buildData = function() {
+  // FIXME: use a property for model?
+  var model = this.scope[this.modelname];
+  model['locales'] = [];
+  if ('locale' in model) {
+    var locale = {};
+    goog.object.forEach(model['locale'], function(value, key) {
+      locale[key] = value;
+    });
+    model['locales'].push(locale);
+    delete model['locale'];
+  }
+  return model;
+};
+
+
+/**
+ * @param {string} route Final part of the URL.
+ * @return {string} URL of REST API to query.
+ * @protected
+ */
+app.DocumentController.prototype.buildUrl = function(route) {
+  return this.apiUrl + this.baseRoute + route;
+};
+
+
+/**
  * @param {boolean} isValid True if form is valid.
  * @export
  */
 app.DocumentController.prototype.saveEditedDocument = function(isValid) {
-  // FIXME
-  alert('doc save data to ' + this.apiUrl);
+  if (!isValid) {
+    // TODO: better handling?
+    alert('Form is not valid');
+  }
+  // push to API
+  // FIXME: PUT if update
+  this.http.post(this.buildUrl(''), this.buildData(), {
+    headers: { 'Content-Type': 'application/json' }
+  }).then(
+      function successCallback(response) {
+        console.log(response);
+      },
+      function errorCallback(response) {
+        console.log(response);
+      }
+  );
 };
 
 

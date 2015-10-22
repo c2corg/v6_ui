@@ -6,6 +6,8 @@ goog.require('app.DocumentController');
 
 
 /**
+ * @param {angular.Scope} $scope Scope.
+ * @param {angular.$http} $http
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @param {string} langUrlTemplate Language URL template.
  * @param {string} apiUrl Base URL of the API.
@@ -14,8 +16,21 @@ goog.require('app.DocumentController');
  * @export
  * @ngInject
  */
-app.WaypointController = function(gettextCatalog, langUrlTemplate, apiUrl) {
-  goog.base(this, gettextCatalog, langUrlTemplate, apiUrl);
+app.WaypointController = function($scope, $http, gettextCatalog,
+    langUrlTemplate, apiUrl) {
+  goog.base(this, $scope, $http, gettextCatalog, langUrlTemplate, apiUrl);
+
+  /**
+   * @type {string}
+   * @protected
+   */
+  this.baseRoute = '/waypoints';
+
+  /**
+   * @type {string}
+   * @protected
+   */
+  this.modelname = 'waypoint';
 };
 goog.inherits(app.WaypointController, app.DocumentController);
 
@@ -25,7 +40,7 @@ goog.inherits(app.WaypointController, app.DocumentController);
  * @export
  */
 app.WaypointController.prototype.saveEditedDocument = function(isValid) {
-  alert('wp save data to ' + this.apiUrl);
+  app.DocumentController.prototype.saveEditedDocument.call(this, isValid);
 };
 
 

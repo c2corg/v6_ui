@@ -6,6 +6,8 @@ goog.require('app.DocumentController');
 
 
 /**
+ * @param {angular.Scope} $scope Scope.
+ * @param {angular.$http} $http
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @param {string} langUrlTemplate Language URL template.
  * @param {string} apiUrl Base URL of the API.
@@ -14,8 +16,21 @@ goog.require('app.DocumentController');
  * @export
  * @ngInject
  */
-app.RouteController = function(gettextCatalog, langUrlTemplate, apiUrl) {
-  goog.base(this, gettextCatalog, langUrlTemplate, apiUrl);
+app.RouteController = function($scope, $http, gettextCatalog,
+    langUrlTemplate, apiUrl) {
+  goog.base(this, $scope, $http, gettextCatalog, langUrlTemplate, apiUrl);
+
+  /**
+   * @type {string}
+   * @protected
+   */
+  this.baseRoute = '/routes';
+
+  /**
+   * @type {string}
+   * @protected
+   */
+  this.modelname = 'route';
 };
 goog.inherits(app.RouteController, app.DocumentController);
 

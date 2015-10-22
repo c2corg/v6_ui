@@ -17,9 +17,10 @@ ${'Editing waypoint %s' % locale['title'] if locale is not None else 'Adding a w
     <label>Culture</label>
     % if culture:
       ${culture}
-      <input type="hidden" name="culture" ng-model="waypoint.culture" value="${culture}" />
+      ## TODO: remove when model set via AJAX
+      <input type="hidden" name="culture" ng-model="waypoint.locale.culture" ng-init="waypoint.locale.culture='${culture}'" value="${culture}" />
     % else:
-      <select name="culture" ng-model="waypoint.culture" class="form-control" required>
+      <select name="culture" ng-model="waypoint.locale.culture" class="form-control" required>
       % for culture in available_cultures:
         <option value="${culture}">${culture}</option>
       % endfor
@@ -46,7 +47,7 @@ ${'Editing waypoint %s' % locale['title'] if locale is not None else 'Adding a w
   </div>
   <div id="title-group">
     <label>Title</label>
-    <input type="text" name="title" ng-model="waypoint.title" ng-init="waypoint.title='${get_attr(locale, 'title')}'" class="form-control" required ng-minlength="3" />
+    <input type="text" name="title" ng-model="waypoint.locale.title" ng-init="waypoint.title='${get_attr(locale, 'title')}'" class="form-control" required ng-minlength="3" />
     <div class="help-block" ng-messages="wpForm.title.$error" ng-if="wpForm.title.$touched">
       <p ng-message="required">Title is required.</p> 
       <p ng-message="minlength">Title is too short.</p>
@@ -67,12 +68,12 @@ ${'Editing waypoint %s' % locale['title'] if locale is not None else 'Adding a w
   </div>
   <div id="description-group">
     <label>Description</label>
-    <textarea name="description" ng-model="waypoint.description" class="form-control">${get_attr(locale, 'description')}</textarea>
+    <textarea name="description" ng-model="waypoint.locale.description" class="form-control">${get_attr(locale, 'description')}</textarea>
     <span class="help-block"></span>
   </div>
   <div id="pedestrian_access-group">
     <label>Pesdestrian access</label>
-    <textarea name="pedestrian_access" ng-model="waypoint.pedestrian_access" class="form-control" placeholder="Describe here the way to this WP">${get_attr(locale, 'pedestrian_access')}</textarea>
+    <textarea name="pedestrian_access" ng-model="waypoint.locale.pedestrian_access" class="form-control" placeholder="Describe here the way to this WP">${get_attr(locale, 'pedestrian_access')}</textarea>
     <span class="help-block"></span>
   </div>
   <p>
