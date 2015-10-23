@@ -1,4 +1,4 @@
-<%inherit file="waypoint_base.html"/>
+<%inherit file="../base.html"/>
 <%
 waypoint_id = waypoint['document_id']
 %>\
@@ -14,7 +14,9 @@ ${locale['title']}
   <li>Elevation: ${waypoint['elevation']} m</li>
   <li>Maps info: ${waypoint['maps_info']}</li>
   <li>Description: ${locale['description']}</li>
+  % if 'access' in locale:
   <li>Access: ${locale['access']}</li>
+  % endif
 </ul>
 % if other_cultures:
   <p>View in other culture:</p>
@@ -24,7 +26,7 @@ ${locale['title']}
   % endfor
   </ul>
 % endif
-<div id="map" ngeo-map="wpCtrl.map"></div>
+<div id="map" ngeo-map="mainCtrl.map"></div>
 <ul>
   <li>History (TODO)</li>
   <li><a href="${request.route_url('waypoints_edit', id=waypoint_id, culture=culture)}">Edit</a></li>
