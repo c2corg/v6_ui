@@ -8,9 +8,9 @@ FIXME: Adding/editing page title
 </%block>
 
 <h1>${self.pagetitle()}</h1>
-<form app-document-editing="waypoint"
+<form app-document-editing="waypoints" app-document-editing-model="waypoint"
 % if updating_doc:
-  app-document-editing-route="waypoints/${waypoint_id}?l=${waypoint_culture}"
+  app-document-editing-id="${waypoint_id}" app-document-editing-culture="${waypoint_culture}"
 % endif
   name="wpForm" novalidate ng-submit="editCtrl.submitForm(wpForm.$valid)">
   <div id="culture-group" class="form-group" ng-class="{ 'has-error': wForm.culture.$touched && wpForm.culture.$invalid }">
@@ -71,11 +71,7 @@ FIXME: Adding/editing page title
   </div>
   <div id="description-group" class="form-group">
     <label>Description</label>
-    <textarea name="description" ng-model="waypoint.locales[0].description" class="form-control"></textarea>
-  </div>
-  <div id="access-group" class="form-group">
-    <label>Access</label>
-    <textarea name="access" ng-model="waypoint.locales[0].access" class="form-control" placeholder="Describe here the way to this WP"></textarea>
+    <textarea name="description" ng-model="waypoint.locales[0].description" class="form-control" placeholder="Describe here the WP"></textarea>
   </div>
   <p>
     <button type="submit" class="btn btn-primary" ng-disabled="wpForm.$invalid">Save</button>

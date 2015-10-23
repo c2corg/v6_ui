@@ -1,4 +1,5 @@
 <%inherit file="../base.html"/>
+<%namespace file="../helpers.mako" import="get_attr"/>
 <%
 route_id = route['document_id']
 %>\
@@ -12,6 +13,8 @@ ${locale['title']}
   <li>Id: ${route_id}</li>
   <li>Culture: ${culture}</li>
   <li>Height: ${route['height']} m</li>
+  <li>Description: ${get_attr(locale, 'description')}</li>
+  <li>Gear: ${get_attr(locale, 'gear')}</li>
 </ul>
 % if other_cultures:
   <p>View in other culture:</p>

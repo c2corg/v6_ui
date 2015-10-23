@@ -8,9 +8,9 @@ FIXME: Adding/editing page title
 </%block>
 
 <h1>${self.pagetitle()}</h1>
-<form app-document-editing="route"
+<form app-document-editing="routes" app-document-editing-model="route" 
 % if updating_doc:
-  app-document-editing-route="routes/${route_id}?l=${route_culture}"
+  app-document-editing-id="${route_id}" app-document-editing-culture="${route_culture}"
 % endif
   name="wpForm" novalidate ng-submit="editCtrl.submitForm(wpForm.$valid)">
   <div id="culture-group" class="form-group" ng-class="{ 'has-error': wForm.culture.$touched && wpForm.culture.$invalid }">
