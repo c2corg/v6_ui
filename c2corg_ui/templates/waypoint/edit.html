@@ -1,86 +1,91 @@
 <%inherit file="waypoint_base.html"/>
-<%namespace file="../helpers.mako" import="get_attr"/>
 <%
-culture = current_culture
-updating_doc = waypoint and culture
-if updating_doc:
-    waypoint_id = waypoint['document_id']
+updating_doc = waypoint_id and waypoint_culture
 %>\
 
 <%block name="pagetitle">
-${'Editing waypoint %s' % locale['title'] if locale is not None else 'Adding a waypoint'}
+FIXME: Adding/editing page title
 </%block>
 
 <h1>${self.pagetitle()}</h1>
-<form novalidate ng-submit="wpCtrl.saveEditedDocument(wpForm.$valid)" name="wpForm">
-  <div id="culture-group" class="form-group">
+<form app-document-editing="waypoint"
+% if updating_doc:
+  app-document-editing-route="waypoints/${waypoint_id}?l=${waypoint_culture}"
+% endif
+  name="wpForm" novalidate ng-submit="editCtrl.submitForm(wpForm.$valid)">
+  <div id="culture-group" class="form-group" ng-class="{ 'has-error': wForm.culture.$touched && wpForm.culture.$invalid }">
     <label>Culture</label>
-    % if culture:
-      ${culture}
-      ## TODO: remove when model set via AJAX
-      <input type="hidden" name="culture" ng-model="waypoint.locale.culture" ng-init="waypoint.locale.culture='${culture}'" value="${culture}" />
+    % if waypoint_culture:
+      ${waypoint_culture}
     % else:
-      <select name="culture" ng-model="waypoint.locale.culture" class="form-control" required>
-      % for culture in available_cultures:
-        <option value="${culture}">${culture}</option>
-      % endfor
+      <select name="culture" ng-options="culture for culture in ['${"','".join(available_cultures) |n}']" 
+        ng-model="waypoint.locales[0].culture" class="form-control" required>
       </select>
       <div class="help-block" ng-messages="wpForm.culture.$error" ng-if="wpForm.culture.$touched">
         <p ng-message="required">Culture is required.</p> 
       </div>
     % endif
   </div>
-  <div id="waypoint_type-group" class="form-group">
+  <div id="waypoint_type-group" class="form-group" ng-class="{ 'has-error': wForm.waypoint_type.$touched && wpForm.waypoint_type.$invalid }">
     <label>Type</label>
-    <select name="waypoint_type" ng-model="waypoint.waypoint_type" class="form-control" required>
-    % for waypoint_type in waypoint_types:
-      <%
-      selected = ' selected' if waypoint and waypoint_type == waypoint['waypoint_type'] else ''
-      %>
-      <option value="${waypoint_type}"${selected}>${waypoint_type}</option> 
-    % endfor
+    <select name="waypoint_type" ng-options="type for type in ['${"','".join(waypoint_types) |n}']"
+      ng-model="waypoint.waypoint_type" class="form-control" required>
     </select>
     <div class="help-block" ng-messages="wpForm.waypoint_type.$error" ng-if="wpForm.waypoint_type.$touched">
       <p ng-message="required">Type is required.</p> 
     </div>
   </li>
   </div>
-  <div id="title-group">
+  <div id="title-group" class="form-group" ng-class="{ 'has-error': wForm.title.$touched && wpForm.title.$invalid }">
     <label>Title</label>
-    <input type="text" name="title" ng-model="waypoint.locale.title" ng-init="waypoint.title='${get_attr(locale, 'title')}'" class="form-control" required ng-minlength="3" />
+    <input type="text" name="title" ng-model="waypoint.locales[0].title" class="form-control" required ng-minlength="3" />
     <div class="help-block" ng-messages="wpForm.title.$error" ng-if="wpForm.title.$touched">
       <p ng-message="required">Title is required.</p> 
       <p ng-message="minlength">Title is too short.</p>
     </div>
   </div>
-  <div id="elevation-group">
+  <div id="elevation-group" class="form-group" ng-class="{ 'has-error': wForm.elevation.$touched && wpForm.elevation.$invalid }">
     <label>Elevation</label>
-    <input type="number" name="elevation" ng-model="waypoint.elevation" ng-init="waypoint.elevation=${get_attr(waypoint, 'elevation')}" class="form-control" required ng-maxlength="4" /> m
+    <input type="number" name="elevation" ng-model="waypoint.elevation" class="form-control" required ng-maxlength="4" /> m
     <div class="help-block" ng-messages="wpForm.elevation.$error" ng-if="wpForm.elevation.$touched">
       <p ng-message="required">Elevation is required.</p> 
       <p ng-message="maxlength">Elevation must be smaller than 9999 m.</p>
     </div>
   </div>
-  <div id="maps_info-group">
+  <div id="latitude-group" class="form-group" ng-class="{ 'has-error': wForm.latitude.$touched && wpForm.latitude.$invalid }">
+    <label>Latitude</label>
+    <input type="number" name="latitude" ng-model="waypoint.geom.latitude" class="form-control" required /> °N
+    <div class="help-block" ng-messages="wpForm.latitude.$error" ng-if="wpForm.latitude.$touched">
+      <p ng-message="required">Latitude is required.</p> 
+    </div>
+  </div>
+  <div id="longitude-group" class="form-group" ng-class="{ 'has-error': wForm.longitude.$touched && wpForm.longitude.$invalid }">
+    <label>Longitude</label>
+    <input type="number" name="longitude" ng-model="waypoint.geom.longitude" class="form-control" required /> °E
+    <div class="help-block" ng-messages="wpForm.longitude.$error" ng-if="wpForm.longitude.$touched">
+      <p ng-message="required">Longitude is required.</p> 
+    </div>
+  </div>
+  <div id="maps_info-group" class="form-group">
     <label>Maps info</label>
-    <input type="text" name="maps_info" ng-model="waypoint.maps_info" ng-init="waypoint.maps_info='${get_attr(waypoint, 'maps_info')}'" class="form-control" />
+    <input type="text" name="maps_info" ng-model="waypoint.maps_info" class="form-control" />
     <span class="help-block"></span>
   </div>
-  <div id="description-group">
+  <div id="description-group" class="form-group">
     <label>Description</label>
-    <textarea name="description" ng-model="waypoint.locale.description" class="form-control">${get_attr(locale, 'description')}</textarea>
+    <textarea name="description" ng-model="waypoint.locales[0].description" class="form-control"></textarea>
     <span class="help-block"></span>
   </div>
-  <div id="access-group">
+  <div id="access-group" class="form-group">
     <label>Access</label>
-    <textarea name="access" ng-model="waypoint.locale.access" class="form-control" placeholder="Describe here the way to this WP">${get_attr(locale, 'access')}</textarea>
+    <textarea name="access" ng-model="waypoint.locales[0].access" class="form-control" placeholder="Describe here the way to this WP"></textarea>
     <span class="help-block"></span>
   </div>
   <p>
     <button type="submit" class="btn btn-primary" ng-disabled="wpForm.$invalid">Save</button>
     <%
     if updating_doc:
-        cancel_url = request.route_url('waypoints_view', id=waypoint_id, culture=culture)
+        cancel_url = request.route_url('waypoints_view', id=waypoint_id, culture=waypoint_culture)
     else:
         cancel_url = request.route_url('waypoints_index')
     %>

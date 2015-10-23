@@ -44,14 +44,4 @@ app.WaypointController.prototype.saveEditedDocument = function(isValid) {
 };
 
 
-/**
- * @param {number} id Document id.
- * @param {string} culture Document culture.
- * @export
- */
-app.WaypointController.prototype.feedModel = function(id, culture) {
-  alert('get WP from API' + id + culture);
-};
-
-
 app.module.controller('WaypointController', app.WaypointController);

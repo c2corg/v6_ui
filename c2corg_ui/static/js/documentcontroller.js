@@ -154,14 +154,4 @@ app.DocumentController.prototype.saveEditedDocument = function(isValid) {
 };
 
 
-/**
- * @param {number} id Document id.
- * @param {string} culture Document culture.
- * @export
- */
-app.DocumentController.prototype.feedModel = function(id, culture) {
-  // FIXME
-};
-
-
 app.module.controller('DocumentController', app.DocumentController);

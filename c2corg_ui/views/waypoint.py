@@ -36,18 +36,13 @@ class Waypoint(Document):
     def edit(self):
         try:
             id, culture = self._validate_id_culture()
-            waypoint, locale, other_cultures = self._get_document(id, culture)
         except Exception:
-            waypoint = None
-            locale = None
-            culture = None
             id = None
-
+            culture = None
         self.template_input.update({
             'available_cultures': available_cultures,
             'waypoint_types': waypoint_types,
-            'waypoint': waypoint,
-            'locale': locale,
-            'current_culture': culture
+            'waypoint_culture': culture,
+            'waypoint_id': id
         })
         return self.template_input
