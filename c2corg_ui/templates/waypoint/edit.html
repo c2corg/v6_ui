@@ -26,6 +26,14 @@ FIXME: Adding/editing page title
       </div>
     % endif
   </div>
+  <div id="title-group" class="form-group" ng-class="{ 'has-error': wForm.title.$touched && wpForm.title.$invalid }">
+    <label>Title</label>
+    <input type="text" name="title" ng-model="waypoint.locales[0].title" class="form-control" required ng-minlength="3" />
+    <div class="help-block" ng-messages="wpForm.title.$error" ng-if="wpForm.title.$touched">
+      <p ng-message="required">Title is required.</p> 
+      <p ng-message="minlength">Title is too short.</p>
+    </div>
+  </div>
   <div id="waypoint_type-group" class="form-group" ng-class="{ 'has-error': wForm.waypoint_type.$touched && wpForm.waypoint_type.$invalid }">
     <label>Type</label>
     <select name="waypoint_type" ng-options="type for type in ['${"','".join(waypoint_types) |n}']"
@@ -33,15 +41,6 @@ FIXME: Adding/editing page title
     </select>
     <div class="help-block" ng-messages="wpForm.waypoint_type.$error" ng-if="wpForm.waypoint_type.$touched">
       <p ng-message="required">Type is required.</p> 
-    </div>
-  </li>
-  </div>
-  <div id="title-group" class="form-group" ng-class="{ 'has-error': wForm.title.$touched && wpForm.title.$invalid }">
-    <label>Title</label>
-    <input type="text" name="title" ng-model="waypoint.locales[0].title" class="form-control" required ng-minlength="3" />
-    <div class="help-block" ng-messages="wpForm.title.$error" ng-if="wpForm.title.$touched">
-      <p ng-message="required">Title is required.</p> 
-      <p ng-message="minlength">Title is too short.</p>
     </div>
   </div>
   <div id="elevation-group" class="form-group" ng-class="{ 'has-error': wForm.elevation.$touched && wpForm.elevation.$invalid }">
@@ -69,17 +68,14 @@ FIXME: Adding/editing page title
   <div id="maps_info-group" class="form-group">
     <label>Maps info</label>
     <input type="text" name="maps_info" ng-model="waypoint.maps_info" class="form-control" />
-    <span class="help-block"></span>
   </div>
   <div id="description-group" class="form-group">
     <label>Description</label>
     <textarea name="description" ng-model="waypoint.locales[0].description" class="form-control"></textarea>
-    <span class="help-block"></span>
   </div>
   <div id="access-group" class="form-group">
     <label>Access</label>
     <textarea name="access" ng-model="waypoint.locales[0].access" class="form-control" placeholder="Describe here the way to this WP"></textarea>
-    <span class="help-block"></span>
   </div>
   <p>
     <button type="submit" class="btn btn-primary" ng-disabled="wpForm.$invalid">Save</button>

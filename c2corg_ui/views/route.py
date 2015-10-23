@@ -36,18 +36,13 @@ class Route(Document):
     def edit(self):
         try:
             id, culture = self._validate_id_culture()
-            route, locale, other_cultures = self._get_document(id, culture)
         except Exception:
-            route = None
-            locale = None
-            culture = None
             id = None
-
+            culture = None
         self.template_input.update({
             'available_cultures': available_cultures,
             'activities': activities,
-            'route': route,
-            'locale': locale,
-            'current_culture': culture
+            'route_culture': culture,
+            'route_id': id
         })
         return self.template_input

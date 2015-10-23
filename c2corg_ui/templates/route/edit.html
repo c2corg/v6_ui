@@ -1,57 +1,70 @@
 <%inherit file="../base.html"/>
-<%namespace file="../helpers.mako" import="get_attr"/>
 <%
-culture = current_culture
-updating_doc = route and culture
-if updating_doc:
-    route_id = route['document_id']
+updating_doc = route_id and route_culture
 %>\
 
 <%block name="pagetitle">
-${'Editing route %s' % locale['title'] if locale is not None else 'Adding a route'}
+FIXME: Adding/editing page title
 </%block>
 
 <h1>${self.pagetitle()}</h1>
-<form>
-<ul>
-  <li>Culture:
-    % if culture:
-      ${culture}
-      <input type="hidden" name="culture" value="${culture}" />
+<form app-document-editing="route"
+% if updating_doc:
+  app-document-editing-route="routes/${route_id}?l=${route_culture}"
+% endif
+  name="wpForm" novalidate ng-submit="editCtrl.submitForm(wpForm.$valid)">
+  <div id="culture-group" class="form-group" ng-class="{ 'has-error': wForm.culture.$touched && wpForm.culture.$invalid }">
+    <label>Culture</label>
+    % if route_culture:
+      ${route_culture}
     % else:
-      <select name="culture">
-      % for culture in available_cultures:
-        <option value="${culture}">${culture}</option>
-      % endfor
+      <select name="culture" ng-options="culture for culture in ['${"','".join(available_cultures) |n}']" 
+        ng-model="route.locales[0].culture" class="form-control" required>
       </select>
+      <div class="help-block" ng-messages="wpForm.culture.$error" ng-if="wpForm.culture.$touched">
+        <p ng-message="required">Culture is required.</p> 
+      </div>
     % endif
-  </li>
-  <li>Activities:
-    <select name="activities">
-    % for activity in activities:
-      <%
-      selected = ' selected' if route and activity == route['activities'] else ''
-      %>
-      <option value="${activity}"${selected}>${activity}</option> 
-    % endfor
+  </div>
+  <div id="title-group" class="form-group" ng-class="{ 'has-error': wForm.title.$touched && wpForm.title.$invalid }">
+    <label>Title</label>
+    <input type="text" name="title" ng-model="route.locales[0].title" class="form-control" required ng-minlength="3" />
+    <div class="help-block" ng-messages="wpForm.title.$error" ng-if="wpForm.title.$touched">
+      <p ng-message="required">Title is required.</p> 
+      <p ng-message="minlength">Title is too short.</p>
+    </div>
+  </div>
+  <div id="activities-group" class="form-group" ng-class="{ 'has-error': wForm.activities.$touched && wpForm.activities.$invalid }">
+    <label>Activities (TODO: use checkboxes)</label>
+    <select name="activities" ng-options="type for type in ['${"','".join(activities) |n}']"
+      ng-model="route.activities" class="form-control" required>
     </select>
-    (FIXME: use checkboxes)
-  </li>
-  <li>Title: <input type="text" name="title" value="${get_attr(locale, 'title')}" /></li>
-  <li>Height: <input type="text" name="height" value="${get_attr(route, 'height')}" /> m</li>
-  <li>Description: <textarea name="description">${get_attr(locale, 'description')}</textarea></li>
-  <li>Gear: <textarea name="gear">${get_attr(locale, 'gear')}</textarea></li>
-</ul>
-<p>
-<button>Save</button>
-<%
-if updating_doc:
-    cancel_url = request.route_url('routes_view', id=route_id, culture=culture)
-else:
-    cancel_url = request.route_url('routes_index')
-%>
-<a href="${cancel_url}">Cancel</a>
-</p>
+    <div class="help-block" ng-messages="wpForm.activities.$error" ng-if="wpForm.activities.$touched">
+      <p ng-message="required">Activities is required.</p> 
+    </div>
+  </div>
+  <div id="height-group" class="form-group" ng-class="{ 'has-error': wForm.height.$touched && wpForm.height.$invalid }">
+    <label>Height</label>
+    <input type="number" name="height" ng-model="route.height" class="form-control" /> m
+  </div>
+  <div id="description-group" class="form-group">
+    <label>Description</label>
+    <textarea name="description" ng-model="route.locales[0].description" class="form-control"></textarea>
+  </div>
+  <div id="gear-group" class="form-group">
+    <label>Gear</label>
+    <textarea name="gear" ng-model="route.locales[0].gear" class="form-control" placeholder="Describe here the gear needed for this route"></textarea>
+  </div>
+  <p>
+    <button type="submit" class="btn btn-primary" ng-disabled="wpForm.$invalid">Save</button>
+    <%
+    if updating_doc:
+        cancel_url = request.route_url('routes_view', id=route_id, culture=route_culture)
+    else:
+        cancel_url = request.route_url('routes_index')
+    %>
+    <a href="${cancel_url}">Cancel</a>
+  </p>
 </form>
 <h2>Georeferencing the route</h2>
 <div id="map" ngeo-map="mainCtrl.map"></div>
