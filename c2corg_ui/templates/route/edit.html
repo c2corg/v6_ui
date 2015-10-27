@@ -55,6 +55,12 @@ FIXME: Adding/editing page title
     <label>Gear</label>
     <textarea name="gear" ng-model="route.locales[0].gear" class="form-control" placeholder="Describe here the gear needed for this route"></textarea>
   </div>
+  % if updating_doc:
+  <div id="message-group" class="form-group">
+    <label>Comment about the changes</label>
+    <input type="text" name="message" ng-model="route.message" class="form-control" placeholder="Short description of the applied changes" />
+  </div>
+  % endif
   <p>
     <button type="submit" class="btn btn-primary" ng-disabled="wpForm.$invalid">Save</button>
     <%

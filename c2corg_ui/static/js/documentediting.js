@@ -154,12 +154,23 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
     delete data['locales'];
     data['locales'] = [locale];
   }
-  console.log(data);
   var config = {
-    headers: { 'Content-Type': 'application/json' }
+    'headers': { 'Content-Type': 'application/json' }
   };
   if (this.id_) {
     // updating an existing document
+    if ('available_cultures' in data) {
+      delete data['available_cultures'];
+    }
+    var message = '';
+    if ('message' in data) {
+      message = data['message'];
+      delete data['message'];
+    }
+    data = {
+      'message': message,
+      'document': data
+    };
     this.http_.put(this.buildUrl_('update'), data, config).then(
         goog.bind(this.successSave_, this),
         goog.bind(this.errorSave_, this)
@@ -180,8 +191,6 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
  * @private
  */
 app.DocumentEditingController.prototype.successSave_ = function(response) {
-  console.log('success save');
-  console.log(response);
   // redirects to the document view page
   var url = '/' + this.module_;
   url += '/' + response['data']['document_id'];
