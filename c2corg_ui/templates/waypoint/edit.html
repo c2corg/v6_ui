@@ -51,18 +51,18 @@ FIXME: Adding/editing page title
       <p ng-message="maxlength">Elevation must be smaller than 9999 m.</p>
     </div>
   </div>
-  <div id="latitude-group" class="form-group" ng-class="{ 'has-error': wForm.latitude.$touched && wpForm.latitude.$invalid }">
-    <label>Latitude</label>
-    <input type="number" name="latitude" ng-model="waypoint.geom.latitude" class="form-control" required /> °N
-    <div class="help-block" ng-messages="wpForm.latitude.$error" ng-if="wpForm.latitude.$touched">
-      <p ng-message="required">Latitude is required.</p> 
-    </div>
-  </div>
   <div id="longitude-group" class="form-group" ng-class="{ 'has-error': wForm.longitude.$touched && wpForm.longitude.$invalid }">
     <label>Longitude</label>
-    <input type="number" name="longitude" ng-model="waypoint.geom.longitude" class="form-control" required /> °E
+    <input type="number" name="longitude" ng-model="waypoint.geometry.geom.longitude" class="form-control" required /> °E
     <div class="help-block" ng-messages="wpForm.longitude.$error" ng-if="wpForm.longitude.$touched">
       <p ng-message="required">Longitude is required.</p> 
+    </div>
+  </div>
+  <div id="latitude-group" class="form-group" ng-class="{ 'has-error': wForm.latitude.$touched && wpForm.latitude.$invalid }">
+    <label>Latitude</label>
+    <input type="number" name="latitude" ng-model="waypoint.geometry.geom.latitude" class="form-control" required /> °N
+    <div class="help-block" ng-messages="wpForm.latitude.$error" ng-if="wpForm.latitude.$touched">
+      <p ng-message="required">Latitude is required.</p> 
     </div>
   </div>
   <div id="maps_info-group" class="form-group">
@@ -73,6 +73,12 @@ FIXME: Adding/editing page title
     <label>Description</label>
     <textarea name="description" ng-model="waypoint.locales[0].description" class="form-control" placeholder="Describe here the WP"></textarea>
   </div>
+  % if updating_doc:
+  <div id="message-group" class="form-group">
+    <label>Comment about the changes</label>
+    <input type="text" name="message" ng-model="route.message" class="form-control" placeholder="Short description of the applied changes" />
+  </div>
+  % endif
   <p>
     <button type="submit" class="btn btn-primary" ng-disabled="wpForm.$invalid">Save</button>
     <%

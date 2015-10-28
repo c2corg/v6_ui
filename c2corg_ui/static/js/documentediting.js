@@ -2,6 +2,8 @@ goog.provide('app.DocumentEditingController');
 goog.provide('app.documentEditingDirective');
 
 goog.require('app');
+goog.require('ol.format.GeoJSON');
+goog.require('ol.geom.Point');
 
 
 
@@ -95,6 +97,20 @@ app.DocumentEditingController = function($scope, $element, $attrs, $http,
 
 
 /**
+ * @const
+ * @type {string}
+ */
+app.DocumentEditingController.VIEW_PROJ = 'EPSG:4326';
+
+
+/**
+ * @const
+ * @type {string}
+ */
+app.DocumentEditingController.DATA_PROJ = 'EPSG:3857';
+
+
+/**
  * @param {string} type Type of URL.
  * @return {string} URL.
  * @private
@@ -119,7 +135,23 @@ app.DocumentEditingController.prototype.buildUrl_ = function(type) {
  * @private
  */
 app.DocumentEditingController.prototype.successRead_ = function(response) {
-  this.scope_[this.modelName_] = response['data'];
+  var data = response['data'];
+  if ('geometry' in data && data['geometry']) {
+    var geometry = data['geometry'];
+    if ('geom' in geometry && geometry['geom']) {
+      var geojson = new ol.format.GeoJSON();
+      var point = /** @type {ol.geom.Point} */
+          (geojson.readGeometry(geometry['geom']));
+      point.transform(app.DocumentEditingController.DATA_PROJ,
+                      app.DocumentEditingController.VIEW_PROJ);
+      var coordinates = point.getCoordinates();
+      data['geometry']['geom'] = {
+        'longitude': coordinates[0],
+        'latitude': coordinates[1]
+      };
+    }
+  }
+  this.scope_[this.modelName_] = data;
 };
 
 
@@ -154,6 +186,27 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
     delete data['locales'];
     data['locales'] = [locale];
   }
+
+  // Convert geometry data
+  if ('geometry' in data && data['geometry']) {
+    var geometry = data['geometry'];
+    if ('geom' in geometry && geometry['geom']) {
+      var geom = geometry['geom'];
+      if ('longitude' in geom && 'latitude' in geom) {
+        var point = new ol.geom.Point([geom['longitude'], geom['latitude']]);
+        point.transform(app.DocumentEditingController.VIEW_PROJ,
+                        app.DocumentEditingController.DATA_PROJ);
+        var geojson = new ol.format.GeoJSON();
+        data['geometry']['geom'] = geojson.writeGeometry(point);
+      }
+    }
+  }
+
+  // FIXME: workaround for WP
+  if (!('activities' in data && data['activities'])) {
+    data['activities'] = [];
+  }
+
   var config = {
     'headers': { 'Content-Type': 'application/json' }
   };
@@ -207,7 +260,6 @@ app.DocumentEditingController.prototype.successSave_ = function(response) {
  */
 app.DocumentEditingController.prototype.errorSave_ = function(response) {
   // TODO
-  alert('failed saving document');
   console.log('error save');
   console.log(response);
 };
