@@ -12,8 +12,8 @@ FIXME: Adding/editing page title
 % if updating_doc:
   app-document-editing-id="${waypoint_id}" app-document-editing-culture="${waypoint_culture}"
 % endif
-  name="wpForm" novalidate ng-submit="editCtrl.submitForm(wpForm.$valid)">
-  <div id="culture-group" class="form-group" ng-class="{ 'has-error': wForm.culture.$touched && wpForm.culture.$invalid }">
+  name="editForm" novalidate ng-submit="editCtrl.submitForm(editForm.$valid)">
+  <div id="culture-group" class="form-group" ng-class="{ 'has-error': editForm.culture.$touched && editForm.culture.$invalid }">
     <label>Culture</label>
     % if waypoint_culture:
       ${waypoint_culture}
@@ -21,47 +21,47 @@ FIXME: Adding/editing page title
       <select name="culture" ng-options="culture for culture in ['${"','".join(available_cultures) |n}']" 
         ng-model="waypoint.locales[0].culture" class="form-control" required>
       </select>
-      <div class="help-block" ng-messages="wpForm.culture.$error" ng-if="wpForm.culture.$touched">
+      <div class="help-block" ng-messages="editForm.culture.$error" ng-if="editForm.culture.$touched">
         <p ng-message="required">Culture is required.</p> 
       </div>
     % endif
   </div>
-  <div id="title-group" class="form-group" ng-class="{ 'has-error': wForm.title.$touched && wpForm.title.$invalid }">
+  <div id="title-group" class="form-group" ng-class="{ 'has-error': editForm.title.$touched && editForm.title.$invalid }">
     <label>Title</label>
     <input type="text" name="title" ng-model="waypoint.locales[0].title" class="form-control" required ng-minlength="3" />
-    <div class="help-block" ng-messages="wpForm.title.$error" ng-if="wpForm.title.$touched">
+    <div class="help-block" ng-messages="editForm.title.$error" ng-if="editForm.title.$touched">
       <p ng-message="required">Title is required.</p> 
       <p ng-message="minlength">Title is too short.</p>
     </div>
   </div>
-  <div id="waypoint_type-group" class="form-group" ng-class="{ 'has-error': wForm.waypoint_type.$touched && wpForm.waypoint_type.$invalid }">
+  <div id="waypoint_type-group" class="form-group" ng-class="{ 'has-error': editForm.waypoint_type.$touched && editForm.waypoint_type.$invalid }">
     <label>Type</label>
     <select name="waypoint_type" ng-options="type for type in ['${"','".join(waypoint_types) |n}']"
       ng-model="waypoint.waypoint_type" class="form-control" required>
     </select>
-    <div class="help-block" ng-messages="wpForm.waypoint_type.$error" ng-if="wpForm.waypoint_type.$touched">
+    <div class="help-block" ng-messages="editForm.waypoint_type.$error" ng-if="editForm.waypoint_type.$touched">
       <p ng-message="required">Type is required.</p> 
     </div>
   </div>
-  <div id="elevation-group" class="form-group" ng-class="{ 'has-error': wForm.elevation.$touched && wpForm.elevation.$invalid }">
+  <div id="elevation-group" class="form-group" ng-class="{ 'has-error': editForm.elevation.$touched && editForm.elevation.$invalid }">
     <label>Elevation</label>
     <input type="number" name="elevation" ng-model="waypoint.elevation" class="form-control" required ng-maxlength="4" /> m
-    <div class="help-block" ng-messages="wpForm.elevation.$error" ng-if="wpForm.elevation.$touched">
+    <div class="help-block" ng-messages="editForm.elevation.$error" ng-if="editForm.elevation.$touched">
       <p ng-message="required">Elevation is required.</p> 
       <p ng-message="maxlength">Elevation must be smaller than 9999 m.</p>
     </div>
   </div>
-  <div id="longitude-group" class="form-group" ng-class="{ 'has-error': wForm.longitude.$touched && wpForm.longitude.$invalid }">
+  <div id="longitude-group" class="form-group" ng-class="{ 'has-error': editForm.longitude.$touched && editForm.longitude.$invalid }">
     <label>Longitude</label>
     <input type="number" name="longitude" ng-model="waypoint.geometry.geom.longitude" class="form-control" required /> °E
-    <div class="help-block" ng-messages="wpForm.longitude.$error" ng-if="wpForm.longitude.$touched">
+    <div class="help-block" ng-messages="editForm.longitude.$error" ng-if="editForm.longitude.$touched">
       <p ng-message="required">Longitude is required.</p> 
     </div>
   </div>
-  <div id="latitude-group" class="form-group" ng-class="{ 'has-error': wForm.latitude.$touched && wpForm.latitude.$invalid }">
+  <div id="latitude-group" class="form-group" ng-class="{ 'has-error': editForm.latitude.$touched && editForm.latitude.$invalid }">
     <label>Latitude</label>
     <input type="number" name="latitude" ng-model="waypoint.geometry.geom.latitude" class="form-control" required /> °N
-    <div class="help-block" ng-messages="wpForm.latitude.$error" ng-if="wpForm.latitude.$touched">
+    <div class="help-block" ng-messages="editForm.latitude.$error" ng-if="editForm.latitude.$touched">
       <p ng-message="required">Latitude is required.</p> 
     </div>
   </div>
@@ -80,7 +80,7 @@ FIXME: Adding/editing page title
   </div>
   % endif
   <p>
-    <button type="submit" class="btn btn-primary" ng-disabled="wpForm.$invalid">Save</button>
+    <button type="submit" class="btn btn-primary" ng-disabled="editForm.$invalid">Save</button>
     <%
     if updating_doc:
         cancel_url = request.route_url('waypoints_view', id=waypoint_id, culture=waypoint_culture)

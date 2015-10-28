@@ -12,8 +12,8 @@ FIXME: Adding/editing page title
 % if updating_doc:
   app-document-editing-id="${route_id}" app-document-editing-culture="${route_culture}"
 % endif
-  name="wpForm" novalidate ng-submit="editCtrl.submitForm(wpForm.$valid)">
-  <div id="culture-group" class="form-group" ng-class="{ 'has-error': wForm.culture.$touched && wpForm.culture.$invalid }">
+  name="editForm" novalidate ng-submit="editCtrl.submitForm(editForm.$valid)">
+  <div id="culture-group" class="form-group" ng-class="{ 'has-error': editForm.culture.$touched && editForm.culture.$invalid }">
     <label>Culture</label>
     % if route_culture:
       ${route_culture}
@@ -21,29 +21,29 @@ FIXME: Adding/editing page title
       <select name="culture" ng-options="culture for culture in ['${"','".join(available_cultures) |n}']" 
         ng-model="route.locales[0].culture" class="form-control" required>
       </select>
-      <div class="help-block" ng-messages="wpForm.culture.$error" ng-if="wpForm.culture.$touched">
+      <div class="help-block" ng-messages="editForm.culture.$error" ng-if="editForm.culture.$touched">
         <p ng-message="required">Culture is required.</p> 
       </div>
     % endif
   </div>
-  <div id="title-group" class="form-group" ng-class="{ 'has-error': wForm.title.$touched && wpForm.title.$invalid }">
+  <div id="title-group" class="form-group" ng-class="{ 'has-error': editForm.title.$touched && editForm.title.$invalid }">
     <label>Title</label>
     <input type="text" name="title" ng-model="route.locales[0].title" class="form-control" required ng-minlength="3" />
-    <div class="help-block" ng-messages="wpForm.title.$error" ng-if="wpForm.title.$touched">
+    <div class="help-block" ng-messages="editForm.title.$error" ng-if="editForm.title.$touched">
       <p ng-message="required">Title is required.</p> 
       <p ng-message="minlength">Title is too short.</p>
     </div>
   </div>
-  <div id="activities-group" class="form-group" ng-class="{ 'has-error': wForm.activities.$touched && wpForm.activities.$invalid }">
+  <div id="activities-group" class="form-group" ng-class="{ 'has-error': editForm.activities.$touched && editForm.activities.$invalid }">
     <label>Activities (TODO: use checkboxes)</label>
     <select name="activities" ng-options="activity for activity in ['${"','".join(activities) |n}']"
       ng-model="route.activities" class="form-control" required>
     </select>
-    <div class="help-block" ng-messages="wpForm.activities.$error" ng-if="wpForm.activities.$touched">
+    <div class="help-block" ng-messages="editForm.activities.$error" ng-if="editForm.activities.$touched">
       <p ng-message="required">Activities is required.</p> 
     </div>
   </div>
-  <div id="height-group" class="form-group" ng-class="{ 'has-error': wForm.height.$touched && wpForm.height.$invalid }">
+  <div id="height-group" class="form-group" ng-class="{ 'has-error': editForm.height.$touched && editForm.height.$invalid }">
     <label>Height</label>
     <input type="number" name="height" ng-model="route.height" class="form-control" /> m
   </div>
@@ -68,7 +68,7 @@ FIXME: Adding/editing page title
   </div>
   % endif
   <p>
-    <button type="submit" class="btn btn-primary" ng-disabled="wpForm.$invalid">Save</button>
+    <button type="submit" class="btn btn-primary" ng-disabled="editForm.$invalid">Save</button>
     <%
     if updating_doc:
         cancel_url = request.route_url('routes_view', id=route_id, culture=route_culture)
