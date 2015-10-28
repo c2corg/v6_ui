@@ -36,7 +36,7 @@ FIXME: Adding/editing page title
   </div>
   <div id="activities-group" class="form-group" ng-class="{ 'has-error': wForm.activities.$touched && wpForm.activities.$invalid }">
     <label>Activities (TODO: use checkboxes)</label>
-    <select name="activities" ng-options="type for type in ['${"','".join(activities) |n}']"
+    <select name="activities" ng-options="activity for activity in ['${"','".join(activities) |n}']"
       ng-model="route.activities" class="form-control" required>
     </select>
     <div class="help-block" ng-messages="wpForm.activities.$error" ng-if="wpForm.activities.$touched">
@@ -46,6 +46,12 @@ FIXME: Adding/editing page title
   <div id="height-group" class="form-group" ng-class="{ 'has-error': wForm.height.$touched && wpForm.height.$invalid }">
     <label>Height</label>
     <input type="number" name="height" ng-model="route.height" class="form-control" /> m
+  </div>
+  <div id="route_type-group" class="form-group">
+    <label>Route type</label>
+    <select name="route_type" ng-options="type for type in ['${"','".join(route_types) |n}']"
+      ng-model="route.route_type" class="form-control">
+    </select>
   </div>
   <div id="description-group" class="form-group">
     <label>Description</label>

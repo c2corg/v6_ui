@@ -43,3 +43,21 @@ waypoint_types = [
     'paragliding_takeoff',
     'paragliding_landing'
 ]
+
+# FIXME: incorrect values
+route_types = [
+    'ski',                  # ski
+    'alpi',                 # alpi neige glace mixte
+    'alpi_rock',            # rocher haute montagne
+    'climbing_multi',       # escalade: type de voie = grande voie ou [vide]
+    'climbing_single',      # escalade: type de voie = couenne
+    'climbing_bloc',        # escalade: type de voie = bloc
+    'climbing_psicobloc',   # escalade: type de voie = psychobloc
+    'ice_climbing',         # cascade de glace
+    'hiking',               # rando pedestre
+    'snowshoes',            # raquette
+    'mtb',                  # VTT
+    'via_ferrata',          # via ferrata
+    'dry_tool_multi',       # dry tooling: type de voie = grande voie
+    'dry_tool_single'       # dry tooling: type de voie = couenne
+]
