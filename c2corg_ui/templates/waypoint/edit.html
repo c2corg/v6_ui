@@ -45,24 +45,28 @@ FIXME: Adding/editing page title
   </div>
   <div id="elevation-group" class="form-group" ng-class="{ 'has-error': editForm.elevation.$touched && editForm.elevation.$invalid }">
     <label>Elevation</label>
-    <input type="number" name="elevation" ng-model="waypoint.elevation" class="form-control" required ng-maxlength="4" /> m
+    <input type="number" name="elevation" ng-model="waypoint.elevation" class="form-control" required max="9999" /> m
     <div class="help-block" ng-messages="editForm.elevation.$error" ng-if="editForm.elevation.$touched">
       <p ng-message="required">Elevation is required.</p> 
-      <p ng-message="maxlength">Elevation must be smaller than 9999 m.</p>
+      <p ng-message="max">Elevation must be smaller than 9999 m.</p>
     </div>
   </div>
   <div id="longitude-group" class="form-group" ng-class="{ 'has-error': editForm.longitude.$touched && editForm.longitude.$invalid }">
     <label>Longitude</label>
-    <input type="number" name="longitude" ng-model="waypoint.geometry.geom.longitude" class="form-control" required /> °E
+    <input type="number" name="longitude" ng-model="waypoint.geometry.geom.longitude" class="form-control" required min="-180" max="180" /> °E
     <div class="help-block" ng-messages="editForm.longitude.$error" ng-if="editForm.longitude.$touched">
-      <p ng-message="required">Longitude is required.</p> 
+      <p ng-message="required">Longitude is required.</p>
+      <p ng-message="min">Longitude must be between -180° and 180°.</p>
+      <p ng-message="max">Longitude must be between -180° and 180°.</p>
     </div>
   </div>
   <div id="latitude-group" class="form-group" ng-class="{ 'has-error': editForm.latitude.$touched && editForm.latitude.$invalid }">
     <label>Latitude</label>
-    <input type="number" name="latitude" ng-model="waypoint.geometry.geom.latitude" class="form-control" required /> °N
+    <input type="number" name="latitude" ng-model="waypoint.geometry.geom.latitude" class="form-control" required required min="-90" max="90" /> °N
     <div class="help-block" ng-messages="editForm.latitude.$error" ng-if="editForm.latitude.$touched">
-      <p ng-message="required">Latitude is required.</p> 
+      <p ng-message="required">Latitude is required.</p>
+      <p ng-message="min">Latitude must be between -90° and 90°.</p>
+      <p ng-message="max">Latitude must be between -90° and 90°.</p>
     </div>
   </div>
   <div id="maps_info-group" class="form-group">
