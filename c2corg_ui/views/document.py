@@ -4,7 +4,7 @@ import json
 from pyramid.httpexceptions import (
     HTTPBadRequest, HTTPNotFound, HTTPInternalServerError)
 
-from c2corg_ui.attributes import available_cultures
+from c2corg_common.attributes import default_cultures
 
 
 class Document(object):
@@ -40,7 +40,7 @@ class Document(object):
             raise HTTPBadRequest("Incorrect id")
 
         culture = str(self.request.matchdict['culture'])
-        if culture not in available_cultures:
+        if culture not in default_cultures:
             raise HTTPBadRequest("Incorrect culture")
 
         return id, culture

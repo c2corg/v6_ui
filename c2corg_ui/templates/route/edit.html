@@ -18,7 +18,7 @@ FIXME: Adding/editing page title
     % if route_culture:
       ${route_culture}
     % else:
-      <select name="culture" ng-options="culture for culture in ['${"','".join(available_cultures) |n}']" 
+      <select name="culture" ng-options="culture for culture in ['${"','".join(default_cultures) |n}']" 
         ng-model="route.locales[0].culture" class="form-control" required>
       </select>
       <div class="help-block" ng-messages="editForm.culture.$error" ng-if="editForm.culture.$touched">
