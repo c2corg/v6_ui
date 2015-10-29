@@ -34,11 +34,7 @@ class Waypoint(Document):
     @view_config(route_name='waypoints_edit',
                  renderer='c2corg_ui:templates/waypoint/edit.html')
     def edit(self):
-        try:
-            id, culture = self._validate_id_culture()
-        except Exception:
-            id = None
-            culture = None
+        id, culture = self._validate_id_culture()
         self.template_input.update({
             'available_cultures': available_cultures,
             'waypoint_types': waypoint_types,

@@ -30,6 +30,9 @@ class Document(object):
             return {'status': 500}, {}
 
     def _validate_id_culture(self):
+        if 'id' not in self.request.matchdict:
+            # eg. creating a new document
+            return None, None
         try:
             id = int(self.request.matchdict['id'])
         except Exception:

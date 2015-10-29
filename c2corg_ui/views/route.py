@@ -34,11 +34,7 @@ class Route(Document):
     @view_config(route_name='routes_edit',
                  renderer='c2corg_ui:templates/route/edit.html')
     def edit(self):
-        try:
-            id, culture = self._validate_id_culture()
-        except Exception:
-            id = None
-            culture = None
+        id, culture = self._validate_id_culture()
         self.template_input.update({
             'available_cultures': available_cultures,
             'activities': activities,
