@@ -20,12 +20,11 @@ class Waypoint(Document):
                  renderer='c2corg_ui:templates/waypoint/view.html')
     def view(self):
         id, culture = self._validate_id_culture()
-        waypoint, locale, other_cultures = self._get_document(id, culture)
+        waypoint, locale = self._get_document(id, culture)
         self.template_input.update({
             'culture': culture,
             'waypoint': waypoint,
-            'locale': locale,
-            'other_cultures': other_cultures
+            'locale': locale
         })
         return self.template_input
 

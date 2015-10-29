@@ -20,12 +20,11 @@ class Route(Document):
                  renderer='c2corg_ui:templates/route/view.html')
     def view(self):
         id, culture = self._validate_id_culture()
-        route, locale, other_cultures = self._get_document(id, culture)
+        route, locale = self._get_document(id, culture)
         self.template_input.update({
             'culture': culture,
             'route': route,
-            'locale': locale,
-            'other_cultures': other_cultures
+            'locale': locale
         })
         return self.template_input
 

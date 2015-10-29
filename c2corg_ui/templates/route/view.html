@@ -2,6 +2,7 @@
 <%namespace file="../helpers.mako" import="get_attr"/>
 <%
 route_id = route['document_id']
+other_cultures = filter(lambda l: l != culture, route['available_cultures'])
 %>\
 
 <%block name="pagetitle">
@@ -20,7 +21,7 @@ ${locale['title']}
   <p>View in other culture:</p>
   <ul>
   % for l in other_cultures:
-    <li><a href="${request.route_url('routes_view', id=route_id, culture=l)}">${other_cultures[l]['title']}</a> (${l})</li>
+    <li><a href="${request.route_url('routes_view', id=route_id, culture=l)}">${l}</a></li>
   % endfor
   </ul>
 % endif
