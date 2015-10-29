@@ -11,39 +11,33 @@ class Waypoint(Document):
     @view_config(route_name='waypoints_index',
                  renderer='c2corg_ui:templates/waypoint/index.html')
     def index(self):
-        url = '%s/%s' % (self.settings['api_url'], self._API_ROUTE)
-        resp, content = self._call_api(url)
-        # TODO: error handling (not found, etc.)
-        return {
-            'debug': 'debug' in self.request.params,
-            'waypoints': content if resp.status == 200 else {}
-        }
+        self.template_input.update({
+            'waypoints': self._get_documents()
+        })
+        return self.template_input
 
     @view_config(route_name='waypoints_view',
                  renderer='c2corg_ui:templates/waypoint/view.html')
-    @view_config(route_name='waypoints_edit',
-                 renderer='c2corg_ui:templates/waypoint/edit.html')
-    def get_document(self):
+    def view(self):
         id, culture = self._validate_id_culture()
-        # TODO: get only the current culture
-        url = '%s/%s/%d' % (
-            self.settings['api_url'],
-            self._API_ROUTE,
-            id
-        )
-        resp, content = self._call_api(url)
-        # TODO: error handling
-        return {
-            'debug': 'debug' in self.request.params,
+        waypoint, locale = self._get_document(id, culture)
+        self.template_input.update({
             'culture': culture,
-            'waypoint': content if resp.status == 200 else {}
-        }
+            'waypoint': waypoint,
+            'locale': locale
+        })
+        return self.template_input
 
     @view_config(route_name='waypoints_add',
-                 renderer='c2corg_ui:templates/waypoint/add.html')
-    def add(self):
-        return {
-            'debug': 'debug' in self.request.params,
+                 renderer='c2corg_ui:templates/waypoint/edit.html')
+    @view_config(route_name='waypoints_edit',
+                 renderer='c2corg_ui:templates/waypoint/edit.html')
+    def edit(self):
+        id, culture = self._validate_id_culture()
+        self.template_input.update({
             'available_cultures': available_cultures,
-            'waypoint_types': waypoint_types
-        }
+            'waypoint_types': waypoint_types,
+            'waypoint_culture': culture,
+            'waypoint_id': id
+        })
+        return self.template_input

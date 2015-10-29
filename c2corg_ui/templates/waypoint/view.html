@@ -1,33 +1,27 @@
-<%
-locales = waypoint['locales']
-attrs = filter(lambda l: 'culture' in l and l['culture'] == culture, locales)
-locale = attrs[0];
-# FIXME: what if desired culture is not available?
-waypoint_title = locale['title']
-waypoint_id = waypoint['document_id']
-%>\
 <%inherit file="../base.html"/>
+<%namespace file="../helpers.mako" import="get_attr"/>
+<%
+waypoint_id = waypoint['document_id']
+other_cultures = filter(lambda l: l != culture, waypoint['available_cultures'])
+%>\
 
 <%block name="pagetitle">
-FIXME waypoint name
+${locale['title']}
 </%block>
 
-<h1>${waypoint_title}</h1>
+<h1>${self.pagetitle()}</h1>
 <ul>
   <li>Id: ${waypoint_id}</li>
   <li>Culture: ${culture}</li>
   <li>Elevation: ${waypoint['elevation']} m</li>
-  <li>Maps info: ${waypoint['maps_info']}</li>
-  <li>Description: ${locale['description']}</li>
-  <li>Pedestrian access: ${locale['pedestrian_access']}</li>
+  <li>Maps info: ${get_attr(waypoint, 'maps_info')}</li>
+  <li>Description: ${get_attr(locale, 'description')}</li>
 </ul>
-% if len(locales) > 1:
+% if other_cultures:
   <p>View in other culture:</p>
   <ul>
-  % for l in locales:
-    % if l['culture'] != culture:
-      <li><a href="${request.route_url('waypoints_view', id=waypoint_id, culture=l['culture'])}">${l['title']}</a> (${l['culture']})</li>
-    % endif
+  % for l in other_cultures:
+    <li><a href="${request.route_url('waypoints_view', id=waypoint_id, culture=l)}">${l}</a></li>
   % endfor
   </ul>
 % endif

@@ -1,0 +1,82 @@
+<%inherit file="../base.html"/>
+<%
+updating_doc = route_id and route_culture
+%>\
+
+<%block name="pagetitle">
+FIXME: Adding/editing page title
+</%block>
+
+<h1>${self.pagetitle()}</h1>
+<form app-document-editing="routes" app-document-editing-model="route" 
+% if updating_doc:
+  app-document-editing-id="${route_id}" app-document-editing-culture="${route_culture}"
+% endif
+  name="editForm" novalidate ng-submit="editCtrl.submitForm(editForm.$valid)">
+  <div id="culture-group" class="form-group" ng-class="{ 'has-error': editForm.culture.$touched && editForm.culture.$invalid }">
+    <label>Culture</label>
+    % if route_culture:
+      ${route_culture}
+    % else:
+      <select name="culture" ng-options="culture for culture in ['${"','".join(available_cultures) |n}']" 
+        ng-model="route.locales[0].culture" class="form-control" required>
+      </select>
+      <div class="help-block" ng-messages="editForm.culture.$error" ng-if="editForm.culture.$touched">
+        <p ng-message="required">Culture is required.</p> 
+      </div>
+    % endif
+  </div>
+  <div id="title-group" class="form-group" ng-class="{ 'has-error': editForm.title.$touched && editForm.title.$invalid }">
+    <label>Title</label>
+    <input type="text" name="title" ng-model="route.locales[0].title" class="form-control" required ng-minlength="3" />
+    <div class="help-block" ng-messages="editForm.title.$error" ng-if="editForm.title.$touched">
+      <p ng-message="required">Title is required.</p> 
+      <p ng-message="minlength">Title is too short.</p>
+    </div>
+  </div>
+  <div id="activities-group" class="form-group" ng-class="{ 'has-error': editForm.activities.$touched && editForm.activities.$invalid }">
+    <label>Activities (TODO: use checkboxes)</label>
+    <select name="activities" ng-options="activity for activity in ['${"','".join(activities) |n}']"
+      ng-model="route.activities" class="form-control" required>
+    </select>
+    <div class="help-block" ng-messages="editForm.activities.$error" ng-if="editForm.activities.$touched">
+      <p ng-message="required">Activities is required.</p> 
+    </div>
+  </div>
+  <div id="height-group" class="form-group" ng-class="{ 'has-error': editForm.height.$touched && editForm.height.$invalid }">
+    <label>Height</label>
+    <input type="number" name="height" ng-model="route.height" class="form-control" /> m
+  </div>
+  <div id="route_type-group" class="form-group">
+    <label>Route type</label>
+    <select name="route_type" ng-options="type for type in ['${"','".join(route_types) |n}']"
+      ng-model="route.route_type" class="form-control">
+    </select>
+  </div>
+  <div id="description-group" class="form-group">
+    <label>Description</label>
+    <textarea name="description" ng-model="route.locales[0].description" class="form-control"></textarea>
+  </div>
+  <div id="gear-group" class="form-group">
+    <label>Gear</label>
+    <textarea name="gear" ng-model="route.locales[0].gear" class="form-control" placeholder="Describe here the gear needed for this route"></textarea>
+  </div>
+  % if updating_doc:
+  <div id="message-group" class="form-group">
+    <label>Comment about the changes</label>
+    <input type="text" name="message" ng-model="route.message" class="form-control" placeholder="Short description of the applied changes" />
+  </div>
+  % endif
+  <p>
+    <button type="submit" class="btn btn-primary" ng-disabled="editForm.$invalid">Save</button>
+    <%
+    if updating_doc:
+        cancel_url = request.route_url('routes_view', id=route_id, culture=route_culture)
+    else:
+        cancel_url = request.route_url('routes_index')
+    %>
+    <a href="${cancel_url}">Cancel</a>
+  </p>
+</form>
+<h2>Georeferencing the route</h2>
+<div id="map" ngeo-map="mainCtrl.map"></div>

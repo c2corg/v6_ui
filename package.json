@@ -5,10 +5,12 @@
   "scripts": {},
   "license": "BSD",
   "dependencies": {
-    "async": "~0.2.10"
+    "async": "~0.2.10",
+    "bootstrap": "3.3.5"
   },
   "devDependencies": {
     "angular": "1.3.5",
+    "angular-messages": "1.3.5",
     "angular-gettext": "1.1.3",
     "angular-gettext-tools": "1.0.4",
     "openlayers": "openlayers/ol3#master",

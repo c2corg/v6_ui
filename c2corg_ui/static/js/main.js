@@ -7,3 +7,4 @@
 goog.provide('app.main');
 
 goog.require('app.MainController');
+goog.require('app.documentEditingDirective');

@@ -4,4 +4,7 @@ from pyramid.view import view_config
 @view_config(route_name='index',
              renderer='c2corg_ui:templates/index.html')
 def index(request):
-    return {'debug': 'debug' in request.params}
+    return {
+        'debug': 'debug' in request.params,
+        'api_url': request.registry.settings['api_url']
+    }

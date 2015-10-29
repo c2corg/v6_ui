@@ -10,4 +10,4 @@ goog.require('ngeo');
  * @const
  * @type {!angular.Module}
  */
-app.module = angular.module('app', [ngeoModule.name, 'gettext']);
+app.module = angular.module('app', [ngeoModule.name, 'gettext', 'ngMessages']);

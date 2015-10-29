@@ -1,6 +1,7 @@
 from pyramid.view import view_config
 
 from c2corg_ui.views.document import Document
+from c2corg_ui.attributes import available_cultures, activities, route_types
 
 
 class Route(Document):
@@ -10,28 +11,34 @@ class Route(Document):
     @view_config(route_name='routes_index',
                  renderer='c2corg_ui:templates/route/index.html')
     def index(self):
-        url = '%s/%s' % (self.settings['api_url'], self._API_ROUTE)
-        resp, content = self._call_api(url)
-        # TODO: error handling (not found, etc.)
-        return {
-            'debug': 'debug' in self.request.params,
-            'routes': content if resp.status == 200 else {}
-        }
+        self.template_input.update({
+            'routes': self._get_documents()
+        })
+        return self.template_input
 
     @view_config(route_name='routes_view',
                  renderer='c2corg_ui:templates/route/view.html')
     def view(self):
         id, culture = self._validate_id_culture()
-        # TODO: get only the current culture
-        url = '%s/%s/%d' % (
-            self.settings['api_url'],
-            self._API_ROUTE,
-            int(self.request.matchdict['id'])
-        )
-        resp, content = self._call_api(url)
-        # TODO: error handling
-        return {
-            'debug': 'debug' in self.request.params,
+        route, locale = self._get_document(id, culture)
+        self.template_input.update({
             'culture': culture,
-            'route': content if resp.status == 200 else {}
-        }
+            'route': route,
+            'locale': locale
+        })
+        return self.template_input
+
+    @view_config(route_name='routes_add',
+                 renderer='c2corg_ui:templates/route/edit.html')
+    @view_config(route_name='routes_edit',
+                 renderer='c2corg_ui:templates/route/edit.html')
+    def edit(self):
+        id, culture = self._validate_id_culture()
+        self.template_input.update({
+            'available_cultures': available_cultures,
+            'activities': activities,
+            'route_types': route_types,
+            'route_culture': culture,
+            'route_id': id
+        })
+        return self.template_input
