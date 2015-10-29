@@ -1,7 +1,7 @@
 from pyramid.view import view_config
 
 from c2corg_ui.views.document import Document
-from c2corg_ui.attributes import available_cultures, waypoint_types
+from c2corg_common.attributes import default_cultures, waypoint_types
 
 
 class Waypoint(Document):
@@ -35,7 +35,7 @@ class Waypoint(Document):
     def edit(self):
         id, culture = self._validate_id_culture()
         self.template_input.update({
-            'available_cultures': available_cultures,
+            'default_cultures': default_cultures,
             'waypoint_types': waypoint_types,
             'waypoint_culture': culture,
             'waypoint_id': id
