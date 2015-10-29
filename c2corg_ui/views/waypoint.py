@@ -24,7 +24,9 @@ class Waypoint(Document):
         self.template_input.update({
             'culture': culture,
             'waypoint': waypoint,
-            'locale': locale
+            'locale': locale,
+            'geometry': self._get_geometry(waypoint['geometry']['geom']),
+            'transform': self._transform
         })
         return self.template_input
 

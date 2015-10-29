@@ -3,6 +3,7 @@
 <%
 waypoint_id = waypoint['document_id']
 other_cultures = filter(lambda l: l != culture, waypoint['available_cultures'])
+geometry4326 = transform(geometry, 'epsg:3857', 'epsg:4326')
 %>\
 
 <%block name="pagetitle">
@@ -14,6 +15,8 @@ ${locale['title']}
   <li>Id: ${waypoint_id}</li>
   <li>Culture: ${culture}</li>
   <li>Elevation: ${waypoint['elevation']} m</li>
+  <li>Longitude: ${geometry4326.x} °E</li>
+  <li>Latitude: ${geometry4326.y} °N</li>
   <li>Maps info: ${get_attr(waypoint, 'maps_info')}</li>
   <li>Description: ${get_attr(locale, 'description')}</li>
 </ul>

@@ -15,6 +15,9 @@ requires = [
     'pyramid_closure',
     'waitress',
     'httplib2',
+    'shapely',
+    'pyproj',
+    'functools32',
     ]
 
 setup(name='c2corg_ui',
