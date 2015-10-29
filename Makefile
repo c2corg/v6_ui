@@ -132,7 +132,7 @@ c2corg_ui/static/build/locale/fr/c2corg_ui.json: c2corg_ui/locale/fr/LC_MESSAGES
 	touch $@
 
 .build/gjslint.timestamp: $(APP_JS_FILES)
-	.build/venv/bin/gjslint --jslint_error=all --strict --custom_jsdoc_tags=event,fires,function,classdesc,api,observable $?
+	.build/venv/bin/gjslint --jslint_error=all --strict --custom_jsdoc_tags=event,fires,function,classdesc,api,observable,example $?
 	touch $@
 
 .build/jshint.timestamp: $(APP_JS_FILES)

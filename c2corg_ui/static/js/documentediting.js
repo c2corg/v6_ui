@@ -11,7 +11,7 @@ goog.require('ol.geom.Point');
  * used to create a new document (whatever its type) or to edit an existing
  * one. The fields and validations are set and performed in the form itself.
  *
- * Example:
+ * @example
  * <form app-document-editing="waypoints" app-document-editing-model="waypoint"
  *   app-document-editing-id="42" app-document-editing-culture="fr"
  *   name="editForm" novalidate
