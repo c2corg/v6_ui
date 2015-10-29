@@ -112,7 +112,7 @@ app.DocumentEditingController = function($scope, $element, $attrs, $http,
  * @const
  * @type {string}
  */
-app.DocumentEditingController.VIEW_PROJ = 'EPSG:4326';
+app.DocumentEditingController.FORM_PROJ = 'EPSG:4326';
 
 
 /**
@@ -128,17 +128,23 @@ app.DocumentEditingController.DATA_PROJ = 'EPSG:3857';
  * @private
  */
 app.DocumentEditingController.prototype.buildUrl_ = function(type) {
-  var url = this.apiUrl_;
-  url += url.substr(-1) != '/' ? '/' : '';
-  url += this.module_;
   switch (type) {
     case 'read':
-      url += '/' + this.id_ + '?l=' + this.culture_;
-      break;
+      return '{base}/{module}/{id}?l={culture}'
+          .replace('{base}', this.apiUrl_)
+          .replace('{module}', this.module_)
+          .replace('{id}', String(this.id_))
+          .replace('{culture}', this.culture_);
     case 'update':
-      url += '/' + this.id_;
+      return '{base}/{module}/{id}'
+          .replace('{base}', this.apiUrl_)
+          .replace('{module}', this.module_)
+          .replace('{id}', String(this.id_));
+    default:
+      return '{base}/{module}'
+          .replace('{base}', this.apiUrl_)
+          .replace('{module}', this.module_);
   }
-  return url;
 };
 
 
@@ -155,7 +161,7 @@ app.DocumentEditingController.prototype.successRead_ = function(response) {
       var point = /** @type {ol.geom.Point} */
           (geojson.readGeometry(geometry['geom']));
       point.transform(app.DocumentEditingController.DATA_PROJ,
-                      app.DocumentEditingController.VIEW_PROJ);
+                      app.DocumentEditingController.FORM_PROJ);
       var coordinates = point.getCoordinates();
       data['geometry']['geom'] = {
         'longitude': coordinates[0],
@@ -172,7 +178,7 @@ app.DocumentEditingController.prototype.successRead_ = function(response) {
  * @private
  */
 app.DocumentEditingController.prototype.errorRead_ = function(response) {
-  // TODO: better error handling
+  // TODO: use a common messaging tool to display the error
   alert('Failed loading the document: ' +
       response.status + ' ' + response.statusText);
 };
@@ -184,18 +190,17 @@ app.DocumentEditingController.prototype.errorRead_ = function(response) {
  */
 app.DocumentEditingController.prototype.submitForm = function(isValid) {
   if (!isValid) {
-    // TODO: better handling?
+    // TODO: use a common messaging tool to display the error
     alert('Form is not valid');
+    return;
   }
 
   // push to API
   var data = this.scope_[this.modelName_];
   if (!goog.isArray(data['locales'])) {
-    // FIXME
     // With ng-model="route.locales[0].description" route.locales is taken
     // as an object instead of an array.
     var locale = data['locales']['0'];
-    delete data['locales'];
     data['locales'] = [locale];
   }
 
@@ -206,7 +211,7 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
       var geom = geometry['geom'];
       if ('longitude' in geom && 'latitude' in geom) {
         var point = new ol.geom.Point([geom['longitude'], geom['latitude']]);
-        point.transform(app.DocumentEditingController.VIEW_PROJ,
+        point.transform(app.DocumentEditingController.FORM_PROJ,
                         app.DocumentEditingController.DATA_PROJ);
         var geojson = new ol.format.GeoJSON();
         data['geometry']['geom'] = geojson.writeGeometry(point);
@@ -257,12 +262,13 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
  */
 app.DocumentEditingController.prototype.successSave_ = function(response) {
   // redirects to the document view page
-  var url = '/' + this.module_;
-  url += '/' + response['data']['document_id'];
-  url += '/' + this.culture_;
+  var url = '/{module}/{id}/{culture}'
+      .replace('{module}', this.module_)
+      .replace('{id}', response['data']['document_id'])
+      .replace('{culture}', this.culture_);
   window.location.href = url;
-  // FIXME: use formating function?
-  // FIXME: use $window.location.href?
+  // FIXME: use $window.location.href instead?
+  // TODO: add a loading message
 };
 
 
