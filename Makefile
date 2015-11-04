@@ -146,7 +146,7 @@ c2corg_ui/static/build/locale/fr/c2corg_ui.json: c2corg_ui/locale/fr/LC_MESSAGES
 .build/venv/bin/nosetests: .build/dev-requirements.timestamp
 
 .build/dev-requirements.timestamp: .build/venv dev-requirements.txt
-	.build/venv/bin/pip install -r dev-requirements.txt
+	.build/venv/bin/pip install --upgrade -r dev-requirements.txt
 	touch $@
 
 .build/venv:
@@ -154,7 +154,7 @@ c2corg_ui/static/build/locale/fr/c2corg_ui.json: c2corg_ui/locale/fr/LC_MESSAGES
 	virtualenv --no-site-packages $@
 
 $(SITE_PACKAGES)/c2corg_ui.egg-link: .build/venv requirements.txt setup.py
-	.build/venv/bin/pip install -r requirements.txt
+	.build/venv/bin/pip install --upgrade -r requirements.txt
 
 development.ini production.ini: common.ini
 
