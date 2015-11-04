@@ -1,5 +1,3 @@
 include Makefile
 
 export version = 0
-
-internalurl = $(url)
