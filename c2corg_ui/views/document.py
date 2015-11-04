@@ -1,4 +1,8 @@
+from shapely.geometry import asShape
+from shapely.ops import transform
+from functools import partial
 import httplib2
+import pyproj
 import json
 
 from pyramid.httpexceptions import (
@@ -66,3 +70,12 @@ class Document(object):
         resp, content = self._call_api(url)
         # TODO: better error handling
         return content if resp.status == 200 else []
+
+    def _get_geometry(self, data):
+        return asShape(json.loads(data))
+
+    def _transform(self, geometry, source_epsg, dest_epsg):
+        source_proj = pyproj.Proj(init=source_epsg)
+        dest_proj = pyproj.Proj(init=dest_epsg)
+        project = partial(pyproj.transform, source_proj, dest_proj)
+        return transform(project, geometry)
