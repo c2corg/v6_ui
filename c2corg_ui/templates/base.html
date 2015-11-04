@@ -12,15 +12,14 @@
           content="initial-scale=1.0, user-scalable=no, width=device-width">
     <meta name="apple-mobile-web-app-capable" content="yes">
 % if debug:
-    ## FIXME path to bootstrap.css
-    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css" type="text/css">
+    <link rel="stylesheet" href="${request.static_url('%sbootstrap/dist/css/bootstrap.css' % node_modules_path)}" type="text/css">
     <link rel="stylesheet" href="${request.static_url('c2corg_ui:static/build/build.css')}" type="text/css">
-    <script src="${request.static_url('%s/angular/angular.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%sangular/angular.js' % node_modules_path)}"></script>
 % else:
     ## FIXME add version to links?
-    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="${request.static_url('%sbootstrap/dist/css/bootstrap.min.css' % node_modules_path)}" type="text/css">
     <link rel="stylesheet" href="${request.static_url('c2corg_ui:static/build/build.min.css')}" type="text/css">
-    <script src="${request.static_url('%s/angular/angular.min.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%sangular/angular.min.js' % node_modules_path)}"></script>
 % endif
   </head>
   <body>
