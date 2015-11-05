@@ -28,7 +28,7 @@ ${locale['title']}
   % endfor
   </ul>
 % endif
-<app-map></app-map>
+<app-map app-map-center="[${geometry.x}, ${geometry.y}]"></app-map>
 <ul>
   <li>History (TODO)</li>
   <li><a href="${request.route_url('waypoints_edit', id=waypoint_id, culture=culture)}">Edit</a></li>
