@@ -163,6 +163,9 @@ app.DocumentEditingController.prototype.successRead_ = function(response) {
       point.transform(app.DocumentEditingController.DATA_PROJ,
                       app.DocumentEditingController.FORM_PROJ);
       var coordinates = point.getCoordinates();
+      coordinates = goog.array.map(coordinates, function(coord) {
+        return Math.floor(coord * 1000000) / 1000000;
+      });
       data['geometry']['geom'] = {
         'longitude': coordinates[0],
         'latitude': coordinates[1]
