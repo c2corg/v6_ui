@@ -25,7 +25,7 @@ ${locale['title']}
   % endfor
   </ul>
 % endif
-<div id="map" ngeo-map="mainCtrl.map"></div>
+<app-map></app-map>
 <ul>
   <li>History (TODO)</li>
   <li><a href="${request.route_url('routes_edit', id=route_id, culture=culture)}">Edit</a></li>

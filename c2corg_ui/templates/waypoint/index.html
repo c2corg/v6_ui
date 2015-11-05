@@ -5,7 +5,9 @@ Waypoints
 </%block>
 
 <h1>${self.pagetitle()}</h1>
+<app-map></app-map>
 <ul>
+  <li><a href="${request.route_url('waypoints_add')}">Add a waypoint</a></li>
 % for waypoint in waypoints:
   <%
   id = waypoint['document_id']
@@ -17,5 +19,3 @@ Waypoints
   (id ${id})</li>
 % endfor
 </ul>
-<p><a href="${request.route_url('waypoints_add')}">Add a waypoint</a></p>
-<div id="map" ngeo-map="mainCtrl.map"></div>
