@@ -199,7 +199,7 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
   }
 
   // push to API
-  var data = this.scope_[this.modelName_];
+  var data = angular.copy(this.scope_[this.modelName_]);
   if (!goog.isArray(data['locales'])) {
     // With ng-model="route.locales[0].description" route.locales is taken
     // as an object instead of an array.
