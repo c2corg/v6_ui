@@ -222,11 +222,6 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
     }
   }
 
-  // FIXME: workaround for WP
-  if (!('activities' in data && data['activities'])) {
-    data['activities'] = [];
-  }
-
   var config = {
     'headers': { 'Content-Type': 'application/json' }
   };
