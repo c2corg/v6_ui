@@ -53,7 +53,7 @@ FIXME: Adding/editing page title
   </div>
   <div id="longitude-group" class="form-group" ng-class="{ 'has-error': editForm.longitude.$touched && editForm.longitude.$invalid }">
     <label>Longitude</label>
-    <input type="number" name="longitude" ng-model="waypoint.geometry.geom.longitude" class="form-control" required min="-180" max="180" /> °E
+    <input type="number" name="longitude" ng-model="waypoint.lonlat.longitude" class="form-control" required min="-180" max="180" /> °E
     <div class="help-block" ng-messages="editForm.longitude.$error" ng-if="editForm.longitude.$touched">
       <p ng-message="required">Longitude is required.</p>
       <p ng-message="min">Longitude must be between -180° and 180°.</p>
@@ -62,7 +62,7 @@ FIXME: Adding/editing page title
   </div>
   <div id="latitude-group" class="form-group" ng-class="{ 'has-error': editForm.latitude.$touched && editForm.latitude.$invalid }">
     <label>Latitude</label>
-    <input type="number" name="latitude" ng-model="waypoint.geometry.geom.latitude" class="form-control" required required min="-90" max="90" /> °N
+    <input type="number" name="latitude" ng-model="waypoint.lonlat.latitude" class="form-control" required required min="-90" max="90" /> °N
     <div class="help-block" ng-messages="editForm.latitude.$error" ng-if="editForm.latitude.$touched">
       <p ng-message="required">Latitude is required.</p>
       <p ng-message="min">Latitude must be between -90° and 90°.</p>
@@ -93,6 +93,5 @@ FIXME: Adding/editing page title
     %>
     <a href="${cancel_url}">Cancel</a>
   </p>
+  <app-map app-map-edit-ctrl="editCtrl"></app-map>
 </form>
-<h2>Georeferencing the waypoint</h2>
-<div id="map" ngeo-map="mainCtrl.map"></div>
