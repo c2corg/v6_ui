@@ -220,6 +220,8 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
       point.transform(app.DocumentEditingController.FORM_PROJ,
                       app.DocumentEditingController.DATA_PROJ);
       var geojson = new ol.format.GeoJSON();
+      // If creating a new document, the model has no geometry attribute yet:
+      data['geometry'] = data['geometry'] || {};
       data['geometry']['geom'] = geojson.writeGeometry(point);
     }
     delete data['lonlat'];
@@ -279,6 +281,7 @@ app.DocumentEditingController.prototype.successSave_ = function(response) {
  */
 app.DocumentEditingController.prototype.errorSave_ = function(response) {
   // TODO
+  // For example user not allowed to change doc
   console.log('error save');
   console.log(response);
 };
