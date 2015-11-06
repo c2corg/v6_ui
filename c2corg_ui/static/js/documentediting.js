@@ -158,21 +158,26 @@ app.DocumentEditingController.prototype.successRead_ = function(response) {
     var geometry = data['geometry'];
     if ('geom' in geometry && geometry['geom']) {
       var geojson = new ol.format.GeoJSON();
+      // FIXME handle lines and polygons
       var point = /** @type {ol.geom.Point} */
           (geojson.readGeometry(geometry['geom']));
+      geometry['geom'] = point.clone();
       point.transform(app.DocumentEditingController.DATA_PROJ,
                       app.DocumentEditingController.FORM_PROJ);
       var coordinates = point.getCoordinates();
+      // FIXME: will rounding the coordinates cause a new version
+      // of the geometry in the API?
       coordinates = goog.array.map(coordinates, function(coord) {
-        return Math.floor(coord * 1000000) / 1000000;
+        return Math.round(coord * 1000000) / 1000000;
       });
-      data['geometry']['geom'] = {
+      data['lonlat'] = {
         'longitude': coordinates[0],
         'latitude': coordinates[1]
       };
     }
   }
   this.scope_[this.modelName_] = data;
+  this.scope_.$root.$emit('documentDataChange', data);
 };
 
 
@@ -207,19 +212,17 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
     data['locales'] = [locale];
   }
 
-  // Convert geometry data
-  if ('geometry' in data && data['geometry']) {
-    var geometry = data['geometry'];
-    if ('geom' in geometry && geometry['geom']) {
-      var geom = geometry['geom'];
-      if ('longitude' in geom && 'latitude' in geom) {
-        var point = new ol.geom.Point([geom['longitude'], geom['latitude']]);
-        point.transform(app.DocumentEditingController.FORM_PROJ,
-                        app.DocumentEditingController.DATA_PROJ);
-        var geojson = new ol.format.GeoJSON();
-        data['geometry']['geom'] = geojson.writeGeometry(point);
-      }
+  // Convert point geometry data
+  if ('lonlat' in data && data['lonlat']) {
+    var lonlat = data['lonlat'];
+    if ('longitude' in lonlat && 'latitude' in lonlat) {
+      var point = new ol.geom.Point([lonlat['longitude'], lonlat['latitude']]);
+      point.transform(app.DocumentEditingController.FORM_PROJ,
+                      app.DocumentEditingController.DATA_PROJ);
+      var geojson = new ol.format.GeoJSON();
+      data['geometry']['geom'] = geojson.writeGeometry(point);
     }
+    delete data['lonlat'];
   }
 
   var config = {
