@@ -163,6 +163,9 @@ app.DocumentEditingController.prototype.successRead_ = function(response) {
       point.transform(app.DocumentEditingController.DATA_PROJ,
                       app.DocumentEditingController.FORM_PROJ);
       var coordinates = point.getCoordinates();
+      coordinates = goog.array.map(coordinates, function(coord) {
+        return Math.floor(coord * 1000000) / 1000000;
+      });
       data['geometry']['geom'] = {
         'longitude': coordinates[0],
         'latitude': coordinates[1]
@@ -196,7 +199,7 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
   }
 
   // push to API
-  var data = this.scope_[this.modelName_];
+  var data = angular.copy(this.scope_[this.modelName_]);
   if (!goog.isArray(data['locales'])) {
     // With ng-model="route.locales[0].description" route.locales is taken
     // as an object instead of an array.
@@ -217,11 +220,6 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
         data['geometry']['geom'] = geojson.writeGeometry(point);
       }
     }
-  }
-
-  // FIXME: workaround for WP
-  if (!('activities' in data && data['activities'])) {
-    data['activities'] = [];
   }
 
   var config = {
