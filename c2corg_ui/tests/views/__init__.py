@@ -37,8 +37,14 @@ class BaseTestUi(BaseTestCase):
         url = '%s%s' % (self.settings['api_url'], self._prefix)
         resp, content = self.view._call_api(url)
         self.assertEqual(resp.status, 200)
-        self.assertEqual(isinstance(content, list), True)
+        self.assertTrue('total' in content)
+        self.assertTrue('documents' in content)
+        total = content['total']
+        documents = content['documents']
+        self.assertEqual(isinstance(total, int), True)
+        self.assertEqual(isinstance(documents, list), True)
 
     def _test_get_documents(self):
-        documents = self.view._get_documents()
+        documents, total = self.view._get_documents()
+        self.assertEqual(isinstance(total, int), True)
         self.assertEqual(isinstance(documents, list), True)

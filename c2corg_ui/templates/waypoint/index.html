@@ -6,16 +6,14 @@ Waypoints
 
 <h1>${self.pagetitle()}</h1>
 <app-map></app-map>
+<p>${total} waypoints</p>
 <ul>
   <li><a href="${request.route_url('waypoints_add')}">Add a waypoint</a></li>
 % for waypoint in waypoints:
-  <%
-  id = waypoint['document_id']
-  %>
   <li>
   % for locale in waypoint['locales']:
-    <a href="${request.route_url('waypoints_view', id=id, culture=locale['culture'])}">${locale['title']}</a>
+    <a href="${request.route_url('waypoints_view', id=waypoint['document_id'], culture=locale['culture'])}">${locale['title']}</a> (${locale['culture']})
   % endfor
-  (id ${id})</li>
+  - ${waypoint['elevation']} m</li>
 % endfor
 </ul>
