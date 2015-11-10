@@ -5,7 +5,28 @@ Waypoints
 </%block>
 
 <h1>${self.pagetitle()}</h1>
-<app-map></app-map>
+% if len(waypoints):
+  <script>
+    // FIXME: use service or module.value
+    var mapFeatureCollection = {
+      "type": "FeatureCollection",
+      "features": [
+        <%
+        from json import dumps, loads
+        features = [];
+        for waypoint in waypoints:
+            features.append({
+                "type": "Feature",
+                "geometry": loads(waypoint['geometry']['geom'])
+            })
+        features = map(lambda f: dumps(f), features)
+        %>
+        ${', '.join(features) | n}
+      ]
+    };
+  </script>
+  <app-map></app-map>
+% endif
 <p>${total} waypoints</p>
 <ul>
   <li><a href="${request.route_url('waypoints_add')}">Add a waypoint</a></li>
