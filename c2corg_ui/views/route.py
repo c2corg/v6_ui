@@ -11,8 +11,10 @@ class Route(Document):
     @view_config(route_name='routes_index',
                  renderer='c2corg_ui:templates/route/index.html')
     def index(self):
+        routes, total = self._get_documents()
         self.template_input.update({
-            'routes': self._get_documents()
+            'routes': routes,
+            'total': total
         })
         return self.template_input
 

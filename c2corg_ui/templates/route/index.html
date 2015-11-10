@@ -4,18 +4,16 @@
 Routes
 </%block>
 
-<h1>Routes</h1>
+<h1>${self.pagetitle()}</h1>
 <app-map></app-map>
+<p>${total} routes</p>
 <ul>
   <li><a href="${request.route_url('routes_add')}">Add a route</a></li>
 % for route in routes:
-  <%
-  id = route['document_id']
-  %>
   <li>
   % for locale in route['locales']:
-    <a href="${request.route_url('routes_view', id=id, culture=locale['culture'])}">${locale['title']}</a>
+    <a href="${request.route_url('routes_view', id=route['document_id'], culture=locale['culture'])}">${locale['title']}</a> (${locale['culture']})
   % endfor
-  (id ${id})</li>
+  - ${route['elevation_max']} m</li>
 % endfor
 </ul>

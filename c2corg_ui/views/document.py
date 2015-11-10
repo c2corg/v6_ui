@@ -69,7 +69,10 @@ class Document(object):
         url = '%s/%s' % (self.settings['api_url'], self._API_ROUTE)
         resp, content = self._call_api(url)
         # TODO: better error handling
-        return content if resp.status == 200 else []
+        if resp.status == 200:
+            return content['documents'], content['total']
+        else:
+            return [], 0
 
     def _get_geometry(self, data):
         return asShape(json.loads(data))
