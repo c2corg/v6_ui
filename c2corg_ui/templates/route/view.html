@@ -12,13 +12,13 @@ ${locale['title']}
 <h1>${self.pagetitle()}</h1>
 <ul>
   <li>Id: ${route_id}</li>
-  <li>Culture: ${culture}</li>
-  <li>Height: ${route['height_diff_up']} m</li>
-  <li>Description: ${get_attr(locale, 'description')}</li>
-  <li>Gear: ${get_attr(locale, 'gear')}</li>
+  <li><span translate>Culture</span> : ${culture}</li>
+  <li><span translate>Height</span> : ${route['height_diff_up']} m</li>
+  <li><span translate>Description</span> : ${get_attr(locale, 'description')}</li>
+  <li><span translate>Gear</span> : ${get_attr(locale, 'gear')}</li>
 </ul>
 % if other_cultures:
-  <p>View in other culture:</p>
+  <p translate>View in other culture:</p>
   <ul>
   % for l in other_cultures:
     <li><a href="${request.route_url('routes_view', id=route_id, culture=l)}">${l}</a></li>
@@ -28,6 +28,6 @@ ${locale['title']}
 <app-map></app-map>
 <ul>
   <li>History (TODO)</li>
-  <li><a href="${request.route_url('routes_edit', id=route_id, culture=culture)}">Edit</a></li>
+  <li><a href="${request.route_url('routes_edit', id=route_id, culture=culture)}" translate>Edit</a></li>
 </ul>
 

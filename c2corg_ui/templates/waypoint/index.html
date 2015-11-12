@@ -31,7 +31,7 @@ module.value('mapFeatureCollection', {
 % endif
 <p>${total} waypoints</p>
 <ul>
-  <li><a href="${request.route_url('waypoints_add')}">Add a waypoint</a></li>
+  <li><a href="${request.route_url('waypoints_add')}" translate>Add a waypoint</a></li>
 % for waypoint in waypoints:
   <li>
   % for locale in waypoint['locales']:

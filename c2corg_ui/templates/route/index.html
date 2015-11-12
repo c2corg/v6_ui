@@ -8,7 +8,7 @@ Routes
 <app-map></app-map>
 <p>${total} routes</p>
 <ul>
-  <li><a href="${request.route_url('routes_add')}">Add a route</a></li>
+  <li><a href="${request.route_url('routes_add')}" translate>Add a route</a></li>
 % for route in routes:
   <li>
   % for locale in route['locales']:
