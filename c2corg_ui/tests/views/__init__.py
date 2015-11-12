@@ -36,7 +36,7 @@ class BaseTestUi(BaseTestCase):
     def _test_api_call(self):
         url = '%s%s' % (self.settings['api_url'], self._prefix)
         resp, content = self.view._call_api(url)
-        self.assertEqual(resp.status, 200)
+        self.assertEqual(resp['status'], '200')
         self.assertTrue('total' in content)
         self.assertTrue('documents' in content)
         total = content['total']
