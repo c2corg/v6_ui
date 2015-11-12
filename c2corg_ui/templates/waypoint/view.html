@@ -8,15 +8,34 @@ geometry4326 = transform(geometry, 'epsg:3857', 'epsg:4326')
 
 <%block name="pagetitle">
 ${locale['title']}
-</%block>
+</%block>\
+
+<%block name="moduleConstantsValues">
+module.value('mapFeatureCollection', {
+  "type": "FeatureCollection",
+  "features": [{
+    "type": "Feature",
+    "geometry": {"type": "Point", "coordinates": [${geometry.x}, ${geometry.y}]},
+    "properties": {
+      "title": "${locale['title']}",
+      % if waypoint['waypoint_type'] != 'climbing_outdoor':
+      "elevation": ${waypoint['elevation']},
+      % endif
+      "waypoint_type": "${waypoint['waypoint_type']}"
+    }
+  }]
+});
+</%block>\
 
 <h1>${self.pagetitle()}</h1>
 <ul>
   <li>Id: ${waypoint_id}</li>
   <li>Culture: ${culture}</li>
+  <li>Type: ${waypoint['waypoint_type']}</li>
+  % if waypoint['waypoint_type'] != 'climbing_outdoor':
   <li>Elevation: ${waypoint['elevation']} m</li>
-  <li>Longitude: ${geometry4326.x} °E</li>
-  <li>Latitude: ${geometry4326.y} °N</li>
+  % endif
+  <li>Coordinates: ${geometry4326.x} °E / ${geometry4326.y} °N</li>
   <li>Maps info: ${get_attr(waypoint, 'maps_info')}</li>
   <li>Description: ${get_attr(locale, 'description')}</li>
 </ul>
@@ -28,7 +47,7 @@ ${locale['title']}
   % endfor
   </ul>
 % endif
-<app-map app-map-center="[${geometry.x}, ${geometry.y}]"></app-map>
+<app-map></app-map>
 <ul>
   <li>History (TODO)</li>
   <li><a href="${request.route_url('waypoints_edit', id=waypoint_id, culture=culture)}">Edit</a></li>

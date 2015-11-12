@@ -24,7 +24,6 @@ app.mapDirective = function() {
   return {
     restrict: 'E',
     scope: {
-      'center': '=appMapCenter',
       'editCtrl': '=appMapEditCtrl'
     },
     controller: 'AppMapController',
@@ -77,11 +76,7 @@ app.MapController = function($scope, mapFeatureCollection) {
    */
   this.features_ = [];
 
-  var center = this['center'];
-  if (center) {
-    var point = new ol.geom.Point(center);
-    this.features_.push(new ol.Feature(point));
-  } else if (mapFeatureCollection) {
+  if (mapFeatureCollection) {
     var format = new ol.format.GeoJSON();
     goog.array.extend(this.features_,
         format.readFeatures(mapFeatureCollection));
@@ -96,12 +91,14 @@ app.MapController = function($scope, mapFeatureCollection) {
       new ol.layer.Tile({
         source: new ol.source.OSM()
       })
-    ],
-    view: new ol.View({
-      center: center || app.MapController.DEFAULT_CENTER,
-      zoom: app.MapController.DEFAULT_ZOOM
-    })
+    ]
   });
+  if (!mapFeatureCollection) {
+    this.map.setView(new ol.View({
+      center: app.MapController.DEFAULT_CENTER,
+      zoom: app.MapController.DEFAULT_ZOOM
+    }));
+  }
 
   /**
    * @type {ol.View}
