@@ -41,12 +41,13 @@ app.module.directive('appMap', app.mapDirective);
 
 /**
  * @param {angular.Scope} $scope Directive scope.
- * @param {angular.$window} $window Window object.
+ * @param {?Object} mapFeatureCollection FeatureCollection of features
+ * to show on the map.
  * @constructor
  * @export
  * @ngInject
  */
-app.MapController = function($scope, $window) {
+app.MapController = function($scope, mapFeatureCollection) {
 
   /**
    * @type {angular.Scope}
@@ -77,13 +78,13 @@ app.MapController = function($scope, $window) {
   this.features_ = [];
 
   var center = this['center'];
-  var featureCollection = $window['mapFeatureCollection'];
   if (center) {
     var point = new ol.geom.Point(center);
     this.features_.push(new ol.Feature(point));
-  } else if (featureCollection) {
+  } else if (mapFeatureCollection) {
     var format = new ol.format.GeoJSON();
-    goog.array.extend(this.features_, format.readFeatures(featureCollection));
+    goog.array.extend(this.features_,
+        format.readFeatures(mapFeatureCollection));
   }
 
   /**

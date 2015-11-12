@@ -1,30 +1,32 @@
-<%inherit file="../base.html"/>
+<%inherit file="../base.html"/>\
 
 <%block name="pagetitle">
 Waypoints 
-</%block>
+</%block>\
+
+<%block name="moduleConstantsValues">
+% if len(waypoints):
+module.value('mapFeatureCollection', {
+  "type": "FeatureCollection",
+  "features": [
+    <%
+    from json import dumps, loads
+    features = [];
+    for waypoint in waypoints:
+        features.append({
+            "type": "Feature",
+            "geometry": loads(waypoint['geometry']['geom'])
+        })
+    features = map(lambda f: dumps(f), features)
+    %>
+    ${', '.join(features) | n}
+  ]
+});
+% endif
+</%block>\
 
 <h1>${self.pagetitle()}</h1>
 % if len(waypoints):
-  <script>
-    // FIXME: use service or module.value
-    var mapFeatureCollection = {
-      "type": "FeatureCollection",
-      "features": [
-        <%
-        from json import dumps, loads
-        features = [];
-        for waypoint in waypoints:
-            features.append({
-                "type": "Feature",
-                "geometry": loads(waypoint['geometry']['geom'])
-            })
-        features = map(lambda f: dumps(f), features)
-        %>
-        ${', '.join(features) | n}
-      ]
-    };
-  </script>
   <app-map></app-map>
 % endif
 <p>${total} waypoints</p>
