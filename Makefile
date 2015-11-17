@@ -23,18 +23,20 @@ help:
 	@echo
 	@echo "Main targets:"
 	@echo
-	@echo "- check					Perform a number of checks on the code (runs flake 8 and test)"
-	@echo "- test					Run the unit tests"
-	@echo "- clean					Remove generated files"
-	@echo "- cleanall				Remove all the build artefacts"
-	@echo "- compile-catalog		Compile the translation catalog"
-	@echo "- flake8					Run flake8 checker on the Python code"
-	@echo "- lint					Check the JavaScript code with linters"
-	@echo "- build					Build the project"
-	@echo "- install				Install and build the project"
-	@echo "- serve					Run the development server (pserve)"
-	@echo "- template				Replace the config vars in the .in templates"
+	@echo "- check			Perform a number of checks on the code (runs flake 8 and test)"
+	@echo "- test			Run the unit tests"
+	@echo "- clean			Remove generated files"
+	@echo "- cleanall		Remove all the build artefacts"
+	@echo "- compile-catalog	Compile the translation catalog"
+	@echo "- flake8			Run flake8 checker on the Python code"
+	@echo "- lint			Check the JavaScript code with linters"
+	@echo "- build			Build the project"
+	@echo "- install		Install and build the project"
+	@echo "- serve			Run the development server (pserve)"
+	@echo "- template		Replace the config vars in the .in templates"
 	@echo "- update-node-modules	Update node modules (using --force)"
+	@echo "- upgrade		Upgrade the Python dependencies."
+	@echo "- upgrade-dev		Upgrade the Python dev. dependencies."
 	@echo
 
 .PHONY: check
@@ -86,6 +88,14 @@ serve: install build development.ini
 .PHONY: update-node-modules
 update-node-modules:
 	npm install --force
+
+.PHONY: upgrade
+upgrade:
+	.build/venv/bin/pip install --upgrade -r requirements.txt
+
+.PHONY: upgrade-dev
+upgrade-dev:
+	.build/venv/bin/pip install --upgrade -r dev-requirements.txt
 
 c2corg_ui/closure/%.py: $(CLOSURE_LIBRARY_PATH)/closure/bin/build/%.py
 	cp $< $@
@@ -147,7 +157,7 @@ c2corg_ui/static/build/locale/fr/c2corg_ui.json: c2corg_ui/locale/fr/LC_MESSAGES
 .build/venv/bin/nosetests: .build/dev-requirements.timestamp
 
 .build/dev-requirements.timestamp: .build/venv dev-requirements.txt
-	.build/venv/bin/pip install --upgrade -r dev-requirements.txt
+	.build/venv/bin/pip install -r dev-requirements.txt
 	touch $@
 
 .build/venv:
@@ -155,7 +165,7 @@ c2corg_ui/static/build/locale/fr/c2corg_ui.json: c2corg_ui/locale/fr/LC_MESSAGES
 	virtualenv --no-site-packages $@
 
 $(SITE_PACKAGES)/c2corg_ui.egg-link: .build/venv requirements.txt setup.py
-	.build/venv/bin/pip install --upgrade -r requirements.txt
+	.build/venv/bin/pip install -r requirements.txt
 
 development.ini production.ini: common.ini
 
