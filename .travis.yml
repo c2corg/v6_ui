@@ -17,5 +17,8 @@ before_script:
 script:
 - make -f config/travis check
 
+after_failure:
+  cat v6_api/nohup.out
+
 notifications:
   email: false
