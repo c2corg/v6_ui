@@ -45,12 +45,12 @@ msgstr ""
 msgid "Culture is required."
 msgstr ""
 
-#: c2corg_ui/templates/waypoint/edit.html
-msgid "Describe here the WP"
-msgstr ""
-
 #: c2corg_ui/templates/route/edit.html
 msgid "Describe here the gear needed for this route"
+msgstr ""
+
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "Describe here the waypoint"
 msgstr ""
 
 #: c2corg_ui/templates/waypoint/edit.html

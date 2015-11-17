@@ -48,13 +48,13 @@ msgstr "Langue"
 msgid "Culture is required."
 msgstr ""
 
-#: c2corg_ui/templates/waypoint/edit.html
-msgid "Describe here the WP"
-msgstr ""
-
 #: c2corg_ui/templates/route/edit.html
 msgid "Describe here the gear needed for this route"
 msgstr "Indiquez ici le matériel nécessaire pour cet itinéraire."
+
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "Describe here the waypoint"
+msgstr "Décrivez ici l'itinéraire"
 
 #: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/view.html c2corg_ui/templates/route/edit.html
@@ -132,7 +132,7 @@ msgstr "Enregistrer"
 
 #: c2corg_ui/templates/waypoint/edit.html c2corg_ui/templates/route/edit.html
 msgid "Short description of the applied changes"
-msgstr ""
+msgstr "Courte description des changements appliqués"
 
 #: c2corg_ui/templates/waypoint/edit.html c2corg_ui/templates/route/edit.html
 msgid "Title"
