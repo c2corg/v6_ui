@@ -4,10 +4,8 @@
 route_id = route['document_id']
 other_cultures = filter(lambda l: l != culture, route['available_cultures'])
 %>\
-
-<%block name="pagetitle">
-${locale['title']}
-</%block>
+<%block name="pagelang">lang="${culture}"</%block>
+<%block name="pagetitle">${locale['title']}</%block>
 
 <h1>${self.pagetitle()}</h1>
 <ul>

@@ -4,8 +4,7 @@
     closure_library_path = settings.get('closure_library_path')
 %>\
 <!DOCTYPE html>
-## FIXME: use document culture instead of controller lang
-<html lang={{mainCtrl.lang}} ng-app="app" ng-controller="MainController as mainCtrl">
+<html <%block name="pagelang">lang="{{mainCtrl.lang}}"</%block> ng-app="app" ng-controller="MainController as mainCtrl">
   <head>
     <title><%block name="pagetitle">Camptocamp.org</%block></title>
     <meta charset="utf-8">

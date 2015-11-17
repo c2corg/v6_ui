@@ -5,10 +5,8 @@ waypoint_id = waypoint['document_id']
 other_cultures = filter(lambda l: l != culture, waypoint['available_cultures'])
 geometry4326 = transform(geometry, 'epsg:3857', 'epsg:4326')
 %>\
-
-<%block name="pagetitle">
-${locale['title']}
-</%block>\
+<%block name="pagelang">lang="${culture}"</%block>
+<%block name="pagetitle">${locale['title']}</%block>
 
 <%block name="moduleConstantsValues">
 module.value('mapFeatureCollection', {
