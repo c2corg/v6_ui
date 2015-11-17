@@ -22,7 +22,7 @@ FIXME: Adding/editing page title
         ng-model="route.locales[0].culture" class="form-control" required>
       </select>
       <div class="help-block" ng-messages="editForm.culture.$error" ng-if="editForm.culture.$touched">
-        <p ng-message="required" translate>Culture is required.</p> 
+        <p ng-message="required" translate>This field is required.</p> 
       </div>
     % endif
   </div>
@@ -30,7 +30,7 @@ FIXME: Adding/editing page title
     <label translate>Title</label>
     <input type="text" name="title" ng-model="route.locales[0].title" class="form-control" required ng-minlength="3" />
     <div class="help-block" ng-messages="editForm.title.$error" ng-if="editForm.title.$touched">
-      <p ng-message="required" translate>Title is required.</p> 
+      <p ng-message="required" translate>This field is required.</p> 
       <p ng-message="minlength" translate>Title is too short.</p>
     </div>
   </div>
@@ -40,7 +40,7 @@ FIXME: Adding/editing page title
       ng-model="route.activities" class="form-control" required>
     </select>
     <div class="help-block" ng-messages="editForm.activities.$error" ng-if="editForm.activities.$touched">
-      <p ng-message="required" translate>Activities is required.</p> 
+      <p ng-message="required" translate>This field is required.</p> 
     </div>
   </div>
   <div id="height_diff_up-group" class="form-group" ng-class="{ 'has-error': editForm.height_diff_up.$touched && editForm.height_diff_up.$invalid }">

@@ -7,10 +7,6 @@ msgstr ""
 msgid "Activities"
 msgstr ""
 
-#: c2corg_ui/templates/route/edit.html
-msgid "Activities is required."
-msgstr ""
-
 #: c2corg_ui/templates/route/index.html
 msgid "Add a route"
 msgstr ""
@@ -40,11 +36,6 @@ msgstr ""
 msgid "Culture"
 msgstr ""
 
-#: c2corg_ui/templates/waypoint/edit.html
-#: c2corg_ui/templates/route/edit.html
-msgid "Culture is required."
-msgstr ""
-
 #: c2corg_ui/templates/route/edit.html
 msgid "Describe here the gear needed for this route"
 msgstr ""
@@ -71,10 +62,6 @@ msgid "Elevation"
 msgstr ""
 
 #: c2corg_ui/templates/waypoint/edit.html
-msgid "Elevation is required."
-msgstr ""
-
-#: c2corg_ui/templates/waypoint/edit.html
 msgid "Elevation must be smaller than 9999 m."
 msgstr ""
 
@@ -94,20 +81,12 @@ msgid "Latitude"
 msgstr ""
 
 #: c2corg_ui/templates/waypoint/edit.html
-msgid "Latitude is required."
-msgstr ""
-
-#: c2corg_ui/templates/waypoint/edit.html
 msgid "Latitude must be between -90° and 90°."
 msgstr ""
 
 #: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/view.html
 msgid "Longitude"
-msgstr ""
-
-#: c2corg_ui/templates/waypoint/edit.html
-msgid "Longitude is required."
 msgstr ""
 
 #: c2corg_ui/templates/waypoint/edit.html
@@ -139,12 +118,12 @@ msgstr ""
 
 #: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/route/edit.html
-msgid "Title"
+msgid "This field is required."
 msgstr ""
 
 #: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/route/edit.html
-msgid "Title is required."
+msgid "Title"
 msgstr ""
 
 #: c2corg_ui/templates/waypoint/edit.html
@@ -154,10 +133,6 @@ msgstr ""
 
 #: c2corg_ui/templates/waypoint/edit.html
 msgid "Type"
-msgstr ""
-
-#: c2corg_ui/templates/waypoint/edit.html
-msgid "Type is required."
 msgstr ""
 
 #: c2corg_ui/templates/waypoint/view.html

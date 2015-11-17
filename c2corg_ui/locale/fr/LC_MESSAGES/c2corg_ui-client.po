@@ -14,10 +14,6 @@ msgstr ""
 msgid "Activities"
 msgstr "Activités"
 
-#: c2corg_ui/templates/route/edit.html
-msgid "Activities is required."
-msgstr ""
-
 #: c2corg_ui/templates/route/index.html
 msgid "Add a route"
 msgstr "Ajouter un itinéraire"
@@ -44,10 +40,6 @@ msgstr "Courte description des changements"
 msgid "Culture"
 msgstr "Langue"
 
-#: c2corg_ui/templates/waypoint/edit.html c2corg_ui/templates/route/edit.html
-msgid "Culture is required."
-msgstr ""
-
 #: c2corg_ui/templates/route/edit.html
 msgid "Describe here the gear needed for this route"
 msgstr "Indiquez ici le matériel nécessaire pour cet itinéraire."
@@ -72,10 +64,6 @@ msgid "Elevation"
 msgstr "Altitude"
 
 #: c2corg_ui/templates/waypoint/edit.html
-msgid "Elevation is required."
-msgstr ""
-
-#: c2corg_ui/templates/waypoint/edit.html
 msgid "Elevation must be smaller than 9999 m."
 msgstr "L'altitude doit être inférieure à 9999m."
 
@@ -93,10 +81,6 @@ msgid "Latitude"
 msgstr "Latitude"
 
 #: c2corg_ui/templates/waypoint/edit.html
-msgid "Latitude is required."
-msgstr ""
-
-#: c2corg_ui/templates/waypoint/edit.html
 msgid "Latitude must be between -90° and 90°."
 msgstr "La latitude doit être comprise en -90° et 90°."
 
@@ -104,10 +88,6 @@ msgstr "La latitude doit être comprise en -90° et 90°."
 #: c2corg_ui/templates/waypoint/view.html
 msgid "Longitude"
 msgstr "Longitude"
-
-#: c2corg_ui/templates/waypoint/edit.html
-msgid "Longitude is required."
-msgstr ""
 
 #: c2corg_ui/templates/waypoint/edit.html
 msgid "Longitude must be between -180° and 180°."
@@ -135,12 +115,12 @@ msgid "Short description of the applied changes"
 msgstr "Courte description des changements appliqués"
 
 #: c2corg_ui/templates/waypoint/edit.html c2corg_ui/templates/route/edit.html
-msgid "Title"
-msgstr "Titre"
+msgid "This field is required."
+msgstr "Ce champ est obligatoire."
 
 #: c2corg_ui/templates/waypoint/edit.html c2corg_ui/templates/route/edit.html
-msgid "Title is required."
-msgstr ""
+msgid "Title"
+msgstr "Titre"
 
 #: c2corg_ui/templates/waypoint/edit.html c2corg_ui/templates/route/edit.html
 msgid "Title is too short."
@@ -149,10 +129,6 @@ msgstr "Le titre doit comporter au moins 3 caractères."
 #: c2corg_ui/templates/waypoint/edit.html
 msgid "Type"
 msgstr "Type"
-
-#: c2corg_ui/templates/waypoint/edit.html
-msgid "Type is required."
-msgstr ""
 
 #: c2corg_ui/templates/waypoint/view.html c2corg_ui/templates/route/view.html
 msgid "View in other culture:"

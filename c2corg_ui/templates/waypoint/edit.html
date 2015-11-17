@@ -22,7 +22,7 @@ FIXME: Adding/editing page title
         ng-model="waypoint.locales[0].culture" class="form-control" required>
       </select>
       <div class="help-block" ng-messages="editForm.culture.$error" ng-if="editForm.culture.$touched">
-        <p ng-message="required" translate>Culture is required.</p> 
+        <p ng-message="required" translate>This field is required.</p> 
       </div>
     % endif
   </div>
@@ -30,7 +30,7 @@ FIXME: Adding/editing page title
     <label translate>Title</label>
     <input type="text" name="title" ng-model="waypoint.locales[0].title" class="form-control" required ng-minlength="3" />
     <div class="help-block" ng-messages="editForm.title.$error" ng-if="editForm.title.$touched">
-      <p ng-message="required" translate>Title is required.</p> 
+      <p ng-message="required" translate>This field is required.</p> 
       <p ng-message="minlength" translate>Title is too short.</p>
     </div>
   </div>
@@ -40,14 +40,14 @@ FIXME: Adding/editing page title
       ng-model="waypoint.waypoint_type" class="form-control" required>
     </select>
     <div class="help-block" ng-messages="editForm.waypoint_type.$error" ng-if="editForm.waypoint_type.$touched">
-      <p ng-message="required" translate>Type is required.</p> 
+      <p ng-message="required" translate>This field is required.</p> 
     </div>
   </div>
   <div id="elevation-group" class="form-group" ng-class="{ 'has-error': editForm.elevation.$touched && editForm.elevation.$invalid }">
     <label translate>Elevation</label>
     <input type="number" name="elevation" ng-model="waypoint.elevation" class="form-control" required max="9999" /> m
     <div class="help-block" ng-messages="editForm.elevation.$error" ng-if="editForm.elevation.$touched">
-      <p ng-message="required" translate>Elevation is required.</p> 
+      <p ng-message="required" translate>This field is required.</p> 
       <p ng-message="max" translate>Elevation must be smaller than 9999 m.</p>
     </div>
   </div>
@@ -55,7 +55,7 @@ FIXME: Adding/editing page title
     <label translate>Longitude</label>
     <input type="number" name="longitude" ng-model="waypoint.lonlat.longitude" class="form-control" required min="-180" max="180" /> °E
     <div class="help-block" ng-messages="editForm.longitude.$error" ng-if="editForm.longitude.$touched">
-      <p ng-message="required" translate>Longitude is required.</p>
+      <p ng-message="required" translate>This field is required.</p>
       <p ng-message="min" translate>Longitude must be between -180° and 180°.</p>
       <p ng-message="max" translate>Longitude must be between -180° and 180°.</p>
     </div>
@@ -64,7 +64,7 @@ FIXME: Adding/editing page title
     <label translate>Latitude</label>
     <input type="number" name="latitude" ng-model="waypoint.lonlat.latitude" class="form-control" required required min="-90" max="90" /> °N
     <div class="help-block" ng-messages="editForm.latitude.$error" ng-if="editForm.latitude.$touched">
-      <p ng-message="required" translate>Latitude is required.</p>
+      <p ng-message="required" translate>This field is required.</p>
       <p ng-message="min" translate>Latitude must be between -90° and 90°.</p>
       <p ng-message="max" translate>Latitude must be between -90° and 90°.</p>
     </div>
