@@ -12,7 +12,7 @@ ${locale['title']}
 <h1>${self.pagetitle()}</h1>
 <ul>
   <li>Id: ${route_id}</li>
-  <li><span translate>Culture</span> : ${culture}</li>
+  <li><span translate>Culture</span> : {{translate('${culture}')}}</li>
   <li><span translate>Height</span> : ${route['height_diff_up']} m</li>
   <li><span translate>Description</span> : ${get_attr(locale, 'description')}</li>
   <li><span translate>Gear</span> : ${get_attr(locale, 'gear')}</li>

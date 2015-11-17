@@ -1,9 +1,5 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"PO-Revision-Date: 2014-10-22 16:08+0200\n"
-"Last-Translator: Eric Lemoine <eric.lemoine@camptocamp.com>\n"
-"Language-Team: French\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -100,7 +96,7 @@ msgstr "Références cartographiques"
 
 #: c2corg_ui/templates/route/edit.html
 msgid "Route type"
-msgstr "Itinéraires"
+msgstr "Type d'itinéraire"
 
 #: c2corg_ui/templates/base.html
 msgid "Routes"
@@ -141,6 +137,214 @@ msgstr "Points de passage"
 #: c2corg_ui/templates/index.html
 msgid "Welcome to Camptocamp.org"
 msgstr "Bienvenue sur Camptocamp.org"
+
+#: c2corg_ui/templates/i18n.html
+msgid "access"
+msgstr "accès"
+
+#: c2corg_ui/templates/i18n.html
+msgid "base_camp"
+msgstr "camp de base"
+
+#: c2corg_ui/templates/i18n.html
+msgid "bergschrund"
+msgstr "rimaye"
+
+#: c2corg_ui/templates/i18n.html
+msgid "bisse"
+msgstr "bisse"
+
+#: c2corg_ui/templates/i18n.html
+msgid "bivouac"
+msgstr "bivouac"
+
+#: c2corg_ui/templates/i18n.html
+msgid "ca"
+msgstr "catalan"
+
+#: c2corg_ui/templates/i18n.html
+msgid "camp_site"
+msgstr "camping"
+
+#: c2corg_ui/templates/i18n.html
+msgid "cave"
+msgstr "grotte"
+
+#: c2corg_ui/templates/i18n.html
+msgid "cliff"
+msgstr "falaise"
+
+#: c2corg_ui/templates/i18n.html
+msgid "climbing_indoor"
+msgstr "SAE"
+
+#: c2corg_ui/templates/i18n.html
+msgid "climbing_outdoor"
+msgstr "site de couenne/bloc"
+
+#: c2corg_ui/templates/i18n.html
+msgid "confluence"
+msgstr "confluent"
+
+#: c2corg_ui/templates/i18n.html
+msgid "de"
+msgstr "allemand"
+
+#: c2corg_ui/templates/i18n.html
+msgid "en"
+msgstr "anglais"
+
+#: c2corg_ui/templates/i18n.html
+msgid "es"
+msgstr "espagnol"
+
+#: c2corg_ui/templates/i18n.html
+msgid "eu"
+msgstr "basque"
+
+#: c2corg_ui/templates/i18n.html
+msgid "expedition"
+msgstr "expédition"
+
+#: c2corg_ui/templates/i18n.html
+msgid "fr"
+msgstr "français"
+
+#: c2corg_ui/templates/i18n.html
+msgid "gite"
+msgstr "gite"
+
+#: c2corg_ui/templates/i18n.html
+msgid "glacier"
+msgstr "glacier"
+
+#: c2corg_ui/templates/i18n.html
+msgid "hiking"
+msgstr "randonnée pédestre"
+
+#: c2corg_ui/templates/i18n.html
+msgid "hut"
+msgstr "refuge/cabane"
+
+#: c2corg_ui/templates/i18n.html
+msgid "ice_climbing"
+msgstr "cascade de glace"
+
+#: c2corg_ui/templates/i18n.html
+msgid "it"
+msgstr "italien"
+
+#: c2corg_ui/templates/i18n.html
+msgid "lake"
+msgstr "lac"
+
+#: c2corg_ui/templates/i18n.html
+msgid "local_product"
+msgstr "produit local/commerce"
+
+#: c2corg_ui/templates/i18n.html
+msgid "locality"
+msgstr "lieu-dit"
+
+#: c2corg_ui/templates/i18n.html
+msgid "loop"
+msgstr "boucle avec retour au pied de la voie"
+
+#: c2corg_ui/templates/i18n.html
+msgid "loop_hut"
+msgstr "boucle avec retour au refuge"
+
+#: c2corg_ui/templates/i18n.html
+msgid "misc"
+msgstr "divers"
+
+#: c2corg_ui/templates/i18n.html
+msgid "mountain_climbing"
+msgstr "rocher haute montagne"
+
+#: c2corg_ui/templates/i18n.html
+msgid "moutain_biking"
+msgstr "VTT"
+
+#: c2corg_ui/templates/i18n.html
+msgid "paragliding"
+msgstr "parapente"
+
+#: c2corg_ui/templates/i18n.html
+msgid "paragliding_landing"
+msgstr "atterrissage parapente"
+
+#: c2corg_ui/templates/i18n.html
+msgid "paragliding_takeoff"
+msgstr "décollage parapente"
+
+#: c2corg_ui/templates/i18n.html
+msgid "pass"
+msgstr "col"
+
+#: c2corg_ui/templates/i18n.html
+msgid "pit"
+msgstr "gouffre"
+
+#: c2corg_ui/templates/i18n.html
+msgid "raid"
+msgstr "raid"
+
+#: c2corg_ui/templates/i18n.html
+msgid "return_same_way"
+msgstr "aller-retour"
+
+#: c2corg_ui/templates/i18n.html
+msgid "rock_climbing"
+msgstr "escalade"
+
+#: c2corg_ui/templates/i18n.html
+msgid "shelter"
+msgstr "abri"
+
+#: c2corg_ui/templates/i18n.html
+msgid "skitouring"
+msgstr "ski, surf"
+
+#: c2corg_ui/templates/i18n.html
+msgid "snow_ice_mixed"
+msgstr "alpinisme neige, glace et mixte"
+
+#: c2corg_ui/templates/i18n.html
+msgid "snowshoeing"
+msgstr "raquette"
+
+#: c2corg_ui/templates/i18n.html
+msgid "summit"
+msgstr "sommet"
+
+#: c2corg_ui/templates/i18n.html
+msgid "traverse"
+msgstr "traversée"
+
+#: c2corg_ui/templates/i18n.html
+msgid "via_ferrata"
+msgstr "via ferrata"
+
+#: c2corg_ui/templates/i18n.html
+msgid "virtual"
+msgstr "virtuel"
+
+#: c2corg_ui/templates/i18n.html
+msgid "waterfall"
+msgstr "cascade"
+
+#: c2corg_ui/templates/i18n.html
+msgid "waterpoint"
+msgstr "point d'eau/source"
+
+#: c2corg_ui/templates/i18n.html
+msgid "weather_station"
+msgstr "station météo"
+
+#: c2corg_ui/templates/i18n.html
+msgid "webcam"
+msgstr "webcam"
 
 #: c2corg_ui/templates/route/index.html
 msgid "{{nbItems}} routes"

@@ -16,9 +16,9 @@ FIXME: Adding/editing page title
   <div id="culture-group" class="form-group" ng-class="{ 'has-error': editForm.culture.$touched && editForm.culture.$invalid }">
     <label translate>Culture</label>
     % if waypoint_culture:
-      ${waypoint_culture}
+      {{translate('${waypoint_culture}')}}
     % else:
-      <select name="culture" ng-options="culture for culture in ['${"','".join(default_cultures) |n}']" 
+      <select name="culture" ng-options="culture as translate(culture) for culture in ['${"','".join(default_cultures) |n}']" 
         ng-model="waypoint.locales[0].culture" class="form-control" required>
       </select>
       <div class="help-block" ng-messages="editForm.culture.$error" ng-if="editForm.culture.$touched">
@@ -36,7 +36,7 @@ FIXME: Adding/editing page title
   </div>
   <div id="waypoint_type-group" class="form-group" ng-class="{ 'has-error': editForm.waypoint_type.$touched && editForm.waypoint_type.$invalid }">
     <label translate>Type</label>
-    <select name="waypoint_type" ng-options="type for type in ['${"','".join(waypoint_types) |n}']"
+    <select name="waypoint_type" ng-options="type as translate(type) for type in ['${"','".join(waypoint_types) |n}']"
       ng-model="waypoint.waypoint_type" class="form-control" required>
     </select>
     <div class="help-block" ng-messages="editForm.waypoint_type.$error" ng-if="editForm.waypoint_type.$touched">
