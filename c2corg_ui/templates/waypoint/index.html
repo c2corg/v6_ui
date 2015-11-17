@@ -29,7 +29,7 @@ module.value('mapFeatureCollection', {
 % if len(waypoints):
   <app-map></app-map>
 % endif
-<p>${total} waypoints</p>
+<p translate ng-init="nbItems = ${total}">{{nbItems}} waypoints</p>
 <ul>
   <li><a href="${request.route_url('waypoints_add')}" translate>Add a waypoint</a></li>
 % for waypoint in waypoints:

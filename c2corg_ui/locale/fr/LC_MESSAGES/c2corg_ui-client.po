@@ -165,3 +165,11 @@ msgstr "Points de passage"
 #: c2corg_ui/templates/index.html
 msgid "Welcome to Camptocamp.org"
 msgstr "Bienvenue sur Camptocamp.org"
+
+#: c2corg_ui/templates/route/index.html
+msgid "{{nbItems}} routes"
+msgstr "{{nbItems}} itinéraires trouvés"
+
+#: c2corg_ui/templates/waypoint/index.html
+msgid "{{nbItems}} waypoints"
+msgstr "{{nbItems}} points de passage trouvés"

@@ -172,3 +172,11 @@ msgstr ""
 #: c2corg_ui/templates/index.html
 msgid "Welcome to Camptocamp.org"
 msgstr ""
+
+#: c2corg_ui/templates/route/index.html
+msgid "{{nbItems}} routes"
+msgstr ""
+
+#: c2corg_ui/templates/waypoint/index.html
+msgid "{{nbItems}} waypoints"
+msgstr ""
