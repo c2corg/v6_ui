@@ -7,32 +7,14 @@ goog.require('app');
 /**
  * @param {angular.Scope} $rootScope The rootScope provider.
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
- * @param {string} langUrlTemplate Language URL template.
  * @constructor
  * @export
  * @ngInject
  */
-app.MainController = function($rootScope, gettextCatalog, langUrlTemplate) {
+app.MainController = function($rootScope, gettextCatalog) {
 
   /**
-   * @type {angularGettext.Catalog}
-   * @private
-   */
-  this.gettextCatalog_ = gettextCatalog;
-
-  /**
-   * @type {string}
-   * @private
-   */
-  this.langUrlTemplate_ = langUrlTemplate;
-
-  /**
-   * @type {string}
-   * @export
-   */
-  this.lang;
-
-  /**
+   * TODO: use langController instead?
    * Put angular-gettext's translate function on the scope to translate
    * ng-options based dropdown lists. See
    * https://github.com/rubenv/angular-gettext/issues/58
@@ -42,20 +24,6 @@ app.MainController = function($rootScope, gettextCatalog, langUrlTemplate) {
   $rootScope['translate'] = function(str) {
     return gettextCatalog.getString(str);
   };
-
-  this.switchLanguage('fr');
-};
-
-
-/**
- * @param {string} lang Language code.
- * @export
- */
-app.MainController.prototype.switchLanguage = function(lang) {
-  this.gettextCatalog_.setCurrentLanguage(lang);
-  this.gettextCatalog_.loadRemote(
-      this.langUrlTemplate_.replace('__lang__', lang));
-  this.lang = lang;
 };
 
 

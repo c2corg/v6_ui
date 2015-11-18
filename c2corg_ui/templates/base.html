@@ -1,7 +1,7 @@
 <%
-    settings = request.registry.settings
-    node_modules_path = settings.get('node_modules_path')
-    closure_library_path = settings.get('closure_library_path')
+settings = request.registry.settings
+node_modules_path = settings.get('node_modules_path')
+closure_library_path = settings.get('closure_library_path')
 %>\
 <!DOCTYPE html>
 <html <%block name="pagelang">lang="{{mainCtrl.lang}}"</%block> ng-app="app" ng-controller="MainController as mainCtrl">
@@ -34,6 +34,11 @@
 
     <div class="page-content">
       ${self.body()}
+    </div>
+
+    <div class="culture-selector">
+      <label translate>Browse site in</label>
+      <app-lang app-lang-cultures="['${"','".join(default_cultures) |n}']"></app-lang>
     </div>
 
 % if debug:

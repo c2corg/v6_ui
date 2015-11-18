@@ -19,6 +19,10 @@ msgstr ""
 msgid "Back to homepage"
 msgstr ""
 
+#: c2corg_ui/templates/base.html
+msgid "Browse site in"
+msgstr ""
+
 #: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/route/edit.html
 msgid "Cancel"

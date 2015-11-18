@@ -22,6 +22,10 @@ msgstr "Ajouter un point de passage"
 msgid "Back to homepage"
 msgstr "Retour à la page d'accueil"
 
+#: c2corg_ui/templates/base.html
+msgid "Browse site in"
+msgstr "Naviguer en"
+
 #: c2corg_ui/templates/waypoint/edit.html c2corg_ui/templates/route/edit.html
 msgid "Cancel"
 msgstr "Annuler"

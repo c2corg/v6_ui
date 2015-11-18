@@ -1,7 +1,7 @@
 from pyramid.view import view_config
 
 from c2corg_ui.views.document import Document
-from c2corg_common.attributes import default_cultures, activities, route_types
+from c2corg_common.attributes import activities, route_types
 
 
 class Route(Document):
@@ -37,7 +37,6 @@ class Route(Document):
     def edit(self):
         id, culture = self._validate_id_culture()
         self.template_input.update({
-            'default_cultures': default_cultures,
             'activities': activities,
             'route_types': route_types,
             'route_culture': culture,
