@@ -22,7 +22,7 @@ app.langDirective = function() {
     bindToController: true,
     template: '<select ' +
         'ng-model="langCtrl.culture" ' +
-        'ng-options="culture as langCtrl.translate(culture) ' +
+        'ng-options="culture as translate(culture) ' +
         'for culture in ::langCtrl.cultures" ' +
         'ng-change="langCtrl.updateCulture()"></select>'
   };
@@ -34,6 +34,7 @@ app.module.directive('appLang', app.langDirective);
 
 
 /**
+ * @param {angular.Scope} $rootScope The rootScope provider.
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @param {string} langUrlTemplate Language URL template.
  * @param {ngeo.GetBrowserLanguage} ngeoGetBrowserLanguage
@@ -42,7 +43,7 @@ app.module.directive('appLang', app.langDirective);
  * @export
  * @ngInject
  */
-app.LangController = function(gettextCatalog, langUrlTemplate,
+app.LangController = function($rootScope, gettextCatalog, langUrlTemplate,
     ngeoGetBrowserLanguage) {
 
   /**
@@ -64,16 +65,17 @@ app.LangController = function(gettextCatalog, langUrlTemplate,
   this.culture = ngeoGetBrowserLanguage(this['cultures']) || 'fr';
   // TODO: save user choice in web storage and use it when available
   this.updateCulture();
-};
 
-
-/**
- * @param {string} str String to translate.
- * @return {string} Translated string.
- * @export
- */
-app.LangController.prototype.translate = function(str) {
-  return this.gettextCatalog_.getString(str);
+  /**
+   * Put angular-gettext's translate function on the scope to translate
+   * ng-options based dropdown lists. See
+   * https://github.com/rubenv/angular-gettext/issues/58
+   * @param {string} str String to translate.
+   * @return {string} Translated string.
+   */
+  $rootScope['translate'] = function(str) {
+    return gettextCatalog.getString(str);
+  };
 };
 
 
