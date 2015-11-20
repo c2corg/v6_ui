@@ -59,6 +59,9 @@
          var module = angular.module('app');
          module.constant('langUrlTemplate', '${request.static_url('c2corg_ui:static/build/locale/__lang__/c2corg_ui.json')}');
          module.constant('apiUrl', '${api_url}');
+         <%block name="moduleConstantsValues">
+         module.value('mapFeatureCollection', null);
+         </%block>
        })();
     </script>
 

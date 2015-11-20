@@ -6,6 +6,7 @@ goog.require('ngeo.mapDirective');
 goog.require('ol.Feature');
 goog.require('ol.Map');
 goog.require('ol.View');
+goog.require('ol.format.GeoJSON');
 goog.require('ol.geom.Point');
 goog.require('ol.layer.Tile');
 goog.require('ol.layer.Vector');
@@ -23,7 +24,6 @@ app.mapDirective = function() {
   return {
     restrict: 'E',
     scope: {
-      'center': '=appMapCenter',
       'editCtrl': '=appMapEditCtrl'
     },
     controller: 'AppMapController',
@@ -40,11 +40,13 @@ app.module.directive('appMap', app.mapDirective);
 
 /**
  * @param {angular.Scope} $scope Directive scope.
+ * @param {?Object} mapFeatureCollection FeatureCollection of features
+ * to show on the map.
  * @constructor
  * @export
  * @ngInject
  */
-app.MapController = function($scope) {
+app.MapController = function($scope, mapFeatureCollection) {
 
   /**
    * @type {angular.Scope}
@@ -52,17 +54,32 @@ app.MapController = function($scope) {
    */
   this.scope_ = $scope;
 
-  var center = this['center'];
+  /**
+   * @type {?ol.layer.Vector}
+   * @private
+   */
+  this.vectorLayer_ = null;
 
   /**
    * @type {?app.DocumentEditingController}
    * @private
    */
   this.editCtrl_ = this['editCtrl'];
-
   if (this.editCtrl_) {
     this.scope_.$root.$on('documentDataChange',
         goog.bind(this.handleEditModelChange_, this));
+  }
+
+  /**
+   * @type {Array<ol.Feature>}
+   * @private
+   */
+  this.features_ = [];
+
+  if (mapFeatureCollection) {
+    var format = new ol.format.GeoJSON();
+    goog.array.extend(this.features_,
+        format.readFeatures(mapFeatureCollection));
   }
 
   /**
@@ -74,12 +91,14 @@ app.MapController = function($scope) {
       new ol.layer.Tile({
         source: new ol.source.OSM()
       })
-    ],
-    view: new ol.View({
-      center: center || app.MapController.DEFAULT_CENTER,
-      zoom: app.MapController.DEFAULT_ZOOM
-    })
+    ]
   });
+  if (!mapFeatureCollection) {
+    this.map.setView(new ol.View({
+      center: app.MapController.DEFAULT_CENTER,
+      zoom: app.MapController.DEFAULT_ZOOM
+    }));
+  }
 
   /**
    * @type {ol.View}
@@ -87,8 +106,12 @@ app.MapController = function($scope) {
    */
   this.view_ = this.map.getView();
 
-  if (center) {
-    this.showCenterPoint_(center);
+  if (!goog.array.isEmpty(this.features_)) {
+    // Recentering on the features extent requires that the map actually
+    // has a target. Else the map size cannot be computed.
+    this.map.on('change:target', goog.bind(function() {
+      this.showFeatures_(this.features_);
+    }, this));
   }
 };
 
@@ -115,27 +138,43 @@ app.MapController.DEFAULT_POINT_ZOOM = 12;
 
 
 /**
- * @param {Array.<number>|ol.geom.Point} point Point to center on.
+ * @return {ol.layer.Vector} Vector layer.
  * @private
  */
-app.MapController.prototype.showCenterPoint_ = function(point) {
-  // TODO: generalize to show any vector features
-  if (point instanceof Array) {
-    point = new ol.geom.Point(point);
+app.MapController.prototype.getVectorLayer_ = function() {
+  if (!this.vectorLayer_) {
+    this.vectorLayer_ = new ol.layer.Vector({
+      source: new ol.source.Vector()
+    });
+
+    // Use vectorLayer.setMap(map) rather than map.addLayer(vectorLayer). This
+    // makes the vector layer "unmanaged", meaning that it is always on top.
+    this.vectorLayer_.setMap(this.map);
   }
-  var feature = new ol.Feature(point);
-  var vectorLayer = new ol.layer.Vector({
-    source: new ol.source.Vector({
-      features: [feature]
-    })
-  });
+  return this.vectorLayer_;
+};
 
-  // Use vectorLayer.setMap(map) rather than map.addLayer(vectorLayer). This
-  // makes the vector layer "unmanaged", meaning that it is always on top.
-  vectorLayer.setMap(this.map);
 
-  this.view_.setCenter(point.getCoordinates());
-  this.view_.setZoom(app.MapController.DEFAULT_POINT_ZOOM);
+/**
+ * @param {Array<ol.Feature>} features Features to show.
+ * @private
+ */
+app.MapController.prototype.showFeatures_ = function(features) {
+  goog.asserts.assert(features.length > 0);
+  var vectorLayer = this.getVectorLayer_();
+  vectorLayer.getSource().addFeatures(features);
+
+  if (features.length == 1 &&
+      features[0].getGeometry() instanceof ol.geom.Point) {
+    var point = /** @type {ol.geom.Point} */ (features[0].getGeometry());
+    this.view_.setCenter(point.getCoordinates());
+    this.view_.setZoom(app.MapController.DEFAULT_POINT_ZOOM);
+  } else {
+    var mapSize = this.map.getSize() || null;
+    this.view_.fit(vectorLayer.getSource().getExtent(), mapSize, {
+      padding: [10, 10, 10, 10]
+    });
+  }
 };
 
 
@@ -146,10 +185,10 @@ app.MapController.prototype.showCenterPoint_ = function(point) {
  */
 app.MapController.prototype.handleEditModelChange_ = function(event, data) {
   if ('geometry' in data && data['geometry']) {
-    // TODO: handle lines and polygons
     var geometry = data['geometry'];
-    if ('geom' in geometry && geometry['geom'] instanceof ol.geom.Point) {
-      this.showCenterPoint_(geometry['geom']);
+    if ('geom' in geometry && geometry['geom'] instanceof ol.geom.Geometry) {
+      var features = [new ol.Feature(geometry['geom'])];
+      this.showFeatures_(features);
     }
   }
 };
