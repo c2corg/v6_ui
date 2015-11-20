@@ -4,7 +4,7 @@ node_modules_path = settings.get('node_modules_path')
 closure_library_path = settings.get('closure_library_path')
 %>\
 <!DOCTYPE html>
-<html <%block name="pagelang">lang="{{mainCtrl.lang}}"</%block> ng-app="app" ng-controller="MainController as mainCtrl">
+<html <%block name="pagelang"></%block> ng-app="app" ng-controller="MainController as mainCtrl">
   <head>
     <title><%block name="pagetitle">Camptocamp.org</%block></title>
     <meta charset="utf-8">
