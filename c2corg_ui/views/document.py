@@ -32,7 +32,8 @@ class Document(object):
             )
             return resp, json.loads(content)
         except Exception:
-            return {'status': 500}, {}
+            # TODO: return error message as the second item
+            return {'status': '500'}, {}
 
     def _validate_id_culture(self):
         if 'id' not in self.request.matchdict:
@@ -55,9 +56,9 @@ class Document(object):
         )
         resp, document = self._call_api(url)
         # TODO: better error handling
-        if resp.status == 404:
+        if resp['status'] == '404':
             raise HTTPNotFound()
-        elif resp.status != 200:
+        elif resp['status'] != '200':
             raise HTTPInternalServerError(
                 "An error occured while loading the document")
         # We need to pass locale data to Mako as a dedicated object to make it
@@ -69,7 +70,7 @@ class Document(object):
         url = '%s/%s' % (self.settings['api_url'], self._API_ROUTE)
         resp, content = self._call_api(url)
         # TODO: better error handling
-        if resp.status == 200:
+        if resp['status'] == '200':
             return content['documents'], content['total']
         else:
             return [], 0
