@@ -33,6 +33,10 @@ msgstr ""
 msgid "Comment about the changes"
 msgstr ""
 
+#: c2corg_ui/templates/waypoint/view.html
+msgid "Coordinates"
+msgstr ""
+
 #: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/view.html
 #: c2corg_ui/templates/route/edit.html
@@ -80,7 +84,6 @@ msgid "Height"
 msgstr ""
 
 #: c2corg_ui/templates/waypoint/edit.html
-#: c2corg_ui/templates/waypoint/view.html
 msgid "Latitude"
 msgstr ""
 
@@ -89,7 +92,6 @@ msgid "Latitude must be between -90° and 90°."
 msgstr ""
 
 #: c2corg_ui/templates/waypoint/edit.html
-#: c2corg_ui/templates/waypoint/view.html
 msgid "Longitude"
 msgstr ""
 

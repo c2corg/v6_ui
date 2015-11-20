@@ -1,12 +1,12 @@
 msgid ""
 msgstr ""
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
 "Project-Id-Version: c 2corg_ui\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
 
 #: c2corg_ui/templates/route/edit.html
 msgid "Activities"
@@ -34,6 +34,10 @@ msgstr ""
 
 #: c2corg_ui/templates/waypoint/edit.html c2corg_ui/templates/route/edit.html
 msgid "Comment about the changes"
+msgstr ""
+
+#: c2corg_ui/templates/waypoint/view.html
+msgid "Coordinates"
 msgstr ""
 
 #: c2corg_ui/templates/waypoint/edit.html
@@ -78,7 +82,6 @@ msgid "Height"
 msgstr ""
 
 #: c2corg_ui/templates/waypoint/edit.html
-#: c2corg_ui/templates/waypoint/view.html
 msgid "Latitude"
 msgstr ""
 
@@ -87,7 +90,6 @@ msgid "Latitude must be between -90° and 90°."
 msgstr ""
 
 #: c2corg_ui/templates/waypoint/edit.html
-#: c2corg_ui/templates/waypoint/view.html
 msgid "Longitude"
 msgstr ""
 
