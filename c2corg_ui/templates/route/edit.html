@@ -15,7 +15,7 @@ updating_doc = route_id and route_culture
     % if route_culture:
       {{translate('${route_culture}')}}
     % else:
-      <select name="culture" ng-options="culture as translate(culture) for culture in ['${"','".join(default_cultures) |n}']" 
+      <select name="culture" ng-options="culture as mainCtrl.translate(culture) for culture in ['${"','".join(default_cultures) |n}']" 
         ng-model="route.locales[0].culture" class="form-control" required>
       </select>
       <div class="help-block" ng-messages="editForm.culture.$error" ng-if="editForm.culture.$touched">
@@ -33,7 +33,7 @@ updating_doc = route_id and route_culture
   </div>
   <div id="activities-group" class="form-group" ng-class="{ 'has-error': editForm.activities.$touched && editForm.activities.$invalid }">
     <label translate>Activities</label>
-    <select name="activities" ng-options="activity as translate(activity) for activity in ['${"','".join(activities) |n}']"
+    <select name="activities" ng-options="activity as mainCtrl.translate(activity) for activity in ['${"','".join(activities) |n}']"
       ng-model="route.activities" class="form-control" required>
     </select>
     <div class="help-block" ng-messages="editForm.activities.$error" ng-if="editForm.activities.$touched">
@@ -46,7 +46,7 @@ updating_doc = route_id and route_culture
   </div>
   <div id="route_type-group" class="form-group">
     <label translate>Route type</label>
-    <select name="route_type" ng-options="type as translate(type) for type in ['${"','".join(route_types) |n}']"
+    <select name="route_type" ng-options="type as mainCtrl.translate(type) for type in ['${"','".join(route_types) |n}']"
       ng-model="route.route_type" class="form-control">
     </select>
   </div>
