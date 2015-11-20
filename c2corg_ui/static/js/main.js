@@ -8,4 +8,5 @@ goog.provide('app.main');
 
 goog.require('app.MainController');
 goog.require('app.documentEditingDirective');
+goog.require('app.langDirective');
 goog.require('app.mapDirective');

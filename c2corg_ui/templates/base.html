@@ -1,10 +1,10 @@
 <%
-    settings = request.registry.settings
-    node_modules_path = settings.get('node_modules_path')
-    closure_library_path = settings.get('closure_library_path')
+settings = request.registry.settings
+node_modules_path = settings.get('node_modules_path')
+closure_library_path = settings.get('closure_library_path')
 %>\
 <!DOCTYPE html>
-<html lang={{mainCtrl.lang}} ng-app="app" ng-controller="MainController as mainCtrl">
+<html <%block name="pagelang"></%block> ng-app="app" ng-controller="MainController as mainCtrl">
   <head>
     <title><%block name="pagetitle">Camptocamp.org</%block></title>
     <meta charset="utf-8">
@@ -25,15 +25,20 @@
   <body>
 
     <div id="page-header">
-    <a href="${request.route_url('index')}" title="Back to homepage"><img src="${request.static_url('c2corg_ui:static/img/logo.png')}" alt="Camptocamp.org" /></a>
+    <a href="${request.route_url('index')}" title="{{'Back to homepage'|translate}}"><img src="${request.static_url('c2corg_ui:static/img/logo.png')}" alt="Camptocamp.org" /></a>
     <ul>
-      <li><a href="${request.route_url('waypoints_index')}">Waypoints</a></li>
-      <li><a href="${request.route_url('routes_index')}">Routes</a></li>
+      <li><a href="${request.route_url('waypoints_index')}" translate>Waypoints</a></li>
+      <li><a href="${request.route_url('routes_index')}" translate>Routes</a></li>
     </ul>
     </div>
 
     <div class="page-content">
       ${self.body()}
+    </div>
+
+    <div class="culture-selector">
+      <label translate>Browse site in</label>
+      <app-lang app-lang-cultures="['${"','".join(default_cultures) |n}']"></app-lang>
     </div>
 
 % if debug:

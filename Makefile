@@ -59,7 +59,7 @@ cleanall: clean
 	rm -rf node_modules
 
 .PHONY: compile-catalog
-compile-catalog: c2corg_ui/static/build/locale/fr/c2corg_ui.json
+compile-catalog: c2corg_ui/static/build/locale/fr/c2corg_ui.json c2corg_ui/static/build/locale/de/c2corg_ui.json c2corg_ui/static/build/locale/it/c2corg_ui.json c2corg_ui/static/build/locale/en/c2corg_ui.json c2corg_ui/static/build/locale/es/c2corg_ui.json c2corg_ui/static/build/locale/eu/c2corg_ui.json c2corg_ui/static/build/locale/ca/c2corg_ui.json
 
 .PHONY: test
 test: .build/venv/bin/nosetests
@@ -103,8 +103,8 @@ c2corg_ui/closure/%.py: $(CLOSURE_LIBRARY_PATH)/closure/bin/build/%.py
 c2corg_ui/locale/c2corg_ui-client.pot: $(APP_HTML_FILES)
 	node tools/extract-messages.js $^ > $@
 
-c2corg_ui/locale/fr/LC_MESSAGES/c2corg_ui-client.po: c2corg_ui/locale/c2corg_ui-client.pot
-	cd c2corg_ui/locale && msgmerge --update fr/LC_MESSAGES/c2corg_ui-client.po c2corg_ui-client.pot
+c2corg_ui/locale/%/LC_MESSAGES/c2corg_ui-client.po: c2corg_ui/locale/c2corg_ui-client.pot
+	msgmerge --update $@ $<
 
 c2corg_ui/static/build/build.js: build.json $(OL_JS_FILES) $(NGEO_JS_FILES) $(APP_JS_FILES) .build/externs/angular-1.3.js .build/externs/angular-1.3-q.js .build/externs/angular-1.3-http-promise.js .build/node_modules.timestamp
 	mkdir -p $(dir $@)
@@ -118,7 +118,7 @@ c2corg_ui/static/build/build.css: $(LESS_FILES) .build/node_modules.timestamp
 	mkdir -p $(dir $@)
 	./node_modules/.bin/lessc less/c2corg_ui.less > $@
 
-c2corg_ui/static/build/locale/fr/c2corg_ui.json: c2corg_ui/locale/fr/LC_MESSAGES/c2corg_ui-client.po
+c2corg_ui/static/build/locale/%/c2corg_ui.json: c2corg_ui/locale/%/LC_MESSAGES/c2corg_ui-client.po
 	mkdir -p $(dir $@)
 	node tools/compile-catalog $< > $@
 

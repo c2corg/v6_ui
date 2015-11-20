@@ -1,56 +1,59 @@
 msgid ""
 msgstr ""
-"Language: fr\n"
+"Project-Id-Version: c 2corg_ui\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: c2corg_ui/templates/route/edit.html
 msgid "Activities"
-msgstr "Activités"
+msgstr "Activities"
 
 #: c2corg_ui/templates/route/index.html
 msgid "Add a route"
-msgstr "Ajouter un itinéraire"
+msgstr "Add a route"
 
 #: c2corg_ui/templates/waypoint/index.html
 msgid "Add a waypoint"
-msgstr "Ajouter un point de passage"
+msgstr "Add a waypoint"
 
 #: c2corg_ui/templates/base.html
 msgid "Back to homepage"
-msgstr "Retour à la page d'accueil"
+msgstr "Back to homepage"
 
 #: c2corg_ui/templates/base.html
 msgid "Browse site in"
-msgstr "Naviguer en"
+msgstr "Browse site in"
 
 #: c2corg_ui/templates/waypoint/edit.html c2corg_ui/templates/route/edit.html
 msgid "Cancel"
-msgstr "Annuler"
+msgstr "Cancel"
 
 #: c2corg_ui/templates/waypoint/edit.html c2corg_ui/templates/route/edit.html
 msgid "Comment about the changes"
-msgstr "Courte description des changements"
+msgstr "Comment about the changes"
 
 #: c2corg_ui/templates/waypoint/view.html
 msgid "Coordinates"
-msgstr "Coordonnées"
+msgstr ""
 
 #: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/view.html c2corg_ui/templates/route/edit.html
 #: c2corg_ui/templates/route/view.html
 msgid "Culture"
-msgstr "Langue"
+msgstr "Culture"
 
 #: c2corg_ui/templates/route/edit.html
 msgid "Describe here the gear needed for this route"
-msgstr "Indiquez ici le matériel nécessaire pour cet itinéraire."
+msgstr "Describe here the gear needed for this route"
 
 #: c2corg_ui/templates/waypoint/edit.html
 msgid "Describe here the waypoint"
-msgstr "Décrivez ici l'itinéraire"
+msgstr "Describe here the waypoint"
 
 #: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/view.html c2corg_ui/templates/route/edit.html
@@ -60,24 +63,24 @@ msgstr "Description"
 
 #: c2corg_ui/templates/waypoint/view.html c2corg_ui/templates/route/view.html
 msgid "Edit"
-msgstr "Modifier"
+msgstr "Edit"
 
 #: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/view.html
 msgid "Elevation"
-msgstr "Altitude"
+msgstr "Elevation"
 
 #: c2corg_ui/templates/waypoint/edit.html
 msgid "Elevation must be smaller than 9999 m."
-msgstr "L'altitude doit être inférieure à 9999m."
+msgstr "Elevation must be smaller than 9999 m."
 
 #: c2corg_ui/templates/route/edit.html c2corg_ui/templates/route/view.html
 msgid "Gear"
-msgstr "Matériel"
+msgstr "Gear"
 
 #: c2corg_ui/templates/route/edit.html c2corg_ui/templates/route/view.html
 msgid "Height"
-msgstr "Dénivelé"
+msgstr "Height"
 
 #: c2corg_ui/templates/waypoint/edit.html
 msgid "Latitude"
@@ -85,7 +88,7 @@ msgstr "Latitude"
 
 #: c2corg_ui/templates/waypoint/edit.html
 msgid "Latitude must be between -90° and 90°."
-msgstr "La latitude doit être comprise en -90° et 90°."
+msgstr "Latitude must be between -90° and 90°."
 
 #: c2corg_ui/templates/waypoint/edit.html
 msgid "Longitude"
@@ -93,40 +96,40 @@ msgstr "Longitude"
 
 #: c2corg_ui/templates/waypoint/edit.html
 msgid "Longitude must be between -180° and 180°."
-msgstr "La longitude doit être comprise en -180° et 180°."
+msgstr "Longitude must be between -180° and 180°."
 
 #: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/view.html
 msgid "Maps info"
-msgstr "Références cartographiques"
+msgstr "Maps info"
 
 #: c2corg_ui/templates/route/edit.html
 msgid "Route type"
-msgstr "Type d'itinéraire"
+msgstr "Route type"
 
 #: c2corg_ui/templates/base.html
 msgid "Routes"
-msgstr "Itinéraires"
+msgstr "Routes"
 
 #: c2corg_ui/templates/waypoint/edit.html c2corg_ui/templates/route/edit.html
 msgid "Save"
-msgstr "Enregistrer"
+msgstr "Save"
 
 #: c2corg_ui/templates/waypoint/edit.html c2corg_ui/templates/route/edit.html
 msgid "Short description of the applied changes"
-msgstr "Courte description des changements appliqués"
+msgstr "Short description of the applied changes"
 
 #: c2corg_ui/templates/waypoint/edit.html c2corg_ui/templates/route/edit.html
 msgid "This field is required."
-msgstr "Ce champ est obligatoire."
+msgstr "This field is required."
 
 #: c2corg_ui/templates/waypoint/edit.html c2corg_ui/templates/route/edit.html
 msgid "Title"
-msgstr "Titre"
+msgstr "Title"
 
 #: c2corg_ui/templates/waypoint/edit.html c2corg_ui/templates/route/edit.html
 msgid "Title is too short."
-msgstr "Le titre doit comporter au moins 3 caractères."
+msgstr "Title is too short."
 
 #: c2corg_ui/templates/waypoint/edit.html
 msgid "Type"
@@ -134,27 +137,27 @@ msgstr "Type"
 
 #: c2corg_ui/templates/waypoint/view.html c2corg_ui/templates/route/view.html
 msgid "View in other culture:"
-msgstr "Afficher dans une autre langue:"
+msgstr "View in other culture:"
 
 #: c2corg_ui/templates/base.html
 msgid "Waypoints"
-msgstr "Points de passage"
+msgstr "Waypoints"
 
 #: c2corg_ui/templates/index.html
 msgid "Welcome to Camptocamp.org"
-msgstr "Bienvenue sur Camptocamp.org"
+msgstr "Welcome to Camptocamp.org"
 
 #: c2corg_ui/templates/i18n.html
 msgid "access"
-msgstr "accès"
+msgstr "access"
 
 #: c2corg_ui/templates/i18n.html
 msgid "base_camp"
-msgstr "camp de base"
+msgstr "base_camp"
 
 #: c2corg_ui/templates/i18n.html
 msgid "bergschrund"
-msgstr "rimaye"
+msgstr "bergschrund"
 
 #: c2corg_ui/templates/i18n.html
 msgid "bisse"
@@ -166,55 +169,55 @@ msgstr "bivouac"
 
 #: c2corg_ui/templates/i18n.html
 msgid "ca"
-msgstr "catalan"
+msgstr "ca"
 
 #: c2corg_ui/templates/i18n.html
 msgid "camp_site"
-msgstr "camping"
+msgstr "camp_site"
 
 #: c2corg_ui/templates/i18n.html
 msgid "cave"
-msgstr "grotte"
+msgstr "cave"
 
 #: c2corg_ui/templates/i18n.html
 msgid "cliff"
-msgstr "falaise"
+msgstr "cliff"
 
 #: c2corg_ui/templates/i18n.html
 msgid "climbing_indoor"
-msgstr "SAE"
+msgstr "climbing_indoor"
 
 #: c2corg_ui/templates/i18n.html
 msgid "climbing_outdoor"
-msgstr "site de couenne/bloc"
+msgstr "climbing_outdoor"
 
 #: c2corg_ui/templates/i18n.html
 msgid "confluence"
-msgstr "confluent"
+msgstr "confluence"
 
 #: c2corg_ui/templates/i18n.html
 msgid "de"
-msgstr "allemand"
+msgstr "de"
 
 #: c2corg_ui/templates/i18n.html
 msgid "en"
-msgstr "anglais"
+msgstr "en"
 
 #: c2corg_ui/templates/i18n.html
 msgid "es"
-msgstr "espagnol"
+msgstr "es"
 
 #: c2corg_ui/templates/i18n.html
 msgid "eu"
-msgstr "basque"
+msgstr "eu"
 
 #: c2corg_ui/templates/i18n.html
 msgid "expedition"
-msgstr "expédition"
+msgstr "expedition"
 
 #: c2corg_ui/templates/i18n.html
 msgid "fr"
-msgstr "français"
+msgstr "fr"
 
 #: c2corg_ui/templates/i18n.html
 msgid "gite"
@@ -226,71 +229,71 @@ msgstr "glacier"
 
 #: c2corg_ui/templates/i18n.html
 msgid "hiking"
-msgstr "randonnée pédestre"
+msgstr "hiking"
 
 #: c2corg_ui/templates/i18n.html
 msgid "hut"
-msgstr "refuge/cabane"
+msgstr "hut"
 
 #: c2corg_ui/templates/i18n.html
 msgid "ice_climbing"
-msgstr "cascade de glace"
+msgstr "ice_climbing"
 
 #: c2corg_ui/templates/i18n.html
 msgid "it"
-msgstr "italien"
+msgstr "it"
 
 #: c2corg_ui/templates/i18n.html
 msgid "lake"
-msgstr "lac"
+msgstr "lake"
 
 #: c2corg_ui/templates/i18n.html
 msgid "local_product"
-msgstr "produit local/commerce"
+msgstr "local_product"
 
 #: c2corg_ui/templates/i18n.html
 msgid "locality"
-msgstr "lieu-dit"
+msgstr "locality"
 
 #: c2corg_ui/templates/i18n.html
 msgid "loop"
-msgstr "boucle avec retour au pied de la voie"
+msgstr "loop"
 
 #: c2corg_ui/templates/i18n.html
 msgid "loop_hut"
-msgstr "boucle avec retour au refuge"
+msgstr "loop_hut"
 
 #: c2corg_ui/templates/i18n.html
 msgid "misc"
-msgstr "divers"
+msgstr "misc"
 
 #: c2corg_ui/templates/i18n.html
 msgid "mountain_climbing"
-msgstr "rocher haute montagne"
+msgstr "mountain_climbing"
 
 #: c2corg_ui/templates/i18n.html
 msgid "moutain_biking"
-msgstr "VTT"
+msgstr "moutain_biking"
 
 #: c2corg_ui/templates/i18n.html
 msgid "paragliding"
-msgstr "parapente"
+msgstr "paragliding"
 
 #: c2corg_ui/templates/i18n.html
 msgid "paragliding_landing"
-msgstr "atterrissage parapente"
+msgstr "paragliding_landing"
 
 #: c2corg_ui/templates/i18n.html
 msgid "paragliding_takeoff"
-msgstr "décollage parapente"
+msgstr "paragliding_takeoff"
 
 #: c2corg_ui/templates/i18n.html
 msgid "pass"
-msgstr "col"
+msgstr "pass"
 
 #: c2corg_ui/templates/i18n.html
 msgid "pit"
-msgstr "gouffre"
+msgstr "pit"
 
 #: c2corg_ui/templates/i18n.html
 msgid "raid"
@@ -298,55 +301,55 @@ msgstr "raid"
 
 #: c2corg_ui/templates/i18n.html
 msgid "return_same_way"
-msgstr "aller-retour"
+msgstr "return_same_way"
 
 #: c2corg_ui/templates/i18n.html
 msgid "rock_climbing"
-msgstr "escalade"
+msgstr "rock_climbing"
 
 #: c2corg_ui/templates/i18n.html
 msgid "shelter"
-msgstr "abri"
+msgstr "shelter"
 
 #: c2corg_ui/templates/i18n.html
 msgid "skitouring"
-msgstr "ski, surf"
+msgstr "skitouring"
 
 #: c2corg_ui/templates/i18n.html
 msgid "snow_ice_mixed"
-msgstr "alpinisme neige, glace et mixte"
+msgstr "snow_ice_mixed"
 
 #: c2corg_ui/templates/i18n.html
 msgid "snowshoeing"
-msgstr "raquette"
+msgstr "snowshoeing"
 
 #: c2corg_ui/templates/i18n.html
 msgid "summit"
-msgstr "sommet"
+msgstr "summit"
 
 #: c2corg_ui/templates/i18n.html
 msgid "traverse"
-msgstr "traversée"
+msgstr "traverse"
 
 #: c2corg_ui/templates/i18n.html
 msgid "via_ferrata"
-msgstr "via ferrata"
+msgstr "via_ferrata"
 
 #: c2corg_ui/templates/i18n.html
 msgid "virtual"
-msgstr "virtuel"
+msgstr "virtual"
 
 #: c2corg_ui/templates/i18n.html
 msgid "waterfall"
-msgstr "cascade"
+msgstr "waterfall"
 
 #: c2corg_ui/templates/i18n.html
 msgid "waterpoint"
-msgstr "point d'eau/source"
+msgstr "waterpoint"
 
 #: c2corg_ui/templates/i18n.html
 msgid "weather_station"
-msgstr "station météo"
+msgstr "weather_station"
 
 #: c2corg_ui/templates/i18n.html
 msgid "webcam"
@@ -354,8 +357,8 @@ msgstr "webcam"
 
 #: c2corg_ui/templates/route/index.html
 msgid "{{nbItems}} routes"
-msgstr "{{nbItems}} itinéraires trouvés"
+msgstr "{{nbItems}} routes"
 
 #: c2corg_ui/templates/waypoint/index.html
 msgid "{{nbItems}} waypoints"
-msgstr "{{nbItems}} points de passage trouvés"
+msgstr "{{nbItems}} waypoints"

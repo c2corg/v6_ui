@@ -1,8 +1,5 @@
-<%inherit file="../base.html"/>\
-
-<%block name="pagetitle">
-Waypoints 
-</%block>\
+<%inherit file="../base.html"/>
+<%block name="pagetitle">Waypoints</%block>\
 
 <%block name="moduleConstantsValues">
 % if len(waypoints):
@@ -29,9 +26,9 @@ module.value('mapFeatureCollection', {
 % if len(waypoints):
   <app-map></app-map>
 % endif
-<p>${total} waypoints</p>
+<p translate ng-init="nbItems = ${total}">{{nbItems}} waypoints</p>
 <ul>
-  <li><a href="${request.route_url('waypoints_add')}">Add a waypoint</a></li>
+  <li><a href="${request.route_url('waypoints_add')}" translate>Add a waypoint</a></li>
 % for waypoint in waypoints:
   <li>
   % for locale in waypoint['locales']:

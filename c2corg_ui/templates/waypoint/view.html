@@ -5,10 +5,8 @@ waypoint_id = waypoint['document_id']
 other_cultures = filter(lambda l: l != culture, waypoint['available_cultures'])
 geometry4326 = transform(geometry, 'epsg:3857', 'epsg:4326')
 %>\
-
-<%block name="pagetitle">
-${locale['title']}
-</%block>\
+<%block name="pagelang">lang="${culture}"</%block>
+<%block name="pagetitle">${locale['title']}</%block>
 
 <%block name="moduleConstantsValues">
 module.value('mapFeatureCollection', {
@@ -30,17 +28,14 @@ module.value('mapFeatureCollection', {
 <h1>${self.pagetitle()}</h1>
 <ul>
   <li>Id: ${waypoint_id}</li>
-  <li>Culture: ${culture}</li>
-  <li>Type: ${waypoint['waypoint_type']}</li>
-  % if waypoint['waypoint_type'] != 'climbing_outdoor':
-  <li>Elevation: ${waypoint['elevation']} m</li>
-  % endif
-  <li>Coordinates: ${geometry4326.x} °E / ${geometry4326.y} °N</li>
-  <li>Maps info: ${get_attr(waypoint, 'maps_info')}</li>
-  <li>Description: ${get_attr(locale, 'description')}</li>
+  <li><span translate>Culture</span> : {{translate('${culture}')}}</li>
+  <li><span translate>Elevation</span> : ${waypoint['elevation']} m</li>
+  <li><span translate>Coordinates</span> : ${geometry4326.x} °E / ${geometry4326.y} °N</li>
+  <li><span translate>Maps info</span> : ${get_attr(waypoint, 'maps_info')}</li>
+  <li><span translate>Description</span> : ${get_attr(locale, 'description')}</li>
 </ul>
 % if other_cultures:
-  <p>View in other culture:</p>
+  <p translate>View in other culture:</p>
   <ul>
   % for l in other_cultures:
     <li><a href="${request.route_url('waypoints_view', id=waypoint_id, culture=l)}">${l}</a></li>
@@ -50,5 +45,5 @@ module.value('mapFeatureCollection', {
 <app-map></app-map>
 <ul>
   <li>History (TODO)</li>
-  <li><a href="${request.route_url('waypoints_edit', id=waypoint_id, culture=culture)}">Edit</a></li>
+  <li><a href="${request.route_url('waypoints_edit', id=waypoint_id, culture=culture)}" translate>Edit</a></li>
 </ul>
