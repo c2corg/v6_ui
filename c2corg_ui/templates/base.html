@@ -27,8 +27,8 @@ closure_library_path = settings.get('closure_library_path')
     <div class="page-menu">
     <a href="${request.route_url('index')}" title="{{'Back to homepage'|translate}}"><img src="${request.static_url('c2corg_ui:static/img/logo.png')}" alt="Camptocamp.org" /></a>
     <ul>
-      <li><a href="${request.route_url('waypoints_index')}" translate>Waypoints</a></li>
-      <li><a href="${request.route_url('routes_index')}" translate>Routes</a></li>
+      <li><a href="${request.route_url('waypoints_index', filters='')}" translate>Waypoints</a></li>
+      <li><a href="${request.route_url('routes_index', filters='')}" translate>Routes</a></li>
     </ul>
     </div>
 

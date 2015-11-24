@@ -15,15 +15,15 @@ def main(global_config, **settings):
 
     config.add_route('index', '/')
 
-    config.add_route('waypoints_index', '/waypoints')
     config.add_route('waypoints_view', '/waypoints/{id}/{culture}')
     config.add_route('waypoints_add', '/waypoints/add')
     config.add_route('waypoints_edit', '/waypoints/edit/{id}/{culture}')
+    config.add_route('waypoints_index', '/waypoints*filters')
 
-    config.add_route('routes_index', '/routes')
     config.add_route('routes_view', '/routes/{id}/{culture}')
     config.add_route('routes_add', '/routes/add')
     config.add_route('routes_edit', '/routes/edit/{id}/{culture}')
+    config.add_route('routes_index', '/routes*filters')
 
     config.add_route('auth', '/auth')
 
