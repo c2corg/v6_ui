@@ -10,10 +10,11 @@ module.value('mapFeatureCollection', {
     from json import dumps, loads
     features = [];
     for waypoint in waypoints:
-        features.append({
-            "type": "Feature",
-            "geometry": loads(waypoint['geometry']['geom'])
-        })
+        if waypoint['geometry']['geom'] is not None:
+            features.append({
+                "type": "Feature",
+                "geometry": loads(waypoint['geometry']['geom'])
+            })
     features = map(lambda f: dumps(f), features)
     %>
     ${', '.join(features) | n}
