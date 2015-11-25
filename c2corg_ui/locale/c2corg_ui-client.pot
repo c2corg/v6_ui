@@ -122,6 +122,10 @@ msgstr ""
 msgid "Short description of the applied changes"
 msgstr ""
 
+#: c2corg_ui/static/partials/user.html
+msgid "Sign In"
+msgstr ""
+
 #: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/route/edit.html
 msgid "This field is required."

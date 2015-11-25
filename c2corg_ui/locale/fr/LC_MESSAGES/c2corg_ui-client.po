@@ -116,6 +116,10 @@ msgstr "Enregistrer"
 msgid "Short description of the applied changes"
 msgstr "Courte description des changements appliqués"
 
+#: c2corg_ui/static/partials/user.html
+msgid "Sign In"
+msgstr "Connexion"
+
 #: c2corg_ui/templates/waypoint/edit.html c2corg_ui/templates/route/edit.html
 msgid "This field is required."
 msgstr "Ce champ est obligatoire."

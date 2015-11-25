@@ -39,7 +39,7 @@ msgstr "Comment about the changes"
 
 #: c2corg_ui/templates/waypoint/view.html
 msgid "Coordinates"
-msgstr ""
+msgstr "Coordinates"
 
 #: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/view.html c2corg_ui/templates/route/edit.html
@@ -118,6 +118,10 @@ msgstr "Save"
 #: c2corg_ui/templates/waypoint/edit.html c2corg_ui/templates/route/edit.html
 msgid "Short description of the applied changes"
 msgstr "Short description of the applied changes"
+
+#: c2corg_ui/static/partials/user.html
+msgid "Sign In"
+msgstr "Sign In"
 
 #: c2corg_ui/templates/waypoint/edit.html c2corg_ui/templates/route/edit.html
 msgid "This field is required."
