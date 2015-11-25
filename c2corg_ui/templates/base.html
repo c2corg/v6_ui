@@ -24,7 +24,7 @@ closure_library_path = settings.get('closure_library_path')
   </head>
   <body>
 
-    <div id="page-header">
+    <div class="page-menu">
     <a href="${request.route_url('index')}" title="{{'Back to homepage'|translate}}"><img src="${request.static_url('c2corg_ui:static/img/logo.png')}" alt="Camptocamp.org" /></a>
     <ul>
       <li><a href="${request.route_url('waypoints_index')}" translate>Waypoints</a></li>
@@ -36,9 +36,12 @@ closure_library_path = settings.get('closure_library_path')
       ${self.body()}
     </div>
 
-    <div class="culture-selector">
-      <label translate>Browse site in</label>
-      <app-lang app-lang-cultures="['${"','".join(default_cultures) |n}']"></app-lang>
+    <div class="page-header">
+      <app-user></app-user>
+      <div class="culture-selector">
+        <label translate>Browse site in</label>
+        <app-lang app-lang-cultures="['${"','".join(default_cultures) |n}']"></app-lang>
+      </div>
     </div>
 
 % if debug:
