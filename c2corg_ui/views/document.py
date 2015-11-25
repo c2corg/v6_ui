@@ -1,6 +1,7 @@
 from shapely.geometry import asShape
 from shapely.ops import transform
 from functools import partial
+from urllib import urlencode
 import httplib2
 import pyproj
 import json
@@ -68,13 +69,30 @@ class Document(object):
         return document, locale
 
     def _get_documents(self):
-        url = '%s/%s' % (self.settings['api_url'], self._API_ROUTE)
+        query_string = self._get_query_string()
+        query_string = '?' + query_string if query_string else ''
+        url = '%s/%s%s' % (
+            self.settings['api_url'], self._API_ROUTE, query_string
+        )
         resp, content = self._call_api(url)
         # TODO: better error handling
         if resp['status'] == '200':
             return content['documents'], content['total']
         else:
             return [], 0
+
+    def _get_query_string(self):
+        params = []
+        if 'filters' in self.request.matchdict:
+            filters = self.request.matchdict['filters']
+            # If number of filters is odd, add an empty string at the end:
+            filters = filters + ('',) if len(filters) % 2 != 0 else filters
+            # Group filters as a list of (key, value) tuples
+            for i in range(0, len(filters)):
+                # Skip odd indices since grouping filters 2 by 2
+                if i % 2 == 0:
+                    params.append(filters[i:i+2])
+        return urlencode(params) if params else ''
 
     def _get_geometry(self, data):
         return asShape(json.loads(data))
