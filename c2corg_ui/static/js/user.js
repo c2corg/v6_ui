@@ -15,6 +15,7 @@ app.userDirective = function() {
   return {
     restrict: 'E',
     scope: {
+      'signinUrl': '@appUserSigninUrl'
     },
     controller: 'AppUserController',
     controllerAs: 'userCtrl',
@@ -35,6 +36,14 @@ app.module.directive('appUser', app.userDirective);
  */
 app.UserController = function() {
 
+};
+
+
+/**
+ * @export
+ */
+app.UserController.prototype.showSignIn = function() {
+  window.location.href = this['signinUrl'];
 };
 
 
