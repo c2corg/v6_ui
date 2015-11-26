@@ -23,7 +23,7 @@ app.langDirective = function() {
     template: '<select ' +
         'ng-model="langCtrl.culture" ' +
         'ng-options="culture as langCtrl.translate(culture) ' +
-        'for culture in ::langCtrl.cultures" ' +
+        'for culture in langCtrl.cultures" ' +
         'ng-change="langCtrl.updateCulture()"></select>'
   };
 };

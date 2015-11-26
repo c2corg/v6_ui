@@ -12,6 +12,11 @@ APP_HTML_FILES = $(shell find c2corg_ui/templates -type f -name '*.html')
 APP_PARTIAL_FILES = $(shell find c2corg_ui/static/partials -type f -name '*.html')
 LESS_FILES = $(shell find less -type f -name '*.less')
 
+EXTERNS_ANGULAR = .build/externs/angular-1.4.js
+EXTERNS_ANGULAR_Q = .build/externs/angular-1.4-q_templated.js
+EXTERNS_ANGULAR_HTTP_PROMISE = .build/externs/angular-1.4-http-promise_templated.js
+EXTERNS_FILES = $(EXTERNS_ANGULAR) $(EXTERNS_ANGULAR_Q) $(EXTERNS_ANGULAR_HTTP_PROMISE)
+
 # variables used in config files (*.in)
 export base_dir = $(abspath .)
 export site_packages = $(SITE_PACKAGES)
@@ -111,7 +116,7 @@ c2corg_ui/locale/c2corg_ui-client.pot: $(APP_HTML_FILES) $(APP_PARTIAL_FILES)
 c2corg_ui/locale/%/LC_MESSAGES/c2corg_ui-client.po: c2corg_ui/locale/c2corg_ui-client.pot
 	msgmerge --update $@ $<
 
-c2corg_ui/static/build/build.js: build.json c2corg_ui/static/build/templatecache.js $(OL_JS_FILES) $(NGEO_JS_FILES) $(APP_JS_FILES) .build/externs/angular-1.3.js .build/externs/angular-1.3-q.js .build/externs/angular-1.3-http-promise.js .build/node_modules.timestamp
+c2corg_ui/static/build/build.js: build.json c2corg_ui/static/build/templatecache.js $(OL_JS_FILES) $(NGEO_JS_FILES) $(APP_JS_FILES) $(EXTERNS_FILES) .build/node_modules.timestamp
 	mkdir -p $(dir $@)
 	./node_modules/openlayers/node_modules/.bin/closure-util build $< $@
 
@@ -131,19 +136,19 @@ c2corg_ui/static/build/templatecache.js: c2corg_ui/templates/templatecache.js .b
 	mkdir -p $(dir $@)
 	.build/venv/bin/mako-render --var "partials=$(APP_PARTIAL_FILES)" $< > $@
 
-.build/externs/angular-1.3.js:
+$(EXTERNS_ANGULAR):
 	mkdir -p $(dir $@)
-	wget -O $@ https://raw.githubusercontent.com/google/closure-compiler/master/contrib/externs/angular-1.3.js
+	wget -O $@ https://raw.githubusercontent.com/google/closure-compiler/master/contrib/externs/angular-1.4.js
 	touch $@
 
-.build/externs/angular-1.3-q.js:
+$(EXTERNS_ANGULAR_Q):
 	mkdir -p $(dir $@)
-	wget -O $@ https://raw.githubusercontent.com/google/closure-compiler/master/contrib/externs/angular-1.3-q.js
+	wget -O $@ https://raw.githubusercontent.com/google/closure-compiler/master/contrib/externs/angular-1.4-q_templated.js
 	touch $@
 
-.build/externs/angular-1.3-http-promise.js:
+$(EXTERNS_ANGULAR_HTTP_PROMISE):
 	mkdir -p $(dir $@)
-	wget -O $@ https://raw.githubusercontent.com/google/closure-compiler/master/contrib/externs/angular-1.3-http-promise.js
+	wget -O $@ https://raw.githubusercontent.com/google/closure-compiler/master/contrib/externs/angular-1.4-http-promise_templated.js
 	touch $@
 
 .build/node_modules.timestamp: package.json
