@@ -74,7 +74,7 @@
       "unknownDefines"
     ],
     "extra_annotation_name": [
-      "api", "observable"
+      "api", "observable", "ngdoc", "ngname"
     ],
     "angular_pass": true,
     "compilation_level": "ADVANCED",
