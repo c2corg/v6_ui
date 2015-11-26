@@ -20,7 +20,7 @@ app.userDirective = function() {
     controller: 'AppUserController',
     controllerAs: 'userCtrl',
     bindToController: true,
-    templateUrl: 'static/partials/user.html'
+    templateUrl: '/static/partials/user.html'
   };
 };
 
