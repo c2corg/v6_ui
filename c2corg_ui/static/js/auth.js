@@ -2,6 +2,7 @@ goog.provide('app.AuthController');
 goog.provide('app.authDirective');
 
 goog.require('app');
+goog.require('app.Authentication');
 
 
 /**
@@ -29,11 +30,12 @@ app.module.directive('appAuth', app.authDirective);
  * @param {angular.Scope} $scope Scope.
  * @param {angular.$http} $http
  * @param {string} apiUrl Base URL of the API.
+ * @param {app.Authentication} appAuthentication
  * @constructor
  * @export
  * @ngInject
  */
-app.AuthController = function($scope, $http, apiUrl) {
+app.AuthController = function($scope, $http, apiUrl, appAuthentication) {
 
   /**
    * @type {angular.Scope}
@@ -52,6 +54,12 @@ app.AuthController = function($scope, $http, apiUrl) {
    * @private
    */
   this.apiUrl_ = apiUrl;
+
+  /**
+   * @type {app.Authentication}
+   * @private
+   */
+  this.appAuthentication_ = appAuthentication;
 };
 
 
@@ -78,6 +86,9 @@ app.AuthController.prototype.login = function() {
 app.AuthController.prototype.successLogin_ = function(response) {
   console.log('login success');
   console.log(response);
+  // TODO: handle case where user has not checked "remind me"
+  var expire = Date.now() + 1000 * 60 * 60 * 24; // 1 day from now
+  this.appAuthentication_.setToken(response['data']['token'], expire);
 };
 
 
