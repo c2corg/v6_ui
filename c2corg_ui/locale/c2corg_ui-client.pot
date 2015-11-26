@@ -73,6 +73,14 @@ msgstr ""
 msgid "Elevation must be smaller than 9999 m."
 msgstr ""
 
+#: c2corg_ui/templates/auth.html
+msgid "Email"
+msgstr ""
+
+#: c2corg_ui/templates/auth.html
+msgid "Forgotten password?"
+msgstr ""
+
 #: c2corg_ui/templates/route/edit.html
 #: c2corg_ui/templates/route/view.html
 msgid "Gear"
@@ -91,6 +99,15 @@ msgstr ""
 msgid "Latitude must be between -90° and 90°."
 msgstr ""
 
+#: c2corg_ui/static/partials/user.html
+#: c2corg_ui/templates/auth.html
+msgid "Login"
+msgstr ""
+
+#: c2corg_ui/static/partials/user.html
+msgid "Logout"
+msgstr ""
+
 #: c2corg_ui/templates/waypoint/edit.html
 msgid "Longitude"
 msgstr ""
@@ -102,6 +119,22 @@ msgstr ""
 #: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/view.html
 msgid "Maps info"
+msgstr ""
+
+#: c2corg_ui/templates/auth.html
+msgid "No account yet?"
+msgstr ""
+
+#: c2corg_ui/templates/auth.html
+msgid "Password"
+msgstr ""
+
+#: c2corg_ui/templates/auth.html
+msgid "Register"
+msgstr ""
+
+#: c2corg_ui/templates/auth.html
+msgid "Remember me"
 msgstr ""
 
 #: c2corg_ui/templates/route/edit.html
@@ -122,12 +155,9 @@ msgstr ""
 msgid "Short description of the applied changes"
 msgstr ""
 
-#: c2corg_ui/static/partials/user.html
-msgid "Sign In"
-msgstr ""
-
 #: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/route/edit.html
+#: c2corg_ui/templates/auth.html
 msgid "This field is required."
 msgstr ""
 
@@ -143,6 +173,10 @@ msgstr ""
 
 #: c2corg_ui/templates/waypoint/edit.html
 msgid "Type"
+msgstr ""
+
+#: c2corg_ui/templates/auth.html
+msgid "Username"
 msgstr ""
 
 #: c2corg_ui/templates/waypoint/view.html
