@@ -5,7 +5,7 @@ goog.require('app');
 
 
 /**
- * This directive is used to manage the sign in/up forms.
+ * This directive is used to manage the login/register forms.
  *
  * @return {angular.Directive} The directive specs.
  * @ngInject
@@ -58,15 +58,15 @@ app.AuthController = function($scope, $http, apiUrl) {
 /**
  * @export
  */
-app.AuthController.prototype.signIn = function() {
-  this.http_.post(this.buildUrl_('login'), this.scope_['signIn'], {
+app.AuthController.prototype.Login = function() {
+  this.http_.post(this.buildUrl_('login'), this.scope_['login'], {
     'headers': {
       'Content-Type': 'application/json; charset=UTF-8',
       'Accept': 'application/json, text/plain, /'
     }
   }).then(
-      goog.bind(this.successSignIn_, this),
-      goog.bind(this.errorSignIn_, this)
+      goog.bind(this.successLogin_, this),
+      goog.bind(this.errorLogin_, this)
   );
 };
 
@@ -75,8 +75,8 @@ app.AuthController.prototype.signIn = function() {
  * @param {Object} response Response from the API server.
  * @private
  */
-app.AuthController.prototype.successSignIn_ = function(response) {
-  console.log('signIn success');
+app.AuthController.prototype.successLogin_ = function(response) {
+  console.log('login success');
   console.log(response);
 };
 
@@ -85,8 +85,8 @@ app.AuthController.prototype.successSignIn_ = function(response) {
  * @param {Object} response Response from the API server.
  * @private
  */
-app.AuthController.prototype.errorSignIn_ = function(response) {
-  console.log('signIn error');
+app.AuthController.prototype.errorLogin_ = function(response) {
+  console.log('login error');
   console.log(response);
 };
 
@@ -94,15 +94,15 @@ app.AuthController.prototype.errorSignIn_ = function(response) {
 /**
  * @export
  */
-app.AuthController.prototype.signUp = function() {
-  this.http_.post(this.buildUrl_('register'), this.scope_['signUp'], {
+app.AuthController.prototype.register = function() {
+  this.http_.post(this.buildUrl_('register'), this.scope_['register'], {
     'headers': {
       'Content-Type': 'application/json; charset=UTF-8',
       'Accept': 'application/json, text/plain, /'
     }
   }).then(
-      goog.bind(this.successSignUp_, this),
-      goog.bind(this.errorSignUp_, this)
+      goog.bind(this.successRegister_, this),
+      goog.bind(this.errorRegister_, this)
   );
 };
 
@@ -111,8 +111,8 @@ app.AuthController.prototype.signUp = function() {
  * @param {Object} response Response from the API server.
  * @private
  */
-app.AuthController.prototype.successSignUp_ = function(response) {
-  console.log('signUp success');
+app.AuthController.prototype.successRegister_ = function(response) {
+  console.log('register success');
   console.log(response);
 };
 
@@ -121,8 +121,8 @@ app.AuthController.prototype.successSignUp_ = function(response) {
  * @param {Object} response Response from the API server.
  * @private
  */
-app.AuthController.prototype.errorSignUp_ = function(response) {
-  console.log('signUp error');
+app.AuthController.prototype.errorRegister_ = function(response) {
+  console.log('register error');
   console.log(response);
 };
 
