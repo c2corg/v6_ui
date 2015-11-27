@@ -58,7 +58,7 @@ app.AuthController = function($scope, $http, apiUrl) {
 /**
  * @export
  */
-app.AuthController.prototype.Login = function() {
+app.AuthController.prototype.login = function() {
   this.http_.post(this.buildUrl_('login'), this.scope_['login'], {
     'headers': {
       'Content-Type': 'application/json; charset=UTF-8',
@@ -124,6 +124,14 @@ app.AuthController.prototype.successRegister_ = function(response) {
 app.AuthController.prototype.errorRegister_ = function(response) {
   console.log('register error');
   console.log(response);
+};
+
+
+/**
+ * @export
+ */
+app.AuthController.prototype.showNewPassForm = function() {
+  alert('TODO');
 };
 
 
