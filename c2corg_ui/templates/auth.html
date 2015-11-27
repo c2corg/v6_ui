@@ -17,6 +17,10 @@
       <p ng-message="required" translate>This field is required.</p>
     </div>
   </div>
+  <div id="remember-password-group" class="form-group">
+    <label translate>Remember me</label>
+    <input type="checkbox" name="remember" ng-model="login.remember" class="form-control" />
+  </div>
   <p>
     <button type="submit" class="btn btn-primary" ng-disabled="loginForm.$invalid" translate>Login</button>
     <button type="button" class="btn btn-secondary" ng-click="authCtrl.showNewPassForm()" translate>Forgotten password?</button>
