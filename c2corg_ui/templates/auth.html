@@ -40,6 +40,13 @@
       <p ng-message="required" translate>This field is required.</p>
     </div>
   </div>
+  <div id="signUp-email-group" class="form-group" ng-class="{ 'has-error': signUpForm.email.$touched && signUpForm.email.$invalid }">
+    <label translate>Email</label>
+    <input type="email" name="email" ng-model="signUp.email" class="form-control" required />
+    <div class="help-block" ng-messages="signUpForm.email.$error" ng-if="signUpForm.email.$touched">
+      <p ng-message="required" translate>This field is required.</p>
+    </div>
+  </div>
   <p>
     <button type="submit" class="btn btn-primary" ng-disabled="signUpForm.$invalid" translate>Sign Up</button>
   </p>

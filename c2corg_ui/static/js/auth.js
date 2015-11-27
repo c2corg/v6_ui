@@ -95,7 +95,35 @@ app.AuthController.prototype.errorSignIn_ = function(response) {
  * @export
  */
 app.AuthController.prototype.signUp = function() {
-  console.log('sign up');
+  this.http_.post(this.buildUrl_('register'), this.scope_['signUp'], {
+    'headers': {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Accept': 'application/json, text/plain, /'
+    }
+  }).then(
+      goog.bind(this.successSignUp_, this),
+      goog.bind(this.errorSignUp_, this)
+  );
+};
+
+
+/**
+ * @param {Object} response Response from the API server.
+ * @private
+ */
+app.AuthController.prototype.successSignUp_ = function(response) {
+  console.log('signUp success');
+  console.log(response);
+};
+
+
+/**
+ * @param {Object} response Response from the API server.
+ * @private
+ */
+app.AuthController.prototype.errorSignUp_ = function(response) {
+  console.log('signUp error');
+  console.log(response);
 };
 
 
