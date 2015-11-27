@@ -62,7 +62,7 @@ app.AuthController.prototype.Login = function() {
   this.http_.post(this.buildUrl_('login'), this.scope_['login'], {
     'headers': {
       'Content-Type': 'application/json; charset=UTF-8',
-      'Accept': 'application/json, text/plain, /'
+      'Accept': 'application/json'
     }
   }).then(
       goog.bind(this.successLogin_, this),
@@ -98,7 +98,7 @@ app.AuthController.prototype.register = function() {
   this.http_.post(this.buildUrl_('register'), this.scope_['register'], {
     'headers': {
       'Content-Type': 'application/json; charset=UTF-8',
-      'Accept': 'application/json, text/plain, /'
+      'Accept': 'application/json'
     }
   }).then(
       goog.bind(this.successRegister_, this),
