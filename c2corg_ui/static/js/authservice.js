@@ -5,29 +5,47 @@ goog.require('app');
 
 
 /**
- * @param {string} apiUrl URL to the API
+ * @param {string} apiUrl URL to the API.
  * @constructor
  */
 app.Authentication = function(apiUrl) {
+
+  /**
+   * @type {string}
+   * @private
+   */
   this.apiUrl_ = apiUrl;
+
+  /**
+   * @type {?Object}
+   * @private
+   */
+  this.userData_ = null;
 };
 
 
 /**
- * @private
- * @return {string}
+ * @param {string} key Attribute to get from local storage.
+ * @return {?string|Array}
+ * @export
  */
-app.Authentication.prototype.getToken_ = function() {
-  return window.localStorage.getItem('auth_token') || '';
+app.Authentication.prototype.get = function(key) {
+  if (goog.isNull(this.userData_)) {
+    var userData = window.localStorage.getItem('userData');
+    this.userData_ = /** @type {Object} */
+        (userData ? JSON.parse(userData) : {});
+  }
+  return (key in this.userData_) ? this.userData_[key] : null;
 };
 
 
 /**
  * @return {number}
+ * @private
  */
-app.Authentication.prototype.getExpire = function() {
+app.Authentication.prototype.getExpire_ = function() {
   try {
-    return parseInt(window.localStorage.getItem('auth_expire'), 10);
+    return parseInt(this.get('expire'), 10);
   } catch (e) {}
   return 0;
 };
@@ -35,10 +53,11 @@ app.Authentication.prototype.getExpire = function() {
 
 /**
  * @return {boolean}
+ * @private
  */
-app.Authentication.prototype.isExpired = function() {
+app.Authentication.prototype.isExpired_ = function() {
   var now = new Date().getTime();
-  var expire = this.getExpire();
+  var expire = this.getExpire_();
   return now > expire;
 };
 
@@ -57,8 +76,8 @@ app.Authentication.prototype.addAuthenticationHeaders = function(url,
     console.log('ERROR: only requests to API may have auth headers ' + url);
     return false;
   }
-  var token = this.getToken_();
-  if (token && !this.isExpired()) {
+  var token = this.get('token');
+  if (token && !this.isExpired_()) {
     if (url.indexOf('http://') === 0) {
       // FIXME: ideally, should prevent the operation in prod mode
       console.log('WARNING: added auth header to unsecure request to ' + url);
@@ -73,20 +92,19 @@ app.Authentication.prototype.addAuthenticationHeaders = function(url,
 
 
 /**
- * @param {string} token Authentication token
- * @param {number} expire Expiration time in milliseconds, see
- * Date().getTime().
+ * @param {Object} data User data returned by the login request.
  * @return {boolean} whether the operation succeeded.
  */
-app.Authentication.prototype.setToken = function(token, expire) {
+app.Authentication.prototype.setUserData = function(data) {
   try {
-    window.localStorage.setItem('auth_token', token);
-    window.localStorage.setItem('auth_expire', expire.toString());
+    window.localStorage.setItem('userData', JSON.stringify(data));
+    this.userData_ = null; // reset this caching property
     return true;
   } catch (e) {
     // https://developer.mozilla.org/en-US/docs/Web/API/Storage/setItem
     // Either the storage is full or we are in incognito mode in a broken
     // browser.
+    // TODO: warn user
     console.log('Fatal : failed to set authentication token', e);
     return false;
   }

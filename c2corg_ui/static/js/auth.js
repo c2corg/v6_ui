@@ -84,11 +84,8 @@ app.AuthController.prototype.login = function() {
  * @private
  */
 app.AuthController.prototype.successLogin_ = function(response) {
-  console.log('login success');
-  console.log(response);
-  // TODO: handle case where user has not checked "remind me"
-  var expire = Date.now() + 1000 * 60 * 60 * 24; // 1 day from now
-  this.appAuthentication_.setToken(response['data']['token'], expire);
+  this.appAuthentication_.setUserData(response['data']);
+  // TODO redirect to previous page
 };
 
 
@@ -97,6 +94,8 @@ app.AuthController.prototype.successLogin_ = function(response) {
  * @private
  */
 app.AuthController.prototype.errorLogin_ = function(response) {
+  // TODO
+  alert('login error');
   console.log('login error');
   console.log(response);
 };
@@ -123,6 +122,8 @@ app.AuthController.prototype.register = function() {
  * @private
  */
 app.AuthController.prototype.successRegister_ = function(response) {
+  // TODO
+  alert('register success');
   console.log('register success');
   console.log(response);
 };
@@ -133,6 +134,8 @@ app.AuthController.prototype.successRegister_ = function(response) {
  * @private
  */
 app.AuthController.prototype.errorRegister_ = function(response) {
+  // TODO
+  alert('register error');
   console.log('register error');
   console.log(response);
 };
