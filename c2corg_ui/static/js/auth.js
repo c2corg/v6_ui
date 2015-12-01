@@ -3,6 +3,7 @@ goog.provide('app.authDirective');
 
 goog.require('app');
 goog.require('app.Authentication');
+goog.require('ngeo.Location');
 
 
 /**
@@ -31,11 +32,13 @@ app.module.directive('appAuth', app.authDirective);
  * @param {angular.$http} $http
  * @param {string} apiUrl Base URL of the API.
  * @param {app.Authentication} appAuthentication
+ * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @constructor
  * @export
  * @ngInject
  */
-app.AuthController = function($scope, $http, apiUrl, appAuthentication) {
+app.AuthController = function($scope, $http, apiUrl, appAuthentication,
+    ngeoLocation) {
 
   /**
    * @type {angular.Scope}
@@ -60,6 +63,12 @@ app.AuthController = function($scope, $http, apiUrl, appAuthentication) {
    * @private
    */
   this.appAuthentication_ = appAuthentication;
+
+  /**
+   * @type {ngeo.Location}
+   * @private
+   */
+  this.ngeoLocation_ = ngeoLocation;
 };
 
 
@@ -85,7 +94,10 @@ app.AuthController.prototype.login = function() {
  */
 app.AuthController.prototype.successLogin_ = function(response) {
   this.appAuthentication_.setUserData(response['data']);
-  // TODO redirect to previous page
+  // redirect to previous page
+  var url_from = this.ngeoLocation_.hasParam('from') ?
+      goog.string.urlDecode(this.ngeoLocation_.getParam('from')) : '/';
+  window.location.href = url_from;
 };
 
 

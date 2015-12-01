@@ -2,6 +2,7 @@ goog.provide('app.UserController');
 goog.provide('app.userDirective');
 
 goog.require('app');
+goog.require('ngeo.Location');
 
 
 /**
@@ -33,11 +34,12 @@ app.module.directive('appUser', app.userDirective);
  * @param {angular.$http} $http
  * @param {app.Authentication} appAuthentication
  * @param {string} apiUrl Base URL of the API.
+ * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @constructor
  * @export
  * @ngInject
  */
-app.UserController = function($http, appAuthentication, apiUrl) {
+app.UserController = function($http, appAuthentication, apiUrl, ngeoLocation) {
 
   /**
    * @type {angular.$http}
@@ -56,6 +58,12 @@ app.UserController = function($http, appAuthentication, apiUrl) {
    * @private
    */
   this.apiUrl_ = apiUrl;
+
+  /**
+   * @type {ngeo.Location}
+   * @private
+   */
+  this.ngeoLocation_ = ngeoLocation;
 };
 
 
@@ -63,7 +71,10 @@ app.UserController = function($http, appAuthentication, apiUrl) {
  * @export
  */
 app.UserController.prototype.showLogin = function() {
-  window.location.href = this['loginUrl'];
+  var current_url = this.ngeoLocation_.getUriString();
+  window.location.href = '{login}?from={current}'
+      .replace('{login}', this['loginUrl'])
+      .replace('{current}', goog.string.urlEncode(current_url));
 };
 
 
