@@ -25,17 +25,49 @@ app.Authentication = function(apiUrl) {
 
 
 /**
- * @param {string} key Attribute to get from local storage.
- * @return {?string|Array}
+ * @return {boolean}
  * @export
  */
-app.Authentication.prototype.get = function(key) {
+app.Authentication.prototype.isAuth = function() {
+  var isAuth = !goog.object.isEmpty(this.getUserData_());
+  if (isAuth && this.isExpired_()) {
+    isAuth = false;
+    this.removeUserData();
+  }
+  return isAuth;
+};
+
+
+/**
+ * @export
+ */
+app.Authentication.prototype.removeUserData = function() {
+  window.localStorage.removeItem('userData');
+  this.userData_ = null;
+};
+
+
+/**
+ * @return {?Object}
+ * @private
+ */
+app.Authentication.prototype.getUserData_ = function() {
   if (goog.isNull(this.userData_)) {
     var userData = window.localStorage.getItem('userData');
     this.userData_ = /** @type {Object} */
         (userData ? JSON.parse(userData) : {});
   }
-  return (key in this.userData_) ? this.userData_[key] : null;
+  return this.userData_;
+};
+
+
+/**
+ * @param {string} key Attribute to get from local storage.
+ * @return {?string|Array}
+ * @export
+ */
+app.Authentication.prototype.get = function(key) {
+  return (key in this.getUserData_()) ? this.userData_[key] : null;
 };
 
 
@@ -56,7 +88,7 @@ app.Authentication.prototype.getExpire_ = function() {
  * @private
  */
 app.Authentication.prototype.isExpired_ = function() {
-  var now = new Date().getTime();
+  var now = Date.now() / 1000; // in sec
   var expire = this.getExpire_();
   return now > expire;
 };
@@ -97,8 +129,8 @@ app.Authentication.prototype.addAuthenticationHeaders = function(url,
  */
 app.Authentication.prototype.setUserData = function(data) {
   try {
+    this.userData_ = data;
     window.localStorage.setItem('userData', JSON.stringify(data));
-    this.userData_ = null; // reset this caching property
     return true;
   } catch (e) {
     // https://developer.mozilla.org/en-US/docs/Web/API/Storage/setItem

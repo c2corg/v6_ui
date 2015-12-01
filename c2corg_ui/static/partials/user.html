@@ -1,1 +1,5 @@
-<button type="button" class="btn btn-primary" ng-click="userCtrl.showLogin()" translate>Login</button>
+<button ng-if="!userCtrl.auth.isAuth()" type="button" class="btn btn-primary" ng-click="userCtrl.showLogin()" translate>Login</button>
+<span ng-if="userCtrl.auth.isAuth()">
+  <span class="user-info">{{::userCtrl.auth.get('username')}}</span>
+  <button type="button" class="btn btn-primary" ng-click="userCtrl.logout()" translate>Logout</button>
+</span>
