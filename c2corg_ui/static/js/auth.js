@@ -96,7 +96,7 @@ app.AuthController.prototype.successLogin_ = function(response) {
   this.appAuthentication_.setUserData(response['data']);
   // redirect to previous page
   var url_from = this.ngeoLocation_.hasParam('from') ?
-      goog.string.urlDecode(this.ngeoLocation_.getParam('from')) : '/';
+      decodeURIComponent(this.ngeoLocation_.getParam('from')) : '/';
   window.location.href = url_from;
 };
 

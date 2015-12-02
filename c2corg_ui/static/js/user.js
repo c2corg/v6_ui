@@ -74,7 +74,7 @@ app.UserController.prototype.showLogin = function() {
   var current_url = this.ngeoLocation_.getUriString();
   window.location.href = '{login}?from={current}'
       .replace('{login}', this['loginUrl'])
-      .replace('{current}', goog.string.urlEncode(current_url));
+      .replace('{current}', encodeURIComponent(current_url));
 };
 
 
