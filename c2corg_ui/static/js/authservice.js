@@ -28,7 +28,7 @@ app.Authentication = function(apiUrl) {
  * @return {boolean}
  * @export
  */
-app.Authentication.prototype.isAuth = function() {
+app.Authentication.prototype.isAuthenticated = function() {
   var isAuth = !goog.object.isEmpty(this.getUserData_());
   if (isAuth && this.isExpired_()) {
     isAuth = false;
