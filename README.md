@@ -46,5 +46,4 @@ Developer Tips
 
 The UI is mainly built using the following components:
 * Pyramid (Python framework) http://docs.pylonsproject.org/en/latest/
-* Register a user on API: curl --data '{"username": "guillaume", "password":"toto", "email":"s@h.co"}' 'http://127.0.0.1:6546/users/register' -H 'Accept: application/json, text/plain, */*' -H 'Content-Type: application/json; charset=UTF-8'
-* Get a token from API: curl --data '{"username": "guillaume", "password":"toto"}' 'http://127.0.0.1:6546/users/login' -H 'Accept: application/json, text/plain, */*' -H 'Content-Type: application/json; charset=UTF-8'
+
