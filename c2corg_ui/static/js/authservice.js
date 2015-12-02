@@ -39,6 +39,29 @@ app.Authentication.prototype.isAuth = function() {
 
 
 /**
+ * @param {Object} data User data returned by the login request.
+ * @return {boolean} whether the operation succeeded.
+ * @export
+ */
+app.Authentication.prototype.setUserData = function(data) {
+  try {
+    this.userData_ = data;
+    window.localStorage.setItem('userData', JSON.stringify(data));
+    return true;
+  } catch (e) {
+    // https://developer.mozilla.org/en-US/docs/Web/API/Storage/setItem
+    // Either the storage is full or we are in incognito mode in a broken
+    // browser.
+    // TODO: display error message to user
+    if (goog.DEBUG) {
+      console.log('Fatal : failed to set authentication token', e);
+    }
+    return false;
+  }
+};
+
+
+/**
  * @export
  */
 app.Authentication.prototype.removeUserData = function() {
@@ -97,19 +120,15 @@ app.Authentication.prototype.isExpired_ = function() {
 /**
  * Add authentication headers.
  * It may be the JWT token in the Authorization header or a CSRF token if
- * cookie based security is used.
+ * cookie based security is used (not implemented though).
  * @param {string} url Destination URL.
  * @param {!Object.<string>} headers Current headers.
  * @return {boolean} whether the operation was successful
+ * @export
  */
 app.Authentication.prototype.addAuthenticationHeaders = function(url,
     headers) {
-  if (url.indexOf(this.apiUrl_) !== 0) {
-    if (goog.DEBUG) {
-      console.log('ERROR: only requests to API may have auth headers ' + url);
-    }
-    return false;
-  }
+
   var token = this.get('token');
   if (token && !this.isExpired_()) {
     if (goog.DEBUG && url.indexOf('http://') === 0) {
@@ -119,33 +138,12 @@ app.Authentication.prototype.addAuthenticationHeaders = function(url,
     headers['Authorization'] = 'JWT token="' + token + '"';
     return true;
   }
+
   if (goog.DEBUG) {
-    console.log('FIXME: application error, trying to authenticate request ' +
-      'to ' + url + ' with missing or expired token');
+    console.log('Application error, trying to authenticate request to ' +
+        url + ' with missing or expired token');
   }
   return false;
-};
-
-
-/**
- * @param {Object} data User data returned by the login request.
- * @return {boolean} whether the operation succeeded.
- */
-app.Authentication.prototype.setUserData = function(data) {
-  try {
-    this.userData_ = data;
-    window.localStorage.setItem('userData', JSON.stringify(data));
-    return true;
-  } catch (e) {
-    // https://developer.mozilla.org/en-US/docs/Web/API/Storage/setItem
-    // Either the storage is full or we are in incognito mode in a broken
-    // browser.
-    // TODO: display error message to user
-    if (goog.DEBUG) {
-      console.log('Fatal : failed to set authentication token', e);
-    }
-    return false;
-  }
 };
 
 
@@ -153,12 +151,21 @@ app.Authentication.prototype.setUserData = function(data) {
  * @param {string} method
  * @param {string} url
  * @return {boolean}
+ * @export
  */
 app.Authentication.prototype.needAuthorization = function(method, url) {
-  return (url.indexOf(this.apiUrl_) === 0) &&
-      (method === 'POST' || method === 'PUT') &&
-      url.indexOf('/users/login') === -1 &&
-      url.indexOf('/users/register') === -1;
+  // External URLs do not need auth.
+  if (url.indexOf(this.apiUrl_) === -1) {
+    return false;
+  }
+  // Login and register API URLs are obviously public.
+  if (url.indexOf('/users/login') !== -1 ||
+      url.indexOf('/users/register') !== -1) {
+    return false;
+  }
+  // Figure write actions out using the HTTP method.
+  // Read actions (GET) are generally public.
+  return goog.array.contains(['POST', 'PUT', 'DELETE'], method);
 };
 
 

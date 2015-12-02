@@ -22,8 +22,7 @@ app.HttpAuthenticationInterceptor = function(apiUrl, appAuthentication) {
           var method = config.method;
           var url = config.url;
           goog.asserts.assert(method && url);
-          var needed = appAuthentication.needAuthorization(method, url);
-          if (needed) {
+          if (appAuthentication.needAuthorization(method, url)) {
             config.headers = config.headers || {};
             appAuthentication.addAuthenticationHeaders(url, config.headers);
           }
