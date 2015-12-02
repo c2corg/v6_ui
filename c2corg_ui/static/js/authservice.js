@@ -150,7 +150,9 @@ app.Authentication.prototype.setUserData = function(data) {
  */
 app.Authentication.prototype.needAuthorization = function(method, url) {
   return (url.indexOf(this.apiUrl_) === 0) &&
-      (method === 'POST' || method === 'PUT');
+      (method === 'POST' || method === 'PUT') &&
+      url.indexOf('/users/login') === -1 &&
+      url.indexOf('/users/register') === -1;
 };
 
 
