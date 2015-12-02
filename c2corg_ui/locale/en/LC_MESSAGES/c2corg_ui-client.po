@@ -80,7 +80,7 @@ msgstr ""
 
 #: c2corg_ui/templates/auth.html
 msgid "Forgotten password?"
-msgstr ""
+msgstr "Forgotten password?"
 
 #: c2corg_ui/templates/route/edit.html c2corg_ui/templates/route/view.html
 msgid "Gear"
@@ -100,11 +100,11 @@ msgstr "Latitude must be between -90° and 90°."
 
 #: c2corg_ui/static/partials/user.html c2corg_ui/templates/auth.html
 msgid "Login"
-msgstr "Sign In"
+msgstr "Sign in"
 
 #: c2corg_ui/static/partials/user.html
 msgid "Logout"
-msgstr ""
+msgstr "Sign out"
 
 #: c2corg_ui/templates/waypoint/edit.html
 msgid "Longitude"
@@ -121,7 +121,7 @@ msgstr "Maps info"
 
 #: c2corg_ui/templates/auth.html
 msgid "No account yet?"
-msgstr ""
+msgstr "No account yet?"
 
 #: c2corg_ui/templates/auth.html
 msgid "Password"
@@ -129,11 +129,11 @@ msgstr "Password"
 
 #: c2corg_ui/templates/auth.html
 msgid "Register"
-msgstr "Sign Up"
+msgstr "Sign up"
 
 #: c2corg_ui/templates/auth.html
 msgid "Remember me"
-msgstr ""
+msgstr "Remember me"
 
 #: c2corg_ui/templates/route/edit.html
 msgid "Route type"
@@ -170,7 +170,7 @@ msgstr "Type"
 
 #: c2corg_ui/templates/auth.html
 msgid "Username"
-msgstr ""
+msgstr "Username"
 
 #: c2corg_ui/templates/waypoint/view.html c2corg_ui/templates/route/view.html
 msgid "View in other culture:"
@@ -399,10 +399,3 @@ msgstr "{{nbItems}} routes"
 #: c2corg_ui/templates/waypoint/index.html
 msgid "{{nbItems}} waypoints"
 msgstr "{{nbItems}} waypoints"
-
-#~ msgid "Sign In"
-#~ msgstr "Sign In"
-
-#, fuzzy
-#~ msgid "Sign Up"
-#~ msgstr "Sign In"
