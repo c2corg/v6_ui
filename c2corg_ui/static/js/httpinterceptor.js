@@ -27,7 +27,6 @@ app.HttpAuthenticationInterceptor = function(apiUrl, appAuthentication) {
             config.headers = config.headers || {};
             appAuthentication.addAuthenticationHeaders(url, config.headers);
           }
-          console.log('FIXME auth', needed, url);
           return config;
         }
     )

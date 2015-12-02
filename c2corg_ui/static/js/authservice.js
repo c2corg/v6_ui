@@ -105,20 +105,24 @@ app.Authentication.prototype.isExpired_ = function() {
 app.Authentication.prototype.addAuthenticationHeaders = function(url,
     headers) {
   if (url.indexOf(this.apiUrl_) !== 0) {
-    console.log('ERROR: only requests to API may have auth headers ' + url);
+    if (goog.DEBUG) {
+      console.log('ERROR: only requests to API may have auth headers ' + url);
+    }
     return false;
   }
   var token = this.get('token');
   if (token && !this.isExpired_()) {
-    if (url.indexOf('http://') === 0) {
+    if (goog.DEBUG && url.indexOf('http://') === 0) {
       // FIXME: ideally, should prevent the operation in prod mode
       console.log('WARNING: added auth header to unsecure request to ' + url);
     }
     headers['Authorization'] = 'JWT token="' + token + '"';
     return true;
   }
-  console.log('FIXME: application error, trying to authenticate request to ' +
-      url + ' with missing or expired token');
+  if (goog.DEBUG) {
+    console.log('FIXME: application error, trying to authenticate request ' +
+      'to ' + url + ' with missing or expired token');
+  }
   return false;
 };
 
@@ -136,8 +140,10 @@ app.Authentication.prototype.setUserData = function(data) {
     // https://developer.mozilla.org/en-US/docs/Web/API/Storage/setItem
     // Either the storage is full or we are in incognito mode in a broken
     // browser.
-    // TODO: warn user
-    console.log('Fatal : failed to set authentication token', e);
+    // TODO: display error message to user
+    if (goog.DEBUG) {
+      console.log('Fatal : failed to set authentication token', e);
+    }
     return false;
   }
 };
