@@ -46,4 +46,7 @@ Developer Tips
 
 The UI is mainly built using the following components:
 * Pyramid (Python framework) http://docs.pylonsproject.org/en/latest/
-
+* AngularJS (Javascript framework) https://angularjs.org/
+* Maps:
+ * OpenLayers 3 http://openlayers.org/
+ * ngeo https://github.com/camptocamp/ngeo
