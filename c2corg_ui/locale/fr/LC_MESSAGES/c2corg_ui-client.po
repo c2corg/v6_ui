@@ -75,6 +75,10 @@ msgstr "L'altitude doit être inférieure à 9999m."
 msgid "Email"
 msgstr "Adresse email"
 
+#: c2corg_ui/templates/helpers.html
+msgid "First"
+msgstr "Début"
+
 #: c2corg_ui/templates/auth.html
 msgid "Forgotten password?"
 msgstr "Mot de passe oublié ?"
@@ -86,6 +90,10 @@ msgstr "Matériel"
 #: c2corg_ui/templates/route/edit.html c2corg_ui/templates/route/view.html
 msgid "Height"
 msgstr "Dénivelé"
+
+#: c2corg_ui/templates/helpers.html
+msgid "Last"
+msgstr "Fin"
 
 #: c2corg_ui/templates/waypoint/edit.html
 msgid "Latitude"
@@ -116,6 +124,10 @@ msgstr "La longitude doit être comprise en -180° et 180°."
 msgid "Maps info"
 msgstr "Références cartographiques"
 
+#: c2corg_ui/templates/helpers.html
+msgid "Next"
+msgstr "Suivant"
+
 #: c2corg_ui/templates/auth.html
 msgid "No account yet?"
 msgstr "Pas encore de compte ?"
@@ -124,13 +136,17 @@ msgstr "Pas encore de compte ?"
 msgid "Password"
 msgstr "Mot de passe"
 
+#: c2corg_ui/templates/helpers.html
+msgid "Previous"
+msgstr "Précédent"
+
 #: c2corg_ui/templates/auth.html
 msgid "Register"
 msgstr "S'inscrire"
 
 #: c2corg_ui/templates/auth.html
 msgid "Remember me"
-msgstr ""
+msgstr "Se souvenir de moi"
 
 #: c2corg_ui/templates/route/edit.html
 msgid "Route type"

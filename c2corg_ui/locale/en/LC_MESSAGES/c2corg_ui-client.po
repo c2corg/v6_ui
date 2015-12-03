@@ -78,6 +78,10 @@ msgstr "Elevation must be smaller than 9999 m."
 msgid "Email"
 msgstr ""
 
+#: c2corg_ui/templates/helpers.html
+msgid "First"
+msgstr ""
+
 #: c2corg_ui/templates/auth.html
 msgid "Forgotten password?"
 msgstr "Forgotten password?"
@@ -89,6 +93,10 @@ msgstr "Gear"
 #: c2corg_ui/templates/route/edit.html c2corg_ui/templates/route/view.html
 msgid "Height"
 msgstr "Height"
+
+#: c2corg_ui/templates/helpers.html
+msgid "Last"
+msgstr ""
 
 #: c2corg_ui/templates/waypoint/edit.html
 msgid "Latitude"
@@ -119,6 +127,10 @@ msgstr "Longitude must be between -180° and 180°."
 msgid "Maps info"
 msgstr "Maps info"
 
+#: c2corg_ui/templates/helpers.html
+msgid "Next"
+msgstr "Next"
+
 #: c2corg_ui/templates/auth.html
 msgid "No account yet?"
 msgstr "No account yet?"
@@ -126,6 +138,10 @@ msgstr "No account yet?"
 #: c2corg_ui/templates/auth.html
 msgid "Password"
 msgstr "Password"
+
+#: c2corg_ui/templates/helpers.html
+msgid "Previous"
+msgstr "Previous"
 
 #: c2corg_ui/templates/auth.html
 msgid "Register"
