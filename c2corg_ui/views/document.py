@@ -17,6 +17,11 @@ class Document(object):
     # FIXME Is a "documents" route available/relevant in the API?
     _API_ROUTE = 'documents'
 
+    # FIXME sync with API => use a CONSTANT in c2corg_common?
+    _DEFAULT_FILTERS = {
+        'limit': 30
+    }
+
     def __init__(self, request):
         self.request = request
         self.settings = request.registry.settings
@@ -69,19 +74,23 @@ class Document(object):
         return document, locale
 
     def _get_documents(self):
-        query_string = self._get_query_string()
-        query_string = '?' + query_string if query_string else ''
+        params = self._get_filter_params()
+        query_string = '?' + urlencode(params) if params else ''
         url = '%s/%s%s' % (
             self.settings['api_url'], self._API_ROUTE, query_string
         )
         resp, content = self._call_api(url)
+        filters = dict(self._DEFAULT_FILTERS, **{k: v for k, v in params})
         # TODO: better error handling
         if resp['status'] == '200':
-            return content['documents'], content['total']
+            documents = content['documents']
+            total = content['total']
         else:
-            return [], 0
+            documents = []
+            total = 0
+        return documents, total, filters
 
-    def _get_query_string(self):
+    def _get_filter_params(self):
         params = []
         if 'filters' in self.request.matchdict:
             filters = self.request.matchdict['filters']
@@ -92,7 +101,7 @@ class Document(object):
                 # Skip odd indices since grouping filters 2 by 2
                 if i % 2 == 0:
                     params.append(filters[i:i+2])
-        return urlencode(params) if params else ''
+        return params
 
     def _get_geometry(self, data):
         return asShape(json.loads(data))
