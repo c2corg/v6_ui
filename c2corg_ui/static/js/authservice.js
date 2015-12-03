@@ -6,9 +6,11 @@ goog.require('app');
 
 /**
  * @param {string} apiUrl URL to the API.
+ * @param {angular.Scope} $rootScope
  * @constructor
+ * @struct
  */
-app.Authentication = function(apiUrl) {
+app.Authentication = function(apiUrl, $rootScope) {
 
   /**
    * @type {string}
@@ -17,10 +19,32 @@ app.Authentication = function(apiUrl) {
   this.apiUrl_ = apiUrl;
 
   /**
-   * @type {?Object}
+   * @type {string}
    * @private
+   * @const
    */
-  this.userData_ = null;
+  this.USER_DATA_KEY_ = 'userData';
+
+  /**
+   * @type {?appx.AuthData}
+   * @export
+   */
+  this.userData = null;
+
+  // Load current user data from storage
+  var rawData = window.localStorage.getItem(this.USER_DATA_KEY_);
+  if (rawData) {
+    this.userData = this.parseUserData_(rawData);
+  }
+
+  // Replaced parsed user data when storage changed in another tab.
+  // Handles set and remove.
+  window.addEventListener('storage', function(event) {
+    if (event.key === this.USER_DATA_KEY_) {
+      this.userData = this.parseUserData_(event.newValue);
+      if (!$rootScope.$$phase) $rootScope.$apply();
+    }
+  }.bind(this));
 };
 
 
@@ -29,24 +53,25 @@ app.Authentication = function(apiUrl) {
  * @export
  */
 app.Authentication.prototype.isAuthenticated = function() {
-  var isAuth = !goog.object.isEmpty(this.getUserData_());
-  if (isAuth && this.isExpired_()) {
-    isAuth = false;
-    this.removeUserData();
+  if (!this.userData) {
+    return false;
   }
-  return isAuth;
+  if (this.isExpired_()) {
+    this.removeUserData();
+    return false;
+  }
+  return true;
 };
 
 
 /**
- * @param {Object} data User data returned by the login request.
+ * @param {appx.AuthData} data User data returned by the login request.
  * @return {boolean} whether the operation succeeded.
- * @export
  */
 app.Authentication.prototype.setUserData = function(data) {
   try {
-    this.userData_ = data;
     window.localStorage.setItem('userData', JSON.stringify(data));
+    // this.userData should be updated by listener
     return true;
   } catch (e) {
     // https://developer.mozilla.org/en-US/docs/Web/API/Storage/setItem
@@ -65,44 +90,25 @@ app.Authentication.prototype.setUserData = function(data) {
  * @export
  */
 app.Authentication.prototype.removeUserData = function() {
-  window.localStorage.removeItem('userData');
-  this.userData_ = null;
+  window.localStorage.removeItem(this.USER_DATA_KEY_);
+  this.userData = null; // TODO: already handled in listener?
 };
 
 
 /**
- * @return {?Object}
+ * @param {string} raw Unparsed user data
+ * @return {?appx.AuthData}
  * @private
  */
-app.Authentication.prototype.getUserData_ = function() {
-  if (goog.isNull(this.userData_)) {
-    var userData = window.localStorage.getItem('userData');
-    this.userData_ = /** @type {Object} */
-        (userData ? JSON.parse(userData) : {});
+app.Authentication.prototype.parseUserData_ = function(raw) {
+  if (raw) {
+    var data = /** @type {appx.AuthData} */ (JSON.parse(raw));
+    // Make data immutable
+    Object.freeze(data);
+    Object.freeze(data.roles);
+    return data;
   }
-  return this.userData_;
-};
-
-
-/**
- * @param {string} key Attribute to get from local storage.
- * @return {?string|Array}
- * @export
- */
-app.Authentication.prototype.get = function(key) {
-  return (key in this.getUserData_()) ? this.userData_[key] : null;
-};
-
-
-/**
- * @return {number}
- * @private
- */
-app.Authentication.prototype.getExpire_ = function() {
-  try {
-    return parseInt(this.get('expire'), 10);
-  } catch (e) {}
-  return 0;
+  return null;
 };
 
 
@@ -111,25 +117,34 @@ app.Authentication.prototype.getExpire_ = function() {
  * @private
  */
 app.Authentication.prototype.isExpired_ = function() {
-  var now = Date.now() / 1000; // in sec
-  var expire = this.getExpire_();
-  return now > expire;
+  if (this.userData) {
+    var now = Date.now() / 1000; // in seconds
+    return now > this.userData.expire;
+  } else {
+    return false;
+  }
 };
 
 
 /**
- * Add authentication headers.
- * It may be the JWT token in the Authorization header or a CSRF token if
- * cookie based security is used (not implemented though).
+ * Add an 'Authorization' header containing the JWT token.
+ * In the future, if cookie based security is implemented, it will be changed
+ * to send the CSRF value instead.
  * @param {string} url Destination URL.
  * @param {!Object.<string>} headers Current headers.
  * @return {boolean} whether the operation was successful
  * @export
  */
-app.Authentication.prototype.addAuthenticationHeaders = function(url,
+app.Authentication.prototype.addAuthorizationToHeaders = function(url,
     headers) {
+  if (url.indexOf(this.apiUrl_) !== 0) {
+    if (goog.DEBUG) {
+      console.log('ERROR: only requests to API may have auth headers ' + url);
+    }
+    return false;
+  }
 
-  var token = this.get('token');
+  var token = this.userData ? this.userData.token : null;
   if (token && !this.isExpired_()) {
     if (goog.DEBUG && url.indexOf('http://') === 0) {
       // FIXME: ideally, should prevent the operation in prod mode
@@ -173,9 +188,10 @@ app.Authentication.prototype.needAuthorization = function(method, url) {
  * @ngInject
  * @private
  * @param {string} apiUrl
+ * @param {angular.Scope} $rootScope
  * @return {app.Authentication}
  */
-app.AuthenticationFactory_ = function(apiUrl) {
-  return new app.Authentication(apiUrl);
+app.AuthenticationFactory_ = function(apiUrl, $rootScope) {
+  return new app.Authentication(apiUrl, $rootScope);
 };
 app.module.factory('appAuthentication', app.AuthenticationFactory_);
