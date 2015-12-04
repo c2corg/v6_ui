@@ -1,0 +1,5 @@
+<button ng-if="!userCtrl.auth.isAuthenticated()" type="button" class="btn btn-primary" ng-click="userCtrl.showLogin()" translate>Login</button>
+<span ng-if="userCtrl.auth.isAuthenticated()">
+  <span class="user-info">{{userCtrl.auth.userData.username}}</span>
+  <button type="button" class="btn btn-primary" ng-click="userCtrl.logout()" translate>Logout</button>
+</span>

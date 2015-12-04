@@ -1,0 +1,65 @@
+<%inherit file="base.html"/>
+
+<div ng-init="showRegisterForm=false">
+  <h1 translate>Login</h1>
+
+  <form app-auth name="loginForm" novalidate ng-submit="authCtrl.login()">
+    <div id="login-username-group" class="form-group" ng-class="{ 'has-error': loginForm.username.$touched && loginForm.username.$invalid }">
+      <label translate>Username</label>
+      <input type="text" name="username" ng-model="login.username" class="form-control" required />
+      <div class="help-block" ng-messages="loginForm.username.$error" ng-if="loginForm.username.$touched">
+        <p ng-message="required" translate>This field is required.</p>
+      </div>
+    </div>
+    <div id="login-password-group" class="form-group" ng-class="{ 'has-error': loginForm.password.$touched && loginForm.password.$invalid }">
+      <label translate>Password</label>
+      <input type="password" name="password" ng-model="login.password" class="form-control" required />
+      <div class="help-block" ng-messages="loginForm.password.$error" ng-if="loginForm.password.$touched">
+        <p ng-message="required" translate>This field is required.</p>
+      </div>
+    </div>
+    <div id="remember-password-group" class="form-group">
+      <label translate>Remember me</label>
+      <input type="checkbox" name="remember" ng-model="login.remember" class="form-control" />
+    </div>
+    <p>
+      <button type="submit" class="btn btn-primary" ng-disabled="loginForm.$invalid" translate>Login</button>
+      <button type="button" class="btn btn-secondary" ng-click="authCtrl.showNewPassForm()" translate>Forgotten password?</button>
+    </p>
+  </form>
+
+  <p ng-hide="showRegisterForm">
+    <button type="button" class="btn btn-primary" ng-click="showRegisterForm=true" translate>No account yet?</button>
+  </p>
+
+  <div ng-show="showRegisterForm">
+    <h1 translate>Register</h1>
+
+    <form app-auth name="registerForm" novalidate ng-submit="authCtrl.register()">
+      <div id="register-username-group" class="form-group" ng-class="{ 'has-error': registerForm.username.$touched && registerForm.username.$invalid }">
+        <label translate>Username</label>
+        <input type="text" name="username" ng-model="register.username" class="form-control" required />
+        <div class="help-block" ng-messages="registerForm.username.$error" ng-if="registerForm.username.$touched">
+          <p ng-message="required" translate>This field is required.</p>
+        </div>
+      </div>
+      <div id="register-password-group" class="form-group" ng-class="{ 'has-error': registerForm.password.$touched && registerForm.password.$invalid }">
+        <label translate>Password</label>
+        <input type="password" name="password" ng-model="register.password" class="form-control" required />
+        <div class="help-block" ng-messages="registerForm.password.$error" ng-if="registerForm.password.$touched">
+          <p ng-message="required" translate>This field is required.</p>
+        </div>
+      </div>
+      <div id="register-email-group" class="form-group" ng-class="{ 'has-error': registerForm.email.$touched && registerForm.email.$invalid }">
+        <label translate>Email</label>
+        <input type="email" name="email" ng-model="register.email" class="form-control" required />
+        <div class="help-block" ng-messages="registerForm.email.$error" ng-if="registerForm.email.$touched">
+          <p ng-message="required" translate>This field is required.</p>
+        </div>
+      </div>
+      <p>
+        <button type="submit" class="btn btn-primary" ng-disabled="registerForm.$invalid" translate>Register</button>
+      </p>
+    </form>
+  </div>
+</div>

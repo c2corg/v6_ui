@@ -8,7 +8,7 @@ CLOSURE_COMPILER_PATH = $(shell node -e 'process.stdout.write(require("$(CLOSURE
 OL_JS_FILES = $(shell find node_modules/openlayers/src/ol -type f -name '*.js' 2> /dev/null)
 NGEO_JS_FILES = $(shell find node_modules/ngeo/src -type f -name '*.js' 2> /dev/null)
 APP_JS_FILES = $(shell find c2corg_ui/static/js -type f -name '*.js')
-APP_HTML_FILES = $(shell find c2corg_ui/templates -type f -name '*.html')
+APP_HTML_FILES = $(shell find c2corg_ui -type f -name '*.html')
 LESS_FILES = $(shell find less -type f -name '*.less')
 
 # variables used in config files (*.in)

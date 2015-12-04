@@ -39,7 +39,7 @@ msgstr "Comment about the changes"
 
 #: c2corg_ui/templates/waypoint/view.html
 msgid "Coordinates"
-msgstr ""
+msgstr "Coordinates"
 
 #: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/view.html c2corg_ui/templates/route/edit.html
@@ -74,6 +74,14 @@ msgstr "Elevation"
 msgid "Elevation must be smaller than 9999 m."
 msgstr "Elevation must be smaller than 9999 m."
 
+#: c2corg_ui/templates/auth.html
+msgid "Email"
+msgstr ""
+
+#: c2corg_ui/templates/auth.html
+msgid "Forgotten password?"
+msgstr "Forgotten password?"
+
 #: c2corg_ui/templates/route/edit.html c2corg_ui/templates/route/view.html
 msgid "Gear"
 msgstr "Gear"
@@ -90,6 +98,14 @@ msgstr "Latitude"
 msgid "Latitude must be between -90° and 90°."
 msgstr "Latitude must be between -90° and 90°."
 
+#: c2corg_ui/static/partials/user.html c2corg_ui/templates/auth.html
+msgid "Login"
+msgstr "Sign in"
+
+#: c2corg_ui/static/partials/user.html
+msgid "Logout"
+msgstr "Sign out"
+
 #: c2corg_ui/templates/waypoint/edit.html
 msgid "Longitude"
 msgstr "Longitude"
@@ -102,6 +118,22 @@ msgstr "Longitude must be between -180° and 180°."
 #: c2corg_ui/templates/waypoint/view.html
 msgid "Maps info"
 msgstr "Maps info"
+
+#: c2corg_ui/templates/auth.html
+msgid "No account yet?"
+msgstr "No account yet?"
+
+#: c2corg_ui/templates/auth.html
+msgid "Password"
+msgstr "Password"
+
+#: c2corg_ui/templates/auth.html
+msgid "Register"
+msgstr "Sign up"
+
+#: c2corg_ui/templates/auth.html
+msgid "Remember me"
+msgstr "Remember me"
 
 #: c2corg_ui/templates/route/edit.html
 msgid "Route type"
@@ -120,6 +152,7 @@ msgid "Short description of the applied changes"
 msgstr "Short description of the applied changes"
 
 #: c2corg_ui/templates/waypoint/edit.html c2corg_ui/templates/route/edit.html
+#: c2corg_ui/templates/auth.html
 msgid "This field is required."
 msgstr "This field is required."
 
@@ -134,6 +167,10 @@ msgstr "Title is too short."
 #: c2corg_ui/templates/waypoint/edit.html
 msgid "Type"
 msgstr "Type"
+
+#: c2corg_ui/templates/auth.html
+msgid "Username"
+msgstr "Username"
 
 #: c2corg_ui/templates/waypoint/view.html c2corg_ui/templates/route/view.html
 msgid "View in other culture:"
