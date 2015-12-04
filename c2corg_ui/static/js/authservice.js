@@ -19,6 +19,13 @@ app.Authentication = function(apiUrl, $rootScope) {
   this.apiUrl_ = apiUrl;
 
   /**
+   * The http service must be set later to prevent circular dependency error.
+   * @type {?angular.$http}
+   * @private
+   */
+  this.http_ = null;
+
+  /**
    * @type {string}
    * @private
    * @const
@@ -37,8 +44,8 @@ app.Authentication = function(apiUrl, $rootScope) {
     this.userData = this.parseUserData_(rawData);
   }
 
-  // Replaced parsed user data when storage changed in another tab.
-  // Handles set and remove.
+  // Replace parsed user data when storage changed in another tab.
+  // Handles set and remove. Does not handle same tab events.
   window.addEventListener('storage', function(event) {
     if (event.key === this.USER_DATA_KEY_) {
       this.userData = this.parseUserData_(event.newValue);
@@ -49,18 +56,19 @@ app.Authentication = function(apiUrl, $rootScope) {
 
 
 /**
+ * @param {angular.$http} $http
+ */
+app.Authentication.prototype.setHttpService = function($http) {
+  this.http_ = $http;
+};
+
+
+/**
  * @return {boolean}
  * @export
  */
 app.Authentication.prototype.isAuthenticated = function() {
-  if (!this.userData) {
-    return false;
-  }
-  if (this.isExpired_()) {
-    this.removeUserData();
-    return false;
-  }
-  return true;
+  return !!this.userData && !this.isExpired_();
 };
 
 
@@ -70,8 +78,9 @@ app.Authentication.prototype.isAuthenticated = function() {
  */
 app.Authentication.prototype.setUserData = function(data) {
   try {
-    window.localStorage.setItem('userData', JSON.stringify(data));
-    // this.userData should be updated by listener
+    var raw = JSON.stringify(data);
+    this.userData = this.parseUserData_(raw);
+    window.localStorage.setItem('userData', raw);
     return true;
   } catch (e) {
     // https://developer.mozilla.org/en-US/docs/Web/API/Storage/setItem
@@ -91,7 +100,7 @@ app.Authentication.prototype.setUserData = function(data) {
  */
 app.Authentication.prototype.removeUserData = function() {
   window.localStorage.removeItem(this.USER_DATA_KEY_);
-  this.userData = null; // TODO: already handled in listener?
+  this.userData = null;
 };
 
 
@@ -113,15 +122,63 @@ app.Authentication.prototype.parseUserData_ = function(raw) {
 
 
 /**
+ * Test expiration. Requires this.userData not to be null.
  * @return {boolean}
  * @private
  */
 app.Authentication.prototype.isExpired_ = function() {
-  if (this.userData) {
-    var now = Date.now() / 1000; // in seconds
-    return now > this.userData.expire;
-  } else {
-    return false;
+  goog.asserts.assert(!!this.userData, 'this.userData should not be null');
+
+  var now = Date.now() / 1000; // in seconds
+  var expire = this.userData.expire;
+  if (now > expire) {
+    this.removeUserData();
+    return true;
+  }
+
+  if (now > expire - 3600 * 24 * 7) {
+    // Less than 7 days left, trying to renew authorization.
+    // TODO: would be more robust if we knew the issued time.
+    this.handle_token_renewal_(now, expire);
+  }
+  return false;
+};
+
+
+/**
+ * @param {number} now Current time (in seconds)
+ * @param {number} expire Token expiration (in seconds)
+ * @private
+ */
+app.Authentication.prototype.handle_token_renewal_ = function(now, expire) {
+  var storage = window.localStorage;
+  var pending = parseInt(storage.getItem('last_renewal') || 0, 10);
+
+  if (!!this.http_ && now > pending + 15) {
+    // If no pending renewal or more than 15s after last one
+    if (goog.DEBUG) {
+      console.log('Renewing authorization expiring on',
+          new Date(expire * 1000));
+    }
+
+    try {
+      storage.setItem('last_renewal', now.toString());
+    } catch (e) {
+      return; // do not flood the server
+    }
+
+    this.http_.post(this.apiUrl_ + '/users/renew', {}).then(
+        function(response) {
+          this.setUserData(response.data);
+          if (goog.DEBUG) {
+            console.log('Done renewing authorization');
+          }
+        }.bind(this),
+        function() {
+          if (goog.DEBUG) {
+            console.log('Failed renewing authorization');
+          }
+        });
   }
 };
 
@@ -195,3 +252,16 @@ app.AuthenticationFactory_ = function(apiUrl, $rootScope) {
   return new app.Authentication(apiUrl, $rootScope);
 };
 app.module.factory('appAuthentication', app.AuthenticationFactory_);
+
+
+/**
+ * @ngInject
+ * @private
+ * @param {app.Authentication} appAuthentication
+ * @param {angular.$http} $http
+ */
+app.AuthenticationFactoryRun_ = function(appAuthentication, $http) {
+  // The http service is set now to avoid circular dependency.
+  appAuthentication.setHttpService($http);
+};
+app.module.run(app.AuthenticationFactoryRun_);
