@@ -12,6 +12,13 @@ ${obj[key] if obj and key in obj and obj[key] is not None else ''}\
   <ul>
   % if offset > 0:
     <%
+        first = params.copy()
+        if 'offset' in first:
+            first.pop('offset')
+        filters_str = '/' + '/'.join(['%s/%s' % (key, first[key]) for key in first])
+    %>
+    <li><a href="${request.route_url(module + '_index', filters=filters_str)}" translate>First</a></li>
+    <%
         prev = params.copy()
         prev['offset'] -= prev['limit']
         if prev['offset'] <= 0:
@@ -27,6 +34,12 @@ ${obj[key] if obj and key in obj and obj[key] is not None else ''}\
         filters_str = '/' + '/'.join(['%s/%s' % (key, next[key]) for key in next])
     %>
     <li><a href="${request.route_url(module + '_index', filters=filters_str)}" translate>Next</a></li>
+    <%
+        last = params.copy()
+        last['offset'] = total - last['limit']
+        filters_str = '/' + '/'.join(['%s/%s' % (key, last[key]) for key in last])
+    %>
+    <li><a href="${request.route_url(module + '_index', filters=filters_str)}" translate>Last</a></li>
   % endif
   </ul>
 % endif
