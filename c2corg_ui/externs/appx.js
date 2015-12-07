@@ -9,7 +9,8 @@ var appx;
  *   username: string,
  *   token: string,
  *   expire: number,
- *   roles: Array.<string>
+ *   roles: Array.<string>,
+ *   remember: boolean
  * }}
  */
 appx.AuthData;

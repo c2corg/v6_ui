@@ -113,6 +113,7 @@ app.UserController.prototype.errorLogout_ = function(response) {
   alert('logout error');
   console.log('logout error');
   console.log(response);
+  this.auth.removeUserData();
 };
 
 

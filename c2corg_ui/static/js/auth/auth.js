@@ -76,24 +76,29 @@ app.AuthController = function($scope, $http, apiUrl, appAuthentication,
  * @export
  */
 app.AuthController.prototype.login = function() {
-  this.http_.post(this.buildUrl_('login'), this.scope_['login'], {
+  var login = this.scope_['login'];
+  var remember = !!login['remember']; // a true boolean
+  this.http_.post(this.buildUrl_('login'), login, {
     'headers': {
       'Content-Type': 'application/json; charset=UTF-8',
       'Accept': 'application/json'
     }
   }).then(
-      goog.bind(this.successLogin_, this),
+      goog.bind(this.successLogin_, this, remember),
       goog.bind(this.errorLogin_, this)
   );
 };
 
 
 /**
+ * @param {boolean} remember whether to store the data in local storage.
  * @param {Object} response Response from the API server.
  * @private
  */
-app.AuthController.prototype.successLogin_ = function(response) {
-  this.appAuthentication_.setUserData(response['data']);
+app.AuthController.prototype.successLogin_ = function(remember, response) {
+  var data = /** @type {appx.AuthData} */ (response['data']);
+  data.remember = remember;
+  this.appAuthentication_.setUserData(data);
   // redirect to previous page
   var url_from = this.ngeoLocation_.hasParam('from') ?
       decodeURIComponent(this.ngeoLocation_.getParam('from')) : '/';

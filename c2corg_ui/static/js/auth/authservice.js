@@ -39,7 +39,8 @@ app.Authentication = function(apiUrl, $rootScope) {
   this.userData = null;
 
   // Load current user data from storage
-  var rawData = window.localStorage.getItem(this.USER_DATA_KEY_);
+  var rawData = window.sessionStorage.getItem(this.USER_DATA_KEY_) ||
+      window.localStorage.getItem(this.USER_DATA_KEY_);
   if (rawData) {
     this.userData = this.parseUserData_(rawData);
   }
@@ -80,7 +81,11 @@ app.Authentication.prototype.setUserData = function(data) {
   try {
     var raw = JSON.stringify(data);
     this.userData = this.parseUserData_(raw);
-    window.localStorage.setItem('userData', raw);
+    var storage = data.remember ? window.localStorage : window.sessionStorage;
+    if (goog.DEBUG) {
+      console.log('Stored user data in', data.remember ? 'local' : 'session');
+    }
+    storage.setItem('userData', raw);
     return true;
   } catch (e) {
     // https://developer.mozilla.org/en-US/docs/Web/API/Storage/setItem
@@ -99,7 +104,14 @@ app.Authentication.prototype.setUserData = function(data) {
  * @export
  */
 app.Authentication.prototype.removeUserData = function() {
-  window.localStorage.removeItem(this.USER_DATA_KEY_);
+  if (!this.userData) {
+    return;
+  }
+  var storage = this.userData.remember ? window.localStorage :
+      window.sessionStorage;
+  try {
+    storage.removeItem(this.USER_DATA_KEY_);
+  } catch (e) {}
   this.userData = null;
 };
 
