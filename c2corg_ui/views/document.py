@@ -75,11 +75,14 @@ class Document(object):
 
     def _get_documents(self):
         params = self._get_filter_params()
+        # query_string contains filter params using the standard URL format
+        # (eg. ?offset=50&limit=20&elevation=>2000).
         query_string = '?' + urlencode(params) if params else ''
         url = '%s/%s%s' % (
             self.settings['api_url'], self._API_ROUTE, query_string
         )
         resp, content = self._call_api(url)
+        # Inject default list filters params:
         filters = dict(self._DEFAULT_FILTERS, **{k: v for k, v in params})
         # TODO: better error handling
         if resp['status'] == '200':
@@ -91,6 +94,15 @@ class Document(object):
         return documents, total, filters
 
     def _get_filter_params(self):
+        """This function is used to parse the filters provided in URLs such as
+        https://www.camptocamp.org/waypoints/offset/50/limit/20/elevation/>2000
+        Index page routes such as '/waypoints*filters' store the "filters"
+        params in a tuple like for instance:
+        ('offset', '50', 'limit', '20', 'elevation', '>2000')
+        To make params easier to manipulate, for instance to create the
+        matching API URL with urllib.urlencode, tuple items are grouped in
+        a list of (key, value) tuples.
+        """
         params = []
         if 'filters' in self.request.matchdict:
             filters = self.request.matchdict['filters']
