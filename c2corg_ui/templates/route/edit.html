@@ -34,7 +34,7 @@ updating_doc = route_id and route_culture
   <div id="activities-group" class="form-group" ng-class="{ 'has-error': editForm.activities.$touched && editForm.activities.$invalid }">
     <label translate>Activities</label>
     <select name="activities" ng-options="activity as mainCtrl.translate(activity) for activity in ['${"','".join(activities) |n}']"
-      ng-model="route.activities" class="form-control" required>
+      ng-model="route.activities" class="form-control" required multiple>
     </select>
     <div class="help-block" ng-messages="editForm.activities.$error" ng-if="editForm.activities.$touched">
       <p ng-message="required" translate>This field is required.</p> 
