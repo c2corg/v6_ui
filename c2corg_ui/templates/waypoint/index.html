@@ -1,4 +1,5 @@
 <%inherit file="../base.html"/>
+<%namespace file="../helpers.mako" import="slugify"/>
 <%block name="pagetitle">Waypoints</%block>\
 
 <%block name="moduleConstantsValues">
@@ -33,7 +34,7 @@ module.value('mapFeatureCollection', {
 % for waypoint in waypoints:
   <li>
   % for locale in waypoint['locales']:
-    <a href="${request.route_url('waypoints_view', id=waypoint['document_id'], culture=locale['culture'])}">${locale['title']}</a> (${locale['culture']})
+    <a href="${request.route_url('waypoints_view', id=waypoint['document_id'], culture=locale['culture'], slug=custom_slugify(locale['title']))}">${locale['title']}</a> (${locale['culture']})
   % endfor
   - ${waypoint['elevation']} m</li>
 % endfor
