@@ -70,6 +70,7 @@ closure_library_path = settings.get('closure_library_path')
     <script src="${request.static_url('%s/angular-messages/angular-messages.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/typeahead.js/dist/typeahead.bundle.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('c2corg_ui:static/build/build.js')}"></script>
+    <script src="${request.static_url('c2corg_ui:static/build/templatecache.js')}"></script>
 % endif
     <script>
       (function() {

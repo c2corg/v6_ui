@@ -8,7 +8,8 @@ CLOSURE_COMPILER_PATH = $(shell node -e 'process.stdout.write(require("$(CLOSURE
 OL_JS_FILES = $(shell find node_modules/openlayers/src/ol -type f -name '*.js' 2> /dev/null)
 NGEO_JS_FILES = $(shell find node_modules/ngeo/src -type f -name '*.js' 2> /dev/null)
 APP_JS_FILES = $(shell find c2corg_ui/static/js -type f -name '*.js')
-APP_HTML_FILES = $(shell find c2corg_ui -type f -name '*.html')
+APP_HTML_FILES = $(shell find c2corg_ui/templates -type f -name '*.html')
+APP_PARTIAL_FILES = $(shell find c2corg_ui/static/partials -type f -name '*.html')
 LESS_FILES = $(shell find less -type f -name '*.less')
 
 # variables used in config files (*.in)
@@ -43,7 +44,7 @@ help:
 check: flake8 lint build test
 
 .PHONY: build
-build: c2corg_ui/static/build/build.js c2corg_ui/static/build/build.css c2corg_ui/static/build/build.min.css compile-catalog
+build: c2corg_ui/static/build/build.js c2corg_ui/static/build/templatecache.js c2corg_ui/static/build/build.css c2corg_ui/static/build/build.min.css compile-catalog
 
 .PHONY: clean
 clean:
@@ -100,7 +101,7 @@ upgrade-dev:
 c2corg_ui/closure/%.py: $(CLOSURE_LIBRARY_PATH)/closure/bin/build/%.py
 	cp $< $@
 
-c2corg_ui/locale/c2corg_ui-client.pot: $(APP_HTML_FILES)
+c2corg_ui/locale/c2corg_ui-client.pot: $(APP_HTML_FILES) $(APP_PARTIAL_FILES)
 	node tools/extract-messages.js $^ > $@
 
 c2corg_ui/locale/%/LC_MESSAGES/c2corg_ui-client.po: c2corg_ui/locale/c2corg_ui-client.pot
@@ -121,6 +122,9 @@ c2corg_ui/static/build/build.css: $(LESS_FILES) .build/node_modules.timestamp
 c2corg_ui/static/build/locale/%/c2corg_ui.json: c2corg_ui/locale/%/LC_MESSAGES/c2corg_ui-client.po
 	mkdir -p $(dir $@)
 	node tools/compile-catalog $< > $@
+
+c2corg_ui/static/build/templatecache.js: c2corg_ui/templates/templatecache.js .build/venv/bin/mako-render $(APP_PARTIAL_FILES)
+	.build/venv/bin/mako-render --var "partials=$(APP_PARTIAL_FILES)" $< > $@
 
 .build/externs/angular-1.3.js:
 	mkdir -p $(dir $@)

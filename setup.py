@@ -18,6 +18,7 @@ requires = [
     'shapely',
     'pyproj',
     'functools32',
+    'htmlmin',
     ]
 
 setup(name='c2corg_ui',
