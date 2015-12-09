@@ -160,6 +160,8 @@ c2corg_ui/static/build/templatecache.js: c2corg_ui/templates/templatecache.js .b
 
 .build/venv/bin/nosetests: .build/dev-requirements.timestamp
 
+.build/venv/bin/mako-render: $(SITE_PACKAGES)/c2corg_ui.egg-link
+
 .build/dev-requirements.timestamp: .build/venv dev-requirements.txt
 	.build/venv/bin/pip install -r dev-requirements.txt
 	touch $@
