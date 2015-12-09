@@ -77,6 +77,10 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
+#: c2corg_ui/templates/helpers.html
+msgid "First"
+msgstr ""
+
 #: c2corg_ui/templates/auth.html
 msgid "Forgotten password?"
 msgstr ""
@@ -89,6 +93,10 @@ msgstr ""
 #: c2corg_ui/templates/route/edit.html
 #: c2corg_ui/templates/route/view.html
 msgid "Height"
+msgstr ""
+
+#: c2corg_ui/templates/helpers.html
+msgid "Last"
 msgstr ""
 
 #: c2corg_ui/templates/waypoint/edit.html
@@ -121,12 +129,20 @@ msgstr ""
 msgid "Maps info"
 msgstr ""
 
+#: c2corg_ui/templates/helpers.html
+msgid "Next"
+msgstr ""
+
 #: c2corg_ui/templates/auth.html
 msgid "No account yet?"
 msgstr ""
 
 #: c2corg_ui/templates/auth.html
 msgid "Password"
+msgstr ""
+
+#: c2corg_ui/templates/helpers.html
+msgid "Previous"
 msgstr ""
 
 #: c2corg_ui/templates/auth.html

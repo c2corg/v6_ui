@@ -1,6 +1,7 @@
 from shapely.geometry import asShape
 from shapely.ops import transform
 from functools import partial
+from urllib import urlencode
 import httplib2
 import pyproj
 import json
@@ -15,6 +16,11 @@ class Document(object):
 
     # FIXME Is a "documents" route available/relevant in the API?
     _API_ROUTE = 'documents'
+
+    # FIXME sync with API => use a CONSTANT in c2corg_common?
+    _DEFAULT_FILTERS = {
+        'limit': 30
+    }
 
     def __init__(self, request):
         self.request = request
@@ -68,13 +74,46 @@ class Document(object):
         return document, locale
 
     def _get_documents(self):
-        url = '%s/%s' % (self.settings['api_url'], self._API_ROUTE)
+        params = self._get_filter_params()
+        # query_string contains filter params using the standard URL format
+        # (eg. ?offset=50&limit=20&elevation=>2000).
+        query_string = '?' + urlencode(params) if params else ''
+        url = '%s/%s%s' % (
+            self.settings['api_url'], self._API_ROUTE, query_string
+        )
         resp, content = self._call_api(url)
+        # Inject default list filters params:
+        filters = dict(self._DEFAULT_FILTERS, **{k: v for k, v in params})
         # TODO: better error handling
         if resp['status'] == '200':
-            return content['documents'], content['total']
+            documents = content['documents']
+            total = content['total']
         else:
-            return [], 0
+            documents = []
+            total = 0
+        return documents, total, filters
+
+    def _get_filter_params(self):
+        """This function is used to parse the filters provided in URLs such as
+        https://www.camptocamp.org/waypoints/offset/50/limit/20/elevation/>2000
+        Index page routes such as '/waypoints*filters' store the "filters"
+        params in a tuple like for instance:
+        ('offset', '50', 'limit', '20', 'elevation', '>2000')
+        To make params easier to manipulate, for instance to create the
+        matching API URL with urllib.urlencode, tuple items are grouped in
+        a list of (key, value) tuples.
+        """
+        params = []
+        if 'filters' in self.request.matchdict:
+            filters = self.request.matchdict['filters']
+            # If number of filters is odd, add an empty string at the end:
+            filters = filters + ('',) if len(filters) % 2 != 0 else filters
+            # Group filters as a list of (key, value) tuples
+            for i in range(0, len(filters)):
+                # Skip odd indices since grouping filters 2 by 2
+                if i % 2 == 0:
+                    params.append(filters[i:i+2])
+        return params
 
     def _get_geometry(self, data):
         return asShape(json.loads(data))

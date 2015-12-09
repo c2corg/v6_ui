@@ -70,7 +70,7 @@ updating_doc = route_id and route_culture
     if updating_doc:
         cancel_url = request.route_url('routes_view', id=route_id, culture=route_culture)
     else:
-        cancel_url = request.route_url('routes_index')
+        cancel_url = request.route_url('routes_index_default')
     %>
     <a href="${cancel_url}" translate>Cancel</a>
   </p>

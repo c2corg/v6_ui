@@ -45,6 +45,7 @@ class BaseTestUi(BaseTestCase):
         self.assertEqual(isinstance(documents, list), True)
 
     def _test_get_documents(self):
-        documents, total = self.view._get_documents()
+        documents, total, params = self.view._get_documents()
         self.assertEqual(isinstance(total, int), True)
         self.assertEqual(isinstance(documents, list), True)
+        self.assertEqual(isinstance(params, dict), True)

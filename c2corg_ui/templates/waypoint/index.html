@@ -1,4 +1,5 @@
 <%inherit file="../base.html"/>
+<%namespace name="helpers" file="../helpers.html" import="add_pagination_links"/>
 <%block name="pagetitle">Waypoints</%block>\
 
 <%block name="moduleConstantsValues">
@@ -28,6 +29,7 @@ module.value('mapFeatureCollection', {
   <app-map></app-map>
 % endif
 <p translate ng-init="nbItems = ${total}">{{nbItems}} waypoints</p>
+${helpers.add_pagination_links('waypoints', waypoints, total, filter_params)}
 <ul>
   <li><a href="${request.route_url('waypoints_add')}" translate>Add a waypoint</a></li>
 % for waypoint in waypoints:

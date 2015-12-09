@@ -86,7 +86,7 @@ updating_doc = waypoint_id and waypoint_culture
     if updating_doc:
         cancel_url = request.route_url('waypoints_view', id=waypoint_id, culture=waypoint_culture)
     else:
-        cancel_url = request.route_url('waypoints_index')
+        cancel_url = request.route_url('waypoints_index_default')
     %>
     <a href="${cancel_url}" translate>Cancel</a>
   </p>
