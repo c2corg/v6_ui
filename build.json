@@ -3,7 +3,8 @@
     "node_modules/openlayers/src/**/*.js",
     "node_modules/openlayers/build/ol.ext/**/*.js",
     "node_modules/ngeo/src/**/*.js",
-    "c2corg_ui/static/js/**/*.js"
+    "c2corg_ui/static/js/**/*.js",
+    "c2corg_ui/static/build/templatecache.js"
   ],
   "compile": {
     "closure_entry_point": "app.main",
