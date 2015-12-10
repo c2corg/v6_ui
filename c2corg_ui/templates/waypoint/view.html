@@ -44,6 +44,6 @@ module.value('mapFeatureCollection', {
 % endif
 <app-map></app-map>
 <ul>
-  <li>History (TODO)</li>
+  <li><a href="${request.route_url('waypoints_history', id=waypoint_id, culture=culture)}" translate>History</a></li>
   <li><a href="${request.route_url('waypoints_edit', id=waypoint_id, culture=culture)}" translate>Edit</a></li>
 </ul>

@@ -47,3 +47,8 @@ class Waypoint(Document):
             'waypoint_id': id
         })
         return self.template_input
+
+    @view_config(route_name='waypoints_history',
+                 renderer='c2corg_ui:templates/document/history.html')
+    def history(self):
+        return self._get_history()
