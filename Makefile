@@ -44,7 +44,7 @@ help:
 check: flake8 lint build test
 
 .PHONY: build
-build: c2corg_ui/static/build/build.js c2corg_ui/static/build/templatecache.js c2corg_ui/static/build/build.css c2corg_ui/static/build/build.min.css compile-catalog
+build: c2corg_ui/static/build/build.js c2corg_ui/static/build/build.css c2corg_ui/static/build/build.min.css compile-catalog
 
 .PHONY: clean
 clean:
@@ -107,7 +107,7 @@ c2corg_ui/locale/c2corg_ui-client.pot: $(APP_HTML_FILES) $(APP_PARTIAL_FILES)
 c2corg_ui/locale/%/LC_MESSAGES/c2corg_ui-client.po: c2corg_ui/locale/c2corg_ui-client.pot
 	msgmerge --update $@ $<
 
-c2corg_ui/static/build/build.js: build.json $(OL_JS_FILES) $(NGEO_JS_FILES) $(APP_JS_FILES) .build/externs/angular-1.3.js .build/externs/angular-1.3-q.js .build/externs/angular-1.3-http-promise.js .build/node_modules.timestamp
+c2corg_ui/static/build/build.js: build.json c2corg_ui/static/build/templatecache.js $(OL_JS_FILES) $(NGEO_JS_FILES) $(APP_JS_FILES) .build/externs/angular-1.3.js .build/externs/angular-1.3-q.js .build/externs/angular-1.3-http-promise.js .build/node_modules.timestamp
 	mkdir -p $(dir $@)
 	./node_modules/openlayers/node_modules/.bin/closure-util build $< $@
 

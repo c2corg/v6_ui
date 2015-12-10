@@ -22,6 +22,9 @@
  * @fileoverview AngularJS template cache.
  * GENERATED FILE. DO NOT EDIT.
  */
+
+goog.require('app');
+
 (function() {
   /**
    * @param {angular.$cacheFactory.Cache} $templateCache
