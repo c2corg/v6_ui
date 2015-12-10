@@ -124,6 +124,7 @@ c2corg_ui/static/build/locale/%/c2corg_ui.json: c2corg_ui/locale/%/LC_MESSAGES/c
 	node tools/compile-catalog $< > $@
 
 c2corg_ui/static/build/templatecache.js: c2corg_ui/templates/templatecache.js .build/venv/bin/mako-render $(APP_PARTIAL_FILES)
+	mkdir -p $(dir $@)
 	.build/venv/bin/mako-render --var "partials=$(APP_PARTIAL_FILES)" $< > $@
 
 .build/externs/angular-1.3.js:
