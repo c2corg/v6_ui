@@ -14,12 +14,10 @@ closure_library_path = settings.get('closure_library_path')
 % if debug:
     <link rel="stylesheet" href="${request.static_url('%sbootstrap/dist/css/bootstrap.css' % node_modules_path)}" type="text/css">
     <link rel="stylesheet" href="${request.static_url('c2corg_ui:static/build/build.css')}" type="text/css">
-    <script src="${request.static_url('%sangular/angular.js' % node_modules_path)}"></script>
 % else:
     ## FIXME add version to links?
     <link rel="stylesheet" href="${request.static_url('%sbootstrap/dist/css/bootstrap.min.css' % node_modules_path)}" type="text/css">
     <link rel="stylesheet" href="${request.static_url('c2corg_ui:static/build/build.min.css')}" type="text/css">
-    <script src="${request.static_url('%sangular/angular.min.js' % node_modules_path)}"></script>
 % endif
   </head>
   <body>
@@ -37,10 +35,15 @@ closure_library_path = settings.get('closure_library_path')
     </div>
 
     <div class="page-header">
-      <app-user app-user-login-url="${request.route_url('auth')}"></app-user>
-      <div class="culture-selector">
-        <label translate>Browse site in</label>
-        <app-lang app-lang-cultures="['${"','".join(default_cultures) |n}']"></app-lang>
+      <div class="quick-search">
+        <app-search app-search-map=""></app-search>
+      </div>
+      <div class="lang-user">
+        <app-user app-user-login-url="${request.route_url('auth')}"></app-user>
+        <div class="culture-selector">
+          <label translate>Browse site in</label>
+          <app-lang app-lang-cultures="['${"','".join(default_cultures) |n}']"></app-lang>
+        </div>
       </div>
     </div>
 
@@ -52,14 +55,20 @@ closure_library_path = settings.get('closure_library_path')
       window.CLOSURE_BASE_PATH = ' ';
       window.CLOSURE_NO_DEPS = true;
     </script>
+    <script src="${request.static_url('%s/jquery/dist/jquery.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%sangular/angular.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/angular-gettext/dist/angular-gettext.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/angular-messages/angular-messages.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/closure/goog/base.js' % closure_library_path)}"></script>
+    <script src="${request.static_url('%s/typeahead.js/dist/typeahead.bundle.js' % node_modules_path)}"></script>
     <script src="${request.route_url('deps.js')}"></script>
     <script src="${request.static_url('c2corg_ui:static/js/main.js')}"></script>
 % else:
+    <script src="${request.static_url('%s/jquery/dist/jquery.min.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%sangular/angular.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/angular-gettext/dist/angular-gettext.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/angular-messages/angular-messages.min.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%s/typeahead.js/dist/typeahead.bundle.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('c2corg_ui:static/build/build.js')}"></script>
 % endif
     <script>
@@ -67,6 +76,7 @@ closure_library_path = settings.get('closure_library_path')
          var module = angular.module('app');
          module.constant('langUrlTemplate', '${request.static_url('c2corg_ui:static/build/locale/__lang__/c2corg_ui.json')}');
          module.constant('apiUrl', '${api_url}');
+         module.constant('cultures', ['${"','".join(default_cultures) |n}']);
          <%block name="moduleConstantsValues">
          module.value('mapFeatureCollection', null);
          </%block>

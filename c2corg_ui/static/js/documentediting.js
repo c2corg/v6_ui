@@ -2,6 +2,8 @@ goog.provide('app.DocumentEditingController');
 goog.provide('app.documentEditingDirective');
 
 goog.require('app');
+goog.require('app.utils');
+goog.require('goog.asserts');
 goog.require('ol.format.GeoJSON');
 goog.require('ol.geom.Point');
 
@@ -265,10 +267,9 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
  */
 app.DocumentEditingController.prototype.successSave_ = function(response) {
   // redirects to the document view page
-  var url = '/{module}/{id}/{culture}'
-      .replace('{module}', this.module_)
-      .replace('{id}', response['data']['document_id'])
-      .replace('{culture}', this.culture_);
+  goog.asserts.assert(this.culture_ !== null);
+  var url = app.utils.buildDocumentUrl(
+      this.module_, response['data']['document_id'], this.culture_);
   window.location.href = url;
   // FIXME: use $window.location.href instead?
   // TODO: add a loading message
