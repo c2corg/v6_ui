@@ -9,6 +9,18 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: c2corg_ui/templates/route/index.html
+msgid "{{nbItems}} routes"
+msgstr "{{nbItems}} routes"
+
+#: c2corg_ui/templates/waypoint/index.html
+msgid "{{nbItems}} waypoints"
+msgstr "{{nbItems}} waypoints"
+
+#: c2corg_ui/templates/i18n.html
+msgid "access"
+msgstr "access"
+
 #: c2corg_ui/templates/route/edit.html
 msgid "Activities"
 msgstr "Activities"
@@ -24,185 +36,6 @@ msgstr "Add a waypoint"
 #: c2corg_ui/templates/base.html
 msgid "Back to homepage"
 msgstr "Back to homepage"
-
-#: c2corg_ui/templates/base.html
-msgid "Browse site in"
-msgstr "Browse site in"
-
-#: c2corg_ui/templates/waypoint/edit.html c2corg_ui/templates/route/edit.html
-msgid "Cancel"
-msgstr "Cancel"
-
-#: c2corg_ui/templates/waypoint/edit.html c2corg_ui/templates/route/edit.html
-msgid "Comment about the changes"
-msgstr "Comment about the changes"
-
-#: c2corg_ui/templates/waypoint/view.html
-msgid "Coordinates"
-msgstr "Coordinates"
-
-#: c2corg_ui/templates/waypoint/edit.html
-#: c2corg_ui/templates/waypoint/view.html c2corg_ui/templates/route/edit.html
-#: c2corg_ui/templates/route/view.html
-msgid "Culture"
-msgstr "Culture"
-
-#: c2corg_ui/templates/route/edit.html
-msgid "Describe here the gear needed for this route"
-msgstr "Describe here the gear needed for this route"
-
-#: c2corg_ui/templates/waypoint/edit.html
-msgid "Describe here the waypoint"
-msgstr "Describe here the waypoint"
-
-#: c2corg_ui/templates/waypoint/edit.html
-#: c2corg_ui/templates/waypoint/view.html c2corg_ui/templates/route/edit.html
-#: c2corg_ui/templates/route/view.html
-msgid "Description"
-msgstr "Description"
-
-#: c2corg_ui/templates/waypoint/view.html c2corg_ui/templates/route/view.html
-msgid "Edit"
-msgstr "Edit"
-
-#: c2corg_ui/templates/waypoint/edit.html
-#: c2corg_ui/templates/waypoint/view.html
-msgid "Elevation"
-msgstr "Elevation"
-
-#: c2corg_ui/templates/waypoint/edit.html
-msgid "Elevation must be smaller than 9999 m."
-msgstr "Elevation must be smaller than 9999 m."
-
-#: c2corg_ui/templates/auth.html
-msgid "Email"
-msgstr ""
-
-#: c2corg_ui/templates/helpers.html
-msgid "First"
-msgstr ""
-
-#: c2corg_ui/templates/auth.html
-msgid "Forgotten password?"
-msgstr "Forgotten password?"
-
-#: c2corg_ui/templates/route/edit.html c2corg_ui/templates/route/view.html
-msgid "Gear"
-msgstr "Gear"
-
-#: c2corg_ui/templates/route/edit.html c2corg_ui/templates/route/view.html
-msgid "Height"
-msgstr "Height"
-
-#: c2corg_ui/templates/helpers.html
-msgid "Last"
-msgstr ""
-
-#: c2corg_ui/templates/waypoint/edit.html
-msgid "Latitude"
-msgstr "Latitude"
-
-#: c2corg_ui/templates/waypoint/edit.html
-msgid "Latitude must be between -90° and 90°."
-msgstr "Latitude must be between -90° and 90°."
-
-#: c2corg_ui/static/partials/user.html c2corg_ui/templates/auth.html
-msgid "Login"
-msgstr "Sign in"
-
-#: c2corg_ui/static/partials/user.html
-msgid "Logout"
-msgstr "Sign out"
-
-#: c2corg_ui/templates/waypoint/edit.html
-msgid "Longitude"
-msgstr "Longitude"
-
-#: c2corg_ui/templates/waypoint/edit.html
-msgid "Longitude must be between -180° and 180°."
-msgstr "Longitude must be between -180° and 180°."
-
-#: c2corg_ui/templates/waypoint/edit.html
-#: c2corg_ui/templates/waypoint/view.html
-msgid "Maps info"
-msgstr "Maps info"
-
-#: c2corg_ui/templates/helpers.html
-msgid "Next"
-msgstr "Next"
-
-#: c2corg_ui/templates/auth.html
-msgid "No account yet?"
-msgstr "No account yet?"
-
-#: c2corg_ui/templates/auth.html
-msgid "Password"
-msgstr "Password"
-
-#: c2corg_ui/templates/helpers.html
-msgid "Previous"
-msgstr "Previous"
-
-#: c2corg_ui/templates/auth.html
-msgid "Register"
-msgstr "Sign up"
-
-#: c2corg_ui/templates/auth.html
-msgid "Remember me"
-msgstr "Remember me"
-
-#: c2corg_ui/templates/route/edit.html
-msgid "Route type"
-msgstr "Route type"
-
-#: c2corg_ui/templates/base.html
-msgid "Routes"
-msgstr "Routes"
-
-#: c2corg_ui/templates/waypoint/edit.html c2corg_ui/templates/route/edit.html
-msgid "Save"
-msgstr "Save"
-
-#: c2corg_ui/templates/waypoint/edit.html c2corg_ui/templates/route/edit.html
-msgid "Short description of the applied changes"
-msgstr "Short description of the applied changes"
-
-#: c2corg_ui/templates/waypoint/edit.html c2corg_ui/templates/route/edit.html
-#: c2corg_ui/templates/auth.html
-msgid "This field is required."
-msgstr "This field is required."
-
-#: c2corg_ui/templates/waypoint/edit.html c2corg_ui/templates/route/edit.html
-msgid "Title"
-msgstr "Title"
-
-#: c2corg_ui/templates/waypoint/edit.html c2corg_ui/templates/route/edit.html
-msgid "Title is too short."
-msgstr "Title is too short."
-
-#: c2corg_ui/templates/waypoint/edit.html
-msgid "Type"
-msgstr "Type"
-
-#: c2corg_ui/templates/auth.html
-msgid "Username"
-msgstr "Username"
-
-#: c2corg_ui/templates/waypoint/view.html c2corg_ui/templates/route/view.html
-msgid "View in other culture:"
-msgstr "View in other culture:"
-
-#: c2corg_ui/templates/base.html
-msgid "Waypoints"
-msgstr "Waypoints"
-
-#: c2corg_ui/templates/index.html
-msgid "Welcome to Camptocamp.org"
-msgstr "Welcome to Camptocamp.org"
-
-#: c2corg_ui/templates/i18n.html
-msgid "access"
-msgstr "access"
 
 #: c2corg_ui/templates/i18n.html
 msgid "base_camp"
@@ -220,6 +53,10 @@ msgstr "bisse"
 msgid "bivouac"
 msgstr "bivouac"
 
+#: c2corg_ui/templates/base.html
+msgid "Browse site in"
+msgstr "Browse site in"
+
 #: c2corg_ui/templates/i18n.html
 msgid "ca"
 msgstr "ca"
@@ -227,6 +64,10 @@ msgstr "ca"
 #: c2corg_ui/templates/i18n.html
 msgid "camp_site"
 msgstr "camp_site"
+
+#: c2corg_ui/templates/route/edit.html c2corg_ui/templates/waypoint/edit.html
+msgid "Cancel"
+msgstr "Cancel"
 
 #: c2corg_ui/templates/i18n.html
 msgid "cave"
@@ -244,13 +85,58 @@ msgstr "climbing_indoor"
 msgid "climbing_outdoor"
 msgstr "climbing_outdoor"
 
+#: c2corg_ui/templates/route/edit.html c2corg_ui/templates/waypoint/edit.html
+msgid "Comment about the changes"
+msgstr "Comment about the changes"
+
 #: c2corg_ui/templates/i18n.html
 msgid "confluence"
 msgstr "confluence"
 
+#: c2corg_ui/templates/waypoint/view.html
+msgid "Coordinates"
+msgstr "Coordinates"
+
+#: c2corg_ui/templates/route/view.html c2corg_ui/templates/route/edit.html
+#: c2corg_ui/templates/waypoint/view.html
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "Culture"
+msgstr "Culture"
+
 #: c2corg_ui/templates/i18n.html
 msgid "de"
 msgstr "de"
+
+#: c2corg_ui/templates/route/edit.html
+msgid "Describe here the gear needed for this route"
+msgstr "Describe here the gear needed for this route"
+
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "Describe here the waypoint"
+msgstr "Describe here the waypoint"
+
+#: c2corg_ui/templates/route/view.html c2corg_ui/templates/route/edit.html
+#: c2corg_ui/templates/waypoint/view.html
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "Description"
+msgstr "Description"
+
+#: c2corg_ui/templates/route/view.html c2corg_ui/templates/waypoint/view.html
+msgid "Edit"
+msgstr "Edit"
+
+#: c2corg_ui/templates/waypoint/view.html
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "Elevation"
+msgstr "Elevation"
+
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "Elevation must be smaller than 9999 m."
+msgstr "Elevation must be smaller than 9999 m."
+
+#: c2corg_ui/templates/auth.html
+msgid "Email"
+msgstr ""
 
 #: c2corg_ui/templates/i18n.html
 msgid "en"
@@ -268,9 +154,21 @@ msgstr "eu"
 msgid "expedition"
 msgstr "expedition"
 
+#: c2corg_ui/templates/helpers.html
+msgid "First"
+msgstr ""
+
+#: c2corg_ui/templates/auth.html
+msgid "Forgotten password?"
+msgstr "Forgotten password?"
+
 #: c2corg_ui/templates/i18n.html
 msgid "fr"
 msgstr "fr"
+
+#: c2corg_ui/templates/route/view.html c2corg_ui/templates/route/edit.html
+msgid "Gear"
+msgstr "Gear"
 
 #: c2corg_ui/templates/i18n.html
 msgid "gite"
@@ -279,6 +177,10 @@ msgstr "gite"
 #: c2corg_ui/templates/i18n.html
 msgid "glacier"
 msgstr "glacier"
+
+#: c2corg_ui/templates/route/view.html c2corg_ui/templates/route/edit.html
+msgid "Height"
+msgstr "Height"
 
 #: c2corg_ui/templates/i18n.html
 msgid "hiking"
@@ -300,6 +202,18 @@ msgstr "it"
 msgid "lake"
 msgstr "lake"
 
+#: c2corg_ui/templates/helpers.html
+msgid "Last"
+msgstr ""
+
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "Latitude"
+msgstr "Latitude"
+
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "Latitude must be between -90° and 90°."
+msgstr "Latitude must be between -90° and 90°."
+
 #: c2corg_ui/templates/i18n.html
 msgid "local_product"
 msgstr "local_product"
@@ -308,6 +222,22 @@ msgstr "local_product"
 msgid "locality"
 msgstr "locality"
 
+#: c2corg_ui/templates/auth.html c2corg_ui/static/partials/user.html
+msgid "Login"
+msgstr "Sign in"
+
+#: c2corg_ui/static/partials/user.html
+msgid "Logout"
+msgstr "Sign out"
+
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "Longitude"
+msgstr "Longitude"
+
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "Longitude must be between -180° and 180°."
+msgstr "Longitude must be between -180° and 180°."
+
 #: c2corg_ui/templates/i18n.html
 msgid "loop"
 msgstr "loop"
@@ -315,6 +245,11 @@ msgstr "loop"
 #: c2corg_ui/templates/i18n.html
 msgid "loop_hut"
 msgstr "loop_hut"
+
+#: c2corg_ui/templates/waypoint/view.html
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "Maps info"
+msgstr "Maps info"
 
 #: c2corg_ui/templates/i18n.html
 msgid "misc"
@@ -327,6 +262,14 @@ msgstr "mountain_climbing"
 #: c2corg_ui/templates/i18n.html
 msgid "moutain_biking"
 msgstr "moutain_biking"
+
+#: c2corg_ui/templates/helpers.html
+msgid "Next"
+msgstr "Next"
+
+#: c2corg_ui/templates/auth.html
+msgid "No account yet?"
+msgstr "No account yet?"
 
 #: c2corg_ui/templates/i18n.html
 msgid "paragliding"
@@ -344,13 +287,29 @@ msgstr "paragliding_takeoff"
 msgid "pass"
 msgstr "pass"
 
+#: c2corg_ui/templates/auth.html
+msgid "Password"
+msgstr "Password"
+
 #: c2corg_ui/templates/i18n.html
 msgid "pit"
 msgstr "pit"
 
+#: c2corg_ui/templates/helpers.html
+msgid "Previous"
+msgstr "Previous"
+
 #: c2corg_ui/templates/i18n.html
 msgid "raid"
 msgstr "raid"
+
+#: c2corg_ui/templates/auth.html
+msgid "Register"
+msgstr "Sign up"
+
+#: c2corg_ui/templates/auth.html
+msgid "Remember me"
+msgstr "Remember me"
 
 #: c2corg_ui/templates/i18n.html
 msgid "return_same_way"
@@ -360,9 +319,29 @@ msgstr "return_same_way"
 msgid "rock_climbing"
 msgstr "rock_climbing"
 
+#: c2corg_ui/templates/route/edit.html
+msgid "Route type"
+msgstr "Route type"
+
+#: c2corg_ui/templates/base.html
+msgid "Routes"
+msgstr "Routes"
+
+#: c2corg_ui/templates/route/edit.html c2corg_ui/templates/waypoint/edit.html
+msgid "Save"
+msgstr "Save"
+
+#: c2corg_ui/static/partials/search.html
+msgid "Search ..."
+msgstr ""
+
 #: c2corg_ui/templates/i18n.html
 msgid "shelter"
 msgstr "shelter"
+
+#: c2corg_ui/templates/route/edit.html c2corg_ui/templates/waypoint/edit.html
+msgid "Short description of the applied changes"
+msgstr "Short description of the applied changes"
 
 #: c2corg_ui/templates/i18n.html
 msgid "skitouring"
@@ -380,13 +359,38 @@ msgstr "snowshoeing"
 msgid "summit"
 msgstr "summit"
 
+#: c2corg_ui/templates/auth.html c2corg_ui/templates/route/edit.html
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "This field is required."
+msgstr "This field is required."
+
+#: c2corg_ui/templates/route/edit.html c2corg_ui/templates/waypoint/edit.html
+msgid "Title"
+msgstr "Title"
+
+#: c2corg_ui/templates/route/edit.html c2corg_ui/templates/waypoint/edit.html
+msgid "Title is too short."
+msgstr "Title is too short."
+
 #: c2corg_ui/templates/i18n.html
 msgid "traverse"
 msgstr "traverse"
 
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "Type"
+msgstr "Type"
+
+#: c2corg_ui/templates/auth.html
+msgid "Username"
+msgstr "Username"
+
 #: c2corg_ui/templates/i18n.html
 msgid "via_ferrata"
 msgstr "via_ferrata"
+
+#: c2corg_ui/templates/route/view.html c2corg_ui/templates/waypoint/view.html
+msgid "View in other culture:"
+msgstr "View in other culture:"
 
 #: c2corg_ui/templates/i18n.html
 msgid "virtual"
@@ -400,6 +404,10 @@ msgstr "waterfall"
 msgid "waterpoint"
 msgstr "waterpoint"
 
+#: c2corg_ui/templates/base.html
+msgid "Waypoints"
+msgstr "Waypoints"
+
 #: c2corg_ui/templates/i18n.html
 msgid "weather_station"
 msgstr "weather_station"
@@ -408,10 +416,6 @@ msgstr "weather_station"
 msgid "webcam"
 msgstr "webcam"
 
-#: c2corg_ui/templates/route/index.html
-msgid "{{nbItems}} routes"
-msgstr "{{nbItems}} routes"
-
-#: c2corg_ui/templates/waypoint/index.html
-msgid "{{nbItems}} waypoints"
-msgstr "{{nbItems}} waypoints"
+#: c2corg_ui/templates/index.html
+msgid "Welcome to Camptocamp.org"
+msgstr "Welcome to Camptocamp.org"

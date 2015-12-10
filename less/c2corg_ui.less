@@ -1,4 +1,6 @@
 @import (inline) "../node_modules/openlayers/css/ol.css";
+@import "../node_modules/bootstrap/less/bootstrap.less";
+@import "search.less";
 
 .map {
   height: 400px;
@@ -10,6 +12,17 @@
   right: 5px;
   margin-top: 0;
   border: 0;
+
+  .quick-search {
+    width: 200px;
+    float: left;
+  }
+
+  .lang-user {
+    width: 400px;
+    float: right;
+    text-align: right;
+  }
 
   .culture-selector {
     display: inline;
