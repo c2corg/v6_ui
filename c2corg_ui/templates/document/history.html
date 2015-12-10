@@ -1,0 +1,27 @@
+<%inherit file="../base.html"/>
+<%namespace file="../helpers.html" import="get_attr"/>
+<%block name="pagelang">lang="${culture}"</%block>
+<%block name="pagetitle">${title}</%block>
+
+<h1>${self.pagetitle()}</h1>
+
+<table style="width:100%" border="1">
+  <tr>
+    <th></th>
+    <th translate>created</th>
+    <th translate>author</th>
+    <th translate>comment</th>
+  </tr>
+  % for v in document_versions:
+    <tr>
+      <td>Radios ${v['version_id']}</td>
+      <td><a href="${request.route_url(module + '_view', id=document_id, culture=culture)}#TODOversion">{{'${1000 * v['written_at']}' | date:'medium'}}</a></td>
+      <td><a href="#TODO profile for ${v['user_id']}">${v['username']}</a></td>
+      <td>${v['comment']}</td>
+    </tr>
+  % endfor
+</table>
+
+<ul>
+  <li><a href="${request.route_url(module + '_view', id=document_id, culture=culture)}" translate>View</a></li>
+</ul>

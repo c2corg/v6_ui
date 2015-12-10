@@ -94,6 +94,10 @@ msgstr ""
 msgid "Height"
 msgstr ""
 
+#: c2corg_ui/templates/waypoint/view.html c2corg_ui/templates/route/view.html
+msgid "History"
+msgstr ""
+
 #: c2corg_ui/templates/helpers.html
 msgid "Last"
 msgstr ""
@@ -192,6 +196,10 @@ msgstr ""
 msgid "Username"
 msgstr ""
 
+#: c2corg_ui/templates/document/history.html
+msgid "View"
+msgstr ""
+
 #: c2corg_ui/templates/waypoint/view.html c2corg_ui/templates/route/view.html
 msgid "View in other culture:"
 msgstr ""
@@ -206,6 +214,10 @@ msgstr "Willkommen bei Camptocamp.org"
 
 #: c2corg_ui/templates/i18n.html
 msgid "access"
+msgstr ""
+
+#: c2corg_ui/templates/document/history.html
+msgid "author"
 msgstr ""
 
 #: c2corg_ui/templates/i18n.html
@@ -248,8 +260,16 @@ msgstr ""
 msgid "climbing_outdoor"
 msgstr ""
 
+#: c2corg_ui/templates/document/history.html
+msgid "comment"
+msgstr ""
+
 #: c2corg_ui/templates/i18n.html
 msgid "confluence"
+msgstr ""
+
+#: c2corg_ui/templates/document/history.html
+msgid "created"
 msgstr ""
 
 #: c2corg_ui/templates/i18n.html

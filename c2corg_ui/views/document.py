@@ -115,6 +115,26 @@ class Document(object):
                     params.append(filters[i:i+2])
         return params
 
+    def _get_history(self):
+        id, culture = self._validate_id_culture()
+        url = '%s/document/%d/history/%s' % (
+            self.settings['api_url'], id, culture)
+        resp, content = self._call_api(url)
+        # TODO: better error handling
+        if resp['status'] == '200':
+            versions = content['versions']
+            title = content['title']
+            self.template_input.update({
+                'module': self._API_ROUTE,
+                'document_versions': versions,
+                'culture': culture,
+                'title': title,
+                'document_id': id
+            })
+            return self.template_input
+        else:
+            raise HTTPNotFound()
+
     def _get_geometry(self, data):
         return asShape(json.loads(data))
 

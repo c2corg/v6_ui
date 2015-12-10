@@ -46,3 +46,8 @@ class Route(Document):
             'route_id': id
         })
         return self.template_input
+
+    @view_config(route_name='routes_history',
+                 renderer='c2corg_ui:templates/document/history.html')
+    def history(self):
+        return self._get_history()

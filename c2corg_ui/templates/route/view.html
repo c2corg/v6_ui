@@ -25,7 +25,7 @@ other_cultures = filter(lambda l: l != culture, route['available_cultures'])
 % endif
 <app-map></app-map>
 <ul>
-  <li>History (TODO)</li>
+  <li><a href="${request.route_url('routes_history', id=route_id, culture=culture)}" translate>History</a></li>
   <li><a href="${request.route_url('routes_edit', id=route_id, culture=culture)}" translate>Edit</a></li>
 </ul>
 
