@@ -61,8 +61,8 @@ app.LangController = function(gettextCatalog, langUrlTemplate,
    * @type {string}
    * @export
    */
-  this.culture = ngeoGetBrowserLanguage(this['cultures']) || 'fr';
-  // TODO: save user choice in web storage and use it when available
+  this.culture = window.localStorage.getItem('interface_lang') ||
+      ngeoGetBrowserLanguage(this['cultures']) || 'fr';
   this.updateCulture();
 };
 
@@ -84,6 +84,14 @@ app.LangController.prototype.updateCulture = function() {
   this.gettextCatalog_.setCurrentLanguage(this.culture);
   this.gettextCatalog_.loadRemote(
       this.langUrlTemplate_.replace('__lang__', this.culture));
+  try {
+    window.localStorage.setItem('interface_lang', this.culture);
+  } catch (e) {
+    // The storage is full or we are in incognito mode in a broken browser.
+    if (goog.DEBUG) {
+      console.log('Failed to save interface language', e);
+    }
+  }
 };
 
 
