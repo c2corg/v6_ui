@@ -107,10 +107,10 @@ app.Authentication.prototype.removeUserData = function() {
   if (!this.userData) {
     return;
   }
-  var storage = this.userData.remember ? window.localStorage :
-      window.sessionStorage;
   try {
-    storage.removeItem(this.USER_DATA_KEY_);
+    // Make sure that user data are removed from all possible storages
+    window.localStorage.removeItem(this.USER_DATA_KEY_);
+    window.sessionStorage.removeItem(this.USER_DATA_KEY_);
   } catch (e) {}
   this.userData = null;
 };
