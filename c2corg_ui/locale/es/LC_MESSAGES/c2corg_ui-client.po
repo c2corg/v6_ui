@@ -21,6 +21,10 @@ msgstr ""
 msgid "Add a waypoint"
 msgstr ""
 
+#: c2corg_ui/templates/document/history.html
+msgid "Author"
+msgstr ""
+
 #: c2corg_ui/templates/base.html
 msgid "Back to homepage"
 msgstr ""
@@ -33,12 +37,22 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: c2corg_ui/templates/waypoint/edit.html c2corg_ui/templates/route/edit.html
+#: c2corg_ui/templates/waypoint/edit.html
+#: c2corg_ui/templates/document/history.html
+#: c2corg_ui/templates/route/edit.html
 msgid "Comment about the changes"
+msgstr ""
+
+#: c2corg_ui/templates/document/history.html
+msgid "Compare selected versions"
 msgstr ""
 
 #: c2corg_ui/templates/waypoint/view.html
 msgid "Coordinates"
+msgstr ""
+
+#: c2corg_ui/templates/document/history.html
+msgid "Created on"
 msgstr ""
 
 #: c2corg_ui/templates/waypoint/edit.html
@@ -110,6 +124,10 @@ msgstr ""
 msgid "Latitude must be between -90° and 90°."
 msgstr ""
 
+#: c2corg_ui/templates/document/history.html
+msgid "List of versions for language:"
+msgstr ""
+
 #: c2corg_ui/templates/auth.html c2corg_ui/static/partials/user.html
 msgid "Login"
 msgstr ""
@@ -171,6 +189,10 @@ msgstr ""
 msgid "Search ..."
 msgstr "Búsqueda ..."
 
+#: c2corg_ui/templates/helpers.html
+msgid "See the latest version"
+msgstr ""
+
 #: c2corg_ui/templates/waypoint/edit.html c2corg_ui/templates/route/edit.html
 msgid "Short description of the applied changes"
 msgstr ""
@@ -196,10 +218,6 @@ msgstr ""
 msgid "Username"
 msgstr ""
 
-#: c2corg_ui/templates/document/history.html
-msgid "View"
-msgstr ""
-
 #: c2corg_ui/templates/waypoint/view.html c2corg_ui/templates/route/view.html
 msgid "View in other culture:"
 msgstr ""
@@ -212,12 +230,12 @@ msgstr ""
 msgid "Welcome to Camptocamp.org"
 msgstr "¡Bienvenido/a a Camptocamp.org!"
 
-#: c2corg_ui/templates/i18n.html
-msgid "access"
+#: c2corg_ui/templates/helpers.html
+msgid "You are viewing an archived version of this document."
 msgstr ""
 
-#: c2corg_ui/templates/document/history.html
-msgid "author"
+#: c2corg_ui/templates/i18n.html
+msgid "access"
 msgstr ""
 
 #: c2corg_ui/templates/i18n.html
@@ -260,16 +278,8 @@ msgstr ""
 msgid "climbing_outdoor"
 msgstr ""
 
-#: c2corg_ui/templates/document/history.html
-msgid "comment"
-msgstr ""
-
 #: c2corg_ui/templates/i18n.html
 msgid "confluence"
-msgstr ""
-
-#: c2corg_ui/templates/document/history.html
-msgid "created"
 msgstr ""
 
 #: c2corg_ui/templates/i18n.html
