@@ -1,0 +1,60 @@
+.diff-container {
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  margin-left: 10px;
+  margin-right: 10px;
+
+  table.diff {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    border: none;
+    table-layout: fixed;
+    width: 100%;
+
+    tbody tr:first-child td {
+      border-top: 16px solid #f4f7fb;
+    }
+
+    td.diff_header {
+      width: 40px;
+      text-align: center;
+      color: rgba(0, 0, 0, 0.3);
+      border-left: 1px solid #eee;
+    }
+
+    td {
+      overflow: hidden;
+    }
+
+    .diff_next {
+      background-color: #c0c0c0;
+    }
+
+    .diff_add {
+      background-color: #5AD05A;
+    }
+
+    .diff_chg {
+      background-color: #E9E917;
+    }
+
+    .diff_sub {
+      background-color: #ED723E;
+    }
+
+    tr {
+      vertical-align: top;
+    }
+  }
+}
+
+.diff_header {
+  width: 100%;
+
+  td {
+    text-align: center;
+  }
+  .revision-comment {
+    font-style: italic;
+  }
+}
