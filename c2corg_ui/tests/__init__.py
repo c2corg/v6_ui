@@ -24,3 +24,8 @@ class BaseTestCase(unittest.TestCase):
 
     def tearDown(self):  # noqa
         testing.tearDown()
+
+
+def read_file(path):
+    with open(path, 'r') as f:
+        return f.read()

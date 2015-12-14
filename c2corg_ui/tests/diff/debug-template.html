@@ -1,0 +1,62 @@
+<!DOCTYPE html >
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>Debug Template</title>
+  <style type="text/css">
+    .diff-container {
+      border: 1px solid #ddd;
+      border-radius: 3px;
+    }
+    table.diff {
+      font-family: Verdana, Arial, Helvetica, sans-serif;
+      font-size: 12px;
+      border: none;
+      table-layout: fixed;
+      width: 100%;
+    }
+
+    table.diff tbody tr:first-child td {
+      border-top: 16px solid #f4f7fb;
+    }
+
+    .diff_header {
+
+    }
+
+    td.diff_header {
+      width: 40px;
+      text-align: center;
+      color: rgba(0, 0, 0, 0.3);
+      border-left: 1px solid #eee;
+    }
+
+    .diff_next {
+      background-color: #c0c0c0
+    }
+
+    .diff_add {
+      background-color: #eaffea
+    }
+
+    .diff_chg {
+      background-color: #ffff77
+    }
+
+    .diff_sub {
+      background-color: #ffecec
+    }
+
+    tr {
+      vertical-align: top;
+    }
+  </style>
+</head>
+
+<body>
+<div class="diff-container">
+  {{table}}
+</div>
+</body>
+</html>
