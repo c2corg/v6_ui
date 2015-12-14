@@ -31,7 +31,7 @@ module.value('mapFeatureCollection', {
 % endif
 <ul>
   <li>Id: ${waypoint_id}</li>
-  <li><span translate>Culture</span> : {{translate('${culture}')}}</li>
+  <li><span translate>Culture</span> : {{mainCtrl.translate('${culture}')}}</li>
   <li><span translate>Elevation</span> : ${waypoint['elevation']} m</li>
   <li><span translate>Coordinates</span> : ${geometry4326.x} °E / ${geometry4326.y} °N</li>
   <li><span translate>Maps info</span> : ${get_attr(waypoint, 'maps_info')}</li>

@@ -5,7 +5,7 @@
 
 <h1>${self.pagetitle()}</h1>
 
-<p translate ng-init="title = '${title | h}'; lang = '${culture}';">List of versions for document "{{title}}" in "{{lang}}":</p>
+<p><span translate>List of versions for language:</span> <strong>{{mainCtrl.translate('${culture}')}}</strong></p>
 
 <%
     # show last versions first

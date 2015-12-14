@@ -13,7 +13,7 @@ other_cultures = filter(lambda l: l != culture, route['available_cultures'])
 % endif
 <ul>
   <li>Id: ${route_id}</li>
-  <li><span translate>Culture</span> : {{translate('${culture}')}}</li>
+  <li><span translate>Culture</span> : {{mainCtrl.translate('${culture}')}}</li>
   <li><span translate>Height</span> : ${route['height_diff_up']} m</li>
   <li><span translate>Description</span> : ${get_attr(locale, 'description')}</li>
   <li><span translate>Gear</span> : ${get_attr(locale, 'gear')}</li>
