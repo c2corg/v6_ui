@@ -8,19 +8,6 @@ with open(os.path.join(here, 'README.md')) as f:
 with open(os.path.join(here, 'CHANGES.txt')) as f:
     CHANGES = f.read()
 
-requires = [
-    'pyramid',
-    'pyramid_debugtoolbar',
-    'pyramid_mako',
-    'pyramid_closure',
-    'waitress',
-    'httplib2',
-    'shapely',
-    'pyproj',
-    'functools32',
-    'htmlmin',
-    ]
-
 setup(name='c2corg_ui',
       version='0.0',
       description='c2corg_ui',
@@ -38,8 +25,8 @@ setup(name='c2corg_ui',
       packages=find_packages(),
       include_package_data=True,
       zip_safe=False,
-      install_requires=requires,
-      tests_require=requires,
+      install_requires=[],
+      tests_require=[],
       test_suite="c2corg_ui",
       entry_points="""\
       [paste.app_factory]
