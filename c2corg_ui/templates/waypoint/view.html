@@ -1,5 +1,5 @@
 <%inherit file="../base.html"/>
-<%namespace file="../helpers.html" import="get_attr"/>
+<%namespace file="../helpers.html" import="get_attr, show_archive_data"/>
 <%
 waypoint_id = waypoint['document_id']
 other_cultures = filter(lambda l: l != culture, waypoint['available_cultures'])
@@ -26,6 +26,9 @@ module.value('mapFeatureCollection', {
 </%block>\
 
 <h1>${self.pagetitle()}</h1>
+% if version:
+  ${show_archive_data('waypoints', waypoint, locale, version)}
+% endif
 <ul>
   <li>Id: ${waypoint_id}</li>
   <li><span translate>Culture</span> : {{translate('${culture}')}}</li>

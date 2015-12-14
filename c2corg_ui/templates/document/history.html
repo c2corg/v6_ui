@@ -5,23 +5,20 @@
 
 <h1>${self.pagetitle()}</h1>
 
-<table style="width:100%" border="1">
+<p translate ng-init="title = '${title | h}'; lang = '${culture}';">List of versions for document "{{title}}" in {{lang}}:</p>
+<table class="versions-list">
   <tr>
     <th></th>
-    <th translate>created</th>
-    <th translate>author</th>
-    <th translate>comment</th>
+    <th translate>Created on</th>
+    <th translate>Author</th>
+    <th translate>Comment about the changes</th>
   </tr>
   % for v in document_versions:
     <tr>
       <td>Radios ${v['version_id']}</td>
-      <td><a href="${request.route_url(module + '_view', id=document_id, culture=culture)}#TODOversion">{{'${1000 * v['written_at']}' | date:'medium'}}</a></td>
+      <td><a href="${request.route_url(module + '_archive', id=document_id, culture=culture, version=v['version_id'])}">{{'${1000 * v['written_at']}' | date:'medium'}}</a></td>
       <td><a href="#TODO profile for ${v['user_id']}">${v['username']}</a></td>
       <td>${v['comment']}</td>
     </tr>
   % endfor
 </table>
-
-<ul>
-  <li><a href="${request.route_url(module + '_view', id=document_id, culture=culture)}" translate>View</a></li>
-</ul>
