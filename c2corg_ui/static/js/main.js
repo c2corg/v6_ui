@@ -13,3 +13,4 @@ goog.require('app.langDirective');
 goog.require('app.mapDirective');
 goog.require('app.searchDirective');
 goog.require('app.userDirective');
+goog.require('app.versionsDirective');
