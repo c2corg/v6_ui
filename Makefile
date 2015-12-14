@@ -29,7 +29,7 @@ help:
 	@echo "- clean			Remove generated files"
 	@echo "- cleanall		Remove all the build artefacts"
 	@echo "- compile-catalog	Compile the translation catalog"
-	@echo "- flake8			Run flake8 checker on the Python code"
+	@echo "- flake8		Run flake8 checker on the Python code"
 	@echo "- lint			Check the JavaScript code with linters"
 	@echo "- build			Build the project"
 	@echo "- install		Install and build the project"
@@ -38,13 +38,14 @@ help:
 	@echo "- update-node-modules	Update node modules (using --force)"
 	@echo "- upgrade		Upgrade the Python dependencies."
 	@echo "- upgrade-dev		Upgrade the Python dev. dependencies."
+	@echo "- less			Rebuild CSS files."
 	@echo
 
 .PHONY: check
 check: flake8 lint build test
 
 .PHONY: build
-build: c2corg_ui/static/build/build.js c2corg_ui/static/build/build.css c2corg_ui/static/build/build.min.css compile-catalog
+build: c2corg_ui/static/build/build.js less compile-catalog
 
 .PHONY: clean
 clean:
@@ -78,6 +79,9 @@ install: build install-dev-egg template .build/node_modules.timestamp
 
 .PHONY: template
 template: $(TEMPLATE_FILES)
+
+.PHONY: less
+less: c2corg_ui/static/build/build.min.css c2corg_ui/static/build/build.css
 
 .PHONY: install-dev-egg
 install-dev-egg: $(SITE_PACKAGES)/c2corg_ui.egg-link
