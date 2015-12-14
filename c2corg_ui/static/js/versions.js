@@ -38,7 +38,6 @@ app.VersionsController = function($scope) {
    * @private
    */
   this.scope_ = $scope;
-
 };
 
 

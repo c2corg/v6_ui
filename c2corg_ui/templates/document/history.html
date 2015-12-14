@@ -30,8 +30,13 @@
       <tr>
         % if has_several_versions:
           <td>
-            <input type="radio" ng-model="from" ng-value="${v['version_id']}" class="version-from">
-            <input type="radio" ng-model="to" ng-value="${v['version_id']}" class="version-to">
+            % if loop.first:
+              <div ng-init="to = ${v['version_id']}"></div>
+            % elif loop.index == 1:
+              <div ng-init="from = ${v['version_id']}"></div>
+            % endif
+            <input type="radio" ng-model="from" ng-value="${v['version_id']}" ng-class="{'hide-radio': ${v['version_id']} >= to}">
+            <input type="radio" ng-model="to" ng-value="${v['version_id']}" ng-class="{'hide-radio': ${v['version_id']} <= from}">
           </td>
         % endif
         <%
