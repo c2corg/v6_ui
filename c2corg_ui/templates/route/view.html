@@ -2,7 +2,8 @@
 <%namespace file="../helpers.html" import="get_attr, show_archive_data"/>
 <%
 route_id = route['document_id']
-other_cultures = filter(lambda l: l != culture, route['available_cultures'])
+other_cultures = filter(lambda l: l != culture, route['available_cultures']) \
+    if 'available_cultures' in route else None
 %>\
 <%block name="pagelang">lang="${culture}"</%block>
 <%block name="pagetitle">${locale['title']}</%block>
