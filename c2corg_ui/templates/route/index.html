@@ -1,6 +1,7 @@
 <%inherit file="../base.html"/>
 <%namespace name="helpers" file="../helpers.html" import="add_pagination_links"/>
 <%block name="pagetitle">Routes</%block>
+<%block name="metarobots"><meta name="robots" content="noindex,follow"></%block>\
 
 <h1>${self.pagetitle()}</h1>
 <app-map></app-map>
