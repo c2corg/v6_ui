@@ -5,23 +5,53 @@
 
 <h1>${self.pagetitle()}</h1>
 
-<table style="width:100%" border="1">
-  <tr>
-    <th></th>
-    <th translate>created</th>
-    <th translate>author</th>
-    <th translate>comment</th>
-  </tr>
-  % for v in document_versions:
-    <tr>
-      <td>Radios ${v['version_id']}</td>
-      <td><a href="${request.route_url(module + '_view', id=document_id, culture=culture)}#TODOversion">{{'${1000 * v['written_at']}' | date:'medium'}}</a></td>
-      <td><a href="#TODO profile for ${v['user_id']}">${v['username']}</a></td>
-      <td>${v['comment']}</td>
-    </tr>
-  % endfor
-</table>
+<p><span translate>List of versions for language:</span> <strong>{{mainCtrl.translate('${culture}')}}</strong></p>
 
-<ul>
-  <li><a href="${request.route_url(module + '_view', id=document_id, culture=culture)}" translate>View</a></li>
-</ul>
+<%
+    # show last versions first
+    document_versions.reverse()
+    has_several_versions = len(document_versions) > 1
+%>
+
+% if has_several_versions:
+<form app-versions ng-submit="versionsCtrl.compare()">
+    <p><button type="submit" class="btn btn-primary" translate>Compare selected versions</button></p>
+% endif
+  <table class="versions-list">
+    <tr>
+      % if has_several_versions:
+        <th></th>
+      % endif
+      <th translate>Created on</th>
+      <th translate>Author</th>
+      <th translate>Comment about the changes</th>
+    </tr>
+    % for v in document_versions:
+      <tr>
+        % if has_several_versions:
+          <td>
+            % if loop.first:
+              <div ng-init="to = ${v['version_id']}"></div>
+            % elif loop.index == 1:
+              <div ng-init="from = ${v['version_id']}"></div>
+            % endif
+            <input type="radio" ng-model="from" ng-value="${v['version_id']}" ng-class="{'hide-radio': ${v['version_id']} >= to}">
+            <input type="radio" ng-model="to" ng-value="${v['version_id']}" ng-class="{'hide-radio': ${v['version_id']} <= from}">
+          </td>
+        % endif
+        <%
+            if loop.first:
+                version_url = request.route_url(module + '_view', id=document_id, culture=culture)
+            else:
+                version_url = request.route_url(module + '_archive', id=document_id, culture=culture, version=v['version_id'])
+        %>
+        <td><a href="${version_url}">{{'${1000 * v['written_at']}' | date:'medium'}}</a></td>
+        <td><a href="#TODO profile for ${v['user_id']}">${v['username']}</a></td>
+        <td>${v['comment']}</td>
+      </tr>
+    % endfor
+  </table>
+% if has_several_versions:
+    <p><button type="submit" class="btn btn-primary" translate>Compare selected versions</button></p>
+</form>
+% endif

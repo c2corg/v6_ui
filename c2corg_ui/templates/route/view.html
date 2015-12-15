@@ -1,5 +1,5 @@
 <%inherit file="../base.html"/>
-<%namespace file="../helpers.html" import="get_attr"/>
+<%namespace file="../helpers.html" import="get_attr, show_archive_data"/>
 <%
 route_id = route['document_id']
 other_cultures = filter(lambda l: l != culture, route['available_cultures'])
@@ -8,9 +8,12 @@ other_cultures = filter(lambda l: l != culture, route['available_cultures'])
 <%block name="pagetitle">${locale['title']}</%block>
 
 <h1>${self.pagetitle()}</h1>
+% if version:
+  ${show_archive_data('routes', route, locale, version)}
+% endif
 <ul>
   <li>Id: ${route_id}</li>
-  <li><span translate>Culture</span> : {{translate('${culture}')}}</li>
+  <li><span translate>Culture</span> : {{mainCtrl.translate('${culture}')}}</li>
   <li><span translate>Height</span> : ${route['height_diff_up']} m</li>
   <li><span translate>Description</span> : ${get_attr(locale, 'description')}</li>
   <li><span translate>Gear</span> : ${get_attr(locale, 'gear')}</li>

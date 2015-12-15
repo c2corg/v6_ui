@@ -73,6 +73,24 @@ class Document(object):
         locale = document['locales'][0]
         return document, locale
 
+    def _get_archived_document(self, id, culture, version_id):
+        url = '%s/%s/%d/%s/%d' % (
+            self.settings['api_url'], self._API_ROUTE, id, culture, version_id
+        )
+        resp, content = self._call_api(url)
+        # TODO: better error handling
+        if resp['status'] == '404':
+            raise HTTPNotFound()
+        elif resp['status'] != '200':
+            raise HTTPInternalServerError(
+                "An error occured while loading the document")
+        document = content['document']
+        version = content['version']
+        # We need to pass locale data to Mako as a dedicated object to make it
+        # available to the parent templates:
+        locale = document['locales'][0]
+        return document, locale, version
+
     def _get_documents(self):
         params = self._get_filter_params()
         # query_string contains filter params using the standard URL format

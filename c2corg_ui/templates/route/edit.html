@@ -13,7 +13,7 @@ updating_doc = route_id and route_culture
   <div id="culture-group" class="form-group" ng-class="{ 'has-error': editForm.culture.$touched && editForm.culture.$invalid }">
     <label translate>Culture</label>
     % if route_culture:
-      {{translate('${route_culture}')}}
+      {{mainCtrl.translate('${route_culture}')}}
     % else:
       <select name="culture" ng-options="culture as mainCtrl.translate(culture) for culture in ['${"','".join(default_cultures) |n}']" 
         ng-model="route.locales[0].culture" class="form-control" required>

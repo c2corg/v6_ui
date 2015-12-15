@@ -18,6 +18,10 @@ msgstr "Ajouter un itinéraire"
 msgid "Add a waypoint"
 msgstr "Ajouter un point de passage"
 
+#: c2corg_ui/templates/document/history.html
+msgid "Author"
+msgstr "Auteur"
+
 #: c2corg_ui/templates/base.html
 msgid "Back to homepage"
 msgstr "Retour à la page d'accueil"
@@ -30,13 +34,23 @@ msgstr "Naviguer en"
 msgid "Cancel"
 msgstr "Annuler"
 
-#: c2corg_ui/templates/waypoint/edit.html c2corg_ui/templates/route/edit.html
+#: c2corg_ui/templates/waypoint/edit.html
+#: c2corg_ui/templates/document/history.html
+#: c2corg_ui/templates/route/edit.html
 msgid "Comment about the changes"
 msgstr "Courte description des changements"
+
+#: c2corg_ui/templates/document/history.html
+msgid "Compare selected versions"
+msgstr "Comparer les versions sélectionnées"
 
 #: c2corg_ui/templates/waypoint/view.html
 msgid "Coordinates"
 msgstr "Coordonnées"
+
+#: c2corg_ui/templates/document/history.html
+msgid "Created on"
+msgstr "Créée le"
 
 #: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/view.html c2corg_ui/templates/route/edit.html
@@ -93,7 +107,7 @@ msgstr "Dénivelé"
 
 #: c2corg_ui/templates/waypoint/view.html c2corg_ui/templates/route/view.html
 msgid "History"
-msgstr ""
+msgstr "Versions"
 
 #: c2corg_ui/templates/helpers.html
 msgid "Last"
@@ -106,6 +120,10 @@ msgstr "Latitude"
 #: c2corg_ui/templates/waypoint/edit.html
 msgid "Latitude must be between -90° and 90°."
 msgstr "La latitude doit être comprise en -90° et 90°."
+
+#: c2corg_ui/templates/document/history.html
+msgid "List of versions for language:"
+msgstr "Liste des versions pour la langue :"
 
 #: c2corg_ui/templates/auth.html c2corg_ui/static/partials/user.html
 msgid "Login"
@@ -168,6 +186,10 @@ msgstr "Enregistrer"
 msgid "Search ..."
 msgstr "Rechercher ..."
 
+#: c2corg_ui/templates/helpers.html
+msgid "See the latest version"
+msgstr "Voir la dernière version"
+
 #: c2corg_ui/templates/waypoint/edit.html c2corg_ui/templates/route/edit.html
 msgid "Short description of the applied changes"
 msgstr "Courte description des changements appliqués"
@@ -193,10 +215,6 @@ msgstr "Type"
 msgid "Username"
 msgstr "Identifiant"
 
-#: c2corg_ui/templates/document/history.html
-msgid "View"
-msgstr ""
-
 #: c2corg_ui/templates/waypoint/view.html c2corg_ui/templates/route/view.html
 msgid "View in other culture:"
 msgstr "Afficher dans une autre langue:"
@@ -209,13 +227,13 @@ msgstr "Points de passage"
 msgid "Welcome to Camptocamp.org"
 msgstr "Bienvenue sur Camptocamp.org"
 
+#: c2corg_ui/templates/helpers.html
+msgid "You are viewing an archived version of this document."
+msgstr "Vous consultez une ancienne version de ce document."
+
 #: c2corg_ui/templates/i18n.html
 msgid "access"
 msgstr "accès"
-
-#: c2corg_ui/templates/document/history.html
-msgid "author"
-msgstr ""
 
 #: c2corg_ui/templates/i18n.html
 msgid "base_camp"
@@ -257,17 +275,9 @@ msgstr "SAE"
 msgid "climbing_outdoor"
 msgstr "site de couenne/bloc"
 
-#: c2corg_ui/templates/document/history.html
-msgid "comment"
-msgstr ""
-
 #: c2corg_ui/templates/i18n.html
 msgid "confluence"
 msgstr "confluent"
-
-#: c2corg_ui/templates/document/history.html
-msgid "created"
-msgstr ""
 
 #: c2corg_ui/templates/i18n.html
 msgid "de"

@@ -23,15 +23,24 @@ class Waypoint(Document):
 
     @view_config(route_name='waypoints_view',
                  renderer='c2corg_ui:templates/waypoint/view.html')
+    @view_config(route_name='waypoints_archive',
+                 renderer='c2corg_ui:templates/waypoint/view.html')
     def view(self):
         id, culture = self._validate_id_culture()
-        waypoint, locale = self._get_document(id, culture)
+        if 'version' in self.request.matchdict:
+            version_id = int(self.request.matchdict['version'])
+            waypoint, locale, version = self._get_archived_document(
+                id, culture, version_id)
+        else:
+            waypoint, locale = self._get_document(id, culture)
+            version = None
         self.template_input.update({
             'culture': culture,
             'waypoint': waypoint,
             'locale': locale,
             'geometry': self._get_geometry(waypoint['geometry']['geom']),
-            'transform': self._transform
+            'transform': self._transform,
+            'version': version
         })
         return self.template_input
 
