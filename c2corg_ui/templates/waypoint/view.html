@@ -2,7 +2,8 @@
 <%namespace file="../helpers.html" import="get_attr, show_archive_data"/>
 <%
 waypoint_id = waypoint['document_id']
-other_cultures = filter(lambda l: l != culture, waypoint['available_cultures'])
+other_cultures = filter(lambda l: l != culture, waypoint['available_cultures']) \
+    if 'available_cultures' in waypoint else None
 geometry4326 = transform(geometry, 'epsg:3857', 'epsg:4326')
 %>\
 <%block name="pagelang">lang="${culture}"</%block>
