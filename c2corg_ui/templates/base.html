@@ -47,6 +47,8 @@ closure_library_path = settings.get('closure_library_path')
       </div>
     </div>
 
+    <app-alert></app-alert>
+
 % if debug:
     <script>
       // We should really use the empty string for CLOSURE_BASE_PATH for there
@@ -61,6 +63,7 @@ closure_library_path = settings.get('closure_library_path')
     <script src="${request.static_url('%s/angular-messages/angular-messages.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/closure/goog/base.js' % closure_library_path)}"></script>
     <script src="${request.static_url('%s/typeahead.js/dist/typeahead.bundle.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%s/angular-ui-bootstrap/ui-bootstrap.js' % node_modules_path)}"></script>
     <script src="${request.route_url('deps.js')}"></script>
     <script src="${request.static_url('c2corg_ui:static/js/main.js')}"></script>
 % else:
@@ -69,6 +72,7 @@ closure_library_path = settings.get('closure_library_path')
     <script src="${request.static_url('%s/angular-gettext/dist/angular-gettext.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/angular-messages/angular-messages.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/typeahead.js/dist/typeahead.bundle.min.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%s/angular-ui-bootstrap/ui-bootstrap.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('c2corg_ui:static/build/build.js')}"></script>
 % endif
     <script>

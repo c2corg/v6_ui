@@ -1,0 +1,1 @@
+<uib-alert ng-repeat="alert in alertCtrl.alerts" template-url="/static/partials/alert-tpl.html" type="{{alert.type}}" close="alertCtrl.close($index)" dismiss-on-timeout="10000">{{alert.msg}}</uib-alert>

@@ -13,6 +13,7 @@
     "angular-messages": "1.4.8",
     "angular-gettext": "2.1.2",
     "angular-gettext-tools": "2.1.2",
+    "angular-ui-bootstrap": "0.14.3",
     "openlayers": "git://github.com/openlayers/ol3#5a123d084083332a8739aeb155eeaea7cf01f46f",
     "ngeo": "git://github.com/camptocamp/ngeo#f1d44f790b48959342e55db63118aca864cbf7fa",
     "less": "~2.0.0",
