@@ -2,6 +2,7 @@ goog.provide('app.AlertController');
 goog.provide('app.alertDirective');
 
 goog.require('app');
+goog.require('app.ControllerHub');
 
 
 /**
@@ -27,16 +28,19 @@ app.module.directive('appAlert', app.alertDirective);
 
 /**
  * @constructor
+ * @param {app.ControllerHub} appControllerHub Controller hub service
  * @export
  * @ngInject
  */
-app.AlertController = function() {
+app.AlertController = function(appControllerHub) {
 
   /**
    * @type {Array.<appx.AlertMessage>}
    * @export
    */
   this.alerts = [];
+
+  appControllerHub.register('alert', this);
 };
 
 
@@ -50,12 +54,11 @@ app.AlertController.prototype.close = function(index) {
 
 
 /**
- * @param {string|Object} msg Alert data.
+ * @param {string|appx.AlertMessage} msg Alert data.
  * @export
  */
 app.AlertController.prototype.addAlert = function(msg) {
-  msg = (typeof msg == 'string') ? {'msg': msg} : msg;
-  this.alerts.push(msg);
+  this.alerts.push(typeof msg == 'string' ? {'msg': msg} : msg);
 };
 
 
