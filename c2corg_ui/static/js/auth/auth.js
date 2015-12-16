@@ -33,12 +33,13 @@ app.module.directive('appAuth', app.authDirective);
  * @param {string} apiUrl Base URL of the API.
  * @param {app.Authentication} appAuthentication
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
+ * @param {app.ControllerHub} appControllerHub Controller hub service
  * @constructor
  * @export
  * @ngInject
  */
 app.AuthController = function($scope, $http, apiUrl, appAuthentication,
-    ngeoLocation) {
+    ngeoLocation, appControllerHub) {
 
   /**
    * @type {angular.Scope}
@@ -69,6 +70,12 @@ app.AuthController = function($scope, $http, apiUrl, appAuthentication,
    * @private
    */
   this.ngeoLocation_ = ngeoLocation;
+
+  /**
+   * @type {app.ControllerHub}
+   * @private
+   */
+  this.ctrlHub_ = appControllerHub;
 };
 
 
@@ -103,6 +110,7 @@ app.AuthController.prototype.successLogin_ = function(remember, response) {
   var url_from = this.ngeoLocation_.hasParam('from') ?
       decodeURIComponent(this.ngeoLocation_.getParam('from')) : '/';
   window.location.href = url_from;
+  // TODO: add a welcome alert message on redirected page
 };
 
 
@@ -111,10 +119,11 @@ app.AuthController.prototype.successLogin_ = function(remember, response) {
  * @private
  */
 app.AuthController.prototype.errorLogin_ = function(response) {
-  // TODO
-  alert('login error');
-  console.log('login error');
-  console.log(response);
+  // TODO: i18n
+  this.ctrlHub_.alert.addAlert({
+    type: 'danger',
+    msg: 'Login failed'
+  });
 };
 
 
@@ -139,10 +148,11 @@ app.AuthController.prototype.register = function() {
  * @private
  */
 app.AuthController.prototype.successRegister_ = function(response) {
-  // TODO
-  alert('register success');
-  console.log('register success');
-  console.log(response);
+  // TODO: i18n
+  this.ctrlHub_.alert.addAlert({
+    type: 'success',
+    msg: 'Registration success'
+  });
 };
 
 
@@ -151,10 +161,19 @@ app.AuthController.prototype.successRegister_ = function(response) {
  * @private
  */
 app.AuthController.prototype.errorRegister_ = function(response) {
-  // TODO
-  alert('register error');
-  console.log('register error');
-  console.log(response);
+  // TODO: i18n
+  // FIXME: HTML is not interpreted in alert messages
+  var msg = 'Registration failed because of:';
+  var errors = response['data']['errors'],
+      len = errors.length;
+  if (len > 0) {
+    msg += '<ul>';
+    for (var i = 0; i < len; i++) {
+      msg += '<li>' + errors[i]['description'] + '</li>';
+    }
+    msg += '</ul>';
+  }
+  this.ctrlHub_.alert.addAlert({type: 'danger', msg: msg});
 };
 
 
