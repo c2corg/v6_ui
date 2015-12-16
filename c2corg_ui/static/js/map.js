@@ -106,6 +106,12 @@ app.MapController = function($scope, mapFeatureCollection) {
    */
   this.view_ = this.map.getView();
 
+  /**
+   * @type {ol.format.GeoJSON}
+   * @private
+   */
+  this.geojsonFormat_ = new ol.format.GeoJSON();
+
   if (!goog.array.isEmpty(this.features_)) {
     // Recentering on the features extent requires that the map actually
     // has a target. Else the map size cannot be computed.
@@ -184,12 +190,11 @@ app.MapController.prototype.showFeatures_ = function(features) {
  * @private
  */
 app.MapController.prototype.handleEditModelChange_ = function(event, data) {
-  if ('geometry' in data && data['geometry']) {
-    var geometry = data['geometry'];
-    if ('geom' in geometry && geometry['geom'] instanceof ol.geom.Geometry) {
-      var features = [new ol.Feature(geometry['geom'])];
-      this.showFeatures_(features);
-    }
+  var geomstr = data['geometry'] ? data['geometry']['geom'] : null;
+  if (geomstr) {
+    var geometry = this.geojsonFormat_.readGeometry(geomstr);
+    var features = [new ol.Feature(geometry)];
+    this.showFeatures_(features);
   }
 };
 
