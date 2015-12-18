@@ -39,12 +39,29 @@
 % else:
   % for field_diff in diffs:
     <h3 translate>${field_diff.field}</h3>
-    % if field_diff.field == 'geometry':
-    [Map showing the two different geometries]
-    % else:
     <div class="diff-container">
+    % if field_diff.field == 'geometry':
+    <%block name="moduleConstantsValues">
+    module.value('mapFeatureCollection', {
+      "type": "FeatureCollection",
+      "features": [
+      %if geometry1:
+        {"type": "Feature", "geometry": ${geometry1 | n}, "properties": {"type": "v1"}},
+      %endif
+      %if geometry2:
+        {"type": "Feature", "geometry": ${geometry2 | n}, "properties": {"type": "v2"}}
+      %endif
+      ]
+    });
+    </%block>\
+    <app-diff-map></app-diff-map>
+    <p class="diff-map-legend">
+      <span translate>Legend:</span> <span translate>Version 1 in </span> <span class="diff-red" translate="">red</span>,
+      <span translate>Version 2 in</span> <span class="diff-green" translate>green</span>
+    </p>
+    % else:
       ${field_diff.html_diff | n}
-    </div>
     % endif
+    </div>
   % endfor
 % endif
