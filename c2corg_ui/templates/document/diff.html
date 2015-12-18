@@ -9,7 +9,7 @@
   <tr>
     <td>
       <span translate>Revision as of</span> {{'${1000 * version1['written_at']}' | date:'medium'}}<br/>
-      by <a href="#TODO profile for ${version1['user_id']}">${version1['username']}</a>
+      <span translate>by</span> <a href="#TODO profile for ${version1['user_id']}">${version1['username']}</a>
       % if version1['comment']:
         <br/><span class="revision-comment">(${version1['comment']})</span>
       % endif

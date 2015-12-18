@@ -11,7 +11,7 @@ updating_doc = route_id and route_culture
 % endif
   name="editForm" novalidate ng-submit="editCtrl.submitForm(editForm.$valid)">
   <div id="culture-group" class="form-group" ng-class="{ 'has-error': editForm.culture.$touched && editForm.culture.$invalid }">
-    <label translate>Culture</label>
+    <label translate>culture</label>
     % if route_culture:
       {{mainCtrl.translate('${route_culture}')}}
     % else:
@@ -24,7 +24,7 @@ updating_doc = route_id and route_culture
     % endif
   </div>
   <div id="title-group" class="form-group" ng-class="{ 'has-error': editForm.title.$touched && editForm.title.$invalid }">
-    <label translate>Title</label>
+    <label translate>title</label>
     <input type="text" name="title" ng-model="route.locales[0].title" class="form-control" required ng-minlength="3" />
     <div class="help-block" ng-messages="editForm.title.$error" ng-if="editForm.title.$touched">
       <p ng-message="required" translate>This field is required.</p> 
@@ -32,7 +32,7 @@ updating_doc = route_id and route_culture
     </div>
   </div>
   <div id="activities-group" class="form-group" ng-class="{ 'has-error': editForm.activities.$touched && editForm.activities.$invalid }">
-    <label translate>Activities</label>
+    <label translate>activities</label>
     <select name="activities" ng-options="activity as mainCtrl.translate(activity) for activity in ['${"','".join(activities) |n}']"
       ng-model="route.activities" class="form-control" required multiple>
     </select>
@@ -41,21 +41,21 @@ updating_doc = route_id and route_culture
     </div>
   </div>
   <div id="height_diff_up-group" class="form-group" ng-class="{ 'has-error': editForm.height_diff_up.$touched && editForm.height_diff_up.$invalid }">
-    <label translate>Height</label>
+    <label translate>height_diff_up</label>
     <input type="number" name="height_diff_up" ng-model="route.height_diff_up" class="form-control" /> m
   </div>
   <div id="route_type-group" class="form-group">
-    <label translate>Route type</label>
+    <label translate>route_types</label>
     <select name="route_type" ng-options="type as mainCtrl.translate(type) for type in ['${"','".join(route_types) |n}']"
       ng-model="route.route_type" class="form-control">
     </select>
   </div>
   <div id="description-group" class="form-group">
-    <label translate>Description</label>
+    <label translate>description</label>
     <textarea name="description" ng-model="route.locales[0].description" class="form-control"></textarea>
   </div>
   <div id="gear-group" class="form-group">
-    <label translate>Gear</label>
+    <label translate>gear</label>
     <textarea name="gear" ng-model="route.locales[0].gear" class="form-control" placeholder="{{'Describe here the gear needed for this route'|translate}}"></textarea>
   </div>
   % if updating_doc:
