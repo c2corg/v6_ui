@@ -1,0 +1,8 @@
+<div class="alert" ng-class="['alert-' + alertCtrl.type, 'alert-dismissible', 'fade', 'in']" role="alert">
+  <button type="button" class="close" ng-click="alertCtrl.close({$event: $event})">
+    <span aria-hidden="true">&times;</span>
+    <span class="sr-only">Close</span>
+  </button>
+  <div ng-bind-html="alertCtrl.msg | appTrustAsHtml"></div>
+</div>
+
