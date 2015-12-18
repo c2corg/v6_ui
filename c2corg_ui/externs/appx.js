@@ -54,3 +54,13 @@ appx.SearchDocument;
  * }}
  */
 appx.SearchDocumentLocale;
+
+
+/**
+ * @typedef {{
+ *  msg: string,
+ *  type: ?string,
+ *  timeout: ?number
+ * }}
+ */
+appx.AlertMessage;
