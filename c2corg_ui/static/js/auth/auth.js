@@ -2,6 +2,7 @@ goog.provide('app.AuthController');
 goog.provide('app.authDirective');
 
 goog.require('app');
+goog.require('app.Alerts');
 goog.require('app.Authentication');
 goog.require('ngeo.Location');
 
@@ -33,12 +34,13 @@ app.module.directive('appAuth', app.authDirective);
  * @param {string} apiUrl Base URL of the API.
  * @param {app.Authentication} appAuthentication
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
+ * @param {app.Alerts} appAlerts
  * @constructor
  * @export
  * @ngInject
  */
 app.AuthController = function($scope, $http, apiUrl, appAuthentication,
-    ngeoLocation) {
+    ngeoLocation, appAlerts) {
 
   /**
    * @type {angular.Scope}
@@ -69,6 +71,12 @@ app.AuthController = function($scope, $http, apiUrl, appAuthentication,
    * @private
    */
   this.ngeoLocation_ = ngeoLocation;
+
+  /**
+   * @type {app.Alerts}
+   * @private
+   */
+  this.alerts_ = appAlerts;
 };
 
 
@@ -111,10 +119,11 @@ app.AuthController.prototype.successLogin_ = function(remember, response) {
  * @private
  */
 app.AuthController.prototype.errorLogin_ = function(response) {
-  // TODO
-  alert('login error');
-  console.log('login error');
-  console.log(response);
+  this.alerts_.add({
+    'type': 'danger',
+    'msg': this.formatErrorMsg_(response),
+    'timeout': 5000
+  });
 };
 
 
@@ -139,10 +148,12 @@ app.AuthController.prototype.register = function() {
  * @private
  */
 app.AuthController.prototype.successRegister_ = function(response) {
-  // TODO
-  alert('register success');
-  console.log('register success');
-  console.log(response);
+  // TODO: i18n
+  this.alerts_.add({
+    'type': 'success',
+    'msg': 'Register success',
+    'timeout': 5000
+  });
 };
 
 
@@ -151,10 +162,35 @@ app.AuthController.prototype.successRegister_ = function(response) {
  * @private
  */
 app.AuthController.prototype.errorRegister_ = function(response) {
-  // TODO
-  alert('register error');
-  console.log('register error');
-  console.log(response);
+  this.alerts_.add({
+    'type': 'danger',
+    'msg': this.formatErrorMsg_(response),
+    'timeout': 5000
+  });
+};
+
+
+/**
+ * @param {Object} response Response from the API server.
+ * @return {string}
+ * @private
+ */
+app.AuthController.prototype.formatErrorMsg_ = function(response) {
+  // TODO: i18n
+  // TODO: filter strings from response using $sanitize or another tool
+  var errors = response['data']['errors'],
+      len = errors.length,
+      msg = '';
+  if (len == 1) {
+    msg = errors[0]['description'];
+  } else if (len > 0) {
+    msg += '<ul>';
+    for (var i = 0; i < len; i++) {
+      msg += '<li>' + errors[i]['description'] + '</li>';
+    }
+    msg += '</ul>';
+  }
+  return msg;
 };
 
 
