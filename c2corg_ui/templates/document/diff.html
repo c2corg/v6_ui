@@ -13,6 +13,11 @@
       % if version1['comment']:
         <br/><span class="revision-comment">(${version1['comment']})</span>
       % endif
+      % if previous_version_id:
+        <br/><a href="${request.route_url(
+            module + '_diff', id=document_id, culture=culture, v1=previous_version_id,
+            v2=version1['version_id'])}" translate>← previous difference</a>
+      % endif
     </td>
     <td>
       <span translate>Revision as of</span> {{'${1000 * version2['written_at']}' | date:'medium'}}<br/>
@@ -20,17 +25,26 @@
       % if version2['comment']:
         <br/><span class="revision-comment">(${version2['comment']})</span>
       % endif
+      % if next_version_id:
+        <br/><a href="${request.route_url(
+            module + '_diff', id=document_id, culture=culture, v1=version2['version_id'],
+            v2=next_version_id)}" translate>next difference →</a>
+      % endif
     </td>
   </tr>
 </table>
 
-% for field_diff in diffs:
-  <h3 translate>${field_diff.field}</h3>
-  % if field_diff.field == 'geometry':
-  [Map showing the two different geometries]
-  % else:
-  <div class="diff-container">
-    ${field_diff.html_diff | n}
-  </div>
-  % endif
-% endfor
+% if not diffs:
+  <p class="bg-info">No content changes.</p>
+% else:
+  % for field_diff in diffs:
+    <h3 translate>${field_diff.field}</h3>
+    % if field_diff.field == 'geometry':
+    [Map showing the two different geometries]
+    % else:
+    <div class="diff-container">
+      ${field_diff.html_diff | n}
+    </div>
+    % endif
+  % endfor
+% endif

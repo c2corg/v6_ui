@@ -201,7 +201,9 @@ class Document(object):
                 'v2_id': v2,
                 'diffs': field_diffs,
                 'version1': version1,
-                'version2': version2
+                'version2': version2,
+                'previous_version_id': content_v1['previous_version_id'],
+                'next_version_id': content_v2['next_version_id']
             })
             return self.template_input
 
