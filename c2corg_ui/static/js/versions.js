@@ -16,7 +16,11 @@ app.versionsDirective = function() {
     scope: true,
     controller: 'appVersionsController',
     controllerAs: 'versionsCtrl',
-    bindToController: true
+    bindToController: {
+      'documentType': '@',
+      'documentId': '@',
+      'lang': '@'
+    }
   };
 };
 
@@ -45,9 +49,13 @@ app.VersionsController = function($scope) {
  * @export
  */
 app.VersionsController.prototype.compare = function() {
-  var from = this.scope_['from'];
-  var to = this.scope_['to'];
-  alert('TODO: compare ' + from + ' to ' + to);
+  var url = '/{documentType}/diff/{id}/{lang}/{v1}/{v2}'
+    .replace('{documentType}', this['documentType'])
+    .replace('{id}', this['documentId'])
+    .replace('{lang}', this['lang'])
+    .replace('{v1}', this.scope_['from'])
+    .replace('{v2}', this.scope_['to']);
+  window.location.href = url;
 };
 
 
