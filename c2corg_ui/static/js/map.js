@@ -2,16 +2,21 @@ goog.provide('app.MapController');
 goog.provide('app.mapDirective');
 
 goog.require('app');
+goog.require('app.utils');
 goog.require('ngeo.mapDirective');
 goog.require('ol.Feature');
 goog.require('ol.Map');
 goog.require('ol.View');
 goog.require('ol.format.GeoJSON');
 goog.require('ol.geom.Point');
+goog.require('ol.interaction.Select');
 goog.require('ol.layer.Tile');
 goog.require('ol.layer.Vector');
 goog.require('ol.source.OSM');
 goog.require('ol.source.Vector');
+goog.require('ol.style.Icon');
+goog.require('ol.style.Style');
+goog.require('ol.style.Text');
 
 
 /**
@@ -77,11 +82,6 @@ app.MapController = function($scope, mapFeatureCollection) {
    */
   this.features_ = [];
 
-  if (mapFeatureCollection) {
-    var format = new ol.format.GeoJSON();
-    goog.array.extend(this.features_,
-        format.readFeatures(mapFeatureCollection));
-  }
 
   /**
    * @type {ol.Map}
@@ -94,7 +94,45 @@ app.MapController = function($scope, mapFeatureCollection) {
       })
     ]
   });
-  if (!mapFeatureCollection) {
+
+  this.getVectorLayer_().setStyle(this.createStyleFunction_(1));
+
+  if (mapFeatureCollection) {
+    var properties = mapFeatureCollection['properties'];
+    var format = new ol.format.GeoJSON();
+    this.features_ = format.readFeatures(mapFeatureCollection);
+
+    var pointerMoveInteraction = new ol.interaction.Select({
+      style: this.createStyleFunction_(2),
+      condition: ol.events.condition.pointerMove
+    });
+    this.map.addInteraction(pointerMoveInteraction);
+
+    if (properties && properties['enableClickInteraction']) {
+      var clickInteraction = new ol.interaction.Select({
+        condition: ol.events.condition.click
+      });
+      clickInteraction.on('select', function(e) {
+        /**
+         * @type {ol.Collection.<ol.Feature>}
+         */
+        var features = e.target.getFeatures();
+        if (features.getLength() > 0) {
+          var first = features.getArray()[0];
+          var module = /** @type {string} */(first.get('module'));
+          var id = first.get('documentId').toString();
+          var available = /** @type {Array.<string>} */(first.get('langs'));
+          var langIndex = app.utils.getBestLangIndex(available);
+          var lang = available[langIndex];
+          var url = app.utils.buildDocumentUrl(module, id, lang);
+          document.location = url;
+        }
+      }.bind(this));
+      this.map.addInteraction(clickInteraction);
+    }
+
+
+  } else {
     this.map.setView(new ol.View({
       center: app.MapController.DEFAULT_CENTER,
       zoom: app.MapController.DEFAULT_ZOOM
@@ -159,6 +197,79 @@ app.MapController.prototype.getVectorLayer_ = function() {
     this.vectorLayer_.setMap(this.map);
   }
   return this.vectorLayer_;
+};
+
+
+/**
+ * @param {number} scale
+ * @return {ol.style.StyleFunction}
+ * @private
+ */
+app.MapController.prototype.createStyleFunction_ = function(scale) {
+  /**
+   * @type {Object.<string, ol.style.Icon>}
+   */
+  var iconCache = {};
+  /**
+   * @type {Object.<string, ol.style.Style|Array.<ol.style.Style>>}
+   */
+  var cache = {};
+  return (
+      /**
+       * @param {ol.Feature|ol.render.Feature} feature
+       * @param {number} resolution
+       * @return {ol.style.Style|Array.<ol.style.Style>}
+       */
+      function(feature, resolution) {
+        var type = /** @type {string} */ (feature.get('type'));
+        if (!type) {
+          // skip this feature
+          return null;
+        }
+
+        var id = /** @type {number} */ (feature.get('documentId'));
+        var key = type + id;
+        var style = cache[key];
+        if (!style) {
+          var iconKey = type + scale;
+          var icon = iconCache[iconKey];
+          if (!icon) {
+            icon = new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+              scale: scale,
+              src: '/static/img/icons/' + type + '.png'
+            }));
+            iconCache[iconKey] = icon;
+          }
+
+          var text;
+          if (scale > 1 && typeof id !== undefined) { // on hover in list view
+            var title = /** @type {string} */(feature.get('title'));
+            if (!title) {
+              var langs = /** @type {Array.<string>} */(feature.get('langs'));
+              var langIndex = app.utils.getBestLangIndex(langs);
+              var titles = /** @type {Array.<string>} */(feature.get('titles'));
+              title = titles[langIndex];
+            }
+
+            if (title) {
+              text = new ol.style.Text({
+                text: title,
+                textAlign: 'left',
+                offsetX: 20,
+                font: 'bold 14px Calibri,sans-serif',
+                textBaseline: 'middle'
+              });
+            }
+          }
+
+          style = new ol.style.Style({
+            image: icon,
+            text: text
+          });
+          cache[key] = style;
+        }
+        return style;
+      }).bind(this);
 };
 
 

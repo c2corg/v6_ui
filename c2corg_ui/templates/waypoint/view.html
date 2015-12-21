@@ -19,6 +19,7 @@ geometry4326 = transform(geometry, 'epsg:3857', 'epsg:4326')
 <%block name="moduleConstantsValues">
 module.value('mapFeatureCollection', {
   "type": "FeatureCollection",
+  "properties": {},
   "features": [{
     "type": "Feature",
     "geometry": {"type": "Point", "coordinates": [${geometry.x}, ${geometry.y}]},
@@ -27,7 +28,8 @@ module.value('mapFeatureCollection', {
       % if waypoint['waypoint_type'] != 'climbing_outdoor':
       "elevation": ${waypoint['elevation']},
       % endif
-      "waypoint_type": "${waypoint['waypoint_type']}"
+      "module": "waypoints",
+      "type": "${waypoint['waypoint_type']}"
     }
   }]
 });

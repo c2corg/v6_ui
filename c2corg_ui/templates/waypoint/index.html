@@ -7,17 +7,27 @@
 % if len(waypoints):
 module.value('mapFeatureCollection', {
   "type": "FeatureCollection",
+  "properties": {
+    "enableClickInteraction": true
+  },
   "features": [
     <%
     from json import dumps, loads
     features = [];
     for waypoint in waypoints:
         if waypoint['geometry']['geom'] is not None:
-            features.append({
+            properties = {
+               "module": "waypoints",
+               "type":  waypoint['waypoint_type'],
+               "documentId": waypoint['document_id'],
+               "langs": [locale['culture'] for locale in waypoint['locales']],
+               "titles": [locale['title'] for locale in waypoint['locales']]
+            }
+            features.append(dumps({
                 "type": "Feature",
-                "geometry": loads(waypoint['geometry']['geom'])
-            })
-    features = map(lambda f: dumps(f), features)
+                "geometry": loads(waypoint['geometry']['geom']),
+                "properties": properties
+            }))
     %>
     ${', '.join(features) | n}
   ]
