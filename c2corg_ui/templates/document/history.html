@@ -15,7 +15,8 @@
 %>
 
 % if has_several_versions:
-<form app-versions ng-submit="versionsCtrl.compare()">
+<form app-versions data-document-type="${module}" data-document-id="${document_id}"
+      data-lang="${culture}" ng-submit="versionsCtrl.compare()">
     <p><button type="submit" class="btn btn-primary" translate>Compare selected versions</button></p>
 % endif
   <table class="versions-list">

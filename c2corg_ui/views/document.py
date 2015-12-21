@@ -1,3 +1,4 @@
+from c2corg_ui.diff.differ import diff_documents
 from shapely.geometry import asShape
 from shapely.ops import transform
 from functools import partial
@@ -46,16 +47,23 @@ class Document(object):
         if 'id' not in self.request.matchdict:
             # eg. creating a new document
             return None, None
-        try:
-            id = int(self.request.matchdict['id'])
-        except Exception:
-            raise HTTPBadRequest("Incorrect id")
 
+        id = self._validate_int('id')
+        culture = self._validate_culture()
+
+        return id, culture
+
+    def _validate_culture(self):
         culture = str(self.request.matchdict['culture'])
         if culture not in default_cultures:
             raise HTTPBadRequest("Incorrect culture")
+        return culture
 
-        return id, culture
+    def _validate_int(self, field):
+        try:
+            return int(self.request.matchdict[field])
+        except Exception:
+            raise HTTPBadRequest("Incorrect " + field)
 
     def _get_document(self, id, culture):
         url = '%s/%s/%d?l=%s' % (
@@ -161,3 +169,46 @@ class Document(object):
         dest_proj = pyproj.Proj(init=dest_epsg)
         project = partial(pyproj.transform, source_proj, dest_proj)
         return transform(project, geometry)
+
+    def _diff(self):
+        id = self._validate_int('id')
+        culture = self._validate_culture()
+        v1 = self._validate_int('v1')
+        v2 = self._validate_int('v2')
+
+        url = '%s/%s/%d/%s/%d' % (
+            self.settings['api_url'], self._API_ROUTE, id, culture, v1)
+        resp_v1, content_v1 = self._call_api(url)
+
+        url = '%s/%s/%d/%s/%d' % (
+            self.settings['api_url'], self._API_ROUTE, id, culture, v2)
+        resp_v2, content_v2 = self._call_api(url)
+
+        # TODO: better error handling
+        if resp_v1['status'] == '200' and resp_v2['status'] == '200':
+            version1 = content_v1['version']
+            doc_v1 = content_v1['document']
+            version2 = content_v2['version']
+            doc_v2 = content_v2['document']
+            field_diffs = diff_documents(doc_v1, doc_v2)
+
+            self.template_input.update({
+                'module': self._API_ROUTE,
+                'culture': culture,
+                'title': doc_v1['locales'][0]['title'],
+                'document_id': id,
+                'v1_id': v1,
+                'v2_id': v2,
+                'diffs': field_diffs,
+                'version1': version1,
+                'version2': version2,
+                'geometry1': doc_v1['geometry']['geom']
+                if doc_v1['geometry'] else None,
+                'geometry2': doc_v2['geometry']['geom']
+                if doc_v2['geometry'] else None,
+                'previous_version_id': content_v1['previous_version_id'],
+                'next_version_id': content_v2['next_version_id']
+            })
+            return self.template_input
+
+        raise HTTPNotFound()

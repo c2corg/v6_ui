@@ -25,7 +25,7 @@ updating_doc = waypoint_id and waypoint_culture
     % endif
   </div>
   <div id="title-group" class="form-group" ng-class="{ 'has-error': editForm.title.$touched && editForm.title.$invalid }">
-    <label translate>Title</label>
+    <label translate>title</label>
     <input type="text" name="title" ng-model="waypoint.locales[0].title" class="form-control" required ng-minlength="3" />
     <div class="help-block" ng-messages="editForm.title.$error" ng-if="editForm.title.$touched">
       <p ng-message="required" translate>This field is required.</p> 
@@ -33,7 +33,7 @@ updating_doc = waypoint_id and waypoint_culture
     </div>
   </div>
   <div id="waypoint_type-group" class="form-group" ng-class="{ 'has-error': editForm.waypoint_type.$touched && editForm.waypoint_type.$invalid }">
-    <label translate>Type</label>
+    <label translate>waypoint_type</label>
     <select name="waypoint_type" ng-options="type as mainCtrl.translate(type) for type in ['${"','".join(waypoint_types) |n}']"
       ng-model="waypoint.waypoint_type" class="form-control" required>
     </select>
@@ -42,7 +42,7 @@ updating_doc = waypoint_id and waypoint_culture
     </div>
   </div>
   <div id="elevation-group" class="form-group" ng-class="{ 'has-error': editForm.elevation.$touched && editForm.elevation.$invalid }">
-    <label translate>Elevation</label>
+    <label translate>elevation</label>
     <input type="number" name="elevation" ng-model="waypoint.elevation" class="form-control" required max="9999" /> m
     <div class="help-block" ng-messages="editForm.elevation.$error" ng-if="editForm.elevation.$touched">
       <p ng-message="required" translate>This field is required.</p> 
@@ -68,11 +68,11 @@ updating_doc = waypoint_id and waypoint_culture
     </div>
   </div>
   <div id="maps_info-group" class="form-group">
-    <label translate>Maps info</label>
+    <label translate>maps_info</label>
     <input type="text" name="maps_info" ng-model="waypoint.maps_info" class="form-control" />
   </div>
   <div id="description-group" class="form-group">
-    <label translate>Description</label>
+    <label translate>description</label>
     <textarea name="description" ng-model="waypoint.locales[0].description" class="form-control" placeholder="{{'Describe here the waypoint'|translate}}"></textarea>
   </div>
   % if updating_doc:
