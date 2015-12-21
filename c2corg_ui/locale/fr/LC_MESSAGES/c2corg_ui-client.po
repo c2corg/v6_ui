@@ -6,8 +6,28 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
+#: c2corg_ui/templates/route/index.html:7
+msgid "{{nbItems}} routes"
+msgstr "{{nbItems}} itinéraires trouvés"
+
+#: c2corg_ui/templates/waypoint/index.html:31
+msgid "{{nbItems}} waypoints"
+msgstr "{{nbItems}} points de passage trouvés"
+
+#: c2corg_ui/templates/document/diff.html:19
+msgid "← previous difference"
+msgstr "← différence précédente"
+
+#: c2corg_ui/templates/document/diff.html:45
+msgid "${field_diff.field}"
+msgstr ""
+
+#: c2corg_ui/templates/i18n.html:49
+msgid "access"
+msgstr "accès"
+
 #: c2corg_ui/templates/route/edit.html:35
-msgid "Activities"
+msgid "activities"
 msgstr "Activités"
 
 #: c2corg_ui/templates/route/index.html:10
@@ -18,7 +38,7 @@ msgstr "Ajouter un itinéraire"
 msgid "Add a waypoint"
 msgstr "Ajouter un point de passage"
 
-#: c2corg_ui/templates/document/history.html:26
+#: c2corg_ui/templates/document/history.html:27
 msgid "Author"
 msgstr "Auteur"
 
@@ -26,40 +46,96 @@ msgstr "Auteur"
 msgid "Back to homepage"
 msgstr "Retour à la page d'accueil"
 
+#: c2corg_ui/templates/i18n.html:48
+msgid "base_camp"
+msgstr "camp de base"
+
+#: c2corg_ui/templates/i18n.html:39
+msgid "bergschrund"
+msgstr "rimaye"
+
+#: c2corg_ui/templates/i18n.html:31
+msgid "bisse"
+msgstr "bisse"
+
+#: c2corg_ui/templates/i18n.html:47
+msgid "bivouac"
+msgstr "bivouac"
+
 #: c2corg_ui/templates/base.html:44
 msgid "Browse site in"
 msgstr "Naviguer en"
+
+#: c2corg_ui/templates/document/diff.html:14
+#: c2corg_ui/templates/document/diff.html:28
+msgid "by"
+msgstr "de"
+
+#: c2corg_ui/templates/i18n.html:12
+msgid "ca"
+msgstr "catalan"
+
+#: c2corg_ui/templates/i18n.html:44
+msgid "camp_site"
+msgstr "camping"
 
 #: c2corg_ui/templates/route/edit.html:75
 #: c2corg_ui/templates/waypoint/edit.html:91
 msgid "Cancel"
 msgstr "Annuler"
 
-#: c2corg_ui/templates/document/history.html:27
+#: c2corg_ui/templates/i18n.html:34
+msgid "cave"
+msgstr "grotte"
+
+#: c2corg_ui/templates/i18n.html:33
+msgid "cliff"
+msgstr "falaise"
+
+#: c2corg_ui/templates/i18n.html:42
+msgid "climbing_indoor"
+msgstr "SAE"
+
+#: c2corg_ui/templates/i18n.html:41
+msgid "climbing_outdoor"
+msgstr "site de couenne/bloc"
+
+#: c2corg_ui/templates/document/history.html:28
 #: c2corg_ui/templates/route/edit.html:63
 #: c2corg_ui/templates/waypoint/edit.html:79
 msgid "Comment about the changes"
 msgstr "Courte description des changements"
 
-#: c2corg_ui/templates/document/history.html:18
-#: c2corg_ui/templates/document/history.html:55
+#: c2corg_ui/templates/document/history.html:19
+#: c2corg_ui/templates/document/history.html:56
 msgid "Compare selected versions"
 msgstr "Comparer les versions sélectionnées"
+
+#: c2corg_ui/templates/i18n.html:37
+msgid "confluence"
+msgstr "confluent"
 
 #: c2corg_ui/templates/waypoint/view.html:37
 msgid "Coordinates"
 msgstr "Coordonnées"
 
-#: c2corg_ui/templates/document/history.html:25
+#: c2corg_ui/templates/document/history.html:26
 msgid "Created on"
 msgstr "Créée le"
 
 #: c2corg_ui/templates/route/edit.html:14
 #: c2corg_ui/templates/route/view.html:17
-#: c2corg_ui/templates/waypoint/edit.html:14
 #: c2corg_ui/templates/waypoint/view.html:35
+msgid "culture"
+msgstr "Langue"
+
+#: c2corg_ui/templates/waypoint/edit.html:14
 msgid "Culture"
 msgstr "Langue"
+
+#: c2corg_ui/templates/i18n.html:9
+msgid "de"
+msgstr "allemand"
 
 #: c2corg_ui/templates/route/edit.html:59
 msgid "Describe here the gear needed for this route"
@@ -73,7 +149,7 @@ msgstr "Décrivez ici l'itinéraire"
 #: c2corg_ui/templates/route/view.html:19
 #: c2corg_ui/templates/waypoint/edit.html:74
 #: c2corg_ui/templates/waypoint/view.html:39
-msgid "Description"
+msgid "description"
 msgstr "Description"
 
 #: c2corg_ui/templates/route/view.html:33
@@ -83,7 +159,7 @@ msgstr "Modifier"
 
 #: c2corg_ui/templates/waypoint/edit.html:44
 #: c2corg_ui/templates/waypoint/view.html:36
-msgid "Elevation"
+msgid "elevation"
 msgstr "Altitude"
 
 #: c2corg_ui/templates/waypoint/edit.html:48
@@ -94,6 +170,22 @@ msgstr "L'altitude doit être inférieure à 9999m."
 msgid "Email"
 msgstr "Adresse email"
 
+#: c2corg_ui/templates/i18n.html:8
+msgid "en"
+msgstr "anglais"
+
+#: c2corg_ui/templates/i18n.html:11
+msgid "es"
+msgstr "espagnol"
+
+#: c2corg_ui/templates/i18n.html:13
+msgid "eu"
+msgstr "basque"
+
+#: c2corg_ui/templates/i18n.html:64
+msgid "expedition"
+msgstr "expédition"
+
 #: c2corg_ui/templates/helpers.html:20
 msgid "First"
 msgstr "Début"
@@ -102,20 +194,60 @@ msgstr "Début"
 msgid "Forgotten password?"
 msgstr "Mot de passe oublié ?"
 
+#: c2corg_ui/templates/i18n.html:7
+msgid "fr"
+msgstr "français"
+
 #: c2corg_ui/templates/route/edit.html:58
 #: c2corg_ui/templates/route/view.html:20
-msgid "Gear"
+msgid "gear"
 msgstr "Matériel"
+
+#: c2corg_ui/templates/i18n.html:67
+msgid "geometry"
+msgstr "Géométrie"
+
+#: c2corg_ui/templates/i18n.html:43
+msgid "gite"
+msgstr "gite"
+
+#: c2corg_ui/templates/i18n.html:38
+msgid "glacier"
+msgstr "glacier"
+
+#: c2corg_ui/templates/document/diff.html:64
+msgid "green"
+msgstr "verte"
 
 #: c2corg_ui/templates/route/edit.html:44
 #: c2corg_ui/templates/route/view.html:18
-msgid "Height"
+msgid "height_diff_up"
 msgstr "Dénivelé"
+
+#: c2corg_ui/templates/i18n.html:21
+msgid "hiking"
+msgstr "randonnée pédestre"
 
 #: c2corg_ui/templates/route/view.html:32
 #: c2corg_ui/templates/waypoint/view.html:51
 msgid "History"
 msgstr "Versions"
+
+#: c2corg_ui/templates/i18n.html:45
+msgid "hut"
+msgstr "refuge/cabane"
+
+#: c2corg_ui/templates/i18n.html:20
+msgid "ice_climbing"
+msgstr "cascade de glace"
+
+#: c2corg_ui/templates/i18n.html:10
+msgid "it"
+msgstr "italien"
+
+#: c2corg_ui/templates/i18n.html:30
+msgid "lake"
+msgstr "lac"
 
 #: c2corg_ui/templates/helpers.html:42
 msgid "Last"
@@ -130,9 +262,21 @@ msgstr "Latitude"
 msgid "Latitude must be between -90° and 90°."
 msgstr "La latitude doit être comprise en -90° et 90°."
 
+#: c2corg_ui/templates/document/diff.html:63
+msgid "Legend:"
+msgstr "Légende :"
+
 #: c2corg_ui/templates/document/history.html:8
 msgid "List of versions for language:"
 msgstr "Liste des versions pour la langue :"
+
+#: c2corg_ui/templates/i18n.html:50
+msgid "local_product"
+msgstr "produit local/commerce"
+
+#: c2corg_ui/templates/i18n.html:36
+msgid "locality"
+msgstr "lieu-dit"
 
 #: c2corg_ui/static/partials/user.html:1 c2corg_ui/templates/auth.html:26
 #: c2corg_ui/templates/auth.html:4
@@ -152,26 +296,78 @@ msgstr "Longitude"
 msgid "Longitude must be between -180° and 180°."
 msgstr "La longitude doit être comprise en -180° et 180°."
 
+#: c2corg_ui/templates/i18n.html:60
+msgid "loop"
+msgstr "boucle avec retour au pied de la voie"
+
+#: c2corg_ui/templates/i18n.html:61
+msgid "loop_hut"
+msgstr "boucle avec retour au refuge"
+
 #: c2corg_ui/templates/waypoint/edit.html:70
 #: c2corg_ui/templates/waypoint/view.html:38
-msgid "Maps info"
+msgid "maps_info"
 msgstr "Références cartographiques"
+
+#: c2corg_ui/templates/i18n.html:56
+msgid "misc"
+msgstr "divers"
+
+#: c2corg_ui/templates/i18n.html:18
+msgid "mountain_climbing"
+msgstr "rocher haute montagne"
+
+#: c2corg_ui/templates/i18n.html:24
+msgid "moutain_biking"
+msgstr "VTT"
 
 #: c2corg_ui/templates/helpers.html:36
 msgid "Next"
 msgstr "Suivant"
 
+#: c2corg_ui/templates/document/diff.html:33
+msgid "next difference →"
+msgstr "différence suivante →"
+
 #: c2corg_ui/templates/auth.html:32
 msgid "No account yet?"
 msgstr "Pas encore de compte ?"
+
+#: c2corg_ui/templates/i18n.html:23
+msgid "paragliding"
+msgstr "parapente"
+
+#: c2corg_ui/templates/i18n.html:52
+msgid "paragliding_landing"
+msgstr "atterrissage parapente"
+
+#: c2corg_ui/templates/i18n.html:51
+msgid "paragliding_takeoff"
+msgstr "décollage parapente"
+
+#: c2corg_ui/templates/i18n.html:29
+msgid "pass"
+msgstr "col"
 
 #: c2corg_ui/templates/auth.html:15 c2corg_ui/templates/auth.html:47
 msgid "Password"
 msgstr "Mot de passe"
 
+#: c2corg_ui/templates/i18n.html:35
+msgid "pit"
+msgstr "gouffre"
+
 #: c2corg_ui/templates/helpers.html:28
 msgid "Previous"
 msgstr "Précédent"
+
+#: c2corg_ui/templates/i18n.html:63
+msgid "raid"
+msgstr "raid"
+
+#: c2corg_ui/templates/document/diff.html:63
+msgid "red"
+msgstr "rouge"
 
 #: c2corg_ui/templates/auth.html:36 c2corg_ui/templates/auth.html:61
 msgid "Register"
@@ -181,8 +377,21 @@ msgstr "S'inscrire"
 msgid "Remember me"
 msgstr "Se souvenir de moi"
 
+#: c2corg_ui/templates/i18n.html:59
+msgid "return_same_way"
+msgstr "aller-retour"
+
+#: c2corg_ui/templates/document/diff.html:13
+#: c2corg_ui/templates/document/diff.html:27
+msgid "Revision as of"
+msgstr "Version du"
+
+#: c2corg_ui/templates/i18n.html:19
+msgid "rock_climbing"
+msgstr "escalade"
+
 #: c2corg_ui/templates/route/edit.html:48
-msgid "Route type"
+msgid "route_types"
 msgstr "Type d'itinéraire"
 
 #: c2corg_ui/templates/base.html:29
@@ -202,10 +411,34 @@ msgstr "Rechercher ..."
 msgid "See the latest version"
 msgstr "Voir la dernière version"
 
+#: c2corg_ui/templates/i18n.html:46
+msgid "shelter"
+msgstr "abri"
+
 #: c2corg_ui/templates/route/edit.html:64
 #: c2corg_ui/templates/waypoint/edit.html:80
 msgid "Short description of the applied changes"
 msgstr "Courte description des changements appliqués"
+
+#: c2corg_ui/templates/i18n.html:16
+msgid "skitouring"
+msgstr "ski, surf"
+
+#: c2corg_ui/templates/i18n.html:17
+msgid "snow_ice_mixed"
+msgstr "alpinisme neige, glace et mixte"
+
+#: c2corg_ui/templates/i18n.html:22
+msgid "snowshoeing"
+msgstr "raquette"
+
+#: c2corg_ui/templates/i18n.html:68
+msgid "summary"
+msgstr "Synthèse"
+
+#: c2corg_ui/templates/i18n.html:28
+msgid "summit"
+msgstr "sommet"
 
 #: c2corg_ui/templates/auth.html:11 c2corg_ui/templates/auth.html:18
 #: c2corg_ui/templates/auth.html:43 c2corg_ui/templates/auth.html:50
@@ -223,7 +456,7 @@ msgstr "Ce champ est obligatoire."
 
 #: c2corg_ui/templates/route/edit.html:27
 #: c2corg_ui/templates/waypoint/edit.html:27
-msgid "Title"
+msgid "title"
 msgstr "Titre"
 
 #: c2corg_ui/templates/route/edit.html:31
@@ -231,218 +464,30 @@ msgstr "Titre"
 msgid "Title is too short."
 msgstr "Le titre doit comporter au moins 3 caractères."
 
-#: c2corg_ui/templates/waypoint/edit.html:35
-msgid "Type"
-msgstr "Type"
+#: c2corg_ui/templates/i18n.html:62
+msgid "traverse"
+msgstr "traversée"
 
 #: c2corg_ui/templates/auth.html:40 c2corg_ui/templates/auth.html:8
 msgid "Username"
 msgstr "Identifiant"
 
-#: c2corg_ui/templates/route/view.html:23
-#: c2corg_ui/templates/waypoint/view.html:42
-msgid "View in other culture:"
-msgstr "Afficher dans une autre langue:"
+#: c2corg_ui/templates/document/diff.html:63
+msgid "Version 1 in"
+msgstr "Version 1 en"
 
-#: c2corg_ui/templates/base.html:28
-msgid "Waypoints"
-msgstr "Points de passage"
-
-#: c2corg_ui/templates/index.html:3
-msgid "Welcome to Camptocamp.org"
-msgstr "Bienvenue sur Camptocamp.org"
-
-#: c2corg_ui/templates/helpers.html:50
-msgid "You are viewing an archived version of this document."
-msgstr "Vous consultez une ancienne version de ce document."
-
-#: c2corg_ui/templates/i18n.html:49
-msgid "access"
-msgstr "accès"
-
-#: c2corg_ui/templates/i18n.html:48
-msgid "base_camp"
-msgstr "camp de base"
-
-#: c2corg_ui/templates/i18n.html:39
-msgid "bergschrund"
-msgstr "rimaye"
-
-#: c2corg_ui/templates/i18n.html:31
-msgid "bisse"
-msgstr "bisse"
-
-#: c2corg_ui/templates/i18n.html:47
-msgid "bivouac"
-msgstr "bivouac"
-
-#: c2corg_ui/templates/i18n.html:12
-msgid "ca"
-msgstr "catalan"
-
-#: c2corg_ui/templates/i18n.html:44
-msgid "camp_site"
-msgstr "camping"
-
-#: c2corg_ui/templates/i18n.html:34
-msgid "cave"
-msgstr "grotte"
-
-#: c2corg_ui/templates/i18n.html:33
-msgid "cliff"
-msgstr "falaise"
-
-#: c2corg_ui/templates/i18n.html:42
-msgid "climbing_indoor"
-msgstr "SAE"
-
-#: c2corg_ui/templates/i18n.html:41
-msgid "climbing_outdoor"
-msgstr "site de couenne/bloc"
-
-#: c2corg_ui/templates/i18n.html:37
-msgid "confluence"
-msgstr "confluent"
-
-#: c2corg_ui/templates/i18n.html:9
-msgid "de"
-msgstr "allemand"
-
-#: c2corg_ui/templates/i18n.html:8
-msgid "en"
-msgstr "anglais"
-
-#: c2corg_ui/templates/i18n.html:11
-msgid "es"
-msgstr "espagnol"
-
-#: c2corg_ui/templates/i18n.html:13
-msgid "eu"
-msgstr "basque"
-
-#: c2corg_ui/templates/i18n.html:64
-msgid "expedition"
-msgstr "expédition"
-
-#: c2corg_ui/templates/i18n.html:7
-msgid "fr"
-msgstr "français"
-
-#: c2corg_ui/templates/i18n.html:43
-msgid "gite"
-msgstr "gite"
-
-#: c2corg_ui/templates/i18n.html:38
-msgid "glacier"
-msgstr "glacier"
-
-#: c2corg_ui/templates/i18n.html:21
-msgid "hiking"
-msgstr "randonnée pédestre"
-
-#: c2corg_ui/templates/i18n.html:45
-msgid "hut"
-msgstr "refuge/cabane"
-
-#: c2corg_ui/templates/i18n.html:20
-msgid "ice_climbing"
-msgstr "cascade de glace"
-
-#: c2corg_ui/templates/i18n.html:10
-msgid "it"
-msgstr "italien"
-
-#: c2corg_ui/templates/i18n.html:30
-msgid "lake"
-msgstr "lac"
-
-#: c2corg_ui/templates/i18n.html:50
-msgid "local_product"
-msgstr "produit local/commerce"
-
-#: c2corg_ui/templates/i18n.html:36
-msgid "locality"
-msgstr "lieu-dit"
-
-#: c2corg_ui/templates/i18n.html:60
-msgid "loop"
-msgstr "boucle avec retour au pied de la voie"
-
-#: c2corg_ui/templates/i18n.html:61
-msgid "loop_hut"
-msgstr "boucle avec retour au refuge"
-
-#: c2corg_ui/templates/i18n.html:56
-msgid "misc"
-msgstr "divers"
-
-#: c2corg_ui/templates/i18n.html:18
-msgid "mountain_climbing"
-msgstr "rocher haute montagne"
-
-#: c2corg_ui/templates/i18n.html:24
-msgid "moutain_biking"
-msgstr "VTT"
-
-#: c2corg_ui/templates/i18n.html:23
-msgid "paragliding"
-msgstr "parapente"
-
-#: c2corg_ui/templates/i18n.html:52
-msgid "paragliding_landing"
-msgstr "atterrissage parapente"
-
-#: c2corg_ui/templates/i18n.html:51
-msgid "paragliding_takeoff"
-msgstr "décollage parapente"
-
-#: c2corg_ui/templates/i18n.html:29
-msgid "pass"
-msgstr "col"
-
-#: c2corg_ui/templates/i18n.html:35
-msgid "pit"
-msgstr "gouffre"
-
-#: c2corg_ui/templates/i18n.html:63
-msgid "raid"
-msgstr "raid"
-
-#: c2corg_ui/templates/i18n.html:59
-msgid "return_same_way"
-msgstr "aller-retour"
-
-#: c2corg_ui/templates/i18n.html:19
-msgid "rock_climbing"
-msgstr "escalade"
-
-#: c2corg_ui/templates/i18n.html:46
-msgid "shelter"
-msgstr "abri"
-
-#: c2corg_ui/templates/i18n.html:16
-msgid "skitouring"
-msgstr "ski, surf"
-
-#: c2corg_ui/templates/i18n.html:17
-msgid "snow_ice_mixed"
-msgstr "alpinisme neige, glace et mixte"
-
-#: c2corg_ui/templates/i18n.html:22
-msgid "snowshoeing"
-msgstr "raquette"
-
-#: c2corg_ui/templates/i18n.html:28
-msgid "summit"
-msgstr "sommet"
-
-#: c2corg_ui/templates/i18n.html:62
-msgid "traverse"
-msgstr "traversée"
+#: c2corg_ui/templates/document/diff.html:64
+msgid "Version 2 in"
+msgstr "Version 2 en"
 
 #: c2corg_ui/templates/i18n.html:25
 msgid "via_ferrata"
 msgstr "via ferrata"
+
+#: c2corg_ui/templates/route/view.html:23
+#: c2corg_ui/templates/waypoint/view.html:42
+msgid "View in other culture:"
+msgstr "Afficher dans une autre langue:"
 
 #: c2corg_ui/templates/i18n.html:55
 msgid "virtual"
@@ -456,6 +501,14 @@ msgstr "cascade"
 msgid "waterpoint"
 msgstr "point d'eau/source"
 
+#: c2corg_ui/templates/waypoint/edit.html:35
+msgid "waypoint_type"
+msgstr "Type"
+
+#: c2corg_ui/templates/base.html:28
+msgid "Waypoints"
+msgstr "Points de passage"
+
 #: c2corg_ui/templates/i18n.html:53
 msgid "weather_station"
 msgstr "station météo"
@@ -464,10 +517,10 @@ msgstr "station météo"
 msgid "webcam"
 msgstr "webcam"
 
-#: c2corg_ui/templates/route/index.html:7
-msgid "{{nbItems}} routes"
-msgstr "{{nbItems}} itinéraires trouvés"
+#: c2corg_ui/templates/index.html:3
+msgid "Welcome to Camptocamp.org"
+msgstr "Bienvenue sur Camptocamp.org"
 
-#: c2corg_ui/templates/waypoint/index.html:31
-msgid "{{nbItems}} waypoints"
-msgstr "{{nbItems}} points de passage trouvés"
+#: c2corg_ui/templates/helpers.html:50
+msgid "You are viewing an archived version of this document."
+msgstr "Vous consultez une ancienne version de ce document."
