@@ -35,12 +35,13 @@ app.module.directive('appAuth', app.authDirective);
  * @param {app.Authentication} appAuthentication
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {app.Alerts} appAlerts
+ * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @constructor
  * @export
  * @ngInject
  */
 app.AuthController = function($scope, $http, apiUrl, appAuthentication,
-    ngeoLocation, appAlerts) {
+    ngeoLocation, appAlerts, gettextCatalog) {
 
   /**
    * @type {angular.Scope}
@@ -77,6 +78,12 @@ app.AuthController = function($scope, $http, apiUrl, appAuthentication,
    * @private
    */
   this.alerts_ = appAlerts;
+
+  /**
+   * @type {angularGettext.Catalog}
+   * @private
+   */
+  this.gettextCatalog_ = gettextCatalog;
 };
 
 
@@ -148,10 +155,9 @@ app.AuthController.prototype.register = function() {
  * @private
  */
 app.AuthController.prototype.successRegister_ = function(response) {
-  // TODO: i18n
   this.alerts_.add({
     'type': 'success',
-    'msg': 'Register success',
+    'msg': this.filterStr_('Register success'),
     'timeout': 5000
   });
 };
@@ -198,8 +204,8 @@ app.AuthController.prototype.formatErrorMsg_ = function(response) {
  * @private
  */
 app.AuthController.prototype.filterStr_ = function(str) {
-  // TODO: i18n
-  return goog.string.htmlEscape(str);
+  str = goog.string.htmlEscape(str);
+  return this.gettextCatalog_.getString(str);
 };
 
 
