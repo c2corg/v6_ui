@@ -20,13 +20,10 @@ app.Alerts = function() {
 
 
 /**
- * @param {string|appx.AlertMessage} msg Alert data.
+ * @param {appx.AlertMessage} msg Alert data.
  * @export
  */
 app.Alerts.prototype.add = function(msg) {
-  if (typeof msg == 'string') {
-    msg = {'msg': msg, 'type': null, 'timeout': null};
-  }
   this.alerts_.push({
     type: msg['type'] || 'warning',
     msg: msg['msg'],
