@@ -40,7 +40,8 @@ app.module.directive('appMap', app.mapDirective);
 
 /**
  * @param {angular.Scope} $scope Directive scope.
- * @param {?Object} mapFeatureCollection FeatureCollection of features
+ * @param {?GeoJSONFeatureCollection} mapFeatureCollection FeatureCollection of
+ *    features
  * to show on the map.
  * @constructor
  * @export
