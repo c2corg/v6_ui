@@ -96,9 +96,9 @@ app.AlertController = function($timeout) {
   if (this['timeout'] && this['close']) {
     var timeout = parseInt(this['timeout'], 10);
     if (timeout) {
-      $timeout(goog.bind(function() {
+      $timeout((function() {
         this['close']();
-      }, this), timeout);
+      }).bind(this), timeout);
     }
   }
 };
