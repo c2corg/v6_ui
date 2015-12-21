@@ -16,10 +16,6 @@ msgstr ""
 msgid "← previous difference"
 msgstr ""
 
-#: c2corg_ui/templates/document/diff.html:45
-msgid "${field_diff.field}"
-msgstr ""
-
 #: c2corg_ui/templates/i18n.html:49
 msgid "access"
 msgstr ""
