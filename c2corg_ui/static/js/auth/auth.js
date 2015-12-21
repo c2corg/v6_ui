@@ -176,21 +176,30 @@ app.AuthController.prototype.errorRegister_ = function(response) {
  * @private
  */
 app.AuthController.prototype.formatErrorMsg_ = function(response) {
-  // TODO: i18n
-  // TODO: filter strings from response using $sanitize or another tool
   var errors = response['data']['errors'],
       len = errors.length,
       msg = '';
   if (len == 1) {
-    msg = errors[0]['description'];
+    msg = this.filterStr_(errors[0]['description']);
   } else if (len > 0) {
     msg += '<ul>';
     for (var i = 0; i < len; i++) {
-      msg += '<li>' + errors[i]['description'] + '</li>';
+      msg += '<li>' + this.filterStr_(errors[i]['description']) + '</li>';
     }
     msg += '</ul>';
   }
   return msg;
+};
+
+
+/**
+ * @param {string} str String to filter.
+ * @return {string}
+ * @private
+ */
+app.AuthController.prototype.filterStr_ = function(str) {
+  // TODO: i18n
+  return goog.string.htmlEscape(str);
 };
 
 
