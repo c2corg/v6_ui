@@ -12,16 +12,8 @@ msgstr ""
 msgid "Add a route"
 msgstr ""
 
-#: c2corg_ui/templates/waypoint/index.html:45
+#: c2corg_ui/templates/waypoint/index.html:35
 msgid "Add a waypoint"
-msgstr ""
-
-#: c2corg_ui/templates/document/history.html:28
-msgid "Author"
-msgstr ""
-
-#: c2corg_ui/templates/base.html:27
-msgid "Back to homepage"
 msgstr ""
 
 #: c2corg_ui/templates/base.html:45
@@ -44,7 +36,7 @@ msgstr ""
 msgid "Compare selected versions"
 msgstr ""
 
-#: c2corg_ui/templates/waypoint/view.html:46
+#: c2corg_ui/templates/waypoint/view.html:44
 msgid "Coordinates"
 msgstr ""
 
@@ -236,6 +228,10 @@ msgstr ""
 msgid "activities"
 msgstr ""
 
+#: c2corg_ui/templates/i18n.html:73
+msgid "already used username"
+msgstr ""
+
 #: c2corg_ui/templates/i18n.html:48
 msgid "base_camp"
 msgstr ""
@@ -287,7 +283,7 @@ msgstr ""
 
 #: c2corg_ui/templates/route/edit.html:15
 #: c2corg_ui/templates/route/view.html:24
-#: c2corg_ui/templates/waypoint/view.html:44
+#: c2corg_ui/templates/waypoint/view.html:42
 msgid "culture"
 msgstr ""
 
@@ -298,12 +294,12 @@ msgstr ""
 #: c2corg_ui/templates/route/edit.html:55
 #: c2corg_ui/templates/route/view.html:26
 #: c2corg_ui/templates/waypoint/edit.html:75
-#: c2corg_ui/templates/waypoint/view.html:48
+#: c2corg_ui/templates/waypoint/view.html:46
 msgid "description"
 msgstr ""
 
 #: c2corg_ui/templates/waypoint/edit.html:45
-#: c2corg_ui/templates/waypoint/view.html:45
+#: c2corg_ui/templates/waypoint/view.html:43
 msgid "elevation"
 msgstr ""
 
@@ -390,7 +386,7 @@ msgid "loop_hut"
 msgstr ""
 
 #: c2corg_ui/templates/waypoint/edit.html:71
-#: c2corg_ui/templates/waypoint/view.html:47
+#: c2corg_ui/templates/waypoint/view.html:45
 msgid "maps_info"
 msgstr ""
 
@@ -515,7 +511,7 @@ msgstr ""
 msgid "{{nbItems}} routes"
 msgstr ""
 
-#: c2corg_ui/templates/waypoint/index.html:42
+#: c2corg_ui/templates/waypoint/index.html:32
 msgid "{{nbItems}} waypoints"
 msgstr ""
 

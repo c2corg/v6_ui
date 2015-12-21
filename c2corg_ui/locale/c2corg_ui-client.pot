@@ -40,7 +40,7 @@ msgstr ""
 msgid "Compare selected versions"
 msgstr ""
 
-#: c2corg_ui/templates/waypoint/view.html:46
+#: c2corg_ui/templates/waypoint/view.html:44
 msgid "Coordinates"
 msgstr ""
 
@@ -61,7 +61,7 @@ msgid "Describe here the waypoint"
 msgstr ""
 
 #: c2corg_ui/templates/route/view.html:40
-#: c2corg_ui/templates/waypoint/view.html:61
+#: c2corg_ui/templates/waypoint/view.html:59
 msgid "Edit"
 msgstr ""
 
@@ -82,8 +82,12 @@ msgid "Forgotten password?"
 msgstr ""
 
 #: c2corg_ui/templates/route/view.html:39
-#: c2corg_ui/templates/waypoint/view.html:60
+#: c2corg_ui/templates/waypoint/view.html:58
 msgid "History"
+msgstr ""
+
+#: c2corg_ui/templates/i18n.html:72
+msgid "Invalid email address"
 msgstr ""
 
 #: c2corg_ui/templates/helpers.html:42
@@ -111,6 +115,10 @@ msgstr ""
 #: c2corg_ui/templates/auth.html:26
 #: c2corg_ui/templates/auth.html:4
 msgid "Login"
+msgstr ""
+
+#: c2corg_ui/templates/i18n.html:71
+msgid "Login failed"
 msgstr ""
 
 #: c2corg_ui/static/partials/user.html:4
@@ -146,6 +154,10 @@ msgstr ""
 #: c2corg_ui/templates/auth.html:36
 #: c2corg_ui/templates/auth.html:61
 msgid "Register"
+msgstr ""
+
+#: c2corg_ui/templates/i18n.html:74
+msgid "Register success"
 msgstr ""
 
 #: c2corg_ui/templates/auth.html:22
@@ -215,7 +227,7 @@ msgid "Version 2 in"
 msgstr ""
 
 #: c2corg_ui/templates/route/view.html:30
-#: c2corg_ui/templates/waypoint/view.html:51
+#: c2corg_ui/templates/waypoint/view.html:49
 msgid "View in other culture:"
 msgstr ""
 
@@ -237,6 +249,10 @@ msgstr ""
 
 #: c2corg_ui/templates/route/edit.html:36
 msgid "activities"
+msgstr ""
+
+#: c2corg_ui/templates/i18n.html:73
+msgid "already used username"
 msgstr ""
 
 #: c2corg_ui/templates/i18n.html:48
@@ -290,7 +306,7 @@ msgstr ""
 
 #: c2corg_ui/templates/route/edit.html:15
 #: c2corg_ui/templates/route/view.html:24
-#: c2corg_ui/templates/waypoint/view.html:44
+#: c2corg_ui/templates/waypoint/view.html:42
 msgid "culture"
 msgstr ""
 
@@ -301,12 +317,12 @@ msgstr ""
 #: c2corg_ui/templates/route/edit.html:55
 #: c2corg_ui/templates/route/view.html:26
 #: c2corg_ui/templates/waypoint/edit.html:75
-#: c2corg_ui/templates/waypoint/view.html:48
+#: c2corg_ui/templates/waypoint/view.html:46
 msgid "description"
 msgstr ""
 
 #: c2corg_ui/templates/waypoint/edit.html:45
-#: c2corg_ui/templates/waypoint/view.html:45
+#: c2corg_ui/templates/waypoint/view.html:43
 msgid "elevation"
 msgstr ""
 
@@ -393,7 +409,7 @@ msgid "loop_hut"
 msgstr ""
 
 #: c2corg_ui/templates/waypoint/edit.html:71
-#: c2corg_ui/templates/waypoint/view.html:47
+#: c2corg_ui/templates/waypoint/view.html:45
 msgid "maps_info"
 msgstr ""
 
@@ -518,7 +534,7 @@ msgstr ""
 msgid "{{nbItems}} routes"
 msgstr ""
 
-#: c2corg_ui/templates/waypoint/index.html:42
+#: c2corg_ui/templates/waypoint/index.html:32
 msgid "{{nbItems}} waypoints"
 msgstr ""
 
