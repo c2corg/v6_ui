@@ -122,7 +122,7 @@ app.MapController = function($scope, mapFeatureCollection) {
           var module = /** @type {string} */(first.get('module'));
           var id = first.get('documentId').toString();
           var available = /** @type {Array.<string>} */(first.get('langs'));
-          var langIndex = this.getPreferedLangIndex_(available);
+          var langIndex = app.utils.getBestLangIndex(available);
           var lang = available[langIndex];
           var url = app.utils.buildDocumentUrl(module, id, lang);
           document.location = url;
@@ -201,18 +201,6 @@ app.MapController.prototype.getVectorLayer_ = function() {
 
 
 /**
- * @param {Array.<string>} langs Available langs
- * @return {number}
- * @private
- */
-app.MapController.prototype.getPreferedLangIndex_ = function(langs) {
-  // Probably implement this as a service. See
-  // https://github.com/c2corg/v6_ui/blob/master/c2corg_ui/static/js/utils.js
-  return 0; // TODO: to implement.
-};
-
-
-/**
  * @param {number} scale
  * @return {ol.style.StyleFunction}
  * @private
@@ -258,9 +246,9 @@ app.MapController.prototype.createStyleFunction_ = function(scale) {
             var title = /** @type {string} */(feature.get('title'));
             if (!title) {
               var langs = /** @type {Array.<string>} */(feature.get('langs'));
-              var cultureIndex = this.getPreferedLangIndex_(langs);
+              var langIndex = app.utils.getBestLangIndex(langs);
               var titles = /** @type {Array.<string>} */(feature.get('titles'));
-              title = titles[cultureIndex];
+              title = titles[langIndex];
             }
 
             if (title) {
