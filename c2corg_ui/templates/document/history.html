@@ -1,7 +1,8 @@
 <%inherit file="../base.html"/>
 <%namespace file="../helpers.html" import="get_attr"/>
-<%block name="pagelang">lang="${culture}"</%block>
-<%block name="pagetitle">${title}</%block>
+<%block name="pagelang">lang="${culture}"</%block>\
+<%block name="pagetitle">${title}</%block>\
+<%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>\
 
 <h1>${self.pagetitle()}</h1>
 

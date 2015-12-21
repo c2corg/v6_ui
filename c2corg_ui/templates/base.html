@@ -11,6 +11,7 @@ closure_library_path = settings.get('closure_library_path')
     <meta name="viewport"
           content="initial-scale=1.0, user-scalable=no, width=device-width">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <%block name="metarobots"><meta name="robots" content="index,follow"></%block>
 % if debug:
     <link rel="stylesheet" href="${request.static_url('%sbootstrap/dist/css/bootstrap.css' % node_modules_path)}" type="text/css">
     <link rel="stylesheet" href="${request.static_url('c2corg_ui:static/build/build.css')}" type="text/css">

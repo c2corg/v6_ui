@@ -6,8 +6,15 @@ other_cultures = filter(lambda l: l != culture, waypoint['available_cultures']) 
     if 'available_cultures' in waypoint else None
 geometry4326 = transform(geometry, 'epsg:3857', 'epsg:4326')
 %>\
-<%block name="pagelang">lang="${culture}"</%block>
-<%block name="pagetitle">${locale['title']}</%block>
+<%block name="pagelang">lang="${culture}"</%block>\
+<%block name="pagetitle">${locale['title']}</%block>\
+<%block name="metarobots">\
+  % if version:
+<meta name="robots" content="noindex,follow">\
+  % else:
+<meta name="robots" content="index,follow">\
+  %endif
+</%block>\
 
 <%block name="moduleConstantsValues">
 module.value('mapFeatureCollection', {
