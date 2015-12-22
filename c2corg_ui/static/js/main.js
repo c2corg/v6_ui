@@ -7,6 +7,7 @@
 goog.provide('app.main');
 
 goog.require('app.MainController');
+goog.require('app.alertsDirective');
 goog.require('app.authDirective');
 goog.require('app.diffMapDirective');
 goog.require('app.documentEditingDirective');

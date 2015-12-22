@@ -6,11 +6,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
+#: c2corg_ui/templates/route/index.html:7
+msgid "{{nbItems}} routes"
+msgstr "{{nbItems}} itinéraires trouvés"
+
+#: c2corg_ui/templates/waypoint/index.html:31
+msgid "{{nbItems}} waypoints"
+msgstr "{{nbItems}} points de passage trouvés"
+
 #: c2corg_ui/templates/route/index.html:11
 msgid "Add a route"
 msgstr "Ajouter un itinéraire"
 
-#: c2corg_ui/templates/waypoint/index.html:45
+#: c2corg_ui/templates/waypoint/index.html:35
 msgid "Add a waypoint"
 msgstr "Ajouter un point de passage"
 
@@ -42,7 +50,7 @@ msgstr "Courte description des changements"
 msgid "Compare selected versions"
 msgstr "Comparer les versions sélectionnées"
 
-#: c2corg_ui/templates/waypoint/view.html:46
+#: c2corg_ui/templates/waypoint/view.html:44
 msgid "Coordinates"
 msgstr "Coordonnées"
 
@@ -63,7 +71,7 @@ msgid "Describe here the waypoint"
 msgstr "Décrivez ici l'itinéraire"
 
 #: c2corg_ui/templates/route/view.html:40
-#: c2corg_ui/templates/waypoint/view.html:61
+#: c2corg_ui/templates/waypoint/view.html:59
 msgid "Edit"
 msgstr "Modifier"
 
@@ -84,9 +92,13 @@ msgid "Forgotten password?"
 msgstr "Mot de passe oublié ?"
 
 #: c2corg_ui/templates/route/view.html:39
-#: c2corg_ui/templates/waypoint/view.html:60
+#: c2corg_ui/templates/waypoint/view.html:58
 msgid "History"
 msgstr "Versions"
+
+#: c2corg_ui/templates/i18n.html:72
+msgid "Invalid email address"
+msgstr "Adresse email invalide"
 
 #: c2corg_ui/templates/helpers.html:42
 msgid "Last"
@@ -103,7 +115,7 @@ msgstr "La latitude doit être comprise en -90° et 90°."
 
 #: c2corg_ui/templates/document/diff.html:63
 msgid "Legend:"
-msgstr ""
+msgstr "Légende :"
 
 #: c2corg_ui/templates/document/history.html:9
 msgid "List of versions for language:"
@@ -113,6 +125,10 @@ msgstr "Liste des versions pour la langue :"
 #: c2corg_ui/templates/auth.html:4
 msgid "Login"
 msgstr "Se connecter"
+
+#: c2corg_ui/templates/i18n.html:71
+msgid "Login failed"
+msgstr "Identifiant ou mot de passe incorrects"
 
 #: c2corg_ui/static/partials/user.html:4
 msgid "Logout"
@@ -147,6 +163,10 @@ msgstr "Précédent"
 msgid "Register"
 msgstr "S'inscrire"
 
+#: c2corg_ui/templates/i18n.html:74
+msgid "Register success"
+msgstr "Merci pour votre inscription ! Vous allez bientôt recevoir un email de validation."
+
 #: c2corg_ui/templates/auth.html:22
 msgid "Remember me"
 msgstr "Se souvenir de moi"
@@ -154,7 +174,7 @@ msgstr "Se souvenir de moi"
 #: c2corg_ui/templates/document/diff.html:13
 #: c2corg_ui/templates/document/diff.html:27
 msgid "Revision as of"
-msgstr ""
+msgstr "Version du"
 
 #: c2corg_ui/templates/base.html:30
 msgid "Routes"
@@ -203,14 +223,14 @@ msgstr "Identifiant"
 
 #: c2corg_ui/templates/document/diff.html:63
 msgid "Version 1 in"
-msgstr ""
+msgstr "Version 1 en"
 
 #: c2corg_ui/templates/document/diff.html:64
 msgid "Version 2 in"
-msgstr ""
+msgstr "Version 2 en"
 
 #: c2corg_ui/templates/route/view.html:30
-#: c2corg_ui/templates/waypoint/view.html:51
+#: c2corg_ui/templates/waypoint/view.html:49
 msgid "View in other culture:"
 msgstr "Afficher dans une autre langue:"
 
@@ -231,9 +251,12 @@ msgid "access"
 msgstr "accès"
 
 #: c2corg_ui/templates/route/edit.html:36
-#, fuzzy
 msgid "activities"
 msgstr "Activités"
+
+#: c2corg_ui/templates/i18n.html:73
+msgid "already used username"
+msgstr "Cet identifiant est déjà utilisé."
 
 #: c2corg_ui/templates/i18n.html:48
 msgid "base_camp"
@@ -286,8 +309,7 @@ msgstr "confluent"
 
 #: c2corg_ui/templates/route/edit.html:15
 #: c2corg_ui/templates/route/view.html:24
-#: c2corg_ui/templates/waypoint/view.html:44
-#, fuzzy
+#: c2corg_ui/templates/waypoint/view.html:42
 msgid "culture"
 msgstr "Langue"
 
@@ -298,14 +320,12 @@ msgstr "allemand"
 #: c2corg_ui/templates/route/edit.html:55
 #: c2corg_ui/templates/route/view.html:26
 #: c2corg_ui/templates/waypoint/edit.html:75
-#: c2corg_ui/templates/waypoint/view.html:48
-#, fuzzy
+#: c2corg_ui/templates/waypoint/view.html:46
 msgid "description"
 msgstr "Description"
 
 #: c2corg_ui/templates/waypoint/edit.html:45
-#: c2corg_ui/templates/waypoint/view.html:45
-#, fuzzy
+#: c2corg_ui/templates/waypoint/view.html:43
 msgid "elevation"
 msgstr "Altitude"
 
@@ -392,8 +412,7 @@ msgid "loop_hut"
 msgstr "boucle avec retour au refuge"
 
 #: c2corg_ui/templates/waypoint/edit.html:71
-#: c2corg_ui/templates/waypoint/view.html:47
-#, fuzzy
+#: c2corg_ui/templates/waypoint/view.html:45
 msgid "maps_info"
 msgstr "Références cartographiques"
 
@@ -411,7 +430,7 @@ msgstr "VTT"
 
 #: c2corg_ui/templates/document/diff.html:33
 msgid "next difference →"
-msgstr ""
+msgstr "différence suivante →"
 
 #: c2corg_ui/templates/i18n.html:23
 msgid "paragliding"
@@ -439,7 +458,7 @@ msgstr "raid"
 
 #: c2corg_ui/templates/document/diff.html:63
 msgid "red"
-msgstr ""
+msgstr "rouge"
 
 #: c2corg_ui/templates/i18n.html:59
 msgid "return_same_way"
@@ -450,7 +469,6 @@ msgid "rock_climbing"
 msgstr "escalade"
 
 #: c2corg_ui/templates/route/edit.html:49
-#, fuzzy
 msgid "route_types"
 msgstr "Type d'itinéraire"
 
@@ -471,9 +489,8 @@ msgid "snowshoeing"
 msgstr "raquette"
 
 #: c2corg_ui/templates/i18n.html:68
-#, fuzzy
 msgid "summary"
-msgstr "sommet"
+msgstr "résumé"
 
 #: c2corg_ui/templates/i18n.html:28
 msgid "summit"
@@ -481,7 +498,6 @@ msgstr "sommet"
 
 #: c2corg_ui/templates/route/edit.html:28
 #: c2corg_ui/templates/waypoint/edit.html:28
-#, fuzzy
 msgid "title"
 msgstr "Titre"
 
@@ -506,9 +522,8 @@ msgid "waterpoint"
 msgstr "point d'eau/source"
 
 #: c2corg_ui/templates/waypoint/edit.html:36
-#, fuzzy
 msgid "waypoint_type"
-msgstr "Points de passage"
+msgstr "Type"
 
 #: c2corg_ui/templates/i18n.html:53
 msgid "weather_station"
@@ -518,23 +533,6 @@ msgstr "station météo"
 msgid "webcam"
 msgstr "webcam"
 
-#: c2corg_ui/templates/route/index.html:8
-msgid "{{nbItems}} routes"
-msgstr "{{nbItems}} itinéraires trouvés"
-
-#: c2corg_ui/templates/waypoint/index.html:42
-msgid "{{nbItems}} waypoints"
-msgstr "{{nbItems}} points de passage trouvés"
-
 #: c2corg_ui/templates/document/diff.html:19
 msgid "← previous difference"
-msgstr ""
-
-#~ msgid "Gear"
-#~ msgstr "Matériel"
-
-#~ msgid "Height"
-#~ msgstr "Dénivelé"
-
-#~ msgid "Type"
-#~ msgstr "Type"
+msgstr "← différence précédente"

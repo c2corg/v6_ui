@@ -13,7 +13,7 @@ msgstr ""
 msgid "Add a route"
 msgstr "Add a route"
 
-#: c2corg_ui/templates/waypoint/index.html:45
+#: c2corg_ui/templates/waypoint/index.html:35
 msgid "Add a waypoint"
 msgstr "Add a waypoint"
 
@@ -45,7 +45,7 @@ msgstr "Comment about the changes"
 msgid "Compare selected versions"
 msgstr ""
 
-#: c2corg_ui/templates/waypoint/view.html:46
+#: c2corg_ui/templates/waypoint/view.html:44
 msgid "Coordinates"
 msgstr "Coordinates"
 
@@ -66,7 +66,7 @@ msgid "Describe here the waypoint"
 msgstr "Describe here the waypoint"
 
 #: c2corg_ui/templates/route/view.html:40
-#: c2corg_ui/templates/waypoint/view.html:61
+#: c2corg_ui/templates/waypoint/view.html:59
 msgid "Edit"
 msgstr "Edit"
 
@@ -87,8 +87,12 @@ msgid "Forgotten password?"
 msgstr "Forgotten password?"
 
 #: c2corg_ui/templates/route/view.html:39
-#: c2corg_ui/templates/waypoint/view.html:60
+#: c2corg_ui/templates/waypoint/view.html:58
 msgid "History"
+msgstr ""
+
+#: c2corg_ui/templates/i18n.html:72
+msgid "Invalid email address"
 msgstr ""
 
 #: c2corg_ui/templates/helpers.html:42
@@ -116,6 +120,10 @@ msgstr ""
 #: c2corg_ui/templates/auth.html:4
 msgid "Login"
 msgstr "Sign in"
+
+#: c2corg_ui/templates/i18n.html:71
+msgid "Login failed"
+msgstr ""
 
 #: c2corg_ui/static/partials/user.html:4
 msgid "Logout"
@@ -149,6 +157,10 @@ msgstr "Previous"
 #: c2corg_ui/templates/auth.html:36 c2corg_ui/templates/auth.html:61
 msgid "Register"
 msgstr "Sign up"
+
+#: c2corg_ui/templates/i18n.html:74
+msgid "Register success"
+msgstr ""
 
 #: c2corg_ui/templates/auth.html:22
 msgid "Remember me"
@@ -213,7 +225,7 @@ msgid "Version 2 in"
 msgstr ""
 
 #: c2corg_ui/templates/route/view.html:30
-#: c2corg_ui/templates/waypoint/view.html:51
+#: c2corg_ui/templates/waypoint/view.html:49
 msgid "View in other culture:"
 msgstr "View in other culture:"
 
@@ -231,12 +243,15 @@ msgstr ""
 
 #: c2corg_ui/templates/i18n.html:49
 msgid "access"
-msgstr "access"
+msgstr "Access"
 
 #: c2corg_ui/templates/route/edit.html:36
-#, fuzzy
 msgid "activities"
 msgstr "Activities"
+
+#: c2corg_ui/templates/i18n.html:73
+msgid "already used username"
+msgstr ""
 
 #: c2corg_ui/templates/i18n.html:48
 msgid "base_camp"
@@ -289,8 +304,7 @@ msgstr "confluence"
 
 #: c2corg_ui/templates/route/edit.html:15
 #: c2corg_ui/templates/route/view.html:24
-#: c2corg_ui/templates/waypoint/view.html:44
-#, fuzzy
+#: c2corg_ui/templates/waypoint/view.html:42
 msgid "culture"
 msgstr "Culture"
 
@@ -301,14 +315,12 @@ msgstr "de"
 #: c2corg_ui/templates/route/edit.html:55
 #: c2corg_ui/templates/route/view.html:26
 #: c2corg_ui/templates/waypoint/edit.html:75
-#: c2corg_ui/templates/waypoint/view.html:48
-#, fuzzy
+#: c2corg_ui/templates/waypoint/view.html:46
 msgid "description"
 msgstr "Description"
 
 #: c2corg_ui/templates/waypoint/edit.html:45
-#: c2corg_ui/templates/waypoint/view.html:45
-#, fuzzy
+#: c2corg_ui/templates/waypoint/view.html:43
 msgid "elevation"
 msgstr "Elevation"
 
@@ -395,8 +407,7 @@ msgid "loop_hut"
 msgstr "loop_hut"
 
 #: c2corg_ui/templates/waypoint/edit.html:71
-#: c2corg_ui/templates/waypoint/view.html:47
-#, fuzzy
+#: c2corg_ui/templates/waypoint/view.html:45
 msgid "maps_info"
 msgstr "Maps info"
 
@@ -453,9 +464,8 @@ msgid "rock_climbing"
 msgstr "rock_climbing"
 
 #: c2corg_ui/templates/route/edit.html:49
-#, fuzzy
 msgid "route_types"
-msgstr "Route type"
+msgstr "Route types"
 
 #: c2corg_ui/templates/i18n.html:46
 msgid "shelter"
@@ -474,9 +484,8 @@ msgid "snowshoeing"
 msgstr "snowshoeing"
 
 #: c2corg_ui/templates/i18n.html:68
-#, fuzzy
 msgid "summary"
-msgstr "summit"
+msgstr ""
 
 #: c2corg_ui/templates/i18n.html:28
 msgid "summit"
@@ -484,7 +493,6 @@ msgstr "summit"
 
 #: c2corg_ui/templates/route/edit.html:28
 #: c2corg_ui/templates/waypoint/edit.html:28
-#, fuzzy
 msgid "title"
 msgstr "Title"
 
@@ -509,9 +517,8 @@ msgid "waterpoint"
 msgstr "waterpoint"
 
 #: c2corg_ui/templates/waypoint/edit.html:36
-#, fuzzy
 msgid "waypoint_type"
-msgstr "Waypoints"
+msgstr "Type"
 
 #: c2corg_ui/templates/i18n.html:53
 msgid "weather_station"
@@ -525,19 +532,10 @@ msgstr "webcam"
 msgid "{{nbItems}} routes"
 msgstr "{{nbItems}} routes"
 
-#: c2corg_ui/templates/waypoint/index.html:42
+#: c2corg_ui/templates/waypoint/index.html:32
 msgid "{{nbItems}} waypoints"
 msgstr "{{nbItems}} waypoints"
 
 #: c2corg_ui/templates/document/diff.html:19
 msgid "← previous difference"
 msgstr ""
-
-#~ msgid "Gear"
-#~ msgstr "Gear"
-
-#~ msgid "Height"
-#~ msgstr "Height"
-
-#~ msgid "Type"
-#~ msgstr "Type"
