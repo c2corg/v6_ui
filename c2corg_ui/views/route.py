@@ -13,11 +13,12 @@ class Route(Document):
     @view_config(route_name='routes_index_default',
                  renderer='c2corg_ui:templates/route/index.html')
     def index(self):
-        routes, total, filter_params = self._get_documents()
+        routes, total, filter_params, lang = self._get_documents()
         self.template_input.update({
             'routes': routes,
             'total': total,
-            'filter_params': filter_params
+            'filter_params': filter_params,
+            'lang': lang
         })
         return self.template_input
 
