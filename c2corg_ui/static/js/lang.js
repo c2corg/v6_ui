@@ -38,12 +38,13 @@ app.module.directive('appLang', app.langDirective);
  * @param {string} langUrlTemplate Language URL template.
  * @param {ngeo.GetBrowserLanguage} ngeoGetBrowserLanguage
  *        GetBrowserLanguage Service.
+ * @param {angular.$cookies} $cookies Cookies service.
  * @constructor
  * @export
  * @ngInject
  */
 app.LangController = function(gettextCatalog, langUrlTemplate,
-    ngeoGetBrowserLanguage) {
+    ngeoGetBrowserLanguage, $cookies) {
 
   /**
    * @type {angularGettext.Catalog}
@@ -58,10 +59,16 @@ app.LangController = function(gettextCatalog, langUrlTemplate,
   this.langUrlTemplate_ = langUrlTemplate;
 
   /**
+   * @type {angular.$cookies}
+   * @private
+   */
+  this.cookies_ = $cookies;
+
+  /**
    * @type {string}
    * @export
    */
-  this.culture = window.localStorage.getItem('interface_lang') ||
+  this.culture = this.cookies_.get('interface_lang') ||
       ngeoGetBrowserLanguage(this['cultures']) || 'fr';
   this.updateCulture();
 };
@@ -84,14 +91,12 @@ app.LangController.prototype.updateCulture = function() {
   this.gettextCatalog_.setCurrentLanguage(this.culture);
   this.gettextCatalog_.loadRemote(
       this.langUrlTemplate_.replace('__lang__', this.culture));
-  try {
-    window.localStorage.setItem('interface_lang', this.culture);
-  } catch (e) {
-    // The storage is full or we are in incognito mode in a broken browser.
-    if (goog.DEBUG) {
-      console.log('Failed to save interface language', e);
-    }
-  }
+  // store the interface language as cookie, so that it is available on the
+  // server side. the expiration is set to 'session', the cookie will be
+  // deleted once the browser is closed.
+  this.cookies_.put('interface_lang', this.culture, {
+    'path': '/'
+  });
 };
 
 
