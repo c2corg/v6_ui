@@ -169,8 +169,6 @@ app.DocumentEditingController.prototype.successRead_ = function(response) {
     point.transform(app.DocumentEditingController.DATA_PROJ,
         app.DocumentEditingController.FORM_PROJ);
     var coordinates = point.getCoordinates();
-    // FIXME: will rounding the coordinates cause a new version
-    // of the geometry in the API?
     coordinates = goog.array.map(coordinates, function(coord) {
       return Math.round(coord * 1000000) / 1000000;
     });
@@ -185,6 +183,7 @@ app.DocumentEditingController.prototype.successRead_ = function(response) {
         'longitude': coordinates[0],
         'latitude': coordinates[1]
       };
+      data['read_lonlat'] = angular.copy(data['lonlat']);
     }
   }
   this.scope_[this.modelName_] = data;
@@ -233,8 +232,20 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
       // If creating a new document, the model has no geometry attribute yet:
       data['geometry'] = data['geometry'] || {};
       data['geometry']['geom'] = this.geojsonFormat_.writeGeometry(point);
+
+      var changed = true;
+      if (data['read_lonlat']) {
+        changed = data['read_lonlat']['longitude'] !== lonlat['longitude'] ||
+            data['read_lonlat']['latitude'] !== lonlat['latitude'];
+      }
+      if (changed) {
+        data['geometry']['geom'] = this.geojsonFormat_.writeGeometry(point);
+      } else {
+        delete data['geometry']; // skip update of the geometry
+      }
     }
     delete data['lonlat'];
+    delete data['read_lonlat'];
   }
 
   var config = {
