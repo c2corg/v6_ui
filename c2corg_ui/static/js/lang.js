@@ -95,8 +95,20 @@ app.LangController.prototype.updateCulture = function() {
   // server side. the expiration is set to 'session', the cookie will be
   // deleted once the browser is closed.
   this.cookies_.put('interface_lang', this.culture, {
-    'path': '/'
+    'path': '/',
+    'expires': this.todayInOneYear_()
   });
+};
+
+
+/**
+ * @return {Date} Today in one year.
+ * @private
+ */
+app.LangController.prototype.todayInOneYear_ = function() {
+  var d = new Date();
+  d.setFullYear(d.getFullYear() + 1);
+  return d;
 };
 
 
