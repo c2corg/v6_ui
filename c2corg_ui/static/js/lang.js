@@ -92,8 +92,7 @@ app.LangController.prototype.updateCulture = function() {
   this.gettextCatalog_.loadRemote(
       this.langUrlTemplate_.replace('__lang__', this.culture));
   // store the interface language as cookie, so that it is available on the
-  // server side. the expiration is set to 'session', the cookie will be
-  // deleted once the browser is closed.
+  // server side.
   this.cookies_.put('interface_lang', this.culture, {
     'path': '/',
     'expires': this.todayInOneYear_()

@@ -40,7 +40,6 @@ appx.SearchDocumentResponse;
  *   locales: Array.<appx.SearchDocumentLocale>,
  *   document_type: string,
  *   label: string,
- *   bestCulture: string,
  *   documentType: string
  * }}
  */
