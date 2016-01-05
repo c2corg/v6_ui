@@ -101,12 +101,16 @@ class Document(object):
 
     def _get_documents(self):
         params = self._get_filter_params()
+        lang = self.request.cookies.get('interface_lang', 'fr')
+        params.append(('pl', lang))
+
         # query_string contains filter params using the standard URL format
         # (eg. ?offset=50&limit=20&elevation=>2000).
         query_string = '?' + urlencode(params) if params else ''
         url = '%s/%s%s' % (
             self.settings['api_url'], self._API_ROUTE, query_string
         )
+
         resp, content = self._call_api(url)
         # Inject default list filters params:
         filters = dict(self._DEFAULT_FILTERS, **{k: v for k, v in params})
@@ -117,7 +121,7 @@ class Document(object):
         else:
             documents = []
             total = 0
-        return documents, total, filters
+        return documents, total, filters, lang
 
     def _get_filter_params(self):
         """This function is used to parse the filters provided in URLs such as

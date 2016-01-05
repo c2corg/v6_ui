@@ -20,8 +20,11 @@ module.value('mapFeatureCollection', {
                "module": "waypoints",
                "type":  waypoint['waypoint_type'],
                "documentId": waypoint['document_id'],
-               "langs": [locale['culture'] for locale in waypoint['locales']],
-               "titles": [locale['title'] for locale in waypoint['locales']]
+               "lang": waypoint['locales'][0]['culture'],
+               "title": waypoint['locales'][0]['title'] + (
+                " (" + waypoint['locales'][0]['culture'] + ")" if
+                lang != waypoint['locales'][0]['culture'] else ""
+               )
             }
             features.append(dumps({
                 "type": "Feature",
@@ -45,9 +48,14 @@ ${helpers.add_pagination_links('waypoints', waypoints, total, filter_params)}
   <li><a href="${request.route_url('waypoints_add')}" translate>Add a waypoint</a></li>
 % for waypoint in waypoints:
   <li>
-  % for locale in waypoint['locales']:
-    <a href="${request.route_url('waypoints_view', id=waypoint['document_id'], culture=locale['culture'])}">${locale['title']}</a> (${locale['culture']})
-  % endfor
-  - ${waypoint['elevation']} m</li>
+    <% locale = waypoint['locales'][0] %>\
+    <a href="${request.route_url('waypoints_view', id=waypoint['document_id'], culture=locale['culture'])}">${locale['title']}</a>
+    % if lang != locale['culture']:
+      (${locale['culture']})
+    % endif
+    % if waypoint['elevation'] is not None:
+      - ${waypoint['elevation']} m
+    % endif
+  </li>
 % endfor
 </ul>

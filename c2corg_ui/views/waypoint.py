@@ -13,11 +13,12 @@ class Waypoint(Document):
     @view_config(route_name='waypoints_index_default',
                  renderer='c2corg_ui:templates/waypoint/index.html')
     def index(self):
-        waypoints, total, filter_params = self._get_documents()
+        waypoints, total, filter_params, lang = self._get_documents()
         self.template_input.update({
             'waypoints': waypoints,
             'total': total,
-            'filter_params': filter_params
+            'filter_params': filter_params,
+            'lang': lang
         })
         return self.template_input
 

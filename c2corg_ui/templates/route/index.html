@@ -11,9 +11,14 @@ ${helpers.add_pagination_links('routes', routes, total, filter_params)}
   <li><a href="${request.route_url('routes_add')}" translate>Add a route</a></li>
 % for route in routes:
   <li>
-  % for locale in route['locales']:
-    <a href="${request.route_url('routes_view', id=route['document_id'], culture=locale['culture'])}">${locale['title']}</a> (${locale['culture']})
-  % endfor
-  - ${route['elevation_max']} m</li>
+    <% locale = route['locales'][0] %>\
+    <a href="${request.route_url('routes_view', id=route['document_id'], culture=locale['culture'])}">${locale['title']}</a>
+    % if lang != locale['culture']:
+      (${locale['culture']})
+    % endif
+    % if route['elevation_max'] is not None:
+      - ${route['elevation_max']} m
+    % endif
+  </li>
 % endfor
 </ul>

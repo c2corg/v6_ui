@@ -121,9 +121,7 @@ app.MapController = function($scope, mapFeatureCollection) {
           var first = features.getArray()[0];
           var module = /** @type {string} */(first.get('module'));
           var id = first.get('documentId').toString();
-          var available = /** @type {Array.<string>} */(first.get('langs'));
-          var langIndex = app.utils.getBestLangIndex(available);
-          var lang = available[langIndex];
+          var lang = /** @type {string} */(first.get('lang'));
           var url = app.utils.buildDocumentUrl(module, id, lang);
           document.location = url;
         }
@@ -244,22 +242,14 @@ app.MapController.prototype.createStyleFunction_ = function(scale) {
           var text;
           if (scale > 1 && typeof id !== undefined) { // on hover in list view
             var title = /** @type {string} */(feature.get('title'));
-            if (!title) {
-              var langs = /** @type {Array.<string>} */(feature.get('langs'));
-              var langIndex = app.utils.getBestLangIndex(langs);
-              var titles = /** @type {Array.<string>} */(feature.get('titles'));
-              title = titles[langIndex];
-            }
 
-            if (title) {
-              text = new ol.style.Text({
-                text: title,
-                textAlign: 'left',
-                offsetX: 20,
-                font: 'bold 14px Calibri,sans-serif',
-                textBaseline: 'middle'
-              });
-            }
+            text = new ol.style.Text({
+              text: title,
+              textAlign: 'left',
+              offsetX: 20,
+              font: 'bold 14px Calibri,sans-serif',
+              textBaseline: 'middle'
+            });
           }
 
           style = new ol.style.Style({

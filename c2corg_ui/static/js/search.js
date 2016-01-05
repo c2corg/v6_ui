@@ -43,23 +43,15 @@ app.module.directive('appSearch', app.searchDirective);
  * @param {angular.$compile} $compile Angular compile service.
  * @param {string} apiUrl Base URL of the API.
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
- * @param {Array.<string>} cultures All cultures.
  * @ngInject
  */
-app.SearchController = function(
-    $rootScope, $compile, apiUrl, gettextCatalog, cultures) {
+app.SearchController = function($rootScope, $compile, apiUrl, gettextCatalog) {
 
   /**
    * @type {string}
    * @private
    */
   this.apiUrl_ = apiUrl;
-
-  /**
-   * @type {Array.<string>}
-   * @private
-   */
-  this.cultures_ = cultures;
 
   /**
    * @type {angularGettext.Catalog}
@@ -140,22 +132,26 @@ app.SearchController.prototype.createAndInitBloodhound_ = function(type) {
       url: url,
       wildcard: '%QUERY',
       rateLimitWait: 50,
+      prepare: (function(query, settings) {
+        var url = settings['url'] +
+            '&pl=' + this.gettextCatalog_.currentLanguage;
+        settings['url'] = url.replace('%QUERY', encodeURIComponent(query));
+        return settings;
+      }).bind(this),
       filter: (function(/** appx.SearchResponse */ resp) {
         var documentResponse =
             /** @type {appx.SearchDocumentResponse} */ (resp[type]);
         var documents = documentResponse.documents;
         var currentCulture = this.gettextCatalog_.currentLanguage;
-        var cultures = this.cultures_;
 
         return documents.map(function(/** appx.SearchDocument */ doc) {
-          var locale = app.utils.getBestLocale(doc, currentCulture, cultures);
+          var locale = doc.locales[0];
           doc.label = locale.title;
 
           if (currentCulture !== locale.culture) {
             doc.label += ' (' + locale.culture + ')';
           }
 
-          doc.bestCulture = locale.culture;
           doc.documentType = type;
           return doc;
         });
@@ -175,7 +171,7 @@ app.SearchController.prototype.createAndInitBloodhound_ = function(type) {
  * @private
  */
 app.SearchController.select_ = function(event, doc, dataset) {
-  var culture = doc.bestCulture;
+  var culture = doc.locales[0].culture;
   var url = app.utils.buildDocumentUrl(
       doc.documentType, doc.document_id, culture);
   window.location.href = url;
