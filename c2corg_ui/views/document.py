@@ -102,7 +102,7 @@ class Document(object):
     def _get_documents(self):
         params = self._get_filter_params()
         lang = self.request.cookies.get('interface_lang', 'fr')
-        params.append(('l', lang))
+        params.append(('pl', lang))
 
         # query_string contains filter params using the standard URL format
         # (eg. ?offset=50&limit=20&elevation=>2000).

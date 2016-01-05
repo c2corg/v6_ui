@@ -134,7 +134,7 @@ app.SearchController.prototype.createAndInitBloodhound_ = function(type) {
       rateLimitWait: 50,
       prepare: (function(query, settings) {
         var url = settings['url'] +
-            '&l=' + this.gettextCatalog_.currentLanguage;
+            '&pl=' + this.gettextCatalog_.currentLanguage;
         settings['url'] = url.replace('%QUERY', encodeURIComponent(query));
         return settings;
       }).bind(this),
