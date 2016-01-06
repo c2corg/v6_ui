@@ -6,19 +6,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: c2corg_ui/templates/route/index.html:7
-msgid "{{nbItems}} routes"
-msgstr "{{nbItems}} itinéraires trouvés"
-
-#: c2corg_ui/templates/waypoint/index.html:31
-msgid "{{nbItems}} waypoints"
-msgstr "{{nbItems}} points de passage trouvés"
-
 #: c2corg_ui/templates/route/index.html:11
 msgid "Add a route"
 msgstr "Ajouter un itinéraire"
 
-#: c2corg_ui/templates/waypoint/index.html:35
+#: c2corg_ui/templates/waypoint/index.html:48
 msgid "Add a waypoint"
 msgstr "Ajouter un point de passage"
 
@@ -50,7 +42,7 @@ msgstr "Courte description des changements"
 msgid "Compare selected versions"
 msgstr "Comparer les versions sélectionnées"
 
-#: c2corg_ui/templates/waypoint/view.html:44
+#: c2corg_ui/templates/waypoint/view.html:47
 msgid "Coordinates"
 msgstr "Coordonnées"
 
@@ -71,7 +63,7 @@ msgid "Describe here the waypoint"
 msgstr "Décrivez ici l'itinéraire"
 
 #: c2corg_ui/templates/route/view.html:40
-#: c2corg_ui/templates/waypoint/view.html:59
+#: c2corg_ui/templates/waypoint/view.html:62
 msgid "Edit"
 msgstr "Modifier"
 
@@ -92,7 +84,7 @@ msgid "Forgotten password?"
 msgstr "Mot de passe oublié ?"
 
 #: c2corg_ui/templates/route/view.html:39
-#: c2corg_ui/templates/waypoint/view.html:58
+#: c2corg_ui/templates/waypoint/view.html:61
 msgid "History"
 msgstr "Versions"
 
@@ -165,7 +157,9 @@ msgstr "S'inscrire"
 
 #: c2corg_ui/templates/i18n.html:74
 msgid "Register success"
-msgstr "Merci pour votre inscription ! Vous allez bientôt recevoir un email de validation."
+msgstr ""
+"Merci pour votre inscription ! Vous allez bientôt recevoir un email de "
+"validation."
 
 #: c2corg_ui/templates/auth.html:22
 msgid "Remember me"
@@ -230,7 +224,7 @@ msgid "Version 2 in"
 msgstr "Version 2 en"
 
 #: c2corg_ui/templates/route/view.html:30
-#: c2corg_ui/templates/waypoint/view.html:49
+#: c2corg_ui/templates/waypoint/view.html:52
 msgid "View in other culture:"
 msgstr "Afficher dans une autre langue:"
 
@@ -309,7 +303,7 @@ msgstr "confluent"
 
 #: c2corg_ui/templates/route/edit.html:15
 #: c2corg_ui/templates/route/view.html:24
-#: c2corg_ui/templates/waypoint/view.html:42
+#: c2corg_ui/templates/waypoint/view.html:45
 msgid "culture"
 msgstr "Langue"
 
@@ -320,12 +314,12 @@ msgstr "allemand"
 #: c2corg_ui/templates/route/edit.html:55
 #: c2corg_ui/templates/route/view.html:26
 #: c2corg_ui/templates/waypoint/edit.html:75
-#: c2corg_ui/templates/waypoint/view.html:46
+#: c2corg_ui/templates/waypoint/view.html:49
 msgid "description"
 msgstr "Description"
 
 #: c2corg_ui/templates/waypoint/edit.html:45
-#: c2corg_ui/templates/waypoint/view.html:43
+#: c2corg_ui/templates/waypoint/view.html:46
 msgid "elevation"
 msgstr "Altitude"
 
@@ -412,7 +406,7 @@ msgid "loop_hut"
 msgstr "boucle avec retour au refuge"
 
 #: c2corg_ui/templates/waypoint/edit.html:71
-#: c2corg_ui/templates/waypoint/view.html:45
+#: c2corg_ui/templates/waypoint/view.html:48
 msgid "maps_info"
 msgstr "Références cartographiques"
 
@@ -532,6 +526,14 @@ msgstr "station météo"
 #: c2corg_ui/templates/i18n.html:54
 msgid "webcam"
 msgstr "webcam"
+
+#: c2corg_ui/templates/route/index.html:8
+msgid "{{nbItems}} routes"
+msgstr "{{nbItems}} itinéraires trouvés"
+
+#: c2corg_ui/templates/waypoint/index.html:45
+msgid "{{nbItems}} waypoints"
+msgstr "{{nbItems}} points de passage trouvés"
 
 #: c2corg_ui/templates/document/diff.html:19
 msgid "← previous difference"

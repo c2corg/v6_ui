@@ -13,7 +13,7 @@ msgstr ""
 msgid "Add a route"
 msgstr "Add a route"
 
-#: c2corg_ui/templates/waypoint/index.html:35
+#: c2corg_ui/templates/waypoint/index.html:48
 msgid "Add a waypoint"
 msgstr "Add a waypoint"
 
@@ -45,7 +45,7 @@ msgstr "Comment about the changes"
 msgid "Compare selected versions"
 msgstr ""
 
-#: c2corg_ui/templates/waypoint/view.html:44
+#: c2corg_ui/templates/waypoint/view.html:47
 msgid "Coordinates"
 msgstr "Coordinates"
 
@@ -66,7 +66,7 @@ msgid "Describe here the waypoint"
 msgstr "Describe here the waypoint"
 
 #: c2corg_ui/templates/route/view.html:40
-#: c2corg_ui/templates/waypoint/view.html:59
+#: c2corg_ui/templates/waypoint/view.html:62
 msgid "Edit"
 msgstr "Edit"
 
@@ -87,7 +87,7 @@ msgid "Forgotten password?"
 msgstr "Forgotten password?"
 
 #: c2corg_ui/templates/route/view.html:39
-#: c2corg_ui/templates/waypoint/view.html:58
+#: c2corg_ui/templates/waypoint/view.html:61
 msgid "History"
 msgstr ""
 
@@ -225,7 +225,7 @@ msgid "Version 2 in"
 msgstr ""
 
 #: c2corg_ui/templates/route/view.html:30
-#: c2corg_ui/templates/waypoint/view.html:49
+#: c2corg_ui/templates/waypoint/view.html:52
 msgid "View in other culture:"
 msgstr "View in other culture:"
 
@@ -304,7 +304,7 @@ msgstr "confluence"
 
 #: c2corg_ui/templates/route/edit.html:15
 #: c2corg_ui/templates/route/view.html:24
-#: c2corg_ui/templates/waypoint/view.html:42
+#: c2corg_ui/templates/waypoint/view.html:45
 msgid "culture"
 msgstr "Culture"
 
@@ -315,12 +315,12 @@ msgstr "de"
 #: c2corg_ui/templates/route/edit.html:55
 #: c2corg_ui/templates/route/view.html:26
 #: c2corg_ui/templates/waypoint/edit.html:75
-#: c2corg_ui/templates/waypoint/view.html:46
+#: c2corg_ui/templates/waypoint/view.html:49
 msgid "description"
 msgstr "Description"
 
 #: c2corg_ui/templates/waypoint/edit.html:45
-#: c2corg_ui/templates/waypoint/view.html:43
+#: c2corg_ui/templates/waypoint/view.html:46
 msgid "elevation"
 msgstr "Elevation"
 
@@ -407,7 +407,7 @@ msgid "loop_hut"
 msgstr "loop_hut"
 
 #: c2corg_ui/templates/waypoint/edit.html:71
-#: c2corg_ui/templates/waypoint/view.html:45
+#: c2corg_ui/templates/waypoint/view.html:48
 msgid "maps_info"
 msgstr "Maps info"
 
@@ -532,7 +532,7 @@ msgstr "webcam"
 msgid "{{nbItems}} routes"
 msgstr "{{nbItems}} routes"
 
-#: c2corg_ui/templates/waypoint/index.html:32
+#: c2corg_ui/templates/waypoint/index.html:45
 msgid "{{nbItems}} waypoints"
 msgstr "{{nbItems}} waypoints"
 
