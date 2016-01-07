@@ -8,6 +8,7 @@
 /apache/app-c2corg_ui.wsgi
 /apache/wsgi.conf
 /MANIFEST
+/nbproject
 *.pyc
 *.egg-info
 *.po~
