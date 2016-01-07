@@ -71,12 +71,10 @@ updating_doc = route_id and route_culture
   <p>
     <button type="submit" class="btn btn-primary" ng-disabled="editForm.$invalid" translate>Save</button>
     <%
-    if updating_doc:
-        cancel_url = request.route_url('routes_view', id=route_id, culture=route_culture)
-    else:
-        cancel_url = request.route_url('routes_index_default')
+    view_url = request.route_url('routes_view', id=route_id, culture=route_culture) if updating_doc else ''
+    index_url = request.route_url('routes_index_default')
     %>
-    <a href="${cancel_url}" translate>Cancel</a>
+    <button type="button" class="btn btn-default" ng-click="editCtrl.cancel('${view_url}', '${index_url}')" translate>Cancel</button>
   </p>
   <app-map app-map-edit-ctrl="editCtrl"></app-map>
 </form>
