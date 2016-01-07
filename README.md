@@ -1,6 +1,15 @@
 UI Application for camptocamp.org v6
 ====================================
 
+Requirements
+------------
+
+ * Python 2.7
+ * Node (0.10.x or higher, there are known issues with 0.10.29)
+ * Java (1.7 or higher)
+ * gettext (0.18 or higher)
+ * virtualenv (1.7 or higher)
+
 Checkout
 --------
 
