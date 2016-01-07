@@ -93,6 +93,13 @@ app.AuthController = function($scope, $http, apiUrl, appAuthentication,
 app.AuthController.prototype.login = function() {
   var login = this.scope_['login'];
   var remember = !!login['remember']; // a true boolean
+
+  // Discourse SSO
+  if (this.ngeoLocation_.hasParam('sso')) {
+    login['sso'] = this.ngeoLocation_.getParam('sso');
+    login['sig'] = this.ngeoLocation_.getParam('sig');
+  }
+
   this.http_.post(this.buildUrl_('login'), login, {
     'headers': {
       'Content-Type': 'application/json; charset=UTF-8',
@@ -114,10 +121,14 @@ app.AuthController.prototype.successLogin_ = function(remember, response) {
   var data = /** @type {appx.AuthData} */ (response['data']);
   data.remember = remember;
   this.appAuthentication_.setUserData(data);
-  // redirect to previous page
-  var url_from = this.ngeoLocation_.hasParam('from') ?
-      decodeURIComponent(this.ngeoLocation_.getParam('from')) : '/';
-  window.location.href = url_from;
+
+  // redirect to previous page or the page sent by the server
+  var redirect = data.redirect;
+  if (!redirect) {
+    redirect = this.ngeoLocation_.hasParam('from') ?
+        decodeURIComponent(this.ngeoLocation_.getParam('from')) : '/';
+  }
+  window.location.href = redirect;
 };
 
 
