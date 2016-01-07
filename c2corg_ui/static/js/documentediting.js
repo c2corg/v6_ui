@@ -186,6 +186,14 @@ app.DocumentEditingController.prototype.successRead_ = function(response) {
       data['read_lonlat'] = angular.copy(data['lonlat']);
     }
   }
+
+  if (!data['locales'].length) {
+    // locales attributes are missing when creating a new culture version
+    data['locales'].push({
+      'culture': this.culture_
+    });
+  }
+
   this.scope_[this.modelName_] = data;
   this.scope_.$root.$emit('documentDataChange', data);
 };
