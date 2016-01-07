@@ -1,9 +1,11 @@
+<%!
+from c2corg_ui.templates.utils import get_culture_lists
+%>
 <%inherit file="../base.html"/>
-<%namespace file="../helpers.html" import="get_attr, show_archive_data"/>
+<%namespace file="../helpers.html" import="get_attr, show_archive_data, show_other_cultures_links, show_missing_cultures_links"/>
 <%
 route_id = route['document_id']
-other_cultures = filter(lambda l: l != culture, route['available_cultures']) \
-    if 'available_cultures' in route else None
+other_cultures, missing_cultures = get_culture_lists(route, culture)
 %>\
 <%block name="pagelang">lang="${culture}"</%block>\
 <%block name="pagetitle">${locale['title']}</%block>\
@@ -18,10 +20,16 @@ other_cultures = filter(lambda l: l != culture, route['available_cultures']) \
 <h1>${self.pagetitle()}</h1>
 % if version:
   ${show_archive_data('routes', route, locale, version)}
+% else:
+  <p><span translate>culture</span> : {{mainCtrl.translate('${culture}')}}</p>
+  ${show_other_cultures_links('routes', route, other_cultures)}
+  ${show_missing_cultures_links('routes', route, missing_cultures)}
 % endif
 <ul>
-  <li>Id: ${route_id}</li>
-  <li><span translate>culture</span> : {{mainCtrl.translate('${culture}')}}</li>
+  <li><a href="${request.route_url('routes_history', id=route_id, culture=culture)}" translate>History</a></li>
+  <li><a href="${request.route_url('routes_edit', id=route_id, culture=culture)}" translate>Edit</a></li>
+</ul>
+<ul>
   <li><span translate>height_diff_up</span> : ${route['height_diff_up']} m</li>
   <li><span translate>description</span> : ${get_attr(locale, 'description')}</li>
   <li><span translate>gear</span> : ${get_attr(locale, 'gear')}</li>
@@ -35,8 +43,3 @@ other_cultures = filter(lambda l: l != culture, route['available_cultures']) \
   </ul>
 % endif
 <app-map></app-map>
-<ul>
-  <li><a href="${request.route_url('routes_history', id=route_id, culture=culture)}" translate>History</a></li>
-  <li><a href="${request.route_url('routes_edit', id=route_id, culture=culture)}" translate>Edit</a></li>
-</ul>
-

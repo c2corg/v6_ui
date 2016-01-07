@@ -52,3 +52,25 @@ ${obj[key] if obj and key in obj and obj[key] is not None else ''}\
     <li><a href="${request.route_url(module + '_view', id=document['document_id'], culture=locale['culture'])}" translate>See the latest version</a></li>
   </ul>
 </%def>
+
+<%def name="show_other_cultures_links(module, document, other_cultures)">\
+% if other_cultures:
+  <p translate>View in other culture:</p>
+  <ul>
+  % for l in other_cultures:
+    <li><a href="${request.route_url(module + '_view', id=document['document_id'], culture=l)}">{{mainCtrl.translate('${l}')}}</a></li>
+  % endfor
+  </ul>
+% endif
+</%def>
+
+<%def name="show_missing_cultures_links(module, document, missing_cultures)">\
+% if missing_cultures:
+  <p translate>Translate into an other culture:</p>
+  <ul>
+  % for l in missing_cultures:
+    <li><a href="${request.route_url(module + '_edit', id=document['document_id'], culture=l)}">{{mainCtrl.translate('${l}')}}</a></li>
+  % endfor
+  </ul>
+% endif
+</%def>
