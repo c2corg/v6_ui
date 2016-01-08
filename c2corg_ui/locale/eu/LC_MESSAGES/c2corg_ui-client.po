@@ -8,11 +8,16 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: c2corg_ui/templates/waypoint/index.html:75
+msgid "${waypoint['waypoint_type']}"
+msgstr ""
+
 #: c2corg_ui/templates/route/index.html:11
 msgid "Add a route"
 msgstr ""
 
-#: c2corg_ui/templates/waypoint/index.html:48
+#: c2corg_ui/templates/waypoint/index.html:54
+#: c2corg_ui/templates/waypoint/index.html:87
 msgid "Add a waypoint"
 msgstr ""
 
@@ -20,11 +25,11 @@ msgstr ""
 msgid "Author"
 msgstr ""
 
-#: c2corg_ui/templates/base.html:27
+#: c2corg_ui/templates/base.html:31
 msgid "Back to homepage"
 msgstr ""
 
-#: c2corg_ui/templates/base.html:45
+#: c2corg_ui/templates/base.html:49
 msgid "Browse site in"
 msgstr ""
 
@@ -44,7 +49,7 @@ msgstr ""
 msgid "Compare selected versions"
 msgstr ""
 
-#: c2corg_ui/templates/waypoint/view.html:47
+#: c2corg_ui/templates/waypoint/view.html:49
 msgid "Coordinates"
 msgstr ""
 
@@ -65,7 +70,7 @@ msgid "Describe here the waypoint"
 msgstr ""
 
 #: c2corg_ui/templates/route/view.html:40
-#: c2corg_ui/templates/waypoint/view.html:62
+#: c2corg_ui/templates/waypoint/view.html:64
 msgid "Edit"
 msgstr ""
 
@@ -86,7 +91,7 @@ msgid "Forgotten password?"
 msgstr ""
 
 #: c2corg_ui/templates/route/view.html:39
-#: c2corg_ui/templates/waypoint/view.html:61
+#: c2corg_ui/templates/waypoint/view.html:63
 msgid "History"
 msgstr ""
 
@@ -170,7 +175,7 @@ msgstr ""
 msgid "Revision as of"
 msgstr ""
 
-#: c2corg_ui/templates/base.html:30
+#: c2corg_ui/templates/base.html:34
 msgid "Routes"
 msgstr "Ibilbideak"
 
@@ -224,11 +229,11 @@ msgid "Version 2 in"
 msgstr ""
 
 #: c2corg_ui/templates/route/view.html:30
-#: c2corg_ui/templates/waypoint/view.html:52
+#: c2corg_ui/templates/waypoint/view.html:54
 msgid "View in other culture:"
 msgstr ""
 
-#: c2corg_ui/templates/base.html:29
+#: c2corg_ui/templates/base.html:33
 msgid "Waypoints"
 msgstr ""
 
@@ -303,7 +308,7 @@ msgstr ""
 
 #: c2corg_ui/templates/route/edit.html:15
 #: c2corg_ui/templates/route/view.html:24
-#: c2corg_ui/templates/waypoint/view.html:45
+#: c2corg_ui/templates/waypoint/view.html:47
 msgid "culture"
 msgstr ""
 
@@ -314,12 +319,12 @@ msgstr ""
 #: c2corg_ui/templates/route/edit.html:55
 #: c2corg_ui/templates/route/view.html:26
 #: c2corg_ui/templates/waypoint/edit.html:75
-#: c2corg_ui/templates/waypoint/view.html:49
+#: c2corg_ui/templates/waypoint/view.html:51
 msgid "description"
 msgstr ""
 
 #: c2corg_ui/templates/waypoint/edit.html:45
-#: c2corg_ui/templates/waypoint/view.html:46
+#: c2corg_ui/templates/waypoint/view.html:48
 msgid "elevation"
 msgstr ""
 
@@ -406,7 +411,7 @@ msgid "loop_hut"
 msgstr ""
 
 #: c2corg_ui/templates/waypoint/edit.html:71
-#: c2corg_ui/templates/waypoint/view.html:48
+#: c2corg_ui/templates/waypoint/view.html:50
 msgid "maps_info"
 msgstr ""
 
@@ -529,10 +534,6 @@ msgstr ""
 
 #: c2corg_ui/templates/route/index.html:8
 msgid "{{nbItems}} routes"
-msgstr ""
-
-#: c2corg_ui/templates/waypoint/index.html:45
-msgid "{{nbItems}} waypoints"
 msgstr ""
 
 #: c2corg_ui/templates/document/diff.html:19
