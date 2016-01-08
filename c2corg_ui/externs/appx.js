@@ -10,6 +10,7 @@ var appx;
  *   token: string,
  *   expire: number,
  *   roles: Array.<string>,
+ *   redirect: string,
  *   remember: boolean
  * }}
  */
