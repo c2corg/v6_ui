@@ -3,8 +3,232 @@
 @import "search.less";
 @import "diff.less";
 
+@big: ~"only screen and (min-width: 1400px) and (max-width: 3000px)";
+@desktop: ~"only screen and (min-width: 1100px) and (max-width: 1399px)";
+@tablet: ~"only screen and (min-width: 620px) and (max-width: 1099px)";
+@phone: ~"only screen and (min-width: 130px) and (max-width: 619px)";
+@lightgrey: #F0F0F0;
+
+ul {
+  list-style: none;
+  
+  li {
+    display: inline-block;
+  }
+}
+html, body{
+  min-height: 100%;
+}
+.add_waypoint, .add_route {
+  margin: 1% 0 1% 0;
+  
+  a {
+    color:white;
+  }
+}
+.filters {
+  display: block;
+  overflow: auto;
+  border-top: 1px solid lightgrey;
+  border-bottom: 1px solid lightgrey;
+  
+  input {
+    margin-bottom: 1%;
+  }
+  
+  form  div {
+    width: 30%;
+    float: left;
+
+    @media @phone {
+      width: 100%;
+    }
+    @media @tablet {
+      width: 46%;
+    }
+  }
+}
+
+#waypoints, #routes {
+  padding-right: 2%;
+  margin-bottom: 2%;
+  margin-left: 2%;
+  width:98%;
+  min-height:100px;
+  height: 69vh;
+  overflow-y: scroll;
+  
+  @media @phone {
+    height: 45vh;
+  }
+}
+
+#pagination {
+  margin-top:1%;
+  
+  li {
+    display:inline-block;
+
+    a {
+      color:white;
+    }
+  }
+}
+
+.list {
+  width:100%;
+  padding-left: 0;
+  -webkit-column-count:3;
+  -moz-column-count:3;
+ 
+  @media @tablet {
+    -moz-column-count: 2;
+    -webkit-column-count:2;
+  }
+  @media @phone {
+    margin: auto;
+    -moz-column-count: 1;
+    -webkit-column-count: 1;
+  }
+  @media @big {
+    -webkit-column-count: 3;
+    -moz-column-count: 3;
+  }
+}
+
+.list_item_title {
+  font-size: 1.2em;
+  font-weight: bold;
+
+  @media @phone {
+    font-weight: normal;
+    font-size: 1.5em;
+  }
+}
+
+.list_item_elevation {
+  margin-bottom: 1%;
+}
+
+.list_item_info {
+  text-decoration: none;
+  color: black;
+  font-weight: normal;
+  margin-top:1%;
+  margin-bottom: 1%;
+  
+  @media @phone {
+    font-size: 1.3em;
+  }
+}
+
+.list_item {
+  position: relative;
+  cursor: pointer;
+  
+  background-color: white;
+  max-height: auto;
+  min-height: 100px;
+  width:100%;
+  margin-right: 3%;
+  margin-bottom: 5%;
+  
+  border-radius: 20px;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+  
+  border: 1px solid #dbdbdb;
+  display: inline-table;
+  position:relative;
+  
+  transition: .4s;
+
+  a {
+    padding: 5%;
+    display: block;
+    transition: 0.2s;
+    
+    .list_item_culture {
+      opacity: 0.9;
+      color: graytext;
+      font-weight: normal;
+    }
+    
+    &:hover {
+     text-decoration: none;
+     color : #DB7D00;
+    }
+    
+    &:hover .list_item_title {
+      text-decoration: underline;
+    }
+  }
+  
+  &:active {
+    -webkit-box-shadow: inset 2px 3px 19px -4px rgba(0,0,0,0.75);
+    -moz-box-shadow: inset 2px 3px 19px -4px rgba(0,0,0,0.75);
+    box-shadow: inset 2px 3px 19px -4px rgba(0,0,0,0.75);
+    -webkit-transition: .5s;
+    transition: 0.5s;
+  }
+
+  @media @tablet {
+    padding:5%;
+    margin-right:-1%;
+  }
+  @media @phone {
+    padding:3%;
+    font-size:0.9em;
+  }
+} /* list_item*/
+
+.line-separator{
+  height:1px;
+  background:#717171;
+  border-bottom:1px solid @lightgrey;
+  opacity: 0.9;
+  margin: 3% 0 3% 0;
+}
+h3 {
+  margin-top: 0;
+}
+
 .map {
-  height: 400px;
+  margin:0;
+}
+
+.map_right {
+  
+  .map {
+      height: 81vh;
+      @media @phone {
+        height: 40vh;
+      }
+  }
+   margin-left: 60%;
+   
+   @media @tablet {
+     margin-left: 55%;
+   }
+   @media @phone{
+     margin-left:0;
+   }
+}
+
+#routes_section, #waypoints_section {
+  background-color: @lightgrey;
+  width: 60%;
+  height: 100%;
+  float: left;
+
+  @media @tablet{
+    width: 55%;
+  }
+  
+  @media @phone {
+    width: 100%;
+    float:none;
+  }
 }
 
 .page-header {
@@ -23,6 +247,7 @@
     width: 400px;
     float: right;
     text-align: right;
+    font-weight: bold;
   }
 
   .culture-selector {
@@ -31,23 +256,28 @@
 }
 
 .page-content {
+  
   .archive-data {
     margin: 5px;
     padding: 5px;
     border: 1px solid red;
     background-color: rgba(255, 0, 0, 0.2);
   }
+  
   .versions-list {
     border: 1px solid black;
     margin-bottom: 10px;
     border-collapse: collapse;
+    
     th {
       padding: 5px;
       border: 1px solid black;
     }
+    
     td {
       padding: 5px;
       border: 1px solid black;
+      
       .hide-radio {
         visibility: hidden;
       }
