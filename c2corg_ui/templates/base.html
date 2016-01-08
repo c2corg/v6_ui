@@ -7,6 +7,7 @@ closure_library_path = settings.get('closure_library_path')
 <html <%block name="pagelang"></%block> ng-app="app" ng-controller="MainController as mainCtrl">
   <head>
     <title><%block name="pagetitle">Camptocamp.org</%block></title>
+    <meta http-equiv="X-UA-Compatible" content="IE=9">
     <meta charset="utf-8">
     <meta name="viewport"
           content="initial-scale=1.0, user-scalable=no, width=device-width">
@@ -19,6 +20,9 @@ closure_library_path = settings.get('closure_library_path')
     ## FIXME add version to links?
     <link rel="stylesheet" href="${request.static_url('%sbootstrap/dist/css/bootstrap.min.css' % node_modules_path)}" type="text/css">
     <link rel="stylesheet" href="${request.static_url('c2corg_ui:static/build/build.min.css')}" type="text/css">
+    <!--[if IE 9]>
+	<link rel="stylesheet" type="text/css" href="${request.static_url('c2corg_ui:static/build/ie9.css')}" />
+    <![endif]-->
 % endif
   </head>
   <body>
@@ -68,6 +72,7 @@ closure_library_path = settings.get('closure_library_path')
     <script src="${request.route_url('deps.js')}"></script>
     <script src="${request.static_url('c2corg_ui:static/js/main.js')}"></script>
 % else:
+
     <script src="${request.static_url('%s/jquery/dist/jquery.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%sangular/angular.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/angular-gettext/dist/angular-gettext.min.js' % node_modules_path)}"></script>
@@ -86,6 +91,7 @@ closure_library_path = settings.get('closure_library_path')
          module.value('mapFeatureCollection', null);
          </%block>
        })();
+
     </script>
 
   </body>
