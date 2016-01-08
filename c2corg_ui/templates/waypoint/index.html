@@ -38,24 +38,54 @@ module.value('mapFeatureCollection', {
 % endif
 </%block>\
 
-<h1>${self.pagetitle()}</h1>
+<div class="text-center"><h3 ng-init="nbItems = ${total}">${self.pagetitle()} ({{nbItems}}) </h3></div class="text-center">
+
+
 % if len(waypoints):
   <app-map></app-map>
 % endif
-<p translate ng-init="nbItems = ${total}">{{nbItems}} waypoints</p>
-${helpers.add_pagination_links('waypoints', waypoints, total, filter_params)}
-<ul>
-  <li><a href="${request.route_url('waypoints_add')}" translate>Add a waypoint</a></li>
+
+
+<section id="waypoints_section">
+ <div class="add_waypoint text-center">
+         ${helpers.add_pagination_links('waypoints', waypoints, total, filter_params)}
+
+     <button class='btn btn-lg btn-success '> <span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span>
+        <a  href="${request.route_url('waypoints_add')}" translate>Add a waypoint</a>
+    </button>
+ </div>
+
+<div id="waypoints">
+  <ul id="waypoints_list">
 % for waypoint in waypoints:
-  <li>
-    <% locale = waypoint['locales'][0] %>\
-    <a href="${request.route_url('waypoints_view', id=waypoint['document_id'], culture=locale['culture'])}">${locale['title']}</a>
+  <li class="waypoint">
+      <% locale = waypoint['locales'][0] %>\
+    <a class="waypoint_title " href="${request.route_url('waypoints_view', id=waypoint['document_id'], culture=locale['culture'])}">${locale['title']}</a>
     % if lang != locale['culture']:
-      (${locale['culture']})
+    <span class="waypoint_culture"> (${locale['culture']})</span><br>
     % endif
     % if waypoint['elevation'] is not None:
-      - ${waypoint['elevation']} m
+    <div class="waypoint_info">
+        <span class="waypoint_elevation">
+            <img src="${request.static_url('c2corg_ui:static/img/icons/summit.png')}">
+            ${waypoint['elevation']} m
+        </span>
+        <span>
+            <img src="${request.static_url('c2corg_ui:static/img/icons/pass.png')}">
+            <b translate>${waypoint['waypoint_type']}</b>
+        </span>
+    </div>
     % endif
+    <p class="text-justify">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.</p>
   </li>
 % endfor
+
 </ul>
+<div class="add_waypoint text-center">
+    <button class='btn btn-lg btn-success '>
+        <span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span>
+        <a  href="${request.route_url('waypoints_add')}" translate>Add a waypoint</a>
+    </button>  
+</div>
+<div class="text-center">${helpers.add_pagination_links('waypoints', waypoints, total, filter_params)}</div>
+</section>

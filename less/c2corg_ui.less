@@ -3,8 +3,124 @@
 @import "search.less";
 @import "diff.less";
 
+@big: ~"only screen and (min-width: 1500px) and (max-width: 3000px)";
+@desktop:   ~"only screen and (min-width: 960px) and (max-width: 1499px)";
+@tablet:    ~"only screen and (min-width: 620px) and (max-width: 959px)";
+@phone:   ~"only screen and (min-width: 130px) and (max-width: 619px)";
+@lightGray: #F8F8F8;
+
+body{
+    background-color: @lightGray;
+
+}
+ul{
+    list-style: none;
+    li{
+        display: inline-block;
+    }
+}
+.add_waypoint {
+    margin: 1% 0 1% 0;
+    a{
+        color:white;
+    }
+}
+#waypoints{
+    background-color:#E8E8E8;
+        margin:auto;
+                margin-bottom: 2%;
+        width:90%;
+        -moz-box-shadow:    0 0 1px #000000;
+       -webkit-box-shadow:  0 0 1px #000000;
+       box-shadow:          0 0 1px #000000;
+       padding-top:2%;
+       border-radius: 10px;
+        overflow-y: scroll;
+        height:500px;
+
+}
+#pagination{
+        li{
+            display:inline-block;
+            a{
+                 color:white;
+            }
+        }
+}
+/*
+    Columns aren't supported in IE9, so a <!--[if IE 9]> tag with an
+    adapted ie9.css is loaded.
+*/
+#waypoints_list{
+    margin: auto;
+    width:100%;
+  -webkit-column-count: 3;
+   -moz-column-count: 3;
+  @media @tablet {
+        -moz-column-count: 2;
+         -webkit-column-count:2;
+  }
+  @media @phone{
+      margin: auto;
+        -moz-column-count: 1;
+         -webkit-column-count: 1;
+  }
+  @media @big{
+       -webkit-column-count: 4;
+        -moz-column-count: 4;
+  }
+}
+
+
+waypoint_culture{
+    opacity: 0.9;
+    color: graytext;
+    vertical-align: middle;
+}
+.waypoint_title{
+    font-size: 1.2em;
+    font-weight: bold;
+    @media @phone{
+        font-weight: normal;
+    }
+}
+.waypoint_elevation{
+    margin-bottom: 1%;
+}
+.waypoint_info{
+    margin-top:1%;
+    margin-bottom: 1%;
+}
+.waypoint{
+    background-color: white;
+    max-height: auto;
+    min-height: 100px;
+    /*width: 30%;*/
+    padding: 8%;
+    margin-right: 3%;
+    margin-bottom: 5%;
+    border-radius: 13px 13px 13px 13px;
+    -moz-border-radius: 13px 13px 13px 13px;
+    -webkit-border-radius: 13px 13px 13px 13px;
+    border: 1px solid #dbdbdb;
+    display: inline-table;
+
+    @media @tablet{
+        padding:5%;
+        margin-right:-1%;
+    }
+    @media @phone{
+        /*width: 90%;*/
+        padding:3%;
+        font-size:0.9em;
+    }
+}
+h3{
+    margin-top: 0;
+}
+
 .map {
-  height: 400px;
+  height: 250px;
 }
 
 .page-header {
@@ -23,7 +139,10 @@
     width: 400px;
     float: right;
     text-align: right;
+    font-weight: bold;
+
   }
+
 
   .culture-selector {
     display: inline;
