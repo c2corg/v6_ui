@@ -103,6 +103,12 @@ app.DocumentEditingController = function($scope, $element, $attrs, $http,
    */
   this.geojsonFormat_ = new ol.format.GeoJSON();
 
+  /**
+   * @type {boolean}
+   * @private
+   */
+  this.isNewCulture_ = false;
+
   if ('appDocumentEditingId' in $attrs &&
       'appDocumentEditingCulture' in $attrs) {
     this.id_ = $attrs['appDocumentEditingId'];
@@ -186,6 +192,15 @@ app.DocumentEditingController.prototype.successRead_ = function(response) {
       data['read_lonlat'] = angular.copy(data['lonlat']);
     }
   }
+
+  if (!data['locales'].length) {
+    // locales attributes are missing when creating a new culture version
+    data['locales'].push({
+      'culture': this.culture_
+    });
+    this.isNewCulture_ = true;
+  }
+
   this.scope_[this.modelName_] = data;
   this.scope_.$root.$emit('documentDataChange', data);
 };
@@ -290,7 +305,6 @@ app.DocumentEditingController.prototype.successSave_ = function(response) {
   var url = app.utils.buildDocumentUrl(
       this.module_, response['data']['document_id'], this.culture_);
   window.location.href = url;
-  // FIXME: use $window.location.href instead?
   // TODO: add a loading message
 };
 
@@ -304,6 +318,18 @@ app.DocumentEditingController.prototype.errorSave_ = function(response) {
   // For example user not allowed to change doc
   console.log('error save');
   console.log(response);
+};
+
+
+/**
+ * @param {string} view_url URL of view page.
+ * @param {string} index_url URL of index page.
+ * @export
+ */
+app.DocumentEditingController.prototype.cancel = function(view_url,
+    index_url) {
+  var url = !view_url || this.isNewCulture_ ? index_url : view_url;
+  window.location.href = url;
 };
 
 

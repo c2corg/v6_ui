@@ -1,12 +1,12 @@
 <%inherit file="../base.html"/>
-<%namespace name="helpers" file="../helpers.html" import="add_pagination_links"/>
+<%namespace file="../helpers.html" import="add_pagination_links"/>
 <%block name="pagetitle">Routes</%block>
 <%block name="metarobots"><meta name="robots" content="noindex,follow"></%block>\
 
 <h1>${self.pagetitle()}</h1>
 <app-map></app-map>
 <p translate ng-init="nbItems = ${total}">{{nbItems}} routes</p>
-${helpers.add_pagination_links('routes', routes, total, filter_params)}
+${add_pagination_links('routes', routes, total, filter_params)}
 <ul>
   <li><a href="${request.route_url('routes_add')}" translate>Add a route</a></li>
 % for route in routes:

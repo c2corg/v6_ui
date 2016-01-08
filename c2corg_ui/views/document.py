@@ -28,7 +28,6 @@ class Document(object):
         self.settings = request.registry.settings
         self.template_input = {
             'debug': 'debug' in self.request.params,
-            'default_cultures': default_cultures,
             'api_url': self.settings['api_url']
         }
 
@@ -76,6 +75,10 @@ class Document(object):
         elif resp['status'] != '200':
             raise HTTPInternalServerError(
                 "An error occured while loading the document")
+        # When requesting a culture that does not exist yet, the API sends
+        # back an empty list as 'locales'
+        if not document['locales']:
+            raise HTTPNotFound('Requested culture does not exist')
         # We need to pass locale data to Mako as a dedicated object to make it
         # available to the parent templates:
         locale = document['locales'][0]
