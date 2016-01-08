@@ -2,7 +2,7 @@ from c2corg_ui.diff.differ import diff_documents
 from shapely.geometry import asShape
 from shapely.ops import transform
 from functools import partial
-from urllib import urlencode
+from urllib.parse import urlencode
 import httplib2
 import pyproj
 import json
@@ -37,7 +37,7 @@ class Document(object):
             resp, content = http.request(
                 url, method=method, body=body, headers=headers
             )
-            return resp, json.loads(content)
+            return resp, json.loads(content.decode('utf-8'))
         except Exception:
             # TODO: return error message as the second item
             return {'status': '500'}, {}

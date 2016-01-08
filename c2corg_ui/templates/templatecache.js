@@ -10,8 +10,8 @@
   import htmlmin
   _partials = {}
   for p in partials.strip().split():
-      f = file(p)
-      content = unicode(f.read().decode('utf8'))
+      f = open(p, encoding="utf-8")
+      content = str(f.read())
       content = re.sub(r"'", "\\'", content)
       content = htmlmin.minify(content, remove_comments=True)
       # remove module name from partial path
