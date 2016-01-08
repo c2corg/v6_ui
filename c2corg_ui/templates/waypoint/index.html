@@ -58,25 +58,25 @@ module.value('mapFeatureCollection', {
 <div id="waypoints">
   <ul id="waypoints_list">
 % for waypoint in waypoints:
-  <li class="waypoint">
-      <% locale = waypoint['locales'][0] %>\
-    <a class="waypoint_title " href="${request.route_url('waypoints_view', id=waypoint['document_id'], culture=locale['culture'])}">${locale['title']}</a>
-    % if lang != locale['culture']:
-    <span class="waypoint_culture"> (${locale['culture']})</span><br>
-    % endif
-    % if waypoint['elevation'] is not None:
-    <div class="waypoint_info">
-        <span class="waypoint_elevation">
-            <img src="${request.static_url('c2corg_ui:static/img/icons/summit.png')}">
-            ${waypoint['elevation']} m
-        </span>
-        <span>
-            <img src="${request.static_url('c2corg_ui:static/img/icons/pass.png')}">
-            <b translate>${waypoint['waypoint_type']}</b>
-        </span>
-    </div>
-    % endif
-    <p class="text-justify">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.</p>
+  <% locale = waypoint['locales'][0] %>\
+  <li onclick="location.href='${request.route_url('waypoints_view', id=waypoint['document_id'], culture=locale['culture'])}';" class="waypoint">
+        <a class="waypoint_title " href="${request.route_url('waypoints_view', id=waypoint['document_id'], culture=locale['culture'])}">${locale['title']}</a>
+       % if lang != locale['culture']:
+       <span class="waypoint_culture"> (${locale['culture']})</span><br>
+       % endif
+       % if waypoint['elevation'] is not None:
+       <div class="waypoint_info">
+           <span class="waypoint_elevation">
+               <img src="${request.static_url('c2corg_ui:static/img/icons/summit.png')}">
+               ${waypoint['elevation']} m
+           </span>
+           <span>
+               <img src="${request.static_url('c2corg_ui:static/img/icons/pass.png')}">
+               <b translate>${waypoint['waypoint_type']}</b>
+           </span>
+       </div>
+       % endif
+       <p class="text-justify">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.</p>
   </li>
 % endfor
 
