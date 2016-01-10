@@ -40,7 +40,6 @@ app.diffMapDirective = function() {
 app.module.directive('appDiffMap', app.diffMapDirective);
 
 
-
 /**
  * @param {?GeoJSONFeatureCollection} mapFeatureCollection FeatureCollection
  *    of features

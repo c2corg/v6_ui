@@ -77,7 +77,7 @@ flake8: .build/venv/bin/flake8
 	.build/venv/bin/flake8 c2corg_ui
 
 .PHONY: lint
-lint: .build/venv/bin/gjslint .build/node_modules.timestamp .build/gjslint.timestamp .build/jshint.timestamp
+lint: .build/node_modules.timestamp .build/eslint.timestamp
 
 .PHONY: install
 install: build install-dev-egg template .build/node_modules.timestamp
@@ -156,15 +156,9 @@ $(EXTERNS_ANGULAR_HTTP_PROMISE):
 	npm install
 	touch $@
 
-.build/gjslint.timestamp: $(APP_JS_FILES)
-	.build/venv/bin/gjslint --jslint_error=all --strict --custom_jsdoc_tags=event,fires,function,classdesc,api,observable,example,ngdoc,ngname $?
+.build/eslint.timestamp: $(APP_JS_FILES)
+	./node_modules/.bin/eslint $?
 	touch $@
-
-.build/jshint.timestamp: $(APP_JS_FILES)
-	./node_modules/.bin/jshint --verbose $?
-	touch $@
-
-.build/venv/bin/gjslint: .build/dev-requirements.timestamp
 
 .build/venv/bin/flake8: .build/dev-requirements.timestamp
 

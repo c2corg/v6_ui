@@ -1,0 +1,16 @@
+{
+  "extends": "openlayers",
+  "globals": {
+    "app": false,
+    "goog": false,
+    "ol": false,
+    "ngeoModule": false,
+    "angular": false,
+    "$": false,
+    "Bloodhound": false
+  },
+  "rules": {
+    "no-console": 1,
+    "valid-jsdoc": 0
+  }
+}

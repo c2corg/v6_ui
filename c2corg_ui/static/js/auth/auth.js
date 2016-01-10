@@ -27,7 +27,6 @@ app.authDirective = function() {
 app.module.directive('appAuth', app.authDirective);
 
 
-
 /**
  * @param {angular.Scope} $scope Scope.
  * @param {angular.$http} $http
