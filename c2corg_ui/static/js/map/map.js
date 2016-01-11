@@ -4,11 +4,14 @@ goog.provide('app.mapDirective');
 goog.require('app');
 goog.require('app.utils');
 goog.require('ngeo.mapDirective');
+goog.require('ol.Collection');
 goog.require('ol.Feature');
 goog.require('ol.Map');
 goog.require('ol.View');
 goog.require('ol.format.GeoJSON');
 goog.require('ol.geom.Point');
+goog.require('ol.interaction.Draw');
+goog.require('ol.interaction.Modify');
 goog.require('ol.interaction.Select');
 goog.require('ol.layer.Tile');
 goog.require('ol.layer.Vector');
@@ -29,7 +32,8 @@ app.mapDirective = function() {
   return {
     restrict: 'E',
     scope: {
-      'editCtrl': '=appMapEditCtrl'
+      'editCtrl': '=appMapEditCtrl',
+      'drawType': '@appMapDrawType'
     },
     controller: 'AppMapController',
     controllerAs: 'mapCtrl',
@@ -132,6 +136,27 @@ app.MapController = function($scope, mapFeatureCollection) {
       center: app.MapController.DEFAULT_CENTER,
       zoom: app.MapController.DEFAULT_ZOOM
     }));
+  }
+
+  if (this['drawType']) {
+    var features = new ol.Collection(this.features_);
+    var modify = new ol.interaction.Modify({
+      features: features,
+      // the SHIFT key must be pressed to delete vertices, so
+      // that new vertices can be drawn at the same position
+      // of existing vertices
+      deleteCondition: function(event) {
+        return ol.events.condition.shiftKeyOnly(event) &&
+            ol.events.condition.singleClick(event);
+      }
+    });
+    this.map.addInteraction(modify);
+
+    var draw = new ol.interaction.Draw({
+      features: features,
+      type: /** @type {ol.geom.GeometryType} */ (this['drawType'])
+    });
+    this.map.addInteraction(draw);
   }
 
   /**
