@@ -29,7 +29,6 @@ app.userDirective = function() {
 app.module.directive('appUser', app.userDirective);
 
 
-
 /**
  * @param {angular.$http} $http
  * @param {app.Authentication} appAuthentication

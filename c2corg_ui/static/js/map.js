@@ -42,7 +42,6 @@ app.mapDirective = function() {
 app.module.directive('appMap', app.mapDirective);
 
 
-
 /**
  * @param {angular.Scope} $scope Directive scope.
  * @param {?GeoJSONFeatureCollection} mapFeatureCollection FeatureCollection of

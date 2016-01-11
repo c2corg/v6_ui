@@ -32,7 +32,6 @@ app.langDirective = function() {
 app.module.directive('appLang', app.langDirective);
 
 
-
 /**
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @param {string} langUrlTemplate Language URL template.

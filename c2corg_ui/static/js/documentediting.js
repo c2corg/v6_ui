@@ -40,7 +40,6 @@ app.documentEditingDirective = function() {
 app.module.directive('appDocumentEditing', app.documentEditingDirective);
 
 
-
 /**
  * @param {angular.Scope} $scope Scope.
  * @param {angular.JQLite} $element Element.
@@ -264,7 +263,7 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
   }
 
   var config = {
-    'headers': { 'Content-Type': 'application/json' }
+    'headers': {'Content-Type': 'application/json'}
   };
   if (this.id_) {
     // updating an existing document

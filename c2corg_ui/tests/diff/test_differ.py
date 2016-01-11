@@ -96,11 +96,17 @@ class TestDiffer(unittest.TestCase):
         }
         diff_fields = diff_documents(doc1, doc2)
         self.assertEqual(len(diff_fields), 5)
-        self.assertEqual(diff_fields[0].field, 'parking_fee')
-        self.assertEqual(diff_fields[1].field, 'lift_access')
-        self.assertEqual(diff_fields[2].field, 'description')
-        self.assertEqual(diff_fields[3].field, 'snow_clearance_rating')
-        self.assertEqual(diff_fields[4].field, 'geometry')
+        self.assertContainsField(diff_fields, 'lift_access')
+        self.assertContainsField(diff_fields, 'parking_fee')
+        self.assertContainsField(diff_fields, 'snow_clearance_rating')
+        self.assertContainsField(diff_fields, 'description')
+        self.assertContainsField(diff_fields, 'geometry')
+
+    def assertContainsField(self, fields, name):  # noqa
+        self.assertTrue(
+            any(e.field == name for e in fields),
+            '{0} not in list'.format(name)
+        )
 
 
 def create_debug_file(table):

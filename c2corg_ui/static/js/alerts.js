@@ -30,7 +30,6 @@ app.alertsDirective = function() {
 app.module.directive('appAlerts', app.alertsDirective);
 
 
-
 /**
  * @constructor
  * @param {app.Alerts} appAlerts Alert service.
@@ -83,7 +82,6 @@ app.alertDirective = function() {
 
 
 app.module.directive('appAlert', app.alertDirective);
-
 
 
 /**

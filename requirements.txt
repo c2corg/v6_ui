@@ -7,7 +7,6 @@ waitress==0.8.10
 httplib2==0.9.2
 Shapely==1.5.13
 pyproj==1.9.4
-functools32==3.2.3-2
 htmlmin==0.1.10
 
 # c2corg_common project

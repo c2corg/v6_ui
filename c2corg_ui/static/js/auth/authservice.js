@@ -3,7 +3,6 @@ goog.provide('app.Authentication');
 goog.require('app');
 
 
-
 /**
  * @param {string} apiUrl URL to the API.
  * @param {angular.Scope} $rootScope
@@ -111,7 +110,7 @@ app.Authentication.prototype.removeUserData = function() {
     // Make sure that user data are removed from all possible storages
     window.localStorage.removeItem(this.USER_DATA_KEY_);
     window.sessionStorage.removeItem(this.USER_DATA_KEY_);
-  } catch (e) {}
+  } catch (e) {} // eslint-disable-line no-empty
   this.userData = null;
 };
 

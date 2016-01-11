@@ -4,7 +4,6 @@ goog.require('app');
 goog.require('app.HttpAuthenticationInterceptor');
 
 
-
 /**
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @constructor

@@ -4,7 +4,6 @@ goog.provide('app.Alerts');
 goog.require('app');
 
 
-
 /**
  * @constructor
  * @export

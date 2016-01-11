@@ -18,9 +18,10 @@
     "ngeo": "git://github.com/camptocamp/ngeo#f1d44f790b48959342e55db63118aca864cbf7fa",
     "less": "~2.0.0",
     "less-plugin-clean-css": "~1.1.0",
-    "jshint": "~2.5.1",
     "nomnom": "~1.6.2",
     "typeahead.js": "0.11.1",
-    "jquery": "^1.9.1"
+    "jquery": "^1.9.1",
+    "eslint": "git://github.com/eslint/eslint.git#4356532469ec1b9d4977aff05a03c3e167922ffa",
+    "eslint-config-openlayers": "^2.0.0"
   }
 }

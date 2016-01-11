@@ -73,11 +73,11 @@ def _stringify(val):
     if val is None:
         return None
     elif type(val) is list:
-        return u', '.join(map(lambda e: _stringify(e), val))
-    elif isinstance(val, basestring):
+        return ', '.join([_stringify(e) for e in val])
+    elif isinstance(val, str):
         return val
     else:
-        return unicode(val)
+        return str(val)
 
 
 class FieldDiff(object):
