@@ -5,7 +5,7 @@ from c2corg_ui.views.route import Route
 class TestRouteUi(BaseTestUi):
 
     def setUp(self):  # noqa
-        self.set_prefix("/routes")
+        self.set_prefix("routes")
         BaseTestUi.setUp(self)
         self.view = Route(request=self.request)
 
