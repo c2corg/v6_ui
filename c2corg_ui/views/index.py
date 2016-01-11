@@ -1,5 +1,4 @@
 from pyramid.view import view_config
-from c2corg_common.attributes import default_cultures
 
 
 class Pages(object):
@@ -9,7 +8,6 @@ class Pages(object):
         self.settings = request.registry.settings
         self.template_input = {
             'debug': 'debug' in self.request.params,
-            'default_cultures': default_cultures,
             'api_url': self.settings['api_url']
         }
 
