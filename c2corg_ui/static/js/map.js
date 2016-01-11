@@ -94,9 +94,9 @@ app.MapController = function($scope, mapFeatureCollection) {
     ]
   });
 
-  this.getVectorLayer_().setStyle(this.createStyleFunction_(1));
-
   if (mapFeatureCollection) {
+    this.getVectorLayer_().setStyle(this.createStyleFunction_(1));
+
     var properties = mapFeatureCollection['properties'];
     var format = new ol.format.GeoJSON();
     this.features_ = format.readFeatures(mapFeatureCollection);
@@ -127,8 +127,6 @@ app.MapController = function($scope, mapFeatureCollection) {
       }.bind(this));
       this.map.addInteraction(clickInteraction);
     }
-
-
   } else {
     this.map.setView(new ol.View({
       center: app.MapController.DEFAULT_CENTER,
