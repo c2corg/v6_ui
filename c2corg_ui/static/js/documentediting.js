@@ -245,7 +245,6 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
                       app.DocumentEditingController.DATA_PROJ);
       // If creating a new document, the model has no geometry attribute yet:
       data['geometry'] = data['geometry'] || {};
-      data['geometry']['geom'] = this.geojsonFormat_.writeGeometry(point);
 
       var changed = true;
       if (data['read_lonlat']) {
@@ -329,6 +328,27 @@ app.DocumentEditingController.prototype.cancel = function(view_url,
     index_url) {
   var url = !view_url || this.isNewCulture_ ? index_url : view_url;
   window.location.href = url;
+};
+
+
+/**
+ * Called for instance when lon/lat inputs are modified.
+ * @export
+ */
+app.DocumentEditingController.prototype.updateMap = function() {
+  var data = this.scope_[this.modelName_];
+  if ('lonlat' in data && data['lonlat']) {
+    var lonlat = data['lonlat'];
+    if ('longitude' in lonlat && 'latitude' in lonlat) {
+      var point = new ol.geom.Point([lonlat['longitude'], lonlat['latitude']]);
+      point.transform(app.DocumentEditingController.FORM_PROJ,
+                      app.DocumentEditingController.DATA_PROJ);
+      // If creating a new document, the model has no geometry attribute yet:
+      data['geometry'] = data['geometry'] || {};
+      data['geometry']['geom'] = this.geojsonFormat_.writeGeometry(point);
+      this.scope_.$root.$emit('documentDataChange', data);
+    }
+  }
 };
 
 
