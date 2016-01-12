@@ -34,12 +34,4 @@ other_cultures, missing_cultures = get_culture_lists(route, culture)
   <li><span translate>description</span> : ${get_attr(locale, 'description')}</li>
   <li><span translate>gear</span> : ${get_attr(locale, 'gear')}</li>
 </ul>
-% if other_cultures:
-  <p translate>View in other culture:</p>
-  <ul>
-  % for l in other_cultures:
-    <li><a href="${request.route_url('routes_view', id=route_id, culture=l)}">${l}</a></li>
-  % endfor
-  </ul>
-% endif
 <app-map></app-map>
