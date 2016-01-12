@@ -229,7 +229,7 @@ msgstr ""
 msgid "Version 2 in"
 msgstr ""
 
-#: c2corg_ui/templates/helpers.html:58 c2corg_ui/templates/route/view.html:38
+#: c2corg_ui/templates/helpers.html:58
 msgid "View in other culture:"
 msgstr "View in other culture:"
 
