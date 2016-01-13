@@ -4,3 +4,5 @@ export debug_port = 6553
 export instanceid = ui
 export base_url = /
 export api_url = http://c2corgv6-api.demo-camptocamp.com
+export api_url_internal = http://localhost
+export api_url_host = c2corgv6-api

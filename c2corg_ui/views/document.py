@@ -32,6 +32,15 @@ class Document(object):
         }
 
     def _call_api(self, url, method='GET', body=None, headers=None):
+        settings = self.settings
+        if 'api_url_internal' in settings and settings['api_url_internal']:
+            api_url = settings['api_url_internal']
+            if 'api_url_host' in settings and settings['api_url_host']:
+                headers = {} if headers is None else headers
+                headers['Host'] = settings['api_url_host']
+        else:
+            api_url = settings['api_url']
+        url = '%s/%s' % (api_url, url)
         http = httplib2.Http()
         try:
             resp, content = http.request(
@@ -65,9 +74,7 @@ class Document(object):
             raise HTTPBadRequest("Incorrect " + field)
 
     def _get_document(self, id, culture):
-        url = '%s/%s/%d?l=%s' % (
-            self.settings['api_url'], self._API_ROUTE, id, culture
-        )
+        url = '%s/%d?l=%s' % (self._API_ROUTE, id, culture)
         resp, document = self._call_api(url)
         # TODO: better error handling
         if resp['status'] == '404':
@@ -85,9 +92,7 @@ class Document(object):
         return document, locale
 
     def _get_archived_document(self, id, culture, version_id):
-        url = '%s/%s/%d/%s/%d' % (
-            self.settings['api_url'], self._API_ROUTE, id, culture, version_id
-        )
+        url = '%s/%d/%s/%d' % (self._API_ROUTE, id, culture, version_id)
         resp, content = self._call_api(url)
         # TODO: better error handling
         if resp['status'] == '404':
@@ -110,11 +115,9 @@ class Document(object):
         # query_string contains filter params using the standard URL format
         # (eg. ?offset=50&limit=20&elevation=>2000).
         query_string = '?' + urlencode(params) if params else ''
-        url = '%s/%s%s' % (
-            self.settings['api_url'], self._API_ROUTE, query_string
-        )
-
+        url = '%s%s' % (self._API_ROUTE, query_string)
         resp, content = self._call_api(url)
+
         # Inject default list filters params:
         filters = dict(self._DEFAULT_FILTERS, **{k: v for k, v in params})
         # TODO: better error handling
@@ -150,8 +153,7 @@ class Document(object):
 
     def _get_history(self):
         id, culture = self._validate_id_culture()
-        url = '%s/document/%d/history/%s' % (
-            self.settings['api_url'], id, culture)
+        url = 'document/%d/history/%s' % (id, culture)
         resp, content = self._call_api(url)
         # TODO: better error handling
         if resp['status'] == '200':
@@ -183,12 +185,10 @@ class Document(object):
         v1 = self._validate_int('v1')
         v2 = self._validate_int('v2')
 
-        url = '%s/%s/%d/%s/%d' % (
-            self.settings['api_url'], self._API_ROUTE, id, culture, v1)
+        url = '%s/%d/%s/%d' % (self._API_ROUTE, id, culture, v1)
         resp_v1, content_v1 = self._call_api(url)
 
-        url = '%s/%s/%d/%s/%d' % (
-            self.settings['api_url'], self._API_ROUTE, id, culture, v2)
+        url = '%s/%d/%s/%d' % (self._API_ROUTE, id, culture, v2)
         resp_v2, content_v2 = self._call_api(url)
 
         # TODO: better error handling

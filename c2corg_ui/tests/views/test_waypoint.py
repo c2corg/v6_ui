@@ -6,7 +6,7 @@ from shapely.geometry import Point
 class TestWaypointUi(BaseTestUi):
 
     def setUp(self):  # noqa
-        self.set_prefix("/waypoints")
+        self.set_prefix("waypoints")
         BaseTestUi.setUp(self)
         self.view = Waypoint(request=self.request)
 
