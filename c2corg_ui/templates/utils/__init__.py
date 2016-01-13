@@ -4,7 +4,7 @@ from c2corg_common.attributes import default_cultures
 def get_culture_lists(document, culture):
     if 'available_cultures' in document:
         available_cultures = document['available_cultures']
-        other_cultures = filter(lambda l: l != culture, available_cultures)
+        other_cultures = [l for l in available_cultures if l != culture]
         missing_cultures = list(
           set(default_cultures) - set(available_cultures)
         )
