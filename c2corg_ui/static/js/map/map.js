@@ -76,7 +76,7 @@ app.MapController = function($scope, mapFeatureCollection) {
   this.editCtrl_ = this['editCtrl'];
   if (this.editCtrl_) {
     this.scope_.$root.$on('documentDataChange',
-        goog.bind(this.handleEditModelChange_, this));
+        this.handleEditModelChange_.bind(this));
   }
 
   /**
@@ -150,12 +150,14 @@ app.MapController = function($scope, mapFeatureCollection) {
             ol.events.condition.singleClick(event);
       }
     });
+    modify.on('modifyend', this.updateModel_.bind(this));
     this.map.addInteraction(modify);
 
     var draw = new ol.interaction.Draw({
       features: features,
       type: /** @type {ol.geom.GeometryType} */ (this['drawType'])
     });
+    draw.on('drawend', this.updateModel_.bind(this));
     this.map.addInteraction(draw);
   }
 
@@ -320,6 +322,16 @@ app.MapController.prototype.handleEditModelChange_ = function(event, data) {
     var features = [new ol.Feature(geometry)];
     this.showFeatures_(features);
   }
+};
+
+
+/**
+ * @param {ol.interaction.DrawEvent|ol.interaction.ModifyEvent} event
+ * @private
+ */
+app.MapController.prototype.updateModel_ = function(event) {
+  var feature = event.feature || event.features.getArray().pop();
+  this.scope_.$root.$emit('mapFeatureChange', feature);
 };
 
 

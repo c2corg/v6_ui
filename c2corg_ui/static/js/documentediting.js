@@ -118,6 +118,9 @@ app.DocumentEditingController = function($scope, $element, $attrs, $http,
         goog.bind(this.errorRead_, this)
     );
   }
+
+  this.scope_.$root.$on('mapFeatureChange',
+      this.handleMapFeatureChange_.bind(this));
 };
 
 
@@ -171,13 +174,7 @@ app.DocumentEditingController.prototype.successRead_ = function(response) {
     // FIXME handle lines and polygons
     var point = /** @type {ol.geom.Point} */
         (this.geojsonFormat_.readGeometry(str));
-    point.transform(app.DocumentEditingController.DATA_PROJ,
-        app.DocumentEditingController.FORM_PROJ);
-    var coordinates = point.getCoordinates();
-    coordinates = goog.array.map(coordinates, function(coord) {
-      return Math.round(coord * 1000000) / 1000000;
-    });
-    return coordinates;
+    return this.getCoordinatesFromGeometry_(point);
   }).bind(this);
 
   if ('geometry' in data && data['geometry']) {
@@ -314,8 +311,7 @@ app.DocumentEditingController.prototype.successSave_ = function(response) {
 app.DocumentEditingController.prototype.errorSave_ = function(response) {
   // TODO
   // For example user not allowed to change doc
-  console.log('error save');
-  console.log(response);
+  alert('error save');
 };
 
 
@@ -349,6 +345,44 @@ app.DocumentEditingController.prototype.updateMap = function() {
       this.scope_.$root.$emit('documentDataChange', data);
     }
   }
+};
+
+
+/**
+ * @param {Object} event
+ * @param {ol.Feature} feature
+ * @private
+ */
+app.DocumentEditingController.prototype.handleMapFeatureChange_ = function(
+    event, feature) {
+  var geometry = /** @type {ol.geom.Geometry} */ (feature.getGeometry());
+  var data = this.scope_[this.modelName_];
+  // If creating a new document, the model has no geometry attribute yet:
+  data['geometry'] = data['geometry'] || {};
+  data['geometry']['geom'] = this.geojsonFormat_.writeGeometry(geometry);
+  if ('lonlat' in data && geometry instanceof ol.geom.Point) {
+    var coords = this.getCoordinatesFromGeometry_(geometry.clone());
+    var lonlat = data['lonlat'];
+    lonlat['longitude'] = coords[0];
+    lonlat['latitude'] = coords[1];
+  }
+  this.scope_.$apply();
+};
+
+
+/**
+ * @param {ol.geom.Point} geometry
+ * @return {ol.Coordinate}
+ * @private
+ */
+app.DocumentEditingController.prototype.getCoordinatesFromGeometry_ = function(
+    geometry) {
+  geometry.transform(app.DocumentEditingController.DATA_PROJ,
+                     app.DocumentEditingController.FORM_PROJ);
+  var coords = geometry.getCoordinates();
+  return goog.array.map(coords, function(coord) {
+    return Math.round(coord * 1000000) / 1000000;
+  });
 };
 
 
