@@ -85,6 +85,12 @@ app.MapController = function($scope, mapFeatureCollection) {
    */
   this.features_ = [];
 
+  /**
+   * @type {?ol.geom.GeometryType}
+   * @private
+   */
+  this.drawType_ = this['drawType'] ?
+    /** @type {ol.geom.GeometryType} */ (this['drawType']) : null;
 
   /**
    * @type {ol.Map}
@@ -138,10 +144,18 @@ app.MapController = function($scope, mapFeatureCollection) {
     }));
   }
 
-  if (this['drawType']) {
-    var features = new ol.Collection(this.features_);
+  if (this.drawType_) {
+    var vectorSource = this.getVectorLayer_().getSource();
+
+    var draw = new ol.interaction.Draw({
+      source: vectorSource,
+      type: this.drawType_
+    });
+    draw.on('drawend', this.handleDraw_.bind(this));
+    this.map.addInteraction(draw);
+
     var modify = new ol.interaction.Modify({
-      features: features,
+      features: vectorSource.getFeaturesCollection(),
       // the SHIFT key must be pressed to delete vertices, so
       // that new vertices can be drawn at the same position
       // of existing vertices
@@ -150,15 +164,8 @@ app.MapController = function($scope, mapFeatureCollection) {
             ol.events.condition.singleClick(event);
       }
     });
-    modify.on('modifyend', this.updateModel_.bind(this));
+    modify.on('modifyend', this.handleModify_.bind(this));
     this.map.addInteraction(modify);
-
-    var draw = new ol.interaction.Draw({
-      features: features,
-      type: /** @type {ol.geom.GeometryType} */ (this['drawType'])
-    });
-    draw.on('drawend', this.updateModel_.bind(this));
-    this.map.addInteraction(draw);
   }
 
   /**
@@ -210,8 +217,11 @@ app.MapController.DEFAULT_POINT_ZOOM = 12;
  */
 app.MapController.prototype.getVectorLayer_ = function() {
   if (!this.vectorLayer_) {
+    // The Modify interaction requires the vector source is created
+    // with an ol.Collection.
+    var features = new ol.Collection();
     this.vectorLayer_ = new ol.layer.Vector({
-      source: new ol.source.Vector()
+      source: new ol.source.Vector({features: features})
     });
 
     // Use vectorLayer.setMap(map) rather than map.addLayer(vectorLayer). This
@@ -328,11 +338,35 @@ app.MapController.prototype.handleEditModelChange_ = function(event, data) {
 
 
 /**
- * @param {ol.interaction.DrawEvent|ol.interaction.ModifyEvent} event
+ * @param {ol.interaction.DrawEvent} event
  * @private
  */
-app.MapController.prototype.updateModel_ = function(event) {
-  var feature = event.feature || event.features.getArray().pop();
+app.MapController.prototype.handleDraw_ = function(event) {
+  var feature = event.feature;
+  if (this.drawType_ == 'Point') {
+    // Only one point can be drawn at a time
+    var source = this.getVectorLayer_().getSource();
+    goog.array.forEach(source.getFeatures(), function(f) {
+      if (f !== feature) {
+        this.removeFeature(f);
+      }
+    }, source);
+  }
+  this.scope_.$root.$emit('mapFeatureChange', feature);
+};
+
+
+/**
+ * @param {ol.interaction.ModifyEvent} event
+ * @private
+ */
+app.MapController.prototype.handleModify_ = function(event) {
+  // TODO handle lines as well, not only points
+  if (this.drawType_ != 'Point') {
+    alert('Feature type not supported for editing');
+    return;
+  }
+  var feature = event.features.item(0);
   this.scope_.$root.$emit('mapFeatureChange', feature);
 };
 
