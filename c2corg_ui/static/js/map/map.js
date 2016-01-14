@@ -294,7 +294,9 @@ app.MapController.prototype.createStyleFunction_ = function(scale) {
 app.MapController.prototype.showFeatures_ = function(features) {
   goog.asserts.assert(features.length > 0);
   var vectorLayer = this.getVectorLayer_();
-  vectorLayer.getSource().addFeatures(features);
+  var source = vectorLayer.getSource();
+  source.clear();
+  source.addFeatures(features);
 
   if (features.length == 1 &&
       features[0].getGeometry() instanceof ol.geom.Point) {
