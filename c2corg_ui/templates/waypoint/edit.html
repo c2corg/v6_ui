@@ -74,6 +74,10 @@ updating_doc = waypoint_id and waypoint_culture
     <label translate>maps_info</label>
     <input type="text" name="maps_info" ng-model="waypoint.maps_info" class="form-control" />
   </div>
+  <div id="summary-group" class="form-group">
+    <label translate>summary</label>
+    <textarea name="summary" ng-model="waypoint.locales[0].summary" class="form-control"></textarea>
+  </div>
   <div id="description-group" class="form-group">
     <label translate>description</label>
     <textarea name="description" ng-model="waypoint.locales[0].description" class="form-control" placeholder="{{'Describe here the waypoint'|translate}}"></textarea>

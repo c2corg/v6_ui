@@ -1,5 +1,5 @@
 <%inherit file="../base.html"/>
-<%namespace file="../helpers.html" import="add_pagination_links"/>
+<%namespace file="../helpers.html" import="get_attr, add_pagination_links"/>
 <%block name="pagetitle">Waypoints</%block>\
 <%block name="metarobots"><meta name="robots" content="noindex,follow"></%block>\
 
@@ -56,6 +56,7 @@ ${add_pagination_links('waypoints', waypoints, total, filter_params)}
     % if waypoint['elevation'] is not None:
       - ${waypoint['elevation']} m
     % endif
+    ${get_attr(locale, 'summary')} 
   </li>
 % endfor
 </ul>

@@ -27,13 +27,13 @@ msgid "Browse site in"
 msgstr "Naviguer en"
 
 #: c2corg_ui/templates/route/edit.html:77
-#: c2corg_ui/templates/waypoint/edit.html:93
+#: c2corg_ui/templates/waypoint/edit.html:97
 msgid "Cancel"
 msgstr "Annuler"
 
 #: c2corg_ui/templates/document/history.html:29
 #: c2corg_ui/templates/route/edit.html:67
-#: c2corg_ui/templates/waypoint/edit.html:83
+#: c2corg_ui/templates/waypoint/edit.html:87
 msgid "Comment about the changes"
 msgstr "Courte description des changements"
 
@@ -58,7 +58,7 @@ msgstr "Langue"
 msgid "Describe here the gear needed for this route"
 msgstr "Indiquez ici le matériel nécessaire pour cet itinéraire."
 
-#: c2corg_ui/templates/waypoint/edit.html:79
+#: c2corg_ui/templates/waypoint/edit.html:83
 msgid "Describe here the waypoint"
 msgstr "Décrivez ici l'itinéraire"
 
@@ -175,7 +175,7 @@ msgid "Routes"
 msgstr "Itinéraires"
 
 #: c2corg_ui/templates/route/edit.html:72
-#: c2corg_ui/templates/waypoint/edit.html:88
+#: c2corg_ui/templates/waypoint/edit.html:92
 msgid "Save"
 msgstr "Enregistrer"
 
@@ -188,7 +188,7 @@ msgid "See the latest version"
 msgstr "Voir la dernière version"
 
 #: c2corg_ui/templates/route/edit.html:68
-#: c2corg_ui/templates/waypoint/edit.html:84
+#: c2corg_ui/templates/waypoint/edit.html:88
 msgid "Short description of the applied changes"
 msgstr "Courte description des changements appliqués"
 
@@ -316,8 +316,8 @@ msgstr "allemand"
 
 #: c2corg_ui/templates/route/edit.html:58
 #: c2corg_ui/templates/route/view.html:34
-#: c2corg_ui/templates/waypoint/edit.html:78
-#: c2corg_ui/templates/waypoint/view.html:59
+#: c2corg_ui/templates/waypoint/edit.html:82
+#: c2corg_ui/templates/waypoint/view.html:60
 msgid "description"
 msgstr "Description"
 
@@ -485,7 +485,8 @@ msgstr "alpinisme neige, glace et mixte"
 msgid "snowshoeing"
 msgstr "raquette"
 
-#: c2corg_ui/templates/i18n.html:68
+#: c2corg_ui/templates/i18n.html:68 c2corg_ui/templates/waypoint/edit.html:78
+#: c2corg_ui/templates/waypoint/view.html:59
 msgid "summary"
 msgstr "résumé"
 

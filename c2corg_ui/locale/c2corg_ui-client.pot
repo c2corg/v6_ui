@@ -25,13 +25,13 @@ msgid "Browse site in"
 msgstr ""
 
 #: c2corg_ui/templates/route/edit.html:77
-#: c2corg_ui/templates/waypoint/edit.html:93
+#: c2corg_ui/templates/waypoint/edit.html:97
 msgid "Cancel"
 msgstr ""
 
 #: c2corg_ui/templates/document/history.html:29
 #: c2corg_ui/templates/route/edit.html:67
-#: c2corg_ui/templates/waypoint/edit.html:83
+#: c2corg_ui/templates/waypoint/edit.html:87
 msgid "Comment about the changes"
 msgstr ""
 
@@ -56,7 +56,7 @@ msgstr ""
 msgid "Describe here the gear needed for this route"
 msgstr ""
 
-#: c2corg_ui/templates/waypoint/edit.html:79
+#: c2corg_ui/templates/waypoint/edit.html:83
 msgid "Describe here the waypoint"
 msgstr ""
 
@@ -174,7 +174,7 @@ msgid "Routes"
 msgstr ""
 
 #: c2corg_ui/templates/route/edit.html:72
-#: c2corg_ui/templates/waypoint/edit.html:88
+#: c2corg_ui/templates/waypoint/edit.html:92
 msgid "Save"
 msgstr ""
 
@@ -187,7 +187,7 @@ msgid "See the latest version"
 msgstr ""
 
 #: c2corg_ui/templates/route/edit.html:68
-#: c2corg_ui/templates/waypoint/edit.html:84
+#: c2corg_ui/templates/waypoint/edit.html:88
 msgid "Short description of the applied changes"
 msgstr ""
 
@@ -319,8 +319,8 @@ msgstr ""
 
 #: c2corg_ui/templates/route/edit.html:58
 #: c2corg_ui/templates/route/view.html:34
-#: c2corg_ui/templates/waypoint/edit.html:78
-#: c2corg_ui/templates/waypoint/view.html:59
+#: c2corg_ui/templates/waypoint/edit.html:82
+#: c2corg_ui/templates/waypoint/view.html:60
 msgid "description"
 msgstr ""
 
@@ -489,6 +489,8 @@ msgid "snowshoeing"
 msgstr ""
 
 #: c2corg_ui/templates/i18n.html:68
+#: c2corg_ui/templates/waypoint/edit.html:78
+#: c2corg_ui/templates/waypoint/view.html:59
 msgid "summary"
 msgstr ""
 
