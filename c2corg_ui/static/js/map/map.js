@@ -87,10 +87,9 @@ app.MapController = function($scope, mapFeatureCollection) {
 
   /**
    * @type {?ol.geom.GeometryType}
-   * @private
+   * @export
    */
-  this.drawType_ = this['drawType'] ?
-    /** @type {ol.geom.GeometryType} */ (this['drawType']) : null;
+  this.drawType; // For Closure, comes from isolated scope.
 
   /**
    * @type {ol.Map}
@@ -144,12 +143,12 @@ app.MapController = function($scope, mapFeatureCollection) {
     }));
   }
 
-  if (this.drawType_) {
+  if (this.drawType) {
     var vectorSource = this.getVectorLayer_().getSource();
 
     var draw = new ol.interaction.Draw({
       source: vectorSource,
-      type: this.drawType_
+      type: this.drawType
     });
     draw.on('drawend', this.handleDraw_.bind(this));
     this.map.addInteraction(draw);
@@ -343,7 +342,7 @@ app.MapController.prototype.handleEditModelChange_ = function(event, data) {
  */
 app.MapController.prototype.handleDraw_ = function(event) {
   var feature = event.feature;
-  if (this.drawType_ == 'Point') {
+  if (this.drawType == 'Point') {
     // Only one point can be drawn at a time
     var source = this.getVectorLayer_().getSource();
     goog.array.forEach(source.getFeatures(), function(f) {
@@ -362,7 +361,7 @@ app.MapController.prototype.handleDraw_ = function(event) {
  */
 app.MapController.prototype.handleModify_ = function(event) {
   // TODO handle lines as well, not only points
-  if (this.drawType_ != 'Point') {
+  if (this.drawType != 'Point') {
     alert('Feature type not supported for editing');
     return;
   }
