@@ -114,10 +114,15 @@ app.DocumentEditingController = function($scope, $element, $attrs, $http,
     this.culture_ = $attrs['appDocumentEditingCulture'];
     // Get document attributes from the API to feed the model:
     this.http_.get(this.buildUrl_('read')).then(
-        goog.bind(this.successRead_, this),
-        goog.bind(this.errorRead_, this)
+        this.successRead_.bind(this),
+        this.errorRead_.bind(this)
     );
   }
+
+  this.scope_.$root.$on('mapFeatureChange', function(event, feature) {
+    this.handleMapFeatureChange_(feature);
+    this.scope_.$apply();
+  }.bind(this));
 };
 
 
@@ -171,13 +176,7 @@ app.DocumentEditingController.prototype.successRead_ = function(response) {
     // FIXME handle lines and polygons
     var point = /** @type {ol.geom.Point} */
         (this.geojsonFormat_.readGeometry(str));
-    point.transform(app.DocumentEditingController.DATA_PROJ,
-        app.DocumentEditingController.FORM_PROJ);
-    var coordinates = point.getCoordinates();
-    coordinates = goog.array.map(coordinates, function(coord) {
-      return Math.round(coord * 1000000) / 1000000;
-    });
-    return coordinates;
+    return this.getCoordinatesFromPoint_(point);
   }).bind(this);
 
   if ('geometry' in data && data['geometry']) {
@@ -245,7 +244,6 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
                       app.DocumentEditingController.DATA_PROJ);
       // If creating a new document, the model has no geometry attribute yet:
       data['geometry'] = data['geometry'] || {};
-      data['geometry']['geom'] = this.geojsonFormat_.writeGeometry(point);
 
       var changed = true;
       if (data['read_lonlat']) {
@@ -280,15 +278,15 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
       'document': data
     };
     this.http_.put(this.buildUrl_('update'), data, config).then(
-        goog.bind(this.successSave_, this),
-        goog.bind(this.errorSave_, this)
+        this.successSave_.bind(this),
+        this.errorSave_.bind(this)
     );
   } else {
     // creating a new document
     this.culture_ = data['locales'][0]['culture'];
     this.http_.post(this.buildUrl_('create'), data, config).then(
-        goog.bind(this.successSave_, this),
-        goog.bind(this.errorSave_, this)
+        this.successSave_.bind(this),
+        this.errorSave_.bind(this)
     );
   }
 };
@@ -315,8 +313,7 @@ app.DocumentEditingController.prototype.successSave_ = function(response) {
 app.DocumentEditingController.prototype.errorSave_ = function(response) {
   // TODO
   // For example user not allowed to change doc
-  console.log('error save');
-  console.log(response);
+  alert('error save');
 };
 
 
@@ -329,6 +326,64 @@ app.DocumentEditingController.prototype.cancel = function(view_url,
     index_url) {
   var url = !view_url || this.isNewCulture_ ? index_url : view_url;
   window.location.href = url;
+};
+
+
+/**
+ * Called for instance when lon/lat inputs are modified.
+ * @export
+ */
+app.DocumentEditingController.prototype.updateMap = function() {
+  var data = this.scope_[this.modelName_];
+  if ('lonlat' in data && data['lonlat']) {
+    var lonlat = data['lonlat'];
+    if ('longitude' in lonlat && 'latitude' in lonlat) {
+      var point = new ol.geom.Point([lonlat['longitude'], lonlat['latitude']]);
+      point.transform(app.DocumentEditingController.FORM_PROJ,
+                      app.DocumentEditingController.DATA_PROJ);
+      // If creating a new document, the model has no geometry attribute yet:
+      data['geometry'] = data['geometry'] || {};
+      data['geometry']['geom'] = this.geojsonFormat_.writeGeometry(point);
+      this.scope_.$root.$emit('documentDataChange', data);
+    }
+  }
+};
+
+
+/**
+ * @param {ol.Feature} feature
+ * @private
+ */
+app.DocumentEditingController.prototype.handleMapFeatureChange_ = function(
+    feature) {
+  var geometry = feature.getGeometry();
+  goog.asserts.assert(geometry);
+  var data = this.scope_[this.modelName_];
+  // If creating a new document, the model has no geometry attribute yet:
+  data['geometry'] = data['geometry'] || {};
+  data['geometry']['geom'] = this.geojsonFormat_.writeGeometry(geometry);
+  if ('lonlat' in data && geometry instanceof ol.geom.Point) {
+    var coords = this.getCoordinatesFromPoint_(geometry.clone());
+    var lonlat = data['lonlat'];
+    lonlat['longitude'] = coords[0];
+    lonlat['latitude'] = coords[1];
+  }
+};
+
+
+/**
+ * @param {ol.geom.Point} geometry
+ * @return {ol.Coordinate}
+ * @private
+ */
+app.DocumentEditingController.prototype.getCoordinatesFromPoint_ = function(
+    geometry) {
+  geometry.transform(app.DocumentEditingController.DATA_PROJ,
+                     app.DocumentEditingController.FORM_PROJ);
+  var coords = geometry.getCoordinates();
+  return goog.array.map(coords, function(coord) {
+    return Math.round(coord * 1000000) / 1000000;
+  });
 };
 
 

@@ -4,11 +4,14 @@ goog.provide('app.mapDirective');
 goog.require('app');
 goog.require('app.utils');
 goog.require('ngeo.mapDirective');
+goog.require('ol.Collection');
 goog.require('ol.Feature');
 goog.require('ol.Map');
 goog.require('ol.View');
 goog.require('ol.format.GeoJSON');
 goog.require('ol.geom.Point');
+goog.require('ol.interaction.Draw');
+goog.require('ol.interaction.Modify');
 goog.require('ol.interaction.Select');
 goog.require('ol.layer.Tile');
 goog.require('ol.layer.Vector');
@@ -29,7 +32,8 @@ app.mapDirective = function() {
   return {
     restrict: 'E',
     scope: {
-      'editCtrl': '=appMapEditCtrl'
+      'editCtrl': '=appMapEditCtrl',
+      'drawType': '@appMapDrawType'
     },
     controller: 'AppMapController',
     controllerAs: 'mapCtrl',
@@ -72,7 +76,7 @@ app.MapController = function($scope, mapFeatureCollection) {
   this.editCtrl_ = this['editCtrl'];
   if (this.editCtrl_) {
     this.scope_.$root.$on('documentDataChange',
-        goog.bind(this.handleEditModelChange_, this));
+        this.handleEditModelChange_.bind(this));
   }
 
   /**
@@ -81,6 +85,11 @@ app.MapController = function($scope, mapFeatureCollection) {
    */
   this.features_ = [];
 
+  /**
+   * @type {?ol.geom.GeometryType}
+   * @export
+   */
+  this.drawType; // For Closure, comes from isolated scope.
 
   /**
    * @type {ol.Map}
@@ -94,9 +103,9 @@ app.MapController = function($scope, mapFeatureCollection) {
     ]
   });
 
-  this.getVectorLayer_().setStyle(this.createStyleFunction_(1));
-
   if (mapFeatureCollection) {
+    this.getVectorLayer_().setStyle(this.createStyleFunction_(1));
+
     var properties = mapFeatureCollection['properties'];
     var format = new ol.format.GeoJSON();
     this.features_ = format.readFeatures(mapFeatureCollection);
@@ -127,13 +136,35 @@ app.MapController = function($scope, mapFeatureCollection) {
       }.bind(this));
       this.map.addInteraction(clickInteraction);
     }
-
-
   } else {
     this.map.setView(new ol.View({
       center: app.MapController.DEFAULT_CENTER,
       zoom: app.MapController.DEFAULT_ZOOM
     }));
+  }
+
+  if (this.drawType) {
+    var vectorSource = this.getVectorLayer_().getSource();
+
+    var draw = new ol.interaction.Draw({
+      source: vectorSource,
+      type: this.drawType
+    });
+    draw.on('drawend', this.handleDraw_.bind(this));
+    this.map.addInteraction(draw);
+
+    var modify = new ol.interaction.Modify({
+      features: vectorSource.getFeaturesCollection(),
+      // the SHIFT key must be pressed to delete vertices, so
+      // that new vertices can be drawn at the same position
+      // of existing vertices
+      deleteCondition: function(event) {
+        return ol.events.condition.shiftKeyOnly(event) &&
+            ol.events.condition.singleClick(event);
+      }
+    });
+    modify.on('modifyend', this.handleModify_.bind(this));
+    this.map.addInteraction(modify);
   }
 
   /**
@@ -185,8 +216,11 @@ app.MapController.DEFAULT_POINT_ZOOM = 12;
  */
 app.MapController.prototype.getVectorLayer_ = function() {
   if (!this.vectorLayer_) {
+    // The Modify interaction requires the vector source is created
+    // with an ol.Collection.
+    var features = new ol.Collection();
     this.vectorLayer_ = new ol.layer.Vector({
-      source: new ol.source.Vector()
+      source: new ol.source.Vector({features: features})
     });
 
     // Use vectorLayer.setMap(map) rather than map.addLayer(vectorLayer). This
@@ -269,7 +303,9 @@ app.MapController.prototype.createStyleFunction_ = function(scale) {
 app.MapController.prototype.showFeatures_ = function(features) {
   goog.asserts.assert(features.length > 0);
   var vectorLayer = this.getVectorLayer_();
-  vectorLayer.getSource().addFeatures(features);
+  var source = vectorLayer.getSource();
+  source.clear();
+  source.addFeatures(features);
 
   if (features.length == 1 &&
       features[0].getGeometry() instanceof ol.geom.Point) {
@@ -297,6 +333,40 @@ app.MapController.prototype.handleEditModelChange_ = function(event, data) {
     var features = [new ol.Feature(geometry)];
     this.showFeatures_(features);
   }
+};
+
+
+/**
+ * @param {ol.interaction.DrawEvent} event
+ * @private
+ */
+app.MapController.prototype.handleDraw_ = function(event) {
+  var feature = event.feature;
+  if (this.drawType == 'Point') {
+    // Only one point can be drawn at a time
+    var source = this.getVectorLayer_().getSource();
+    goog.array.forEach(source.getFeatures(), function(f) {
+      if (f !== feature) {
+        this.removeFeature(f);
+      }
+    }, source);
+  }
+  this.scope_.$root.$emit('mapFeatureChange', feature);
+};
+
+
+/**
+ * @param {ol.interaction.ModifyEvent} event
+ * @private
+ */
+app.MapController.prototype.handleModify_ = function(event) {
+  // TODO handle lines as well, not only points
+  if (this.drawType != 'Point') {
+    alert('Feature type not supported for editing');
+    return;
+  }
+  var feature = event.features.item(0);
+  this.scope_.$root.$emit('mapFeatureChange', feature);
 };
 
 
