@@ -54,6 +54,10 @@ updating_doc = route_id and route_culture
       ng-model="route.route_type" class="form-control">
     </select>
   </div>
+  <div id="summary-group" class="form-group">
+    <label translate>summary</label>
+    <textarea name="summary" ng-model="route.locales[0].summary" class="form-control"></textarea>
+  </div>
   <div id="description-group" class="form-group">
     <label translate>description</label>
     <textarea name="description" ng-model="route.locales[0].description" class="form-control"></textarea>
