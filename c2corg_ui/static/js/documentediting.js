@@ -2,6 +2,7 @@ goog.provide('app.DocumentEditingController');
 goog.provide('app.documentEditingDirective');
 
 goog.require('app');
+goog.require('app.Alerts');
 goog.require('app.utils');
 goog.require('goog.asserts');
 goog.require('ol.format.GeoJSON');
@@ -46,12 +47,13 @@ app.module.directive('appDocumentEditing', app.documentEditingDirective);
  * @param {angular.Attributes} $attrs Attributes.
  * @param {angular.$http} $http
  * @param {string} apiUrl Base URL of the API.
+ * @param {app.Alerts} appAlerts
  * @constructor
  * @ngInject
  * @export
  */
 app.DocumentEditingController = function($scope, $element, $attrs, $http,
-    apiUrl) {
+    apiUrl, appAlerts) {
 
   /**
    * @type {angular.Scope}
@@ -107,6 +109,12 @@ app.DocumentEditingController = function($scope, $element, $attrs, $http,
    * @private
    */
   this.isNewCulture_ = false;
+
+  /**
+   * @type {app.Alerts}
+   * @private
+   */
+  this.alerts_ = appAlerts;
 
   if ('appDocumentEditingId' in $attrs &&
       'appDocumentEditingCulture' in $attrs) {
@@ -213,9 +221,11 @@ app.DocumentEditingController.prototype.successRead_ = function(response) {
  * @private
  */
 app.DocumentEditingController.prototype.errorRead_ = function(response) {
-  // TODO: use a common messaging tool to display the error
-  alert('Failed loading the document: ' +
-      response.status + ' ' + response.statusText);
+  this.alerts_.add({
+    'type': 'danger',
+    'msg': response,
+    'timeout': 5000
+  });
 };
 
 
@@ -225,8 +235,11 @@ app.DocumentEditingController.prototype.errorRead_ = function(response) {
  */
 app.DocumentEditingController.prototype.submitForm = function(isValid) {
   if (!isValid) {
-    // TODO: use a common messaging tool to display the error
-    alert('Form is not valid');
+    this.alerts_.add({
+      'type': 'danger',
+      'msg': 'Form is not valid',
+      'timeout': 5000
+    });
     return;
   }
 
@@ -293,6 +306,7 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
         this.errorSave_.bind(this)
     );
   }
+  // TODO: show a loading message until doc saving is done
 };
 
 
@@ -306,7 +320,6 @@ app.DocumentEditingController.prototype.successSave_ = function(response) {
   var url = app.utils.buildDocumentUrl(
       this.module_, response['data']['document_id'], this.culture_);
   window.location.href = url;
-  // TODO: add a loading message
 };
 
 
@@ -315,9 +328,21 @@ app.DocumentEditingController.prototype.successSave_ = function(response) {
  * @private
  */
 app.DocumentEditingController.prototype.errorSave_ = function(response) {
-  // TODO
-  // For example user not allowed to change doc
-  alert('error save');
+  // FIXME: API does not return a valid JSON response for 500/403 errors.
+  // See https://github.com/c2corg/v6_api/issues/85
+  var msg;
+  if (response['data'] instanceof Object && 'errors' in response['data']) {
+    msg = response;
+  } else if (response['status'] == 403) {
+    msg = 'You have no permission to modify this document';
+  } else {
+    msg = 'Failed saving the changes';
+  }
+  this.alerts_.add({
+    'type': 'danger',
+    'msg': msg,
+    'timeout': 5000
+  });
 };
 
 
