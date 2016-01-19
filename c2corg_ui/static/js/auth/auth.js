@@ -124,7 +124,7 @@ app.AuthController.prototype.loginToDiscourse_ = function(url) {
   var deferred = this.q_.defer();
   var timeoutId = window.setTimeout(function() {
     deferred.reject();
-  }, 1000); // arbitrary 1s to complete discourse authentication
+  }, 10000); // 10s to complete discourse authentication
 
   $('<iframe>', {
     src: url,
