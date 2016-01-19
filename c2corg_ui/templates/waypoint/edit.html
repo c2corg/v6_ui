@@ -5,7 +5,7 @@ from c2corg_common.attributes import default_cultures
 <%
 updating_doc = waypoint_id and waypoint_culture
 %>\
-<%block name="pagetitle">FIXME: Adding/editing page title</%block>
+<%block name="pagetitle">${"{{'Editing a waypoint' | translate}}" if waypoint_id and waypoint_culture else "{{'Creating a waypoint' | translate}}"}</%block>\
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>\
 
 <h1>${self.pagetitle()}</h1>
