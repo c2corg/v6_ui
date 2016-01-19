@@ -95,6 +95,7 @@ app.AuthController.prototype.login = function() {
   var remember = !!login['remember']; // a true boolean
 
   // Discourse SSO
+  login['discourse'] = true;
   if (this.ngeoLocation_.hasParam('sso')) {
     login['sso'] = this.ngeoLocation_.getParam('sso');
     login['sig'] = this.ngeoLocation_.getParam('sig');
