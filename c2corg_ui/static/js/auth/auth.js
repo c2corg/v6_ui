@@ -35,7 +35,7 @@ app.module.directive('appAuth', app.authDirective);
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {app.Alerts} appAlerts
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
- * @param {angular.$q} $q
+ * @param {angular.$q} $q Angular q service.
  * @constructor
  * @export
  * @ngInject
