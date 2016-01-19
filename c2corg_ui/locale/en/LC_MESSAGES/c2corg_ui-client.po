@@ -17,6 +17,11 @@ msgstr "Add a route"
 msgid "Add a waypoint"
 msgstr "Add a waypoint"
 
+#: c2corg_ui/templates/auth.html
+#, fuzzy
+msgid "Authentication"
+msgstr "weather_station"
+
 #: c2corg_ui/templates/document/history.html
 msgid "Author"
 msgstr ""
@@ -50,6 +55,14 @@ msgstr "Coordinates"
 msgid "Created on"
 msgstr ""
 
+#: c2corg_ui/templates/route/edit.html
+msgid "Creating a route"
+msgstr ""
+
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "Creating a waypoint"
+msgstr ""
+
 #: c2corg_ui/templates/waypoint/edit.html
 msgid "Culture"
 msgstr "Culture"
@@ -65,6 +78,14 @@ msgstr "Describe here the waypoint"
 #: c2corg_ui/templates/route/view.html c2corg_ui/templates/waypoint/view.html
 msgid "Edit"
 msgstr "Edit"
+
+#: c2corg_ui/templates/route/edit.html
+msgid "Editing a route"
+msgstr ""
+
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "Editing a waypoint"
+msgstr ""
 
 #: c2corg_ui/templates/waypoint/edit.html
 msgid "Elevation must be smaller than 9999 m."
@@ -162,7 +183,7 @@ msgstr "Remember me"
 msgid "Revision as of"
 msgstr ""
 
-#: c2corg_ui/templates/base.html
+#: c2corg_ui/templates/base.html c2corg_ui/templates/route/index.html
 msgid "Routes"
 msgstr "Routes"
 
@@ -212,9 +233,13 @@ msgstr ""
 msgid "View in other culture:"
 msgstr "View in other culture:"
 
-#: c2corg_ui/templates/base.html
+#: c2corg_ui/templates/base.html c2corg_ui/templates/waypoint/index.html
 msgid "Waypoints"
 msgstr "Waypoints"
+
+#: c2corg_ui/templates/base.html
+msgid "Welcome"
+msgstr ""
 
 #: c2corg_ui/templates/index.html
 msgid "Welcome to Camptocamp.org"

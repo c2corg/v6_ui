@@ -14,6 +14,10 @@ msgstr "Ajouter un itinéraire"
 msgid "Add a waypoint"
 msgstr "Ajouter un point de passage"
 
+#: c2corg_ui/templates/auth.html
+msgid "Authentication"
+msgstr "Connexion"
+
 #: c2corg_ui/templates/document/history.html
 msgid "Author"
 msgstr "Auteur"
@@ -47,6 +51,16 @@ msgstr "Coordonnées"
 msgid "Created on"
 msgstr "Créée le"
 
+#: c2corg_ui/templates/route/edit.html
+#, fuzzy
+msgid "Creating a route"
+msgstr "Edition d'un itinéraire"
+
+#: c2corg_ui/templates/waypoint/edit.html
+#, fuzzy
+msgid "Creating a waypoint"
+msgstr "Edition d'un point de passage"
+
 #: c2corg_ui/templates/waypoint/edit.html
 msgid "Culture"
 msgstr "Langue"
@@ -62,6 +76,14 @@ msgstr "Décrivez ici l'itinéraire"
 #: c2corg_ui/templates/route/view.html c2corg_ui/templates/waypoint/view.html
 msgid "Edit"
 msgstr "Modifier"
+
+#: c2corg_ui/templates/route/edit.html
+msgid "Editing a route"
+msgstr "Edition d'un itinéraire"
+
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "Editing a waypoint"
+msgstr "Edition d'un point de passage"
 
 #: c2corg_ui/templates/waypoint/edit.html
 msgid "Elevation must be smaller than 9999 m."
@@ -161,7 +183,7 @@ msgstr "Se souvenir de moi"
 msgid "Revision as of"
 msgstr "Version du"
 
-#: c2corg_ui/templates/base.html
+#: c2corg_ui/templates/base.html c2corg_ui/templates/route/index.html
 msgid "Routes"
 msgstr "Itinéraires"
 
@@ -210,9 +232,13 @@ msgstr "Version 2 en"
 msgid "View in other culture:"
 msgstr "Afficher dans une autre langue:"
 
-#: c2corg_ui/templates/base.html
+#: c2corg_ui/templates/base.html c2corg_ui/templates/waypoint/index.html
 msgid "Waypoints"
 msgstr "Points de passage"
+
+#: c2corg_ui/templates/base.html
+msgid "Welcome"
+msgstr "Bienvenue"
 
 #: c2corg_ui/templates/index.html
 msgid "Welcome to Camptocamp.org"
