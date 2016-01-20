@@ -43,7 +43,7 @@ closure_library_path = settings.get('closure_library_path')
         <app-search app-search-map=""></app-search>
       </div>
       <div class="lang-user">
-        <app-user app-user-login-url="${request.route_url('auth')}"></app-user>
+        <app-user></app-user>
         <div class="culture-selector">
           <label translate>Browse site in</label>
           <app-lang app-lang-cultures="['${"','".join(default_cultures) |n}']"></app-lang>
@@ -84,6 +84,7 @@ closure_library_path = settings.get('closure_library_path')
          var module = angular.module('app');
          module.constant('langUrlTemplate', '${request.static_url('c2corg_ui:static/build/locale/__lang__/c2corg_ui.json')}');
          module.constant('apiUrl', '${api_url}');
+         module.constant('authUrl', '${request.route_url('auth')}');
          module.constant('cultures', ['${"','".join(default_cultures) |n}']);
          <%block name="moduleConstantsValues">
          module.value('mapFeatureCollection', null);
