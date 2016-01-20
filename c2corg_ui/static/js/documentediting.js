@@ -46,14 +46,16 @@ app.module.directive('appDocumentEditing', app.documentEditingDirective);
  * @param {angular.JQLite} $element Element.
  * @param {angular.Attributes} $attrs Attributes.
  * @param {angular.$http} $http
- * @param {string} apiUrl Base URL of the API.
+ * @param {app.Authentication} appAuthentication
  * @param {app.Alerts} appAlerts
+ * @param {string} apiUrl Base URL of the API.
+ * @param {string} authUrl Base URL of the authentication page.
  * @constructor
  * @ngInject
  * @export
  */
 app.DocumentEditingController = function($scope, $element, $attrs, $http,
-    apiUrl, appAlerts) {
+    appAuthentication, appAlerts, apiUrl, authUrl) {
 
   /**
    * @type {angular.Scope}
@@ -72,6 +74,18 @@ app.DocumentEditingController = function($scope, $element, $attrs, $http,
    * @private
    */
   this.apiUrl_ = apiUrl;
+
+  /**
+   * @type {string}
+   * @private
+   */
+  this.authUrl_ = authUrl;
+
+  /**
+   * @type {app.Authentication}
+   * @private
+   */
+  this.auth_ = appAuthentication;
 
   /**
    * @type {string}
@@ -116,19 +130,28 @@ app.DocumentEditingController = function($scope, $element, $attrs, $http,
    */
   this.alerts_ = appAlerts;
 
+  // When creating a new document, the model is not created until
+  // the form is touched. At least create an empty object.
+  this.scope_[this.modelName_] = {};
+
   if ('appDocumentEditingId' in $attrs &&
       'appDocumentEditingCulture' in $attrs) {
     this.id_ = $attrs['appDocumentEditingId'];
     this.culture_ = $attrs['appDocumentEditingCulture'];
-    // Get document attributes from the API to feed the model:
-    this.http_.get(this.buildUrl_('read')).then(
-        this.successRead_.bind(this),
-        this.errorRead_.bind(this)
-    );
-  } else {
-    // When creating a new document, the model is not created until
-    // the form is touched. At least create an empty object.
-    this.scope_[this.modelName_] = {};
+
+    if (this.auth_.isAuthenticated()) {
+      // Get document attributes from the API to feed the model:
+      this.http_.get(this.buildUrl_('read')).then(
+          this.successRead_.bind(this),
+          this.errorRead_.bind(this)
+      );
+    } else {
+      // Redirect to the auth page
+      var current_url = window.location.href;
+      window.location.href = '{authUrl}?from={redirect}'
+          .replace('{authUrl}', this.authUrl_)
+          .replace('{redirect}', encodeURIComponent(current_url));
+    }
   }
 
   this.scope_.$root.$on('mapFeatureChange', function(event, feature) {
@@ -238,6 +261,15 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
     this.alerts_.add({
       'type': 'danger',
       'msg': 'Form is not valid',
+      'timeout': 5000
+    });
+    return;
+  }
+
+  if (!this.auth_.isAuthenticated()) {
+    this.alerts_.add({
+      'type': 'danger',
+      'msg': 'You have no permission to modify this document',
       'timeout': 5000
     });
     return;
