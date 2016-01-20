@@ -27,8 +27,8 @@ other_cultures, missing_cultures = get_culture_lists(route, culture)
 % endif
 <ul>
   <li><a href="${request.route_url('routes_history', id=route_id, culture=culture)}" translate>History</a></li>
-  <li><a href="${request.route_url('routes_edit', id=route_id, culture=culture)}" translate>Edit</a></li>
 </ul>
+<app-edit-button app-edit-button-url="${request.route_url('routes_edit', id=route_id, culture=culture)}"><translate>Edit</translate></app-edit-button>
 <ul>
   <li><span translate>height_diff_up</span> : ${route['height_diff_up']} m</li>
   <li><span translate>summary</span> : ${get_attr(locale, 'summary')}</li>

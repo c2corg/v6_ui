@@ -8,10 +8,10 @@
 </div>
 <section id="routes_section">
   <div class="add_route text-center">
-  <button class="btn btn-success">
-    <span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span>
-    <a href="${request.route_url('routes_add')}" translate>Add a route</a>
-  </button>
+    <app-edit-button app-edit-button-url="${request.route_url('routes_add')}">
+      <span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span>
+      <span translate>Add a route</span>
+    </app-edit-button>
     ${add_pagination_links('routes', routes, total, filter_params)}
   </div>
   <div id="routes">

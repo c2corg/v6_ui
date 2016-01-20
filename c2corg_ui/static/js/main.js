@@ -11,6 +11,7 @@ goog.require('app.alertsDirective');
 goog.require('app.authDirective');
 goog.require('app.diffMapDirective');
 goog.require('app.documentEditingDirective');
+goog.require('app.editButtonDirective');
 goog.require('app.langDirective');
 goog.require('app.mapDirective');
 goog.require('app.searchDirective');
