@@ -73,7 +73,7 @@ updating_doc = route_id and route_culture
   </div>
   % endif
   <p>
-    <button type="submit" class="btn btn-primary" ng-disabled="editForm.$invalid" translate>Save</button>
+    <button type="submit" class="btn btn-primary" ng-disabled="editForm.$pristine || editForm.$invalid" translate>Save</button>
     <%
     view_url = request.route_url('routes_view', id=route_id, culture=route_culture) if updating_doc else ''
     index_url = request.route_url('routes_index_default')
