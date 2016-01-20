@@ -117,6 +117,10 @@ app.DocumentEditingController = function($scope, $element, $attrs, $http,
         this.successRead_.bind(this),
         this.errorRead_.bind(this)
     );
+  } else {
+    // When creating a new document, the model is not created until
+    // the form is touched. At least create an empty object.
+    this.scope_[this.modelName_] = {};
   }
 
   this.scope_.$root.$on('mapFeatureChange', function(event, feature) {
@@ -362,11 +366,12 @@ app.DocumentEditingController.prototype.handleMapFeatureChange_ = function(
   // If creating a new document, the model has no geometry attribute yet:
   data['geometry'] = data['geometry'] || {};
   data['geometry']['geom'] = this.geojsonFormat_.writeGeometry(geometry);
-  if ('lonlat' in data && geometry instanceof ol.geom.Point) {
+  if (geometry instanceof ol.geom.Point) {
     var coords = this.getCoordinatesFromPoint_(geometry.clone());
-    var lonlat = data['lonlat'];
-    lonlat['longitude'] = coords[0];
-    lonlat['latitude'] = coords[1];
+    data['lonlat'] = {
+      'longitude': coords[0],
+      'latitude': coords[1]
+    };
   }
 };
 
