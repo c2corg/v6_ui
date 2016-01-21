@@ -507,14 +507,6 @@ msgstr "weather_station"
 msgid "webcam"
 msgstr "webcam"
 
-#: c2corg_ui/templates/route/index.html
-msgid "{{nbItems}} routes"
-msgstr "{{nbItems}} routes"
-
-#: c2corg_ui/templates/waypoint/index.html
-msgid "{{nbItems}} waypoints"
-msgstr "{{nbItems}} waypoints"
-
 #: c2corg_ui/templates/document/diff.html
 msgid "← previous difference"
 msgstr ""

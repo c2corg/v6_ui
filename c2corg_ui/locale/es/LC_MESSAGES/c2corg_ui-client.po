@@ -506,14 +506,6 @@ msgstr ""
 msgid "webcam"
 msgstr ""
 
-#: c2corg_ui/templates/route/index.html
-msgid "{{nbItems}} routes"
-msgstr ""
-
-#: c2corg_ui/templates/waypoint/index.html
-msgid "{{nbItems}} waypoints"
-msgstr ""
-
 #: c2corg_ui/templates/document/diff.html
 msgid "← previous difference"
 msgstr ""
