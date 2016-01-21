@@ -129,11 +129,7 @@ app.AuthController.prototype.successLogin_ = function(remember, response) {
  * @private
  */
 app.AuthController.prototype.errorLogin_ = function(response) {
-  this.alerts_.add({
-    'type': 'danger',
-    'msg': response,
-    'timeout': 5000
-  });
+  this.alerts_.addError(response);
 };
 
 
@@ -158,11 +154,7 @@ app.AuthController.prototype.register = function() {
  * @private
  */
 app.AuthController.prototype.successRegister_ = function(response) {
-  this.alerts_.add({
-    'type': 'success',
-    'msg': 'Register success',
-    'timeout': 5000
-  });
+  this.alerts_.addSuccess('Register success');
 };
 
 
@@ -171,11 +163,7 @@ app.AuthController.prototype.successRegister_ = function(response) {
  * @private
  */
 app.AuthController.prototype.errorRegister_ = function(response) {
-  this.alerts_.add({
-    'type': 'danger',
-    'msg': response,
-    'timeout': 5000
-  });
+  this.alerts_.addError(response);
 };
 
 

@@ -244,11 +244,7 @@ app.DocumentEditingController.prototype.successRead_ = function(response) {
  * @private
  */
 app.DocumentEditingController.prototype.errorRead_ = function(response) {
-  this.alerts_.add({
-    'type': 'danger',
-    'msg': response,
-    'timeout': 5000
-  });
+  this.alerts_.addError(response);
 };
 
 
@@ -258,20 +254,12 @@ app.DocumentEditingController.prototype.errorRead_ = function(response) {
  */
 app.DocumentEditingController.prototype.submitForm = function(isValid) {
   if (!isValid) {
-    this.alerts_.add({
-      'type': 'danger',
-      'msg': 'Form is not valid',
-      'timeout': 5000
-    });
+    this.alerts_.addError('Form is not valid');
     return;
   }
 
   if (!this.auth_.isAuthenticated()) {
-    this.alerts_.add({
-      'type': 'danger',
-      'msg': 'You have no permission to modify this document',
-      'timeout': 5000
-    });
+    this.alerts_.addError('You have no permission to modify this document');
     return;
   }
 
@@ -370,11 +358,7 @@ app.DocumentEditingController.prototype.errorSave_ = function(response) {
   } else {
     msg = 'Failed saving the changes';
   }
-  this.alerts_.add({
-    'type': 'danger',
-    'msg': msg,
-    'timeout': 5000
-  });
+  this.alerts_.addError(msg);
 };
 
 

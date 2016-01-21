@@ -112,11 +112,7 @@ app.UserController.prototype.logout = function() {
  */
 app.UserController.prototype.successLogout_ = function(response) {
   this.auth.removeUserData();
-  this.alerts_.add({
-    'type': 'success',
-    'msg': 'You have been disconnected',
-    'timeout': 5000
-  });
+  this.alerts_.addSuccess('You have been disconnected');
 };
 
 
@@ -126,11 +122,7 @@ app.UserController.prototype.successLogout_ = function(response) {
  */
 app.UserController.prototype.errorLogout_ = function(response) {
   this.auth.removeUserData();
-  this.alerts_.add({
-    'type': 'danger',
-    'msg': response,
-    'timeout': 5000
-  });
+  this.alerts_.addError(response);
 };
 
 
