@@ -58,7 +58,7 @@ appx.SearchDocumentLocale;
 
 /**
  * @typedef {{
- *  msg: string,
+ *  msg: (string|Object),
  *  type: ?string,
  *  timeout: ?number
  * }}

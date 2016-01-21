@@ -2,6 +2,7 @@ goog.provide('app.UserController');
 goog.provide('app.userDirective');
 
 goog.require('app');
+goog.require('app.Alerts');
 goog.require('ngeo.Location');
 
 
@@ -34,11 +35,13 @@ app.module.directive('appUser', app.userDirective);
  * @param {app.Authentication} appAuthentication
  * @param {string} apiUrl Base URL of the API.
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
+ * @param {app.Alerts} appAlerts
  * @constructor
  * @export
  * @ngInject
  */
-app.UserController = function($http, appAuthentication, apiUrl, ngeoLocation) {
+app.UserController = function($http, appAuthentication, apiUrl, ngeoLocation,
+    appAlerts) {
 
   /**
    * @type {angular.$http}
@@ -63,6 +66,12 @@ app.UserController = function($http, appAuthentication, apiUrl, ngeoLocation) {
    * @private
    */
   this.ngeoLocation_ = ngeoLocation;
+
+  /**
+   * @type {app.Alerts}
+   * @private
+   */
+  this.alerts_ = appAlerts;
 };
 
 
@@ -87,8 +96,8 @@ app.UserController.prototype.logout = function() {
       'Accept': 'application/json'
     }
   }).then(
-      goog.bind(this.successLogout_, this),
-      goog.bind(this.errorLogout_, this)
+      this.successLogout_.bind(this),
+      this.errorLogout_.bind(this)
   );
 };
 
@@ -99,7 +108,11 @@ app.UserController.prototype.logout = function() {
  */
 app.UserController.prototype.successLogout_ = function(response) {
   this.auth.removeUserData();
-  // TODO: show logout confirmation?
+  this.alerts_.add({
+    'type': 'success',
+    'msg': 'You have been disconnected',
+    'timeout': 5000
+  });
 };
 
 
@@ -108,11 +121,12 @@ app.UserController.prototype.successLogout_ = function(response) {
  * @private
  */
 app.UserController.prototype.errorLogout_ = function(response) {
-  // TODO
-  alert('logout error');
-  console.log('logout error');
-  console.log(response);
   this.auth.removeUserData();
+  this.alerts_.add({
+    'type': 'danger',
+    'msg': response,
+    'timeout': 5000
+  });
 };
 
 

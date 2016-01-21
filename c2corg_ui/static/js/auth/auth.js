@@ -34,13 +34,12 @@ app.module.directive('appAuth', app.authDirective);
  * @param {app.Authentication} appAuthentication
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {app.Alerts} appAlerts
- * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @constructor
  * @export
  * @ngInject
  */
 app.AuthController = function($scope, $http, apiUrl, appAuthentication,
-    ngeoLocation, appAlerts, gettextCatalog) {
+    ngeoLocation, appAlerts) {
 
   /**
    * @type {angular.Scope}
@@ -77,12 +76,6 @@ app.AuthController = function($scope, $http, apiUrl, appAuthentication,
    * @private
    */
   this.alerts_ = appAlerts;
-
-  /**
-   * @type {angularGettext.Catalog}
-   * @private
-   */
-  this.gettextCatalog_ = gettextCatalog;
 };
 
 
@@ -105,8 +98,8 @@ app.AuthController.prototype.login = function() {
       'Accept': 'application/json'
     }
   }).then(
-      goog.bind(this.successLogin_, this, remember),
-      goog.bind(this.errorLogin_, this)
+      this.successLogin_.bind(this, remember),
+      this.errorLogin_.bind(this)
   );
 };
 
@@ -138,7 +131,7 @@ app.AuthController.prototype.successLogin_ = function(remember, response) {
 app.AuthController.prototype.errorLogin_ = function(response) {
   this.alerts_.add({
     'type': 'danger',
-    'msg': this.formatErrorMsg_(response),
+    'msg': response,
     'timeout': 5000
   });
 };
@@ -154,8 +147,8 @@ app.AuthController.prototype.register = function() {
       'Accept': 'application/json'
     }
   }).then(
-      goog.bind(this.successRegister_, this),
-      goog.bind(this.errorRegister_, this)
+      this.successRegister_.bind(this),
+      this.errorRegister_.bind(this)
   );
 };
 
@@ -167,7 +160,7 @@ app.AuthController.prototype.register = function() {
 app.AuthController.prototype.successRegister_ = function(response) {
   this.alerts_.add({
     'type': 'success',
-    'msg': this.filterStr_('Register success'),
+    'msg': 'Register success',
     'timeout': 5000
   });
 };
@@ -180,42 +173,9 @@ app.AuthController.prototype.successRegister_ = function(response) {
 app.AuthController.prototype.errorRegister_ = function(response) {
   this.alerts_.add({
     'type': 'danger',
-    'msg': this.formatErrorMsg_(response),
+    'msg': response,
     'timeout': 5000
   });
-};
-
-
-/**
- * @param {Object} response Response from the API server.
- * @return {string}
- * @private
- */
-app.AuthController.prototype.formatErrorMsg_ = function(response) {
-  var errors = response['data']['errors'],
-      len = errors.length,
-      msg = '';
-  if (len == 1) {
-    msg = this.filterStr_(errors[0]['description']);
-  } else if (len > 0) {
-    msg += '<ul>';
-    for (var i = 0; i < len; i++) {
-      msg += '<li>' + this.filterStr_(errors[i]['description']) + '</li>';
-    }
-    msg += '</ul>';
-  }
-  return msg;
-};
-
-
-/**
- * @param {string} str String to filter.
- * @return {string}
- * @private
- */
-app.AuthController.prototype.filterStr_ = function(str) {
-  str = goog.string.htmlEscape(str);
-  return this.gettextCatalog_.getString(str);
 };
 
 
