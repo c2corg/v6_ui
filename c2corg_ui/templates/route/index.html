@@ -3,23 +3,42 @@
 <%block name="pagetitle">Routes</%block>
 <%block name="metarobots"><meta name="robots" content="noindex,follow"></%block>\
 
-<h1>${self.pagetitle()}</h1>
-<app-map></app-map>
-<p translate ng-init="nbItems = ${total}">{{nbItems}} routes</p>
-${add_pagination_links('routes', routes, total, filter_params)}
-<ul>
-  <li><a href="${request.route_url('routes_add')}" translate>Add a route</a></li>
-% for route in routes:
-  <li>
-    <% locale = route['locales'][0] %>\
-    <a href="${request.route_url('routes_view', id=route['document_id'], culture=locale['culture'])}">${locale['title']}</a>
-    % if lang != locale['culture']:
-      (${locale['culture']})
-    % endif
-    % if route['elevation_max'] is not None:
-      - ${route['elevation_max']} m
-    % endif
-    ${get_attr(locale, 'summary')}
-  </li>
-% endfor
-</ul>
+<div class="text-center">
+  <h3 ng-init="nbItems = ${total}">${self.pagetitle()} ({{nbItems}})</h3>
+</div>
+<section id="routes_section">
+  <div class="add_route text-center">
+  <button class="btn btn-success">
+    <span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span>
+    <a href="${request.route_url('routes_add')}" translate>Add a route</a>
+  </button>
+    ${add_pagination_links('routes', routes, total, filter_params)}
+  </div>
+  <div id="routes">
+    <div class="list">
+      % for route in routes:
+      <% locale = route['locales'][0] %>\
+      <div class="list_item">
+        <a href="${request.route_url('routes_view', id=route['document_id'], culture=locale['culture'])}">
+          <span class="list_item_title">${locale['title']}</span>
+          % if lang != locale['culture']:
+          <span class="list_item_culture"> (${locale['culture']}) </span>
+          <br>
+          % endif
+          <div class="list_item_info">
+          % if route['elevation_max'] is not None:
+            <span class="list_item_elevation">Elevation: ${route['elevation_max']} m</span>
+          % endif
+            <p class="text-justify">${locale['summary']}</p>
+          </div>
+        </a>
+      </div>
+      % endfor
+    </div>
+  </div>
+</section>
+% if len(routes):
+<div class="map_right">
+  <app-map></app-map>
+</div>
+% endif

@@ -9,7 +9,7 @@ ${obj[key] if obj and key in obj and obj[key] is not None else ''}\
       params = {k: int(params[k]) if k == 'offset' or k == 'limit' else params[k] for k in params}
       offset = params['offset'] if 'offset' in params else 0
   %>
-  <ul>
+  <ul id="pagination">
   % if offset > 0:
     <%
         first = params.copy()
@@ -17,7 +17,7 @@ ${obj[key] if obj and key in obj and obj[key] is not None else ''}\
             first.pop('offset')
         filters_str = '/' + '/'.join(['%s/%s' % (key, first[key]) for key in first])
     %>
-    <li><a href="${request.route_url(module + '_index', filters=filters_str)}" translate>First</a></li>
+    <li><a class="btn btn-primary" href="${request.route_url(module + '_index', filters=filters_str)}"><span class="glyphicon glyphicon-step-backward"></span><span translate>First</span></a></li>
     <%
         prev = params.copy()
         prev['offset'] -= prev['limit']
@@ -25,7 +25,7 @@ ${obj[key] if obj and key in obj and obj[key] is not None else ''}\
             prev.pop('offset')
         filters_str = '/' + '/'.join(['%s/%s' % (key, prev[key]) for key in prev])
     %>
-    <li><a href="${request.route_url(module + '_index', filters=filters_str)}" translate>Previous</a></li>
+    <li><a class="btn btn-primary" href="${request.route_url(module + '_index', filters=filters_str)}"><span class="glyphicon glyphicon-menu-left" ></span><span translate>Previous</span></a></li>
   % endif
   % if offset + params['limit'] < total:
     <%
@@ -33,13 +33,13 @@ ${obj[key] if obj and key in obj and obj[key] is not None else ''}\
         next['offset'] = offset + next['limit']
         filters_str = '/' + '/'.join(['%s/%s' % (key, next[key]) for key in next])
     %>
-    <li><a href="${request.route_url(module + '_index', filters=filters_str)}" translate>Next</a></li>
+    <li><a class="btn btn-primary" href="${request.route_url(module + '_index', filters=filters_str)}"><span translate>Next</span><span class="glyphicon glyphicon-menu-right"></span></a></li>
     <%
         last = params.copy()
         last['offset'] = total - last['limit']
         filters_str = '/' + '/'.join(['%s/%s' % (key, last[key]) for key in last])
     %>
-    <li><a href="${request.route_url(module + '_index', filters=filters_str)}" translate>Last</a></li>
+    <li><a class="btn btn-primary" href="${request.route_url(module + '_index', filters=filters_str)}" ><span translate>Last</span><span class="glyphicon glyphicon-step-forward"></span></a></li>
   % endif
   </ul>
 % endif
