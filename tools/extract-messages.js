@@ -5,7 +5,9 @@ var nomnom = require('nomnom');
 var Extractor = require('angular-gettext-tools').Extractor;
 
 function main(inputs) {
-  var extractor = new Extractor();
+  var extractor = new Extractor({
+    lineNumbers: false
+  });
 
   async.eachSeries(inputs,
     function(input, cb) {
