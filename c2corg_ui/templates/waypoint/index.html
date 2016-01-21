@@ -41,9 +41,10 @@ module.value('mapFeatureCollection', {
 <div class="text-center"><h3 ng-init="nbItems = ${total}">${self.pagetitle()} ({{nbItems}}) </h3></div class="text-center">
 <section id="waypoints_section">
   <div class="add_waypoint text-center">
-    <button class='btn btn-success'> <span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span>
-      <a href="${request.route_url('waypoints_add')}" translate>Add a waypoint</a>
-    </button>
+    <app-edit-button app-edit-button-url="${request.route_url('waypoints_add')}">
+      <span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span>
+      <span translate>Add a waypoint</span>
+    </app-edit-button>
     ${add_pagination_links('waypoints', waypoints, total, filter_params)}
   </div>
   <div id="waypoints">

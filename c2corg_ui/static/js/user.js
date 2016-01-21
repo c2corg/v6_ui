@@ -16,9 +16,6 @@ goog.require('ngeo.Location');
 app.userDirective = function() {
   return {
     restrict: 'E',
-    scope: {
-      'loginUrl': '@appUserLoginUrl'
-    },
     controller: 'AppUserController',
     controllerAs: 'userCtrl',
     bindToController: true,
@@ -36,12 +33,13 @@ app.module.directive('appUser', app.userDirective);
  * @param {string} apiUrl Base URL of the API.
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {app.Alerts} appAlerts
+ * @param {string} authUrl Base URL of the authentication page.
  * @constructor
  * @export
  * @ngInject
  */
 app.UserController = function($http, appAuthentication, apiUrl, ngeoLocation,
-    appAlerts) {
+    appAlerts, authUrl) {
 
   /**
    * @type {angular.$http}
@@ -60,6 +58,12 @@ app.UserController = function($http, appAuthentication, apiUrl, ngeoLocation,
    * @private
    */
   this.apiUrl_ = apiUrl;
+
+  /**
+   * @type {string}
+   * @private
+   */
+  this.authUrl_ = authUrl;
 
   /**
    * @type {ngeo.Location}
@@ -81,7 +85,7 @@ app.UserController = function($http, appAuthentication, apiUrl, ngeoLocation,
 app.UserController.prototype.showLogin = function() {
   var current_url = this.ngeoLocation_.getUriString();
   window.location.href = '{login}?from={current}'
-      .replace('{login}', this['loginUrl'])
+      .replace('{login}', this.authUrl_)
       .replace('{current}', encodeURIComponent(current_url));
 };
 
@@ -108,11 +112,7 @@ app.UserController.prototype.logout = function() {
  */
 app.UserController.prototype.successLogout_ = function(response) {
   this.auth.removeUserData();
-  this.alerts_.add({
-    'type': 'success',
-    'msg': 'You have been disconnected',
-    'timeout': 5000
-  });
+  this.alerts_.addSuccess('You have been disconnected');
 };
 
 
@@ -122,11 +122,7 @@ app.UserController.prototype.successLogout_ = function(response) {
  */
 app.UserController.prototype.errorLogout_ = function(response) {
   this.auth.removeUserData();
-  this.alerts_.add({
-    'type': 'danger',
-    'msg': response,
-    'timeout': 5000
-  });
+  this.alerts_.addError(response);
 };
 
 

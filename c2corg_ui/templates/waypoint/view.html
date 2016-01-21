@@ -50,8 +50,8 @@ module.value('mapFeatureCollection', {
 % endif
 <ul>
   <li><a href="${request.route_url('waypoints_history', id=waypoint_id, culture=culture)}" translate>History</a></li>
-  <li><a href="${request.route_url('waypoints_edit', id=waypoint_id, culture=culture)}" translate>Edit</a></li>
 </ul>
+<app-edit-button app-edit-button-url="${request.route_url('waypoints_edit', id=waypoint_id, culture=culture)}"><translate>Edit</translate></app-edit-button>
 <ul>
   <li><span translate>elevation</span> : ${waypoint['elevation']} m</li>
   <li><span translate>Coordinates</span> : ${geometry4326.x} °E / ${geometry4326.y} °N</li>

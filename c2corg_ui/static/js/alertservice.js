@@ -42,6 +42,32 @@ app.Alerts.prototype.add = function(data) {
 
 
 /**
+ * @param {(string|Object)} msg
+ * @export
+ */
+app.Alerts.prototype.addSuccess = function(msg) {
+  this.add({
+    'type': 'success',
+    'msg': msg,
+    'timeout': 5000
+  });
+};
+
+
+/**
+ * @param {(string|Object)} msg
+ * @export
+ */
+app.Alerts.prototype.addError = function(msg) {
+  this.add({
+    'type': 'danger',
+    'msg': msg,
+    'timeout': 5000
+  });
+};
+
+
+/**
  * @return {Array.<appx.AlertMessage>}
  * @export
  */
