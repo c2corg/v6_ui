@@ -6,8 +6,8 @@
 <div class="text-center">
   <h3 ng-init="nbItems = ${total}">${self.pagetitle()} ({{nbItems}})</h3>
 </div>
-<section id="routes_section">
-  <div class="add_route text-center">
+<section id="routes-section">
+  <div class="add-route text-center">
     <app-edit-button app-edit-button-url="${request.route_url('routes_add')}">
       <span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span>
       <span translate>Add a route</span>
@@ -18,16 +18,16 @@
     <div class="list">
       % for route in routes:
       <% locale = route['locales'][0] %>\
-      <div class="list_item">
+      <div class="list-item">
         <a href="${request.route_url('routes_view', id=route['document_id'], culture=locale['culture'])}">
-          <span class="list_item_title">${locale['title']}</span>
+          <span class="list-item-title">${locale['title']}</span>
           % if lang != locale['culture']:
-          <span class="list_item_culture"> (${locale['culture']}) </span>
+          <span class="list-item-culture"> (${locale['culture']}) </span>
           <br>
           % endif
-          <div class="list_item_info">
+          <div class="list-item-info">
           % if route['elevation_max'] is not None:
-            <span class="list_item_elevation">Elevation: ${route['elevation_max']} m</span>
+            <span class="list-item-elevation">Elevation: ${route['elevation_max']} m</span>
           % endif
             <p class="text-justify">${locale['summary']}</p>
           </div>
@@ -38,7 +38,7 @@
   </div>
 </section>
 % if len(routes):
-<div class="map_right">
+<div class="map-right">
   <app-map></app-map>
 </div>
 % endif
