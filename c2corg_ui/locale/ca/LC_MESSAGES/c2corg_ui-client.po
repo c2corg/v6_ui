@@ -86,6 +86,10 @@ msgid "Editing a waypoint"
 msgstr ""
 
 #: c2corg_ui/templates/waypoint/edit.html
+msgid "Elevation must be a number."
+msgstr ""
+
+#: c2corg_ui/templates/waypoint/edit.html
 msgid "Elevation must be smaller than 9999 m."
 msgstr ""
 
@@ -99,6 +103,10 @@ msgstr ""
 
 #: c2corg_ui/templates/auth.html
 msgid "Forgotten password?"
+msgstr ""
+
+#: c2corg_ui/templates/route/edit.html
+msgid "Height difference up must be a number."
 msgstr ""
 
 #: c2corg_ui/templates/route/view.html c2corg_ui/templates/waypoint/view.html
@@ -115,6 +123,10 @@ msgstr ""
 
 #: c2corg_ui/templates/waypoint/edit.html
 msgid "Latitude"
+msgstr ""
+
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "Latitude  must be a number."
 msgstr ""
 
 #: c2corg_ui/templates/waypoint/edit.html
@@ -143,6 +155,10 @@ msgstr ""
 
 #: c2corg_ui/templates/waypoint/edit.html
 msgid "Longitude"
+msgstr ""
+
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "Longitude must be a number."
 msgstr ""
 
 #: c2corg_ui/templates/waypoint/edit.html
@@ -424,7 +440,7 @@ msgid "moutain_biking"
 msgstr ""
 
 #: c2corg_ui/templates/document/diff.html
-msgid "next difference →"
+msgid "next difference"
 msgstr ""
 
 #: c2corg_ui/templates/i18n.html
@@ -445,6 +461,10 @@ msgstr ""
 
 #: c2corg_ui/templates/i18n.html
 msgid "pit"
+msgstr ""
+
+#: c2corg_ui/templates/document/diff.html
+msgid "previous difference"
 msgstr ""
 
 #: c2corg_ui/templates/i18n.html
@@ -527,8 +547,4 @@ msgstr ""
 
 #: c2corg_ui/templates/i18n.html
 msgid "webcam"
-msgstr ""
-
-#: c2corg_ui/templates/document/diff.html
-msgid "← previous difference"
 msgstr ""
