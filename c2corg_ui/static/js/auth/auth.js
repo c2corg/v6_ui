@@ -34,12 +34,20 @@ app.module.directive('appAuth', app.authDirective);
  * @param {app.Authentication} appAuthentication
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {app.Alerts} appAlerts
+ * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
+ * @param {angular.$q} $q Angular q service.
  * @constructor
  * @export
  * @ngInject
  */
 app.AuthController = function($scope, $http, apiUrl, appAuthentication,
-    ngeoLocation, appAlerts) {
+    ngeoLocation, appAlerts, gettextCatalog, $q) {
+
+  /**
+   * @type {angular.$q}
+   * @private
+   */
+  this.q_ = $q;
 
   /**
    * @type {angular.Scope}
@@ -87,6 +95,7 @@ app.AuthController.prototype.login = function() {
   var remember = !!login['remember']; // a true boolean
 
   // Discourse SSO
+  login['discourse'] = true;
   if (this.ngeoLocation_.hasParam('sso')) {
     login['sso'] = this.ngeoLocation_.getParam('sso');
     login['sig'] = this.ngeoLocation_.getParam('sig');
@@ -105,6 +114,32 @@ app.AuthController.prototype.login = function() {
 
 
 /**
+ * @param {string} url Authentication URL for discourse. This URL is returned
+ * by the API.
+ * @return {angular.$q.Promise}
+ * @private
+ */
+app.AuthController.prototype.loginToDiscourse_ = function(url) {
+  // https://developer.mozilla.org/fr/docs/Web/HTML/Element/iframe
+  var deferred = this.q_.defer();
+  var timeoutId = window.setTimeout(function() {
+    deferred.reject();
+  }, 10000); // 10s to complete discourse authentication
+
+  $('<iframe>', {
+    src: url,
+    id: 'discourse_auth_frame',
+    style: 'display: none',
+    sandbox: 'allow-same-origin'
+  }).appendTo('body').on('load', function() {
+    window.clearTimeout(timeoutId);
+    deferred.resolve();
+  });
+  return deferred.promise;
+};
+
+
+/**
  * @param {boolean} remember whether to store the data in local storage.
  * @param {Object} response Response from the API server.
  * @private
@@ -114,13 +149,19 @@ app.AuthController.prototype.successLogin_ = function(remember, response) {
   data.remember = remember;
   this.appAuthentication_.setUserData(data);
 
-  // redirect to previous page or the page sent by the server
-  var redirect = data.redirect;
-  if (!redirect) {
-    redirect = this.ngeoLocation_.hasParam('from') ?
-        decodeURIComponent(this.ngeoLocation_.getParam('from')) : '/';
-  }
-  window.location.href = redirect;
+  var discourse_url = data['redirect_internal'];
+  var promise = discourse_url ? this.loginToDiscourse_(discourse_url) :
+      this.q_.when(true);
+
+  promise.finally(function() {
+    // redirect to previous page or the page sent by the server
+    var redirect = data.redirect;
+    if (!redirect) {
+      redirect = this.ngeoLocation_.hasParam('from') ?
+          decodeURIComponent(this.ngeoLocation_.getParam('from')) : '/';
+    }
+    window.location.href = redirect;
+  }.bind(this));
 };
 
 

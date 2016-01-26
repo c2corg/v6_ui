@@ -94,7 +94,9 @@ app.UserController.prototype.showLogin = function() {
  * @export
  */
 app.UserController.prototype.logout = function() {
-  this.http_.post(this.apiUrl_ + '/users/logout', null, {
+  this.http_.post(this.apiUrl_ + '/users/logout', {
+    'discourse': true
+  }, {
     'headers': {
       'Content-Type': 'application/json; charset=UTF-8',
       'Accept': 'application/json'
