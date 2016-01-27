@@ -15,11 +15,11 @@ closure_library_path = settings.get('closure_library_path')
     <meta name="apple-mobile-web-app-capable" content="yes">
     <%block name="metarobots"><meta name="robots" content="index,follow"></%block>
 % if debug:
-    <link rel="stylesheet" href="${request.static_url('%sbootstrap/dist/css/bootstrap.css' % node_modules_path)}" type="text/css">
+    <link rel="stylesheet" href="${request.static_url('%s/bootstrap/dist/css/bootstrap.css' % node_modules_path)}" type="text/css">
     <link rel="stylesheet" href="${request.static_url('c2corg_ui:static/build/build.css')}" type="text/css">
 % else:
     ## FIXME add version to links?
-    <link rel="stylesheet" href="${request.static_url('%sbootstrap/dist/css/bootstrap.min.css' % node_modules_path)}" type="text/css">
+    <link rel="stylesheet" href="${request.static_url('%s/bootstrap/dist/css/bootstrap.min.css' % node_modules_path)}" type="text/css">
     <link rel="stylesheet" href="${request.static_url('c2corg_ui:static/build/build.min.css')}" type="text/css">
 % endif
   </head>
@@ -41,8 +41,8 @@ closure_library_path = settings.get('closure_library_path')
       <div class="quick-search">
         <app-search app-search-map=""></app-search>
       </div>
+      <app-user></app-user>
       <div class="lang-user">
-        <app-user></app-user>
         <div class="culture-selector">
           <label translate>Browse site in</label>
           <app-lang app-lang-cultures="['${"','".join(default_cultures) |n}']"></app-lang>
@@ -61,7 +61,8 @@ closure_library_path = settings.get('closure_library_path')
       window.CLOSURE_NO_DEPS = true;
     </script>
     <script src="${request.static_url('%s/jquery/dist/jquery.js' % node_modules_path)}"></script>
-    <script src="${request.static_url('%sangular/angular.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%s/angular/angular.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%s/bootstrap/dist/js/bootstrap.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/angular-gettext/dist/angular-gettext.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/angular-messages/angular-messages.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/angular-cookies/angular-cookies.js' % node_modules_path)}"></script>
@@ -71,7 +72,8 @@ closure_library_path = settings.get('closure_library_path')
     <script src="${request.static_url('c2corg_ui:static/js/main.js')}"></script>
 % else:
     <script src="${request.static_url('%s/jquery/dist/jquery.min.js' % node_modules_path)}"></script>
-    <script src="${request.static_url('%sangular/angular.min.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%s/angular/angular.min.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%s/bootstrap/dist/js/bootstrap.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/angular-gettext/dist/angular-gettext.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/angular-messages/angular-messages.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/angular-cookies/angular-cookies.min.js' % node_modules_path)}"></script>

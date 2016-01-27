@@ -1,10 +1,23 @@
+@phone: ~"only screen and (min-width: 130px) and (max-width: 619px)";
+@tablet: ~"only screen and (min-width: 620px) and (max-width: 1099px)";
+
 .twitter-typeahead, .tt-dropdown-menu, .tt-hint {
   width: 220px;
+}
+.tt-open {
+  @media @phone {
+    left: -150px !important;
+    width: 320px !important;
+  }
+  @media @tablet {
+    width: 380px !important;
+  }
 }
 span.twitter-typeahead {
   width: 100%;
 
   .tt-menu {
+    padding: 0;
     &:extend(.dropdown-menu);
   }
 
@@ -12,11 +25,26 @@ span.twitter-typeahead {
     &:extend(.dropdown-menu);
   }
 
-  .tt-suggestion {
+  .tt-suggestion{
+    padding: 5px 10px 5px 10px;
+    border-bottom: 1px solid rgba(210, 210, 210, .5);
+    margin-bottom: 0 !important;
+   -webkit-background-clip: padding-box; /* for Safari */
+    background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
+
+    @media @phone { 
+      white-space : normal;
+    }
+    @media @tablet {
+      white-space : normal;
+    }
     &:extend(.dropdown-menu > li > a);
     &:hover,
     &:focus {
       &:extend(.dropdown-menu > .active > a);
+    }
+    &:last-child {
+      border-bottom: none;
     }
   }
 
@@ -41,8 +69,12 @@ span.twitter-typeahead {
     }
   }
   .header {
+    color: white;
+    text-align: center;
     font-weight: bold;
-    background-color: #c8c8c8;
+    font-family: Verdana;
+    padding: 1%;
+    background-color:#FFAC4A;
   }
 
   .tt-hint {

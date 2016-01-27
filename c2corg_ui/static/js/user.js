@@ -23,7 +23,6 @@ app.userDirective = function() {
   };
 };
 
-
 app.module.directive('appUser', app.userDirective);
 
 

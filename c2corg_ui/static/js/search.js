@@ -26,13 +26,48 @@ app.searchDirective = function() {
          * @param {angular.Attributes} attrs Atttributes.
          */
         function(scope, element, attrs) {
+          var phoneScreen = 619;
+
           // Empty the search field on focus and blur.
           element.find('input').on('focus blur', function() {
             $(this).typeahead('val', '');
           });
+          //Remove the class 'show-search' when screen width > @phone (defined in LESS)
+          $(window).resize(function resize() {
+            if ($(window).width() < phoneScreen) {
+              element.removeClass('show-search');
+            } 
+          });
+          // Add class only on hover && when screen width < @phone (defined in LESS)
+          element.on('mouseenter', function() {
+            if (window.innerWidth < phoneScreen) {
+              $('app-search input').addClass('show-search');
+            }
+          });
+          // Trigger focus on search-icon click for #search
+          element.on('click', function(event) {
+            if (window.innerWidth < phoneScreen) {
+              event.stopPropagation();
+              $('app-search input').addClass('show-search');
+              $('#search').trigger('focus');
+            }
+          });
+          // If the input is focused, don't remove the class
+          element.on('mouseleave', function() {
+            if (window.innerWidth < phoneScreen && !$('#search').is(':focus')) {
+              $('.show-search').removeClass('show-search');
+            } 
+          });
+          // If you click outside the search input, it has to be closed on @phone
+          if (window.innerWidth < phoneScreen) {
+            $('html').not('#search').not('.glyphicon-search').click(function() {
+              $('.show-search').removeClass('show-search');
+            });
+          }
         }
   };
 };
+       
 app.module.directive('appSearch', app.searchDirective);
 
 

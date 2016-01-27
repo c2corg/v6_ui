@@ -21,6 +21,7 @@ app.langDirective = function() {
     controllerAs: 'langCtrl',
     bindToController: true,
     template: '<select ' +
+        'class="form-control lang-selector" ' +
         'ng-model="langCtrl.culture" ' +
         'ng-options="culture as langCtrl.translate(culture) ' +
         'for culture in langCtrl.cultures" ' +
