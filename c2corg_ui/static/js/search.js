@@ -40,13 +40,13 @@ app.searchDirective = function() {
           });
           // Allow classes only on hover && when screen width < @phone
           element.on('mouseenter', function() {
-            if (window.innerWidth < phoneScreen){
+            if (window.innerWidth < phoneScreen) {
               $('app-search input').addClass('show-search');
-            };
+            }
           });
           // Trigger focus on search-icon click for #search
           element.on('click', function(event) {
-            if (window.innerWidth < phoneScreen){
+            if (window.innerWidth < phoneScreen) {
               event.stopPropagation();
               $('app-search input').addClass('show-search');
               $('#search').trigger('focus');
