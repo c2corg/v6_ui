@@ -52,14 +52,12 @@ msgid "Created on"
 msgstr "Créée le"
 
 #: c2corg_ui/templates/route/edit.html
-#, fuzzy
 msgid "Creating a route"
-msgstr "Edition d'un itinéraire"
+msgstr "Création d'un itinéraire"
 
 #: c2corg_ui/templates/waypoint/edit.html
-#, fuzzy
 msgid "Creating a waypoint"
-msgstr "Edition d'un point de passage"
+msgstr "Création d'un point de passage"
 
 #: c2corg_ui/templates/waypoint/edit.html
 msgid "Culture"
@@ -84,10 +82,6 @@ msgstr "Edition d'un itinéraire"
 #: c2corg_ui/templates/waypoint/edit.html
 msgid "Editing a waypoint"
 msgstr "Edition d'un point de passage"
-
-#: c2corg_ui/templates/waypoint/edit.html
-msgid "Elevation must be smaller than 9999 m."
-msgstr "L'altitude doit être inférieure à 9999m."
 
 #: c2corg_ui/templates/auth.html
 msgid "Email"
@@ -117,10 +111,6 @@ msgstr "Fin"
 msgid "Latitude"
 msgstr "Latitude"
 
-#: c2corg_ui/templates/waypoint/edit.html
-msgid "Latitude must be between -90° and 90°."
-msgstr "La latitude doit être comprise en -90° et 90°."
-
 #: c2corg_ui/templates/document/diff.html
 msgid "Legend:"
 msgstr "Légende :"
@@ -144,10 +134,6 @@ msgstr "Se déconnecter"
 #: c2corg_ui/templates/waypoint/edit.html
 msgid "Longitude"
 msgstr "Longitude"
-
-#: c2corg_ui/templates/waypoint/edit.html
-msgid "Longitude must be between -180° and 180°."
-msgstr "La longitude doit être comprise en -180° et 180°."
 
 #: c2corg_ui/templates/helpers.html
 msgid "Next"
@@ -210,7 +196,7 @@ msgstr "Ce champ est obligatoire."
 
 #: c2corg_ui/templates/route/edit.html c2corg_ui/templates/waypoint/edit.html
 msgid "Title is too short."
-msgstr "Le titre doit comporter au moins 3 caractères."
+msgstr ""
 
 #: c2corg_ui/templates/helpers.html
 msgid "Translate into an other culture:"
@@ -350,7 +336,7 @@ msgstr "français"
 
 #: c2corg_ui/templates/route/edit.html c2corg_ui/templates/route/view.html
 msgid "gear"
-msgstr ""
+msgstr "Matériel"
 
 #: c2corg_ui/templates/i18n.html
 msgid "geometry"
@@ -370,7 +356,7 @@ msgstr ""
 
 #: c2corg_ui/templates/route/edit.html c2corg_ui/templates/route/view.html
 msgid "height_diff_up"
-msgstr ""
+msgstr "Dénivelé"
 
 #: c2corg_ui/templates/i18n.html
 msgid "hiking"
@@ -426,7 +412,7 @@ msgid "moutain_biking"
 msgstr "VTT"
 
 #: c2corg_ui/templates/document/diff.html
-msgid "next difference →"
+msgid "next difference"
 msgstr "différence suivante →"
 
 #: c2corg_ui/templates/i18n.html
@@ -448,6 +434,10 @@ msgstr "col"
 #: c2corg_ui/templates/i18n.html
 msgid "pit"
 msgstr "gouffre"
+
+#: c2corg_ui/templates/document/diff.html
+msgid "previous difference"
+msgstr "différence précédente"
 
 #: c2corg_ui/templates/i18n.html
 msgid "raid"
@@ -489,7 +479,7 @@ msgstr "raquette"
 #: c2corg_ui/templates/route/view.html c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/view.html
 msgid "summary"
-msgstr "résumé"
+msgstr "Résumé"
 
 #: c2corg_ui/templates/i18n.html
 msgid "summit"
@@ -531,6 +521,11 @@ msgstr "station météo"
 msgid "webcam"
 msgstr "webcam"
 
-#: c2corg_ui/templates/document/diff.html
-msgid "← previous difference"
-msgstr "← différence précédente"
+msgid "This field must be a number."
+msgstr "Ce champ doit être un nombre."
+
+msgid "This field must be smaller than 9999 m."
+msgstr "Ce champ doit être inférieur à 9999m."
+
+msgid "Title must have at least 3 characters."
+msgstr "Le titre doit comporter au moins 3 caractères."

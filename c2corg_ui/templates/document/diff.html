@@ -18,7 +18,7 @@
       % if previous_version_id:
         <br/><a href="${request.route_url(
             module + '_diff', id=document_id, culture=culture, v1=previous_version_id,
-            v2=version1['version_id'])}" translate>← previous difference</a>
+            v2=version1['version_id'])}" translate>previous difference</a>
       % endif
     </td>
     <td>
@@ -32,7 +32,7 @@
       % if next_version_id:
         <br/><a href="${request.route_url(
             module + '_diff', id=document_id, culture=culture, v1=version2['version_id'],
-            v2=next_version_id)}" translate>next difference →</a>
+            v2=next_version_id)}" translate>next difference</a>
       % endif
     </td>
   </tr>

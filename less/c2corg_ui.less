@@ -10,8 +10,6 @@
 @phone: ~"only screen and (min-width: 130px) and (max-width: 619px)";
 @lightgrey: #F0F0F0;
 
-
-
 html, body{
   min-height: 100%;
   min-width: 100%;
@@ -24,26 +22,19 @@ html, body{
     color:white;
   }
 }
+
 .filters {
   display: block;
   overflow: auto;
-  border-top: 1px solid lightgrey;
-  border-bottom: 1px solid lightgrey;
+  padding: 0 4% 2% 4%;
+  
   
   input {
     margin-bottom: 1%;
   }
-  
-  form  div {
-    width: 30%;
-    float: left;
-
-    @media @phone {
-      width: 100%;
-    }
-    @media @tablet {
-      width: 46%;
-    }
+  .form-group {
+    display: flex;
+    align-items: center;
   }
 }
 
@@ -51,11 +42,11 @@ h1 {
   font-size: 3em;
 }
 
+
 .form-control-feedback {
     position: relative;
     top: -34px;
-    float: right;
-    left: 42px;
+    left: 103%;
     width: 14px;
     height:14px;
 }
@@ -89,14 +80,24 @@ h1 {
     }
   }
 }
+.help-block {
+  margin-top: -6px;
+  
+  p {
+    font-size: 1em;
+    color: white;
+    display: none;
+  }
+}
 
 .document-editing  {
   width: 70%;
   margin: auto;
 }
 
-.help-block p {
-  color: #a94442;
+.document-editing  {
+  width: 70%;
+  margin: auto;
 }
 
 .list {
@@ -261,14 +262,9 @@ h3 {
     float:none;
   }
 }
-
 .tt-hint {
   z-index : -2;
 }
-.tt-menu {
-  margin-left : -30px;
-}
-
 .glyphicon-search{
   font-size: 1.8em;
   margin-right: 8px;
@@ -284,9 +280,31 @@ h3 {
   margin-bottom: 0;
   @media @phone {
       display: none;
-/*      shows no text on @phone, adds '.glyphicon-user' icon instead in user.js*/
   }
 }
+
+.glyphicon-user {
+  position: static !important;
+}
+
+app-user{
+  text-align: center;
+  
+  .login-out-button {
+    span { 
+      @media @phone {
+        display: none;
+  /*      shows no text on @phone, adds '.glyphicon-user' icon instead in user.js*/
+      }
+    }
+  }
+  .user-info {
+    @media @phone {
+      display: none;
+    }
+  }
+}
+
 .show-search {
   -webkit-transition: all .5s ease-in-out !important;
   -moz-transition: all .5s ease-in-out !important;
@@ -313,7 +331,7 @@ h3 {
     transition: all .5s ease;
     
     @media @tablet {
-      width: 170px;
+      width: 150px;
     }
   }
     @media @phone {
@@ -326,8 +344,9 @@ h3 {
   @media @phone {
     width: 103px !important;
   }
-
 }
+
+
 app-lang{
   width: 113px;
   @media @phone {
@@ -347,6 +366,7 @@ app-user {
 app-search {
   display: flex;
   display: -ms-flexbox;
+  right: 0;
   
   @media @phone {
     width: 40px;
@@ -408,11 +428,14 @@ app-search {
     }
   }
 }
+
+
   .culture-selector {
     width:100%;
     display: flex;
     display: -ms-flexbox;
     align-items: center;
+    margin-right: 35px;
     
     label {
       margin-right: 3%;
@@ -427,10 +450,12 @@ app-search {
     }
     @media @phone {
       margin-right: 0;
+    }    
+    @media @phone {
+      margin-right: 30px;
     }
  } /* culture-selector*/
 }/* page-header */ 
-
 
 .page-content {
   

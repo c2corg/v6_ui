@@ -88,6 +88,11 @@ msgid "Editing a waypoint"
 msgstr ""
 
 #: c2corg_ui/templates/waypoint/edit.html
+#, fuzzy
+msgid "Elevation must be a number."
+msgstr "Elevation must be smaller than 9999 m."
+
+#: c2corg_ui/templates/waypoint/edit.html
 msgid "Elevation must be smaller than 9999 m."
 msgstr "Elevation must be smaller than 9999 m."
 
@@ -102,6 +107,11 @@ msgstr ""
 #: c2corg_ui/templates/auth.html
 msgid "Forgotten password?"
 msgstr "Forgotten password?"
+
+#: c2corg_ui/templates/route/edit.html
+#, fuzzy
+msgid "Height difference up must be a number."
+msgstr "Latitude must be a number."
 
 #: c2corg_ui/templates/route/view.html c2corg_ui/templates/waypoint/view.html
 msgid "History"
@@ -120,6 +130,12 @@ msgid "Latitude"
 msgstr "Latitude"
 
 #: c2corg_ui/templates/waypoint/edit.html
+#, fuzzy
+msgid "Latitude  must be a number."
+msgstr "Latitude must be a number."
+
+#: c2corg_ui/templates/waypoint/edit.html
+#, fuzzy
 msgid "Latitude must be between -90° and 90°."
 msgstr "Latitude must be between -90° and 90°."
 
@@ -148,6 +164,12 @@ msgid "Longitude"
 msgstr "Longitude"
 
 #: c2corg_ui/templates/waypoint/edit.html
+#, fuzzy
+msgid "Longitude must be a number."
+msgstr "Latitude must be a number."
+
+#: c2corg_ui/templates/waypoint/edit.html
+#, fuzzy
 msgid "Longitude must be between -180° and 180°."
 msgstr "Longitude must be between -180° and 180°."
 
@@ -210,12 +232,11 @@ msgstr "This field is required."
 
 #: c2corg_ui/templates/route/edit.html c2corg_ui/templates/waypoint/edit.html
 msgid "Title is too short."
-msgstr "Title is too short."
+msgstr ""
 
 #: c2corg_ui/templates/helpers.html
-#, fuzzy
 msgid "Translate into an other culture:"
-msgstr "View in other culture:"
+msgstr "View in other language:"
 
 #: c2corg_ui/templates/auth.html
 msgid "Username"
@@ -283,11 +304,11 @@ msgstr ""
 
 #: c2corg_ui/templates/i18n.html
 msgid "ca"
-msgstr "ca"
+msgstr "catalan"
 
 #: c2corg_ui/templates/i18n.html
 msgid "camp_site"
-msgstr "camp_site"
+msgstr "camp site"
 
 #: c2corg_ui/templates/i18n.html
 msgid "cave"
@@ -299,11 +320,11 @@ msgstr "cliff"
 
 #: c2corg_ui/templates/i18n.html
 msgid "climbing_indoor"
-msgstr "climbing_indoor"
+msgstr "climbing indoor"
 
 #: c2corg_ui/templates/i18n.html
 msgid "climbing_outdoor"
-msgstr "climbing_outdoor"
+msgstr "climbing outdoor"
 
 #: c2corg_ui/templates/i18n.html
 msgid "confluence"
@@ -316,7 +337,7 @@ msgstr "Culture"
 
 #: c2corg_ui/templates/i18n.html
 msgid "de"
-msgstr "de"
+msgstr "german"
 
 #: c2corg_ui/templates/route/edit.html c2corg_ui/templates/route/view.html
 #: c2corg_ui/templates/waypoint/edit.html
@@ -331,15 +352,15 @@ msgstr "Elevation"
 
 #: c2corg_ui/templates/i18n.html
 msgid "en"
-msgstr "en"
+msgstr "english"
 
 #: c2corg_ui/templates/i18n.html
 msgid "es"
-msgstr "es"
+msgstr "spanish"
 
 #: c2corg_ui/templates/i18n.html
 msgid "eu"
-msgstr "eu"
+msgstr "basque"
 
 #: c2corg_ui/templates/i18n.html
 msgid "expedition"
@@ -347,15 +368,15 @@ msgstr "expedition"
 
 #: c2corg_ui/templates/i18n.html
 msgid "fr"
-msgstr "fr"
+msgstr "french"
 
 #: c2corg_ui/templates/route/edit.html c2corg_ui/templates/route/view.html
 msgid "gear"
-msgstr ""
+msgstr "gear"
 
 #: c2corg_ui/templates/i18n.html
 msgid "geometry"
-msgstr ""
+msgstr "geometry"
 
 #: c2corg_ui/templates/i18n.html
 msgid "gite"
@@ -367,11 +388,11 @@ msgstr "glacier"
 
 #: c2corg_ui/templates/document/diff.html
 msgid "green"
-msgstr ""
+msgstr "green"
 
 #: c2corg_ui/templates/route/edit.html c2corg_ui/templates/route/view.html
 msgid "height_diff_up"
-msgstr ""
+msgstr "Height difference up"
 
 #: c2corg_ui/templates/i18n.html
 msgid "hiking"
@@ -383,11 +404,11 @@ msgstr "hut"
 
 #: c2corg_ui/templates/i18n.html
 msgid "ice_climbing"
-msgstr "ice_climbing"
+msgstr "ice climbing"
 
 #: c2corg_ui/templates/i18n.html
 msgid "it"
-msgstr "it"
+msgstr "italian"
 
 #: c2corg_ui/templates/i18n.html
 msgid "lake"
@@ -395,7 +416,7 @@ msgstr "lake"
 
 #: c2corg_ui/templates/i18n.html
 msgid "local_product"
-msgstr "local_product"
+msgstr "local product"
 
 #: c2corg_ui/templates/i18n.html
 msgid "locality"
@@ -407,7 +428,7 @@ msgstr "loop"
 
 #: c2corg_ui/templates/i18n.html
 msgid "loop_hut"
-msgstr "loop_hut"
+msgstr "loop hut"
 
 #: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/view.html
@@ -420,14 +441,14 @@ msgstr "misc"
 
 #: c2corg_ui/templates/i18n.html
 msgid "mountain_climbing"
-msgstr "mountain_climbing"
+msgstr "mountain climbing"
 
 #: c2corg_ui/templates/i18n.html
 msgid "moutain_biking"
-msgstr "moutain_biking"
+msgstr "moutain biking"
 
 #: c2corg_ui/templates/document/diff.html
-msgid "next difference →"
+msgid "next difference"
 msgstr ""
 
 #: c2corg_ui/templates/i18n.html
@@ -436,11 +457,11 @@ msgstr "paragliding"
 
 #: c2corg_ui/templates/i18n.html
 msgid "paragliding_landing"
-msgstr "paragliding_landing"
+msgstr "paragliding landing"
 
 #: c2corg_ui/templates/i18n.html
 msgid "paragliding_takeoff"
-msgstr "paragliding_takeoff"
+msgstr "paragliding takeoff"
 
 #: c2corg_ui/templates/i18n.html
 msgid "pass"
@@ -449,6 +470,10 @@ msgstr "pass"
 #: c2corg_ui/templates/i18n.html
 msgid "pit"
 msgstr "pit"
+
+#: c2corg_ui/templates/document/diff.html
+msgid "previous difference"
+msgstr ""
 
 #: c2corg_ui/templates/i18n.html
 msgid "raid"
@@ -460,11 +485,11 @@ msgstr ""
 
 #: c2corg_ui/templates/i18n.html
 msgid "return_same_way"
-msgstr "return_same_way"
+msgstr "return same way"
 
 #: c2corg_ui/templates/i18n.html
 msgid "rock_climbing"
-msgstr "rock_climbing"
+msgstr "rock climbing"
 
 #: c2corg_ui/templates/route/edit.html
 msgid "route_types"
@@ -480,7 +505,7 @@ msgstr "skitouring"
 
 #: c2corg_ui/templates/i18n.html
 msgid "snow_ice_mixed"
-msgstr "snow_ice_mixed"
+msgstr "snow, ice and mixed"
 
 #: c2corg_ui/templates/i18n.html
 msgid "snowshoeing"
@@ -506,7 +531,7 @@ msgstr "traverse"
 
 #: c2corg_ui/templates/i18n.html
 msgid "via_ferrata"
-msgstr "via_ferrata"
+msgstr "via ferrata"
 
 #: c2corg_ui/templates/i18n.html
 msgid "virtual"
@@ -532,6 +557,6 @@ msgstr "weather_station"
 msgid "webcam"
 msgstr "webcam"
 
-#: c2corg_ui/templates/document/diff.html
-msgid "← previous difference"
-msgstr ""
+#, fuzzy
+#~ msgid "This field must be smaller than 9999 m."
+#~ msgstr "Elevation must be smaller than 9999 m."
