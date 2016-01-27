@@ -9,10 +9,9 @@ closure_library_path = settings.get('closure_library_path')
 <!DOCTYPE html>
 <html <%block name="pagelang"></%block> ng-app="app" ng-controller="MainController as mainCtrl">
   <head>
-    <title><%block name="pagetitle">Camptocamp.org</%block></title>
+    <title><%block name="pagetitle">{{'Welcome' | translate}}</%block> - Camptocamp.org</title>
     <meta charset="utf-8">
-    <meta name="viewport"
-          content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <%block name="metarobots"><meta name="robots" content="index,follow"></%block>
 % if debug:

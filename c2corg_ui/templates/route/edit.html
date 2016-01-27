@@ -5,7 +5,7 @@ from c2corg_common.attributes import default_cultures
 <%
 updating_doc = route_id and route_culture
 %>\
-<%block name="pagetitle">FIXME: Adding/editing page title</%block>
+<%block name="pagetitle">${"{{'Editing a route' | translate}}" if route_id and route_culture else "{{'Creating a route' | translate}}"}</%block>\
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>\
 
 <h1>${self.pagetitle()}</h1>
