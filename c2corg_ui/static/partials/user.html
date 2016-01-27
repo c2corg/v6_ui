@@ -1,5 +1,22 @@
-<button ng-if="!userCtrl.auth.isAuthenticated()" type="button" class="btn btn-primary login-out-button" ng-click="userCtrl.showLogin()" translate>Login</button>
-<span ng-if="userCtrl.auth.isAuthenticated()">
-  <span class="user-info">{{userCtrl.auth.userData.username}}</span>
-  <button type="button" class="btn btn-primary login-out-button" ng-click="userCtrl.logout()" translate>Logout</button>
-</span>
+<div class="btn-group" id="user-menu">
+  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+          ng-if="!userCtrl.auth.isAuthenticated()" ng-click="userCtrl.showLogin()">
+      <span class="login-text" translate>Login</span>
+      <span class="glyphicon glyphicon-log-in"></span>
+  </button>
+  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+          ng-if="userCtrl.auth.isAuthenticated()">
+    <span class="user-info" ng-show="userCtrl.auth.userData.username">{{userCtrl.auth.userData.username}}</span>
+    <span class="glyphicon glyphicon-user" ng-show="userCtrl.auth.userData.username"></span>
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" ng-show="userCtrl.auth.isAuthenticated()">
+    <li><a translate>My account</a></li>
+    <li ng-if="userCtrl.auth.isAuthenticated()" ng-click="userCtrl.logout()">
+      <a href="#">
+        <span translate>Logout</span>
+        <span class="glyphicon glyphicon-log-out"></span>
+      </a>
+    </li>
+  </ul>
+</div>

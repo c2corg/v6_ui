@@ -1,5 +1,6 @@
 @import (inline) "../node_modules/openlayers/css/ol.css";
 @import "../node_modules/bootstrap/less/bootstrap.less";
+@icon-font-path: "../../node_modules/bootstrap/fonts/";
 @import "search.less";
 @import "diff.less";
 
@@ -8,6 +9,8 @@
 @tablet: ~"only screen and (min-width: 620px) and (max-width: 1099px)";
 @phone: ~"only screen and (min-width: 130px) and (max-width: 619px)";
 @lightgrey: #F0F0F0;
+
+
 
 html, body{
   min-height: 100%;
@@ -42,10 +45,10 @@ html, body{
       width: 46%;
     }
   }
-  
 }
-h1{
-  font-size:  3em;
+
+h1 {
+  font-size: 3em;
 }
 
 .form-control-feedback {
@@ -262,6 +265,9 @@ h3 {
 .tt-hint {
   z-index : -2;
 }
+.tt-menu {
+  margin-left : -30px;
+}
 
 .glyphicon-search{
   font-size: 1.8em;
@@ -273,16 +279,12 @@ h3 {
 /*    hover triggers the search input to appear in search.JS*/
   }
 }
-.glyphicon-user {
-  position: static !important;
-}
 
-.login-out-button {
-  span { 
-    @media @phone {
+.login-text, .caret {
+  margin-bottom: 0;
+  @media @phone {
       display: none;
 /*      shows no text on @phone, adds '.glyphicon-user' icon instead in user.js*/
-    }
   }
 }
 .show-search {
@@ -292,7 +294,6 @@ h3 {
   transition: all .5s ease-in-out !important;
   width: 163px !important;
   visibility: visible !important;
-  z-index: 100 !important;
   padding: 8px !important;
 }
 
@@ -312,7 +313,7 @@ h3 {
     transition: all .5s ease;
     
     @media @tablet {
-      width: 150px;
+      width: 170px;
     }
   }
     @media @phone {
@@ -336,13 +337,16 @@ app-lang{
 
 app-user {
   text-align: center;
-  margin-right: 10px;
+  
+  .dropdown-toggle {
+    min-height: 33px;
+    align-items: center;
+  }
 }
 
 app-search {
   display: flex;
   display: -ms-flexbox;
-  margin-right: -10px;
   
   @media @phone {
     width: 40px;
@@ -352,7 +356,7 @@ app-search {
 .page-header {
   position: absolute;
   top: 5px;
-  right: 5px;
+  right: 15px;
   margin-top: 10px !important;
   border: 0;
   display: flex;
@@ -365,6 +369,10 @@ app-search {
   .quick-search {
     rigth: 0;
     position: relative;
+    
+    @media @phone {
+      z-index: 10;
+    }
 
     input {
       @media @phone {
@@ -381,13 +389,25 @@ app-search {
     width: 100%;
     font-weight: bold;
     margin-left: 10px;
+    margin-right: 10px;
+  }
+  
+#user-menu {
+  height: 33px;
+  
+  .glyphicon-user {
+    display: none;
+  
+    @media @phone {
+      display: block;
+    }
   }
   .user-info {
     @media @phone {
       display: none;
     }
   }
-
+}
   .culture-selector {
     width:100%;
     display: flex;

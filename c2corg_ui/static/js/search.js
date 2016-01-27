@@ -32,13 +32,13 @@ app.searchDirective = function() {
           element.find('input').on('focus blur', function() {
             $(this).typeahead('val', '');
           });
-          //Don't allow the class to be when screen width > @phone
+          //Remove the class 'show-search' when screen width > @phone (defined in LESS)
           $(window).resize(function resize() {
             if ($(window).width() < phoneScreen) {
               element.removeClass('show-search');
             } 
           });
-          // Allow classes only on hover && when screen width < @phone
+          // Add class only on hover && when screen width < @phone (defined in LESS)
           element.on('mouseenter', function() {
             if (window.innerWidth < phoneScreen) {
               $('app-search input').addClass('show-search');

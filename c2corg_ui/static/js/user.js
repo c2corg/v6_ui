@@ -19,34 +19,8 @@ app.userDirective = function() {
     controller: 'AppUserController',
     controllerAs: 'userCtrl',
     bindToController: true,
-    templateUrl: '/static/partials/user.html',
-    link:
-         /**
-         * @param {angular.Scope} scope Scope.
-         * @param {angular.JQLite} el Element.
-         * @param {angular.Attributes} attrs Atttributes.
-         */
-          function(scope, el, attrs) {
-            var phoneScreen = 619;
-
-           // Remove text when screen width < @phone and show icon instead.
-           // Has to wait for document.ready, if not - the function is triggered on a non existing element.
-           $(document).ready(function() {
-
-              if  (window.innerWidth < phoneScreen) {
-                el.find('button').addClass('glyphicon glyphicon-user');
-              }
-              // Same on resize, cf ^up
-              $(window).resize(function resize() {
-                if ($(window).width() < phoneScreen) {
-                  el.find('button').addClass('glyphicon glyphicon-user');
-                }else {
-                  el.find('button').removeClass('glyphicon glyphicon-user');
-                }
-              });
-           });
-          }
-    };
+    templateUrl: '/static/partials/user.html'
+  };
 };
 
 app.module.directive('appUser', app.userDirective);
