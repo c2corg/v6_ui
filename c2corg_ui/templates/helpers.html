@@ -1,5 +1,14 @@
-<%def name="get_attr(obj, key)">\
-${obj[key] if obj and key in obj and obj[key] is not None else ''}\
+<%!
+from c2corg_ui.templates.utils.format import parse_code
+%>
+
+<%def name="get_attr(obj, key, parse=False)">\
+<%
+    str = obj[key] if obj and key in obj and obj[key] is not None else ''
+    if str and parse:
+        str = parse_code(str)
+%>
+${str | n}\
 </%def>
 
 <%def name="add_pagination_links(module, documents, total, params)">\

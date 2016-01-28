@@ -57,6 +57,6 @@ module.value('mapFeatureCollection', {
   <li><span translate>Coordinates</span> : ${geometry4326.x} °E / ${geometry4326.y} °N</li>
   <li><span translate>maps_info</span> : ${get_attr(waypoint, 'maps_info')}</li>
   <li><span translate>summary</span> : ${get_attr(locale, 'summary')}</li>
-  <li><span translate>description</span> : ${get_attr(locale, 'description')}</li>
+  <li><span translate>description</span> : ${get_attr(locale, 'description', True)}</li>
 </ul>
 <app-map></app-map>

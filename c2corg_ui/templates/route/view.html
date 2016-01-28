@@ -32,7 +32,7 @@ other_cultures, missing_cultures = get_culture_lists(route, culture)
 <ul>
   <li><span translate>height_diff_up</span> : ${route['height_diff_up']} m</li>
   <li><span translate>summary</span> : ${get_attr(locale, 'summary')}</li>
-  <li><span translate>description</span> : ${get_attr(locale, 'description')}</li>
+  <li><span translate>description</span> : ${get_attr(locale, 'description', True)}</li>
   <li><span translate>gear</span> : ${get_attr(locale, 'gear')}</li>
 </ul>
 <app-map></app-map>
