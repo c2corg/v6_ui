@@ -1,5 +1,9 @@
-from bbcode import render_html
+import bbcode
+import markdown
 
 
 def parse_code(text):
-    return render_html(text)
+    text = markdown.markdown(text)
+    bbcode_parser = bbcode.Parser(escape_html=False, newline='\n')
+    text = bbcode_parser.format(text)
+    return text
