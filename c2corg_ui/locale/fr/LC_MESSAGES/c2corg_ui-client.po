@@ -14,6 +14,10 @@ msgstr "Ajouter un itinéraire"
 msgid "Add a waypoint"
 msgstr "Ajouter un point de passage"
 
+#: c2corg_ui/templates/waypoint/filters.html
+msgid "Around"
+msgstr "Autour de"
+
 #: c2corg_ui/templates/auth.html
 msgid "Authentication"
 msgstr "Connexion"
@@ -59,10 +63,6 @@ msgstr "Création d'un itinéraire"
 msgid "Creating a waypoint"
 msgstr "Création d'un point de passage"
 
-#: c2corg_ui/templates/waypoint/edit.html
-msgid "Culture"
-msgstr "Langue"
-
 #: c2corg_ui/templates/route/edit.html
 msgid "Describe here the gear needed for this route"
 msgstr "Indiquez ici le matériel nécessaire pour cet itinéraire."
@@ -95,6 +95,10 @@ msgstr "Début"
 msgid "Forgotten password?"
 msgstr "Mot de passe oublié ?"
 
+#: c2corg_ui/templates/waypoint/filters.html
+msgid "Georeferenced"
+msgstr "Géoréferencé"
+
 #: c2corg_ui/templates/route/view.html c2corg_ui/templates/waypoint/view.html
 msgid "History"
 msgstr "Versions"
@@ -114,6 +118,10 @@ msgstr "Latitude"
 #: c2corg_ui/templates/document/diff.html
 msgid "Legend:"
 msgstr "Légende :"
+
+#: c2corg_ui/templates/waypoint/filters.html
+msgid "Less Filters"
+msgstr ""
 
 #: c2corg_ui/templates/document/history.html
 msgid "List of versions for language:"
@@ -135,9 +143,25 @@ msgstr "Se déconnecter"
 msgid "Longitude"
 msgstr "Longitude"
 
+#: c2corg_ui/templates/waypoint/filters.html
+msgid "More Filters"
+msgstr ""
+
+#: c2corg_ui/static/partials/user.html
+msgid "My account"
+msgstr "Mon compte"
+
+#: c2corg_ui/templates/waypoint/filters.html
+msgid "My position"
+msgstr "Ma position"
+
 #: c2corg_ui/templates/helpers.html
 msgid "Next"
 msgstr "Suivant"
+
+#: c2corg_ui/templates/waypoint/filters.html
+msgid "No"
+msgstr "Non"
 
 #: c2corg_ui/templates/auth.html
 msgid "No account yet?"
@@ -146,6 +170,10 @@ msgstr "Pas encore de compte ?"
 #: c2corg_ui/templates/auth.html
 msgid "Password"
 msgstr "Mot de passe"
+
+#: c2corg_ui/templates/waypoint/filters.html
+msgid "Place"
+msgstr "Endroit"
 
 #: c2corg_ui/templates/helpers.html
 msgid "Previous"
@@ -185,6 +213,10 @@ msgstr "Rechercher ..."
 msgid "See the latest version"
 msgstr "Voir la dernière version"
 
+#: c2corg_ui/templates/waypoint/filters.html
+msgid "Select"
+msgstr "Sélectionner"
+
 #: c2corg_ui/templates/route/edit.html c2corg_ui/templates/waypoint/edit.html
 msgid "Short description of the applied changes"
 msgstr "Courte description des changements appliqués"
@@ -195,8 +227,24 @@ msgid "This field is required."
 msgstr "Ce champ est obligatoire."
 
 #: c2corg_ui/templates/route/edit.html c2corg_ui/templates/waypoint/edit.html
-msgid "Title is too short."
-msgstr ""
+msgid "This field must be a number."
+msgstr "Ce champ doit être un nombre."
+
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "This field must be between -180° and 180°."
+msgstr "Ce champ doit être compris entre -180° et 180°."
+
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "This field must be between -90° and 90°."
+msgstr "Ce champ doit être compris entre -90° and 90°.."
+
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "This field must be smaller than 9999 m."
+msgstr "Ce champ doit être inférieur à 9999m."
+
+#: c2corg_ui/templates/route/edit.html c2corg_ui/templates/waypoint/edit.html
+msgid "Title must have at least 3 characters."
+msgstr "Le titre doit comporter au moins 3 caractères."
 
 #: c2corg_ui/templates/helpers.html
 msgid "Translate into an other culture:"
@@ -230,6 +278,10 @@ msgstr "Bienvenue"
 msgid "Welcome to Camptocamp.org"
 msgstr "Bienvenue sur Camptocamp.org"
 
+#: c2corg_ui/templates/waypoint/filters.html
+msgid "Yes"
+msgstr "Oui"
+
 #: c2corg_ui/templates/helpers.html
 msgid "You are viewing an archived version of this document."
 msgstr "Vous consultez une ancienne version de ce document."
@@ -239,6 +291,7 @@ msgid "access"
 msgstr "accès"
 
 #: c2corg_ui/templates/route/edit.html
+#: c2corg_ui/templates/waypoint/filters.html
 msgid "activities"
 msgstr "Activités"
 
@@ -295,6 +348,8 @@ msgid "confluence"
 msgstr "confluent"
 
 #: c2corg_ui/templates/route/edit.html c2corg_ui/templates/route/view.html
+#: c2corg_ui/templates/waypoint/edit.html
+#: c2corg_ui/templates/waypoint/filters.html
 #: c2corg_ui/templates/waypoint/view.html
 msgid "culture"
 msgstr "Langue"
@@ -310,6 +365,7 @@ msgid "description"
 msgstr "Description"
 
 #: c2corg_ui/templates/waypoint/edit.html
+#: c2corg_ui/templates/waypoint/filters.html
 #: c2corg_ui/templates/waypoint/view.html
 msgid "elevation"
 msgstr "Altitude"
@@ -355,6 +411,7 @@ msgid "green"
 msgstr ""
 
 #: c2corg_ui/templates/route/edit.html c2corg_ui/templates/route/view.html
+#: c2corg_ui/templates/waypoint/filters.html
 msgid "height_diff_up"
 msgstr "Dénivelé"
 
@@ -481,7 +538,7 @@ msgstr "raquette"
 msgid "summary"
 msgstr "Résumé"
 
-#: c2corg_ui/templates/i18n.html
+#: c2corg_ui/templates/i18n.html c2corg_ui/templates/waypoint/filters.html
 msgid "summit"
 msgstr "sommet"
 
@@ -520,12 +577,3 @@ msgstr "station météo"
 #: c2corg_ui/templates/i18n.html
 msgid "webcam"
 msgstr "webcam"
-
-msgid "This field must be a number."
-msgstr "Ce champ doit être un nombre."
-
-msgid "This field must be smaller than 9999 m."
-msgstr "Ce champ doit être inférieur à 9999m."
-
-msgid "Title must have at least 3 characters."
-msgstr "Le titre doit comporter au moins 3 caractères."

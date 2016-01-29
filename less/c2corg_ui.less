@@ -9,6 +9,7 @@
 @tablet: ~"only screen and (min-width: 620px) and (max-width: 1099px)";
 @phone: ~"only screen and (min-width: 130px) and (max-width: 619px)";
 @lightgrey: #F0F0F0;
+@C2C-orange: #F7931D;
 
 html, body{
   min-height: 100%;
@@ -24,24 +25,129 @@ html, body{
 }
 
 .filters {
-  display: block;
-  overflow: auto;
-  padding: 0 4% 2% 4%;
+  text-align: center;
+  background-color: white;
   
-  
-  input {
-    margin-bottom: 1%;
-  }
-  .form-group {
-    display: flex;
-    align-items: center;
-  }
-}
+  #moreFilters {
+    z-index: 2;
+    position: absolute;
+    background-color: white;
+    width: 103%;
+    box-shadow: 0 14px 14px -14px #332;
+    -webkit-box-shadow:  0 14px 14px -14px #332;
+    -moz-box-shadow:     0 14px 14px -14px #332;
 
+    .less-filters-btn {
+      float: right;
+      margin-right: 20px;
+      top: 7px;
+      position: relative;
+    }
+    .search-filters-btn {
+      margin-left: 40px;
+      .glyphicon-search {
+        color: @C2C-orange;
+      }
+    }
+  }
+  .row {
+    padding: 0 2% 1% 2%;
+  }
+  .filter {
+    margin-bottom: 1%;
+    @media @phone {
+      padding: 0 8% 2% 8%;
+    }
+  }
+  .caret {
+    color: @C2C-orange;
+  }
+  .slider-min-max {
+    margin-left: -216px;
+    top: 25px;
+    position: relative;
+    display: inline-flex;
+  }
+  .min-value {
+    width: 160px;
+    text-align: left;
+  }
+  .slider-handle {
+    background-image: none;
+    background-color: @C2C-orange;
+  }
+  .slider-selection {
+    background: #BABABA;
+  }
+  .dropdown-toggle {
+    width: 100%;
+    .activity {
+      margin-left: 30px;
+    }
+    p {
+      margin: 0;
+    }
+    label {
+      font-family: inherit;
+    }
+  }
+ 
+  .multiselect-box {
+    
+    -webkit-columns: 2;
+    -moz-columns: 2;
+    columns: 2;
+    -webkit-column-gap: 4px;
+    -moz-column-gap: 4px;
+    column-gap: 4px;
+    -webkit-column-rule: 2px outset #CCC; /* Chrome, Safari, Opera */
+    -moz-column-rule: 2px outset #CCC; /* Firefox */
+    column-rule: 2px outset #CCC;
+    padding: 2%;
+    
+    @media @phone {
+     -webkit-columns: inherit;
+     -moz-columns: inherit;
+      overflow-x: hidden;
+      overflow-y: auto;
+      max-height : 250px;
+      width: 90%;
+      margin-left: 5%;
+    }
+    @media (min-width: @screen-xs-min){ /*bootstrap-defined*/
+      width: 95%;
+      margin-left: 5%;
+    }
+    @media (min-width: @screen-sm-min){ /*bootstrap-defined*/
+      width: auto;
+    }
+    @media (min-width: @screen-md-min){
+      width: auto;
+    }
+    span {
+      margin-left: 8px;
+      padding-right: 2%;
+      @media @phone {
+        margin-left: 5px;
+      }
+    }
+    a {
+      padding-left: 5%;
+      padding-right: 14px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+  }
+} /*filters */
+
+.option-selected {
+  background-color: #f7931d !important;
+  color: white !important;
+  transition: 0.3s;
+}
 h1 {
   font-size: 3em;
 }
-
 
 .form-control-feedback {
     position: relative;
@@ -90,12 +196,12 @@ h1 {
   }
 }
 
-.document-editing  {
+.document-editing {
   width: 70%;
   margin: auto;
 }
 
-.document-editing  {
+.document-editing {
   width: 70%;
   margin: auto;
 }
@@ -188,18 +294,18 @@ h1 {
     padding: 5%;
     display: block;
     transition: 0.2s;
-    
+
     .list-item-culture {
       opacity: 0.9;
       color: graytext;
       font-weight: normal;
     }
-    
+
     &:hover {
      text-decoration: none;
      color : #DB7D00;
     }
-    
+
     &:hover .list-item-title {
       text-decoration: underline;
     }
@@ -238,7 +344,7 @@ h3 {
       }
   }
    margin-left: 60%;
-   
+
    @media @tablet {
      margin-left: 55%;
    }
@@ -256,7 +362,7 @@ h3 {
   @media @tablet{
     width: 55%;
   }
-  
+
   @media @phone {
     width: 100%;
     float:none;
@@ -265,21 +371,21 @@ h3 {
 .tt-hint {
   z-index : -2;
 }
-.glyphicon-search{
+#search-icon {
   font-size: 1.8em;
   margin-right: 8px;
   margin-top: 5px;
-  
+
   @media @phone {
     cursor: pointer;
-/*    hover triggers the search input to appear in search.JS*/
+/*hover triggers the search input to appear in search.JS*/
   }
 }
 
-.login-text, .caret {
+.login-text {
   margin-bottom: 0;
   @media @phone {
-      display: none;
+    display: none;
   }
 }
 
@@ -289,12 +395,18 @@ h3 {
 
 app-user{
   text-align: center;
-  
+
   .login-out-button {
     span { 
       @media @phone {
         display: none;
   /*      shows no text on @phone, adds '.glyphicon-user' icon instead in user.js*/
+      }
+     }
+    }
+    .caret {
+      @media @phone {
+        display: none;
       }
     }
   }
@@ -303,19 +415,17 @@ app-user{
       display: none;
     }
   }
-}
 
 .show-search {
   -webkit-transition: all .5s ease-in-out !important;
   -moz-transition: all .5s ease-in-out !important;
   -o-transition: all .5s ease-in-out !important;
   transition: all .5s ease-in-out !important;
-  width: 163px !important;
+  width: 160px !important;
   visibility: visible !important;
   padding: 8px !important;
 }
 
-  
 #search {
   background-color: white !important;
   width : 103px;
@@ -356,7 +466,7 @@ app-lang{
 
 app-user {
   text-align: center;
-  
+
   .dropdown-toggle {
     min-height: 33px;
     align-items: center;
@@ -367,7 +477,7 @@ app-search {
   display: flex;
   display: -ms-flexbox;
   right: 0;
-  
+
   @media @phone {
     width: 40px;
   }
@@ -376,20 +486,20 @@ app-search {
 .page-header {
   position: absolute;
   top: 5px;
-  right: 15px;
+  right: -25px;
   margin-top: 10px !important;
   border: 0;
   display: flex;
   display: -ms-flexbox;
-  
+
   @media @phone {
-    margin-right: 0;
+    margin-right: -15px;
   }
 
   .quick-search {
     rigth: 0;
     position: relative;
-    
+
     @media @phone {
       z-index: 10;
     }

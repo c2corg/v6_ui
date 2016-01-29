@@ -16,10 +16,12 @@ closure_library_path = settings.get('closure_library_path')
     <%block name="metarobots"><meta name="robots" content="index,follow"></%block>
 % if debug:
     <link rel="stylesheet" href="${request.static_url('%s/bootstrap/dist/css/bootstrap.css' % node_modules_path)}" type="text/css">
+    <link rel="stylesheet" href="${request.static_url('%s/bootstrap-slider/dist/css/bootstrap-slider.css' % node_modules_path)}" type="text/css">
     <link rel="stylesheet" href="${request.static_url('c2corg_ui:static/build/build.css')}" type="text/css">
 % else:
     ## FIXME add version to links?
     <link rel="stylesheet" href="${request.static_url('%s/bootstrap/dist/css/bootstrap.min.css' % node_modules_path)}" type="text/css">
+    <link rel="stylesheet" href="${request.static_url('%s/bootstrap-slider/dist/css/bootstrap-slider.css' % node_modules_path)}" type="text/css">
     <link rel="stylesheet" href="${request.static_url('c2corg_ui:static/build/build.min.css')}" type="text/css">
 % endif
   </head>
@@ -63,6 +65,7 @@ closure_library_path = settings.get('closure_library_path')
     <script src="${request.static_url('%s/jquery/dist/jquery.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/angular/angular.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/bootstrap/dist/js/bootstrap.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%s/bootstrap-slider/dist/bootstrap-slider.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/angular-gettext/dist/angular-gettext.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/angular-messages/angular-messages.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/angular-cookies/angular-cookies.js' % node_modules_path)}"></script>
@@ -72,6 +75,7 @@ closure_library_path = settings.get('closure_library_path')
     <script src="${request.static_url('c2corg_ui:static/js/main.js')}"></script>
 % else:
     <script src="${request.static_url('%s/jquery/dist/jquery.min.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%s/bootstrap-slider/dist/bootstrap-slider.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/angular/angular.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/bootstrap/dist/js/bootstrap.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/angular-gettext/dist/angular-gettext.min.js' % node_modules_path)}"></script>
