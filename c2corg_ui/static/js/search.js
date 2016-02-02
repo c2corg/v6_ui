@@ -180,7 +180,9 @@ app.SearchController.prototype.createAndInitBloodhound_ = function(type) {
 
         return documents.map(function(/** appx.SearchDocument */ doc) {
           var locale = doc.locales[0];
-          doc.label = locale.title;
+          doc.label = type === 'routes' && locale.title_prefix ?
+              locale.title_prefix + ' : ' : '';
+          doc.label += locale.title;
 
           if (currentCulture !== locale.culture) {
             doc.label += ' (' + locale.culture + ')';
