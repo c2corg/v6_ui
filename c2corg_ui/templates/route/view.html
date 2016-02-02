@@ -2,13 +2,13 @@
 from c2corg_ui.templates.utils import get_culture_lists
 %>\
 <%inherit file="../base.html"/>
-<%namespace file="../helpers.html" import="get_attr, show_archive_data, show_other_cultures_links, show_missing_cultures_links"/>
+<%namespace file="../helpers.html" import="get_attr, show_archive_data, show_other_cultures_links, show_missing_cultures_links, show_route_title"/>
 <%
 route_id = route['document_id']
 other_cultures, missing_cultures = get_culture_lists(route, culture)
 %>\
 <%block name="pagelang">lang="${culture}"</%block>\
-<%block name="pagetitle">${locale['title']}</%block>\
+<%block name="pagetitle">${show_route_title(locale)}</%block>\
 <%block name="metarobots">\
   % if version:
 <meta name="robots" content="noindex,follow">\

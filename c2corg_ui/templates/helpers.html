@@ -72,3 +72,13 @@ ${obj[key] if obj and key in obj and obj[key] is not None else ''}\
   % endfor
 % endif
 </%def>
+
+<%def name="show_route_title(locale)">\
+<%
+    title = ''
+    if 'title_prefix' in locale and locale['title_prefix']:
+        title = locale['title_prefix'] + ' : '
+    title += locale['title']
+%>
+${title}
+</%def>

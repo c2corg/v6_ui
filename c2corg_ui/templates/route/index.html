@@ -1,5 +1,5 @@
 <%inherit file="../base.html"/>
-<%namespace file="../helpers.html" import="get_attr, add_pagination_links"/>
+<%namespace file="../helpers.html" import="get_attr, add_pagination_links, show_route_title"/>
 <%block name="pagetitle">{{'Routes' | translate}}</%block>
 <%block name="metarobots"><meta name="robots" content="noindex,follow"></%block>\
 
@@ -20,7 +20,7 @@
       <% locale = route['locales'][0] %>\
       <div class="list-item">
         <a href="${request.route_url('routes_view', id=route['document_id'], culture=locale['culture'])}">
-          <span class="list-item-title">${locale['title']}</span>
+          <span class="list-item-title">${show_route_title(locale)}</span>
           % if lang != locale['culture']:
           <span class="list-item-culture"> (${locale['culture']}) </span>
           <br>
