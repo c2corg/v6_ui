@@ -17,6 +17,10 @@ msgstr ""
 msgid "Add a waypoint"
 msgstr ""
 
+#: c2corg_ui/templates/route/view.html c2corg_ui/templates/waypoint/view.html
+msgid "Add to favorites"
+msgstr ""
+
 #: c2corg_ui/templates/waypoint/filters.html
 msgid "Around"
 msgstr ""
@@ -48,10 +52,6 @@ msgstr ""
 
 #: c2corg_ui/templates/document/history.html
 msgid "Compare selected versions"
-msgstr ""
-
-#: c2corg_ui/templates/waypoint/view.html
-msgid "Coordinates"
 msgstr ""
 
 #: c2corg_ui/templates/document/history.html
@@ -138,7 +138,7 @@ msgstr ""
 msgid "Georeferenced"
 msgstr ""
 
-#: c2corg_ui/templates/route/view.html c2corg_ui/templates/waypoint/view.html
+#: c2corg_ui/templates/waypoint/view.html
 msgid "History"
 msgstr ""
 
@@ -202,6 +202,10 @@ msgstr ""
 msgid "No account yet?"
 msgstr ""
 
+#: c2corg_ui/templates/document/diff.html
+msgid "No content changes."
+msgstr ""
+
 #: c2corg_ui/templates/auth.html
 msgid "Password"
 msgstr ""
@@ -239,9 +243,7 @@ msgid "Save"
 msgstr "Speichern"
 
 #: c2corg_ui/templates/waypoint/filters.html
-msgid ""
-"Search \n"
-"        <span class=\"glyphicon glyphicon-search\"></span>"
+msgid "Search"
 msgstr ""
 
 #: c2corg_ui/static/partials/search.html
@@ -286,7 +288,7 @@ msgid "Title must have at least 3 characters."
 msgstr ""
 
 #: c2corg_ui/templates/helpers.html
-msgid "Translate into an other culture:"
+msgid "Translate into an other culture"
 msgstr ""
 
 #: c2corg_ui/templates/auth.html
@@ -302,7 +304,7 @@ msgid "Version 2 in"
 msgstr ""
 
 #: c2corg_ui/templates/helpers.html
-msgid "View in other culture:"
+msgid "View in other culture"
 msgstr ""
 
 #: c2corg_ui/templates/base.html c2corg_ui/templates/waypoint/index.html
@@ -386,10 +388,12 @@ msgstr ""
 msgid "confluence"
 msgstr ""
 
-#: c2corg_ui/templates/route/edit.html c2corg_ui/templates/route/view.html
-#: c2corg_ui/templates/waypoint/edit.html
-#: c2corg_ui/templates/waypoint/filters.html
 #: c2corg_ui/templates/waypoint/view.html
+msgid "coordinates"
+msgstr ""
+
+#: c2corg_ui/templates/route/edit.html c2corg_ui/templates/waypoint/edit.html
+#: c2corg_ui/templates/waypoint/filters.html
 msgid "culture"
 msgstr ""
 
@@ -555,6 +559,10 @@ msgstr ""
 msgid "rock_climbing"
 msgstr ""
 
+#: c2corg_ui/templates/route/view.html
+msgid "route"
+msgstr ""
+
 #: c2corg_ui/templates/route/edit.html
 msgid "route_types"
 msgstr ""
@@ -577,7 +585,6 @@ msgstr ""
 
 #: c2corg_ui/templates/i18n.html c2corg_ui/templates/route/edit.html
 #: c2corg_ui/templates/route/view.html c2corg_ui/templates/waypoint/edit.html
-#: c2corg_ui/templates/waypoint/view.html
 msgid "summary"
 msgstr ""
 
@@ -611,6 +618,10 @@ msgstr ""
 
 #: c2corg_ui/templates/i18n.html
 msgid "waterpoint"
+msgstr ""
+
+#: c2corg_ui/templates/waypoint/view.html
+msgid "waypoint"
 msgstr ""
 
 #: c2corg_ui/templates/waypoint/edit.html
