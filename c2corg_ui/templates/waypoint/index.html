@@ -37,8 +37,8 @@ module.value('mapFeatureCollection', {
 });
 % endif
 </%block>\
-
 <div class="text-center"><h3 ng-init="nbItems = ${total}">${self.pagetitle()} ({{nbItems}}) </h3></div class="text-center">
+<%include file="filters.html" />
 <section id="waypoints-section">
   <div class="add-waypoint text-center">
     <app-edit-button app-edit-button-url="${request.route_url('waypoints_add')}">

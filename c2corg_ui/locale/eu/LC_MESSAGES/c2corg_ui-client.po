@@ -16,6 +16,10 @@ msgstr ""
 msgid "Add a waypoint"
 msgstr ""
 
+#: c2corg_ui/templates/waypoint/filters.html
+msgid "Around"
+msgstr ""
+
 #: c2corg_ui/templates/auth.html
 msgid "Authentication"
 msgstr ""
@@ -61,10 +65,6 @@ msgstr ""
 msgid "Creating a waypoint"
 msgstr ""
 
-#: c2corg_ui/templates/waypoint/edit.html
-msgid "Culture"
-msgstr ""
-
 #: c2corg_ui/templates/route/edit.html
 msgid "Describe here the gear needed for this route"
 msgstr ""
@@ -85,14 +85,6 @@ msgstr ""
 msgid "Editing a waypoint"
 msgstr ""
 
-#: c2corg_ui/templates/waypoint/edit.html
-msgid "Elevation must be a number."
-msgstr ""
-
-#: c2corg_ui/templates/waypoint/edit.html
-msgid "Elevation must be smaller than 9999 m."
-msgstr ""
-
 #: c2corg_ui/templates/auth.html
 msgid "Email"
 msgstr ""
@@ -105,8 +97,8 @@ msgstr ""
 msgid "Forgotten password?"
 msgstr ""
 
-#: c2corg_ui/templates/route/edit.html
-msgid "Height difference up must be a number."
+#: c2corg_ui/templates/waypoint/filters.html
+msgid "Georeferenced"
 msgstr ""
 
 #: c2corg_ui/templates/route/view.html c2corg_ui/templates/waypoint/view.html
@@ -125,16 +117,12 @@ msgstr ""
 msgid "Latitude"
 msgstr ""
 
-#: c2corg_ui/templates/waypoint/edit.html
-msgid "Latitude  must be a number."
-msgstr ""
-
-#: c2corg_ui/templates/waypoint/edit.html
-msgid "Latitude must be between -90° and 90°."
-msgstr ""
-
 #: c2corg_ui/templates/document/diff.html
 msgid "Legend:"
+msgstr ""
+
+#: c2corg_ui/templates/waypoint/filters.html
+msgid "Less Filters"
 msgstr ""
 
 #: c2corg_ui/templates/document/history.html
@@ -157,16 +145,24 @@ msgstr ""
 msgid "Longitude"
 msgstr ""
 
-#: c2corg_ui/templates/waypoint/edit.html
-msgid "Longitude must be a number."
+#: c2corg_ui/templates/waypoint/filters.html
+msgid "More Filters"
 msgstr ""
 
-#: c2corg_ui/templates/waypoint/edit.html
-msgid "Longitude must be between -180° and 180°."
+#: c2corg_ui/static/partials/user.html
+msgid "My account"
+msgstr ""
+
+#: c2corg_ui/templates/waypoint/filters.html
+msgid "My position"
 msgstr ""
 
 #: c2corg_ui/templates/helpers.html
 msgid "Next"
+msgstr ""
+
+#: c2corg_ui/templates/waypoint/filters.html
+msgid "No"
 msgstr ""
 
 #: c2corg_ui/templates/auth.html
@@ -175,6 +171,10 @@ msgstr ""
 
 #: c2corg_ui/templates/auth.html
 msgid "Password"
+msgstr ""
+
+#: c2corg_ui/templates/waypoint/filters.html
+msgid "Place"
 msgstr ""
 
 #: c2corg_ui/templates/helpers.html
@@ -213,6 +213,10 @@ msgstr "Bilatu ..."
 msgid "See the latest version"
 msgstr ""
 
+#: c2corg_ui/templates/waypoint/filters.html
+msgid "Select"
+msgstr ""
+
 #: c2corg_ui/templates/route/edit.html c2corg_ui/templates/waypoint/edit.html
 msgid "Short description of the applied changes"
 msgstr ""
@@ -223,7 +227,23 @@ msgid "This field is required."
 msgstr ""
 
 #: c2corg_ui/templates/route/edit.html c2corg_ui/templates/waypoint/edit.html
-msgid "Title is too short."
+msgid "This field must be a number."
+msgstr ""
+
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "This field must be between -180° and 180°."
+msgstr ""
+
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "This field must be between -90° and 90°."
+msgstr ""
+
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "This field must be smaller than 9999 m."
+msgstr ""
+
+#: c2corg_ui/templates/route/edit.html c2corg_ui/templates/waypoint/edit.html
+msgid "Title must have at least 3 characters."
 msgstr ""
 
 #: c2corg_ui/templates/helpers.html
@@ -258,6 +278,10 @@ msgstr ""
 msgid "Welcome to Camptocamp.org"
 msgstr "Ongi etorri Camptocamp.org-era!"
 
+#: c2corg_ui/templates/waypoint/filters.html
+msgid "Yes"
+msgstr ""
+
 #: c2corg_ui/templates/helpers.html
 msgid "You are viewing an archived version of this document."
 msgstr ""
@@ -267,6 +291,7 @@ msgid "access"
 msgstr ""
 
 #: c2corg_ui/templates/route/edit.html
+#: c2corg_ui/templates/waypoint/filters.html
 msgid "activities"
 msgstr ""
 
@@ -323,6 +348,8 @@ msgid "confluence"
 msgstr ""
 
 #: c2corg_ui/templates/route/edit.html c2corg_ui/templates/route/view.html
+#: c2corg_ui/templates/waypoint/edit.html
+#: c2corg_ui/templates/waypoint/filters.html
 #: c2corg_ui/templates/waypoint/view.html
 msgid "culture"
 msgstr ""
@@ -338,6 +365,7 @@ msgid "description"
 msgstr ""
 
 #: c2corg_ui/templates/waypoint/edit.html
+#: c2corg_ui/templates/waypoint/filters.html
 #: c2corg_ui/templates/waypoint/view.html
 msgid "elevation"
 msgstr ""
@@ -383,6 +411,7 @@ msgid "green"
 msgstr ""
 
 #: c2corg_ui/templates/route/edit.html c2corg_ui/templates/route/view.html
+#: c2corg_ui/templates/waypoint/filters.html
 msgid "height_diff_up"
 msgstr ""
 
@@ -509,7 +538,7 @@ msgstr ""
 msgid "summary"
 msgstr ""
 
-#: c2corg_ui/templates/i18n.html
+#: c2corg_ui/templates/i18n.html c2corg_ui/templates/waypoint/filters.html
 msgid "summit"
 msgstr ""
 
