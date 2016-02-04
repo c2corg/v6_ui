@@ -1,5 +1,5 @@
 <%inherit file="../base.html"/>
-<%namespace file="../helpers.html" import="get_attr, add_pagination_links"/>
+<%namespace file="../helpers.html" import="show_attr, add_pagination_links"/>
 <%block name="pagetitle">{{'Waypoints' | translate}}</%block>\
 <%block name="metarobots"><meta name="robots" content="noindex,follow"></%block>\
 
@@ -37,7 +37,7 @@ module.value('mapFeatureCollection', {
 });
 % endif
 </%block>\
-<div class="text-center"><h3 ng-init="nbItems = ${total}">${self.pagetitle()} ({{nbItems}}) </h3></div class="text-center">
+<div class="text-center"><h3 ng-init="nbItems = ${total}">${self.pagetitle()} ({{nbItems}})</h3></div class="text-center">
 <%include file="filters.html" />
 <section id="waypoints-section">
   <div class="add-waypoint text-center">
@@ -53,7 +53,7 @@ module.value('mapFeatureCollection', {
       <% locale = waypoint['locales'][0] %>\
       <div class="list-item">
         <a href="${request.route_url('waypoints_view', id=waypoint['document_id'], culture=locale['culture'])}">
-          <span class="list-item-title ">${locale['title']}</span>
+          <span class="list-item-title ">${show_attr(locale, 'title', False)}</span>
           % if lang != locale['culture']:
           <span class="list-item-culture">(${locale['culture']})</span>
           <br>
@@ -63,9 +63,9 @@ module.value('mapFeatureCollection', {
             <span class="list-item-elevation">Elevation: ${waypoint['elevation']} m</span>
           % endif
             <span>
-              <p><img alt="waypoint type" src="${request.static_url('c2corg_ui:static/img/icons/' + waypoint['waypoint_type'] + '.png')}"> {{mainCtrl.translate('${waypoint['waypoint_type']}')}}</p>
+              <p><img alt="waypoint type" src="${request.static_url('c2corg_ui:static/img/icons/' + waypoint['waypoint_type'] + '.png')}">{{mainCtrl.translate('${waypoint['waypoint_type']}')}}</p>
             </span>
-            <p class="text-justify">${locale['summary']}</p>
+            <p class="text-justify">${show_attr(locale, 'summary')}</p>
           </div>
         </a>
       </div>

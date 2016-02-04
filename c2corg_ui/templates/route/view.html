@@ -2,7 +2,7 @@
 from c2corg_ui.templates.utils import get_culture_lists
 %>\
 <%inherit file="../base.html"/>
-<%namespace file="../helpers.html" import="get_attr, show_archive_data, show_other_cultures_links, show_missing_cultures_links, show_route_title"/>
+<%namespace file="../helpers.html" import="show_attr, show_archive_data, show_other_cultures_links, show_missing_cultures_links, show_route_title"/>
 <%
 route_id = route['document_id']
 other_cultures, missing_cultures = get_culture_lists(route, culture)
@@ -31,8 +31,8 @@ other_cultures, missing_cultures = get_culture_lists(route, culture)
 <app-edit-button app-edit-button-url="${request.route_url('routes_edit', id=route_id, culture=culture)}"><translate>Edit</translate></app-edit-button>
 <ul>
   <li><span translate>height_diff_up</span> : ${route['height_diff_up']} m</li>
-  <li><span translate>summary</span> : ${get_attr(locale, 'summary')}</li>
-  <li><span translate>description</span> : ${get_attr(locale, 'description', True)}</li>
-  <li><span translate>gear</span> : ${get_attr(locale, 'gear')}</li>
+  <li><span translate>summary</span> : ${show_attr(locale, 'summary')}</li>
+  <li><span translate>description</span> : ${show_attr(locale, 'description')}</li>
+  <li><span translate>gear</span> : ${show_attr(locale, 'gear')}</li>
 </ul>
 <app-map></app-map>

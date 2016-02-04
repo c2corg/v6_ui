@@ -1,5 +1,5 @@
 <%inherit file="../base.html"/>
-<%namespace file="../helpers.html" import="get_attr"/>
+<%namespace file="../helpers.html" import="show_version_comment"/>
 <%block name="pagelang">lang="${culture}"</%block>\
 <%block name="pagetitle">${title}</%block>\
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>\
@@ -49,7 +49,7 @@
         %>
         <td><a href="${version_url}">{{'${1000 * v['written_at']}' | date:'medium'}}</a></td>
         <td><a href="#TODO profile for ${v['user_id']}">${v['username']}</a></td>
-        <td>${v['comment']}</td>
+        <td>${show_version_comment(v)}</td>
       </tr>
     % endfor
   </table>

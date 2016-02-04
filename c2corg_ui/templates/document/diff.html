@@ -1,5 +1,5 @@
 <%inherit file="../base.html"/>
-<%namespace file="../helpers.html" import="get_attr"/>
+<%namespace file="../helpers.html" import="show_version_comment"/>
 <%block name="pagelang">lang="${culture}"</%block>
 <%block name="pagetitle">${title}</%block>
 
@@ -13,7 +13,7 @@
             version=version1['version_id'])}"><span translate>Revision as of</span> {{'${1000 * version1['written_at']}' | date:'medium'}}</a><br/>
       <span translate>by</span> <a href="#TODO profile for ${version1['user_id']}">${version1['username']}</a>
       % if version1['comment']:
-        <br/><span class="revision-comment">(${version1['comment']})</span>
+        <br/><span class="revision-comment">(${show_version_comment(version1)})</span>
       % endif
       % if previous_version_id:
         <br/><a href="${request.route_url(
@@ -27,7 +27,7 @@
             version=version2['version_id'])}"><span translate>Revision as of</span> {{'${1000 * version2['written_at']}' | date:'medium'}}</a><br/>
       <span translate>by</span> <a href="#TODO profile for ${version2['user_id']}">${version2['username']}</a>
       % if version2['comment']:
-        <br/><span class="revision-comment">(${version2['comment']})</span>
+        <br/><span class="revision-comment">(${show_version_comment(version2)})</span>
       % endif
       % if next_version_id:
         <br/><a href="${request.route_url(
@@ -39,7 +39,7 @@
 </table>
 
 % if not diffs:
-  <p class="bg-info">No content changes.</p>
+  <p class="bg-info" translate>No content changes.</p>
 % else:
   % for field_diff in diffs:
     <h3>{{mainCtrl.translate('${field_diff.field}')}}</h3>
@@ -60,7 +60,7 @@
     </%block>\
     <app-diff-map></app-diff-map>
     <p class="diff-map-legend">
-      <span translate>Legend:</span> <span translate>Version 1 in </span> <span class="diff-red" translate="">red</span>,
+      <span translate>Legend:</span> <span translate>Version 1 in </span> <span class="diff-red" translate>red</span>,
       <span translate>Version 2 in</span> <span class="diff-green" translate>green</span>
     </p>
     % else:
