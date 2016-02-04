@@ -1,12 +1,13 @@
 <%!
-from c2corg_ui.templates.utils.format import parse_code
+from c2corg_ui.templates.utils.format import parse_code, sanitize
 %>
 
 <%def name="get_attr(obj, key, parse=False)">\
 <%
     str = obj[key] if obj and key in obj and obj[key] is not None else ''
-    if str and parse:
-        str = parse_code(str)
+    if str:
+        str = sanitize(str)
+        str = parse_code(str) if parse else str
 %>
 ${str | n}\
 </%def>
@@ -89,5 +90,5 @@ ${str | n}\
         title = locale['title_prefix'] + ' : '
     title += locale['title']
 %>
-${title}
+${sanitize(title)}
 </%def>
