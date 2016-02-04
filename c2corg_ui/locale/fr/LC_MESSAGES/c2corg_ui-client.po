@@ -71,9 +71,45 @@ msgstr "Indiquez ici le matériel nécessaire pour cet itinéraire."
 msgid "Describe here the waypoint"
 msgstr "Décrivez ici l'itinéraire"
 
+#: c2corg_ui/templates/i18n.html
+msgid "Document has been deprotected"
+msgstr "Le document a été verrouillé."
+
+#: c2corg_ui/templates/i18n.html
+msgid "Document has been protected"
+msgstr "Le document a été déverrouillé."
+
 #: c2corg_ui/templates/route/view.html c2corg_ui/templates/waypoint/view.html
 msgid "Edit"
 msgstr "Modifier"
+
+#: c2corg_ui/templates/i18n.html
+msgid "Edit in ca"
+msgstr "Edition en catalan"
+
+#: c2corg_ui/templates/i18n.html
+msgid "Edit in de"
+msgstr "Edition en allemand"
+
+#: c2corg_ui/templates/i18n.html
+msgid "Edit in en"
+msgstr "Edition en anglais"
+
+#: c2corg_ui/templates/i18n.html
+msgid "Edit in es"
+msgstr "Edition en espagnol"
+
+#: c2corg_ui/templates/i18n.html
+msgid "Edit in eu"
+msgstr "Edition en basque"
+
+#: c2corg_ui/templates/i18n.html
+msgid "Edit in fr"
+msgstr "Edition en français"
+
+#: c2corg_ui/templates/i18n.html
+msgid "Edit in it"
+msgstr "Edition en italien"
 
 #: c2corg_ui/templates/route/edit.html
 msgid "Editing a route"
@@ -119,10 +155,6 @@ msgstr "Latitude"
 msgid "Legend:"
 msgstr "Légende :"
 
-#: c2corg_ui/templates/waypoint/filters.html
-msgid "Less Filters"
-msgstr ""
-
 #: c2corg_ui/templates/document/history.html
 msgid "List of versions for language:"
 msgstr "Liste des versions pour la langue :"
@@ -144,7 +176,7 @@ msgid "Longitude"
 msgstr "Longitude"
 
 #: c2corg_ui/templates/waypoint/filters.html
-msgid "More Filters"
+msgid "More filters"
 msgstr ""
 
 #: c2corg_ui/static/partials/user.html
@@ -317,7 +349,7 @@ msgstr "bivouac"
 
 #: c2corg_ui/templates/document/diff.html
 msgid "by"
-msgstr ""
+msgstr "par"
 
 #: c2corg_ui/templates/i18n.html
 msgid "ca"
@@ -408,7 +440,7 @@ msgstr "glacier"
 
 #: c2corg_ui/templates/document/diff.html
 msgid "green"
-msgstr ""
+msgstr "vert"
 
 #: c2corg_ui/templates/route/edit.html c2corg_ui/templates/route/view.html
 #: c2corg_ui/templates/waypoint/filters.html
@@ -426,6 +458,10 @@ msgstr "refuge/cabane"
 #: c2corg_ui/templates/i18n.html
 msgid "ice_climbing"
 msgstr "cascade de glace"
+
+#: c2corg_ui/templates/i18n.html
+msgid "imported from v4"
+msgstr "Importé du site v4"
 
 #: c2corg_ui/templates/i18n.html
 msgid "it"
@@ -470,7 +506,7 @@ msgstr "VTT"
 
 #: c2corg_ui/templates/document/diff.html
 msgid "next difference"
-msgstr "différence suivante →"
+msgstr "différence suivante"
 
 #: c2corg_ui/templates/i18n.html
 msgid "paragliding"
@@ -549,6 +585,10 @@ msgstr "Titre"
 #: c2corg_ui/templates/i18n.html
 msgid "traverse"
 msgstr "traversée"
+
+#: c2corg_ui/templates/waypoint/filters.html
+msgid "type"
+msgstr "type"
 
 #: c2corg_ui/templates/i18n.html
 msgid "via_ferrata"

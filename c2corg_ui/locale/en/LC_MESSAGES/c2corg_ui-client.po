@@ -74,9 +74,45 @@ msgstr "Describe here the gear needed for this route"
 msgid "Describe here the waypoint"
 msgstr "Describe here the waypoint"
 
+#: c2corg_ui/templates/i18n.html
+msgid "Document has been deprotected"
+msgstr ""
+
+#: c2corg_ui/templates/i18n.html
+msgid "Document has been protected"
+msgstr ""
+
 #: c2corg_ui/templates/route/view.html c2corg_ui/templates/waypoint/view.html
 msgid "Edit"
 msgstr "Edit"
+
+#: c2corg_ui/templates/i18n.html
+msgid "Edit in ca"
+msgstr ""
+
+#: c2corg_ui/templates/i18n.html
+msgid "Edit in de"
+msgstr ""
+
+#: c2corg_ui/templates/i18n.html
+msgid "Edit in en"
+msgstr ""
+
+#: c2corg_ui/templates/i18n.html
+msgid "Edit in es"
+msgstr ""
+
+#: c2corg_ui/templates/i18n.html
+msgid "Edit in eu"
+msgstr ""
+
+#: c2corg_ui/templates/i18n.html
+msgid "Edit in fr"
+msgstr ""
+
+#: c2corg_ui/templates/i18n.html
+msgid "Edit in it"
+msgstr ""
 
 #: c2corg_ui/templates/route/edit.html
 msgid "Editing a route"
@@ -122,10 +158,6 @@ msgstr "Latitude"
 msgid "Legend:"
 msgstr ""
 
-#: c2corg_ui/templates/waypoint/filters.html
-msgid "Less Filters"
-msgstr ""
-
 #: c2corg_ui/templates/document/history.html
 msgid "List of versions for language:"
 msgstr ""
@@ -147,7 +179,7 @@ msgid "Longitude"
 msgstr "Longitude"
 
 #: c2corg_ui/templates/waypoint/filters.html
-msgid "More Filters"
+msgid "More filters"
 msgstr ""
 
 #: c2corg_ui/static/partials/user.html
@@ -205,6 +237,12 @@ msgstr "Routes"
 #: c2corg_ui/templates/route/edit.html c2corg_ui/templates/waypoint/edit.html
 msgid "Save"
 msgstr "Save"
+
+#: c2corg_ui/templates/waypoint/filters.html
+msgid ""
+"Search \n"
+"        <span class=\"glyphicon glyphicon-search\"></span>"
+msgstr ""
 
 #: c2corg_ui/static/partials/search.html
 msgid "Search ..."
@@ -429,6 +467,10 @@ msgid "ice_climbing"
 msgstr "ice climbing"
 
 #: c2corg_ui/templates/i18n.html
+msgid "imported from v4"
+msgstr ""
+
+#: c2corg_ui/templates/i18n.html
 msgid "it"
 msgstr "italian"
 
@@ -550,6 +592,10 @@ msgstr "Title"
 #: c2corg_ui/templates/i18n.html
 msgid "traverse"
 msgstr "traverse"
+
+#: c2corg_ui/templates/waypoint/filters.html
+msgid "type"
+msgstr ""
 
 #: c2corg_ui/templates/i18n.html
 msgid "via_ferrata"

@@ -74,8 +74,44 @@ msgstr ""
 msgid "Describe here the waypoint"
 msgstr ""
 
+#: c2corg_ui/templates/i18n.html
+msgid "Document has been deprotected"
+msgstr ""
+
+#: c2corg_ui/templates/i18n.html
+msgid "Document has been protected"
+msgstr ""
+
 #: c2corg_ui/templates/route/view.html c2corg_ui/templates/waypoint/view.html
 msgid "Edit"
+msgstr ""
+
+#: c2corg_ui/templates/i18n.html
+msgid "Edit in ca"
+msgstr ""
+
+#: c2corg_ui/templates/i18n.html
+msgid "Edit in de"
+msgstr ""
+
+#: c2corg_ui/templates/i18n.html
+msgid "Edit in en"
+msgstr ""
+
+#: c2corg_ui/templates/i18n.html
+msgid "Edit in es"
+msgstr ""
+
+#: c2corg_ui/templates/i18n.html
+msgid "Edit in eu"
+msgstr ""
+
+#: c2corg_ui/templates/i18n.html
+msgid "Edit in fr"
+msgstr ""
+
+#: c2corg_ui/templates/i18n.html
+msgid "Edit in it"
 msgstr ""
 
 #: c2corg_ui/templates/route/edit.html
@@ -122,10 +158,6 @@ msgstr ""
 msgid "Legend:"
 msgstr ""
 
-#: c2corg_ui/templates/waypoint/filters.html
-msgid "Less Filters"
-msgstr ""
-
 #: c2corg_ui/templates/document/history.html
 msgid "List of versions for language:"
 msgstr ""
@@ -147,7 +179,7 @@ msgid "Longitude"
 msgstr ""
 
 #: c2corg_ui/templates/waypoint/filters.html
-msgid "More Filters"
+msgid "More filters"
 msgstr ""
 
 #: c2corg_ui/static/partials/user.html
@@ -204,6 +236,12 @@ msgstr "Itinerari"
 
 #: c2corg_ui/templates/route/edit.html c2corg_ui/templates/waypoint/edit.html
 msgid "Save"
+msgstr ""
+
+#: c2corg_ui/templates/waypoint/filters.html
+msgid ""
+"Search \n"
+"        <span class=\"glyphicon glyphicon-search\"></span>"
 msgstr ""
 
 #: c2corg_ui/static/partials/search.html
@@ -429,6 +467,10 @@ msgid "ice_climbing"
 msgstr ""
 
 #: c2corg_ui/templates/i18n.html
+msgid "imported from v4"
+msgstr ""
+
+#: c2corg_ui/templates/i18n.html
 msgid "it"
 msgstr ""
 
@@ -549,6 +591,10 @@ msgstr ""
 
 #: c2corg_ui/templates/i18n.html
 msgid "traverse"
+msgstr ""
+
+#: c2corg_ui/templates/waypoint/filters.html
+msgid "type"
 msgstr ""
 
 #: c2corg_ui/templates/i18n.html
