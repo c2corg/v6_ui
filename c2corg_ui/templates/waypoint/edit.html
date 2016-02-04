@@ -5,9 +5,12 @@ from c2corg_common.attributes import default_cultures
 <%
 updating_doc = waypoint_id and waypoint_culture
 %>\
-<%block name="pagetitle">${"{{'Editing a waypoint' | translate}}" if waypoint_id and waypoint_culture else "{{'Creating a waypoint' | translate}}"}</%block>\
+<%namespace file="../helpers.html" import="show_title"/>
+<%block name="pagetitle"><title ng-init="id=${waypoint_id if waypoint_id else 0}" 
+                                ng-bind="id ? mainCtrl.page_title('Editing a waypoint') : mainCtrl.page_title('Creating a waypoint')">${show_title('Create/edit waypoint')}</title></%block>\
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>\
-<h1>${self.pagetitle()}</h1>
+
+<h1 ng-init="id=${waypoint_id if waypoint_id else 0}" ng-bind="id ? ('Editing a waypoint' | translate) : ('Creating a waypoint' | translate)" class="text-center"></h1>
 <form app-document-editing="waypoints" app-document-editing-model="waypoint"
 % if updating_doc:
   app-document-editing-id="${waypoint_id}" app-document-editing-culture="${waypoint_culture}"

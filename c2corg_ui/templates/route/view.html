@@ -8,7 +8,7 @@ route_id = route['document_id']
 other_cultures, missing_cultures = get_culture_lists(route, culture)
 %>\
 <%block name="pagelang">lang="${culture}"</%block>\
-<%block name="pagetitle">${show_route_title(locale)}</%block>\
+<%block name="pagetitle"><title>${show_route_title(locale, True)}</title></%block>\
 <%block name="metarobots">\
   % if version:
 <meta name="robots" content="noindex,follow">\
@@ -18,7 +18,7 @@ other_cultures, missing_cultures = get_culture_lists(route, culture)
 </%block>\
 
 <header class="view-details-title">
-  <span class="heading">${self.pagetitle()} <label class="badge" translate>route</label></span>
+  <span class="heading">${show_route_title(locale)} <label class="badge" translate>route</label></span>
   <div class="float-buttons">
     <div class="float-button float-edit" tooltip-placement="top" uib-tooltip="{{'Edit' | translate}}">
       <app-edit-button app-edit-button-url="${request.route_url('routes_edit', id=route_id, culture=culture)}"></app-edit-button>
@@ -67,6 +67,7 @@ other_cultures, missing_cultures = get_culture_lists(route, culture)
       ${show_other_cultures_links('routes', route, other_cultures)}
       ${show_missing_cultures_links('routes', route, missing_cultures)}
     % endif
+    <a class="btn btn-info" href="${request.route_url('routes_history', id=route_id, culture=culture)}" translate>History</a>
   </div>
   <div class="view-details-description col-lg-8 col-md-8 col-xs-12">
     <span class="lead"> 

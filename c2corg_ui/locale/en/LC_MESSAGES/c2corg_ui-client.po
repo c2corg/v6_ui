@@ -25,10 +25,6 @@ msgstr ""
 msgid "Around"
 msgstr ""
 
-#: c2corg_ui/templates/auth.html
-msgid "Authentication"
-msgstr "Authentication"
-
 #: c2corg_ui/templates/document/history.html
 msgid "Author"
 msgstr ""
@@ -58,11 +54,11 @@ msgstr ""
 msgid "Created on"
 msgstr ""
 
-#: c2corg_ui/templates/route/edit.html
+#: c2corg_ui/templates/i18n.html
 msgid "Creating a route"
 msgstr ""
 
-#: c2corg_ui/templates/waypoint/edit.html
+#: c2corg_ui/templates/i18n.html
 msgid "Creating a waypoint"
 msgstr ""
 
@@ -114,11 +110,11 @@ msgstr ""
 msgid "Edit in it"
 msgstr ""
 
-#: c2corg_ui/templates/route/edit.html
+#: c2corg_ui/templates/i18n.html
 msgid "Editing a route"
 msgstr ""
 
-#: c2corg_ui/templates/waypoint/edit.html
+#: c2corg_ui/templates/i18n.html
 msgid "Editing a waypoint"
 msgstr ""
 
@@ -138,8 +134,12 @@ msgstr "Forgotten password?"
 msgid "Georeferenced"
 msgstr ""
 
-#: c2corg_ui/templates/waypoint/view.html
+#: c2corg_ui/templates/route/view.html c2corg_ui/templates/waypoint/view.html
 msgid "History"
+msgstr ""
+
+#: c2corg_ui/templates/i18n.html
+msgid "Home"
 msgstr ""
 
 #: c2corg_ui/templates/i18n.html
@@ -307,13 +307,9 @@ msgstr ""
 msgid "View in other culture"
 msgstr "View in other culture"
 
-#: c2corg_ui/templates/base.html c2corg_ui/templates/waypoint/index.html
+#: c2corg_ui/templates/base.html
 msgid "Waypoints"
 msgstr "Waypoints"
-
-#: c2corg_ui/templates/base.html
-msgid "Welcome"
-msgstr ""
 
 #: c2corg_ui/templates/index.html
 msgid "Welcome to Camptocamp.org"
@@ -635,3 +631,6 @@ msgstr "weather station"
 #: c2corg_ui/templates/i18n.html
 msgid "webcam"
 msgstr "webcam"
+
+#~ msgid "Authentication"
+#~ msgstr "Authentication"

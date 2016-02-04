@@ -6,10 +6,11 @@ settings = request.registry.settings
 node_modules_path = settings.get('node_modules_path')
 closure_library_path = settings.get('closure_library_path')
 %>\
+<%namespace file="helpers.html" import="show_title"/>
 <!DOCTYPE html>
 <html <%block name="pagelang"></%block> ng-app="app" ng-controller="MainController as mainCtrl">
   <head>
-    <title><%block name="pagetitle">{{'Welcome' | translate}}</%block> - Camptocamp.org</title>
+    <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Home')">${show_title('Home')}</title></%block>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
     <meta name="apple-mobile-web-app-capable" content="yes">

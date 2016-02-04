@@ -5,10 +5,11 @@ from c2corg_common.attributes import default_cultures
 <%
 updating_doc = route_id and route_culture
 %>\
-<%block name="pagetitle">${"{{'Editing a route' | translate}}" if route_id and route_culture else "{{'Creating a route' | translate}}"}</%block>\
+<%namespace file="../helpers.html" import="show_title"/>
+<%block name="pagetitle"><title ng-init="id=${route_id if route_id else 0}" ng-bind="id ? mainCtrl.page_title('Editing a route') : mainCtrl.page_title('Creating a route')">${show_title('Create/edit route')}</title></%block>\
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>\
 
-<h1>${self.pagetitle()}</h1>
+<h1 ng-cloak ng-init="id=${route_id if route_id else 0}" ng-bind="id ? ('Editing a route' | translate) : ('Creating a route' | translate)" class="text-center"></h1>
 <form app-document-editing="routes" app-document-editing-model="route" 
 % if updating_doc:
   app-document-editing-id="${route_id}" app-document-editing-culture="${route_culture}"

@@ -21,10 +21,6 @@ msgstr ""
 msgid "Around"
 msgstr ""
 
-#: c2corg_ui/templates/auth.html
-msgid "Authentication"
-msgstr ""
-
 #: c2corg_ui/templates/document/history.html
 msgid "Author"
 msgstr ""
@@ -56,11 +52,11 @@ msgstr ""
 msgid "Created on"
 msgstr ""
 
-#: c2corg_ui/templates/route/edit.html
+#: c2corg_ui/templates/i18n.html
 msgid "Creating a route"
 msgstr ""
 
-#: c2corg_ui/templates/waypoint/edit.html
+#: c2corg_ui/templates/i18n.html
 msgid "Creating a waypoint"
 msgstr ""
 
@@ -113,11 +109,11 @@ msgstr ""
 msgid "Edit in it"
 msgstr ""
 
-#: c2corg_ui/templates/route/edit.html
+#: c2corg_ui/templates/i18n.html
 msgid "Editing a route"
 msgstr ""
 
-#: c2corg_ui/templates/waypoint/edit.html
+#: c2corg_ui/templates/i18n.html
 msgid "Editing a waypoint"
 msgstr ""
 
@@ -137,8 +133,13 @@ msgstr ""
 msgid "Georeferenced"
 msgstr ""
 
+#: c2corg_ui/templates/route/view.html
 #: c2corg_ui/templates/waypoint/view.html
 msgid "History"
+msgstr ""
+
+#: c2corg_ui/templates/i18n.html
+msgid "Home"
 msgstr ""
 
 #: c2corg_ui/templates/i18n.html
@@ -314,12 +315,7 @@ msgid "View in other culture"
 msgstr ""
 
 #: c2corg_ui/templates/base.html
-#: c2corg_ui/templates/waypoint/index.html
 msgid "Waypoints"
-msgstr ""
-
-#: c2corg_ui/templates/base.html
-msgid "Welcome"
 msgstr ""
 
 #: c2corg_ui/templates/index.html

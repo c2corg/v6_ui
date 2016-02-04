@@ -32,6 +32,17 @@ html, body{
   overflow: auto;
   padding: 0 4% 2% 4%;
   
+  .search-filters-btn {
+    margin-left: 40px;
+    top: 1px;
+    position: relative;
+    z-index: 1;
+
+    .glyphicon-search {
+      color: @C2C-orange;
+    }
+  }
+  
   #moreFilters {
     z-index: 2;
     position: absolute;
@@ -46,12 +57,6 @@ html, body{
       margin-right: 20px;
       top: 7px;
       position: relative;
-    }
-    .search-filters-btn {
-      margin-left: 40px;
-      .glyphicon-search {
-        color: @C2C-orange;
-      }
     }
   }
   .row {

@@ -29,5 +29,13 @@ app.MainController.prototype.translate = function(str) {
   return this.gettextCatalog_.getString(str);
 };
 
+/**
+ * @param {string} title String page title
+ * @return {string} concatenated and translated page title
+ * @export
+ */
+app.MainController.prototype.page_title = function(title) {
+  return this.translate(title) + ' - Camptocamp.org';
+};
 
 app.module.controller('MainController', app.MainController);
