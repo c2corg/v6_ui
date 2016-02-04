@@ -1,5 +1,5 @@
 <%inherit file="../base.html"/>
-<%namespace file="../helpers.html" import="get_attr, add_pagination_links, show_route_title"/>
+<%namespace file="../helpers.html" import="show_attr, add_pagination_links, show_route_title"/>
 <%block name="pagetitle">{{'Routes' | translate}}</%block>
 <%block name="metarobots"><meta name="robots" content="noindex,follow"></%block>\
 
@@ -29,7 +29,7 @@
           % if route['elevation_max'] is not None:
             <span class="list-item-elevation">Elevation: ${route['elevation_max']} m</span>
           % endif
-            <p class="text-justify">${locale['summary']}</p>
+            <p class="text-justify">${show_attr(locale, 'summary')}</p>
           </div>
         </a>
       </div>
