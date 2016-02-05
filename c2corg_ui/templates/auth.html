@@ -1,5 +1,6 @@
 <%inherit file="base.html"/>
-<%block name="pagetitle">{{'Authentication' | translate}}</%block>\
+<%namespace file="helpers.html" import="show_title"/>
+<%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Authentication')">${show_title('Authentication')}</title></%block>
 
 <div ng-init="showRegisterForm=false">
   <h1 translate>Login</h1>

@@ -1,11 +1,10 @@
 <%inherit file="../base.html"/>
-<%namespace file="../helpers.html" import="show_version_comment"/>
+<%namespace file="../helpers.html" import="show_version_comment, show_title"/>
 <%block name="pagelang">lang="${culture}"</%block>\
-<%block name="pagetitle">${title}</%block>\
+<%block name="pagetitle"><title ng-bind="'${title} - '+ mainCtrl.page_title('History')">${title} - ${show_title('History')}</title></%block>
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>\
 
 <h1>${self.pagetitle()}</h1>
-
 <p><span translate>List of versions for language:</span> <strong>{{mainCtrl.translate('${culture}')}}</strong></p>
 
 <%

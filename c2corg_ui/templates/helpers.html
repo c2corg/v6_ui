@@ -93,16 +93,20 @@ ${attr | n}\
 % endif
 </%def>
 
-<%def name="show_route_title(locale)">\
+<%def name="show_route_title(locale, is_tab_title=False)">\
 <%
     title = ''
     if 'title_prefix' in locale and locale['title_prefix']:
         title = locale['title_prefix'] + ' : '
     title += locale['title']
-%>
-${title}
+%>\
+${title}${' - Camptocamp.org' if is_tab_title else ''}\
 </%def>
 
 <%def name="show_version_comment(version)">\
 ${'{{mainCtrl.translate(\'' + get_attr(version, 'comment', md=False) + '\')}}' if version['comment'] else '' | n}
+</%def>
+
+<%def name="show_title(title)">\
+${title + ' - ' if title else ''}Camptocamp.org\
 </%def>

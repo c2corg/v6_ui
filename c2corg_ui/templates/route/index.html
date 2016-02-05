@@ -1,10 +1,10 @@
 <%inherit file="../base.html"/>
-<%namespace file="../helpers.html" import="show_attr, add_pagination_links, show_route_title"/>
-<%block name="pagetitle">{{'Routes' | translate}}</%block>
+<%namespace file="../helpers.html" import="show_attr, add_pagination_links, show_route_title, show_title"/>
+<%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Routes')">${show_title('Routes')}</title></%block>
 <%block name="metarobots"><meta name="robots" content="noindex,follow"></%block>\
 
 <div class="text-center">
-  <h3 ng-init="nbItems = ${total}">${self.pagetitle()} ({{nbItems}})</h3>
+  <h3 ng-init="nbItems = ${total}" ng-cloak>{{'Routes' | translate}} ({{nbItems}})</h3>
 </div>
 <section id="routes-section">
   <div class="add-route text-center">

@@ -22,10 +22,6 @@ msgstr "Ajouter aux favoris"
 msgid "Around"
 msgstr "Autour de"
 
-#: c2corg_ui/templates/auth.html
-msgid "Authentication"
-msgstr "Connexion"
-
 #: c2corg_ui/templates/document/history.html
 msgid "Author"
 msgstr "Auteur"
@@ -55,11 +51,11 @@ msgstr "Comparer les versions sélectionnées"
 msgid "Created on"
 msgstr "Créée le"
 
-#: c2corg_ui/templates/route/edit.html
+#: c2corg_ui/templates/i18n.html
 msgid "Creating a route"
 msgstr "Création d'un itinéraire"
 
-#: c2corg_ui/templates/waypoint/edit.html
+#: c2corg_ui/templates/i18n.html
 msgid "Creating a waypoint"
 msgstr "Création d'un point de passage"
 
@@ -73,11 +69,11 @@ msgstr "Décrivez ici l'itinéraire"
 
 #: c2corg_ui/templates/i18n.html
 msgid "Document has been deprotected"
-msgstr ""
+msgstr "Le document a été déverrouillé."
 
 #: c2corg_ui/templates/i18n.html
 msgid "Document has been protected"
-msgstr "Le document a été déverrouillé."
+msgstr "Le document a été verrouillé."
 
 #: c2corg_ui/templates/route/view.html c2corg_ui/templates/waypoint/view.html
 msgid "Edit"
@@ -111,11 +107,11 @@ msgstr "Edition en français"
 msgid "Edit in it"
 msgstr "Modifier en italien"
 
-#: c2corg_ui/templates/route/edit.html
+#: c2corg_ui/templates/i18n.html
 msgid "Editing a route"
 msgstr "Edition d'un itinéraire"
 
-#: c2corg_ui/templates/waypoint/edit.html
+#: c2corg_ui/templates/i18n.html
 msgid "Editing a waypoint"
 msgstr "Edition d'un point de passage"
 
@@ -135,9 +131,13 @@ msgstr "Mot de passe oublié ?"
 msgid "Georeferenced"
 msgstr "Géoréferencé"
 
-#: c2corg_ui/templates/waypoint/view.html
+#: c2corg_ui/templates/route/view.html c2corg_ui/templates/waypoint/view.html
 msgid "History"
 msgstr "Versions"
+
+#: c2corg_ui/templates/i18n.html
+msgid "Home"
+msgstr "Accueil"
 
 #: c2corg_ui/templates/i18n.html
 msgid "Invalid email address"
@@ -177,7 +177,7 @@ msgstr "Longitude"
 
 #: c2corg_ui/templates/waypoint/filters.html
 msgid "More filters"
-msgstr ""
+msgstr "Plus de filtres"
 
 #: c2corg_ui/static/partials/user.html
 msgid "My account"
@@ -201,7 +201,7 @@ msgstr "Pas encore de compte ?"
 
 #: c2corg_ui/templates/document/diff.html
 msgid "No content changes."
-msgstr ""
+msgstr "Pas de changement."
 
 #: c2corg_ui/templates/auth.html
 msgid "Password"
@@ -288,7 +288,7 @@ msgstr "Le titre doit comporter au moins 3 caractères."
 
 #: c2corg_ui/templates/helpers.html
 msgid "Translate into an other culture"
-msgstr ""
+msgstr "Traduire dans une autre langue"
 
 #: c2corg_ui/templates/auth.html
 msgid "Username"
@@ -304,15 +304,11 @@ msgstr "Version 2 en"
 
 #: c2corg_ui/templates/helpers.html
 msgid "View in other culture"
-msgstr ""
-
-#: c2corg_ui/templates/base.html c2corg_ui/templates/waypoint/index.html
-msgid "Waypoints"
-msgstr "Points de passage"
+msgstr "Voir dans une autre langue"
 
 #: c2corg_ui/templates/base.html
-msgid "Welcome"
-msgstr "Bienvenue"
+msgid "Waypoints"
+msgstr "Points de passage"
 
 #: c2corg_ui/templates/index.html
 msgid "Welcome to Camptocamp.org"
@@ -560,7 +556,7 @@ msgstr "escalade"
 
 #: c2corg_ui/templates/route/view.html
 msgid "route"
-msgstr ""
+msgstr "itinéraire"
 
 #: c2corg_ui/templates/route/edit.html
 msgid "route_types"
@@ -621,7 +617,7 @@ msgstr "point d'eau/source"
 
 #: c2corg_ui/templates/waypoint/view.html
 msgid "waypoint"
-msgstr ""
+msgstr "point de passage"
 
 #: c2corg_ui/templates/waypoint/edit.html
 msgid "waypoint_type"
