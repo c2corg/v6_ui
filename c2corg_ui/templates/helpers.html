@@ -63,21 +63,33 @@ ${attr | n}\
 
 <%def name="show_other_cultures_links(module, document, other_cultures)">\
 % if other_cultures:
-  <p translate>View in other culture:</p>
-  <ul>
-  % for l in other_cultures:
-    <li><a href="${request.route_url(module + '_view', id=document['document_id'], culture=l)}">{{mainCtrl.translate('${l}')}}</a></li>
-  % endfor
-  </ul>
+  <div class="btn-group view-other-culture">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <span translate>View in other culture</span>&nbsp;<span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+    % for l in other_cultures:
+      <li><a href="${request.route_url(module + '_view', id=document['document_id'], culture=l)}">{{mainCtrl.translate('${l}')}}</a></li>
+    % endfor
+    </ul>
+  </div>
 % endif
 </%def>
 
 <%def name="show_missing_cultures_links(module, document, missing_cultures)">\
 % if missing_cultures:
-  <p><span translate>Translate into an other culture:</span>
-  % for l in missing_cultures:
-    <app-edit-button app-edit-button-url="${request.route_url(module + '_edit', id=document['document_id'], culture=l)}">{{mainCtrl.translate('${l}')}}</app-edit-button>
-  % endfor
+  <div class="translate-culture">
+    <div class="btn-group">
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span translate>Translate into an other culture</span>&nbsp;<span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+      % for lang in missing_cultures:
+        <li><app-edit-button app-edit-button-url="${request.route_url(module + '_edit', id=document['document_id'], culture=lang)}">{{mainCtrl.translate('${lang}')}}</app-edit-button></li>
+      % endfor
+      </ul>
+    </div>
+  </div>
 % endif
 </%def>
 

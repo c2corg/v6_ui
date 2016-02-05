@@ -5,6 +5,7 @@
   "scripts": {},
   "license": "BSD",
   "dependencies": {
+    "angular-ui-bootstrap": "1.1.2",
     "async": "~0.2.10",
     "bootstrap": "3.3.5",
     "bootstrap-slider": "6.0.9"
