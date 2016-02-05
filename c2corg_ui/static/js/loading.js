@@ -4,7 +4,7 @@ goog.require('app');
 
 
 /**
- *@param {angular.$http} $http
+ * @param {angular.$http} $http
  * @return {angular.Directive} directive
  * @ngInject
  */
@@ -13,7 +13,7 @@ app.loadingDirective = function($http) {
     restrict: 'A',
     scope: true,
     link: 
-      /**
+     /**
      * @param {angular.Scope} scope Scope.
      * @param {angular.JQLite} el Element.
      * @param {angular.Attributes} attrs Atttributes.
