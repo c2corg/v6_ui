@@ -114,7 +114,7 @@ c2corg_ui/locale/c2corg_ui-client.pot: $(APP_HTML_FILES) $(APP_PARTIAL_FILES)
 	node tools/extract-messages.js $^ > $@
 
 c2corg_ui/locale/%/LC_MESSAGES/c2corg_ui-client.po: c2corg_ui/locale/c2corg_ui-client.pot
-	msgmerge --update $@ $<
+	msgmerge --update --no-fuzzy-matching $@ $<
 
 c2corg_ui/static/build/build.js: build.json c2corg_ui/static/build/templatecache.js $(OL_JS_FILES) $(NGEO_JS_FILES) $(APP_JS_FILES) $(EXTERNS_FILES) .build/node_modules.timestamp
 	mkdir -p $(dir $@)
