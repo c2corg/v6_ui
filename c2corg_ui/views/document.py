@@ -6,11 +6,14 @@ from urllib.parse import urlencode
 import httplib2
 import pyproj
 import json
+import logging
 
 from pyramid.httpexceptions import (
     HTTPBadRequest, HTTPNotFound, HTTPInternalServerError)
 
 from c2corg_common.attributes import default_langs
+
+log = logging.getLogger(__name__)
 
 
 class Document(object):
@@ -41,6 +44,8 @@ class Document(object):
         else:
             api_url = settings['api_url']
         url = '%s/%s' % (api_url, url)
+        if log.isEnabledFor(logging.DEBUG):
+            log.debug('API: %s %s', method, url)
         http = httplib2.Http()
         try:
             resp, content = http.request(
