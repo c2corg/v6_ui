@@ -19,10 +19,10 @@
       % for route in routes:
       <% locale = route['locales'][0] %>\
       <div class="list-item">
-        <a href="${request.route_url('routes_view', id=route['document_id'], culture=locale['culture'])}">
+        <a href="${request.route_url('routes_view', id=route['document_id'], lang=locale['lang'])}">
           <span class="list-item-title">${show_route_title(locale)}</span>
-          % if lang != locale['culture']:
-          <span class="list-item-culture"> (${locale['culture']}) </span>
+          % if lang != locale['lang']:
+          <span class="list-item-lang"> (${locale['lang']}) </span>
           <br>
           % endif
           <div class="list-item-info">

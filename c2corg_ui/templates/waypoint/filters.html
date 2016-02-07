@@ -1,5 +1,5 @@
 <%!
-from c2corg_common.attributes import default_cultures, waypoint_types, activities
+from c2corg_common.attributes import default_langs, waypoint_types, activities
 %>
 <form app-search-filters>
   <div class="filters">
@@ -69,8 +69,8 @@ from c2corg_common.attributes import default_cultures, waypoint_types, activitie
         <select class="form-control" ng-model="searchFiltersCtrl.georef"><option translate>Yes</option><option translate>No</option></select>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-3 filter">
-        <label translate>culture</label>
-        <select ng-model="searchFiltersCtrl.culture" class="form-control" ng-options="culture as (mainCtrl.translate(culture) | capitalize ) for culture in ['${"','".join(default_cultures) |n}'] | translate" ng-model="culture"></select>
+        <label translate>lang</label>
+        <select ng-model="searchFiltersCtrl.lang" class="form-control" ng-options="lang as (mainCtrl.translate(lang) | capitalize ) for lang in ['${"','".join(default_langs) |n}'] | translate" ng-model="lang"></select>
       </div>
       <button class="btn btn-warning less-filters-btn" data-toggle="collapse" data-target="#moreFilters" 
               aria-expanded="false" aria-controls="moreFilters">

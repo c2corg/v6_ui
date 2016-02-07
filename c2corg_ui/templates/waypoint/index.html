@@ -20,10 +20,10 @@ module.value('mapFeatureCollection', {
                "module": "waypoints",
                "type":  waypoint['waypoint_type'],
                "documentId": waypoint['document_id'],
-               "lang": waypoint['locales'][0]['culture'],
+               "lang": waypoint['locales'][0]['lang'],
                "title": waypoint['locales'][0]['title'] + (
-                " (" + waypoint['locales'][0]['culture'] + ")" if
-                lang != waypoint['locales'][0]['culture'] else ""
+                " (" + waypoint['locales'][0]['lang'] + ")" if
+                lang != waypoint['locales'][0]['lang'] else ""
                )
             }
             features.append(dumps({
@@ -52,10 +52,10 @@ module.value('mapFeatureCollection', {
       % for waypoint in waypoints:
       <% locale = waypoint['locales'][0] %>\
       <div class="list-item">
-        <a href="${request.route_url('waypoints_view', id=waypoint['document_id'], culture=locale['culture'])}">
+        <a href="${request.route_url('waypoints_view', id=waypoint['document_id'], lang=locale['lang'])}">
           <span class="list-item-title ">${show_attr(locale, 'title', False)}</span>
-          % if lang != locale['culture']:
-          <span class="list-item-culture">(${locale['culture']})</span>
+          % if lang != locale['lang']:
+          <span class="list-item-lang">(${locale['lang']})</span>
           <br>
           % endif
           <div class="list-item-info">

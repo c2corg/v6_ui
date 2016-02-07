@@ -16,13 +16,13 @@ goog.require('ol.geom.Point');
  *
  * @example
  * <form app-document-editing="waypoints" app-document-editing-model="waypoint"
- *   app-document-editing-id="42" app-document-editing-culture="fr"
+ *   app-document-editing-id="42" app-document-editing-lang="fr"
  *   name="editForm" novalidate
  *   ng-submit="editCtrl.submitForm(editForm.$valid)">
  *
  * The main directive attribute contains the resource name (eg. "waypoints").
  * Additional attributes are used to specify the model name and, optionally,
- * the document id and culture.
+ * the document id and lang.
  *
  * @return {angular.Directive} The directive specs.
  * @ngInject
@@ -110,7 +110,7 @@ app.DocumentEditingController = function($scope, $element, $attrs, $http,
    * @type {?string}
    * @private
    */
-  this.culture_ = null;
+  this.lang_ = null;
 
   /**
    * @type {ol.format.GeoJSON}
@@ -122,7 +122,7 @@ app.DocumentEditingController = function($scope, $element, $attrs, $http,
    * @type {boolean}
    * @private
    */
-  this.isNewCulture_ = false;
+  this.isNewLang_ = false;
 
   /**
    * @type {app.Alerts}
@@ -135,9 +135,9 @@ app.DocumentEditingController = function($scope, $element, $attrs, $http,
   this.scope_[this.modelName_] = {};
 
   if ('appDocumentEditingId' in $attrs &&
-      'appDocumentEditingCulture' in $attrs) {
+      'appDocumentEditingLang' in $attrs) {
     this.id_ = $attrs['appDocumentEditingId'];
-    this.culture_ = $attrs['appDocumentEditingCulture'];
+    this.lang_ = $attrs['appDocumentEditingLang'];
 
     if (this.auth_.isAuthenticated()) {
       // Get document attributes from the API to feed the model:
@@ -183,11 +183,11 @@ app.DocumentEditingController.DATA_PROJ = 'EPSG:3857';
 app.DocumentEditingController.prototype.buildUrl_ = function(type) {
   switch (type) {
     case 'read':
-      return '{base}/{module}/{id}?l={culture}'
+      return '{base}/{module}/{id}?l={lang}'
           .replace('{base}', this.apiUrl_)
           .replace('{module}', this.module_)
           .replace('{id}', String(this.id_))
-          .replace('{culture}', this.culture_);
+          .replace('{lang}', this.lang_);
     case 'update':
       return '{base}/{module}/{id}'
           .replace('{base}', this.apiUrl_)
@@ -227,11 +227,11 @@ app.DocumentEditingController.prototype.successRead_ = function(response) {
   }
 
   if (!data['locales'].length) {
-    // locales attributes are missing when creating a new culture version
+    // locales attributes are missing when creating a new lang version
     data['locales'].push({
-      'culture': this.culture_
+      'lang': this.lang_
     });
-    this.isNewCulture_ = true;
+    this.isNewLang_ = true;
   }
 
   this.scope_[this.modelName_] = data;
@@ -302,8 +302,8 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
   };
   if (this.id_) {
     // updating an existing document
-    if ('available_cultures' in data) {
-      delete data['available_cultures'];
+    if ('available_langs' in data) {
+      delete data['available_langs'];
     }
     var message = '';
     if ('message' in data) {
@@ -320,7 +320,7 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
     );
   } else {
     // creating a new document
-    this.culture_ = data['locales'][0]['culture'];
+    this.lang_ = data['locales'][0]['lang'];
     this.http_.post(this.buildUrl_('create'), data, config).then(
         this.successSave_.bind(this),
         this.errorSave_.bind(this)
@@ -336,9 +336,9 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
  */
 app.DocumentEditingController.prototype.successSave_ = function(response) {
   // redirects to the document view page
-  goog.asserts.assert(this.culture_ !== null);
+  goog.asserts.assert(this.lang_ !== null);
   var url = app.utils.buildDocumentUrl(
-      this.module_, response['data']['document_id'], this.culture_);
+      this.module_, response['data']['document_id'], this.lang_);
   window.location.href = url;
 };
 
@@ -369,7 +369,7 @@ app.DocumentEditingController.prototype.errorSave_ = function(response) {
  */
 app.DocumentEditingController.prototype.cancel = function(view_url,
     index_url) {
-  var url = !view_url || this.isNewCulture_ ? index_url : view_url;
+  var url = !view_url || this.isNewLang_ ? index_url : view_url;
   window.location.href = url;
 };
 

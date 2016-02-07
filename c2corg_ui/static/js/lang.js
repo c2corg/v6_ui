@@ -15,17 +15,17 @@ app.langDirective = function() {
   return {
     restrict: 'E',
     scope: {
-      'cultures': '=appLangCultures'
+      'langs': '=appLangLangs'
     },
     controller: 'AppLangController',
     controllerAs: 'langCtrl',
     bindToController: true,
     template: '<select ' +
         'class="form-control lang-selector" ' +
-        'ng-model="langCtrl.culture" ' +
-        'ng-options="culture as langCtrl.translate(culture) ' +
-        'for culture in langCtrl.cultures" ' +
-        'ng-change="langCtrl.updateCulture()"></select>'
+        'ng-model="langCtrl.lang" ' +
+        'ng-options="lang as langCtrl.translate(lang) ' +
+        'for lang in langCtrl.langs" ' +
+        'ng-change="langCtrl.updateLang()"></select>'
   };
 };
 
@@ -68,9 +68,9 @@ app.LangController = function(gettextCatalog, langUrlTemplate,
    * @type {string}
    * @export
    */
-  this.culture = this.cookies_.get('interface_lang') ||
-      ngeoGetBrowserLanguage(this['cultures']) || 'fr';
-  this.updateCulture();
+  this.lang = this.cookies_.get('interface_lang') ||
+      ngeoGetBrowserLanguage(this['langs']) || 'fr';
+  this.updateLang();
 };
 
 
@@ -87,13 +87,13 @@ app.LangController.prototype.translate = function(str) {
 /**
  * @export
  */
-app.LangController.prototype.updateCulture = function() {
-  this.gettextCatalog_.setCurrentLanguage(this.culture);
+app.LangController.prototype.updateLang = function() {
+  this.gettextCatalog_.setCurrentLanguage(this.lang);
   this.gettextCatalog_.loadRemote(
-      this.langUrlTemplate_.replace('__lang__', this.culture));
+      this.langUrlTemplate_.replace('__lang__', this.lang));
   // store the interface language as cookie, so that it is available on the
   // server side.
-  this.cookies_.put('interface_lang', this.culture, {
+  this.cookies_.put('interface_lang', this.lang, {
     'path': '/',
     'expires': this.todayInOneYear_()
   });

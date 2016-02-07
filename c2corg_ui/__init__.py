@@ -15,26 +15,26 @@ def main(global_config, **settings):
 
     config.add_route('index', '/')
 
-    config.add_route('waypoints_view', '/waypoints/{id}/{culture}')
+    config.add_route('waypoints_view', '/waypoints/{id}/{lang}')
     config.add_route('waypoints_index_default', '/waypoints')
     config.add_route('waypoints_index', '/waypoints/list*filters')
     config.add_route('waypoints_add', '/waypoints/add')
-    config.add_route('waypoints_edit', '/waypoints/edit/{id}/{culture}')
-    config.add_route('waypoints_history', '/waypoints/history/{id}/{culture}')
+    config.add_route('waypoints_edit', '/waypoints/edit/{id}/{lang}')
+    config.add_route('waypoints_history', '/waypoints/history/{id}/{lang}')
     config.add_route('waypoints_archive',
-                     '/waypoints/{id}/{culture}/{version:\d+}')
+                     '/waypoints/{id}/{lang}/{version:\d+}')
     config.add_route(
-        'waypoints_diff', '/waypoints/diff/{id}/{culture}/{v1}/{v2}')
+        'waypoints_diff', '/waypoints/diff/{id}/{lang}/{v1}/{v2}')
 
-    config.add_route('routes_view', '/routes/{id}/{culture}')
+    config.add_route('routes_view', '/routes/{id}/{lang}')
     config.add_route('routes_index_default', '/routes')
     config.add_route('routes_index', '/routes/list*filters')
     config.add_route('routes_add', '/routes/add')
-    config.add_route('routes_edit', '/routes/edit/{id}/{culture}')
-    config.add_route('routes_history', '/routes/history/{id}/{culture}')
-    config.add_route('routes_archive', '/routes/{id}/{culture}/{version:\d+}')
+    config.add_route('routes_edit', '/routes/edit/{id}/{lang}')
+    config.add_route('routes_history', '/routes/history/{id}/{lang}')
+    config.add_route('routes_archive', '/routes/{id}/{lang}/{version:\d+}')
     config.add_route(
-        'routes_diff', '/routes/diff/{id}/{culture}/{v1}/{v2}')
+        'routes_diff', '/routes/diff/{id}/{lang}/{v1}/{v2}')
 
     config.add_route('auth', '/auth')
 

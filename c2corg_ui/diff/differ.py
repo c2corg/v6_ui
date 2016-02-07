@@ -42,7 +42,7 @@ def diff_documents(doc1, doc2):
 def _get_field_diffs(obj1, obj2):
     field_diffs = []
     for field in obj1:
-        if field in ['version', 'document_id', 'available_cultures']:
+        if field in ['version', 'document_id', 'available_langs']:
             # skip these fields
             continue
 

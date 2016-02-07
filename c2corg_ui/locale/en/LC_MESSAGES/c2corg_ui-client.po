@@ -288,7 +288,7 @@ msgid "Title must have at least 3 characters."
 msgstr ""
 
 #: c2corg_ui/templates/helpers.html
-msgid "Translate into an other culture"
+msgid "Translate into an other lang"
 msgstr ""
 
 #: c2corg_ui/templates/auth.html
@@ -304,8 +304,8 @@ msgid "Version 2 in"
 msgstr ""
 
 #: c2corg_ui/templates/helpers.html
-msgid "View in other culture"
-msgstr "View in other culture"
+msgid "View in other lang"
+msgstr "View in other lang"
 
 #: c2corg_ui/templates/base.html
 msgid "Waypoints"
@@ -390,8 +390,8 @@ msgstr "Coordinates"
 
 #: c2corg_ui/templates/route/edit.html c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/filters.html
-msgid "culture"
-msgstr "Culture"
+msgid "lang"
+msgstr "Lang"
 
 #: c2corg_ui/templates/i18n.html
 msgid "de"

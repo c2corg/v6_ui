@@ -22,7 +22,7 @@ class BaseTestUi(BaseTestCase):
         response = self.app.get(route, status=200)
         self.assertEqual(response.content_type, 'text/html')
 
-        # ask for a non existing culture foo
+        # ask for a non existing lang foo
         route = '/%s/1/foo' % self._prefix
         response = self.app.get(route, status=400)
 

@@ -1,6 +1,6 @@
 <%inherit file="../base.html"/>
 <%namespace file="../helpers.html" import="show_version_comment"/>
-<%block name="pagelang">lang="${culture}"</%block>
+<%block name="pagelang">lang="${lang}"</%block>
 <%block name="pagetitle">${title}</%block>
 
 <h1>${self.pagetitle()}</h1>
@@ -9,7 +9,7 @@
   <tr>
     <td>
       <a href="${request.route_url(
-            module + '_archive', id=document_id, culture=culture,
+            module + '_archive', id=document_id, lang=lang,
             version=version1['version_id'])}"><span translate>Revision as of</span> {{'${1000 * version1['written_at']}' | date:'medium'}}</a><br/>
       <span translate>by</span> <a href="#TODO profile for ${version1['user_id']}">${version1['username']}</a>
       % if version1['comment']:
@@ -17,13 +17,13 @@
       % endif
       % if previous_version_id:
         <br/><a href="${request.route_url(
-            module + '_diff', id=document_id, culture=culture, v1=previous_version_id,
+            module + '_diff', id=document_id, lang=lang, v1=previous_version_id,
             v2=version1['version_id'])}" translate>previous difference</a>
       % endif
     </td>
     <td>
       <a href="${request.route_url(
-            module + '_archive', id=document_id, culture=culture,
+            module + '_archive', id=document_id, lang=lang,
             version=version2['version_id'])}"><span translate>Revision as of</span> {{'${1000 * version2['written_at']}' | date:'medium'}}</a><br/>
       <span translate>by</span> <a href="#TODO profile for ${version2['user_id']}">${version2['username']}</a>
       % if version2['comment']:
@@ -31,7 +31,7 @@
       % endif
       % if next_version_id:
         <br/><a href="${request.route_url(
-            module + '_diff', id=document_id, culture=culture, v1=version2['version_id'],
+            module + '_diff', id=document_id, lang=lang, v1=version2['version_id'],
             v2=next_version_id)}" translate>next difference</a>
       % endif
     </td>

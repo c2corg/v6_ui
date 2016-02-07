@@ -39,7 +39,7 @@ class TestDiffer(unittest.TestCase):
         doc1 = {
             'version': 1,
             'document_id': 642184,
-            'available_cultures': ['fr'],
+            'available_langs': ['fr'],
             'parking_fee': None,
             'lift_access': None,
             'elevation': 400,
@@ -54,7 +54,7 @@ class TestDiffer(unittest.TestCase):
             'locales': [
                 {
                     'version': 1,
-                    'culture': 'fr',
+                    'lang': 'fr',
                     'description': 'The first line.\nThe second line.',
                     'title': 'Gerbaz',
                     'summary': None,
@@ -68,7 +68,7 @@ class TestDiffer(unittest.TestCase):
         doc2 = {
             'version': 2,
             'document_id': 642184,
-            'available_cultures': ['fr', 'en'],
+            'available_langs': ['fr', 'en'],
             'parking_fee': 'seasonal',
             'lift_access': True,
             'elevation': 400,
@@ -83,7 +83,7 @@ class TestDiffer(unittest.TestCase):
             'locales': [
                 {
                     'version': 1,
-                    'culture': 'fr',
+                    'lang': 'fr',
                     'description': 'The first line.\n\nThe third line.',
                     'title': 'Gerbaz',
                     'summary': None,

@@ -1,17 +1,17 @@
 <%!
-from c2corg_ui.templates.utils import get_culture_lists
+from c2corg_ui.templates.utils import get_lang_lists
 %>\
 <%inherit file="../base.html"/>
-<%namespace file="../helpers.html" import="show_attr, show_archive_data, show_other_cultures_links, show_missing_cultures_links, show_title"/>
+<%namespace file="../helpers.html" import="show_attr, show_archive_data, show_other_langs_links, show_missing_langs_links, show_title"/>
 <%
 waypoint_id = waypoint['document_id']
-other_cultures, missing_cultures = get_culture_lists(waypoint, culture)
+other_langs, missing_langs = get_lang_lists(waypoint, lang)
 
 ## FIXME: transform() makes server crash in apache mode. Reprojection is then temporarly deactivated.
 ##geometry4326 = transform(geometry, 'epsg:3857', 'epsg:4326')
 geometry4326 = geometry
 %>\
-<%block name="pagelang">lang="${culture}"</%block>\
+<%block name="pagelang">lang="${lang}"</%block>\
 <%block name="pagetitle"><title>${show_title(locale['title'])}</title></%block>\
 <%block name="metarobots">\
 
@@ -45,7 +45,7 @@ module.value('mapFeatureCollection', {
   <span class="heading">${locale['title']} <label class="badge" translate>waypoint</label></span>
   <div class="float-buttons">
     <div class="float-button float-edit" tooltip-placement="top" uib-tooltip="{{'Edit' | translate}}">
-      <app-edit-button app-edit-button-url="${request.route_url('waypoints_edit', id=waypoint_id, culture=culture)}"></app-edit-button>
+      <app-edit-button app-edit-button-url="${request.route_url('waypoints_edit', id=waypoint_id, lang=lang)}"></app-edit-button>
       <span class="glyphicon glyphicon-edit"></span>
     </div>
     <div class="float-button float-favorite" tooltip-placement="top" uib-tooltip="{{'Add to favorites' | translate}}">
@@ -99,10 +99,10 @@ module.value('mapFeatureCollection', {
     % if version:
       ${show_archive_data('waypoints', waypoint, locale, version)}
     % else:
-      ${show_other_cultures_links('waypoints', waypoint, other_cultures)}
-      ${show_missing_cultures_links('waypoints', waypoint, missing_cultures)}
+      ${show_other_langs_links('waypoints', waypoint, other_langs)}
+      ${show_missing_langs_links('waypoints', waypoint, missing_langs)}
     % endif
-    <a class="btn btn-info" href="${request.route_url('waypoints_history', id=waypoint_id, culture=culture)}" translate>History</a>
+    <a class="btn btn-info" href="${request.route_url('waypoints_history', id=waypoint_id, lang=lang)}" translate>History</a>
   </div>
   % if locale['description']:
   <div class="view-details-description col-lg-8 col-md-8 col-xs-12">
