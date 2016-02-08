@@ -74,7 +74,7 @@ class Document(object):
             raise HTTPBadRequest("Incorrect " + field)
 
     def _get_document(self, id, lang):
-        url = '%s/%d?l=%s' % (self._API_ROUTE, id, lang)
+        url = '%s/%d?lang=%s' % (self._API_ROUTE, id, lang)
         resp, document = self._call_api(url)
         # TODO: better error handling
         if resp['status'] == '404':

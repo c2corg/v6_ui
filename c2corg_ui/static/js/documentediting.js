@@ -183,7 +183,7 @@ app.DocumentEditingController.DATA_PROJ = 'EPSG:3857';
 app.DocumentEditingController.prototype.buildUrl_ = function(type) {
   switch (type) {
     case 'read':
-      return '{base}/{module}/{id}?l={lang}'
+      return '{base}/{module}/{id}?lang={lang}'
           .replace('{base}', this.apiUrl_)
           .replace('{module}', this.module_)
           .replace('{id}', String(this.id_))
