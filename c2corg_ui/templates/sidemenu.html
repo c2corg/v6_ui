@@ -1,0 +1,127 @@
+<aside>
+  <div class="page-menu">
+    <button class="btn btn-default menu-open-close menu"><span class="glyphicon glyphicon-align-justify"></span></button>
+    <a href="${request.route_url('index')}" title="{{'Back to homepage'|translate}}">
+      <img src="${request.static_url('c2corg_ui:static/img/logo.png')}" alt="Camptocamp.org" id="logo"/>
+    </a>
+  </div>
+  <ul class="nav panel-list">
+    <li class="active main-menu">
+      <a href="${request.route_url('waypoints_index_default')}">
+        <i class="glyphicon glyphicon-map-marker" tooltip-placement="right" uib-tooltip="{{'Waypoints' | translate}}"></i>
+        <span class="menu-text" translate>Waypoints</span>
+      </a>
+    </li>
+    <li class="main-menu">
+      <a href="${request.route_url('routes_index_default')}">
+        <i class="glyphicon glyphicon-road" tooltip-placement="right" uib-tooltip="{{'Routes' | translate}}"></i>
+        <span class="menu-text" translate>Routes</span>
+      </a>
+    </li>
+    <li class="has-submenu main-menu">
+      <a data-toggle="collapse" href="#outings" aria-expanded="false" aria-controls="outings">
+        <i class="glyphicon glyphicon-zoom-in" tooltip-placement="right" uib-tooltip="{{'Outings' | translate}}"></i>
+        <span class="menu-text" translate>Outings</span>
+        <i class="glyphicon glyphicon-menu-down"></i>
+      </a>
+      <ul class="submenu collapse" id="outings">
+        <li>
+          <a href="#">
+            <span class="menu-text">Last outings</span>
+            <span class="badge">3 new</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <span class="menu-text">Search</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <span class="menu-text">Add</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="has-submenu main-menu">
+      <a data-toggle="collapse" href="#infos" aria-expanded="false" aria-controls="infos">
+        <i class="glyphicon glyphicon-info-sign" tooltip-placement="right" uib-tooltip="{{'Informations' | translate}}"></i>
+        <span class="menu-text" translate>Info</span>
+        <i class="glyphicon glyphicon-menu-down"></i>
+      </a>
+      <ul class="submenu collapse" id="infos">
+        <li>
+          <a href="#">
+            <span class="menu-text">Weather conditions</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <span class="menu-text">Avalanches</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <span class="menu-text">Incidents and accidents</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="has-submenu main-menu">
+      <a data-toggle="collapse" href="#forum" aria-expanded="false" aria-controls="forum">
+        <i class="glyphicon glyphicon-comment" tooltip-placement="right" uib-tooltip="{{'Forum' | translate}}"></i>
+        <span class="menu-text">Forum</span>
+        <i class="glyphicon glyphicon-menu-down"></i>
+      </a>
+      <ul class="submenu collapse" id="forum">
+        <li class="has-submenu">
+          <a href="#">
+            <span class="menu-text">All topics</span>
+          </a>
+          <ul class="submenu">
+            <li>
+              <a href="#">
+                <span class="menu-text">Post a message</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span class="menu-text">Inbox <span class="badge">1</span></span>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="#">
+            <span class="menu-text">Recent posts</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="has-submenu main-menu">
+      <a data-toggle="collapse" href="#camptocamp" aria-expanded="false" aria-controls="camptocamp">
+        <i class="glyphicon glyphicon-picture" tooltip-placement="right" uib-tooltip="{{'Camptocamp.org' | translate}}"></i>
+        <span class="menu-text">Camptocamp.org</span>
+        <i class="glyphicon glyphicon-menu-down"></i>
+      </a>
+
+      <ul class="submenu collapse" id="camptocamp">
+        <li>
+          <a href="#">
+            <span class="menu-text">About us</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <span class="menu-text">Contact</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <span class="menu-text">FAQ</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</aside>

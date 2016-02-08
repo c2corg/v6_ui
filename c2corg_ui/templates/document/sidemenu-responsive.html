@@ -1,0 +1,66 @@
+<script type="text/javascript">
+
+  function sidemenuResponsive() { 
+    var closed = true;
+    var menuTexts = $('.menu-text, .glyphicon-menu-up, .glyphicon-menu-down, #logo');
+    var menuBtn = $('.menu-open-close.menu');
+    var tabletScreen = 620;
+    var desktopScreen = 1098;
+    var menuWidthNormal = 260;
+    var menuWidthTablet = 50;
+
+      $('.has-submenu').click(function() {
+        if ( (window.innerWidth < desktopScreen) && (window.innerWidth > tabletScreen) && closed) {
+          $('.menu-open-close.menu').trigger('click');
+          closed = false;
+         }
+      });
+
+    $('.menu-open-close').click(function(){
+      // if menu is completly hidden (small screen) && closed -> open it
+      if ($('aside').css('left') == "-260px" && closed) {
+        $('aside').animate({ left: "0"}, 0);
+        closed = false;
+      // if the menu is small (tablet) && closed -> open it
+      } else if($('aside').css('width') == '50px'  && closed) {
+        $('aside').animate({ width: menuWidthNormal }, 0);
+        menuTexts.css('display','inline'); 
+        menuBtn.css({float:'right', margin: '0'});
+        closed = false;
+      // if the menu is large on large screen and not closed -> close it
+      } else if (!closed && $('aside').css('width') == '260px' && window.innerWidth >= tabletScreen) {
+        $('aside').animate({ width: menuWidthTablet}, 0);
+        menuTexts.css('display','none');
+        menuBtn.css({float:'none', margin: 'auto'});
+        $('.collapse.in').removeClass('in');
+        closed = true;
+      // if the menu is large and not closed -> close it (only on small screen because on large screen there is no button)
+      } else if (!closed && $('aside').css('width') == '260px' && $('aside').css('left') == '0px') {
+        $('aside').animate({ left: "-260px"}, 0);
+        closed = true;
+      }
+    });
+
+      $(window).resize(function() {
+        if ( (window.innerWidth > tabletScreen && closed) || (window.innerWidth < desktopScreen && window.innerWidth > tabletScreen) ) {
+          $('aside').css({ width: menuWidthTablet, left: 0}, 0);
+          menuTexts.css('display','none');
+          menuBtn.css({float:'none', margin: 'auto'});
+          $('.collapse.in').removeClass('in');
+          closed = true
+        // if small screen -> hide menu completly
+        } else if (window.innerWidth < tabletScreen) {
+          $('aside').animate({ left: "-260", width: menuWidthNormal}, 0);
+          menuTexts.css('display','inline');
+          menuBtn.css({float:'right', margin: 0});
+          closed = true;
+        } 
+        if (window.innerWidth > 1098) {
+          $('aside').animate({ left: 0, width: menuWidthNormal}, 0);
+          menuTexts.css('display','inline');
+          closed = false;
+        }
+    });
+  };
+
+</script>

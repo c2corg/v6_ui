@@ -11,6 +11,7 @@
 @lightgrey: #F0F0F0;
 @C2C-orange: #F7931D;
 @bg-color1 : #ebe4d1;
+@menu-width: 260px;
 
 html, body{
   min-height: 100%;
@@ -426,7 +427,7 @@ h1 {
     }
     .coordinates-table {
       margin: auto auto auto auto;
-      width: 180px;
+
       td {
         padding-top: 5px;
         white-space: nowrap;
@@ -437,13 +438,13 @@ h1 {
 } /*.view-details-section*/
 
 
-.translate-lang, .view-other-lang {
+.translate-culture, .view-other-culture {
   .caret {
     color : #F6911A;
    }
 }
 
-.translate-lang {
+.translate-culture {
   display: inline-block;
   margin-bottom: 10px;
 
@@ -599,7 +600,7 @@ h1 {
     display: block;
     transition: 0.2s;
 
-    .list-item-lang {
+    .list-item-culture {
       opacity: 0.9;
       color: graytext;
       font-weight: normal;
@@ -849,8 +850,7 @@ app-search {
   }
 }
 
-
-  .lang-selector {
+  .culture-selector {
     width:100%;
     display: flex;
     display: -ms-flexbox;
@@ -874,11 +874,19 @@ app-search {
     @media @phone {
       margin-right: 30px;
     }
- } /* lang-selector*/
+ } /* culture-selector*/
 }/* page-header */ 
 
 .page-content {
+  margin-left: @menu-width;
+  margin-top: 80px;
   
+  @media @tablet {
+    margin-left: 50px;
+  }
+  @media @phone {
+    margin-left: 0;
+  }
   .archive-data {
     margin: 5px;
     padding: 5px;
@@ -911,4 +919,112 @@ app-alerts {
   position: absolute;
   bottom: 10px;
   width: 100%;
+}
+
+aside {
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+    background-color: slategray;
+    width: @menu-width;
+    margin: 0;
+    position: fixed;
+    top: 0;
+    white-space: nowrap;
+    z-index: 11;
+    height: 100%;
+    font-size: 1.2em;
+    transition: 0.4s;
+    
+    @media @tablet {
+      width: 50px;
+    }
+    @media @phone {
+      width: @menu-width;
+      left: -@menu-width;
+    }
+    .page-menu {
+      background-color: white;
+      display: inline-block;
+      width: 100%;
+    }
+    .menu-text {
+      margin-left: 5px;
+      color: white;
+    }
+    .menu-text, .glyphicon-menu-up, .glyphicon-menu-down, #logo {
+      @media @tablet {
+        display: none;
+      }
+    }
+    .glyphicon {
+      color: @C2C-orange;
+    }
+    .glyphicon-menu-down, glyphicon-menu-up {
+      float: right;
+    }
+    
+    li.main-menu {
+      color: white;
+      display: block;
+      border-top: 1px solid #ccc;
+
+      :focus {
+        text-decoration: none;
+        background-color: #D9534F !important;
+        color: black !important;
+        transition: 0.3s;
+
+      }
+      >a:hover {
+        background-color: #D0BB4B;
+      }
+      .submenu {
+        list-style: inherit;
+        transition: 0.3s;
+
+        li:before {
+          /*Using a Bootstrap glyphicon as the bullet point*/
+          content: "\e080";
+          font-family: 'Glyphicons Halflings';
+          font-size: 9px;
+          float: left;
+          margin-top: 4px;
+          margin-left: -17px;
+          color: @C2C-orange;
+        }
+        .menu-text {
+          transition: 0.3s;
+          
+          &:hover {
+            margin-left: 10px;
+            transition: 0.3s;
+          }
+        }
+      }
+   }
+}
+
+.menu-open-close.menu {
+  display: none;
+  margin: auto;
+  
+  @media @tablet {
+    display:block;
+    margin: auto;
+  }
+  @media @phone {
+    display: block;
+    margin: 0;
+    float: right;
+  }
+
+}
+.menu-open-close.header{
+  display: none;
+    
+  @media @phone {
+    display: block;
+    top: 13px;
+    position: absolute;
+    left: 13px;
+  }
 }
