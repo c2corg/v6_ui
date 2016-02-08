@@ -10,7 +10,7 @@ import json
 from pyramid.httpexceptions import (
     HTTPBadRequest, HTTPNotFound, HTTPInternalServerError)
 
-from c2corg_common.attributes import default_cultures
+from c2corg_common.attributes import default_langs
 
 
 class Document(object):
@@ -51,21 +51,21 @@ class Document(object):
             # TODO: return error message as the second item
             return {'status': '500'}, {}
 
-    def _validate_id_culture(self):
+    def _validate_id_lang(self):
         if 'id' not in self.request.matchdict:
             # eg. creating a new document
             return None, None
 
         id = self._validate_int('id')
-        culture = self._validate_culture()
+        lang = self._validate_lang()
 
-        return id, culture
+        return id, lang
 
-    def _validate_culture(self):
-        culture = str(self.request.matchdict['culture'])
-        if culture not in default_cultures:
-            raise HTTPBadRequest("Incorrect culture")
-        return culture
+    def _validate_lang(self):
+        lang = str(self.request.matchdict['lang'])
+        if lang not in default_langs:
+            raise HTTPBadRequest("Incorrect lang")
+        return lang
 
     def _validate_int(self, field):
         try:
@@ -73,8 +73,8 @@ class Document(object):
         except Exception:
             raise HTTPBadRequest("Incorrect " + field)
 
-    def _get_document(self, id, culture):
-        url = '%s/%d?l=%s' % (self._API_ROUTE, id, culture)
+    def _get_document(self, id, lang):
+        url = '%s/%d?l=%s' % (self._API_ROUTE, id, lang)
         resp, document = self._call_api(url)
         # TODO: better error handling
         if resp['status'] == '404':
@@ -82,17 +82,17 @@ class Document(object):
         elif resp['status'] != '200':
             raise HTTPInternalServerError(
                 "An error occured while loading the document")
-        # When requesting a culture that does not exist yet, the API sends
+        # When requesting a lang that does not exist yet, the API sends
         # back an empty list as 'locales'
         if not document['locales']:
-            raise HTTPNotFound('Requested culture does not exist')
+            raise HTTPNotFound('Requested lang does not exist')
         # We need to pass locale data to Mako as a dedicated object to make it
         # available to the parent templates:
         locale = document['locales'][0]
         return document, locale
 
-    def _get_archived_document(self, id, culture, version_id):
-        url = '%s/%d/%s/%d' % (self._API_ROUTE, id, culture, version_id)
+    def _get_archived_document(self, id, lang, version_id):
+        url = '%s/%d/%s/%d' % (self._API_ROUTE, id, lang, version_id)
         resp, content = self._call_api(url)
         # TODO: better error handling
         if resp['status'] == '404':
@@ -152,8 +152,8 @@ class Document(object):
         return params
 
     def _get_history(self):
-        id, culture = self._validate_id_culture()
-        url = 'document/%d/history/%s' % (id, culture)
+        id, lang = self._validate_id_lang()
+        url = 'document/%d/history/%s' % (id, lang)
         resp, content = self._call_api(url)
         # TODO: better error handling
         if resp['status'] == '200':
@@ -162,7 +162,7 @@ class Document(object):
             self.template_input.update({
                 'module': self._API_ROUTE,
                 'document_versions': versions,
-                'culture': culture,
+                'lang': lang,
                 'title': title,
                 'document_id': id
             })
@@ -181,14 +181,14 @@ class Document(object):
 
     def _diff(self):
         id = self._validate_int('id')
-        culture = self._validate_culture()
+        lang = self._validate_lang()
         v1 = self._validate_int('v1')
         v2 = self._validate_int('v2')
 
-        url = '%s/%d/%s/%d' % (self._API_ROUTE, id, culture, v1)
+        url = '%s/%d/%s/%d' % (self._API_ROUTE, id, lang, v1)
         resp_v1, content_v1 = self._call_api(url)
 
-        url = '%s/%d/%s/%d' % (self._API_ROUTE, id, culture, v2)
+        url = '%s/%d/%s/%d' % (self._API_ROUTE, id, lang, v2)
         resp_v2, content_v2 = self._call_api(url)
 
         # TODO: better error handling
@@ -201,7 +201,7 @@ class Document(object):
 
             self.template_input.update({
                 'module': self._API_ROUTE,
-                'culture': culture,
+                'lang': lang,
                 'title': doc_v1['locales'][0]['title'],
                 'document_id': id,
                 'v1_id': v1,

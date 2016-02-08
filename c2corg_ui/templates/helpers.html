@@ -57,35 +57,35 @@ ${attr | n}\
   <ul class="archive-data">
     <li translate>You are viewing an archived version of this document.</li>
     <li>{{'${1000 * version['written_at']}' | date:'medium'}} - <a href="#TODO">${version['username']}</a> - ${show_version_comment(version)}</li>
-    <li><a href="${request.route_url(module + '_view', id=document['document_id'], culture=locale['culture'])}" translate>See the latest version</a></li>
+    <li><a href="${request.route_url(module + '_view', id=document['document_id'], lang=locale['lang'])}" translate>See the latest version</a></li>
   </ul>
 </%def>
 
-<%def name="show_other_cultures_links(module, document, other_cultures)">\
-% if other_cultures:
-  <div class="btn-group view-other-culture">
+<%def name="show_other_langs_links(module, document, other_langs)">\
+% if other_langs:
+  <div class="btn-group view-other-lang">
     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <span translate>View in other culture</span>&nbsp;<span class="caret"></span>
+      <span translate>View in other lang</span>&nbsp;<span class="caret"></span>
     </button>
     <ul class="dropdown-menu">
-    % for l in other_cultures:
-      <li><a href="${request.route_url(module + '_view', id=document['document_id'], culture=l)}">{{mainCtrl.translate('${l}')}}</a></li>
+    % for l in other_langs:
+      <li><a href="${request.route_url(module + '_view', id=document['document_id'], lang=l)}">{{mainCtrl.translate('${l}')}}</a></li>
     % endfor
     </ul>
   </div>
 % endif
 </%def>
 
-<%def name="show_missing_cultures_links(module, document, missing_cultures)">\
-% if missing_cultures:
-  <div class="translate-culture">
+<%def name="show_missing_langs_links(module, document, missing_langs)">\
+% if missing_langs:
+  <div class="translate-lang">
     <div class="btn-group">
       <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <span translate>Translate into an other culture</span>&nbsp;<span class="caret"></span>
+        <span translate>Translate into an other lang</span>&nbsp;<span class="caret"></span>
       </button>
       <ul class="dropdown-menu">
-      % for lang in missing_cultures:
-        <li><app-edit-button app-edit-button-url="${request.route_url(module + '_edit', id=document['document_id'], culture=lang)}">{{mainCtrl.translate('${lang}')}}</app-edit-button></li>
+      % for lang in missing_langs:
+        <li><app-edit-button app-edit-button-url="${request.route_url(module + '_edit', id=document['document_id'], lang=lang)}">{{mainCtrl.translate('${lang}')}}</app-edit-button></li>
       % endfor
       </ul>
     </div>

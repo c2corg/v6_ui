@@ -1,9 +1,9 @@
 <%!
-from c2corg_common.attributes import default_cultures
+from c2corg_common.attributes import default_langs
 %>\
 <%inherit file="../base.html"/>
 <%
-updating_doc = waypoint_id and waypoint_culture
+updating_doc = waypoint_id and waypoint_lang
 %>\
 <%namespace file="../helpers.html" import="show_title"/>
 <%block name="pagetitle"><title ng-init="id=${waypoint_id if waypoint_id else 0}" 
@@ -13,23 +13,23 @@ updating_doc = waypoint_id and waypoint_culture
 <h1 ng-init="id=${waypoint_id if waypoint_id else 0}" ng-bind="id ? ('Editing a waypoint' | translate) : ('Creating a waypoint' | translate)" class="text-center"></h1>
 <form app-document-editing="waypoints" app-document-editing-model="waypoint"
 % if updating_doc:
-  app-document-editing-id="${waypoint_id}" app-document-editing-culture="${waypoint_culture}"
+  app-document-editing-id="${waypoint_id}" app-document-editing-lang="${waypoint_lang}"
 % endif
 class="document-editing" name="editForm" novalidate ng-submit="editCtrl.submitForm(editForm.$valid)">
-  <div id="culture-group" class="form-group" 
-       ng-class="{ 'has-error': editForm.culture.$touched && editForm.culture.$invalid,
-                              'has-success':  editForm.culture.$valid}">
-    <label><span translate>culture</span> *</label>
-    % if waypoint_culture:
-      {{mainCtrl.translate('${waypoint_culture}')}}
+  <div id="lang-group" class="form-group" 
+       ng-class="{ 'has-error': editForm.lang.$touched && editForm.lang.$invalid,
+                              'has-success':  editForm.lang.$valid}">
+    <label><span translate>lang</span> *</label>
+    % if waypoint_lang:
+      {{mainCtrl.translate('${waypoint_lang}')}}
     % else:
-      <select name="culture" ng-options="culture as mainCtrl.translate(culture) for culture in ['${"','".join(default_cultures) |n}'] | translate" 
-        ng-model="waypoint.locales[0].culture" class="form-control" required>
+      <select name="lang" ng-options="lang as mainCtrl.translate(lang) for lang in ['${"','".join(default_langs) |n}'] | translate" 
+        ng-model="waypoint.locales[0].lang" class="form-control" required>
       </select>
-      <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.culture.$valid"></span>
-      <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.culture.$invalid && editForm.culture.$touched"></span>
-      <div class="help-block" ng-messages="editForm.culture.$error">
-        <p ng-message="required" class="label label-danger" style="{{ (editForm.culture.$invalid && editForm.culture.$touched) ? 'display:inline' : '' }}">{{'This field is required.' | translate}}</p> 
+      <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.lang.$valid"></span>
+      <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.lang.$invalid && editForm.lang.$touched"></span>
+      <div class="help-block" ng-messages="editForm.lang.$error">
+        <p ng-message="required" class="label label-danger" style="{{ (editForm.lang.$invalid && editForm.lang.$touched) ? 'display:inline' : '' }}">{{'This field is required.' | translate}}</p> 
       </div>
     % endif
   </div>
@@ -132,7 +132,7 @@ class="document-editing" name="editForm" novalidate ng-submit="editCtrl.submitFo
   <p>
     <button type="submit" class="btn btn-primary" ng-disabled="editForm.$invalid || editForm.$pristine">{{'Save' | translate}} </button>
     <%
-    view_url = request.route_url('waypoints_view', id=waypoint_id, culture=waypoint_culture) if updating_doc else ''
+    view_url = request.route_url('waypoints_view', id=waypoint_id, lang=waypoint_lang) if updating_doc else ''
     index_url = request.route_url('waypoints_index_default')
     %>
     <button type="button" class="btn btn-default" ng-click="editCtrl.cancel('${view_url}', '${index_url}')">{{'Cancel' | translate}}</button>

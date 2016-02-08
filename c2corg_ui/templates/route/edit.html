@@ -1,9 +1,9 @@
 <%!
-from c2corg_common.attributes import default_cultures
+from c2corg_common.attributes import default_langs
 %>\
 <%inherit file="../base.html"/>
 <%
-updating_doc = route_id and route_culture
+updating_doc = route_id and route_lang
 %>\
 <%namespace file="../helpers.html" import="show_title"/>
 <%block name="pagetitle"><title ng-init="id=${route_id if route_id else 0}" ng-bind="id ? mainCtrl.page_title('Editing a route') : mainCtrl.page_title('Creating a route')">${show_title('Create/edit route')}</title></%block>\
@@ -12,23 +12,23 @@ updating_doc = route_id and route_culture
 <h1 ng-cloak ng-init="id=${route_id if route_id else 0}" ng-bind="id ? ('Editing a route' | translate) : ('Creating a route' | translate)" class="text-center"></h1>
 <form app-document-editing="routes" app-document-editing-model="route" 
 % if updating_doc:
-  app-document-editing-id="${route_id}" app-document-editing-culture="${route_culture}"
+  app-document-editing-id="${route_id}" app-document-editing-lang="${route_lang}"
 % endif 
   name="editForm" novalidate ng-submit="editCtrl.submitForm(editForm.$valid)" class="document-editing">
-  <div id="culture-group" class="form-group" 
-       ng-class="{ 'has-error': editForm.culture.$touched && editForm.culture.$invalid, 
-                              'has-success': editForm.culture.$valid}">
-    <label><span translate>culture</span> *</label>
-    % if route_culture:
-      {{mainCtrl.translate('${route_culture}')}}
+  <div id="lang-group" class="form-group" 
+       ng-class="{ 'has-error': editForm.lang.$touched && editForm.lang.$invalid, 
+                              'has-success': editForm.lang.$valid}">
+    <label><span translate>lang</span> *</label>
+    % if route_lang:
+      {{mainCtrl.translate('${route_lang}')}}
     % else:
-      <select name="culture" ng-options="culture as mainCtrl.translate(culture) for culture in ['${"','".join(default_cultures) |n}'] | translate"
-        ng-model="route.locales[0].culture" class="form-control" required>
+      <select name="lang" ng-options="lang as mainCtrl.translate(lang) for lang in ['${"','".join(default_langs) |n}'] | translate"
+        ng-model="route.locales[0].lang" class="form-control" required>
       </select>
-      <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.culture.$valid"></span>
-      <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.culture.$touched && editForm.culture.$invalid"></span>
-      <div class="help-block" ng-messages="editForm.culture.$error">
-        <p ng-message="required" class="label label-danger" style="{{ (editForm.culture.$invalid && editForm.culture.$touched) ? 'display:inline' : '' }}">{{'This field is required.' | translate }}</p> 
+      <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.lang.$valid"></span>
+      <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.lang.$touched && editForm.lang.$invalid"></span>
+      <div class="help-block" ng-messages="editForm.lang.$error">
+        <p ng-message="required" class="label label-danger" style="{{ (editForm.lang.$invalid && editForm.lang.$touched) ? 'display:inline' : '' }}">{{'This field is required.' | translate }}</p> 
       </div>
     % endif
   </div>
@@ -104,7 +104,7 @@ updating_doc = route_id and route_culture
   <p>
     <button type="submit" class="btn btn-primary" ng-disabled="editForm.$invalid || editForm.$pristine" translate>Save</button>
     <%
-    view_url = request.route_url('routes_view', id=route_id, culture=route_culture) if updating_doc else ''
+    view_url = request.route_url('routes_view', id=route_id, lang=route_lang) if updating_doc else ''
     index_url = request.route_url('routes_index_default')
     %>
     <button type="button" class="btn btn-default" ng-click="editCtrl.cancel('${view_url}', '${index_url}')" translate>Cancel</button>

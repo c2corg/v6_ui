@@ -27,16 +27,16 @@ class Route(Document):
     @view_config(route_name='routes_archive',
                  renderer='c2corg_ui:templates/route/view.html')
     def view(self):
-        id, culture = self._validate_id_culture()
+        id, lang = self._validate_id_lang()
         if 'version' in self.request.matchdict:
             version_id = int(self.request.matchdict['version'])
             route, locale, version = self._get_archived_document(
-                id, culture, version_id)
+                id, lang, version_id)
         else:
-            route, locale = self._get_document(id, culture)
+            route, locale = self._get_document(id, lang)
             version = None
         self.template_input.update({
-            'culture': culture,
+            'lang': lang,
             'route': route,
             'locale': locale,
             'version': version
@@ -48,11 +48,11 @@ class Route(Document):
     @view_config(route_name='routes_edit',
                  renderer='c2corg_ui:templates/route/edit.html')
     def edit(self):
-        id, culture = self._validate_id_culture()
+        id, lang = self._validate_id_lang()
         self.template_input.update({
             'activities': activities,
             'route_types': route_types,
-            'route_culture': culture,
+            'route_lang': lang,
             'route_id': id
         })
         return self.template_input

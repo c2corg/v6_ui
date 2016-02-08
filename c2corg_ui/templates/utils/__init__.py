@@ -1,19 +1,19 @@
-from c2corg_common.attributes import default_cultures
+from c2corg_common.attributes import default_langs
 from c2corg_ui.templates.utils.format import parse_code, sanitize
 
 
-def get_culture_lists(document, culture):
-    if 'available_cultures' in document:
-        available_cultures = document['available_cultures']
-        other_cultures = [l for l in available_cultures if l != culture]
-        missing_cultures = list(
-          set(default_cultures) - set(available_cultures)
+def get_lang_lists(document, lang):
+    if 'available_langs' in document:
+        available_langs = document['available_langs']
+        other_langs = [l for l in available_langs if l != lang]
+        missing_langs = list(
+          set(default_langs) - set(available_langs)
         )
     else:
-        other_cultures = None
-        missing_cultures = list(set(default_cultures) - set(culture))
-    missing_cultures.reverse()
-    return other_cultures, missing_cultures
+        other_langs = None
+        missing_langs = list(set(default_langs) - set(lang))
+    missing_langs.reverse()
+    return other_langs, missing_langs
 
 
 def get_attr(obj, key, md=True, bb=True):

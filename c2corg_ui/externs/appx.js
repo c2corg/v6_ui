@@ -51,7 +51,7 @@ appx.SearchDocument;
  * @typedef {{
  *   title: string,
  *   title_prefix: ?string,
- *   culture: string
+ *   lang: string
  * }}
  */
 appx.SearchDocumentLocale;

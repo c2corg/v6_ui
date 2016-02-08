@@ -1,13 +1,13 @@
 <%!
-from c2corg_ui.templates.utils import get_culture_lists
+from c2corg_ui.templates.utils import get_lang_lists
 %>\
 <%inherit file="../base.html"/>
-<%namespace file="../helpers.html" import="show_attr, show_archive_data, show_other_cultures_links, show_missing_cultures_links, show_route_title"/>
+<%namespace file="../helpers.html" import="show_attr, show_archive_data, show_other_langs_links, show_missing_langs_links, show_route_title"/>
 <%
 route_id = route['document_id']
-other_cultures, missing_cultures = get_culture_lists(route, culture)
+other_langs, missing_langs = get_lang_lists(route, lang)
 %>\
-<%block name="pagelang">lang="${culture}"</%block>\
+<%block name="pagelang">lang="${lang}"</%block>\
 <%block name="pagetitle"><title>${show_route_title(locale, True)}</title></%block>\
 <%block name="metarobots">\
   % if version:
@@ -21,7 +21,7 @@ other_cultures, missing_cultures = get_culture_lists(route, culture)
   <span class="heading">${show_route_title(locale)} <label class="badge" translate>route</label></span>
   <div class="float-buttons">
     <div class="float-button float-edit" tooltip-placement="top" uib-tooltip="{{'Edit' | translate}}">
-      <app-edit-button app-edit-button-url="${request.route_url('routes_edit', id=route_id, culture=culture)}"></app-edit-button>
+      <app-edit-button app-edit-button-url="${request.route_url('routes_edit', id=route_id, lang=lang)}"></app-edit-button>
       <span class="glyphicon glyphicon-edit"></span>
     </div>
     <div class="float-button float-favorite" tooltip-placement="top" uib-tooltip="{{'Add to favorites' | translate}}">
@@ -64,10 +64,10 @@ other_cultures, missing_cultures = get_culture_lists(route, culture)
     % if version:
       ${show_archive_data('routes', route, locale, version)}
     % else:
-      ${show_other_cultures_links('routes', route, other_cultures)}
-      ${show_missing_cultures_links('routes', route, missing_cultures)}
+      ${show_other_langs_links('routes', route, other_langs)}
+      ${show_missing_langs_links('routes', route, missing_langs)}
     % endif
-    <a class="btn btn-info" href="${request.route_url('routes_history', id=route_id, culture=culture)}" translate>History</a>
+    <a class="btn btn-info" href="${request.route_url('routes_history', id=route_id, lang=lang)}" translate>History</a>
   </div>
   <div class="view-details-description col-lg-8 col-md-8 col-xs-12">
     <span class="lead"> 

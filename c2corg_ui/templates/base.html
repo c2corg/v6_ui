@@ -1,5 +1,5 @@
 <%!
-from c2corg_common.attributes import default_cultures
+from c2corg_common.attributes import default_langs
 %>\
 <%
 settings = request.registry.settings
@@ -46,9 +46,9 @@ closure_library_path = settings.get('closure_library_path')
       </div>
       <app-user></app-user>
       <div class="lang-user">
-        <div class="culture-selector">
+        <div class="lang-selector">
           <label translate>Browse site in</label>
-          <app-lang app-lang-cultures="['${"','".join(default_cultures) |n}']"></app-lang>
+          <app-lang app-lang-langs="['${"','".join(default_langs) |n}']"></app-lang>
         </div>
       </div>
     </div>
@@ -95,7 +95,7 @@ closure_library_path = settings.get('closure_library_path')
          module.constant('langUrlTemplate', '${request.static_url('c2corg_ui:static/build/locale/__lang__/c2corg_ui.json')}');
          module.constant('apiUrl', '${api_url}');
          module.constant('authUrl', '${request.route_url('auth')}');
-         module.constant('cultures', ['${"','".join(default_cultures) |n}']);
+         module.constant('langs', ['${"','".join(default_langs) |n}']);
          <%block name="moduleConstantsValues">
          module.value('mapFeatureCollection', null);
          </%block>

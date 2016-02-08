@@ -176,7 +176,7 @@ app.SearchController.prototype.createAndInitBloodhound_ = function(type) {
         var documentResponse =
             /** @type {appx.SearchDocumentResponse} */ (resp[type]);
         var documents = documentResponse.documents;
-        var currentCulture = this.gettextCatalog_.currentLanguage;
+        var currentLang = this.gettextCatalog_.currentLanguage;
 
         return documents.map(function(/** appx.SearchDocument */ doc) {
           var locale = doc.locales[0];
@@ -184,8 +184,8 @@ app.SearchController.prototype.createAndInitBloodhound_ = function(type) {
               locale.title_prefix + ' : ' : '';
           doc.label += locale.title;
 
-          if (currentCulture !== locale.culture) {
-            doc.label += ' (' + locale.culture + ')';
+          if (currentLang !== locale.lang) {
+            doc.label += ' (' + locale.lang + ')';
           }
 
           doc.documentType = type;
@@ -207,9 +207,9 @@ app.SearchController.prototype.createAndInitBloodhound_ = function(type) {
  * @private
  */
 app.SearchController.select_ = function(event, doc, dataset) {
-  var culture = doc.locales[0].culture;
+  var lang = doc.locales[0].lang;
   var url = app.utils.buildDocumentUrl(
-      doc.documentType, doc.document_id, culture);
+      doc.documentType, doc.document_id, lang);
   window.location.href = url;
 };
 

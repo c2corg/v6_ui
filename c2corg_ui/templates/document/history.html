@@ -1,11 +1,11 @@
 <%inherit file="../base.html"/>
 <%namespace file="../helpers.html" import="show_version_comment, show_title"/>
-<%block name="pagelang">lang="${culture}"</%block>\
+<%block name="pagelang">lang="${lang}"</%block>\
 <%block name="pagetitle"><title ng-bind="'${title} - '+ mainCtrl.page_title('History')">${title} - ${show_title('History')}</title></%block>
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>\
 
 <h1>${self.pagetitle()}</h1>
-<p><span translate>List of versions for language:</span> <strong>{{mainCtrl.translate('${culture}')}}</strong></p>
+<p><span translate>List of versions for language:</span> <strong>{{mainCtrl.translate('${lang}')}}</strong></p>
 
 <%
     # show last versions first
@@ -15,7 +15,7 @@
 
 % if has_several_versions:
 <form app-versions data-document-type="${module}" data-document-id="${document_id}"
-      data-lang="${culture}" ng-submit="versionsCtrl.compare()">
+      data-lang="${lang}" ng-submit="versionsCtrl.compare()">
     <p><button type="submit" class="btn btn-primary" translate>Compare selected versions</button></p>
 % endif
   <table class="versions-list">
@@ -42,9 +42,9 @@
         % endif
         <%
             if loop.first:
-                version_url = request.route_url(module + '_view', id=document_id, culture=culture)
+                version_url = request.route_url(module + '_view', id=document_id, lang=lang)
             else:
-                version_url = request.route_url(module + '_archive', id=document_id, culture=culture, version=v['version_id'])
+                version_url = request.route_url(module + '_archive', id=document_id, lang=lang, version=v['version_id'])
         %>
         <td><a href="${version_url}">{{'${1000 * v['written_at']}' | date:'medium'}}</a></td>
         <td><a href="#TODO profile for ${v['user_id']}">${v['username']}</a></td>

@@ -83,7 +83,7 @@ app.SearchFiltersController = function($scope, $element, $attrs) {
    * @type {string}
    * @export
    */
-  this.culture;
+  this.lang;
 
 
   /**
