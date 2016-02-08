@@ -210,31 +210,40 @@ h1 {
   }
   @media @tablet {
     margin-right: 15px;
+    height: 50px;
+    width: 50px;
   }
   @media @phone {
     margin-right: 10px;
     height: 40px;
     width: 40px;
   }
+  .glyphicon {
+    font-size: 4em;
+    
+    @media @tablet {
+      font-size: 3em;
+    }
+    @media @phone {
+      font-size: 2.5em;
+    }
+  }
   .glyphicon-edit{
     pointer-events: none;
     top: 14px;
     left: 15px;
-    font-size: 4em;
+
     @media @phone {
       top: 10px;
       left: 11px;
-      font-size: 2.5em;
     }
   }
   .glyphicon-heart {
     top: 17px;
-    font-size: 4em;
     left: 13px;
     @media @phone {
       top: 11px;
       left: 10px;
-      font-size: 2.5em;
     }
   }
   app-edit-button {
@@ -254,33 +263,35 @@ h1 {
 .float-buttons {
   width: 180px;
   float: right;
+  
+  @media @phone {
+    margin: auto 0 auto 0;
+  }
 }
 
 .view-details-title {
   display: flex;
   display: -ms-flex;
 
-  >span {
+  >h1 {
     margin: auto;
     width: 80%;
     text-align: center;
-    font-size: 2.8em;
-
-    transition: 0.8s;
+    transition: 0.4s;
 
     @media @phone {
-      font-size: 1.7em;
+      font-size: 1.8em;
       line-height: 26px;
-      margin-right: 30px;
-      padding-left: 8%;
+      margin-left: 20px;
     }
     @media @tablet {
       line-height: 50px;
-      font-size: 2.5em;
+      font-size: 2em;
     }
     .badge {
       font-size: 0.5em;
       background-color: @brand-success;
+      margin-left: 10px;
     }
   }
 }
@@ -302,7 +313,6 @@ h1 {
   }
   .heading{
     display: flex;
-    flex: 1;
     width: 80%;
     margin: 20px auto;
     line-height: 1em;
@@ -321,10 +331,16 @@ h1 {
     &:after {
       background-image: linear-gradient(to left, transparent, #ccc);
     }
+    
   }
 
   .view-details-description {
     text-align: justify;
+    
+    h2 {
+      text-align: left;
+      font-size: 1.5em;
+    }
 
     .lead {
       width: 100%;
@@ -504,9 +520,12 @@ h1 {
 .document-editing {
   width: 60%;
   margin: auto;
-
+  @media @tablet {
+    width: 85%;
+  }
   @media @phone {
-    width: 90%;
+    width: 89%;
+    margin-left: 15px;
   }
 }
 

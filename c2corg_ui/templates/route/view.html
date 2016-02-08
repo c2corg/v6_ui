@@ -18,7 +18,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
 </%block>\
 
 <header class="view-details-title">
-  <span class="heading">${show_route_title(locale)} <label class="badge" translate>route</label></span>
+  <h1>${show_route_title(locale)}<label class="badge" translate>route</label></h1>
   <div class="float-buttons">
     <div class="float-button float-edit" tooltip-placement="top" uib-tooltip="{{'Edit' | translate}}">
       <app-edit-button app-edit-button-url="${request.route_url('routes_edit', id=route_id, lang=lang)}"></app-edit-button>
