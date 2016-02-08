@@ -17,6 +17,7 @@ html, body{
   min-width: 100%;
   padding: 0;
   margin: 0;
+  overflow-x: hidden;
 }
 
 .loading-gif {
@@ -60,16 +61,21 @@ html, body{
 
 .filters {
   text-align: center;
+  position: relative;
   background-color: white;
-  display: block;
-  overflow: auto;
-  padding: 0 4% 2% 4%;
   
-  .search-filters-btn {
-    margin-left: 40px;
-    top: 1px;
+  .more-filters-btn {
+    margin: 20px 0 10px 0;
     position: relative;
-    z-index: 1;
+  }
+
+  .search-filters-btn {
+    margin: 12px  0 15px 50px;
+    position: relative;
+    
+    @media @phone {
+      top: 3px;
+    }
 
     .glyphicon-search {
       color: @C2C-orange;
@@ -77,23 +83,39 @@ html, body{
   }
   
   #moreFilters {
-    z-index: 2;
-    position: absolute;
     background-color: white;
-    width: 103%;
+    position: absolute;
+    width: 100%;
+    z-index: 2;
+    margin-left: 0;
+    padding: 0;
+    margin-top: 6px;
     box-shadow: 0 14px 14px -14px #332;
     -webkit-box-shadow:  0 14px 14px -14px #332;
     -moz-box-shadow:     0 14px 14px -14px #332;
 
-    .less-filters-btn {
-      float: right;
-      margin-right: 20px;
-      top: 7px;
-      position: relative;
+    .filters-bottom-buttons {
+
+      .less-filters-btn {
+        float: right;
+        margin-right: 30px;
+        top: 15px;
+        position: relative;
+        
+        @media @phone {
+          margin-right: 25px;
+          top: 22px;
+        }
+      }
+    }
+    
+    .filter {
+      margin-top: 10px;
     }
   }
+  
   .row {
-    padding: 0 2% 1% 2%;
+    padding: 0 2% 0 2%;
   }
 
   input {
@@ -106,18 +128,28 @@ html, body{
     color: @C2C-orange;
   }
   .slider-min-max {
-    margin-left: -216px;
-    top: 25px;
+    top: 20px;
     position: relative;
     display: inline-flex;
+    margin-bottom: 10px;
+    width: 100%;
   }
+
   .min-value {
-    width: 160px;
     text-align: left;
+    width: 50%;
+  }
+
+  .max-value {
+    width: 50%;
+    text-align: right;
   }
   .slider-handle {
     background-image: none;
     background-color: @C2C-orange;
+  }
+  .slider.slider-horizontal {
+    width: 95%;
   }
   .slider-selection {
     background: #BABABA;
@@ -619,9 +651,9 @@ h1 {
   margin-right: 3%;
   margin-bottom: 5%;
   
-  border-radius: 15px;
-  -moz-border-radius: 15px;
-  -webkit-border-radius: 15px;
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
   
   border: 1px solid #dbdbdb;
   display: inline-table;
@@ -843,8 +875,9 @@ app-search {
 .page-header {
   position: absolute;
   top: 5px;
-  right: -25px;
-  margin-top: 10px !important;
+  right: 0;
+  margin-top: 10px!important;
+  margin-right: 95px;
   border: 0;
   display: flex;
   display: -ms-flexbox;
@@ -852,7 +885,9 @@ app-search {
   @media @phone {
     margin-right: -15px;
   }
-
+  @media @tablet {
+    margin-right: 0;
+  }
   .quick-search {
     rigth: 0;
     position: relative;
@@ -876,7 +911,7 @@ app-search {
     width: 100%;
     font-weight: bold;
     margin-left: 10px;
-    margin-right: 10px;
+    margin-right: 20px;
   }
   
 #user-menu {
@@ -907,7 +942,6 @@ app-search {
     display: flex;
     display: -ms-flexbox;
     align-items: center;
-    margin-right: 35px;
     
     label {
       margin-right: 3%;
@@ -919,12 +953,6 @@ app-search {
       @media @tablet {
         display: none;
       }
-    }
-    @media @phone {
-      margin-right: 0;
-    }    
-    @media @phone {
-      margin-right: 30px;
     }
  } /* lang-selector*/
 }/* page-header */ 
