@@ -99,5 +99,12 @@ other_langs, missing_langs = get_lang_lists(route, lang)
       <div><span translate>Maps</span>: ${show_maps(route)}</div>
     </span>
   </div>
+
+  ${show_other_langs_links('waypoints', waypoint, other_langs)}
+  ${show_missing_langs_links('routes', route, missing_langs)}
+    
+  <div class="text-center">
+    <button class="btn btn-default" onclick="window.scrollTo(0, 0);"translate>To page head <span class="glyphicon glyphicon-menu-up"></span></button>
+  </div>
 </section>
-<%include file="../document/floating-button-responsive.html"/>
+
