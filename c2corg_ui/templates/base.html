@@ -28,18 +28,11 @@ closure_library_path = settings.get('closure_library_path')
   </head>
   <body>
 
-    <div class="page-menu">
-    <a href="${request.route_url('index')}" title="{{'Back to homepage'|translate}}"><img src="${request.static_url('c2corg_ui:static/img/logo.png')}" alt="Camptocamp.org" /></a>
-    <ul>
-      <li><a href="${request.route_url('waypoints_index_default')}" translate>Waypoints</a></li>
-      <li><a href="${request.route_url('routes_index_default')}" translate>Routes</a></li>
-    </ul>
-    </div>
-    <%include file="sidemenu.html"/>
     <div class="page-content">
       ${self.body()}
     </div>
-
+    
+    <button class="btn btn-default menu-open-close header"><span class="glyphicon glyphicon-align-justify"></span></button>
     <div class="page-header">
       <div class="quick-search">
         <app-search app-search-map=""></app-search>
@@ -52,7 +45,7 @@ closure_library_path = settings.get('closure_library_path')
         </div>
       </div>
     </div>
-
+    <%include file="sidemenu.html"/>
     <app-alerts></app-alerts>
 
 % if debug:
@@ -89,6 +82,7 @@ closure_library_path = settings.get('closure_library_path')
     <script src="${request.static_url('%s/typeahead.js/dist/typeahead.bundle.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('c2corg_ui:static/build/build.js')}"></script>
 % endif
+    <%include file="document/sidemenu-responsive.html"/>
     <script>
       (function() {
          var module = angular.module('app');
@@ -99,8 +93,9 @@ closure_library_path = settings.get('closure_library_path')
          <%block name="moduleConstantsValues">
          module.value('mapFeatureCollection', null);
          </%block>
-       })();
-    </script>
-
+ 
+        sidemenuResponsive();
+      })();
+    </script>    
   </body>
 </html>
