@@ -3,7 +3,7 @@
 pyramid==1.6.1
 pyramid-debugtoolbar==2.4.2
 pyramid-mako==1.0.2
-gunicorn==19.4.5
+waitress==0.8.10
 httplib2==0.9.2
 Shapely==1.5.13
 pyproj==1.9.5.1
