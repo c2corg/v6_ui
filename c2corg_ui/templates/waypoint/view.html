@@ -42,7 +42,7 @@ module.value('mapFeatureCollection', {
 </%block>\
 
 <header class="view-details-title">
-  <span class="heading">${locale['title']} <label class="badge" translate>waypoint</label></span>
+  <h1>${locale['title']} <label class="badge" translate>waypoint</label></h1>
   <div class="float-buttons">
     <div class="float-button float-edit" tooltip-placement="top" uib-tooltip="{{'Edit' | translate}}">
       <app-edit-button app-edit-button-url="${request.route_url('waypoints_edit', id=waypoint_id, lang=lang)}"></app-edit-button>

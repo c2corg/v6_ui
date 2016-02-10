@@ -307,7 +307,7 @@ msgstr ""
 msgid "View in other lang"
 msgstr ""
 
-#: c2corg_ui/templates/base.html
+#: c2corg_ui/templates/base.html c2corg_ui/templates/waypoint/index.html
 msgid "Waypoints"
 msgstr ""
 
@@ -386,11 +386,6 @@ msgstr ""
 
 #: c2corg_ui/templates/waypoint/view.html
 msgid "coordinates"
-msgstr ""
-
-#: c2corg_ui/templates/route/edit.html c2corg_ui/templates/waypoint/edit.html
-#: c2corg_ui/templates/waypoint/filters.html
-msgid "lang"
 msgstr ""
 
 #: c2corg_ui/templates/i18n.html
@@ -476,6 +471,11 @@ msgstr ""
 
 #: c2corg_ui/templates/i18n.html
 msgid "lake"
+msgstr ""
+
+#: c2corg_ui/templates/route/edit.html c2corg_ui/templates/waypoint/edit.html
+#: c2corg_ui/templates/waypoint/filters.html
+msgid "lang"
 msgstr ""
 
 #: c2corg_ui/templates/i18n.html
