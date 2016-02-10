@@ -17,7 +17,7 @@ from c2corg_common.attributes import default_langs, waypoint_types, activities
         <input type="range" id="elevation-filter" class="range-between" data-slider-tooltip="hide">
         <span class="slider-min-max">
           <p class="min-value">{{searchFiltersCtrl.elevation.min}} m</p>
-          <p>{{searchFiltersCtrl.elevation.max}} m</p>
+          <p class="max-value">{{searchFiltersCtrl.elevation.max}} m</p>
         </span>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-3 filter">
@@ -25,7 +25,7 @@ from c2corg_common.attributes import default_langs, waypoint_types, activities
         <input type="range" class="range-between" id="height-filter" data-slider-tooltip="hide">
         <span class="slider-min-max">
           <p class="min-value">{{searchFiltersCtrl.height_diff_up.min}} m</p>
-          <p>{{searchFiltersCtrl.height_diff_up.max}} m</p>
+          <p class="max-value">{{searchFiltersCtrl.height_diff_up.max}} m</p>
         </span>
       </div>
     </div>
@@ -72,16 +72,18 @@ from c2corg_common.attributes import default_langs, waypoint_types, activities
         <label translate>lang</label>
         <select ng-model="searchFiltersCtrl.lang" class="form-control" ng-options="lang as (mainCtrl.translate(lang) | capitalize ) for lang in ['${"','".join(default_langs) |n}'] | translate" ng-model="lang"></select>
       </div>
-      <button class="btn btn-warning less-filters-btn" data-toggle="collapse" data-target="#moreFilters" 
+      <div class="row filters-bottom-buttons">
+         <button class="btn btn-warning less-filters-btn" data-toggle="collapse" data-target="#moreFilters" 
               aria-expanded="false" aria-controls="moreFilters">
-        <span class="glyphicon glyphicon-remove"></span>
-      </button>
-      <button class="btn btn-lg btn-default search-filters-btn" data-toggle="collapse" 
-              data-target="#moreFilters" aria-expanded="false" aria-controls="moreFilters">
-        <span translate>Search</span> 
-        <span class="glyphicon glyphicon-search"></span>
-      </button>
+          <span class="glyphicon glyphicon-remove"></span>
+        </button>
+        <button class="btn btn-lg btn-default search-filters-btn" data-toggle="collapse" 
+                data-target="#moreFilters" aria-expanded="false" aria-controls="moreFilters">
+          <span translate>Search</span> 
+          <span class="glyphicon glyphicon-search"></span>
+        </button>
+      </div>
     </div>
-    <button class="btn btn-info search-filters-btn" data-toggle="collapse" data-target="#moreFilters" aria-expanded="false" aria-controls="moreFilters" translate>More filters</button>
+    <button class="btn btn-info more-filters-btn" data-toggle="collapse" data-target="#moreFilters" aria-expanded="false" aria-controls="moreFilters" translate>More filters</button>
   </div>
 </form>
