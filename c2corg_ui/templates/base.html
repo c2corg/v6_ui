@@ -26,7 +26,7 @@ closure_library_path = settings.get('closure_library_path')
     <link rel="stylesheet" href="${request.static_url('c2corg_ui:static/build/build.min.css')}" type="text/css">
 % endif
   </head>
-  <body>
+  <body class="on-load loading">
 
     <div class="page-menu">
     <a href="${request.route_url('index')}" title="{{'Back to homepage'|translate}}"><img src="${request.static_url('c2corg_ui:static/img/logo.png')}" alt="Camptocamp.org" /></a>
@@ -36,13 +36,14 @@ closure_library_path = settings.get('closure_library_path')
     </ul>
     </div>
 
+    <img src="${request.static_url('c2corg_ui:static/img/loading-main.gif')}" class="loading-gif">
     <div class="page-content">
       ${self.body()}
     </div>
 
     <div class="page-header">
       <div class="quick-search">
-        <app-search app-search-map=""></app-search>
+        <app-search app-loading app-search-map=""></app-search>
       </div>
       <app-user></app-user>
       <div class="lang-user">
@@ -99,6 +100,9 @@ closure_library_path = settings.get('closure_library_path')
          <%block name="moduleConstantsValues">
          module.value('mapFeatureCollection', null);
          </%block>
+         document.querySelector('.loading-gif').style.display = 'none';
+         document.querySelector('.on-load').style.display = 'block';
+         $('.on-load').removeClass('loading on-load');
        })();
     </script>
 

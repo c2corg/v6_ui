@@ -11,7 +11,7 @@ updating_doc = waypoint_id and waypoint_lang
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>\
 
 <h1 ng-init="id=${waypoint_id if waypoint_id else 0}" ng-bind="id ? ('Editing a waypoint' | translate) : ('Creating a waypoint' | translate)" class="text-center"></h1>
-<form app-document-editing="waypoints" app-document-editing-model="waypoint"
+<form app-loading app-document-editing="waypoints" app-document-editing-model="waypoint"
 % if updating_doc:
   app-document-editing-id="${waypoint_id}" app-document-editing-lang="${waypoint_lang}"
 % endif

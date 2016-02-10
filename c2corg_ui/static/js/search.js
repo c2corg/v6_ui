@@ -64,6 +64,13 @@ app.searchDirective = function() {
               $('.show-search').removeClass('show-search');
             });
           }
+          //show spinning gif while waiting for the results
+          element.on('typeahead:asyncrequest', function() {
+            $('.loading-gif-typehead').show();
+          })
+          .on('typeahead:asynccancel typeahead:asyncreceive', function() {
+            $('.loading-gif-typehead').hide();
+          });
         }
   };
 };
