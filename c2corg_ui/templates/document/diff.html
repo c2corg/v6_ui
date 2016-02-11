@@ -1,9 +1,12 @@
 <%inherit file="../base.html"/>
-<%namespace file="../helpers.html" import="show_version_comment"/>
-<%block name="pagelang">lang="${lang}"</%block>
-<%block name="pagetitle">${title}</%block>
 
-<h1>${self.pagetitle()}</h1>
+<%namespace file="../helpers/common.html" import="show_title"/>
+<%namespace file="../helpers/view.html" import="show_version_comment"/>
+
+<%block name="pagelang">lang="${lang}"</%block>
+<%block name="pagetitle"><title>${show_title(title)}</title></%block>\
+
+<h1>${title}</h1>
 
 <table class="diff_header">
   <tr>
