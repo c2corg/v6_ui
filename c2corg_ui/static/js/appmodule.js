@@ -3,6 +3,7 @@
  */
 goog.provide('app');
 
+/** @suppress {extraRequire} */
 goog.require('ngeo');
 
 

@@ -5,6 +5,7 @@ goog.provide('app.alertsDirective');
 
 goog.require('app');
 goog.require('app.Alerts');
+/** @suppress {extraRequire} */
 goog.require('app.trustAsHtmlFilter');
 
 

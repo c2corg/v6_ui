@@ -1,7 +1,5 @@
 goog.provide('app.utils');
 
-goog.require('goog.asserts');
-
 
 /**
  * @param {string} document_type The document type.

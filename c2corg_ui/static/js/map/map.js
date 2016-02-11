@@ -3,6 +3,7 @@ goog.provide('app.mapDirective');
 
 goog.require('app');
 goog.require('app.utils');
+/** @suppress {extraRequire} */
 goog.require('ngeo.mapDirective');
 goog.require('ol.Collection');
 goog.require('ol.Feature');

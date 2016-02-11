@@ -1,6 +1,7 @@
 goog.provide('app.MainController');
 
 goog.require('app');
+/** @suppress {extraRequire} */
 goog.require('app.HttpAuthenticationInterceptor');
 
 
