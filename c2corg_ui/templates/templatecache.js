@@ -23,6 +23,7 @@
  * GENERATED FILE. DO NOT EDIT.
  */
 
+/** @suppress {extraRequire} */
 goog.require('app');
 
 (function() {

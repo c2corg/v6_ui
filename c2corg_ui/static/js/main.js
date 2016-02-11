@@ -1,5 +1,6 @@
 /**
  * @fileoverview Application entry point.
+ * @suppress {extraRequire}
  *
  * This file defines the "app.main" Closure namespace, which is be used as the
  * Closure entry point (see "closure_entry_point" in the "build.json" file).

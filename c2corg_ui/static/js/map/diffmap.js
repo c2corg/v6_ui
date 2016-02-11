@@ -3,6 +3,7 @@ goog.provide('app.diffMapDirective');
 
 goog.require('app');
 goog.require('app.MapController');
+/** @suppress {extraRequire} */
 goog.require('ngeo.mapDirective');
 goog.require('ol.Feature');
 goog.require('ol.Map');

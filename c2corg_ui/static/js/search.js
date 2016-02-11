@@ -3,6 +3,7 @@ goog.provide('app.searchDirective');
 
 goog.require('app');
 goog.require('app.utils');
+/** @suppress {extraRequire} */
 goog.require('ngeo.searchDirective');
 
 
