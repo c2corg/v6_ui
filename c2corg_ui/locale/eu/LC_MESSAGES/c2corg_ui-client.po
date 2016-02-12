@@ -12,6 +12,10 @@ msgstr ""
 msgid "Access"
 msgstr ""
 
+#: c2corg_ui/templates/sidemenu.html
+msgid "Accident database"
+msgstr ""
+
 #: c2corg_ui/templates/route/view.html c2corg_ui/templates/waypoint/view.html
 msgid "Add"
 msgstr ""
@@ -32,8 +36,12 @@ msgstr ""
 msgid "Add to favorites"
 msgstr ""
 
-#: c2corg_ui/templates/waypoint/filters.html
-msgid "Around"
+#: c2corg_ui/templates/sidemenu.html
+msgid "Articles"
+msgstr ""
+
+#: c2corg_ui/templates/sidemenu.html
+msgid "Association"
 msgstr ""
 
 #: c2corg_ui/templates/route/view.html c2corg_ui/templates/waypoint/view.html
@@ -44,7 +52,7 @@ msgstr ""
 msgid "Author"
 msgstr ""
 
-#: c2corg_ui/templates/base.html
+#: c2corg_ui/templates/base.html c2corg_ui/templates/sidemenu.html
 msgid "Back to homepage"
 msgstr ""
 
@@ -52,8 +60,17 @@ msgstr ""
 msgid "Browse site in"
 msgstr ""
 
+#: c2corg_ui/templates/waypoint/filters.html
+msgid "Cable car"
+msgstr ""
+
 #: c2corg_ui/templates/route/edit.html c2corg_ui/templates/waypoint/edit.html
 msgid "Cancel"
+msgstr ""
+
+#: c2corg_ui/templates/route/filters.html
+#: c2corg_ui/templates/waypoint/filters.html
+msgid "Category"
 msgstr ""
 
 #: c2corg_ui/templates/document/history.html
@@ -153,20 +170,29 @@ msgstr ""
 msgid "Favorites"
 msgstr ""
 
+#: c2corg_ui/templates/route/index.html
+#: c2corg_ui/templates/waypoint/index.html
+msgid "Filters"
+msgstr ""
+
 #: c2corg_ui/templates/helpers/list.html
 msgid "First"
 msgstr ""
 
 #: c2corg_ui/templates/auth.html
-msgid "Forgotten password?"
+msgid "Forgot password?"
+msgstr ""
+
+#: c2corg_ui/templates/sidemenu.html
+msgid "Forum"
+msgstr ""
+
+#: c2corg_ui/templates/route/filters.html
+msgid "GPS Track"
 msgstr ""
 
 #: c2corg_ui/templates/route/view.html c2corg_ui/templates/waypoint/view.html
 msgid "General"
-msgstr ""
-
-#: c2corg_ui/templates/waypoint/filters.html
-msgid "Georeferenced"
 msgstr ""
 
 #: c2corg_ui/templates/route/view.html
@@ -177,7 +203,7 @@ msgstr ""
 msgid "History"
 msgstr ""
 
-#: c2corg_ui/templates/i18n.html
+#: c2corg_ui/templates/i18n.html c2corg_ui/templates/sidemenu.html
 msgid "Home"
 msgstr ""
 
@@ -229,6 +255,7 @@ msgstr ""
 msgid "More"
 msgstr ""
 
+#: c2corg_ui/templates/route/filters.html
 #: c2corg_ui/templates/waypoint/filters.html
 msgid "More filters"
 msgstr ""
@@ -237,14 +264,15 @@ msgstr ""
 msgid "My account"
 msgstr ""
 
-#: c2corg_ui/templates/waypoint/filters.html
-msgid "My position"
+#: c2corg_ui/templates/sidemenu.html
+msgid "News"
 msgstr ""
 
 #: c2corg_ui/templates/helpers/list.html
 msgid "Next"
 msgstr ""
 
+#: c2corg_ui/templates/route/filters.html
 #: c2corg_ui/templates/waypoint/filters.html
 msgid "No"
 msgstr ""
@@ -263,10 +291,6 @@ msgstr ""
 
 #: c2corg_ui/templates/auth.html
 msgid "Password"
-msgstr ""
-
-#: c2corg_ui/templates/waypoint/filters.html
-msgid "Place"
 msgstr ""
 
 #: c2corg_ui/templates/helpers/list.html
@@ -293,7 +317,8 @@ msgstr ""
 msgid "Route associations"
 msgstr ""
 
-#: c2corg_ui/templates/base.html c2corg_ui/templates/route/index.html
+#: c2corg_ui/templates/route/filters.html c2corg_ui/templates/route/index.html
+#: c2corg_ui/templates/waypoint/filters.html
 #: c2corg_ui/templates/waypoint/view.html
 msgid "Routes"
 msgstr "Ibilbideak"
@@ -302,6 +327,7 @@ msgstr "Ibilbideak"
 msgid "Save"
 msgstr ""
 
+#: c2corg_ui/templates/route/filters.html
 #: c2corg_ui/templates/waypoint/filters.html
 msgid "Search"
 msgstr ""
@@ -314,6 +340,7 @@ msgstr "Bilatu ..."
 msgid "See the latest version"
 msgstr ""
 
+#: c2corg_ui/templates/route/filters.html
 #: c2corg_ui/templates/waypoint/filters.html
 msgid "Select"
 msgstr ""
@@ -351,6 +378,10 @@ msgstr ""
 msgid "To page head <span class=\"glyphicon glyphicon-menu-up\"></span>"
 msgstr ""
 
+#: c2corg_ui/templates/sidemenu.html
+msgid "Topoguide"
+msgstr ""
+
 #: c2corg_ui/templates/helpers/view.html c2corg_ui/templates/route/view.html
 #: c2corg_ui/templates/waypoint/view.html
 msgid "Translate into an other lang"
@@ -377,7 +408,9 @@ msgstr ""
 msgid "Waypoint associations"
 msgstr ""
 
-#: c2corg_ui/templates/base.html c2corg_ui/templates/waypoint/index.html
+#: c2corg_ui/templates/route/filters.html
+#: c2corg_ui/templates/waypoint/filters.html
+#: c2corg_ui/templates/waypoint/index.html
 #: c2corg_ui/templates/waypoint/view.html
 msgid "Waypoints"
 msgstr ""
@@ -386,6 +419,7 @@ msgstr ""
 msgid "Welcome to Camptocamp.org"
 msgstr "Ongi etorri Camptocamp.org-era!"
 
+#: c2corg_ui/templates/route/filters.html
 #: c2corg_ui/templates/waypoint/filters.html
 msgid "Yes"
 msgstr ""
@@ -398,7 +432,7 @@ msgstr ""
 msgid "access"
 msgstr ""
 
-#: c2corg_ui/templates/route/edit.html
+#: c2corg_ui/templates/route/edit.html c2corg_ui/templates/route/filters.html
 #: c2corg_ui/templates/waypoint/filters.html
 msgid "activities"
 msgstr ""
@@ -465,6 +499,7 @@ msgstr ""
 msgid "description"
 msgstr ""
 
+#: c2corg_ui/templates/route/filters.html
 #: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/filters.html
 #: c2corg_ui/templates/waypoint/view.html
@@ -531,7 +566,7 @@ msgstr ""
 msgid "height_diff_difficulties"
 msgstr ""
 
-#: c2corg_ui/templates/route/edit.html
+#: c2corg_ui/templates/route/edit.html c2corg_ui/templates/route/filters.html
 #: c2corg_ui/templates/waypoint/filters.html
 msgid "height_diff_up"
 msgstr ""
@@ -564,7 +599,8 @@ msgstr ""
 msgid "lake"
 msgstr ""
 
-#: c2corg_ui/templates/route/edit.html c2corg_ui/templates/waypoint/edit.html
+#: c2corg_ui/templates/route/edit.html c2corg_ui/templates/route/filters.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/filters.html
 msgid "lang"
 msgstr ""
@@ -676,7 +712,8 @@ msgstr ""
 msgid "summary"
 msgstr ""
 
-#: c2corg_ui/templates/i18n.html c2corg_ui/templates/waypoint/filters.html
+#: c2corg_ui/templates/i18n.html c2corg_ui/templates/route/filters.html
+#: c2corg_ui/templates/waypoint/filters.html
 msgid "summit"
 msgstr ""
 
@@ -688,6 +725,7 @@ msgstr ""
 msgid "traverse"
 msgstr ""
 
+#: c2corg_ui/templates/route/filters.html
 #: c2corg_ui/templates/waypoint/filters.html
 msgid "type"
 msgstr ""
