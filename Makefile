@@ -90,6 +90,7 @@ serve: install build development.ini
 .PHONY: update-node-modules
 update-node-modules:
 	npm install --force
+	npm prune
 
 .PHONY: upgrade
 upgrade:
