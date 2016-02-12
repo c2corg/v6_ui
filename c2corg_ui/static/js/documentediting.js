@@ -336,10 +336,11 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
  */
 app.DocumentEditingController.prototype.successSave_ = function(response) {
   // redirects to the document view page
+  var id = this.id_ || response['data']['document_id'];
   goog.asserts.assert(this.lang_ !== null);
-  var url = app.utils.buildDocumentUrl(
-      this.module_, response['data']['document_id'], this.lang_);
-  window.location.href = url;
+  goog.asserts.assert(id);
+  window.location.href = app.utils.buildDocumentUrl(
+      this.module_, id, this.lang_);
 };
 
 
