@@ -3,4 +3,4 @@ include config/dev
 export debug_port = 6556
 export instanceid = gberaudo
 export base_url = /${instanceid}
-export api_url = http://127.0.0.1:6546
+export api_url = http://c2corgv6-demo.gis.internal:6546
