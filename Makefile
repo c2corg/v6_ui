@@ -1,5 +1,5 @@
 SITE_PACKAGES = $(shell .build/venv/bin/python -c "import distutils; print(distutils.sysconfig.get_python_lib())" 2> /dev/null)
-TEMPLATE_FILES_IN = $(filter-out ./.build/%, $(shell find . -type f -name '*.in'))
+TEMPLATE_FILES_IN = $(filter-out ./.build/% ./node_modules/%, $(shell find . -type f -name '*.in'))
 TEMPLATE_FILES = $(TEMPLATE_FILES_IN:.in=)
 CONFIG_MAKEFILE = $(shell find config -type f)
 CLOSURE_UTIL_PATH := openlayers/node_modules/closure-util
