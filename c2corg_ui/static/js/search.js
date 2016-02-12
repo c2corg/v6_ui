@@ -18,7 +18,7 @@ app.searchDirective = function() {
     restrict: 'E',
     controller: 'AppSearchController',
     bindToController: {
-      appSelect: '&'
+      selectHandler: '&appSelect'
     },
     controllerAs: 'searchCtrl',
     templateUrl: '/static/partials/search.html',
@@ -26,9 +26,8 @@ app.searchDirective = function() {
         /**
          * @param {angular.Scope} scope Scope.
          * @param {angular.JQLite} element Element.
-         * @param {angular.Attributes} attrs Atttributes.
          */
-        function(scope, element, attrs) {
+        function(scope, element) {
           var phoneScreen = 619;
 
           // Empty the search field on focus and blur.
@@ -85,17 +84,26 @@ app.module.directive('appSearch', app.searchDirective);
  * @constructor
  * @param {angular.Scope} $rootScope Angular root scope.
  * @param {angular.$compile} $compile Angular compile service.
+ * @param {angular.Attributes} $attrs Angular attributes.
  * @param {string} apiUrl Base URL of the API.
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @ngInject
  */
-app.SearchController = function($rootScope, $compile, apiUrl, gettextCatalog) {
+app.SearchController = function($rootScope, $compile, $attrs, apiUrl, gettextCatalog) {
 
   /**
-   * @type {function({id: string})} // bound to controller
+   * Bound from directive.
+   * @type {function({doc: appx.SearchDocument})|undefined}
    * @export
    */
-  this.appSelect;
+  this.selectHandler;
+
+  if (!$attrs['appSelect']) {
+    // Angular puts a noop function when mapping an attribute to a
+    // different local name. Hacking it out.
+    // See https://docs.angularjs.org/api/ng/service/$compile#-scope-
+    this.selectHandler = undefined;
+  }
 
   /**
    * @type {string}
@@ -217,20 +225,18 @@ app.SearchController.prototype.createAndInitBloodhound_ = function(type) {
 
 /**
  * @param {jQuery.Event} event Event.
- * @param {appx.SearchDocument} doc Suggested document.
+ * @param {!appx.SearchDocument} doc Suggested document.
  * @param {TypeaheadDataset} dataset Dataset.
  * @this {app.SearchController}
  * @private
  */
 app.SearchController.select_ = function(event, doc, dataset) {
-  if (this.appSelect) {
-    this.appSelect({
-      'id': doc.document_id
-    });
+  if (this.selectHandler) {
+    this.selectHandler({'doc': doc});
   } else {
     var lang = doc.locales[0].lang;
-    var url = app.utils.buildDocumentUrl(
-        doc.documentType, doc.document_id, lang);
+    var type = doc.documentType;
+    var url = app.utils.buildDocumentUrl(type, doc.document_id, lang);
     window.location.href = url;
   }
 };

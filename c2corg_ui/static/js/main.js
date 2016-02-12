@@ -8,6 +8,8 @@
 goog.provide('app.main');
 
 goog.require('app.MainController');
+goog.require('app.addAssociationDirective');
+goog.require('app.associationCardDirective');
 goog.require('app.alertsDirective');
 goog.require('app.authDirective');
 goog.require('app.diffMapDirective');
