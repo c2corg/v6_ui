@@ -17,7 +17,9 @@ app.searchDirective = function() {
   return {
     restrict: 'E',
     controller: 'AppSearchController',
-    bindToController: true,
+    bindToController: {
+      appSelect: '&'
+    },
     controllerAs: 'searchCtrl',
     templateUrl: '/static/partials/search.html',
     link:
@@ -88,6 +90,12 @@ app.module.directive('appSearch', app.searchDirective);
  * @ngInject
  */
 app.SearchController = function($rootScope, $compile, apiUrl, gettextCatalog) {
+
+  /**
+   * @type {function({id: string})} // bound to controller
+   * @export
+   */
+  this.appSelect;
 
   /**
    * @type {string}
@@ -215,10 +223,16 @@ app.SearchController.prototype.createAndInitBloodhound_ = function(type) {
  * @private
  */
 app.SearchController.select_ = function(event, doc, dataset) {
-  var lang = doc.locales[0].lang;
-  var url = app.utils.buildDocumentUrl(
-      doc.documentType, doc.document_id, lang);
-  window.location.href = url;
+  if (this.appSelect) {
+    this.appSelect({
+      'id': doc.document_id
+    });
+  } else {
+    var lang = doc.locales[0].lang;
+    var url = app.utils.buildDocumentUrl(
+        doc.documentType, doc.document_id, lang);
+    window.location.href = url;
+  }
 };
 
 app.module.controller('AppSearchController', app.SearchController);
