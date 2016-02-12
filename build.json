@@ -23,9 +23,9 @@
       "node_modules/ngeo/externs/closure-compiler.js",
       "node_modules/ngeo/externs/twbootstrap.js",
       "node_modules/ngeo/externs/typeahead.js",
-      "c2corg_ui/externs/angular-1.4.js",
-      "c2corg_ui/externs/angular-1.4-q_templated.js",
-      "c2corg_ui/externs/angular-1.4-http-promise_templated.js"
+      "c2corg_ui/externs/angular-1.5.js",
+      "c2corg_ui/externs/angular-1.5-q_templated.js",
+      "c2corg_ui/externs/angular-1.5-http-promise_templated.js"
     ],
     "define": [
       "goog.array.ASSUME_NATIVE_FUNCTIONS=true",

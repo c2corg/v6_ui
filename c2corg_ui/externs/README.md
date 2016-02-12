@@ -14,8 +14,8 @@ Updating Angular externs:
 - get the commit hash you want from https://github.com/google/closure-compiler/commits/master/contrib/externs;
 - Run the following script;
 ```
-HASH="04bdb72"
-for f in angular-1.4.js angular-1.4-q_templated.js angular-1.4-http-promise_templated.js
+HASH="84054ce"
+for f in angular-1.5.js angular-1.5-q_templated.js angular-1.5-http-promise_templated.js
 do
   wget -O $f https://raw.githubusercontent.com/google/closure-compiler/$HASH/contrib/externs/$f
 done
