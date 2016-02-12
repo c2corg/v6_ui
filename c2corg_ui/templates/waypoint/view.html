@@ -112,10 +112,14 @@ module.value('mapFeatureCollection', {
     </span>
   </div>
   % endif
+  <div class="view-details-description col-lg-8 col-md-8 col-xs-12">
+    <span class="lead">
+      <h3 class="text-center heading">Associations</h3>
+      <div>Waypoints: ${show_associated_waypoints(waypoint)}</div>
+      <div>Routes: ${show_associated_routes(waypoint)}</div>
+      <div>Areas: ${show_areas(waypoint)}</div>
+      <div>Maps: ${show_maps(waypoint)}</div>
+    </span>
+  </div>
 </section>
 <%include file="../document/floating-button-responsive.html"/>
-
-<div>Waypoint associations: ${show_associated_waypoints(waypoint)}</div>
-<div>Route associations: ${show_associated_routes(waypoint)}</div>
-<div>Areas: ${show_areas(waypoint)}</div>
-<div>Maps: ${show_maps(waypoint)}</div>
