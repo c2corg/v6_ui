@@ -103,7 +103,7 @@ upgrade-dev:
 c2corg_ui/closure/%.py: $(CLOSURE_LIBRARY_PATH)/closure/bin/build/%.py
 	cp $< $@
 
-c2corg_ui/locale/c2corg_ui-client.pot: $(APP_HTML_FILES) $(APP_PARTIAL_FILES)
+c2corg_ui/locale/c2corg_ui-client.pot: $(APP_HTML_FILES) $(APP_PARTIAL_FILES) $(APP_JS_FILES)
 	node tools/extract-messages.js $^ > $@
 
 c2corg_ui/locale/%/LC_MESSAGES/c2corg_ui-client.po: c2corg_ui/locale/c2corg_ui-client.pot
