@@ -40,7 +40,7 @@ app.AddAssociationController = function(appApi) {
   /**
    * @private
    */
-  this.appApi_ = appApi;
+  this.api_ = appApi;
 
   /**
    * @type {Array.<appx.SearchDocument>}
@@ -55,14 +55,9 @@ app.AddAssociationController = function(appApi) {
  * @export
  */
 app.AddAssociationController.prototype.associate = function(doc) {
-  this.appApi_.postJson('/associations', {
-    'parent_document_id': this.parentId,
-    'child_document_id': doc.document_id
-  }).then(function() {
+  this.api_.associateDocument(this.parentId, doc).then(function() {
     this.addedDocuments.push(doc);
-  }.bind(this), function() {
-    console.log('error associating', doc.document_id);
-  });
+  }.bind(this));
 };
 
 
