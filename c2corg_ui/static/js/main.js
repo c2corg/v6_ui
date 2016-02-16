@@ -22,3 +22,4 @@ goog.require('app.searchDirective');
 goog.require('app.searchFiltersDirective');
 goog.require('app.userDirective');
 goog.require('app.versionsDirective');
+goog.require('app.viewDetailsDirective');
