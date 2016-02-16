@@ -61,20 +61,6 @@ ${attr | n}\
   </ul>
 </%def>
 
-<%def name="show_other_langs_links(module, document, other_langs)">\
-% if other_langs:
-  <div class="btn-group view-other-lang">
-    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <span translate>View in other lang</span>&nbsp;<span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu">
-    % for l in other_langs:
-      <li><a href="${request.route_url(module + '_view', id=document['document_id'], lang=l)}">{{mainCtrl.translate('${l}')}}</a></li>
-    % endfor
-    </ul>
-  </div>
-% endif
-</%def>
 
 <%def name="show_missing_langs_links(module, document, missing_langs)">\
 % if missing_langs:

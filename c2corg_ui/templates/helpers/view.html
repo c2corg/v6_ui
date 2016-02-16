@@ -12,11 +12,6 @@ from c2corg_ui.templates.utils import get_attr
 
 <%def name="show_short_attr(obj, attr, type='raw', suffix='')">\
   % if attr in obj and obj[attr]:
-    <div class="name-icon-value col-sm-6">
-      <div class="name-icon">
-        <span class="glyphicon glyphicon-${'paperclip' if type == 'list' else 'list-alt'}"></span>
-        <span class="detail-name">{{mainCtrl.translate('${attr}')}}</span>
-      </div>
       % if type == 'i18n':
         <span class="detail-value">{{mainCtrl.translate('${obj[attr]}')}}</span>
       % elif type == 'list':
@@ -26,7 +21,6 @@ from c2corg_ui.templates.utils import get_attr
       % else:
         <span class="detail-text">${obj[attr]}${suffix}</span>
       % endif
-    </div>
   % endif
 </%def>
 
@@ -40,11 +34,9 @@ from c2corg_ui.templates.utils import get_attr
 
 <%def name="show_other_langs_links(module, document, other_langs)">\
   % if other_langs:
-    <div class="btn-group view-other-lang">
-      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <span translate>View in other lang</span>&nbsp;<span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu">
+    <div id="other-langs">
+      <div class="modal-header"><h3 class="text-center" translate>View in other lang</h3></div>  
+      <ul>
       % for l in other_langs:
         <li>
           <a href="${request.route_url(module + '_view', id=document['document_id'], lang=l)}">{{mainCtrl.translate('${l}')}}</a>
@@ -57,20 +49,21 @@ from c2corg_ui.templates.utils import get_attr
 </%def>
 
 <%def name="show_missing_langs_links(module, document, missing_langs)">\
-  % if missing_langs:
-    <div class="translate-lang">
-      <div class="btn-group">
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <span translate>Translate into an other lang</span>&nbsp;<span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-        % for lang in missing_langs:
-          <li><app-edit-button app-edit-button-url="${request.route_url(module + '_edit', id=document['document_id'], lang=lang)}">{{mainCtrl.translate('${lang}')}}</app-edit-button></li>
-        % endfor
-        </ul>
-      </div>
-    </div>
-  % endif
+% if missing_langs:
+  <div  id="missing-langs">
+    <div class="modal-header"><h3 class="text-center" translate>Translate into an other lang</h3></div>  
+    <ul>
+      % for lang in missing_langs:
+      <li>
+      <app-edit-button app-edit-button-url="${request.route_url(module + '_edit', id=document['document_id'], lang=lang)}">
+        {{mainCtrl.translate('${lang}')}}
+        <span class="glyphicon glyphicon-chevron-right"></span>
+      </app-edit-button>
+      </li>
+      % endfor
+    </ul>
+</div>
+% endif
 </%def>
 
 <%def name="show_route_title(locale, is_tab_title=False)">\
