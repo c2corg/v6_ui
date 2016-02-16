@@ -37,7 +37,7 @@ appx.SearchDocumentResponse;
 
 /**
  * @typedef {{
- *   document_id: string,
+ *   document_id: number,
  *   locales: Array.<appx.SearchDocumentLocale>,
  *   document_type: string,
  *   label: string,
