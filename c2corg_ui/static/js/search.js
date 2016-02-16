@@ -42,35 +42,35 @@ app.searchDirective = function() {
           // Add class only on hover && when screen width < @phone (defined in LESS)
           element.on('mouseenter', function() {
             if (window.innerWidth < phoneScreen) {
-              $('app-search input').addClass('show-search');
+              element.find('input').addClass('show-search');
             }
           });
-          // Trigger focus on search-icon click for #search
+          // Trigger focus on search-icon click for .search
           element.on('click', function(event) {
             if (window.innerWidth < phoneScreen) {
               event.stopPropagation();
-              $('app-search input').addClass('show-search');
-              $('#search').trigger('focus');
+              element.find('input').addClass('show-search');
+              element.find('.search').triggerHandler('focus');
             }
           });
           // If the input is focused, don't remove the class
           element.on('mouseleave', function() {
-            if (window.innerWidth < phoneScreen && !$('#search').is(':focus')) {
-              $('.show-search').removeClass('show-search');
+            if (window.innerWidth < phoneScreen && !$('.search').is(':focus')) {
+              element.find('.show-search').removeClass('show-search');
             } 
           });
           // If you click outside the search input, it has to be closed on @phone
           if (window.innerWidth < phoneScreen) {
-            $('html').not('#search').not('.glyphicon-search').click(function() {
-              $('.show-search').removeClass('show-search');
+            $('html').not('.search').not('.glyphicon-search').click(function() {
+              element.find('.show-search').removeClass('show-search');
             });
           }
           //show spinning gif while waiting for the results
           element.on('typeahead:asyncrequest', function() {
-            $('.loading-gif-typehead').show();
+            element.find('input').addClass('loading-gif-typehead');
           })
           .on('typeahead:asynccancel typeahead:asyncreceive', function() {
-            $('.loading-gif-typehead').hide();
+            element.find('input').removeClass('loading-gif-typehead');
           });
         }
   };
