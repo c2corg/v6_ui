@@ -1,5 +1,6 @@
 from pyramid.config import Configurator
 from pyramid_mako import add_mako_renderer
+from c2corg_ui.lib.cacheversion import version_cache_buster, CACHE_PATH
 
 
 def main(global_config, **settings):
@@ -7,7 +8,11 @@ def main(global_config, **settings):
     """
     config = Configurator(settings=settings)
     add_mako_renderer(config, '.html')
-    config.add_static_view('static', 'static', cache_max_age=3600)
+
+    # Register a tween to get back the cache buster path.
+    config.add_tween("c2corg_ui.lib.cacheversion.CachebusterTween")
+
+    _add_static_view(config, 'static', 'c2corg_ui:static')
     config.add_static_view('node_modules', settings.get('node_modules_path'),
                            cache_max_age=3600)
     config.add_static_view('closure', settings.get('closure_library_path'),
@@ -40,3 +45,13 @@ def main(global_config, **settings):
 
     config.scan(ignore='c2corg_ui.tests')
     return config.make_wsgi_app()
+
+
+def _add_static_view(config, name, path):
+    config.add_static_view(
+        name=name,
+        path=path,
+        cache_max_age=int(config.get_settings()['cache_max_age']),
+    )
+    config.add_cache_buster(path, version_cache_buster)
+    CACHE_PATH.append(name)
