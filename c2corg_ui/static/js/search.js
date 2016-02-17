@@ -38,7 +38,7 @@ app.searchDirective = function() {
           $(window).resize(function resize() {
             if ($(window).width() < phoneScreen) {
               element.removeClass('show-search');
-            } 
+            }
           });
           // Add class only on hover && when screen width < @phone (defined in LESS)
           element.on('mouseenter', function() {
@@ -58,7 +58,7 @@ app.searchDirective = function() {
           element.on('mouseleave', function() {
             if (window.innerWidth < phoneScreen && !$('.search').is(':focus')) {
               element.find('.show-search').removeClass('show-search');
-            } 
+            }
           });
           // If you click outside the search input, it has to be closed on @phone
           if (window.innerWidth < phoneScreen) {
@@ -76,7 +76,7 @@ app.searchDirective = function() {
         }
   };
 };
-       
+
 app.module.directive('appSearch', app.searchDirective);
 
 

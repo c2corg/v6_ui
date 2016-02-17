@@ -4,7 +4,7 @@
     "app": false,
     "goog": false,
     "ol": false,
-    "ngeoModule": false,
+    "ngeo": false,
     "angular": false,
     "$": false,
     "Bloodhound": false
