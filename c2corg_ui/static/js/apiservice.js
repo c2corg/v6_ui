@@ -36,7 +36,7 @@ app.Api = function(apiUrl, $http, appAlerts) {
 /**
  * @param {string} url Url suffix
  * @param {Object} json
- * @return {angular.$http.HttpPromise}
+ * @return {!angular.$http.HttpPromise}
  * @private
  */
 app.Api.prototype.postJson_ = function(url, json) {
@@ -53,7 +53,7 @@ app.Api.prototype.postJson_ = function(url, json) {
 /**
  * @param {string} url Url suffix
  * @param {Object} json
- * @return {angular.$http.HttpPromise}
+ * @return {!angular.$http.HttpPromise}
  * @private
  */
 app.Api.prototype.deleteJson_ = function(url, json) {
@@ -71,7 +71,7 @@ app.Api.prototype.deleteJson_ = function(url, json) {
 /**
  * @param {number} parentId
  * @param {appx.SearchDocument} doc
- * @return {angular.$q.Promise}
+ * @return {!angular.$q.Promise}
  */
 app.Api.prototype.associateDocument = function(parentId, doc) {
   var alerts = this.alerts_;
@@ -104,6 +104,20 @@ app.Api.prototype.unassociateDocument = function(parentId, childId) {
     alerts.addError(msg);
   });
 }
+
+
+/**
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.logoutFromApiAndDiscourse = function() {
+  var alerts = this.alerts_;
+  var data = {
+    'discourse': true
+  };
+  return this.postJson_('/users/logout', data).catch(function(response) {
+    alerts.addError(response);
+  });
+};
 
 
 app.module.service('appApi', app.Api);

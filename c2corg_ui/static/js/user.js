@@ -27,24 +27,17 @@ app.module.directive('appUser', app.userDirective);
 
 
 /**
- * @param {angular.$http} $http
  * @param {app.Authentication} appAuthentication
- * @param {string} apiUrl Base URL of the API.
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {app.Alerts} appAlerts
+ * @param {app.Api} appApi
  * @param {string} authUrl Base URL of the authentication page.
  * @constructor
  * @export
  * @ngInject
  */
-app.UserController = function($http, appAuthentication, apiUrl, ngeoLocation,
-    appAlerts, authUrl) {
-
-  /**
-   * @type {angular.$http}
-   * @private
-   */
-  this.http_ = $http;
+app.UserController = function(appAuthentication, ngeoLocation,
+    appAlerts, appApi, authUrl) {
 
   /**
    * @type {app.Authentication}
@@ -53,10 +46,10 @@ app.UserController = function($http, appAuthentication, apiUrl, ngeoLocation,
   this.auth = appAuthentication;
 
   /**
-   * @type {string}
+   * @type {app.Api}
    * @private
    */
-  this.apiUrl_ = apiUrl;
+  this.api_ = appApi;
 
   /**
    * @type {string}
@@ -93,37 +86,11 @@ app.UserController.prototype.showLogin = function() {
  * @export
  */
 app.UserController.prototype.logout = function() {
-  this.http_.post(this.apiUrl_ + '/users/logout', {
-    'discourse': true
-  }, {
-    'headers': {
-      'Content-Type': 'application/json; charset=UTF-8',
-      'Accept': 'application/json'
-    }
-  }).then(
-      this.successLogout_.bind(this),
-      this.errorLogout_.bind(this)
-  );
-};
-
-
-/**
- * @param {Object} response Response from the API server.
- * @private
- */
-app.UserController.prototype.successLogout_ = function(response) {
-  this.auth.removeUserData();
-  this.alerts_.addSuccess('You have been disconnected');
-};
-
-
-/**
- * @param {Object} response Response from the API server.
- * @private
- */
-app.UserController.prototype.errorLogout_ = function(response) {
-  this.auth.removeUserData();
-  this.alerts_.addError(response);
+  this.api_.logoutFromApiAndDiscourse().then(function() {
+    this.alerts_.addSuccess('You have been disconnected');
+  }.bind(this)).finally(function() {
+    this.auth.removeUserData();
+  }.bind(this));
 };
 
 
