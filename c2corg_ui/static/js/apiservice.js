@@ -216,4 +216,26 @@ app.Api.prototype.errorSaveDocument_ = function(response) {
 };
 
 
+/**
+ * @param {Object} data
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.register = function(data) {
+  return this.postJson_('/users/register', data).catch(function(response) {
+    this.alerts_.addError(response);
+  }.bind(this));
+};
+
+
+/**
+ * @param {Object} data
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.login = function(data) {
+  return this.postJson_('/users/login', data).catch(function(response) {
+    this.alerts_.addError(response);
+  }.bind(this));
+};
+
+
 app.module.service('appApi', app.Api);
