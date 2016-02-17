@@ -105,7 +105,9 @@ module.value('mapFeatureCollection', {
         <p translate>Location</p>
       </div>
       <span class="detail-text accordion">
-        ${show_areas(waypoint)}
+        % if not version:
+          ${show_areas(waypoint)}
+        % endif
         <p>${round(geometry4326.x)} °E / ${round(geometry4326.y)} °N</p>
       </span>
     </div>
@@ -164,29 +166,31 @@ module.value('mapFeatureCollection', {
     </span>
   </div>
 
-  <div class="view-details-associations col-xs-12 tab">
-    <span class="lead">
-      <h3 class="text-center heading">Associations</h3>
-      <div ng-show="userCtrl.auth.isAuthenticated()"><span translate>Add association</span>:
-        <app-add-association parent-id="${waypoint_id}" added-documents="added"></app-add-association>
-      </div>
-      <div><span translate>Waypoints</span>: ${show_associated_waypoints(waypoint)}
-        <ul>
-          <li ng-repeat="doc in added | filter:{'documentType': 'waypoints'}">
-            <app-association-card></app-association-card>
-          </li>
-        </ul>
-      </div>
-      <div><span translate>Routes</span>: ${show_associated_routes(waypoint)}
-        <ul>
-          <li ng-repeat="doc in added | filter:{'documentType': 'routes'}">
-            <app-association-card doc="doc"></app-association-card>
-          </li>
-        </ul>
-      </div>
-      <div><span translate>Maps</span>: ${show_maps(waypoint)}</div>
-    </span>
-  </div>
+  % if not version:
+    <div class="view-details-associations col-xs-12 tab">
+      <span class="lead">
+        <h3 class="text-center heading" translate>Associations</h3>
+        <div ng-show="userCtrl.auth.isAuthenticated()"><span translate>Add association</span>:
+          <app-add-association parent-id="${waypoint_id}" added-documents="added"></app-add-association>
+        </div>
+        <div><span translate>Waypoints</span>: ${show_associated_waypoints(waypoint)}
+          <ul>
+            <li ng-repeat="doc in added | filter:{'documentType': 'waypoints'}">
+              <app-association-card></app-association-card>
+            </li>
+          </ul>
+        </div>
+        <div><span translate>Routes</span>: ${show_associated_routes(waypoint)}
+          <ul>
+            <li ng-repeat="doc in added | filter:{'documentType': 'routes'}">
+              <app-association-card doc="doc"></app-association-card>
+            </li>
+          </ul>
+        </div>
+        <div><span translate>Maps</span>: ${show_maps(waypoint)}</div>
+      </span>
+    </div>
+  % endif
   
   <div class="col-lg-7 col-md-7 col-xs-12 detail-buttons">
     % if version:

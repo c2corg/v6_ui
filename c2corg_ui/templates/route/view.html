@@ -73,16 +73,18 @@ other_langs, missing_langs = get_lang_lists(route, lang)
   <div class="thumbnail view-details-list col-lg-12col-md-12 col-sm-12 tab">
     
     ## LOCATION 
-    <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
-      <h4><span translate>Location</span><span class="glyphicon glyphicon-menu-right"></span></h4>
-      <div class="name-icon">
-        <span class="glyphicon glyphicon-map-marker"></span>
-        <p translate>Location</p>
+    % if not version:
+      <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
+        <h4><span translate>Location</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+        <div class="name-icon">
+          <span class="glyphicon glyphicon-map-marker"></span>
+          <p translate>Location</p>
+        </div>
+        <span class="detail-text accordion">
+          ${show_areas(route)}
+        </span>
       </div>
-      <span class="detail-text accordion">
-        ${show_areas(route)}  
-      </span>
-    </div>
+    % endif
 
     ## GENERAL 
     <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
@@ -166,43 +168,48 @@ other_langs, missing_langs = get_lang_lists(route, lang)
 
   ## DESCRIPTION
   <div class="view-details-description col-xs-12 tab">
-    <span class="lead"> 
+    <span class="lead">
       <h3 translate class="text-center heading">description</h3>
       ${show_attr(locale, 'description')}
     </span>
   </div>
 
   ## IMAGES
-  <div class="view-details-photos col-xs-12 tab">
-    <span class="lead"> 
-      <h3 translate class="text-center">images</h3>
-    </span>
-  </div>
+  % if not version:
+    <div class="view-details-photos col-xs-12 tab">
+      <span class="lead">
+        <h3 translate class="text-center">images</h3>
+      </span>
+    </div>
+  % endif
 
   ## ASSOCIATIONS
-  <div class="view-details-associations col-xs-12 tab">
-    <span class="lead"> 
-      <h3 class="text-center heading">Associations</h3>
-      <div ng-show="userCtrl.auth.isAuthenticated()"><span translate>Add association</span>:
-        <app-add-association parent-id="${route_id}" added-documents="added"></app-add-association>
-      </div>
-      <div><span translate>Waypoint associations</span>: ${show_associated_waypoints(route)}
-        <ul>
-          <li ng-repeat="doc in added | filter:{'documentType': 'waypoints'}">
-            <app-association-card></app-association-card>
-          </li>
-        </ul>
-      </div>
-      <div><span translate>Route associations</span>: ${show_associated_routes(route)}
-        <ul>
-          <li ng-repeat="doc in added | filter:{'documentType': 'routes'}">
-            <app-association-card></app-association-card>
-          </li>
-        </ul>
-      </div>
-      <div><span translate>Maps</span>: ${show_maps(route)}</div>
-    </span>
-  </div>
+  % if not version:
+    <div class="view-details-associations col-xs-12 tab">
+      <span class="lead">
+        <h3 class="text-center heading" translate>Associations</h3>
+        <div ng-show="userCtrl.auth.isAuthenticated()"><span translate>Add association</span>:
+          <app-add-association parent-id="${route_id}" added-documents="added"></app-add-association>
+        </div>
+        <div><span translate>Waypoint associations</span>: ${show_associated_waypoints(route)}
+          <ul>
+            <li ng-repeat="doc in added | filter:{'documentType': 'waypoints'}">
+              <app-association-card></app-association-card>
+            </li>
+          </ul>
+        </div>
+        <div><span translate>Route associations</span>: ${show_associated_routes(route)}
+          <ul>
+            <li ng-repeat="doc in added | filter:{'documentType': 'routes'}">
+              <app-association-card></app-association-card>
+            </li>
+          </ul>
+        </div>
+        <div><span translate>Maps</span>: ${show_maps(route)}</div>
+      </span>
+    </div>
+  % endif
+
   ${show_other_langs_links('routes', route, other_langs)}
   ${show_missing_langs_links('routes', route, missing_langs)}
     
