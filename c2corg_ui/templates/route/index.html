@@ -5,16 +5,16 @@
 <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Routes')">${show_title('Routes')}</title></%block>
 <%block name="metarobots"><meta name="robots" content="noindex,follow"></%block>\
 
-<div class="text-center">
-  <h3 class="page-main-title" ng-init="nbItems = ${total}" ng-cloak>{{'Routes' | translate}}
+<header class="page-main-title text-center" ng-cloak>
+  <h3 ng-init="nbItems = ${total}" ng-cloak>{{'Routes' | translate}}
     <span class="badge">{{nbItems}}</span>
   </h3>
-</div>
+</header>
 <section class="documents-list-section">
   <%include file="filters.html" />
   <div class="documents-nav-buttons text-center">
     <button class="btn btn-default show-documents-filters-phone" translate>Filters</button>
-    <app-edit-button app-edit-button-url="${request.route_url('routes_add')}">
+    <app-edit-button class="btn btn-default" app-edit-button-url="${request.route_url('routes_add')}">
       <span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span>
       <span translate>Add a route</span>
     </app-edit-button>

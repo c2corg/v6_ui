@@ -39,17 +39,17 @@ module.value('mapFeatureCollection', {
 });
 % endif
 </%block>\
-<<<<<<< HEAD
-<div class="page-main-title" ng-cloak">
+
+<header class="page-main-title" ng-cloak">
   <h3 ng-init="nbItems = ${total}">{{'Waypoints' | translate}}
     <span class="badge">{{nbItems}}</span>
   </h3>
-</div>
+</header>
 <section class="documents-list-section">
   <%include file="filters.html" />
   <div class="documents-nav-buttons text-center">
     <button type="button" class="btn btn-default show-documents-filters-phone" translate>Filters</button>
-    <app-edit-button app-edit-button-url="${request.route_url('waypoints_add')}">
+    <app-edit-button class="btn btn-default" app-edit-button-url="${request.route_url('waypoints_add')}">
       <span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span>
       <span translate>Add a waypoint</span>
     </app-edit-button>

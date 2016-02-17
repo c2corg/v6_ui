@@ -67,7 +67,7 @@ module.value('mapFeatureCollection', {
       </div>
       <span class="detail-text accordion">
         % if not version:
-          ${show_areas(waypoint)}
+        ${show_areas(waypoint)}
         % endif
         <p>${round(geometry4326.x)} °E / ${round(geometry4326.y)} °N</p>
       </span>
@@ -90,12 +90,12 @@ module.value('mapFeatureCollection', {
     % if locale['summary']:
     <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
       <h4><span translate>summary</span><span class="glyphicon glyphicon-menu-right"></span></h4>
-        <div class="name-icon">
-          <span class="glyphicon glyphicon-list-alt"></span>
-          <p translate>summary</p>
-        </div>
+      <div class="name-icon">
+        <span class="glyphicon glyphicon-list-alt"></span>
+        <p translate>summary</p>
+      </div>
       <span class="detail-text accordion">
-       ${locale['summary']}
+        ${locale['summary']}
       </span>
     </div>
     % endif
@@ -119,46 +119,47 @@ module.value('mapFeatureCollection', {
   <div class="view-details-description col-xs-12 tab">
     <span class="lead">
       % if locale['description']:
-        <h3 translate class="text-center heading">description</h3>
-        ${show_attr(locale, 'description')}
+      <h3 translate class="text-center heading">description</h3>
+      ${show_attr(locale, 'description')}
       % else :
-        <h3 class="text-center" translate>No description available</h3>
+      <h3 class="text-center" translate>No description available</h3>
       % endif
     </span>
   </div>
 
   % if not version:
-    <div class="view-details-associations col-xs-12 tab">
-      <span class="lead">
-        <h3 class="text-center heading" translate>Associations</h3>
-        <div ng-show="userCtrl.auth.isAuthenticated()"><span translate>Add association</span>:
-          <app-add-association parent-id="${waypoint_id}" added-documents="added"></app-add-association>
-        </div>
-        <div><span translate>Waypoints</span>: ${show_associated_waypoints(waypoint)}
-          <ul>
-            <li ng-repeat="doc in added | filter:{'documentType': 'waypoints'}">
-              <app-association-card parent-id="${waypoint_id}" doc="doc" added-documents="added"></app-association-card>
-            </li>
-          </ul>
-        </div>
-        <div><span translate>Routes</span>: ${show_associated_routes(waypoint)}
-          <ul>
-            <li ng-repeat="doc in added | filter:{'documentType': 'routes'}">
-              <app-association-card parent-id="${waypoint_id}" doc="doc" added-documents="added"></app-association-card>
-            </li>
-          </ul>
-        </div>
-        <div><span translate>Maps</span>: ${show_maps(waypoint)}</div>
-      </span>
-    </div>
+  <div class="view-details-associations col-xs-12 tab">
+    <span class="lead">
+      <h3 class="text-center heading" translate>Associations</h3>
+      <div ng-show="userCtrl.auth.isAuthenticated()"><span translate>Add association</span>:
+        <app-add-association parent-id="${waypoint_id}" added-documents="added"></app-add-association>
+      </div>
+      <div><span translate>Waypoints</span>: ${show_associated_waypoints(waypoint)}
+        <ul>
+          <li ng-repeat="doc in added | filter:{'documentType': 'waypoints'}">
+            <app-association-card parent-id="${waypoint_id}" doc="doc" added-documents="added"></app-association-card>
+          </li>
+        </ul>
+      </div>
+      <div><span translate>Routes</span>: ${show_associated_routes(waypoint)}
+        <ul>
+          <li ng-repeat="doc in added | filter:{'documentType': 'routes'}">
+            <app-association-card parent-id="${waypoint_id}" doc="doc" added-documents="added"></app-association-card>
+          </li>
+        </ul>
+      </div>
+      <div><span translate>Maps</span>: ${show_maps(waypoint)}</div>
+    </span>
+  </div>
   % endif
-
+  
+  ## OTHER BUTTON contents
   <div class="col-lg-7 col-md-7 col-xs-12 detail-buttons">
     % if version:
-      ${show_archive_data('waypoints', waypoint, locale, version)}
+    ${show_archive_data('waypoints', waypoint, locale, version)}
     % else:
-      ${show_other_langs_links('waypoints', waypoint, other_langs)}
-      ${show_missing_langs_links('waypoints', waypoint, missing_langs)}
+    ${show_other_langs_links('waypoints', waypoint, other_langs)}
+    ${show_missing_langs_links('waypoints', waypoint, missing_langs)}
     % endif
   </div>
   <div class="text-center col-xs-12">

@@ -53,6 +53,7 @@ app.AlertsController = function(appAlerts) {
  */
 app.AlertsController.prototype.close = function(index) {
   this.alerts.splice(index, 1);
+  $('.loading').removeClass('loading');
 };
 
 
@@ -101,6 +102,5 @@ app.AlertController = function($timeout) {
     }
   }
 };
-
 
 app.module.controller('AppAlertController', app.AlertController);
