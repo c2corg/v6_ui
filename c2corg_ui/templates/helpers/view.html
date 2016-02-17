@@ -73,10 +73,47 @@ from c2corg_ui.templates.utils import get_attr
           title = locale['title_prefix'] + ' : '
       title += locale['title']
   %>\
-${title}${' - Camptocamp.org' if is_tab_title else ''}\
+  ${title}${' - Camptocamp.org' if is_tab_title else ''}\
 </%def>
 
 <%def name="show_version_comment(version)">\
   ${'{{mainCtrl.translate(\'' + get_attr(version, 'comment', md=False) + '\')}}' if version['comment'] else '' | n}
 </%def>
 
+<%def name="show_associated_waypoints(document, type=None)">\
+  <ul>
+  % if 'waypoints' in document['associations']:
+    % for w in document['associations']['waypoints']:
+      % if type is None or type == w['waypoint_type']:
+      <li><a href="${request.route_url('waypoints_view', id=w['document_id'], lang=w['locales'][0]['lang'])}">${w['locales'][0]['title']}</a></li>
+      % endif
+    % endfor
+  % endif
+  </ul>
+</%def>
+
+<%def name="show_associated_routes(document)">\
+  <ul>
+  % if 'routes' in document['associations']:
+    % for r in document['associations']['routes']:
+    <li><a href="${request.route_url('routes_view', id=r['document_id'], lang=r['locales'][0]['lang'])}">${r['locales'][0]['title']}</a></li>
+    % endfor
+  % endif
+  </ul>
+</%def>
+
+<%def name="show_maps(document)">\
+  <ul>
+  % for m in document['maps']:
+    <li>${m['editor']} ${m['locales'][0]['title']}</li>
+  % endfor
+  </ul>
+</%def>
+
+<%def name="show_areas(document)">\
+  <ul>
+  % for a in document['areas']:
+    <li>${a['area_type']} ${a['locales'][0]['title']}</li>
+  % endfor
+  </ul>
+</%def>

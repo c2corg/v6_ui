@@ -6,7 +6,7 @@ settings = request.registry.settings
 node_modules_path = settings.get('node_modules_path')
 closure_library_path = settings.get('closure_library_path')
 %>\
-<%namespace file="helpers.html" import="show_title"/>
+<%namespace file="helpers/common.html" import="show_title"/>\
 <!DOCTYPE html>
 <html <%block name="pagelang"></%block> ng-app="app" ng-controller="MainController as mainCtrl">
   <head>

@@ -3,8 +3,9 @@ from c2corg_ui.templates.utils import get_lang_lists
 %>\
 <%inherit file="../base.html"/>
 <%namespace file="../helpers/common.html" import="show_title"/>
-<%namespace file="../helpers.html" import="show_attr, show_archive_data, show_route_title, show_associated_waypoints, show_associated_routes, show_areas, show_maps"/>
-<%namespace file="../helpers/view.html" import="show_attr, show_short_attr, show_missing_langs_links, show_other_langs_links"/>
+<%namespace file="../helpers/view.html" import="show_attr, show_short_attr, show_missing_langs_links,
+    show_other_langs_links, show_archive_data, show_route_title, show_associated_waypoints,
+    show_associated_routes, show_areas, show_maps"/>
 <%
 waypoint_id = waypoint['document_id']
 other_langs, missing_langs = get_lang_lists(waypoint, lang)
@@ -97,7 +98,7 @@ module.value('mapFeatureCollection', {
 
   <div class="thumbnail view-details-list col-xs-12 tab">
     ## LOCATION 
-   <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
+    <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
       <h4><span translate>Location</span><span class="glyphicon glyphicon-menu-right"></span></h4>
       <div class="name-icon">
         <span class="glyphicon glyphicon-map-marker"></span>
@@ -107,9 +108,10 @@ module.value('mapFeatureCollection', {
         ${show_areas(waypoint)}
         <p>${round(geometry4326.x)} °E / ${round(geometry4326.y)} °N</p>
       </span>
-  </div>
+    </div>
+ 
     ## GENERAL 
-   <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
+    <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
       <h4><span translate>General</span><span class="glyphicon glyphicon-menu-right"></span></h4>
       <div class="name-icon">
         <span class="glyphicon glyphicon-stats"></span>
@@ -119,34 +121,37 @@ module.value('mapFeatureCollection', {
         <p><span translate>waypoint_type</span>: <b>${waypoint['waypoint_type']}</b></p>
         <p><span translate>elevation</span>: <b>${waypoint['elevation']} m</b></p>
       </span>
-  </div>
-  ## SUMMARY
-  % if locale['summary']:
-  <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
-    <h4><span translate>summary</span><span class="glyphicon glyphicon-menu-right"></span></h4>
-      <div class="name-icon">
-        <span class="glyphicon glyphicon-list-alt"></span>
-        <p translate>summary</p>
-      </div>
-    <span class="detail-text accordion">
-     ${locale['summary']}
-    </span>
-  </div>
-  % endif
-  ## MAPSINFO
-  % if waypoint['maps_info']:
-  <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
-    <h4><span translate>maps_info</span><span class="glyphicon glyphicon-menu-right"></span></h4>
-    <div class="name-icon">
-      <span class="glyphicon glyphicon-info-sign"></span>
-      <p translate>maps_info</p>
     </div>
-    <span class="detail-text accordion">
-      <p><span translate>maps_info</span>:<b>${waypoint['maps_info']}</b></p>
-    </span>
+
+    ## SUMMARY
+    % if locale['summary']:
+    <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
+      <h4><span translate>summary</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+        <div class="name-icon">
+          <span class="glyphicon glyphicon-list-alt"></span>
+          <p translate>summary</p>
+        </div>
+      <span class="detail-text accordion">
+       ${locale['summary']}
+      </span>
+    </div>
+    % endif
+
+    ## MAPSINFO
+    % if waypoint['maps_info']:
+    <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
+      <h4><span translate>maps_info</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+      <div class="name-icon">
+        <span class="glyphicon glyphicon-info-sign"></span>
+        <p translate>maps_info</p>
+      </div>
+      <span class="detail-text accordion">
+        <p><span translate>maps_info</span>:<b>${waypoint['maps_info']}</b></p>
+      </span>
+    </div>
+    % endif
   </div>
-  % endif
-  </div>
+
   ## DESCRIPTION
   <div class="view-details-description col-xs-12 tab">
     <span class="lead"> 
@@ -179,7 +184,6 @@ module.value('mapFeatureCollection', {
           </li>
         </ul>
       </div>
-      <div><span translate>Areas</span>: ${show_areas(waypoint)}</div>
       <div><span translate>Maps</span>: ${show_maps(waypoint)}</div>
     </span>
   </div>

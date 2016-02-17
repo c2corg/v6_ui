@@ -1,5 +1,6 @@
 <%inherit file="../base.html"/>
-<%namespace file="../helpers.html" import="show_version_comment, show_title"/>
+<%namespace file="../helpers/common.html" import="show_title"/>
+<%namespace file="../helpers/view.html" import="show_version_comment"/>
 <%block name="pagelang">lang="${lang}"</%block>\
 <%block name="pagetitle"><title ng-bind="'${title} - '+ mainCtrl.page_title('History')">${title} - ${show_title('History')}</title></%block>
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>\

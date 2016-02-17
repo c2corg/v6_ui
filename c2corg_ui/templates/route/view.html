@@ -1,10 +1,10 @@
 <%!
 from c2corg_ui.templates.utils import get_lang_lists
 %>\
-<%namespace file="../helpers/view.html" import="show_attr, show_short_attr, show_missing_langs_links, show_other_langs_links"/>
-
 <%inherit file="../base.html"/>
-<%namespace file="../helpers.html" import="show_attr, show_archive_data, show_route_title, show_associated_waypoints, show_associated_routes, show_areas, show_maps"/>
+<%namespace file="../helpers/view.html" import="show_attr, show_short_attr, show_missing_langs_links,
+    show_other_langs_links, show_archive_data, show_route_title, show_associated_waypoints,
+    show_associated_routes, show_areas, show_maps"/>
 <%
 route_id = route['document_id']
 other_langs, missing_langs = get_lang_lists(route, lang)
@@ -85,7 +85,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
     </div>
 
     ## GENERAL 
-   <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
+    <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
       <h4><span translate>General</span><span class="glyphicon glyphicon-menu-right"></span></h4>
       <div class="name-icon">
         <span class="glyphicon glyphicon-stats"></span>
@@ -103,6 +103,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
         % endif
       </span>
     </div>
+
     ## SUMMARY
     % if locale['summary']:
     <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
@@ -116,6 +117,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
       </span>
     </div>
     % endif
+
     ##DIFFICULTY
     <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
       <h4><span translate>Difficulty</span><span class="glyphicon glyphicon-menu-right"></span></h4>
@@ -135,6 +137,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
         % endif
       </span>
     </div>
+
     ##ACCESS
     <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
       <h4><span translate>Access</span><span class="glyphicon glyphicon-menu-right"></span></h4>
@@ -143,7 +146,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
         <p translate>Access</p>
       </div>
       <span class="detail-text accordion" ng-init="lift_access=${route['lift_access']}">
-        <span translate >Approche en remontée mécanique</span>: 
+        <span translate>Has lift access</span>:
         <b>{{lift_access == 'None' ? mainCtrl.translate('No'): mainCtrl.translate('Yes')}}</b>
       </span>
     </div>
@@ -160,20 +163,23 @@ other_langs, missing_langs = get_lang_lists(route, lang)
     </div>
     % endif
   </div>
+
   ## DESCRIPTION
   <div class="view-details-description col-xs-12 tab">
     <span class="lead"> 
       <h3 translate class="text-center heading">description</h3>
-        ${show_attr(locale, 'description')}
+      ${show_attr(locale, 'description')}
     </span>
   </div>
-   ## IMAGES
+
+  ## IMAGES
   <div class="view-details-photos col-xs-12 tab">
     <span class="lead"> 
-      <h3 translate class="text-center ">images</h3>
+      <h3 translate class="text-center">images</h3>
     </span>
   </div>
-   ## ASSOCIATIONS
+
+  ## ASSOCIATIONS
   <div class="view-details-associations col-xs-12 tab">
     <span class="lead"> 
       <h3 class="text-center heading">Associations</h3>
@@ -194,7 +200,6 @@ other_langs, missing_langs = get_lang_lists(route, lang)
           </li>
         </ul>
       </div>
-      <div><span translate>Areas</span>: ${show_areas(route)}</div>
       <div><span translate>Maps</span>: ${show_maps(route)}</div>
     </span>
   </div>
@@ -205,8 +210,3 @@ other_langs, missing_langs = get_lang_lists(route, lang)
     <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);"translate>To page head <span class="glyphicon glyphicon-menu-up"></span></button>
   </div>
 </section>
-
-
-
-
-

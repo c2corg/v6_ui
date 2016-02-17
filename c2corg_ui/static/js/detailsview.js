@@ -5,7 +5,6 @@ goog.require('app');
 
 /**
  * @return {angular.Directive} The directive specs.
- * @ngInject
  */
 app.viewDetailsDirective = function() {
   return {
