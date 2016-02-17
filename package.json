@@ -16,14 +16,14 @@
     "angular-cookies": "1.5.0",
     "angular-gettext": "2.2.1",
     "angular-gettext-tools": "2.1.11",
-    "openlayers": "git://github.com/openlayers/ol3#5a123d084083332a8739aeb155eeaea7cf01f46f",
-    "ngeo": "git://github.com/camptocamp/ngeo#f1d44f790b48959342e55db63118aca864cbf7fa",
+    "openlayers": "git://github.com/openlayers/ol3#9baa296a49a75045e756089516f610c58cdc82eb",
+    "ngeo": "git://github.com/camptocamp/ngeo#fd9174ae4ee49c0ace7265f6263d7bf24c658786",
     "less": "2.6.0",
     "less-plugin-clean-css": "1.5.1",
     "nomnom": "1.8.1",
     "typeahead.js": "0.11.1",
     "jquery": "2.2.0",
-    "eslint": "git://github.com/eslint/eslint.git#4356532469ec1b9d4977aff05a03c3e167922ffa",
-    "eslint-config-openlayers": "2.0.0"
+    "eslint": "2.1.0",
+    "eslint-config-openlayers": "4.0.0"
   }
 }

@@ -21,7 +21,7 @@ app.addAssociationDirective = function() {
     template: '<app-search app-select="addCtrl.associate(doc)"></app-search>'
   };
 };
-       
+
 app.module.directive('appAddAssociation', app.addAssociationDirective);
 
 

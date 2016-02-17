@@ -12,7 +12,7 @@ app.loadingDirective = function($http) {
   return {
     restrict: 'A',
     scope: true,
-    link: 
+    link:
      /**
      * @param {angular.Scope} scope Scope.
      * @param {angular.JQLite} el Element.

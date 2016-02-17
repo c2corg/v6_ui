@@ -7,7 +7,7 @@ goog.require('app');
 /**
  * Provides the 'searchFiltersDirective' directive, which is used to enrich
  * filtering components in the documents listing pages.
- * 
+ *
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
@@ -21,7 +21,7 @@ app.searchFiltersDirective = function() {
     link: function(scope, element, attrs, ctrl) {
       // Init sliders
       $('.range-between').slider({min: 0, max: 9999, value: [0, 9999]});
-      
+
       var elevationFilter = $('#elevation-filter');
       var heightFilter = $('#height-filter');
 
@@ -77,8 +77,8 @@ app.SearchFiltersController = function($scope, $element, $attrs) {
    * @export
    */
   this.waypoint_types = [];
-  
- 
+
+
   /**
    * @type {string}
    * @export
@@ -105,7 +105,7 @@ app.SearchFiltersController = function($scope, $element, $attrs) {
    */
   this.elevation = {min : 0, max: 9999};
 };
- 
+
 
 /**
  * @param {string} option name
@@ -123,7 +123,7 @@ app.SearchFiltersController.prototype.selectOption = function(option,
   var optionCat = this[optionCategory];
   var target = $(e.currentTarget);
   var checkbox = target.find('input');
-  
+
   // If this property doesn't exit in the scope, create an array and
   // push the selected option.
   if (!optionCat) {

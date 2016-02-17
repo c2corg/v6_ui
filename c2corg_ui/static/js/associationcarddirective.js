@@ -13,5 +13,5 @@ app.associationCardDirective = function() {
     template: '<a ng-href="' + url + '">{{::doc.locales[0].title}}</a>'
   };
 };
-       
+
 app.module.directive('appAssociationCard', app.associationCardDirective);

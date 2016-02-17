@@ -29,3 +29,4 @@ app.capitalize = function() {
 }
 
 app.module.filter('capitalize', app.capitalize);
+
