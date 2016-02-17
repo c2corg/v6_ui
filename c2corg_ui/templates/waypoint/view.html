@@ -48,45 +48,6 @@ module.value('mapFeatureCollection', {
   <h1>${locale['title']} <label class="badge" translate>waypoint</label></h1>
 </header>
 
-<div class="float-buttons">
-  <div class="float-button float-edit" tooltip-placement="top" uib-tooltip="{{'Edit' | translate}}">
-    <app-edit-button ng-click="ebCtrl.redirect()" app-edit-button-url="${request.route_url('waypoints_edit', id=waypoint_id, lang=lang)}"></app-edit-button>
-    <span class="glyphicon glyphicon-edit"></span>
-    <p class="float-button-text" translate>Edit</p>
-  </div>
-  <div class="float-button float-favorite" tooltip-placement="top" uib-tooltip="{{'Add to favorites' | translate}}">
-    <span class="glyphicon glyphicon-heart"></span>
-    <p class="float-button-text" translate>Favorites</p>
-  </div>
-  <div class="float-button float-add" tooltip-placement="top" uib-tooltip="{{'Add' | translate}}">
-    <span class="glyphicon glyphicon-plus"></span>
-    <p class="float-button-text" translate>Add</p>
-  </div>
-  <div class="float-button float-comments" tooltip-placement="top" uib-tooltip="{{'Comments' | translate}}">
-    <span class="glyphicon glyphicon-comment"></span>
-    <p class="float-button-text" translate>Comments</p>
-  </div>
-  <div class="btn-group float-more float-button " uib-dropdown>
-    <span class="glyphicon glyphicon-th-list dropdown-toggle" uib-dropdown-toggle></span>
-    <p class="float-button-text" translate>More</p>
-    <ul class="dropdown-menu"  role="menu" aria-labelledby="dLabel"> 
-      % if version:
-      <li>${show_archive_data('waypoints', waypoint, locale, version)}</li> 
-      % endif
-      <li><a href="${request.route_url('waypoints_history', id=waypoint_id, lang=lang)}" translate>History</a></li> 
-      % if other_langs:
-      <li ng-click="detailsCtrl.openModal('#other-langs')"><a translate>View in other lang</a></li>
-      % endif
-      % if missing_langs:
-      <li ng-click="detailsCtrl.openModal('#missing-langs')"><a translate>Translate into an other lang</a></li>
-      % endif
-      <li role="separator" class="divider"></li> 
-      <li><a href="#">Print</a></li> 
-      <li><a href="#">Save</a></li> 
-    </ul>
-  </div>
-</div>
-
 <app-map class="view-details-map"></app-map>
 
 <section class="view-details-section" app-view-details>
@@ -97,7 +58,7 @@ module.value('mapFeatureCollection', {
   </uib-tabset>
 
   <div class="thumbnail view-details-list col-xs-12 tab">
-    ## LOCATION 
+    ## LOCATION
     <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
       <h4><span translate>Location</span><span class="glyphicon glyphicon-menu-right"></span></h4>
       <div class="name-icon">
@@ -111,8 +72,8 @@ module.value('mapFeatureCollection', {
         <p>${round(geometry4326.x)} °E / ${round(geometry4326.y)} °N</p>
       </span>
     </div>
- 
-    ## GENERAL 
+
+    ## GENERAL
     <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
       <h4><span translate>General</span><span class="glyphicon glyphicon-menu-right"></span></h4>
       <div class="name-icon">
@@ -156,11 +117,11 @@ module.value('mapFeatureCollection', {
 
   ## DESCRIPTION
   <div class="view-details-description col-xs-12 tab">
-    <span class="lead"> 
+    <span class="lead">
       % if locale['description']:
         <h3 translate class="text-center heading">description</h3>
         ${show_attr(locale, 'description')}
-      % else : 
+      % else :
         <h3 class="text-center" translate>No description available</h3>
       % endif
     </span>
@@ -191,7 +152,7 @@ module.value('mapFeatureCollection', {
       </span>
     </div>
   % endif
-  
+
   <div class="col-lg-7 col-md-7 col-xs-12 detail-buttons">
     % if version:
       ${show_archive_data('waypoints', waypoint, locale, version)}
@@ -204,3 +165,42 @@ module.value('mapFeatureCollection', {
     <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);"translate>To page head <span class="glyphicon glyphicon-menu-up"></span></button>
   </div>
 </section>
+
+<div class="float-buttons">
+  <div class="float-button float-edit" tooltip-placement="top" uib-tooltip="{{'Edit' | translate}}">
+    <app-edit-button ng-click="ebCtrl.redirect()" app-edit-button-url="${request.route_url('waypoints_edit', id=waypoint_id, lang=lang)}"></app-edit-button>
+    <span class="glyphicon glyphicon-edit"></span>
+    <p class="float-button-text" translate>Edit</p>
+  </div>
+  <div class="float-button float-favorite" tooltip-placement="top" uib-tooltip="{{'Add to favorites' | translate}}">
+    <span class="glyphicon glyphicon-heart"></span>
+    <p class="float-button-text" translate>Favorites</p>
+  </div>
+  <div class="float-button float-add" tooltip-placement="top" uib-tooltip="{{'Add' | translate}}">
+    <span class="glyphicon glyphicon-plus"></span>
+    <p class="float-button-text" translate>Add</p>
+  </div>
+  <div class="float-button float-comments" tooltip-placement="top" uib-tooltip="{{'Comments' | translate}}">
+    <span class="glyphicon glyphicon-comment"></span>
+    <p class="float-button-text" translate>Comments</p>
+  </div>
+  <div class="btn-group float-more float-button " uib-dropdown>
+    <span class="glyphicon glyphicon-th-list dropdown-toggle" uib-dropdown-toggle></span>
+    <p class="float-button-text" translate>More</p>
+    <ul class="dropdown-menu"  role="menu" aria-labelledby="dLabel">
+      % if version:
+      <li>${show_archive_data('waypoints', waypoint, locale, version)}</li>
+      % endif
+      <li><a href="${request.route_url('waypoints_history', id=waypoint_id, lang=lang)}" translate>History</a></li>
+      % if other_langs:
+      <li ng-click="detailsCtrl.openModal('#other-langs')"><a translate>View in other lang</a></li>
+      % endif
+      % if missing_langs:
+      <li ng-click="detailsCtrl.openModal('#missing-langs')"><a translate>Translate into an other lang</a></li>
+      % endif
+      <li role="separator" class="divider"></li>
+      <li><a href="#">Print</a></li>
+      <li><a href="#">Save</a></li>
+    </ul>
+  </div>
+</div>

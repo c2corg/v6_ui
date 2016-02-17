@@ -19,51 +19,13 @@ other_langs, missing_langs = get_lang_lists(route, lang)
   %endif
 </%block>\
 
+<header  class="view-details-title">
+  <h1>${show_route_title(locale)}<label class="badge" translate>route</label></h1>
+</header>
 
-  <header  class="view-details-title">
-    <h1>${show_route_title(locale)}<label class="badge" translate>route</label></h1>
-  </header>
-  <div class="float-buttons" app-view-details>
-    <div class="float-button float-edit" tooltip-placement="top" uib-tooltip="{{'Edit' | translate}}">
-      <app-edit-button ng-click="ebCtrl.redirect()" app-edit-button-url="${request.route_url('routes_edit', id=route_id, lang=lang)}"></app-edit-button>
-      <span class="glyphicon glyphicon-edit"></span>
-      <p class="float-button-text" translate>Edit</p>
-    </div>
-    <div class="float-button float-favorite" tooltip-placement="top" uib-tooltip="{{'Add to favorites' | translate}}">
-      <span class="glyphicon glyphicon-heart"></span>
-      <p class="float-button-text" translate>Favorites</p>
-    </div>
-    <div class="float-button float-add" tooltip-placement="top" uib-tooltip="{{'Add' | translate}}">
-      <span class="glyphicon glyphicon-plus"></span>
-      <p class="float-button-text" translate>Add</p>
-    </div>
-    <div class="float-button float-comments" tooltip-placement="top" uib-tooltip="{{'Comments' | translate}}">
-      <span class="glyphicon glyphicon-comment"></span>
-      <p class="float-button-text" translate>Comments</p>
-    </div>
-    <div class="btn-group float-more float-button " uib-dropdown>
-      <span class="glyphicon glyphicon-th-list dropdown-toggle" uib-dropdown-toggle></span>
-      <p class="float-button-text" translate>More</p>
-      <ul class="dropdown-menu"  role="menu" aria-labelledby="dLabel"> 
-        % if version:
-        <li>${show_archive_data('routes', route, locale, version)}</li> 
-        % endif
-        <li><a href="${request.route_url('routes_history', id=route_id, lang=lang)}" translate>History</a></li> 
-        % if other_langs:
-        <li ng-click="detailsCtrl.openModal('#other-langs')"><a translate>View in other lang</a></li>
-        % endif
-        % if missing_langs:
-        <li ng-click="detailsCtrl.openModal('#missing-langs')"><a translate>Translate into an other lang</a></li>
-        % endif
-        <li role="separator" class="divider"></li> 
-        <li><a href="#">Print</a></li> 
-        <li><a href="#">Save</a></li> 
-      </ul>
-    </div>
-  </div>
 <app-map class="view-details-map"></app-map>
 
-<section class="view-details-section" app-view-details> 
+<section class="view-details-section" app-view-details>
   <uib-tabset app-view-details>
     <uib-tab heading="Description" ng-click="detailsCtrl.openTab('.view-details-description')"></uib-tab>
     <uib-tab heading="Details" ng-click="detailsCtrl.openTab('.view-details-list')"></uib-tab>
@@ -71,8 +33,8 @@ other_langs, missing_langs = get_lang_lists(route, lang)
   </uib-tabset>
 
   <div class="thumbnail view-details-list col-lg-12col-md-12 col-sm-12 tab">
-    
-    ## LOCATION 
+
+    ## LOCATION
     % if not version:
       <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
         <h4><span translate>Location</span><span class="glyphicon glyphicon-menu-right"></span></h4>
@@ -86,7 +48,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
       </div>
     % endif
 
-    ## GENERAL 
+    ## GENERAL
     <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
       <h4><span translate>General</span><span class="glyphicon glyphicon-menu-right"></span></h4>
       <div class="name-icon">
@@ -212,8 +174,47 @@ other_langs, missing_langs = get_lang_lists(route, lang)
 
   ${show_other_langs_links('routes', route, other_langs)}
   ${show_missing_langs_links('routes', route, missing_langs)}
-    
+
   <div class="text-center">
     <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);"translate>To page head <span class="glyphicon glyphicon-menu-up"></span></button>
   </div>
 </section>
+
+<div class="float-buttons" app-view-details>
+  <div class="float-button float-edit" tooltip-placement="top" uib-tooltip="{{'Edit' | translate}}">
+    <app-edit-button ng-click="ebCtrl.redirect()" app-edit-button-url="${request.route_url('routes_edit', id=route_id, lang=lang)}"></app-edit-button>
+    <span class="glyphicon glyphicon-edit"></span>
+    <p class="float-button-text" translate>Edit</p>
+  </div>
+  <div class="float-button float-favorite" tooltip-placement="top" uib-tooltip="{{'Add to favorites' | translate}}">
+    <span class="glyphicon glyphicon-heart"></span>
+    <p class="float-button-text" translate>Favorites</p>
+  </div>
+  <div class="float-button float-add" tooltip-placement="top" uib-tooltip="{{'Add' | translate}}">
+    <span class="glyphicon glyphicon-plus"></span>
+    <p class="float-button-text" translate>Add</p>
+  </div>
+  <div class="float-button float-comments" tooltip-placement="top" uib-tooltip="{{'Comments' | translate}}">
+    <span class="glyphicon glyphicon-comment"></span>
+    <p class="float-button-text" translate>Comments</p>
+  </div>
+  <div class="btn-group float-more float-button " uib-dropdown>
+    <span class="glyphicon glyphicon-th-list dropdown-toggle" uib-dropdown-toggle></span>
+    <p class="float-button-text" translate>More</p>
+    <ul class="dropdown-menu"  role="menu" aria-labelledby="dLabel">
+      % if version:
+      <li>${show_archive_data('routes', route, locale, version)}</li>
+      % endif
+      <li><a href="${request.route_url('routes_history', id=route_id, lang=lang)}" translate>History</a></li>
+      % if other_langs:
+      <li ng-click="detailsCtrl.openModal('#other-langs')"><a translate>View in other lang</a></li>
+      % endif
+      % if missing_langs:
+      <li ng-click="detailsCtrl.openModal('#missing-langs')"><a translate>Translate into an other lang</a></li>
+      % endif
+      <li role="separator" class="divider"></li>
+      <li><a href="#">Print</a></li>
+      <li><a href="#">Save</a></li>
+    </ul>
+  </div>
+</div>
