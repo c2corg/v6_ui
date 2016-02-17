@@ -75,16 +75,13 @@ flake8: .build/venv/bin/flake8
 lint: .build/node_modules.timestamp .build/eslint.timestamp
 
 .PHONY: install
-install: build install-dev-egg template .build/node_modules.timestamp
+install: build template .build/node_modules.timestamp
 
 .PHONY: template
 template: $(TEMPLATE_FILES)
 
 .PHONY: less
 less: c2corg_ui/static/build/build.min.css c2corg_ui/static/build/build.css
-
-.PHONY: install-dev-egg
-install-dev-egg: $(SITE_PACKAGES)/c2corg_ui.egg-link
 
 .PHONY: serve
 serve: install build development.ini
@@ -144,18 +141,19 @@ c2corg_ui/static/build/templatecache.js: c2corg_ui/templates/templatecache.js .b
 
 .build/venv/bin/nosetests: .build/dev-requirements.timestamp
 
-.build/venv/bin/mako-render: $(SITE_PACKAGES)/c2corg_ui.egg-link
+.build/venv/bin/mako-render: .build/requirements.timestamp
 
-.build/dev-requirements.timestamp: .build/venv dev-requirements.txt
+.build/dev-requirements.timestamp: .build/venv/bin/pip dev-requirements.txt
 	.build/venv/bin/pip install -r dev-requirements.txt
 	touch $@
 
-.build/venv:
+.build/venv/bin/pip:
 	mkdir -p $(dir $@)
-	virtualenv --no-site-packages -p python3 $@
+	virtualenv --no-site-packages -p python3 .build/venv
 
-$(SITE_PACKAGES)/c2corg_ui.egg-link: .build/venv requirements.txt setup.py
+.build/requirements.timestamp: requirements.txt setup.py .build/venv/bin/pip
 	.build/venv/bin/pip install -r requirements.txt
+	touch $@
 
 development.ini production.ini: common.ini
 
