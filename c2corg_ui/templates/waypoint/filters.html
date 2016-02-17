@@ -5,8 +5,11 @@ from c2corg_common.attributes import default_langs, waypoint_types, activities
   <div class="filters">
     <div class="row simple-filters">
       <div class="col-xs-12 col-sm-6 col-md-3 filter">
-        <label translate>Around</label>
-        <select class="form-control" ng-model="searchFiltersCtrl.around"><option translate>My position</option><option translate>Place</option></select>
+        <label translate>Category</label>
+        <select class="form-control" onchange="window.location = this.value;">
+          <option translate value="${request.route_url('waypoints_index_default')}" ng-selected="{{mainCtrl.isPath('waypoints')}}">Waypoints</option>
+          <option translate value="${request.route_url('routes_index_default')}" ng-selected="{{mainCtrl.isPath('routes')}}">Routes</option>
+        </select>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-3 filter">
         <label>{{'summit' | translate | capitalize}}</label>
