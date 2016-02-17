@@ -78,25 +78,25 @@ other_langs, missing_langs = get_lang_lists(route, lang)
   <div class="view-details-description col-lg-8 col-md-8 col-xs-12">
     <span class="lead"> 
       <h3 class="text-center heading">Associations</h3>
-      <div ng-show="userCtrl.auth.isAuthenticated()">Add association:
+      <div ng-show="userCtrl.auth.isAuthenticated()"><span translate>Add association</span>:
         <app-add-association parent-id="${route_id}" added-documents="added"></app-add-association>
       </div>
-      <div>Waypoint associations: ${show_associated_waypoints(route)}
+      <div><span translate>Waypoint associations</span>: ${show_associated_waypoints(route)}
         <ul>
           <li ng-repeat="doc in added | filter:{'documentType': 'waypoints'}">
             <app-association-card></app-association-card>
           </li>
         </ul>
       </div>
-      <div>Route associations: ${show_associated_routes(route)}
+      <div><span translate>Route associations</span>: ${show_associated_routes(route)}
         <ul>
           <li ng-repeat="doc in added | filter:{'documentType': 'routes'}">
             <app-association-card></app-association-card>
           </li>
         </ul>
       </div>
-      <div>Areas: ${show_areas(route)}</div>
-      <div>Maps: ${show_maps(route)}</div>
+      <div><span translate>Areas</span>: ${show_areas(route)}</div>
+      <div><span translate>Maps</span>: ${show_maps(route)}</div>
     </span>
   </div>
 </section>
