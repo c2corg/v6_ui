@@ -17,16 +17,17 @@ app.searchDirective = function() {
   return {
     restrict: 'E',
     controller: 'AppSearchController',
-    bindToController: true,
+    bindToController: {
+      selectHandler: '&appSelect'
+    },
     controllerAs: 'searchCtrl',
     templateUrl: '/static/partials/search.html',
     link:
         /**
          * @param {angular.Scope} scope Scope.
          * @param {angular.JQLite} element Element.
-         * @param {angular.Attributes} attrs Atttributes.
          */
-        function(scope, element, attrs) {
+        function(scope, element) {
           var phoneScreen = 619;
 
           // Empty the search field on focus and blur.
@@ -42,35 +43,35 @@ app.searchDirective = function() {
           // Add class only on hover && when screen width < @phone (defined in LESS)
           element.on('mouseenter', function() {
             if (window.innerWidth < phoneScreen) {
-              $('app-search input').addClass('show-search');
+              element.find('input').addClass('show-search');
             }
           });
-          // Trigger focus on search-icon click for #search
+          // Trigger focus on search-icon click for .search
           element.on('click', function(event) {
             if (window.innerWidth < phoneScreen) {
               event.stopPropagation();
-              $('app-search input').addClass('show-search');
-              $('#search').trigger('focus');
+              element.find('input').addClass('show-search');
+              element.find('.search').triggerHandler('focus');
             }
           });
           // If the input is focused, don't remove the class
           element.on('mouseleave', function() {
-            if (window.innerWidth < phoneScreen && !$('#search').is(':focus')) {
-              $('.show-search').removeClass('show-search');
+            if (window.innerWidth < phoneScreen && !$('.search').is(':focus')) {
+              element.find('.show-search').removeClass('show-search');
             } 
           });
           // If you click outside the search input, it has to be closed on @phone
           if (window.innerWidth < phoneScreen) {
-            $('html').not('#search').not('.glyphicon-search').click(function() {
-              $('.show-search').removeClass('show-search');
+            $('html').not('.search').not('.glyphicon-search').click(function() {
+              element.find('.show-search').removeClass('show-search');
             });
           }
           //show spinning gif while waiting for the results
           element.on('typeahead:asyncrequest', function() {
-            $('.loading-gif-typehead').show();
+            element.find('input').addClass('loading-gif-typehead');
           })
           .on('typeahead:asynccancel typeahead:asyncreceive', function() {
-            $('.loading-gif-typehead').hide();
+            element.find('input').removeClass('loading-gif-typehead');
           });
         }
   };
@@ -83,11 +84,26 @@ app.module.directive('appSearch', app.searchDirective);
  * @constructor
  * @param {angular.Scope} $rootScope Angular root scope.
  * @param {angular.$compile} $compile Angular compile service.
+ * @param {angular.Attributes} $attrs Angular attributes.
  * @param {string} apiUrl Base URL of the API.
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @ngInject
  */
-app.SearchController = function($rootScope, $compile, apiUrl, gettextCatalog) {
+app.SearchController = function($rootScope, $compile, $attrs, apiUrl, gettextCatalog) {
+
+  /**
+   * Bound from directive.
+   * @type {function({doc: appx.SearchDocument})|undefined}
+   * @export
+   */
+  this.selectHandler;
+
+  if (!$attrs['appSelect']) {
+    // Angular puts a noop function when mapping an attribute to a
+    // different local name. Hacking it out.
+    // See https://docs.angularjs.org/api/ng/service/$compile#-scope-
+    this.selectHandler = undefined;
+  }
 
   /**
    * @type {string}
@@ -209,16 +225,20 @@ app.SearchController.prototype.createAndInitBloodhound_ = function(type) {
 
 /**
  * @param {jQuery.Event} event Event.
- * @param {appx.SearchDocument} doc Suggested document.
+ * @param {!appx.SearchDocument} doc Suggested document.
  * @param {TypeaheadDataset} dataset Dataset.
  * @this {app.SearchController}
  * @private
  */
 app.SearchController.select_ = function(event, doc, dataset) {
-  var lang = doc.locales[0].lang;
-  var url = app.utils.buildDocumentUrl(
-      doc.documentType, doc.document_id, lang);
-  window.location.href = url;
+  if (this.selectHandler) {
+    this.selectHandler({'doc': doc});
+  } else {
+    var lang = doc.locales[0].lang;
+    var type = doc.documentType;
+    var url = app.utils.buildDocumentUrl(type, doc.document_id, lang);
+    window.location.href = url;
+  }
 };
 
 app.module.controller('AppSearchController', app.SearchController);

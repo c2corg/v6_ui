@@ -28,15 +28,9 @@ html, body{
   position: fixed;
 }
 .loading-gif-typehead {
-  display: none;
-  left: 200px !important;
-  width: 20px;
-  height: 20px;
-  top: 7px!important;
-  z-index: 1!important;
-  position: absolute!important;
-  background-image: url("../img/loading-typehead.gif");
-  background-size: 100%;
+  background: url("../img/loading-typehead.gif") no-repeat;
+  background-size: 20px 20px;
+  background-position: right 2px center;
   
   @media @tablet {
     left: 152px !important;
@@ -759,7 +753,7 @@ h3 {
 .tt-hint {
   z-index : -2;
 }
-#search-icon {
+.search-icon {
   font-size: 1.8em;
   margin-right: 8px;
   margin-top: 5px;
@@ -806,28 +800,28 @@ app-user{
   }
 
 .show-search {
-  -webkit-transition: all .5s ease-in-out !important;
-  -moz-transition: all .5s ease-in-out !important;
-  -o-transition: all .5s ease-in-out !important;
-  transition: all .5s ease-in-out !important;
+  -webkit-transition: width .5s ease-in-out !important;
+  -moz-transition: width .5s ease-in-out !important;
+  -o-transition: width .5s ease-in-out !important;
+  transition: width .5s ease-in-out !important;
   width: 160px !important;
   visibility: visible !important;
   padding: 8px !important;
 }
 
-#search {
+.search {
   background-color: white !important;
   width : 103px;
   height: 35px;
-  -webkit-transition: all .5s ease;
-  -moz-transition: all .5s ease;
-  transition: all .5s ease;
+  -webkit-transition: width .5s ease;
+  -moz-transition: width .5s ease;
+  transition: width .5s ease;
   margin-right: 10px;
   &:focus, &:hover {
     width: 200px;
-    -webkit-transition: all .5s ease;
-    -moz-transition: all .5s ease;
-    transition: all .5s ease;
+    -webkit-transition: width .5s ease;
+    -moz-transition: width .5s ease;
+    transition: width .5s ease;
     
     @media @tablet {
       width: 150px;

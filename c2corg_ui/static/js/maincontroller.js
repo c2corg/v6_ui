@@ -7,17 +7,24 @@ goog.require('app.HttpAuthenticationInterceptor');
 
 /**
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
+ * @param {app.Api} appApi The API service
  * @constructor
  * @export
  * @ngInject
  */
-app.MainController = function(gettextCatalog) {
+app.MainController = function(gettextCatalog, appApi) {
 
   /**
    * @type {angularGettext.Catalog}
    * @private
    */
   this.gettextCatalog_ = gettextCatalog;
+
+  /**
+   * @type {app.Api}
+   * @export
+   */
+  this.appApi = appApi;
 };
 
 

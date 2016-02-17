@@ -115,10 +115,25 @@ module.value('mapFeatureCollection', {
   <div class="view-details-description col-lg-8 col-md-8 col-xs-12">
     <span class="lead">
       <h3 class="text-center heading">Associations</h3>
-      <div>Waypoints: ${show_associated_waypoints(waypoint)}</div>
-      <div>Routes: ${show_associated_routes(waypoint)}</div>
-      <div>Areas: ${show_areas(waypoint)}</div>
-      <div>Maps: ${show_maps(waypoint)}</div>
+      <div ng-show="userCtrl.auth.isAuthenticated()"><span translate>Add association</span>:
+        <app-add-association parent-id="${waypoint_id}" added-documents="added"></app-add-association>
+      </div>
+      <div><span translate>Waypoints</span>: ${show_associated_waypoints(waypoint)}
+        <ul>
+          <li ng-repeat="doc in added | filter:{'documentType': 'waypoints'}">
+            <app-association-card></app-association-card>
+          </li>
+        </ul>
+      </div>
+      <div><span translate>Routes</span>: ${show_associated_routes(waypoint)}
+        <ul>
+          <li ng-repeat="doc in added | filter:{'documentType': 'routes'}">
+            <app-association-card doc="doc"></app-association-card>
+          </li>
+        </ul>
+      </div>
+      <div><span translate>Areas</span>: ${show_areas(waypoint)}</div>
+      <div><span translate>Maps</span>: ${show_maps(waypoint)}</div>
     </span>
   </div>
 </section>
