@@ -37,16 +37,34 @@ app.Api = function(apiUrl, $http, appAlerts) {
  * @param {string} url Url suffix
  * @param {Object} json
  * @return {angular.$http.HttpPromise}
- * @export
+ * @private
  */
-app.Api.prototype.postJson = function(url, json) {
+app.Api.prototype.postJson_ = function(url, json) {
   var config = {
-    'headers': {
+    headers: {
       'Content-Type': 'application/json; charset=UTF-8',
       'Accept': 'application/json'
     }
   };
   return this.http_.post(this.apiUrl_ + url, json, config);
+};
+
+
+/**
+ * @param {string} url Url suffix
+ * @param {Object} json
+ * @return {angular.$http.HttpPromise}
+ * @private
+ */
+app.Api.prototype.deleteJson_ = function(url, json) {
+  var config = {
+    data: json,
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Accept': 'application/json'
+    }
+  };
+  return this.http_.delete(this.apiUrl_ + url, config);
 };
 
 
@@ -62,8 +80,27 @@ app.Api.prototype.associateDocument = function(parentId, doc) {
     'child_document_id': doc.document_id
   };
 
-  return this.postJson('/associations', data).catch(function() {
+  return this.postJson_('/associations', data).catch(function() {
     var msg = alerts.gettext('Failed to associate document');
+    alerts.addError(msg);
+  });
+}
+
+
+/**
+ * @param {number} parentId
+ * @param {number} childId
+ * @return {!angular.$q.Promise}
+ */
+app.Api.prototype.unassociateDocument = function(parentId, childId) {
+  var alerts = this.alerts_;
+  var data = {
+    'parent_document_id': parentId,
+    'child_document_id': childId
+  };
+
+  return this.deleteJson_('/associations', data).catch(function() {
+    var msg = alerts.gettext('Failed to unassociate document');
     alerts.addError(msg);
   });
 }
