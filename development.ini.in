@@ -15,9 +15,6 @@ pyramid.includes =
     pyramid_closure
     pyramid_mako
 
-# disable version in dev mode
-version =
-
 # By default, the toolbar only appears for clients from IP addresses
 # '127.0.0.1' and '::1'.
 debugtoolbar.hosts = 0.0.0.0/0

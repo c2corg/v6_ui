@@ -9,7 +9,8 @@ api_url_host = {api_url_host}
 
 pyramid.default_locale_name = fr
 
-version = {version}
+cache_max_age = 3600
+cache_version = {version}
 
 logging.level = {logging_level}
 
