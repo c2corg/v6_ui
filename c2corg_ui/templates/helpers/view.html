@@ -85,7 +85,10 @@ from c2corg_ui.templates.utils import get_attr
   % if 'waypoints' in document['associations']:
     % for w in document['associations']['waypoints']:
       % if type is None or type == w['waypoint_type']:
-      <li><a href="${request.route_url('waypoints_view', id=w['document_id'], lang=w['locales'][0]['lang'])}">${w['locales'][0]['title']}</a></li>
+      <li class="card">
+        <a href="${request.route_url('waypoints_view', id=w['document_id'], lang=w['locales'][0]['lang'])}">${w['locales'][0]['title']}</a>
+        <app-delete-association parent-id="${document['document_id']}" child-id="${w['document_id']}"></app-delete-association>
+      </li>
       % endif
     % endfor
   % endif
@@ -96,7 +99,10 @@ from c2corg_ui.templates.utils import get_attr
   <ul>
   % if 'routes' in document['associations']:
     % for r in document['associations']['routes']:
-    <li><a href="${request.route_url('routes_view', id=r['document_id'], lang=r['locales'][0]['lang'])}">${r['locales'][0]['title']}</a></li>
+    <li class="card">
+      <a href="${request.route_url('routes_view', id=r['document_id'], lang=r['locales'][0]['lang'])}">${r['locales'][0]['title']}</a>
+      <app-delete-association parent-id="${document['document_id']}" child-id="${r['document_id']}"></app-delete-association>
+    </li>
     % endfor
   % endif
   </ul>

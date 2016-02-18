@@ -137,14 +137,14 @@ module.value('mapFeatureCollection', {
         <div><span translate>Waypoints</span>: ${show_associated_waypoints(waypoint)}
           <ul>
             <li ng-repeat="doc in added | filter:{'documentType': 'waypoints'}">
-              <app-association-card></app-association-card>
+              <app-association-card parent-id="${waypoint_id}" doc="doc" added-documents="added"></app-association-card>
             </li>
           </ul>
         </div>
         <div><span translate>Routes</span>: ${show_associated_routes(waypoint)}
           <ul>
             <li ng-repeat="doc in added | filter:{'documentType': 'routes'}">
-              <app-association-card doc="doc"></app-association-card>
+              <app-association-card parent-id="${waypoint_id}" doc="doc" added-documents="added"></app-association-card>
             </li>
           </ul>
         </div>
