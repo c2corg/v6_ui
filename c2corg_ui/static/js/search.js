@@ -28,7 +28,7 @@ app.searchDirective = function() {
          * @param {angular.JQLite} element Element.
          */
         function(scope, element) {
-          var phoneScreen = 619;
+          var phoneScreen = app.constants.SCREEN.SMARTPHONE;
 
           // Empty the search field on focus and blur.
           element.find('input').on('focus blur', function() {

@@ -4,7 +4,7 @@ goog.provide('app.viewDetailsDirective');
 goog.require('app');
 
 /**
- * @return {angular.Directive} The directive specs.
+ * @return {angular.Directive} directive for detailed views
  */
 app.viewDetailsDirective = function() {
   return {
@@ -56,8 +56,9 @@ app.ViewDetailsController.prototype.openModal = function(selector) {
  * @export
  */
 app.ViewDetailsController.prototype.openTab = function(tab) {
+  var s = app.constants.SCREEN;
   // only for smartphones
-  if (window.innerWidth < 620) {
+  if (window.innerWidth < s.SMARTPHONE) {
     if (tab.target) {
       $(tab.target).closest('.name-icon-value').find('.glyphicon-menu-right').toggleClass('rotate-arrow');
       $(tab.target).closest('.name-icon-value').find('.accordion').slideToggle();
