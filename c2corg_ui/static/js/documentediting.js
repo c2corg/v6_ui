@@ -45,35 +45,22 @@ app.module.directive('appDocumentEditing', app.documentEditingDirective);
  * @param {angular.Scope} $scope Scope.
  * @param {angular.JQLite} $element Element.
  * @param {angular.Attributes} $attrs Attributes.
- * @param {angular.$http} $http
  * @param {app.Authentication} appAuthentication
  * @param {app.Alerts} appAlerts
- * @param {string} apiUrl Base URL of the API.
+ * @param {app.Api} appApi Api service.
  * @param {string} authUrl Base URL of the authentication page.
  * @constructor
  * @ngInject
  * @export
  */
-app.DocumentEditingController = function($scope, $element, $attrs, $http,
-    appAuthentication, appAlerts, apiUrl, authUrl) {
+app.DocumentEditingController = function($scope, $element, $attrs,
+    appAuthentication, appAlerts, appApi, authUrl) {
 
   /**
    * @type {angular.Scope}
    * @private
    */
   this.scope_ = $scope;
-
-  /**
-   * @type {angular.$http}
-   * @private
-   */
-  this.http_ = $http;
-
-  /**
-   * @type {string}
-   * @private
-   */
-  this.apiUrl_ = apiUrl;
 
   /**
    * @type {string}
@@ -101,16 +88,16 @@ app.DocumentEditingController = function($scope, $element, $attrs, $http,
   this.modelName_ = $attrs['appDocumentEditingModel'];
 
   /**
-   * @type {?number}
+   * @type {number}
    * @private
    */
-  this.id_ = null;
+  this.id_ = $attrs['appDocumentEditingId'];
 
   /**
-   * @type {?string}
+   * @type {string}
    * @private
    */
-  this.lang_ = null;
+  this.lang_ = $attrs['appDocumentEditingLang'];
 
   /**
    * @type {ol.format.GeoJSON}
@@ -130,20 +117,23 @@ app.DocumentEditingController = function($scope, $element, $attrs, $http,
    */
   this.alerts_ = appAlerts;
 
+  /**
+   * @type {app.Api}
+   * @private
+   */
+  this.api_ = appApi;
+
   // When creating a new document, the model is not created until
   // the form is touched. At least create an empty object.
   this.scope_[this.modelName_] = {};
 
-  if ('appDocumentEditingId' in $attrs &&
-      'appDocumentEditingLang' in $attrs) {
-    this.id_ = $attrs['appDocumentEditingId'];
-    this.lang_ = $attrs['appDocumentEditingLang'];
-
+  if (this.id_ && this.lang_) {
     if (this.auth_.isAuthenticated()) {
       // Get document attributes from the API to feed the model:
-      this.http_.get(this.buildUrl_('read')).then(
-          this.successRead_.bind(this),
-          this.errorRead_.bind(this)
+      goog.asserts.assert(!goog.isNull(this.id_));
+      goog.asserts.assert(!goog.isNull(this.lang_));
+      this.api_.readDocument(this.module_, this.id_, this.lang_).then(
+          this.successRead_.bind(this)
       );
     } else {
       // Redirect to the auth page
@@ -173,32 +163,6 @@ app.DocumentEditingController.FORM_PROJ = 'EPSG:4326';
  * @type {string}
  */
 app.DocumentEditingController.DATA_PROJ = 'EPSG:3857';
-
-
-/**
- * @param {string} type Type of URL.
- * @return {string} URL.
- * @private
- */
-app.DocumentEditingController.prototype.buildUrl_ = function(type) {
-  switch (type) {
-    case 'read':
-      return '{base}/{module}/{id}?l={lang}'
-          .replace('{base}', this.apiUrl_)
-          .replace('{module}', this.module_)
-          .replace('{id}', String(this.id_))
-          .replace('{lang}', this.lang_);
-    case 'update':
-      return '{base}/{module}/{id}'
-          .replace('{base}', this.apiUrl_)
-          .replace('{module}', this.module_)
-          .replace('{id}', String(this.id_));
-    default:
-      return '{base}/{module}'
-          .replace('{base}', this.apiUrl_)
-          .replace('{module}', this.module_);
-  }
-};
 
 
 /**
@@ -236,15 +200,6 @@ app.DocumentEditingController.prototype.successRead_ = function(response) {
 
   this.scope_[this.modelName_] = data;
   this.scope_.$root.$emit('documentDataChange', data);
-};
-
-
-/**
- * @param {Object} response Response from the API server.
- * @private
- */
-app.DocumentEditingController.prototype.errorRead_ = function(response) {
-  this.alerts_.addError(response);
 };
 
 
@@ -297,9 +252,6 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
     delete data['read_lonlat'];
   }
 
-  var config = {
-    'headers': {'Content-Type': 'application/json'}
-  };
   if (this.id_) {
     // updating an existing document
     if ('available_langs' in data) {
@@ -314,52 +266,20 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
       'message': message,
       'document': data
     };
-    this.http_.put(this.buildUrl_('update'), data, config).then(
-        this.successSave_.bind(this),
-        this.errorSave_.bind(this)
+    this.api_.updateDocument(this.module_, this.id_, data).then(function() {
+      window.location.href = app.utils.buildDocumentUrl(
+        this.module_, this.id_, this.lang_);
+    }.bind(this)
     );
   } else {
     // creating a new document
     this.lang_ = data['locales'][0]['lang'];
-    this.http_.post(this.buildUrl_('create'), data, config).then(
-        this.successSave_.bind(this),
-        this.errorSave_.bind(this)
-    );
+    this.api_.createDocument(this.module_, data).then(function(response) {
+      this.id_ = response['data']['document_id'];
+      window.location.href = app.utils.buildDocumentUrl(
+        this.module_, this.id_, this.lang_);
+    }.bind(this));
   }
-  // TODO: show a loading message until doc saving is done
-};
-
-
-/**
- * @param {Object} response Response from the API server.
- * @private
- */
-app.DocumentEditingController.prototype.successSave_ = function(response) {
-  // redirects to the document view page
-  var id = this.id_ || response['data']['document_id'];
-  goog.asserts.assert(this.lang_ !== null);
-  goog.asserts.assert(id);
-  window.location.href = app.utils.buildDocumentUrl(
-      this.module_, id, this.lang_);
-};
-
-
-/**
- * @param {Object} response Response from the API server.
- * @private
- */
-app.DocumentEditingController.prototype.errorSave_ = function(response) {
-  // FIXME: API does not return a valid JSON response for 500/403 errors.
-  // See https://github.com/c2corg/v6_api/issues/85
-  var msg;
-  if (response['data'] instanceof Object && 'errors' in response['data']) {
-    msg = response;
-  } else if (response['status'] == 403) {
-    msg = 'You have no permission to modify this document';
-  } else {
-    msg = 'Failed saving the changes';
-  }
-  this.alerts_.addError(msg);
 };
 
 

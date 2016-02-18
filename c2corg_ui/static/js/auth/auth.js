@@ -29,8 +29,7 @@ app.module.directive('appAuth', app.authDirective);
 
 /**
  * @param {angular.Scope} $scope Scope.
- * @param {angular.$http} $http
- * @param {string} apiUrl Base URL of the API.
+ * @param {app.Api} appApi Api service.
  * @param {app.Authentication} appAuthentication
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {app.Alerts} appAlerts
@@ -40,7 +39,7 @@ app.module.directive('appAuth', app.authDirective);
  * @export
  * @ngInject
  */
-app.AuthController = function($scope, $http, apiUrl, appAuthentication,
+app.AuthController = function($scope, appApi, appAuthentication,
     ngeoLocation, appAlerts, gettextCatalog, $q) {
 
   /**
@@ -56,16 +55,10 @@ app.AuthController = function($scope, $http, apiUrl, appAuthentication,
   this.scope_ = $scope;
 
   /**
-   * @type {angular.$http}
+   * @type {app.Api}
    * @private
    */
-  this.http_ = $http;
-
-  /**
-   * @type {string}
-   * @private
-   */
-  this.apiUrl_ = apiUrl;
+  this.api_ = appApi;
 
   /**
    * @type {app.Authentication}
@@ -101,15 +94,7 @@ app.AuthController.prototype.login = function() {
     login['sig'] = this.ngeoLocation_.getParam('sig');
   }
 
-  this.http_.post(this.buildUrl_('login'), login, {
-    'headers': {
-      'Content-Type': 'application/json; charset=UTF-8',
-      'Accept': 'application/json'
-    }
-  }).then(
-      this.successLogin_.bind(this, remember),
-      this.errorLogin_.bind(this)
-  );
+  this.api_.login(login).then(this.successLogin_.bind(this, remember));
 };
 
 
@@ -166,45 +151,14 @@ app.AuthController.prototype.successLogin_ = function(remember, response) {
 
 
 /**
- * @param {Object} response Response from the API server.
- * @private
- */
-app.AuthController.prototype.errorLogin_ = function(response) {
-  this.alerts_.addError(response);
-};
-
-
-/**
  * @export
  */
 app.AuthController.prototype.register = function() {
-  this.http_.post(this.buildUrl_('register'), this.scope_['register'], {
-    'headers': {
-      'Content-Type': 'application/json; charset=UTF-8',
-      'Accept': 'application/json'
-    }
-  }).then(
-      this.successRegister_.bind(this),
-      this.errorRegister_.bind(this)
-  );
-};
-
-
-/**
- * @param {Object} response Response from the API server.
- * @private
- */
-app.AuthController.prototype.successRegister_ = function(response) {
-  this.alerts_.addSuccess('Register success');
-};
-
-
-/**
- * @param {Object} response Response from the API server.
- * @private
- */
-app.AuthController.prototype.errorRegister_ = function(response) {
-  this.alerts_.addError(response);
+  var alerts = this.alerts_;
+  this.api_.register(this.scope_['register']).then(function() {
+    var msg = alerts.gettext('Register success');
+    alerts.addSuccess(msg);
+  });
 };
 
 
@@ -213,18 +167,6 @@ app.AuthController.prototype.errorRegister_ = function(response) {
  */
 app.AuthController.prototype.showNewPassForm = function() {
   alert('TODO');
-};
-
-
-/**
- * @param {string} action Action.
- * @return {string} URL.
- * @private
- */
-app.AuthController.prototype.buildUrl_ = function(action) {
-  return '{base}/users/{action}'
-      .replace('{base}', this.apiUrl_)
-      .replace('{action}', action);
 };
 
 
