@@ -17,19 +17,50 @@ class CachebusterTween:
     ''' Get back the cachebuster URL. '''
     def __init__(self, handler, registry):
         self.handler = handler
+        self.expected_cache_version = registry.settings.get('cache_version')
+
+    @staticmethod
+    def is_hexa(str):
+        try:
+            int(str, 16)
+            return True
+        except:
+            return False
+
+    @staticmethod
+    def is_git_hash(str):
+        # 592d5db = git rev-parse --short HEAD
+        return len(str) == 7 and CachebusterTween.is_hexa(str)
 
     def __call__(self, request):
         path = request.path_info.split('/')
-        if path[1] in CACHE_PATH:
-            # remove the cache buster
+        if not path[1] in CACHE_PATH:
+            # Simply forward the request unmodified.
+            return self.handler(request)
+
+        received_hash = path[2]
+        if CachebusterTween.is_git_hash(received_hash):
+            # Remove the cache buster only if it looks like a git hash. This
+            # distinction is necessary to get debug mode work.
             path.pop(2)
             request.path_info = '/' .join(path)
 
+        # Prepare a response
         response = self.handler(request)
 
-        if path[1] in CACHE_PATH:
-            response.headers['Access-Control-Allow-Origin'] = '*'
-            response.headers['Access-Control-Allow-Headers'] = \
-                'X-Requested-With, Content-Type'
+        headers = response.headers
+        headers['Access-Control-Allow-Origin'] = '*'
+        headers['Access-Control-Allow-Headers'] = \
+            'X-Requested-With, Content-Type'
+
+        # Prevent caching if the requested version does not match the
+        # one we are configured to serve. This is intended to prevent
+        # cache poisoning.
+        # noqa See http://stackoverflow.com/questions/49547/making-sure-a-web-page-is-not-cached-across-all-browsers
+        if received_hash != self.expected_cache_version:
+                headers['Cache-Control'] = \
+                        'no-cache, no-store, must-revalidate'
+                headers['Pragma'] = 'no-cache'
+                headers['Expires'] = '0'
 
         return response
