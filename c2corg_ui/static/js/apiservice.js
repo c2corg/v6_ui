@@ -112,10 +112,12 @@ app.Api.prototype.associateDocument = function(parentId, doc) {
     'child_document_id': doc.document_id
   };
 
-  return this.postJson_('/associations', data).catch(function() {
+  var promise = this.postJson_('/associations', data);
+  promise.catch(function() {
     var msg = alerts.gettext('Failed to associate document');
     alerts.addError(msg);
   });
+  return promise;
 }
 
 
@@ -131,10 +133,12 @@ app.Api.prototype.unassociateDocument = function(parentId, childId) {
     'child_document_id': childId
   };
 
-  return this.deleteJson_('/associations', data).catch(function() {
+  var promise = this.deleteJson_('/associations', data);
+  promise.catch(function() {
     var msg = alerts.gettext('Failed to unassociate document');
     alerts.addError(msg);
   });
+  return promise;
 }
 
 
@@ -146,9 +150,11 @@ app.Api.prototype.logoutFromApiAndDiscourse = function() {
   var data = {
     'discourse': true
   };
-  return this.postJson_('/users/logout', data).catch(function(response) {
+  var promise = this.postJson_('/users/logout', data);
+  promise.catch(function(response) {
     alerts.addError(response);
   });
+  return promise;
 };
 
 
@@ -158,8 +164,9 @@ app.Api.prototype.logoutFromApiAndDiscourse = function() {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.createDocument = function(module, json) {
-  return this.postJson_('/' + module, json)
-    .catch(this.errorSaveDocument_.bind(this));
+  var promise = this.postJson_('/' + module, json);
+  promise.catch(this.errorSaveDocument_.bind(this));
+  return promise;
 };
 
 
@@ -170,14 +177,17 @@ app.Api.prototype.createDocument = function(module, json) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.readDocument = function(module, id, lang) {
+  var alerts = this.alerts_;
   var url = '/{module}/{id}?l={lang}'
     .replace('{module}', module)
     .replace('{id}', String(id))
     .replace('{lang}', lang);
 
-  return this.getJson_(url).catch(function(response) {
+  var promise = this.getJson_(url);
+  promise.catch(function(response) {
     alerts.addError(response);
   });
+  return promise;
 };
 
 
@@ -192,8 +202,9 @@ app.Api.prototype.updateDocument = function(module, id, json) {
     .replace('{module}', module)
     .replace('{id}', String(id));
 
-  return this.putJson_(url, json)
-    .catch(this.errorSaveDocument_.bind(this));
+  var promise = this.putJson_(url, json);
+  promise.catch(this.errorSaveDocument_.bind(this));
+  return promise;
 };
 
 
@@ -221,9 +232,11 @@ app.Api.prototype.errorSaveDocument_ = function(response) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.register = function(data) {
-  return this.postJson_('/users/register', data).catch(function(response) {
+  var promise = this.postJson_('/users/register', data);
+  promise.catch(function(response) {
     this.alerts_.addError(response);
   }.bind(this));
+  return promise;
 };
 
 
@@ -232,9 +245,11 @@ app.Api.prototype.register = function(data) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.login = function(data) {
-  return this.postJson_('/users/login', data).catch(function(response) {
+  var promise = this.postJson_('/users/login', data);
+  promise.catch(function(response) {
     this.alerts_.addError(response);
   }.bind(this));
+  return promise;
 };
 
 
