@@ -22,9 +22,7 @@ app.editButtonDirective = function() {
     controllerAs: 'ebCtrl',
     bindToController: true,
     transclude: true,
-    template: '<button class="btn btn-primary" type="button" ' +
-        'ng-click="ebCtrl.redirect()">' +
-        '<div ng-transclude></div></button>'
+    template: '<span ng-click="ebCtrl.redirect()"><div ng-transclude></div></span>'
   };
 };
 

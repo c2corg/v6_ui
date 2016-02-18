@@ -6,24 +6,35 @@ settings = request.registry.settings
 node_modules_path = settings.get('node_modules_path')
 closure_library_path = settings.get('closure_library_path')
 %>\
-<%namespace file="helpers.html" import="show_title"/>
+<%namespace file="helpers/common.html" import="show_title"/>\
 <!DOCTYPE html>
 <html <%block name="pagelang"></%block> ng-app="app" ng-controller="MainController as mainCtrl">
   <head>
     <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Home')">${show_title('Home')}</title></%block>
     <meta charset="utf-8">
+    ## Mobile attributes
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="shortcut icon" sizes="196x196"  href="${request.static_url('c2corg_ui:static/img/logo.png')}">
+    <link rel="icon" href="${request.static_url('c2corg_ui:static/img/logo.png')}">
+    <meta name="theme-color" content="#F7931D">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Camptocamp.org">
+    <meta name="application-name" content="Camptocamp.org">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="msapplication-TileImage" content="${request.static_url('c2corg_ui:static/img/logo.png')}">
+    <meta name="msapplication-TileColor" content="#FF0000">
     <%block name="metarobots"><meta name="robots" content="index,follow"></%block>
 % if debug:
-    <link rel="stylesheet" href="${request.static_url('%s/bootstrap/dist/css/bootstrap.css' % node_modules_path)}" type="text/css">
-    <link rel="stylesheet" href="${request.static_url('%s/bootstrap-slider/dist/css/bootstrap-slider.css' % node_modules_path)}" type="text/css">
-    <link rel="stylesheet" href="${request.static_url('c2corg_ui:static/build/build.css')}" type="text/css">
+    <link rel="stylesheet" href="${request.static_url('%s/bootstrap/dist/css/bootstrap.css' % node_modules_path)}">
+    <link rel="stylesheet" href="${request.static_url('%s/bootstrap-slider/dist/css/bootstrap-slider.css' % node_modules_path)}">
+    <link rel="stylesheet" href="${request.static_url('c2corg_ui:static/build/build.css')}">
 % else:
     ## FIXME add version to links?
-    <link rel="stylesheet" href="${request.static_url('%s/bootstrap/dist/css/bootstrap.min.css' % node_modules_path)}" type="text/css">
-    <link rel="stylesheet" href="${request.static_url('%s/bootstrap-slider/dist/css/bootstrap-slider.css' % node_modules_path)}" type="text/css">
-    <link rel="stylesheet" href="${request.static_url('c2corg_ui:static/build/build.min.css')}" type="text/css">
+    <link rel="stylesheet" href="${request.static_url('%s/bootstrap/dist/css/bootstrap.min.css' % node_modules_path)}">
+    <link rel="stylesheet" href="${request.static_url('%s/bootstrap-slider/dist/css/bootstrap-slider.css' % node_modules_path)}">
+    <link rel="stylesheet" href="${request.static_url('c2corg_ui:static/build/build.min.css')}">
 % endif
   </head>
   <body class="on-load loading">

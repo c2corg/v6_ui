@@ -1,0 +1,46 @@
+<%def name="add_pagination_links(module, documents, total, params)">\
+  % if total > len(documents):
+    <%
+        # Make sure that offset and limit are integers
+        params = {k: int(params[k]) if k == 'offset' or k == 'limit' else params[k] for k in params}
+        offset = params['offset'] if 'offset' in params else 0
+    %>
+    <ul id="pagination">
+    % if offset > 0:
+      <%
+          first = params.copy()
+          if 'offset' in first:
+              first.pop('offset')
+          filters_str = '/' + '/'.join(['%s/%s' % (key, first[key]) for key in first])
+      %>
+      <li><a class="btn btn-primary" href="${request.route_url(module + '_index', filters=filters_str)}"><span
+        class="glyphicon glyphicon-step-backward"></span><span translate>First</span></a></li>
+      <%
+          prev = params.copy()
+          prev['offset'] -= prev['limit']
+          if prev['offset'] <= 0:
+              prev.pop('offset')
+          filters_str = '/' + '/'.join(['%s/%s' % (key, prev[key]) for key in prev])
+      %>
+      <li><a class="btn btn-primary" href="${request.route_url(module + '_index', filters=filters_str)}"><span
+        class="glyphicon glyphicon-menu-left" ></span><span translate>Previous</span></a></li>
+    % endif
+    % if offset + params['limit'] < total:
+      <%
+          next = params.copy()
+          next['offset'] = offset + next['limit']
+          filters_str = '/' + '/'.join(['%s/%s' % (key, next[key]) for key in next])
+      %>
+      <li><a class="btn btn-primary" href="${request.route_url(module + '_index', filters=filters_str)}"><span
+        translate>Next</span><span class="glyphicon glyphicon-menu-right"></span></a></li>
+      <%
+          last = params.copy()
+          last['offset'] = total - last['limit']
+          filters_str = '/' + '/'.join(['%s/%s' % (key, last[key]) for key in last])
+      %>
+      <li><a class="btn btn-primary" href="${request.route_url(module + '_index', filters=filters_str)}"><span
+        translate>Last</span><span class="glyphicon glyphicon-step-forward"></span></a></li>
+    % endif
+    </ul>
+  % endif
+</%def>

@@ -2,7 +2,10 @@
 from c2corg_ui.templates.utils import get_lang_lists
 %>\
 <%inherit file="../base.html"/>
-<%namespace file="../helpers.html" import="show_attr, show_archive_data, show_other_langs_links, show_missing_langs_links, show_title, show_associated_routes, show_associated_waypoints, show_areas, show_maps"/>
+<%namespace file="../helpers/common.html" import="show_title"/>
+<%namespace file="../helpers/view.html" import="show_attr, show_short_attr, show_missing_langs_links,
+    show_other_langs_links, show_archive_data, show_route_title, show_associated_waypoints,
+    show_associated_routes, show_areas, show_maps"/>
 <%
 waypoint_id = waypoint['document_id']
 other_langs, missing_langs = get_lang_lists(waypoint, lang)
@@ -12,14 +15,14 @@ other_langs, missing_langs = get_lang_lists(waypoint, lang)
 geometry4326 = geometry
 %>\
 <%block name="pagelang">lang="${lang}"</%block>\
-<%block name="pagetitle"><title>${show_title(locale['title'])}</title></%block>\
+<%block name="pagetitle"><title>${show_route_title(locale, True)}</title></%block>\
 <%block name="metarobots">\
 
   % if version:
 <meta name="robots" content="noindex,follow">\
   % else:
 <meta name="robots" content="index,follow">\
-  %endif
+  % endif
 </%block>\
 
 <%block name="moduleConstantsValues">
@@ -43,58 +46,113 @@ module.value('mapFeatureCollection', {
 
 <header class="view-details-title">
   <h1>${locale['title']} <label class="badge" translate>waypoint</label></h1>
-  <div class="float-buttons">
-    <div class="float-button float-edit" tooltip-placement="top" uib-tooltip="{{'Edit' | translate}}">
-      <app-edit-button app-edit-button-url="${request.route_url('waypoints_edit', id=waypoint_id, lang=lang)}"></app-edit-button>
-      <span class="glyphicon glyphicon-edit"></span>
-    </div>
-    <div class="float-button float-favorite" tooltip-placement="top" uib-tooltip="{{'Add to favorites' | translate}}">
-      <span class="glyphicon glyphicon-heart"></span>
-    </div>
-  </div>
 </header>
+
 <app-map class="view-details-map"></app-map>
 
-<section class="view-details-section">
-  <div class="thumbnail view-details-list col-lg-4 col-md-4 col-sm-12">
-    % if waypoint['elevation']:
-      <div class="name-icon-value col-sm-6">
-        <div class="name-icon">
-          <span class="glyphicon glyphicon-stats detail-icon"></span>
-          <span translate class="detail-name">elevation</span>
-        </div>
-        <span class="detail-value">${waypoint['elevation']} m</span>
-      </div>
-    % endif
-    <div class="name-icon-value col-sm-6">
+<section class="view-details-section" app-view-details>
+  <uib-tabset>
+    <uib-tab heading="Description" ng-click="detailsCtrl.openTab('.view-details-description')"></uib-tab>
+    <uib-tab heading="Details" ng-click="detailsCtrl.openTab('.view-details-list')"></uib-tab>
+    <uib-tab heading="Associations" ng-click="detailsCtrl.openTab('.view-details-associations')"></uib-tab>
+  </uib-tabset>
+
+  <div class="thumbnail view-details-list col-xs-12 tab">
+    ## LOCATION
+    <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
+      <h4><span translate>Location</span><span class="glyphicon glyphicon-menu-right"></span></h4>
       <div class="name-icon">
         <span class="glyphicon glyphicon-map-marker"></span>
-        <span translate class="detail-name">coordinates</span>
+        <p translate>Location</p>
       </div>
-      <table class="coordinates-table">
-        <tr><td>${round(geometry4326.x)} °E</td></tr>
-        <tr><td>${round(geometry4326.y)} °N</td></tr>
-      </table>
+      <span class="detail-text accordion">
+        % if not version:
+          ${show_areas(waypoint)}
+        % endif
+        <p>${round(geometry4326.x)} °E / ${round(geometry4326.y)} °N</p>
+      </span>
     </div>
+
+    ## GENERAL
+    <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
+      <h4><span translate>General</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+      <div class="name-icon">
+        <span class="glyphicon glyphicon-stats"></span>
+        <p translate>General</p>
+      </div>
+      <span class="detail-text accordion">
+        <p><span translate>waypoint_type</span>: <b>${waypoint['waypoint_type']}</b></p>
+        <p><span translate>elevation</span>: <b>${waypoint['elevation']} m</b></p>
+      </span>
+    </div>
+
+    ## SUMMARY
     % if locale['summary']:
-      <div class="name-icon-value col-sm-6">
+    <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
+      <h4><span translate>summary</span><span class="glyphicon glyphicon-menu-right"></span></h4>
         <div class="name-icon">
           <span class="glyphicon glyphicon-list-alt"></span>
-          <span class="detail-name">{{mainCtrl.translate('summary')}}</span>
+          <p translate>summary</p>
         </div>
-        <span class="detail-text">${show_attr(locale, 'summary')}</span>
-      </div>
+      <span class="detail-text accordion">
+       ${locale['summary']}
+      </span>
+    </div>
     % endif
+
+    ## MAPSINFO
     % if waypoint['maps_info']:
-      <div class="name-icon-value col-sm-6">
-        <div class="name-icon">
-          <span class="glyphicon glyphicon-info-sign"></span>
-          <span class="detail-name" translate>maps_info</span>
-        </div>
-        <span class="detail-text">${show_attr(waypoint, 'maps_info')}</span>
+    <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
+      <h4><span translate>maps_info</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+      <div class="name-icon">
+        <span class="glyphicon glyphicon-info-sign"></span>
+        <p translate>maps_info</p>
       </div>
+      <span class="detail-text accordion">
+        <p><span translate>maps_info</span>:<b>${waypoint['maps_info']}</b></p>
+      </span>
+    </div>
     % endif
   </div>
+
+  ## DESCRIPTION
+  <div class="view-details-description col-xs-12 tab">
+    <span class="lead">
+      % if locale['description']:
+        <h3 translate class="text-center heading">description</h3>
+        ${show_attr(locale, 'description')}
+      % else :
+        <h3 class="text-center" translate>No description available</h3>
+      % endif
+    </span>
+  </div>
+
+  % if not version:
+    <div class="view-details-associations col-xs-12 tab">
+      <span class="lead">
+        <h3 class="text-center heading" translate>Associations</h3>
+        <div ng-show="userCtrl.auth.isAuthenticated()"><span translate>Add association</span>:
+          <app-add-association parent-id="${waypoint_id}" added-documents="added"></app-add-association>
+        </div>
+        <div><span translate>Waypoints</span>: ${show_associated_waypoints(waypoint)}
+          <ul>
+            <li ng-repeat="doc in added | filter:{'documentType': 'waypoints'}">
+              <app-association-card></app-association-card>
+            </li>
+          </ul>
+        </div>
+        <div><span translate>Routes</span>: ${show_associated_routes(waypoint)}
+          <ul>
+            <li ng-repeat="doc in added | filter:{'documentType': 'routes'}">
+              <app-association-card doc="doc"></app-association-card>
+            </li>
+          </ul>
+        </div>
+        <div><span translate>Maps</span>: ${show_maps(waypoint)}</div>
+      </span>
+    </div>
+  % endif
+
   <div class="col-lg-7 col-md-7 col-xs-12 detail-buttons">
     % if version:
       ${show_archive_data('waypoints', waypoint, locale, version)}
@@ -102,39 +160,47 @@ module.value('mapFeatureCollection', {
       ${show_other_langs_links('waypoints', waypoint, other_langs)}
       ${show_missing_langs_links('waypoints', waypoint, missing_langs)}
     % endif
-    <a class="btn btn-info" href="${request.route_url('waypoints_history', id=waypoint_id, lang=lang)}" translate>History</a>
   </div>
-  % if locale['description']:
-  <div class="view-details-description col-lg-8 col-md-8 col-xs-12">
-    <span class="lead"> 
-      <h3 translate class="text-center heading">description</h3>
-      ${show_attr(locale, 'description')}
-    </span>
-  </div>
-  % endif
-  <div class="view-details-description col-lg-8 col-md-8 col-xs-12">
-    <span class="lead">
-      <h3 class="text-center heading">Associations</h3>
-      <div ng-show="userCtrl.auth.isAuthenticated()"><span translate>Add association</span>:
-        <app-add-association parent-id="${waypoint_id}" added-documents="added"></app-add-association>
-      </div>
-      <div><span translate>Waypoints</span>: ${show_associated_waypoints(waypoint)}
-        <ul>
-          <li ng-repeat="doc in added | filter:{'documentType': 'waypoints'}">
-            <app-association-card></app-association-card>
-          </li>
-        </ul>
-      </div>
-      <div><span translate>Routes</span>: ${show_associated_routes(waypoint)}
-        <ul>
-          <li ng-repeat="doc in added | filter:{'documentType': 'routes'}">
-            <app-association-card doc="doc"></app-association-card>
-          </li>
-        </ul>
-      </div>
-      <div><span translate>Areas</span>: ${show_areas(waypoint)}</div>
-      <div><span translate>Maps</span>: ${show_maps(waypoint)}</div>
-    </span>
+  <div class="text-center col-xs-12">
+    <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);"translate>To page head <span class="glyphicon glyphicon-menu-up"></span></button>
   </div>
 </section>
-<%include file="../document/floating-button-responsive.html"/>
+
+<div class="float-buttons">
+  <div class="float-button float-edit" tooltip-placement="top" uib-tooltip="{{'Edit' | translate}}">
+    <app-edit-button ng-click="ebCtrl.redirect()" app-edit-button-url="${request.route_url('waypoints_edit', id=waypoint_id, lang=lang)}"></app-edit-button>
+    <span class="glyphicon glyphicon-edit"></span>
+    <p class="float-button-text" translate>Edit</p>
+  </div>
+  <div class="float-button float-favorite" tooltip-placement="top" uib-tooltip="{{'Add to favorites' | translate}}">
+    <span class="glyphicon glyphicon-heart"></span>
+    <p class="float-button-text" translate>Favorites</p>
+  </div>
+  <div class="float-button float-add" tooltip-placement="top" uib-tooltip="{{'Add' | translate}}">
+    <span class="glyphicon glyphicon-plus"></span>
+    <p class="float-button-text" translate>Add</p>
+  </div>
+  <div class="float-button float-comments" tooltip-placement="top" uib-tooltip="{{'Comments' | translate}}">
+    <span class="glyphicon glyphicon-comment"></span>
+    <p class="float-button-text" translate>Comments</p>
+  </div>
+  <div class="btn-group float-more float-button " uib-dropdown>
+    <span class="glyphicon glyphicon-th-list dropdown-toggle" uib-dropdown-toggle></span>
+    <p class="float-button-text" translate>More</p>
+    <ul class="dropdown-menu"  role="menu" aria-labelledby="dLabel">
+      % if version:
+      <li>${show_archive_data('waypoints', waypoint, locale, version)}</li>
+      % endif
+      <li><a href="${request.route_url('waypoints_history', id=waypoint_id, lang=lang)}" translate>History</a></li>
+      % if other_langs:
+      <li ng-click="detailsCtrl.openModal('#other-langs')"><a translate>View in other lang</a></li>
+      % endif
+      % if missing_langs:
+      <li ng-click="detailsCtrl.openModal('#missing-langs')"><a translate>Translate into an other lang</a></li>
+      % endif
+      <li role="separator" class="divider"></li>
+      <li><a href="#">Print</a></li>
+      <li><a href="#">Save</a></li>
+    </ul>
+  </div>
+</div>
