@@ -22,6 +22,8 @@ goog.require('app.loadingDirective');
 goog.require('app.mapDirective');
 goog.require('app.searchDirective');
 goog.require('app.searchFiltersDirective');
+goog.require('app.sidemenu');
+goog.require('app.stickyFilters');
 goog.require('app.userDirective');
 goog.require('app.versionsDirective');
 goog.require('app.viewDetailsDirective');

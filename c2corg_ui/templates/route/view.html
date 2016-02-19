@@ -36,16 +36,16 @@ other_langs, missing_langs = get_lang_lists(route, lang)
 
     ## LOCATION
     % if not version:
-      <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
-        <h4><span translate>Location</span><span class="glyphicon glyphicon-menu-right"></span></h4>
-        <div class="name-icon">
-          <span class="glyphicon glyphicon-map-marker"></span>
-          <p translate>Location</p>
-        </div>
-        <span class="detail-text accordion">
-          ${show_areas(route)}
-        </span>
+    <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
+      <h4><span translate>Location</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+      <div class="name-icon">
+        <span class="glyphicon glyphicon-map-marker"></span>
+        <p translate>Location</p>
       </div>
+      <span class="detail-text accordion">
+        ${show_areas(route)}
+      </span>
+    </div>
     % endif
 
     ## GENERAL
@@ -56,9 +56,9 @@ other_langs, missing_langs = get_lang_lists(route, lang)
         <p translate>General</p>
       </div>
       <span class="detail-text accordion">
-         % if route['route_types']:
+        % if route['route_types']:
         <p><span translate>route_types</span>: <b>${route['route_types']}</b></p>
-         % endif
+        % endif
         % if route['elevation_max']:
         <p><span translate>elevation_max</span>: <b>${route['elevation_max']} m </b></p>
         % endif
@@ -138,40 +138,41 @@ other_langs, missing_langs = get_lang_lists(route, lang)
 
   ## IMAGES
   % if not version:
-    <div class="view-details-photos col-xs-12 tab">
-      <span class="lead">
-        <h3 translate class="text-center">images</h3>
-      </span>
-    </div>
+  <div class="view-details-photos col-xs-12 tab">
+    <span class="lead">
+      <h3 translate class="text-center">images</h3>
+    </span>
+  </div>
   % endif
 
   ## ASSOCIATIONS
   % if not version:
-    <div class="view-details-associations col-xs-12 tab">
-      <span class="lead">
-        <h3 class="text-center heading" translate>Associations</h3>
-        <div ng-show="userCtrl.auth.isAuthenticated()"><span translate>Add association</span>:
-          <app-add-association parent-id="${route_id}" added-documents="added"></app-add-association>
-        </div>
-        <div><span translate>Waypoint associations</span>: ${show_associated_waypoints(route)}
-          <ul>
-            <li ng-repeat="doc in added | filter:{'documentType': 'waypoints'}">
-              <app-association-card parent-id="${route_id}" doc="doc" added-documents="added"></app-association-card>
-            </li>
-          </ul>
-        </div>
-        <div><span translate>Route associations</span>: ${show_associated_routes(route)}
-          <ul>
-            <li ng-repeat="doc in added | filter:{'documentType': 'routes'}">
-              <app-association-card parent-id="${route_id}" doc="doc" added-documents="added"></app-association-card>
-            </li>
-          </ul>
-        </div>
-        <div><span translate>Maps</span>: ${show_maps(route)}</div>
-      </span>
-    </div>
+  <div class="view-details-associations col-xs-12 tab">
+    <span class="lead">
+      <h3 class="text-center heading" translate>Associations</h3>
+      <div ng-show="userCtrl.auth.isAuthenticated()"><span translate>Add association</span>:
+        <app-add-association parent-id="${route_id}" added-documents="added"></app-add-association>
+      </div>
+      <div><span translate>Waypoint associations</span>: ${show_associated_waypoints(route)}
+        <ul>
+          <li ng-repeat="doc in added | filter:{'documentType': 'waypoints'}">
+            <app-association-card parent-id="${route_id}" doc="doc" added-documents="added"></app-association-card>
+          </li>
+        </ul>
+      </div>
+      <div><span translate>Route associations</span>: ${show_associated_routes(route)}
+        <ul>
+          <li ng-repeat="doc in added | filter:{'documentType': 'routes'}">
+            <app-association-card parent-id="${route_id}" doc="doc" added-documents="added"></app-association-card>
+          </li>
+        </ul>
+      </div>
+      <div><span translate>Maps</span>: ${show_maps(route)}</div>
+    </span>
+  </div>
   % endif
-
+  
+  ## OTHER BUTTON contents
   ${show_other_langs_links('routes', route, other_langs)}
   ${show_missing_langs_links('routes', route, missing_langs)}
 
@@ -198,7 +199,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
     <span class="glyphicon glyphicon-comment"></span>
     <p class="float-button-text" translate>Comments</p>
   </div>
-  <div class="btn-group float-more float-button " uib-dropdown>
+  <div class="btn-group float-more float-button " uib-dropdown tooltip-placement="top" uib-tooltip="{{'More' | translate}}">
     <span class="glyphicon glyphicon-th-list dropdown-toggle" uib-dropdown-toggle></span>
     <p class="float-button-text" translate>More</p>
     <ul class="dropdown-menu"  role="menu" aria-labelledby="dLabel">
@@ -218,3 +219,10 @@ other_langs, missing_langs = get_lang_lists(route, lang)
     </ul>
   </div>
 </div>
+
+<script>
+  window.onload = function() {
+     // init float-buttons tooltips
+     $('[data-toggle=\'tooltip\']').tooltip();
+  }
+</script>

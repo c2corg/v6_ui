@@ -2,7 +2,7 @@
 <%namespace file="helpers/common.html" import="show_title"/>
 <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Authentication')">${show_title('Authentication')}</title></%block>
 
-<div ng-init="showRegisterForm=false">
+<div ng-init="showRegisterForm=false" class="auth-form">
   <h1 translate>Login</h1>
 
   <form app-auth name="loginForm" novalidate ng-submit="authCtrl.login()">
@@ -20,13 +20,14 @@
         <p ng-message="required" translate>This field is required.</p>
       </div>
     </div>
-    <div id="remember-password-group" class="form-group">
-      <label translate>Remember me</label>
-      <input type="checkbox" name="remember" ng-model="login.remember" class="form-control" />
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" name="remember" ng-model="login.remember"> <span translate>Remember me</span>
+      </label>
     </div>
     <p>
       <button type="submit" class="btn btn-primary" ng-disabled="loginForm.$invalid" translate>Login</button>
-      <button type="button" class="btn btn-secondary" ng-click="authCtrl.showNewPassForm()" translate>Forgotten password?</button>
+      <button type="button" class="btn btn-secondary" ng-click="authCtrl.showNewPassForm()" translate>Forgot password?</button>
     </p>
   </form>
 

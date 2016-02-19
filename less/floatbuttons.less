@@ -1,0 +1,163 @@
+@import "variables.less";
+
+.float-button {
+  cursor: pointer;
+  position: relative;
+  float: right;
+  margin-right: 30px;
+  margin-bottom: 10px;
+  color: white;
+  font-size: 0.4em;
+  height: 45px;
+  width: 45px;
+  border-radius: 50%;
+  box-shadow: 0 0 3px gray;
+  transition: 0.3s;
+
+  &:hover {
+    box-shadow: 0px 0px 8px lightslategray;
+  }
+  &.float-edit {
+    background: @brand-success; 
+  }
+  &.float-favorite {
+    background: @brand-danger; 
+  }
+  &.float-comments {
+    background: @brand-info; 
+  }
+  &.float-add {
+    background: @brand-primary; 
+  }
+  &.float-more {
+    background-color: @brand-warning;
+  }
+
+  @media @phone {
+    height: 40px;
+    width: 40px;
+    float: left;
+    font-size: 0.6em;
+    margin: 0;
+  }
+  .dropdown-menu {
+    left: -210px;
+    top: -120px;
+
+    @media @phone{
+      left: -165px;
+
+    }
+
+  }
+  .float-button-text {
+    display: none;
+    
+    @media @phone {
+      display: block;
+      margin-top: 19px;
+      color: black;
+      font-size: 1.2em;
+      text-align: center;
+    }
+  }
+  .glyphicon {
+    font-size: 4em;
+
+    @media @phone {
+      font-size: 2.5em;
+    }
+  }
+  .glyphicon-edit {
+    pointer-events: none;
+    top: 13px;
+    left: 13px;
+
+    @media @phone {
+      top: 10px;
+      left: 11px;
+    }
+  }
+  .glyphicon-th-list {
+    top: 12px;
+    left: 13px;
+    @media @phone {
+      top: 9px;
+      left: 10px;
+    }
+  }
+ 
+  .glyphicon-heart {
+    top: 15px;
+    left: 12px;
+    @media @phone {
+      top: 11px;
+      left: 9px;
+    }
+  }
+  .glyphicon-comment {
+        top: 14px;
+    left: 13px;
+    @media @phone {
+      top: 11px;
+      left: 10px;
+    }
+  }
+  .glyphicon-plus {
+    top: 11px;
+    left: 13px;
+    @media @phone {
+      top: 9px;
+      left: 11px;
+    }
+  }
+
+  app-edit-button {
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    
+    @media @phone {
+      opacity: 0;
+    }
+    div[ng-transclude] {
+      width: 100%;
+      height: 100%;
+    }
+  }
+} /*float-button*/
+
+.float-buttons {
+  width: 80px;
+  float: right;
+  position: fixed;
+  justify-content: space-around;
+  top: 50%;
+  right: -15px;
+  z-index: 3;
+  transition: 0.4s;
+  @media all and (max-height: 400px) {
+        top: 14vh;
+  }
+  @media @phone {
+    padding: 2% 5px 1% 5px;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    border-top: 1px solid #B5D0D0;
+    width: 100%;
+    position: fixed;
+    right: 0;
+    top: inherit;
+    bottom: 0;
+    background-color: @bg-color1;
+    height: @float-buttons-bar-height;
+    z-index: 10;
+    transition: 0.4s;
+  }
+}

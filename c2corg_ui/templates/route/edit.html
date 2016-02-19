@@ -8,106 +8,107 @@ updating_doc = route_id and route_lang
 <%namespace file="../helpers/common.html" import="show_title"/>
 <%block name="pagetitle"><title ng-init="id=${route_id if route_id else 0}" ng-bind="id ? mainCtrl.page_title('Editing a route') : mainCtrl.page_title('Creating a route')">${show_title('Create/edit route')}</title></%block>\
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>\
-
-<h1 ng-cloak ng-init="id=${route_id if route_id else 0}" ng-bind="id ? ('Editing a route' | translate) : ('Creating a route' | translate)" class="text-center"></h1>
-<form app-loading app-document-editing="routes" app-document-editing-model="route"
-% if updating_doc:
-  app-document-editing-id="${route_id}" app-document-editing-lang="${route_lang}"
-% endif 
-  name="editForm" novalidate ng-submit="editCtrl.submitForm(editForm.$valid)" class="document-editing">
-  <div id="lang-group" class="form-group" 
-       ng-class="{ 'has-error': editForm.lang.$touched && editForm.lang.$invalid, 
-                              'has-success': editForm.lang.$valid}">
-    <label><span translate>lang</span> *</label>
-    % if route_lang:
-      {{mainCtrl.translate('${route_lang}')}}
-    % else:
-      <select name="lang" ng-options="lang as mainCtrl.translate(lang) for lang in ['${"','".join(default_langs) |n}'] | translate"
-        ng-model="route.locales[0].lang" class="form-control" required>
-      </select>
-      <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.lang.$valid"></span>
-      <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.lang.$touched && editForm.lang.$invalid"></span>
-      <div class="help-block" ng-messages="editForm.lang.$error">
-        <p ng-message="required" class="label label-danger" style="{{ (editForm.lang.$invalid && editForm.lang.$touched) ? 'display:inline' : '' }}">{{'This field is required.' | translate }}</p> 
-      </div>
-    % endif
-  </div>
-  <div id="title-group" class="form-group" 
-       ng-class="{ 'has-error': editForm.title.$touched && editForm.title.$invalid,
-                              'has-success': editForm.title.$valid }">
-    <label><span translate>title</span> *</label>
-    <input type="text" name="title" ng-model="route.locales[0].title" ng-minlength="3"
-           class="form-control" required />
-    <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.title.$valid"></span>
-    <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.title.$invalid && editForm.title.$touched"></span>
-    <div class="help-block" ng-messages="editForm.title.$error">
-      <p ng-message="required" class="label label-danger" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : '' }}">{{'This field is required.' | translate}}</p> 
-      <p ng-message="minlength" class="label label-danger" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : '' }}">{{'Title must have at least 3 characters.' | translate}}</p>
-    </div>
-  </div>
-  <div id="activities-group" class="form-group" 
-       ng-class="{ 'has-error': editForm.activities.$touched && editForm.activities.$invalid,
-                              'has-success': editForm.activities.$valid }">
-    <label><span translate>activities</span> *</label>
-    <select name="activities" ng-options="activity as mainCtrl.translate(activity) for activity in ['${"','".join(activities) |n}'] | translate"
-      ng-model="route.activities" class="form-control" required multiple>
-    </select>
-    <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.activities.$valid"></span>
-    <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.activities.$invalid && editForm.activities.$touched"></span>
-     <div class="help-block" ng-messages="editForm.activities.$error">
-      <p ng-message="required" class="label label-danger" style="{{ (editForm.activities.$invalid && editForm.activities.$touched) ? 'display:inline' : '' }}">{{'This field is required.' | translate}}</p> 
-    </div>
-  </div>
-  <div id="height_diff_up-group" class="form-group"
-       ng-class="{ 'has-error': editForm.height_diff_up.$touched && editForm.height_diff_up.$invalid,
-                              'has-success': editForm.height_diff_up.$valid && editForm.height_diff_up.$touched }">
-    <label translate>height_diff_up</label>
-    <div class="input-group">
-      <input type="number" min="0" name="height_diff_up" ng-model="route.height_diff_up" class="form-control" />
-      <span class="input-group-addon">m</span>
-    </div>
-    <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.height_diff_up.$valid && editForm.height_diff_up.$touched"></span>
-    <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.height_diff_up.$invalid && editForm.height_diff_up.$touched"></span>
-    <div class="help-block" ng-messages="editForm.height_diff_up.$error">
-        <p ng-message="number" class="label label-danger" style="{{ (editForm.height_diff_up.$invalid && editForm.height_diff_up.$touched) ? 'display:inline' : '' }}">{{'This field must be a number.' | translate}}</p>
-    </div>
-  </div>
-  <div id="route_type-group" class="form-group">
-    <label translate>route_types</label>
-    <select name="route_type" ng-options="type as mainCtrl.translate(type) for type in ['${"','".join(route_types) |n}'] | translate"
-      ng-model="route.route_type" class="form-control">
-    </select>
-    <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.route_type"></span>
-  </div>
-  <div id="summary-group" class="form-group">
-    <label translate>summary</label>
-    <textarea name="summary" ng-model="route.locales[0].summary" class="form-control"></textarea>
-    <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.locales[0].summary"></span>
-  </div>
-  <div id="description-group" class="form-group">
-    <label translate>description</label>
-    <textarea name="description" ng-model="route.locales[0].description" class="form-control"></textarea>
-    <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.locales[0].description"></span>
-  </div>
-  <div id="gear-group" class="form-group">
-    <label translate>gear</label>
-    <textarea name="gear" ng-model="route.locales[0].gear" class="form-control" placeholder="{{'Describe here the gear needed for this route'|translate}}"></textarea>
-    <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.locales[0].gear"></span>
-  </div>
+<section class="create-edit-document">
+  <h1 ng-cloak ng-init="id=${route_id if route_id else 0}" ng-bind="id ? ('Editing a route' | translate) : ('Creating a route' | translate)" class="text-center"></h1>
+  <form app-loading app-document-editing="routes" app-document-editing-model="route"
   % if updating_doc:
-  <div id="message-group" class="form-group">
-    <label translate>Comment about the changes</label>
-    <input type="text" name="message" ng-model="route.message" class="form-control" placeholder="{{'Short description of the applied changes'|translate}}" />
-    <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.message"></span>
-  </div>
-  % endif
-  <p>
-    <button type="submit" class="btn btn-primary" ng-disabled="editForm.$invalid || editForm.$pristine" translate>Save</button>
-    <%
-    view_url = request.route_url('routes_view', id=route_id, lang=route_lang) if updating_doc else ''
-    index_url = request.route_url('routes_index_default')
-    %>
-    <button type="button" class="btn btn-default" ng-click="editCtrl.cancel('${view_url}', '${index_url}')" translate>Cancel</button>
-  </p>
-  <app-map app-map-edit-ctrl="editCtrl"></app-map>
-</form>
+    app-document-editing-id="${route_id}" app-document-editing-lang="${route_lang}"
+  % endif 
+    name="editForm" novalidate ng-submit="editCtrl.submitForm(editForm.$valid)" class="document-editing">
+    <div id="lang-group" class="form-group" 
+         ng-class="{ 'has-error': editForm.lang.$touched && editForm.lang.$invalid, 
+                                'has-success': editForm.lang.$valid}">
+      <label><span translate>lang</span> *</label>
+      % if route_lang:
+        {{mainCtrl.translate('${route_lang}')}}
+      % else:
+        <select name="lang" ng-options="lang as mainCtrl.translate(lang) for lang in ['${"','".join(default_langs) |n}'] | translate"
+          ng-model="route.locales[0].lang" class="form-control" required>
+        </select>
+        <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.lang.$valid"></span>
+        <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.lang.$touched && editForm.lang.$invalid"></span>
+        <div class="help-block" ng-messages="editForm.lang.$error">
+          <p ng-message="required" class="label label-danger" style="{{ (editForm.lang.$invalid && editForm.lang.$touched) ? 'display:inline' : '' }}">{{'This field is required.' | translate }}</p>
+        </div>
+      % endif
+    </div>
+    <div id="title-group" class="form-group" 
+         ng-class="{ 'has-error': editForm.title.$touched && editForm.title.$invalid,
+                                'has-success': editForm.title.$valid }">
+      <label><span translate>title</span> *</label>
+      <input type="text" name="title" ng-model="route.locales[0].title" ng-minlength="3"
+             class="form-control" required />
+      <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.title.$valid"></span>
+      <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.title.$invalid && editForm.title.$touched"></span>
+      <div class="help-block" ng-messages="editForm.title.$error">
+        <p ng-message="required" class="label label-danger" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : '' }}">{{'This field is required.' | translate}}</p>
+        <p ng-message="minlength" class="label label-danger" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : '' }}">{{'Title must have at least 3 characters.' | translate}}</p>
+      </div>
+    </div>
+    <div id="activities-group" class="form-group" 
+         ng-class="{ 'has-error': editForm.activities.$touched && editForm.activities.$invalid,
+                                'has-success': editForm.activities.$valid }">
+      <label><span translate>activities</span> *</label>
+      <select name="activities" ng-options="activity as mainCtrl.translate(activity) for activity in ['${"','".join(activities) |n}'] | translate"
+        ng-model="route.activities" class="form-control" required multiple>
+      </select>
+      <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.activities.$valid"></span>
+      <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.activities.$invalid && editForm.activities.$touched"></span>
+       <div class="help-block" ng-messages="editForm.activities.$error">
+        <p ng-message="required" class="label label-danger" style="{{ (editForm.activities.$invalid && editForm.activities.$touched) ? 'display:inline' : '' }}">{{'This field is required.' | translate}}</p>
+      </div>
+    </div>
+    <div id="height_diff_up-group" class="form-group"
+         ng-class="{ 'has-error': editForm.height_diff_up.$touched && editForm.height_diff_up.$invalid,
+                                'has-success': editForm.height_diff_up.$valid && editForm.height_diff_up.$touched }">
+      <label translate>height_diff_up</label>
+      <div class="input-group">
+        <input type="number" min="0" name="height_diff_up" ng-model="route.height_diff_up" class="form-control" />
+        <span class="input-group-addon">m</span>
+      </div>
+      <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.height_diff_up.$valid && editForm.height_diff_up.$touched"></span>
+      <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.height_diff_up.$invalid && editForm.height_diff_up.$touched"></span>
+      <div class="help-block" ng-messages="editForm.height_diff_up.$error">
+          <p ng-message="number" class="label label-danger" style="{{ (editForm.height_diff_up.$invalid && editForm.height_diff_up.$touched) ? 'display:inline' : '' }}">{{'This field must be a number.' | translate}}</p>
+      </div>
+    </div>
+    <div id="route_type-group" class="form-group">
+      <label translate>route_types</label>
+      <select name="route_type" ng-options="type as mainCtrl.translate(type) for type in ['${"','".join(route_types) |n}'] | translate"
+        ng-model="route.route_type" class="form-control">
+      </select>
+      <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.route_type"></span>
+    </div>
+    <div id="summary-group" class="form-group">
+      <label translate>summary</label>
+      <textarea name="summary" ng-model="route.locales[0].summary" class="form-control"></textarea>
+      <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.locales[0].summary"></span>
+    </div>
+    <div id="description-group" class="form-group">
+      <label translate>description</label>
+      <textarea name="description" ng-model="route.locales[0].description" class="form-control"></textarea>
+      <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.locales[0].description"></span>
+    </div>
+    <div id="gear-group" class="form-group">
+      <label translate>gear</label>
+      <textarea name="gear" ng-model="route.locales[0].gear" class="form-control" placeholder="{{'Describe here the gear needed for this route'|translate}}"></textarea>
+      <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.locales[0].gear"></span>
+    </div>
+    % if updating_doc:
+    <div id="message-group" class="form-group">
+      <label translate>Comment about the changes</label>
+      <input type="text" name="message" ng-model="route.message" class="form-control" placeholder="{{'Short description of the applied changes'|translate}}" />
+      <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.message"></span>
+    </div>
+    % endif
+    <p>
+      <button type="submit" class="btn btn-primary" ng-disabled="editForm.$invalid || editForm.$pristine" translate>Save</button>
+      <%
+      view_url = request.route_url('routes_view', id=route_id, lang=route_lang) if updating_doc else ''
+      index_url = request.route_url('routes_index_default')
+      %>
+      <button type="button" class="btn btn-default" ng-click="editCtrl.cancel('${view_url}', '${index_url}')" translate>Cancel</button>
+    </p>
+    <app-map app-map-edit-ctrl="editCtrl"></app-map>
+  </form>
+</section>

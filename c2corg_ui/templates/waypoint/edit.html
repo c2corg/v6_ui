@@ -9,133 +9,134 @@ updating_doc = waypoint_id and waypoint_lang
 <%block name="pagetitle"><title ng-init="id=${waypoint_id if waypoint_id else 0}" 
                                 ng-bind="id ? mainCtrl.page_title('Editing a waypoint') : mainCtrl.page_title('Creating a waypoint')">${show_title('Create/edit waypoint')}</title></%block>\
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>\
-
-<h1 ng-init="id=${waypoint_id if waypoint_id else 0}" ng-bind="id ? ('Editing a waypoint' | translate) : ('Creating a waypoint' | translate)" class="text-center"></h1>
-<form app-loading app-document-editing="waypoints" app-document-editing-model="waypoint"
-% if updating_doc:
-  app-document-editing-id="${waypoint_id}" app-document-editing-lang="${waypoint_lang}"
-% endif
-class="document-editing" name="editForm" novalidate ng-submit="editCtrl.submitForm(editForm.$valid)">
-  <div id="lang-group" class="form-group" 
-       ng-class="{ 'has-error': editForm.lang.$touched && editForm.lang.$invalid,
-                              'has-success':  editForm.lang.$valid}">
-    <label><span translate>lang</span> *</label>
-    % if waypoint_lang:
-      {{mainCtrl.translate('${waypoint_lang}')}}
-    % else:
-      <select name="lang" ng-options="lang as mainCtrl.translate(lang) for lang in ['${"','".join(default_langs) |n}'] | translate" 
-        ng-model="waypoint.locales[0].lang" class="form-control" required>
-      </select>
-      <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.lang.$valid"></span>
-      <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.lang.$invalid && editForm.lang.$touched"></span>
-      <div class="help-block" ng-messages="editForm.lang.$error">
-        <p ng-message="required" class="label label-danger" style="{{ (editForm.lang.$invalid && editForm.lang.$touched) ? 'display:inline' : '' }}">{{'This field is required.' | translate}}</p> 
-      </div>
-    % endif
-  </div>
-  <div id="title-group" class="form-group" 
-       ng-class="{ 'has-error': editForm.title.$touched && editForm.title.$invalid,
-                              'has-success':  editForm.title.$valid }">
-    <label><span translate>title</span> *</label>
-    <input type="text" name="title" ng-model="waypoint.locales[0].title" class="form-control" required ng-minlength="3" />
-    <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.title.$valid"></span>
-    <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.title.$invalid && editForm.title.$touched"></span>
-    <div class="help-block" ng-messages="editForm.title.$error">
-      <p ng-message="required" class="label label-danger" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : '' }}">{{'This field is required.' | translate}}</p> 
-      <p ng-message="minlength" class="label label-danger" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : '' }}">{{'Title must have at least 3 characters.' |translate}}</p>
-    </div>
-  </div>
-  <div id="waypoint_type-group" class="form-group" 
-       ng-class="{ 'has-error': editForm.waypoint_type.$touched && editForm.waypoint_type.$invalid,
-                              'has-success': editForm.waypoint_type.$valid }">
-    <label><span translate>waypoint_type</span> *</label>
-    <select name="waypoint_type" ng-options="type as mainCtrl.translate(type) for type in ['${"','".join(waypoint_types) |n}'] | translate"
-      ng-model="waypoint.waypoint_type" class="form-control" required>
-    </select>
-    <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.waypoint_type.$valid"></span>
-    <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.waypoint_type.$invalid && editForm.waypoint_type.$touched"></span>
-    <div class="help-block" ng-messages="editForm.waypoint_type.$error">
-      <p ng-message="required" class="label label-danger" style="{{ (editForm.waypoint_type.$invalid && editForm.waypoint_type.$touched) ? 'display:inline' : '' }}">{{'This field is required.' | translate}}</p> 
-    </div>
-  </div>
-  <div id="elevation-group" class="form-group" 
-       ng-class="{ 'has-error': editForm.elevation.$touched && editForm.elevation.$invalid,
-                             'has-success': editForm.elevation.$valid }">
-    <label><span translate>elevation</span> *</label>
-    <div class="input-group">
-      <input type="number" name="elevation" min="0" ng-model="waypoint.elevation" class="form-control" required max="9999" />
-      <span class="input-group-addon">m</span>
-    </div>
-    <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.elevation.$valid"></span>
-    <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.elevation.$invalid && editForm.elevation.$touched"></span>
-    <div class="help-block" ng-messages="editForm.elevation.$error">
-      <p ng-message="required" class="label label-danger" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : '' }}">{{'This field is required.' | translate}}</p> 
-      <p ng-message="max" class="label label-danger" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : '' }}">{{'This field must be smaller than 9999 m.' | translate}}</p>
-      <p ng-message="number" class="label label-danger" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : '' }}">{{'This field must be a number.' | translate}}</p>
-    </div>
-  </div>
-  <div id="longitude-group" class="form-group" 
-       ng-class="{ 'has-error': editForm.longitude.$touched && editForm.longitude.$invalid,
-                              'has-success': editForm.longitude.$valid }">
-    <label><span translate>Longitude</span> *</label> 
-   <div class="input-group">
-      <input type="number" name="longitude" ng-model="waypoint.lonlat.longitude" ng-change="editCtrl.updateMap()" class="form-control" required min="-180" max="180" />
-      <span class="input-group-addon">°E</span>
-    </div>
-    <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.longitude.$valid"></span>
-    <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.longitude.$invalid && editForm.longitude.$touched"></span>
-     <div class="help-block" ng-messages="editForm.longitude.$error">
-      <p ng-message="required" class="label label-danger" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : '' }}">{{'This field is required.' | translate}}</p>
-      <p ng-message="number" class="label label-danger" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : '' }}">{{'This field must be a number.' | translate }}</p>
-      <p ng-message="min" class="label label-danger" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : '' }}">{{'This field must be between -180° and 180°.' | translate}}</p>
-      <p ng-message="max" class="label label-danger" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : '' }}">{{'This field must be between -180° and 180°.' | translate}}</p>
-    </div>
-  </div>
-  <div id="latitude-group" class="form-group" 
-       ng-class="{ 'has-error': editForm.latitude.$touched && editForm.latitude.$invalid,
-                              'has-success': editForm.latitude.$valid }">
-    <label><span translate>Latitude</span> *</label>
-    <div class="input-group">
-      <input type="number" name="latitude" ng-model="waypoint.lonlat.latitude" ng-change="editCtrl.updateMap()" class="form-control" required required min="-90" max="90" />
-      <span class="input-group-addon">°N</span>
-    </div>
-    <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.latitude.$valid"></span>
-    <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.latitude.$invalid && editForm.latitude.$touched"></span>
-    <div class="help-block" ng-messages="editForm.latitude.$error">
-      <p ng-message="required" class="label label-danger" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : '' }}">{{'This field is required.' | translate}}</p>
-      <p ng-message="number" class="label label-danger" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : '' }}">{{'This field must be a number.' | translate }}</p>
-      <p ng-message="min" class="label label-danger" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : '' }}">{{'This field must be between -90° and 90°.' | translate}}</p>
-      <p ng-message="max" class="label label-danger" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : '' }}">{{'This field must be between -90° and 90°.' | translate}}</p>
-    </div>
-  </div>
-  <div id="maps_info-group" class="form-group">
-    <label translate>maps_info</label>
-    <input type="text" name="maps_info" ng-model="waypoint.maps_info" class="form-control" />
-    <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.maps_info"></span>
-  </div>
-  <div id="summary-group" class="form-group">
-    <label translate>summary</label>
-    <textarea name="summary" ng-model="waypoint.locales[0].summary" class="form-control"></textarea>
-    <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.locales[0].summary"></span>
-  </div>
-  <div id="description-group" class="form-group">
-    <label translate>description</label>
-    <textarea name="description" ng-model="waypoint.locales[0].description" class="form-control" placeholder="{{'Describe here the waypoint'|translate}}"></textarea>
-    <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.locales[0].description"></span>
-  </div>
+<section class="create-edit-document">
+  <h1 ng-init="id=${waypoint_id if waypoint_id else 0}" ng-bind="id ? ('Editing a waypoint' | translate) : ('Creating a waypoint' | translate)" class="text-center"></h1>
+  <form app-loading app-document-editing="waypoints" app-document-editing-model="waypoint"
   % if updating_doc:
-  <div id="message-group" class="form-group">
-    <label translate>Comment about the changes</label>
-    <input type="text" name="message" ng-model="route.message" class="form-control" placeholder="{{'Short description of the applied changes'|translate}}" />
-  </div>
+    app-document-editing-id="${waypoint_id}" app-document-editing-lang="${waypoint_lang}"
   % endif
-  <p>
-    <button type="submit" class="btn btn-primary" ng-disabled="editForm.$invalid || editForm.$pristine">{{'Save' | translate}} </button>
-    <%
-    view_url = request.route_url('waypoints_view', id=waypoint_id, lang=waypoint_lang) if updating_doc else ''
-    index_url = request.route_url('waypoints_index_default')
-    %>
-    <button type="button" class="btn btn-default" ng-click="editCtrl.cancel('${view_url}', '${index_url}')">{{'Cancel' | translate}}</button>
-  </p>
-  <app-map app-map-edit-ctrl="editCtrl" app-map-draw-type="Point"></app-map>
-</form>
+  class="document-editing" name="editForm" novalidate ng-submit="editCtrl.submitForm(editForm.$valid)">
+    <div id="lang-group" class="form-group" 
+         ng-class="{ 'has-error': editForm.lang.$touched && editForm.lang.$invalid,
+                                'has-success':  editForm.lang.$valid}">
+      <label><span translate>lang</span> *</label>
+      % if waypoint_lang:
+        {{mainCtrl.translate('${waypoint_lang}')}}
+      % else:
+        <select name="lang" ng-options="lang as mainCtrl.translate(lang) for lang in ['${"','".join(default_langs) |n}'] | translate"
+          ng-model="waypoint.locales[0].lang" class="form-control" required>
+        </select>
+        <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.lang.$valid"></span>
+        <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.lang.$invalid && editForm.lang.$touched"></span>
+        <div class="help-block" ng-messages="editForm.lang.$error">
+          <p ng-message="required" class="label label-danger" style="{{ (editForm.lang.$invalid && editForm.lang.$touched) ? 'display:inline' : '' }}">{{'This field is required.' | translate}}</p>
+        </div>
+      % endif
+    </div>
+    <div id="title-group" class="form-group" 
+         ng-class="{ 'has-error': editForm.title.$touched && editForm.title.$invalid,
+                                'has-success':  editForm.title.$valid }">
+      <label><span translate>title</span> *</label>
+      <input type="text" name="title" ng-model="waypoint.locales[0].title" class="form-control" required ng-minlength="3" />
+      <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.title.$valid"></span>
+      <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.title.$invalid && editForm.title.$touched"></span>
+      <div class="help-block" ng-messages="editForm.title.$error">
+        <p ng-message="required" class="label label-danger" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : '' }}">{{'This field is required.' | translate}}</p>
+        <p ng-message="minlength" class="label label-danger" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : '' }}">{{'Title must have at least 3 characters.' |translate}}</p>
+      </div>
+    </div>
+    <div id="waypoint_type-group" class="form-group" 
+         ng-class="{ 'has-error': editForm.waypoint_type.$touched && editForm.waypoint_type.$invalid,
+                                'has-success': editForm.waypoint_type.$valid }">
+      <label><span translate>waypoint_type</span> *</label>
+      <select name="waypoint_type" ng-options="type as mainCtrl.translate(type) for type in ['${"','".join(waypoint_types) |n}'] | translate"
+        ng-model="waypoint.waypoint_type" class="form-control" required>
+      </select>
+      <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.waypoint_type.$valid"></span>
+      <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.waypoint_type.$invalid && editForm.waypoint_type.$touched"></span>
+      <div class="help-block" ng-messages="editForm.waypoint_type.$error">
+        <p ng-message="required" class="label label-danger" style="{{ (editForm.waypoint_type.$invalid && editForm.waypoint_type.$touched) ? 'display:inline' : '' }}">{{'This field is required.' | translate}}</p> 
+      </div>
+    </div>
+    <div id="elevation-group" class="form-group" 
+         ng-class="{ 'has-error': editForm.elevation.$touched && editForm.elevation.$invalid,
+                               'has-success': editForm.elevation.$valid }">
+      <label><span translate>elevation</span> *</label>
+      <div class="input-group">
+        <input type="number" name="elevation" min="0" ng-model="waypoint.elevation" class="form-control" required max="9999"/>
+        <span class="input-group-addon">m</span>
+      </div>
+      <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.elevation.$valid"></span>
+      <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.elevation.$invalid && editForm.elevation.$touched"></span>
+      <div class="help-block" ng-messages="editForm.elevation.$error">
+        <p ng-message="required" class="label label-danger" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : '' }}">{{'This field is required.' | translate}}</p>
+        <p ng-message="max" class="label label-danger" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : '' }}">{{'This field must be smaller than 9999 m.' | translate}}</p>
+        <p ng-message="number" class="label label-danger" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : '' }}">{{'This field must be a number.' | translate}}</p>
+      </div>
+    </div>
+    <div id="longitude-group" class="form-group" 
+         ng-class="{ 'has-error': editForm.longitude.$touched && editForm.longitude.$invalid,
+                                'has-success': editForm.longitude.$valid }">
+      <label><span translate>Longitude</span> *</label> 
+     <div class="input-group">
+        <input type="number" name="longitude" ng-model="waypoint.lonlat.longitude" ng-change="editCtrl.updateMap()" class="form-control" required min="-180" max="180"/>
+        <span class="input-group-addon">°E</span>
+      </div>
+      <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.longitude.$valid"></span>
+      <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.longitude.$invalid && editForm.longitude.$touched"></span>
+       <div class="help-block" ng-messages="editForm.longitude.$error">
+        <p ng-message="required" class="label label-danger" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : '' }}">{{'This field is required.' | translate}}</p>
+        <p ng-message="number" class="label label-danger" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : '' }}">{{'This field must be a number.' | translate }}</p>
+        <p ng-message="min" class="label label-danger" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : '' }}">{{'This field must be between -180° and 180°.' | translate}}</p>
+        <p ng-message="max" class="label label-danger" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : '' }}">{{'This field must be between -180° and 180°.' | translate}}</p>
+      </div>
+    </div>
+    <div id="latitude-group" class="form-group" 
+         ng-class="{ 'has-error': editForm.latitude.$touched && editForm.latitude.$invalid,
+                                'has-success': editForm.latitude.$valid }">
+      <label><span translate>Latitude</span> *</label>
+      <div class="input-group">
+        <input type="number" name="latitude" ng-model="waypoint.lonlat.latitude" ng-change="editCtrl.updateMap()" class="form-control" required required min="-90" max="90" />
+        <span class="input-group-addon">°N</span>
+      </div>
+      <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.latitude.$valid"></span>
+      <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.latitude.$invalid && editForm.latitude.$touched"></span>
+      <div class="help-block" ng-messages="editForm.latitude.$error">
+        <p ng-message="required" class="label label-danger" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : '' }}">{{'This field is required.' | translate}}</p>
+        <p ng-message="number" class="label label-danger" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : '' }}">{{'This field must be a number.' | translate }}</p>
+        <p ng-message="min" class="label label-danger" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : '' }}">{{'This field must be between -90° and 90°.' | translate}}</p>
+        <p ng-message="max" class="label label-danger" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : '' }}">{{'This field must be between -90° and 90°.' | translate}}</p>
+      </div>
+    </div>
+    <div id="maps_info-group" class="form-group">
+      <label translate>maps_info</label>
+      <input type="text" name="maps_info" ng-model="waypoint.maps_info" class="form-control" />
+      <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.maps_info"></span>
+    </div>
+    <div id="summary-group" class="form-group">
+      <label translate>summary</label>
+      <textarea name="summary" ng-model="waypoint.locales[0].summary" class="form-control"></textarea>
+      <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.locales[0].summary"></span>
+    </div>
+    <div id="description-group" class="form-group">
+      <label translate>description</label>
+      <textarea name="description" ng-model="waypoint.locales[0].description" class="form-control" placeholder="{{'Describe here the waypoint'|translate}}"></textarea>
+      <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.locales[0].description"></span>
+    </div>
+    % if updating_doc:
+    <div id="message-group" class="form-group">
+      <label translate>Comment about the changes</label>
+      <input type="text" name="message" ng-model="route.message" class="form-control" placeholder="{{'Short description of the applied changes'|translate}}" />
+    </div>
+    % endif
+    <p>
+      <button type="submit" class="btn btn-primary" ng-disabled="editForm.$invalid || editForm.$pristine">{{'Save' | translate}} </button>
+      <%
+      view_url = request.route_url('waypoints_view', id=waypoint_id, lang=waypoint_lang) if updating_doc else ''
+      index_url = request.route_url('waypoints_index_default')
+      %>
+      <button type="button" class="btn btn-default" ng-click="editCtrl.cancel('${view_url}', '${index_url}')">{{'Cancel' | translate}}</button>
+    </p>
+    <app-map app-map-edit-ctrl="editCtrl" app-map-draw-type="Point"></app-map>
+  </form>
+</section>

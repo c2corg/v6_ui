@@ -1,0 +1,56 @@
+<aside id="sidemenu">
+  <div class="page-menu">
+    <button class="btn btn-default menu-open-close menu">
+      <span class="glyphicon glyphicon-align-justify">
+        <a href="#sidemenu"></a>
+      </span>
+    </button>
+    <a href="${request.route_url('index')}" title="{{'Back to homepage'|translate}}">
+      <img src="${request.static_url('c2corg_ui:static/img/logo.svg')}" alt="Camptocamp.org" class="logo"/>
+    </a>
+  </div>
+  <ul class="nav">
+    <li class="main-menu" ng-class="{'menu-selected': mainCtrl.isPath('/') === 'home' }">
+      <a href="${request.route_url('index')}">
+        <i class="glyphicon glyphicon-home" tooltip-placement="right" uib-tooltip="{{'Home' | translate}}"></i>
+        <span class="menu-text" translate>Home</span>
+      </a>
+    </li>
+    <li class="main-menu" ng-class="{'menu-selected': mainCtrl.isPath('topoguide')}">
+      <a href="${request.route_url('routes_index_default')}">
+        <i class="glyphicon glyphicon-map-marker" tooltip-placement="right" uib-tooltip="{{'Topoguide' | translate}}"></i>
+        <span class="menu-text" translate>Topoguide</span>
+      </a>
+    </li>    
+    <li class="main-menu" ng-class="{'menu-selected': mainCtrl.isPath('forum')}">
+      <a href="http://c2corgv6-discourse.demo-camptocamp.com/">
+        <i class="glyphicon glyphicon-comment" tooltip-placement="right" uib-tooltip="{{'Forum' | translate}}"></i>
+        <span class="menu-text">Forum</span>
+      </a>
+    </li>
+    <li class="main-menu" ng-class="{'menu-selected': mainCtrl.isPath('news')}">
+      <a>
+        <i class="glyphicon glyphicon-send" tooltip-placement="right" uib-tooltip="{{'News' | translate}}"></i>
+        <span class="menu-text" translate>News</span>
+      </a>
+    </li>
+    <li class="main-menu" ng-class="{'menu-selected': mainCtrl.isPath('accidentdatabase')}">
+      <a>
+        <i class="glyphicon glyphicon-alert" tooltip-placement="right" uib-tooltip="{{'Accident database' | translate}}"></i>
+        <span class="menu-text" translate>Accident database</span>
+      </a>
+    </li>
+    <li class="main-menu" ng-class="{'menu-selected': mainCtrl.isPath('Articles')}">
+      <a>
+        <i class="glyphicon glyphicon-info-sign" tooltip-placement="right" uib-tooltip="{{'Articles' | translate}}"></i>
+        <span class="menu-text">Articles</span>
+      </a>
+    </li>
+    <li class="main-menu" ng-class="{'menu-selected': mainCtrl.isPath('Association')}">
+      <a>
+        <i class="glyphicon glyphicon-picture" tooltip-placement="right" uib-tooltip="{{'Association' | translate}}"></i>
+        <span class="menu-text">Association</span>
+      </a>
+    </li>
+  </ul>
+</aside>

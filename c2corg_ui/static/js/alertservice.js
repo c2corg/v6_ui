@@ -44,6 +44,7 @@ app.Alerts.prototype.gettext = function(str) {
  * @export
  */
 app.Alerts.prototype.add = function(data) {
+  this.addLoading_();
   var msg = data['msg'];
   msg = msg instanceof Object ? this.formatErrorMsg_(msg) :
       this.filterStr_(msg);
@@ -87,6 +88,17 @@ app.Alerts.prototype.addError = function(msg) {
  */
 app.Alerts.prototype.get = function() {
   return this.alerts_;
+};
+
+
+/**
+ * @private
+ */
+app.Alerts.prototype.addLoading_ = function() {
+  $('main, aside, .page-header').addClass('loading');
+  setTimeout(function() {
+    $('main, aside, .page-header').removeClass('loading');
+  }, 4500);
 };
 
 

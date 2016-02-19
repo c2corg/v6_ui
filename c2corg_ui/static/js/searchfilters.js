@@ -21,7 +21,6 @@ app.searchFiltersDirective = function() {
     link: function(scope, element, attrs, ctrl) {
       // Init sliders
       $('.range-between').slider({min: 0, max: 9999, value: [0, 9999]});
-
       var elevationFilter = $('#elevation-filter');
       var heightFilter = $('#height-filter');
 
@@ -37,6 +36,12 @@ app.searchFiltersDirective = function() {
         ctrl.height_diff_up.min = slideEvt.value[0];
         ctrl.height_diff_up.max = slideEvt.value[1];
         scope.$apply();
+      });
+      //on some screen sizes, the dropdown menu is too large and is hidden within documents-list-section
+      // because it's to small. Given that this menu is inside, it will not be show entirely...
+      // If someone can fix it using CSS only, you're da real MVP !
+      element.on('click', '.dropdown-toggle', function() {
+        $(this).next().css({position: 'fixed', top: $(this).offset().top + 30, left: $(this).offset().left - 10})
       });
     }
   }

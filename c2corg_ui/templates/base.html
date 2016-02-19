@@ -15,15 +15,15 @@ closure_library_path = settings.get('closure_library_path')
     ## Mobile attributes
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <link rel="shortcut icon" sizes="196x196"  href="${request.static_url('c2corg_ui:static/img/logo.png')}">
-    <link rel="icon" href="${request.static_url('c2corg_ui:static/img/logo.png')}">
+    <link rel="shortcut icon" sizes="196x196"  href="${request.static_url('c2corg_ui:static/img/logo.svg')}">
+    <link rel="icon" href="${request.static_url('c2corg_ui:static/img/icon.png')}">
     <meta name="theme-color" content="#F7931D">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Camptocamp.org">
     <meta name="application-name" content="Camptocamp.org">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="msapplication-TileImage" content="${request.static_url('c2corg_ui:static/img/logo.png')}">
+    <meta name="msapplication-TileImage" content="${request.static_url('c2corg_ui:static/img/logo.svg')}">
     <meta name="msapplication-TileColor" content="#FF0000">
     <%block name="metarobots"><meta name="robots" content="index,follow"></%block>
 % if debug:
@@ -38,20 +38,16 @@ closure_library_path = settings.get('closure_library_path')
 % endif
   </head>
   <body class="on-load loading">
-
-    <div class="page-menu">
-    <a href="${request.route_url('index')}" title="{{'Back to homepage'|translate}}"><img src="${request.static_url('c2corg_ui:static/img/logo.png')}" alt="Camptocamp.org" /></a>
-    <ul>
-      <li><a href="${request.route_url('waypoints_index_default')}" translate>Waypoints</a></li>
-      <li><a href="${request.route_url('routes_index_default')}" translate>Routes</a></li>
-    </ul>
-    </div>
-
+    <%include file="sidemenu.html"/>
     <img src="${request.static_url('c2corg_ui:static/img/loading-main.gif')}" class="loading-gif">
-    <div class="page-content">
+    <a href="${request.route_url('index')}" title="{{'Back to homepage'|translate}}" class="logo header">
+      <img src="${request.static_url('c2corg_ui:static/img/logo.svg')}" alt="Camptocamp.org"/>
+    </a>
+    <main class="page-content">
       ${self.body()}
-    </div>
-
+    </main>
+    <div class="mobile-bg"></div>
+    <button class="btn btn-default menu-open-close header"><span class="glyphicon glyphicon-align-justify"></span></button>
     <div class="page-header">
       <div class="quick-search">
         <app-search app-loading app-search-map=""></app-search>
@@ -64,7 +60,6 @@ closure_library_path = settings.get('closure_library_path')
         </div>
       </div>
     </div>
-
     <app-alerts></app-alerts>
 
 % if debug:
@@ -112,10 +107,9 @@ closure_library_path = settings.get('closure_library_path')
          module.value('mapFeatureCollection', null);
          </%block>
          document.querySelector('.loading-gif').style.display = 'none';
-         document.querySelector('.on-load').style.display = 'block';
          $('.on-load').removeClass('loading on-load');
-       })();
+         app.sidemenu();
+      })();
     </script>
-
   </body>
 </html>
