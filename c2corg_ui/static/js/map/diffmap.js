@@ -67,6 +67,7 @@ app.DiffMapController = function(mapFeatureCollection) {
    * @export
    */
   this.map = new ol.Map({
+    interactions: ol.interaction.defaults({mouseWheelZoom: false}),
     layers: [
       new ol.layer.Tile({
         source: new ol.source.OSM()
