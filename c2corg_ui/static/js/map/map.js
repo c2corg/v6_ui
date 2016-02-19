@@ -34,7 +34,8 @@ app.mapDirective = function() {
     restrict: 'E',
     scope: {
       'editCtrl': '=appMapEditCtrl',
-      'drawType': '@appMapDrawType'
+      'drawType': '@appMapDrawType',
+      'mouseWheel': '@appMapMouseWheel'
     },
     controller: 'AppMapController',
     controllerAs: 'mapCtrl',
@@ -97,7 +98,9 @@ app.MapController = function($scope, mapFeatureCollection) {
    * @export
    */
   this.map = new ol.Map({
-    interactions: ol.interaction.defaults({mouseWheelZoom:false}),
+    interactions: ol.interaction.defaults({
+      mouseWheelZoom: this['mouseWheel'] || false
+    }),
     layers: [
       new ol.layer.Tile({
         source: new ol.source.OSM()
