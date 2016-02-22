@@ -4,69 +4,73 @@
 <%block name="pagelang">lang="${lang}"</%block>
 <%block name="pagetitle"><title>${show_title(title)}</title></%block>\
 
-<h1>${title}</h1>
 
-<table class="diff_header">
-  <tr>
-    <td>
-      <a href="${request.route_url(
-            module + '_archive', id=document_id, lang=lang,
-            version=version1['version_id'])}"><span translate>Revision as of</span> {{'${1000 * version1['written_at']}' | date:'medium'}}</a><br/>
-      <span translate>by</span> <a href="#TODO profile for ${version1['user_id']}">${version1['username']}</a>
-      % if version1['comment']:
-        <br/><span class="revision-comment">(${show_version_comment(version1)})</span>
-      % endif
-      % if previous_version_id:
-        <br/><a href="${request.route_url(
-            module + '_diff', id=document_id, lang=lang, v1=previous_version_id,
-            v2=version1['version_id'])}" translate>previous difference</a>
-      % endif
-    </td>
-    <td>
-      <a href="${request.route_url(
-            module + '_archive', id=document_id, lang=lang,
-            version=version2['version_id'])}"><span translate>Revision as of</span> {{'${1000 * version2['written_at']}' | date:'medium'}}</a><br/>
-      <span translate>by</span> <a href="#TODO profile for ${version2['user_id']}">${version2['username']}</a>
-      % if version2['comment']:
-        <br/><span class="revision-comment">(${show_version_comment(version2)})</span>
-      % endif
-      % if next_version_id:
-        <br/><a href="${request.route_url(
-            module + '_diff', id=document_id, lang=lang, v1=version2['version_id'],
-            v2=next_version_id)}" translate>next difference</a>
-      % endif
-    </td>
-  </tr>
-</table>
+<section class="document-differences">
+  <h3 class="text-center" translate>Comparing documents</h3>
+  <h1 class="text-center">${title}</h1>
 
-% if not diffs:
-  <p class="bg-info" translate>No content changes.</p>
-% else:
-  % for field_diff in diffs:
-    <h3>{{mainCtrl.translate('${field_diff.field}')}}</h3>
-    <div class="diff-container">
-    % if field_diff.field == 'geometry':
-    <%block name="moduleConstantsValues">
-    module.value('mapFeatureCollection', {
-      "type": "FeatureCollection",
-      "features": [
-      %if geometry1:
-        {"type": "Feature", "geometry": ${geometry1 | n}, "properties": {"type": "v1"}},
-      %endif
-      %if geometry2:
-        {"type": "Feature", "geometry": ${geometry2 | n}, "properties": {"type": "v2"}}
-      %endif
-      ]
-    });
-    </%block>\
-    <app-diff-map></app-diff-map>
-    <p class="diff-map-legend">
-      <span translate>Legend:</span> <span translate>Version 1 in </span> <span class="diff-red" translate>red</span>,
-      <span translate>Version 2 in</span> <span class="diff-green" translate>green</span>
-    </p>
-    % else:
-      ${field_diff.html_diff | n}
-    % endif
-    </div>
-  % endfor
-% endif
+  <table class="diff_header table table-bordered table-striped">
+    <tr>
+      <td>
+        <a href="${request.route_url(
+              module + '_archive', id=document_id, lang=lang,
+              version=version1['version_id'])}"><span translate>Revision as of</span> {{'${1000 * version1['written_at']}' | date:'medium'}}</a><br/>
+        <span translate>by</span> <a href="#TODO profile for ${version1['user_id']}">${version1['username']}</a>
+        % if version1['comment']:
+          <br/><span class="revision-comment">(${show_version_comment(version1)})</span>
+        % endif
+        % if previous_version_id:
+          <br/><a href="${request.route_url(
+              module + '_diff', id=document_id, lang=lang, v1=previous_version_id,
+              v2=version1['version_id'])}" translate>previous difference</a>
+        % endif
+      </td>
+      <td>
+        <a href="${request.route_url(
+              module + '_archive', id=document_id, lang=lang,
+              version=version2['version_id'])}"><span translate>Revision as of</span> {{'${1000 * version2['written_at']}' | date:'medium'}}</a><br/>
+        <span translate>by</span> <a href="#TODO profile for ${version2['user_id']}">${version2['username']}</a>
+        % if version2['comment']:
+          <br/><span class="revision-comment">(${show_version_comment(version2)})</span>
+        % endif
+        % if next_version_id:
+          <br/><a href="${request.route_url(
+              module + '_diff', id=document_id, lang=lang, v1=version2['version_id'],
+              v2=next_version_id)}" translate>next difference</a>
+        % endif
+      </td>
+    </tr>
+  </table>
+
+  % if not diffs:
+    <p class="bg-info" translate>No content changes.</p>
+  % else:
+    % for field_diff in diffs:
+      <h3>{{mainCtrl.translate('${field_diff.field}')}}</h3>
+      <div class="diff-container">
+      % if field_diff.field == 'geometry':
+      <%block name="moduleConstantsValues">
+      module.value('mapFeatureCollection', {
+        "type": "FeatureCollection",
+        "features": [
+        %if geometry1:
+          {"type": "Feature", "geometry": ${geometry1 | n}, "properties": {"type": "v1"}},
+        %endif
+        %if geometry2:
+          {"type": "Feature", "geometry": ${geometry2 | n}, "properties": {"type": "v2"}}
+        %endif
+        ]
+      });
+      </%block>\
+      <app-diff-map></app-diff-map>
+      <p class="diff-map-legend">
+        <span translate>Legend:</span> <span translate>Version 1 in </span> <span class="diff-red" translate>red</span>,
+        <span translate>Version 2 in</span> <span class="diff-green" translate>green</span>
+      </p>
+      % else:
+        ${field_diff.html_diff | n}
+      % endif
+      </div>
+    % endfor
+  % endif
+</section>
