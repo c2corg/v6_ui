@@ -82,6 +82,10 @@ msgstr ""
 msgid "Category"
 msgstr ""
 
+#: c2corg_ui/templates/helpers/view.html
+msgid "Changes"
+msgstr ""
+
 #: c2corg_ui/templates/document/history.html
 #: c2corg_ui/templates/route/edit.html
 #: c2corg_ui/templates/waypoint/edit.html
@@ -97,6 +101,10 @@ msgstr ""
 msgid "Compare selected versions"
 msgstr ""
 
+#: c2corg_ui/templates/document/diff.html
+msgid "Comparing documents"
+msgstr ""
+
 #: c2corg_ui/templates/document/history.html
 msgid "Created on"
 msgstr ""
@@ -107,6 +115,10 @@ msgstr ""
 
 #: c2corg_ui/templates/i18n.html
 msgid "Creating a waypoint"
+msgstr ""
+
+#: c2corg_ui/templates/helpers/view.html
+msgid "Date"
 msgstr ""
 
 #: c2corg_ui/templates/route/edit.html
@@ -178,7 +190,7 @@ msgstr ""
 msgid "Failed to unassociate document"
 msgstr ""
 
-#: c2corg_ui/templates/helpers/view.html
+#: c2corg_ui/templates/route/view.html
 #: c2corg_ui/templates/waypoint/view.html
 msgid "Favorites"
 msgstr ""
@@ -504,6 +516,7 @@ msgid "bivouac"
 msgstr ""
 
 #: c2corg_ui/templates/document/diff.html
+#: c2corg_ui/templates/helpers/view.html
 msgid "by"
 msgstr ""
 
