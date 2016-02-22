@@ -30,11 +30,20 @@ other_langs, missing_langs = get_lang_lists(route, lang)
 <app-map class="view-details-map"></app-map>
 
 <section class="view-details-section" app-view-details>
+  ## OTHER BUTTON contents
+  <div class="col-xs-12 hidden-options">
+  % if version:
+    ${show_archive_data('routes', route, locale, version)}
+  % endif
+  ${show_other_langs_links('routes', route, other_langs)}
+  ${show_missing_langs_links('routes', route, missing_langs)}
+  </div>
   <uib-tabset app-view-details>
     <uib-tab heading="{{mainCtrl.translate('Description')}}" ng-click="detailsCtrl.openTab('description')" id="description-tab"></uib-tab>
     <uib-tab heading="{{mainCtrl.translate('Details')}}" ng-click="detailsCtrl.openTab('informations')"></uib-tab>
     <uib-tab heading="{{mainCtrl.translate('Associations')}}" ng-click="detailsCtrl.openTab('associations')"></uib-tab>
   </uib-tabset>
+
 
   <div class="thumbnail view-details-informations tab  col-sm-12">
     <h3 class="heading informations" data-toggle="collapse" data-target="#document-informations">
@@ -135,6 +144,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
     </span>
   </div>
   % endif
+
 
   ## OTHER BUTTON contents
   ${show_other_langs_links('routes', route, other_langs)}
