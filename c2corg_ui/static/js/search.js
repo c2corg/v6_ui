@@ -25,52 +25,52 @@ app.searchDirective = function() {
     link:
         /**
          * @param {angular.Scope} scope Scope.
-         * @param {angular.JQLite} element Element.
+         * @param {angular.JQLite} $('.page-header') Element.
          */
         function(scope, element) {
           var phoneScreen = app.constants.SCREEN.SMARTPHONE;
 
           // Empty the search field on focus and blur.
-          element.find('input').on('focus blur', function() {
+          $('.page-header').find('input').on('focus blur', function() {
             $(this).typeahead('val', '');
           });
           //Remove the class 'show-search' when screen width > @phone (defined in LESS)
           $(window).resize(function resize() {
             if ($(window).width() < phoneScreen) {
-              element.removeClass('show-search');
+              $('.page-header').removeClass('show-search');
             }
           });
           // Add class only on hover && when screen width < @phone (defined in LESS)
-          element.on('mouseenter', function() {
+          $('.page-header').on('mouseenter', function() {
             if (window.innerWidth < phoneScreen) {
-              element.find('input').addClass('show-search');
+              $('.page-header').find('input').addClass('show-search');
             }
           });
           // Trigger focus on search-icon click for .search
-          element.on('click', function(event) {
+          $('.page-header').on('click', function(event) {
             if (window.innerWidth < phoneScreen) {
               event.stopPropagation();
-              element.find('input').addClass('show-search');
-              element.find('.search').triggerHandler('focus');
+              $('.page-header').find('input').addClass('show-search');
+              $('.page-header').find('.search').triggerHandler('focus');
             }
           });
           // If the input is focused, don't remove the class
-          element.on('mouseleave', function() {
+          $('.page-header').on('mouseleave', function() {
             if (window.innerWidth < phoneScreen && !$('.search').is(':focus')) {
-              element.find('.show-search').removeClass('show-search');
+              $('.page-header').find('.show-search').removeClass('show-search');
             }
           });
           // If you click outside the search input, it has to be closed on @phone
           if (window.innerWidth < phoneScreen) {
             $('html').not('.search').not('.glyphicon-search').click(function() {
-              element.find('.show-search').removeClass('show-search');
+              $('.page-header').find('.show-search').removeClass('show-search');
             });
           }
           //show spinning gif while waiting for the results
           element.on('typeahead:asyncrequest', function() {
             element.find('input').addClass('loading-gif-typehead');
           })
-          .on('typeahead:asynccancel typeahead:asyncreceive', function() {
+          element.on('typeahead:asynccancel typeahead:asyncreceive', function() {
             element.find('input').removeClass('loading-gif-typehead');
           });
         }
