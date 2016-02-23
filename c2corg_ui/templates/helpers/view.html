@@ -1,7 +1,4 @@
-<%!
-from c2corg_ui.templates.utils import get_attr
-%>
-
+<%! from c2corg_ui.templates.utils import get_attr %>
 <%def name="show_attr(obj, key, parse=True)">\
   <%
       attr = get_attr(obj, key, md=parse, bb=parse)
@@ -81,45 +78,88 @@ from c2corg_ui.templates.utils import get_attr
 </%def>
 
 <%def name="show_associated_waypoints(document, type=None)">\
-  <ul>
   % if 'waypoints' in document['associations']:
     % for w in document['associations']['waypoints']:
       % if type is None or type == w['waypoint_type']:
-      <li class="card">
+      <div class="list-item">
         <a href="${request.route_url('waypoints_view', id=w['document_id'], lang=w['locales'][0]['lang'])}">${w['locales'][0]['title']}</a>
         <app-delete-association parent-id="${document['document_id']}" child-id="${w['document_id']}"></app-delete-association>
-      </li>
+      </div>
       % endif
     % endfor
   % endif
-  </ul>
 </%def>
 
 <%def name="show_associated_routes(document)">\
-  <ul>
   % if 'routes' in document['associations']:
     % for r in document['associations']['routes']:
-    <li class="card">
+    <div class="list-item">
       <a href="${request.route_url('routes_view', id=r['document_id'], lang=r['locales'][0]['lang'])}">${r['locales'][0]['title']}</a>
       <app-delete-association parent-id="${document['document_id']}" child-id="${r['document_id']}"></app-delete-association>
-    </li>
+    </div>
     % endfor
   % endif
-  </ul>
 </%def>
 
 <%def name="show_maps(document)">\
-  <ul>
-  % for m in document['maps']:
-    <li>${m['editor']} ${m['locales'][0]['title']}</li>
-  % endfor
-  </ul>
+  % if len(document['maps']) > 0:
+    <ul>
+    % for m in document['maps']:
+      <li>${m['editor']} ${m['locales'][0]['title']}</li>
+    % endfor
+    </ul>
+  % else :
+  <p translate>No maps associated</p>
+  % endif
 </%def>
 
 <%def name="show_areas(document)">\
-  <ul>
-  % for a in document['areas']:
-    <li>${a['area_type']} ${a['locales'][0]['title']}</li>
-  % endfor
-  </ul>
+  % if document.get('areas'):
+    <ul>
+      % for a in document['areas']:
+        <li ng-cloak>{{mainCtrl.translate('${a["area_type"]} ')}}: <b>${a['locales'][0]['title']}</b></li>
+      % endfor
+    </ul>
+  % endif
+</%def>
+
+
+## Float buttons
+<%def name="show_float_buttons(string, doc_id, doc_lang, other_langs, missing_langs)">\
+  <div class="float-buttons" app-view-details>
+    <div class="float-button float-edit" tooltip-placement="left" uib-tooltip="{{'Edit' | translate}}">
+      <app-edit-button ng-click="ebCtrl.redirect()" app-edit-button-url="${request.route_url( string + '_edit' , id=doc_id, lang=doc_lang)}"></app-edit-button>
+      <span class="glyphicon glyphicon-edit"></span>
+      <p class="float-button-text" translate>Edit</p>
+    </div>
+    <div class="float-button float-favorite" tooltip-placement="left" uib-tooltip="{{'Add to favorites' | translate}}">
+      <span class="glyphicon glyphicon-heart"></span>
+      <p class="float-button-text" translate>Favorites</p>
+    </div>
+    <div class="float-button float-add" tooltip-placement="left" uib-tooltip="{{'Add' | translate}}">
+      <span class="glyphicon glyphicon-plus"></span>
+      <p class="float-button-text" translate>Add</p>
+    </div>
+    <div class="float-button float-comments" tooltip-placement="left" uib-tooltip="{{'Comments' | translate}}">
+      <span class="glyphicon glyphicon-comment"></span>
+      <p class="float-button-text" translate>Comments</p>
+    </div>
+    <div class="btn-group float-more float-button " uib-dropdown tooltip-placement="left" uib-tooltip="{{'More' | translate}}">
+      <span class="glyphicon glyphicon-th-list dropdown-toggle" uib-dropdown-toggle></span>
+      <p class="float-button-text" translate>More</p>
+      <ul class="dropdown-menu"  role="menu" aria-labelledby="dLabel">
+        <li><a href="${request.route_url(string + '_history', id=doc_id, lang=doc_lang)}" translate>History</a></li>
+        % if other_langs:
+        <li ng-click="detailsCtrl.openModal('#other-langs')"><a translate>View in other lang</a></li>
+        % endif
+        % if missing_langs:
+        <li ng-click="detailsCtrl.openModal('#missing-langs')"><a translate>Translate into an other lang</a></li>
+        % endif
+        <li role="separator" class="divider"></li>
+        <li><a href="#">Print</a></li>
+        <li><a href="#">Save</a></li>
+      </ul>
+    </div>
+  </div>
+
 </%def>
