@@ -1,0 +1,434 @@
+@import "variables.less";
+
+.view-details-title {
+  .flex();
+  margin-top: 60px;
+  
+  @media @phone {
+    margin-top: 55px;
+  }
+  @media @tablet {
+    margin-top: 40px;
+  }
+
+  >h1 {
+    margin: auto;
+    width: 80%;
+    text-align: center;
+    transition: 0.4s;
+    line-height: 50px;
+
+    @media @phone {
+      font-size: 1.8em;
+      line-height: 26px;
+      margin-left: 20px;
+    }
+    @media @tablet {
+      font-size: 2em;
+      line-height: 35px;
+    }
+    .badge {
+      font-size: 0.5em;
+      background-color: @brand-success;
+      margin-left: 10px;
+    }
+  }
+}
+
+.view-details-section {
+  height: 73%;
+  margin-left: 4%;
+  margin-right: 0;
+  width: 90%;
+  margin-top: -30px;
+  padding-top: 15px;
+  overflow: hidden;
+
+  @media @phone{
+    padding: 28px 5px @float-buttons-bar-height + 10px 5px;
+    width: 100%;
+    margin-left: 0%;
+    margin-right: 0%;
+  }
+
+  .nav-tabs {
+    border: none;
+  }
+  .view-details-photos {
+    width: 100% !important; 
+    margin-left: 0 !important;
+    padding: 10px 0 10px 0;
+    .photos {
+      .flex();
+      justify-content: space-around;
+    }
+  }
+/* uib accordion*/
+  .panel-title {
+    .glyphicon {
+      float: right;
+    }
+  }
+  
+   .view-details-description, .view-details-other,  .view-details-info, .view-details-associations, .view-details-photos {
+    text-align: justify;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 10px;
+    background: white;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #eee;
+    
+    @media @phone {
+      border-width: 2px;
+    }
+
+    @media @big {
+      width: 72.5%;
+      margin-left: 2.5%;
+    }
+    
+    h2 {
+      text-align: left;
+      font-size: 1.5em;
+    }
+
+    .lead {
+      width: 100%;
+      font-size: 17px;
+      word-break: break-word;
+      float: left;
+      padding: 0 15px 5px 15px;
+      margin-bottom: 0;
+
+      @media (max-width: @screen-xs-max) {
+        font-size: 14px;
+        padding-top: 10px;
+      }
+    }
+  }
+  
+  .view-details-associations {
+    width: 100%;
+    margin-left: 0;
+    background: white;
+     border: 1px solid #eee;
+    
+    @media @phone {
+      display: none;
+    }
+    @media @big {
+      section {
+        .flex();
+        justify-content: space-between;
+        article {
+          flex-basis:  49%;
+        }
+      }
+    }
+    a { padding: 0%; }
+    h3 { 
+      margin-top: 1%; 
+      margin-bottom: 1%; 
+    }
+    .list-item {
+      padding: 1%;
+      margin: 0;
+      min-height: 105px;
+      margin-bottom: 10px;
+      background: #EEE;
+      width: 44%;
+      @media @big {
+        width: 49%;
+      }
+      @media @phone {
+        font-size: 1.4em;
+      }
+      @media @tablet {
+        min-height: 90px;
+      }
+    }
+
+    .associated-documents {
+      margin-top: 10px;
+      padding: 0 10px;
+      .flex();
+      flex-flow: wrap;
+      overflow: hidden;
+      justify-content: space-around;
+      @media @big {
+        justify-content: space-between;
+      }
+      app-delete-association {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        margin-bottom: 5px;
+        margin-right: 5px;
+        .glyphicon {
+          color: white;
+        }
+        button {
+          padding: 5px;
+        }
+      }
+    }
+  }
+  .view-details-informations {
+    background-color: white;
+    border: 2px solid #FFB761;
+    .flex();
+    flex-flow: row wrap;
+    
+    @media @phone { 
+      width: 100%;
+      display: none;
+    }
+    @media @big {
+      width: 25%;
+    }
+    #document-informations {
+      .flex();
+      flex-flow: row wrap;
+      overflow: hidden;
+      width: 100%;
+
+      @media @phone {
+        display: block;
+      }
+    }
+    >.heading {
+      margin-top:0;
+    }
+    .heading .glyphicon {
+      font-size: .8em;
+    }
+    .glyphicon-sort-by-attributes{
+      transform: rotateZ(180deg);
+    }
+    .glyphicon {
+      font-size: 3em;
+      
+      @media @phone {
+        font-size: 1em;
+      }
+    }
+    .detail-name {
+      font-weight: bold;
+    }
+    .detail-value {
+      margin: auto;
+      font-size: 1.5em;
+    }
+    .detail-text {
+      width: 80%;
+      margin: auto;
+      text-align: left;
+      line-height: 17px;
+      font-size: 1.1em;
+
+      @media @phone {
+        width: 200%;
+        font-size: 1em;
+        display: none;
+      }
+      @media @tablet {
+        font-size: 1em;
+      }
+      ul {
+        padding-left: 15px;
+        width: 85%;
+      }
+    }
+    .no-info-text {
+      text-align: center;
+      width: 55%;
+      margin: auto;
+
+      @media (min-width: @screen-xs-min) and (max-width: @screen-sm-max) {
+        width: 70%;
+      } 
+    }
+    .name-icon-value {
+      .flex();
+      flex-basis: 33.33%;
+      padding: 0;
+      min-height: 100px;
+      background-color: white;
+      border-bottom: 1px solid #dfd6c5;
+      transition: 0.3s;
+      margin: auto;
+      
+      @media @big {
+        padding-top: 1%;
+        flex-basis: 100%;
+        min-height: 0;
+        height: auto;
+      }
+      @media @tablet {
+        flex-basis: 50%;
+        padding: 0;
+      }
+      @media @phone {
+        width: 100%;
+        height: auto;
+        min-height: 0;
+        padding: 0;
+        cursor: pointer;
+        &:not(:first-of-type) {
+          border-top: 1px solid #dfd6c5;
+        }
+      }
+      &.general {
+        -webkit-flex: 0 0 100%;
+        flex: 0 0 100%;
+        .detail-text {
+          .flex();
+          justify-content: space-around;
+          @media @big {
+            display: block;
+          }
+          @media @phone {
+            /*hack - first display as block (flex before, then hide it)*/
+            display: block;
+            display: none;
+          }
+        }
+
+      }
+      &.location {
+        display: none;
+        @media @phone {
+          display: block;
+        }
+      }
+
+    }
+    .accordion {
+      margin-left: 5px;
+
+      @media @phone {
+         padding-top: 1%;
+      }
+      @media @tablet {
+        font-size: 14px;
+      }
+    }
+    h4 {
+      display: none;
+      width: 100%;
+      text-align: center;
+
+      span {
+        margin-right: 5px;
+        transition: 0.3s;
+      }
+      @media @phone {
+        display: block;
+      }
+    }
+    .name-icon {
+      width: 75px;
+      text-align: center;
+      margin: auto 5px auto 10px;
+      transition: 0.3s;
+
+      @media (max-width: @screen-xs-max) {
+        margin-left: 5%;
+        width: 60px;
+      }
+      @media @phone {
+        display: none;
+      }
+
+      p {
+        font-weight: bold;
+        font-variant: small-caps;
+      }
+    }
+    .coordinates-table {
+      width: 180px;
+      td {
+        text-align: center;
+        vertical-align: middle;
+        padding: 1%;
+      }
+    }
+  }
+} /*.view-details-section*/
+
+
+.view-details-map{
+  .map {
+     width: 100%;
+      margin-bottom: 29px;
+
+      @media @phone {
+        margin-bottom: 0;
+      }
+  }
+  .ol-viewport {
+    height: 280px !important;
+
+    @media @tablet {
+      height: 220px !important;
+    }
+    margin-bottom: 2%;
+    @media @phone {
+      height: 170px !important;
+    }
+  }
+}
+  
+.view-details-other {
+  width: 100% !important;
+  margin: 0 0 40px 0 !important; 
+  @media @phone {
+    display: none;
+  }
+}
+
+.document-summary, .document-remarks {
+  color: #626262;
+  border: 1px solid #D8D8D8;
+  border-left: 0.5em solid #5FE45F;
+  padding: 5px 15px 5px 15px;
+  background-color: rgba(168, 168, 168, 0.07);
+  margin: 10px 0 10px 0;
+  box-shadow: 0 0 2px rgba(0,0,0,0.2);
+ font-style: italic;
+
+ label {
+   font-style: normal;
+ }
+}
+.document-remarks {
+  border-left-color: rgba(255, 67, 34, 0.61);
+}
+
+app-add-association {
+  app-search {
+    width: 196px;
+    .glyphicon-search {
+      margin-top: 4px;
+      font-size: 1.5em;
+    }
+  }
+}
+
+.view-details-description, .view-details-other,  .view-details-info, .view-details-associations, .view-details-photos, .view-details-informations{
+  ul li {
+    list-style: none;
+    &:before {
+      /*Using a Bootstrap glyphicon as the bullet point*/
+      content: "\e080";
+      font-family: 'Glyphicons Halflings';
+      font-size: 12px;
+      float: left;
+      margin-left: -17px;
+      color: @brand-success;
+    }
+  }
+}
+  

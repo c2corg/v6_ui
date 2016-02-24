@@ -12,14 +12,33 @@ app.viewDetailsDirective = function() {
     controller: 'AppViewDetailsController',
     controllerAs: 'detailsCtrl',
     bindToController: true,
-    link: function(el, scope, attrs) {
+    link: function(el, scope, attrs, ctrl) {
       var s = app.constants.SCREEN;
-      var elements = $('.tab, .accordion');
-      // show tabs if they have been hidden on smartphone
+
+      // show tabs if they have been hidden on smartphone and inversely
       $(window).resize(function() {
         if (window.innerWidth > s.SMARTPHONE) {
-          elements.show();
+          $('.tab, .accordion').show();
         }
+        // show description tab by default or selected tab
+        if (window.innerWidth < s.SMARTPHONE) {
+          $('.tab').hide();
+          if (!ctrl.selected) {
+            $('.view-details-description').show();
+          } else {
+            ctrl.selected.show();
+          }
+        }
+        return;
+      });
+      $('.heading').click(function() {
+        var icon = $(this).find('.glyphicon');
+        if (icon.hasClass('glyphicon-menu-down')) {
+          icon.toggleClass('rotate-arrow-up');
+        } else if (icon.hasClass('glyphicon-menu-right')) {
+          icon.toggleClass('rotate-arrow-down');
+        }
+        return;
       });
     }
   };
@@ -57,14 +76,16 @@ app.ViewDetailsController.prototype.openModal = function(selector) {
  */
 app.ViewDetailsController.prototype.openTab = function(tab) {
   var s = app.constants.SCREEN;
+
   // only for smartphones
   if (window.innerWidth < s.SMARTPHONE) {
-    if (tab.target) {
-      $(tab.target).closest('.name-icon-value').find('.glyphicon-menu-right').toggleClass('rotate-arrow');
+    if (tab.target) { // tab = event
+      $(tab.target).closest('.name-icon-value').find('.glyphicon-menu-right').toggleClass('rotate-arrow-down');
       $(tab.target).closest('.name-icon-value').find('.accordion').slideToggle();
     } else {
+      this.selected = $('.view-details-' + tab); //used in the directive
       $('.tab').hide();
-      $(tab).show();
+      $('.view-details-' + tab).show();
     }
   }
 }

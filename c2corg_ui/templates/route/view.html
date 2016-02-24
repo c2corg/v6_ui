@@ -4,7 +4,11 @@ from c2corg_ui.templates.utils import get_lang_lists
 <%inherit file="../base.html"/>
 <%namespace file="../helpers/view.html" import="show_attr, show_short_attr, show_missing_langs_links,
     show_other_langs_links, show_archive_data, show_route_title, show_associated_waypoints,
-    show_associated_routes, show_areas, show_maps"/>
+    show_associated_routes, show_areas, show_float_buttons, show_maps"
+ />
+<%namespace file="helpers/detailed_route_attributes.html" import="get_route_gear, get_route_location, 
+  get_route_rating, get_route_general, get_route_heights,  get_route_access" 
+ />
 <%
 route_id = route['document_id']
 other_langs, missing_langs = get_lang_lists(route, lang)
@@ -27,121 +31,61 @@ other_langs, missing_langs = get_lang_lists(route, lang)
 
 <section class="view-details-section" app-view-details>
   <uib-tabset app-view-details>
-    <uib-tab heading="Description" ng-click="detailsCtrl.openTab('.view-details-description')"></uib-tab>
-    <uib-tab heading="Details" ng-click="detailsCtrl.openTab('.view-details-list')"></uib-tab>
-    <uib-tab heading="Associations" ng-click="detailsCtrl.openTab('.view-details-associations')"></uib-tab>
+    <uib-tab heading="{{mainCtrl.translate('Description')}}" ng-click="detailsCtrl.openTab('description')" id="description-tab"></uib-tab>
+    <uib-tab heading="{{mainCtrl.translate('Details')}}" ng-click="detailsCtrl.openTab('informations')"></uib-tab>
+    <uib-tab heading="{{mainCtrl.translate('Associations')}}" ng-click="detailsCtrl.openTab('associations')"></uib-tab>
   </uib-tabset>
 
-  <div class="thumbnail view-details-list col-lg-12col-md-12 col-sm-12 tab">
-
-    ## LOCATION
-    % if not version:
-    <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
-      <h4><span translate>Location</span><span class="glyphicon glyphicon-menu-right"></span></h4>
-      <div class="name-icon">
-        <span class="glyphicon glyphicon-map-marker"></span>
-        <p translate>Location</p>
-      </div>
-      <span class="detail-text accordion">
-        ${show_areas(route)}
-      </span>
-    </div>
-    % endif
-
-    ## GENERAL
-    <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
-      <h4><span translate>General</span><span class="glyphicon glyphicon-menu-right"></span></h4>
-      <div class="name-icon">
-        <span class="glyphicon glyphicon-stats"></span>
-        <p translate>General</p>
-      </div>
-      <span class="detail-text accordion">
-        % if route['route_types']:
-        <p><span translate>route_types</span>: <b>${route['route_types']}</b></p>
-        % endif
-        % if route['elevation_max']:
-        <p><span translate>elevation_max</span>: <b>${route['elevation_max']} m </b></p>
-        % endif
-        % if route['elevation_min']:
-        <p><span translate>elevation_min</span>: <b>${route['elevation_min']} m </b></p>
-        % endif
-      </span>
-    </div>
-
-    ## SUMMARY
-    % if locale['summary']:
-    <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
-      <h4><span translate>summary</span><span class="glyphicon glyphicon-menu-right"></span></h4>
-      <div class="name-icon">
-        <span class="glyphicon glyphicon-list-alt"></span>
-        <p translate>summary</p>
-      </div>
-      <span class="detail-text accordion">
-        ${locale['summary']}
-      </span>
-    </div>
-    % endif
-
-    ##DIFFICULTY
-    <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
-      <h4><span translate>Difficulty</span><span class="glyphicon glyphicon-menu-right"></span></h4>
-      <div class="name-icon">
-        <span class="glyphicon glyphicon-alert"></span>
-        <p translate>Difficulty</p>
-      </div>
-      <span class="detail-text accordion">
-        %if route['height_diff_difficulties']:
-        <p><span translate>height_diff_difficulties</span>: <b>${route['height_diff_difficulties']} m</b></p>
-        % endif
-        % if 'equipment_rating' in route and route['equipment_rating']:
-        <p><span translate>equipment_rating</span>: <b>${route['equipment_rating']}</b></p>
-        % endif
-        % if 'engagement_rating' in route and route['engagement_rating']:
-        <p><span translate>engagement_rating</span>: <b>${route['engagement_rating']}</b></p>
-        % endif
-      </span>
-    </div>
-
-    ##ACCESS
-    <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
-      <h4><span translate>Access</span><span class="glyphicon glyphicon-menu-right"></span></h4>
-      <div class="name-icon">
-        <span class="glyphicon glyphicon-screenshot"></span>
-        <p translate>Access</p>
-      </div>
-      <span class="detail-text accordion" ng-init="lift_access=${route['lift_access']}">
-        <span translate>Has lift access</span>:
-        <b>{{lift_access == 'None' ? mainCtrl.translate('No'): mainCtrl.translate('Yes')}}</b>
-      </span>
-    </div>
-
-    ## GEAR
-    % if locale['gear']:
-    <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
-      <h4><span translate>gear</span><span class="glyphicon glyphicon-menu-right"></span></h4>
-      <div class="name-icon">
-        <span class="glyphicon glyphicon-cog"></span>
-        <p translate>gear</p>
-      </div>
-      <span class="detail-text accordion">${show_attr(locale, 'gear')}</span>
-    </div>
-    % endif
-  </div>
+  <div class="thumbnail view-details-informations tab  col-sm-12">
+    <h3 class="heading informations" data-toggle="collapse" data-target="#document-informations">
+      <span translate>Informations</span><span class="glyphicon glyphicon-menu-down"></span>
+    </h3>
+    <section id="document-informations" class="collapse in">
+      ${get_route_general(route, locale)}
+      ${get_route_location(route)}
+      ${get_route_heights(route)}
+      ${get_route_gear(route, locale)}
+      ${get_route_rating(route)}
+      ${get_route_access(route)}
+    </section>
+  </div> 
 
   ## DESCRIPTION
-  <div class="view-details-description col-xs-12 tab">
+  <div class="view-details-description col-xs-12 tab lead">
     <span class="lead">
-      <h3 translate class="text-center heading">description</h3>
-      ${show_attr(locale, 'description')}
+      <div id="document-description" class="collapse in">
+
+        % if locale['summary']:
+        <summary class="document-summary">
+          <label translate>summary</label><br>
+          "${locale['summary']}"
+        </summary>
+        % endif
+
+        % if locale['description']:
+        ${show_attr(locale, 'description')}
+        % endif
+
+        % if locale['remarks']:
+        <div class="document-remarks">
+          <label translate>remarks</label><br>
+          "${locale['remarks']}"
+        </div>
+        % endif
+      </div>
     </span>
   </div>
 
   ## IMAGES
   % if not version:
   <div class="view-details-photos col-xs-12 tab">
-    <span class="lead">
-      <h3 translate class="text-center">images</h3>
-    </span>
+    <div class="photos">
+      <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzE0MHgxNDAKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNTMwOTM2ZThhYyB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE1MzA5MzZlOGFjIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjQ0LjA2MjUiIHk9Ijc0LjU1NjI1Ij4xNDB4MTQwPC90ZXh0PjwvZz48L2c+PC9zdmc+" alt="..." class="img-thumbnail">
+      <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzE0MHgxNDAKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNTMwOTM2ZThhYyB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE1MzA5MzZlOGFjIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjQ0LjA2MjUiIHk9Ijc0LjU1NjI1Ij4xNDB4MTQwPC90ZXh0PjwvZz48L2c+PC9zdmc+" alt="..." class="img-thumbnail">
+      <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzE0MHgxNDAKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNTMwOTM2ZThhYyB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE1MzA5MzZlOGFjIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjQ0LjA2MjUiIHk9Ijc0LjU1NjI1Ij4xNDB4MTQwPC90ZXh0PjwvZz48L2c+PC9zdmc+" alt="..." class="img-thumbnail">
+      <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzE0MHgxNDAKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNTMwOTM2ZThhYyB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE1MzA5MzZlOGFjIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjQ0LjA2MjUiIHk9Ijc0LjU1NjI1Ij4xNDB4MTQwPC90ZXh0PjwvZz48L2c+PC9zdmc+" alt="..." class="img-thumbnail">
+      <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzE0MHgxNDAKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNTMwOTM2ZThhYyB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE1MzA5MzZlOGFjIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjQ0LjA2MjUiIHk9Ijc0LjU1NjI1Ij4xNDB4MTQwPC90ZXh0PjwvZz48L2c+PC9zdmc+" alt="..." class="img-thumbnail">
+    </div>
   </div>
   % endif
 
@@ -149,75 +93,59 @@ other_langs, missing_langs = get_lang_lists(route, lang)
   % if not version:
   <div class="view-details-associations col-xs-12 tab">
     <span class="lead">
-      <h3 class="text-center heading" translate>Associations</h3>
-      <div ng-show="userCtrl.auth.isAuthenticated()"><span translate>Add association</span>:
+
+      <div ng-show="userCtrl.auth.isAuthenticated()">
+        <label translate>Add association</label>:
         <app-add-association parent-id="${route_id}" added-documents="added"></app-add-association>
       </div>
-      <div><span translate>Waypoint associations</span>: ${show_associated_waypoints(route)}
-        <ul>
-          <li ng-repeat="doc in added | filter:{'documentType': 'waypoints'}">
-            <app-association-card parent-id="${route_id}" doc="doc" added-documents="added"></app-association-card>
-          </li>
-        </ul>
+      <section>
+        <article>
+          <h3 class="heading show-phone" data-toggle="collapse" data-target="#associated-waypoints">
+            <span translate>Associated waypoints</span><span class="glyphicon glyphicon-menu-down"></span>
+          </h3>
+          <div class="associated-documents collapse in" id="associated-waypoints">
+            ${show_associated_waypoints(route)}
+            <div class="list-item" ng-repeat="doc in added | filter:{'documentType': 'waypoints'}">
+              <app-association-card parent-id="${route_id}" doc="doc" added-documents="added"></app-association-card>
+            </div>
+          </div>
+        </article>
+        <article>
+          <h3 class="heading show-phone" data-toggle="collapse" data-target="#associated-routes">
+            <span translate>Associated routes</span><span class="glyphicon glyphicon-menu-down"></span>
+          </h3>
+          <div class="associated-documents collapse in" id="associated-routes">
+            <div class="list-item"></div>
+            <div class="list-item"></div>
+            <div class="list-item"></div>
+            ${show_associated_routes(route)}
+            <article ng-repeat="doc in added | filter:{'documentType': 'routes'}">
+              <app-association-card parent-id="${route_id}" doc="doc" added-documents="added"></app-association-card>
+            </article>
+          </div>
+        </article>
+      </section>
+      <h3 class="heading" data-toggle="collapse" data-target="#associated-maps">
+        <span translate>Maps</span><span class="glyphicon glyphicon-menu-down"></span>
+      </h3>
+      <div class="collapse in" id="associated-maps">
+        ${show_maps(route)}
       </div>
-      <div><span translate>Route associations</span>: ${show_associated_routes(route)}
-        <ul>
-          <li ng-repeat="doc in added | filter:{'documentType': 'routes'}">
-            <app-association-card parent-id="${route_id}" doc="doc" added-documents="added"></app-association-card>
-          </li>
-        </ul>
-      </div>
-      <div><span translate>Maps</span>: ${show_maps(route)}</div>
+
     </span>
   </div>
   % endif
-  
+
   ## OTHER BUTTON contents
   ${show_other_langs_links('routes', route, other_langs)}
   ${show_missing_langs_links('routes', route, missing_langs)}
 
-  <div class="text-center">
-    <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);"translate>To page head <span class="glyphicon glyphicon-menu-up"></span></button>
-  </div>
 </section>
 
-<div class="float-buttons" app-view-details>
-  <div class="float-button float-edit" tooltip-placement="top" uib-tooltip="{{'Edit' | translate}}">
-    <app-edit-button ng-click="ebCtrl.redirect()" app-edit-button-url="${request.route_url('routes_edit', id=route_id, lang=lang)}"></app-edit-button>
-    <span class="glyphicon glyphicon-edit"></span>
-    <p class="float-button-text" translate>Edit</p>
-  </div>
-  <div class="float-button float-favorite" tooltip-placement="top" uib-tooltip="{{'Add to favorites' | translate}}">
-    <span class="glyphicon glyphicon-heart"></span>
-    <p class="float-button-text" translate>Favorites</p>
-  </div>
-  <div class="float-button float-add" tooltip-placement="top" uib-tooltip="{{'Add' | translate}}">
-    <span class="glyphicon glyphicon-plus"></span>
-    <p class="float-button-text" translate>Add</p>
-  </div>
-  <div class="float-button float-comments" tooltip-placement="top" uib-tooltip="{{'Comments' | translate}}">
-    <span class="glyphicon glyphicon-comment"></span>
-    <p class="float-button-text" translate>Comments</p>
-  </div>
-  <div class="btn-group float-more float-button " uib-dropdown tooltip-placement="top" uib-tooltip="{{'More' | translate}}">
-    <span class="glyphicon glyphicon-th-list dropdown-toggle" uib-dropdown-toggle></span>
-    <p class="float-button-text" translate>More</p>
-    <ul class="dropdown-menu"  role="menu" aria-labelledby="dLabel">
-      % if version:
-      <li>${show_archive_data('routes', route, locale, version)}</li>
-      % endif
-      <li><a href="${request.route_url('routes_history', id=route_id, lang=lang)}" translate>History</a></li>
-      % if other_langs:
-      <li ng-click="detailsCtrl.openModal('#other-langs')"><a translate>View in other lang</a></li>
-      % endif
-      % if missing_langs:
-      <li ng-click="detailsCtrl.openModal('#missing-langs')"><a translate>Translate into an other lang</a></li>
-      % endif
-      <li role="separator" class="divider"></li>
-      <li><a href="#">Print</a></li>
-      <li><a href="#">Save</a></li>
-    </ul>
-  </div>
+${show_float_buttons('routes', route_id, lang, other_langs, missing_langs)}
+
+<div class="text-center">
+  <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);"translate>To page head <span class="glyphicon glyphicon-menu-up"></span></button>
 </div>
 
 <script>

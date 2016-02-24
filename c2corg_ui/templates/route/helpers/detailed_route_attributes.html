@@ -1,0 +1,237 @@
+<%namespace file="../../helpers/view.html" import="show_areas, show_attr"/>
+
+## LOCATION
+<%def name="get_route_location(route)">\
+  <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
+    <h4><span translate>Location</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+    <div class="name-icon">
+      <span class="glyphicon glyphicon-map-marker"></span>
+      <p translate>Location</p>
+    </div>
+    <span class="detail-text accordion">
+      ${show_areas(route)}
+      
+      % if route.get('orientations'):
+      <p><span translate>orientations</span>: <b>${route['orientations']}</b></p>
+      % endif
+
+    </span>
+  </div>
+</%def>
+
+## GENERAL
+<%def name="get_route_general(route,locale)">\
+  <div class="name-icon-value general" ng-click="detailsCtrl.openTab($event)">
+    <h4><span translate>General</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+    <div class="name-icon">
+      <span class="glyphicon glyphicon-asterisk"></span>
+      <p translate>General</p>
+    </div>
+    <span class="detail-text accordion">
+
+      % if route.get('route_types'):
+      <div ng-init="route_types = ${route['route_types']}">
+        <b translate>route_types</b><br>
+        <ul>
+          <li ng-repeat="type in route_types" ng-cloak>{{mainCtrl.translate(type)}}</li>
+        </ul>
+      </div>
+      % endif
+
+      % if route['activities']:
+      <div ng-init="route_activites = ${route['activities']}">
+        <b translate>activities</b>:
+        <ul>
+          <li ng-repeat="activity in route_activites" ng-cloak>{{mainCtrl.translate(activity)}}{{$last ? '' : ', '}}</li>
+        </ul>
+      </div>
+      % endif
+
+      % if route.get('configuration'):
+      <p><span translate>configuration</span>: <b>${','.join(route['configuration'])}</b></p>
+      % endif
+
+      % if route.get('global_rating'):
+      <p><span translate>global_rating</span>: <b>${route['global_rating']}</b></p>
+      % endif
+
+      % if locale.get('slope'):
+      <p><span translate>slope</span>: <b>${locale['slope']}</b></p>
+      % endif
+
+      % if route.get('rock_types'):
+      <p><span translate>rock_types</span>: <b>${route['rock_types']}</b></p>
+      % endif
+
+      % if route.get('aid_rating'):
+      <p><span translate>aid_rating</span>: <b>${route['aid_rating']}</b></p>
+      % endif
+
+      % if route.get('mtb_length_asphalt'):
+      <p><span translate>mtb_length_asphalt</span>: <b>${route['mtb_length_asphalt']}</b></p>
+      % endif
+
+      % if route.get('mtb_length_trail'):
+      <p><span translate>mtb_length_trail</span>: <b>${route['mtb_length_trail']}</b></p>
+      % endif
+
+      % if route.get('climbing_outdoor_types'):
+      <p><span translate>climbing_outdoor_types</span>: <b>${route['climbing_outdoor_types']}</b></p>
+      % endif
+    </span>
+  </div>
+</%def>
+
+
+## RATING  
+<%def name="get_route_rating(route)">\
+  <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
+    <h4><span translate>Rating</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+    <div class="name-icon">
+      <span class="glyphicon glyphicon-sort-by-attributes"></span>
+      <p translate>Rating</p>
+    </div>
+    <span class="detail-text accordion">
+
+
+      % if route.get('engagement_rating'):
+      <p><span translate>engagement_rating</span>: <b>${route['engagement_rating']}</b></p>
+      % endif
+
+      % if route.get('risk_rating'):
+      <p><span translate>risk_rating</span>: <b>${route['risk_rating']}</b></p>
+      % endif
+
+      % if route.get('exposition_rock_rating'):
+      <p><span translate>exposition_rock_rating</span>: <b>${route['exposition_rock_rating']}</b></p>
+      % endif
+
+      % if route.get('rock_free_rating'):
+      <p><span translate>rock_free_rating</span>: <b>${route['rock_free_rating']}</b></p>
+      % endif
+
+      % if route.get('rock_required_rating'):
+      <p><span translate>rock_required_rating</span>: <b>${route['rock_required_rating']}</b></p>
+      % endif
+
+      % if route.get('hiking_rating'):
+      <p><span translate>hiking_rating</span>: <b>${route['hiking_rating']}</b></p>
+      % endif
+
+      % if route.get('hiking_mtb_exposition'):
+      <p><span translate>hiking_mtb_exposition</span>: <b>${route['hiking_mtb_exposition']}</b></p>
+      % endif
+
+      % if route.get('ice_rating'):
+      <p><span translate>ice_rating</span>: <b>${route['ice_rating']}</b></p>
+      % endif
+
+      % if route.get('mixed_rating'):
+      <p><span translate>mixed_rating</span>: <b>${route['mixed_rating']}</b></p>
+      % endif
+
+      % if route.get('snowshoe_rating'):
+      <p><span translate>snowshoe_rating</span>: <b>${route['snowshoe_rating']}</b></p>
+      % endif
+
+      % if route.get('mtb_down_rating'):
+      <p><span translate>mtb_down_rating</span>: <b>${route['mtb_down_rating']}</b></p>
+      % endif
+
+      % if route.get('mtb_up_rating'):
+      <p><span translate>mtb_up_rating</span>: <b>${route['mtb_up_rating']}</b></p>
+      % endif
+
+      % if route.get('via_ferrata_rating'):
+      <p><span translate>via_ferrata_rating</span>: <b>${route['via_ferrata_rating']}</b></p>
+      % endif
+    </span>
+  </div>
+</%def>
+
+
+## GEAR  
+<%def name="get_route_gear(route, locale)">\
+  <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
+    <h4><span translate>gear</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+    <div class="name-icon">
+      <span class="glyphicon glyphicon-cog"></span>
+      <p translate>gear</p>
+    </div>
+    <span class="detail-text accordion">
+      % if locale.get('gear'):
+      <p>${show_attr(locale, 'gear')}</p>
+      % endif
+
+      % if route.get('equipment_rating'):
+      <p><span translate>equipment_rating</span>: <b>${route['equipment_rating']}</b></p>
+      % endif
+
+      % if route.get('glacier_gear'):
+      <p><span translate>glacier_gear</span>: <b>${route['glacier_gear']}</b></p>
+      % endif
+
+      % if not route.get('glacier_gear') and not route.get('equipment_rating') and not locale.get('gear'):
+      <p translate>No gear info</p>
+      % endif
+    </span>
+  </div>
+</%def>
+
+
+## HEIGHTS  
+<%def name="get_route_heights(route)">\
+  <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
+    <h4><span translate>heights</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+    <div class="name-icon">
+      <span class="glyphicon glyphicon-stats"></span>
+      <p translate>heights</p>
+    </div>
+    <span class="detail-text accordion">
+
+      <p><span translate>elevation min/max</span>: <b>${route['elevation_min']} m / ${route['elevation_max']} m </b></p>
+
+      % if route.get('height_diff_up'):
+      <p><span translate>height_diff_up</span>: <b>${route['height_diff_up']} m</b></p>
+      % endif
+
+      % if route.get('height_diff_down'):
+      <p><span translate>height_diff_down</span>: <b>${route['height_diff_down']} m</b></p>
+      % endif
+
+      % if route.get('route_length'):
+      <p><span translate>route_length</span>: <b>${route['route_length']}</b></p>
+      % endif
+
+      % if route.get('mtb_height_diff_portages'):
+      <p><span translate>mtb_height_diff_portages</span>: <b>${route['mtb_height_diff_portages']}</b></p>
+      % endif
+
+      %if route.get('height_diff_difficulties'):
+      <p><span translate>height_diff_difficulties</span>: <b>${route['height_diff_difficulties']} m</b></p>
+      % endif
+
+    </span>
+  </div>
+</%def>
+
+## ACCESS
+<%def name="get_route_access(route)">\
+  <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
+    <h4><span translate>Access</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+    <div class="name-icon">
+      <span class="glyphicon glyphicon-screenshot"></span>
+      <p translate>Access</p>
+    </div>
+    <span class="detail-text accordion" ng-init="lift_access = ${route['lift_access']}">
+
+      <span translate>Has lift access</span>:
+      <b ng-cloak>{{lift_access == 'None' ? mainCtrl.translate('No'): mainCtrl.translate('Yes')}}</b>
+
+      % if route.get('height_diff_access'):
+      <p><span translate>height_diff_access</span>: <b>${route['height_diff_access']}</b></p>
+      % endif
+      
+    </span>
+  </div>
+</%def>
