@@ -17,4 +17,8 @@ app.sidemenu = function() {
     }
   });
 
+  $('.menu-open-close').click(function() {
+    $('.menu-open-close.menu').toggleClass('is-active');
+  })
+
 };
