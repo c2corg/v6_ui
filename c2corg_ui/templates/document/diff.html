@@ -47,7 +47,7 @@
     <p class="bg-info" translate>No content changes.</p>
   % else:
     % for field_diff in diffs:
-      <h3>{{mainCtrl.translate('${field_diff.field}')}}</h3>
+      <h3 x-translate>${field_diff.field}</h3>
       <div class="diff-container">
       % if field_diff.field == 'geometry':
       <%block name="moduleConstantsValues">

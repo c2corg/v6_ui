@@ -1,27 +1,28 @@
 <%!
 from c2corg_ui.templates.utils import get_lang_lists
-%>\
+%>
 <%inherit file="../base.html"/>
 <%namespace file="../helpers/view.html" import="show_attr, show_short_attr, show_missing_langs_links,
     show_other_langs_links, show_archive_data, show_route_title, show_associated_waypoints,
-    show_associated_routes, show_areas, show_float_buttons, show_maps"
- />
+    show_associated_routes, show_areas, show_float_buttons, show_maps" />
 <%namespace file="helpers/detailed_route_attributes.html" import="get_route_gear, get_route_location, 
-  get_route_rating, get_route_general, get_route_heights,  get_route_access" 
- />
+  get_route_rating, get_route_general, get_route_heights,  get_route_access" />
 <%
 route_id = route['document_id']
 other_langs, missing_langs = get_lang_lists(route, lang)
-%>\
-<%block name="pagelang">lang="${lang}"</%block>\
-<%block name="pagetitle"><title>${show_route_title(locale, True)}</title></%block>\
-<%block name="metarobots">\
+%>
+
+<%block name="pagelang">lang="${lang}"</%block>
+
+<%block name="pagetitle"><title>${show_route_title(locale, True)}</title></%block>
+
+<%block name="metarobots">
   % if version:
-<meta name="robots" content="noindex,follow">\
+    <meta name="robots" content="noindex,follow">
   % else:
-<meta name="robots" content="index,follow">\
+    <meta name="robots" content="index,follow">
   %endif
-</%block>\
+</%block>
 
 <header  class="view-details-title">
   <h1>${show_route_title(locale)}<label class="badge" translate>route</label></h1>
@@ -155,7 +156,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
 ${show_float_buttons('routes', route_id, lang, other_langs, missing_langs)}
 
 <div class="text-center">
-  <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);"translate>To page head <span class="glyphicon glyphicon-menu-up"></span></button>
+  <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);"><span translate>To page head</span> <span class="glyphicon glyphicon-menu-up"></span></button>
 </div>
 
 <script>
