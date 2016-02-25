@@ -6,7 +6,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "Access"
 msgstr "Accès"
 
@@ -38,23 +38,23 @@ msgstr "Ajouter aux favoris"
 
 #: c2corg_ui/templates/sidemenu.html
 msgid "Articles"
-msgstr ""
+msgstr "Articles"
 
 #: c2corg_ui/templates/route/view.html
 msgid "Associated routes"
-msgstr ""
+msgstr "Itinéraires associés"
 
 #: c2corg_ui/templates/route/view.html
 msgid "Associated waypoints"
-msgstr ""
+msgstr "Points de passage associés"
 
 #: c2corg_ui/templates/sidemenu.html
 msgid "Association"
-msgstr ""
+msgstr "L'Association C2C"
 
 #: c2corg_ui/templates/waypoint/view.html
 msgid "Associations"
-msgstr ""
+msgstr "Associations"
 
 #: c2corg_ui/templates/document/history.html
 msgid "Author"
@@ -117,7 +117,7 @@ msgstr "Création d'un point de passage"
 
 #: c2corg_ui/templates/helpers/view.html
 msgid "Date"
-msgstr ""
+msgstr "Date"
 
 #: c2corg_ui/templates/route/edit.html
 msgid "Describe here the gear needed for this route"
@@ -182,13 +182,14 @@ msgstr "Adresse email"
 
 #: c2corg_ui/static/js/apiservice.js
 msgid "Failed to associate document"
-msgstr ""
+msgstr "Impossible d'associer ce document"
 
 #: c2corg_ui/static/js/apiservice.js
 msgid "Failed to unassociate document"
-msgstr ""
+msgstr "Impossible de dissocier ce document"
 
-#: c2corg_ui/templates/route/view.html c2corg_ui/templates/waypoint/view.html
+#: c2corg_ui/templates/helpers/view.html
+#: c2corg_ui/templates/waypoint/view.html
 msgid "Favorites"
 msgstr "Favoris"
 
@@ -207,18 +208,18 @@ msgstr "Mot de passe oublié?"
 
 #: c2corg_ui/templates/sidemenu.html
 msgid "Forum"
-msgstr ""
+msgstr "Forum"
 
 #: c2corg_ui/templates/route/filters.html
 msgid "GPS Track"
 msgstr "Tracé GPS"
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 #: c2corg_ui/templates/waypoint/view.html
 msgid "General"
 msgstr "Général"
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "Has lift access"
 msgstr "Remontée mécanique"
 
@@ -233,7 +234,7 @@ msgstr "Accueil"
 
 #: c2corg_ui/templates/route/view.html
 msgid "Informations"
-msgstr ""
+msgstr "Informations"
 
 #: c2corg_ui/templates/i18n.html
 msgid "Invalid email address"
@@ -255,7 +256,7 @@ msgstr "Légende :"
 msgid "List of versions for language:"
 msgstr "Liste des versions pour la langue :"
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 #: c2corg_ui/templates/waypoint/view.html
 msgid "Location"
 msgstr "Situation"
@@ -319,17 +320,13 @@ msgstr "Pas de changement."
 msgid "No description available"
 msgstr "Pas de description disponible"
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "No gear info"
-msgstr ""
-
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
-msgid "No location info"
-msgstr ""
+msgstr "Pas d'informations sur le matériel nécessaire"
 
 #: c2corg_ui/templates/helpers/view.html
 msgid "No maps associated"
-msgstr ""
+msgstr "Aucune carte associée"
 
 #: c2corg_ui/templates/auth.html
 msgid "Password"
@@ -339,7 +336,7 @@ msgstr "Mot de passe"
 msgid "Previous"
 msgstr "Précédent"
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "Rating"
 msgstr "Cotation"
 
@@ -419,8 +416,8 @@ msgid "Title must have at least 3 characters."
 msgstr "Le titre doit comporter au moins 3 caractères."
 
 #: c2corg_ui/templates/route/view.html c2corg_ui/templates/waypoint/view.html
-msgid "To page head <span class=\"glyphicon glyphicon-menu-up\"></span>"
-msgstr ""
+msgid "To page head"
+msgstr "Retourner au début de la page"
 
 #: c2corg_ui/templates/sidemenu.html
 msgid "Topoguide"
@@ -473,12 +470,12 @@ msgid "access"
 msgstr "accès"
 
 #: c2corg_ui/templates/route/edit.html c2corg_ui/templates/route/filters.html
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 #: c2corg_ui/templates/waypoint/filters.html
 msgid "activities"
 msgstr "Activités"
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "aid_rating"
 msgstr ""
 
@@ -531,11 +528,11 @@ msgstr "SAE"
 msgid "climbing_outdoor"
 msgstr "site de couenne/bloc"
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "climbing_outdoor_types"
 msgstr ""
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "configuration"
 msgstr ""
 
@@ -559,7 +556,7 @@ msgstr "Description"
 msgid "elevation"
 msgstr "Altitude"
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "elevation min/max"
 msgstr ""
 
@@ -567,11 +564,11 @@ msgstr ""
 msgid "en"
 msgstr "anglais"
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "engagement_rating"
 msgstr ""
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "equipment_rating"
 msgstr ""
 
@@ -587,7 +584,7 @@ msgstr "basque"
 msgid "expedition"
 msgstr "expédition"
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "exposition_rock_rating"
 msgstr ""
 
@@ -596,7 +593,7 @@ msgid "fr"
 msgstr "français"
 
 #: c2corg_ui/templates/route/edit.html
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "gear"
 msgstr "Matériel"
 
@@ -612,11 +609,11 @@ msgstr "gite"
 msgid "glacier"
 msgstr "glacier"
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "glacier_gear"
 msgstr "Matériel glacier"
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "global_rating"
 msgstr "Cotation globale"
 
@@ -624,25 +621,25 @@ msgstr "Cotation globale"
 msgid "green"
 msgstr "vert"
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "height_diff_access"
 msgstr ""
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "height_diff_difficulties"
 msgstr "Dénivelé des difficultés"
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "height_diff_down"
 msgstr "Dénivelé négatif"
 
 #: c2corg_ui/templates/route/edit.html c2corg_ui/templates/route/filters.html
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 #: c2corg_ui/templates/waypoint/filters.html
 msgid "height_diff_up"
 msgstr "Dénivelé positif"
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "heights"
 msgstr "Hauteurs"
 
@@ -650,11 +647,11 @@ msgstr "Hauteurs"
 msgid "hiking"
 msgstr "randonnée pédestre"
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "hiking_mtb_exposition"
 msgstr ""
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "hiking_rating"
 msgstr "Cotation"
 
@@ -666,7 +663,7 @@ msgstr "refuge/cabane"
 msgid "ice_climbing"
 msgstr "cascade de glace"
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "ice_rating"
 msgstr ""
 
@@ -713,7 +710,7 @@ msgstr "Références cartographiques"
 msgid "misc"
 msgstr "divers"
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "mixed_rating"
 msgstr ""
 
@@ -725,23 +722,23 @@ msgstr "rocher haute montagne"
 msgid "moutain_biking"
 msgstr "VTT"
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "mtb_down_rating"
 msgstr ""
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "mtb_height_diff_portages"
 msgstr ""
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "mtb_length_asphalt"
 msgstr ""
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "mtb_length_trail"
 msgstr ""
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "mtb_up_rating"
 msgstr ""
 
@@ -749,7 +746,7 @@ msgstr ""
 msgid "next difference"
 msgstr "différence suivante"
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "orientations"
 msgstr ""
 
@@ -793,7 +790,7 @@ msgstr "Remarques"
 msgid "return_same_way"
 msgstr "aller-retour"
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "risk_rating"
 msgstr ""
 
@@ -801,15 +798,15 @@ msgstr ""
 msgid "rock_climbing"
 msgstr "escalade"
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "rock_free_rating"
 msgstr ""
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "rock_required_rating"
 msgstr ""
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "rock_types"
 msgstr ""
 
@@ -817,12 +814,12 @@ msgstr ""
 msgid "route"
 msgstr "itinéraire"
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "route_length"
 msgstr ""
 
 #: c2corg_ui/templates/route/edit.html
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "route_types"
 msgstr "Type d'itinéraire"
 
@@ -834,7 +831,7 @@ msgstr "abri"
 msgid "skitouring"
 msgstr "ski, surf"
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "slope"
 msgstr ""
 
@@ -842,7 +839,7 @@ msgstr ""
 msgid "snow_ice_mixed"
 msgstr "alpinisme neige, glace et mixte"
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "snowshoe_rating"
 msgstr ""
 
@@ -878,7 +875,7 @@ msgstr "Type"
 msgid "via_ferrata"
 msgstr "via ferrata"
 
-#: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
+#: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "via_ferrata_rating"
 msgstr ""
 
@@ -910,12 +907,3 @@ msgstr "station météo"
 #: c2corg_ui/templates/i18n.html
 msgid "webcam"
 msgstr "webcam"
-
-#~ msgid "country"
-#~ msgstr "Pays"
-
-#~ msgid "admin_limits"
-#~ msgstr "Département"
-
-#~ msgid "range"
-#~ msgstr "Région"
