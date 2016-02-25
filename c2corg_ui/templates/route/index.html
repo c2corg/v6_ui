@@ -2,11 +2,13 @@
 <%namespace file="../helpers/common.html" import="show_title"/>
 <%namespace file="../helpers/list.html" import="add_pagination_links"/>
 <%namespace file="../helpers/view.html" import="show_attr, show_route_title"/>
+
 <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Routes')">${show_title('Routes')}</title></%block>
-<%block name="metarobots"><meta name="robots" content="noindex,follow"></%block>\
+
+<%block name="metarobots"><meta name="robots" content="noindex,follow"></%block>
 
 <header class="page-main-title text-center" ng-cloak>
-  <h3 ng-init="nbItems = ${total}" ng-cloak>{{'Routes' | translate}}
+  <h3 ng-init="nbItems = ${total}" ng-cloak><span translate>Routes</span>
     <span class="badge">{{nbItems}}</span>
   </h3>
 </header>
@@ -47,7 +49,7 @@
 </div>
 % endif
 <script>
- window.onload = function(){
-   app.stickyFilters();
- }
+window.onload = function(){
+  app.stickyFilters();
+}
 </script>

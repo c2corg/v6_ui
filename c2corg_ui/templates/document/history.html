@@ -1,12 +1,16 @@
 <%inherit file="../base.html"/>
 <%namespace file="../helpers/common.html" import="show_title"/>
 <%namespace file="../helpers/view.html" import="show_version_comment"/>
-<%block name="pagelang">lang="${lang}"</%block>\
+
+<%block name="pagelang">lang="${lang}"</%block>
+
 <%block name="pagetitle"><title ng-bind="'${title} - '+ mainCtrl.page_title('History')">${title} - ${show_title('History')}</title></%block>
-<%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>\
+
+<%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
+
 <section class="document-history">
   <h1>${title}</h1>
-  <p><span translate>List of versions for language:</span> <strong>{{mainCtrl.translate('${lang}')}}</strong></p>
+  <p><span translate>List of versions for language:</span> <strong x-translate>${lang}</strong></p>
   <%
       # show last versions first
       document_versions.reverse()
@@ -21,9 +25,7 @@
       <table class="versions-list table table-striped table-bordered">
         <tr>
           % if has_several_versions:
-          <th translate class="from-to">
-          </th>
-            
+          <th translate class="from-to"></th>
           % endif
           <th translate>Created on</th>
           <th translate>Author</th>
@@ -50,7 +52,7 @@
             %>
             <td><a href="${version_url}">{{'${1000 * v['written_at']}' | date:"dd/MM/yyyy - hh:mm"}}</a></td>
             <td><a href="#TODO profile for ${v['user_id']}">${v['username']}</a></td>
-            <td>{{mainCtrl.translate("${show_version_comment(v)}")}}</td>
+            <td x-translate>${show_version_comment(v)}</td>
           </tr>
         % endfor
       </table>

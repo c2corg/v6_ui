@@ -1,14 +1,17 @@
 <%!
 from c2corg_common.attributes import default_langs
-%>\
+%>
 <%inherit file="../base.html"/>
 <%
 updating_doc = waypoint_id and waypoint_lang
-%>\
+%>
 <%namespace file="../helpers/common.html" import="show_title"/>
+
 <%block name="pagetitle"><title ng-init="id=${waypoint_id if waypoint_id else 0}" 
-                                ng-bind="id ? mainCtrl.page_title('Editing a waypoint') : mainCtrl.page_title('Creating a waypoint')">${show_title('Create/edit waypoint')}</title></%block>\
-<%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>\
+                                ng-bind="id ? mainCtrl.page_title('Editing a waypoint') : mainCtrl.page_title('Creating a waypoint')">${show_title('Create/edit waypoint')}</title></%block>
+
+<%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
+
 <section class="create-edit-document">
   <h1 ng-init="id=${waypoint_id if waypoint_id else 0}" ng-bind="id ? ('Editing a waypoint' | translate) : ('Creating a waypoint' | translate)" class="text-center"></h1>
   <form app-loading app-document-editing="waypoints" app-document-editing-model="waypoint"
@@ -21,7 +24,7 @@ updating_doc = waypoint_id and waypoint_lang
                                 'has-success':  editForm.lang.$valid}">
       <label><span translate>lang</span> *</label>
       % if waypoint_lang:
-        {{mainCtrl.translate('${waypoint_lang}')}}
+        <span x-translate>${waypoint_lang}</span>
       % else:
         <select name="lang" ng-options="lang as mainCtrl.translate(lang) for lang in ['${"','".join(default_langs) |n}'] | translate"
           ng-model="waypoint.locales[0].lang" class="form-control" required>
@@ -29,7 +32,7 @@ updating_doc = waypoint_id and waypoint_lang
         <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.lang.$valid"></span>
         <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.lang.$invalid && editForm.lang.$touched"></span>
         <div class="help-block" ng-messages="editForm.lang.$error">
-          <p ng-message="required" class="label label-danger" style="{{ (editForm.lang.$invalid && editForm.lang.$touched) ? 'display:inline' : '' }}">{{'This field is required.' | translate}}</p>
+          <p ng-message="required" class="label label-danger" style="{{ (editForm.lang.$invalid && editForm.lang.$touched) ? 'display:inline' : '' }}" translate>This field is required.</p>
         </div>
       % endif
     </div>
@@ -41,8 +44,8 @@ updating_doc = waypoint_id and waypoint_lang
       <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.title.$valid"></span>
       <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.title.$invalid && editForm.title.$touched"></span>
       <div class="help-block" ng-messages="editForm.title.$error">
-        <p ng-message="required" class="label label-danger" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : '' }}">{{'This field is required.' | translate}}</p>
-        <p ng-message="minlength" class="label label-danger" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : '' }}">{{'Title must have at least 3 characters.' |translate}}</p>
+        <p ng-message="required" class="label label-danger" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : '' }}" translate>This field is required.</p>
+        <p ng-message="minlength" class="label label-danger" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : '' }}" translate>Title must have at least 3 characters.</p>
       </div>
     </div>
     <div id="waypoint_type-group" class="form-group" 
@@ -55,7 +58,7 @@ updating_doc = waypoint_id and waypoint_lang
       <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.waypoint_type.$valid"></span>
       <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.waypoint_type.$invalid && editForm.waypoint_type.$touched"></span>
       <div class="help-block" ng-messages="editForm.waypoint_type.$error">
-        <p ng-message="required" class="label label-danger" style="{{ (editForm.waypoint_type.$invalid && editForm.waypoint_type.$touched) ? 'display:inline' : '' }}">{{'This field is required.' | translate}}</p> 
+        <p ng-message="required" class="label label-danger" style="{{ (editForm.waypoint_type.$invalid && editForm.waypoint_type.$touched) ? 'display:inline' : '' }}" translate>This field is required.</p>
       </div>
     </div>
     <div id="elevation-group" class="form-group" 
@@ -69,9 +72,9 @@ updating_doc = waypoint_id and waypoint_lang
       <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.elevation.$valid"></span>
       <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.elevation.$invalid && editForm.elevation.$touched"></span>
       <div class="help-block" ng-messages="editForm.elevation.$error">
-        <p ng-message="required" class="label label-danger" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : '' }}">{{'This field is required.' | translate}}</p>
-        <p ng-message="max" class="label label-danger" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : '' }}">{{'This field must be smaller than 9999 m.' | translate}}</p>
-        <p ng-message="number" class="label label-danger" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : '' }}">{{'This field must be a number.' | translate}}</p>
+        <p ng-message="required" class="label label-danger" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : '' }}" translate>This field is required.</p>
+        <p ng-message="max" class="label label-danger" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : '' }}" translate>This field must be smaller than 9999 m.</p>
+        <p ng-message="number" class="label label-danger" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
       </div>
     </div>
     <div id="longitude-group" class="form-group" 
@@ -85,10 +88,10 @@ updating_doc = waypoint_id and waypoint_lang
       <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.longitude.$valid"></span>
       <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.longitude.$invalid && editForm.longitude.$touched"></span>
        <div class="help-block" ng-messages="editForm.longitude.$error">
-        <p ng-message="required" class="label label-danger" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : '' }}">{{'This field is required.' | translate}}</p>
-        <p ng-message="number" class="label label-danger" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : '' }}">{{'This field must be a number.' | translate }}</p>
-        <p ng-message="min" class="label label-danger" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : '' }}">{{'This field must be between -180° and 180°.' | translate}}</p>
-        <p ng-message="max" class="label label-danger" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : '' }}">{{'This field must be between -180° and 180°.' | translate}}</p>
+        <p ng-message="required" class="label label-danger" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : '' }}" translate>This field is required.</p>
+        <p ng-message="number" class="label label-danger" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
+        <p ng-message="min" class="label label-danger" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : '' }}" translate>This field must be between -180° and 180°.</p>
+        <p ng-message="max" class="label label-danger" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : '' }}" translate>This field must be between -180° and 180°.</p>
       </div>
     </div>
     <div id="latitude-group" class="form-group" 
@@ -102,10 +105,10 @@ updating_doc = waypoint_id and waypoint_lang
       <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.latitude.$valid"></span>
       <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.latitude.$invalid && editForm.latitude.$touched"></span>
       <div class="help-block" ng-messages="editForm.latitude.$error">
-        <p ng-message="required" class="label label-danger" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : '' }}">{{'This field is required.' | translate}}</p>
-        <p ng-message="number" class="label label-danger" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : '' }}">{{'This field must be a number.' | translate }}</p>
-        <p ng-message="min" class="label label-danger" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : '' }}">{{'This field must be between -90° and 90°.' | translate}}</p>
-        <p ng-message="max" class="label label-danger" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : '' }}">{{'This field must be between -90° and 90°.' | translate}}</p>
+        <p ng-message="required" class="label label-danger" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : '' }}" translate>This field is required.</p>
+        <p ng-message="number" class="label label-danger" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
+        <p ng-message="min" class="label label-danger" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : '' }}" translate>This field must be between -90° and 90°.</p>
+        <p ng-message="max" class="label label-danger" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : '' }}" translate>This field must be between -90° and 90°.</p>
       </div>
     </div>
     <div id="maps_info-group" class="form-group">
@@ -130,12 +133,12 @@ updating_doc = waypoint_id and waypoint_lang
     </div>
     % endif
     <p>
-      <button type="submit" class="btn btn-primary" ng-disabled="editForm.$invalid || editForm.$pristine">{{'Save' | translate}} </button>
+      <button type="submit" class="btn btn-primary" ng-disabled="editForm.$invalid || editForm.$pristine" translate>Save</button>
       <%
       view_url = request.route_url('waypoints_view', id=waypoint_id, lang=waypoint_lang) if updating_doc else ''
       index_url = request.route_url('waypoints_index_default')
       %>
-      <button type="button" class="btn btn-default" ng-click="editCtrl.cancel('${view_url}', '${index_url}')">{{'Cancel' | translate}}</button>
+      <button type="button" class="btn btn-default" ng-click="editCtrl.cancel('${view_url}', '${index_url}')" translate>Cancel</button>
     </p>
     <app-map app-map-edit-ctrl="editCtrl" app-map-draw-type="Point"></app-map>
   </form>
