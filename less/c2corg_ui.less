@@ -905,3 +905,57 @@ app-alerts {
     }
   }
 }
+
+.archive-data {
+  div {
+    display: table;
+    margin: auto;
+  }
+  h2, .glyphicon {
+    color: @brand-danger;
+    @media @phone {
+      font-size: 1.4em;
+    }
+  }
+  p {
+    font-size: 1.3em;
+    color: white;
+    @media @phone {
+      font-size: 1.1em;
+    }
+  }
+  
+  h2 {
+    text-align: center;
+    padding: 1%;
+  }
+  button a {
+    text-decoration: none;
+  }
+}
+
+.hidden-options {
+  margin-bottom: 2%;
+  padding: 0;
+}
+
+.document-history, .document-differences {
+  padding: 5%;
+  @media @tablet {
+    padding-top: 7%;
+  }
+}
+
+  .versions-list {
+    background-color: #EBEBEB;
+    
+    tr:first-of-type {
+      background-color: #337AB7 !important;
+      color: white;
+    }
+    td {
+      .hide-radio {
+        display: none;
+      }
+    }
+  }

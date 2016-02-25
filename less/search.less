@@ -4,15 +4,28 @@
 .twitter-typeahead, .tt-dropdown-menu, .tt-hint {
   width: 220px;
 }
-.tt-open {
-  @media @phone {
-    left: -170px !important;
-    width: 320px !important;
-  }
-  @media @tablet {
-    width: 380px !important;
+.page-header {
+  .tt-open {
+    @media @phone {
+      left: -170px !important;
+      width: 320px !important;
+    }
+    @media @tablet {
+      width: 380px !important;
+    }
   }
 }
+
+.view-details-associations {
+  .tt-open {
+    max-height: 300px;
+    overflow-y: scroll;
+    @media @phone {
+      max-height: 200px;
+    }
+  }
+}
+
 span.twitter-typeahead {
   width: 100%;
   input.tt-hint {
@@ -82,4 +95,14 @@ span.twitter-typeahead {
   .tt-hint {
     color: #777777;
   }
+}
+
+.show-search {
+  -webkit-transition: width .5s ease-in-out !important;
+  -moz-transition: width .5s ease-in-out !important;
+  -o-transition: width .5s ease-in-out !important;
+  transition: width .5s ease-in-out !important;
+  width: 160px !important;
+  visibility: visible !important;
+  padding: 8px !important;
 }

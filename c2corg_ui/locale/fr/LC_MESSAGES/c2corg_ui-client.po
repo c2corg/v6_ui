@@ -29,7 +29,7 @@ msgstr "Ajouter un point de passage"
 
 #: c2corg_ui/templates/route/view.html c2corg_ui/templates/waypoint/view.html
 msgid "Add association"
-msgstr ""
+msgstr "Ajouter une association"
 
 #: c2corg_ui/templates/helpers/view.html
 #: c2corg_ui/templates/waypoint/view.html
@@ -81,6 +81,10 @@ msgstr "Annuler"
 msgid "Category"
 msgstr "Catégorie"
 
+#: c2corg_ui/templates/helpers/view.html
+msgid "Changes"
+msgstr "Modifications"
+
 #: c2corg_ui/templates/document/history.html
 #: c2corg_ui/templates/route/edit.html c2corg_ui/templates/waypoint/edit.html
 msgid "Comment about the changes"
@@ -95,6 +99,10 @@ msgstr "Commentaires"
 msgid "Compare selected versions"
 msgstr "Comparer les versions sélectionnées"
 
+#: c2corg_ui/templates/document/diff.html
+msgid "Comparing documents"
+msgstr "Comparaison des documents"
+
 #: c2corg_ui/templates/document/history.html
 msgid "Created on"
 msgstr "Créée le"
@@ -106,6 +114,10 @@ msgstr "Création d'un itinéraire"
 #: c2corg_ui/templates/i18n.html
 msgid "Creating a waypoint"
 msgstr "Création d'un point de passage"
+
+#: c2corg_ui/templates/helpers/view.html
+msgid "Date"
+msgstr ""
 
 #: c2corg_ui/templates/route/edit.html
 msgid "Describe here the gear needed for this route"
@@ -176,8 +188,7 @@ msgstr ""
 msgid "Failed to unassociate document"
 msgstr ""
 
-#: c2corg_ui/templates/helpers/view.html
-#: c2corg_ui/templates/waypoint/view.html
+#: c2corg_ui/templates/route/view.html c2corg_ui/templates/waypoint/view.html
 msgid "Favorites"
 msgstr "Favoris"
 
@@ -306,7 +317,7 @@ msgstr "Pas de changement."
 
 #: c2corg_ui/templates/waypoint/view.html
 msgid "No description available"
-msgstr ""
+msgstr "Pas de description disponible"
 
 #: c2corg_ui/templates/route/helpers/detailedrouteattributes.html
 msgid "No gear info"
@@ -492,6 +503,7 @@ msgid "bivouac"
 msgstr "bivouac"
 
 #: c2corg_ui/templates/document/diff.html
+#: c2corg_ui/templates/helpers/view.html
 msgid "by"
 msgstr "par"
 
@@ -590,7 +602,7 @@ msgstr "Matériel"
 
 #: c2corg_ui/templates/i18n.html
 msgid "geometry"
-msgstr ""
+msgstr "Géométrie"
 
 #: c2corg_ui/templates/i18n.html
 msgid "gite"

@@ -51,6 +51,16 @@ module.value('mapFeatureCollection', {
 <app-map class="view-details-map"></app-map>
 
 <section class="view-details-section" app-view-details>
+  
+  ## OTHER BUTTON contents
+  <div class="col-xs-12 hidden-options">
+    % if version:
+      ${show_archive_data('waypoints', waypoint, locale, version)}
+    % else:
+      ${show_other_langs_links('waypoints', waypoint, other_langs)}
+      ${show_missing_langs_links('waypoints', waypoint, missing_langs)}
+    % endif
+  </div>
   <uib-tabset>
     <uib-tab heading="Description" ng-click="detailsCtrl.openTab('.view-details-description')"></uib-tab>
     <uib-tab heading="Details" ng-click="detailsCtrl.openTab('.view-details-list')"></uib-tab>
@@ -152,16 +162,7 @@ module.value('mapFeatureCollection', {
     </span>
   </div>
   % endif
-  
-  ## OTHER BUTTON contents
-  <div class="col-lg-7 col-md-7 col-xs-12 detail-buttons">
-    % if version:
-    ${show_archive_data('waypoints', waypoint, locale, version)}
-    % else:
-    ${show_other_langs_links('waypoints', waypoint, other_langs)}
-    ${show_missing_langs_links('waypoints', waypoint, missing_langs)}
-    % endif
-  </div>
+
   <div class="text-center col-xs-12">
     <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);"translate>To page head <span class="glyphicon glyphicon-menu-up"></span></button>
   </div>
@@ -189,14 +190,11 @@ module.value('mapFeatureCollection', {
     <span class="glyphicon glyphicon-th-list dropdown-toggle" uib-dropdown-toggle></span>
     <p class="float-button-text" translate>More</p>
     <ul class="dropdown-menu"  role="menu" aria-labelledby="dLabel">
-      % if version:
-      <li>${show_archive_data('waypoints', waypoint, locale, version)}</li>
-      % endif
       <li><a href="${request.route_url('waypoints_history', id=waypoint_id, lang=lang)}" translate>History</a></li>
-      % if other_langs:
+      % if other_langs and not version:
       <li ng-click="detailsCtrl.openModal('#other-langs')"><a translate>View in other lang</a></li>
       % endif
-      % if missing_langs:
+      % if missing_langs and not version:
       <li ng-click="detailsCtrl.openModal('#missing-langs')"><a translate>Translate into an other lang</a></li>
       % endif
       <li role="separator" class="divider"></li>
