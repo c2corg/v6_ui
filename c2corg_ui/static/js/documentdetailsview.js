@@ -14,14 +14,21 @@ app.viewDetailsDirective = function() {
     bindToController: true,
     link: function(el, scope, attrs, ctrl) {
       var s = app.constants.SCREEN;
+      var notPhone  = window.matchMedia('(max-width: ' + s.SMARTPHONE + 'px)');
+      var onPhone  = window.matchMedia('(min-width: ' + (s.SMARTPHONE + 1) + 'px)');
+      $('.location-static').css({top: $('app-map').offset().top + 40});
 
       // show tabs if they have been hidden on smartphone and inversely
       $(window).resize(function() {
         if (window.innerWidth > s.SMARTPHONE) {
           $('.tab, .accordion').show();
         }
-        // show description tab by default or selected tab
-        if (window.innerWidth < s.SMARTPHONE) {
+
+      // show description tab by default or selected tab
+      notPhone.addListener(function(mql) {
+        if (mql.matches) {
+          $('.location-static').css({top: $('app-map').offset().top + 40});
+
           $('.tab').hide();
           if (!ctrl.selected) {
             $('.view-details-description').show();

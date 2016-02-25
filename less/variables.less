@@ -10,6 +10,11 @@
 @menu-width-tablet: 50px;
 @float-buttons-bar-height: 65px;
 
+.shadow(@right, @bottom, @spread, @color) {
+  -moz-box-shadow: @right @bottom @spread @color;
+  -webkit-box-shadow: @right @bottom @spread @color;
+  box-shadow: @right @bottom @spread @color;
+}
 .flex(){
   display: -moz-box;
   display: -ms-flexbox;
@@ -17,3 +22,5 @@
   display: -webkit-flex;
   display: flex;
 }
+
+
