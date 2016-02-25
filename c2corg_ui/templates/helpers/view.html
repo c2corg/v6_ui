@@ -26,7 +26,7 @@
     <h2><span class="glyphicon glyphicon-warning-sign"></span>&nbsp;<span translate>You are viewing an archived version of this document.</span></h2>
     <div class="text-left">
       <p><b translate>Date</b>: {{'${1000 * version['written_at']}' | date:'medium'}} &nbsp;<span translate>by</span>&nbsp; <a href="#TODO">${version['username']}</a></p>
-      <p><b translate>Changes</b>: ${show_version_comment(version)}</p>
+      <p><b translate>Changes</b>: <span x-translate>${show_version_comment(version)}</span></p>
     </div>
     <p class="text-center">
         <a href="${request.route_url(module + '_view', id=document['document_id'], lang=locale['lang'])}">
@@ -85,7 +85,6 @@
 </%def>
 
 <%def name="show_associated_waypoints(document, type=None)">\
-  % if 'waypoints' in document['associations']:
     % for w in document['associations']['waypoints']:
       % if type is None or type == w['waypoint_type']:
       <div class="list-item">
@@ -94,37 +93,34 @@
       </div>
       % endif
     % endfor
-  % endif
 </%def>
 
 <%def name="show_associated_routes(document)">\
-  % if 'routes' in document['associations']:
     % for r in document['associations']['routes']:
     <div class="list-item">
       <a href="${request.route_url('routes_view', id=r['document_id'], lang=r['locales'][0]['lang'])}">${r['locales'][0]['title']}</a>
       <app-delete-association parent-id="${document['document_id']}" child-id="${r['document_id']}"></app-delete-association>
     </div>
     % endfor
-  % endif
 </%def>
 
 <%def name="show_maps(document)">\
-  % if len(document['maps']) > 0:
+  % if document.get('maps') and len(document['maps']) > 0:
     <ul>
-    % for m in document['maps']:
-      <li>${m['editor']} ${m['locales'][0]['title']}</li>
-    % endfor
+      % for m in document['maps']:
+        <li class="text-left"><b>${m['editor']}</b><br> ${m['locales'][0]['title']}</li>
+      % endfor
     </ul>
   % else :
-  <p translate>No maps associated</p>
+    <h4 translate>No maps associated</h4>
   % endif
 </%def>
 
 <%def name="show_areas(document)">\
   % if document.get('areas'):
     <ul>
-      % for a in document['areas']:
-        <li><span x-translate>${a['area_type']}</span> : <b>${a['locales'][0]['title']}</b></li>
+      % for a in reversed(document['areas']):
+        <li ng-cloak>${a['locales'][0]['title']}</li>
       % endfor
     </ul>
   % endif

@@ -3,9 +3,10 @@ from c2corg_ui.templates.utils import get_lang_lists
 %>
 <%inherit file="../base.html"/>
 <%namespace file="../helpers/common.html" import="show_title"/>
+<%namespace file="helpers/detailed_waypoint_attributes.html" import="get_waypoint_equipment, get_waypoint_contact, get_waypoint_style, get_waypoint_rating, get_waypoint_access, get_waypoint_heights, get_waypoint_location, get_waypoint_general, get_waypoint_maps_info"/>
 <%namespace file="../helpers/view.html" import="show_attr, show_short_attr, show_missing_langs_links,
     show_other_langs_links, show_archive_data, show_route_title, show_associated_waypoints,
-    show_associated_routes, show_areas, show_maps"/>
+    show_associated_routes, show_areas, show_maps, show_float_buttons"/>
 <%
 waypoint_id = waypoint['document_id']
 other_langs, missing_langs = get_lang_lists(waypoint, lang)
@@ -47,10 +48,19 @@ module.value('mapFeatureCollection', {
 </%block>
 
 <header class="view-details-title">
-  <h1>${locale['title']} <label class="badge" translate>waypoint</label></h1>
+  <h1>${locale['title']} <label class="badge waypoint" translate>waypoint</label></h1>
 </header>
 
 <app-map class="view-details-map"></app-map>
+
+<article class="location-static">
+  <span class="pin"></span>
+  ${show_areas(waypoint)}
+      % if waypoint.get('elevation'):
+        <p><span translate>elevation</span>: <b>${waypoint['elevation']} m</b></p>
+      % endif
+  <p>${round(geometry4326.x)} °E / ${round(geometry4326.y)} °N</p>
+</article>
 
 <section class="view-details-section" app-view-details>
   
@@ -63,148 +73,132 @@ module.value('mapFeatureCollection', {
       ${show_missing_langs_links('waypoints', waypoint, missing_langs)}
     % endif
   </div>
-  <uib-tabset>
-    <uib-tab heading="Description" ng-click="detailsCtrl.openTab('.view-details-description')"></uib-tab>
-    <uib-tab heading="Details" ng-click="detailsCtrl.openTab('.view-details-list')"></uib-tab>
-    <uib-tab heading="Associations" ng-click="detailsCtrl.openTab('.view-details-associations')"></uib-tab>
-  </uib-tabset>
-
-  <div class="thumbnail view-details-list col-xs-12 tab">
-    ## LOCATION
-    <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
-      <h4><span translate>Location</span><span class="glyphicon glyphicon-menu-right"></span></h4>
-      <div class="name-icon">
-        <span class="glyphicon glyphicon-map-marker"></span>
-        <p translate>Location</p>
-      </div>
-      <span class="detail-text accordion">
-        % if not version:
-        ${show_areas(waypoint)}
-        % endif
-        <p>${round(geometry4326.x)} °E / ${round(geometry4326.y)} °N</p>
-      </span>
-    </div>
-
-    ## GENERAL
-    <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
-      <h4><span translate>General</span><span class="glyphicon glyphicon-menu-right"></span></h4>
-      <div class="name-icon">
-        <span class="glyphicon glyphicon-stats"></span>
-        <p translate>General</p>
-      </div>
-      <span class="detail-text accordion">
-        <p><span translate>waypoint_type</span>: <b x-translate>${waypoint['waypoint_type']}</b></p>
-        <p><span translate>elevation</span>: <b>${waypoint['elevation']} m</b></p>
-      </span>
-    </div>
-
-    ## SUMMARY
-    % if locale['summary']:
-    <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
-      <h4><span translate>summary</span><span class="glyphicon glyphicon-menu-right"></span></h4>
-      <div class="name-icon">
-        <span class="glyphicon glyphicon-list-alt"></span>
-        <p translate>summary</p>
-      </div>
-      <span class="detail-text accordion">
-        ${locale['summary']}
-      </span>
-    </div>
-    % endif
-
-    ## MAPSINFO
-    % if waypoint['maps_info']:
-    <div class="name-icon-value col-sm-6" ng-click="detailsCtrl.openTab($event)">
-      <h4><span translate>maps_info</span><span class="glyphicon glyphicon-menu-right"></span></h4>
-      <div class="name-icon">
-        <span class="glyphicon glyphicon-info-sign"></span>
-        <p translate>maps_info</p>
-      </div>
-      <span class="detail-text accordion">
-        <p><span translate>maps_info</span>:<b>${waypoint['maps_info']}</b></p>
-      </span>
-    </div>
-    % endif
-  </div>
-
-  ## DESCRIPTION
-  <div class="view-details-description col-xs-12 tab">
-    <span class="lead">
-      % if locale['description']:
-      <h3 translate class="text-center heading">description</h3>
-      ${show_attr(locale, 'description')}
-      % else :
-      <h3 class="text-center" translate>No description available</h3>
+  <uib-tabset app-view-details>
+    <uib-tab heading="{{mainCtrl.translate('Description')}}" ng-click="detailsCtrl.openTab('description')" id="description-tab"></uib-tab>
+    <uib-tab heading="{{mainCtrl.translate('Details')}}" ng-click="detailsCtrl.openTab('informations')"></uib-tab>
+    % if waypoint.get('associations'):
+      % if 'routes' in waypoint['associations'] or 'waypoint' in waypoint['associations']  :
+        <uib-tab heading="{{mainCtrl.translate('Associations')}}" ng-click="detailsCtrl.openTab('associations')"></uib-tab>
       % endif
+    % endif
+  </uib-tabset>
+  
+  <div class="thumbnail view-details-informations col-xs-12 tab">
+    <h3 class="heading informations" data-toggle="collapse" data-target="#document-informations">
+      <span translate>Informations</span><span class="glyphicon glyphicon-menu-down"></span>
+    </h3>
+    <section id="document-informations" class="collapse in">
+      ${get_waypoint_general(waypoint)}
+      ${get_waypoint_location(waypoint, geometry4326)}
+      ${get_waypoint_contact(waypoint)}
+      ${get_waypoint_maps_info(waypoint)}
+      ${get_waypoint_rating(waypoint)}
+      ${get_waypoint_heights(waypoint)}
+      ${get_waypoint_equipment(waypoint)}
+      ${get_waypoint_style(waypoint)}
+      ${get_waypoint_access(waypoint, locale)}
+    </section>
+  </div>
+    
+  
+  ## DESCRIPTION
+  <div class="view-details-description col-xs-12 tab ">
+    <span class="lead">
+      <div id="document-description" class="collapse in">
+
+        % if locale['summary']:
+          <summary class="document-summary">
+            <label translate>summary</label><br>
+            ${show_attr(locale, 'summary')}
+          </summary>
+        % endif
+                
+        % if locale['description'] :
+          ${show_attr(locale, 'description')}
+        % else :
+          <h3 class="text-center" translate>No description available</h3>
+        % endif
+        
+        % if locale.get('remarks'):
+          <div class="document-remarks">
+            <label translate>remarks</label><br>
+            ${show_attr(locale, 'remarks')}
+          </div>
+        % endif
+        
+        % if locale.get('access'):
+          <div class="document-access">
+            <label translate>access</label><br>
+            ${show_attr(locale, 'access')}
+          </div>
+        % endif
+        
+      </div>
     </span>
   </div>
 
+    ## IMAGES
+  % if not version:
+  <div class="view-details-photos col-xs-12 tab">
+    <div class="photos">
+      <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzE0MHgxNDAKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNTMwOTM2ZThhYyB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE1MzA5MzZlOGFjIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjQ0LjA2MjUiIHk9Ijc0LjU1NjI1Ij4xNDB4MTQwPC90ZXh0PjwvZz48L2c+PC9zdmc+" alt="..." class="img-thumbnail">
+      <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzE0MHgxNDAKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNTMwOTM2ZThhYyB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE1MzA5MzZlOGFjIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjQ0LjA2MjUiIHk9Ijc0LjU1NjI1Ij4xNDB4MTQwPC90ZXh0PjwvZz48L2c+PC9zdmc+" alt="..." class="img-thumbnail">
+      <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzE0MHgxNDAKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNTMwOTM2ZThhYyB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE1MzA5MzZlOGFjIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjQ0LjA2MjUiIHk9Ijc0LjU1NjI1Ij4xNDB4MTQwPC90ZXh0PjwvZz48L2c+PC9zdmc+" alt="..." class="img-thumbnail">
+      <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzE0MHgxNDAKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNTMwOTM2ZThhYyB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE1MzA5MzZlOGFjIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjQ0LjA2MjUiIHk9Ijc0LjU1NjI1Ij4xNDB4MTQwPC90ZXh0PjwvZz48L2c+PC9zdmc+" alt="..." class="img-thumbnail">
+      <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzE0MHgxNDAKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNTMwOTM2ZThhYyB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE1MzA5MzZlOGFjIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjQ0LjA2MjUiIHk9Ijc0LjU1NjI1Ij4xNDB4MTQwPC90ZXh0PjwvZz48L2c+PC9zdmc+" alt="..." class="img-thumbnail">
+    </div>
+  </div>
+  % endif
+  
+  ## ASSOCIATIONS
   % if not version:
   <div class="view-details-associations col-xs-12 tab">
     <span class="lead">
-      <h3 class="text-center heading" translate>Associations</h3>
-      <div ng-show="userCtrl.auth.isAuthenticated()"><span translate>Add association</span>:
+
+      <div ng-show="userCtrl.auth.isAuthenticated()">
+        <label translate>Add association</label>:
         <app-add-association parent-id="${waypoint_id}" added-documents="added"></app-add-association>
       </div>
-      <div><span translate>Waypoints</span>: ${show_associated_waypoints(waypoint)}
-        <ul>
-          <li ng-repeat="doc in added | filter:{'documentType': 'waypoints'}">
-            <app-association-card parent-id="${waypoint_id}" doc="doc" added-documents="added"></app-association-card>
-          </li>
-        </ul>
-      </div>
-      <div><span translate>Routes</span>: ${show_associated_routes(waypoint)}
-        <ul>
-          <li ng-repeat="doc in added | filter:{'documentType': 'routes'}">
-            <app-association-card parent-id="${waypoint_id}" doc="doc" added-documents="added"></app-association-card>
-          </li>
-        </ul>
-      </div>
-      <div><span translate>Maps</span>: ${show_maps(waypoint)}</div>
+      <section>
+        % if 'waypoints' in waypoint['associations'] and  len(waypoint['associations']['waypoints']) > 0 :
+        <article>
+          <h3 class="heading show-phone" data-toggle="collapse" data-target="#associated-waypoints">
+            <span class="glyphicon glyphicon-map-marker"></span>
+            <span translate>Associated waypoints</span><span class="glyphicon glyphicon-menu-down"></span>
+          </h3>
+          <div class="associated-documents collapse in" id="associated-waypoints">
+            ${show_associated_waypoints(waypoint)}
+            <article class="list-item" ng-repeat="doc in added | filter:{'documentType': 'waypoints'}">
+              <app-association-card parent-id="${waypoint_id}" doc="doc" added-documents="added"></app-association-card>
+            </article>
+          </div>
+        </article>
+        % endif
+        % if 'routes' in waypoint['associations'] and  len(waypoint['associations']['routes']) > 0 :
+        <article>
+          <h3 class="heading show-phone" data-toggle="collapse" data-target="#associated-routes">
+            <span class="glyphicon glyphicon-road"></span>
+            <span translate>Associated routes</span><span class="glyphicon glyphicon-menu-down"></span>
+          </h3>
+          <div class="associated-documents collapse in" id="associated-routes">
+            ${show_associated_routes(waypoint)} 
+            <article class="list-item" ng-repeat="doc in added | filter:{'documentType': 'routes'}">
+              <app-association-card parent-id="${waypoint_id}" doc="doc" added-documents="added"></app-association-card>
+            </article>
+          </div>
+        </article>
+        % endif
+      </section>
     </span>
   </div>
   % endif
 
   <div class="text-center col-xs-12">
-    <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);"><span translate>To page head</span> <span class="glyphicon glyphicon-menu-up"></span></button>
+    <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);"><span translate>To page head</span><span class="glyphicon glyphicon-menu-up"></span></button>
   </div>
 </section>
 
-<div class="float-buttons">
-  <div class="float-button float-edit" tooltip-placement="top" uib-tooltip="{{'Edit' | translate}}">
-    <app-edit-button ng-click="ebCtrl.redirect()" app-edit-button-url="${request.route_url('waypoints_edit', id=waypoint_id, lang=lang)}"></app-edit-button>
-    <span class="glyphicon glyphicon-edit"></span>
-    <p class="float-button-text" translate>Edit</p>
-  </div>
-  <div class="float-button float-favorite" tooltip-placement="top" uib-tooltip="{{'Add to favorites' | translate}}">
-    <span class="glyphicon glyphicon-heart"></span>
-    <p class="float-button-text" translate>Favorites</p>
-  </div>
-  <div class="float-button float-add" tooltip-placement="top" uib-tooltip="{{'Add' | translate}}">
-    <span class="glyphicon glyphicon-plus"></span>
-    <p class="float-button-text" translate>Add</p>
-  </div>
-  <div class="float-button float-comments" tooltip-placement="top" uib-tooltip="{{'Comments' | translate}}">
-    <span class="glyphicon glyphicon-comment"></span>
-    <p class="float-button-text" translate>Comments</p>
-  </div>
-  <div class="btn-group float-more float-button " uib-dropdown>
-    <span class="glyphicon glyphicon-th-list dropdown-toggle" uib-dropdown-toggle></span>
-    <p class="float-button-text" translate>More</p>
-    <ul class="dropdown-menu"  role="menu" aria-labelledby="dLabel">
-      <li><a href="${request.route_url('waypoints_history', id=waypoint_id, lang=lang)}" translate>History</a></li>
-      % if other_langs and not version:
-      <li ng-click="detailsCtrl.openModal('#other-langs')"><a translate>View in other lang</a></li>
-      % endif
-      % if missing_langs and not version:
-      <li ng-click="detailsCtrl.openModal('#missing-langs')"><a translate>Translate into an other lang</a></li>
-      % endif
-      <li role="separator" class="divider"></li>
-      <li><a href="#">Print</a></li>
-      <li><a href="#">Save</a></li>
-    </ul>
-  </div>
-</div>
+${show_float_buttons('waypoints', waypoint_id, lang, other_langs, missing_langs)}
 
 <script>
   window.onload = function() {
