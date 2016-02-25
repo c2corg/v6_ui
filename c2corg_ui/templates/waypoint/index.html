@@ -2,8 +2,10 @@
 <%namespace file="../helpers/common.html" import="show_title"/>
 <%namespace file="../helpers/list.html" import="add_pagination_links"/>
 <%namespace file="../helpers/view.html" import="show_attr"/>
+
 <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Waypoints')">${show_title('Waypoints')}</title></%block>
-<%block name="metarobots"><meta name="robots" content="noindex,follow"></%block>\
+
+<%block name="metarobots"><meta name="robots" content="noindex,follow"></%block>
 
 <%block name="moduleConstantsValues">
 % if len(waypoints):
@@ -38,10 +40,10 @@ module.value('mapFeatureCollection', {
   ]
 });
 % endif
-</%block>\
+</%block>
 
 <header class="page-main-title" ng-cloak">
-  <h3 ng-init="nbItems = ${total}">{{'Waypoints' | translate}}
+  <h3 ng-init="nbItems = ${total}"><span translate>Waypoints</span>
     <span class="badge">{{nbItems}}</span>
   </h3>
 </header>
@@ -70,7 +72,7 @@ module.value('mapFeatureCollection', {
             <span class="list-item-elevation">Elevation: ${waypoint['elevation']} m</span>
           % endif
           <span>
-            <p><img alt="waypoint type" src="${request.static_url('c2corg_ui:static/img/icons/' + waypoint['waypoint_type'] + '.png')}">{{mainCtrl.translate('${waypoint['waypoint_type']}')}}</p>
+            <p><img alt="waypoint type" src="${request.static_url('c2corg_ui:static/img/icons/' + waypoint['waypoint_type'] + '.png')}"><span x-translate>${waypoint['waypoint_type']}</span></p>
           </span>
           <p class="text-justify">${show_attr(locale, 'summary')}</p>
         </div>
@@ -84,9 +86,8 @@ module.value('mapFeatureCollection', {
   <app-map app-map-mouse-wheel="true"></app-map>
 </div>
 % endif
-
 <script>
- window.onload = function(){
-   app.stickyFilters();
- }
+window.onload = function(){
+  app.stickyFilters();
+}
 </script>
