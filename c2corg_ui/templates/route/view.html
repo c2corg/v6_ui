@@ -6,7 +6,9 @@ from c2corg_ui.templates.utils import get_lang_lists
     show_other_langs_links, show_archive_data, show_route_title, show_associated_waypoints,
     show_associated_routes, show_areas, show_float_buttons, show_maps" />
 <%namespace file="helpers/detailed_route_attributes.html" import="get_route_gear, get_route_location, 
-  get_route_rating, get_route_general, get_route_heights,  get_route_access" />
+  get_route_rating, get_route_general, get_route_heights,  get_route_access, get_route_associated_maps" 
+ />
+
 <%
 route_id = route['document_id']
 other_langs, missing_langs = get_lang_lists(route, lang)
@@ -25,7 +27,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
 </%block>
 
 <header  class="view-details-title">
-  <h1>${show_route_title(locale)}<label class="badge" translate>route</label></h1>
+  <h1>${show_route_title(locale)}<label class="badge route" translate>route</label></h1>
 </header>
 
 <app-map class="view-details-map"></app-map>
@@ -42,10 +44,20 @@ other_langs, missing_langs = get_lang_lists(route, lang)
   <uib-tabset app-view-details>
     <uib-tab heading="{{mainCtrl.translate('Description')}}" ng-click="detailsCtrl.openTab('description')" id="description-tab"></uib-tab>
     <uib-tab heading="{{mainCtrl.translate('Details')}}" ng-click="detailsCtrl.openTab('informations')"></uib-tab>
-    <uib-tab heading="{{mainCtrl.translate('Associations')}}" ng-click="detailsCtrl.openTab('associations')"></uib-tab>
+    % if route.get('associations'):
+      % if 'routes' in route['associations']  or 'waypoint' in route['associations']  :
+        <uib-tab heading="{{mainCtrl.translate('Associations')}}" ng-click="detailsCtrl.openTab('associations')"></uib-tab>
+      % endif
+    % endif
   </uib-tabset>
-
-
+  
+    % if route.get('maps'):
+      <article class="location-static">
+        <span class="pin"></span>
+        ${show_areas(route)}
+      </article>
+    % endif
+  
   <div class="thumbnail view-details-informations tab  col-sm-12">
     <h3 class="heading informations" data-toggle="collapse" data-target="#document-informations">
       <span translate>Informations</span><span class="glyphicon glyphicon-menu-down"></span>
@@ -57,6 +69,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
       ${get_route_gear(route, locale)}
       ${get_route_rating(route)}
       ${get_route_access(route)}
+      ${get_route_associated_maps(route)}
     </section>
   </div> 
 
@@ -66,22 +79,30 @@ other_langs, missing_langs = get_lang_lists(route, lang)
       <div id="document-description" class="collapse in">
 
         % if locale['summary']:
-        <summary class="document-summary">
-          <label translate>summary</label><br>
-          "${locale['summary']}"
-        </summary>
+          <summary class="document-summary">
+            <label translate>summary</label><br>
+            ${show_attr(locale, 'summary')}
+          </summary>
         % endif
 
         % if locale['description']:
-        ${show_attr(locale, 'description')}
+          ${show_attr(locale, 'description')}
+        % endif
+
+        % if locale['gear']:
+          <div class="document-gear">
+            <label translate>gear</label><br>
+            ${show_attr(locale, 'gear')}
+          </div>
         % endif
 
         % if locale['remarks']:
-        <div class="document-remarks">
-          <label translate>remarks</label><br>
-          "${locale['remarks']}"
-        </div>
+          <div class="document-remarks">
+            <label translate>remarks</label><br>
+            ${show_attr(locale, 'remarks')}
+          </div>
         % endif
+        
       </div>
     </span>
   </div>
@@ -103,12 +124,12 @@ other_langs, missing_langs = get_lang_lists(route, lang)
   % if not version:
   <div class="view-details-associations col-xs-12 tab">
     <span class="lead">
-
       <div ng-show="userCtrl.auth.isAuthenticated()">
         <label translate>Add association</label>:
         <app-add-association parent-id="${route_id}" added-documents="added"></app-add-association>
       </div>
       <section>
+        % if 'waypoints' in route['associations'] and  len(route['associations']['waypoints']) > 0 :
         <article>
           <h3 class="heading show-phone" data-toggle="collapse" data-target="#associated-waypoints">
             <span translate>Associated waypoints</span><span class="glyphicon glyphicon-menu-down"></span>
@@ -120,28 +141,21 @@ other_langs, missing_langs = get_lang_lists(route, lang)
             </div>
           </div>
         </article>
+        % endif
+        % if 'routes' in route['associations'] and  len(route['associations']['routes']) > 0 :
         <article>
           <h3 class="heading show-phone" data-toggle="collapse" data-target="#associated-routes">
             <span translate>Associated routes</span><span class="glyphicon glyphicon-menu-down"></span>
           </h3>
           <div class="associated-documents collapse in" id="associated-routes">
-            <div class="list-item"></div>
-            <div class="list-item"></div>
-            <div class="list-item"></div>
             ${show_associated_routes(route)}
             <article ng-repeat="doc in added | filter:{'documentType': 'routes'}">
               <app-association-card parent-id="${route_id}" doc="doc" added-documents="added"></app-association-card>
             </article>
           </div>
         </article>
+        % endif
       </section>
-      <h3 class="heading" data-toggle="collapse" data-target="#associated-maps">
-        <span translate>Maps</span><span class="glyphicon glyphicon-menu-down"></span>
-      </h3>
-      <div class="collapse in" id="associated-maps">
-        ${show_maps(route)}
-      </div>
-
     </span>
   </div>
   % endif

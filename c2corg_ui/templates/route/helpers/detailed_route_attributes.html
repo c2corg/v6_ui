@@ -1,22 +1,26 @@
-<%namespace file="../../helpers/view.html" import="show_areas, show_attr"/>
+<%namespace file="../../helpers/view.html" import="show_areas, show_attr, show_maps"/>
 
 ## LOCATION
 <%def name="get_route_location(route)">\
-  <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
-    <h4><span translate>Location</span><span class="glyphicon glyphicon-menu-right"></span></h4>
-    <div class="name-icon">
-      <span class="glyphicon glyphicon-map-marker"></span>
-      <p translate>Location</p>
-    </div>
-    <span class="detail-text accordion">
-      ${show_areas(route)}
-      
-      % if route.get('orientations'):
-      <p><span translate>orientations</span>: <b>${route['orientations']}</b></p>
-      % endif
+  % if route.get('areas') or route.get('orientation'):
+    <div class="name-icon-value location" ng-click="detailsCtrl.openTab($event)">
+      <h4><span translate>Location</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+      <div class="name-icon">
+        <span class="glyphicon glyphicon-map-marker"></span>
+        <p translate>Location</p>
+      </div>
+      <span class="detail-text accordion">
+        ${show_areas(route)}
 
-    </span>
-  </div>
+      % if route.get('orientation'):
+        <p><span translate>orientation</span>:</p>
+        % for orient in route['orientation'] :
+          <span x-translate>${orient}</span>
+        % endfor
+      % endif
+      </span>
+    </div>
+  % endif
 </%def>
 
 ## GENERAL
@@ -30,37 +34,55 @@
     <span class="detail-text accordion">
 
       % if route.get('route_types'):
-      <div ng-init="route_types = ${route['route_types']}">
+      <article>
         <b translate>route_types</b><br>
         <ul>
-          <li ng-repeat="type in route_types" ng-cloak>{{mainCtrl.translate(type)}}</li>
+          % for type in route['route_types'] :
+          <li x-translate>${type}</li>
+          % endfor
         </ul>
-      </div>
+      </article>
       % endif
-
-      % if route['activities']:
-      <div ng-init="route_activites = ${route['activities']}">
-        <b translate>activities</b>:
+    
+      % if route.get('activities'):
+      <article>
+        <b translate>activities</b><br>
         <ul>
-          <li ng-repeat="activity in route_activites" ng-cloak>{{mainCtrl.translate(activity)}}{{$last ? '' : ', '}}</li>
+          % for activity in route['activities'] :
+          <li x-translate>${activity}</li>
+          % endfor
         </ul>
-      </div>
+      </article>
       % endif
 
+      % if route.get('rock_types'):
+      <article>
+        <b translate>rock_types</b><br>
+        <ul>
+          % for type in route['rock_types'] :
+          <li x-translate>${type}</li>
+          % endfor
+        </ul>
+      </article>
+      % endif
+      
+      % if route.get('climbing_outdoor_types'):
+      <article>
+        <b translate>climbing_outdoor_types</b><br>
+        <ul>
+          % for type in route['climbing_outdoor_types'] :
+          <li x-translate>${type}</li>
+          % endfor
+        </ul>
+      </article>
+      % endif
+      
       % if route.get('configuration'):
       <p><span translate>configuration</span>: <b>${','.join(route['configuration'])}</b></p>
       % endif
 
-      % if route.get('global_rating'):
-      <p><span translate>global_rating</span>: <b>${route['global_rating']}</b></p>
-      % endif
-
       % if locale.get('slope'):
       <p><span translate>slope</span>: <b>${locale['slope']}</b></p>
-      % endif
-
-      % if route.get('rock_types'):
-      <p><span translate>rock_types</span>: <b>${route['rock_types']}</b></p>
       % endif
 
       % if route.get('aid_rating'):
@@ -75,9 +97,6 @@
       <p><span translate>mtb_length_trail</span>: <b>${route['mtb_length_trail']}</b></p>
       % endif
 
-      % if route.get('climbing_outdoor_types'):
-      <p><span translate>climbing_outdoor_types</span>: <b>${route['climbing_outdoor_types']}</b></p>
-      % endif
     </span>
   </div>
 </%def>
@@ -85,6 +104,10 @@
 
 ## RATING  
 <%def name="get_route_rating(route)">\
+% if route.get('global_rating') or route.get('engagement_rating') or route.get('risk_rating') or route.get('exposition_rock_rating') \
+  or route.get('rock_free_rating') or route.get('rock_required_rating') or route.get('rock_required_rating') or route.get('hiking_rating') \
+  or route.get('hiking_mtb_exposition') or route.get('ice_rating') or route.get('mixed_rating') or route.get('snowshoe_rating')  \
+  or route.get('mtb_down_rating') or route.get('mtb_up_rating') or route.get('via_ferrata_rating'):
   <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
     <h4><span translate>Rating</span><span class="glyphicon glyphicon-menu-right"></span></h4>
     <div class="name-icon">
@@ -92,7 +115,10 @@
       <p translate>Rating</p>
     </div>
     <span class="detail-text accordion">
-
+      
+      % if route.get('global_rating'):
+      <p><span translate>global_rating</span>: <b>${route['global_rating']}</b></p>
+      % endif
 
       % if route.get('engagement_rating'):
       <p><span translate>engagement_rating</span>: <b>${route['engagement_rating']}</b></p>
@@ -147,35 +173,32 @@
       % endif
     </span>
   </div>
+  % endif
 </%def>
 
 
 ## GEAR  
 <%def name="get_route_gear(route, locale)">\
-  <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
-    <h4><span translate>gear</span><span class="glyphicon glyphicon-menu-right"></span></h4>
-    <div class="name-icon">
-      <span class="glyphicon glyphicon-cog"></span>
-      <p translate>gear</p>
+  % if route.get('equipment_rating') or route.get('glacier_gear'):
+    <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
+      <h4><span translate>gear</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+      <div class="name-icon">
+        <span class="glyphicon glyphicon-cog"></span>
+        <p translate>gear</p>
+      </div>
+      <span class="detail-text accordion">
+
+        % if route.get('equipment_rating'):
+        <p><span translate>equipment_rating</span>: <b>${route['equipment_rating']}</b></p>
+        % endif
+
+        % if route.get('glacier_gear'):
+        <p><span translate>glacier_gear</span>: <b>${route['glacier_gear']}</b></p>
+        % endif
+
+      </span>
     </div>
-    <span class="detail-text accordion">
-      % if locale.get('gear'):
-      <p>${show_attr(locale, 'gear')}</p>
-      % endif
-
-      % if route.get('equipment_rating'):
-      <p><span translate>equipment_rating</span>: <b>${route['equipment_rating']}</b></p>
-      % endif
-
-      % if route.get('glacier_gear'):
-      <p><span translate>glacier_gear</span>: <b>${route['glacier_gear']}</b></p>
-      % endif
-
-      % if not route.get('glacier_gear') and not route.get('equipment_rating') and not locale.get('gear'):
-      <p translate>No gear info</p>
-      % endif
-    </span>
-  </div>
+  % endif
 </%def>
 
 
@@ -220,7 +243,7 @@
   <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
     <h4><span translate>Access</span><span class="glyphicon glyphicon-menu-right"></span></h4>
     <div class="name-icon">
-      <span class="glyphicon glyphicon-screenshot"></span>
+      <span class="glyphicon glyphicon-road"></span>
       <p translate>Access</p>
     </div>
     <span class="detail-text accordion" ng-init="lift_access = ${route['lift_access']}">
@@ -229,9 +252,25 @@
       <b ng-cloak>{{lift_access == 'None' ? mainCtrl.translate('No'): mainCtrl.translate('Yes')}}</b>
 
       % if route.get('height_diff_access'):
-      <p><span translate>height_diff_access</span>: <b>${route['height_diff_access']}</b></p>
+        <p><span translate>height_diff_access</span>: <b>${route['height_diff_access']}</b></p>
       % endif
       
     </span>
   </div>
+</%def>
+
+## MAPS
+<%def name="get_route_associated_maps(route)">\
+  % if route.get('maps'):
+  <div class="name-icon-value maps" ng-click="detailsCtrl.openTab($event)">
+    <h4><span translate>Maps</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+    <div class="name-icon">
+      <span class="glyphicon glyphicon-globe"></span>
+      <p translate>Maps</p>
+    </div>
+    <span class="detail-text accordion" ng-init="lift_access = ${route['lift_access']}">
+        ${show_maps(route)} 
+    </span>
+  </div>
+  % endif
 </%def>

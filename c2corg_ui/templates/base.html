@@ -61,7 +61,21 @@ closure_library_path = settings.get('closure_library_path')
       </div>
     </div>
     <app-alerts></app-alerts>
-
+    <div id="empty-results">
+        <div class="tt-dataset empty">
+          <div class="header">No results</div>
+          <p>
+            <a class="btn btn-default tt-suggestion" href="${request.route_url('routes_add')}">
+              <span translate>Create a new route</span><span class="glyphicon glyphicon-plus-sign text-right"></span>
+            </a>
+          </p>
+          <p>
+            <a class="btn btn-default tt-suggestion" href="${request.route_url('waypoints_add')}">
+              <span translate>Create a new waypoint</span><span class="glyphicon glyphicon-plus-sign text-right"></span>
+            </a>
+          </p>
+        </div>
+    </div>
 % if debug:
     <script>
       // We should really use the empty string for CLOSURE_BASE_PATH for there
