@@ -1,3 +1,9 @@
 <%def name="show_title(title)">\
   ${title + ' - ' if title else ''}Camptocamp.org\
 </%def>
+
+<%def name="show_api_error(error)">\
+  % if error:
+    <app-api-error>${error}</app-api-error>
+  % endif
+</%def>
