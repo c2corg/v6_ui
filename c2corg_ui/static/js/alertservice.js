@@ -44,14 +44,15 @@ app.Alerts.prototype.gettext = function(str) {
  * @export
  */
 app.Alerts.prototype.add = function(data) {
-  this.addLoading_();
+  var timeout = data['timeout'] || 0;
+  this.addLoading_(timeout);
   var msg = data['msg'];
   msg = msg instanceof Object ? this.formatErrorMsg_(msg) :
       this.filterStr_(msg);
   this.alerts_.push({
     type: data['type'] || 'warning',
     msg: msg,
-    timeout: data['timeout'] || 0
+    timeout: timeout
   });
 };
 
@@ -92,13 +93,14 @@ app.Alerts.prototype.get = function() {
 
 
 /**
+ * @param {number} timeout
  * @private
  */
-app.Alerts.prototype.addLoading_ = function() {
+app.Alerts.prototype.addLoading_ = function(timeout) {
   $('main, aside, .page-header').addClass('loading');
   setTimeout(function() {
     $('main, aside, .page-header').removeClass('loading');
-  }, 4500);
+  }, timeout);
 };
 
 
