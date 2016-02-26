@@ -6,7 +6,6 @@ goog.require('app.utils');
 /** @suppress {extraRequire} */
 goog.require('ngeo.searchDirective');
 
-
 /**
  * The directive for the auto-complete search field shown in the header
  * of every page.
@@ -40,32 +39,20 @@ app.searchDirective = function() {
               $('.page-header').removeClass('show-search');
             }
           });
-          // Add class only on hover && when screen width < @phone (defined in LESS)
-          $('.page-header').on('mouseenter', function() {
-            if (window.innerWidth < phoneScreen) {
-              $('.page-header').find('input').addClass('show-search');
-            }
-          });
+
           // Trigger focus on search-icon click for .search
-          $('.page-header').on('click', function(event) {
+          $('.page-header .search-icon').on('click', function(event) {
             if (window.innerWidth < phoneScreen) {
+              $('.page-header').find('.search').toggleClass('show-search');
+              $('.page-header').find('.search').focus();
               event.stopPropagation();
-              $('.page-header').find('input').addClass('show-search');
-              $('.page-header').find('.search').triggerHandler('focus');
             }
           });
-          // If the input is focused, don't remove the class
-          $('.page-header').on('mouseleave', function() {
-            if (window.innerWidth < phoneScreen && !$('.search').is(':focus')) {
-              $('.page-header').find('.show-search').removeClass('show-search');
-            }
+
+          $('body:not(app-search)').click(function() {
+            $('.tt-dataset.empty').remove();
           });
-          // If you click outside the search input, it has to be closed on @phone
-          if (window.innerWidth < phoneScreen) {
-            $('html').not('.search').not('.glyphicon-search').click(function() {
-              $('.page-header').find('.show-search').removeClass('show-search');
-            });
-          }
+
           //show spinning gif while waiting for the results
           element.on('typeahead:asyncrequest', function() {
             element.find('input').addClass('loading-gif-typehead');
@@ -82,14 +69,14 @@ app.module.directive('appSearch', app.searchDirective);
 
 /**
  * @constructor
- * @param {angular.Scope} $rootScope Angular root scope.
+ * @param {angular.Scope} $scope Angular scope.
  * @param {angular.$compile} $compile Angular compile service.
  * @param {angular.Attributes} $attrs Angular attributes.
  * @param {string} apiUrl Base URL of the API.
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @ngInject
  */
-app.SearchController = function($rootScope, $compile, $attrs, apiUrl, gettextCatalog) {
+app.SearchController = function($scope, $compile, $attrs, apiUrl, gettextCatalog) {
 
   /**
    * Bound from directive.
@@ -97,6 +84,12 @@ app.SearchController = function($rootScope, $compile, $attrs, apiUrl, gettextCat
    * @export
    */
   this.selectHandler;
+
+  /**
+   * @type {angular.$compile}
+   * @private
+   */
+  this.compile_ = $compile;
 
   if (!$attrs['appSelect']) {
     // Angular puts a noop function when mapping an attribute to a
@@ -110,6 +103,13 @@ app.SearchController = function($rootScope, $compile, $attrs, apiUrl, gettextCat
    * @private
    */
   this.apiUrl_ = apiUrl;
+
+  /**
+   * @type {angular.Scope}
+   * @private
+   */
+  this.scope_ = $scope;
+
 
   /**
    * @type {angularGettext.Catalog}
@@ -162,7 +162,7 @@ app.SearchController.prototype.createDataset_ = function(type, title) {
     limit: 20,
     templates: {
       header: (function() {
-        return '<div class="header">' +
+        return '<div class="header ' + title + '">' +
             this.gettextCatalog_.getString(title) + '</div>';
       }).bind(this),
       suggestion: function(doc) {
@@ -181,6 +181,7 @@ app.SearchController.prototype.createDataset_ = function(type, title) {
  * @private
  */
 app.SearchController.prototype.createAndInitBloodhound_ = function(type) {
+  var empty_template = $('#empty-results').html(); // in base.html
   var url = this.apiUrl_ + '/search?q=%QUERY';
   var bloodhound = new Bloodhound(/** @type {BloodhoundOptions} */({
     limit: 10,
@@ -191,6 +192,7 @@ app.SearchController.prototype.createAndInitBloodhound_ = function(type) {
       wildcard: '%QUERY',
       rateLimitWait: 50,
       prepare: (function(query, settings) {
+
         var url = settings['url'] +
             '&pl=' + this.gettextCatalog_.currentLanguage;
         settings['url'] = url.replace('%QUERY', encodeURIComponent(query));
@@ -201,6 +203,13 @@ app.SearchController.prototype.createAndInitBloodhound_ = function(type) {
             /** @type {appx.SearchDocumentResponse} */ (resp[type]);
         var documents = documentResponse.documents;
         var currentLang = this.gettextCatalog_.currentLanguage;
+
+        if (documents.length === 0) {
+          $('.tt-dataset.empty').remove();
+          $('.tt-empty').append(empty_template);
+        } else {
+          $('.tt-dataset.empty').remove();
+        }
 
         return documents.map(function(/** appx.SearchDocument */ doc) {
           var locale = doc.locales[0];

@@ -126,22 +126,22 @@ app.DocumentEditingController = function($scope, $element, $attrs,
   // When creating a new document, the model is not created until
   // the form is touched. At least create an empty object.
   this.scope_[this.modelName_] = {};
-
-  if (this.id_ && this.lang_) {
-    if (this.auth_.isAuthenticated()) {
-      // Get document attributes from the API to feed the model:
+  if (this.auth_.isAuthenticated()) {
+    if (this.id_ && this.lang_) {
+     // Get document attributes from the API to feed the model:
       goog.asserts.assert(!goog.isNull(this.id_));
       goog.asserts.assert(!goog.isNull(this.lang_));
       this.api_.readDocument(this.module_, this.id_, this.lang_).then(
           this.successRead_.bind(this)
       );
-    } else {
-      // Redirect to the auth page
-      var current_url = window.location.href;
-      window.location.href = '{authUrl}?from={redirect}'
-          .replace('{authUrl}', this.authUrl_)
-          .replace('{redirect}', encodeURIComponent(current_url));
     }
+  } else {
+    // Redirect to the auth page
+    var current_url = window.location.href;
+    window.location.href = '{authUrl}?from={redirect}'
+        .replace('{authUrl}', this.authUrl_)
+        .replace('{redirect}', encodeURIComponent(current_url));
+    return;
   }
 
   this.scope_.$root.$on('mapFeatureChange', function(event, feature) {
