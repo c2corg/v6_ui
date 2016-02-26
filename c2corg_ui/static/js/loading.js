@@ -14,10 +14,10 @@ app.loadingDirective = function($http) {
     scope: true,
     link:
      /**
-     * @param {angular.Scope} scope Scope.
-     * @param {angular.JQLite} el Element.
-     * @param {angular.Attributes} attrs Atttributes.
-     */
+      * @param {angular.Scope} scope Scope.
+      * @param {angular.JQLite} el Element.
+      * @param {angular.Attributes} attrs Atttributes.
+      */
      function(scope, el, attrs) {
        scope.$watch(function() {
          return $http.pendingRequests.length;

@@ -1,3 +1,4 @@
+goog.provide('app.capitalize');
 goog.provide('app.trustAsHtmlFilter');
 
 goog.require('app');
