@@ -99,7 +99,7 @@ updating_doc = waypoint_id and waypoint_lang
                                 'has-success': editForm.latitude.$valid }">
       <label><span translate>Latitude</span> *</label>
       <div class="input-group">
-        <input type="number" name="latitude" ng-model="waypoint.lonlat.latitude" ng-change="editCtrl.updateMap()" class="form-control" required required min="-90" max="90" />
+        <input type="number" name="latitude" ng-model="waypoint.lonlat.latitude" ng-change="editCtrl.updateMap()" class="form-control" required min="-90" max="90" />
         <span class="input-group-addon">°N</span>
       </div>
       <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.latitude.$valid"></span>
