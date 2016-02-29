@@ -23,10 +23,10 @@ app.searchDirective = function() {
     templateUrl: '/static/partials/search.html',
     link:
         /**
-         * @param {angular.Scope} scope Scope.
-         * @param {angular.JQLite} $('.page-header') Element.
+         * @param {angular.Scope} $scope Scope.
+         * @param {angular.JQLite} element Element.
          */
-        function(scope, element) {
+        function($scope, element) {
           var phoneScreen = app.constants.SCREEN.SMARTPHONE;
 
           // Empty the search field on focus and blur.
