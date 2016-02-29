@@ -3,12 +3,14 @@ goog.provide('app.diffMapDirective');
 
 goog.require('app');
 goog.require('app.MapController');
+goog.require('app.utils');
 /** @suppress {extraRequire} */
 goog.require('ngeo.mapDirective');
 goog.require('ol.Feature');
 goog.require('ol.Map');
 goog.require('ol.View');
 goog.require('ol.format.GeoJSON');
+goog.require('ol.interaction.MouseWheelZoom');
 goog.require('ol.layer.Tile');
 goog.require('ol.layer.Vector');
 goog.require('ol.source.OSM');
@@ -43,8 +45,7 @@ app.module.directive('appDiffMap', app.diffMapDirective);
 
 /**
  * @param {?GeoJSONFeatureCollection} mapFeatureCollection FeatureCollection
- *    of features
- * to show on the map.
+ *    of features to show on the map.
  * @constructor
  * @export
  * @ngInject
@@ -74,6 +75,11 @@ app.DiffMapController = function(mapFeatureCollection) {
       })
     ]
   });
+
+  var mouseWheelZoomInteraction = new ol.interaction.MouseWheelZoom();
+  this.map.addInteraction(mouseWheelZoomInteraction);
+  app.utils.setupSmartScroll(mouseWheelZoomInteraction);
+
   if (!mapFeatureCollection) {
     this.map.setView(new ol.View({
       center: app.MapController.DEFAULT_CENTER,

@@ -13,6 +13,7 @@ goog.require('ol.format.GeoJSON');
 goog.require('ol.geom.Point');
 goog.require('ol.interaction.Draw');
 goog.require('ol.interaction.Modify');
+goog.require('ol.interaction.MouseWheelZoom');
 goog.require('ol.interaction.Select');
 goog.require('ol.layer.Tile');
 goog.require('ol.layer.Vector');
@@ -35,7 +36,7 @@ app.mapDirective = function() {
     scope: {
       'editCtrl': '=appMapEditCtrl',
       'drawType': '@appMapDrawType',
-      'mouseWheel': '@appMapMouseWheel'
+      'disableWheel': '=appMapDisableWheel'
     },
     controller: 'AppMapController',
     controllerAs: 'mapCtrl',
@@ -98,15 +99,19 @@ app.MapController = function($scope, mapFeatureCollection) {
    * @export
    */
   this.map = new ol.Map({
-    interactions: ol.interaction.defaults({
-      mouseWheelZoom: this['mouseWheel'] || false
-    }),
+    interactions: ol.interaction.defaults({mouseWheelZoom: false}),
     layers: [
       new ol.layer.Tile({
         source: new ol.source.OSM()
       })
     ]
   });
+
+  if (!(this['disableWheel'] || false)) {
+    var mouseWheelZoomInteraction = new ol.interaction.MouseWheelZoom();
+    this.map.addInteraction(mouseWheelZoomInteraction);
+    app.utils.setupSmartScroll(mouseWheelZoomInteraction);
+  }
 
   if (mapFeatureCollection) {
     this.getVectorLayer_().setStyle(this.createStyleFunction_(1));
