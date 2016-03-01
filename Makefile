@@ -10,6 +10,17 @@ APP_HTML_FILES = $(shell find c2corg_ui/templates -type f -name '*.html')
 APP_PARTIAL_FILES = $(shell find c2corg_ui/static/partials -type f -name '*.html')
 LESS_FILES = $(shell find less -type f -name '*.less')
 
+# i18n
+L10N_LANGUAGES = ca de en es eu fr it
+L10N_PO_FILES = $(addprefix .build/locale/,$(addsuffix /LC_MESSAGES/c2corg_ui-client.po, $(L10N_LANGUAGES)))
+TOUCH_DATE = touch --date
+STAT_LAST_MODIFIED = stat -c '%y'
+ifeq (,$(wildcard $(HOME)/.transifexrc))
+TOUCHBACK_TXRC = $(TOUCH_DATE) "$(shell date --iso-8601=seconds)" $(HOME)/.transifexrc
+else
+TOUCHBACK_TXRC = $(TOUCH_DATE) "$(shell $(STAT_LAST_MODIFIED) $(HOME)/.transifexrc)" $(HOME)/.transifexrc
+endif
+
 # variables used in config files (*.in)
 export base_dir = $(abspath .)
 export site_packages = $(SITE_PACKAGES)
@@ -50,14 +61,15 @@ build: c2corg_ui/static/build/build.js less compile-catalog $(TEMPLATE_FILES)
 clean:
 	rm -f .build/node_modules.timestamp
 	rm -f .build/dev-requirements.timestamp
+	rm -f .build/locale/c2corg_ui-client.pot
 	rm -f $(TEMPLATE_FILES)
-	rm -f c2corg_ui/locale/*.pot
 	rm -rf c2corg_ui/static/build
 
 .PHONY: cleanall
 cleanall: clean
 	rm -rf .build
 	rm -rf node_modules
+	rm -f $(L10N_PO_FILES)
 
 .PHONY: compile-catalog
 compile-catalog: c2corg_ui/static/build/locale/fr/c2corg_ui.json c2corg_ui/static/build/locale/de/c2corg_ui.json c2corg_ui/static/build/locale/it/c2corg_ui.json c2corg_ui/static/build/locale/en/c2corg_ui.json c2corg_ui/static/build/locale/es/c2corg_ui.json c2corg_ui/static/build/locale/eu/c2corg_ui.json c2corg_ui/static/build/locale/ca/c2corg_ui.json
@@ -110,11 +122,45 @@ clear-cache-prod: install production.ini
 c2corg_ui/closure/%.py: $(CLOSURE_LIBRARY_PATH)/closure/bin/build/%.py
 	cp $< $@
 
-c2corg_ui/locale/c2corg_ui-client.pot: $(APP_HTML_FILES) $(APP_PARTIAL_FILES) $(APP_JS_FILES)
+# i18n and Transifex tools
+
+# if .transifexrc does not exist yet, create it for read only access (with fake user c2c)
+$(HOME)/.transifexrc:
+	echo "[https://www.transifex.com]" > $@
+	echo "hostname = https://www.transifex.com" >> $@
+	echo "username = c2c" >> $@
+	echo "password = c2cc2c" >> $@
+	echo "token =" >> $@
+
+.build/locale/c2corg_ui-client.pot: .build/node_modules.timestamp $(APP_HTML_FILES) $(APP_PARTIAL_FILES) $(APP_JS_FILES)
+	mkdir -p $(dir $@)
 	node tools/extract-messages.js $^ > $@
 
-c2corg_ui/locale/%/LC_MESSAGES/c2corg_ui-client.po: c2corg_ui/locale/c2corg_ui-client.pot
-	msgmerge --update --no-fuzzy-matching $@ $<
+.tx/config: $(HOME)/.transifexrc
+
+.PHONY: transifex-get
+transifex-get: $(L10N_PO_FILES)
+	.build/locale/c2corg_ui-client.pot
+
+.PHONY: transifex-send
+transifex-send: .tx/config .build/locale/c2corg_ui-client.pot .build/venv/bin/tx
+	.build/venv/bin/tx push --source
+
+.PHONY: transifex-init
+transifex-init: .tx/config .build/locale/c2corg_ui-client.pot .build/venv/bin/tx
+	.build/venv/bin/tx push --source
+	.build/venv/bin/tx push --translations --force --no-interactive
+
+.build/locale/%/LC_MESSAGES/c2corg_ui-client.po: .tx/config .build/venv/bin/tx
+	mkdir -p $(dir $@)
+	.build/venv/bin/tx pull -l $* --force
+	$(TOUCHBACK_TXRC)
+
+c2corg_ui/static/build/locale/%/c2corg_ui.json: .build/locale/%/LC_MESSAGES/c2corg_ui-client.po
+	mkdir -p $(dir $@)
+	node tools/compile-catalog $< > $@
+
+# End of i18n and Transifex tools
 
 c2corg_ui/static/build/build.js: build.json c2corg_ui/static/build/templatecache.js $(OL_JS_FILES) $(NGEO_JS_FILES) $(APP_JS_FILES) .build/node_modules.timestamp
 	mkdir -p $(dir $@)
@@ -127,10 +173,6 @@ c2corg_ui/static/build/build.min.css: $(LESS_FILES) .build/node_modules.timestam
 c2corg_ui/static/build/build.css: $(LESS_FILES) .build/node_modules.timestamp
 	mkdir -p $(dir $@)
 	./node_modules/.bin/lessc less/c2corg_ui.less > $@
-
-c2corg_ui/static/build/locale/%/c2corg_ui.json: c2corg_ui/locale/%/LC_MESSAGES/c2corg_ui-client.po
-	mkdir -p $(dir $@)
-	node tools/compile-catalog $< > $@
 
 c2corg_ui/static/build/templatecache.js: c2corg_ui/templates/templatecache.js .build/venv/bin/mako-render $(APP_PARTIAL_FILES)
 	mkdir -p $(dir $@)
@@ -150,6 +192,8 @@ c2corg_ui/static/build/templatecache.js: c2corg_ui/templates/templatecache.js .b
 .build/venv/bin/nosetests: .build/dev-requirements.timestamp
 
 .build/venv/bin/mako-render: .build/requirements.timestamp
+
+.build/venv/bin/tx: .build/requirements.timestamp
 
 .build/dev-requirements.timestamp: .build/venv/bin/pip dev-requirements.txt
 	.build/venv/bin/pip install -r dev-requirements.txt
