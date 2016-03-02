@@ -103,9 +103,6 @@ app.Authentication.prototype.setUserData = function(data) {
  * @export
  */
 app.Authentication.prototype.removeUserData = function() {
-  if (!this.userData) {
-    return;
-  }
   try {
     // Make sure that user data are removed from all possible storages
     window.localStorage.removeItem(this.USER_DATA_KEY_);
