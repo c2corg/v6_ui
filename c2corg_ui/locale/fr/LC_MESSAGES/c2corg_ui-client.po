@@ -6,6 +6,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "&"
+msgstr ""
+
 #: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "Access"
@@ -65,7 +69,7 @@ msgstr "Naviguer en"
 
 #: c2corg_ui/templates/waypoint/filters.html
 msgid "Cable car"
-msgstr "Remontée mécanique"
+msgstr ""
 
 #: c2corg_ui/templates/route/edit.html c2corg_ui/templates/waypoint/edit.html
 msgid "Cancel"
@@ -97,6 +101,7 @@ msgstr "Comparer les versions sélectionnées"
 msgid "Comparing documents"
 msgstr "Comparaison des documents"
 
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "Contact"
 msgstr ""
@@ -124,6 +129,14 @@ msgstr "Création d'un point de passage"
 #: c2corg_ui/templates/helpers/view.html
 msgid "Date"
 msgstr "Date"
+
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "Describe access"
+msgstr ""
+
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "Describe access_period"
+msgstr ""
 
 #: c2corg_ui/templates/route/edit.html
 msgid "Describe here the gear needed for this route"
@@ -185,6 +198,7 @@ msgstr "Edition d'un point de passage"
 msgid "Email"
 msgstr "Adresse email"
 
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "Equipment"
 msgstr ""
@@ -280,9 +294,9 @@ msgstr "Identifiant ou mot de passe incorrects"
 msgid "Logout"
 msgstr "Se déconnecter"
 
-#: c2corg_ui/templates/waypoint/edit.html
-msgid "Longitude"
-msgstr "Longitude"
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+msgid "Longitude and latitude are required."
+msgstr ""
 
 #: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "Maps"
@@ -310,6 +324,7 @@ msgid "Next"
 msgstr "Suivant"
 
 #: c2corg_ui/templates/route/filters.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/filters.html
 msgid "No"
 msgstr "Non"
@@ -329,6 +344,10 @@ msgstr "Pas de description disponible"
 #: c2corg_ui/templates/helpers/view.html
 msgid "No maps associated"
 msgstr "Aucune carte associée"
+
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "Numbers"
+msgstr ""
 
 #: c2corg_ui/templates/auth.html
 msgid "Password"
@@ -397,9 +416,14 @@ msgid "Style"
 msgstr ""
 
 #: c2corg_ui/templates/auth.html c2corg_ui/templates/route/edit.html
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
 #: c2corg_ui/templates/waypoint/edit.html
 msgid "This field is required."
 msgstr "Ce champ est obligatoire."
+
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "This field must be  than 9999 m."
+msgstr ""
 
 #: c2corg_ui/templates/route/edit.html c2corg_ui/templates/waypoint/edit.html
 msgid "This field must be a number."
@@ -412,10 +436,6 @@ msgstr "Ce champ doit être compris entre -180° et 180°."
 #: c2corg_ui/templates/waypoint/edit.html
 msgid "This field must be between -90° and 90°."
 msgstr "Ce champ doit être compris entre -90° and 90°.."
-
-#: c2corg_ui/templates/waypoint/edit.html
-msgid "This field must be smaller than 9999 m."
-msgstr "Ce champ doit être inférieur à 9999m."
 
 #: c2corg_ui/templates/route/edit.html c2corg_ui/templates/waypoint/edit.html
 msgid "Title must have at least 3 characters."
@@ -432,6 +452,10 @@ msgstr ""
 #: c2corg_ui/templates/helpers/view.html
 msgid "Translate into an other lang"
 msgstr "Traduire dans une autre langue"
+
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "Types & styles"
+msgstr ""
 
 #: c2corg_ui/templates/auth.html
 msgid "Username"
@@ -460,6 +484,7 @@ msgid "Welcome to Camptocamp.org"
 msgstr "Bienvenue sur Camptocamp.org"
 
 #: c2corg_ui/templates/route/filters.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/filters.html
 msgid "Yes"
 msgstr "Oui"
@@ -468,14 +493,21 @@ msgstr "Oui"
 msgid "You are viewing an archived version of this document."
 msgstr "Vous consultez une ancienne version de ce document."
 
-#: c2corg_ui/templates/i18n.html c2corg_ui/templates/waypoint/view.html
+#: c2corg_ui/templates/i18n.html
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
+#: c2corg_ui/templates/waypoint/view.html
 msgid "access"
 msgstr "accès"
 
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "access_period"
 msgstr "Période d'accès"
 
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "access_time"
 msgstr ""
@@ -515,6 +547,8 @@ msgid "bergschrund"
 msgstr "rimaye"
 
 #: c2corg_ui/templates/i18n.html
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "best_periods"
 msgstr "Méilleures périodes"
@@ -527,8 +561,18 @@ msgstr "bisse"
 msgid "bivouac"
 msgstr "bivouac"
 
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "blanket_unstaffed"
+msgstr "couvertures hors de gardiennage"
+
+#: c2corg_ui/templates/i18n.html
+msgid "boat"
+msgstr "bateau"
+
+#: c2corg_ui/templates/i18n.html
+msgid "bus"
 msgstr ""
 
 #: c2corg_ui/templates/document/diff.html
@@ -541,24 +585,34 @@ msgid "ca"
 msgstr "catalan"
 
 #: c2corg_ui/templates/i18n.html
+msgid "cable_car"
+msgstr "Remontée mécanique"
+
+#: c2corg_ui/templates/i18n.html
 msgid "camp_site"
 msgstr "camping"
 
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "capacity"
-msgstr "Capacité"
+msgstr "nombre de places hors gardiennage"
 
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "capacity_staffed"
-msgstr ""
+msgstr "nombre de places en gardiennage"
 
 #: c2corg_ui/templates/i18n.html
 msgid "cave"
 msgstr "grotte"
 
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "children_proof"
-msgstr ""
+msgstr "enfants"
 
 #: c2corg_ui/templates/i18n.html
 msgid "cliff"
@@ -568,6 +622,8 @@ msgstr "falaise"
 msgid "climbing_indoor"
 msgstr "SAE"
 
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "climbing_indoor_types"
 msgstr "Types de grimpe intérieur"
@@ -577,21 +633,34 @@ msgid "climbing_outdoor"
 msgstr "site de couenne/bloc"
 
 #: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "climbing_outdoor_types"
 msgstr "Types de grimpe extérieur"
 
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "climbing_rating_max"
+msgstr ""
+
 #: c2corg_ui/templates/i18n.html
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "climbing_rating_median"
 msgstr ""
 
 #: c2corg_ui/templates/i18n.html
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "climbing_rating_min"
 msgstr ""
 
 #: c2corg_ui/templates/i18n.html
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "climbing_styles"
 msgstr "Styles de grimpe"
@@ -604,13 +673,20 @@ msgstr "Configuration"
 msgid "confluence"
 msgstr "confluent"
 
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "contact"
+msgstr ""
+
 #: c2corg_ui/templates/i18n.html
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
 msgid "country"
 msgstr "Pays"
 
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "custodianship"
-msgstr "Tutelle"
+msgstr "gardiennage"
 
 #: c2corg_ui/templates/i18n.html
 msgid "de"
@@ -620,11 +696,14 @@ msgstr "allemand"
 msgid "dec"
 msgstr "décembre"
 
-#: c2corg_ui/templates/route/edit.html c2corg_ui/templates/waypoint/edit.html
+#: c2corg_ui/templates/route/edit.html
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 msgid "description"
 msgstr "Description"
 
 #: c2corg_ui/templates/route/filters.html
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
 #: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/filters.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
@@ -636,6 +715,8 @@ msgstr "Altitude"
 msgid "elevation min/max"
 msgstr ""
 
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "elevation_min"
 msgstr "Elévation min"
@@ -648,10 +729,16 @@ msgstr "anglais"
 msgid "engagement_rating"
 msgstr ""
 
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "equipment"
+msgstr ""
+
 #: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
 msgid "equipment_rating"
 msgstr ""
 
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "equipment_ratings"
 msgstr ""
@@ -672,6 +759,8 @@ msgstr "expédition"
 msgid "exposed"
 msgstr ""
 
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "exposition_rating"
 msgstr ""
@@ -688,6 +777,8 @@ msgstr "février"
 msgid "fr"
 msgstr "français"
 
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "gas_unstaffed"
 msgstr ""
@@ -697,6 +788,10 @@ msgstr ""
 #: c2corg_ui/templates/route/view.html
 msgid "gear"
 msgstr "Matériel"
+
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "geolocation"
+msgstr ""
 
 #: c2corg_ui/templates/i18n.html
 msgid "geometry"
@@ -724,8 +819,10 @@ msgstr "vert"
 
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "ground_types"
-msgstr "Types de terrain"
+msgstr "natures du sol"
 
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "heating_unstaffed"
 msgstr ""
@@ -749,14 +846,20 @@ msgid "height_diff_up"
 msgstr "Dénivelé positif"
 
 #: c2corg_ui/templates/i18n.html
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "height_max"
 msgstr "Hauteur max"
 
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "height_median"
 msgstr "Hauteur médiane"
 
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "height_min"
 msgstr "Hauteur min"
@@ -776,7 +879,7 @@ msgstr ""
 
 #: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 msgid "hiking_rating"
-msgstr "Cotation"
+msgstr "Cotation hiking"
 
 #: c2corg_ui/templates/i18n.html
 msgid "hut"
@@ -815,15 +918,20 @@ msgid "lake"
 msgstr "lac"
 
 #: c2corg_ui/templates/route/edit.html c2corg_ui/templates/route/filters.html
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
 #: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/filters.html
 msgid "lang"
 msgstr "Langue"
 
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "length"
 msgstr "Longueur"
 
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "lift_access"
 msgstr "Remontée mécanique"
@@ -836,6 +944,10 @@ msgstr "produit local/commerce"
 msgid "locality"
 msgstr "lieu-dit"
 
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+msgid "lonlat"
+msgstr ""
+
 #: c2corg_ui/templates/i18n.html
 msgid "loop"
 msgstr "boucle avec retour au pied de la voie"
@@ -845,17 +957,27 @@ msgid "loop_hut"
 msgstr "boucle avec retour au refuge"
 
 #: c2corg_ui/templates/waypoint/edit.html
+msgid "maps"
+msgstr ""
+
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "maps_info"
 msgstr "Cartes"
+
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "maps_references"
+msgstr "Références cartographiques"
 
 #: c2corg_ui/templates/i18n.html
 msgid "mar"
 msgstr "mars"
 
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "matress_unstaffed"
-msgstr ""
+msgstr "matelas hors gardiennage"
 
 #: c2corg_ui/templates/i18n.html
 msgid "may"
@@ -901,9 +1023,17 @@ msgstr ""
 msgid "next difference"
 msgstr "différence suivante"
 
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "no"
+msgstr ""
+
 #: c2corg_ui/templates/i18n.html
 msgid "nov"
 msgstr "novembre"
+
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "numbers"
+msgstr ""
 
 #: c2corg_ui/templates/i18n.html
 msgid "oct"
@@ -911,6 +1041,8 @@ msgstr ""
 
 #: c2corg_ui/templates/i18n.html
 #: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "orientation"
 msgstr ""
@@ -923,6 +1055,8 @@ msgstr "parapente"
 msgid "paragliding_landing"
 msgstr "atterrissage parapente"
 
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "paragliding_rating"
 msgstr ""
@@ -931,21 +1065,30 @@ msgstr ""
 msgid "paragliding_takeoff"
 msgstr "décollage parapente"
 
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "parking_fee"
 msgstr "Parking payant"
+
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "parking_fee_types"
+msgstr ""
 
 #: c2corg_ui/templates/i18n.html
 msgid "pass"
 msgstr "col"
 
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "phone"
 msgstr "Téléphone"
 
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "phone_custodian"
-msgstr ""
+msgstr "téléphone gardien/gérant"
 
 #: c2corg_ui/templates/i18n.html
 msgid "pit"
@@ -955,33 +1098,50 @@ msgstr "gouffre"
 msgid "previous difference"
 msgstr "différence précédente"
 
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "product_types"
-msgstr "Types de produits"
+msgstr "types de produits locaux"
 
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "prominence"
 msgstr ""
 
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "public_transportation_rating"
 msgstr ""
 
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "public_transportation_ratings"
+msgstr ""
+
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "public_transportation_types"
-msgstr "Transports publics"
+msgstr "Transports en commun"
 
 #: c2corg_ui/templates/i18n.html
 msgid "raid"
 msgstr "raid"
 
 #: c2corg_ui/templates/i18n.html
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "rain_proof"
-msgstr ""
+msgstr "plue"
 
 #: c2corg_ui/templates/i18n.html
 msgid "range"
+msgstr ""
+
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "ratings"
 msgstr ""
 
 #: c2corg_ui/templates/document/diff.html
@@ -1015,9 +1175,11 @@ msgstr ""
 
 #: c2corg_ui/templates/i18n.html
 #: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "rock_types"
-msgstr ""
+msgstr "types de rocher"
 
 #: c2corg_ui/templates/route/view.html
 msgid "route"
@@ -1032,6 +1194,8 @@ msgstr "Longueur de l'itinéraire"
 msgid "route_types"
 msgstr "Type d'itinéraire"
 
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "routes_quantity"
 msgstr "Quantité des itinéraires"
@@ -1039,6 +1203,10 @@ msgstr "Quantité des itinéraires"
 #: c2corg_ui/templates/i18n.html
 msgid "sep"
 msgstr "septembre"
+
+#: c2corg_ui/templates/i18n.html
+msgid "service_on_demand"
+msgstr "service à la demande"
 
 #: c2corg_ui/templates/i18n.html
 msgid "shelter"
@@ -1049,12 +1217,19 @@ msgid "skitouring"
 msgstr "ski, surf"
 
 #: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 msgid "slope"
 msgstr "Pente"
 
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "snow_clearance_rating"
-msgstr ""
+msgstr "déneigement"
+
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "snow_clearance_ratings"
+msgstr "cotation déneigement"
 
 #: c2corg_ui/templates/i18n.html
 msgid "snow_ice_mixed"
@@ -1069,7 +1244,9 @@ msgid "snowshoeing"
 msgstr "raquette"
 
 #: c2corg_ui/templates/i18n.html c2corg_ui/templates/route/edit.html
-#: c2corg_ui/templates/route/view.html c2corg_ui/templates/waypoint/edit.html
+#: c2corg_ui/templates/route/view.html
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/view.html
 msgid "summary"
 msgstr "Résumé"
@@ -1079,9 +1256,19 @@ msgstr "Résumé"
 msgid "summit"
 msgstr "sommet"
 
-#: c2corg_ui/templates/route/edit.html c2corg_ui/templates/waypoint/edit.html
+#: c2corg_ui/templates/route/edit.html
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 msgid "title"
 msgstr "Titre"
+
+#: c2corg_ui/templates/i18n.html
+msgid "train"
+msgstr ""
+
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "transports"
+msgstr ""
 
 #: c2corg_ui/templates/i18n.html
 msgid "traverse"
@@ -1092,6 +1279,13 @@ msgstr "traversée"
 msgid "type"
 msgstr "Type"
 
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "types"
+msgstr ""
+
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "url"
 msgstr "URL"
@@ -1124,6 +1318,7 @@ msgstr "point d'eau/source"
 msgid "waypoint"
 msgstr "point de passage"
 
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
 #: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "waypoint_type"
@@ -1133,6 +1328,8 @@ msgstr "Type"
 msgid "weather_station"
 msgstr "station météo"
 
+#: c2corg_ui/templates/waypoint/create_edit_summary.html
+#: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "weather_station_types"
 msgstr ""
@@ -1140,6 +1337,20 @@ msgstr ""
 #: c2corg_ui/templates/i18n.html
 msgid "webcam"
 msgstr "webcam"
+
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "yes"
+msgstr ""
+
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "{{type}}"
+msgstr ""
+
+#~ msgid "Longitude"
+#~ msgstr "Longitude"
+
+#~ msgid "This field must be smaller than 9999 m."
+#~ msgstr "Ce champ doit être inférieur à 9999m."
 
 #~ msgid "Associations"
 #~ msgstr "Associations"
