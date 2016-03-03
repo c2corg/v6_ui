@@ -38,17 +38,6 @@ app.viewDetailsDirective = function() {
           }
         }
       });
-
-      $('.heading').click(function() {
-        var menuDown = $(this).find('.glyphicon-menu-down');
-        var menuUp = $(this).find('.glyphicon-menu-right');
-        if (menuDown) {
-          menuDown.toggleClass('rotate-arrow-up');
-        } else if (menuUp) {
-          menuUp.toggleClass('rotate-arrow-down');
-        }
-        return;
-      });
     }
   };
 };

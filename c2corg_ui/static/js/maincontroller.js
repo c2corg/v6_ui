@@ -69,3 +69,10 @@ app.MainController.prototype.isPath = function(path) {
   }
 };
 
+
+/**
+ * @export
+ */
+app.MainController.prototype.animateHeaderIcon = function(e) {
+  app.utils.animateHeaderIcon(e);
+}
