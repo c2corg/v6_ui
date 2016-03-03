@@ -1,145 +1,773 @@
 <%!
-from c2corg_common.attributes import default_langs
+  from c2corg_common.attributes import default_langs, climbing_outdoor_types, public_transportation_types, climbing_indoor_types, product_types, ground_types, weather_station_types, \
+  rain_proof_types, public_transportation_ratings, children_proof_types, snow_clearance_ratings, exposition_ratings, rock_types, orientation_types, months, parking_fee_types, climbing_styles, \
+  access_times, climbing_ratings, equipment_ratings, map_editors
 %>
+
 <%inherit file="../base.html"/>
 <%
-updating_doc = waypoint_id and waypoint_lang
+  updating_doc = waypoint_id and waypoint_lang
 %>
 <%namespace file="../helpers/common.html" import="show_title"/>
 
-<%block name="pagetitle"><title ng-init="id=${waypoint_id if waypoint_id else 0}" 
-                                ng-bind="id ? mainCtrl.page_title('Editing a waypoint') : mainCtrl.page_title('Creating a waypoint')">${show_title('Create/edit waypoint')}</title></%block>
+<%block name="pagetitle">
+<title ng-init="id = ${waypoint_id if waypoint_id else 0}" ng-bind="id ?
+          mainCtrl.page_title('Editing a waypoint') : mainCtrl.page_title('Creating a waypoint')">${show_title('Create/edit waypoint')}
+</title>
+</%block>
 
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
 
+
 <section class="create-edit-document">
-  <h1 ng-init="id=${waypoint_id if waypoint_id else 0}" ng-bind="id ? ('Editing a waypoint' | translate) : ('Creating a waypoint' | translate)" class="text-center"></h1>
+
+  <h1 ng-init="id = ${waypoint_id if waypoint_id else 0}" class="text-center">
+    <label class="label label-primary" ng-bind="id ? ('Editing a waypoint' | translate) : ('Creating a waypoint' | translate)"></label>
+  </h1>
+
   <form app-loading app-document-editing="waypoints" app-document-editing-model="waypoint"
-  % if updating_doc:
-    app-document-editing-id="${waypoint_id}" app-document-editing-lang="${waypoint_lang}"
-  % endif
-  class="document-editing" name="editForm" novalidate ng-submit="editCtrl.submitForm(editForm.$valid)">
-    <div id="lang-group" class="form-group" 
-         ng-class="{ 'has-error': editForm.lang.$touched && editForm.lang.$invalid,
-                                'has-success':  editForm.lang.$valid}">
-      <label><span translate>lang</span> *</label>
-      % if waypoint_lang:
-        <span x-translate>${waypoint_lang}</span>
-      % else:
-        <select name="lang" ng-options="lang as mainCtrl.translate(lang) for lang in ['${"','".join(default_langs) |n}'] | translate"
-          ng-model="waypoint.locales[0].lang" class="form-control" required>
-        </select>
-        <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.lang.$valid"></span>
-        <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.lang.$invalid && editForm.lang.$touched"></span>
-        <div class="help-block" ng-messages="editForm.lang.$error">
-          <p ng-message="required" class="label label-danger" style="{{ (editForm.lang.$invalid && editForm.lang.$touched) ? 'display:inline' : '' }}" translate>This field is required.</p>
-        </div>
-      % endif
+        % if updating_doc:
+        app-document-editing-id="${waypoint_id}" app-document-editing-lang="${waypoint_lang}"
+        % endif
+        class="document-editing" name="editForm" novalidate ng-submit="editCtrl.submitForm(editForm.$valid)">
+    
+    ## Init max steps. It won't work with ng-init
+    <span class="ng-hide">
+      {{editCtrl.updateMaxSteps(waypoint.waypoint_type)}} 
+      {{editCtrl.waypoint_type = waypoint.waypoint_type}}
+    </span>
+
+    ## PROGRESS BAR
+    <ul class="progress-bar-edit">
+      <li class="nav-step-1"ng-click="editCtrl.step(1, 'waypoint',  'backwards')" ng-class="{'nav-step-selected': editCtrl.current_step == 1 }"><span class="nav-text"><span translate>title</span> & <span translate>types</span></span><span class="bullet-container"><span class="bullet"></span></span></li>
+      <li class="nav-step-2" ng-click="editCtrl.step(2, 'waypoint', editCtrl.previous_step >= 2 ? 'backwards' : 'forwards')"><span class="nav-text"><span translate>maps</span> & <span translate>numbers</span></span><span class="bullet-container"><span class="bullet"></span></span></li>
+      <li class="nav-step-3" ng-click="editCtrl.step(3, 'waypoint', editCtrl.previous_step >= 3 ? 'backwards' : 'forwards')" ng-if="waypoint.waypoint_type == 'climbing_outdoor' || waypoint.waypoint_type == 'climbing_indoor'
+                || waypoint.waypoint_type == 'paragliding_landing' || waypoint.waypoint_type == 'paragliding_takeoff'">
+        <span class="nav-text"><span translate>ratings</span> <span ng-if="waypoint.waypoint_type == 'climbing_outdoor'"> & <span translate>access</span></span></span><span class="bullet-container"><span class="bullet"></span></span>
+      </li>
+      <li class="nav-step-3"  ng-click="editCtrl.step(3, 'waypoint', editCtrl.previous_step >= 3 ? 'backwards' : 'forwards')" ng-if="waypoint.waypoint_type == 'access'
+                || waypoint.waypoint_type == 'local_product' || waypoint.waypoint_type == 'hut' || waypoint.waypoint_type == 'shelter'" >
+        <span class="nav-text">
+          <span translate ng-if="waypoint.waypoint_type == 'access' || waypoint.waypoint_type == 'local_product' || waypoint.waypoint_type == 'climbing_outdoor' || waypoint.waypoint_type == 'hut'" translate>access</span>
+          <span translate ng-if="waypoint.waypoint_type == 'hut' || waypoint.waypoint_type == 'access'"> & </span>
+          <span ng-if="waypoint.waypoint_type == 'access'" translate>transports</span>
+          <span ng-if="waypoint.waypoint_type == 'hut' || waypoint.waypoint_type == 'shelter'"><span translate>equipment</span></span>
+        </span>
+        <span class="bullet-container"><span class="bullet"></span></span>
+      </li>
+      <li class="nav-step-{{editCtrl.max_steps -1}}" ng-click="editCtrl.step((editCtrl.max_steps - 1), 'waypoint',  editCtrl.previous_step >= ((editCtrl.max_steps > 4) ? 4 : 3) ? 'backwards' : 'forwards')" >
+        <span class="nav-text">
+          <span translate>description</span> 
+          <span ng-if="waypoint.waypoint_type == 'climbing_outdoor' || waypoint.waypoint_type == 'climbing_indoor' || waypoint.waypoint_type == 'gite' || waypoint.waypoint_type == 'webcam'
+                    || waypoint.waypoint_type == 'camp_site' || waypoint.waypoint_type == 'hut' || waypoint.waypoint_type == 'local_product' || waypoint.waypoint_type == 'weather_station'">& 
+            <span translate>contact</span>
+          </span>
+        </span>
+        <span class="bullet-container"><span class="bullet"></span></span>
+      </li>
+      <li class="nav-step-{{editCtrl.max_steps}}" ng-click="editCtrl.step(editCtrl.max_steps, 'forwards')"><span translate class="nav-text">summary</span><span class="bullet-container"><span class="bullet"></span></span></li>
+    </ul>
+
+    ## NAV BUTTONS
+    <div class="nav-buttons">
+      <button class="btn btn-primary prev" type="button" ng-if="editCtrl.previous_step !== 0" ng-click="editCtrl.step(editCtrl.previous_step, 'waypoint', 'backwards')"><span class="glyphicon glyphicon-triangle-left"></span></button>
+      <button class="btn btn-primary next" type="button" ng-if="editCtrl.next_step <= editCtrl.max_steps" ng-click="editCtrl.step(editCtrl.next_step, 'waypoint', 'forwards')"><span class="glyphicon glyphicon-triangle-right"></span></button>
     </div>
-    <div id="title-group" class="form-group" 
-         ng-class="{ 'has-error': editForm.title.$touched && editForm.title.$invalid,
-                                'has-success':  editForm.title.$valid }">
-      <label><span translate>title</span> *</label>
-      <input type="text" name="title" ng-model="waypoint.locales[0].title" class="form-control" required ng-minlength="3" />
-      <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.title.$valid"></span>
-      <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.title.$invalid && editForm.title.$touched"></span>
-      <div class="help-block" ng-messages="editForm.title.$error">
-        <p ng-message="required" class="label label-danger" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : '' }}" translate>This field is required.</p>
-        <p ng-message="minlength" class="label label-danger" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : '' }}" translate>Title must have at least 3 characters.</p>
+
+    <section class="editing">
+      <div class="step step-1">
+        <section class="section title">
+          <h2 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#title-edit">
+            <span translate>title</span><span class="glyphicon glyphicon-menu-down"></span>
+          </h2>
+        
+          <div class="content collapse in" id="title-edit">
+            ## TITLE
+            <div id="title-group" class="form-group data full" 
+                 ng-class="{ 'has-error': editForm.title.$touched && editForm.title.$invalid, 'has-success': editForm.title.$valid }">
+              <label><span translate>title</span> *</label>
+              <input type="text" name="title" ng-model="waypoint.locales[0].title" class="form-control" required ng-minlength="3" />
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.title.$valid"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.title.$invalid && editForm.title.$touched"></span>
+              <div class="help-block" ng-messages="editForm.title.$error">
+                <p ng-message="required" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : ''}}" translate>This field is required.</p>
+                <p ng-message="minlength" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : ''}}" translate>Title must have at least 3 characters.</p>
+              </div>
+            </div>
+
+            ## LANGUAGE
+            <div id="lang-group" class="form-group data half" 
+                 ng-class="{ 'has-error': editForm.lang.$touched && editForm.lang.$invalid, 'has-success': editForm.lang.$valid}">
+              <label><span translate>lang</span> *</label>
+              % if waypoint_lang:
+              <input class="form-control" disabled x-translate value="${waypoint_lang}">
+              % else:
+              <select name="lang" ng-options="lang as mainCtrl.translate(lang) for lang in ['${"','".join(default_langs) |n}'] | translate"
+                      ng-model="waypoint.locales[0].lang" class="form-control" required></select>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.lang.$valid"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.lang.$invalid && editForm.lang.$touched"></span>
+              <div class="help-block" ng-messages="editForm.lang.$error">
+                <p ng-message="required" style="{{ (editForm.lang.$invalid && editForm.lang.$touched) ? 'display:inline' : ''}}" translate>This field is required.</p>
+              </div>
+              % endif
+            </div>
+
+          </div>
+        </section>
+
+        ## TYPES & STYLES
+        <section class="section ">
+          <h2 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#edit-types-styles"><span translate>Types & styles</span><span class="glyphicon glyphicon-menu-down"></span></h2>
+          <div class="content collapse in" id="edit-types-styles">
+
+            <div class="data half">
+              ## WAYPOINT TYPE
+              <div id="waypoint_type-group" class="form-group data full" ng-class="{ 'has-error': editForm.waypoint_type.$touched && editForm.waypoint_type.$invalid, 'has-success': editForm.waypoint_type.$valid }">
+                <label><span translate>waypoint_type</span> *</label>
+                <select name="waypoint_type" ng-change="editCtrl.updateMaxSteps(waypoint.waypoint_type)" ng-options="type as mainCtrl.translate(type) for type in ['${"','".join(waypoint_types) |n}'] | translate" ng-model="waypoint.waypoint_type" class="form-control " required></select>
+                <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.waypoint_type.$valid"></span>
+                <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.waypoint_type.$invalid && editForm.waypoint_type.$touched"></span>
+                <div class="help-block" ng-messages="editForm.waypoint_type.$error">
+                  <p ng-message="required" style="{{ (editForm.waypoint_type.$invalid && editForm.waypoint_type.$touched) ? 'display:inline' : ''}}" translate>This field is required.</p>
+                </div>
+              </div>
+
+              ## RAIN PROOF
+              <div class="form-group data full" ng-if="waypoint.waypoint_type == 'climbing_outdoor'" ng-class="{ 'has-error': editForm.rain_proof.$touched && editForm.rain_proof.$invalid, 'has-success': editForm.rain_proof.$valid }">
+                <label><span translate>rain_proof</span></label>
+                <select class="form-control " ng-model="waypoint.rain_proof" ng-options="type as mainCtrl.translate(type) for type in ${rain_proof_types}"></select>
+                <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.rain_proof"></span>
+              </div>
+
+              ## CHILDREN PROOF
+              <div class="form-group data full" ng-if="waypoint.waypoint_type == 'climbing_outdoor'">
+                <label translate>children_proof</label>
+                <select ng-options="type as type for type in ${children_proof_types}" ng-model="waypoint.children_proof" class="form-control "></select>
+                <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.children_proof"></span>
+              </div>
+
+            </div>
+
+            ## ORIENTATION
+            <div class="form-group data half" ng-if="waypoint.waypoint_type == 'paragliding_takeoff' || waypoint.waypoint_type == 'paragliding_landing' || waypoint.waypoint_type == 'climbing_outdoor'"
+                 ng-class="{ 'has-error': editForm.orientation.$touched && editForm.orientation.$invalid,'has-success': editForm.orientation.$valid }">
+              <label><span translate>orientation</span></label>
+              <ul class="types long" id="orientation-list">
+                <li ng-repeat="type in ${orientation_types}" ng-click="editCtrl.pushToArray(waypoint, 'orientation', type, $event)">
+                  <div class="checkbox"><input type="checkbox" ng-checked="waypoint.orientation.indexOf(type) > - 1"><span x-translate>{{type}}</span></div>
+                </li>
+              </ul>
+              <%include file="c2corg_ui:static/img/orientation.svg" />
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.orientation.$valid"></span>
+            </div>
+
+            ## WEATHER STATION TYPES
+            <div class="form-group data half" ng-if="waypoint.waypoint_type == 'weather_station'"
+                 ng-class="{ 'has-error': editForm.weather_station_types.$touched && editForm.weather_station_types.$invalid, 'has-success': editForm.weather_station_types.$valid }">
+              <label><span translate>weather_station_types</span></label>
+              <ul class="types">
+                <li ng-repeat="type in ${weather_station_types}" ng-click="editCtrl.pushToArray(waypoint, 'weather_station_types', type, $event)">
+                  <div class="checkbox"><input type="checkbox" ng-checked="waypoint.weather_station_types.indexOf(type) > - 1"><span x-translate>{{type}}</span></div>
+                </li>
+              </ul>
+            </div>
+
+            ## CLIMBING OUT TYPES
+            <div class="form-group data half" ng-if="waypoint.waypoint_type == 'climbing_outdoor'">
+              <label translate>climbing_outdoor_types</label>
+              <ul class="types">
+                <li ng-repeat="type in ${climbing_outdoor_types}" ng-click="editCtrl.pushToArray(waypoint, 'climbing_outdoor_types', type, $event)">
+                  <div class="checkbox"><input type="checkbox" ng-checked="waypoint.climbing_outdoor_types.indexOf(type) > - 1"><span x-translate>{{type}}</span></div>
+                </li>
+              </ul>
+            </div>
+
+            ## CLIMBING STYLES
+            <div class="form-group data half" ng-if="waypoint.waypoint_type == 'climbing_outdoor' || waypoint.waypoint_type == 'climbing_indoor'">
+              <label translate>climbing_styles</label>
+              <ul class="types">
+                <li ng-repeat="type in ${climbing_styles}" ng-click="editCtrl.pushToArray(waypoint, 'climbing_styles', type, $event)">
+                  <div class="checkbox"><input type="checkbox" ng-checked="waypoint.climbing_styles.indexOf(type) > - 1"><span x-translate>{{type}}</span></div>
+                </li>
+              </ul>
+            </div>
+
+            ## CLIMBING INT TYPES
+            <div class="form-group data half" ng-if="waypoint.waypoint_type == 'climbing_indoor'">
+              <label translate>climbing_indoor_types</label>
+              <ul class="types">
+                <li ng-repeat="type in ${climbing_indoor_types}" ng-click="editCtrl.pushToArray(waypoint, 'climbing_indoor_types', type, $event)">
+                  <div class="checkbox"><input type="checkbox" ng-checked="waypoint.climbing_indoor_types.indexOf(type) > - 1"><span x-translate>{{type}}</span></div>
+                </li>
+              </ul>
+            </div>
+
+
+            ## ROCK TYPES
+            <div id="rock_types-group" class="form-group data half" ng-if="waypoint.waypoint_type == 'climbing_outdoor'">
+              <label translate>rock_types</label>
+              <ul class="types long">
+                <li ng-repeat="type in ${rock_types}" ng-click="editCtrl.pushToArray(waypoint, 'rock_types', type, $event)">
+                  <div class="checkbox"><input type="checkbox" ng-checked="waypoint.rock_types.indexOf(type) > - 1"><span translate>{{type}}</span></div>
+                </li>
+              </ul>
+            </div>
+
+            ## PRODUCT TYPES
+            <div class="form-group data half" ng-if="waypoint.waypoint_type == 'local_product'">
+              <label><span translate>product_types</span><span ng-if="waypoint.waypoint_type == 'local_product'"> *</span></label>
+              <ul class="types" required>
+                <li ng-repeat="type in ${product_types}" ng-click="editCtrl.pushToArray(waypoint, 'product_types', type, $event)">
+                  <div class="checkbox"><input type="checkbox"><span x-translate>{{type}}</span></div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+        </section>
       </div>
-    </div>
-    <div id="waypoint_type-group" class="form-group" 
-         ng-class="{ 'has-error': editForm.waypoint_type.$touched && editForm.waypoint_type.$invalid,
-                                'has-success': editForm.waypoint_type.$valid }">
-      <label><span translate>waypoint_type</span> *</label>
-      <select name="waypoint_type" ng-options="type as mainCtrl.translate(type) for type in ['${"','".join(waypoint_types) |n}'] | translate"
-        ng-model="waypoint.waypoint_type" class="form-control" required>
-      </select>
-      <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.waypoint_type.$valid"></span>
-      <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.waypoint_type.$invalid && editForm.waypoint_type.$touched"></span>
-      <div class="help-block" ng-messages="editForm.waypoint_type.$error">
-        <p ng-message="required" class="label label-danger" style="{{ (editForm.waypoint_type.$invalid && editForm.waypoint_type.$touched) ? 'display:inline' : '' }}" translate>This field is required.</p>
+      
+      <div class="step step-2">
+        ## NUMBERS
+        <section class="section numbers">
+          <h2 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#edit-numbers"><span translate>Numbers</span><span class="glyphicon glyphicon-menu-down"></span></h2>
+          <div class="content collapse in" id="edit-numbers">
+
+            ## ELEVATION
+            <div id="elevation-group" class="form-group data half" ng-class="{ 'has-error': editForm.elevation.$touched && editForm.elevation.$invalid, 'has-success': editForm.elevation.$valid && waypoint.elevation }">
+              <label><span translate>elevation</span> <span ng-if="waypoint.waypoint_type != 'climbing_indoor'">*</span></label>
+              <div class="input-group">
+                <input type="number" name="elevation" min="0" ng-model="waypoint.elevation" class="form-control" ng-required="waypoint.waypoint_type != 'climbing_indoor'" max="9999"/>
+                <span class="input-group-addon">m</span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.elevation.$valid && waypoint.elevation"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.elevation.$invalid && editForm.elevation.$touched"></span>
+              <div class="help-block" ng-messages="editForm.elevation.$error">
+                <p ng-message="required" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : ''}}" translate>This field is required.</p>
+                <p ng-message="max" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : ''}}" translate>This field must be  than 9999 m.</p>
+                <p ng-message="number" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
+              </div>
+            </div>
+
+            ## ELEVATION MIN
+            <div id="elevation_min-group" ng-if="waypoint.waypoint_type == 'access'" class="form-group data half" ng-class="{ 'has-error': editForm.elevation_min.$touched && editForm.elevation_min.$invalid, 'has-success': editForm.elevation_min.$valid && waypoint.elevation_min}">
+              <label translate>elevation_min</label>
+              <div class="input-group">
+                <input type="number" name="elevation_min" min="0" ng-model="waypoint.elevation_min" class="form-control" max="9999"/>
+                <span class="input-group-addon">m</span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.elevation_min.$valid && elevation.elevation_min"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.elevation_min.$invalid && editForm.elevation_min.$touched"></span>
+              <div class="help-block" ng-messages="editForm.elevation_min.$error">
+                <p ng-message="required" style="{{ (editForm.elevation_min.$invalid && editForm.elevation_min.$touched) ? 'display:inline' : ''}}" translate>This field is required.</p>
+                <p ng-message="max" style="{{ (editForm.elevation_min.$invalid && editForm.elevation_min.$touched) ? 'display:inline' : ''}}" translate>This field must be  than 9999 m.</p>
+                <p ng-message="number" style="{{ (editForm.elevation_min.$invalid && editForm.elevation_min.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
+              </div>
+            </div>
+
+            ##  PROMINENCE
+            <div id="prominence-group" ng-if="waypoint.waypoint_type == 'summit'" class="form-group data half" ng-class="{ 'has-error': editForm.prominence.$touched && editForm.prominence.$invalid, 
+                      'has-success': editForm.prominence.$valid && waypoint.prominence }">
+              <label><span translate>prominence</span></label>
+              <div class="input-group">
+                <input type="number" name="prominence" min="0" ng-model="waypoint.prominence" class="form-control"/>
+                <span class="input-group-addon">m</span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.prominence.$valid && waypoint.prominence"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.prominence.$invalid && editForm.prominence.$touched"></span>
+              <div class="help-block" ng-messages="editForm.prominence.$error">
+                <p ng-message="number" style="{{ (editForm.prominence.$invalid && editForm.prominence.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
+              </div>
+            </div>
+
+            ## LENGTH
+            <div id="length-group" class="form-group data half" ng-if="waypoint.waypoint_type == 'paragliding_takeoff' || waypoint.waypoint_type == 'paragliding_landing'"
+                 ng-class="{ 'has-error': editForm.length.$touched && editForm.length.$invalid, 'has-success': editForm.length.$valid && waypoint.length  }">
+              <label translate>length</label>
+              <div class="input-group">
+                <input type="number" name="length" min="0" ng-model="waypoint.length" class="form-control" max="9999"/>
+                <span class="input-group-addon">m</span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.length.$valid && waypoint.length"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.length.$invalid && editForm.length.$touched"></span>
+              <div class="help-block" ng-messages="editForm.length.$error">
+                <p ng-message="number" style="{{ (editForm.length.$invalid && editForm.length.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
+              </div>
+            </div>
+
+            ## SLOPE
+            <div id="slope-group" class="form-group data half" ng-if="waypoint.waypoint_type == 'paragliding_takeoff' || waypoint.waypoint_type == 'paragliding_landing'"
+                 ng-class="{ 'has-error': editForm.slope.$touched && editForm.slope.$invalid, 'has-success': editForm.slope.$valid && waypoint.slope }">
+              <label translate>slope</label>
+              <div class="input-group">
+                <input type="number" name="slope" min="0" ng-model="waypoint.slope" class="form-control" max="9999"/>
+                <span class="input-group-addon">m</span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.slope.$valid && waypoint.slope"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.slope.$invalid && editForm.slope.$touched"></span>
+              <div class="help-block" ng-messages="editForm.slope.$error">
+                <p ng-message="number" style="{{ (editForm.slope.$invalid && editForm.slope.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
+              </div>
+            </div>
+
+            ## HEIGHT MAX
+            <div class="form-group data half" ng-if="waypoint.waypoint_type == 'climbing_outdoor' || waypoint.waypoint_type == 'climbing_indoor'"
+                 ng-class="{ 'has-error': editForm.height_max.$touched && editForm.height_max.$invalid,
+                                      'has-success': editForm.height_max.$valid && waypoint.height_max}">
+              <label><span translate>height_max</span></label>
+              <div class="input-group">
+                <input type="number" name="height_max" min="0" ng-model="waypoint.height_max" class="form-control" max="9999"/>
+                <span class="input-group-addon">m</span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.height_max.$valid && waypoint.height_max"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.height_max.$invalid && editForm.height_max.$touched"></span>
+              <div class="help-block" ng-messages="editForm.height_max.$error">
+                <p ng-message="number" style="{{ (editForm.height_max.$invalid && editForm.height_max.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
+              </div>
+            </div>
+
+            ## HEIGHT MIN
+            <div class="form-group data half" ng-if="waypoint.waypoint_type == 'climbing_outdoor' || waypoint.waypoint_type == 'climbing_indoor'"
+                 ng-class="{ 'has-error': editForm.height_min.$touched && editForm.height_min.$invalid,'has-success': editForm.height_min.$valid && waypoint.height_min}">
+              <label><span translate>height_min</span></label>
+              <div class="input-group">
+                <input type="number" name="height_min" min="0" ng-model="waypoint.height_min" class="form-control" max="9999"/>
+                <span class="input-group-addon">m</span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.height_min.$valid && waypoint.height_min"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.height_min.$invalid && editForm.height_min.$touched"></span>
+              <div class="help-block" ng-messages="editForm.height_min.$error">
+                <p ng-message="number" style="{{ (editForm.height_min.$invalid && editForm.height_min.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
+              </div>
+            </div>
+
+            ## HEIGHT MEDIAN
+            <div class="form-group data half" ng-if="waypoint.waypoint_type == 'climbing_outdoor' || waypoint.waypoint_type == 'climbing_indoor'"
+                 ng-class="{ 'has-error': editForm.height_median.$touched && editForm.height_median.$invalid,
+                                      'has-success': editForm.height_median.$valid && waypoint.height_median }">
+              <label><span translate>height_median</span></label>
+              <div class="input-group">
+                <input type="number" name="height_median" min="0" ng-model="waypoint.height_median" class="form-control" max="9999"/>
+                <span class="input-group-addon">m</span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.height_median.$valid && waypoint.height_median"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.height_median.$invalid && editForm.height_median.$touched"></span>
+              <div class="help-block" ng-messages="editForm.height_median.$error">
+                <p ng-message="number" style="{{ (editForm.height_median.$invalid && editForm.height_median.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
+              </div>
+            </div>
+
+            ## ROUTES QUANTITY
+            <div class="form-group data half" ng-if="waypoint.waypoint_type == 'climbing_outdoor' || waypoint.waypoint_type == 'climbing_indoor'"
+                 ng-class="{ 'has-error': editForm.routes_quantity.$touched && editForm.routes_quantity.$invalid,
+                                      'has-success': editForm.routes_quantity.$valid && waypoint.routes_quantity }">
+              <label><span translate>routes_quantity</span></label>
+              <div class="input-group">
+                <input type="number" name="routes_quantity" min="0" ng-model="waypoint.routes_quantity" class="form-control" max="9999"/>
+                <span class="input-group-addon">m</span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.routes_quantity.$valid && waypoint.routes_quantity"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.routes_quantity.$invalid && editForm.routes_quantity.$touched"></span>
+              <div class="help-block" ng-messages="editForm.routes_quantity.$error">
+                <p ng-message="number" style="{{ (editForm.routes_quantity.$invalid && editForm.routes_quantity.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
+              </div>
+            </div>
+
+            ## CAPACITY
+            <div class="form-group data half" ng-if="waypoint.waypoint_type == 'gite' || waypoint.waypoint_type == 'camp_site' || waypoint.waypoint_type == 'hut' || waypoint.waypoint_type == 'bivouac' || waypoint.waypoint_type == 'shelter'"
+                 ng-class="{ 'has-error': editForm.capacity.$touched && editForm.capacity.$invalid, 'has-success': editForm.capacity.$valid && waypoint.capacity }">
+              <label translate>capacity</label>
+              <div class="input-group">
+                <input type="number" name="capacity" ng-model="waypoint.capacity"class="form-control" min="0" />
+                <span class="input-group-addon glyphicon glyphicon-user"></span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.capacity.$valid && waypoint.capacity"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.capacity.$invalid && editForm.capacity.$touched"></span>
+              <div class="help-block" ng-messages="editForm.capacity.$error">
+                <p ng-message="number" style="{{ (editForm.capacity.$invalid && editForm.capacity.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
+              </div>
+            </div>
+
+            ## CAPACITY STAFFED
+            <div class="form-group data half" ng-if="waypoint.waypoint_type == 'gite' || waypoint.waypoint_type == 'camp_site' || waypoint.waypoint_type == 'hut' || waypoint.waypoint_type == 'shelter'"
+                 ng-class="{ 'has-error': editForm.capacity_staffed.$touched && editForm.capacity_staffed.$invalid, 'has-success': editForm.capacity_staffed.$valid && waypoint.capacity_staffed }">
+              <label translate>capacity_staffed</label>
+              <div class="input-group">
+                <input type="number" name="capacity_staffed" ng-model="waypoint.capacity_staffed"class="form-control" min="0" />
+                <span class="input-group-addon glyphicon glyphicon-user"></span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.capacity_staffed.$valid && waypoint.capacity_staffed"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.capacity_staffed.$invalid && editForm.capacity_staffed.$touched"></span>
+              <div class="help-block" ng-messages="editForm.capacity_staffed.$error">
+                <p ng-message="number" style="{{ (editForm.capacity_staffed.$invalid && editForm.capacity_staffed.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
+              </div>
+            </div>
+
+          </div>
+        </section>
+        
+       ## MAPS
+        <section class="section maps-info">
+          <h2 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#edit-maps"><span translate>geolocation</span><span class="glyphicon glyphicon-menu-down"></span></h2>
+          <div class="content collapse in" id="edit-maps">
+
+             ## LONGITUDE
+            <div id="longitude-group" class="form-group data half" ng-class="{ 'has-error': editForm.longitude.$touched && editForm.longitude.$invalid,
+                                      'has-success': editForm.longitude.$valid && waypoint.lonlat.longitude}">
+              <label><span translate>longitude</span> *</label>
+              <div class="input-group">
+                <input type="number" name="longitude" ng-model="waypoint.lonlat.longitude" ng-change="editCtrl.updateMap()" class="form-control" required required min="-90" max="90" />
+                <span class="input-group-addon">°N</span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.longitude.$valid && waypoint.lonlat.longitude"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.longitude.$invalid && editForm.longitude.$touched"></span>
+              <div class="help-block" ng-messages="editForm.longitude.$error">
+                <p ng-message="required" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : ''}}" translate>This field is required.</p>
+                <p ng-message="number" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
+                <p ng-message="min" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : ''}}" translate>This field must be between -90° and 90°.</p>
+                <p ng-message="max" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : ''}}" translate>This field must be between -90° and 90°.</p>
+              </div>
+            </div>
+
+            ## LATITUDE
+            <div id="latitude-group" class="form-group data half" ng-class="{ 'has-error': editForm.latitude.$touched && editForm.latitude.$invalid,
+                                      'has-success': editForm.latitude.$valid && waypoint.lonlat.latitude}">
+              <label><span translate>Latitude</span> *</label>
+              <div class="input-group">
+                <input type="number" name="latitude" ng-model="waypoint.lonlat.latitude" ng-change="editCtrl.updateMap()" class="form-control" required required min="-90" max="90" />
+                <span class="input-group-addon">°N</span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.latitude.$valid && waypoint.lonlat.latitude"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.latitude.$invalid && editForm.latitude.$touched"></span>
+              <div class="help-block" ng-messages="editForm.latitude.$error">
+                <p ng-message="required" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : ''}}" translate>This field is required.</p>
+                <p ng-message="number" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
+                <p ng-message="min" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : ''}}" translate>This field must be between -90° and 90°.</p>
+                <p ng-message="max" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : ''}}" translate>This field must be between -90° and 90°.</p>
+              </div>
+            </div>
+
+            <app-map app-map-edit-ctrl="editCtrl" app-map-draw-type="Point" class="map-edit"></app-map>
+
+            ## MAPS REF
+            <div id="maps_info-group" class="input-group">
+              <label translate>maps_references</label>
+              <div ng-repeat="map in waypoint.maps" class="map-info">
+                <input disabled value="{{map.code}} - {{map.editor}} - {{map.locales[0].title}}" class="form-control">
+                <span class="glyphicon glyphicon-trash"></span>
+              </div>
+              <div class="map-info">
+                <input type="text" name="maps_info" ng-model="waypoint.maps_info" class="form-control" placeholder="{{maps_info}}"/>
+                <button id="document-add-maps" type="button" class="btn btn-default" ng-click="editCtrl.addAnotherMapsInfo()"><span class="glyphicon glyphicon-plus"></span></button>
+              </div>
+            </div>
+
+          </div>
+        </section>
       </div>
-    </div>
-    <div id="elevation-group" class="form-group" 
-         ng-class="{ 'has-error': editForm.elevation.$touched && editForm.elevation.$invalid,
-                               'has-success': editForm.elevation.$valid }">
-      <label><span translate>elevation</span> *</label>
-      <div class="input-group">
-        <input type="number" name="elevation" min="0" ng-model="waypoint.elevation" class="form-control" required max="9999"/>
-        <span class="input-group-addon">m</span>
+
+      <div class="step step-{{(editCtrl.max_steps == 5) ? 3 : 3}}" ng-if="waypoint.waypoint_type == 'climbing_outdoor' || waypoint.waypoint_type == 'climbing_indoor' || waypoint.waypoint_type == 'access' ||
+                waypoint.waypoint_type == 'local_product' || waypoint.waypoint_type == 'hut' || waypoint.waypoint_type == 'shelter' || waypoint.waypoint_type == 'paragliding_landing' || waypoint.waypoint_type == 'paragliding_takeoff'">
+        ##RATINGS
+        <section class="section ratings" ng-if="waypoint.waypoint_type == 'climbing_outdoor' || waypoint.waypoint_type == 'climbing_indoor' || waypoint.waypoint_type == 'paragliding_landing' || waypoint.waypoint_type == 'paragliding_takeoff'">
+          <h2 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#edit-ratings"><span translate>ratings</span><span class="glyphicon glyphicon-menu-down"></span></h2>
+          <div class="content collapse in" id="edit-ratings">
+
+            ## PARAGLIDING RATING
+            <div class="form-group data half rating" ng-if="waypoint.waypoint_type == 'paragliding_takeoff' || waypoint.waypoint_type == 'paragliding_landing'"
+                 ng-class="{ 'has-error': editForm.paragliding_rating.$touched && editForm.paragliding_rating.$invalid, 'has-success': editForm.paragliding_rating.$valid }">
+              <label><span translate>paragliding_rating</span></label><br>
+              <uib-rating ng-model="waypoint.paragliding_rating" max="6" on-hover="hoverRating(value)" on-leave="overStar = null" titles="['one','two','three']" aria-labelledby="default-rating"></uib-rating>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.paragliding_rating"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.paragliding_rating.$invalid && editForm.paragliding_rating.$touched"></span>
+            </div>
+
+            ## EXPOSITION RATING
+            <div class="form-group data half" ng-if="waypoint.waypoint_type == 'paragliding_takeoff' || waypoint.waypoint_type == 'paragliding_landing'"
+                 ng-class="{ 'has-error': editForm.exposition_rating.$touched && editForm.exposition_rating.$invalid, 'has-success': editForm.exposition_rating.$valid }">
+              <label translate>exposition_rating</label>
+              <select class="form-control " ng-model="waypoint.exposition_rating" ng-options="rat as mainCtrl.translate(rat) for rat in ${exposition_ratings}"></select>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.exposition_rating"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.exposition_rating.$invalid && editForm.exposition_rating.$touched"></span>
+            </div>
+
+            ## EQUIPMENT RATINGS
+            <div class="form-group data half rating" ng-if="waypoint.waypoint_type == 'climbing_outdoor'"
+                 ng-class="{ 'has-error': editForm.equipment_ratings.$touched && editForm.equipment_ratings.$invalid,'has-success': editForm.equipment_ratings.$valid }">
+              <label><span translate>equipment_ratings</span></label><br>
+              <select ng-model="waypoint.equipment_rating" ng-options="rat as rat for rat in ${equipment_ratings}" class="form-control"></select>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.equipment_ratings"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.equipment_ratings.$invalid && editForm.equipment_ratings.$touched"></span>
+            </div>
+
+            ## CLIMBING RATING MIN
+            <div class="form-group data half rating" ng-if="waypoint.waypoint_type == 'climbing_outdoor' || waypoint.waypoint_type == 'climbing_indoor'"
+                 ng-class="{ 'has-error': editForm.climbing_rating_min.$touched && editForm.climbing_rating_min.$invalid, 'has-success': editForm.climbing_rating_min.$valid }">
+              <label><span translate>climbing_rating_min</span></label><br>
+              <select ng-model="waypoint.climbing_rating_min" ng-options="rat as rat for rat in ${climbing_ratings}" class="form-control"></select>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.climbing_rating_min"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.climbing_rating_min.$invalid && editForm.climbing_rating_min.$touched"></span>
+            </div>
+
+            ## CLIMBING RATING MAX
+            <div class="form-group data half rating" ng-if="waypoint.waypoint_type == 'climbing_outdoor' || waypoint.waypoint_type == 'climbing_indoor'"
+                 ng-class="{ 'has-error': editForm.climbing_rating_max.$touched && editForm.climbing_rating_max.$invalid, 'has-success': editForm.climbing_rating_max.$valid }">
+              <label><span translate>climbing_rating_max</span></label><br>
+              <select ng-model="waypoint.climbing_rating_max" ng-options="rat as rat for rat in ${climbing_ratings}" class="form-control"></select>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.climbing_rating_max"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.climbing_rating_max.$invalid && editForm.climbing_rating_max.$touched"></span>
+            </div>
+
+            ## CLIMBING RATING MEDIAN
+            <div class="form-group data half rating" ng-if="waypoint.waypoint_type == 'climbing_outdoor' || waypoint.waypoint_type == 'climbing_indoor'"
+                 ng-class="{ 'has-error': editForm.climbing_rating_median.$touched && editForm.climbing_rating_median.$invalid, 'has-success': editForm.climbing_rating_median.$valid }">
+              <label><span translate>climbing_rating_median</span></label><br>
+              <select ng-model="waypoint.climbing_rating_median" ng-options="rat as rat for rat in ${climbing_ratings}" class="form-control"></select>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.climbing_rating_median"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.climbing_rating_median.$invalid && editForm.climbing_rating_median.$touched"></span>
+            </div>
+
+          </div>
+        </section>
+
+        ## ACCESS
+        <section class="section access" ng-if="waypoint.waypoint_type == 'access' || waypoint.waypoint_type == 'local_product' || waypoint.waypoint_type == 'climbing_outdoor' || waypoint.waypoint_type == 'hut' || waypoint.waypoint_type == 'camp_site'">
+          <h2 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#edit-access"><span translate>access</span><span class="glyphicon glyphicon-menu-down"></span></h2>
+          <div class="content collapse in" id="edit-access">
+
+            ## ACCESS PERIOD
+            <div id="access-period" class="form-group data full" ng-if="waypoint.waypoint_type == 'access' || waypoint.waypoint_type == 'local_product' || waypoint.waypoint_type == 'hut' || waypoint.waypoint_type == 'gite' || waypoint.waypoint_type == 'camp_site'">
+              <label translate>access_period</label>
+              <article> 
+                <textarea name="access_period" ng-model="waypoint.locales[0].access_period" class="form-control" placeholder="{{'Describe access_period'|translate}}"></textarea>
+              </article>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.locales[0].access_period"></span>
+            </div>
+
+            ## ACCESS
+            <div class="form-group data full" ng-if="waypoint.waypoint_type == 'access' || waypoint.waypoint_type == 'local_product'">
+              <label translate>access</label>
+              <textarea name="access" ng-model="waypoint.locales[0].access" class="form-control" placeholder="{{'Describe access'|translate}}"></textarea>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.locales[0].access"></span>
+            </div>
+
+            ## ACCESS TIME
+            <div class="form-group data half" ng-if="waypoint.waypoint_type == 'climbing_outdoor'">
+              <label translate>access_time</label>
+              <select class="form-control" ng-model="waypoint.access_time" ng-options="time as time for time in ${access_times}"></select>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.locales[0].access_period"></span>
+            </div>
+
+            ## BEST PERIODS
+            <div class="form-group data half" ng-if="waypoint.waypoint_type == 'climbing_outdoor'">
+              <label translate>best_periods</label>
+              <ul class="types data half long">
+                <li ng-click="editCtrl.pushToArray(waypoint, 'best_periods', month, $event)" ng-repeat="month in ${months}">
+                  <div class="checkbox"><input type="checkbox" ng-checked="waypoint.best_periods.indexOf(month) > - 1"><span x-translate>{{month}}</span></div>
+                </li>
+              </ul>
+            </div>
+
+          </div>
+        </section>
+
+        ## TRANSPORTS
+        <section class="section transports" ng-if="waypoint.waypoint_type == 'access'">
+          <h2 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#edit-transports"><span translate>transports</span><span class="glyphicon glyphicon-menu-down"></span></h2>
+          <div class="content collapse in" id="edit-transports">
+
+            ## PUBLIC TRANSPORT TYPES
+            <div class="form-group data half">
+              <label translate>public_transportation_types</label>
+              <ul class="types">
+                <li ng-repeat="type in ${public_transportation_types}" ng-click="editCtrl.pushToArray(waypoint, 'public_transportation_types', type, $event)">
+                  <div class="checkbox">
+                    <input type="checkbox" ng-checked="waypoint.public_transportation_types.indexOf(type) > - 1"><span x-translate>{{type}}</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            ## PUBLIC TRANSPORT RATINGS
+            <div class="form-group data half">
+              <label translate>public_transportation_ratings</label>
+              <div class="input-group">
+                <select class="form-control" ng-options="rat as mainCtrl.translate(rat) for rat in ${public_transportation_ratings}" ng-model="waypoint.public_transportation_rating"></select>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.public_transportation_rating"></span>
+            </div>
+
+            ## SNOW CLEARANCE RATINGS
+            <div class="form-group data half">
+              <label translate>snow_clearance_ratings</label>
+              <div class="input-group">
+                <select class="form-control" ng-options="rat as mainCtrl.translate(rat) for rat in ${snow_clearance_ratings}" ng-model="waypoint.snow_clearance_rating"></select>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.snow_clearance_rating"></span>
+            </div>
+
+            ## LIFT ACCESS
+            <div class="form-group data half">
+              <label translate>lift_access</label>
+              <div class="input-group">
+                <select class="form-control" ng-model="waypoint.lift_access">
+                  <option value="true"><span translate>yes</span></option>
+                  <option value="false"><span translate>no</span></option>
+                </select>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-resize-vertical"></span></span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.lift_access"></span>
+            </div>
+
+            ## PARKING FEE TYPES
+            <div class="form-group data half">
+              <label translate>parking_fee_types</label>
+              <select ng-options="type as mainCtrl.translate(type) for type in ${parking_fee_types}" ng-model="waypoint.parking_fee" class="form-control"></select>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.parking_fee"></span>
+            </div>
+          </div>
+        </section>
+
+        ## EQUIPMENT
+        <section class="section equipment" ng-if="waypoint.waypoint_type == 'hut' || waypoint.waypoint_type == 'shelter'">
+          <h2 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#edit-equipment"><span translate>Equipment</span><span class="glyphicon glyphicon-menu-down"></span></h2>
+          <div class="content collapse in" id="edit-equipment">
+
+            ## MATRESS 
+            <div class="form-group data">
+              <label translate>matress_unstaffed</label>
+              <label class="yes-no-radio"><input type="radio" ng-model="waypoint.matress_unstaffed" value="true"><span translate>Yes</span></label><br/>
+              <label class="yes-no-radio"><input type="radio" ng-model="waypoint.matress_unstaffed" value="false"><span translate>No</span></label><br/>
+            </div>
+
+            ## BLANKET
+            <div class="form-group data">
+              <label translate>blanket_unstaffed</label>
+              <label class="yes-no-radio"><input type="radio" ng-model="waypoint.blanket_unstaffed" value="true"><span translate>Yes</span></label><br/>
+              <label class="yes-no-radio"><input type="radio" ng-model="waypoint.blanket_unstaffed" value="false"><span translate>No</span></label><br/>
+            </div>
+
+            ## GAS
+            <div class="form-group data">
+              <label translate>gas_unstaffed</label>
+              <label class="yes-no-radio"><input type="radio" ng-model="waypoint.gas_unstaffed" value="true"><span translate>Yes</span></label><br/>
+              <label class="yes-no-radio"><input type="radio" ng-model="waypoint.gas_unstaffed" value="false"><span translate>No</span></label><br/>
+            </div>
+
+            ## HEATING
+            <div class="form-group data">
+              <label translate>heating_unstaffed</label>
+              <label class="yes-no-radio"><input type="radio" ng-model="waypoint.heating_unstaffed" value="true"><span translate>Yes</span></label><br/>
+              <label class="yes-no-radio"><input type="radio" ng-model="waypoint.heating_unstaffed" value="false"><span translate>No</span></label><br/>
+            </div>
+
+          </div>
+        </section>
       </div>
-      <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.elevation.$valid"></span>
-      <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.elevation.$invalid && editForm.elevation.$touched"></span>
-      <div class="help-block" ng-messages="editForm.elevation.$error">
-        <p ng-message="required" class="label label-danger" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : '' }}" translate>This field is required.</p>
-        <p ng-message="max" class="label label-danger" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : '' }}" translate>This field must be smaller than 9999 m.</p>
-        <p ng-message="number" class="label label-danger" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
+
+
+      ## DESCRIPTION
+      <div class="step step-{{editCtrl.max_steps -1}}">
+
+        <section class="section description">
+          <h2 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#edit-description" ><span translate>description</span><span class="glyphicon glyphicon-menu-down"></span></h2>
+          <div class="content collapse in" id="edit-description">
+
+            ## SUMMARY
+            <div id="summary-group" class="form-group data">
+              <label translate>summary</label>
+              <textarea name="summary" ng-model="waypoint.locales[0].summary" rows="4" class="form-control"></textarea>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.locales[0].summary"></span>
+            </div>
+
+            ## DESCRIPTION
+            <div id="description-group" class="form-group data">
+              <label translate>description</label>
+              <textarea name="description" ng-model="waypoint.locales[0].description" class="form-control" placeholder="{{'Describe here the waypoint'|translate}}"></textarea>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.locales[0].description"></span>
+            </div>
+          </div>
+        </section>
+
+        ## CONTACT
+        <section class="section contact" ng-if="waypoint.waypoint_type == 'climbing_indoor' || waypoint.waypoint_type == 'local_product' || waypoint.waypoint_type == 'gite' || waypoint.waypoint_type == 'webcam'
+                  || waypoint.waypoint_type == 'local_product' || waypoint.waypoint_type == 'camp_site' || waypoint.waypoint_type == 'hut' || waypoint.waypoint_type == 'weather_station' || waypoint.waypoint_type == 'climbing_indoor' || waypoint.waypoint_type == 'climbing_outdoor'">
+          <h2 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#edit-contact" ><span translate>Contact</span><span class="glyphicon glyphicon-menu-down"></span></h2>
+          <div class="content collapse in" id="edit-contact">
+
+            ## URL
+            <div class="form-group data half" ng-if="waypoint.waypoint_type == 'climbing_indoor' || waypoint.waypoint_type == 'local_product'
+                      || waypoint.waypoint_type == 'gite' || waypoint.waypoint_type == 'camp_site' || waypoint.waypoint_type == 'hut' || waypoint.waypoint_type == 'weather_station'
+                      || waypoint.waypoint_type == 'climbing_outdoor' || waypoint.waypoint_type == 'webcam'">
+              <label><span translate>url</span> <span ng-if="waypoint.waypoint_type == 'webcam' || waypoint.waypoint_type == 'weather_station'">*</span></label>
+              <div class="input-group">
+                <input type="text" name="message" ng-model="waypoint.url" class="form-control" placeholder="www.adress.com" ng-required="['webcam', 'weather_station']. indexOf(waypoint.waypoint_type) > -1"/>
+                <span class="input-group-addon">@</span>
+              </div>
+            </div>
+
+            ## PHONE
+            <div class="form-group data half" ng-if="waypoint.waypoint_type == 'climbing_indoor' || waypoint.waypoint_type == 'local_product' || waypoint.waypoint_type == 'gite'
+                      || waypoint.waypoint_type == 'local_product' || waypoint.waypoint_type == 'camp_site' || waypoint.waypoint_type == 'hut'">
+              <label translate>phone</label>
+              <div class="input-group">
+                <input type="tel" name="message" ng-model="waypoint.phone" class="form-control " placeholder="phone" />
+                <span class="input-group-addon"><span class="glyphicon glyphicon-earphone"></span></span>
+              </div>
+            </div>
+
+            ## PHONE CUSTODIAN
+            <div class="form-group data half" ng-if="waypoint.waypoint_type == 'camp_site' || waypoint.waypoint_type == 'hut' || waypoint.waypoint_type == 'gite'">
+              <label translate>phone_custodian</label>
+              <div class="input-group">
+                <input type="tel" name="message" ng-model="waypoint.phone_custodian" class="form-control " placeholder="phone_custodian" />
+                <span class="input-group-addon"><span class="glyphicon glyphicon-earphone"></span></span>
+              </div>
+            </div>
+
+            ## CUSTODIANSHIP
+            <div class="form-group data half" ng-if="waypoint.waypoint_type == 'gite' || waypoint.waypoint_type == 'hut' || waypoint.waypoint_type == 'camp_site'">
+              <label><span translate>custodianship</span> <span ng-if="waypoint.waypoint_type == 'gite' || waypoint.waypoint_type == 'camp_site' || waypoint.waypoint_type == 'hut'">*</span></label>
+              <input type="tel" name="message" ng-model="waypoint.custodianship" class="form-control " placeholder="custodianship" ng-required="['gite', 'camp_site', 'hut'].indexOf(waypoint.waypoint_type) > -1"/>
+              <div class="help-block" ng-messages="editForm.custodianship.$error">
+                <p ng-message="number" style="{{ (editForm.custodianship.$invalid && editForm.custodianship.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
+                <p ng-message="required" style="{{ (editForm.custodianship.$invalid && editForm.custodianship.$touched) ? 'display:inline' : ''}}" translate>This field is required.</p>
+              </div>
+            </div>
+
+          </div>
+        </section>
       </div>
-    </div>
-    <div id="longitude-group" class="form-group" 
-         ng-class="{ 'has-error': editForm.longitude.$touched && editForm.longitude.$invalid,
-                                'has-success': editForm.longitude.$valid }">
-      <label><span translate>Longitude</span> *</label> 
-     <div class="input-group">
-        <input type="number" name="longitude" ng-model="waypoint.lonlat.longitude" ng-change="editCtrl.updateMap()" class="form-control" required min="-180" max="180"/>
-        <span class="input-group-addon">°E</span>
+
+      ##SUMMARY
+      <div class="step step-{{editCtrl.max_steps}}">
+        <section class="section summary">
+          <h2 class="heading show-phone"><span translate>summary</span></span></h2>
+          <div class="content collapse in">
+            <%include file="create_edit_summary.html" />
+
+            % if updating_doc:
+            <div id="message-group" class="form-group data">
+              <label translate>Comment about the changes</label>
+              <input type="text" name="message" ng-model="route.message" class="form-control" placeholder="{{'Short description of the applied changes'|translate}}" />
+            </div>
+            % endif
+            
+          </div>
+        </section>
+        
+        <p class="bottom-btns">
+          <button type="submit" class="btn btn-primary btn-lg" ng-disabled="editForm.$invalid || editForm.$pristine" translate>Save</button>
+          <%
+          view_url = request.route_url('waypoints_view', id=waypoint_id, lang=waypoint_lang) if updating_doc else ''
+          index_url = request.route_url('waypoints_index_default')
+          %>
+          <button type="button" class="btn btn-default btn-lg" ng-click="editCtrl.cancel('${view_url}', '${index_url}')" translate>Cancel</button>
+        </p>
       </div>
-      <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.longitude.$valid"></span>
-      <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.longitude.$invalid && editForm.longitude.$touched"></span>
-       <div class="help-block" ng-messages="editForm.longitude.$error">
-        <p ng-message="required" class="label label-danger" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : '' }}" translate>This field is required.</p>
-        <p ng-message="number" class="label label-danger" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
-        <p ng-message="min" class="label label-danger" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : '' }}" translate>This field must be between -180° and 180°.</p>
-        <p ng-message="max" class="label label-danger" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : '' }}" translate>This field must be between -180° and 180°.</p>
-      </div>
-    </div>
-    <div id="latitude-group" class="form-group" 
-         ng-class="{ 'has-error': editForm.latitude.$touched && editForm.latitude.$invalid,
-                                'has-success': editForm.latitude.$valid }">
-      <label><span translate>Latitude</span> *</label>
-      <div class="input-group">
-        <input type="number" name="latitude" ng-model="waypoint.lonlat.latitude" ng-change="editCtrl.updateMap()" class="form-control" required min="-90" max="90" />
-        <span class="input-group-addon">°N</span>
-      </div>
-      <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.latitude.$valid"></span>
-      <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.latitude.$invalid && editForm.latitude.$touched"></span>
-      <div class="help-block" ng-messages="editForm.latitude.$error">
-        <p ng-message="required" class="label label-danger" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : '' }}" translate>This field is required.</p>
-        <p ng-message="number" class="label label-danger" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
-        <p ng-message="min" class="label label-danger" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : '' }}" translate>This field must be between -90° and 90°.</p>
-        <p ng-message="max" class="label label-danger" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : '' }}" translate>This field must be between -90° and 90°.</p>
-      </div>
-    </div>
-    <div id="maps_info-group" class="form-group">
-      <label translate>maps_info</label>
-      <input type="text" name="maps_info" ng-model="waypoint.maps_info" class="form-control" />
-      <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.maps_info"></span>
-    </div>
-    <div id="summary-group" class="form-group">
-      <label translate>summary</label>
-      <textarea name="summary" ng-model="waypoint.locales[0].summary" class="form-control"></textarea>
-      <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.locales[0].summary"></span>
-    </div>
-    <div id="description-group" class="form-group">
-      <label translate>description</label>
-      <textarea name="description" ng-model="waypoint.locales[0].description" class="form-control" placeholder="{{'Describe here the waypoint'|translate}}"></textarea>
-      <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.locales[0].description"></span>
-    </div>
-    % if updating_doc:
-    <div id="message-group" class="form-group">
-      <label translate>Comment about the changes</label>
-      <input type="text" name="message" ng-model="route.message" class="form-control" placeholder="{{'Short description of the applied changes'|translate}}" />
-    </div>
-    % endif
-    <p>
-      <button type="submit" class="btn btn-primary" ng-disabled="editForm.$invalid || editForm.$pristine" translate>Save</button>
-      <%
-      view_url = request.route_url('waypoints_view', id=waypoint_id, lang=waypoint_lang) if updating_doc else ''
-      index_url = request.route_url('waypoints_index_default')
-      %>
-      <button type="button" class="btn btn-default" ng-click="editCtrl.cancel('${view_url}', '${index_url}')" translate>Cancel</button>
-    </p>
-    <app-map app-map-edit-ctrl="editCtrl" app-map-draw-type="Point"></app-map>
+
+    </section>
   </form>
 </section>
