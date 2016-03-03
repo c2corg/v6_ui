@@ -195,7 +195,7 @@
 <%def name="get_waypoint_access(waypoint, locale)">\
   % if locale.get('access_period') or waypoint.get('access_period') or waypoint.get('access_time') or \
    waypoint.get('best_periods') or  waypoint.get('public_transportation_types') or  waypoint.get('public_transportation_rating') or \
-   waypoint.get('parking_fee') or waypoint.get('snow_clearance_rating') or waypoint.get('lift_access') :
+   waypoint.get('parking_fee') or waypoint.get('snow_clearance_rating') or waypoint.get('lift_access') or waypoint.get('routes_quantity') :
 
   <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
     <h4><span translate>Access</span><span class="glyphicon glyphicon-menu-right"></span></h4>
@@ -209,7 +209,7 @@
         <p><span translate>access_period</span>: <b>${locale['access_period']}</b></p>
       % endif
 
-      % if waypoint.get('access_period'):
+      % if waypoint.get('routes_quantity'):
         <p><span translate>routes_quantity</span>: <b>${waypoint['routes_quantity']}</b></p>
       % endif
 
@@ -220,7 +220,7 @@
       % if waypoint.get('best_periods'):
       <article>
         <b translate>best_periods</b><br>
-        <ul>
+        <ul class="types">
           % for month in waypoint['best_periods'] :
           <li x-translate>${month}</li>
           % endfor
@@ -393,3 +393,20 @@
     </div>
   % endif
 </%def>
+
+## ORIENTATION  
+<%def name="get_waypoint_orientation(waypoint)">\
+  % if waypoint.get('orientation') :
+    <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
+      <h4><span translate>orientation</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+      <div class="name-icon">
+        <span class="glyphicon glyphicon-move"></span>
+        <p translate>orientation</p>
+      </div>
+      <span class="detail-text accordion" id="detail-orientation" ng-init="waypoint.orientation = ${waypoint.get('orientation')}">
+         <%include file="c2corg_ui:static/img/orientation.svg" />
+      </span>
+    </div>
+  % endif
+</%def>
+if

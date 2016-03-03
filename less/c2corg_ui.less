@@ -9,15 +9,17 @@
 @import "stickyfilters.less";
 @import "filters.less";
 @import "documentdetailsview.less";
+@import "documentedit.less";
 @import "variables.less";
 
 
 html, body{
   padding: 0;
   margin: 0;
-  min-height:  100%;
-  min-width: 100%;
+  width: 100%;
+  overflow-x: hidden;
   background-color: rgba(235,228,209,.1);
+
 }
 
 .ol-zoom {
@@ -121,13 +123,6 @@ h1 {
   font-size: 3em;
 }
 
-.form-control-feedback {
-  position: relative;
-  top: -34px;
-  left: 102%;
-  width: 14px;
-  height:14px;
-}
 
 .glyphicon-ok {
   color: #3c763d !important;
@@ -243,7 +238,9 @@ main {
      box-shadow: 0 4px 10px #D5D5D5;
     margin-top: 1%;
     margin-bottom: 1%;
-    
+    >span {
+      pointer-events: none;
+    }
     &.informations {
       border-radius: 0;
       font-size: 1.5em;
@@ -326,26 +323,16 @@ main {
   }
 }
 .help-block {
-  margin-top: -6px;
-  
+  margin-top: -13px;
+  position: absolute;
   p {
-    font-size: 1em;
-    color: white;
     display: none;
+    font-size: 1em;
+    color: #B70000 !important;
   }
 }
 
-.document-editing {
-  width: 80%;
-  margin: auto;
-  @media @tablet {
-    width: 85%;
-  }
-  @media @phone {
-    width: 89%;
-    margin-left: 15px;
-  }
-}
+
 
 .list {
   width:100%;
@@ -895,26 +882,6 @@ app-alerts {
 
 }
 
-.create-edit-document {
-  margin-top: @page-header-height;
-  @media @tablet {
-    margin-top: -20px;
-  }
-  @media @phone {
-    margin-top: 50px;
-  }
-  h1 {
-    @media @tablet {
-      font-size: 2.3em;
-      margin-top: 35px;
-    }
-    @media @phone {
-      font-size: 1.8em;
-      padding-top: 10px;
-    }
-  }
-}
-
 .archive-data {
   div {
     display: table;
@@ -967,4 +934,8 @@ app-alerts {
         display: none;
       }
     }
+  }
+  
+  button:focus {
+    outline: none !important;
   }

@@ -285,11 +285,10 @@
       .flex();
       flex-basis: 33.33%;
       padding: 0;
-      min-height: 130px;
+      min-height: 110px;
       background-color: white;
       border-bottom: 1px solid #dfd6c5;
       transition: 0.3s;
-      margin: auto;
 
       @media @big {
         padding-top: 2%;
@@ -310,9 +309,7 @@
         &:not(:first-of-type) {
           border-top: 1px solid #dfd6c5;
         }
-      }
-
-    
+      }    
       &.location {
         display: none;
         @media @phone {
@@ -463,7 +460,7 @@ app-add-association {
 
 }
 
-.view-details-description, .view-details-other,  .view-details-info, .view-details-associations, .view-details-photos, .view-details-informations{
+.view-details-description, .view-details-other,  .view-details-info, .view-details-associations, .view-details-photos, .view-details-informations {
   ul li {
     list-style: none;
     &:before {
@@ -476,6 +473,11 @@ app-add-association {
       color: @brand-success;
     }
   }
+  ul.types li {
+    width: 50%;
+    float: left;
+  }
+  
 }
 
 .scroll-top-btn {
@@ -511,51 +513,7 @@ app-add-association {
   @media @desktop {
      right: 50px;
   }
-  .pin {
-    background-color: #aaa;
-    display: block;
-    height: 32px;
-    width: 2px;
-    position: absolute;
-    left: 50%;
-    top: -20px;
-    z-index: 1;
 
-    &:after {
-      background-color: #A31;
-      background-image: radial-gradient(25% 25%, circle, hsla(0,0%,100%,.3), hsla(0,0%,0%,.3));
-      border-radius: 50%;
-      box-shadow: inset 0 0 0 1px hsla(0,0%,0%,.1),
-        inset 3px 3px 3px hsla(0,0%,100%,.2),
-        inset -3px -3px 3px hsla(0,0%,0%,.2),
-        23px 20px 3px hsla(0,0%,0%,.15);
-      content: '';
-      height: 12px;
-      left: -5px;
-      position: absolute;
-      top: -10px;
-      width: 12px;
-    }
-    &:before {
-      background-color: hsla(0,0%,0%,0.1);
-      box-shadow: 0 0 .25em hsla(0,0%,0%,.1);
-      content: '';
-      height: 24px;
-      width: 2px;
-      left: 0;
-      position: absolute;
-      top: 8px;
-      transform: rotate(57.5deg);
-      -moz-transform: rotate(57.5deg);
-      -webkit-transform: rotate(57.5deg);
-      -o-transform: rotate(57.5deg);
-      -ms-transform: rotate(57.5deg);
-      transform-origin: 50% 100%;
-      -moz-transform-origin: 50% 100%;
-      -webkit-transform-origin: 50% 100%;
-      -o-transform-origin: 50% 100%;
-    }
-  }
   p {
     margin-top: 2px;
     margin-bottom: 0;
@@ -590,3 +548,13 @@ app-add-association {
      display: block;
   }
 }
+#detail-orientation {
+  .flex();
+  justify-content: center;
+  #orientation-svg{
+    height: 110px;
+    width: 110px;
+    margin-bottom: 10px;
+  }
+}
+

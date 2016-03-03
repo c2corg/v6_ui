@@ -3,7 +3,7 @@ from c2corg_ui.templates.utils import get_lang_lists
 %>
 <%inherit file="../base.html"/>
 <%namespace file="../helpers/common.html" import="show_title"/>
-<%namespace file="helpers/detailed_waypoint_attributes.html" import="get_waypoint_equipment, get_waypoint_contact, get_waypoint_style, get_waypoint_rating, get_waypoint_access, get_waypoint_heights, get_waypoint_location, get_waypoint_general, get_waypoint_maps_info"/>
+<%namespace file="helpers/detailed_waypoint_attributes.html" import="get_waypoint_equipment, get_waypoint_orientation, get_waypoint_contact, get_waypoint_style, get_waypoint_rating, get_waypoint_access, get_waypoint_heights, get_waypoint_location, get_waypoint_general, get_waypoint_maps_info"/>
 <%namespace file="../helpers/view.html" import="show_attr, show_short_attr, show_missing_langs_links,
     show_other_langs_links, show_archive_data, show_route_title, show_associated_waypoints,
     show_associated_routes, show_areas, show_maps, show_float_buttons"/>
@@ -84,11 +84,12 @@ module.value('mapFeatureCollection', {
   </uib-tabset>
   
   <div class="thumbnail view-details-informations col-xs-12 tab">
-    <h3 class="heading informations" data-toggle="collapse" data-target="#document-informations">
+    <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
       <span translate>Informations</span><span class="glyphicon glyphicon-menu-down"></span>
     </h3>
     <section id="document-informations" class="collapse in">
       ${get_waypoint_general(waypoint)}
+      ${get_waypoint_orientation(waypoint)}
       ${get_waypoint_location(waypoint, geometry4326)}
       ${get_waypoint_contact(waypoint)}
       ${get_waypoint_maps_info(waypoint)}
@@ -97,9 +98,9 @@ module.value('mapFeatureCollection', {
       ${get_waypoint_equipment(waypoint)}
       ${get_waypoint_style(waypoint)}
       ${get_waypoint_access(waypoint, locale)}
+  
     </section>
   </div>
-    
   
   ## DESCRIPTION
   <div class="view-details-description col-xs-12 tab ">
@@ -162,7 +163,7 @@ module.value('mapFeatureCollection', {
       <section>
         % if 'waypoints' in waypoint['associations'] and  len(waypoint['associations']['waypoints']) > 0 :
         <article>
-          <h3 class="heading show-phone" data-toggle="collapse" data-target="#associated-waypoints">
+          <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-waypoints">
             <span class="glyphicon glyphicon-map-marker"></span>
             <span translate>Associated waypoints</span><span class="glyphicon glyphicon-menu-down"></span>
           </h3>
@@ -176,7 +177,7 @@ module.value('mapFeatureCollection', {
         % endif
         % if 'routes' in waypoint['associations'] and  len(waypoint['associations']['routes']) > 0 :
         <article>
-          <h3 class="heading show-phone" data-toggle="collapse" data-target="#associated-routes">
+          <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-routes">
             <span class="glyphicon glyphicon-road"></span>
             <span translate>Associated routes</span><span class="glyphicon glyphicon-menu-down"></span>
           </h3>
@@ -194,7 +195,7 @@ module.value('mapFeatureCollection', {
   % endif
 
   <div class="text-center col-xs-12">
-    <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);"><span translate>To page head</span><span class="glyphicon glyphicon-menu-up"></span></button>
+    <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);"><span translate>To page head</span>&nbsp;<span class="glyphicon glyphicon-menu-up"></span></button>
   </div>
 </section>
 
