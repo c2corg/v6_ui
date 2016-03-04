@@ -81,7 +81,6 @@ class Document(object):
     def _get_document(self, id, lang):
         url = '%s/%d?l=%s' % (self._API_ROUTE, id, lang)
         resp, document = self._call_api(url)
-        # TODO: better error handling
         if resp['status'] == '404':
             raise HTTPNotFound()
         elif resp['status'] != '200':
@@ -99,7 +98,6 @@ class Document(object):
     def _get_archived_document(self, id, lang, version_id):
         url = '%s/%d/%s/%d' % (self._API_ROUTE, id, lang, version_id)
         resp, content = self._call_api(url)
-        # TODO: better error handling
         if resp['status'] == '404':
             raise HTTPNotFound()
         elif resp['status'] != '200':
@@ -125,13 +123,12 @@ class Document(object):
 
         # Inject default list filters params:
         filters = dict(self._DEFAULT_FILTERS, **{k: v for k, v in params})
-        # TODO: better error handling
         if resp['status'] == '200':
             documents = content['documents']
             total = content['total']
         else:
-            documents = []
-            total = 0
+            raise HTTPInternalServerError(
+                "An error occured while loading the results")
         return documents, total, filters, lang
 
     def _get_filter_params(self):
