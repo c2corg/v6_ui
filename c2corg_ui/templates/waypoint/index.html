@@ -1,5 +1,5 @@
 <%inherit file="../base.html"/>
-<%namespace file="../helpers/common.html" import="show_title"/>
+<%namespace file="../helpers/common.html" import="show_title, show_api_error"/>
 <%namespace file="../helpers/list.html" import="add_pagination_links"/>
 <%namespace file="../helpers/view.html" import="show_attr"/>
 
@@ -91,3 +91,4 @@ window.onload = function(){
   app.stickyFilters();
 }
 </script>
+${show_api_error(error)}

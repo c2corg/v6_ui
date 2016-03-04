@@ -125,14 +125,15 @@ class Document(object):
 
         # Inject default list filters params:
         filters = dict(self._DEFAULT_FILTERS, **{k: v for k, v in params})
-        # TODO: better error handling
         if resp['status'] == '200':
             documents = content['documents']
             total = content['total']
+            error = ''
         else:
             documents = []
             total = 0
-        return documents, total, filters, lang
+            error = 'API failed responding'
+        return documents, total, filters, lang, error
 
     def _get_filter_params(self):
         """This function is used to parse the filters provided in URLs such as
