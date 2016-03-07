@@ -162,7 +162,8 @@ apache/app-c2corg_ui.wsgi: production.ini
 
 apache/wsgi.conf: apache/app-c2corg_ui.wsgi
 
-%: %.in $(CONFIG_MAKEFILE)
+.PHONY: $(TEMPLATE_FILES)
+$(TEMPLATE_FILES): %: %.in $(CONFIG_MAKEFILE)
 	scripts/env_replace < $< > $@
 	chmod --reference $< $@
 	sed -i 's|__CLOSURE_LIBRARY_PATH__|$(CLOSURE_LIBRARY_PATH)|g' $@
