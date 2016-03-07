@@ -45,7 +45,7 @@ help:
 check: flake8 lint build test
 
 .PHONY: build
-build: c2corg_ui/static/build/build.js less compile-catalog
+build: c2corg_ui/static/build/build.js less compile-catalog $(TEMPLATE_FILES)
 
 .PHONY: clean
 clean:
