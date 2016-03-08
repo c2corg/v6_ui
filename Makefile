@@ -1,7 +1,6 @@
 SITE_PACKAGES = $(shell .build/venv/bin/python -c "import distutils; print(distutils.sysconfig.get_python_lib())" 2> /dev/null)
 TEMPLATE_FILES_IN = $(filter-out ./.build/% ./node_modules/% ./v6_api/%, $(shell find . -type f -name '*.in'))
 TEMPLATE_FILES = $(TEMPLATE_FILES_IN:.in=)
-CONFIG_MAKEFILE = $(shell find config -type f)
 CLOSURE_UTIL_PATH := openlayers/node_modules/closure-util
 CLOSURE_LIBRARY_PATH = $(shell node -e 'process.stdout.write(require("$(CLOSURE_UTIL_PATH)").getLibraryPath())' 2> /dev/null)
 CLOSURE_COMPILER_PATH = $(shell node -e 'process.stdout.write(require("$(CLOSURE_UTIL_PATH)").getCompilerPath())' 2> /dev/null)
@@ -163,7 +162,7 @@ apache/app-c2corg_ui.wsgi: production.ini
 apache/wsgi.conf: apache/app-c2corg_ui.wsgi
 
 .PHONY: $(TEMPLATE_FILES)
-$(TEMPLATE_FILES): %: %.in $(CONFIG_MAKEFILE)
+$(TEMPLATE_FILES): %: %.in
 	scripts/env_replace < $< > $@
 	chmod --reference $< $@
 	sed -i 's|__CLOSURE_LIBRARY_PATH__|$(CLOSURE_LIBRARY_PATH)|g' $@
