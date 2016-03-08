@@ -97,15 +97,28 @@
 
 <%def name="show_associated_routes(document)">\
 
-    % for r in document['associations']['routes']:
+    % for route in document['associations']['routes']:
 
     <div class="list-item">
-      % if 'title_prefix' in r['locales'][0] and r.locales[0]['title_prefix']:
-        <a href="${request.route_url('routes_view', id=r['document_id'], lang=r['locales'][0]['lang'])}">${r['locales'][0]['title']}</a>
+      % if 'title_prefix' in route['locales'][0] and route.locales[0]['title_prefix']:
+        <a href="${request.route_url('routes_view', id=route['document_id'], lang=route['locales'][0]['lang'])}">${route['locales'][0]['title']}</a>
       % else :
-        <a href="${request.route_url('routes_view', id=r['document_id'], lang=r['locales'][0]['lang'])}">${r['locales'][0]['title']}</a>
+        <a class="item-title" href="${request.route_url('routes_view', id=route['document_id'], lang=route['locales'][0]['lang'])}">${route['locales'][0]['title']}
+          <div class="route-activities">
+            ${get_route_activities(route, 'top')}
+          </div>
+          <div>
+            % if route.get('elevation_min') and route.get('elevation_max'):
+            <p><b translate>elevation</b>  min ${route['elevation_min']} / max ${route['elevation_max']}</p>
+            %  elif route.get('elevation_min') and not route.get('elevation_max'): 
+            <p><b translate>elevation</b>  min ${route['elevation_min']}</p>
+            % else :
+            <p><b translate>elevation</b>  min ${route['elevation_max']}</p>
+             % endif
+          </div>
+        </a>
       % endif
-      <app-delete-association parent-id="${document['document_id']}" child-id="${r['document_id']}"></app-delete-association>
+      <app-delete-association parent-id="${document['document_id']}" child-id="${route['document_id']}"></app-delete-association>
     </div>
     % endfor
 </%def>
@@ -114,7 +127,7 @@
   % if document.get('maps') and len(document['maps']) > 0:
     <ul>
       % for m in document['maps']:
-        <li class="text-left">${m['code']} - ${m['editor']} -  ${m['locales'][0]['title']}</li>
+        <li class="text-left">${m['editor']} - ${m['code']} -  ${m['locales'][0]['title']}</li>
       % endfor
     </ul>
   % else :
@@ -170,4 +183,13 @@
     </div>
   </div>
 
+</%def>
+
+<%def name="get_route_activities(route, tooltipPosition)">\
+  % if 'activities' in route and route.get('activities'): 
+    % for activity in route['activities'] :
+     ## all activities are stacked one upon another and only the #target is displayed
+       <span class="route-activity icon-${activity}" uib-tooltip="{{ mainCtrl.translate('${activity}') }}" tooltip-placement="${tooltipPosition}"></span>
+    % endfor 
+  % endif
 </%def>
