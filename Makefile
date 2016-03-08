@@ -148,7 +148,7 @@ c2corg_ui/static/build/templatecache.js: c2corg_ui/templates/templatecache.js .b
 	touch $@
 
 .build/venv/bin/pip:
-	mkdir -p $(dir $@)
+	mkdir -p $(dir .build/venv)
 	virtualenv --no-site-packages -p python3 .build/venv
 
 .build/requirements.timestamp: requirements.txt setup.py .build/venv/bin/pip
