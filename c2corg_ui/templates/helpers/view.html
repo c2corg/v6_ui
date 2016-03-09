@@ -96,9 +96,15 @@
 </%def>
 
 <%def name="show_associated_routes(document)">\
+
     % for r in document['associations']['routes']:
+
     <div class="list-item">
-      <a href="${request.route_url('routes_view', id=r['document_id'], lang=r['locales'][0]['lang'])}">${r['locales'][0]['title']}</a>
+      % if 'title_prefix' in r['locales'][0] and r.locales[0]['title_prefix']:
+        <a href="${request.route_url('routes_view', id=r['document_id'], lang=r['locales'][0]['lang'])}">${r['locales'][0]['title']}</a>
+      % else :
+        <a href="${request.route_url('routes_view', id=r['document_id'], lang=r['locales'][0]['lang'])}">${r['locales'][0]['title']}</a>
+      % endif
       <app-delete-association parent-id="${document['document_id']}" child-id="${r['document_id']}"></app-delete-association>
     </div>
     % endfor
@@ -108,7 +114,7 @@
   % if document.get('maps') and len(document['maps']) > 0:
     <ul>
       % for m in document['maps']:
-        <li class="text-left"><b>${m['editor']}</b><br> ${m['locales'][0]['title']}</li>
+        <li class="text-left">${m['code']} - ${m['editor']} -  ${m['locales'][0]['title']}</li>
       % endfor
     </ul>
   % else :
