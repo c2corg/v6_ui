@@ -34,75 +34,51 @@
     % endif
 
     % if waypoint.get('orientation'):
-      <p><span translate>orientation</span>:</p>
-      % for orient in waypoint['orientation'] :
-        <span x-translate>${orient}</span>
-      % endfor
+      <p>
+        <span translate>orientation</span>:
+       ${', '.join(waypoint['orientation'])}
+      </p>
     % endif
 
     % if waypoint.get('climbing_indoor_types'):
-      <article>
+      <article ng-init="climbing_indoor_types = ${waypoint['climbing_indoor_types']}" class="value">
         <b translate>climbing_indoor_types</b><br>
-        <ul>
-          % for style in waypoint['climbing_indoor_types'] :
-          <li x-translate>${style}</li>
-          % endfor
-        </ul>
+        <span x-translate ng-repeat="type in climbing_indoor_types">{{type}}{{$last ? '' : ', '}}</span>
       </article>
     % endif
 
     % if waypoint.get('rock_types'):
-      <article>
+      <article ng-init="rock_types = ${waypoint['rock_types']}" class="value">
         <b translate>rock_types</b><br>
-        <ul>
-          % for type in waypoint['rock_types'] :
-          <li x-translate>${type}</li>
-          % endfor
-        </ul>
+        <span x-translate ng-repeat="type in rock_types">{{type}}{{$last ? '' : ', '}}</span>
       </article>
     % endif
 
     % if waypoint.get('climbing_outdoor_types') and waypoint['climbing_outdoor_types'][0] != '':
-      <article>
+      <article ng-init="climbing_outdoor_types = ${waypointp['climbing_outdoor_types']}" class="value">
         <b translate>climbing_outdoor_types</b><br>
-        <ul>
-          % for type in waypoint['climbing_outdoor_types'] :
-          <li x-translate>${type}</li>
-          % endfor
-        </ul>
+        <span x-translate ng-repeat="type in climbing_outdoor_types">{{type}}{{$last ? '' : ', '}}</span>
       </article>
     % endif
 
     % if waypoint.get('product_types'):
-      <article>
+      <article ng-init="product_types = ${waypoint['product_types']}" class="value">
         <b translate>product_types</b><br>
-        <ul>
-          % for type in waypoint['product_types'] :
-          <li x-translate>${type}</li>
-          % endfor
-        </ul>
+        <span x-translate ng-repeat="type in product_types">{{type}}{{$last ? '' : ', '}}</span>
       </article>
     % endif
 
     % if waypoint.get('ground_types'):
-      <article>
+      <article ng-init="ground_types = ${waypoint['ground_types']}" class="value">
         <b translate>ground_types</b><br>
-        <ul>
-          % for type in waypoint['ground_types'] :
-          <li x-translate>${type}</li>
-          % endfor
-        </ul>
+        <span x-translate ng-repeat="type in ground_types">{{type}}{{$last ? '' : ', '}}</span>
       </article>
     % endif
 
     % if waypoint.get('weather_station_types'):
-      <article>
+      <article ng-init="weather_station_types = ${waypoint['weather_station_types']}" class="value">
         <b translate>weather_station_types</b><br>
-        <ul>
-          % for type in waypoint['weather_station_types'] :
-          <li x-translate>${type}</li>
-          % endfor
-        </ul>
+        <span x-translate ng-repeat="type in weather_station_types">{{type}}{{$last ? '' : ', '}}</span>
       </article>
     % endif
 
@@ -195,7 +171,7 @@
 <%def name="get_waypoint_access(waypoint, locale)">\
   % if locale.get('access_period') or waypoint.get('access_period') or waypoint.get('access_time') or \
    waypoint.get('best_periods') or  waypoint.get('public_transportation_types') or  waypoint.get('public_transportation_rating') or \
-   waypoint.get('parking_fee') or waypoint.get('snow_clearance_rating') or waypoint.get('lift_access') :
+   waypoint.get('parking_fee') or waypoint.get('snow_clearance_rating') or waypoint.get('lift_access') or waypoint.get('routes_quantity') :
 
   <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
     <h4><span translate>Access</span><span class="glyphicon glyphicon-menu-right"></span></h4>
@@ -209,7 +185,7 @@
         <p><span translate>access_period</span>: <b>${locale['access_period']}</b></p>
       % endif
 
-      % if waypoint.get('access_period'):
+      % if waypoint.get('routes_quantity'):
         <p><span translate>routes_quantity</span>: <b>${waypoint['routes_quantity']}</b></p>
       % endif
 
@@ -218,24 +194,16 @@
       % endif
       
       % if waypoint.get('best_periods'):
-      <article>
+      <article ng-init="best_periods = ${waypoint['best_periods']}" class="value">
         <b translate>best_periods</b><br>
-        <ul>
-          % for month in waypoint['best_periods'] :
-          <li x-translate>${month}</li>
-          % endfor
-        </ul>
+        <span x-translate ng-repeat="type in best_periods">{{type}}{{$last ? '' : ', '}}</span>
       </article>
       % endif
       
       % if waypoint.get('public_transportation_types'):
-      <article>
+      <article ng-init="public_transportation_types = ${waypoint['public_transportation_types']}" class="value">
         <b translate>public_transportation_types</b><br>
-        <ul>
-          % for type in waypoint['public_transportation_types'] :
-          <li x-translate>${type}</li>
-          % endfor
-        </ul>
+        <span x-translate ng-repeat="type in public_transportation_types">{{type}}{{$last ? '' : ', '}}</span>
       </article>
       % endif
       
@@ -252,7 +220,7 @@
       % endif
 
       % if waypoint.get('lift_access'):
-        <p><span translate>lift_access</span>: <b>${waypoint['lift_access']}</b></p>
+      <b x-translate>lift_access</b>
       % endif
     </span>
   </div>
@@ -283,14 +251,7 @@
         % endif
         
         % if waypoint.get('equipment_ratings'):
-        <article>
-          <b translate>equipment_ratings</b><br>
-          <ul>
-            % for activity in waypoint['equipment_ratings'] :
-            <li x-translate>${equipment_ratings}</li>
-            % endfor
-          </ul>
-        </article>
+         <p><span translate>equipment_rating</span>: <b>${waypoint['equipment_ratings']}</b></p>
         % endif
 
         % if waypoint.get('paragliding_rating'):
@@ -316,13 +277,9 @@
       </div>
       <span class="detail-text accordion">
         % if waypoint.get('climbing_styles'):
-        <article>
+        <article ng-init="climbing_styles = ${waypoint['climbing_styles']}" class="value">
           <b translate>climbing_styles</b><br>
-          <ul>
-            % for type in waypoint['climbing_styles'] :
-            <li x-translate>${type}</li>
-            % endfor
-          </ul>
+          <span x-translate ng-repeat="style in climbing_styles">{{style}}{{$last ? '' : ', '}}</span>
         </article>
         % endif
       </span>
@@ -393,3 +350,20 @@
     </div>
   % endif
 </%def>
+
+## ORIENTATION  
+<%def name="get_waypoint_orientation(waypoint)">\
+  % if waypoint.get('orientation') :
+    <div class="name-icon-value orientation" ng-click="detailsCtrl.openTab($event)">
+      <h4><span translate>orientation</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+      <div class="name-icon">
+        <span class="glyphicon glyphicon-move"></span>
+        <p translate>orientation</p>
+      </div>
+      <span class="detail-text accordion" id="detail-orientation" ng-init="waypoint.orientation = ${waypoint.get('orientation')}">
+         <%include file="c2corg_ui:static/img/orientation.svg" />
+      </span>
+    </div>
+  % endif
+</%def>
+if

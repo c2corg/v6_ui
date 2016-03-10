@@ -30,3 +30,42 @@ app.utils.setupSmartScroll = function(mouseWheelZoomInteraction) {
     }, 500);
   });
 };
+
+
+/**
+ * Update arrays and creates one, if not existing
+ * form : object[property] = value
+ * returns true if the item has been pushed into the array, false if removed.
+ * @param {Object} object
+ * @param {string} property
+ * @param {string} value
+ * @export
+ */
+
+app.utils.pushToArray = function(object, property, value) {
+  if (!object[property]) {
+    object[property] = [];
+  }
+  if (object[property].indexOf(value) === -1) {
+    object[property].push(value);
+    return true;
+  } else {
+    object[property].splice(object[property].indexOf(value), 1);
+    return false;
+  }
+}
+
+
+/**
+ * @export
+ */
+app.utils.animateHeaderIcon = function(e) {
+  var menuDown = $(e.target).find('.glyphicon-menu-down');
+  var menuUp = $(e.target).find('.glyphicon-menu-right');
+  if (menuDown) {
+    menuDown.toggleClass('rotate-arrow-up');
+  } else if (menuUp) {
+    menuUp.toggleClass('rotate-arrow-down');
+  }
+  return;
+}

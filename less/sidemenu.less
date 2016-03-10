@@ -2,6 +2,7 @@
 
 .menu-open {
   width: @menu-width !important;
+  will-change: width;
   left: 0 !important;
 
   .menu-text, .logo {
@@ -18,6 +19,7 @@
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
     background-color: slategray;
     width: @menu-width;
+    will-change: width;
     margin: 0;
     position: fixed;
     top: 0;
@@ -51,7 +53,7 @@
     }
     @media @tablet {
       width: @menu-width-tablet;
-
+      will-change: width;
       .menu-text, .logo {
         display: none;
       }

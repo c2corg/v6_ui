@@ -2,7 +2,7 @@ goog.provide('app.searchFiltersDirective');
 goog.provide('app.SearchFiltersController');
 
 goog.require('app');
-
+goog.require('app.utils');
 
 /**
  * Provides the 'searchFiltersDirective' directive, which is used to enrich
@@ -118,50 +118,21 @@ app.SearchFiltersController = function($scope, $element, $attrs) {
  * @param {jQuery.Event | goog.events.Event} e click
  * @export
  */
-app.SearchFiltersController.prototype.selectOption = function(option,
-    optionCategory, e) {
+app.SearchFiltersController.prototype.selectOption = function(option, optionCategory, e) {
 
   // Don't close the menu after selecting an option
   e.stopPropagation();
 
-  // Shorthand
-  var optionCat = this[optionCategory];
-  var target = $(e.currentTarget);
-  var checkbox = target.find('input');
+  var checkbox = $(e.currentTarget).find('input');
+  var pushed = app.utils.pushToArray(this, optionCategory, option);
 
-  // If this property doesn't exit in the scope, create an array and
-  // push the selected option.
-  if (!optionCat) {
-    optionCat = this[optionCategory] = [];
-  }
-  this.updateFilterArray_(optionCat, target, checkbox, option);
-};
-
-
-/**
- * Push/remove the selected option into the scope property (scope_[optionCat])
- * and check/uncheck the checkbox depending if the option is already
- * in the array or not.
- *
- * @param {Array<string>} optionCat
- * @param {jQuery} target
- * @param {jQuery} checkbox
- * @param {string} option
- * @private
- */
-app.SearchFiltersController.prototype.updateFilterArray_ = function(
-    optionCat, target, checkbox, option) {
-
-  if (optionCat.indexOf(option) === -1) {
-    optionCat.push(option);
+  if (pushed) {
+    $(e.currentTarget).addClass('option-selected');
     checkbox.prop('checked', true);
-    target.addClass('option-selected');
   } else {
-    optionCat.splice(optionCat.indexOf(option), 1);
+    $(e.currentTarget).removeClass('option-selected');
     checkbox.prop('checked', false);
-    target.removeClass('option-selected');
   }
 };
-
 
 app.module.controller('appSearchFiltersController', app.SearchFiltersController);
