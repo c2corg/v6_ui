@@ -205,8 +205,8 @@
 
       % endif
 
-      % if route.get('height_diff_down'):
-      <p><span translate>height_diff_down</span>: <b>${route['height_diff_down']} m</b></p>
+      % if route.get('route_length'):
+      <p><span translate>route_length</span>: <b>${route['route_length']/1000} km</b></p>
       % endif
 
       % if route.get('mtb_height_diff_portages'):

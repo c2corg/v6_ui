@@ -1,7 +1,7 @@
 <%inherit file="../base.html"/>
 <%namespace file="../helpers/common.html" import="show_title"/>
 <%namespace file="../helpers/list.html" import="add_pagination_links"/>
-<%namespace file="../helpers/view.html" import="show_attr, show_route_title"/>
+<%namespace file="../helpers/view.html" import="show_attr, show_route_title, get_route_activities"/>
 
 <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Routes')">${show_title('Routes')}</title></%block>
 
@@ -24,6 +24,7 @@
   </div>
     <div class="list">
       % for route in routes:
+      
       <% locale = route['locales'][0] %>\
       <div class="list-item">
         <a href="${request.route_url('routes_view', id=route['document_id'], lang=locale['lang'])}">
@@ -37,6 +38,9 @@
             <span class="list-item-elevation">Elevation: ${route['elevation_max']} m</span>
           % endif
             <p class="text-justify">${show_attr(locale, 'summary')}</p>
+          </div>
+          <div class="route-activities">
+            ${get_route_activities(route, 'right')}
           </div>
         </a>
       </div>

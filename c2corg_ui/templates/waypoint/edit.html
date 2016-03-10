@@ -35,6 +35,7 @@
     <span class="ng-hide">
       {{editCtrl.updateMaxSteps(waypoint.waypoint_type)}} 
       {{editCtrl.waypoint_type = waypoint.waypoint_type}}
+      {{document = waypoint}}
     </span>
 
     ## PROGRESS BAR
@@ -47,9 +48,9 @@
       </li>
       <li class="nav-step-3"  ng-click="editCtrl.step(3, 'waypoint', editCtrl.previous_step >= 3 ? 'backwards' : 'forwards')" ng-if="waypoint.waypoint_type == 'access'
                 || waypoint.waypoint_type == 'local_product' || waypoint.waypoint_type == 'hut' || waypoint.waypoint_type == 'shelter'" >
-        <span class="nav-text">
+        <span nclass="nav-text">
           <span translate ng-if="waypoint.waypoint_type == 'access' || waypoint.waypoint_type == 'local_product' || waypoint.waypoint_type == 'climbing_outdoor' || waypoint.waypoint_type == 'hut'" translate>access</span>
-          <span translate ng-if="waypoint.waypoint_type == 'hut' || waypoint.waypoint_type == 'access'"> & </span>
+          <span ng-if="waypoint.waypoint_type == 'hut' || waypoint.waypoint_type == 'access'"> & </span>
           <span ng-if="waypoint.waypoint_type == 'access'" translate>transports</span>
           <span ng-if="waypoint.waypoint_type == 'hut' || waypoint.waypoint_type == 'shelter'"><span translate>equipment</span></span>
         </span>
@@ -752,12 +753,11 @@
               <input type="text" name="message" ng-model="route.message" class="form-control" placeholder="{{'Short description of the applied changes'|translate}}" />
             </div>
             % endif
-            
           </div>
         </section>
         
         <p class="bottom-btns">
-          <button type="submit" class="btn btn-primary btn-lg" ng-disabled="editForm.$invalid || editForm.$pristine" translate>Save</button>
+          <button type="submit" class="btn btn-success btn-lg" ng-disabled="editForm.$invalid || editForm.$pristine" translate>Save</button>
           <%
           view_url = request.route_url('waypoints_view', id=waypoint_id, lang=waypoint_lang) if updating_doc else ''
           index_url = request.route_url('waypoints_index_default')

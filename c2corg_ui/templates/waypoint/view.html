@@ -47,8 +47,15 @@ module.value('mapFeatureCollection', {
 });
 </%block>
 
+## for SVG setOrientation(document, orientation)
+% if waypoint.get('orientation'):
+  <div class="ng-hide">
+   {{document.orientation = ${waypoint.get('orientation')} }}
+  </div>
+% endif
+
 <header class="view-details-title">
-  <h1>${locale['title']} <label class="badge waypoint" translate>waypoint</label></h1>
+  <h1>${locale['title']}<label class="badge waypoint"><span class="glyphicon glyphicon-arrow-right"></span>&nbsp;<span translate>waypoint</span></label></h1>
 </header>
 
 <app-map class="view-details-map"></app-map>
@@ -161,6 +168,7 @@ module.value('mapFeatureCollection', {
         <app-add-association parent-id="${waypoint_id}" added-documents="added"></app-add-association>
       </div>
       <section>
+        
         % if 'waypoints' in waypoint['associations'] and  len(waypoint['associations']['waypoints']) > 0 :
         <article>
           <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-waypoints">
@@ -175,6 +183,7 @@ module.value('mapFeatureCollection', {
           </div>
         </article>
         % endif
+        
         % if 'routes' in waypoint['associations'] and  len(waypoint['associations']['routes']) > 0 :
         <article>
           <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-routes">
@@ -189,6 +198,7 @@ module.value('mapFeatureCollection', {
           </div>
         </article>
         % endif
+        
       </section>
     </span>
   </div>

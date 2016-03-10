@@ -4,9 +4,10 @@ from c2corg_ui.templates.utils import get_lang_lists
 <%inherit file="../base.html"/>
 <%namespace file="../helpers/view.html" import="show_attr, show_short_attr, show_missing_langs_links,
     show_other_langs_links, show_archive_data, show_route_title, show_associated_waypoints,
-    show_associated_routes, show_areas, show_float_buttons, show_maps" />
+    show_associated_routes, show_areas, show_float_buttons, show_maps, get_route_activities" />
+    
 <%namespace file="helpers/detailed_route_attributes.html" import="get_route_gear, get_route_location, 
-  get_route_rating, get_route_general, get_route_heights,  get_route_access, get_route_associated_maps" 
+  get_route_rating, get_route_general, get_route_heights, get_route_access, get_route_associated_maps" 
  />
 
 <%
@@ -26,8 +27,15 @@ other_langs, missing_langs = get_lang_lists(route, lang)
   %endif
 </%block>
 
+% if route.get('orientation'):
+<div class="ng-hide">
+ {{document.orientation = ${route.get('orientation')} }}
+</div>
+% endif
+
 <header  class="view-details-title">
-  <h1>${show_route_title(locale)}<label class="badge route" translate>route</label></h1>
+  <h1>${show_route_title(locale)}<label class="badge route"><span class="glyphicon glyphicon-arrow-right"></span>&nbsp;<span translate>route</span></label></h1>
+  <div class="activity-header">${get_route_activities(route, 'top')}</div>
 </header>
 
 <app-map class="view-details-map"></app-map>
@@ -57,7 +65,6 @@ other_langs, missing_langs = get_lang_lists(route, lang)
         ${show_areas(route)}
       </article>
     % endif
-  
   <div class="thumbnail view-details-informations tab  col-sm-12">
     <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
       <span translate>Informations</span><span class="glyphicon glyphicon-menu-down"></span>
