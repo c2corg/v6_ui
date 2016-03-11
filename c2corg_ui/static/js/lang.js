@@ -20,12 +20,16 @@ app.langDirective = function() {
     controller: 'AppLangController',
     controllerAs: 'langCtrl',
     bindToController: true,
-    template: '<select ' +
-        'class="form-control lang-selector" ' +
-        'ng-model="langCtrl.lang" ' +
-        'ng-options="lang as langCtrl.translate(lang) ' +
-        'for lang in langCtrl.langs" ' +
-        'ng-change="langCtrl.updateLang()"></select>'
+    template:
+        '<div class="dropdown">' +
+        '  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">' +
+        '    <span class="selected-lang">{{langCtrl.lang}}</span>' +
+        '    <span class="glyphicon glyphicon-option-vertical"></span>' +
+        '  </button>' +
+        '  <ul class="dropdown-menu">' +
+        '    <li ng-repeat="lang in langCtrl.langs" ng-click="langCtrl.updateLang(lang)"><a>{{lang | translate}}</a></li>' +
+        '  </ul>' +
+        '</div>'
   };
 };
 
@@ -66,11 +70,10 @@ app.LangController = function(gettextCatalog, langUrlTemplate,
 
   /**
    * @type {string}
-   * @export
    */
-  this.lang = this.cookies_.get('interface_lang') ||
+  var lang = this.cookies_.get('interface_lang') ||
       ngeoGetBrowserLanguage(this['langs']) || 'fr';
-  this.updateLang();
+  this.updateLang(lang);
 };
 
 
@@ -87,10 +90,12 @@ app.LangController.prototype.translate = function(str) {
 /**
  * @export
  */
-app.LangController.prototype.updateLang = function() {
+app.LangController.prototype.updateLang = function(lang) {
+  this.lang = lang;
+
   this.gettextCatalog_.setCurrentLanguage(this.lang);
   this.gettextCatalog_.loadRemote(
-      this.langUrlTemplate_.replace('__lang__', this.lang));
+          this.langUrlTemplate_.replace('__lang__', this.lang));
   // store the interface language as cookie, so that it is available on the
   // server side.
   this.cookies_.put('interface_lang', this.lang, {
