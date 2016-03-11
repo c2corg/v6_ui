@@ -1,0 +1,363 @@
+<figure>
+
+  ## TITLE
+  <h3>title</h3>
+
+  <article ng-if="route.locales[0].title">
+    <label translate>title</label>  
+    <input disabled class="form-control" value="{{route.locales[0].title}}">
+  </article>
+
+  <article ng-if="route.locales[0].lang">
+    <label translate>lang</label>
+    <input disabled class="form-control" value="{{mainCtrl.translate(route.locales[0].lang)}}">
+  </article>
+
+  <article ng-if="route.duration">
+    <label translate>duration</label>
+    <input disabled class="form-control" value="route.duration">
+  </article>
+
+  <article ng-if="route.activities.length > 0">
+    <label translate>activities</label><br>
+    <ul class="types">
+      <li ng-repeat="type in route['activities']" x-translate>{{type}}</li>
+    </ul>
+  </article>
+
+  <article ng-if="route.orientation.length > 0">
+    <label translate>orientations</label><br>
+    <ul class="types">
+      <li ng-repeat="type in route['orientation']" x-translate>{{type}}</li>
+    </ul>
+  </article>
+
+  <article  ng-if="route.configuration.length > 0 && (route.activities.indexOf('skitouring') > -1 || route.activities.indexOf('snow_ice_mixed') > -1 || route.activities.indexOf('mountain_climbing') > -1 || route.activities.indexOf('rock_climbing') > -1
+              || route.activities.indexOf('snowshoeing') > -1 || route.activities.indexOf('via_ferrata') > -1)">
+    <label translate>route_configuration_types</label><br>
+    <ul>
+      <li ng-repeat="type in route['configuration']" x-translate>{{type}}</li>
+    </ul>
+  </article>
+
+  <article ng-if="route.route_types.length > 0 && (route.activities.indexOf('snow_ice_mixed') > -1 || route.activities.indexOf('mountain_climbing') > -1 || route.activities.indexOf('rock_climbing') > -1 || route.activities.indexOf('via_ferrata') > -1)">
+    <label translate>route_types</label><br>
+    <ul>
+      <li ng-repeat="type in route['route_types']" x-translate>{{type}}</li>
+    </ul>
+  </article>
+
+  <article ng-if="route.rock_types.length > 0 && (route.activities.indexOf('snow_ice_mixed') > -1 || route.activities.indexOf('mountain_climbing') > -1 || route.activities.indexOf('rock_climbing') > -1 || route.activities.indexOf('via_ferrata') > -1)">
+    <label translate>rock_types</label><br>
+    <ul>
+      <li ng-repeat="type in route['rock_types']" x-translate>{{type}}</li>
+    </ul>
+  </article>
+
+  <article  ng-if="route.climbing_outdoor_types.length > 0 && route.activities.indexOf('rock_climbing') > -1">
+    <label translate>climbing_outdoor_types</label><br>
+    <ul>
+      <li ng-repeat="type in route['climbing_outdoor_types']" x-translate>{{type}}</li>
+    </ul>
+  </article>
+
+</figure>
+
+## NUMBERS
+<figure>
+  <h3>numbers</h3>
+
+  <article ng-if="route.elevation_min">
+    <label translate>elevation_min</label>
+    <div class="input-group">
+      <input type="text" class="form-control" disabled value="{{route.elevation_min}}">
+      <span class="input-group-addon">m</span>
+    </div>
+  </article>
+
+  <article ng-if="route.elevation_max">
+    <label translate>elevation_max</label>
+    <div class="input-group">
+      <input type="text" class="form-control" disabled value="{{route.elevation_max}}">
+      <span class="input-group-addon">m</span>
+    </div>
+  </article>
+
+  <article ng-if="route.height_diff_up">
+    <label translate>height_diff_up</label>
+    <div class="input-group">
+      <input type="text" class="form-control" disabled value="{{route.height_diff_up}}">
+      <span class="input-group-addon">m</span>
+    </div>
+  </article>
+
+  <article ng-if="route.height_diff_down">
+    <label translate>height_diff_down</label>
+    <div class="input-group">
+      <input type="text" class="form-control" disabled value="{{route.height_diff_down}}">
+      <span class="input-group-addon">m</span>
+    </div>
+  </article>
+
+  <article ng-if="route.height_diff_access">
+    <label translate>height_diff_access</label>
+    <div class="input-group">
+      <input type="text" class="form-control" disabled value="{{route.height_diff_access}}">
+      <span class="input-group-addon">m</span>
+    </div>
+  </article>
+
+  <article ng-if="route.height_diff_difficulties">
+    <label translate>height_diff_difficulties</label>
+    <div class="input-group">
+      <input type="text" class="form-control" disabled value="{{route.height_diff_difficulties}}">
+      <span class="input-group-addon">m</span>
+    </div>
+  </article>
+
+  <article ng-if="route.difficulties_height && (route.activities.indexOf('via_ferrata') > -1 || route.activities.indexOf('moutain_biking') > -1 || route.activities.indexOf('snowshoeing') > -1 || route.activities.indexOf('hiking') > -1 || route.activities.indexOf('ice_climbing') > -1 || route.activities.indexOf('rock_climbing') > -1
+              || route.activities.indexOf('mountain_climbing') > -1 || route.activities.indexOf('snow_ice_mixed') > -1)">
+    <label translate>difficulties_height</label>
+    <div class="input-group">
+      <input type="text" class="form-control" disabled value="{{route.difficulties_height}}">
+      <span class="input-group-addon">m</span>
+    </div>
+  </article>
+
+  <article ng-if="route.route_length && (route.activities.indexOf('skitouring') > -1 || route.activities.indexOf('snow_ice_mixed') > -1 || route.activities.indexOf('hiking') > -1 || route.activities.indexOf('snowshoeing') > -1 || route.activities.indexOf('via_ferrata') > -1 || route.activities.indexOf('moutain_biking') > -1)">
+    <label translate>route_length</label>
+    <div class="input-group">
+      <input type="text" class="form-control" disabled value="{{route.route_length}}">
+      <span class="input-group-addon">m</span>
+    </div>
+  </article>
+
+  <article ng-if="route.mtb_length_asphalt && route.activities.indexOf('moutain_biking') > -1">
+    <label translate>mtb_length_asphalt</label>
+    <div class="input-group">
+      <input type="text" class="form-control" disabled value="{{route.mtb_length_asphalt}}">
+      <span class="input-group-addon">m</span>
+    </div>
+  </article>
+
+  <article ng-if="route.mtb_length_trail && (route.activities.indexOf('skitouring') > -1 || route.activities.indexOf('snow_ice_mixed') > -1 || route.activities.indexOf('hiking') > -1 || route.activities.indexOf('snowshoeing') > -1 || route.activities.indexOf('via_ferrata') > -1 || route.activities.indexOf('moutain_biking') > -1)">
+    <label translate>mtb_length_trail</label>
+    <div class="input-group">
+      <input type="text" class="form-control" disabled value="{{route.mtb_length_trail}}">
+      <span class="input-group-addon">m</span>
+    </div>
+  </article>
+
+  <article ng-if="route.mtb_height_diff_portages && (route.activities.indexOf('skitouring') > -1 || route.activities.indexOf('snow_ice_mixed') > -1 || route.activities.indexOf('hiking') > -1 || route.activities.indexOf('snowshoeing') > -1 || route.activities.indexOf('via_ferrata') > -1 || route.activities.indexOf('moutain_biking') > -1)">
+    <label translate>mtb_height_diff_portages</label>
+    <div class="input-group">
+      <input type="text" class="form-control" disabled value="{{route.mtb_height_diff_portages}}">
+      <span class="input-group-addon">m</span>
+    </div>
+  </article>
+
+  <article ng-if="!route.activities.indexOf('skitouring') > -1 && route.difficulties_length">
+    <label translate>difficulties_length</label>
+    <div class="input-group">
+      <input type="text" class="form-control" disabled value="{{route.difficulties_length}}">
+      <span class="input-group-addon">m</span>
+    </div>
+  </article>
+
+</figure>
+
+
+## RATINGS
+<figure class="summary-numbers" ng-if="(route.activities.indexOf('mountain_climbing') > -1 || route.activities.indexOf('rock_climbing') > -1 
+                  || route.activities.indexOf('skitouring') > -1 || route.activities.indexOf('snowshoeing') > -1 || route.activities.indexOf('snow_ice_mixed') > -1
+                  || route.activities.indexOf('ice_climbing') > -1 || route.activities.indexOf('hiking') > -1 ) &&  (route.ski_rating || route.labande_ski_rating || route.labande_global_rating 
+                  || route. snowshoe_rating || route.global_rating || route.engagement_rating || route.equipment_rating || route.ice_rating || route.mixed_rating || route.risk_rating 
+                  || route.hiking_rating || route.mtb_down_rating || route.mtb_up_rating || route.rock_free_rating || route.exposition_rock_rating || route.rock_required_rating || route.aid_rating )">
+  <h3>ratings</h3>
+
+  <article  class="data half" ng-if="route.ski_rating">
+    <label translate>ski_rating</label>
+    <div class="input-group">
+      <input type="text" class="form-control" disabled value="{{route.ski_rating}}">
+      <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
+    </div>
+  </article>
+
+  <article  class="data half" ng-if="route.labande_ski_rating">
+    <label translate>labande_ski_rating</label>
+    <div class="input-group">
+      <input type="text" class="form-control" disabled value="{{route.labande_ski_rating}}">
+      <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
+    </div>
+  </article>
+
+  <article  class="data half" ng-if="route.labande_global_rating">
+    <label translate>labande_global_rating</label>
+    <div class="input-group">
+      <input type="text" class="form-control" disabled value="{{route.labande_global_rating}}">
+      <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
+    </div>
+  </article>
+
+  <article  class="data half" ng-if="route.global_rating">
+    <label translate>global_rating</label>
+    <div class="input-group">
+      <input type="text" class="form-control" disabled value="{{route.global_rating}}">
+      <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
+    </div>
+  </article>
+
+  <article class="data half" ng-if="route.engagement_rating">
+    <label translate>engagement_rating</label>
+    <div class="input-group">
+      <input type="text" class="form-control" disabled value="{{route.engagement_rating}}">
+      <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
+    </div>
+  </article>
+
+  <article class="data half" ng-if="route.equipment_rating">
+    <label translate>equipment_rating</label>
+    <div class="input-group">
+      <input type="text" class="form-control" disabled value="{{route.equipment_rating}}">
+      <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
+    </div>
+  </article>
+
+  <article class="data half" ng-if="route.ice_rating">
+    <label translate>ice_rating</label>
+    <div class="input-group">
+      <input type="text" class="form-control" disabled value="{{route.ice_rating}}">
+      <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
+    </div>
+  </article>
+
+  <article class="data half" ng-if="route.risk_rating">
+    <label translate>risk_rating</label>
+    <div class="input-group">
+      <input type="text" class="form-control" disabled value="{{route.risk_rating}}">
+      <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
+    </div>
+  </article>
+
+  <article class="data half" ng-if="route.hiking_rating">
+    <label translate>hiking_rating</label>
+    <div class="input-group">
+      <input type="text" class="form-control" disabled value="{{route.hiking_rating}}">
+      <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
+    </div>
+  </article>  
+
+  <article class="data half" ng-if="route.mtb_down_rating">
+    <label translate>mtb_down_rating</label>
+    <div class="input-group">
+      <input type="text" class="form-control" disabled value="{{route.mtb_down_rating}}">
+      <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
+    </div>
+  </article>  
+
+  <article class="data half" ng-if="route.mtb_up_rating">
+    <label translate>mtb_up_rating</label>
+    <div class="input-group">
+      <input type="text" class="form-control" disabled value="{{route.mtb_up_rating}}">
+      <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
+    </div>
+  </article>
+
+  <article class="data half" ng-if="route.rock_free_rating">
+    <label translate>rock_free_rating</label>
+    <div class="input-group">
+      <input type="text" class="form-control" disabled value="{{route.rock_free_rating}}">
+      <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
+    </div>
+  </article>
+
+  <article class="data half" ng-if="route.exposition_rock_rating">
+    <label translate>exposition_rock_rating</label>
+    <div class="input-group">
+      <input type="text" class="form-control" disabled value="{{route.exposition_rock_rating}}">
+      <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
+    </div>
+  </article>
+
+  <article class="data half" ng-if="route.rock_required_rating">
+    <label translate>rock_required_rating</label>
+    <div class="input-group">
+      <input type="text" class="form-control" disabled value="{{route.rock_required_rating}}">
+      <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
+    </div>
+  </article>
+
+  <article class="data half" ng-if="route.aid_rating">
+    <label translate>aid_rating</label>
+    <div class="input-group">
+      <input type="text" class="form-control" disabled value="{{route.aid_rating}}">
+      <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
+    </div>
+  </article> 
+
+</figure>
+
+
+<figure class="summary-gear" ng-if="route.ski_exposition  || route.locales[0].gear || route.glacier_gear.length > 0 || route.hiking_mtb_exposition || route.hiking_mtb_exposition || route.lift_access">
+  <h3>gear</h3>
+
+  <article ng-if="route.locales[0].gear">
+    <label translate>gear</label>
+    <textarea class="form-control">{{route.locales[0].gear}}</textarea>
+  </article>
+
+  <article class="data half" ng-if="route.glacier_gear.length > 0 && (route.activities.indexOf('skitouring') > -1 || route.activities.indexOf('snow_ice_mixed') > -1 || route.activities.indexOf('mountain_climbing') > -1 || route.activities.indexOf('rock_climbing') > -1
+              || route.activities.indexOf('ice_climbing') > -1 || route.activities.indexOf('snowshoeing') > -1)">
+    <label translate>glacier_gear</label>
+    <input type="text" class="form-control" disabled value="{{route.glacier_gear}}">
+  </article>
+
+  <article class="data half" ng-if="route.ski_exposition && route.activities.indexOf('skitouring') > -1">
+    <label translate>ski_exposition</label>
+    <input type="text" class="form-control" disabled value="{{route.ski_exposition}}">
+  </article>
+
+  <article class="data half" ng-if="route.hiking_mtb_exposition && (route.activities.indexOf('hiking') > -1 || route.activities.indexOf('moutain_biking') > -1)">
+    <label translate>hiking_mtb_exposition</label>
+    <input type="text" class="form-control" disabled value="{{route.hiking_mtb_exposition}}">
+  </article>
+
+  <article class="data half" ng-if="route.lift_access">
+    <label translate>lift_access</label>
+    <input type="text" class="form-control" disabled value="{{route.lift_access}}">
+  </article>
+
+</figure>
+
+## MAPS
+<figure>
+  <h3>maps</h3>
+  <app-map></app-map>
+</figure>
+
+## DESCRIPTION
+<figure class="summary-description">
+  <h3>text</h3>
+  <article ng-if="route.locales[0].description">
+    <label translate>description</label>
+    <textarea class="form-control">{{route.locales[0].description}}</textarea>
+  </article>
+  
+  <article ng-if="route.locales[0].summary">
+    <label translate>summary</label>
+    <textarea class="form-control">{{route.locales[0].summary}}</textarea>
+  </article>
+  
+  <article ng-if="route.locales[0].remarks">
+    <label translate>remarks</label>
+    <textarea class="form-control">{{route.locales[0].remarks}}</textarea>
+  </article>
+  
+  <article ng-if="route.locales[0].slope">
+    <label translate>slope</label>
+    <textarea class="form-control">{{route.locales[0].slope}}</textarea>
+  </article>
+  
+</figure>
+
+

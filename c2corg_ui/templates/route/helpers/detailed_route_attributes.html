@@ -187,21 +187,26 @@
       <p translate>heights</p>
     </div>
     <span class="detail-text accordion">
-      
-      % if route.get('elevation_min') or route.get('elevation_max'):
-        <p><span translate>elevation</span>: <b>min ${route['elevation_min']} m / max ${route['elevation_max']} m</b></p>
+            
+      % if route.get('elevation_min') and route.get('elevation_max'):
+        <p><b translate>elevation</b>:  min ${route['elevation_min']} / max ${route['elevation_max']}</p>
+      %  elif route.get('elevation_min') and not route.get('elevation_max'): 
+        <p><b translate>elevation</b>:  min ${route['elevation_min']}</p>
+      % else :
+        <p><b translate>elevation</b>:  min ${route['elevation_max']}</p>
       % endif
-      
-      % if route.get('route_length'):
-      <p><span translate>route_length</span>: <b>${route['route_length']}</b></p>
-      % endif
-      
-      % if route.get('height_diff_up'):
-      <p><span translate>height_diff_up</span>: <b>${route['height_diff_up']} m</b></p>
+           
+      % if route.get('height_diff_up') and route.get('height_diff_down'):
+        <p><b translate>height_diff</b>:  - ${route['height_diff_down']} / + ${route['height_diff_up']}</p>
+      %  elif route.get('height_diff_up') and not route.get('height_diff_down'): 
+        <p><b translate>height_diff</b>: + ${route['height_diff_up']}</p>
+      % else :
+        <p><b translate>height_diff</b>: min ${route['height_diff_down']}</p>
+
       % endif
 
-      % if route.get('height_diff_down'):
-      <p><span translate>height_diff_down</span>: <b>${route['height_diff_down']} m</b></p>
+      % if route.get('route_length'):
+      <p><span translate>route_length</span>: <b>${route['route_length']/1000} km</b></p>
       % endif
 
       % if route.get('mtb_height_diff_portages'):

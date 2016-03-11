@@ -167,7 +167,8 @@
     <p class="text-danger" translate ng-if="!waypoint.lonlat.longitude || !waypoint.lonlat.longitude">Longitude and latitude are required.</p>
   </p>
   <label translate>maps_info</label>
-  <p  ng-repeat="map in waypoint.maps">{{map.code}} {{map.editor}}  {{map.locales[0].title}}</p>
+  <p ng-repeat="map in waypoint.maps">{{map.code}} {{map.editor}}  {{map.locales[0].title}}</p>
+  <p>{{waypoint.maps_info}}</p>
 </figure>
 
 
