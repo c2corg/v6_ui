@@ -43,28 +43,28 @@
       % if route.get('activities'):
       <article ng-init="activities = ${route['activities']}" class="value">
         <b translate>activities</b><br>
-        <span x-translate ng-repeat="type in activities">{{type}}{{$last ? '' : ', '}}</span>
+        <span ng-repeat="type in activities">{{type |translate}}{{$last ? '' : ', '}}</span>
       </article>
       % endif
 
       % if route.get('rock_types'):
       <article ng-init="rock_types = ${route['rock_types']}" class="value">
         <b translate>rock_types</b><br>
-        <span x-translate ng-repeat="type in rock_types">{{type}}{{$last ? '' : ', '}}</span>
+        <span ng-repeat="type in rock_types">{{type | translate}}{{$last ? '' : ', '}}</span>
       </article>
       % endif
       
       % if route.get('climbing_outdoor_types'):
       <article ng-init="climbing_outdoor_types = ${route['climbing_outdoor_types']}" class="value">
         <b translate>climbing_outdoor_types</b><br>
-        <span x-translate ng-repeat="type in climbing_outdoor_types">{{type}}{{$last ? '' : ', '}}</span>
+        <span ng-repeat="type in climbing_outdoor_types">{{type | translate}}{{$last ? '' : ', '}}</span>
       </article>
       % endif
       
       % if route.get('configuration'):
       <article ng-init="configuration = ${route['configuration']}" class="value">
         <b translate>configuration</b><br>
-        <span x-translate ng-repeat="type in configuration">{{type}}{{$last ? '' : ', '}}</span>
+        <span ng-repeat="type in configuration">{{type | translate}}{{$last ? '' : ', '}}</span>
       </article>
       % endif
 
@@ -189,19 +189,19 @@
     <span class="detail-text accordion">
             
       % if route.get('elevation_min') and route.get('elevation_max'):
-        <p><b translate>elevation</b>:  min ${route['elevation_min']} / max ${route['elevation_max']}</p>
+      <p><span translate>elevation</span>: <b> min ${route['elevation_min']} m / max ${route['elevation_max']} m</b></p>
       %  elif route.get('elevation_min') and not route.get('elevation_max'): 
-        <p><b translate>elevation</b>:  min ${route['elevation_min']}</p>
+      <p><span translate>elevation</span>:<b>  min ${route['elevation_min']} m</b></p>
       % else :
-        <p><b translate>elevation</b>:  min ${route['elevation_max']}</p>
+      <p><span translate>elevation</span>:  <b>min ${route['elevation_max']} m</b></p>
       % endif
            
       % if route.get('height_diff_up') and route.get('height_diff_down'):
-        <p><b translate>height_diff</b>:  - ${route['height_diff_down']} / + ${route['height_diff_up']}</p>
+      <p><span translate>height_diff</span>:  <b> -${route['height_diff_down']} m / +${route['height_diff_up']} m</b></p>
       %  elif route.get('height_diff_up') and not route.get('height_diff_down'): 
-        <p><b translate>height_diff</b>: + ${route['height_diff_up']}</p>
+      <p> <span translate>height_diff_up</span> <b>${route['height_diff_up']} m</b></p>
       % else :
-        <p><b translate>height_diff</b>: min ${route['height_diff_down']}</p>
+      <p><span translate>height_diff_down</span>: <b>${route['height_diff_down']} m</b></p>
 
       % endif
 

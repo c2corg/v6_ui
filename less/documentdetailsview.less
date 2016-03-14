@@ -10,7 +10,7 @@
     margin-bottom: 0;
   }
   @media @tablet {
-    margin-top: 40px;
+    margin-top: 50px;
   }
   .route-activity {
     font-size: 5em;
@@ -36,6 +36,7 @@
       font-size: 0.5em;
       margin-left: 10px;
       padding-bottom: 6px;
+      
       .glyphicon {
         color: white;
       }
@@ -43,7 +44,7 @@
         background-color: @brand-info;
       }
       &.waypoint {
-        background-color: @brand-success;
+        background-color: @bright-green;
       }
     }
   }
@@ -224,7 +225,6 @@
   }
   .view-details-informations {
     background-color: white;
-    border: 2px solid #FFB761;
     .flex();
     flex-flow: row wrap;
 
@@ -344,6 +344,9 @@
       &.maps {
         order: 10;
         max-width: 50%;
+        @media @phone {
+          max-width: 100%;
+        }
       }
       &.orientation {
         @media @phone {
