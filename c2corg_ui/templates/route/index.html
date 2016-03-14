@@ -34,6 +34,9 @@
           <br>
           % endif
           <div class="list-item-info">
+            % if route.get('areas'):
+            <b class="location">${route['areas'][0]['locales'][0]['title'] + ' '+ route['areas'][1]['locales'][0]['title']  }</b><br>
+            % endif
           % if route['elevation_max'] is not None:
             <span class="list-item-elevation">Elevation: ${route['elevation_max']} m</span>
           % endif

@@ -8,13 +8,13 @@
   height: 40px;
   left: @menu-width;
   padding-left: 10px;
-  background-color: #ADD8E6;
+  background-color: #DDDDDD;
   text-align: left;
-  
+
   @media @tablet {
     left: @menu-width - (@menu-width - @menu-width-tablet);
   }
-    @media @phone {
+  @media @phone {
     font-size: 1.2em;
     left: 0;
     padding-top: 0;
@@ -28,18 +28,18 @@
 }
 .sticky-filters-moreFilters {
   position: fixed !important;
-  top: @page-header-height + 40;
-  
+  top: @page-header-height !important;
+  overflow-y: scroll;
+  height: -moz-calc(~"100vh -"  @page-header-height) !important;
+  height: -webkit-calc(~"100vh -"  @page-header-height) !important;
+  height: -o-calc(~"100vh -"  @page-header-height) !important;
+  height: calc(~"100vh -"  @page-header-height) !important;
+
   @media @phone {
     top: 90px;
-  }
-  @media all and (max-height: 400px) {
-    overflow: scroll;
-    height: 73vh;
   }
 }
 
 .overflow-scroll {
-    max-height: 50vh;
-    overflow-y: scroll;
+  overflow-y: scroll;
 }
