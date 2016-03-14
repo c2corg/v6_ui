@@ -7,7 +7,7 @@
   <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
           ng-if="userCtrl.auth.isAuthenticated()">
     <span class="user-info" ng-show="userCtrl.auth.userData.username">{{userCtrl.auth.userData.username}}</span>
-    <span class="glyphicon glyphicon-user" ng-show="userCtrl.auth.userData.username"></span>
+    <span class="icon-user" ng-show="userCtrl.auth.userData.username"></span>
     <span class="caret"></span>
   </button>
   <ul class="dropdown-menu" ng-show="userCtrl.auth.isAuthenticated()">
@@ -15,7 +15,6 @@
     <li ng-if="userCtrl.auth.isAuthenticated()" ng-click="userCtrl.logout()">
       <a href="#">
         <span translate>Logout</span>
-        <span class="glyphicon glyphicon-log-out"></span>
       </a>
     </li>
   </ul>
