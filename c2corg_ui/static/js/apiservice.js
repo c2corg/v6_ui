@@ -241,6 +241,19 @@ app.Api.prototype.register = function(data) {
 
 
 /**
+ * @param {string} nonce
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.validateRegisterEmail = function(nonce) {
+  var promise = this.postJson_('/users/validate_register_email/' + nonce, {});
+  promise.catch(function(response) {
+    this.alerts_.addError(response);
+  }.bind(this));
+  return promise;
+};
+
+
+/**
  * @param {Object} data
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
