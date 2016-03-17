@@ -35,22 +35,31 @@ app.searchDirective = function() {
           });
           //Remove the class 'show-search' when screen width > @phone (defined in LESS)
           $(window).resize(function resize() {
-            if ($(window).width() < phoneScreen) {
-              $('.page-header').removeClass('show-search');
+            if ($(window).width() > phoneScreen) {
+              $('.show-search').removeClass('show-search');
+              $('.logo.header, .menu-open-close.header').removeClass('no-opacity');
             }
           });
 
           // Trigger focus on search-icon click for .search
           $('.page-header .search-icon').on('click', function(event) {
             if (window.innerWidth < phoneScreen) {
-              $('.page-header').find('.search').toggleClass('show-search');
+              $('.page-header').find('.quick-search').toggleClass('show-search');
               $('.page-header').find('.search').focus();
+              $('.logo.header, .menu-open-close.header').toggleClass('no-opacity');
               event.stopPropagation();
             }
           });
 
-          $('body:not(app-search)').click(function() {
+          $('body:not(.page-header)').click(function(e) {
             $('.tt-dataset.empty').remove();
+
+            if (!$('.page-header, .show-search, .quick-search, .search').is(e.target)) {
+              $('.show-search').removeClass('show-search');
+              if (window.innerWidth < phoneScreen) {
+                $('.logo.header, .menu-open-close.header').removeClass('no-opacity');
+              }
+            }
           });
 
           //show spinning gif while waiting for the results
