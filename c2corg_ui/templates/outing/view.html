@@ -140,15 +140,13 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
   % endif
 
   ## OTHER BUTTON contents
-  <div class="col-xs-12 hidden-options">
-    % if version:
-    ${show_archive_data('outings', outing, locale, version)}
-    % else:
-    ${show_other_langs_links('outings', outing, other_langs)}
-    ${show_missing_langs_links('outings', outing, missing_langs)}
-    % endif
-  </div>
-  
+  % if version:
+  ${show_archive_data('outings', outing, locale, version)}
+  % else:
+  ${show_other_langs_links('outings', outing, other_langs)}
+  ${show_missing_langs_links('outings', outing, missing_langs)}
+  % endif
+
 </section>
 
 ${show_float_buttons('outings', outing_id, lang, other_langs, missing_langs)}

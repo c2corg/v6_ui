@@ -32,7 +32,7 @@ app.viewDetailsDirective = function() {
           $('.location-static').css({top: $('app-map').offset().top + 40});
           $('.tab').hide();
           if (!ctrl.selected) {
-            $('.view-details-description').show();
+            $('.description.tab').show();
           } else {
             ctrl.selected.show();
           }
@@ -81,9 +81,9 @@ app.ViewDetailsController.prototype.openTab = function(tab) {
       $(tab.target).closest('.name-icon-value').find('.glyphicon-menu-right').toggleClass('rotate-arrow-down');
       $(tab.target).closest('.name-icon-value').find('.accordion').slideToggle();
     } else {
-      this.selected = $('.view-details-' + tab); //used in the directive
+      this.selected = $('.tab.' + tab);
       $('.tab').hide();
-      $('.view-details-' + tab).show();
+      $('.tab.' + tab).show();
     }
   }
 }

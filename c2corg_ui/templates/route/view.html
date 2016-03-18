@@ -2,9 +2,9 @@
 from c2corg_ui.templates.utils import get_lang_lists
 %>
 <%inherit file="../base.html"/>
-<%namespace file="../helpers/view.html" import="show_attr, show_short_attr, show_missing_langs_links,
-    show_other_langs_links, show_archive_data, show_route_title, show_associated_waypoints,
-    show_associated_routes, show_areas, show_float_buttons, show_maps, get_route_activities" />
+<%namespace file="../helpers/view.html" import="get_document_locale_text, get_document_locale_text, show_attr, show_missing_langs_links,
+    show_other_langs_links, show_archive_data, show_route_title,
+    get_associated_documents, show_areas, show_float_buttons, show_maps, get_route_activities" />
     
 <%namespace file="helpers/detailed_route_attributes.html" import="get_route_gear, get_route_location, 
   get_route_rating, get_route_general, get_route_heights, get_route_access, get_route_associated_maps" 
@@ -41,14 +41,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
 <app-map class="view-details-map"></app-map>
 
 <section class="view-details-section" app-view-details>
-  ## OTHER BUTTON contents
-  <div class="col-xs-12 hidden-options">
-  % if version:
-    ${show_archive_data('routes', route, locale, version)}
-  % endif
-  ${show_other_langs_links('routes', route, other_langs)}
-  ${show_missing_langs_links('routes', route, missing_langs)}
-  </div>
+
   <uib-tabset app-view-details>
     <uib-tab heading="{{mainCtrl.translate('Description')}}" ng-click="detailsCtrl.openTab('description')" id="description-tab"></uib-tab>
     <uib-tab heading="{{mainCtrl.translate('Details')}}" ng-click="detailsCtrl.openTab('informations')"></uib-tab>
@@ -67,7 +60,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
     
   ## IMAGES
   % if not version:
-  <div class="view-details-photos col-xs-12 tab">
+  <div class="view-details-photos col-xs-12 tab description">
     <div class="photos">
       <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzE0MHgxNDAKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNTMwOTM2ZThhYyB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE1MzA5MzZlOGFjIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjQ0LjA2MjUiIHk9Ijc0LjU1NjI1Ij4xNDB4MTQwPC90ZXh0PjwvZz48L2c+PC9zdmc+" alt="..." class="img-thumbnail">
       <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzE0MHgxNDAKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNTMwOTM2ZThhYyB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE1MzA5MzZlOGFjIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjQ0LjA2MjUiIHk9Ijc0LjU1NjI1Ij4xNDB4MTQwPC90ZXh0PjwvZz48L2c+PC9zdmc+" alt="..." class="img-thumbnail">
@@ -78,7 +71,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
   </div>
   % endif
   
-  <div class="thumbnail view-details-informations tab  col-sm-12">
+  <div class="thumbnail view-details-informations tab  col-sm-12 informations">
     <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
       <span translate>Informations</span><span class="glyphicon glyphicon-menu-down"></span>
     </h3>
@@ -94,10 +87,10 @@ other_langs, missing_langs = get_lang_lists(route, lang)
   </div> 
 
   ## DESCRIPTION
-  <div class="view-details-description col-xs-12 tab lead">
+  <div class="view-details-description col-xs-12 tab description">
+    <h3 class="heading show-phone"><span translate>description</span></h3>
     <span class="lead">
       <div id="document-description" class="collapse in">
-
         % if locale['summary']:
           <summary class="document-summary">
             <label translate>summary</label><br>
@@ -108,67 +101,38 @@ other_langs, missing_langs = get_lang_lists(route, lang)
         % if locale['description']:
           ${show_attr(locale, 'description')}
         % endif
-
-        % if locale['gear']:
-          <div class="document-gear">
-            <label translate>gear</label><br>
-            ${show_attr(locale, 'gear')}
-          </div>
-        % endif
-
-        % if locale['remarks']:
-          <div class="document-remarks">
-            <label translate>remarks</label><br>
-            ${show_attr(locale, 'remarks')}
-          </div>
-        % endif
-        
+       
       </div>
     </span>
   </div>
-
+  
+  <div class="description tab">
+    ${get_document_locale_text(locale, 'remarks')}
+    ${get_document_locale_text(locale, 'gear')}
+  </div>
+  
   ## ASSOCIATIONS
   % if not version:
-  <div class="view-details-associations col-xs-12 tab">
-    <span class="lead">
-      <div ng-show="userCtrl.auth.isAuthenticated()">
-        <label translate>Add association</label>:
-        <app-add-association parent-id="${route_id}" added-documents="added"></app-add-association>
-      </div>
-      <section>
-        % if 'waypoints' in route['associations'] and  len(route['associations']['waypoints']) > 0 :
-        <article>
-          <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-waypoints">
-            <span translate>Associated waypoints</span><span class="glyphicon glyphicon-menu-down"></span>
-          </h3>
-          <div class="associated-documents collapse in" id="associated-waypoints">
-            ${show_associated_waypoints(route)}
-            <div class="list-item" ng-repeat="doc in added | filter:{'documentType': 'waypoints'}">
-              <app-association-card parent-id="${route_id}" doc="doc" added-documents="added"></app-association-card>
-            </div>
-          </div>
-        </article>
-        % endif
-        % if 'routes' in route['associations'] and  len(route['associations']['routes']) > 0 :
-        <article>
-          <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-routes">
-            <span translate>Associated routes</span><span class="glyphicon glyphicon-menu-down"></span>
-          </h3>
-          <div class="associated-documents collapse in" id="associated-routes">
-            ${show_associated_routes(route)}
-            <article ng-repeat="doc in added | filter:{'documentType': 'routes'}">
-              <app-association-card parent-id="${route_id}" doc="doc" added-documents="added"></app-association-card>
-            </article>
-          </div>
-        </article>
-        % endif
-      </section>
-    </span>
-  </div>
+    <div class="view-details-associations col-xs-12 tab associations">
+      <span class="lead">
+        <div ng-show="userCtrl.auth.isAuthenticated()">
+          <label translate>Add association</label>:
+          <app-add-association parent-id="${route_id}" added-documents="added"></app-add-association>
+        </div>
+        <section>
+          ${get_associated_documents(route, 'waypoints')}
+          ${get_associated_documents(route, 'routes')}
+          ${get_associated_documents(route, 'recent_outings')}
+        </section>
+      </span>
+    </div>
   % endif
 
 
   ## OTHER BUTTON contents
+  % if version:
+  ${show_archive_data('routes', route, locale, version)}
+  % endif
   ${show_other_langs_links('routes', route, other_langs)}
   ${show_missing_langs_links('routes', route, missing_langs)}
 
