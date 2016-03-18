@@ -43,12 +43,13 @@ app.module.directive('appLang', app.langDirective);
  * @param {ngeo.GetBrowserLanguage} ngeoGetBrowserLanguage
  *        GetBrowserLanguage Service.
  * @param {angular.$cookies} $cookies Cookies service.
+ * @param {amMoment} amMoment angular moment directive.
  * @constructor
  * @export
  * @ngInject
  */
 app.LangController = function(gettextCatalog, langUrlTemplate,
-    ngeoGetBrowserLanguage, $cookies) {
+    ngeoGetBrowserLanguage, $cookies, amMoment) {
 
   /**
    * @type {angularGettext.Catalog}
@@ -68,12 +69,20 @@ app.LangController = function(gettextCatalog, langUrlTemplate,
    */
   this.cookies_ = $cookies;
 
+
+  /**
+   * @type {amMoment}
+   */
+  this.amMoment_ = amMoment;
+
+
   /**
    * @type {string}
    */
   var lang = this.cookies_.get('interface_lang') ||
       ngeoGetBrowserLanguage(this['langs']) || 'fr';
   this.updateLang(lang);
+
 };
 
 
@@ -91,8 +100,8 @@ app.LangController.prototype.translate = function(str) {
  * @export
  */
 app.LangController.prototype.updateLang = function(lang) {
-  this.lang = lang;
 
+  this.lang = lang;
   this.gettextCatalog_.setCurrentLanguage(this.lang);
   this.gettextCatalog_.loadRemote(
           this.langUrlTemplate_.replace('__lang__', this.lang));
@@ -102,6 +111,14 @@ app.LangController.prototype.updateLang = function(lang) {
     'path': '/',
     'expires': this.todayInOneYear_()
   });
+
+  if (lang === 'en') {
+    lang = 'en-gb';
+  }
+  $.get('/node_modules/moment/locale/' + lang + '.js', function() {
+    this.amMoment_.changeLocale(lang);
+  }.bind(this))
+
 };
 
 

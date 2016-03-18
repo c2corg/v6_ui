@@ -11,6 +11,7 @@
     "externs": [
       "c2corg_ui/externs/appx.js",
       "c2corg_ui/externs/bootstrap-slider.js",
+      "c2corg_ui/externs/angular-moment.js",
       "node_modules/openlayers/externs/bingmaps.js",
       "node_modules/openlayers/externs/closure-compiler.js",
       "node_modules/openlayers/externs/esrijson.js",
