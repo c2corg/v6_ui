@@ -1,19 +1,11 @@
 <%!
-from c2corg_common.attributes import default_langs, route_types, activities, route_duration_types
+from c2corg_common.attributes import default_langs, route_types, activities, route_duration_types, orientation_types
 %>
 <form app-search-filters>
   <div class="filters">
     <div class="row simple-filters">
-      
-      <div class="col-xs-12 col-sm-6 col-md-4 filter">
-        <label translate>Category</label>
-        <select class="form-control" onchange="window.location = this.value;">
-          <option translate value="${request.route_url('waypoints_index_default')}" ng-selected="{{mainCtrl.isPath('waypoints')}}">Waypoints</option>
-          <option translate value="${request.route_url('routes_index_default')}" ng-selected="{{mainCtrl.isPath('routes')}}">Routes</option>
-        </select>
-      </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-4 filter">
+      <div class="filter">
         <label>{{'type'| translate | capitalize }}</label><br>
         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
           <p>
@@ -31,14 +23,22 @@ from c2corg_common.attributes import default_langs, route_types, activities, rou
         </ul>
       </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-4 filter">
+      <div class="filter">
         <label translate>duration_types</label>
         <div class="input-group">
           <select class="form-control" ng-model="route.duration" ng-options="dur as dur for dur in ${route_duration_types}"></select>
           <span class="input-group-addon">H</span>
         </div>
       </div>
-
+      
+      <div class="filter">
+        <label translate>lift access</label>
+        <select ng-model="searchFiltersCtrl.lang" class="form-control">
+          <option>yes</option>
+          <option>no</option>
+        </select>
+      </div>
+      
     </div>
     <div class="row collapse" id="moreFilters">
       
@@ -82,7 +82,7 @@ from c2corg_common.attributes import default_langs, route_types, activities, rou
       <div class="col-xs-12 col-sm-6 col-md-6 filter orientation">
         <label translate>orientation</label>
         <%include file="c2corg_ui:static/img/orientation.svg" />
-                <select class="form-control" ng-options="orient as orient for orient in orientations | translate" ng-model="orientation"></select>
+                <select class="form-control" ng-options="orient as orient for orient in ${orientation_types} | translate" ng-model="orientation"></select>
       </div>
       <div class="col-xs-12 col-sm-5 col-md-5 filter">
         <label translate>height_diff</label><br>
@@ -92,7 +92,7 @@ from c2corg_common.attributes import default_langs, route_types, activities, rou
           <p class="max-value">{{searchFiltersCtrl.height_diff_up.max}} m</p>
         </span>
       </div>
-            <div class="col-xs-12 col-sm-5 col-md-5 filter">
+      <div class="col-xs-12 col-sm-5 col-md-5 filter">
         <label translate>elevation</label><br>
         <input type="range" id="elevation-filter" class="range-between" data-slider-tooltip="hide">
         <span class="slider-min-max">
@@ -102,8 +102,7 @@ from c2corg_common.attributes import default_langs, route_types, activities, rou
       </div>
       <div class="row filters-bottom-buttons">
         <button class="btn less-filters-btn gray-btn" data-toggle="collapse" data-target="#moreFilters" 
-                aria-expanded="false">
-          <span translate>close and cancel</span> 
+                aria-expanded="false"> <span translate>close and cancel</span> 
         </button>
         <button class="btn search-filters-btn orange-btn" data-toggle="collapse" 
                 data-target="#moreFilters" aria-expanded="false">

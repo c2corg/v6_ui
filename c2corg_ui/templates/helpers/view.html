@@ -275,8 +275,12 @@
         <span class="icon-user"></span><br>
         <b class="author-name">${outing['author']['username']}</b>
       </div>
-       <div class="list-item-info">
+      <div class="list-item-info">
         <span class="list-item-title outing">${show_attr(outing['locales'][0], 'title', False)} (${outing['locales'][0]['lang']})</span>
+        ${get_document_min_max(outing, 'elevation')}
+        <div class="route-activities">
+          ${get_route_activities(outing, 'right')}
+        </div>
       </div>        
     </a>
     % if param == 'app-delete':

@@ -4,13 +4,6 @@ from c2corg_common.attributes import default_langs, waypoint_types, activities, 
 <form app-search-filters>
   <div class="filters">
     <div class="simple-filters">
-      <div class="filter">
-        <label translate>Category</label>
-        <select class="form-control" onchange="window.location = this.value;">
-          <option translate value="${request.route_url('waypoints_index_default')}" ng-selected="{{mainCtrl.isPath('waypoints')}}">Waypoints</option>
-          <option translate value="${request.route_url('routes_index_default')}" ng-selected="{{mainCtrl.isPath('routes')}}">Routes</option>
-        </select>
-      </div>
 
       <div class="filter">
         <label>{{'type'| translate | capitalize }}</label><br>
@@ -31,10 +24,18 @@ from c2corg_common.attributes import default_langs, waypoint_types, activities, 
       </div>
 
       <div class="filter">
-        <label>{{'summit'| translate | capitalize}}</label>
-        <input type="text" class="form-control">
+        <label translate>lang</label>
+        <select ng-model="searchFiltersCtrl.lang" class="form-control" ng-options="lang as (mainCtrl.translate(lang) |  capitalize ) for lang in ['${"','".join(default_langs) |n}'] | translate" ng-model="lang"></select>
       </div>
-
+      
+      <div class="filter">
+        <label translate>some filter</label>
+        <select ng-model="searchFiltersCtrl.lang" class="form-control">
+          <option>yes</option>
+          <option>no</option>
+        </select>
+      </div>
+      
     </div>
     <div class="collapse" id="moreFilters">
 
@@ -44,14 +45,14 @@ from c2corg_common.attributes import default_langs, waypoint_types, activities, 
       </div>
       
       <div class="filter col-xs-12 col-sm-6">
-        <label translate>lang</label>
-        <select ng-model="searchFiltersCtrl.lang" class="form-control" ng-options="lang as (mainCtrl.translate(lang) |  capitalize ) for lang in ['${"','".join(default_langs) |n}'] | translate" ng-model="lang"></select>
+        <label>{{'summit'| translate | capitalize}}</label>
+        <input type="text" class="form-control">
       </div>
-
+      
       <div class="col-xs-12 col-sm-6 col-md-6 filter orientation" ng-init="orientations = ${orientation_types}">
         <label translate>orientation</label>
         <%include file="c2corg_ui:static/img/orientation.svg" />
-        <select class="form-control" ng-options="orient as orient for orient in orientations | translate" ng-model="orientation"></select>
+        <select class="form-control" ng-options="orient as orient for orient in ${orientation_types} | translate" ng-model="orientation"></select>
       </div>
 
       <div class="col-xs-12 col-sm-5 col-md-5 filter">
@@ -71,9 +72,9 @@ from c2corg_common.attributes import default_langs, waypoint_types, activities, 
           <p class="max-value">{{searchFiltersCtrl.elevation.max}} m</p>
         </span>
       </div>
+      
       <div class="filters-bottom-buttons">
-        <button class="btn less-filters-btn gray-btn" data-toggle="collapse" data-target="#moreFilters" 
-                aria-expanded="false">
+        <button class="btn less-filters-btn gray-btn" data-toggle="collapse" data-target="#moreFilters" aria-expanded="false">
           <span translate>close and cancel</span> 
         </button>
         <button class="btn search-filters-btn orange-btn" data-toggle="collapse" 

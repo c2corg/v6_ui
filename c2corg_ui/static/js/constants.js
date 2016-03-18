@@ -33,10 +33,14 @@ app.constants = {
       step_4: []
     },
     route : {
-      step_1 : ['title' , 'lang', 'waypoint_type'],
-      step_2 : ['longitude', 'latitude', 'elevation'],
+      step_1: ['title', 'lang', 'waypoint_type'],
+      step_2: ['longitude', 'latitude', 'elevation'],
       step_3: [],
       step_4: []
     }
+  },
+  documentEditing: {
+    FORM_PROJ: 'EPSG:4326',
+    DATA_PROJ: 'EPSG:3857'
   }
 }

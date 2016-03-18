@@ -1,7 +1,7 @@
 <%inherit file="../base.html"/>
 <%namespace file="../helpers/common.html" import="show_title"/>
 <%namespace file="../helpers/list.html" import="add_pagination_links"/>
-<%namespace file="../helpers/view.html" import="show_attr, show_route_title, get_route_activities"/>
+<%namespace file="../helpers/view.html" import="route_card, get_document_min_max, show_attr, show_route_title, get_route_activities"/>
 
 <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Routes')">${show_title('Routes')}</title></%block>
 
@@ -16,37 +16,18 @@
   <%include file="filters.html" />
   <div class="documents-nav-buttons text-center">
     <button class="btn btn-default show-documents-filters-phone" translate>Filters</button>
+    
+    <%include file="c2corg_ui:templates/document/select_document.html" />
+    
     <app-edit-button class="btn btn-default" app-edit-button-url="${request.route_url('routes_add')}">
-      <span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span>
-      <span translate>Add a route</span>
+      <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
     </app-edit-button>
     ${add_pagination_links('routes', routes, total, filter_params)}
   </div>
     <div class="list">
       % for route in routes:
-      
       <% locale = route['locales'][0] %>\
-      <div class="list-item">
-        <a href="${request.route_url('routes_view', id=route['document_id'], lang=locale['lang'])}">
-          <span class="list-item-title">${show_route_title(locale)}</span>
-          % if lang != locale['lang']:
-          <span class="list-item-lang"> (${locale['lang']}) </span>
-          <br>
-          % endif
-          <div class="list-item-info">
-            % if route.get('areas'):
-            <b class="location">${route['areas'][0]['locales'][0]['title'] + ' '+ route['areas'][1]['locales'][0]['title']  }</b><br>
-            % endif
-          % if route['elevation_max'] is not None:
-            <span class="list-item-elevation">Elevation: ${route['elevation_max']} m</span>
-          % endif
-            <p class="text-justify">${show_attr(locale, 'summary')}</p>
-          </div>
-          <div class="route-activities">
-            ${get_route_activities(route, 'right')}
-          </div>
-        </a>
-      </div>
+        ${route_card(route, None, None)}
       % endfor
     </div>
 </section>

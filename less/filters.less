@@ -1,5 +1,11 @@
 @import "variables.less";
 
+
+.filters-phone {
+  overflow-y: scroll;
+  height: 40vh;
+}
+
 .filters {
   text-align: center;
   position: relative;
@@ -71,8 +77,7 @@
       width: 100%;
       .flex();
       justify-content: space-around;
-      position: absolute;
-      bottom: 10px;
+      position: relative;
 
       @media @phone {
         padding-top: 20px;
@@ -166,8 +171,8 @@
   input:not([type='checkbox']), select, .dropdown-toggle {
     margin-bottom: 1%;
     height: 30px;
-
   }
+  
   .caret {
     color: @C2C-orange;
   }
