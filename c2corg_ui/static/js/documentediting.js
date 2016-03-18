@@ -47,6 +47,7 @@ app.module.directive('appDocumentEditing', app.documentEditingDirective);
  * @param {angular.Attributes} $attrs Attributes.
  * @param {app.Authentication} appAuthentication
  * @param {app.Alerts} appAlerts
+ * @param {amMoment} amMoment angular moment directive.
  * @param {app.Api} appApi Api service.
  * @param {string} authUrl Base URL of the authentication page.
  * @constructor
@@ -54,7 +55,7 @@ app.module.directive('appDocumentEditing', app.documentEditingDirective);
  * @export
  */
 app.DocumentEditingController = function($scope, $element, $attrs,
-    appAuthentication, appAlerts, appApi, authUrl) {
+    appAuthentication, appAlerts, appApi, authUrl, amMoment) {
 
   /**
    * @type {angular.Scope}
@@ -118,6 +119,12 @@ app.DocumentEditingController = function($scope, $element, $attrs,
   this.alerts_ = appAlerts;
 
   /**
+   * @type {amMoment}
+   * @private
+   */
+  this.amMoment_ = amMoment;
+
+  /**
    * first next step would be 2 by default
    * @export
    */
@@ -154,6 +161,10 @@ app.DocumentEditingController = function($scope, $element, $attrs,
    */
   this.scope_.waypoint = {};
 
+  /**
+   * @export
+   */
+  this.differentDates;
 
   /**
    * @type {app.Api}
@@ -186,26 +197,15 @@ app.DocumentEditingController = function($scope, $element, $attrs,
     this.handleMapFeatureChange_(feature);
     this.scope_.$apply();
   }.bind(this));
+
+  this.putLocalstorage_();
 };
-
-
-/**
- * @const
- * @type {string}
- */
-app.DocumentEditingController.FORM_PROJ = 'EPSG:4326';
-
-
-/**
- * @const
- * @type {string}
- */
-app.DocumentEditingController.DATA_PROJ = 'EPSG:3857';
 
 
 /**
  * @param {Object} response Response from the API server.
  * @private
+ * @suppress {checkTypes}
  */
 app.DocumentEditingController.prototype.successRead_ = function(response) {
   var data = response['data'];
@@ -236,7 +236,24 @@ app.DocumentEditingController.prototype.successRead_ = function(response) {
     this.isNewLang_ = true;
   }
 
-  this.scope_[this.modelName_] = data;
+  var document = JSON.parse(window.localStorage.getItem(this.modelName_));
+
+  // if document does'nt exist in localstorage or it's another document, set the data got from API
+  if (document === null || document['document_id'] !== data['document_id']) {
+    this.scope_[this.modelName_] = data;
+    // if it exists and it's the same document (for ex reloaded the page), replace whit what's in localstorage
+  } else if (document['document_id'] === data['document_id']) {
+    this.scope_[this.modelName_] = document;
+  }
+
+  if (this.modelName_ === 'outing') {
+    var outing = this.scope_['outing'];
+    outing['date_start'] = app.utils.formatDate(outing['date_start']);
+    outing['date_end'] = app.utils.formatDate(outing['date_end']);
+    // to show or hide date_end in the form
+    this.differentDates = app.utils.areDifferentDates(outing['date_start'], outing['date_end']);
+  }
+
   this.scope_.$root.$emit('documentDataChange', data);
 };
 
@@ -270,8 +287,8 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
     var lonlat = data['lonlat'];
     if ('longitude' in lonlat && 'latitude' in lonlat) {
       var point = new ol.geom.Point([lonlat['longitude'], lonlat['latitude']]);
-      point.transform(app.DocumentEditingController.FORM_PROJ,
-                      app.DocumentEditingController.DATA_PROJ);
+      point.transform(app.constants.documentEditing.FORM_PROJ,
+                      app.constants.documentEditing.DATA_PROJ);
       // If creating a new document, the model has no geometry attribute yet:
       data['geometry'] = data['geometry'] || {};
 
@@ -318,6 +335,8 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
         this.module_, this.id_, this.lang_);
     }.bind(this));
   }
+  // remove the edited item from localstorage
+  window.localStorage.removeItem(this.modelName_);
 };
 
 
@@ -343,8 +362,7 @@ app.DocumentEditingController.prototype.updateMap = function() {
     var lonlat = data['lonlat'];
     if ('longitude' in lonlat && 'latitude' in lonlat) {
       var point = new ol.geom.Point([lonlat['longitude'], lonlat['latitude']]);
-      point.transform(app.DocumentEditingController.FORM_PROJ,
-                      app.DocumentEditingController.DATA_PROJ);
+      point.transform(app.constants.documentEditing.FORM_PROJ, app.constants.documentEditing.DATA_PROJ);
       // If creating a new document, the model has no geometry attribute yet:
       data['geometry'] = data['geometry'] || {};
       data['geometry']['geom'] = this.geojsonFormat_.writeGeometry(point);
@@ -383,24 +401,12 @@ app.DocumentEditingController.prototype.handleMapFeatureChange_ = function(
  */
 app.DocumentEditingController.prototype.getCoordinatesFromPoint_ = function(
     geometry) {
-  geometry.transform(app.DocumentEditingController.DATA_PROJ,
-                     app.DocumentEditingController.FORM_PROJ);
+  geometry.transform(app.constants.documentEditing.DATA_PROJ, app.constants.documentEditing.FORM_PROJ);
   var coords = geometry.getCoordinates();
   return goog.array.map(coords, function(coord) {
     return Math.round(coord * 1000000) / 1000000;
   });
 };
-
-
-/**
- * Clone input
- * @export
- */
-
-app.DocumentEditingController.prototype.addAnotherMapsInfo = function() {
-  var template = $('#maps_info-group input:last-of-type').val('').clone();
-  template.insertBefore($('#document-add-maps'));
-}
 
 
 /**
@@ -476,6 +482,7 @@ app.DocumentEditingController.prototype.animateBar_ = function(step, direction) 
 
   $('.nav-step-selected').removeClass('nav-step-selected');
   $('.nav-step-' + step).addClass('nav-step-selected');
+  $('html, body').animate({scrollTop: 0}, 'slow');
 
   if (direction === 'forwards') {
     willBe = (percent * (step - 1)) - 10;
@@ -549,6 +556,7 @@ app.DocumentEditingController.prototype.updateMaxSteps = function(waypointType) 
  * @param {string} property
  * @param {string} value
  * @param {Event} event
+ * @suppress {missingProperties}
  * @export
  */
 
@@ -563,6 +571,35 @@ app.DocumentEditingController.prototype.pushToArray = function(object, property,
   }
 }
 
+
+/**
+ * @private
+ */
+app.DocumentEditingController.prototype.putLocalstorage_ = function() {
+  if (typeof (Storage) !== 'undefined') {
+    // if there are no keys -> a new document is created, but maybe some thing is in the localstorage
+    if (Object.keys(this.scope_[this.modelName_]).length === 0 && JSON.parse(window.localStorage.getItem(this.modelName_)) !== null) {
+      this.scope_[this.modelName_] = JSON.parse(window.localStorage.getItem(this.modelName_));
+    }
+
+    setInterval(function() {
+      window.localStorage.setItem(this.modelName_, JSON.stringify(this.scope_[this.modelName_]));
+      this.scope_[this.modelName_] = JSON.parse(window.localStorage.getItem(this.modelName_));
+    }.bind(this), 5000)
+  }
+}
+
+
+app.DocumentEditingController.prototype.pushToArray = function(object, property, value, event) {
+  var pushed = app.utils.pushToArray(object, property, value);
+  var checkbox = $(event.currentTarget).find('input');
+
+  if (pushed) {
+    checkbox.prop('checked', true);
+  } else {
+    checkbox.prop('checked', false);
+  }
+}
 
 /**
  * Set the orientation of a document. Can have multiple orientations
