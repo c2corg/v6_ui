@@ -10,28 +10,26 @@
   font-size: 0.4em;
   height: 45px;
   width: 45px;
-  border-radius: 50%;
+  border-radius: 45%;
   box-shadow: 0 0 3px gray;
-  transition: 0.3s;
+  transition: 0.2s ease-in-out;
+  background-color: #A4A4A4;
 
   &:hover {
     box-shadow: 0px 0px 8px lightslategray;
+    background-color: @C2C-orange;
+    transition: 0.2s ease-in-out;
   }
-  &.float-edit {
-    background: @brand-success; 
+  &.float-edit:hover {
+    background-color: @bright-green;
   }
-  &.float-favorite {
-    background: @brand-danger; 
+  &.float-favorites:hover {
+    background-color: @brand-danger;
   }
-  &.float-comments {
-    background: @brand-info; 
+  &.float-comments:hover {
+    background-color: @brand-primary;
   }
-  &.float-add {
-    background: @brand-primary; 
-  }
-  &.float-more {
-    background-color: @brand-warning;
-  }
+
 
   @media @phone {
     height: 40px;

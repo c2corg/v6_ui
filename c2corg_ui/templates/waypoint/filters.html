@@ -1,21 +1,69 @@
 <%!
-from c2corg_common.attributes import default_langs, waypoint_types, activities
+from c2corg_common.attributes import default_langs, waypoint_types, activities, orientation_types
 %>
 <form app-search-filters>
   <div class="filters">
-    <div class="row simple-filters">
-      <div class="col-xs-12 col-sm-6 col-md-3 filter">
+    <div class="simple-filters">
+      <div class="filter">
         <label translate>Category</label>
         <select class="form-control" onchange="window.location = this.value;">
           <option translate value="${request.route_url('waypoints_index_default')}" ng-selected="{{mainCtrl.isPath('waypoints')}}">Waypoints</option>
           <option translate value="${request.route_url('routes_index_default')}" ng-selected="{{mainCtrl.isPath('routes')}}">Routes</option>
         </select>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-3 filter">
-        <label>{{'summit' | translate | capitalize}}</label>
+
+      <div class="filter">
+        <label>{{'type'| translate | capitalize }}</label><br>
+        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+          <p>
+            <span ng-if="searchFiltersCtrl.waypoint_types.length > 0"> ({{searchFiltersCtrl.waypoint_types.length}})</span>
+            <span class="glyphicon glyphicon-menu-down"></span>
+          </p>
+        </button>
+        <ul class="dropdown-menu multiselect-box type">
+          <li ng-repeat="type in ['${"','".join(waypoint_types) |n}']">
+            <a data-value="{{type}}" ng-click="searchFiltersCtrl.selectOption(type, 'waypoint_types', $event)">
+              <input type="checkbox">
+              <span class="activity">{{mainCtrl.translate(type) | capitalize}}</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="filter">
+        <label>{{'summit'| translate | capitalize}}</label>
         <input type="text" class="form-control">
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-3 filter">
+
+    </div>
+    <div class="collapse" id="moreFilters">
+
+      <div class="filter col-xs-12 col-sm-6">
+        <label translate>Cable car</label>
+        <select class="form-control" ng-model="searchFiltersCtrl.georef"><option translate>Yes</option><option translate>No</option></select>
+      </div>
+      
+      <div class="filter col-xs-12 col-sm-6">
+        <label translate>lang</label>
+        <select ng-model="searchFiltersCtrl.lang" class="form-control" ng-options="lang as (mainCtrl.translate(lang) |  capitalize ) for lang in ['${"','".join(default_langs) |n}'] | translate" ng-model="lang"></select>
+      </div>
+
+      <div class="col-xs-12 col-sm-6 col-md-6 filter orientation" ng-init="orientations = ${orientation_types}">
+        <label translate>orientation</label>
+        <%include file="c2corg_ui:static/img/orientation.svg" />
+        <select class="form-control" ng-options="orient as orient for orient in orientations | translate" ng-model="orientation"></select>
+      </div>
+
+      <div class="col-xs-12 col-sm-5 col-md-5 filter">
+        <label translate>height_diff</label><br>
+        <input type="range" class="range-between" id="height-filter" data-slider-tooltip="hide">
+        <span class="slider-min-max">
+          <p class="min-value">{{searchFiltersCtrl.height_diff_up.min}} m</p>
+          <p class="max-value">{{searchFiltersCtrl.height_diff_up.max}} m</p>
+        </span>
+      </div>
+      
+      <div class="col-xs-12 col-sm-5 col-md-5 filter">
         <label translate>elevation</label><br>
         <input type="range" id="elevation-filter" class="range-between" data-slider-tooltip="hide">
         <span class="slider-min-max">
@@ -23,73 +71,20 @@ from c2corg_common.attributes import default_langs, waypoint_types, activities
           <p class="max-value">{{searchFiltersCtrl.elevation.max}} m</p>
         </span>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-3 filter">
-        <label translate>Cable car</label>
-        <select class="form-control" ng-model="searchFiltersCtrl.georef"><option translate>Yes</option><option translate>No</option></select>
-      </div>
-    </div>
-    <div class="row collapse" id="moreFilters">
-      <div class="col-xs-12 col-sm-6 col-md-3 filter">
-          <label translate>activities</label><br>
-          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-            <p><span translate>Select</span>
-              <span ng-if="searchFiltersCtrl.activities.length > 0"> ({{searchFiltersCtrl.activities.length}})</span>
-              <span class="caret"></span>
-            </p>
-          </button>
-         <ul class="dropdown-menu multiselect-box">
-           <li ng-repeat="activity in ['${"','".join(activities) |n}']">
-             <a data-value="{{activity}}" ng-click="searchFiltersCtrl.selectOption(activity, 'activities', $event)">
-               <input type="checkbox">
-               <span class="activity">{{mainCtrl.translate(activity) | capitalize}}</span>
-             </a>
-           </li>
-        </ul>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-3 filter">
-        <label>{{'type' | translate | capitalize }}</label><br>
-        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-            <p><span translate>Select</span>
-              <span ng-if="searchFiltersCtrl.waypoint_types.length > 0"> ({{searchFiltersCtrl.waypoint_types.length}})</span>
-              <span class="caret"></span>
-            </p>
-          </button>
-            <ul class="dropdown-menu multiselect-box type">
-              <li ng-repeat="type in ['${"','".join(waypoint_types) |n}']">
-                <a data-value="{{type}}" ng-click="searchFiltersCtrl.selectOption(type, 'waypoint_types', $event)">
-                  <input type="checkbox">
-                  <span class="activity">{{mainCtrl.translate(type) | capitalize}}</span>
-                </a>
-              </li>
-           </ul>
-      </div>
-       <div class="col-xs-12 col-sm-6 col-md-3 filter">
-        <label translate>height_diff_up</label><br>
-        <input type="range" class="range-between" id="height-filter" data-slider-tooltip="hide">
-        <span class="slider-min-max">
-          <p class="min-value">{{searchFiltersCtrl.height_diff_up.min}} m</p>
-          <p class="max-value">{{searchFiltersCtrl.height_diff_up.max}} m</p>
-        </span>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-3 filter">
-        <label translate>lang</label>
-        <select ng-model="searchFiltersCtrl.lang" class="form-control" ng-options="lang as (mainCtrl.translate(lang) | capitalize ) for lang in ['${"','".join(default_langs) |n}'] | translate" ng-model="lang"></select>
-      </div>
-      <div class="row filters-bottom-buttons">
-         <button class="btn btn-warning less-filters-btn" data-toggle="collapse" data-target="#moreFilters" 
-              aria-expanded="false" aria-controls="moreFilters">
-          <span class="glyphicon glyphicon-remove"></span>
+      <div class="filters-bottom-buttons">
+        <button class="btn less-filters-btn gray-btn" data-toggle="collapse" data-target="#moreFilters" 
+                aria-expanded="false">
+          <span translate>close and cancel</span> 
         </button>
-        <button class="btn btn-lg btn-default search-filters-btn" data-toggle="collapse" 
-                data-target="#moreFilters" aria-expanded="false" aria-controls="moreFilters">
-          <span translate>Search</span> 
-          <span class="glyphicon glyphicon-search"></span>
+        <button class="btn search-filters-btn orange-btn" data-toggle="collapse" 
+                data-target="#moreFilters" aria-expanded="false">
+          <span translate>apply and search</span> 
         </button>
       </div>
     </div>
     <div class="more-filters-btn-container">
-      <button class="btn btn-info more-filters-btn" data-toggle="collapse" data-target="#moreFilters" aria-expanded="false" aria-controls="moreFilters" translate>More filters</button>
+      <button class="btn orange-btn more-filters-btn" data-toggle="collapse" data-target="#moreFilters" aria-expanded="false" aria-controls="moreFilters" translate>more filters</button>
     </div>
-    
-    </div>
+
+  </div>
 </form>

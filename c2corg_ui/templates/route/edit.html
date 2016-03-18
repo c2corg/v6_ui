@@ -100,8 +100,6 @@ updating_doc = route_id and route_lang
                 </div>
               </div>
 
-              <span class="icon-mountain_biking"></span>
-              
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.activities.$valid"></span>
             </div>
 
@@ -679,12 +677,12 @@ updating_doc = route_id and route_lang
         </section>
 
         <p  class="bottom-btns">
-          <button type="submit" class="btn btn-success" ng-disabled="editForm.$invalid || editForm.$pristine" translate>Save</button>
+          <button type="submit" class="btn btn-lg orange-btn" ng-disabled="editForm.$invalid || editForm.$pristine" translate>Save</button>
           <%
           view_url = request.route_url('routes_view', id=route_id, lang=route_lang) if updating_doc else ''
           index_url = request.route_url('routes_index_default')
           %>
-          <button type="button" class="btn btn-default" ng-click="editCtrl.cancel('${view_url}', '${index_url}')" translate>Cancel</button>
+          <button type="button" class="btn btn-lg gray-btn" ng-click="editCtrl.cancel('${view_url}', '${index_url}')" translate>Cancel</button>
         </p>
       </div>
     

@@ -17,8 +17,8 @@
       width: 85%;
     }
     @media @phone {
-      width: 89%;
-      margin-left: 15px;
+      width: 92%;
+      margin-left: 2px;
     }
   }
   .nav-buttons {
@@ -96,7 +96,7 @@
   }
   .section.title {
     #title-group {
-      flex-basis: 80%;
+      flex-basis: 77%;
       float:left;
       margin:0;
       @media @phone {
@@ -124,9 +124,9 @@
         }
       }
      [class^="icon-"] {
-        font-size: 9em;
+        font-size: 8em;
         @media @big {
-          font-size: 10em;
+          font-size: 9em;
         }
         @media (max-width: @screen-sm-min) {
           font-size: 6em;
@@ -196,6 +196,11 @@
         margin-right: 0;
         flex-basis: 100%;
       }
+
+      @media @big {
+        flex-basis: 28%;
+      }
+
       .glyphicon-warning-sign, .glyphicon-ok {
         left: 102%;
       }
@@ -224,10 +229,16 @@
     }
     .heading {
       margin: 0;
+      background-color: @bright-green;
       font-size: 1.5em;
       >span {
         margin-left: 10px;
         margin-right: 10px;
+      }
+    }
+    &.numbers, &.ratings, &.maps-info, &.transports {
+      .content {
+        justify-content: flex-start;
       }
     }
     &.summary {
@@ -441,7 +452,7 @@
 #lang-group {
   float:left;
   margin-right: 20px;
-  flex-basis: 10%;
+  flex-basis: 14%;
 }
 #rock_types-group {
   @media @phone { 
@@ -552,4 +563,8 @@ input[type="radio"] {
 .activity-selected {
   color: @C2C-orange !important;
   transition: 0.2s ease-in-out;
+}
+
+#latitude-group, #longitude-group {
+  flex-basis: 45%;
 }

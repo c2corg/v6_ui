@@ -215,14 +215,15 @@
 
 
 ## CONTACT
-<figure  ng-if="waypoint.waypoint_type == 'climbing_indoor' || waypoint.waypoint_type == 'local_product' || waypoint.waypoint_type == 'gite'
+<figure  ng-if="(waypoint.waypoint_type == 'climbing_indoor' || waypoint.waypoint_type == 'local_product' || waypoint.waypoint_type == 'gite'
             || waypoint.waypoint_type == 'local_product' || waypoint.waypoint_type == 'camp_site' || waypoint.waypoint_type == 'hut' || waypoint.waypoint_type == 'webcam'
-            || waypoint.waypoint_type == 'weather_station' || waypoint.waypoint_type == 'climbing_indoor' || waypoint.waypoint_type == 'climbing_outdoor'">
+            || waypoint.waypoint_type == 'weather_station' || waypoint.waypoint_type == 'climbing_indoor' || waypoint.waypoint_type == 'climbing_outdoor') &&
+           (waypoint.url || waypoint.phone || waypoint.phone_custodian || waypoint.matress_unstaffed || waypoint.heating_unstaffed || waypoint.blanket_unstaffed || waypoint.gas_unstaffed)">
   <h3>contact</h3>
 
-  <article ng-if="waypoint.waypoint_type == 'climbing_indoor' || waypoint.waypoint_type == 'local_product'
+  <article ng-if="(waypoint.waypoint_type == 'climbing_indoor' || waypoint.waypoint_type == 'local_product'
               || waypoint.waypoint_type == 'gite' || waypoint.waypoint_type == 'camp_site' || waypoint.waypoint_type == 'hut' || waypoint.waypoint_type == 'weather_station'
-              || waypoint.waypoint_type == 'climbing_outdoor' || waypoint.waypoint_type == 'webcam'">
+              || waypoint.waypoint_type == 'climbing_outdoor' || waypoint.waypoint_type == 'webcam') && waypoint.url">
     <label translate>url</label>
     <div class="input-group">
       <input type="text" class="form-control" disabled value="{{waypoint.url}}">
@@ -230,8 +231,8 @@
     </div>
   </article>
 
-  <article ng-if="waypoint.waypoint_type == 'climbing_indoor' || waypoint.waypoint_type == 'local_product' || waypoint.waypoint_type == 'gite'
-              || waypoint.waypoint_type == 'local_product' || waypoint.waypoint_type == 'camp_site' || waypoint.waypoint_type == 'hut'">
+  <article ng-if="(waypoint.waypoint_type == 'climbing_indoor' || waypoint.waypoint_type == 'local_product' || waypoint.waypoint_type == 'gite'
+              || waypoint.waypoint_type == 'local_product' || waypoint.waypoint_type == 'camp_site' || waypoint.waypoint_type == 'hut') && waypoint.phone">
     <label translate>phone</label>
     <div class="input-group">
       <input type="text" class="form-control" disabled value="{{waypoint.phone}}">
@@ -239,7 +240,7 @@
     </div>
   </article>
 
-  <article ng-if="waypoint.waypoint_type == 'camp_site' || waypoint.waypoint_type == 'hut' || waypoint.waypoint_type == 'gite'">
+  <article ng-if="(waypoint.waypoint_type == 'camp_site' || waypoint.waypoint_type == 'hut' || waypoint.waypoint_type == 'gite') && waypoint.phone_custodian">
     <label translate>phone_custodian</label>
     <div class="input-group">
       <input type="text" class="form-control" disabled value="{{waypoint.phone_custodian}}">
@@ -251,7 +252,8 @@
 </figure>
 
 ## EQUIPMENT
-<figure ng-if="waypoint.waypoint_type == 'hut' || waypoint.waypoint_type == 'shelter'">
+<figure ng-if="(waypoint.waypoint_type == 'hut' || waypoint.waypoint_type == 'shelter') && (waypoint.matress_unstaffed ||
+          waypoint.heating_unstaffed || waypoint.blanket_unstaffed || waypoint.gas_unstaffed)">
   <h3>equipment</h3>
   <p><label translate>matress_unstaffed</label>{{waypoint.matress_unstaffed}}</p>
   <p><label translate>heating_unstaffed</label>{{waypoint.heating_unstaffed}}</p>

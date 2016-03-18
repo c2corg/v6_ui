@@ -48,7 +48,7 @@
       </li>
       <li class="nav-step-3"  ng-click="editCtrl.step(3, 'waypoint', editCtrl.previous_step >= 3 ? 'backwards' : 'forwards')" ng-if="waypoint.waypoint_type == 'access'
                 || waypoint.waypoint_type == 'local_product' || waypoint.waypoint_type == 'hut' || waypoint.waypoint_type == 'shelter'" >
-        <span nclass="nav-text">
+        <span class="nav-text">
           <span translate ng-if="waypoint.waypoint_type == 'access' || waypoint.waypoint_type == 'local_product' || waypoint.waypoint_type == 'climbing_outdoor' || waypoint.waypoint_type == 'hut'" translate>access</span>
           <span ng-if="waypoint.waypoint_type == 'hut' || waypoint.waypoint_type == 'access'"> & </span>
           <span ng-if="waypoint.waypoint_type == 'access'" translate>transports</span>
@@ -413,30 +413,30 @@
           <div class="content collapse in" id="edit-maps">
 
              ## LONGITUDE
-            <div id="longitude-group" class="form-group data half" ng-class="{ 'has-error': editForm.longitude.$touched && editForm.longitude.$invalid,
+            <div id="longitude-group" class="form-group data half longitude" ng-class="{ 'has-error': editForm.longitude.$touched && editForm.longitude.$invalid,
                                       'has-success': editForm.longitude.$valid && waypoint.lonlat.longitude}">
               <label><span translate>longitude</span> *</label>
               <div class="input-group">
                 <input type="number" name="longitude" ng-model="waypoint.lonlat.longitude" ng-change="editCtrl.updateMap()" class="form-control" required required min="-90" max="90" />
-                <span class="input-group-addon">°N</span>
+                <span class="input-group-addon">{{waypoint.lonlat.longitude < 0 ? '°W' : '°E'}}</span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.longitude.$valid && waypoint.lonlat.longitude"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.longitude.$invalid && editForm.longitude.$touched"></span>
               <div class="help-block" ng-messages="editForm.longitude.$error">
                 <p ng-message="required" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : ''}}" translate>This field is required.</p>
                 <p ng-message="number" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
-                <p ng-message="min" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : ''}}" translate>This field must be between -90° and 90°.</p>
-                <p ng-message="max" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : ''}}" translate>This field must be between -90° and 90°.</p>
+                <p ng-message="min" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : ''}}" translate>This field must be between -180° and 180°.</p>
+                <p ng-message="max" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : ''}}" translate>This field must be between -180° and 180°.</p>
               </div>
             </div>
 
             ## LATITUDE
-            <div id="latitude-group" class="form-group data half" ng-class="{ 'has-error': editForm.latitude.$touched && editForm.latitude.$invalid,
+            <div id="latitude-group" class="form-group data half latitude" ng-class="{ 'has-error': editForm.latitude.$touched && editForm.latitude.$invalid,
                                       'has-success': editForm.latitude.$valid && waypoint.lonlat.latitude}">
               <label><span translate>Latitude</span> *</label>
               <div class="input-group">
                 <input type="number" name="latitude" ng-model="waypoint.lonlat.latitude" ng-change="editCtrl.updateMap()" class="form-control" required required min="-90" max="90" />
-                <span class="input-group-addon">°N</span>
+                <span class="input-group-addon">{{waypoint.lonlat.latitude < 0 ? '°S' : '°N'}}</span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.lonlat.latitude"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.latitude.$invalid && editForm.latitude.$touched"></span>
@@ -678,14 +678,12 @@
             <div id="summary-group" class="form-group data">
               <label translate>summary</label>
               <textarea name="summary" ng-model="waypoint.locales[0].summary" rows="4" class="form-control"></textarea>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.locales[0].summary"></span>
             </div>
 
             ## DESCRIPTION
             <div id="description-group" class="form-group data">
               <label translate>description</label>
               <textarea name="description" ng-model="waypoint.locales[0].description" class="form-control" placeholder="{{'Describe here the waypoint'|translate}}"></textarea>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.locales[0].description"></span>
             </div>
           </div>
         </section>
@@ -757,12 +755,12 @@
         </section>
         
         <p class="bottom-btns">
-          <button type="submit" class="btn btn-success btn-lg" ng-disabled="editForm.$invalid || editForm.$pristine" translate>Save</button>
+          <button type="submit" class="btn orange-btn btn-lg" ng-disabled="editForm.$invalid || editForm.$pristine" translate>Save</button>
           <%
           view_url = request.route_url('waypoints_view', id=waypoint_id, lang=waypoint_lang) if updating_doc else ''
           index_url = request.route_url('waypoints_index_default')
           %>
-          <button type="button" class="btn btn-default btn-lg" ng-click="editCtrl.cancel('${view_url}', '${index_url}')" translate>Cancel</button>
+          <button type="button" class="btn gray-btn btn-lg" ng-click="editCtrl.cancel('${view_url}', '${index_url}')" translate>Cancel</button>
         </p>
       </div>
 

@@ -1,21 +1,98 @@
 <%!
-from c2corg_common.attributes import default_langs, route_types, activities
+from c2corg_common.attributes import default_langs, route_types, activities, route_duration_types
 %>
 <form app-search-filters>
   <div class="filters">
     <div class="row simple-filters">
-      <div class="col-xs-12 col-sm-6 col-md-3 filter">
+      
+      <div class="col-xs-12 col-sm-6 col-md-4 filter">
         <label translate>Category</label>
         <select class="form-control" onchange="window.location = this.value;">
           <option translate value="${request.route_url('waypoints_index_default')}" ng-selected="{{mainCtrl.isPath('waypoints')}}">Waypoints</option>
           <option translate value="${request.route_url('routes_index_default')}" ng-selected="{{mainCtrl.isPath('routes')}}">Routes</option>
         </select>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-3 filter">
-        <label>{{'summit' | translate | capitalize}}</label>
+
+      <div class="col-xs-12 col-sm-6 col-md-4 filter">
+        <label>{{'type'| translate | capitalize }}</label><br>
+        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+          <p>
+            <span ng-if="searchFiltersCtrl.route_types.length > 0"> ({{searchFiltersCtrl.route_types.length}})</span>
+            <span class="glyphicon glyphicon-menu-down"></span>
+          </p>
+        </button>
+        <ul class="dropdown-menu multiselect-box type">
+          <li ng-repeat="type in ['${"','".join(route_types) |n}']">
+            <a data-value="{{type}}" ng-click="searchFiltersCtrl.selectOption(type, 'route_types', $event)">
+              <input type="checkbox">
+              <span class="activity">{{mainCtrl.translate(type) | capitalize}}</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="col-xs-12 col-sm-6 col-md-4 filter">
+        <label translate>duration_types</label>
+        <div class="input-group">
+          <select class="form-control" ng-model="route.duration" ng-options="dur as dur for dur in ${route_duration_types}"></select>
+          <span class="input-group-addon">H</span>
+        </div>
+      </div>
+
+    </div>
+    <div class="row collapse" id="moreFilters">
+      
+      <div class="col-xs-12 filter route-activities" ng-init="activities = ${activities}">
+        <label translate>activities</label><br>
+        <div class="activities">
+          <div ng-repeat="activity in activities" class="activity" ng-if="activity !== 'paragliding' ">
+            <div>
+              <div class="icon-{{activity}}" class="icon-" ng-click="editCtrl.pushToArray(route, 'activities', activity, $event)"
+                   ng-class="{'activity-selected' : route.activities.indexOf(activity) > -1}">
+              </div>
+              <p>{{activity | translate}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 filter route-activities show-tight" ng-init="activities = ${activities}">
+        <label translate>activities</label><br>
+        <ul class="activities">
+          <li ng-repeat="activity in activities" class="activity" ng-if="activity !== 'paragliding' ">
+            <div class="checkbox"><input type="checkbox"><span x-translate>{{activity | translate}}</span></div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="col-xs-12 col-sm-6 col-md-4 filter">
+        <label translate>lang</label>
+        <select ng-model="searchFiltersCtrl.lang" class="form-control" ng-options="lang as (mainCtrl.translate(lang) |  capitalize ) for lang in ['${"','".join(default_langs) |n}'] | translate" ng-model="lang"></select>
+      </div>
+      
+      <div class="col-xs-12 col-sm-6 col-md-4 filter">
+        <label>{{'summit'| translate | capitalize}}</label>
         <input type="text" class="form-control">
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-3 filter">
+
+      <div class="col-xs-12 col-sm-6 col-md-4 filter">
+        <label translate>GPS Track</label>
+        <select class="form-control" ng-model="searchFiltersCtrl.georef"><option translate>Yes</option><option translate>No</option></select>
+      </div>
+
+      <div class="col-xs-12 col-sm-6 col-md-6 filter orientation">
+        <label translate>orientation</label>
+        <%include file="c2corg_ui:static/img/orientation.svg" />
+                <select class="form-control" ng-options="orient as orient for orient in orientations | translate" ng-model="orientation"></select>
+      </div>
+      <div class="col-xs-12 col-sm-5 col-md-5 filter">
+        <label translate>height_diff</label><br>
+        <input type="range" class="range-between" id="height-filter" data-slider-tooltip="hide">
+        <span class="slider-min-max">
+          <p class="min-value">{{searchFiltersCtrl.height_diff_up.min}} m</p>
+          <p class="max-value">{{searchFiltersCtrl.height_diff_up.max}} m</p>
+        </span>
+      </div>
+            <div class="col-xs-12 col-sm-5 col-md-5 filter">
         <label translate>elevation</label><br>
         <input type="range" id="elevation-filter" class="range-between" data-slider-tooltip="hide">
         <span class="slider-min-max">
@@ -23,73 +100,20 @@ from c2corg_common.attributes import default_langs, route_types, activities
           <p class="max-value">{{searchFiltersCtrl.elevation.max}} m</p>
         </span>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-3 filter">
-        <label translate>GPS Track</label>
-        <select class="form-control" ng-model="searchFiltersCtrl.georef"><option translate>Yes</option><option translate>No</option></select>
-      </div>
-    </div>
-    <div class="row collapse" id="moreFilters">
-      <div class="col-xs-12 col-sm-6 col-md-3 filter">
-          <label translate>activities</label><br>
-          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-            <p><span translate>Select</span>
-              <span ng-if="searchFiltersCtrl.activities.length > 0"> ({{searchFiltersCtrl.activities.length}})</span>
-              <span class="caret"></span>
-            </p>
-          </button>
-         <ul class="dropdown-menu multiselect-box">
-           <li ng-repeat="activity in ['${"','".join(activities) |n}']">
-             <a data-value="{{activity}}" ng-click="searchFiltersCtrl.selectOption(activity, 'activities', $event)">
-               <input type="checkbox">
-               <span class="activity">{{mainCtrl.translate(activity) | capitalize}}</span>
-             </a>
-           </li>
-        </ul>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-3 filter">
-        <label>{{'type' | translate | capitalize }}</label><br>
-        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-            <p><span translate>Select</span>
-              <span ng-if="searchFiltersCtrl.route_types.length > 0"> ({{searchFiltersCtrl.route_types.length}})</span>
-              <span class="caret"></span>
-            </p>
-          </button>
-            <ul class="dropdown-menu multiselect-box type">
-              <li ng-repeat="type in ['${"','".join(route_types) |n}']">
-                <a data-value="{{type}}" ng-click="searchFiltersCtrl.selectOption(type, 'route_types', $event)">
-                  <input type="checkbox">
-                  <span class="activity">{{mainCtrl.translate(type) | capitalize}}</span>
-                </a>
-              </li>
-           </ul>
-      </div>
-       <div class="col-xs-12 col-sm-6 col-md-3 filter">
-        <label translate>height_diff_up</label><br>
-        <input type="range" class="range-between" id="height-filter" data-slider-tooltip="hide">
-        <span class="slider-min-max">
-          <p class="min-value">{{searchFiltersCtrl.height_diff_up.min}} m</p>
-          <p class="max-value">{{searchFiltersCtrl.height_diff_up.max}} m</p>
-        </span>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-3 filter">
-        <label translate>lang</label>
-        <select ng-model="searchFiltersCtrl.lang" class="form-control" ng-options="lang as (mainCtrl.translate(lang) | capitalize ) for lang in ['${"','".join(default_langs) |n}'] | translate" ng-model="lang"></select>
-      </div>
       <div class="row filters-bottom-buttons">
-         <button class="btn btn-warning less-filters-btn" data-toggle="collapse" data-target="#moreFilters" 
-              aria-expanded="false" aria-controls="moreFilters">
-          <span class="glyphicon glyphicon-remove"></span>
+        <button class="btn less-filters-btn gray-btn" data-toggle="collapse" data-target="#moreFilters" 
+                aria-expanded="false">
+          <span translate>close and cancel</span> 
         </button>
-        <button class="btn btn-lg btn-default search-filters-btn" data-toggle="collapse" 
-                data-target="#moreFilters" aria-expanded="false" aria-controls="moreFilters">
-          <span translate>Search</span> 
-          <span class="glyphicon glyphicon-search"></span>
+        <button class="btn search-filters-btn orange-btn" data-toggle="collapse" 
+                data-target="#moreFilters" aria-expanded="false">
+          <span translate>apply and search</span> 
         </button>
       </div>
     </div>
     <div class="more-filters-btn-container">
-      <button class="btn btn-info more-filters-btn" data-toggle="collapse" data-target="#moreFilters" aria-expanded="false" aria-controls="moreFilters" translate>More filters</button>
+      <button class="btn orange-btn more-filters-btn" data-toggle="collapse" data-target="#moreFilters" aria-expanded="false" aria-controls="moreFilters" translate>more filters</button>
     </div>
-    
-    </div>
+
+  </div>
 </form>
