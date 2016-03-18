@@ -41,6 +41,17 @@ def main(global_config, **settings):
     config.add_route(
         'routes_diff', '/routes/diff/{id}/{lang}/{v1}/{v2}')
 
+    config.add_route('outings_view', '/outings/{id}/{lang}')
+    config.add_route('outings_index_default', '/outings')
+    config.add_route('outings_index', '/outings/list*filters')
+    config.add_route('outings_add', '/outings/add')
+    config.add_route('outings_edit', '/outings/edit/{id}/{lang}')
+    config.add_route('outings_history', '/outings/history/{id}/{lang}')
+    config.add_route('outings_archive',
+                     '/outings/{id}/{lang}/{version:\d+}')
+    config.add_route(
+        'outings_diff', '/outings/diff/{id}/{lang}/{v1}/{v2}')
+
     config.add_route('auth', '/auth')
 
     config.scan(ignore='c2corg_ui.tests')

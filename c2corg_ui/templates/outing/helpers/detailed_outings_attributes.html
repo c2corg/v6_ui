@@ -1,0 +1,162 @@
+<%namespace file="../../helpers/view.html" import="show_areas, show_attr, get_document_up_down, get_document_min_max"/>
+
+
+## GENERAL
+<%def name="get_outing_general(outing)">\
+<div class="name-icon-value general" ng-click="detailsCtrl.openTab($event)">
+  <h4><span translate>General</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+  <div class="name-icon">
+    <span class="glyphicon glyphicon-info-sign"></span>
+    <p translate>General</p>
+  </div>
+  <span class="detail-text accordion">
+
+    <article ng-init="activities = ${outing['activities']}" class="value activities">
+      <b translate class="value-title">activities</b><br>
+      <b class="green-text" ng-repeat="type in activities">{{type | translate}}{{$last ? '' : ', '}}</b>
+    </article>
+    
+    % if outing.get('awesomeness'):
+    <p><span class="value-title" translate>awesomeness</span>: <span class="value">${outing['awesomeness']}</span></p>
+    % endif
+    
+    % if outing.get('duration'):
+    <p><span class="value-title" translate>duration</span>: <span class="value">${outing['duration']}</span></p>
+    % endif
+    
+    % if outing.get('duration_difficulties'):
+    <p><span class="value-title" translate>duration_difficulties</span>: <span class="value" translate>${outing['duration_difficulties']}</span></p>
+    % endif
+    
+    % if outing.get('frequentation'):
+    <p><span class="value-title" translate>frequentation</span>: <span class="value" translate>${outing['frequentation']}</span></p>
+    % endif
+    
+    %if outing.get('condition_rating'):
+    <p><span class="value-title" translate>condition_rating</span>: <span class="value" translate>${outing['condition_rating']}</span></p>
+    % endif
+    
+    % if outing.get('partial_trip'):
+    <p><span class="value-title" translate>partial_trip</span>: <span class="value" translate>${outing['partial_trip']}</span></p>
+    % endif
+  </span>
+</div>
+</%def>
+
+## SNOW
+<%def name="get_outing_snow(waypoint)">\
+  % if outing.get('elevation_up_snow') or outing.get('snow_quantity') or outing.get('snow_quality') or outing.get('glacier_rating') or outing.get('avalanche_signs'):
+    <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
+      <h4><span translate>snow</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+      <div class="name-icon">
+        <span class="glyphicon glyphicon-asterisk"></span>
+        <p translate>snow</p>
+      </div>
+      <span class="detail-text accordion">
+        % if outing.get('elevation_up_snow'):
+        <p><span class="value-title" translate>elevation_up_snow</span>: <span class="value">${outing['elevation_up_snow']} m</span></p>
+        % endif
+
+        % if outing.get('snow_quantity'):
+        <p><span class="value-title" translate>snow_quantity</span>: <span class="value">${outing['snow_quantity']}</span></p>
+        % endif
+
+        % if outing.get('snow_quality'):
+        <p><span class="value-title" translate>snow_quality</span>: <span class="value">${outing['snow_quality']}</span></p>
+        % endif   
+
+        % if outing.get('glacier_rating'):
+        <p><span class="value-title" translate>glacier_rating</span>: <span class="value">${outing['glacier_rating']}</span></p>
+        % endif
+
+        % if outing.get('avalanche_signs'):
+        <p><span class="value-title" translate>avalanche_signs</span>: <span class="value">${outing['avalanche_signs']}</span></p>
+        % endif
+
+      </span>
+    </div>
+  % endif
+</%def>
+
+
+## ACCESS
+<%def name="get_outing_access(outing)">\
+  % if outing.get('public_transport') or outing.get('access_condition') or outing.get('lift_status') or outing.get('hut_status') :
+    <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
+      <h4><span translate>Access</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+      <div class="name-icon">
+        <span class="glyphicon glyphicon-road"></span>
+        <p translate>Access</p>
+      </div>
+      <span class="detail-text accordion">
+        % if outing.get('public_transport'):
+        <p><span class="value-title" translate>public_transport</span>: <span class="value">${outing['public_transport']}</span></p>
+        % endif
+
+        % if outing.get('access_condition'):
+        <p><span class="value-title" translate>access_condition</span>: <span class="value">${outing['access_condition']}</span></p>
+        % endif
+
+        % if outing.get('lift_status'):
+        <p><span class="value-title" translate>lift_status</span>: <span class="value">${outing['lift_status']}</span></p>
+        % endif
+
+        % if outing.get('hut_status'):
+        <p><span class="value-title" translate>hut_status</span>: <span class="value">${outing['hut_status']}</span></p>
+        % endif
+      </span>
+    </div>
+  % endif
+</%def>
+
+## PARTICIPANTS
+<%def name="get_outing_participants(outing)">\
+  % if outing.get('participant_count')  or outing['locales'][0]['participants']:
+    <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
+      <h4><span translate>participants</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+      <div class="name-icon">
+        <span class="icon-user"></span>
+        <p translate>participants</p>
+      </div>
+      <span class="detail-text accordion">
+        % if outing.get('participant_count') :
+        <p><span translate>participant_count</span>: <b>${outing['participant_count']}</b></p>
+        % endif
+
+        % if outing['locales'][0]['participants']:
+        <p><b>${outing['locales'][0]['participants']}</b></p>
+        % endif
+      </span>
+    </div>
+  % endif
+</%def>
+
+
+## HEIGHTS
+<%def name="get_outing_heights(outing)">\
+  % if outing.get('elevation_min') or outing.get('elevation_max') or outing.get('elevation_access') or outing.get('height_diff_up') \
+  or outing.get('height_diff_down') or outing.get('length_total'):
+
+    <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
+      <h4><span translate>heights</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+      <div class="name-icon">
+        <span class="glyphicon glyphicon-stats"></span>
+        <p translate>heights</p>
+      </div>
+      <span class="detail-text accordion">
+
+        ${get_document_min_max(outing, 'elevation')}
+
+        % if outing.get('elevation_access'):
+        <p><b class="value-title" translate>elevation_access</b>:  <span class="value">${outing['elevation_access']} m</span></p>
+        % endif
+
+       ${get_document_up_down(outing, 'height_diff')}
+
+        % if outing.get('length_total'):
+        <p><span class="value-title" translate>length_total</span>: <span class="value">${outing['length_total']} m</span></p>
+        % endif
+      </span>
+    </div>
+  %endif
+</%def>
