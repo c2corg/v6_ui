@@ -2,6 +2,7 @@
 
 
 .create-edit-document {
+  margin-top: @page-header-height;
 
   @media @tablet {
     margin-top: -20px;
@@ -42,17 +43,11 @@
       @media @tablet {
         left: @menu-width-tablet + 10;
       }
-      @media @big {
-        left: @menu-width + 100;
-      }
     }
     .next {
       right: 20px;
       @media @tablet {
         right: 10px;
-      }
-      @media @big {
-        right: 100px;
       }
     }
   }
@@ -67,7 +62,7 @@
     padding: 0;
   }
   h1 {
-    margin-top: 55px;
+    margin-top: 70px;
     font-size: 2em;
 
     label {
@@ -76,38 +71,16 @@
     }
     @media @tablet {
       font-size: 2.0em;
+      margin-top: 55px;
     }
     @media @phone {
       font-size: 1.8em;
-    }
-  }
-
-  .section.description {
-    .data {
-      width: 100%;
-    }
-    textarea {
-      resize: vertical;
-    }
-    #summary-group textarea {
-      height: 70px !important
-    }
-    #description-group textarea {
-      height: 130px !important;
+      padding-top: 10px;
+      margin-top: 0;
     }
   }
   .section.title {
-    #title-group {
-      flex-basis: 77%;
-      float:left;
-      margin:0 0 10px 0;
-      @media @phone {
-        flex-basis: 100%;
-      }
-    }
-    #title-edit {
-      width: 100%;
-    }
+    
     .route-activities { 
       .flex();
       justify-content: space-around;
@@ -118,6 +91,7 @@
       .activity {
         width: 20%;
         text-align: center;
+        cursor: pointer;
         @media (max-width: @screen-md-min) {
           width: 33%;
         }
@@ -126,13 +100,15 @@
         }
       }
      [class^="icon-"] {
-        font-size: 7em;
-
+        font-size: 8em;
+        @media @big {
+          font-size: 9em;
+        }
         @media (max-width: @screen-sm-min) {
           font-size: 6em;
         }
-        @media @big {
-          font-size: 8em;
+        @media (max-width: @screen-sm-max) {
+          font-size: 7em;
         }
         @media @phone {
           font-size: 5em;
@@ -149,6 +125,7 @@
       margin-bottom: 10px;
     }
     .map-info {
+      float: none;
       @media (max-width: @screen-md-max) {
         width: 100%;
       }
@@ -166,10 +143,6 @@
     }
   }
 
-  #title-group, .section {
-    margin-bottom: 15px;
-  }
-
   .section {
     .flex();
     flex-flow: wrap row;
@@ -177,47 +150,99 @@
     border: 2px solid #eee;  
     border-radius: 5px;
     background: white;
-    h2, #message-group {
-      width: 100%;
+    margin-bottom: 15px;
+    width: 100%;
+    
+    .conditions-levels {
+      margin-bottom: 10px;
+      th {
+        font-size: 0.9em;
+        line-height: 13px;
+        text-align: center;
+      }
+      .glyphicon-trash {
+        margin-top: 6px;
+        font-size: 1.4em;
+      }
     }
-    .data.third, .data.half, .data.full {
+    .data.third, .data.half, .data.full, #rock_types-group, #title-group {
+      float: left;
+      margin-right: 3%;
+      margin-left: 2%;
+      
       @media @phone {
         margin-right: .5%;
-        flex-basis: 100%;
+        flex-basis: 100% !important;
       }
     }
     .data.third {
-      width: 34%;
-      margin-right: .5%;
-      float: left;
+      width: 29%;
+      flex-basis: 29%;
     }
     .data.half {
       width: 45%;
       flex-basis: 45%;
-      margin-right: 3%;
-      margin-left: 1%;
-      float: left;
 
       @media @big {
         flex-basis: 28%;
-      }
-      &.remain {
-        flex-basis: 45% !important;
+        width: 28%;
       }
 
+      &.remain {
+        flex-basis: 44% !important;
+        margin-right: 4%;
+        margin-left: 2%;
+      }
+      .glyphicon-warning-sign, .glyphicon-ok {
+        left: 102%;
+      }
     }
     .data.full {
       flex-basis: 100%;
       margin-right: 1.5%;
+      margin-bottom: 10px;
+    }
+    textarea.description {
+      height: 300px !important;
+    }
+    .route-activities { 
+      .flex();
+      justify-content: space-around;
+      flex-flow: wrap row; 
+     @media @phone {
+        justify-content: space-between;
+      }
+      .activity {
+        width: 20%;
+        text-align: center;
+        @media (max-width: @screen-md-min) {
+          width: 33%;
+        }
+        p {
+          text-align: center;
+        }
+      }
+     [class^="icon-"] {
+        font-size: 8em;
+
+        @media (max-width: @screen-sm-min) {
+          font-size: 6em;
+        }
+        @media (max-width: @screen-sm-max) {
+          font-size: 7em;
+        }
+        @media @phone {
+          font-size: 5em;
+        }
+      }
     }
     .content {
       padding: 10px 20px 10px 20px;
       width: 100%;
-      overflow: hidden;
       .flex();
       flex-flow: wrap row;
       justify-content: space-between;
-
+      
       &.waypoint-association {
         min-height:  300px;
         app-search {
@@ -225,14 +250,6 @@
         }
       }
       &.outing-route {
-        app-search{
-          margin-bottom: 10px;
-          width: 300px;
-        }
-        .search  {
-          width: 255px;
-          border-radius: 5px;
-        }
         .tt-menu {
           max-height: 400px;
           overflow-y: scroll;
@@ -241,21 +258,19 @@
       &.route-associations {
         overflow: visible;
       }
+      .associated-documents {
+        margin-bottom: 3%;
+        border: 1px solid #eee;
+        padding-bottom: 10px;
+      }
     }
     .heading {
       margin: 0;
-      font-weight: bold;
       background-color: @bright-green;
-      font-size: 1.3em;
+      font-size: 1.5em;
       >span {
         margin-left: 10px;
         margin-right: 10px;
-      }
-      &.closed {
-        color: white;
-        .glyphicon {
-          color: white;
-        }
       }
     }
     &.numbers, &.ratings, &.maps-info, &.transports {
@@ -300,30 +315,17 @@
         min-width: 99% !important;
       }
     }
-    &.maps-info {
-      margin-bottom: 100px;
-      @media @phone {
-        margin: 0;
-      }
-    }
-    &.associations {
-      .associated-documents {
-        width: 100%;
-        padding: 2%;
-        .list-item {
-          width: 47%;
-          margin-bottom: 3%;
-        }
-      }
-    }
   }
 
   .form-control-feedback {
     position: relative;
     top: -34px;
-    left: 103%;
+    left: -moz-calc(~"100% + 5px");
+    left: -webkit-calc(~"100% + 5px");
+    left: -o-calc(~"100% + 5px");
+    left: calc(~"100% + 5px");
     width: 14px;
-    height:14px;
+    height: 20px;
     z-index: 0;
     pointer-events: all;
     
@@ -334,8 +336,11 @@
   .map-edit {
     margin-top: -5px;
     flex-basis: 100%;
+    @media @phone {
+      margin-top: 8px;
+    }
     .map{
-      height: 300px;
+      height: 400px;
     }
   }
 
@@ -360,10 +365,7 @@
     @media @tablet {
       width: 106%;
       margin-left: -10px;
-    }
-    @media @big {
-      margin-left: 4%;
-      width: 92%;
+      margin-top: 35px;
     }
 
     .edit-progress {
@@ -418,6 +420,16 @@
 }
 
 .section {
+  &:last-child {
+    margin-bottom: 20%;
+    @media @phone {
+      margin-bottom: 0;
+    }
+  }
+  .section {
+    border: none;
+    margin-bottom: 0;
+  }
   .form-control.smaller {
     width: 90%;
   }
@@ -430,7 +442,7 @@
     -webkit-column-count: 2;
     -moz-column-count: 2;
     list-style: none;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
     
     @media @phone {
       column-count: 1;
@@ -468,35 +480,25 @@
       color: @brand-success;
     }
   }
-  label, .months, .types {
-    width: 100% !important;
-  }
-  .photos {
-     background-color: #eee;
-     padding: 10px;
-     margin-top: 10px;
-  }
-  .bottom-btns {
+  label, .months, .types, #route-activities, h2, #message-group  {
     width: 100%;
-    margin:0;
-  }
+  } 
 }
 
 .bottom-btns {
   text-align: center;
   margin-bottom: 50px;
 }
-#lang-group {
-  float:left;
-  margin-right: 20px;
-  flex-basis: 15%;
+#title-group {
+  flex-basis: 75%;
+  margin-bottom: 10px;
 }
 
-#rock_types-group, #lang-group {
-  @media @phone { 
-    flex-basis: 100%;
-  }
+#lang-group {
+  margin: 0 !important;
+  flex-basis: 20%;
 }
+
 #waypoint_type-group {
   height: 70px;
 }
@@ -521,11 +523,6 @@
     float: none;
     width: 18%;
   }
-  @media @big {
-    width: 15%;
-    margin-right: 3%;
-    margin-left: 1%;
-  }
 }
 .bullet-container {
   position: absolute;
@@ -540,9 +537,6 @@
     background: #eee;
   }
 }
-label.yes-no-radio {
-  font-weight: normal;
-}
 
 input[type="radio"] {
   margin-right: 10px;
@@ -553,9 +547,6 @@ input[type="radio"] {
   @media @phone {
     display: block;
   }
-}
-#route-activities {
-  width: 100%;
 }
 
 #orientation-svg {
@@ -606,8 +597,4 @@ input[type="radio"] {
 .activity-selected {
   color: @C2C-orange !important;
   transition: 0.2s ease-in-out;
-}
-
-#latitude-group, #longitude-group {
-  flex-basis: 45%;
 }

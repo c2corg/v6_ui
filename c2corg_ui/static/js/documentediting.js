@@ -178,7 +178,7 @@ app.DocumentEditingController = function($scope, $element, $attrs,
           this.successRead_.bind(this)
       );
     } else if (this.modelName_ === 'outing') {
-      this.formatOuting_(this.scope_[this.modelName_]);
+      this.formatOuting_(this.scope_['outing']);
     }
   } else {
     // Redirect to the auth page
@@ -199,7 +199,6 @@ app.DocumentEditingController = function($scope, $element, $attrs,
 /**
  * @param {Object} response Response from the API server.
  * @private
- * @suppress {checkTypes}
  */
 app.DocumentEditingController.prototype.successRead_ = function(response) {
   var data = response['data'];
