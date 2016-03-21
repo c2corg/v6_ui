@@ -161,27 +161,6 @@
 </%def>
 
 
-## GEAR  
-<%def name="get_route_gear(route, locale)">\
-  % if route.get('glacier_gear'):
-    <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
-      <h4><span translate>gear</span><span class="glyphicon glyphicon-menu-right"></span></h4>
-      <div class="name-icon">
-        <span class="glyphicon glyphicon-cog"></span>
-        <p translate>gear</p>
-      </div>
-      <span class="detail-text accordion">
-
-        % if route.get('glacier_gear'):
-         <p><span translate class="value-title">glacier_gear</span>: <b class="value">${route['glacier_gear']}</b></p>
-        % endif
-
-      </span>
-    </div>
-  % endif
-</%def>
-
-
 ## HEIGHTS  
 <%def name="get_route_heights(route)">\
   <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
