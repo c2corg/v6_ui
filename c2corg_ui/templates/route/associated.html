@@ -1,0 +1,12 @@
+<section ng-if="document['associations']['routes'].length > 0" class="associated-section">
+  <label translate>Associated routes</label>
+  <article class="associated-documents" >
+    <div class="list-item" ng-repeat="route in document['associations']['routes']">
+      <%include file="../route/card.html"/>
+      <app-delete-association parent-id="document.document_id"  child-id="route.document_id"></app-delete-association>
+    </div>
+    <article class="list-item" ng-repeat="doc in added| filter:{'documentType': 'routes'}">
+      <app-association-card parent-id="document.document_id"  doc="document" added-documents="added"></app-association-card>
+    </article>
+  </article>
+</section>
