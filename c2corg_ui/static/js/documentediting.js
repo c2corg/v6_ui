@@ -521,23 +521,6 @@ app.DocumentEditingController.prototype.animateBar_ = function(step, direction) 
 
 
 /**
- * Update steps, depending on the waypoint type.
- * @param {string} waypointType
- * @export
- */
-
-app.DocumentEditingController.prototype.updateMaxSteps = function(waypointType) {
-  this.waypoint_type = waypointType;
-
-  if (app.constants.STEPS[waypointType]) {
-    this.max_steps = app.constants.STEPS[waypointType];
-  } else {
-    this.max_steps = 4;
-  }
-}
-
-
-/**
  * Update arrays and creates one, if not existing
  * form : model[property] = value, event for finding and (un)checking the checkbox
  * @param {Object} object
@@ -552,10 +535,30 @@ app.DocumentEditingController.prototype.pushToArray = function(object, property,
   var pushed = app.utils.pushToArray(object, property, value);
   var checkbox = $(event.currentTarget).find('input');
 
-  if (pushed) {
-    checkbox.prop('checked', true);
+  checkbox.prop('checked', pushed);
+}
+
+/**
+ * @export
+ */
+app.DocumentEditingController.prototype.formatDate = function(date) {
+  if (date) {
+    return new Date(date);
+  }
+};
+
+/**
+ * Update steps, depending on the waypoint type.
+ * @param {string} waypointType
+ * @export
+ */
+
+app.DocumentEditingController.prototype.updateMaxSteps = function(waypointType) {
+
+  if (app.constants.STEPS[waypointType]) {
+    this.max_steps = app.constants.STEPS[waypointType];
   } else {
-    checkbox.prop('checked', false);
+    this.max_steps = 3;
   }
 }
 
