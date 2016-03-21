@@ -322,7 +322,7 @@
 
 ## EQUIPMENT  
 <%def name="get_waypoint_equipment(waypoint)">\
-  % if waypoint.get('matress_unstaffed') and  waypoint.get('gas_unstaffed') and waypoint.get('heating_unstaffed') and waypoint.get('blanket_unstaffed') :
+  % if waypoint.get('matress_unstaffed') or  waypoint.get('gas_unstaffed') or waypoint.get('heating_unstaffed') or waypoint.get('blanket_unstaffed') :
     <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
       <h4><span translate>Equipment</span><span class="glyphicon glyphicon-menu-right"></span></h4>
       <div class="name-icon">
@@ -332,19 +332,31 @@
       <span class="detail-text accordion">
 
         % if waypoint.get('matress_unstaffed'):
-        <p><span translate class="value-title">matress_unstaffed</span><span class="value">${waypoint['matress_unstaffed']}</span></p>
+        <div class="checkbox">
+          <input type="checkbox" ng-checked="true">
+          <span x-translate class="value-title">matress_unstaffed</span>
+        </div>
         % endif
 
         % if waypoint.get('blanket_unstaffed'):
-        <p><span translate class="value-title">blanket_unstaffed</span> <span class="value">${waypoint['blanket_unstaffed']}</span></p>
+        <div class="checkbox">
+          <input type="checkbox" ng-checked="true">
+          <span x-translate class="value-title">blanket_unstaffed</span>
+        </div>
         % endif
 
         % if waypoint.get('heating_unstaffed'):
-        <p><span translate class="value-title">heating_unstaffed</span> <span class="value">${waypoint['heating_unstaffed']}</span></p>
+        <div class="checkbox">
+          <input type="checkbox" ng-checked="true">
+          <span x-translate class="value-title">heating_unstaffed</span>
+        </div>
         % endif
 
         % if waypoint.get('gas_unstaffed'):
-        <p><span translate class="value-title">gas_unstaffed</span> <span class="value">${waypoint['gas_unstaffed']}</span></p>
+        <div class="checkbox">
+          <input type="checkbox" ng-checked="true">
+          <span x-translate class="value-title">gas_unstaffed</span>
+        </div>
         % endif
 
       </span>
@@ -362,8 +374,10 @@
         <p translate>orientation</p>
       </div>
       <span class="detail-text accordion" id="detail-orientation" ng-init="waypoint.orientation = ${waypoint.get('orientation')}">
-         <%include file="c2corg_ui:static/img/orientation.svg" />
+        <%include file="c2corg_ui:static/img/orientation.svg" />
+        <p id="orientation-list">${', '.join(waypoint['orientation'])}</p>
       </span>
+
     </div>
   % endif
 </%def>

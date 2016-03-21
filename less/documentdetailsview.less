@@ -18,10 +18,6 @@
   @media @tablet {
     margin-top: 50px;
   }
-  .route-activity {
-    font-size: 4em;
-    color: @C2C-orange;
-  }
   >h1 {
     margin: auto;
     width: 80%;
@@ -42,6 +38,7 @@
       font-size: 0.5em;
       margin-left: 10px;
       padding-bottom: 6px;
+      cursor: pointer;
       
       .glyphicon {
         color: white;
@@ -53,18 +50,25 @@
         background-color: @bright-green;
       }
     }
+    .outing-date {
+      font-size: 0.7em;
+      color: darkgray;
+    }
   }
-  .activity-header {
+  .icons-header {
     margin-right: 30px;
     .flex();
-     align-items: center;
+    align-items: center;
+    font-size: 4em;
+    .route-activity, .waypoint-type {
+      color: @C2C-orange;
+    }
     @media @big {
-      font-size: 1.2em;
+      font-size: 4.5em;
     }
     @media @phone {
-      font-size: 0.8em;
+      font-size: 2em;
       margin-right: 5px;
-      margin-bottom: 5px;
     }
   }
 }
@@ -89,7 +93,7 @@
     margin-left: 4%;
     width: 89%;
   }
-
+  
   .nav-tabs {
     border: none;
   }
@@ -102,13 +106,6 @@
       justify-content: space-around;
     }
   }
-  /* uib accordion*/
-  .panel-title {
-    .glyphicon {
-      float: right;
-    }
-  }
-
   .view-details-description, .view-details-other,  .view-details-info, .view-details-associations, .view-details-photos {
     padding-left: 0;
     padding-right: 0;
@@ -146,6 +143,9 @@
         padding: 10px;
       }
     }
+    .conditions-levels {
+      font-size: 1em;
+    }
   }
 
   .view-details-associations {
@@ -157,15 +157,28 @@
       display: none;
     }
     @media @big {
-      
-      section article{
+      section article {
         min-width:  48%;
         margin-left: 0.5%;
         margin-right: 0.5%;
         flex-grow: 1;
       }
     }
+    .add-outing {
+      float: right;
+      margin-bottom: 10px;
+    }
+    .show-more {
+      float: right;
+      margin-bottom: 5px;
+    }
     a { padding: 0%; }
+    
+    .outings {
+      .heading {
+        background-color: gray;
+      }
+    }
 
     .heading { 
       margin-top: 1%; 
@@ -174,15 +187,18 @@
     }
     .list-item {
       display: block;
-      flex-grow: 1;
-      width : 48%;
+      max-width : 48%;
       margin: 10px .5% 0% .5%;
 
       @media @phone {
-        width: 100%;
+        max-width: 100%;
       }
       @media @big {
-        width: 30%;
+        width: 32%;
+      }
+      
+      .list-item-title {
+        font-size: 0.9em;
       }
     }
 
@@ -190,6 +206,8 @@
       max-height: 600px;
       overflow-y: auto;
       border: 1px solid #eee;
+      padding-bottom: 10px;
+      margin-bottom: 5px;
       
       app-delete-association {
         position: absolute;
@@ -199,7 +217,7 @@
         margin-right: 5px;
 
         .glyphicon {
-          color: white;
+          color: red;
         }
         button {
           padding: 5px;
@@ -322,11 +340,6 @@
       }
       &.maps {
         order: 10;
-      }
-      &.orientation {
-        @media @phone {
-          display: none;
-        }
       }
     }
     
@@ -526,12 +539,12 @@ app-add-association {
   ul {
     list-style: none;
     padding: 0;
-    margin: 0;
+    text-align: center;
 
-    li:first-of-type {
+    .range {
       font-weight: bold;
     }
-    li:last-of-type {
+    .country{
       text-decoration: underline;
     }
   }
@@ -555,11 +568,14 @@ app-add-association {
 #detail-orientation {
   .flex();
   justify-content: center;
+  
+  @media @phone {
+    justify-content: flex-start;
+  }
+  
   #orientation-svg{
     height: 110px;
     width: 110px;
     margin-bottom: 10px;
   }
 }
-
-

@@ -47,16 +47,31 @@ app.module.directive('appViewDetails', app.viewDetailsDirective);
 
 /**
  * @param {Object} $uibModal modal from angular bootstrap
+ * @param {!angular.Scope} $scope Scope.
+ * @param {angular.$compile} $compile Angular compile service.
  * @constructor
  * @export
  * @ngInject
  */
-app.ViewDetailsController = function($uibModal) {
+app.ViewDetailsController = function($uibModal, $compile, $scope) {
   /**
    * @type {Object}
    * @private
    */
   this.modal_ = $uibModal;
+
+  /**
+   * @type {angular.$compile}
+   * @private
+   */
+  this.compile_ = $compile;
+
+  /**
+   * @type {!angular.Scope}
+   * @private
+   */
+  this.scope_ = $scope;
+
 }
 
 /**
@@ -65,8 +80,9 @@ app.ViewDetailsController = function($uibModal) {
  */
 app.ViewDetailsController.prototype.openModal = function(selector) {
   var template = $(selector).clone();
-  this.modal_.open({animation: true, size: 'lg', template: template});
+  this.modal_.open({animation: true, size: 'lg', template: this.compile_(template)(this.scope_)});
 };
+
 
 /**
  * @param {Event} tab the clicked tab

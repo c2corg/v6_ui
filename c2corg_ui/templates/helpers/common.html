@@ -1,3 +1,29 @@
+<%! import datetime %>
+
 <%def name="show_title(title)">\
   ${title + ' - ' if title else ''}Camptocamp.org\
+</%def>
+
+<%def name="show_fulldate(dateStart, dateEnd)">\
+  % if dateStart == dateEnd:
+    <span class="date-locale">{{ '${dateStart}' | amDateFormat:"dddd Do MMMM YYYY" }}</span>
+  % else:
+    <%
+      date1 = datetime.datetime.strptime(dateStart, '%Y-%m-%d').date()
+      date2 = datetime.datetime.strptime(dateEnd, '%Y-%m-%d').date()
+      sameYear = date1.year == date2.year
+      sameMonth = date1.month == date2.month
+    %>
+    % if sameYear:
+      % if sameMonth:
+        <span>${date1.day} - <span class="date-locale">{{ '${dateEnd}' | amDateFormat:"Do MMMM YYYY" }}</span></span>
+      % else:
+        <span class="date-locale">{{ '${dateStart}' | amDateFormat:"Do MMMM" }}</span> -
+        <span class="date-locale">{{ '${dateEnd}'  | amDateFormat:"Do MMMM YYYY" }}</span>
+      % endif
+    % else:
+      <span class="date-locale">{{ '${dateStart}' | amDateFormat:"Do MMMM YYYY" }}</span> -
+      <span class="date-locale">{{ '${dateEnd}' | amDateFormat:"Do MMMM YYYY" }}</span>
+    % endif
+  % endif
 </%def>

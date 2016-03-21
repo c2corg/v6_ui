@@ -1,6 +1,5 @@
 <%namespace file="../../helpers/view.html" import="show_areas, show_attr, get_document_up_down, get_document_min_max"/>
 
-
 ## GENERAL
 <%def name="get_outing_general(outing)">\
 <div class="name-icon-value general" ng-click="detailsCtrl.openTab($event)">
@@ -25,19 +24,19 @@
     % endif
     
     % if outing.get('duration_difficulties'):
-    <p><span class="value-title" translate>duration_difficulties</span>: <span class="value" translate>${outing['duration_difficulties']}</span></p>
+    <p><span class="value-title" translate>duration_difficulties</span>: <span class="value">${outing['duration_difficulties']}</span></p>
     % endif
     
     % if outing.get('frequentation'):
-    <p><span class="value-title" translate>frequentation</span>: <span class="value" translate>${outing['frequentation']}</span></p>
+    <p><span class="value-title" translate>frequentation</span>: <span class="value" x-translate>${outing['frequentation']}</span></p>
     % endif
     
     %if outing.get('condition_rating'):
-    <p><span class="value-title" translate>condition_rating</span>: <span class="value" translate>${outing['condition_rating']}</span></p>
+    <p><span class="value-title" translate>condition_rating</span>: <span class="value">${outing['condition_rating']}</span></p>
     % endif
     
     % if outing.get('partial_trip'):
-    <p><span class="value-title" translate>partial_trip</span>: <span class="value" translate>${outing['partial_trip']}</span></p>
+    <p><span class="value-title" translate>partial_trip</span>: <span class="value" x-translate>${outing['partial_trip']}</span></p>
     % endif
   </span>
 </div>
@@ -111,7 +110,7 @@
 
 ## PARTICIPANTS
 <%def name="get_outing_participants(outing)">\
-  % if outing.get('participant_count')  or outing['locales'][0]['participants']:
+  % if outing.get('participant_count')  or outing['locales'][0]['participants'] or outing['associations']['users']:
     <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
       <h4><span translate>participants</span><span class="glyphicon glyphicon-menu-right"></span></h4>
       <div class="name-icon">
@@ -122,10 +121,20 @@
         % if outing.get('participant_count') :
         <p><span translate>participant_count</span>: <b>${outing['participant_count']}</b></p>
         % endif
+        
+        <p>
+          <%
+            users = []
+            for user in outing['associations']['users']:
+                users.append('<a ng-href="#todo">' + user['name'] + '</a>')
 
-        % if outing['locales'][0]['participants']:
-        <p><b>${outing['locales'][0]['participants']}</b></p>
-        % endif
+            if outing['locales'][0]['participants'] :
+                users.append(outing['locales'][0]['participants'])
+          %>
+         
+          ${', '.join(users) | n}
+        </p>
+        
       </span>
     </div>
   % endif

@@ -82,7 +82,8 @@
 % if route.get('global_rating') or route.get('engagement_rating') or route.get('risk_rating') or route.get('exposition_rock_rating') \
   or route.get('rock_free_rating') or route.get('rock_required_rating') or route.get('rock_required_rating') or route.get('hiking_rating') \
   or route.get('hiking_mtb_exposition') or route.get('ice_rating') or route.get('mixed_rating') or route.get('snowshoe_rating')  \
-  or route.get('mtb_down_rating') or route.get('mtb_up_rating') or route.get('via_ferrata_rating') or route.get('equipment_rating'):
+  or route.get('mtb_down_rating') or route.get('mtb_up_rating') or route.get('via_ferrata_rating') or route.get('equipment_rating') \
+  or route.get('ski_rating') or route.get('labande_ski_rating') or route.get('labande_global_rating') or route.get('ski_exposition') :
   <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
     <h4><span translate>Rating</span><span class="glyphicon glyphicon-menu-right"></span></h4>
     <div class="name-icon">
@@ -154,30 +155,26 @@
       % if route.get('aid_rating'):
       <p><span translate class="value-title">aid_rating</span>: <b class="value">${route['aid_rating']}</b></p>
       % endif
+
+
+      % if route.get('ski_rating'):
+      <p><span translate class="value-title">ski_rating</span>: <b class="value">${route['ski_rating']}</b></p>
+      % endif
+
+      % if route.get('labande_ski_rating'):
+      <p><span translate class="value-title">labande_ski_rating</span>: <b class="value">${route['labande_ski_rating']}</b></p>
+      % endif
+
+      % if route.get('labande_global_rating'):
+      <p><span translate class="value-title">labande_global_rating</span>: <b class="value">${route['labande_global_rating']}</b></p>
+      % endif
+      
+      % if route.get('ski_exposition'):
+      <p><span translate class="value-title">ski_exposition</span>: <b class="value">${route['ski_exposition']}</b></p>
+      % endif
       
     </span>
   </div>
-  % endif
-</%def>
-
-
-## GEAR  
-<%def name="get_route_gear(route, locale)">\
-  % if route.get('glacier_gear'):
-    <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
-      <h4><span translate>gear</span><span class="glyphicon glyphicon-menu-right"></span></h4>
-      <div class="name-icon">
-        <span class="glyphicon glyphicon-cog"></span>
-        <p translate>gear</p>
-      </div>
-      <span class="detail-text accordion">
-
-        % if route.get('glacier_gear'):
-         <p><span translate class="value-title">glacier_gear</span>: <b class="value">${route['glacier_gear']}</b></p>
-        % endif
-
-      </span>
-    </div>
   % endif
 </%def>
 

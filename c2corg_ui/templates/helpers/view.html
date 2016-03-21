@@ -1,4 +1,6 @@
 <%! from c2corg_ui.templates.utils import get_attr %>
+<%! import json %>
+
 <%def name="show_attr(obj, key, parse=True)">\
   <%
       attr = get_attr(obj, key, md=parse, bb=parse)
@@ -44,11 +46,9 @@
     <div class="modal-header"><h3 class="text-center" translate>Translate into an other lang</h3></div>  
     <ul>
       % for lang in missing_langs:
-      <li>
-      <app-edit-button app-edit-button-url="${request.route_url(module + '_edit', id=document['document_id'], lang=lang)}">
+      <li ng-click="mainCtrl.redirectToProtectedUrl('${request.route_url(module + '_edit', id=document['document_id'], lang=lang)}')">
         <span x-translate>${lang}</span>
         <span class="glyphicon glyphicon-chevron-right"></span>
-      </app-edit-button>
       </li>
       % endfor
     </ul>
@@ -85,9 +85,10 @@
 
 <%def name="show_areas(document)">\
   % if document.get('areas'):
+  <% areas = document.get('areas') %>\
     <ul>
-      % for a in reversed(document['areas']):
-        <li ng-cloak>${a['locales'][0]['title']}</li>
+      % for area in areas:
+        <li ng-cloak class="${area['area_type'] }">${area['locales'][0]['title']}</li>
       % endfor
     </ul>
   % endif
@@ -111,11 +112,14 @@
     <article>
       <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-${associatedDocuments}">
         <span class="glyphicon glyphicon-map-marker"></span>
-        <span translate>Associated ${associatedDocuments}</span><span class="glyphicon glyphicon-menu-down"></span>
+        <span x-translate>associated ${associatedDocuments}</span><span class="glyphicon glyphicon-menu-down"></span>
       </h3>
       <div class="associated-documents collapse in" id="associated-${associatedDocuments}">
         % for route in document['associations']['routes']:
-          ${route_card(route, 'app-delete', document['document_id'])}
+          <div class="list-item">
+            ${route_card(route)}
+            <app-delete-association parent-id="${document['document_id']}" child-id="${route['document_id']}"></app-delete-association>
+          </div>
         % endfor
         <article class="list-item" ng-repeat="doc in added | filter:{'documentType': '${associatedDocuments}'}">
           <app-association-card parent-id="${document['document_id']}" doc="doc" added-documents="added"></app-association-card>
@@ -131,11 +135,18 @@
       <article>
         <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-${associatedDocuments}">
           <span class="glyphicon glyphicon-map-marker"></span>
-          <span translate>Associated ${associatedDocuments}</span><span class="glyphicon glyphicon-menu-down"></span>
+          <span x-translate>associated ${associatedDocuments}</span><span class="glyphicon glyphicon-menu-down"></span>
         </h3>
         <div class="associated-documents collapse in" id="associated-${associatedDocuments}">
           % for waypoint in document['associations']['waypoints']:
-              ${waypoint_card(waypoint, 'app-delete', document['document_id'])}
+            <div class="list-item" 
+                 % if document.get('route_types'):
+                    ng-class="{'main-waypoint': ${document['main_waypoint_id']} === ${waypoint['document_id']} } "
+                 % endif
+                >
+              ${waypoint_card(waypoint)}
+              <app-delete-association parent-id="${document['document_id']}" child-id="${waypoint['document_id']}"></app-delete-association>
+            </div>
           % endfor
           <article class="list-item" ng-repeat="doc in added | filter:{'documentType': '${associatedDocuments}'}">
             <app-association-card parent-id="${document['document_id']}" doc="doc" added-documents="added"></app-association-card>
@@ -149,14 +160,29 @@
     
       % if len(document['associations']['recent_outings']['outings']) > 0 :
         <article>
-          <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-${associatedDocuments}">
+          <h3 class="heading show-phone outings" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-${associatedDocuments}">
             <span class="glyphicon glyphicon-map-marker"></span>
-            <span translate>Associated ${associatedDocuments}</span><span class="glyphicon glyphicon-menu-down"></span>
+            <span x-translate>associated ${associatedDocuments}</span><span class="glyphicon glyphicon-menu-down"></span>
           </h3>
           <div class="associated-documents collapse in" id="associated-${associatedDocuments}">
+            <div class="list-item vertical-align" ng-click="mainCtrl.redirectToProtectedUrl('${request.route_url('outings_add')}')">
+              <a>
+                <button class="btn orange-btn">add a new outing to this document</button>
+              </a>
+            </div>
             % for outing in document['associations']['recent_outings']['outings']:
-            ${outing_card(outing, 'app-delete', document['document_id'])}
+            <div class="list-item outing">
+              ${outing_card(outing)}
+              <app-delete-association parent-id="${document['document_id']}" child-id="${outing['document_id']}"></app-delete-association>
+            </div>
             % endfor
+            
+            % if len(document['associations']['recent_outings']['outings']) == 10 :
+              <div class="list-item vertical-align" onclick="window.location= '${request.route_url('outings_index_default')}'; ">
+                <button class="gray-btn btn show-more">show more</button>
+              </div>
+            % endif
+            
             <article class="list-item" ng-repeat="doc in added | filter:{'documentType': '${associatedDocuments}'}">
               <app-association-card parent-id="${document['document_id']}" doc="doc" added-documents="added"></app-association-card>
             </article>
@@ -193,21 +219,47 @@
           % endif
 
           % if locale.get('conditions_levels') :
-          <div class="document-conditions_levels">
-            <label translate>conditions_levels</label><br>
-            ${show_attr(locale, 'conditions_levels')}
-          </div>
+            <table class="table table-striped conditions-levels">
+              <thead>
+                <tr>
+                  <th class="location"><span translate>location</span> / <span translate>altitude</span> / <span translate>orientation</span> / <span translate>time</span></th>
+                  <th class="soft-snow" translate>soft snow</th>
+                  <th class="total-snow" translate>total snow</th>
+                  <th class="comment" translate>comment</th>
+                </tr>
+              </thead>
+              <tbody>
+                % for condition in json.loads(locale['conditions_levels']):
+                <tr>
+                  <td>${condition['level_place']}</td>
+                  % if condition['level_snow_height_soft'] != '':
+                  <td>${condition['level_snow_height_soft']} cm</td>
+                  % else:
+                  <td></td>
+                  % endif
+                  % if condition['level_snow_height_total'] != '':
+                  <td>${condition['level_snow_height_total']} cm</td>
+                  % else:
+                  <td></td>
+                  % endif
+                  <td >${condition['level_comment']}</td>
+                </tr>
+                % endfor
+              </tbody>
+            </table>
+          
           % endif
         </div>
       </section>
-    </div>
+      
+   </div>
     % endif
     
   % else :
     % if text in locale and locale[text]:
       <div class="view-details-info col-xs-12">
         <h3 class="heading closed show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#${text}">
-          <span translate>${text}</span><span class="glyphicon glyphicon-menu-right"></span>
+          <span x-translate>${text}</span><span class="glyphicon glyphicon-menu-right"></span>
         </h3>
         <section class="collapse" id="${text}" aria-expanded="trues">
           <div class="lead">
@@ -221,80 +273,63 @@
 
 
 ## Draw route card with or without additionnal items like delete button.
-<%def name="route_card(route, param, parent_id)">\
-    <div class="list-item">
-      <a href="${request.route_url('routes_view', id=route['document_id'], lang=route['locales'][0]['lang'])}">
-        <span class="list-item-title">${show_route_title(route['locales'][0])}</span>
-        % if lang != route['locales'][0]:
-        <span class="list-item-lang"> (${route['locales'][0]['lang']})</span><br>
-        % endif
-        <div class="list-item-info">
-          ${get_document_min_max(route, 'elevation')}
-          <div class="route-activities">
-            ${get_route_activities(route, 'top')}
-          </div>
-        </div>
-      </a>
-      % if param == 'app-delete':
-        <app-delete-association parent-id="${parent_id}" child-id="${route['document_id']}"></app-delete-association>
+<%def name="route_card(route)">\
+    <a href="${request.route_url('routes_view', id=route['document_id'], lang=route['locales'][0]['lang'])}">
+      <span class="list-item-title">${show_route_title(route['locales'][0])}</span>
+      % if lang != route['locales'][0]:
+      <span class="list-item-lang"> (${route['locales'][0]['lang']})</span><br>
       % endif
-    </div>
+      <div class="list-item-info">
+        ${get_document_min_max(route, 'elevation')}
+        <div class="route-activities">
+          ${get_route_activities(route, 'top')}
+        </div>
+      </div>
+    </a>
 </%def>
 
 
 ## Draw waypoint card with or without additionnal items like delete button.
-<%def name="waypoint_card(waypoint, param, parent_id)">\
-  <div class="list-item">
-    <a href="${request.route_url('waypoints_view', id=waypoint['document_id'], lang=waypoint['locales'][0]['lang'])}">
-      <span class="list-item-title">${waypoint['locales'][0]['title']}</span>
-      % if lang != waypoint['locales'][0]:
-      <span class="list-item-lang"> (${waypoint['locales'][0]['lang']})</span><br>
-      % endif
-
-      <span class="list-item-info">
-        % if waypoint.get('elevation'):
-        <p><b  class="value-title" translate>elevation</b>:  <span class="value"> ${waypoint['elevation']} m </span></p>
-        % endif
-        <img alt="waypoint type" src="${request.static_url('c2corg_ui:static/img/icons/' + waypoint['waypoint_type'] + '.png')}">
-        <span x-translate>${waypoint['waypoint_type']}</span>
-      </span>
-    </a>
-
-    % if param == 'app-delete':
-    <app-delete-association parent-id="${parent_id}" child-id="${waypoint['document_id']}"></app-delete-association>
+<%def name="waypoint_card(waypoint)">\
+  <a href="${request.route_url('waypoints_view', id=waypoint['document_id'], lang=waypoint['locales'][0]['lang'])}">
+    <span class="list-item-title">${waypoint['locales'][0]['title']}</span>
+    % if lang != waypoint['locales'][0]:
+    <span class="list-item-lang"> (${waypoint['locales'][0]['lang']})</span><br>
     % endif
-  </div>
+
+    <span class="list-item-info">
+      % if waypoint.get('elevation'):
+      <p><b  class="value-title" translate>elevation</b>:  <span class="value"> ${waypoint['elevation']} m </span></p>
+      % endif
+      <img alt="waypoint type" src="${request.static_url('c2corg_ui:static/img/icons/' + waypoint['waypoint_type'] + '.png')}">
+      <span x-translate>${waypoint['waypoint_type']}</span>
+    </span>
+  </a>
 </%def>
 
 
-<%def name="outing_card(outing, param, parent_id)">\
-  <div class="list-item outing">
-    <a href="${request.route_url('outings_view', id=outing['document_id'], lang=outing['locales'][0]['lang'])}">
-      <div class="outing-author text-center">
-        <div class="outing-date">{{ '${outing['date_start']}' | date: 'MM/dd/yyyy'}}</div>
-        <span class="icon-user"></span><br>
-        <b class="author-name">${outing['author']['username']}</b>
+<%def name="outing_card(outing)">\
+  <a href="${request.route_url('outings_view', id=outing['document_id'], lang=outing['locales'][0]['lang'])}">
+    <div class="outing-author text-center">
+      <div class="outing-date">{{ '${outing['date_start']}' | date: 'MM/dd/yyyy'}}</div>
+      <span class="icon-user"></span><br>
+      <b class="author-name">${outing['author']['username']}</b>
+    </div>
+    <div class="list-item-info">
+      <span class="list-item-title outing">${show_attr(outing['locales'][0], 'title', False)} (${outing['locales'][0]['lang']})</span>
+      ${get_document_min_max(outing, 'elevation')}
+      <div class="route-activities">
+        ${get_route_activities(outing, 'right')}
       </div>
-      <div class="list-item-info">
-        <span class="list-item-title outing">${show_attr(outing['locales'][0], 'title', False)} (${outing['locales'][0]['lang']})</span>
-        ${get_document_min_max(outing, 'elevation')}
-        <div class="route-activities">
-          ${get_route_activities(outing, 'right')}
-        </div>
-      </div>        
-    </a>
-    % if param == 'app-delete':
-    <app-delete-association parent-id="${parent_id}" child-id="${outing['document_id']}"></app-delete-association>
-    % endif
-  </div>
+    </div>        
+  </a>
 </%def>
 
 
 ## Float buttons
 <%def name="show_float_buttons(string, doc_id, doc_lang, other_langs, missing_langs)">\
   <div class="float-buttons" app-view-details>
-    <div class="float-button float-edit" tooltip-placement="left" uib-tooltip="{{'Edit' | translate}}">
-      <app-edit-button ng-click="ebCtrl.redirect()" app-edit-button-url="${request.route_url( string + '_edit' , id=doc_id, lang=doc_lang)}"></app-edit-button>
+    <div class="float-button float-edit" tooltip-placement="left" uib-tooltip="{{'Edit' | translate}}" ng-click="mainCtrl.redirectToProtectedUrl('${request.route_url( string + '_edit' , id=doc_id, lang=doc_lang)}')">
       <span class="glyphicon glyphicon-edit"></span>
       <p class="float-button-text" translate>Edit</p>
     </div>
@@ -329,21 +364,21 @@
 
 <%def name="get_document_min_max(document, prop)">\
   % if document.get(prop + '_min') and document.get(prop + '_max') and (document.get(prop + '_max') is not None and document.get(prop + '_min') is not None):
-  <p><b translate class="value-title">${prop}</b>: <span class="value">min ${document[prop + '_min']} m / max ${document[prop + '_max']} m</span></p>
+  <p><b x-translate class="value-title">${prop}</b>: <span class="value">min ${document[prop + '_min']} m / max ${document[prop + '_max']} m</span></p>
   %  elif (document.get(prop + '_min') and document.get(prop + '_min') is not None) and not document.get(prop + '_max'): 
-  <p><b translate class="value-title">${prop + '_min'}</b>: <span class="value">${document[prop + '_min']} m</span></p>
+  <p><b x-translate class="value-title">${prop + '_min'}</b>: <span class="value">${document[prop + '_min']} m</span></p>
   % elif document.get(prop + '_max') and document.get(prop + '_max') is not None:
-  <p><b translate class="value-title">${prop + '_max'}</b>: <span class="value">${document[prop + '_max']} m</span></p>
+  <p><b x-translate class="value-title">${prop + '_max'}</b>: <span class="value">${document[prop + '_max']} m</span></p>
   % endif
 </%def>
 
 
 <%def name="get_document_up_down(document, prop)">\
   % if document.get(prop + '_down') and document.get(prop + '_up') and (document.get(prop + '_up') is not None and document.get(prop + '_down') is not None):
-  <p><b translate class="value-title">${prop}</b>: <span class="value">-${document[prop + '_down']} m / +${document[prop + '_up']} m</span></p>
+  <p><b x-translate class="value-title">${prop}</b>: <span class="value">-${document[prop + '_down']} m / +${document[prop + '_up']} m</span></p>
   %  elif (document.get(prop + '_down') and document.get(prop + '_down') is not None) and not document.get(prop + '_up'): 
-  <p><b translate class="value-title">${prop + '_down'}</b>: <span class="value">${document[prop + '_down']} m</span></p>
+  <p><b x-translate class="value-title">${prop + '_down'}</b>: <span class="value">${document[prop + '_down']} m</span></p>
   % elif document.get(prop + '_up') and document.get(prop + '_up') is not None:
-  <p><b translate class="value-title">${prop + '_up'}</b>: <span class="value">${document[prop + '_up']} m</span></p>
+  <p><b x-translate class="value-title">${prop + '_up'}</b>: <span class="value">${document[prop + '_up']} m</span></p>
   % endif
 </%def>

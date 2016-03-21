@@ -135,7 +135,7 @@ h1 {
   width:98%;
   min-height:100px;
   height: 69vh;
-  overflow-y: scroll;
+  overflow-y: auto;
 
   @media @phone {
     height: 45vh;
@@ -387,12 +387,12 @@ main {
   padding: 10px;
   background-color: white;
   min-height: 50px;
-  margin-bottom: 2%;
+  margin-top: 1%;
   outline: none;
   border-radius: 7px;
   -moz-border-radius: 7px;
   -webkit-border-radius: 7px;
-
+  transition: .1s ease-in-out;
   border: 2px solid rgba(88, 150, 165, 0.2);
   position:relative;
 
@@ -458,11 +458,12 @@ main {
 
     &:hover {
       text-decoration: none;
-      color : #DB7D00;
     }
 
     &:hover .list-item-title {
-      text-decoration: underline;
+      text-decoration: none;
+      color: @bright-green;
+      transition: 0.1s ease-in-out;
     }
     &:focus {
       text-decoration: none;
@@ -547,7 +548,7 @@ p {
   position: relative;
   width: @list-width;
   float: left;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
 
   @media @phone {
@@ -1135,4 +1136,42 @@ ul {
 
 app-edit-button {
   height: 35px;
+}
+
+.section.associations, .view-details-section {
+  .list-item {
+    margin-right: 1.5%;
+    width : 48%;
+
+    @media @phone {
+      width: 100%;
+    }
+  }
+  app-add-association, .associated-section {
+    width: 100%;
+  }
+  .associated-documents {
+    max-height: 600px;
+    overflow-y: auto;
+    width: 100%;
+    .flex();
+    flex-wrap: wrap;
+    app-delete-association {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      margin-bottom: 5px;
+      margin-right: 5px;
+
+      .glyphicon {
+        color: white;
+      }
+      button {
+        padding: 5px;
+      }
+    }
+  }
+  .route-activities {
+    justify-content: flex-start;
+  }
 }
