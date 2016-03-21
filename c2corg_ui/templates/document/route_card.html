@@ -1,0 +1,10 @@
+<a>
+  <span class="list-item-title">{{route['locales'][0]['title']}}</span>
+  <span class="list-item-lang"> {{route['locales'][0]['lang']}}</span><br>
+  <div class="list-item-info">
+    {{route['elevation']}}
+    <div class="route-activities">
+       <span ng-repeat="activity in route.activities" class="route-activity icon-{{activity}}" uib-tooltip="{{ mainCtrl.translate(activity) }}" tooltip-placement="right"></span>
+    </div>
+  </div>
+</a>

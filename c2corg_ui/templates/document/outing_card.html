@@ -1,0 +1,10 @@
+<a>
+  <div class="outing-author text-center">
+    <div class="outing-date">{{ outing['date_start']| date: 'MM/dd/yyyy'}}</div>
+    <span class="icon-user"></span><br>
+    <b class="author-name">{{outing['author']['username']}}</b>
+  </div>
+  <div class="list-item-info">
+    <span class="list-item-title outing">{{outing.locales[0]['title']}}</span>
+  </div>        
+</a>
