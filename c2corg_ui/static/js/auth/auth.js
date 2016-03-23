@@ -77,6 +77,14 @@ app.AuthController = function($scope, appApi, appAuthentication,
    * @private
    */
   this.alerts_ = appAlerts;
+
+  if (this.ngeoLocation_.hasParam('validate_register_email')) {
+    // Activate and log in from API by using the nonce
+    var nonce = this.ngeoLocation_.getParam('validate_register_email');
+    var remember = true;
+    var onLogin = this.successLogin_.bind(this, remember);
+    this.api_.validateRegisterEmail(nonce).then(onLogin);
+  }
 };
 
 
