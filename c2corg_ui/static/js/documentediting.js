@@ -47,7 +47,6 @@ app.module.directive('appDocumentEditing', app.documentEditingDirective);
  * @param {angular.Attributes} $attrs Attributes.
  * @param {app.Authentication} appAuthentication
  * @param {app.Alerts} appAlerts
- * @param {amMoment} amMoment angular moment directive.
  * @param {app.Api} appApi Api service.
  * @param {string} authUrl Base URL of the authentication page.
  * @constructor
@@ -55,7 +54,7 @@ app.module.directive('appDocumentEditing', app.documentEditingDirective);
  * @export
  */
 app.DocumentEditingController = function($scope, $element, $attrs,
-    appAuthentication, appAlerts, appApi, authUrl, amMoment) {
+    appAuthentication, appAlerts, appApi, authUrl) {
 
   /**
    * @type {angular.Scope}
@@ -119,12 +118,6 @@ app.DocumentEditingController = function($scope, $element, $attrs,
   this.alerts_ = appAlerts;
 
   /**
-   * @type {amMoment}
-   * @private
-   */
-  this.amMoment_ = amMoment;
-
-  /**
    * first next step would be 2 by default
    * @export
    */
@@ -176,6 +169,7 @@ app.DocumentEditingController = function($scope, $element, $attrs,
   // the form is touched. At least create an empty object.
   this.scope_[this.modelName_] = {};
   if (this.auth_.isAuthenticated()) {
+
     if (this.id_ && this.lang_) {
      // Get document attributes from the API to feed the model:
       goog.asserts.assert(!goog.isNull(this.id_));
@@ -183,6 +177,8 @@ app.DocumentEditingController = function($scope, $element, $attrs,
       this.api_.readDocument(this.module_, this.id_, this.lang_).then(
           this.successRead_.bind(this)
       );
+    } else if (this.modelName_ === 'outing') {
+      this.formatOuting_(this.scope_[this.modelName_]);
     }
   } else {
     // Redirect to the auth page
@@ -225,7 +221,6 @@ app.DocumentEditingController.prototype.successRead_ = function(response) {
       data['read_lonlat'] = angular.copy(data['lonlat']);
     }
   }
-
   if (!data['locales'].length) {
     // locales attributes are missing when creating a new lang version
     data['locales'].push({
@@ -237,11 +232,8 @@ app.DocumentEditingController.prototype.successRead_ = function(response) {
   this.scope_[this.modelName_] = data;
 
   if (this.modelName_ === 'outing') {
-    var outing = this.scope_['outing'];
-    outing['date_start'] = app.utils.formatDate(outing['date_start']);
-    outing['date_end'] = app.utils.formatDate(outing['date_end']);
-    // to show or hide date_end in the form
-    this.differentDates = app.utils.areDifferentDates(outing['date_start'], outing['date_end']);
+    this.scope_['outing'] = this.formatOuting_(this.scope_['outing']);
+    this.differentDates = app.utils.areDifferentDates(this.scope_['outing']['date_start'], this.scope_['outing']['date_end']);
   }
 
   this.scope_.$root.$emit('documentDataChange', data);
@@ -519,7 +511,6 @@ app.DocumentEditingController.prototype.animateBar_ = function(step, direction) 
   }.bind(this), 10);
 };
 
-
 /**
  * Update steps, depending on the waypoint type.
  * @param {string} waypointType
@@ -527,49 +518,57 @@ app.DocumentEditingController.prototype.animateBar_ = function(step, direction) 
  */
 
 app.DocumentEditingController.prototype.updateMaxSteps = function(waypointType) {
-  this.waypoint_type = waypointType;
 
   if (app.constants.STEPS[waypointType]) {
     this.max_steps = app.constants.STEPS[waypointType];
   } else {
-    this.max_steps = 4;
+    this.max_steps = 3;
   }
+}
+
+/**
+ * @param {Object} outing
+ * @private
+ */
+
+app.DocumentEditingController.prototype.formatOuting_ = function(outing) {
+  // creating a new outing -> init locales
+  if (!outing['locales']) {
+    outing['locales'] = [{}];
+  }
+
+  outing['date_start'] = app.utils.formatDate(outing['date_start']);
+  outing['date_end'] = app.utils.formatDate(outing['date_end']);
+
+  // conditions_levels -> to JSON and snow -> INT
+  if (outing['locales'][0]['conditions_levels']) {
+    outing['locales'][0]['conditions_levels'] = JSON.parse(outing['locales'][0]['conditions_levels']);
+    for (var i = 0; i < outing['locales'][0]['conditions_levels'].length; i++) {
+      var cond = outing['locales'][0]['conditions_levels'][i];
+      cond['level_snow_height_soft'] = parseInt(cond['level_snow_height_soft'], 10);
+      cond['level_snow_height_total'] = parseInt(cond['level_snow_height_total'], 10);
+    }
+  } else {
+    // init empty conditions_levels for ng-repeat
+    outing['locales'][0]['conditions_levels'] = [{'level_snow_height_soft': '', 'level_snow_height_total': '', 'level_comment': '', 'level_place': ''}];
+  }
+
+  return outing;
 }
 
 
 /**
- * Update arrays and creates one, if not existing
- * form : model[property] = value, event for finding and (un)checking the checkbox
+ *
  * @param {Object} object
  * @param {string} property
  * @param {string} value
- * @param {Event} event
- * @suppress {missingProperties}
+ * @param {goog.events.Event | jQuery.Event} event
  * @export
  */
-
 app.DocumentEditingController.prototype.pushToArray = function(object, property, value, event) {
-  var pushed = app.utils.pushToArray(object, property, value);
-  var checkbox = $(event.currentTarget).find('input');
-
-  if (pushed) {
-    checkbox.prop('checked', true);
-  } else {
-    checkbox.prop('checked', false);
-  }
+  app.utils.pushToArray(object, property, value, event);
 }
 
-
-app.DocumentEditingController.prototype.pushToArray = function(object, property, value, event) {
-  var pushed = app.utils.pushToArray(object, property, value);
-  var checkbox = $(event.currentTarget).find('input');
-
-  if (pushed) {
-    checkbox.prop('checked', true);
-  } else {
-    checkbox.prop('checked', false);
-  }
-}
 
 /**
  * Set the orientation of a document. Can have multiple orientations
@@ -578,8 +577,8 @@ app.DocumentEditingController.prototype.pushToArray = function(object, property,
  * @export
  */
 
-app.DocumentEditingController.prototype.setOrientation = function(orientation, document) {
-  app.utils.pushToArray(document, 'orientation', orientation);
+app.DocumentEditingController.prototype.setOrientation = function(orientation, document, e) {
+  app.utils.pushToArray(document, 'orientation', orientation, e);
 }
 
 
