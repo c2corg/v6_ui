@@ -197,8 +197,6 @@ app.DocumentEditingController = function($scope, $element, $attrs,
     this.handleMapFeatureChange_(feature);
     this.scope_.$apply();
   }.bind(this));
-
-  this.putLocalstorage_();
 };
 
 
@@ -236,15 +234,7 @@ app.DocumentEditingController.prototype.successRead_ = function(response) {
     this.isNewLang_ = true;
   }
 
-  var document = JSON.parse(window.localStorage.getItem(this.modelName_));
-
-  // if document does'nt exist in localstorage or it's another document, set the data got from API
-  if (document === null || document['document_id'] !== data['document_id']) {
-    this.scope_[this.modelName_] = data;
-    // if it exists and it's the same document (for ex reloaded the page), replace whit what's in localstorage
-  } else if (document['document_id'] === data['document_id']) {
-    this.scope_[this.modelName_] = document;
-  }
+  this.scope_[this.modelName_] = data;
 
   if (this.modelName_ === 'outing') {
     var outing = this.scope_['outing'];
@@ -335,8 +325,6 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
         this.module_, this.id_, this.lang_);
     }.bind(this));
   }
-  // remove the edited item from localstorage
-  window.localStorage.removeItem(this.modelName_);
 };
 
 
@@ -568,24 +556,6 @@ app.DocumentEditingController.prototype.pushToArray = function(object, property,
     checkbox.prop('checked', true);
   } else {
     checkbox.prop('checked', false);
-  }
-}
-
-
-/**
- * @private
- */
-app.DocumentEditingController.prototype.putLocalstorage_ = function() {
-  if (typeof (Storage) !== 'undefined') {
-    // if there are no keys -> a new document is created, but maybe some thing is in the localstorage
-    if (Object.keys(this.scope_[this.modelName_]).length === 0 && JSON.parse(window.localStorage.getItem(this.modelName_)) !== null) {
-      this.scope_[this.modelName_] = JSON.parse(window.localStorage.getItem(this.modelName_));
-    }
-
-    setInterval(function() {
-      window.localStorage.setItem(this.modelName_, JSON.stringify(this.scope_[this.modelName_]));
-      this.scope_[this.modelName_] = JSON.parse(window.localStorage.getItem(this.modelName_));
-    }.bind(this), 5000)
   }
 }
 
