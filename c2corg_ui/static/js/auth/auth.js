@@ -78,12 +78,35 @@ app.AuthController = function($scope, appApi, appAuthentication,
    */
   this.alerts_ = appAlerts;
 
+  /**
+   * @export
+   */
+  this.uiStates = {
+    'showLoginForm': true
+  };
+
+  /**
+   * @type {string}
+   * @private
+   */
+  this.nonce_;
+
   if (this.ngeoLocation_.hasParam('validate_register_email')) {
     // Activate and log in from API by using the nonce
     var nonce = this.ngeoLocation_.getParam('validate_register_email');
     var remember = true;
     var onLogin = this.successLogin_.bind(this, remember);
     this.api_.validateRegisterEmail(nonce).then(onLogin);
+
+    this.uiStates = {
+    };
+  }
+  if (this.ngeoLocation_.hasParam('change_password')) {
+    // Activate and log in from API by using the nonce
+    this.nonce_ = this.ngeoLocation_.getParam('change_password');
+    this.uiStates = {
+      'showChangePasswordForm': true
+    };
   }
 };
 
@@ -173,8 +196,30 @@ app.AuthController.prototype.register = function() {
 /**
  * @export
  */
-app.AuthController.prototype.showNewPassForm = function() {
-  alert('TODO');
+app.AuthController.prototype.requestPasswordChange = function() {
+  var alerts = this.alerts_;
+  /**
+   * @typedef {{
+   *   email: string
+   * }}
+   */
+  var data = this.scope_['requestChangePassword'];
+  this.api_.requestPasswordChange(data.email).then(function() {
+    var msg = alerts.gettext(
+        'We sent you an email, please click on the link to reset password.');
+    alerts.addSuccess(msg);
+  });
+};
+
+
+/**
+ * @export
+ */
+app.AuthController.prototype.validateNewPassword = function() {
+  var remember = true;
+  var onLogin = this.successLogin_.bind(this, remember);
+  var password = this.scope_['changePassword']['password'];
+  this.api_.validateNewPassword(this.nonce_, password).then(onLogin);
 };
 
 
