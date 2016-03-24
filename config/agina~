@@ -1,6 +1,0 @@
-include config/dev
-
-export debug_port = 6557
-export instanceid = agina
-export base_url = /${instanceid}
-export api_url = http://c2corgv6-demo.gis.internal:6545 
