@@ -559,18 +559,13 @@ app.DocumentEditingController.prototype.pushToArray = function(object, property,
   }
 }
 
-
 app.DocumentEditingController.prototype.pushToArray = function(object, property, value, event) {
   var pushed = app.utils.pushToArray(object, property, value);
   var checkbox = $(event.currentTarget).find('input');
 
-  if (pushed) {
-    checkbox.prop('checked', true);
-  } else {
-    checkbox.prop('checked', false);
+    checkbox.prop('checked', pushed);
   }
 }
-
 /**
  * Set the orientation of a document. Can have multiple orientations
  * @param {string} orientation
