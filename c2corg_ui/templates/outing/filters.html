@@ -4,8 +4,13 @@ from c2corg_common.attributes import default_langs, route_types, activities, rou
 <form app-search-filters>
   <div class="filters">
     <div class="row simple-filters">
-
-      <div class="filter">
+      
+      <div class="col-xs-12 col-sm-6 col-md-4 filter">
+        <label translate>GPS Track</label>
+        <select class="form-control" ng-model="searchFiltersCtrl.georef"><option translate>Yes</option><option translate>No</option></select>
+      </div>
+      
+      <div class="col-xs-12 col-sm-6 col-md-4 filter">
         <label>{{'type'| translate | capitalize }}</label><br>
         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
           <p>
@@ -23,22 +28,14 @@ from c2corg_common.attributes import default_langs, route_types, activities, rou
         </ul>
       </div>
 
-      <div class="filter">
+      <div class="col-xs-12 col-sm-6 col-md-4 filter">
         <label translate>duration_types</label>
         <div class="input-group">
-          <select class="form-control" ng-model="route.duration" ng-options="dur as dur for dur in ${route_duration_types}"></select>
+          <select class="form-control" ng-model="outing.duration" ng-options="dur as dur for dur in ${route_duration_types}"></select>
           <span class="input-group-addon">H</span>
         </div>
       </div>
-      
-      <div class="filter">
-        <label translate>lift access</label>
-        <select ng-model="searchFiltersCtrl.lang" class="form-control">
-          <option>yes</option>
-          <option>no</option>
-        </select>
-      </div>
-      
+
     </div>
     <div class="row collapse" id="moreFilters">
       
@@ -47,8 +44,8 @@ from c2corg_common.attributes import default_langs, route_types, activities, rou
         <div class="activities">
           <div ng-repeat="activity in activities" class="activity" ng-if="activity !== 'paragliding' ">
             <div>
-              <div class="icon-{{activity}}" class="icon-" ng-click="editCtrl.pushToArray(route, 'activities', activity, $event)"
-                   ng-class="{'activity-selected' : route.activities.indexOf(activity) > -1}">
+              <div class="icon-{{activity}}" class="icon-" ng-click="editCtrl.pushToArray(outing, 'activities', activity, $event)"
+                   ng-class="{'activity-selected' : outing.activities.indexOf(activity) > -1}">
               </div>
               <p>{{activity | translate}}</p>
             </div>
@@ -74,15 +71,10 @@ from c2corg_common.attributes import default_langs, route_types, activities, rou
         <input type="text" class="form-control">
       </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-4 filter">
-        <label translate>GPS Track</label>
-        <select class="form-control" ng-model="searchFiltersCtrl.georef"><option translate>Yes</option><option translate>No</option></select>
-      </div>
-
       <div class="col-xs-12 col-sm-6 col-md-6 filter orientation">
         <label translate>orientation</label>
         <%include file="c2corg_ui:static/img/orientation.svg" />
-                <select class="form-control" ng-options="orient as orient for orient in ${orientation_types} | translate" ng-model="orientation"></select>
+       <select class="form-control" ng-options="orient as orient for orient in ${orientation_types} | translate" ng-model="orientation"></select>
       </div>
       <div class="col-xs-12 col-sm-5 col-md-5 filter">
         <label translate>height_diff</label><br>

@@ -43,6 +43,14 @@ app.searchFiltersDirective = function() {
       element.on('click', '.dropdown-toggle', function() {
         $(this).next().css({position: 'fixed', top: $(this).offset().top + 30, left: $(this).offset().left - 10})
       });
+
+      // this prevents to 'jump' or 'stutter' on phone - before, if you first opened more-filters
+      // and scrolled, it would unfold filters on whole page and make a stutter. Now it overflows.
+      if (window.innerWidth < app.constants.SCREEN.SMARTPHONE) {
+        $('.more-filters-btn, .search-filters-btn, .less-filters-btn').click(function() {
+          $('.filters').toggleClass('filters-phone');
+        });
+      }
     }
   }
 };

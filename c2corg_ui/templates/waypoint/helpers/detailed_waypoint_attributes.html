@@ -1,4 +1,4 @@
-<%namespace file="../../helpers/view.html" import="show_areas, show_attr, show_maps"/>
+<%namespace file="../../helpers/view.html" import="get_document_min_max, show_areas, show_attr, show_maps"/>
 
 ## MAPSINFO
 <%def name="get_waypoint_maps_info(waypoint)">\
@@ -11,7 +11,7 @@
       </div>
       <span class="detail-text accordion">
         % if waypoint.get('maps_info'):
-          <p><span translate>maps_info</span>: <b>${waypoint['maps_info']}</b></p>
+          <p><span translate>maps_info</span>: <span>${waypoint['maps_info']}</span></p>
         % endif
         
         ${show_maps(waypoint)}
@@ -25,12 +25,12 @@
 <div class="name-icon-value general" ng-click="detailsCtrl.openTab($event)">
   <h4><span translate>General</span><span class="glyphicon glyphicon-menu-right"></span></h4>
   <div class="name-icon">
-    <span class="glyphicon glyphicon-asterisk"></span>
+    <span class="glyphicon glyphicon-info-sign"></span>
     <p translate>General</p>
   </div>
   <span class="detail-text accordion">
     % if waypoint.get('waypoint_type'):
-      <p><span translate>waypoint_type</span>: <b x-translate>${waypoint['waypoint_type']}</b></p>
+      <p><span translate class="value-title">waypoint_type</span>: <span x-translate class="value">${waypoint['waypoint_type']}</span></p>
     % endif
 
     % if waypoint.get('orientation'):
@@ -41,65 +41,65 @@
     % endif
 
     % if waypoint.get('climbing_indoor_types'):
-      <article ng-init="climbing_indoor_types = ${waypoint['climbing_indoor_types']}" class="value">
-        <b translate>climbing_indoor_types</b><br>
-        <span x-translate ng-repeat="type in climbing_indoor_types">{{type}}{{$last ? '' : ', '}}</span>
+      <article ng-init="climbing_indoor_types = ${waypoint['climbing_indoor_types']}">
+        <span translate class="value-title">climbing_indoor_types</span><br>
+        <span x-translate ng-repeat="type in climbing_indoor_types" class="value">{{type}}{{$last ? '' : ', '}}</span>
       </article>
     % endif
 
     % if waypoint.get('rock_types'):
-      <article ng-init="rock_types = ${waypoint['rock_types']}" class="value">
-        <b translate>rock_types</b><br>
-        <span x-translate ng-repeat="type in rock_types">{{type}}{{$last ? '' : ', '}}</span>
+      <article ng-init="rock_types = ${waypoint['rock_types']}">
+        <span translate class="value-title">rock_types</span><br>
+        <span x-translate ng-repeat="type in rock_types" class="value">{{type}}{{$last ? '' : ', '}}</span>
       </article>
     % endif
 
     % if waypoint.get('climbing_outdoor_types') and waypoint['climbing_outdoor_types'][0] != '':
-      <article ng-init="climbing_outdoor_types = ${waypointp['climbing_outdoor_types']}" class="value">
-        <b translate>climbing_outdoor_types</b><br>
-        <span x-translate ng-repeat="type in climbing_outdoor_types">{{type}}{{$last ? '' : ', '}}</span>
+      <article ng-init="climbing_outdoor_types = ${waypoint['climbing_outdoor_types']}">
+        <span translate class="value-title">climbing_outdoor_types</span><br>
+        <span x-translate ng-repeat="type in climbing_outdoor_types" class="value">{{type}}{{$last ? '' : ', '}}</span>
       </article>
     % endif
 
     % if waypoint.get('product_types'):
-      <article ng-init="product_types = ${waypoint['product_types']}" class="value">
-        <b translate>product_types</b><br>
-        <span x-translate ng-repeat="type in product_types">{{type}}{{$last ? '' : ', '}}</span>
+      <article ng-init="product_types = ${waypoint['product_types']}">
+        <span translate class="value-title">product_types</span><br>
+        <span x-translate ng-repeat="type in product_types" class="value">{{type}}{{$last ? '' : ', '}}</span>
       </article>
     % endif
 
     % if waypoint.get('ground_types'):
-      <article ng-init="ground_types = ${waypoint['ground_types']}" class="value">
-        <b translate>ground_types</b><br>
-        <span x-translate ng-repeat="type in ground_types">{{type}}{{$last ? '' : ', '}}</span>
+      <article ng-init="ground_types = ${waypoint['ground_types']}">
+        <span translate class="value-title">ground_types</span><br>
+        <span x-translate ng-repeat="type in ground_types" class="value">{{type}}{{$last ? '' : ', '}}</span>
       </article>
     % endif
 
     % if waypoint.get('weather_station_types'):
-      <article ng-init="weather_station_types = ${waypoint['weather_station_types']}" class="value">
-        <b translate>weather_station_types</b><br>
-        <span x-translate ng-repeat="type in weather_station_types">{{type}}{{$last ? '' : ', '}}</span>
+      <article ng-init="weather_station_types = ${waypoint['weather_station_types']}">
+        <span translate class="value-title">weather_station_types</span><br>
+        <span x-translate ng-repeat="type in weather_station_types" class="value">{{type}}{{$last ? '' : ', '}}</span>
       </article>
     % endif
 
     % if waypoint.get('rain_proof'):
-    <p><span translate>rain_proof</span>: <b x-translate>${waypoint['rain_proof']}</b></p>
+    <p><span translate class="value-title">rain_proof</span>: <span x-translate  class="value">${waypoint['rain_proof']}</span></p>
     % endif
 
     % if waypoint.get('children_proof'):
-    <p><span translate>children_proof</span>: <b x-translate>${waypoint['children_proof']}</b></p>
+    <p><span translate class="value-title">children_proof</span>: <span x-translate class="value">${waypoint['children_proof']}</span></p>
     % endif
 
     % if waypoint.get('capacity'):
-    <p><span translate>capacity</span>: <b>${waypoint['capacity']}</b></p>
+    <p><span translate class="value-title">capacity</span>: <span  class="value">${waypoint['capacity']}</span></p>
     % endif
 
     % if waypoint.get('capacity_staffed'):
-    <p><span translate>capacity_staffed</span>: <b>${waypoint['capacity_staffed']}</b></p>
+    <p><span translate class="value-title">capacity_staffed</span>: <span  class="value">${waypoint['capacity_staffed']}</span></p>
     % endif
 
     % if waypoint.get('length'):
-    <p><span translate>length</span>: <b>${waypoint['length']}</b></p>
+    <p><span translate class="value-title">length</span>: <span  class="value">${waypoint['length']} m</span></p>
     % endif
 
   </span>
@@ -139,27 +139,21 @@
       <span class="detail-text accordion">
 
         % if waypoint.get('prominence'):
-          <p><span translate>prominence</span>: <b>${waypoint['prominence']} m</b></p>
+          <p><span translate class="value-title">prominence</span>: <span class="value">${waypoint['prominence']} m</span></p>
         % endif
 
         % if waypoint.get('elevation_min'):
-          <p><span translate>elevation_min</span>: <b>${waypoint['elevation_min']} m</b></p>
+          <p><span translate class="value-title">elevation_min</span>: <span class="value">${waypoint['elevation_min']} m</span></p>
         % endif
 
         % if waypoint.get('elevation'):
-          <p class="show-phone elevation"><span translate>elevation</span>: <b>${waypoint['elevation']} m</b></p>
+          <p class="show-phone elevation"><span translate class="value-title">elevation</span>: <span class="value">${waypoint['elevation']} m</span></p>
         % endif
 
-        % if waypoint.get('height_min'):
-          <p><span translate>height_min</span>: <b>${waypoint['height_min']} m</b></p>
-        % endif
-
-        % if waypoint.get('height_max'):
-          <p><span translate>height_max</span>: <b>${waypoint['height_max']} m</b></p>
-        % endif
+        ${get_document_min_max(waypoint, 'height')}
 
         % if waypoint.get('height_median'):
-          <p><span translate>height_median</span>: <b>${waypoint['height_median']} m</b></p>
+          <p><span translate class="value-title">height_median</span>: <span class="value">${waypoint['height_median']} m</span></p>
         % endif
 
       </span>
@@ -182,45 +176,46 @@
     <span class="detail-text accordion">
 
       % if locale.get('access_period'):
-        <p><span translate>access_period</span>: <b>${locale['access_period']}</b></p>
+        <p><span translate class="value-title">access_period</span>: <span class="value">${locale['access_period']}</span></p>
       % endif
 
       % if waypoint.get('routes_quantity'):
-        <p><span translate>routes_quantity</span>: <b>${waypoint['routes_quantity']}</b></p>
+        <p><span translate class="value-title">routes_quantity</span>: <span class="value">${waypoint['routes_quantity']}</span></p>
       % endif
 
       % if waypoint.get('access_time'):
-        <p><span translate>access_time</span>: <b>${waypoint['access_time']}</b></p>
+        <p><span translate class="value-title">access_time</span>: <span class="value">${waypoint['access_time']}</span></p>
       % endif
       
       % if waypoint.get('best_periods'):
-      <article ng-init="best_periods = ${waypoint['best_periods']}" class="value">
-        <b translate>best_periods</b><br>
+      <article ng-init="best_periods = ${waypoint['best_periods']}">
+        <span translate class="value-title">best_periods</span><br>
         <span x-translate ng-repeat="type in best_periods">{{type}}{{$last ? '' : ', '}}</span>
       </article>
       % endif
       
       % if waypoint.get('public_transportation_types'):
       <article ng-init="public_transportation_types = ${waypoint['public_transportation_types']}" class="value">
-        <b translate>public_transportation_types</b><br>
+        <span translate class="value-title">public_transportation_types</span><br>
         <span x-translate ng-repeat="type in public_transportation_types">{{type}}{{$last ? '' : ', '}}</span>
       </article>
       % endif
       
       % if waypoint.get('public_transportation_rating'):
-        <p><span translate>public_transportation_rating</span>: <b>${waypoint['public_transportation_rating']}</b></p>
+        <p><span translate class="value-title">public_transportation_rating</span>: <span class="value">${waypoint['public_transportation_rating']}</span></p>
       % endif
 
       % if waypoint.get('parking_fee'):
-        <p><span translate>parking_fee</span>: <b>${waypoint['parking_fee']}</b></p>
+        <p><span translate class="value-title">parking_fee</span>: <span class="value">${waypoint['parking_fee']}</span></p>
       % endif
 
       % if waypoint.get('snow_clearance_rating'):
-        <p><span translate>snow_clearance_rating</span>: <b>${waypoint['snow_clearance_rating']}</b></p>
+        <p><span translate class="value-title">snow_clearance_rating</span>: <span class="value">${waypoint['snow_clearance_rating']}</span></p>
       % endif
 
       % if waypoint.get('lift_access'):
-      <b x-translate>lift_access</b>
+      <span translate class="value-title">lift_access</span>
+      <input type="checkbox" checked="checked"><span></span>
       % endif
     </span>
   </div>
@@ -237,29 +232,33 @@
         <p translate>Rating</p>
       </div>
       <span class="detail-text accordion">
-
+        
+        % if waypoint.get('risk_rating'):
+        <p><span translate class="value-title">risk_rating</span>: <span class="value">${waypoint['risk_rating']}</span></p>
+        % endif
+        
         % if waypoint.get('climbing_rating_max'):
-        <p><span translate>climbing_rating_min</span>: <b>${waypoint['climbing_rating_min']}</b></p>
+        <p><span translate class="value-title">climbing_rating_max</span>: <span class="value">${waypoint['climbing_rating_max']}</span></p>
         % endif
 
-        % if waypoint.get('risk_rating'):
-          <p><span translate>risk_rating</span>: <b>${waypoint['risk_rating']}</b></p>
+        % if waypoint.get('climbing_rating_min'):
+        <p><span translate class="value-title">climbing_rating_min</span>: <span class="value">${waypoint['climbing_rating_min']}</span></p>
         % endif
 
         % if waypoint.get('climbing_rating_median'):
-          <p><span translate>climbing_rating_median</span>: <b>${waypoint['climbing_rating_median']}</b></p>
+        <p><span translate class="value-title">climbing_rating_median</span>: <span class="value">${waypoint['climbing_rating_median']}</span></p>
         % endif
-        
+
         % if waypoint.get('equipment_ratings'):
-         <p><span translate>equipment_rating</span>: <b>${waypoint['equipment_ratings']}</b></p>
+        <p><span translate class="value-title">equipment_rating</span>: <span class="value">${waypoint['equipment_ratings']}</span></p>
         % endif
 
         % if waypoint.get('paragliding_rating'):
-          <p><span translate>paragliding_rating</span>: <b>${waypoint['paragliding_rating']}</b></p>
+        <p><span translate class="value-title">paragliding_rating</span>: <span class="value">${waypoint['paragliding_rating']}</span></p>
         % endif
 
         % if waypoint.get('exposition_rating'):
-          <p><span translate>exposition_rating</span>: <b>${waypoint['exposition_rating']}</b></p>
+          <p><span translate class="value-title">exposition_rating</span>: <span class="value">${waypoint['exposition_rating']}</span></p>
         % endif
       </span>
     </div>
@@ -276,12 +275,14 @@
         <p translate>Style</p>
       </div>
       <span class="detail-text accordion">
+        
         % if waypoint.get('climbing_styles'):
-        <article ng-init="climbing_styles = ${waypoint['climbing_styles']}" class="value">
-          <b translate>climbing_styles</b><br>
-          <span x-translate ng-repeat="style in climbing_styles">{{style}}{{$last ? '' : ', '}}</span>
+        <article ng-init="climbing_styles = ${waypoint['climbing_styles']}">
+          <span translate class="value-title">climbing_styles</span><br>
+          <span x-translate ng-repeat="style in climbing_styles" class="value">{{style}}{{$last ? '' : ', '}}</span>
         </article>
         % endif
+        
       </span>
     </div>
   % endif
@@ -299,19 +300,19 @@
       <span class="detail-text accordion">
 
         % if waypoint.get('url'):
-          <p><span translate>url</span>${waypoint['url']}</p>
+          <p><span translate class="value-title">url</span> :<span class="value">${waypoint['url']}</span></p>
         % endif
 
         % if waypoint.get('phone'):
-          <p><span translate>phone</span> ${waypoint['phone']}</p>
+          <p><span translate class="value-title">phone</span>: <span class="value"> ${waypoint['phone']}</span></p>
         % endif
 
         % if waypoint.get('phone_custodian'):
-          <p><span translate>phone_custodian</span> ${waypoint['phone_custodian']}</p>
+          <p><span translate class="value-title">phone_custodian</span>: <span class="value">${waypoint['phone_custodian']}</span></p>
         % endif
 
         % if waypoint.get('custodianship'):
-          <p><span translate>custodianship</span> ${waypoint['custodianship']}</p>
+          <p><span translate class="value-title">custodianship</span>: <span class="value">${waypoint['custodianship']}</span></p>
         % endif
 
       </span>
@@ -331,19 +332,19 @@
       <span class="detail-text accordion">
 
         % if waypoint.get('matress_unstaffed'):
-          <p><span translate>matress_unstaffed</span>${waypoint['matress_unstaffed']}</p>
+        <p><span translate class="value-title">matress_unstaffed</span><span class="value">${waypoint['matress_unstaffed']}</span></p>
         % endif
 
         % if waypoint.get('blanket_unstaffed'):
-          <p><span translate>blanket_unstaffed</span> ${waypoint['blanket_unstaffed']}</p>
+        <p><span translate class="value-title">blanket_unstaffed</span> <span class="value">${waypoint['blanket_unstaffed']}</span></p>
         % endif
 
         % if waypoint.get('heating_unstaffed'):
-          <p><span translate>heating_unstaffed</span> ${waypoint['heating_unstaffed']}</p>
+        <p><span translate class="value-title">heating_unstaffed</span> <span class="value">${waypoint['heating_unstaffed']}</span></p>
         % endif
 
         % if waypoint.get('gas_unstaffed'):
-          <p><span translate>gas_unstaffed</span> ${waypoint['gas_unstaffed']}</p>
+        <p><span translate class="value-title">gas_unstaffed</span> <span class="value">${waypoint['gas_unstaffed']}</span></p>
         % endif
 
       </span>
@@ -366,4 +367,3 @@
     </div>
   % endif
 </%def>
-if

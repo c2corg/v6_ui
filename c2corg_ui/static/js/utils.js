@@ -60,12 +60,42 @@ app.utils.pushToArray = function(object, property, value) {
  * @export
  */
 app.utils.animateHeaderIcon = function(e) {
+  // TO FIX - if you quickly double-click, it will add/remove classes even when div is or has already collapsed
+  if ($(e.target).hasClass('closed') && $(e.target).parent().find('.collapsing').length === 0) {
+    $(e.target).removeClass('closed');
+  } else {
+    $(e.target).addClass('closed');
+  }
   var menuDown = $(e.target).find('.glyphicon-menu-down');
   var menuUp = $(e.target).find('.glyphicon-menu-right');
-  if (menuDown) {
+
+  if (menuDown.length > 0) {
     menuDown.toggleClass('rotate-arrow-up');
-  } else if (menuUp) {
+  } else if (menuUp.length > 0) {
     menuUp.toggleClass('rotate-arrow-down');
   }
   return;
+}
+
+
+/**
+ * @export
+ * @param {string} date
+ */
+app.utils.formatDate = function(date) {
+  if (typeof date === 'string') {
+    return new Date(date);
+  }
+};
+
+
+/**
+ * @export
+ * @param {Date} date1
+ * @param {Date} date2
+ */
+app.utils.areDifferentDates = function(date1, date2) {
+  if (date1 !== null && date2 !== null) {
+    return date1.toDateString() !== date2.toDateString();
+  }
 }

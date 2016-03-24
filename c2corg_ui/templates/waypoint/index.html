@@ -1,7 +1,7 @@
 <%inherit file="../base.html"/>
 <%namespace file="../helpers/common.html" import="show_title"/>
 <%namespace file="../helpers/list.html" import="add_pagination_links"/>
-<%namespace file="../helpers/view.html" import="show_attr"/>
+<%namespace file="../helpers/view.html" import="waypoint_card, show_attr"/>
 
 <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Waypoints')">${show_title('Waypoints')}</title></%block>
 
@@ -51,33 +51,17 @@ module.value('mapFeatureCollection', {
   <%include file="filters.html" />
   <div class="documents-nav-buttons text-center">
     <button type="button" class="btn btn-default show-documents-filters-phone" translate>Filters</button>
+    
+    <%include file="c2corg_ui:templates/document/select_document.html" />
+    
     <app-edit-button class="btn btn-default" app-edit-button-url="${request.route_url('waypoints_add')}">
-      <span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span>
-      <span translate>Add a waypoint</span>
+      <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
     </app-edit-button>
     ${add_pagination_links('waypoints', waypoints, total, filter_params)}
   </div>
   <div class="list">
     % for waypoint in waypoints:
-    <% locale = waypoint['locales'][0] %>\
-    <div class="list-item">
-      <a href="${request.route_url('waypoints_view', id=waypoint['document_id'], lang=locale['lang'])}">
-        <span class="list-item-title ">${show_attr(locale, 'title', False)}</span>
-        % if lang != locale['lang']:
-        <span class="list-item-lang">(${locale['lang']})</span>
-        <br>
-        % endif
-        <div class="list-item-info">
-          % if waypoint['elevation'] is not None:
-            <span class="list-item-elevation">Elevation: ${waypoint['elevation']} m</span>
-          % endif
-          <span>
-            <p><img alt="waypoint type" src="${request.static_url('c2corg_ui:static/img/icons/' + waypoint['waypoint_type'] + '.png')}"><span x-translate>${waypoint['waypoint_type']}</span></p>
-          </span>
-          <p class="text-justify">${show_attr(locale, 'summary')}</p>
-        </div>
-      </a>
-    </div>
+      ${waypoint_card(waypoint, None, None)}
     % endfor
   </div>
 </section>

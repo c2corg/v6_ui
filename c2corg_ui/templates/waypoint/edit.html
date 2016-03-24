@@ -58,7 +58,7 @@
       </li>
       <li class="nav-step-{{editCtrl.max_steps -1}}" ng-click="editCtrl.step((editCtrl.max_steps - 1), 'waypoint',  editCtrl.previous_step >= ((editCtrl.max_steps > 4) ? 4 : 3) ? 'backwards' : 'forwards')" >
         <span class="nav-text">
-          <span translate>description</span> 
+          <span translate>comments</span> 
           <span ng-if="waypoint.waypoint_type == 'climbing_outdoor' || waypoint.waypoint_type == 'climbing_indoor' || waypoint.waypoint_type == 'gite' || waypoint.waypoint_type == 'webcam'
                     || waypoint.waypoint_type == 'camp_site' || waypoint.waypoint_type == 'hut' || waypoint.waypoint_type == 'local_product' || waypoint.waypoint_type == 'weather_station'">& 
             <span translate>contact</span>
@@ -671,7 +671,7 @@
       <div class="step step-{{editCtrl.max_steps -1}}">
 
         <section class="section description">
-          <h2 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#edit-description" ><span translate>description</span><span class="glyphicon glyphicon-menu-down"></span></h2>
+          <h2 class="heading show-phone" translate>comments</h2>
           <div class="content collapse in" id="edit-description">
 
             ## SUMMARY

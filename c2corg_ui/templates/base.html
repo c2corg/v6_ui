@@ -53,7 +53,7 @@ closure_library_path = settings.get('closure_library_path')
         <app-search app-loading app-search-map=""></app-search>
       </div>
       <app-user></app-user>
-      <button class="btn orange-btn" id="add-my-outing"><span class="glyphicon glyphicon-plus-sign"></span>add my outing</button>
+      <button class="btn orange-btn" id="add-my-outing"><a href="${request.route_url('outings_add')}"><span class="glyphicon glyphicon-plus-sign"></span><span translate>add an outing</span></a></button>
       <div class="lang-user">
         <div class="lang-selector">
           <label translate>Browse site in</label>
@@ -89,28 +89,32 @@ closure_library_path = settings.get('closure_library_path')
     <script src="${request.static_url('%s/angular/angular.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/bootstrap/dist/js/bootstrap.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/bootstrap-slider/dist/bootstrap-slider.js' % node_modules_path)}"></script>
-    <script src="${request.static_url('%s/angular-ui-bootstrap/dist/ui-bootstrap.js' % node_modules_path)}"></script>
-    <script src="${request.static_url('%s/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/angular-gettext/dist/angular-gettext.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/angular-messages/angular-messages.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/angular-cookies/angular-cookies.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/closure/goog/base.js' % closure_library_path)}"></script>
     <script src="${request.static_url('%s/typeahead.js/dist/typeahead.bundle.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%s/moment/moment.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%s/angular-moment/angular-moment.js' % node_modules_path)}"></script>
     <script src="${request.route_url('deps.js')}"></script>
     <script src="${request.static_url('c2corg_ui:static/js/main.js')}"></script>
 % else:
     <script src="${request.static_url('%s/jquery/dist/jquery.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/bootstrap-slider/dist/bootstrap-slider.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/angular/angular.min.js' % node_modules_path)}"></script>
-    <script src="${request.static_url('%s/angular-ui-bootstrap/dist/ui-bootstrap.js' % node_modules_path)}"></script>
-    <script src="${request.static_url('%s/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/bootstrap/dist/js/bootstrap.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/angular-gettext/dist/angular-gettext.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/angular-messages/angular-messages.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/angular-cookies/angular-cookies.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/typeahead.js/dist/typeahead.bundle.min.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%s/moment/min/moment.min.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%s/angular-moment/angular-moment.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('c2corg_ui:static/build/build.js')}"></script>
 % endif
+
+    <script src="${request.static_url('%s/angular-ui-bootstrap/dist/ui-bootstrap.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%s/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js' % node_modules_path)}"></script>
+    
     <script>
       (function() {
          var module = angular.module('app');
