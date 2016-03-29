@@ -254,6 +254,36 @@ app.Api.prototype.validateRegisterEmail = function(nonce) {
 
 
 /**
+ * @param {string} email
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.requestPasswordChange = function(email) {
+  var promise = this.postJson_('/users/request_password_change', {
+    'email': email});
+  promise.catch(function(response) {
+    this.alerts_.addError(response);
+  }.bind(this));
+  return promise;
+};
+
+
+/**
+ * @param {string} nonce
+ * @param {string} password
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.validateNewPassword = function(nonce, password) {
+  var promise = this.postJson_('/users/validate_new_password/' + nonce, {
+    'password': password
+  });
+  promise.catch(function(response) {
+    this.alerts_.addError(response);
+  }.bind(this));
+  return promise;
+};
+
+
+/**
  * @param {Object} data
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
