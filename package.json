@@ -7,12 +7,15 @@
   "dependencies": {
     "closure-util": "1.14.0",
     "angular-moment": "^1.0.0-beta.4",
-    "angular-ui-bootstrap": "1.1.2",
     "angular-recaptcha": "git://github.com/VividCortex/angular-recaptcha#3.0.1",
+    "angular-ui-bootstrap": "1.1.2",
     "async": "1.5.2",
+    "blueimp-load-image": "2.6.1",
     "bootstrap": "3.3.6",
     "bootstrap-slider": "6.0.16",
-    "moment": "2.12.0"
+    "moment": "2.12.0",
+    "photoswipe": "4.1.1",
+    "slick-carousel": "1.6.0"
   },
   "devDependencies": {
     "angular": "1.5.0",
@@ -24,6 +27,7 @@
     "eslint-config-openlayers": "4.0.0",
     "jquery": "2.2.0",
     "less": "git://github.com/less/less.js#ec04a03f1cba3a092d5cd7f7c5d8e28bb43c1932",
+    "ng-file-upload": "12.0.4",
     "less-plugin-clean-css": "1.5.1",
     "ngeo": "git://github.com/camptocamp/ngeo#c647c11",
     "nomnom": "1.8.1",
