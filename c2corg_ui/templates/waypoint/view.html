@@ -1,12 +1,15 @@
 <%!
+from c2corg_common.attributes import activities, image_categories, image_types
 from c2corg_ui.templates.utils import get_lang_lists
 %>
+
 <%inherit file="../base.html"/>
 <%namespace file="../helpers/common.html" import="show_title"/>
 <%namespace file="helpers/detailed_waypoint_attributes.html" import="get_waypoint_equipment, get_waypoint_orientation, get_waypoint_contact, get_waypoint_style, get_waypoint_rating, get_waypoint_access, get_waypoint_heights, get_waypoint_location, get_waypoint_general, get_waypoint_maps_info"/>
-<%namespace file="../helpers/view.html" import="get_document_locale_text, show_attr, show_missing_langs_links,
+<%namespace file="../helpers/view.html" import="photoswipe_gallery, get_document_locale_text, show_attr, show_missing_langs_links,
     show_other_langs_links, show_archive_data, show_route_title, get_associated_documents,
     show_areas, show_maps, show_float_buttons"/>
+    
 <%
 waypoint_id = waypoint['document_id']
 other_langs, missing_langs = get_lang_lists(waypoint, lang)
@@ -87,24 +90,20 @@ geometry4326 = geometry
 
 <section class="view-details-section" app-view-details>
   
-  <uib-tabset app-view-details>
+  <uib-tabset>
     <uib-tab heading="{{mainCtrl.translate('Description')}}" ng-click="detailsCtrl.openTab('description')" id="description-tab"></uib-tab>
     <uib-tab heading="{{mainCtrl.translate('Details')}}" ng-click="detailsCtrl.openTab('informations')"></uib-tab>
-    % if not version and (('waypoints' in waypoint['associations'] and  len(waypoint['associations']['waypoints']) > 0) or  ('routes' in waypoint['associations'] and  len(waypoint['associations']['routes']) > 0)):
+    % if not version and (('waypoints' in waypoint['associations'] and \
+         len(waypoint['associations']['waypoints']) > 0) or \
+         ('routes' in waypoint['associations'] and len(waypoint['associations']['routes']) > 0)):
     <uib-tab heading="{{mainCtrl.translate('Associations')}}" ng-click="detailsCtrl.openTab('associations')"></uib-tab>
     % endif
   </uib-tabset>
 
-    ## IMAGES
+  ## IMAGES
   % if not version:
-    <div class="view-details-photos col-xs-12 tab">
-      <div class="photos">
-        <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzE0MHgxNDAKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNTMwOTM2ZThhYyB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE1MzA5MzZlOGFjIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjQ0LjA2MjUiIHk9Ijc0LjU1NjI1Ij4xNDB4MTQwPC90ZXh0PjwvZz48L2c+PC9zdmc+" alt="..." class="img-thumbnail">
-        <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzE0MHgxNDAKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNTMwOTM2ZThhYyB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE1MzA5MzZlOGFjIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjQ0LjA2MjUiIHk9Ijc0LjU1NjI1Ij4xNDB4MTQwPC90ZXh0PjwvZz48L2c+PC9zdmc+" alt="..." class="img-thumbnail">
-        <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzE0MHgxNDAKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNTMwOTM2ZThhYyB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE1MzA5MzZlOGFjIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjQ0LjA2MjUiIHk9Ijc0LjU1NjI1Ij4xNDB4MTQwPC90ZXh0PjwvZz48L2c+PC9zdmc+" alt="..." class="img-thumbnail">
-        <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzE0MHgxNDAKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNTMwOTM2ZThhYyB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE1MzA5MzZlOGFjIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjQ0LjA2MjUiIHk9Ijc0LjU1NjI1Ij4xNDB4MTQwPC90ZXh0PjwvZz48L2c+PC9zdmc+" alt="..." class="img-thumbnail">
-        <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzE0MHgxNDAKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNTMwOTM2ZThhYyB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE1MzA5MzZlOGFjIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjQ0LjA2MjUiIHk9Ijc0LjU1NjI1Ij4xNDB4MTQwPC90ZXh0PjwvZz48L2c+PC9zdmc+" alt="..." class="img-thumbnail">
-      </div>
+    <div class="view-details-photos col-xs-12 tab description">
+      <div class="photos" data-slick='{"variableWidth": true, "infinite": true, "focusOnSelect": false, "lazyLoad": "progressive"}'></div>
     </div>
   % endif
   
@@ -126,36 +125,39 @@ geometry4326 = geometry
     </section>
   </div>
   
-  ## DESCRIPTION
-  % if locale['summary'] or locale['description']:
-    <div class="view-details-description col-xs-12 tab description">
-      <h3 class="heading"><span translate>description</span></h3>
-      <span class="lead">
-        <div id="document-description" class="collapse in">
+    ## DESCRIPTION
+    % if locale['summary'] or locale['description']:
+      <div class="view-details-description col-xs-12 tab description">
+        <h3 class="heading"><span translate>description</span></h3>
+        <span class="lead">
+          <div id="document-description" class="collapse in">
+            % if locale['summary']:
+              <summary class="document-summary">
+                <label translate>summary</label><br>
+                ${show_attr(locale, 'summary')}
+              </summary>
+            % endif
 
-          % if locale['summary']:
-          <summary class="document-summary">
-            <label translate>summary</label><br>
-            ${show_attr(locale, 'summary')}
-          </summary>
-          % endif
-
-          % if locale['description'] :
-          ${show_attr(locale, 'description')}
-          % else :
-          <h3 class="text-center" translate>No description available</h3>
-          % endif
-
-        </div>
-      </span>
-    </div>
+            % if locale['description'] :
+              ${show_attr(locale, 'description')}
+            % else :
+              <h3 class="text-center" translate>No description available</h3>
+            % endif
+          </div>
+        </span>
+      </div>
   % endif
+
   
-  ${get_document_locale_text(locale, 'access')}
-  ${get_document_locale_text(locale, 'access_period')}
+  <div class="description tab">
+    ${get_document_locale_text(locale, 'access')}
+    ${get_document_locale_text(locale, 'access_period')}
+  </div>
   
   ## ASSOCIATIONS
-  % if not version and (('waypoints' in waypoint['associations'] and  len(waypoint['associations']['waypoints']) > 0) or  ('routes' in waypoint['associations'] and  len(waypoint['associations']['routes']) > 0)):
+  % if not version and (('waypoints' in waypoint['associations'] and \
+       len(waypoint['associations']['waypoints']) > 0) or \
+       ('routes' in waypoint['associations'] and len(waypoint['associations']['routes']) > 0)):
     <div class="view-details-associations col-xs-12 tab associations">
       <span class="lead">
       <section>
@@ -180,13 +182,13 @@ geometry4326 = geometry
   </div>
   % endif
 
-## OTHER BUTTON contents
-% if version:
-${show_archive_data('waypoints', waypoint, locale, version)}
-% else:
-${show_other_langs_links('waypoints', waypoint, other_langs)}
-${show_missing_langs_links('waypoints', waypoint, missing_langs)}
-% endif
+  ## OTHER BUTTON contents
+  % if version:
+    ${show_archive_data('waypoints', waypoint, locale, version)}
+  % else:
+    ${show_other_langs_links('waypoints', waypoint, other_langs)}
+    ${show_missing_langs_links('waypoints', waypoint, missing_langs)}
+  % endif
 
 </section>
 
@@ -195,6 +197,11 @@ ${show_float_buttons(None, 'waypoints', waypoint_id, lang, other_langs, missing_
 <div class="text-center">
   <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);">&nbsp;<span class="glyphicon glyphicon-menu-up"></span></button>
 </div>
+
+<div class="ng-hide">
+  <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
+</div>
+${photoswipe_gallery()}
 
 <script>
   window.onload = function() {

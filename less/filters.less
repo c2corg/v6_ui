@@ -232,49 +232,50 @@
       font-family: inherit;
     }
   }
- 
-  .multiselect-box {
-    -webkit-columns: 2;
-    -moz-columns: 2;
-    columns: 2;
-    -webkit-column-gap: 4px;
-    -moz-column-gap: 4px;
-    column-gap: 4px;
-    -webkit-column-rule: 2px outset #CCC; /* Chrome, Safari, Opera */
-    -moz-column-rule: 2px outset #CCC; /* Firefox */
-    column-rule: 2px outset #CCC;
-    margin-left: 1%;
-    
-    @media @phone {
-     -webkit-columns: inherit;
-     -moz-columns: inherit;
-      overflow-x: hidden;
-      overflow-y: scroll;
-      max-height : 250px;
-      width: 70%;
-      margin-left: -5%;
-    }
-
-    @media @tablet {
-      width: auto;
-    }
-    
-    @media (max-height: 400px){
-      overflow-y: scroll;
-      height: 130px;
-    }
-    span {
-      margin-left: 8px;
-      padding-right: 2%;
-      @media @phone {
-        margin-left: 5px;
-      }
-    }
-    a {
-      padding-left: 5%;
-      padding-right: 14px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-  } /* multi-selectbox */
 } /*filters */
+
+ 
+.multiselect-box {
+  -webkit-columns: 2;
+  -moz-columns: 2;
+  columns: 2;
+  -webkit-column-gap: 4px;
+  -moz-column-gap: 4px;
+  column-gap: 4px;
+  -webkit-column-rule: 2px outset #CCC; /* Chrome, Safari, Opera */
+  -moz-column-rule: 2px outset #CCC; /* Firefox */
+  column-rule: 2px outset #CCC;
+  margin-left: 1%;
+
+  @media @phone {
+   -webkit-columns: inherit;
+   -moz-columns: inherit;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    max-height : 250px;
+    width: 70%;
+    margin-left: -5%;
+  }
+
+  @media @tablet {
+    width: auto;
+  }
+
+  @media (max-height: 400px){
+    overflow-y: scroll;
+    height: 130px;
+  }
+  span {
+    margin-left: 8px;
+    padding-right: 2%;
+    @media @phone {
+      margin-left: 5px;
+    }
+  }
+  a {
+    padding-left: 5%;
+    padding-right: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+} /* multi-selectbox */
