@@ -296,4 +296,18 @@ app.Api.prototype.login = function(data) {
 };
 
 
+/**
+ * @param {string} lang
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.updatePreferredLanguage = function(lang) {
+  var promise = this.postJson_('/users/update_preferred_language', {
+    'lang': lang});
+  promise.catch(function(response) {
+    this.alerts_.addError(response);
+  }.bind(this));
+  return promise;
+};
+
+
 app.module.service('appApi', app.Api);

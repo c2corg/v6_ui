@@ -44,12 +44,14 @@ app.module.directive('appLang', app.langDirective);
  *        GetBrowserLanguage Service.
  * @param {angular.$cookies} $cookies Cookies service.
  * @param {amMoment} amMoment angular moment directive.
+ * @param {app.Api} appApi Api service.
+ * @param {app.Authentication} appAuthentication Authentication service.
  * @constructor
  * @export
  * @ngInject
  */
 app.LangController = function(gettextCatalog, langUrlTemplate,
-    ngeoGetBrowserLanguage, $cookies, amMoment) {
+    ngeoGetBrowserLanguage, $cookies, amMoment, appApi, appAuthentication) {
 
   /**
    * @type {angularGettext.Catalog}
@@ -75,6 +77,17 @@ app.LangController = function(gettextCatalog, langUrlTemplate,
    */
   this.amMoment_ = amMoment;
 
+  /**
+   * @type {app.Api}
+   * @private
+   */
+  this.api_ = appApi;
+
+  /**
+   * @type {app.Authentication}
+   * @private
+   */
+  this.appAuthentication_ = appAuthentication;
 
   /**
    * @type {string}
@@ -82,7 +95,6 @@ app.LangController = function(gettextCatalog, langUrlTemplate,
   var lang = this.cookies_.get('interface_lang') ||
       ngeoGetBrowserLanguage(this['langs']) || 'fr';
   this.updateLang(lang);
-
 };
 
 
@@ -112,13 +124,18 @@ app.LangController.prototype.updateLang = function(lang) {
     'expires': this.todayInOneYear_()
   });
 
+  if (this.appAuthentication_.isAuthenticated()) {
+    this.api_.updatePreferredLanguage(lang);
+  }
+
   if (lang === 'en') {
     lang = 'en-gb';
   }
+
+  // This will retrieve then _evaluate_ the content of the file.
   $.get('/node_modules/moment/locale/' + lang + '.js', function() {
     this.amMoment_.changeLocale(lang);
   }.bind(this))
-
 };
 
 
