@@ -12,10 +12,11 @@
   position: relative;
   float: right;
   cursor: pointer;
-  margin-top: -30px;
+  margin-top: 10px;
   margin-bottom: 10px;
+  
   @media @phone {
-    margin: 0;
+    margin: 24px 0 0 0;
   }
 
   input[type="file"] {
@@ -194,6 +195,9 @@ input[type=checkbox]:checked + * {
       color: @C2C-orange;
     }
   }
+  &.outings {
+    background-color: #8C8C8C;
+  }
 
   .glyphicon {
     float: right;
@@ -233,4 +237,28 @@ p {
 
 .map {
   margin:0;
+}
+
+.baseline-align {
+  .flex();
+  align-items: flex-end;
+}
+
+.vertical-align {
+  .flex() !important;
+    align-items: center;
+    justify-content: space-around;
+}
+
+
+.conditions-levels {
+  .location {
+    width: 250px;
+  }
+  .soft-snow,  .total-snow  {
+    width: 80px;
+  }
+  .delete {
+    width: 10px;
+  }
 }
