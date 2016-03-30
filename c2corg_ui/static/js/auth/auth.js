@@ -35,12 +35,13 @@ app.module.directive('appAuth', app.authDirective);
  * @param {app.Alerts} appAlerts
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @param {angular.$q} $q Angular q service.
+ * @param {angular.$cookies} $cookies Cookies service.
  * @constructor
  * @export
  * @ngInject
  */
 app.AuthController = function($scope, appApi, appAuthentication,
-    ngeoLocation, appAlerts, gettextCatalog, $q) {
+    ngeoLocation, appAlerts, gettextCatalog, $q, $cookies) {
 
   /**
    * @type {angular.$q}
@@ -77,6 +78,11 @@ app.AuthController = function($scope, appApi, appAuthentication,
    * @private
    */
   this.alerts_ = appAlerts;
+
+  /**
+   * @private
+   */
+  this.cookies_ = $cookies;
 
   /**
    * @export
@@ -186,7 +192,11 @@ app.AuthController.prototype.successLogin_ = function(remember, response) {
  */
 app.AuthController.prototype.register = function() {
   var alerts = this.alerts_;
-  this.api_.register(this.scope_['register']).then(function() {
+  var lang = this.cookies_.get('interface_lang'); // initialized in lang.js
+  var form = this.scope_['register'];
+  form['lang'] = lang; // inject the current language
+
+  this.api_.register(form).then(function() {
     var msg = alerts.gettext('Register success');
     alerts.addSuccess(msg);
   });
