@@ -54,6 +54,8 @@ def main(global_config, **settings):
 
     config.add_route('auth', '/auth')
 
+    config.add_route('account', '/account')
+
     config.scan(ignore='c2corg_ui.tests')
     return config.make_wsgi_app()
 

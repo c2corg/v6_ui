@@ -243,6 +243,11 @@ app.Authentication.prototype.needAuthorization = function(method, url) {
       url.indexOf('/users/register') !== -1) {
     return false;
   }
+
+  if (url.indexOf('/users/account') !== -1) {
+    return true;
+  }
+
   // Figure write actions out using the HTTP method.
   // Read actions (GET) are generally public.
   return goog.array.contains(['POST', 'PUT', 'DELETE'], method);

@@ -310,4 +310,29 @@ app.Api.prototype.updatePreferredLanguage = function(lang) {
 };
 
 
+/**
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.readAccount = function() {
+  var promise = this.getJson_('/users/account');
+  promise.catch(function(response) {
+    this.alerts_.addError(response);
+  }.bind(this));
+  return promise;
+};
+
+
+/**
+ * @param {Object} data
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.updateAccount = function(data) {
+  var promise = this.postJson_('/users/account', data);
+  promise.catch(function(response) {
+    this.alerts_.addError(response);
+  }.bind(this));
+  return promise;
+};
+
+
 app.module.service('appApi', app.Api);

@@ -1,0 +1,40 @@
+<%inherit file="base.html"/>
+<%namespace file="helpers/common.html" import="show_title"/>
+<%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Account')">${show_title('Account')}</title></%block>
+<br /><br /><br /><br />
+
+<div ng-controller="appAccountController as accountCtrl">
+  <form name="accountForm" novalidate ng-submit="accountCtrl.save()">
+    <div id="account-currentpassword-group" class="form-group" ng-class="{ 'has-error': accountForm.currentpassword.$invalid }">
+      <label translate>Current password</label>
+      <input type="password" minlength="3" name="currentpassword" ng-model="account.currentpassword" class="form-control" required />
+      <div class="help-block" ng-messages="accountForm.currentpassword.$error" ng-if="accountForm.currentpassword.$touched">
+        <p ng-message="required" translate>This field is required.</p>
+      </div>
+    </div>
+
+    <br />
+
+    <div id="account-newpassword-group" class="form-group" ng-class="{ 'has-error': accountForm.newpassword.$touched && accountForm.newpassword.$invalid }">
+      <label translate>New password</label>
+      <input type="password" minlength="3" name="newpassword" ng-model="account.newpassword" class="form-control" />
+    </div>
+
+    <div id="account-email-group" class="form-group" ng-class="{ 'has-error': accountForm.email.$touched && accountForm.email.$invalid }">
+      <label translate>Email</label>
+      <input type="email" name="email" ng-model="account.email" class="form-control" />
+    </div>
+
+    <div id="account-toponame-group" class="form-group" ng-class="{ 'has-error': accountForm.toponame.$touched && accountForm.toponame.$invalid }">
+      <label translate>toponame</label>
+      <input type="text" name="toponame" ng-model="account.toponame" class="form-control" />
+    </div>
+
+    <div id="account-forumname-group" class="form-group" ng-class="{ 'has-error': accountForm.forumname.$touched && accountForm.forumname.$invalid }">
+      <label translate>forumname</label>
+      <input type="text" name="forumname" ng-model="account.forumname" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary" ng-disabled="accountForm.$invalid" translate>Save</button>
+  </form>
+</div>
