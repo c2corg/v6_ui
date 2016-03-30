@@ -8,11 +8,13 @@ goog.require('app.HttpAuthenticationInterceptor');
 /**
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @param {app.Api} appApi The API service
+ * @param {app.Authentication} appAuthentication
+ * @param {string} authUrl Base URL of the authentication page.
  * @constructor
  * @export
  * @ngInject
  */
-app.MainController = function(gettextCatalog, appApi) {
+app.MainController = function(gettextCatalog, appApi, appAuthentication, authUrl) {
 
   /**
    * @type {angularGettext.Catalog}
@@ -25,6 +27,19 @@ app.MainController = function(gettextCatalog, appApi) {
    * @export
    */
   this.appApi = appApi;
+
+
+  /**
+   * @type {app.Authentication}
+   * @private
+   */
+  this.auth_ = appAuthentication;
+
+  /**
+   * @type {string}
+   * @private
+   */
+  this.authUrl_ = authUrl;
 };
 
 
@@ -76,3 +91,17 @@ app.MainController.prototype.isPath = function(path) {
 app.MainController.prototype.animateHeaderIcon = function(e) {
   app.utils.animateHeaderIcon(e);
 }
+
+
+/**
+ * @export
+ */
+app.MainController.prototype.redirect = function(url) {
+  if (this.auth_.isAuthenticated()) {
+    window.location.href = url;
+  } else {
+    window.location.href = '{authUrl}?from={redirect}'
+        .replace('{authUrl}', this.authUrl_)
+        .replace('{redirect}', encodeURIComponent(url));
+  }
+};
