@@ -31,7 +31,6 @@ app.utils.setupSmartScroll = function(mouseWheelZoomInteraction) {
   });
 };
 
-
 /**
  * Update arrays and creates one, if not existing
  * form : object[property] = value
@@ -39,12 +38,16 @@ app.utils.setupSmartScroll = function(mouseWheelZoomInteraction) {
  * @param {Object} object
  * @param {string} property
  * @param {string} value
+ * @param {goog.events.Event | jQuery.Event} event
  * @export
  */
 
-app.utils.pushToArray = function(object, property, value) {
+app.utils.pushToArray = function(object, property, value, event) {
+  var checkbox = $(event.currentTarget).find('input') || null;
+
   if (typeof value === 'boolean') {
     object[property] = value;
+    checkbox.prop('checked', true);
     return true;
   } else {
     if (!object[property]) {
@@ -53,9 +56,11 @@ app.utils.pushToArray = function(object, property, value) {
 
     if (object[property].indexOf(value) === -1) {
       object[property].push(value);
+      checkbox.prop('checked', true);
       return true;
     } else {
       object[property].splice(object[property].indexOf(value), 1);
+      checkbox.prop('checked', false);
       return false;
     }
   }

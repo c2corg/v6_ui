@@ -121,26 +121,16 @@ app.SearchFiltersController = function($scope, $element, $attrs) {
 
 
 /**
- * @param {string} option name
- * @param {string} optionCategory category
- * @param {jQuery.Event | goog.events.Event} e click
+ * @param {Object} object
+ * @param {string} property name
+ * @param {string} value category
+ * @param {jQuery.Event | goog.events.Event} event click
  * @export
  */
-app.SearchFiltersController.prototype.selectOption = function(option, optionCategory, e) {
-
+app.SearchFiltersController.prototype.selectOption = function(object, property, value, event) {
   // Don't close the menu after selecting an option
-  e.stopPropagation();
-
-  var checkbox = $(e.currentTarget).find('input');
-  var pushed = app.utils.pushToArray(this, optionCategory, option);
-
-  if (pushed) {
-    $(e.currentTarget).addClass('option-selected');
-    checkbox.prop('checked', true);
-  } else {
-    $(e.currentTarget).removeClass('option-selected');
-    checkbox.prop('checked', false);
-  }
+  event.stopPropagation();
+  app.utils.pushToArray(this, property, value, event);
 };
 
 app.module.controller('appSearchFiltersController', app.SearchFiltersController);
