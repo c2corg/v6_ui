@@ -235,9 +235,11 @@ main {
   border-radius: 4px;
   margin-top: 1%;
   transition: .2s ease-in-out;
+  
   >span {
     pointer-events: none;
   }
+  
   &.closed {
     background-color: white;
     color: @C2C-orange;
@@ -247,6 +249,7 @@ main {
       color: @C2C-orange;
     }
   }
+
   .glyphicon {
     float: right;
     transition: .3s;
@@ -413,13 +416,20 @@ main {
     border-width: 1px;
     font-size: 1.3em;
   }
+  .waypoint-type {
+    font-size: 2em;
+    color: @C2C-orange;
+  }
   .route-activity {
-    font-size: 4em;
+    font-size: 3.5em;
     color: @C2C-orange;
     margin-bottom: 10px;
     @media @phone {
       font-size: 3em;
     }
+  }
+  &.main-waypoint {
+    border: 2px solid @bright-green;
   }
   &.outing {
     a {
@@ -698,8 +708,8 @@ app-search {
   padding-left: 10px;
   margin-right: 10px;
   background: @C2C-orange;
-  border: 1px solid #FFE4C4;
-
+  width: 20%;
+  
   .glyphicon {
     color: #F9F9F9;
   }
@@ -725,9 +735,6 @@ app-search {
   @media @phone {
     position: fixed;
     margin-top: 6px;
-  }
-  app-search {
-    margin-top: -1px;
   }
   #add-my-outing {
     margin-left: 10px;
@@ -1096,9 +1103,12 @@ ul {
 .upload-file {
   position: relative;
   float: right;
-  margin-top: -42px;
-  clear: left;
   cursor: pointer;
+  margin-top: -30px;
+  margin-bottom: 10px;
+  @media @phone {
+    margin: 0;
+  }
 
   input[type="file"] {
     display: block;
@@ -1123,8 +1133,9 @@ app-edit-button {
 
 .section.associations, .view-details-section {
   .list-item {
-    margin-right: 1.5%;
-    width : 48%;
+    margin-right: .5%;
+    margin-left: .5%;
+    width: 49%;
 
     @media @phone {
       width: 100%;
@@ -1139,18 +1150,32 @@ app-edit-button {
     width: 100%;
     .flex();
     flex-wrap: wrap;
+    
     app-delete-association {
       position: absolute;
       bottom: 0;
       right: 0;
-      margin-bottom: 5px;
       margin-right: 5px;
-
+      font-size: 1.2em;
+      @media @phone {
+        font-size: .9em;
+      }
       .glyphicon {
-        color: white;
+        color: red;
       }
       button {
         padding: 5px;
+      }
+    }
+    .btns {
+      float: right;
+      width: 15px;
+      margin-top: -20px;
+      app-delete-association {
+        position: relative;
+      }
+      .glyphicon-home {
+        font-size: 1.2em;
       }
     }
   }
