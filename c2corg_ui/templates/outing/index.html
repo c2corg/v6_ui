@@ -20,16 +20,16 @@
     <button type="button" class="btn btn-default show-documents-filters-phone" translate>Filters</button>
     
     <%include file="c2corg_ui:templates/document/select_document.html" />
-    
-    <app-edit-button class="btn btn-default" app-edit-button-url="${request.route_url('outings_add')}">
-      <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-    </app-edit-button>
+    <button class="btn btn-default"  ng-click="mainCtrl.redirect('${request.route_url('outings_add')}')">
+      <span class="glyphicon glyphicon-plus-sign"></span>
+    </button>
     ${add_pagination_links('outings', outings, total, filter_params)}
   </div>
   <div class="list">
     % for outing in outings:
-    ## return activities, elevation, ratings, areas
-      ${outing_card(outing, None, None)}
+    <div class="list-item outing">
+      ${outing_card(outing)}
+    </div>
     % endfor
   </div>
 </section>
