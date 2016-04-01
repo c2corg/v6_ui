@@ -565,9 +565,7 @@ app.DocumentEditingController.prototype.updateMaxSteps = function(waypointType) 
 app.DocumentEditingController.prototype.pushToArray = function(object, property, value, event) {
   var pushed = app.utils.pushToArray(object, property, value);
   var checkbox = $(event.currentTarget).find('input');
-
-    checkbox.prop('checked', pushed);
-  }
+  checkbox.prop('checked', pushed);
 }
 /**
  * Set the orientation of a document. Can have multiple orientations
