@@ -9,7 +9,7 @@
     display: inline !important;
   }
 
-  .pub-image, .sponsors, .copyright {
+  .pub-image, .sponsors {
     display: block !important;
   }
   .social-networks {
@@ -59,10 +59,6 @@
 
   .social-networks {
     margin-top: 0; 
-    
-    .copyright {
-      bottom: -50px;
-    }
   }
   .menu-open-close {
     margin: auto;
@@ -110,7 +106,7 @@
   @media @tablet {
     width: @menu-width-tablet;
     will-change: width;
-    .menu-text, .logo, .pub-image, .sponsors, .footer-nav, .copyright {
+    .menu-text, .logo, .pub-image, .sponsors, .footer-nav {
       display: none;
     }
     .logo {
@@ -311,9 +307,6 @@ footer {
   .icon-facebook {
     color: #6D8BC9;
   }
-  .copyright {
-    text-align: center;
-  }
 
   .footer-nav {
     list-style: none;
@@ -338,7 +331,7 @@ footer {
       }
     }
   }
-  .sponsors, .pub-image, .copyright.text-center {
+  .sponsors, .pub-image {
     @media @phone {
       display: none !important;
     }
