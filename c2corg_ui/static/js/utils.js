@@ -43,15 +43,21 @@ app.utils.setupSmartScroll = function(mouseWheelZoomInteraction) {
  */
 
 app.utils.pushToArray = function(object, property, value) {
-  if (!object[property]) {
-    object[property] = [];
-  }
-  if (object[property].indexOf(value) === -1) {
-    object[property].push(value);
+  if (typeof value === 'boolean') {
+    object[property] = value;
     return true;
   } else {
-    object[property].splice(object[property].indexOf(value), 1);
-    return false;
+    if (!object[property]) {
+      object[property] = [];
+    }
+
+    if (object[property].indexOf(value) === -1) {
+      object[property].push(value);
+      return true;
+    } else {
+      object[property].splice(object[property].indexOf(value), 1);
+      return false;
+    }
   }
 }
 

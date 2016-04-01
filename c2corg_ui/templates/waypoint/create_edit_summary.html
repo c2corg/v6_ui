@@ -182,15 +182,16 @@
 </figure>
 
 ## RATINGS
-<figure ng-if="waypoint.waypoint_type == 'climbing_outdoor' || waypoint.waypoint_type == 'climbing_indoor' || waypoint.waypoint_type == 'access'
-          ||  waypoint.waypoint_type == 'paragliding_landing' || waypoint.waypoint_type == 'paragliding_takeoff'">
+<figure ng-if="(waypoint.waypoint_type == 'climbing_outdoor' || waypoint.waypoint_type == 'climbing_indoor' || waypoint.waypoint_type == 'access'
+          ||  waypoint.waypoint_type == 'paragliding_landing' || waypoint.waypoint_type == 'paragliding_takeoff') && (waypoint.paragliding_rating || waypoint.exposition_rating 
+          || waypoint.climbing_rating_max || waypoint.climbing_rating_min || waypoint.climbing_rating_median || waypoint.equipment_rating)">
   <h3>ratings</h3>
-  <p ng-if="waypoint.paragliding_rating && (waypoint.waypoint_type == 'paragliding_takeoff' || waypoint.waypoint_type == 'paragliding_landing')"><label translate>paragliding_rating</label>  {{waypoint.paragliding_rating}}</p>
-  <p ng-if="waypoint.exposition_rating && (waypoint.waypoint_type == 'paragliding_takeoff' || waypoint.waypoint_type == 'paragliding_landing')"><label translate>exposition_rating</label>  {{waypoint.exposition_rating}}</p>
-  <p ng-if="waypoint.climbing_rating_max && (waypoint.waypoint_type == 'climbing_outdoor' || waypoint.waypoint_type == 'climbing_indoor')"><label translate>climbing_rating_max</label>  {{waypoint.climbing_rating_max}}</p>
-  <p ng-if="waypoint.climbing_rating_min && (waypoint.waypoint_type == 'climbing_outdoor' || waypoint.waypoint_type == 'climbing_indoor')"><label translate>climbing_rating_min</label>  {{waypoint.climbing_rating_min}}</p>
-  <p ng-if="waypoint.climbing_rating_median && (waypoint.waypoint_type == 'climbing_outdoor' || waypoint.waypoint_type == 'climbing_indoor')"><label translate>climbing_rating_median</label>  {{waypoint.climbing_rating_median}}</p>
-  <p ng-if="waypoint.equipment_rating && waypoint.waypoint_type == 'climbing_outdoor'"><label translate>equipment_rating</label>{{waypoint.equipment_rating}}</p>
+  <p ng-if="waypoint.paragliding_rating"><label translate>paragliding_rating</label>  {{waypoint.paragliding_rating}}</p>
+  <p ng-if="waypoint.exposition_rating"><label translate>exposition_rating</label>  {{waypoint.exposition_rating}}</p>
+  <p ng-if="waypoint.climbing_rating_max"><label translate>climbing_rating_max</label>  {{waypoint.climbing_rating_max}}</p>
+  <p ng-if="waypoint.climbing_rating_min"><label translate>climbing_rating_min</label>  {{waypoint.climbing_rating_min}}</p>
+  <p ng-if="waypoint.climbing_rating_median"><label translate>climbing_rating_median</label>  {{waypoint.climbing_rating_median}}</p>
+  <p ng-if="waypoint.equipment_rating"><label translate>equipment_rating</label>{{waypoint.equipment_rating}}</p>
 </figure>
 
 ## TRANSPORTS
@@ -218,7 +219,7 @@
 <figure  ng-if="(waypoint.waypoint_type == 'climbing_indoor' || waypoint.waypoint_type == 'local_product' || waypoint.waypoint_type == 'gite'
             || waypoint.waypoint_type == 'local_product' || waypoint.waypoint_type == 'camp_site' || waypoint.waypoint_type == 'hut' || waypoint.waypoint_type == 'webcam'
             || waypoint.waypoint_type == 'weather_station' || waypoint.waypoint_type == 'climbing_indoor' || waypoint.waypoint_type == 'climbing_outdoor') &&
-           (waypoint.url || waypoint.phone || waypoint.phone_custodian || waypoint.matress_unstaffed || waypoint.heating_unstaffed || waypoint.blanket_unstaffed || waypoint.gas_unstaffed)">
+           (waypoint.url || waypoint.phone || waypoint.phone_custodian)">
   <h3>contact</h3>
 
   <article ng-if="(waypoint.waypoint_type == 'climbing_indoor' || waypoint.waypoint_type == 'local_product'
@@ -262,28 +263,35 @@
 </figure>
 
 ## ACCESS
-<figure  ng-if="waypoint.waypoint_type == 'access' || waypoint.waypoint_type == 'local_product' || waypoint.waypoint_type == 'climbing_outdoor' || waypoint.waypoint_type == 'hut' || waypoint.waypoint_type == 'camp_site'">
+<figure  ng-if="(waypoint.waypoint_type == 'access' || waypoint.waypoint_type == 'local_product' || waypoint.waypoint_type == 'climbing_outdoor' || waypoint.waypoint_type == 'hut' || waypoint.waypoint_type == 'camp_site') 
+         && (waypoint.locales[0].access || waypoint.locales[0].access_period || waypoint.access_time || waypoint['best_periods'])">
   <h3>access</h3>
+  
   <p ng-if="waypoint.waypoint_type == 'access' || waypoint.waypoint_type == 'local_product'">
     <label translate>access</label>
     "{{waypoint.locales[0].access}}"
-
+  </p>
+  
   <p ng-if="waypoint.waypoint_type == 'access' || waypoint.waypoint_type == 'local_product' || waypoint.waypoint_type == 'hut' || waypoint.waypoint_type == 'gite' || waypoint.waypoint_type == 'camp_site'">
     <label translate>access_period</label>
     "{{waypoint.locales[0].access_period}}"
+  </p>
+  
   <p ng-if="waypoint.waypoint_type == 'access'">
     <label translate>snow_clearance_rating</label>
     <input class="form-control" disabled value="{{waypoint.snow_clearance_rating}}">
   </p>
 
-  <p ng-if="waypoint.waypoint_type == 'climbing_outdoor'">
+  <p ng-if="waypoint.waypoint_type == 'climbing_outdoor' && waypoint.access_time">
     <label translate>access_time</label>
     {{waypoint.access_time}}
   </p>
-  <article ng-if="waypoint.waypoint_type == 'climbing_outdoor'">
+  
+  <article ng-if="waypoint.waypoint_type == 'climbing_outdoor' && waypoint['best_periods']">
     <label translate>best_periods</label><br>
     <ul >
       <li ng-repeat="month in waypoint['best_periods']" x-translate>{{month}}</li>
     </ul>
   </article>
+  
 </figure>

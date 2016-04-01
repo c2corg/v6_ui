@@ -53,7 +53,9 @@ closure_library_path = settings.get('closure_library_path')
         <app-search app-loading app-search-map=""></app-search>
       </div>
       <app-user></app-user>
-      <button class="btn orange-btn" id="add-my-outing"><a href="${request.route_url('outings_add')}"><span class="glyphicon glyphicon-plus-sign"></span><span translate>add an outing</span></a></button>
+      
+      <button class="btn orange-btn" id="add-my-outing" ng-click="mainCtrl.redirect('${request.route_url('outings_add')}')"><span class="glyphicon glyphicon-plus-sign"></span><span translate>add an outing</span></button>
+      
       <div class="lang-user">
         <div class="lang-selector">
           <label translate>Browse site in</label>

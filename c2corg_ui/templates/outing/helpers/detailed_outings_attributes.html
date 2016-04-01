@@ -111,8 +111,8 @@
 
 ## PARTICIPANTS
 <%def name="get_outing_participants(outing)">\
-  % if outing.get('participant_count')  or outing['locales'][0]['participants']:
-    <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
+  % if outing.get('participant_count')  or outing['locales'][0]['participants'] or outing['associations']['users']:
+    <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)" ng-init='users = ${outing['associations']['users']}'>
       <h4><span translate>participants</span><span class="glyphicon glyphicon-menu-right"></span></h4>
       <div class="name-icon">
         <span class="icon-user"></span>
@@ -122,10 +122,20 @@
         % if outing.get('participant_count') :
         <p><span translate>participant_count</span>: <b>${outing['participant_count']}</b></p>
         % endif
-
-        % if outing['locales'][0]['participants']:
-        <p><b>${outing['locales'][0]['participants']}</b></p>
-        % endif
+        
+        <p>
+          <b>
+            % if outing['locales'][0]['participants'] and outing['associations']['users']:
+              ${outing['locales'][0]['participants']},   
+              <a ng-repeat="user in users" ng-href="#todo">{{user.username}}{{$last ? '' : ', '}}</a>
+            % elif outing['locales'][0]['participants'] and not outing['associations']['users']:
+              ${outing['locales'][0]['participants']}
+            % else: 
+              <a ng-repeat="user in users" ng-href="#todo">{{user.username}}{{$last ? '' : ', '}}</a>
+            % endif
+          </b>
+        </p>
+        
       </span>
     </div>
   % endif
@@ -159,4 +169,37 @@
       </span>
     </div>
   %endif
+</%def>
+
+## CONDITIONS LEVELS
+<%def name="get_outing_conditions_levels(locale)">\
+  %if locale.get('conditions_levels'):
+      <div class="view-details-info col-xs-12" ng-init="conditions = ${locale['conditions_levels']}">
+        <h3 class="heading closed show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#conditions_levels">
+          <span translate>conditions_levels</span><span class="glyphicon glyphicon-menu-right"></span>
+        </h3>
+        <section class="collapse" id="conditions_levels">
+          <div class="lead table-responsive">
+            <table class="table table-striped conditions-levels">
+              <thead>
+                <tr>
+                  <th class="location" translate>location / altitude / orientation / time</th>
+                  <th class="soft-snow" translate>soft snow</th>
+                  <th class="total-snow" translate>total snow</th>
+                  <th class="comment" translate>comment</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="condition in conditions">
+                  <td >{{condition.level_place}}</td>
+                  <td>{{condition.level_snow_height_soft != '' ? condition.level_snow_height_soft + ' cm' : '' }}</td>
+                  <td>{{condition.level_snow_height_total != '' ? condition.level_snow_height_total + ' cm' : '' }}</td>
+                  <td >{{condition.level_comment}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+  % endif
 </%def>
