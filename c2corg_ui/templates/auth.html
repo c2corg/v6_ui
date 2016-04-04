@@ -4,105 +4,141 @@
 
 <div app-auth class="auth-form">
 
-  <div ng-show="authCtrl.uiStates.showLoginForm">
-    <h1 translate>Login</h1>
+  <section>
+    <div ng-show="authCtrl.uiStates.showLoginForm">
+      <h1 translate>Login</h1>
 
-    <form name="loginForm" novalidate ng-submit="authCtrl.login()">
-      <div id="login-username-group" class="form-group" ng-class="{ 'has-error': loginForm.username.$touched && loginForm.username.$invalid }">
-        <label translate>Username</label>
-        <input type="text" name="username" ng-model="login.username" class="form-control" required />
-        <div class="help-block" ng-messages="loginForm.username.$error" ng-if="loginForm.username.$touched">
-          <p ng-message="required" translate>This field is required.</p>
+      <form name="loginForm" novalidate ng-submit="authCtrl.login()">
+        <div id="login-username-group" class="form-group" ng-class="{ 'has-error': loginForm.username.$touched && loginForm.username.$invalid }">
+          <label translate>Username</label>
+          <input type="text" name="username" ng-model="login.username" class="form-control" required />
+          <div class="help-block" ng-messages="loginForm.username.$error" ng-if="loginForm.username.$touched">
+            <p ng-message="required" translate>This field is required.</p>
+          </div>
         </div>
-      </div>
-      <div id="login-password-group" class="form-group" ng-class="{ 'has-error': loginForm.password.$touched && loginForm.password.$invalid }">
-        <label translate>Password</label>
-        <input type="password" name="password" ng-model="login.password" class="form-control" required />
-        <div class="help-block" ng-messages="loginForm.password.$error" ng-if="loginForm.password.$touched">
-          <p ng-message="required" translate>This field is required.</p>
+        <div id="login-password-group" class="form-group" ng-class="{ 'has-error': loginForm.password.$touched && loginForm.password.$invalid }">
+          <label translate>Password</label>
+          <input type="password" name="password" ng-model="login.password" class="form-control" required />
+          <div class="help-block" ng-messages="loginForm.password.$error" ng-if="loginForm.password.$touched">
+            <p ng-message="required" translate>This field is required.</p>
+          </div>
         </div>
-      </div>
-      <div class="checkbox">
-        <label>
-          <input type="checkbox" name="remember" ng-model="login.remember"> <span translate>Remember me</span>
-        </label>
-      </div>
-      <p>
-        <button type="submit" class="btn btn-primary" ng-disabled="loginForm.$invalid" translate>Login</button>
-        <button type="button" class="btn btn-secondary" ng-click="authCtrl.uiStates.showRequestChangePasswordForm = true" translate>Forgot password?</button>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" name="remember" ng-model="login.remember" ng-checked="true"> <span translate>Remember me</span>
+          </label>
+        </div>
+        <p>
+          <button type="submit" class="btn blue-btn" ng-disabled="loginForm.$invalid" translate>Login</button>
+          <button type="button" class="btn gray-btn" 
+                  ng-click="authCtrl.uiStates.showRequestChangePasswordForm = true;
+                                     authCtrl.uiStates.showRegisterForm = false;
+                                     authCtrl.uiStates.showChangePasswordForm = false;
+                                     authCtrl.uiStates.showLoginForm = false;"  translate>Forgot password?
+          </button>
+        </p>
+      </form>
+
+      <p ng-hide="authCtrl.uiStates.showRegisterForm">
+        <button type="button" class="btn orange-btn" 
+                ng-click="authCtrl.uiStates.showRegisterForm = true;
+                                   authCtrl.uiStates.showLoginForm = false;
+                                   authCtrl.uiStates.showChangePasswordForm = false;
+                                   authCtrl.uiStates.showRequestChangePasswordForm = false;" translate>No account yet?
+        </button>
       </p>
-    </form>
-
-    <p ng-hide="authCtrl.uiStates.showRegisterForm">
-      <button type="button" class="btn btn-primary" ng-click="authCtrl.uiStates.showRegisterForm = true" translate>No account yet?</button>
-    </p>
-  </div>
+    </div>
 
 
-  <div ng-show="authCtrl.uiStates.showRegisterForm">
-    <h1 translate>Register</h1>
+    <div ng-show="authCtrl.uiStates.showRegisterForm">
+      <h1 translate>Register</h1>
 
-    <form name="registerForm" novalidate ng-submit="authCtrl.register()">
-      <div id="register-username-group" class="form-group" ng-class="{ 'has-error': registerForm.username.$touched && registerForm.username.$invalid }">
-        <label translate>Username</label>
-        <input type="text" name="username" ng-model="register.username" class="form-control" required />
-        <div class="help-block" ng-messages="registerForm.username.$error" ng-if="registerForm.username.$touched">
-          <p ng-message="required" translate>This field is required.</p>
+      <form name="registerForm" novalidate ng-submit="authCtrl.register()">
+        <div id="register-username-group" class="form-group" ng-class="{ 'has-error': registerForm.username.$touched && registerForm.username.$invalid }">
+          <label translate>Username</label>
+          <input type="text" name="username" ng-model="register.username" class="form-control" required />
+          <div class="help-block" ng-messages="registerForm.username.$error" ng-if="registerForm.username.$touched">
+            <p ng-message="required" translate>This field is required.</p>
+          </div>
         </div>
-      </div>
-      <div id="register-password-group" class="form-group" ng-class="{ 'has-error': registerForm.password.$touched && registerForm.password.$invalid }">
-        <label translate>Password</label>
-        <input type="password" name="password" ng-model="register.password" class="form-control" required />
-        <div class="help-block" ng-messages="registerForm.password.$error" ng-if="registerForm.password.$touched">
-          <p ng-message="required" translate>This field is required.</p>
+        <div id="register-password-group" class="form-group" ng-class="{ 'has-error': registerForm.password.$touched && registerForm.password.$invalid }">
+          <label translate>Password</label>
+          <input type="password" name="password" ng-model="register.password" class="form-control" required />
+          <div class="help-block" ng-messages="registerForm.password.$error" ng-if="registerForm.password.$touched">
+            <p ng-message="required" translate>This field is required.</p>
+          </div>
         </div>
-      </div>
-      <div id="register-email-group" class="form-group" ng-class="{ 'has-error': registerForm.email.$touched && registerForm.email.$invalid }">
-        <label translate>Email</label>
-        <input type="email" name="email" ng-model="register.email" class="form-control" required />
-        <div class="help-block" ng-messages="registerForm.email.$error" ng-if="registerForm.email.$touched">
-          <p ng-message="required" translate>This field is required.</p>
+        <div id="register-email-group" class="form-group" ng-class="{ 'has-error': registerForm.email.$touched && registerForm.email.$invalid }">
+          <label translate>Email</label>
+          <input type="email" name="email" ng-model="register.email" class="form-control" required />
+          <div class="help-block" ng-messages="registerForm.email.$error" ng-if="registerForm.email.$touched">
+            <p ng-message="required" translate>This field is required.</p>
+          </div>
         </div>
-      </div>
-      <p>
-        <button type="submit" class="btn btn-primary" ng-disabled="registerForm.$invalid" translate>Register</button>
+        <p>
+          <button type="submit" class="btn blue-btn" ng-disabled="registerForm.$invalid" translate>Register</button>
+        </p>
+      </form>
+      <p ng-hide="!authCtrl.uiStates.showRegisterForm">
+        <button type="button" class="btn orange-btn" 
+                ng-click="authCtrl.uiStates.showLoginForm = true;
+                                   authCtrl.uiStates.showRegisterForm = false;
+                                   authCtrl.uiStates.showChangePasswordForm = false;
+                                   authCtrl.uiStates.showRequestChangePasswordForm = false;" translate>have an account ?
+        </button>
       </p>
-    </form>
-  </div>
+    </div>
 
 
-  <div ng-show="authCtrl.uiStates.showRequestChangePasswordForm">
-    <h1 translate>Reset password</h1>
+    <div ng-show="authCtrl.uiStates.showRequestChangePasswordForm">
+      <h1 translate>Reset password</h1>
 
-    <form name="requestChangePasswordForm" novalidate ng-submit="authCtrl.requestPasswordChange()">
-      <div id="register-password-group" class="form-group" ng-class="{ 'has-error': requestChangePasswordForm.email.$touched && requestChangePasswordForm.email.$invalid }">
-        <label translate>Email</label>
-        <input type="email" name="email" ng-model="requestChangePassword.email" class="form-control" required />
-        <div class="help-block" ng-messages="requestChangePasswordForm.email.$error" ng-if="requestChangePasswordForm.email.$touched">
-          <p ng-message="required" translate>This field is required.</p>
+      <form name="requestChangePasswordForm" novalidate ng-submit="authCtrl.requestPasswordChange()">
+        <div id="register-password-group" class="form-group" ng-class="{ 'has-error': requestChangePasswordForm.email.$touched && requestChangePasswordForm.email.$invalid }">
+          <label translate>Email</label>
+          <input type="email" name="email" ng-model="requestChangePassword.email" class="form-control" required />
+          <div class="help-block" ng-messages="requestChangePasswordForm.email.$error" ng-if="requestChangePasswordForm.email.$touched">
+            <p ng-message="required" translate>This field is required.</p>
+          </div>
         </div>
-      </div>
+        <p>
+          <button type="submit" class="btn blue-btn" ng-disabled="requestChangePasswordForm.$invalid" translate>Send reset email</button>
+        </p>
+      </form>
       <p>
-        <button type="submit" class="btn btn-primary" ng-disabled="requestChangePasswordForm.$invalid" translate>Send reset email</button>
+        <button type="button" class="btn orange-btn" 
+                ng-click="authCtrl.uiStates.showLoginForm = true;
+                                   authCtrl.uiStates.showRegisterForm = false;
+                                   authCtrl.uiStates.showChangePasswordForm = false;
+                                   authCtrl.uiStates.showRequestChangePasswordForm = false;" translate>have an account ?
+        </button>
+        
+        <button type="button" class="btn orange-btn" 
+                ng-click="authCtrl.uiStates.showRegisterForm = true;
+                                   authCtrl.uiStates.showLoginForm = false;
+                                   authCtrl.uiStates.showChangePasswordForm = false;
+                                   authCtrl.uiStates.showRequestChangePasswordForm = false;" translate>No account yet?
+        </button>
       </p>
-    </form>
-  </div>
+    </div>
 
 
-  <div ng-show="authCtrl.uiStates.showChangePasswordForm">
-    <h1 translate>Change password</h1>
+    <div ng-show="authCtrl.uiStates.showChangePasswordForm">
+      <h1 translate>Change password</h1>
 
-    <form name="resetPasswordForm" novalidate ng-submit="authCtrl.validateNewPassword()">
-      <div id="change-password-group" class="form-group" ng-class="{ 'has-error': changePasswordForm.password.$touched && changePasswordForm.password.$invalid }">
-        <label translate>New password</label>
-        <input type="password" name="password" ng-model="changePassword.password" class="form-control" required />
-        <div class="help-block" ng-messages="changePasswordForm.password.$error" ng-if="changePasswordForm.password.$touched">
-          <p ng-message="required" translate>This field is required.</p>
+      <form name="resetPasswordForm" novalidate ng-submit="authCtrl.validateNewPassword()">
+        <div id="change-password-group" class="form-group" ng-class="{ 'has-error': changePasswordForm.password.$touched && changePasswordForm.password.$invalid }">
+          <label translate>New password</label>
+          <input type="password" name="password" ng-model="changePassword.password" class="form-control" required />
+          <div class="help-block" ng-messages="changePasswordForm.password.$error" ng-if="changePasswordForm.password.$touched">
+            <p ng-message="required" translate>This field is required.</p>
+          </div>
         </div>
-      </div>
-      <p>
-        <button type="submit" class="btn btn-primary" ng-disabled="changePasswordForm.$invalid" translate>Change password</button>
-      </p>
-    </form>
-  </div>
+        <p>
+          <button type="submit" class="btn blue-btn" ng-disabled="changePasswordForm.$invalid" translate>Change password</button>
+        </p>
+      </form>
+    </div>
+
+  </section>
 </div>
