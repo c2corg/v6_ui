@@ -19,7 +19,7 @@
     .flex() !important;
   }
 
-  @media (min-height: 610px) and (max-height: 710px){
+  @media (min-height: 610px) and (max-height: 710px) {
     .sponsors {
       display: none !important;
     }
@@ -120,8 +120,8 @@
     .menu-open-close {
       margin: auto;
     }
-
   }
+  
   @media @phone {
     width: @menu-width;
     left: -@menu-width;
@@ -148,6 +148,14 @@
   li.main-menu {
     display: block;
     border-top: 1px solid #ccc;
+    background-color: white;
+    
+    &:hover, &:focus {
+      .submenu {
+        transition: 0.1s ease-in-out;
+        left: 99%;
+      }
+    }
     a {
       color: graytext;
     }
@@ -163,20 +171,99 @@
       background-color: rgba(255, 189, 84, 0.61);
       outline: none;
     }
+    
+/*   FIRST*/
     .submenu {
+      transition: 0.2s ease-in-out;
       list-style: inherit;
-      transition: 0.1s;
-
-      .menu-text {
+      width: 160px;
+      top: -1px;
+      height: 125px;
+      background: white;
+      position: absolute;
+      padding: 0;
+      border: 1px solid #eee;
+      z-index: -1;
+      .flex();
+      flex-direction: column;
+      left: -50%;
+      
+      @media @tablet {
+        left: -240%;
+      }
+      
+      a, .glyphicon {
         transition: 0.1s;
-        display: block;
+        color: graytext !important;
+      }
+      a {
+        padding-left: 10px;
+        flex-basis: 100%;
+        height: 41px;
+      }
+      .glyphicon {
+        margin-right: 10px;
+      }
 
-        &:hover {
-          margin-left: 10px;
+      li {
+        border-bottom: 1px solid #eee;
+        flex-grow: 1;
+        
+        &:hover, &:focus {
+          background-color: @C2C-orange;
           transition: 0.1s;
+          outline: none;
+          text-decoration: none;
+          
+          a, .glyphicon {
+            transition: 0.1s;
+            outline: none;
+            text-decoration: none;
+            color: white !important;
+          }
         }
       }
     }
+
+/*SECOND*/
+/*.submenu {
+  transition: 0.2s ease-in-out;
+  list-style: inherit;
+  background-color: white !important;
+  padding: 0;
+  max-height: 250px;
+  overflow: auto;
+
+  a, .glyphicon {
+    transition: 0.1s;
+    color: graytext !important;
+  }
+  a {
+    padding-left: 30px;
+    flex-basis: 100%;
+    height: 41px;
+  }
+  .glyphicon {
+    margin-right: 10px;
+  }
+  li {
+    &:hover, &:focus {
+      background-color: @C2C-orange;
+      transition: 0.1s;
+      outline: none;
+      text-decoration: none;
+
+      a, .glyphicon {
+        transition: 0.1s;
+        outline: none;
+        text-decoration: none;
+        color: white !important;
+      }
+    }
+  }
+}*/
+
+
   }
 }  /*sidemenu*/
 
@@ -391,5 +478,9 @@ footer {
       }
     }
   }
+}
 
+.vertical-align {
+  .flex();
+  align-items: center;
 }
