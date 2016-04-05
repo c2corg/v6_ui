@@ -15,12 +15,62 @@
         <span class="menu-text" translate>Home</span>
       </a>
     </li>
+    ## FIRST
     <li class="main-menu" ng-class="{'menu-selected': mainCtrl.isPath('topoguide')}">
-      <a href="${request.route_url('routes_index_default')}">
+      <a>
         <i class="glyphicon glyphicon-arrow-right" tooltip-placement="right" uib-tooltip="{{'Topoguide' | translate}}"></i>
         <span class="menu-text" translate>Topoguide</span>
       </a>
+      <ul class="submenu">
+        <li ng-class="{'menu-selected': mainCtrl.isPath('routes')}">
+          <a href="${request.route_url('routes_index_default')}"  class="vertical-align">
+            <i class="glyphicon glyphicon-road"></i>
+            <span translate>Routes</span>
+          </a>
+        </li>
+        <li ng-class="{'menu-selected': mainCtrl.isPath('waypoints')}">
+          <a href="${request.route_url('waypoints_index_default')}"  class="vertical-align">
+            <i class="glyphicon glyphicon-map-marker"></i>
+            <span translate>Waypoints</span>
+          </a>
+        </li>
+        <li ng-class="{'menu-selected': mainCtrl.isPath('outings')}">   
+          <a href="${request.route_url('outings_index_default')}"  class="vertical-align">
+            <i class="glyphicon glyphicon-user"></i>
+            <span translate>Outings</span>
+          </a>
+        </li>
+      </ul>
     </li>    
+
+    ## SECOND
+<!--    <li class="main-menu" ng-class="{'menu-selected': mainCtrl.isPath('topoguide')}">
+      <a data-toggle="collapse" data-target="#demo">
+        <i class="glyphicon glyphicon-arrow-right" tooltip-placement="right" uib-tooltip="{{'Topoguide' | translate}}"></i>
+        <span class="menu-text" translate>Topoguide</span>
+      </a>
+      <ul class="submenu collapse" id="demo">
+        <li ng-class="{'menu-selected': mainCtrl.isPath('routes')}">
+          <a href="${request.route_url('routes_index_default')}"  class="vertical-align">
+            <i class="glyphicon glyphicon-road"></i>
+            <span translate>Routes</span>
+          </a>
+        </li>
+        <li ng-class="{'menu-selected': mainCtrl.isPath('waypoints')}">
+          <a href="${request.route_url('waypoints_index_default')}"  class="vertical-align">
+            <i class="glyphicon glyphicon-map-marker"></i>
+            <span translate>Waypoints</span>
+          </a>
+        </li>
+        <li ng-class="{'menu-selected': mainCtrl.isPath('outings')}">   
+          <a href="${request.route_url('outings_index_default')}"  class="vertical-align">
+            <i class="glyphicon glyphicon-user"></i>
+            <span translate>Outings</span>
+          </a>
+        </li>
+      </ul>
+    </li>    -->
+    
     <li class="main-menu" ng-class="{'menu-selected': mainCtrl.isPath('forum')}">
       <a href="http://c2corgv6-discourse.demo-camptocamp.com/">
         <i class="glyphicon glyphicon-th-list" tooltip-placement="right" uib-tooltip="{{'Forum' | translate}}"></i>
