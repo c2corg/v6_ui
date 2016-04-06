@@ -110,19 +110,21 @@ app.Alerts.prototype.addLoading_ = function(timeout) {
  * @private
  */
 app.Alerts.prototype.formatErrorMsg_ = function(response) {
-  var errors = 'errors' in response['data'] ? response['data']['errors'] : [],
-      len = errors.length,
-      msg = '';
-  if (len == 1) {
-    msg = this.filterStr_(errors[0]['description']);
-  } else if (len > 0) {
-    msg = '<ul>';
+  if (!('data' in response) || !response['data'] ||
+      !('errors' in response['data']) ||
+      !response['data']['errors']) {
+    return this.gettextCatalog_.getString('Unknown error');
+  }
+  var errors = response['data']['errors'];
+  var len = errors.length;
+  if (len > 1) {
+    var msg = '<ul>';
     for (var i = 0; i < len; i++) {
       msg += '<li>' + this.filterStr_(errors[i]['description']) + '</li>';
     }
-    msg += '</ul>';
+    return msg + '</ul>';
   }
-  return msg;
+  return this.filterStr_(errors[0]['description']);
 };
 
 
