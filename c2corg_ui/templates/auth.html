@@ -54,11 +54,28 @@
       <h1 translate>Register</h1>
 
       <form name="registerForm" novalidate ng-submit="authCtrl.register()">
+        <div id="register-name-group" class="form-group" ng-class="{ 'has-error': registerForm.name.$touched && registerForm.name.$invalid }">
+          <label translate>Fullname</label>
+          <input type="text" name="name" ng-model="register.name" class="form-control" required />
+          <div class="help-block" ng-messages="registerForm.name.$error" ng-if="registerForm.name.$touched">
+            <p ng-message="required" translate>This field is required.</p>
+          </div>
+        </div>
         <div id="register-username-group" class="form-group" ng-class="{ 'has-error': registerForm.username.$touched && registerForm.username.$invalid }">
           <label translate>Username</label>
           <input type="text" name="username" ng-model="register.username" class="form-control" required />
           <div class="help-block" ng-messages="registerForm.username.$error" ng-if="registerForm.username.$touched">
             <p ng-message="required" translate>This field is required.</p>
+          </div>
+        </div>
+        <div id="register-forum_username-group" class="form-group" ng-class="{ 'has-error': registerForm.forum_username.$touched && registerForm.forum_username.$invalid }">
+          <label translate>forum_user username</label>
+          <!-- http://stackoverflow.com/questions/1538512/how-can-i-invert-a-regular-expression-in-javascript: opposite test of /[^a-zA-Z0-9]/ -->
+          <input type="text" name="forum_username" ng-minlength="3" maxlength="15" ng-pattern="/^(?!.*[^a-zA-Z0-9])/" ng-model="register.forum_username" class="form-control" required />
+          <div class="help-block" ng-messages="registerForm.forum_username.$error" ng-if="registerForm.forum_username.$touched">
+            <p ng-message="required" translate>This field is required.</p>
+            <p ng-message="pattern" translate>Only letters and numbers are allowed.</p>
+            <p ng-message="minlength" translate>This fielt must be at least 3 characters.</p>
           </div>
         </div>
         <div id="register-password-group" class="form-group" ng-class="{ 'has-error': registerForm.password.$touched && registerForm.password.$invalid }">
