@@ -73,6 +73,16 @@ app.MapController = function($scope, mapFeatureCollection) {
   this.vectorLayer_ = null;
 
   /**
+   * @type {Object.<string, ol.style.Icon>}
+   */
+  this.iconCache = {};
+
+  /**
+   * @type {Object.<string, ol.style.Style|Array.<ol.style.Style>>}
+   */
+  this.styleCache = {};
+
+  /**
    * @type {?app.DocumentEditingController}
    * @private
    */
@@ -247,14 +257,6 @@ app.MapController.prototype.getVectorLayer_ = function() {
  * @private
  */
 app.MapController.prototype.createStyleFunction_ = function(scale) {
-  /**
-   * @type {Object.<string, ol.style.Icon>}
-   */
-  var iconCache = {};
-  /**
-   * @type {Object.<string, ol.style.Style|Array.<ol.style.Style>>}
-   */
-  var cache = {};
   return (
       /**
        * @param {ol.Feature|ol.render.Feature} feature
@@ -262,47 +264,67 @@ app.MapController.prototype.createStyleFunction_ = function(scale) {
        * @return {ol.style.Style|Array.<ol.style.Style>}
        */
       function(feature, resolution) {
-        var type = /** @type {string} */ (feature.get('type'));
-        if (!type) {
-          // skip this feature
-          return null;
+        // TODO: rename to document_type?
+        var module = /** @type {string} */ (feature.get('module'));
+        switch (module) {
+          case 'waypoints':
+            return this.createWaypointStyle_(feature, resolution, scale);
+          default:
+            return null;
         }
-
-        var id = /** @type {number} */ (feature.get('documentId'));
-        var key = type + id;
-        var style = cache[key];
-        if (!style) {
-          var iconKey = type + scale;
-          var icon = iconCache[iconKey];
-          if (!icon) {
-            icon = new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-              scale: scale,
-              src: '/static/img/icons/' + type + '.png'
-            }));
-            iconCache[iconKey] = icon;
-          }
-
-          var text;
-          if (scale > 1 && typeof id !== undefined) { // on hover in list view
-            var title = /** @type {string} */(feature.get('title'));
-
-            text = new ol.style.Text({
-              text: title,
-              textAlign: 'left',
-              offsetX: 20,
-              font: 'bold 14px Calibri,sans-serif',
-              textBaseline: 'middle'
-            });
-          }
-
-          style = new ol.style.Style({
-            image: icon,
-            text: text
-          });
-          cache[key] = style;
-        }
-        return style;
       }).bind(this);
+};
+
+
+/**
+ * @param {ol.Feature|ol.render.Feature} feature
+ * @param {number} resolution
+ * @return {ol.style.Style|Array.<ol.style.Style>}
+ * @private
+ */
+app.MapController.prototype.createWaypointStyle_ = function(feature,
+    resolution, scale) {
+
+  var type = /** @type {string} */ (feature.get('type'));
+  if (!type) {
+    // skip this feature
+    return null;
+  }
+
+  var id = /** @type {number} */ (feature.get('documentId'));
+  var key = type + scale + '_' + id;
+  var style = this.styleCache[key];
+  if (!style) {
+    var iconKey = type + scale;
+    var icon = this.iconCache[iconKey];
+    if (!icon) {
+      icon = new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+        scale: scale,
+        src: '/static/img/icons/' + type + '.png'
+      }));
+      this.iconCache[iconKey] = icon;
+    }
+
+    var text;
+    if (scale > 1 && typeof id !== undefined) { // on hover in list view
+      var title = /** @type {string} */(feature.get('title'));
+
+      text = new ol.style.Text({
+        text: title,
+        textAlign: 'left',
+        offsetX: 20,
+        font: 'bold 14px Calibri,sans-serif',
+        textBaseline: 'middle'
+      });
+    }
+
+    style = new ol.style.Style({
+      image: icon,
+      text: text
+    });
+    this.styleCache[key] = style;
+  }
+  return style;
 };
 
 
