@@ -30,9 +30,10 @@
       <input type="text" name="toponame" ng-model="account.toponame" class="form-control" />
     </div>
 
-    <div id="account-forumname-group" class="form-group" ng-class="{ 'has-error': accountForm.forumname.$touched && accountForm.forumname.$invalid }">
-      <label translate>forumname</label>
-      <input type="text" name="forumname" ng-model="account.forumname" class="form-control" />
+    <div id="account-forum_username-group" class="form-group" ng-class="{ 'has-error': accountForm.forum_username.$touched && accountForm.forum_username.$invalid }">
+      <label translate>Forum username</label>
+      <input type="text" name="forum_username" ng-model="account.forum_username"
+        ng-minlength="3" maxlength="15" ng-pattern="/^(?!.*[^a-zA-Z0-9])/" class="form-control" />
     </div>
 
     <button type="submit" class="btn btn-primary" ng-disabled="accountForm.$invalid" translate>Save</button>
