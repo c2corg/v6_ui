@@ -20,6 +20,7 @@ goog.require('ol.layer.Vector');
 goog.require('ol.source.OSM');
 goog.require('ol.source.Vector');
 goog.require('ol.style.Icon');
+goog.require('ol.style.Stroke');
 goog.require('ol.style.Style');
 goog.require('ol.style.Text');
 
@@ -124,14 +125,14 @@ app.MapController = function($scope, mapFeatureCollection) {
   }
 
   if (mapFeatureCollection) {
-    this.getVectorLayer_().setStyle(this.createStyleFunction_(1));
+    this.getVectorLayer_().setStyle(this.createStyleFunction_(false));
 
     var properties = mapFeatureCollection['properties'];
     var format = new ol.format.GeoJSON();
     this.features_ = format.readFeatures(mapFeatureCollection);
 
     var pointerMoveInteraction = new ol.interaction.Select({
-      style: this.createStyleFunction_(2),
+      style: this.createStyleFunction_(true),
       condition: ol.events.condition.pointerMove
     });
     this.map.addInteraction(pointerMoveInteraction);
@@ -252,11 +253,11 @@ app.MapController.prototype.getVectorLayer_ = function() {
 
 
 /**
- * @param {number} scale
+ * @param {boolean} highlight
  * @return {ol.style.StyleFunction}
  * @private
  */
-app.MapController.prototype.createStyleFunction_ = function(scale) {
+app.MapController.prototype.createStyleFunction_ = function(highlight) {
   return (
       /**
        * @param {ol.Feature|ol.render.Feature} feature
@@ -264,11 +265,13 @@ app.MapController.prototype.createStyleFunction_ = function(scale) {
        * @return {ol.style.Style|Array.<ol.style.Style>}
        */
       function(feature, resolution) {
-        // TODO: rename to document_type?
         var module = /** @type {string} */ (feature.get('module'));
         switch (module) {
           case 'waypoints':
-            return this.createWaypointStyle_(feature, resolution, scale);
+            return this.createWaypointStyle_(feature, resolution, highlight);
+          case 'routes':
+          case 'outings':
+            return this.createLineStyle_(feature, resolution, highlight);
           default:
             return null;
         }
@@ -279,11 +282,12 @@ app.MapController.prototype.createStyleFunction_ = function(scale) {
 /**
  * @param {ol.Feature|ol.render.Feature} feature
  * @param {number} resolution
+ * @param {boolean} highlight
  * @return {ol.style.Style|Array.<ol.style.Style>}
  * @private
  */
 app.MapController.prototype.createWaypointStyle_ = function(feature,
-    resolution, scale) {
+    resolution, highlight) {
 
   var type = /** @type {string} */ (feature.get('type'));
   if (!type) {
@@ -292,6 +296,7 @@ app.MapController.prototype.createWaypointStyle_ = function(feature,
   }
 
   var id = /** @type {number} */ (feature.get('documentId'));
+  var scale = highlight ? 2 : 1;
   var key = type + scale + '_' + id;
   var style = this.styleCache[key];
   if (!style) {
@@ -321,6 +326,32 @@ app.MapController.prototype.createWaypointStyle_ = function(feature,
     style = new ol.style.Style({
       image: icon,
       text: text
+    });
+    this.styleCache[key] = style;
+  }
+  return style;
+};
+
+
+/**
+ * @param {ol.Feature|ol.render.Feature} feature
+ * @param {number} resolution
+ * @param {boolean} highlight
+ * @return {ol.style.Style|Array.<ol.style.Style>}
+ * @private
+ */
+app.MapController.prototype.createLineStyle_ = function(feature,
+    resolution, highlight) {
+
+  var key = 'lines' + (highlight ? ' _highlight' : '');
+  var style = this.styleCache[key];
+  if (!style) {
+    var stroke = new ol.style.Stroke({
+      color: highlight ? 'red' : 'yellow',
+      width: 3
+    });
+    style = new ol.style.Style({
+      stroke: stroke
     });
     this.styleCache[key] = style;
   }
