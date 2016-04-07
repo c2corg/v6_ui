@@ -146,6 +146,12 @@ app.SearchController = function($scope, $compile, $attrs, apiUrl, gettextCatalog
   ];
 
   /**
+   * @type {string}
+   * @private
+   */
+  this.datasetLimit_ = $attrs['appDataset'];
+
+  /**
    * @type {ngeox.SearchDirectiveListeners}
    * @export
    */
@@ -192,6 +198,7 @@ app.SearchController.prototype.createDataset_ = function(type, title) {
 app.SearchController.prototype.createAndInitBloodhound_ = function(type) {
   var empty_template = $('#empty-results').html(); // in base.html
   var url = this.apiUrl_ + '/search?q=%QUERY';
+
   var bloodhound = new Bloodhound(/** @type {BloodhoundOptions} */({
     limit: 10,
     queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -203,36 +210,49 @@ app.SearchController.prototype.createAndInitBloodhound_ = function(type) {
       prepare: (function(query, settings) {
 
         var url = settings['url'] +
-            '&pl=' + this.gettextCatalog_.currentLanguage;
+                '&pl=' + this.gettextCatalog_.currentLanguage;
+
+        if (this.datasetLimit_) {
+          if (this.datasetLimit_.length === 1) {
+            url = url + '&t=' + this.datasetLimit_;
+          } else {
+            // you receive for ex 'wro' (waypoints, routes, users) -> split into w,r,o
+            this.datasetLimit_ = this.datasetLimit_.split('').join(',');
+          }
+        }
+
         settings['url'] = url.replace('%QUERY', encodeURIComponent(query));
         return settings;
       }).bind(this),
       filter: (function(/** appx.SearchResponse */ resp) {
         var documentResponse =
-            /** @type {appx.SearchDocumentResponse} */ (resp[type]);
-        var documents = documentResponse.documents;
-        var currentLang = this.gettextCatalog_.currentLanguage;
+                /** @type {appx.SearchDocumentResponse} */ (resp[type]);
 
-        if (documents.length === 0) {
-          $('.tt-dataset.empty').remove();
-          $('.tt-empty').append(empty_template);
-        } else {
-          $('.tt-dataset.empty').remove();
-        }
+        if (documentResponse) {
+          var documents = documentResponse.documents;
+          var currentLang = this.gettextCatalog_.currentLanguage;
 
-        return documents.map(function(/** appx.SearchDocument */ doc) {
-          var locale = doc.locales[0];
-          doc.label = type === 'routes' && locale.title_prefix ?
-              locale.title_prefix + ' : ' : '';
-          doc.label += locale.title;
-
-          if (currentLang !== locale.lang) {
-            doc.label += ' (' + locale.lang + ')';
+          if (documents.length === 0) {
+            $('.tt-dataset.empty').remove();
+            $('.tt-empty').append(empty_template);
+          } else {
+            $('.tt-dataset.empty').remove();
           }
 
-          doc.documentType = type;
-          return doc;
-        });
+          return documents.map(function(/** appx.SearchDocument */ doc) {
+            var locale = doc.locales[0];
+            doc.label = type === 'routes' && locale.title_prefix ?
+                    locale.title_prefix + ' : ' : '';
+            doc.label += locale.title;
+
+            if (currentLang !== locale.lang) {
+              doc.label += ' (' + locale.lang + ')';
+            }
+
+            doc.documentType = type;
+            return doc;
+          });
+        }
       }).bind(this)
     }
   }));
@@ -258,5 +278,6 @@ app.SearchController.select_ = function(event, doc, dataset) {
     window.location.href = url;
   }
 };
+
 
 app.module.controller('AppSearchController', app.SearchController);
