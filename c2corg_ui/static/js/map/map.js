@@ -296,7 +296,7 @@ app.MapController.prototype.createWaypointStyle_ = function(feature,
   }
 
   var id = /** @type {number} */ (feature.get('documentId'));
-  var scale = highlight ? 2 : 1;
+  var scale = highlight ? 1 : 0.5;
   var key = type + scale + '_' + id;
   var style = this.styleCache[key];
   if (!style) {
@@ -305,13 +305,13 @@ app.MapController.prototype.createWaypointStyle_ = function(feature,
     if (!icon) {
       icon = new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
         scale: scale,
-        src: '/static/img/icons/' + type + '.png'
+        src: '/static/img/waypoint_types/' + type + '.svg'
       }));
       this.iconCache[iconKey] = icon;
     }
 
     var text;
-    if (scale > 1 && typeof id !== undefined) { // on hover in list view
+    if (highlight) { // on hover in list view
       var title = /** @type {string} */(feature.get('title'));
 
       text = new ol.style.Text({
