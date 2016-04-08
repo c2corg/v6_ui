@@ -3,8 +3,10 @@ from c2corg_ui.templates.utils import get_lang_lists
 import json
 %>
 <%inherit file="../base.html"/>
-<%namespace file="../helpers/common.html" import="show_title"/>
+<%namespace file="../helpers/common.html" import="show_title, show_fulldate"/>
+
 <%namespace file="helpers/detailed_outings_attributes.html" import="get_outing_snow, get_outing_access, get_outing_participants, get_outing_general, get_outing_heights"/>
+
 <%namespace file="../helpers/view.html" import="get_document_min_max, get_document_locale_text, show_attr, show_missing_langs_links,
     show_other_langs_links, show_archive_data, show_route_title, get_route_activities, 
     show_areas, show_float_buttons, get_associated_documents"/>
@@ -45,13 +47,13 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
 
 <header class="view-details-title">
   <h1>
-    ${locale['title']}
-    <label class="badge outing">
-      <span translate>outing of</span> 
-      {{ '${outing['date_start']}' | amDateFormat:'Do MMMM YYYY'}}
+    ${locale['title']}<br>
+    <span class="outing-date" class="ng-cloak">${show_fulldate(outing['date_start'], outing['date_end'])}</span>
+    <label class="badge outing" onClick="window.location='${request.route_url('outings_index_default')}' ">
+      <span class="glyphicon glyphicon-arrow-right"></span>&nbsp;<span translate>outing</span>
     </label>
   </h1>
-  <div class="activity-header">${get_route_activities(outing, 'top')}</div>
+  <div class="icons-header">${get_route_activities(outing, 'top')}</div>
 </header>
 
 <app-map class="view-details-map"></app-map>
@@ -60,7 +62,6 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
   <article class="location-static">
     <span class="pin"></span>
     ${show_areas(outing)}
-    ${get_document_min_max(outing, 'elevation')}
   </article>
 % endif
 
@@ -103,8 +104,9 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
   </div>
 
   ## DESCRIPTION
+  % if locale['summary'] or locale['description']:
   <div class="view-details-description col-xs-12 tab description">
-    <h3 class="heading"><span translate>description</span></h3>
+    <h3 class="heading"><span translate>personal comments</span></h3>
     <span class="lead">
       <div id="document-description" class="collapse in">
 
@@ -117,20 +119,12 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
 
         % if locale['description'] :
         ${show_attr(locale, 'description')}
-        % else :
-        <h3 class="text-center" translate>No description available</h3>
-        % endif
-        
-        % if locale.get('remarks'): 
-          <div class="document-remarks">
-            <label translate>remarks</label><br>
-            ${show_attr(locale, 'remarks')}
-          </div>
         % endif
 
       </div>
     </span>
   </div>
+  % endif
 
   <div class="description tab">
     ${get_document_locale_text(locale, 'route_description')}
@@ -146,14 +140,13 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
   % if not version and ('waypoint' in outing['associations'] and  len(outing['associations']['waypoints']) > 0 or 'routes' in outing['associations'] and  len(outing['associations']['routes']) > 0):
   <div class="view-details-associations col-xs-12 tab associations">
     <span class="lead">
-
       <div ng-show="userCtrl.auth.isAuthenticated()">
         <label translate>Add association</label>:
         <app-add-association parent-id="${outing_id}" added-documents="added"></app-add-association>
       </div>
       <section>
-        ${get_associated_documents(outing, 'waypoints')}
         ${get_associated_documents(outing, 'routes')}
+        ${get_associated_documents(outing, 'waypoints')}
       </section>
     </span>
   </div>

@@ -21,7 +21,7 @@ app.deleteAssociationDirective = function() {
         controller.unassociateDocument_(element[0]);
       });
     },
-    template: '<button class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>'
+    template: '<span class="glyphicon glyphicon-trash"></span>'
   };
 };
 

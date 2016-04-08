@@ -7,19 +7,31 @@ goog.require('app.Api');
 
 
 /**
+ * @param {angular.$compile} $compile Angular compile service.
+ * @ngInject
  * @return {angular.Directive} Directive Definition Object.
  */
-app.addAssociationDirective = function() {
+app.addAssociationDirective = function($compile) {
+
+  var template = function(dataset) {
+    return '<app-search app-select="addCtrl.associate(doc)" app-dataset="' + dataset + '"></app-search>'
+  };
+
   return {
     restrict: 'E',
     controller: 'AppAddAssociationController',
     bindToController: {
       'parentId': '=',
-      'addedDocuments': '='
+      'addedDocuments': '=',
+      'dataset' : '='
     },
     controllerAs: 'addCtrl',
-    template: '<app-search app-select="addCtrl.associate(doc)"></app-search>'
-  };
+
+    link: function(scope, element, attrs, ctrl) {
+      element.html(template(ctrl.dataset));
+      $compile(element.contents())(scope);
+    }
+  }
 };
 
 app.module.directive('appAddAssociation', app.addAssociationDirective);
@@ -30,7 +42,7 @@ app.module.directive('appAddAssociation', app.addAssociationDirective);
  * @param {app.Api} appApi The API service
  * @ngInject
  */
-app.AddAssociationController = function(appApi) {
+app.AddAssociationController = function(appApi, $attrs) {
   /**
    * @type {number} // bound from directive
    * @export
@@ -42,6 +54,8 @@ app.AddAssociationController = function(appApi) {
    */
   this.api_ = appApi;
 
+
+  this.dataset = $attrs['dataset'];
   /**
    * @type {Array.<appx.SearchDocument>}
    * @export

@@ -16,7 +16,6 @@ goog.require('app.constants');
 goog.require('app.deleteAssociationDirective');
 goog.require('app.diffMapDirective');
 goog.require('app.documentEditingDirective');
-goog.require('app.editButtonDirective');
 goog.require('app.langDirective');
 goog.require('app.loadingDirective');
 goog.require('app.mapDirective');

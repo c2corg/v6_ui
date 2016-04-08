@@ -15,7 +15,7 @@ from c2corg_common.attributes import default_langs, route_types, activities, rou
         </button>
         <ul class="dropdown-menu multiselect-box type">
           <li ng-repeat="type in ['${"','".join(route_types) |n}']">
-            <a data-value="{{type}}" ng-click="searchFiltersCtrl.selectOption(type, 'route_types', $event)">
+            <a data-value="{{type}}" ng-click="searchFiltersCtrl.selectOption(route, 'route_types', type, $event)">
               <input type="checkbox">
               <span class="activity">{{mainCtrl.translate(type) | capitalize}}</span>
             </a>
@@ -47,7 +47,7 @@ from c2corg_common.attributes import default_langs, route_types, activities, rou
         <div class="activities">
           <div ng-repeat="activity in activities" class="activity" ng-if="activity !== 'paragliding' ">
             <div>
-              <div class="icon-{{activity}}" class="icon-" ng-click="editCtrl.pushToArray(route, 'activities', activity, $event)"
+              <div class="icon-{{activity}}" ng-click="editCtrl.pushToArray(route, 'activities', activity, $event)"
                    ng-class="{'activity-selected' : route.activities.indexOf(activity) > -1}">
               </div>
               <p>{{activity | translate}}</p>

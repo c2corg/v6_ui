@@ -1,5 +1,5 @@
 <%!
-from c2corg_common.attributes import default_langs, activities, condition_ratings, awesomeness, hut_status, lift_status, frequentation_types, avalanche_signs,  route_duration_types, access_conditions, public_transportation_types, glacier_ratings
+from c2corg_common.attributes import default_langs, activities, condition_ratings, awesomeness, quality_types, hut_status, lift_status, frequentation_types, avalanche_signs,  route_duration_types, access_conditions, public_transportation_types, glacier_ratings
 %>
 
 <%inherit file="../base.html"/>
@@ -23,19 +23,18 @@ updating_doc = outing_id and outing_lang
   % endif 
     name="editForm" novalidate ng-submit="editCtrl.submitForm(editForm.$valid)" class="document-editing">
     
-    ## Init max steps. It won't work with ng-init
+    ## It won't work with ng-init
     <span class="ng-hide">
-      {{editCtrl.max_steps = 5}} 
+      {{editCtrl.max_steps = 4}} 
       {{document = outing}}
     </span>
     
     ## PROGRESS BAR
     <ul class="progress-bar-edit">
-      <li class="nav-step-1" ng-click="editCtrl.step(1, 'outing',  'backwards')" ng-class="{'nav-step-selected': editCtrl.current_step == 1 }"><span class="nav-text"><span translate>outing</span></span><span class="bullet-container"><span class="bullet"></span></span></li>
+      <li class="nav-step-1" ng-click="editCtrl.step(1, 'outing',  'backwards')" ng-class="{'nav-step-selected': editCtrl.current_step == 1 }"><span class="nav-text"><span translate>track</span></span><span class="bullet-container"><span class="bullet"></span></span></li>
       <li class="nav-step-2" ng-click="editCtrl.step(2, 'outing', editCtrl.previous_step >= 2 ? 'backwards' : 'forwards')"><span class="nav-text"><span translate>weather</span> & <span translate>conditions</span></span><span class="bullet-container"><span class="bullet"></span></span></li>
-      <li class="nav-step-3" ng-click="editCtrl.step(3, 'outing', editCtrl.previous_step >= 3 ? 'backwards' : 'forwards')"><span class="nav-text"><span translate>numbers</span></span><span class="bullet-container"><span class="bullet"></span></span></li>
-      <li class="nav-step-4" ng-click="editCtrl.step(4, 'outing', editCtrl.previous_step >= 4 ? 'backwards' : 'forwards')"><span translate class="nav-text">track</span><span class="bullet-container"><span class="bullet"></span></span></li>
-      <li class="nav-step-5" ng-click="editCtrl.step(5, 'outing',  'forwards')"><span translate class="nav-text">summary</span><span class="bullet-container"><span class="bullet"></span></span></li>
+      <li class="nav-step-3" ng-click="editCtrl.step(3, 'outing', editCtrl.previous_step >= 3 ? 'backwards' : 'forwards')"><span class="nav-text"><span translate>personal informations</span></span><span class="bullet-container"><span class="bullet"></span></span></li>
+      <li class="nav-step-4" ng-click="editCtrl.step(4, 'outing',  'forwards')"><span translate class="nav-text">review</span><span class="bullet-container"><span class="bullet"></span></span></li>
     </ul>
 
     ## NAV BUTTONS
@@ -45,43 +44,21 @@ updating_doc = outing_id and outing_lang
     </div>
 
     <section class="editing outing">
-
       <div class="step step-1">
+        
         <section class="section title">
-          <h2 class="heading show-phone">
-            <span translate>general informations</span>
-          </h2>
-
+          <h2 class="heading show-phone" translate>general informations</h2>
           <div class="content collapse in" id="title-edit">
-           
-            ## TITLE
-          <div class="form-group" id="title-group" ng-class="{ 'has-error': editForm.title.$touched && editForm.title.$invalid, 'has-success': editForm.title.$valid }">
-            <label><span translate>outing name</span> *</label>
-            <input type="text" name="title" ng-model="outing.locales[0].title" ng-minlength="3"class="form-control" required />
-            <div class="help-block" ng-messages="editForm.title.$error">
-              <p ng-message="required" class="label label-danger" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : '' }}" translate>This field is required.</p>
-              <p ng-message="minlength" class="label label-danger" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : '' }}" translate>Title must have at least 3 characters.</p>
-            </div>
-          </div>
-            
-            ## AWESOMENESS
-            <div id="lang-group" class="data half form-group">
-              <label translate>awesomeness</label>
-              <div class="input-group awesomeness">
-                 <uib-rating ng-model="outing.awesomeness" max="5"  >
-                 </uib-rating>
-              </div>
-            </div>
-            
+
             ## ACTIVITIES
             <div class="form-group data full" id="outing-activities" ng-init="activities = ${activities}" 
                  ng-class="{ 'has-error': editForm.activities.$touched && editForm.activities.$invalid, 'has-success': editForm.activities.$valid }">
               <label><span translate>activities</span> *</label>
               <div class="route-activities">
-                <div ng-repeat="activity in activities" class="activity" ng-if="activity !== 'paragliding' ">
+                <div ng-repeat="activity in activities" class="activity">
                   <div>
                     <div class="icon-{{activity}}" class="icon-" ng-click="editCtrl.pushToArray(outing, 'activities', activity, $event)"
-                          ng-class="{'activity-selected' : outing.activities.indexOf(activity) > -1}">
+                         ng-class="{'activity-selected' : outing.activities.indexOf(activity) > -1}">
                     </div>
                     <p>{{activity | translate}}</p>
                   </div>
@@ -89,184 +66,66 @@ updating_doc = outing_id and outing_lang
               </div>
             </div>
             
-           ## PARTICIPANTS
-            <div id="participants-group" class="form-group data full" ng-class="{'has-success': outing.locales[0]['participants']}">
-              <label translate>participants</label>
+            ## MAP
+            <div class="upload-file">
+              <button class="orange-btn btn" type="button" translate>upload a GPS track <span class="glyphicon glyphicon-upload"></span></button>
+              <input type="file" />
+            </div>
+            <app-map app-map-edit-ctrl="editCtrl" class="map-edit"></app-map>
+
+            ## ROUTE TAKEN
+            <div class="data full" class="form-group">
+              ## todo: add a taken route as card
+              <label translate>routes_taken</label>
+              <app-add-association parent-id="document.document_id" added-documents="added" dataset="r"></app-add-association>
+            </div>
+            
+            <section class="section associations">
+              <div class="data full route-associations">
+                <%include file="../route/associated.html"/>
+              </div>
+            </section>
+
+            ## ROUTE DESCRIPTION
+            <div class="data full form-group" ng-class="{'has-success': outing.locales[0].route_description}">
+              <label translate>route_description</label>
+              <textarea class="form-control" ng-model="outing.locales[0].route_description" placeholder="{{mainCtrl.translate('describe route_conditions')}}"></textarea>
+            </div>
+
+            ## PARTIAL TRIP
+            <div class="form-group data half" ng-class="{'has-success': outing.partial_trip }">
+              <label translate>partial_trip</label>
+              <select ng-model="outing.partial_trip" class="form-control">
+                <option value="true">yes</option>
+                <option value="false">no</option>
+              </select>
+            </div>
+
+            ## DURATION
+            <div class="form-group data half" ng-class="{'has-success': outing.duration}">
+              <label translate>duration</label>
               <div class="input-group">
-                <input type="text"  ng-model="outing.locales[0]['participants']" class="form-control" />
-                <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-              </div>
-            </div>
-           
-            ## DATE START
-              <div class="data half remain form-group" ng-init="openDateStart = false">
-                <label><span translate>date_start</span> *</label>
-                <div class="input-group" ng-model="outing.date_start" uib-datepicker-popup="dd MM yyyy" is-open="openDateStart">
-                  <input type="text" class="form-control" value="{{outing.date_start | amDateFormat:'Do MMMM YYYY' }}"/>
-                  <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" ng-click="openDateStart = true"><span class="glyphicon glyphicon-calendar"></span></button>
-                  </span>
-                </div>
-              </div>
-              
-            ## DATE END
-            <div class="data half remain form-group" ng-init="openDateEnd = false">
-              <div  ng-show="editCtrl.differentDates">
-                <label><span translate>date_end </span></label>               
-                <div class="input-group" ng-model="outing.date_end" uib-datepicker-popup="dd MM yyyy" is-open="openDateEnd">
-                  <input type="text" class="form-control" value="{{outing.date_end | amDateFormat:'Do MMMM YYYY' }}"/>
-                  <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" ng-click="openDateEnd = true"><span class="glyphicon glyphicon-calendar"></span></button>
-                  </span>
-                </div>
-                <span class="glyphicon glyphicon-remove form-control-feedback"  ng-click="editCtrl.differentDates = false"></span>
-              </div>
-              <div ng-click="editCtrl.differentDates = true" ng-show="!editCtrl.differentDates">
-                <button class="btn orange-btn" type="button">end date?</button>
+                <input type="number" min="1" minlength="1" name="duration" ng-model="outing.duration" class="form-control" />
+                <span class="input-group-addon">min</span>
               </div>
             </div>
 
-            ## TIMING
-            <div class="data full form-group">
-              <label translate>timing</label>
-              <textarea class="form-control" ng-model="outing.locales[0]['timing']" placeholder="{{mainCtrl.translate('write timing')}}"></textarea>
-            </div>
-            
-            ## PHOTOS
-            <div class="data full form-group">
-              <label translate>add your photos</label>
-              <button class="btn green-btn" type="button"><span class="glyphicon glyphicon-picture"></span><span translate>add</span></button>
-              <div class="photos">
-                <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzE0MHgxNDAKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNTMwOTM2ZThhYyB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE1MzA5MzZlOGFjIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjQ0LjA2MjUiIHk9Ijc0LjU1NjI1Ij4xNDB4MTQwPC90ZXh0PjwvZz48L2c+PC9zdmc+" alt="..." class="img-thumbnail">
-                <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzE0MHgxNDAKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNTMwOTM2ZThhYyB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE1MzA5MzZlOGFjIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjQ0LjA2MjUiIHk9Ijc0LjU1NjI1Ij4xNDB4MTQwPC90ZXh0PjwvZz48L2c+PC9zdmc+" alt="..." class="img-thumbnail">
-                <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzE0MHgxNDAKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNTMwOTM2ZThhYyB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE1MzA5MzZlOGFjIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjQ0LjA2MjUiIHk9Ijc0LjU1NjI1Ij4xNDB4MTQwPC90ZXh0PjwvZz48L2c+PC9zdmc+" alt="..." class="img-thumbnail">
-                <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzE0MHgxNDAKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNTMwOTM2ZThhYyB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE1MzA5MzZlOGFjIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjQ0LjA2MjUiIHk9Ijc0LjU1NjI1Ij4xNDB4MTQwPC90ZXh0PjwvZz48L2c+PC9zdmc+" alt="..." class="img-thumbnail">
-              </div>
-
-            </div>
-            
-              ## COMMENT
-            <div class="data full form-group">
-              <label translate>perosnal comment</label>
-              <textarea class="form-control" placeholder="{{mainCtrl.translate('write your comment')}}"></textarea>
-            </div>
-              
-        </section>
-      </div>
-
-      <div class="step step-2">
-        <section class="section weather">
-          <h2 class="heading show-phone"><span translate>weather </span></h2>
-          <div class="content outing-weather" id="title-edit">
-            
-            ## WEATHER
-            <div class="data full form-group">
-              <label translate>weather</label>
-              <textarea class="form-control" ng-model="outing.locales[0]['weather']">write weather</textarea>
-            </div>
-            
-          </div>
-        </section>
-
-        <section class="section conditions">
-          <h2 class="heading show-phone">
-            <span translate>conditions</span></span>
-          </h2>
-
-          <div class="content collapse in" id="outing-conditions">
-
-            ## CONDITIONS LEVELS
-            <div class="data full form-group" ng-class="{'has-success': outing.condition_levels}">
-              <label translate>condition_levels</label>
-              <textarea class="form-control" ng-model="outing.locales[0]['conditions_levels']">write weather</textarea>
-            </div>
-
-            ## CONDITIONS
-            <div class="data full form-group">
-              <label translate>conditions</label>
-              <textarea class="form-control" ng-model="outing.locales[0]['conditions']">write weather</textarea>
-            </div>
-
-            ## CONDITION RATING
-            <div class="form-group data half remain" ng-class="{'has-success': outing.condition_rating}">
-              <label translate>condition_rating</label>
+            ## LENGTH TOTAL
+            <div id="length_total-group" class="data half form-group" ng-class="{ 'has-error': editForm.length_total.$touched && editForm.length_total.$invalid,'has-success': outing.length_total }">
+              <label translate>length_total</label>
               <div class="input-group">
-                <select class="form-control" ng-model="outing.condition_rating" ng-options="rat as rat for rat in ${condition_ratings}"></select>
-                <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
+                <input type="number" min="0" minlength="1" name="length_total" ng-model="outing.length_total" class="form-control" />
+                <span class="input-group-addon">m</span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.condition_rating"></span>
-            </div>
-            
-              ## HUT STATUS
-              <div class="form-group data half remain" ng-class="{'has-success': outing.hut_status}">
-                <label translate>hut_status</label>
-                <div class="input-group">
-                  <select class="form-control" ng-model="outing.hut_status" ng-options="rat as rat for rat in ${hut_status}"></select>
-                  <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
-                </div>
-                <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.hut_status"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.length_total.$valid && outing.length_total"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.length_total.$invalid && outing.length_total"></span>
+              <div class="help-block" ng-messages="editForm.length_total.$error">
+                <p ng-message="number" class="label label-danger" style="{{ (editForm.length_total.$invalid && editForm.length_total.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
               </div>
-              
-          </div>
-        </section>
-        
-        <section class="section access">
-          <h2 class="heading show-phone">
-            <span translate>access</span></span>
-          </h2>
-
-          <div class="content outing-route" id="track-edit">
-            
-            ## ACCESS COMMENT
-            <div class="form-group data full" ng-class="{'has-success': outing.public_transport}">
-              <label translate>access_comment</label>
-              <textarea class="form-control " ng-model="outing.locales[0].access_comment"></textarea>
             </div>
-            
-            ## PUBLIC TRANSPORT 
-            <div class="form-group data half" ng-class="{'has-success': outing.public_transport}">
-              <label translate>public_transport</label>
-              <select class="form-control" ng-model="outing.public_transport" ng-options="rat as rat for rat in ${public_transportation_types}"></select>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.duration"></span>
-            </div>
-            
-              ## LIFT STATUS
-              <div class="form-group data half" ng-class="{'has-success': outing.lift_status}">
-                <label translate>lift_status</label>
-                <div class="input-group">
-                  <select class="form-control" ng-model="outing.lift_status" ng-options="rat as rat for rat in ${lift_status}"></select>
-                  <span class="input-group-addon"><span class="glyphicon glyphicon-resize-vertical"></span></span>
-                </div>
-                <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.lift_status"></span>
-              </div>
-              
-
-            ## ACCESS CONDITION
-            <div class="form-group data half">
-              <label translate>access_condition</label>
-              <div class="input-group">
-                <select class="form-control" ng-model="outing.access_condition" ng-options="rat as rat for rat in ${access_conditions}"></select>
-                <span class="input-group-addon"><span class="glyphicon glyphicon-road"></span></span>
-              </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.access_condition"></span>
-            </div>
-            
-          </div>
-        </section>
-        
-      </div>
-
-      <div class="step step-3">
-
-        <section class="section">
-          <h2 class="heading show-phone">
-            <span><span translate>elevation</span> & <span translate>height_diff</span></span></span>
-          </h2>
-
-          <div class="content collapse in" id="elevation-edit">
 
             ## ELEVATION MIN
-            <div id="elevation_min-group" class="data half form-group" ng-class="{ 'has-error': editForm.elevation_min.$touched && editForm.elevation_min.$invalid,'has-success': outing.elevation_min }">
+            <div id="elevation_min-group" class="data half remain form-group" ng-class="{ 'has-error': editForm.elevation_min.$touched && editForm.elevation_min.$invalid,'has-success': outing.elevation_min }">
               <label translate>elevation_min</label>
               <div class="input-group">
                 <input type="number" min="0" minlength="1" name="elevation_min" ng-model="outing.elevation_min" class="form-control" />
@@ -280,7 +139,7 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## ELEVATION MAX
-            <div id="elevation_max-group" class="data half form-group" ng-class="{ 'has-error': editForm.elevation_max.$touched && editForm.elevation_max.$invalid,'has-success': outing.elevation_max }">
+            <div id="elevation_max-group" class="data half remain form-group" ng-class="{ 'has-error': editForm.elevation_max.$touched && editForm.elevation_max.$invalid,'has-success': outing.elevation_max }">
               <label translate>elevation_max</label>
               <div class="input-group">
                 <input type="number" min="0" minlength="1" name="elevation_max" ng-model="outing.elevation_max" class="form-control" />
@@ -292,23 +151,9 @@ updating_doc = outing_id and outing_lang
                 <p ng-message="number" class="label label-danger" style="{{ (editForm.elevation_max.$invalid && editForm.elevation_max.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
               </div>
             </div>
-          
-            ## ELEVATION ACCESS
-            <div id="elevation_access-group" class="data half form-group" ng-class="{ 'has-error': editForm.elevation_access.$touched && editForm.elevation_access.$invalid,'has-success': outing.elevation_access }">
-              <label translate>elevation_access</label>
-              <div class="input-group">
-                <input type="number" min="0" minlength="1" name="elevation_access" ng-model="outing.elevation_access" class="form-control" />
-                <span class="input-group-addon">m</span>
-              </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.elevation_access.$valid && outing.elevation_access"></span>
-              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.elevation_access.$invalid && outing.elevation_access"></span>
-              <div class="help-block" ng-messages="editForm.elevation_access.$error">
-                <p ng-message="number" class="label label-danger" style="{{ (editForm.elevation_access.$invalid && editForm.elevation_access.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
-              </div>
-            </div>
-          
+
             ## HEIGHT DIFF UP
-            <div id="height_diff_up-group" class="data half form-group" ng-class="{ 'has-error': editForm.height_diff_up.$touched && editForm.height_diff_up.$invalid,'has-success': outing.height_diff_up }">
+            <div id="height_diff_up-group" class="data half remain form-group" ng-class="{ 'has-error': editForm.height_diff_up.$touched && editForm.height_diff_up.$invalid,'has-success': outing.height_diff_up }">
               <label translate>height_diff_up</label>
               <div class="input-group">
                 <input type="number" min="0" minlength="1" name="height_diff_up" ng-model="outing.height_diff_up" class="form-control" />
@@ -320,9 +165,9 @@ updating_doc = outing_id and outing_lang
                 <p ng-message="number" class="label label-danger" style="{{ (editForm.height_diff_up.$invalid && editForm.height_diff_up.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
               </div>
             </div>
-      
+
             ## HEIGHT DIFF DOWN
-            <div id="height_diff_down-group" class="data half form-group" ng-class="{ 'has-error': editForm.height_diff_down.$touched && editForm.height_diff_down.$invalid,'has-success': outing.height_diff_down }">
+            <div id="height_diff_down-group" class="data half remain form-group" ng-class="{ 'has-error': editForm.height_diff_down.$touched && editForm.height_diff_down.$invalid,'has-success': outing.height_diff_down }">
               <label translate>height_diff_down</label>
               <div class="input-group">
                 <input type="number" min="0" minlength="1" name="height_diff_down" ng-model="outing.height_diff_down" class="form-control" />
@@ -334,14 +179,110 @@ updating_doc = outing_id and outing_lang
                 <p ng-message="number" class="label label-danger" style="{{ (editForm.height_diff_down.$invalid && editForm.height_diff_down.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
               </div>
             </div>
-          
-          </div>   
-      </section>
-        
-        <section class="section ratings" ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('ice_climbing') > -1  || outing.activities.indexOf('mountain_climbing') > -1  || outing.activities.indexOf('snow_ice_mixed') > -1  || outing.activities.indexOf('via_ferrata') > -1 || outing.activities.indexOf('rock_climbing') > -1 ">
-          <h2 class="heading show-phone" translate>snow</h2>
+            <section class="section associations" ng-if="outing.associations.waypoints.length > 0">
+              <div class="data full route-associations">
+                <%include file="../waypoint/associated.html"/>
+              </div>
+            </section>
+          </div>
+        </section>
 
-          <div class="content collapse in" id="rating-edit">
+
+      </div>
+
+      <div class="step step-2">
+        <section class="section weather">
+          <h2 class="heading show-phone"><span translate>weather </span></h2>
+          <div class="content outing-weather" id="title-edit">
+           
+            ## DATE START
+              <div class="data half remain form-group" ng-init="openDateStart = false">
+                <label><span translate>date_start</span> *</label>
+                <div class="input-group" ng-model="outing.date_start" uib-datepicker-popup="dd MM yyyy" is-open="openDateStart">
+                  <input type="text" class="form-control" value="{{outing.date_start | amDateFormat:'Do MMMM YYYY' }}"/>
+                  <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="openDateStart = true"><span class="glyphicon glyphicon-calendar"></span></button>
+                  </span>
+                </div>
+              </div>
+              
+            ## DATE END
+            <div class="data half remain form-group baseline-align" ng-init="openDateEnd = false">
+              <div  ng-show="editCtrl.differentDates">
+                <label><span translate>date_end </span></label>               
+                <div class="input-group" ng-model="outing.date_end" uib-datepicker-popup="dd MM yyyy" is-open="openDateEnd">
+                  <input type="text" class="form-control" value="{{outing.date_end | amDateFormat:'Do MMMM YYYY' }}"/>
+                  <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="openDateEnd = true"><span class="glyphicon glyphicon-calendar"></span></button>
+                  </span>
+                </div>
+                <span class="glyphicon glyphicon-remove form-control-feedback"  ng-click="editCtrl.differentDates = false"></span>
+              </div>
+              <div ng-click="editCtrl.differentDates = true" ng-show="!editCtrl.differentDates" class="baseline-align">
+                <button class="btn orange-btn" type="button">several days?</button>
+              </div>
+            </div>
+
+            ## TIMING
+            <div class="data full form-group">
+              <label translate>timing</label>
+              <textarea class="form-control" ng-model="outing.locales[0]['timing']" placeholder="{{mainCtrl.translate('describe timing')}}"></textarea>
+            </div>
+            
+            ## WEATHER
+            <div class="data full form-group">
+              <label translate>weather</label>
+              <textarea class="form-control" ng-model="outing.locales[0]['weather']" placeholder="{{mainCtrl.translate('describe weather')}}"></textarea>
+            </div>            
+            
+        </section>
+
+        <section class="section conditions">
+          <h2 class="heading show-phone"><span translate>conditions</span></h2>
+          <div class="content collapse in" id="outing-conditions">
+
+            ## CONDITIONS LEVELS
+            <div class="data full form-group" ng-class="{'has-success': outing.condition_levels}"   
+                 ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('ice_climbing') > -1 || outing.activities.indexOf('snow_ice_mixed') > -1 ">
+              <label translate>condition_levels</label>
+              <table class="table table-striped conditions-levels">
+                <thead>
+                  <tr>
+                    <th class="location"><span translate>location</span> / <span translate>altitude</span> / <span translate>orientation</span> / <span translate>time</span></th>
+                    <th class="soft-snow"><span translate>soft snow (</span>cm)</th>
+                    <th class="total-snow"><span translate>total snow</span> (cm)</th>
+                    <th class="comment" translate>comment</th>
+                    <th class="delete"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="cond in outing.locales[0].conditions_levels">
+                    <td><input type="text" class="form-control" ng-model="outing.locales[0].conditions_levels[$index].level_place"></td>
+                    <td><input type="number" min="0" class="form-control" ng-model="outing.locales[0].conditions_levels[$index].level_snow_height_soft"></td>
+                    <td><input type="number" min="0" class="form-control" ng-model="outing.locales[0].conditions_levels[$index].level_snow_height_total"></td>
+                    <td><input type="text" class="form-control" ng-model="outing.locales[0].conditions_levels[$index].level_comment"></td>
+                    <td ng-click="outing.locales[0].conditions_levels.splice($index, 1)"><span class="glyphicon glyphicon-trash"></span></td>
+                  </tr>
+                </tbody>
+              </table>
+              <button class="btn orange-btn" type="button" ng-click="outing.locales[0].conditions_levels.push({})" translate>add row</button>
+            </div>
+
+            ## CONDITIONS
+            <div class="data full form-group">
+              <label translate>conditions</label>
+              <textarea class="form-control" ng-model="outing.locales[0]['conditions']" placeholder="{{mainCtrl.translate('describe conditions')}}"></textarea>
+            </div>
+
+            ## CONDITION RATING
+            <div class="form-group data half" ng-class="{'has-success': outing.condition_rating}">
+              <label translate>condition_rating</label>
+              <div class="input-group">
+                <select class="form-control" ng-model="outing.condition_rating" ng-options="rat as rat for rat in ${condition_ratings}"><option value=""></option></select>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.condition_rating"></span>
+            </div>
             
             ## ELEVATION UP SNOW
             <div id="elevation_up_snow-group" class="data half form-group" ng-class="{ 'has-error': editForm.elevation_up_snow.$touched && editForm.elevation_up_snow.$invalid,'has-success': outing.elevation_up_snow }"
@@ -377,9 +318,8 @@ updating_doc = outing_id and outing_lang
             <div id="snow_quantity-group" class="data half form-group" ng-class="{ 'has-error': editForm.snow_quantity.$touched && editForm.snow_quantity.$invalid,'has-success': outing.snow_quantity }"
                  ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('ice_climbing') > -1  || outing.activities.indexOf('mountain_climbing') > -1  || outing.activities.indexOf('snow_ice_mixed') > -1 ">
               <label translate>snow_quantity</label>
-                <input type="number" min="0" minlength="1" name="snow_quantity" ng-model="outing.snow_quantity" class="form-control" />
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.snow_quantity.$valid && outing.snow_quantity"></span>
-              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.snow_quantity.$invalid && outing.snow_quantity"></span>
+              <select class="form-control" ng-model="outing.snow_quantity" ng-options="rat as rat for rat in ${condition_ratings}"><option value=""></option></select>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.snow_quantity"></span>
               <div class="help-block" ng-messages="editForm.snow_quantity.$error">
                 <p ng-message="number" class="label label-danger" style="{{ (editForm.snow_quantity.$invalid && editForm.snow_quantity.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
               </div>
@@ -389,29 +329,18 @@ updating_doc = outing_id and outing_lang
             <div id="snow_quality-group" class="data half form-group" ng-class="{ 'has-error': editForm.snow_quality.$touched && editForm.snow_quality.$invalid,'has-success': outing.snow_quality }"
                  ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('ice_climbing') > -1  || outing.activities.indexOf('mountain_climbing') > -1  || outing.activities.indexOf('snow_ice_mixed') > -1">
               <label translate>snow_quality</label>
-                <input type="number" min="0" minlength="1" name="snow_quality" ng-model="outing.snow_quality" class="form-control" />
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.snow_quality.$valid && outing.snow_quality"></span>
-              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.snow_quality.$invalid && outing.snow_quality"></span>
+              <select class="form-control" ng-model="outing.snow_quality" ng-options="rat as rat for rat in ${condition_ratings}"><option value=""></option></select>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.snow_quality"></span>
               <div class="help-block" ng-messages="editForm.snow_quality.$error">
                 <p ng-message="number" class="label label-danger" style="{{ (editForm.snow_quality.$invalid && editForm.snow_quality.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
               </div>
-            </div>
-            
-            ## DURATION DIFFICULTIES
-            <div class="form-group data half" ng-class="{'has-success': outing.duration_difficulties}"  ng-if="outing.activities.indexOf('rock_climbing') > -1 || outing.activities.indexOf('via_ferrata') > -1 || outing.activities.indexOf('ice_climbing') > -1  || outing.activities.indexOf('mountain_climbing') > -1  || outing.activities.indexOf('snow_ice_mixed') > -1">
-              <label translate>duration_difficulties</label>
-              <div class="input-group">
-                <select class="form-control" ng-model="outing.duration_difficulties" ng-options="rat as rat for rat in ${route_duration_types}"></select>
-                <span class="input-group-addon">H</span></span>
-              </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.duration_difficulties"></span>
             </div>
             
               ## GLACIER RATING
             <div class="form-group data half" ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('via_ferrata') > -1  || outing.activities.indexOf('mountain_climbing') > -1  || outing.activities.indexOf('snow_ice_mixed') > -1 ">
               <label translate>glacier_rating</label>
               <div class="input-group" ng-class="{'has-success': outing.glacier_rating }">
-                <select class="form-control" ng-model="outing.glacier_rating" ng-options="rat as rat for rat in ${glacier_ratings}"></select>
+                <select class="form-control" ng-model="outing.glacier_rating" ng-options="rat as rat for rat in ${glacier_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.glacier_rating"></span>
@@ -422,102 +351,187 @@ updating_doc = outing_id and outing_lang
                   ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('ice_climbing') > -1 || outing.activities.indexOf('snow_ice_mixed') > -1">
               <label translate>avalanche_sign</label>
               <div class="input-group">
-                <select class="form-control" ng-model="outing.avalanche_sign" ng-options="rat as rat for rat in ${avalanche_signs}"></select>
-                <span class="input-group-addon"><span class="glyphicon glyphicon-warning-sign"></span></span>
+                <select class="form-control" ng-model="outing.avalanche_sign" ng-options="rat as rat for rat in ${avalanche_signs}"><option value=""></option></select>
+                <span class="input-group-addon"><span class="glyphicon glyphicon glyphicon-alert"></span></span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.avalanche_sign"></span>
             </div>
                                     
             ## AVALANCHES
-            <div class="form-group data full"  ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('ice_climbing') > -1 || outing.activities.indexOf('snow_ice_mixed') > -1">
+            <div class="form-group data full"  ng-if="(outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 
+                      || outing.activities.indexOf('ice_climbing') > -1 || outing.activities.indexOf('snow_ice_mixed') > -1) && (outing.avalanche_sign != 'no' && outing.avalanche_sign != null) ">
               <label translate>avalanches_info</label>
               <textarea class="form-control" ng-model="outing.locales[0]['avalanches']"></textarea>
             </div>
             
-          </div>   
-        </section>
-      </div>
-      
-      <div class="step step-4">
-        
-        <section class="section">
-          <h2 class="heading show-phone">
-            <span translate>comments</span></span>
-          </h2>
-          <div class="content collapse in" id="description-edit">
-
-            ## DESCRIPTION
-            <div class="form-group data full">
-              <label translate>description</label>
-              <textarea class="form-control" ng-model="outing.locales[0]['description']"></textarea>
-            </div>
-
-            ## SUMMARY
-            <div class="form-group data full">
-              <label translate>summary</label>
-              <textarea class="form-control" ng-model="outing.locales[0]['summary']"></textarea>
-            </div>
           </div>
-          
         </section>
         
-        <section class="section track">
+        
+        <section class="section access">
           <h2 class="heading show-phone">
-            <span translate>route</span></span>
+            <span><span translate>access</span> & <span translate>hut</span></span>
           </h2>
 
           <div class="content outing-route" id="track-edit">
-            
-            ## ROUTE TAKEN
-            <div class="form-group data full">
-              <label translate>route_taken</label>
-              <app-search></app-search>
-              <div class="upload-file">
-                <button class="orange-btn btn" type="button" translate>upload a GPS track <span class="glyphicon glyphicon-upload"></span></button>
-                <input type="file" />
-              </div>
-              <input type="text" name="title" class="form-control" />
+
+            ## ACCESS COMMENT
+            <div class="form-group data full" ng-class="{'has-success': outing.public_transport}">
+              <label translate>access_comment</label>
+              <textarea class="form-control " ng-model="outing.locales[0].access_comment"></textarea>
             </div>
 
-            ## PARTIAL TRIP
-            <div class="form-group data">
-              <div class="checkbox" ng-click="editCtrl.pushToArray(outing, 'partial_trip', outing.partial_trip == true ? false : true, $event)">
-                <input type="checkbox" ng-checked="outing.partial_trip" ng-model="outing.partial_trip">
-                <span x-translate>partial_trip</span>
-              </div>
+            ## PUBLIC TRANSPORT 
+            <div class="form-group data half" ng-class="{'has-success': outing.public_transport}">
+              <label translate>public_transport</label>
+              <select class="form-control" ng-model="outing.public_transport" ng-options="rat as rat for rat in ${public_transportation_types}"><option value=""></option></select>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.public_transport"></span>
             </div>
-          
-            ## LENGTH TOTAL
-            <div id="length_total-group" class=" data third form-group" ng-class="{ 'has-error': editForm.length_total.$touched && editForm.length_total.$invalid,'has-success': outing.length_total }">
-              <label translate>length_total</label>
+
+            ## LIFT STATUS
+            <div class="form-group data half" ng-class="{'has-success': outing.lift_status}">
+              <label translate>lift_status</label>
               <div class="input-group">
-                <input type="number" min="0" minlength="1" name="length_total" ng-model="outing.length_total" class="form-control" />
+                <select class="form-control" ng-model="outing.lift_status" ng-options="rat as rat for rat in ${lift_status}"><option value=""></option></select>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-resize-vertical"></span></span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.lift_status"></span>
+            </div>
+
+            ## HUT STATUS
+            <div class="form-group data half" ng-class="{'has-success': outing.hut_status}">
+              <label translate>hut_status</label>
+              <div class="input-group">
+                <select class="form-control" ng-model="outing.hut_status" ng-options="rat as rat for rat in ${hut_status}"><option value=""></option></select>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.hut_status"></span>
+            </div>
+
+            ## ELEVATION ACCESS
+            <div id="elevation_access-group" class="data half form-group" ng-class="{ 'has-error': editForm.elevation_access.$touched && editForm.elevation_access.$invalid,'has-success': outing.elevation_access }">
+              <label translate>elevation_access</label>
+              <div class="input-group">
+                <input type="number" min="0" minlength="1" name="elevation_access" ng-model="outing.elevation_access" class="form-control" />
                 <span class="input-group-addon">m</span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.length_total.$valid && outing.length_total"></span>
-              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.length_total.$invalid && outing.length_total"></span>
-              <div class="help-block" ng-messages="editForm.length_total.$error">
-                <p ng-message="number" class="label label-danger" style="{{ (editForm.length_total.$invalid && editForm.length_total.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.elevation_access.$valid && outing.elevation_access"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.elevation_access.$invalid && outing.elevation_access"></span>
+              <div class="help-block" ng-messages="editForm.elevation_access.$error">
+                <p ng-message="number" class="label label-danger" style="{{ (editForm.elevation_access.$invalid && editForm.elevation_access.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
+              </div>
+            </div>
+
+            ## ACCESS CONDITION
+            <div class="form-group data half"  ng-class="{'has-success': outing.access_condition}">
+              <label translate>access_condition</label>
+              <div class="input-group">
+                <select class="form-control" ng-model="outing.access_condition" ng-options="rat as rat for rat in ${access_conditions}"><option value=""></option></select>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-road"></span></span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.access_condition"></span>
+            </div>
+
+          </div>
+        </section>
+        
+      </div>
+
+      <div class="step step-3">
+        <section class="section">
+          <h2 class="heading show-phone"><span translate>comments</span></h2>
+          <div class="content collapse in" id="elevation-edit">
+
+            ## TITLE
+            <div class="form-group" id="title-group" ng-class="{ 'has-error': editForm.title.$touched && editForm.title.$invalid, 'has-success': editForm.title.$valid }">
+              <label><span translate>outing title</span> *</label>
+              <input type="text" name="title" ng-model="outing.locales[0].title" ng-minlength="3"class="form-control" required />
+              <div class="help-block" ng-messages="editForm.title.$error">
+                <p ng-message="required" class="label label-danger" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : '' }}" translate>This field is required.</p>
+                <p ng-message="minlength" class="label label-danger" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : '' }}" translate>Title must have at least 3 characters.</p>
+              </div>
+            </div>
+
+            ## AWESOMENESS
+            <div id="lang-group" class="form-group">
+              <label translate>awesomeness</label>
+              <div class="input-group awesomeness">
+                <uib-rating ng-model="outing.awesomeness" max="5"  ></uib-rating>
+              </div>
+            </div>
+
+            ## ASSOCIATED PARTICIPANTS
+            ## todo: better to show all users in one row, will have to convert users in controller.
+            <div id="participants-group" class="form-group data full" ng-class="{'has-success': outing.locales[0]['participants']}">
+              <app-add-association parent-id="document.document_id" added-documents="added" dataset="u"></app-add-association>
+              <section class="section associations">
+                <label translate>associated_participants</label>
+                <section class="associated-section">
+                  <article class="associated-documents">
+                    <div class="list-item outing" ng-repeat="user in outing.associations.users">
+                      <a>
+                        <div class="outing-author text-center">
+                          <span class="icon-user"></span><br>
+                        </div>
+                        <div class="list-item-info">
+                          <span class="list-item-title outing">{{user.username}}</span>
+                        </div>
+                      </a>
+                      <app-delete-association parent-id="document.document_id" child-id="user.ud"></app-delete-association>
+                    </div>
+                  </article>
+                </section>
+              </section>
+            </div>
+
+            ## PARTICIPANTS
+            <div id="participants-group" class="form-group data full" ng-class="{'has-success': outing.locales[0]['participants']}">
+              <label translate>participants</label>
+              <div class="input-group">
+                <input type="text"  ng-model="outing.locales[0]['participants']" class="form-control" />
+                <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+              </div>
+            </div>
+
+            ## NUMBER OF PARTICIPANTS
+            <div id="participants-group" class="form-group data half" ng-class="{'has-success': outing.participant_count }">
+              <label translate>participant_count</label>
+              <div class="input-group">
+                <input type="number" min="1"  ng-model="outing.participant_count" class="form-control" />
+                <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
               </div>
             </div>
             
-              ## DURATION
-              <div class="form-group data third" ng-class="{'has-success': outing.duration}">
-                <label translate>duration</label>
-                <div class="input-group">
-                  <select class="form-control" ng-model="outing.duration" ng-options="rat as rat for rat in ${route_duration_types}"></select>
-                  <span class="input-group-addon">H</span>
-                </div>
-                <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.duration"></span>
+            ## PHOTOS
+            <div class="data full form-group">
+              <label translate>add your photos</label>
+              <button class="btn green-btn" type="button"><span class="glyphicon glyphicon-picture"></span><span translate>add</span></button>
+              <div class="photos">
+                <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzE0MHgxNDAKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNTMwOTM2ZThhYyB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE1MzA5MzZlOGFjIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjQ0LjA2MjUiIHk9Ijc0LjU1NjI1Ij4xNDB4MTQwPC90ZXh0PjwvZz48L2c+PC9zdmc+" alt="..." class="img-thumbnail">
+                <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzE0MHgxNDAKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNTMwOTM2ZThhYyB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE1MzA5MzZlOGFjIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjQ0LjA2MjUiIHk9Ijc0LjU1NjI1Ij4xNDB4MTQwPC90ZXh0PjwvZz48L2c+PC9zdmc+" alt="..." class="img-thumbnail">
+                <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzE0MHgxNDAKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNTMwOTM2ZThhYyB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE1MzA5MzZlOGFjIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjQ0LjA2MjUiIHk9Ijc0LjU1NjI1Ij4xNDB4MTQwPC90ZXh0PjwvZz48L2c+PC9zdmc+" alt="..." class="img-thumbnail">
+                <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzE0MHgxNDAKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNTMwOTM2ZThhYyB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE1MzA5MzZlOGFjIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjQ0LjA2MjUiIHk9Ijc0LjU1NjI1Ij4xNDB4MTQwPC90ZXh0PjwvZz48L2c+PC9zdmc+" alt="..." class="img-thumbnail">
               </div>
-
-              <app-map app-map-edit-ctrl="editCtrl" class="map-edit"></app-map>
           </div>
-          
+
+            ## COMMENT
+            <div class="data full form-group">
+              <label translate>personal comment</label>
+              <textarea class="form-control description" placeholder="{{mainCtrl.translate('write your comment')}}" ng-model="outing.locales[0]['description']"></textarea>
+            </div>
+
+          </div>   
         </section>
 
       </div>
+      
+          
+          
+      <div class="step step-4">
+      </div>
 
+          
+          
       <div class="step step-5">
         <section class="section summary">
           <h2 class="heading show-phone"><span translate>summary</span></h2>
@@ -531,19 +545,29 @@ updating_doc = outing_id and outing_lang
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.message"></span>
             </div>
             % endif
+            
+            ## QUALITY
+            <div class="form-group" ng-style="{'has-success': outing.quality}" ng-init="qualityTypes = ${quality_types}">
+              ## I tried with ng-init, ng-selected..so hacking
+              <div class="ng-hide">{{outing.quality = outing.quality || qualityTypes[1]}}</div>
+              <label translate>document_quality</label>
+              <select ng-options="type as mainCtrl.translate(type) for type in qualityTypes" ng-model="outing.quality" class="form-control"><option value=""></option></select>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.quality"></span>
+            </div>
+            
           </div>
         </section>
 
         <p  class="bottom-btns">
-          <button type="submit" class="btn btn-success" ng-disabled="editForm.$invalid || editForm.$pristine" translate>Save</button>
+          <button type="submit" class="btn btn-lg orange-btn" ng-disabled="editForm.$invalid || editForm.$pristine" translate>Save</button>
           <%
           view_url = request.route_url('outings_view', id=outing_id, lang=outing_lang) if updating_doc else ''
           index_url = request.route_url('outings_index_default')
           %>
-          <button type="button" class="btn btn-default" ng-click="editCtrl.cancel('${view_url}', '${index_url}')" translate>Cancel</button>
+          <button type="button" class="btn btn-lg gray-btn" ng-click="editCtrl.cancel('${view_url}', '${index_url}')" translate>Cancel</button>
         </p>
+        
       </div>
-    
     </section>
   </form>
 </section>

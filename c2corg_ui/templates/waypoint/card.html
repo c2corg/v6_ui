@@ -1,0 +1,9 @@
+<a>
+  <span class="list-item-title">{{waypoint['locales'][0]['title']}}</span>
+  <span class="list-item-lang"> ({{waypoint['locales'][0]['lang']}})</span><br>
+  <span class="list-item-info">
+    <p><b  class="value-title" translate>elevation</b>:  <span class="value"> {{waypoint['elevation']}} m </span></p>
+    <span class="waypoint-type icon-{{waypoint['waypoint_type']}}"></span>
+    <span x-translate>{{waypoint['waypoint_type']}}</span>
+  </span>
+</a>

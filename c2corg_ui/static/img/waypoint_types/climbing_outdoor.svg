@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="65"
+   height="65"
+   viewBox="0 0 65.000001 65.000001"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="climbing_outdoor.svg">
+  <defs
+     id="defs4">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath362">
+      <path
+         d="m 0,368 595.28,0 0,-368 L 0,0 0,368 Z"
+         id="path364"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="5.6"
+     inkscape:cx="-30.706594"
+     inkscape:cy="33.917002"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     units="px"
+     inkscape:window-width="1855"
+     inkscape:window-height="1056"
+     inkscape:window-x="1665"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-987.36216)">
+    <g
+       transform="matrix(1.9804228,0,0,-1.9804228,-1011.969,1254.2246)"
+       id="g358">
+      <g
+         id="g360"
+         clip-path="url(#clipPath362)">
+        <g
+           id="g366"
+           transform="translate(532.9742,111.6434)">
+          <path
+             d="M 0,0 -0.678,2.658 -3.321,1.694 0,5.793 3.32,1.694 0.678,2.658 0,0 Z M 0,8.302 -10.446,-4.594 10.445,-4.595 0,8.302 Z"
+             style="fill:#95cb3e;fill-opacity:1;fill-rule:nonzero;stroke:none"
+             id="path368"
+             inkscape:connector-curvature="0" />
+        </g>
+        <g
+           id="g370"
+           transform="translate(523.4355,106.0838)">
+          <path
+             d="m 0,0 c -0.755,-0.826 -1.837,-1.332 -3.016,-1.332 -2.097,0 -3.801,1.565 -4.04,3.612 1.026,0.475 1.721,1.531 1.676,2.731 l -0.3,8.182 c -0.04,1.08 -0.67,1.989 -1.566,2.453 0.026,0.032 0.048,0.068 0.077,0.098 0.254,0.264 0.609,0.414 0.975,0.414 l 9.104,0 c 0.422,0 0.811,-0.191 1.07,-0.524 0.258,-0.333 0.346,-0.758 0.24,-1.166 L 2.166,6.49 5.45,10.544 6.321,13.927 c 0.269,1.047 0.035,2.182 -0.627,3.036 -0.672,0.868 -1.687,1.365 -2.784,1.365 l -9.104,0 c -0.952,0 -1.876,-0.393 -2.537,-1.078 -0.395,-0.411 -0.667,-0.917 -0.826,-1.458 -1.146,-0.419 -1.952,-1.526 -1.904,-2.812 l 0.301,-8.181 c 0.045,-1.218 0.84,-2.223 1.921,-2.61 0.289,-3.216 2.956,-5.69 6.223,-5.69 2.42,0 4.566,1.395 5.602,3.501 L 0,0 Z"
+             style="fill:#95cb3e;fill-opacity:1;fill-rule:nonzero;stroke:none"
+             id="path372"
+             inkscape:connector-curvature="0" />
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
