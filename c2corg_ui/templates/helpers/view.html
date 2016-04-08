@@ -301,7 +301,7 @@
       % if waypoint.get('elevation'):
       <p><b  class="value-title" translate>elevation</b>:  <span class="value"> ${waypoint['elevation']} m </span></p>
       % endif
-      <img alt="waypoint type" src="${request.static_url('c2corg_ui:static/img/icons/' + waypoint['waypoint_type'] + '.png')}">
+      <span class="icon-${waypoint['waypoint_type']} waypoint-type"></span>
       <span x-translate>${waypoint['waypoint_type']}</span>
     </span>
   </a>
