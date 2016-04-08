@@ -59,7 +59,7 @@
        transform="matrix(1.7939489,0,0,-2.1250405,22.42208,1033.0773)">
       <path
          d="M 0,0 -1.163,4.556 -5.694,2.904 0,9.934 5.694,2.904 1.163,4.556 0,0 Z m 15.07,-1.545 -2.661,0.971 -0.683,-2.677 -0.683,2.677 -2.662,-0.971 3.345,4.129 3.344,-4.129 z M 22.246,-7.878 11.726,5.11 9.558,2.434 0,14.235 -9.137,2.954 l -1.774,-10.832 12.266,0 0.001,0 20.89,0 z"
-         style="fill:#95cb3e;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         style="fill:#FFAA45;fill-opacity:1;fill-rule:nonzero;stroke:none"
          id="path388"
          inkscape:connector-curvature="0" />
     </g>
