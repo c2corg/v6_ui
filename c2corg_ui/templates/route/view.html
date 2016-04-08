@@ -27,6 +27,26 @@ other_langs, missing_langs = get_lang_lists(route, lang)
   %endif
 </%block>
 
+<%block name="moduleConstantsValues">
+  <%
+      geometry = route['geometry']['geom_detail'] \
+          if route['geometry']['geom_detail'] else route['geometry']['geom']
+  %>
+  module.value('mapFeatureCollection', {
+    "type": "FeatureCollection",
+    "properties": {},
+    "features": [{
+      "type": "Feature",
+      "geometry": ${geometry | n},
+      "properties": {
+        "title": "${locale['title']}",
+        "documentId": ${route['document_id']},
+        "module": "routes"
+      }
+    }]
+  });
+</%block>
+
 % if route.get('orientation'):
 <div class="ng-hide">
  {{document.orientation = ${route.get('orientation')} }}
