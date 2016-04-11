@@ -519,8 +519,8 @@
             ## EQUIPMENT RATINGS
             <div class="form-group data half rating" ng-if="waypoint.waypoint_type == 'climbing_outdoor'"
                  ng-class="{ 'has-error': editForm.equipment_ratings.$touched && editForm.equipment_ratings.$invalid,'has-success': editForm.equipment_ratings.$valid }">
-              <label><span translate>equipment_ratings</span></label><br>
-              <select ng-model="waypoint.equipment_rating" ng-options="rat as rat for rat in ${equipment_ratings}" class="form-control"><option value=""></option></select>
+              <label><span translate>equipment_rating</span></label><br>
+              <select ng-model="waypoint.equipment_ratings" ng-options="rat as rat for rat in ${equipment_ratings}" class="form-control"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.equipment_ratings"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.equipment_ratings.$invalid && editForm.equipment_ratings.$touched"></span>
             </div>
