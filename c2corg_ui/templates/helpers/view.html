@@ -88,7 +88,7 @@
   <% areas = document.get('areas') %>\
     <ul>
       % for area in areas:
-        <li ng-cloak class="${area['area_type'] }">${area['locales'][0]['title']}</li>
+      <li ng-cloak class="${area['area_type'] }"><a href="#redirectArea">${area['locales'][0]['title']}</a></li>
       % endfor
     </ul>
   % endif
@@ -311,7 +311,7 @@
 <%def name="outing_card(outing)">\
   <a href="${request.route_url('outings_view', id=outing['document_id'], lang=outing['locales'][0]['lang'])}">
     <div class="outing-author text-center">
-      <div class="outing-date">{{ '${outing['date_start']}' | date: 'MM/dd/yyyy'}}</div>
+      <div class="outing-date">{{ '${outing['date_start']}' | date: 'dd/MM/yyyy'}}</div>
       <span class="icon-user"></span><br>
       <b class="author-name">${outing['author']['username']}</b>
     </div>
