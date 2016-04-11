@@ -46,13 +46,12 @@
     <div class="modal-header"><h3 class="text-center" translate>Translate into an other lang</h3></div>  
     <ul>
       % for lang in missing_langs:
-      <li ng-click="mainCtrl.redirectToProtectedUrl('${request.route_url(module + '_edit', id=document['document_id'], lang=lang)}')">
-        <span x-translate>${lang}</span>
-        <span class="glyphicon glyphicon-chevron-right"></span>
+      <li missing-lang url="'${request.route_url(module + '_edit', id=document['document_id'], lang=lang)}'">
+        <span x-translate>${lang}</span><span class="glyphicon glyphicon-chevron-right"></span>
       </li>
       % endfor
     </ul>
-</div>
+  </div>
 % endif
 </%def>
 

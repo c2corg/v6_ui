@@ -91,16 +91,3 @@ app.MainController.prototype.isPath = function(path) {
 app.MainController.prototype.animateHeaderIcon = function(e) {
   app.utils.animateHeaderIcon(e);
 }
-
-/**
- * @export
- */
-app.MainController.prototype.redirectToProtectedUrl = function(url) {
-  if (this.auth_.isAuthenticated()) {
-    window.location.href = url;
-  } else {
-    window.location.href = '{authUrl}?from={redirect}'
-        .replace('{authUrl}', this.authUrl_)
-        .replace('{redirect}', encodeURIComponent(url));
-  }
-};
