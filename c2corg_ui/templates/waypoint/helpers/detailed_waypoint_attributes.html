@@ -33,10 +33,10 @@
       <p><span translate class="value-title">waypoint_type</span>: <span x-translate class="value">${waypoint['waypoint_type']}</span></p>
     % endif
 
-    % if waypoint.get('orientation'):
+    % if waypoint.get('orientations'):
       <p>
         <span translate>orientation</span>:
-       ${', '.join(waypoint['orientation'])}
+       ${', '.join(waypoint['orientations'])}
       </p>
     % endif
 
@@ -163,9 +163,9 @@
 
 ## ACCESS
 <%def name="get_waypoint_access(waypoint, locale)">\
-  % if locale.get('access_period') or waypoint.get('access_period') or waypoint.get('access_time') or \
+  %if waypoint.get('access_time') or \
    waypoint.get('best_periods') or  waypoint.get('public_transportation_types') or  waypoint.get('public_transportation_rating') or \
-   waypoint.get('parking_fee') or waypoint.get('snow_clearance_rating') or waypoint.get('lift_access') or waypoint.get('routes_quantity') :
+   waypoint.get('parking_fee') or waypoint.get('snow_clearance_rating') or waypoint.get('lift_access') is not None or waypoint.get('routes_quantity') :
 
   <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
     <h4><span translate>Access</span><span class="glyphicon glyphicon-menu-right"></span></h4>
@@ -174,10 +174,6 @@
       <p translate>Access</p>
     </div>
     <span class="detail-text accordion">
-
-      % if locale.get('access_period'):
-        <p><span translate class="value-title">access_period</span>: <span class="value">${locale['access_period']}</span></p>
-      % endif
 
       % if waypoint.get('routes_quantity'):
         <p><span translate class="value-title">routes_quantity</span>: <span class="value">${waypoint['routes_quantity']}</span></p>
@@ -214,9 +210,11 @@
       % endif
 
       % if waypoint.get('lift_access'):
-      <span translate class="value-title">lift_access</span>
-      <input type="checkbox" checked="checked"><span></span>
+      <span x-translate class="value-title">lift_access</span> : <span translate class="value">yes</span><br>
+      % elif waypoint.get('lift_access') is not None :
+      <span x-translate class="value-title">lift_access</span> : <span translate class="value">no</span><br>
       % endif
+        
     </span>
   </div>
  % endif
@@ -290,7 +288,7 @@
 
 ## CONTACT  
 <%def name="get_waypoint_contact(waypoint)">\
-  % if waypoint.get('url') and waypoint.get('phone') and waypoint.get('phone_custodian') and waypoint.get('custodianship') :
+  % if waypoint.get('url') or waypoint.get('phone') or waypoint.get('phone_custodian') or waypoint.get('custodianship') is not None:
     <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
       <h4><span translate>Contact</span><span class="glyphicon glyphicon-menu-right"></span></h4>
       <div class="name-icon">
@@ -306,15 +304,17 @@
         % if waypoint.get('phone'):
           <p><span translate class="value-title">phone</span>: <span class="value"> ${waypoint['phone']}</span></p>
         % endif
+        
+        % if waypoint.get('custodianship'):
+        <span x-translate class="value-title">custodianship</span> : <span translate class="value">yes</span><br>
+        % elif waypoint.get('custodianship') is not None :
+        <span x-translate class="value-title">custodianship</span> : <span translate class="value">no</span><br>
+        % endif
 
         % if waypoint.get('phone_custodian'):
           <p><span translate class="value-title">phone_custodian</span>: <span class="value">${waypoint['phone_custodian']}</span></p>
         % endif
-
-        % if waypoint.get('custodianship'):
-          <p><span translate class="value-title">custodianship</span>: <span class="value">${waypoint['custodianship']}</span></p>
-        % endif
-
+        
       </span>
     </div>
   % endif
@@ -322,7 +322,8 @@
 
 ## EQUIPMENT  
 <%def name="get_waypoint_equipment(waypoint)">\
-  % if waypoint.get('matress_unstaffed') or  waypoint.get('gas_unstaffed') or waypoint.get('heating_unstaffed') or waypoint.get('blanket_unstaffed') :
+  % if waypoint.get('matress_unstaffed') is not None or  waypoint.get('gas_unstaffed') is not None or \
+  waypoint.get('heating_unstaffed') is not None or waypoint.get('blanket_unstaffed') is not None:
     <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
       <h4><span translate>Equipment</span><span class="glyphicon glyphicon-menu-right"></span></h4>
       <div class="name-icon">
@@ -332,33 +333,29 @@
       <span class="detail-text accordion">
 
         % if waypoint.get('matress_unstaffed'):
-        <div class="checkbox">
-          <input type="checkbox" ng-checked="true">
-          <span x-translate class="value-title">matress_unstaffed</span>
-        </div>
+        <p><span x-translate class="value-title">matress_unstaffed</span> : <span translate class="value">yes</span></p>
+        % elif waypoint.get('matress_unstaffed') is not None :
+        <p><span x-translate class="value-title">matress_unstaffed</span> : <span translate class="value">no</span></p>
         % endif
-
+        
         % if waypoint.get('blanket_unstaffed'):
-        <div class="checkbox">
-          <input type="checkbox" ng-checked="true">
-          <span x-translate class="value-title">blanket_unstaffed</span>
-        </div>
+        <p><span x-translate class="value-title">blanket_unstaffed</span> : <span translate class="value">yes</span></p>
+        % elif waypoint.get('blanket_unstaffed') is not None:
+        <p><span x-translate class="value-title">blanket_unstaffed</span> : <span translate class="value">no</span></p>
         % endif
-
+        
         % if waypoint.get('heating_unstaffed'):
-        <div class="checkbox">
-          <input type="checkbox" ng-checked="true">
-          <span x-translate class="value-title">heating_unstaffed</span>
-        </div>
+        <p><span x-translate class="value-title">heating_unstaffed</span> : <span translate class="value">yes</span></p>
+        % elif waypoint.get('heating_unstaffed') is not None:
+        <p><span x-translate class="value-title">heating_unstaffed</span> : <span translate class="value">no</span></p>
         % endif
-
+        
         % if waypoint.get('gas_unstaffed'):
-        <div class="checkbox">
-          <input type="checkbox" ng-checked="true">
-          <span x-translate class="value-title">gas_unstaffed</span>
-        </div>
+        <p><span x-translate class="value-title">gas_unstaffed</span> : <span translate class="value">yes</span></p>
+        % elif waypoint.get('gas_unstaffed') is not None:
+        <p><span x-translate class="value-title">gas_unstaffed</span> : <span translate class="value">no</span></p>
         % endif
-
+        
       </span>
     </div>
   % endif
@@ -366,16 +363,16 @@
 
 ## ORIENTATION  
 <%def name="get_waypoint_orientation(waypoint)">\
-  % if waypoint.get('orientation') :
+  % if waypoint.get('orientations') :
     <div class="name-icon-value orientation" ng-click="detailsCtrl.openTab($event)">
       <h4><span translate>orientation</span><span class="glyphicon glyphicon-menu-right"></span></h4>
       <div class="name-icon">
         <span class="glyphicon glyphicon-move"></span>
         <p translate>orientation</p>
       </div>
-      <span class="detail-text accordion" id="detail-orientation" ng-init="waypoint.orientation = ${waypoint.get('orientation')}">
+      <span class="detail-text accordion" id="detail-orientation">
         <%include file="c2corg_ui:static/img/orientation.svg" />
-        <p id="orientation-list">${', '.join(waypoint['orientation'])}</p>
+        <p id="orientation-list">${', '.join(waypoint['orientations'])}</p>
       </span>
 
     </div>

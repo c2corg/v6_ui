@@ -333,15 +333,15 @@
             
             ## ORIENTATION
             <div class="form-group data half" ng-if="waypoint.waypoint_type == 'paragliding_takeoff' || waypoint.waypoint_type == 'paragliding_landing' || waypoint.waypoint_type == 'climbing_outdoor'"
-                 ng-class="{ 'has-error': editForm.orientation.$touched && editForm.orientation.$invalid,'has-success': editForm.orientation.$valid }">
-              <label><span translate>orientation</span></label>
+                 ng-class="{ 'has-error': editForm.orientations.$touched && editForm.orientations.$invalid,'has-success': editForm.orientations.$valid }">
+              <label><span translate>orientations</span></label>
               <ul class="types long" id="orientation-list">
-                <li ng-repeat="type in ${orientation_types}" ng-click="editCtrl.pushToArray(waypoint, 'orientation', type, $event)">
-                  <div class="checkbox"><input type="checkbox" ng-checked="waypoint.orientation.indexOf(type) > - 1"><span x-translate>{{type}}</span></div>
+                <li ng-repeat="type in ${orientation_types}" ng-click="editCtrl.pushToArray(waypoint, 'orientations', type, $event)">
+                  <div class="checkbox"><input type="checkbox" ng-checked="waypoint.orientations.indexOf(type) > - 1"><span x-translate>{{type}}</span></div>
                 </li>
               </ul>
               <%include file="c2corg_ui:static/img/orientation.svg" />
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.orientation.$valid"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.orientations.$valid"></span>
             </div>
             
           </div>
@@ -461,7 +461,7 @@
             </div>
 
             ## CUSTODIANSHIP
-            <div class="form-group data half" ng-if="waypoint.waypoint_type == 'gite' || waypoint.waypoint_type == 'hut' || waypoint.waypoint_type == 'camp_site'">
+            <div class="form-group data half" ng-if="waypoint.waypoint_type == 'gite' || waypoint.waypoint_type == 'hut' || waypoint.waypoint_type == 'camp_site'" ng-class="{'has-success': waypoint.custodianship}">
               <label><span translate>custodianship</span> <span ng-if="waypoint.waypoint_type == 'gite' || waypoint.waypoint_type == 'camp_site' || waypoint.waypoint_type == 'hut'">*</span></label>
               <div class="radio">
                 <label><input type="radio" ng-model="waypoint.custodianship" ng-value="true" name="custodianship">Yes</label>
@@ -689,28 +689,32 @@
             ## URL
             <div class="form-group data half" ng-if="waypoint.waypoint_type == 'climbing_indoor' || waypoint.waypoint_type == 'local_product'
                       || waypoint.waypoint_type == 'gite' || waypoint.waypoint_type == 'camp_site' || waypoint.waypoint_type == 'hut' || waypoint.waypoint_type == 'weather_station'
-                      || waypoint.waypoint_type == 'climbing_outdoor' || waypoint.waypoint_type == 'webcam'">
+                      || waypoint.waypoint_type == 'climbing_outdoor' || waypoint.waypoint_type == 'webcam'"  ng-class="{'has-success': waypoint.url}">
               <label><span translate>url</span> <span ng-if="waypoint.waypoint_type == 'webcam' || waypoint.waypoint_type == 'weather_station'">*</span></label>
               <input type="text" name="message" ng-model="waypoint.url" class="form-control" placeholder="www.adress.com" ng-required="['webcam', 'weather_station']. indexOf(waypoint.waypoint_type) > -1"/>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.url.$invalid && editForm.url.$touched"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.url"></span>
             </div>
 
             ## PHONE
             <div class="form-group data half" ng-if="waypoint.waypoint_type == 'climbing_indoor' || waypoint.waypoint_type == 'local_product' || waypoint.waypoint_type == 'gite'
-                      || waypoint.waypoint_type == 'local_product' || waypoint.waypoint_type == 'camp_site' || waypoint.waypoint_type == 'hut'">
+                      || waypoint.waypoint_type == 'local_product' || waypoint.waypoint_type == 'camp_site' || waypoint.waypoint_type == 'hut'"  ng-class="{'has-success': waypoint.phone}">
               <label translate>phone</label>
               <div class="input-group">
                 <input type="tel" name="message" ng-model="waypoint.phone" class="form-control " placeholder="phone" />
                 <span class="input-group-addon"><span class="glyphicon glyphicon-earphone"></span></span>
               </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.phone"></span>
             </div>
 
             ## PHONE CUSTODIAN
-            <div class="form-group data half" ng-if="waypoint.waypoint_type == 'camp_site' || waypoint.waypoint_type == 'hut' || waypoint.waypoint_type == 'gite'">
+            <div class="form-group data half" ng-if="waypoint.waypoint_type == 'camp_site' || waypoint.waypoint_type == 'hut' || waypoint.waypoint_type == 'gite'"  ng-class="{'has-success': waypoint.phone_custodian}">
               <label translate>phone_custodian</label>
               <div class="input-group">
                 <input type="tel" name="message" ng-model="waypoint.phone_custodian" class="form-control " placeholder="phone_custodian" />
                 <span class="input-group-addon"><span class="glyphicon glyphicon-earphone"></span></span>
               </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.phone_custodian"></span>
             </div>
 
           </div>
