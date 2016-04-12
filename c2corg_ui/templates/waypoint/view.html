@@ -29,23 +29,29 @@ geometry4326 = geometry
 </%block>
 
 <%block name="moduleConstantsValues">
-  module.value('mapFeatureCollection', {
-    "type": "FeatureCollection",
-    "properties": {},
-    "features": [{
-      "type": "Feature",
-      "geometry": {"type": "Point", "coordinates": [${geometry.x}, ${geometry.y}]},
-      "properties": {
-        "title": "${locale['title']}",
-        "documentId": ${waypoint['document_id']},
-        % if waypoint['waypoint_type'] != 'climbing_outdoor':
-        "elevation": ${waypoint['elevation']},
-        % endif
-        "module": "waypoints",
-        "type": "${waypoint['waypoint_type']}"
-      }
-    }]
-  });
+  module.value('mapFeatureCollection',
+  % if geometry:
+    {
+      "type": "FeatureCollection",
+      "properties": {},
+      "features": [{
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [${geometry.x}, ${geometry.y}]},
+        "properties": {
+          "title": "${locale['title']}",
+          "documentId": ${waypoint['document_id']},
+          % if waypoint['waypoint_type'] != 'climbing_outdoor':
+          "elevation": ${waypoint['elevation']},
+          % endif
+          "module": "waypoints",
+          "type": "${waypoint['waypoint_type']}"
+        }
+      }]
+    }
+  % else:
+    null
+  % endif
+  );
 </%block>
 
 ## for SVG setOrientation(document, orientation)
@@ -73,7 +79,9 @@ geometry4326 = geometry
     % if waypoint.get('elevation'):
       <b>${waypoint['elevation']} m</b></p>
     % endif
-  <p>${round(geometry4326.x)} °E / ${round(geometry4326.y)} °N</p>
+  % if geometry4326:
+    <p>${round(geometry4326.x)} °E / ${round(geometry4326.y)} °N</p>
+  % endif
 </article>
 
 <section class="view-details-section" app-view-details>
@@ -106,7 +114,7 @@ geometry4326 = geometry
     <section id="document-informations" class="collapse in">
       ${get_waypoint_general(waypoint)}
       ${get_waypoint_orientation(waypoint)}
-      ${get_waypoint_location(waypoint, geometry4326)}
+      ${get_waypoint_location(waypoint, geometry4326) if geometry4326 else ''}
       ${get_waypoint_contact(waypoint)}
       ${get_waypoint_maps_info(waypoint)}
       ${get_waypoint_rating(waypoint)}
