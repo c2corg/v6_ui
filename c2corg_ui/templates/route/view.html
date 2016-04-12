@@ -29,22 +29,31 @@ other_langs, missing_langs = get_lang_lists(route, lang)
 
 <%block name="moduleConstantsValues">
   <%
-      geometry = route['geometry']['geom_detail'] \
-          if route['geometry']['geom_detail'] else route['geometry']['geom']
+      if route['geometry']:
+          geometry = route['geometry']['geom_detail'] \
+              if route['geometry']['geom_detail'] else route['geometry']['geom']
+      else:
+          geometry = None
   %>
-  module.value('mapFeatureCollection', {
-    "type": "FeatureCollection",
-    "properties": {},
-    "features": [{
-      "type": "Feature",
-      "geometry": ${geometry | n},
-      "properties": {
-        "title": "${locale['title']}",
-        "documentId": ${route['document_id']},
-        "module": "routes"
+  module.value('mapFeatureCollection',
+    % if geometry:
+      {
+        "type": "FeatureCollection",
+        "properties": {},
+        "features": [{
+          "type": "Feature",
+          "geometry": ${geometry | n},
+          "properties": {
+            "title": "${locale['title']}",
+            "documentId": ${route['document_id']},
+            "module": "routes"
+          }
+        }]
       }
-    }]
-  });
+    % else:
+      null
+    % endif
+  );
 </%block>
 
 % if route.get('orientation'):
