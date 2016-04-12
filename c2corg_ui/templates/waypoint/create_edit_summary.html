@@ -184,14 +184,14 @@
 ## RATINGS
 <figure ng-if="(waypoint.waypoint_type == 'climbing_outdoor' || waypoint.waypoint_type == 'climbing_indoor' || waypoint.waypoint_type == 'access'
           ||  waypoint.waypoint_type == 'paragliding_landing' || waypoint.waypoint_type == 'paragliding_takeoff') && (waypoint.paragliding_rating || waypoint.exposition_rating 
-          || waypoint.climbing_rating_max || waypoint.climbing_rating_min || waypoint.climbing_rating_median || waypoint.equipment_rating)">
+          || waypoint.climbing_rating_max || waypoint.climbing_rating_min || waypoint.climbing_rating_median || waypoint.equipment_ratings)">
   <h3>ratings</h3>
   <p ng-if="waypoint.paragliding_rating"><label translate>paragliding_rating</label>  {{waypoint.paragliding_rating}}</p>
   <p ng-if="waypoint.exposition_rating"><label translate>exposition_rating</label>  {{waypoint.exposition_rating}}</p>
   <p ng-if="waypoint.climbing_rating_max"><label translate>climbing_rating_max</label>  {{waypoint.climbing_rating_max}}</p>
   <p ng-if="waypoint.climbing_rating_min"><label translate>climbing_rating_min</label>  {{waypoint.climbing_rating_min}}</p>
   <p ng-if="waypoint.climbing_rating_median"><label translate>climbing_rating_median</label>  {{waypoint.climbing_rating_median}}</p>
-  <p ng-if="waypoint.equipment_rating"><label translate>equipment_rating</label>{{waypoint.equipment_rating}}</p>
+  <p ng-if="waypoint.equipment_ratings"><label translate>equipment_rating</label>{{waypoint.equipment_ratings}}</p>
 </figure>
 
 ## TRANSPORTS
