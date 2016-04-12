@@ -91,6 +91,8 @@ closure_library_path = settings.get('closure_library_path')
     <script src="${request.static_url('%s/angular/angular.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/bootstrap/dist/js/bootstrap.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/bootstrap-slider/dist/bootstrap-slider.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('c2corg_ui:static/lib/angular-bootstrap/ui-bootstrap-custom-1.3.1.js')}"></script>
+    <script src="${request.static_url('c2corg_ui:static/lib/angular-bootstrap/ui-bootstrap-custom-tpls-1.3.1.js')}"></script>
     <script src="${request.static_url('%s/angular-gettext/dist/angular-gettext.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/angular-messages/angular-messages.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/angular-cookies/angular-cookies.js' % node_modules_path)}"></script>
@@ -105,6 +107,8 @@ closure_library_path = settings.get('closure_library_path')
     <script src="${request.static_url('%s/bootstrap-slider/dist/bootstrap-slider.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/angular/angular.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/bootstrap/dist/js/bootstrap.min.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('c2corg_ui:static/lib/angular-bootstrap/ui-bootstrap-custom-1.3.1.min.js')}"></script>
+    <script src="${request.static_url('c2corg_ui:static/lib/angular-bootstrap/ui-bootstrap-custom-tpls-1.3.1.min.js')}"></script>
     <script src="${request.static_url('%s/angular-gettext/dist/angular-gettext.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/angular-messages/angular-messages.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/angular-cookies/angular-cookies.min.js' % node_modules_path)}"></script>
@@ -114,8 +118,7 @@ closure_library_path = settings.get('closure_library_path')
     <script src="${request.static_url('c2corg_ui:static/build/build.js')}"></script>
 % endif
 
-    <script src="${request.static_url('%s/angular-ui-bootstrap/dist/ui-bootstrap.js' % node_modules_path)}"></script>
-    <script src="${request.static_url('%s/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js' % node_modules_path)}"></script>
+
     
     <script>
       (function() {
