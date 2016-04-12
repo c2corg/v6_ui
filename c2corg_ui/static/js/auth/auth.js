@@ -55,6 +55,9 @@ app.AuthController = function($scope, appApi, appAuthentication,
    */
   this.scope_ = $scope;
 
+  // set remember-me to default -> true
+  this.scope_['login'] = {'remember': true};
+
   /**
    * @type {app.Api}
    * @private
