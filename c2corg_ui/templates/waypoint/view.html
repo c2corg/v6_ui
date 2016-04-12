@@ -142,6 +142,9 @@ geometry4326 = geometry
     </div>
   % endif
   
+  ${get_document_locale_text(locale, 'access')}
+  ${get_document_locale_text(locale, 'access_period')}
+  
   ## ASSOCIATIONS
   % if not version and (('waypoints' in waypoint['associations'] and  len(waypoint['associations']['waypoints']) > 0) or  ('routes' in waypoint['associations'] and  len(waypoint['associations']['routes']) > 0)):
     <div class="view-details-associations col-xs-12 tab associations">

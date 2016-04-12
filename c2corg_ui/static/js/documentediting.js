@@ -577,7 +577,7 @@ app.DocumentEditingController.prototype.pushToArray = function(object, property,
  */
 
 app.DocumentEditingController.prototype.setOrientation = function(orientation, document, e) {
-  app.utils.pushToArray(document, 'orientation', orientation, e);
+  app.utils.pushToArray(document, 'orientations', orientation, e);
 }
 
 

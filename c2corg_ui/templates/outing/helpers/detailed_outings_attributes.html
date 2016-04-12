@@ -10,15 +10,19 @@
   </div>
   <span class="detail-text accordion">
 
-    <article ng-init="activities = ${outing['activities']}" class="value activities">
-      <b translate class="value-title">activities</b><br>
-      <b class="green-text" ng-repeat="type in activities">{{type | translate}}{{$last ? '' : ', '}}</b>
-    </article>
-    
+    % if outing.get('activities') :
+      <article class="value activities">
+        <span translate class="value-title">activities</span><br>
+        % for type in outing.get('activities') :
+        <span x-translate  class="green-text">${type}</span>${'' if loop.last else ', '}
+        % endfor
+      </article>
+    % endif
+
     % if outing.get('awesomeness'):
     <p><span class="value-title" translate>awesomeness</span>: <span class="value">${outing['awesomeness']}</span></p>
     % endif
-    
+
     % if outing.get('duration'):
     <p><span class="value-title" translate>duration</span>: <span class="value">${outing['duration']}</span></p>
     % endif

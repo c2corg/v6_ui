@@ -54,10 +54,10 @@
     </ul>
   </article>
 
-  <article  ng-if="route.climbing_outdoor_types.length > 0 && route.activities.indexOf('rock_climbing') > -1">
-    <label translate>climbing_outdoor_types</label><br>
+  <article  ng-if="route.climbing_outdoor_type && route.activities.indexOf('rock_climbing') > -1">
+    <label translate>climbing_outdoor_type</label><br>
     <ul>
-      <li ng-repeat="type in route['climbing_outdoor_types']" x-translate>{{type}}</li>
+      <li ng-repeat="type in route['climbing_outdoor_type']" x-translate>{{type}}</li>
     </ul>
   </article>
 

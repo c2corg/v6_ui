@@ -33,52 +33,64 @@
       <p><span translate class="value-title">waypoint_type</span>: <span x-translate class="value">${waypoint['waypoint_type']}</span></p>
     % endif
 
-    % if waypoint.get('orientation'):
+    % if waypoint.get('orientations'):
       <p>
         <span translate>orientation</span>:
-       ${', '.join(waypoint['orientation'])}
+       ${', '.join(waypoint['orientations'])}
       </p>
     % endif
 
     % if waypoint.get('climbing_indoor_types'):
-      <article ng-init="climbing_indoor_types = ${waypoint['climbing_indoor_types']}">
+      <article>
         <span translate class="value-title">climbing_indoor_types</span><br>
-        <span x-translate ng-repeat="type in climbing_indoor_types" class="value">{{type}}{{$last ? '' : ', '}}</span>
+        % for type in waypoint.get('climbing_indoor_types') :
+        <span x-translate class="value">${type}</span>${'' if loop.last else ', '}
+        % endfor
       </article>
     % endif
 
     % if waypoint.get('rock_types'):
-      <article ng-init="rock_types = ${waypoint['rock_types']}">
+      <article>
         <span translate class="value-title">rock_types</span><br>
-        <span x-translate ng-repeat="type in rock_types" class="value">{{type}}{{$last ? '' : ', '}}</span>
+        % for type in waypoint.get('rock_types') :
+        <span x-translate class="value">${type}</span>${'' if loop.last else ', '}
+        % endfor
       </article>
     % endif
 
     % if waypoint.get('climbing_outdoor_types') and waypoint['climbing_outdoor_types'][0] != '':
-      <article ng-init="climbing_outdoor_types = ${waypoint['climbing_outdoor_types']}">
+      <article>
         <span translate class="value-title">climbing_outdoor_types</span><br>
-        <span x-translate ng-repeat="type in climbing_outdoor_types" class="value">{{type}}{{$last ? '' : ', '}}</span>
+        % for type in waypoint.get('climbing_outdoor_types') :
+        <span x-translate class="value">${type}</span>${'' if loop.last else ', '}
+        % endfor
       </article>
     % endif
 
     % if waypoint.get('product_types'):
-      <article ng-init="product_types = ${waypoint['product_types']}">
+      <article>
         <span translate class="value-title">product_types</span><br>
-        <span x-translate ng-repeat="type in product_types" class="value">{{type}}{{$last ? '' : ', '}}</span>
+        % for type in waypoint.get('product_types') :
+        <span x-translate class="value">${type}</span>${'' if loop.last else ', '}
+        % endfor
       </article>
     % endif
 
     % if waypoint.get('ground_types'):
-      <article ng-init="ground_types = ${waypoint['ground_types']}">
+      <article>
         <span translate class="value-title">ground_types</span><br>
-        <span x-translate ng-repeat="type in ground_types" class="value">{{type}}{{$last ? '' : ', '}}</span>
+        % for type in waypoint.get('ground_types') :
+        <span x-translate class="value">${type}</span>${'' if loop.last else ', '}
+        % endfor
       </article>
     % endif
 
     % if waypoint.get('weather_station_types'):
-      <article ng-init="weather_station_types = ${waypoint['weather_station_types']}">
+      <article>
         <span translate class="value-title">weather_station_types</span><br>
-        <span x-translate ng-repeat="type in weather_station_types" class="value">{{type}}{{$last ? '' : ', '}}</span>
+        % for type in waypoint.get('weather_station_types') :
+        <span x-translate class="value">${type}</span>${'' if loop.last else ', '}
+        % endfor
       </article>
     % endif
 
@@ -163,9 +175,9 @@
 
 ## ACCESS
 <%def name="get_waypoint_access(waypoint, locale)">\
-  % if locale.get('access_period') or waypoint.get('access_period') or waypoint.get('access_time') or \
+  %if waypoint.get('access_time') or \
    waypoint.get('best_periods') or  waypoint.get('public_transportation_types') or  waypoint.get('public_transportation_rating') or \
-   waypoint.get('parking_fee') or waypoint.get('snow_clearance_rating') or waypoint.get('lift_access') or waypoint.get('routes_quantity') :
+   waypoint.get('parking_fee') or waypoint.get('snow_clearance_rating') or waypoint.get('lift_access') is not None or waypoint.get('routes_quantity') :
 
   <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
     <h4><span translate>Access</span><span class="glyphicon glyphicon-menu-right"></span></h4>
@@ -174,10 +186,6 @@
       <p translate>Access</p>
     </div>
     <span class="detail-text accordion">
-
-      % if locale.get('access_period'):
-        <p><span translate class="value-title">access_period</span>: <span class="value">${locale['access_period']}</span></p>
-      % endif
 
       % if waypoint.get('routes_quantity'):
         <p><span translate class="value-title">routes_quantity</span>: <span class="value">${waypoint['routes_quantity']}</span></p>
@@ -188,17 +196,21 @@
       % endif
       
       % if waypoint.get('best_periods'):
-      <article ng-init="best_periods = ${waypoint['best_periods']}">
-        <span translate class="value-title">best_periods</span><br>
-        <span x-translate ng-repeat="type in best_periods">{{type}}{{$last ? '' : ', '}}</span>
-      </article>
+        <article>
+          <span translate class="value-title">best_periods</span><br>
+          % for type in waypoint.get('best_periods') :
+          <span x-translate class="value">${type}</span>${'' if loop.last else ', '}
+          % endfor
+        </article>
       % endif
       
       % if waypoint.get('public_transportation_types'):
-      <article ng-init="public_transportation_types = ${waypoint['public_transportation_types']}" class="value">
-        <span translate class="value-title">public_transportation_types</span><br>
-        <span x-translate ng-repeat="type in public_transportation_types">{{type}}{{$last ? '' : ', '}}</span>
-      </article>
+        <article>
+          <span translate class="value-title">public_transportation_types</span>:<br>
+          % for type in waypoint.get('public_transportation_types') :
+          <span x-translate class="value">${type}</span>${'' if loop.last else ', '}
+          % endfor
+        </article>
       % endif
       
       % if waypoint.get('public_transportation_rating'):
@@ -214,9 +226,11 @@
       % endif
 
       % if waypoint.get('lift_access'):
-      <span translate class="value-title">lift_access</span>
-      <input type="checkbox" checked="checked"><span></span>
+      <span x-translate class="value-title">lift_access</span> : <span translate class="value">yes</span><br>
+      % elif waypoint.get('lift_access') is not None :
+      <span x-translate class="value-title">lift_access</span> : <span translate class="value">no</span><br>
       % endif
+        
     </span>
   </div>
  % endif
@@ -277,10 +291,12 @@
       <span class="detail-text accordion">
         
         % if waypoint.get('climbing_styles'):
-        <article ng-init="climbing_styles = ${waypoint['climbing_styles']}">
-          <span translate class="value-title">climbing_styles</span><br>
-          <span x-translate ng-repeat="style in climbing_styles" class="value">{{style}}{{$last ? '' : ', '}}</span>
-        </article>
+          <article>
+            <span translate class="value-title">climbing_styles</span><br>
+            % for type in waypoint.get('climbing_styles') :
+            <span x-translate class="value">${type}</span>${'' if loop.last else ', '}
+            % endfor
+          </article>
         % endif
         
       </span>
@@ -290,7 +306,7 @@
 
 ## CONTACT  
 <%def name="get_waypoint_contact(waypoint)">\
-  % if waypoint.get('url') and waypoint.get('phone') and waypoint.get('phone_custodian') and waypoint.get('custodianship') :
+  % if waypoint.get('url') or waypoint.get('phone') or waypoint.get('phone_custodian') or waypoint.get('custodianship') is not None:
     <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
       <h4><span translate>Contact</span><span class="glyphicon glyphicon-menu-right"></span></h4>
       <div class="name-icon">
@@ -300,21 +316,23 @@
       <span class="detail-text accordion">
 
         % if waypoint.get('url'):
-          <p><span translate class="value-title">url</span> :<span class="value">${waypoint['url']}</span></p>
+          <p><span translate class="value-title">url</span>: <a class="value" href="${waypoint['url']}">${waypoint['url']}</a></p>
         % endif
 
         % if waypoint.get('phone'):
           <p><span translate class="value-title">phone</span>: <span class="value"> ${waypoint['phone']}</span></p>
         % endif
+        
+        % if waypoint.get('custodianship'):
+        <span x-translate class="value-title">custodianship</span> : <span translate class="value">yes</span><br>
+        % elif waypoint.get('custodianship') is not None :
+        <span x-translate class="value-title">custodianship</span> : <span translate class="value">no</span><br>
+        % endif
 
         % if waypoint.get('phone_custodian'):
           <p><span translate class="value-title">phone_custodian</span>: <span class="value">${waypoint['phone_custodian']}</span></p>
         % endif
-
-        % if waypoint.get('custodianship'):
-          <p><span translate class="value-title">custodianship</span>: <span class="value">${waypoint['custodianship']}</span></p>
-        % endif
-
+        
       </span>
     </div>
   % endif
@@ -322,7 +340,8 @@
 
 ## EQUIPMENT  
 <%def name="get_waypoint_equipment(waypoint)">\
-  % if waypoint.get('matress_unstaffed') or  waypoint.get('gas_unstaffed') or waypoint.get('heating_unstaffed') or waypoint.get('blanket_unstaffed') :
+  % if waypoint.get('matress_unstaffed') is not None or  waypoint.get('gas_unstaffed') is not None or \
+  waypoint.get('heating_unstaffed') is not None or waypoint.get('blanket_unstaffed') is not None:
     <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
       <h4><span translate>Equipment</span><span class="glyphicon glyphicon-menu-right"></span></h4>
       <div class="name-icon">
@@ -332,33 +351,29 @@
       <span class="detail-text accordion">
 
         % if waypoint.get('matress_unstaffed'):
-        <div class="checkbox">
-          <input type="checkbox" ng-checked="true">
-          <span x-translate class="value-title">matress_unstaffed</span>
-        </div>
+        <p><span x-translate class="value-title">matress_unstaffed</span> : <span translate class="value">yes</span></p>
+        % elif waypoint.get('matress_unstaffed') is not None :
+        <p><span x-translate class="value-title">matress_unstaffed</span> : <span translate class="value">no</span></p>
         % endif
-
+        
         % if waypoint.get('blanket_unstaffed'):
-        <div class="checkbox">
-          <input type="checkbox" ng-checked="true">
-          <span x-translate class="value-title">blanket_unstaffed</span>
-        </div>
+        <p><span x-translate class="value-title">blanket_unstaffed</span> : <span translate class="value">yes</span></p>
+        % elif waypoint.get('blanket_unstaffed') is not None:
+        <p><span x-translate class="value-title">blanket_unstaffed</span> : <span translate class="value">no</span></p>
         % endif
-
+        
         % if waypoint.get('heating_unstaffed'):
-        <div class="checkbox">
-          <input type="checkbox" ng-checked="true">
-          <span x-translate class="value-title">heating_unstaffed</span>
-        </div>
+        <p><span x-translate class="value-title">heating_unstaffed</span> : <span translate class="value">yes</span></p>
+        % elif waypoint.get('heating_unstaffed') is not None:
+        <p><span x-translate class="value-title">heating_unstaffed</span> : <span translate class="value">no</span></p>
         % endif
-
+        
         % if waypoint.get('gas_unstaffed'):
-        <div class="checkbox">
-          <input type="checkbox" ng-checked="true">
-          <span x-translate class="value-title">gas_unstaffed</span>
-        </div>
+        <p><span x-translate class="value-title">gas_unstaffed</span> : <span translate class="value">yes</span></p>
+        % elif waypoint.get('gas_unstaffed') is not None:
+        <p><span x-translate class="value-title">gas_unstaffed</span> : <span translate class="value">no</span></p>
         % endif
-
+        
       </span>
     </div>
   % endif
@@ -366,18 +381,17 @@
 
 ## ORIENTATION  
 <%def name="get_waypoint_orientation(waypoint)">\
-  % if waypoint.get('orientation') :
+  % if waypoint.get('orientations') :
     <div class="name-icon-value orientation" ng-click="detailsCtrl.openTab($event)">
       <h4><span translate>orientation</span><span class="glyphicon glyphicon-menu-right"></span></h4>
       <div class="name-icon">
         <span class="glyphicon glyphicon-move"></span>
         <p translate>orientation</p>
       </div>
-      <span class="detail-text accordion" id="detail-orientation" ng-init="waypoint.orientation = ${waypoint.get('orientation')}">
+      <span class="detail-text accordion" id="detail-orientation">
         <%include file="c2corg_ui:static/img/orientation.svg" />
-        <p id="orientation-list">${', '.join(waypoint['orientation'])}</p>
+        <p id="orientation-list">${', '.join(waypoint['orientations'])}</p>
       </span>
-
     </div>
   % endif
 </%def>

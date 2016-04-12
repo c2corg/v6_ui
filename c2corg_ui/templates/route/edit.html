@@ -109,7 +109,7 @@ updating_doc = route_id and route_lang
           <div class="content">
 
             ## ACTIVITIES
-            <div class="form-group data full" id="route-activities" ng-init="activities = ${activities}" ng-class="{ 'has-success': editForm.activities }">
+            <div class="form-group data full" id="route-activities" ng-init="activities = ${activities}">
               <label><span translate>activities</span> *</label>
               <div class="route-activities">
                 <div ng-repeat="activity in activities" class="activity" ng-if="activity !== 'paragliding' ">
@@ -121,17 +121,13 @@ updating_doc = route_id and route_lang
                   </div>
                 </div>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.activities.$valid"></span>
             </div>
 
-            ## CLIMBING OUTDOOR TYPES
-            <div ng-if="route.activities.indexOf('rock_climbing') > -1" class="form-group data half">
-              <label><span translate>climbing_outdoor_types</span> *</label>
-              <ul class="types">
-                <li ng-repeat="type in ${climbing_outdoor_types}" ng-click="editCtrl.pushToArray(route, 'climbing_outdoor_types', type, $event)">
-                  <div class="checkbox"><input type="checkbox" ng-checked="route.rock_types.indexOf(type) > -1"><span>{{type | translate}}</span></div>
-                </li>
-              </ul>
+            ## CLIMBING OUTDOOR TYPE
+            <div ng-if="route.activities.indexOf('rock_climbing') > -1" class="form-group data half" ng-class="{ 'has-success': route.climbing_outdoor_type}">
+              <label translate>climbing_outdoor_type</label>
+              <select class="form-control" ng-model="route.climbing_outdoor_type" ng-options="type as mainCtrl.translate(type) for type in ${climbing_outdoor_types}"><option value=""></option></select>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.climbing_outdoor_type"></span>
             </div>
             
           </div>
@@ -145,13 +141,12 @@ updating_doc = route_id and route_lang
             <div class="form-group data half">
               <label><span translate>orientation</span></label>
               <ul class="types long" id="orientation-list">
-                <li ng-repeat="type in ${orientation_types}" ng-click="editCtrl.pushToArray(route, 'orientation', type, $event)">
-                  <div class="checkbox"><input type="checkbox" ng-checked="route.orientation.indexOf(type) > - 1"><span x-translate>{{type}}</span></div>
+                <li ng-repeat="type in ${orientation_types}" ng-click="editCtrl.pushToArray(route, 'orientations', type, $event)">
+                  <div class="checkbox"><input type="checkbox" ng-checked="route.orientations.indexOf(type) > - 1"><span x-translate>{{type}}</span></div>
                 </li>
               </ul>
               <%include file="c2corg_ui:static/img/orientation.svg" />
             </div>
-            
                
             <div class="form-group data half">
               
@@ -163,10 +158,10 @@ updating_doc = route_id and route_lang
                 </li>
               </ul>
 
-
               ## CONFIGURATION TYPES
-              <div  ng-if="route.activities.indexOf('skitouring') > -1 || route.activities.indexOf('snow_ice_mixed') > -1 || route.activities.indexOf('mountain_climbing') > -1  || route.activities.indexOf('rock_climbing') > -1 
-                  || route.activities.indexOf('snowshoeing') > -1 || route.activities.indexOf('via_ferrata') > -1" class="form-group">
+              <div  ng-if="route.activities.indexOf('skitouring') > -1 || route.activities.indexOf('snow_ice_mixed') > -1
+                  || route.activities.indexOf('mountain_climbing') > -1  || route.activities.indexOf('rock_climbing') > -1 
+                  || route.activities.indexOf('snowshoeing') > -1 || route.activities.indexOf('via_ferrata') > -1" class="form-group" adsd>
                 <label translate>route_configuration_types</label>
                 <ul class="types">
                   <li ng-repeat="type in ${route_configuration_types}" ng-click="editCtrl.pushToArray(route, 'configuration', type, $event)">
@@ -179,7 +174,7 @@ updating_doc = route_id and route_lang
 
             ## ROCK TYPES
             <div class="form-group data half" ng-if="route.activities.indexOf('snow_ice_mixed') > -1 || route.activities.indexOf('mountain_climbing') > -1 || route.activities.indexOf('rock_climbing') > -1 || route.activities.indexOf('via_ferrata') > -1">
-              <label><span translate>rock_types</span> *</label>
+              <label translate>rock_types</label>
               <ul class="types long">
                 <li ng-repeat="type in ${rock_types}" ng-click="editCtrl.pushToArray(route, 'rock_types', type, $event)">
                   <div class="checkbox"><input type="checkbox" ng-checked="route.rock_types.indexOf(type) > -1"><span x-translate>{{type}}</span></div>
@@ -201,7 +196,7 @@ updating_doc = route_id and route_lang
                 <input type="number" min="0" minlength="1" name="elevation_min" ng-model="route.elevation_min" class="form-control" />
                 <span class="input-group-addon">m</span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.elevation_min.$valid && route.elevation_min"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.elevation_min"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.elevation_min.$invalid && route.elevation_min"></span>
               <div class="help-block" ng-messages="editForm.elevation_min.$error">
                 <p ng-message="number" class="label label-danger" style="{{ (editForm.elevation_min.$invalid && editForm.elevation_min.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
@@ -215,7 +210,7 @@ updating_doc = route_id and route_lang
                 <input type="number" min="0" minlength="1" name="elevation_max" ng-model="route.elevation_max" class="form-control" />
                 <span class="input-group-addon">m</span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.elevation_max.$valid && route.elevation_max"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.elevation_max"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.elevation_max.$invalid && route.elevation_max"></span>
               <div class="help-block" ng-messages="editForm.elevation_max.$error">
                 <p ng-message="number" class="label label-danger" style="{{ (editForm.elevation_max.$invalid && editForm.elevation_max.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
@@ -223,13 +218,13 @@ updating_doc = route_id and route_lang
             </div>
 
             ## HEIGHT DIFF UP
-            <div id="height_diff_up-group" class="data half form-group" ng-class="{ 'has-error': editForm.height_diff_up.$touched && editForm.height_diff_up.$invalid,'has-success': editForm.height_diff_up.$valid && route.height_diff_up }">
+            <div id="height_diff_up-group" class="data half form-group" ng-class="{ 'has-error': editForm.height_diff_up.$touched && editForm.height_diff_up.$invalid,'has-success': route.height_diff_up }">
               <label translate>height_diff_up</label>
               <div class="input-group">
                 <input type="number" min="0" name="height_diff_up" ng-model="route.height_diff_up" class="form-control" />
                 <span class="input-group-addon">m</span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.height_diff_up.$valid && route.height_diff_up"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.height_diff_up"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.height_diff_up.$invalid && editForm.height_diff_up.$touched"></span>
               <div class="help-block" ng-messages="editForm.height_diff_up.$error">
                 <p ng-message="number" class="label label-danger" style="{{ (editForm.height_diff_up.$invalid && editForm.height_diff_up.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
@@ -237,13 +232,13 @@ updating_doc = route_id and route_lang
             </div>
             
             ## HEIGHT DIFF DOWN
-            <div id="height_diff_down-group" class="data half form-group" ng-class="{ 'has-error': editForm.height_diff_down.$touched && editForm.height_diff_down.$invalid,'has-success': editForm.height_diff_down.$valid && route.height_diff_down }">
+            <div id="height_diff_down-group" class="data half form-group" ng-class="{ 'has-error': editForm.height_diff_down.$touched && editForm.height_diff_down.$invalid,'has-success': route.height_diff_down }">
               <label translate>height_diff_down</label>
               <div class="input-group">
                 <input type="number" min="0" name="height_diff_down" ng-model="route.height_diff_down" class="form-control" />
                 <span class="input-group-addon">m</span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.height_diff_down.$valid && route.height_diff_down"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.height_diff_down"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.height_diff_down.$invalid && editForm.height_diff_down.$touched"></span>
               <div class="help-block" ng-messages="editForm.height_diff_down.$error">
                 <p ng-message="number" class="label label-danger" style="{{ (editForm.height_diff_down.$invalid && editForm.height_diff_down.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
@@ -251,13 +246,13 @@ updating_doc = route_id and route_lang
             </div>
 
             ## HEIGHT DIFF ACCESS
-            <div id="height_diff_access-group" class="data half form-group" ng-class="{ 'has-error': editForm.height_diff_access.$touched && editForm.height_diff_access.$invalid,'has-success': editForm.height_diff_access.$valid && route.height_diff_access }">
+            <div id="height_diff_access-group" class="data half form-group" ng-class="{ 'has-error': editForm.height_diff_access.$touched && editForm.height_diff_access.$invalid,'has-success': route.height_diff_access }">
               <label translate>height_diff_access</label>
               <div class="input-group">
                 <input type="number" min="0" name="height_diff_access" ng-model="route.height_diff_access" class="form-control" />
                 <span class="input-group-addon">m</span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.height_diff_access.$valid && route.height_diff_access"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.height_diff_access"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.height_diff_access.$invalid && editForm.height_diff_access.$touched"></span>
               <div class="help-block" ng-messages="editForm.height_diff_access.$error">
                 <p ng-message="number" class="label label-danger" style="{{ (editForm.height_diff_access.$invalid && editForm.height_diff_access.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
@@ -265,13 +260,13 @@ updating_doc = route_id and route_lang
             </div>
 
             ## HEIGHT DIFF DIFFICULTIES
-            <div id="height_diff_difficulties-group" class="data half form-group" ng-class="{ 'has-error': editForm.height_diff_difficulties.$touched && editForm.height_diff_difficulties.$invalid,'has-success': editForm.height_diff_difficulties.$valid && route.height_diff_difficulties }">
+            <div id="height_diff_difficulties-group" class="data half form-group" ng-class="{ 'has-error': editForm.height_diff_difficulties.$touched && editForm.height_diff_difficulties.$invalid,'has-success': route.height_diff_difficulties }">
               <label translate>height_diff_difficulties</label>
               <div class="input-group">
                 <input type="number" min="0" name="height_diff_difficulties" ng-model="route.height_diff_difficulties" class="form-control" />
                 <span class="input-group-addon">m</span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.height_diff_difficulties.$valid && route.height_diff_difficulties"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.height_diff_difficulties"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.height_diff_difficulties.$invalid && editForm.height_diff_difficulties.$touched"></span>
               <div class="help-block" ng-messages="editForm.height_diff_difficulties.$error">
                 <p ng-message="number" class="label label-danger" style="{{ (editForm.height_diff_difficulties.$invalid && editForm.height_diff_difficulties.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
@@ -279,15 +274,15 @@ updating_doc = route_id and route_lang
             </div>
             
             ## DIFFICULTIES HEIGHT
-            <div id="difficulties_height-group" class="data half form-group" ng-class="{ 'has-error': editForm.difficulties_height.$touched && editForm.difficulties_height.$invalid,'has-success': editForm.difficulties_height.$valid && route.difficulties_height }"
-                 ng-if="route.activities.indexOf('via_ferrata') > -1 || route.activities.indexOf('moutain_biking') > -1 || route.activities.indexOf('snowshoeing') > -1 || route.activities.indexOf('hiking') > -1|| route.activities.indexOf('ice_climbing') > -1 || route.activities.indexOf('rock_climbing') > -1
+            <div id="difficulties_height-group" class="data half form-group" ng-class="{ 'has-error': editForm.difficulties_height.$touched && editForm.difficulties_height.$invalid,'has-success': route.difficulties_height }"
+                 ng-if="route.activities.indexOf('via_ferrata') > -1 || route.activities.indexOf('mountain_biking') > -1 || route.activities.indexOf('snowshoeing') > -1 || route.activities.indexOf('hiking') > -1|| route.activities.indexOf('ice_climbing') > -1 || route.activities.indexOf('rock_climbing') > -1
                   || route.activities.indexOf('mountain_climbing') > -1 || route.activities.indexOf('snow_ice_mixed') > -1">
               <label translate>difficulties_height</label>
               <div class="input-group">
                 <input type="number" min="0" name="difficulties_height" ng-model="route.difficulties_height" class="form-control" />
                 <span class="input-group-addon">m</span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.difficulties_height.$valid && route.difficulties_height"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.difficulties_height"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.difficulties_height.$invalid && editForm.difficulties_height.$touched"></span>
               <div class="help-block" ng-messages="editForm.difficulties_height.$error">
                 <p ng-message="number" class="label label-danger" style="{{ (editForm.difficulties_height.$invalid && editForm.difficulties_height.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
@@ -296,7 +291,7 @@ updating_doc = route_id and route_lang
 
             ## ROUTE LENGTH
             <div id="route_length-group" class="data half form-group" ng-class="{ 'has-error': editForm.route_length.$touched && editForm.route_length.$invalid,'has-success': route.route_length }"
-                 ng-if="route.activities.indexOf('skitouring') > -1 || route.activities.indexOf('snow_ice_mixed') > -1 || route.activities.indexOf('hiking') > -1 || route.activities.indexOf('snowshoeing') > -1 || route.activities.indexOf('via_ferrata') > -1 || route.activities.indexOf('moutain_biking') > -1">
+                 ng-if="route.activities.indexOf('skitouring') > -1 || route.activities.indexOf('snow_ice_mixed') > -1 || route.activities.indexOf('hiking') > -1 || route.activities.indexOf('snowshoeing') > -1 || route.activities.indexOf('via_ferrata') > -1 || route.activities.indexOf('mountain_biking') > -1">
               <label translate>route_length</label>
               <div class="input-group">
                 <input type="number" min="0" minlength="1" name="route_length" ng-model="route.route_length" class="form-control" />
@@ -308,16 +303,16 @@ updating_doc = route_id and route_lang
                 <p ng-message="number" class="label label-danger" style="{{ (editForm.route_length.$invalid && editForm.route_length.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
               </div>
             </div>       
-
-            ## MTB LENGTH ASPHALT
-            <div id="mtb_length_asphalt-group" class="data half form-group" ng-class="{ 'has-error': editForm.mtb_length_asphalt.$touched && editForm.mtb_length_asphalt.$invalid,'has-success': editForm.mtb_length_asphalt.$valid }"
-                 ng-if="route.activities.indexOf('moutain_biking') > -1">
+ 
+           ## MTB LENGTH ASPHALT
+            <div id="mtb_length_asphalt-group" class="data half form-group" ng-class="{ 'has-error': editForm.mtb_length_asphalt.$touched && editForm.mtb_length_asphalt.$invalid,'has-success': route.mtb_length_asphalt }"
+                 ng-if="route.activities.indexOf('mountain_biking') > -1">
               <label translate>mtb_length_asphalt</label>
               <div class="input-group">
                 <input type="number" min="0" minlength="1" name="mtb_length_asphalt" ng-model="route.mtb_length_asphalt" class="form-control" />
                 <span class="input-group-addon">m</span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.mtb_length_asphalt.$valid"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.mtb_length_asphalt"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.mtb_length_asphalt.$invalid && editForm.mtb_length_asphalt.$touched"></span>
               <div class="help-block" ng-messages="editForm.mtb_length_asphalt.$error">
                 <p ng-message="number" class="label label-danger" style="{{ (editForm.mtb_length_asphalt.$invalid && editForm.mtb_length_asphalt.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
@@ -325,14 +320,14 @@ updating_doc = route_id and route_lang
             </div>     
             
             ## MTB LENGTH TRAIL
-            <div id="mtb_length_trail-group" class="data half form-group" ng-class="{ 'has-error': editForm.mtb_length_trail.$touched && editForm.mtb_length_trail.$invalid,'has-success': editForm.mtb_length_trail.$valid && route.mtb_length_trail}"
-                 ng-if="route.activities.indexOf('skitouring') > -1 || route.activities.indexOf('snow_ice_mixed') > -1 || route.activities.indexOf('hiking') > -1 || route.activities.indexOf('snowshoeing') > -1 || route.activities.indexOf('via_ferrata') > -1 || route.activities.indexOf('moutain_biking') > -1">
+            <div id="mtb_length_trail-group" class="data half form-group" ng-class="{ 'has-error': editForm.mtb_length_trail.$touched && editForm.mtb_length_trail.$invalid,'has-success':route.mtb_length_trail}"
+                 ng-if="route.activities.indexOf('mountain_biking') > -1">
               <label translate>mtb_length_trail</label>
               <div class="input-group">
                 <input type="number" min="0" minlength="1" name="mtb_length_trail" ng-model="route.mtb_length_trail" class="form-control" />
                 <span class="input-group-addon">m</span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.mtb_length_trail.$valid && route.mtb_length_trail"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.mtb_length_trail"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.mtb_length_trail.$invalid && editForm.mtb_length_trail.$touched"></span>
               <div class="help-block" ng-messages="editForm.mtb_length_trail.$error">
                 <p ng-message="number" class="label label-danger" style="{{ (editForm.mtb_length_trail.$invalid && editForm.mtb_length_trail.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
@@ -340,34 +335,19 @@ updating_doc = route_id and route_lang
             </div>      
            
             ## MTB HEIGHT DIFF PORTAGES
-            <div id="mtb_height_diff_portages-group" class="data half form-group" ng-class="{ 'has-error': editForm.mtb_height_diff_portages.$touched && editForm.mtb_height_diff_portages.$invalid,'has-success': editForm.mtb_height_diff_portages.$valid && route.mtb_height_diff_portages }"
-                 ng-if="route.activities.indexOf('skitouring') > -1 || route.activities.indexOf('snow_ice_mixed') > -1 || route.activities.indexOf('hiking') > -1 || route.activities.indexOf('snowshoeing') > -1 || route.activities.indexOf('via_ferrata') > -1 || route.activities.indexOf('moutain_biking') > -1">
+            <div id="mtb_height_diff_portages-group" class="data half form-group" ng-class="{ 'has-error': editForm.mtb_height_diff_portages.$touched && editForm.mtb_height_diff_portages.$invalid,'has-success': route.mtb_height_diff_portages }"
+                 ng-if="route.activities.indexOf('mountain_biking') > -1">
               <label translate>mtb_height_diff_portages</label>
               <div class="input-group">
                 <input type="number" min="0" minlength="1" name="mtb_height_diff_portages" ng-model="route.mtb_height_diff_portages" class="form-control" />
                 <span class="input-group-addon">m</span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.mtb_height_diff_portages.$valid && route.mtb_height_diff_portages"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.mtb_height_diff_portages"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.mtb_height_diff_portages.$invalid && editForm.mtb_height_diff_portages.$touched"></span>
               <div class="help-block" ng-messages="editForm.mtb_height_diff_portages.$error">
                 <p ng-message="number" class="label label-danger" style="{{ (editForm.mtb_height_diff_portages.$invalid && editForm.mtb_height_diff_portages.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
               </div>
             </div>     
-            
-            ## DIFFICULTIES LENGTH
-            <div id="difficulties_length-group" class="data half form-group" ng-class="{ 'has-error': editForm.difficulties_length.$touched && editForm.difficulties_length.$invalid,'has-success': editForm.difficulties_length.$valid && route.difficulties_length}"
-                 ng-if="!route.activities.indexOf('skitouring') > -1">
-              <label translate>difficulties_length</label>
-              <div class="input-group">
-                <input type="number" min="0" minlength="1" name="difficulties_length" ng-model="route.difficulties_length" class="form-control" />
-                <span class="input-group-addon">m</span>
-              </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.difficulties_length.$valid && route.difficulties_length"></span>
-              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.difficulties_length.$invalid && editForm.difficulties_length.$touched"></span>
-              <div class="help-block" ng-messages="editForm.difficulties_length.$error">
-                <p ng-message="number" class="label label-danger" style="{{ (editForm.difficulties_length.$invalid && editForm.difficulties_length.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
-              </div>
-            </div> 
 
             ## DURATIONS
             <div class="form-group data half" ng-class="{ 'has-success': route.durations}">
@@ -382,10 +362,10 @@ updating_doc = route_id and route_lang
             ## LIFT ACCESS
             <div class="form-group data half" ng-class="{ 'has-success': route.lift_access}">
               <label translate>lift_access</label>
-              <div class="input-group">
-                <select class="form-control" ng-model="route.lift_access">
-                  <option value="true"><span translate>yes</span></option>
-                  <option value="false"><span translate>no</span></option>
+              <div class="input-group"> 
+               <select class="form-control" ng-model="route.lift_access">
+                  <option value="true" ng-selected="route.lift_access == true"><span translate>yes</span></option>
+                  <option value="false" ng-selected="route.lift_access == false"><span translate>no</span></option>
                   <option value="" translate>no info</option>
                 </select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-resize-vertical"></span></span>
@@ -396,7 +376,7 @@ updating_doc = route_id and route_lang
           </div>
         </section>
         
-        <section class="section ratings" ng-if="(route.activities.indexOf('mountain_climbing') > -1 || route.activities.indexOf('rock_climbing') > -1 
+        <section class="section ratings" ng-if="(route.activities.indexOf('mountain_climbing') > -1 || route.activities.indexOf('mountain_biking') > -1 || route.activities.indexOf('rock_climbing') > -1 
                   || route.activities.indexOf('skitouring') > -1 || route.activities.indexOf('snowshoeing') > -1 || route.activities.indexOf('snow_ice_mixed') > -1
                   || route.activities.indexOf('ice_climbing') > -1 || route.activities.indexOf('hiking') > -1 )">
           <h2 class="heading show-phone" translate>ratings</h2>
@@ -514,7 +494,7 @@ updating_doc = route_id and route_lang
             </div>
             
             ## MTB DOWN  RATING
-            <div class="form-group data half" ng-class="{ 'has-success': route.mtb_down_rating}" ng-if="route.activities.indexOf('hiking') > -1">
+            <div class="form-group data half" ng-class="{ 'has-success': route.mtb_down_rating}" ng-if="route.activities.indexOf('mountain_biking') > -1">
               <label translate>mtb_down_rating</label>
               <div class="input-group">
                 <select class="form-control" ng-model="route.mtb_down_rating" ng-options="rat as rat for rat in ${mtb_down_ratings}"><option value=""></option></select>
@@ -524,7 +504,7 @@ updating_doc = route_id and route_lang
             </div>
             
             ## MTB UP  RATING
-            <div class="form-group data half" ng-class="{ 'has-success': route.mtb_up_rating}" ng-if="route.activities.indexOf('hiking') > -1">
+            <div class="form-group data half" ng-class="{ 'has-success': route.mtb_up_rating}" ng-if="route.activities.indexOf('mountain_biking') > -1">
               <label translate>mtb_up_rating</label>
               <div class="input-group">
                 <select class="form-control" ng-model="route.mtb_up_rating" ng-options="rat as rat for rat in ${mtb_up_ratings}"><option value=""></option></select>
@@ -584,7 +564,7 @@ updating_doc = route_id and route_lang
             </div>
             
             ## HIKING MTB EXPOSITION
-            <div class="form-group data half" ng-class="{ 'has-success': route.hiking_mtb_exposition}" ng-if="route.activities.indexOf('hiking') > -1 || route.activities.indexOf('moutain_biking') > -1">
+            <div class="form-group data half" ng-class="{ 'has-success': route.hiking_mtb_exposition}" ng-if="route.activities.indexOf('hiking') > -1 || route.activities.indexOf('mountain_biking') > -1">
               <label translate>hiking_mtb_exposition</label>
               <div class="input-group">
                 <select class="form-control" ng-model="route.hiking_mtb_exposition" ng-options="rat as rat for rat in ${exposition_ratings}"><option value=""></option></select>
