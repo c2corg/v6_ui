@@ -123,16 +123,10 @@
         % endif
         
         <p>
-          <%
-            users = []
-            for user in outing['associations']['users']:
-                users.append('<a ng-href="#todo">' + user['name'] + '</a>')
-
-            if outing['locales'][0]['participants'] :
-                users.append(outing['locales'][0]['participants'])
-          %>
-         
-          ${', '.join(users) | n}
+          % for user in outing['associations']['users']:
+            <a href="#TODO">${user['name']}</a>${'' if loop.last and not outing['locales'][0]['participants'] else ', '}
+          % endfor
+          ${outing['locales'][0]['participants'] or ''}
         </p>
         
       </span>
