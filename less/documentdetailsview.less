@@ -244,6 +244,9 @@
     .value, .value-title {
       font-size: 1em;
     }
+    .value.activities {
+      margin: 10px 0;
+    }
 
     #document-informations {
       overflow: hidden;
@@ -293,6 +296,10 @@
         li {
           margin-bottom: 5px;
         }
+      }
+      >p, >article {
+        margin-top: 3px;
+        margin-bottom: 3px;
       }
     }
     
@@ -507,7 +514,6 @@ app-add-association {
   min-height: 80px;
   padding: 10px;
   position: absolute;
-  color: #A55944;
   background: #FFFB80;
   -webkit-transform: rotate(4deg);
   -moz-transform: rotate(4deg);
@@ -540,12 +546,15 @@ app-add-association {
     list-style: none;
     padding: 0;
     text-align: center;
-
-    .range {
+    li:hover {
+      cursor: pointer;
       font-weight: bold;
     }
-    .country{
-      text-decoration: underline;
+    a {
+      color: #A55944;
+      &:hover {
+        text-decoration: none;
+      }
     }
   }
 }
