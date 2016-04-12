@@ -46,13 +46,12 @@
     <div class="modal-header"><h3 class="text-center" translate>Translate into an other lang</h3></div>  
     <ul>
       % for lang in missing_langs:
-      <li ng-click="mainCtrl.redirectToProtectedUrl('${request.route_url(module + '_edit', id=document['document_id'], lang=lang)}')">
-        <span x-translate>${lang}</span>
-        <span class="glyphicon glyphicon-chevron-right"></span>
+      <li protected-url-btn url="'${request.route_url(module + '_edit', id=document['document_id'], lang=lang)}'">
+        <span x-translate>${lang}</span><span class="glyphicon glyphicon-chevron-right"></span>
       </li>
       % endfor
     </ul>
-</div>
+  </div>
 % endif
 </%def>
 
@@ -165,7 +164,7 @@
             <span x-translate>associated ${associatedDocuments}</span><span class="glyphicon glyphicon-menu-down"></span>
           </h3>
           <div class="associated-documents collapse in" id="associated-${associatedDocuments}">
-            <div class="list-item vertical-align" ng-click="mainCtrl.redirectToProtectedUrl('${request.route_url('outings_add')}')">
+            <div class="list-item vertical-align" protected-url-btn url="'${request.route_url('outings_add')}'">
               <a>
                 <button class="btn orange-btn">add a new outing to this document</button>
               </a>
@@ -329,7 +328,7 @@
 ## Float buttons
 <%def name="show_float_buttons(string, doc_id, doc_lang, other_langs, missing_langs)">\
   <div class="float-buttons" app-view-details>
-    <div class="float-button float-edit" tooltip-placement="left" uib-tooltip="{{'Edit' | translate}}" ng-click="mainCtrl.redirectToProtectedUrl('${request.route_url( string + '_edit' , id=doc_id, lang=doc_lang)}')">
+    <div class="float-button float-edit" tooltip-placement="left" uib-tooltip="{{'Edit' | translate}}" protected-url-btn url="'${request.route_url( string + '_edit' , id=doc_id, lang=doc_lang)}'">
       <span class="glyphicon glyphicon-edit"></span>
       <p class="float-button-text" translate>Edit</p>
     </div>

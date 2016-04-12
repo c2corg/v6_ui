@@ -20,7 +20,7 @@
     <button type="button" class="btn btn-default show-documents-filters-phone" translate>Filters</button>
     
     <%include file="c2corg_ui:templates/document/select_document.html" />
-    <button class="btn btn-default"  ng-click="mainCtrl.redirectToProtectedUrl('${request.route_url('outings_add')}')">
+    <button class="btn btn-default"  protected-url-btn url="'${request.route_url('outings_add')}'">
       <span class="glyphicon glyphicon-plus-sign"></span>
     </button>
     ${add_pagination_links('outings', outings, total, filter_params)}

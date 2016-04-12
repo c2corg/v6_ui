@@ -54,7 +54,7 @@ module.value('mapFeatureCollection', {
     
     <%include file="c2corg_ui:templates/document/select_document.html" />
     
-    <button class="btn btn-default"  ng-click="mainCtrl.redirectToProtectedUrl('${request.route_url('waypoints_add')}')">
+    <button class="btn btn-default"  protected-url-btn url="'${request.route_url('waypoints_add')}'">
       <span class="glyphicon glyphicon-plus-sign"></span>
     </button>
     ${add_pagination_links('waypoints', waypoints, total, filter_params)}
