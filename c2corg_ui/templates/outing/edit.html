@@ -376,7 +376,7 @@ updating_doc = outing_id and outing_lang
           <div class="content outing-route" id="track-edit">
 
             ## ACCESS COMMENT
-            <div class="form-group data full" ng-class="{'has-success': outing.public_transport}">
+            <div class="form-group data full" ng-class="{'has-success': outing.locales[0].access_comment"}">
               <label translate>access_comment</label>
               <textarea class="form-control " ng-model="outing.locales[0].access_comment"></textarea>
             </div>
@@ -396,6 +396,12 @@ updating_doc = outing_id and outing_lang
                 <span class="input-group-addon"><span class="glyphicon glyphicon-resize-vertical"></span></span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.lift_status"></span>
+            </div>
+            
+            ## HUT COMMENT
+            <div class="form-group data full" ng-class="{'has-success': outing.locales[0].hut_comment}">
+              <label translate>hut_comment</label>
+              <textarea class="form-control " ng-model="outing.locales[0].hut_comment"></textarea>
             </div>
 
             ## HUT STATUS
