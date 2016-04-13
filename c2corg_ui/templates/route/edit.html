@@ -360,7 +360,7 @@ updating_doc = route_id and route_lang
             </div>
 
             ## LIFT ACCESS
-            <div class="form-group data half" ng-class="{ 'has-success': route.lift_access}">
+            <div class="form-group data half" ng-class="{ 'has-success': route.lift_access }">
               <label translate>lift_access</label>
               <div class="input-group"> 
                <select class="form-control" ng-model="route.lift_access">
@@ -370,6 +370,7 @@ updating_doc = route_id and route_lang
                 </select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-resize-vertical"></span></span>
               </div>
+              
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.lift_access"></span>
             </div>
             
@@ -378,7 +379,7 @@ updating_doc = route_id and route_lang
         
         <section class="section ratings" ng-if="(route.activities.indexOf('mountain_climbing') > -1 || route.activities.indexOf('mountain_biking') > -1 || route.activities.indexOf('rock_climbing') > -1 
                   || route.activities.indexOf('skitouring') > -1 || route.activities.indexOf('snowshoeing') > -1 || route.activities.indexOf('snow_ice_mixed') > -1
-                  || route.activities.indexOf('ice_climbing') > -1 || route.activities.indexOf('hiking') > -1 )">
+                  || route.activities.indexOf('ice_climbing') > -1 || route.activities.indexOf('hiking') > -1 || route.activities.indexOf('mountain_biking') > -1)">
           <h2 class="heading show-phone" translate>ratings</h2>
           <div class="content" id="rating-edit">
             
