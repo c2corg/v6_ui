@@ -35,7 +35,7 @@ app.mapDirective = function() {
   return {
     restrict: 'E',
     scope: {
-      'editCtrl': '=appMapEditCtrl',
+      'edit': '=appMapEdit',
       'drawType': '@appMapDrawType',
       'disableWheel': '=appMapDisableWheel',
       'zoom': '@appMapZoom'
@@ -91,16 +91,6 @@ app.MapController = function($scope, mapFeatureCollection) {
   this.styleCache = {};
 
   /**
-   * @type {?app.DocumentEditingController}
-   * @private
-   */
-  this.editCtrl_ = this['editCtrl'];
-  if (this.editCtrl_) {
-    this.scope_.$root.$on('documentDataChange',
-        this.handleEditModelChange_.bind(this));
-  }
-
-  /**
    * @type {Array<ol.Feature>}
    * @private
    */
@@ -124,6 +114,12 @@ app.MapController = function($scope, mapFeatureCollection) {
       })
     ]
   });
+
+  // editing mode
+  if (this['edit']) {
+    this.scope_.$root.$on('documentDataChange',
+        this.handleEditModelChange_.bind(this));
+  }
 
   if (!(this['disableWheel'] || false)) {
     var mouseWheelZoomInteraction = new ol.interaction.MouseWheelZoom();
