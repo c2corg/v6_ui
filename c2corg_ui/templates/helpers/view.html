@@ -117,7 +117,7 @@
         % for route in document['associations']['routes']:
           <div class="list-item">
             ${route_card(route)}
-            <app-delete-association parent-id="${document['document_id']}" child-id="${route['document_id']}"></app-delete-association>
+            <app-delete-association parent-id="${document['document_id']}" child-id="${route['document_id']}" ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
           </div>
         % endfor
         <article class="list-item" ng-repeat="doc in added | filter:{'documentType': '${associatedDocuments}'}">
@@ -144,7 +144,7 @@
                  % endif
                 >
               ${waypoint_card(waypoint)}
-              <app-delete-association parent-id="${document['document_id']}" child-id="${waypoint['document_id']}"></app-delete-association>
+              <app-delete-association parent-id="${document['document_id']}" child-id="${waypoint['document_id']}" ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
             </div>
           % endfor
           <article class="list-item" ng-repeat="doc in added | filter:{'documentType': '${associatedDocuments}'}">
@@ -172,7 +172,7 @@
             % for outing in document['associations']['recent_outings']['outings']:
             <div class="list-item outing">
               ${outing_card(outing)}
-              <app-delete-association parent-id="${document['document_id']}" child-id="${outing['document_id']}"></app-delete-association>
+              <app-delete-association parent-id="${document['document_id']}" child-id="${outing['document_id']}" ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
             </div>
             % endfor
             

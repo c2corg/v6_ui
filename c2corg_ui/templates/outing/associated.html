@@ -3,7 +3,7 @@
   <article class="associated-documents" >
     <div class="list-item outing" ng-repeat="outing in document['associations']['recent_outings']['outings']">
       <%include file="../outing/card.html"/>
-      <app-delete-association parent-id="document.document_id" child-id="outing.document_id"></app-delete-association>
+      <app-delete-association parent-id="document.document_id" child-id="outing.document_id" ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
     </div>
     <article class="list-item" ng-repeat="doc in added| filter:{'documentType': 'outings'}">
       <app-association-card parent-id="document.document_id"  doc="document" added-documents="added"></app-association-card>
