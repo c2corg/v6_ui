@@ -173,7 +173,7 @@ class Document(object):
             raise HTTPNotFound()
 
     def _get_geometry(self, data):
-        return asShape(json.loads(data))
+        return asShape(json.loads(data)) if data else None
 
     def _transform(self, geometry, source_epsg, dest_epsg):
         source_proj = pyproj.Proj(init=source_epsg)
