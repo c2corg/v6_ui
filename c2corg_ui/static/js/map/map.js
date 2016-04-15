@@ -392,7 +392,8 @@ app.MapController.prototype.showFeatures_ = function(features) {
  * @private
  */
 app.MapController.prototype.handleEditModelChange_ = function(event, data) {
-  var geomstr = data['geometry'] ? data['geometry']['geom'] : null;
+  var geomattr = this.drawType == 'Point' ? 'geom' : 'geom_detail';
+  var geomstr = data['geometry'] ? data['geometry'][geomattr] : null;
   if (geomstr) {
     var geometry = this.geojsonFormat_.readGeometry(geomstr);
     var features = [new ol.Feature(geometry)];
@@ -425,11 +426,6 @@ app.MapController.prototype.handleDraw_ = function(event) {
  * @private
  */
 app.MapController.prototype.handleModify_ = function(event) {
-  // TODO handle lines as well, not only points
-  if (this.drawType != 'Point') {
-    alert('Feature type not supported for editing');
-    return;
-  }
   var feature = event.features.item(0);
   this.scope_.$root.$emit('mapFeatureChange', feature);
 };

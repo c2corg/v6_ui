@@ -202,7 +202,6 @@ app.DocumentEditingController = function($scope, $element, $attrs,
 app.DocumentEditingController.prototype.successRead_ = function(response) {
   var data = response['data'];
   var toCoordinates = (function(str) {
-    // FIXME handle lines and polygons
     var point = /** @type {ol.geom.Point} */
         (this.geojsonFormat_.readGeometry(str));
     return this.getCoordinatesFromPoint_(point);
@@ -210,7 +209,10 @@ app.DocumentEditingController.prototype.successRead_ = function(response) {
 
   if ('geometry' in data && data['geometry']) {
     var geometry = data['geometry'];
-    if ('geom' in geometry && geometry['geom']) {
+    // don't add lonlat for line or polygon geometries
+    // (point geometries have no 'geom_detail' attribute)
+    if (!('geom_detail' in geometry) &&
+        'geom' in geometry && geometry['geom']) {
       var coordinates = toCoordinates(geometry['geom']);
       data['lonlat'] = {
         'longitude': coordinates[0],
@@ -366,16 +368,31 @@ app.DocumentEditingController.prototype.handleMapFeatureChange_ = function(
     feature) {
   var geometry = feature.getGeometry();
   goog.asserts.assert(geometry);
+  var isPoint = geometry instanceof ol.geom.Point;
   var data = this.scope_[this.modelName_];
   // If creating a new document, the model has no geometry attribute yet:
   data['geometry'] = data['geometry'] || {};
-  data['geometry']['geom'] = this.geojsonFormat_.writeGeometry(geometry);
-  if (geometry instanceof ol.geom.Point) {
-    var coords = this.getCoordinatesFromPoint_(geometry.clone());
+  if (isPoint) {
+    data['geometry']['geom'] = this.geojsonFormat_.writeGeometry(geometry);
+    var coords = this.getCoordinatesFromPoint_(
+        /** @type {ol.geom.Point} */ (geometry.clone()));
     data['lonlat'] = {
       'longitude': coords[0],
       'latitude': coords[1]
     };
+  } else {
+    var center;
+    // For lines, use the middle point as point geometry:
+    if (geometry instanceof ol.geom.LineString) {
+      center = geometry.getCoordinateAt(0.5);
+    } else if (geometry instanceof ol.geom.MultiLineString) {
+      center = geometry.getLineString(0).getCoordinateAt(0.5);
+    } else {
+      center = ol.extent.getCenter(geometry.getExtent());
+    }
+    var centerPoint = new ol.geom.Point(center);
+    data['geometry']['geom'] = this.geojsonFormat_.writeGeometry(centerPoint);
+    data['geometry']['geom_detail'] = this.geojsonFormat_.writeGeometry(geometry);
   }
 };
 
