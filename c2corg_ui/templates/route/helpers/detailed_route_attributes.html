@@ -1,4 +1,4 @@
-<%namespace file="../../helpers/view.html" import="get_document_min_max, get_document_up_down, show_areas, show_attr, show_maps"/>
+<%namespace file="../../helpers/view.html" import="get_global_rating, get_hiking_mtb_rating, get_skitouring_rating, get_document_min_max, get_document_up_down, show_areas, show_attr, show_maps"/>
 
 ## LOCATION
 <%def name="get_route_location(route)">\
@@ -83,7 +83,7 @@
 ## RATING  
 <%def name="get_route_rating(route)">\
 % if route.get('global_rating') or route.get('engagement_rating') or route.get('risk_rating') or route.get('exposition_rock_rating') \
-  or route.get('rock_free_rating') or route.get('rock_required_rating') or route.get('rock_required_rating') or route.get('hiking_rating') \
+  or route.get('rock_free_rating') or route.get('rock_required_rating') or route.get('hiking_rating') \
   or route.get('hiking_mtb_exposition') or route.get('ice_rating') or route.get('mixed_rating') or route.get('snowshoe_rating')  \
   or route.get('mtb_down_rating') or route.get('mtb_up_rating') or route.get('via_ferrata_rating') or route.get('equipment_ratings') \
   or route.get('ski_rating') or route.get('labande_ski_rating') or route.get('labande_global_rating') or route.get('ski_exposition') :
@@ -93,93 +93,19 @@
       <span class="glyphicon glyphicon-sort-by-attributes"></span>
       <p translate>Rating</p>
     </div>
-    <span class="detail-text accordion">
+    <span class="detail-text accordion ratings">
       
-      % if route.get('global_rating'):
-      <p><span translate class="value-title">global_rating</span>: <b class="value">${route['global_rating']}</b></p>
-      % endif
+      ${get_global_rating(route)}
 
-      % if route.get('engagement_rating'):
-      <p><span translate class="value-title">engagement_rating</span>: <b class="value">${route['engagement_rating']}</b></p>
-      % endif
-
-      % if route.get('risk_rating'):
-      <p><span translate class="value-title">risk_rating</span>: <b class="value">${route['risk_rating']}</b></p>
-      % endif
-      
-      % if route.get('equipment_ratings'):
-        <article>
-          <span translate class="value-title">equipment_ratings</span><br>
-          % for type in route.get('equipment_ratings') :
-          <span x-translate class="value">${type}</span>${'' if loop.last else ', '}
-          % endfor
-        </article>
-      % endif
-        
-      % if route.get('exposition_rock_rating'):
-      <p><span translate class="value-title">exposition_rock_rating</span>: <b class="value">${route['exposition_rock_rating']}</b></p>
-      % endif
-
-      % if route.get('rock_free_rating'):
-      <p><span translate class="value-title">rock_free_rating</span>: <b class="value">${route['rock_free_rating']}</b></p>
-      % endif
-
-      % if route.get('rock_required_rating'):
-      <p><span translate class="value-title">rock_required_rating</span>: <b class="value">${route['rock_required_rating']}</b></p>
-      % endif
-
-      % if route.get('hiking_rating'):
-      <p><span translate class="value-title">hiking_rating</span>: <b class="value">${route['hiking_rating']}</b></p>
-      % endif
-
-      % if route.get('hiking_mtb_exposition'):
-      <p><span translate class="value-title">hiking_mtb_exposition</span>: <b class="value">${route['hiking_mtb_exposition']}</b></p>
-      % endif
-
-      % if route.get('ice_rating'):
-      <p><span translate class="value-title">ice_rating</span>: <b class="value">${route['ice_rating']}</b></p>
-      % endif
-
-      % if route.get('mixed_rating'):
-      <p><span translate class="value-title">mixed_rating</span>: <b class="value">${route['mixed_rating']}</b></p>
-      % endif
+      ${get_hiking_mtb_rating(route)}
 
       % if route.get('snowshoe_rating'):
-      <p><span translate class="value-title">snowshoe_rating</span>: <b class="value">${route['snowshoe_rating']}</b></p>
+        <div class="rating-block d">
+          <span uib-tooltip="{{mainCtrl.translate('snowshoe_rating')}}" class="value">${route['snowshoe_rating']}</span>
+        </div>
       % endif
 
-      % if route.get('mtb_down_rating'):
-      <p><span translate class="value-title">mtb_down_rating</span>: <b class="value">${route['mtb_down_rating']}</b></p>
-      % endif
-
-      % if route.get('mtb_up_rating'):
-      <p><span translate class="value-title">mtb_up_rating</span>: <b class="value">${route['mtb_up_rating']}</b></p>
-      % endif
-
-      % if route.get('via_ferrata_rating'):
-      <p><span translate class="value-title">via_ferrata_rating</span>: <b class="value">${route['via_ferrata_rating']}</b></p>
-      % endif
-      
-      % if route.get('aid_rating'):
-      <p><span translate class="value-title">aid_rating</span>: <b class="value">${route['aid_rating']}</b></p>
-      % endif
-
-
-      % if route.get('ski_rating'):
-      <p><span translate class="value-title">ski_rating</span>: <b class="value">${route['ski_rating']}</b></p>
-      % endif
-
-      % if route.get('labande_ski_rating'):
-      <p><span translate class="value-title">labande_ski_rating</span>: <b class="value">${route['labande_ski_rating']}</b></p>
-      % endif
-
-      % if route.get('labande_global_rating'):
-      <p><span translate class="value-title">labande_global_rating</span>: <b class="value">${route['labande_global_rating']}</b></p>
-      % endif
-      
-      % if route.get('ski_exposition'):
-      <p><span translate class="value-title">ski_exposition</span>: <b class="value">${route['ski_exposition']}</b></p>
-      % endif
+        ${get_skitouring_rating(route)}
       
     </span>
   </div>
