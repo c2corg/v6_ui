@@ -10,7 +10,9 @@ goog.require('ol.Feature');
 goog.require('ol.Map');
 goog.require('ol.View');
 goog.require('ol.format.GeoJSON');
+goog.require('ol.format.GPX');
 goog.require('ol.geom.Point');
+goog.require('ol.interaction.DragAndDrop');
 goog.require('ol.interaction.Draw');
 goog.require('ol.interaction.Modify');
 goog.require('ol.interaction.MouseWheelZoom');
@@ -119,6 +121,7 @@ app.MapController = function($scope, mapFeatureCollection) {
   if (this['edit']) {
     this.scope_.$root.$on('documentDataChange',
         this.handleEditModelChange_.bind(this));
+    this.addTrackImporter_();
   }
 
   if (!(this['disableWheel'] || false)) {
@@ -428,6 +431,32 @@ app.MapController.prototype.handleDraw_ = function(event) {
 app.MapController.prototype.handleModify_ = function(event) {
   var feature = event.features.item(0);
   this.scope_.$root.$emit('mapFeatureChange', feature);
+};
+
+
+/**
+ * @private
+ */
+app.MapController.prototype.addTrackImporter_ = function() {
+  var dragAndDropInteraction = new ol.interaction.DragAndDrop({
+    formatConstructors: [
+      ol.format.GPX
+    ]
+  });
+  dragAndDropInteraction.on('addfeatures', function(event) {
+    var features = event.features;
+    if (features.length) {
+      var source = this.getVectorLayer_().getSource();
+      // TODO: keep associated features?
+      source.clear();
+      var feature = features[0];
+      source.addFeature(feature);
+      this.map.getView().fit(
+          source.getExtent(), /** @type {ol.Size} */ (this.map.getSize()));
+      this.scope_.$root.$emit('mapFeatureChange', feature);
+    }
+  }.bind(this));
+  this.map.addInteraction(dragAndDropInteraction);
 };
 
 
