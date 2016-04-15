@@ -13,7 +13,7 @@
               ng-if="document.main_waypoint_id != waypoint.document_id">
         set as main waypoint
       </button>
-      <app-delete-association parent-id="document.document_id" child-id="waypoint.document_id"></app-delete-association>
+      <app-delete-association parent-id="document.document_id" child-id="waypoint.document_id" ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
       
     </div>
     <article class="list-item" ng-repeat="doc in added| filter:{'documentType': 'waypoints'}">
