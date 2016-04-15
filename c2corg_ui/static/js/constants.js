@@ -25,7 +25,8 @@ app.constants = {
     'camp_site' : 4,
     'local_product' : 4,
     'paragliding_takeoff' : 4,
-    'paragliding_landing' : 4
+    'paragliding_landing' : 4,
+    'webcam': 4
   },
   REQUIRED_FIELDS : {
     waypoint: {
