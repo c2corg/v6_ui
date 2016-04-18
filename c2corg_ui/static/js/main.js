@@ -16,6 +16,7 @@ goog.require('app.authDirective');
 goog.require('app.constants');
 goog.require('app.deleteAssociationDirective');
 goog.require('app.diffMapDirective');
+goog.require('app.suggestionDirective');
 goog.require('app.protectedUrlBtnDirective');
 goog.require('app.documentEditingDirective');
 goog.require('app.gpxUploadDirective');
