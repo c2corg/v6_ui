@@ -1,9 +1,14 @@
 from pyramid.config import Configurator
 from pyramid_mako import add_mako_renderer
 from c2corg_ui.lib.cacheversion import version_cache_buster, CACHE_PATH
+from pyramid.httpexceptions import (
+    HTTPBadRequest, HTTPInternalServerError)
+from pyramid.view import view_config
+from pyramid.view import notfound_view_config
 
 
 def main(global_config, **settings):
+
     """ This function returns a Pyramid WSGI application.
     """
     config = Configurator(settings=settings)
@@ -68,3 +73,23 @@ def _add_static_view(config, name, path):
     )
     config.add_cache_buster(path, version_cache_buster)
     CACHE_PATH.append(name)
+
+
+class NotFound():
+
+    notFound = 'c2corg_ui:templates/404.html'
+
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+        self.settings = request.registry.settings
+
+    @view_config(context=HTTPInternalServerError, renderer=notFound)
+    @view_config(context=HTTPBadRequest, renderer=notFound)
+    @notfound_view_config(renderer=notFound)
+    def notfound(self):
+        self.request.response.status_code = self.context.code
+        return {
+          'api_url': self.settings['api_url'],
+          'error_msg': self.context.detail if self.context.detail else ''
+        }

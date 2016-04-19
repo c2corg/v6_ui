@@ -1,0 +1,59 @@
+<%inherit file="base.html"/>
+<%namespace file="helpers/common.html" import="show_title"/>
+<%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Page not found')">${show_title('Page not found')}</title></%block>
+
+
+## waypoint lost in the bermuda triangle!
+<%block name="moduleConstantsValues">
+module.value('mapFeatureCollection', {
+"type": "FeatureCollection",
+  "features": [
+      {
+        "geometry": {
+            "type": "Point",
+            "coordinates": [-7601449.065694831, 3050623.9688091446]
+        },
+        "type": "Feature",
+        "properties": {
+            "type": "virtual",
+            "title": "404",
+            "module": "waypoints"
+        }
+    }
+]
+});
+</%block>
+
+<header class="page-main-title">
+  <h3 translate>Page not found</h3>
+</header>
+
+<section class="not-found-section">
+  <h1 class="green-text text-center text-uppercase">oops</h1>
+  <p translate class="text-center">The page you are looking for does not exist or is broken.</p>
+  % if error_msg:
+    <p class="text-center" x-translate>${error_msg}</p>
+  % endif
+  <p class="text-center"><a href="javascript:history.go(-1)" translate>Go to the previous page</a> <span translate>or try the following pages:</p>
+  <ul class="not-found-pages">
+    <a class="list-item text-center" href="${request.route_url('index')}"><span translate>Home</span><br><span class="glyphicon glyphicon-home"></span></a>
+    <a class="list-item text-center" href="${request.route_url('outings_index_default')}"><span translate>Outings</span><br><span class="glyphicon glyphicon-arrow-right"></span></a>
+    <a class="list-item text-center" href="${request.route_url('waypoints_index_default')}"><span translate>Waypoints</span><br><span class="glyphicon glyphicon-map-marker"></span></a>
+    <a class="list-item text-center" href="${request.route_url('routes_index_default')}"><span translate>Routes</span><br><span class="glyphicon glyphicon-road"></span></a>
+    <a class="list-item text-center" href="##TO-ADD: images"><span translate>Images</span><br><span class="glyphicon glyphicon-picture"></span></a>
+    <a class="list-item text-center" href="##TO-ADD: areas"><span translate>Areas</span><br><span class="glyphicon glyphicon-globe"></span></a>
+  </ul>
+  <div class="circles">
+    <img src="${request.static_url('c2corg_ui:static/img/activities/falling.svg')}">
+  </div>
+</section>
+
+<div class="map-right">
+  <app-map zoom="5"></app-map>
+</div>
+
+<script>
+  window.onload = function() {
+    $('body').addClass('not-found');
+  }
+  </script>
