@@ -63,7 +63,31 @@ closure_library_path = settings.get('closure_library_path')
         </div>
       </div>
     </div>
+    
+    <div id="report-problem" report-problem>
+      <div class="modal-header">
+        <h3 class="modal-title text-center" translate>Report a problem</h3>
+      </div>
+      <div class="modal-body problem">
+        <label>choose a subject</label>
+        <select class="form-control" ng-model="problem.subject" ng-options="op as op for op in  ['account', 'bug', 'suggestion', 'forum', 'other'] | translate"></select>
+        <hr>
+        <textarea class="form-control" ng-model="problem.text" placeholder="{{'describe your problem' | translate}}"></textarea>
+      </div>
+      <div class="modal-body success text-center">
+        <p translate>thank you for your input, we will try to answer you as soon as possible.</p>
+      </div>
+      <div class="modal-footer problem">
+        <button class="btn btn-primary" type="button" ng-click="modalCtrl.send(problem)" translate>send</button>
+        <button class="btn btn-warning modal-close" ng-click="modalCtrl.close()" type="button" translate>cancel</button>
+      </div>
+      <div class="modal-footer success">
+        <button class="btn btn-primary modal-close" ng-click="modalCtrl.close()" type="button" translate>ok</button>
+      </div>
+    </div>
+    
     <app-alerts></app-alerts>
+
     <div id="empty-results">
         <div class="tt-dataset empty">
           <div class="header">No results</div>

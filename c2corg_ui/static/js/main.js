@@ -19,6 +19,7 @@ goog.require('app.diffMapDirective');
 goog.require('app.protectedUrlBtnDirective');
 goog.require('app.documentEditingDirective');
 goog.require('app.langDirective');
+goog.require('app.reportProblemDirective');
 goog.require('app.loadingDirective');
 goog.require('app.mapDirective');
 goog.require('app.searchDirective');
