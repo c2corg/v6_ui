@@ -12,7 +12,6 @@ app.protectedUrlBtnDirective = function() {
     restrict: 'A',
     controller: 'AppProtectedUrlBtnController',
     scope: {
-      'lang': '=',
       'url': '='
     },
     link: function(scope, el, attr, ctrl) {

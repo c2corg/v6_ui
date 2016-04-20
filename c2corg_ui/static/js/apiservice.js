@@ -207,6 +207,21 @@ app.Api.prototype.updateDocument = function(module, id, json) {
   return promise;
 };
 
+/**
+ * @export
+ * @param {number} id Document id.
+ * @param {string} doctype the first letter of document type (o, w, r...)
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.getDocumentByIdAndDoctype = function(id, doctype) {
+  var alerts = this.alerts_;
+  var promise = this.getJson_('/search?q=' + id + '&t=' + doctype);
+  promise.catch(function(response) {
+    alerts.addError(response);
+  });
+  return promise;
+};
+
 
 /**
  * @param {Object} response Response from the API server.
