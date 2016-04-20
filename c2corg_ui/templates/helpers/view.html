@@ -164,7 +164,7 @@
             <span x-translate>associated ${associatedDocuments}</span><span class="glyphicon glyphicon-menu-down"></span>
           </h3>
           <div class="associated-documents collapse in" id="associated-${associatedDocuments}">
-            <div class="list-item vertical-align" protected-url-btn url="'${request.route_url('outings_add')}'">
+            <div class="list-item vertical-align" protected-url-btn url="'${request.route_url('outings_add')}' + '?${document['doctype']}=${document['document_id']}'">
               <a>
                 <button class="btn orange-btn">add a new outing to this document</button>
               </a>
