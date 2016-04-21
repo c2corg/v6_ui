@@ -326,12 +326,13 @@
 
 
 ## Float buttons
-<%def name="show_float_buttons(string, doc_id, doc_lang, other_langs, missing_langs)">\
+<%def name="show_float_buttons(outingUsers, doctype, doc_id, doc_lang, other_langs, missing_langs)">\
   <div class="float-buttons" app-view-details>
-    <div class="float-button float-edit" tooltip-placement="left" uib-tooltip="{{'Edit' | translate}}" protected-url-btn url="'${request.route_url( string + '_edit' , id=doc_id, lang=doc_lang)}'">
-      <span class="glyphicon glyphicon-edit"></span>
-      <p class="float-button-text" translate>Edit</p>
-    </div>
+      <div ng-if="::userCtrl.hasEditRights(${outingUsers if outingUsers is not None else ''})" class="float-button float-edit" tooltip-placement="left" uib-tooltip="{{'Edit' | translate}}"
+           protected-url-btn url="'${request.route_url( doctype + '_edit' , id=doc_id, lang=doc_lang)}'">
+        <span class="glyphicon glyphicon-edit"></span>
+        <p class="float-button-text" translate>Edit</p>
+      </div>
     <div class="float-button float-favorites" tooltip-placement="left" uib-tooltip="{{'Add to favorites' | translate}}">
       <span class="glyphicon glyphicon-heart"></span>
       <p class="float-button-text" translate>Favorites</p>
@@ -344,12 +345,12 @@
       <span class="glyphicon glyphicon-th-list dropdown-toggle" uib-dropdown-toggle></span>
       <p class="float-button-text" translate>More</p>
       <ul class="dropdown-menu"  role="menu" aria-labelledby="dLabel">
-        <li><a href="${request.route_url(string + '_history', id=doc_id, lang=doc_lang)}" translate>History</a></li>
+        <li><a href="${request.route_url(doctype + '_history', id=doc_id, lang=doc_lang)}" translate>History</a></li>
       % if other_langs:
         <li ng-click="detailsCtrl.openModal('#other-langs')"><a translate>View in other lang</a></li>
       % endif
       % if missing_langs:
-        <li ng-click="detailsCtrl.openModal('#missing-langs')"><a translate>Translate into an other lang</a></li>
+        <li ng-if="::userCtrl.hasEditRights(${outingUsers if outingUsers is not None else ''})" ng-click="detailsCtrl.openModal('#missing-langs')"><a translate>Translate into an other lang</a></li>
       % endif
         <li role="separator" class="divider"></li>
         <li><a href="#">Print</a></li>

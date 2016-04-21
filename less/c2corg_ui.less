@@ -778,7 +778,6 @@ app-search {
 app-alerts {
   position: absolute;
   bottom: 10px;
-  width: auto;
   position: fixed;
   top: 30vh;
   z-index: 20;
@@ -788,9 +787,11 @@ app-alerts {
   justify-content: center;
 
   .alert {
-    width: 300px;
     font-size: 1.2em;
     border: 1px solid #ccc !important;
+  }
+  .alert-text {
+    display: inline;
   }
 }
 
