@@ -13,5 +13,8 @@ class Pages(object):
 
     @view_config(route_name='index', renderer='c2corg_ui:templates/index.html')
     @view_config(route_name='auth', renderer='c2corg_ui:templates/auth.html')
+    @view_config(
+            route_name='account',
+            renderer='c2corg_ui:templates/account.html')
     def index(self):
         return self.template_input

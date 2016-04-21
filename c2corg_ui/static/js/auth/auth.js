@@ -100,9 +100,13 @@ app.AuthController = function($scope, appApi, appAuthentication,
    */
   this.nonce_;
 
+  var get_nonce = function(key) {
+    return ngeoLocation.getParam(key).replace(/[^0-9a-z_]/gi, '');
+  };
+
   if (this.ngeoLocation_.hasParam('validate_register_email')) {
     // Activate and log in from API by using the nonce
-    var nonce = this.ngeoLocation_.getParam('validate_register_email');
+    var nonce = get_nonce('validate_register_email');
     var remember = true;
     var onLogin = this.successLogin_.bind(this, remember);
     this.api_.validateRegisterEmail(nonce).then(onLogin);
@@ -112,7 +116,7 @@ app.AuthController = function($scope, appApi, appAuthentication,
   }
   if (this.ngeoLocation_.hasParam('change_password')) {
     // Activate and log in from API by using the nonce
-    this.nonce_ = this.ngeoLocation_.getParam('change_password');
+    this.nonce_ = get_nonce('change_password');
     this.uiStates = {
       'showChangePasswordForm': true
     };
@@ -212,9 +216,7 @@ app.AuthController.prototype.register = function() {
 app.AuthController.prototype.requestPasswordChange = function() {
   var alerts = this.alerts_;
   /**
-   * @typedef {{
-   *   email: string
-   * }}
+   * @type {appx.auth.RequestChangePassword}
    */
   var data = this.scope_['requestChangePassword'];
   this.api_.requestPasswordChange(data.email).then(function() {
