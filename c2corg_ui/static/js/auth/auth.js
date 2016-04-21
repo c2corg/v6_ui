@@ -216,9 +216,7 @@ app.AuthController.prototype.register = function() {
 app.AuthController.prototype.requestPasswordChange = function() {
   var alerts = this.alerts_;
   /**
-   * @typedef {{
-   *   email: string
-   * }}
+   * @type {appx.auth.RequestChangePassword}
    */
   var data = this.scope_['requestChangePassword'];
   this.api_.requestPasswordChange(data.email).then(function() {

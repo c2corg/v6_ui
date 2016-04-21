@@ -75,3 +75,12 @@ appx.AlertMessage;
  * }}
  */
 appx.BootstrapSliderValues;
+
+
+
+/**
+ * @typedef {{
+ *   email: string
+ * }}
+ */
+appx.auth.RequestChangePassword;
