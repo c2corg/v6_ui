@@ -73,6 +73,34 @@ app.Authentication.prototype.isAuthenticated = function() {
 
 
 /**
+ * Checks if the current user has rights to access/edit the document.
+ * TODO: rights to personal documents only for current user.
+ * @return {boolean}
+ * @export
+ */
+app.Authentication.prototype.hasEditRights = function(users) {
+  var userid = this.userData.id;
+  var roles = this.userData.roles;
+  // moderator has rigths
+  if (roles.indexOf('moderator') > -1) {
+    return true;
+  }
+  // we are checking for editing rights of an outing
+  if (users) {
+    for (var i = 0; i < users.length; i++) {
+      if (userid === users[i].id) {
+        return true;
+      }
+    }
+    return false;
+  // by default, user has rights to every doc
+  } else {
+    return true;
+  }
+};
+
+
+/**
  * @param {appx.AuthData} data User data returned by the login request.
  * @return {boolean} whether the operation succeeded.
  */

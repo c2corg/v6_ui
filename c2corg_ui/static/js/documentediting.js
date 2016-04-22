@@ -169,7 +169,6 @@ app.DocumentEditingController = function($scope, $element, $attrs,
   // the form is touched. At least create an empty object.
   this.scope_[this.modelName_] = {};
   if (this.auth_.isAuthenticated()) {
-
     if (this.id_ && this.lang_) {
      // Get document attributes from the API to feed the model:
       goog.asserts.assert(!goog.isNull(this.id_));
@@ -231,10 +230,18 @@ app.DocumentEditingController.prototype.successRead_ = function(response) {
   this.scope_[this.modelName_] = data;
 
   if (this.modelName_ === 'outing') {
-    this.scope_['outing'] = this.formatOuting_(this.scope_['outing']);
-    this.differentDates = app.utils.areDifferentDates(this.scope_['outing']['date_start'], this.scope_['outing']['date_end']);
+    var outing = this.scope_['outing'];
+    // check if user has right to edit -> the user is one of the associated users
+    if (this.auth_.hasEditRights(outing['associations']['users'])) {
+      this.scope_['outing'] = this.formatOuting_(outing);
+      this.differentDates = app.utils.areDifferentDates(outing['date_start'], outing['date_end']);
+    } else {
+      this.alerts_.addError('you have no rights to edit this document');
+      setTimeout(function() { // redirect to the details-view page
+        window.location = window.location.href.replace('/edit', '');
+      }, 3000);
+    }
   }
-
   this.scope_.$root.$emit('documentDataChange', data);
 };
 

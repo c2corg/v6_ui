@@ -100,4 +100,12 @@ app.UserController.prototype.logout = function() {
 };
 
 
+/**
+ * @return {boolean}
+ * @export
+ */
+app.UserController.prototype.hasEditRights = function(users) {
+  return this.auth.hasEditRights(users);
+};
+
 app.module.controller('AppUserController', app.UserController);
