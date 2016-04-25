@@ -14,7 +14,7 @@ app.viewDetailsDirective = function() {
     controller: 'AppViewDetailsController',
     controllerAs: 'detailsCtrl',
     bindToController: true,
-    link: function(el, scope, attrs, ctrl) {
+    link: function(scope, el, attrs, ctrl) {
 
       function initGalleries() {
         ctrl.initSlickGallery_();
@@ -139,7 +139,7 @@ app.ViewDetailsController.prototype.openModal = function(selector) {
 
 /**
  * @param {Object} doc
- * @export
+ * @private
  */
 app.ViewDetailsController.prototype.removeAssociation_ = function(doc) {
   var associations;
@@ -156,7 +156,6 @@ app.ViewDetailsController.prototype.removeAssociation_ = function(doc) {
         return;
       }
     }
-    this.scope_.$apply();
   }
 };
 

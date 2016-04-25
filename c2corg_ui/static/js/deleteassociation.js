@@ -31,15 +31,33 @@ app.module.directive('appDeleteAssociation', app.deleteAssociationDirective);
 /**
  * @constructor
  * @param {app.Api} appApi The API service
+ * @param {angular.Scope} $rootScope
  * @ngInject
  */
-app.DeleteAssociationController = function(appApi) {
+app.DeleteAssociationController = function(appApi, $attrs, $rootScope) {
+
+
+  /**
+   * @type {angular.Scope}
+   * @private
+   */
+  this.rootscope_ = $rootScope;
+
+
   /**
    * Bound from directive.
    * @type {number}
    * @export
    */
   this.parentId;
+
+
+  /**
+   * @type {string}
+   * @private
+   */
+  this.childDocType_ = $attrs['childDocType'];
+
 
   /**
    * Bound from directive.
@@ -48,6 +66,7 @@ app.DeleteAssociationController = function(appApi) {
    */
   this.childId;
 
+
   /**
    * Bound from directive.
    * @type {Array.<appx.SimpleSearchDocument>}
@@ -55,7 +74,9 @@ app.DeleteAssociationController = function(appApi) {
    */
   this.addedDocuments;
 
+
  /**
+  * @type {app.Api} The API service
    * @private
    */
   this.api_ = appApi;
@@ -72,29 +93,28 @@ app.DeleteAssociationController = function(appApi) {
  */
 app.DeleteAssociationController.prototype.unassociateDocument_ = function(element) {
   var added = this.addedDocuments;
-  var childId = this.childId;
-
-  this.api_.unassociateDocument(this.parentId, childId).then(function() {
+  this.api_.unassociateDocument(this.parentId, this.childId).then(function() {
+    this.rootscope_.$broadcast('unassociateDoc', {'id': this.childId, 'type': this.childDocType_});
     if (added) {
       // Remove the document from the array of Angular-added documents.
       for (var i = 0; i < added.length; ++i) {
         var current = added[i];
-        if (current.document_id === childId) {
+        if (current.document_id === this.childId) {
           added.splice(i, 1);
-          break;
+          return;
         }
       }
     } else {
       // Remove the Mako card.
       while (element) {
-        if (element.className === 'card') {
+        if ($(element).hasClass('list-item')) {
           element.parentNode.removeChild(element);
           break;
         }
         element = element.parentNode;
       }
     }
-  });
+  }.bind(this));
 };
 
 

@@ -115,14 +115,14 @@ app.Api.prototype.getJson_ = function(url) {
 
 /**
  * @param {number} parentId
- * @param {appx.SimpleSearchDocument} doc
+ * @param {number} childId
  * @return {!angular.$q.Promise}
  */
-app.Api.prototype.associateDocument = function(parentId, doc) {
+app.Api.prototype.associateDocument = function(parentId, childId) {
   var alerts = this.alerts_;
   var data = {
     'parent_document_id': parentId,
-    'child_document_id': doc.document_id
+    'child_document_id': childId
   };
 
   var promise = this.postJson_('/associations', data);
