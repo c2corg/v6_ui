@@ -449,7 +449,7 @@ app.MapController.prototype.addTrackImporter_ = function() {
       var source = this.getVectorLayer_().getSource();
       // TODO: keep associated features?
       source.clear();
-      var feature = features[0];
+      var feature = this.processFeature_(features[0]);
       source.addFeature(feature);
       this.map.getView().fit(
           source.getExtent(), /** @type {ol.Size} */ (this.map.getSize()));
@@ -457,6 +457,20 @@ app.MapController.prototype.addTrackImporter_ = function() {
     }
   }.bind(this));
   this.map.addInteraction(dragAndDropInteraction);
+};
+
+
+/**
+ * @param {ol.Feature} feature Feature to process.
+ * @return {ol.Feature}
+ * @private
+ */
+app.MapController.prototype.processFeature_ = function(feature) {
+  var geometry = feature.getGeometry();
+  // simplify geometry with a tolerance of 20 meters
+  geometry = geometry.simplify(20);
+  feature.setGeometry(geometry);
+  return feature;
 };
 
 
