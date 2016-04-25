@@ -6,5 +6,8 @@
   </div>
   <div class="list-item-info">
     <span class="list-item-title outing">{{outing.locales[0]['title']}}</span>
+    <div class="route-activities">
+       <span ng-repeat="activity in outing.activities" class="route-activity icon-{{activity}}" uib-tooltip="{{ mainCtrl.translate(activity) }}" tooltip-placement="right"></span>
+    </div>
   </div>        
 </a>

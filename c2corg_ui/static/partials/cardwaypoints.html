@@ -1,0 +1,8 @@
+<a href="{{::url}}"> <span class="list-item-title">{{::doc.locales[0].title}}</span> 
+  <span class="list-item-info"> 
+    <p><b  class="value-title" translate>elevation</b>: <span class="value">{{::doc.elevation}}m</span></p> 
+    <span class="waypoint-type icon-{{::doc.waypoint_type}}"></span> 
+    <span x-translate>{{::doc.waypoint_type}}</span> 
+  </span> 
+</a> 
+<app-delete-association parent-id="::parentId" child-id="::doc.document_id" added-documents="addedDocuments"> </app-delete-association>

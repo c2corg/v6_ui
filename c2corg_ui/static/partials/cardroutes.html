@@ -1,0 +1,11 @@
+<a href="{{::url}}"> 
+  <span class="list-item-title">{{::doc.locales[0].title_prefix}} : {{::doc.locales[0].title}}</span>
+  <span class="list-item-lang">{{::doc.locales[0].lang}}</span>
+  <div class="list-item-info"> 
+    <p ng-if="doc.elevation_max"><b  class="value-title" translate>elevation</b>: <span class="value">{{::doc.elevation_max}}m</span></p> 
+    <div class="route-activities"> 
+      <span ng-repeat="activity in doc.activities" class="route-activity icon-{{::activity}}" uib-tooltip="{{::mainCtrl.translate(activity)}}" tooltip-placement="right"></span> 
+    </div> 
+  </div> 
+</a> 
+<app-delete-association parent-id="::parentId" child-id="::doc.document_id" added-documents="addedDocuments"></app-delete-association>
