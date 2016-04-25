@@ -139,11 +139,11 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
     <span class="lead">
       <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
         <label translate>Add association</label>:
-        <app-add-association parent-id="${outing_id}" added-documents="added" dataset="r"></app-add-association>
+        <app-add-association parent-doc-type="outings" parent-id="${outing_id}" added-documents="added" dataset="r"></app-add-association>
       </div>
       <section>
-        ${show_associated_routes(outing)}
-        ${show_associated_waypoints(outing)}
+        ${show_associated_routes(outing, 'outings')}
+        ${show_associated_waypoints(outing, 'outings')}
       </section>
     </span>
   </div>
@@ -167,7 +167,10 @@ ${show_float_buttons(outing['associations']['users'], 'outings', outing_id, lang
 
 <div class="ng-hide" ng-init="detailsCtrl.documentService.document = ${outing}">
   <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
+  <span ng-init="document.associations = ${outing.get('associations')}"></span>
+  ${delete_association_confirmation_modal()}
 </div>
+
 ${photoswipe_gallery()}
 
 <script>
@@ -176,4 +179,3 @@ ${photoswipe_gallery()}
      $('[data-toggle=\'tooltip\']').tooltip();
   };
 </script>
-
