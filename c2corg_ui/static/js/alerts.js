@@ -78,6 +78,14 @@ app.alertDirective = function() {
       'close': '&',
       'timeout': '@',
       'msg': '@'
+    },
+    link : function() {
+      $('body').click(function(e) {
+        if ($('.alert').length > 0 && $(e.target).closest('.alert').length === 0) {
+          $('.loading').removeClass('loading');
+          $('.alert').hide();
+        }
+      })
     }
   };
 };
