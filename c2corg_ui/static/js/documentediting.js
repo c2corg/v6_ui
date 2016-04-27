@@ -109,6 +109,12 @@ app.DocumentEditingController = function($scope, $element, $attrs,
    * @type {boolean}
    * @private
    */
+  this.hasGeomChanged_ = false;
+
+  /**
+   * @type {boolean}
+   * @private
+   */
   this.isNewLang_ = false;
 
   /**
@@ -299,6 +305,10 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
 
   if (this.id_) {
     // updating an existing document
+    if (!this.hasGeomChanged_) {
+      // no need to push the unchanged geometry back
+      delete data['geometry'];
+    }
     if ('available_langs' in data) {
       delete data['available_langs'];
     }
@@ -396,6 +406,7 @@ app.DocumentEditingController.prototype.handleMapFeaturesChange_ = function(
     data['geometry']['geom'] = this.geojsonFormat_.writeGeometry(centerPoint);
     data['geometry']['geom_detail'] = this.geojsonFormat_.writeGeometry(geometry);
   }
+  this.hasGeomChanged_ = true;
 };
 
 
