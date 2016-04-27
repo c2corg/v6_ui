@@ -19,7 +19,7 @@ module.value('mapFeatureCollection', {
     from json import dumps, loads
     features = [];
     for waypoint in waypoints:
-        if waypoint['geometry']['geom'] is not None:
+        if waypoint.get('geometry') and waypoint.get('geometry').get('geom'):
             properties = {
                "module": "waypoints",
                "type":  waypoint['waypoint_type'],
