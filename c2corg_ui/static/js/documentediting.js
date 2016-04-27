@@ -188,8 +188,8 @@ app.DocumentEditingController = function($scope, $element, $attrs,
     return;
   }
 
-  this.scope_.$root.$on('mapFeatureChange', function(event, feature) {
-    this.handleMapFeatureChange_(feature);
+  this.scope_.$root.$on('mapFeaturesChange', function(event, features) {
+    this.handleMapFeaturesChange_(features);
     this.scope_.$apply();
   }.bind(this));
 };
@@ -361,11 +361,13 @@ app.DocumentEditingController.prototype.updateMap = function() {
 
 
 /**
- * @param {ol.Feature} feature
+ * @param {Array.<ol.Feature>} features
  * @private
  */
-app.DocumentEditingController.prototype.handleMapFeatureChange_ = function(
-    feature) {
+app.DocumentEditingController.prototype.handleMapFeaturesChange_ = function(
+    features) {
+  // TODO handle multiple features?
+  var feature = features[0];
   var geometry = feature.getGeometry();
   goog.asserts.assert(geometry);
   var isPoint = geometry instanceof ol.geom.Point;

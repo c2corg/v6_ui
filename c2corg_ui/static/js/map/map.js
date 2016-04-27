@@ -121,6 +121,8 @@ app.MapController = function($scope, mapFeatureCollection) {
   if (this['edit']) {
     this.scope_.$root.$on('documentDataChange',
         this.handleEditModelChange_.bind(this));
+    this.scope_.$root.$on('featuresUpload',
+        this.handleFeaturesUpload_.bind(this));
     this.addTrackImporter_();
   }
 
@@ -406,6 +408,18 @@ app.MapController.prototype.handleEditModelChange_ = function(event, data) {
 
 
 /**
+ * @param {Object} event
+ * @param {Array.<ol.Feature>} features Uploaded features.
+ * @private
+ */
+app.MapController.prototype.handleFeaturesUpload_ = function(event, features) {
+  features.forEach(this.simplifyFeature_);
+  this.showFeatures_(features);
+  this.scope_.$root.$emit('mapFeaturesChange', features);
+};
+
+
+/**
  * @param {ol.interaction.DrawEvent} event
  * @private
  */
@@ -420,7 +434,7 @@ app.MapController.prototype.handleDraw_ = function(event) {
       }
     }, source);
   }
-  this.scope_.$root.$emit('mapFeatureChange', feature);
+  this.scope_.$root.$emit('mapFeaturesChange', [feature]);
 };
 
 
@@ -429,8 +443,8 @@ app.MapController.prototype.handleDraw_ = function(event) {
  * @private
  */
 app.MapController.prototype.handleModify_ = function(event) {
-  var feature = event.features.item(0);
-  this.scope_.$root.$emit('mapFeatureChange', feature);
+  var features = event.features.getArray();
+  this.scope_.$root.$emit('mapFeaturesChange', features);
 };
 
 
@@ -446,14 +460,9 @@ app.MapController.prototype.addTrackImporter_ = function() {
   dragAndDropInteraction.on('addfeatures', function(event) {
     var features = event.features;
     if (features.length) {
-      var source = this.getVectorLayer_().getSource();
-      // TODO: keep associated features?
-      source.clear();
-      var feature = this.processFeature_(features[0]);
-      source.addFeature(feature);
-      this.map.getView().fit(
-          source.getExtent(), /** @type {ol.Size} */ (this.map.getSize()));
-      this.scope_.$root.$emit('mapFeatureChange', feature);
+      features.forEach(this.simplifyFeature_);
+      this.showFeatures_(features);
+      this.scope_.$root.$emit('mapFeaturesChange', features);
     }
   }.bind(this));
   this.map.addInteraction(dragAndDropInteraction);
@@ -465,7 +474,7 @@ app.MapController.prototype.addTrackImporter_ = function() {
  * @return {ol.Feature}
  * @private
  */
-app.MapController.prototype.processFeature_ = function(feature) {
+app.MapController.prototype.simplifyFeature_ = function(feature) {
   var geometry = feature.getGeometry();
   // simplify geometry with a tolerance of 20 meters
   geometry = geometry.simplify(20);
