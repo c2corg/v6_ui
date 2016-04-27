@@ -162,7 +162,7 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
 
 </section>
 
-${show_float_buttons('outings', outing_id, lang, other_langs, missing_langs)}
+${show_float_buttons(outing['associations']['users'], 'outings', outing_id, lang, other_langs, missing_langs)}
 
 <div class="text-center">
   <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);">&nbsp;<span class="glyphicon glyphicon-menu-up"></span></button>
@@ -174,3 +174,4 @@ ${show_float_buttons('outings', outing_id, lang, other_langs, missing_langs)}
      $('[data-toggle=\'tooltip\']').tooltip();
   };
 </script>
+
