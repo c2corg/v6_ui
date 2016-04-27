@@ -37,7 +37,8 @@ app.mapDirective = function() {
     scope: {
       'editCtrl': '=appMapEditCtrl',
       'drawType': '@appMapDrawType',
-      'disableWheel': '=appMapDisableWheel'
+      'disableWheel': '=appMapDisableWheel',
+      'zoom': '@appMapZoom'
     },
     controller: 'AppMapController',
     controllerAs: 'mapCtrl',
@@ -53,13 +54,19 @@ app.module.directive('appMap', app.mapDirective);
 /**
  * @param {angular.Scope} $scope Directive scope.
  * @param {?GeoJSONFeatureCollection} mapFeatureCollection FeatureCollection of
- *    features
- * to show on the map.
+ *    features to show on the map.
  * @constructor
  * @export
  * @ngInject
  */
 app.MapController = function($scope, mapFeatureCollection) {
+
+
+  /**
+   * @type {number}
+   * @private
+   */
+  this.zoom_ = this['zoom'];
 
   /**
    * @type {angular.Scope}
@@ -160,7 +167,7 @@ app.MapController = function($scope, mapFeatureCollection) {
   } else {
     this.map.setView(new ol.View({
       center: app.MapController.DEFAULT_CENTER,
-      zoom: app.MapController.DEFAULT_ZOOM
+      zoom: this.zoom_ || app.MapController.DEFAULT_ZOOM
     }));
   }
 
@@ -215,7 +222,6 @@ app.MapController = function($scope, mapFeatureCollection) {
  * @type {Array.<number>}
  */
 app.MapController.DEFAULT_CENTER = [0, 0];
-
 
 /**
  * @const
@@ -374,7 +380,7 @@ app.MapController.prototype.showFeatures_ = function(features) {
       features[0].getGeometry() instanceof ol.geom.Point) {
     var point = /** @type {ol.geom.Point} */ (features[0].getGeometry());
     this.view_.setCenter(point.getCoordinates());
-    this.view_.setZoom(app.MapController.DEFAULT_POINT_ZOOM);
+    this.view_.setZoom(this.zoom_ || app.MapController.DEFAULT_POINT_ZOOM);
   } else {
     var mapSize = this.map.getSize() || null;
     this.view_.fit(vectorLayer.getSource().getExtent(), mapSize, {

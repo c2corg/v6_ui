@@ -7,11 +7,10 @@ import httplib2
 import pyproj
 import json
 import logging
+from c2corg_common.attributes import default_langs
 
 from pyramid.httpexceptions import (
     HTTPBadRequest, HTTPNotFound, HTTPInternalServerError)
-
-from c2corg_common.attributes import default_langs
 
 log = logging.getLogger(__name__)
 
