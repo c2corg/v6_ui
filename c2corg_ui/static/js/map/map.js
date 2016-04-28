@@ -10,7 +10,9 @@ goog.require('ol.Feature');
 goog.require('ol.Map');
 goog.require('ol.View');
 goog.require('ol.format.GeoJSON');
+goog.require('ol.format.GPX');
 goog.require('ol.geom.Point');
+goog.require('ol.interaction.DragAndDrop');
 goog.require('ol.interaction.Draw');
 goog.require('ol.interaction.Modify');
 goog.require('ol.interaction.MouseWheelZoom');
@@ -35,7 +37,7 @@ app.mapDirective = function() {
   return {
     restrict: 'E',
     scope: {
-      'editCtrl': '=appMapEditCtrl',
+      'edit': '=appMapEdit',
       'drawType': '@appMapDrawType',
       'disableWheel': '=appMapDisableWheel',
       'zoom': '@appMapZoom'
@@ -91,16 +93,6 @@ app.MapController = function($scope, mapFeatureCollection) {
   this.styleCache = {};
 
   /**
-   * @type {?app.DocumentEditingController}
-   * @private
-   */
-  this.editCtrl_ = this['editCtrl'];
-  if (this.editCtrl_) {
-    this.scope_.$root.$on('documentDataChange',
-        this.handleEditModelChange_.bind(this));
-  }
-
-  /**
    * @type {Array<ol.Feature>}
    * @private
    */
@@ -124,6 +116,15 @@ app.MapController = function($scope, mapFeatureCollection) {
       })
     ]
   });
+
+  // editing mode
+  if (this['edit']) {
+    this.scope_.$root.$on('documentDataChange',
+        this.handleEditModelChange_.bind(this));
+    this.scope_.$root.$on('featuresUpload',
+        this.handleFeaturesUpload_.bind(this));
+    this.addTrackImporter_();
+  }
 
   if (!(this['disableWheel'] || false)) {
     var mouseWheelZoomInteraction = new ol.interaction.MouseWheelZoom();
@@ -396,12 +397,25 @@ app.MapController.prototype.showFeatures_ = function(features) {
  * @private
  */
 app.MapController.prototype.handleEditModelChange_ = function(event, data) {
-  var geomstr = data['geometry'] ? data['geometry']['geom'] : null;
+  var geomattr = this.drawType == 'Point' ? 'geom' : 'geom_detail';
+  var geomstr = data['geometry'] ? data['geometry'][geomattr] : null;
   if (geomstr) {
     var geometry = this.geojsonFormat_.readGeometry(geomstr);
     var features = [new ol.Feature(geometry)];
     this.showFeatures_(features);
   }
+};
+
+
+/**
+ * @param {Object} event
+ * @param {Array.<ol.Feature>} features Uploaded features.
+ * @private
+ */
+app.MapController.prototype.handleFeaturesUpload_ = function(event, features) {
+  features.forEach(this.simplifyFeature_);
+  this.showFeatures_(features);
+  this.scope_.$root.$emit('mapFeaturesChange', features);
 };
 
 
@@ -420,7 +434,7 @@ app.MapController.prototype.handleDraw_ = function(event) {
       }
     }, source);
   }
-  this.scope_.$root.$emit('mapFeatureChange', feature);
+  this.scope_.$root.$emit('mapFeaturesChange', [feature]);
 };
 
 
@@ -429,13 +443,43 @@ app.MapController.prototype.handleDraw_ = function(event) {
  * @private
  */
 app.MapController.prototype.handleModify_ = function(event) {
-  // TODO handle lines as well, not only points
-  if (this.drawType != 'Point') {
-    alert('Feature type not supported for editing');
-    return;
-  }
-  var feature = event.features.item(0);
-  this.scope_.$root.$emit('mapFeatureChange', feature);
+  var features = event.features.getArray();
+  this.scope_.$root.$emit('mapFeaturesChange', features);
+};
+
+
+/**
+ * @private
+ */
+app.MapController.prototype.addTrackImporter_ = function() {
+  var dragAndDropInteraction = new ol.interaction.DragAndDrop({
+    formatConstructors: [
+      ol.format.GPX
+    ]
+  });
+  dragAndDropInteraction.on('addfeatures', function(event) {
+    var features = event.features;
+    if (features.length) {
+      features.forEach(this.simplifyFeature_);
+      this.showFeatures_(features);
+      this.scope_.$root.$emit('mapFeaturesChange', features);
+    }
+  }.bind(this));
+  this.map.addInteraction(dragAndDropInteraction);
+};
+
+
+/**
+ * @param {ol.Feature} feature Feature to process.
+ * @return {ol.Feature}
+ * @private
+ */
+app.MapController.prototype.simplifyFeature_ = function(feature) {
+  var geometry = feature.getGeometry();
+  // simplify geometry with a tolerance of 20 meters
+  geometry = geometry.simplify(20);
+  feature.setGeometry(geometry);
+  return feature;
 };
 
 

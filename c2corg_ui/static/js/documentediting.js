@@ -109,6 +109,12 @@ app.DocumentEditingController = function($scope, $element, $attrs,
    * @type {boolean}
    * @private
    */
+  this.hasGeomChanged_ = false;
+
+  /**
+   * @type {boolean}
+   * @private
+   */
   this.isNewLang_ = false;
 
   /**
@@ -188,8 +194,8 @@ app.DocumentEditingController = function($scope, $element, $attrs,
     return;
   }
 
-  this.scope_.$root.$on('mapFeatureChange', function(event, feature) {
-    this.handleMapFeatureChange_(feature);
+  this.scope_.$root.$on('mapFeaturesChange', function(event, features) {
+    this.handleMapFeaturesChange_(features);
     this.scope_.$apply();
   }.bind(this));
 };
@@ -202,7 +208,6 @@ app.DocumentEditingController = function($scope, $element, $attrs,
 app.DocumentEditingController.prototype.successRead_ = function(response) {
   var data = response['data'];
   var toCoordinates = (function(str) {
-    // FIXME handle lines and polygons
     var point = /** @type {ol.geom.Point} */
         (this.geojsonFormat_.readGeometry(str));
     return this.getCoordinatesFromPoint_(point);
@@ -210,7 +215,10 @@ app.DocumentEditingController.prototype.successRead_ = function(response) {
 
   if ('geometry' in data && data['geometry']) {
     var geometry = data['geometry'];
-    if ('geom' in geometry && geometry['geom']) {
+    // don't add lonlat for line or polygon geometries
+    // (point geometries have no 'geom_detail' attribute)
+    if (!('geom_detail' in geometry) &&
+        'geom' in geometry && geometry['geom']) {
       var coordinates = toCoordinates(geometry['geom']);
       data['lonlat'] = {
         'longitude': coordinates[0],
@@ -297,6 +305,10 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
 
   if (this.id_) {
     // updating an existing document
+    if (!this.hasGeomChanged_) {
+      // no need to push the unchanged geometry back
+      delete data['geometry'];
+    }
     if ('available_langs' in data) {
       delete data['available_langs'];
     }
@@ -359,24 +371,42 @@ app.DocumentEditingController.prototype.updateMap = function() {
 
 
 /**
- * @param {ol.Feature} feature
+ * @param {Array.<ol.Feature>} features
  * @private
  */
-app.DocumentEditingController.prototype.handleMapFeatureChange_ = function(
-    feature) {
+app.DocumentEditingController.prototype.handleMapFeaturesChange_ = function(
+    features) {
+  // TODO handle multiple features?
+  var feature = features[0];
   var geometry = feature.getGeometry();
   goog.asserts.assert(geometry);
+  var isPoint = geometry instanceof ol.geom.Point;
   var data = this.scope_[this.modelName_];
   // If creating a new document, the model has no geometry attribute yet:
   data['geometry'] = data['geometry'] || {};
-  data['geometry']['geom'] = this.geojsonFormat_.writeGeometry(geometry);
-  if (geometry instanceof ol.geom.Point) {
-    var coords = this.getCoordinatesFromPoint_(geometry.clone());
+  if (isPoint) {
+    data['geometry']['geom'] = this.geojsonFormat_.writeGeometry(geometry);
+    var coords = this.getCoordinatesFromPoint_(
+        /** @type {ol.geom.Point} */ (geometry.clone()));
     data['lonlat'] = {
       'longitude': coords[0],
       'latitude': coords[1]
     };
+  } else {
+    var center;
+    // For lines, use the middle point as point geometry:
+    if (geometry instanceof ol.geom.LineString) {
+      center = geometry.getCoordinateAt(0.5);
+    } else if (geometry instanceof ol.geom.MultiLineString) {
+      center = geometry.getLineString(0).getCoordinateAt(0.5);
+    } else {
+      center = ol.extent.getCenter(geometry.getExtent());
+    }
+    var centerPoint = new ol.geom.Point(center);
+    data['geometry']['geom'] = this.geojsonFormat_.writeGeometry(centerPoint);
+    data['geometry']['geom_detail'] = this.geojsonFormat_.writeGeometry(geometry);
   }
+  this.hasGeomChanged_ = true;
 };
 
 
