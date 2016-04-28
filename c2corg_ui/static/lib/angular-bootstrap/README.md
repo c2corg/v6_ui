@@ -2,6 +2,8 @@
 
 2) select the necessary modules, in our case those are : 
 	- datepicker
+	- dateparser
+	- datepicker popup
 	- modal
 	- dropdown
 	- popover
