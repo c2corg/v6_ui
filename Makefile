@@ -1,9 +1,8 @@
 SITE_PACKAGES = $(shell .build/venv/bin/python -c "import distutils; print(distutils.sysconfig.get_python_lib())" 2> /dev/null)
 TEMPLATE_FILES_IN = $(filter-out ./.build/% ./node_modules/% ./v6_api/%, $(shell find . -type f -name '*.in'))
 TEMPLATE_FILES = $(TEMPLATE_FILES_IN:.in=)
-CLOSURE_UTIL_PATH := openlayers/node_modules/closure-util
-CLOSURE_LIBRARY_PATH = $(shell node -e 'process.stdout.write(require("$(CLOSURE_UTIL_PATH)").getLibraryPath())' 2> /dev/null)
-CLOSURE_COMPILER_PATH = $(shell node -e 'process.stdout.write(require("$(CLOSURE_UTIL_PATH)").getCompilerPath())' 2> /dev/null)
+CLOSURE_LIBRARY_PATH = $(shell node -e 'process.stdout.write(require("closure-util").getLibraryPath())' 2> /dev/null)
+CLOSURE_COMPILER_PATH = $(shell node -e 'process.stdout.write(require("closure-util").getCompilerPath())' 2> /dev/null)
 OL_JS_FILES = $(shell find node_modules/openlayers/src/ol -type f -name '*.js' 2> /dev/null)
 NGEO_JS_FILES = $(shell find node_modules/ngeo/src -type f -name '*.js' 2> /dev/null)
 APP_JS_FILES = $(shell find c2corg_ui/static/js -type f -name '*.js')
@@ -110,7 +109,7 @@ c2corg_ui/locale/%/LC_MESSAGES/c2corg_ui-client.po: c2corg_ui/locale/c2corg_ui-c
 
 c2corg_ui/static/build/build.js: build.json c2corg_ui/static/build/templatecache.js $(OL_JS_FILES) $(NGEO_JS_FILES) $(APP_JS_FILES) .build/node_modules.timestamp
 	mkdir -p $(dir $@)
-	./node_modules/openlayers/node_modules/.bin/closure-util build $< $@
+	./node_modules/.bin/closure-util build $< $@
 
 c2corg_ui/static/build/build.min.css: $(LESS_FILES) .build/node_modules.timestamp
 	mkdir -p $(dir $@)
