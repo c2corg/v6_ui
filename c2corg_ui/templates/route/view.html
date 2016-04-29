@@ -12,6 +12,7 @@ from c2corg_ui.templates.utils import get_lang_lists
 
 <%
 route_id = route['document_id']
+route['doctype'] = 'routes'
 other_langs, missing_langs = get_lang_lists(route, lang)
 %>
 
@@ -105,69 +106,76 @@ other_langs, missing_langs = get_lang_lists(route, lang)
   </div>
   % endif
   
-  <div class="thumbnail view-details-informations tab  col-sm-12 informations">
-    <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
-      <span translate>Informations</span><span class="glyphicon glyphicon-menu-down"></span>
-    </h3>
-    <section id="document-informations" class="collapse in">
-      ${get_route_general(route, locale)}
-      ${get_route_location(route)}
-      ${get_route_heights(route)}
-      ${get_route_rating(route)}
-      ${get_route_access(route)}
-      ${get_route_associated_maps(route)}
-    </section>
-  </div> 
-
-  ## DESCRIPTION
-  % if locale['summary'] or locale['description']:
-  <div class="view-details-description col-xs-12 tab description">
-    <h3 class="heading show-phone"><span translate>description</span></h3>
-    <span class="lead">
-      <div id="document-description" class="collapse in">
-
-        % if locale['summary']:
-        <summary class="document-summary">
-          <label translate>summary</label><br>
-          ${show_attr(locale, 'summary')}
-        </summary>
-        % endif
-
-        % if locale['description']:
-        ${show_attr(locale, 'description')}
-        % endif
-
-      </div>
-    </span>
-  </div>
-  % endif
-  
-  <div class="description tab">
-    ${get_document_locale_text(locale, 'remarks')}
-    ${get_document_locale_text(locale, 'gear')}
-    ${get_document_locale_text(locale, 'route_history')}
-  </div>
-  
-  ## ASSOCIATIONS
-  % if not version:
-  
-    % if len(route['associations']['recent_outings']['outings']) > 0:
-    <div class="view-details-associations col-xs-12 tab associations">
-      <span class="lead">
-        <section>
-          ${get_associated_documents(route, 'recent_outings')}
+      <div class="thumbnail view-details-informations tab  col-sm-12 informations">
+        <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
+          <span translate>Informations</span><span class="glyphicon glyphicon-menu-down"></span>
+        </h3>
+        <section id="document-informations" class="collapse in">
+          ${get_route_general(route, locale)}
+          ${get_route_location(route)}
+          ${get_route_heights(route)}
+          ${get_route_rating(route)}
+          ${get_route_access(route)}
+          ${get_route_associated_maps(route)}
         </section>
+      </div>
+  
+    ## DESCRIPTION
+    % if locale['summary'] or locale['description']:
+    <div class="view-details-description col-xs-12 tab description">
+      <h3 class="heading show-phone"><span translate>description</span></h3>
+      <span class="lead">
+        <div id="document-description" class="collapse in">
+
+          % if locale['summary']:
+          <summary class="document-summary">
+            <label translate>summary</label><br>
+            ${show_attr(locale, 'summary')}
+          </summary>
+          % endif
+
+          % if locale['description']:
+          ${show_attr(locale, 'description')}
+          % endif
+
+        </div>
       </span>
     </div>
+    % endif
+
+    <div class="description tab">
+      ${get_document_locale_text(locale, 'remarks')}
+      ${get_document_locale_text(locale, 'gear')}
+      ${get_document_locale_text(locale, 'route_history')}
+    </div>
+    
+    
+  ## ASSOCIATIONS
+  % if not version:
+
+    % if len(route['associations']['recent_outings']['outings']) > 0:
+      <div class="view-details-associations col-xs-12 tab associations">
+        <span class="lead">
+          <section>
+            ${get_associated_documents(route, 'recent_outings')}
+          </section>
+        </span>
+      </div>
     % endif
 
     <div class="view-details-associations col-xs-12 tab associations">
       <span class="lead">
         <section>
-          <div ng-show="userCtrl.auth.isAuthenticated()">
+          <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
             <label translate>Add association</label>:
             <app-add-association parent-id="${route_id}" added-documents="added"></app-add-association>
           </div>
+          % if len(route['associations']['recent_outings']['outings']) == 0:
+            <div class="add-outing">
+              <p class="text-center"><strong>no outings yet?</strong><p>
+                <button type="button" class="btn gray-btn" protected-url-btn url="'${request.route_url('outings_add')}' + '?docToAssociateId=${route_id}?doctype=routes'" translate>add a new one to this document</button>
+            </div>
+          % endif
           ${get_associated_documents(route, 'waypoints')}
           ${get_associated_documents(route, 'routes')}
         </section>

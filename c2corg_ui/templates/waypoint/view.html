@@ -10,6 +10,7 @@ from c2corg_ui.templates.utils import get_lang_lists
 <%
 waypoint_id = waypoint['document_id']
 other_langs, missing_langs = get_lang_lists(waypoint, lang)
+waypoint['doctype'] = 'waypoints'
 
 ## FIXME: transform() makes server crash in apache mode. Reprojection is then temporarly deactivated.
 ##geometry4326 = transform(geometry, 'epsg:3857', 'epsg:4326')
@@ -158,7 +159,7 @@ geometry4326 = geometry
     <div class="view-details-associations col-xs-12 tab associations">
       <span class="lead">
       <section>
-        <div ng-show="userCtrl.auth.isAuthenticated()">
+        <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
           <label translate>Add association</label>:
           <app-add-association parent-id="${waypoint_id}" added-documents="added"></app-add-association>
         </div>

@@ -79,43 +79,6 @@
       margin-top: 0;
     }
   }
-  .section.title {
-    
-    .route-activities { 
-      .flex();
-      justify-content: space-around;
-      flex-flow: wrap row;
-      @media @phone {
-        justify-content: space-between;
-      }
-      .activity {
-        width: 20%;
-        text-align: center;
-        cursor: pointer;
-        @media (max-width: @screen-md-min) {
-          width: 33%;
-        }
-        p {
-          text-align: center;
-        }
-      }
-     [class^="icon-"] {
-        font-size: 8em;
-        @media @big {
-          font-size: 9em;
-        }
-        @media (max-width: @screen-sm-min) {
-          font-size: 6em;
-        }
-        @media (max-width: @screen-sm-max) {
-          font-size: 7em;
-        }
-        @media @phone {
-          font-size: 5em;
-        }
-      }
-    }
-  }
 
   #maps_info-group {
     width: 100%;
@@ -152,6 +115,41 @@
     background: white;
     margin-bottom: 15px;
     width: 100%;
+    
+    .route-activities { 
+      .flex();
+      justify-content: space-around;
+      flex-flow: wrap row;
+      @media @phone {
+        justify-content: space-between;
+      }
+      .activity {
+        width: 20%;
+        text-align: center;
+        cursor: pointer;
+        @media (max-width: @screen-md-min) {
+          width: 33%;
+        }
+        p {
+          text-align: center;
+        }
+      }
+     [class^="icon-"] {
+        font-size: 8em;
+        @media @big {
+          font-size: 9em;
+        }
+        @media (max-width: @screen-sm-min) {
+          font-size: 6em;
+        }
+        @media (max-width: @screen-sm-max) {
+          font-size: 7em;
+        }
+        @media @phone {
+          font-size: 5em;
+        }
+      }
+    }
     
     .conditions-levels {
       margin-bottom: 10px;
@@ -206,9 +204,6 @@
       height: 300px !important;
     }
     .route-activities { 
-      .flex();
-      justify-content: space-around;
-      flex-flow: wrap row; 
      @media @phone {
         justify-content: space-between;
       }

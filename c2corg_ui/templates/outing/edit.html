@@ -373,7 +373,7 @@ updating_doc = outing_id and outing_lang
           <div class="content outing-route" id="track-edit">
 
             ## ACCESS COMMENT
-            <div class="form-group data full" ng-class="{'has-success': outing.locales[0].access_comment"}">
+            <div class="form-group data full" ng-class="{'has-success': outing.locales[0].access_comment}">
               <label translate>access_comment</label>
               <textarea class="form-control " ng-model="outing.locales[0].access_comment"></textarea>
             </div>
@@ -455,11 +455,18 @@ updating_doc = outing_id and outing_lang
               </div>
             </div>
 
-            ## AWESOMENESS
-            <div id="lang-group" class="form-group">
-              <label translate>awesomeness</label>
-              <div class="input-group awesomeness">
-                <uib-rating ng-model="outing.awesomeness" max="5"  ></uib-rating>
+            ## LANGUAGE
+            <div id="lang-group" class="form-group" ng-class="{ 'has-error': editForm.lang.$touched && editForm.lang.$invalid, 'has-success': editForm.lang.$valid}">
+              <label><span translate>lang</span> *</label>
+              % if outing_lang:
+                <input disabled x-translate class="form-control" value="${outing_lang}">
+              % else:
+                <select name="lang" ng-options="lang as mainCtrl.translate(lang) for lang in ['${"','".join(default_langs) |n}'] | translate" ng-model="outing.locales[0].lang" class="form-control" required><option value=""></option></select>
+              % endif
+                <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.locales[0].lang"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.lang.$touched && editForm.lang.$invalid"></span>
+              <div class="help-block" ng-messages="editForm.lang.$error">
+                <p ng-message="required" class="label label-danger" style="{{ (editForm.lang.$invalid && editForm.lang.$touched) ? 'display:inline' : '' }}" translate>This field is required.</p>
               </div>
             </div>
 

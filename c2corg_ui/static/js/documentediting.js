@@ -46,6 +46,7 @@ app.module.directive('appDocumentEditing', app.documentEditingDirective);
  * @param {angular.JQLite} $element Element.
  * @param {angular.Attributes} $attrs Attributes.
  * @param {app.Authentication} appAuthentication
+ * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {app.Alerts} appAlerts
  * @param {app.Api} appApi Api service.
  * @param {string} authUrl Base URL of the authentication page.
@@ -54,7 +55,14 @@ app.module.directive('appDocumentEditing', app.documentEditingDirective);
  * @export
  */
 app.DocumentEditingController = function($scope, $element, $attrs,
-    appAuthentication, appAlerts, appApi, authUrl) {
+    appAuthentication, ngeoLocation, appAlerts, appApi, authUrl) {
+
+  /**
+   * @type {ngeo.Location}
+   * @private
+   */
+  this.ngeoLocation_ = ngeoLocation;
+
 
   /**
    * @type {angular.Scope}
@@ -153,6 +161,11 @@ app.DocumentEditingController = function($scope, $element, $attrs,
    */
   this.max_steps;
 
+ /**
+  * @type {boolean}
+  * @private
+  */
+  this.submit_ = false;
 
   /**
    * Waypoint init
@@ -170,6 +183,12 @@ app.DocumentEditingController = function($scope, $element, $attrs,
    * @private
    */
   this.api_ = appApi;
+
+  // allow association only new outing  to existing route
+  if (this.ngeoLocation_.hasParam('routes')) {
+    this.urlParams_ = {'routes': this.ngeoLocation_.getParam('routes')};
+    this.pushDocToAssociations_();
+  }
 
   // When creating a new document, the model is not created until
   // the form is touched. At least create an empty object.
@@ -265,10 +284,9 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
   }
 
   if (!this.auth_.isAuthenticated()) {
-    this.alerts_.addError('You have no permission to modify this document');
+    this.alerts_.addError('You must log in to edit this document.');
     return;
   }
-
   // push to API
   var data = angular.copy(this.scope_[this.modelName_]);
   if (!goog.isArray(data['locales'])) {
@@ -303,6 +321,8 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
     delete data['read_lonlat'];
   }
 
+  this.submit_ = true;
+
   if (this.id_) {
     // updating an existing document
     if (!this.hasGeomChanged_) {
@@ -329,6 +349,16 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
   } else {
     // creating a new document
     this.lang_ = data['locales'][0]['lang'];
+    if (this.modelName_ === 'outing') {
+      // adapt the Object for what's expected at the API side + format the outing
+      this.formatOuting_(data);
+      data = {
+        'outing': data,
+        'route_id': data['associations']['routes'][0]['document_id'],
+        'user_ids': [this.auth_.userData.id]
+      };
+    }
+
     this.api_.createDocument(this.module_, data).then(function(response) {
       this.id_ = response['data']['document_id'];
       window.location.href = app.utils.buildDocumentUrl(
@@ -407,6 +437,18 @@ app.DocumentEditingController.prototype.handleMapFeaturesChange_ = function(
     data['geometry']['geom_detail'] = this.geojsonFormat_.writeGeometry(geometry);
   }
   this.hasGeomChanged_ = true;
+};
+
+
+/**
+ * It doesn't associate, it just pushes it into associations array.
+ * @private
+ */
+app.DocumentEditingController.prototype.pushDocToAssociations_ = function() {
+  var doctype = Object.keys(this.urlParams_)[0];
+  this.api_.getDocumentByIdAndDoctype(this.urlParams_[doctype], doctype[0]).then(function(doc) {
+    this.scope_[this.modelName_]['associations'][doctype].push(doc.data[doctype].documents[0]);
+  }.bind(this));
 };
 
 
@@ -554,7 +596,6 @@ app.DocumentEditingController.prototype.animateBar_ = function(step, direction) 
  */
 
 app.DocumentEditingController.prototype.updateMaxSteps = function(waypointType) {
-
   if (app.constants.STEPS[waypointType]) {
     this.max_steps = app.constants.STEPS[waypointType];
   } else {
@@ -566,31 +607,52 @@ app.DocumentEditingController.prototype.updateMaxSteps = function(waypointType) 
  * @param {Object} outing
  * @private
  */
-
 app.DocumentEditingController.prototype.formatOuting_ = function(outing) {
-  // creating a new outing -> init locales
+  if (this.submit_) {
+    if (outing['locales'][0]['conditions_levels'][0]['level_place'].length > 0) {
+      // transform condition_levels to a string
+      outing['locales'][0]['conditions_levels'] = JSON.stringify(outing['locales'][0]['conditions_levels']);
+    } else {
+      delete outing['locales'][0]['conditions_levels'][0];
+    }
+    // if no date end -> make it the same as date start
+    if (!outing['date_end'] && outing['date_start'] instanceof Date) {
+      outing['date_end'] = outing['date_start'];
+    }
+  }
+  // creating a new outing -> init locales and associations
   if (!outing['locales']) {
     outing['locales'] = [{}];
   }
-
-  outing['date_start'] = app.utils.formatDate(outing['date_start']);
-  outing['date_end'] = app.utils.formatDate(outing['date_end']);
-
-  // conditions_levels -> to JSON and snow -> INT
-  if (outing['locales'][0]['conditions_levels']) {
-    outing['locales'][0]['conditions_levels'] = JSON.parse(outing['locales'][0]['conditions_levels']);
-    for (var i = 0; i < outing['locales'][0]['conditions_levels'].length; i++) {
-      var cond = outing['locales'][0]['conditions_levels'][i];
-      cond['level_snow_height_soft'] = parseInt(cond['level_snow_height_soft'], 10);
-      cond['level_snow_height_total'] = parseInt(cond['level_snow_height_total'], 10);
-    }
-  } else {
-    // init empty conditions_levels for ng-repeat
-    outing['locales'][0]['conditions_levels'] = [{'level_snow_height_soft': '', 'level_snow_height_total': '', 'level_comment': '', 'level_place': ''}];
+  if (!outing['associations']) {
+    outing['associations'] = {'routes': [], 'waypoints': [], users: []};
   }
 
+  // convert existing date from string to a date object
+  if (outing['date_end'] && typeof outing['date_end'] === 'string') {
+    outing['date_end'] = app.utils.formatDate(outing['date_end']);
+  }
+
+  if (outing['date_start'] && outing['date_start'] === 'string') {
+    outing['date_start'] = app.utils.formatDate(outing['date_start']);
+  }
+
+  var conditions = outing['locales'][0]['conditions_levels'];
+  // conditions_levels -> to Object, snow_height -> to INT
+  if (conditions && typeof conditions === 'string') {
+    conditions = JSON.parse(conditions);
+    for (var i = 0; i < conditions.length; i++) {
+      conditions[i]['level_snow_height_soft'] = parseInt(conditions[i]['level_snow_height_soft'], 10);
+      conditions[i]['level_snow_height_total'] = parseInt(conditions[i]['level_snow_height_total'], 10);
+    }
+  } else {
+    if (!this.submit_) {
+      // init empty conditions_levels for ng-repeat
+      outing['locales'][0]['conditions_levels'] = [{'level_snow_height_soft': '', 'level_snow_height_total': '', 'level_comment': '', 'level_place': ''}];
+    }
+  }
   return outing;
-}
+};
 
 
 /**
@@ -603,7 +665,7 @@ app.DocumentEditingController.prototype.formatOuting_ = function(outing) {
  */
 app.DocumentEditingController.prototype.pushToArray = function(object, property, value, event) {
   app.utils.pushToArray(object, property, value, event);
-}
+};
 
 
 /**

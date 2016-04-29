@@ -12,6 +12,7 @@ import json
     show_areas, show_float_buttons, get_associated_documents"/>
 <%
 outing_id = outing['document_id']
+outing['doctype'] = 'outings'
 other_langs, missing_langs = get_lang_lists(outing, lang)
 %>
 
@@ -140,7 +141,7 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
   % if not version and ('waypoint' in outing['associations'] and  len(outing['associations']['waypoints']) > 0 or 'routes' in outing['associations'] and  len(outing['associations']['routes']) > 0):
   <div class="view-details-associations col-xs-12 tab associations">
     <span class="lead">
-      <div ng-show="userCtrl.auth.isAuthenticated()">
+      <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
         <label translate>Add association</label>:
         <app-add-association parent-id="${outing_id}" added-documents="added"></app-add-association>
       </div>
