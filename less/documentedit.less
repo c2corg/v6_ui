@@ -311,7 +311,9 @@
       }
     }
   }
-
+  .input-group {
+    z-index: 0 !important;
+  }
   .form-control-feedback {
     position: relative;
     top: -34px;
@@ -321,13 +323,14 @@
     left: calc(~"100% + 5px");
     width: 14px;
     height: 20px;
-    z-index: 0;
+    z-index: 0 !important;
     pointer-events: all;
     
     @media @phone {
       display: none;
     }
   }
+  
   .map-edit {
     margin-top: -5px;
     flex-basis: 100%;
@@ -425,9 +428,7 @@
     border: none;
     margin-bottom: 0;
   }
-  .form-control.smaller {
-    width: 90%;
-  }
+  
   ul {
     padding: 0;
     list-style: none;
@@ -454,10 +455,6 @@
       cursor: pointer;
     }
 
-    input {
-      margin-left: 0;
-      position: initial;
-    }
     .checkbox {
       margin: 0;
     }

@@ -24,7 +24,7 @@
     "less": "git://github.com/less/less.js#ec04a03f1cba3a092d5cd7f7c5d8e28bb43c1932",
     "less-plugin-clean-css": "1.5.1",
     "nomnom": "1.8.1",
-    "typeahead.js": "0.11.1",
+    "typeahead.js": "git://github.com/corejavascript/typeahead.js#v0.11.1",
     "jquery": "2.2.0",
     "eslint": "2.1.0",
     "eslint-config-openlayers": "4.0.0"

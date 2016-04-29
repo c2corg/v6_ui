@@ -9,10 +9,10 @@ goog.require('ngeo.searchDirective');
 /**
  * The directive for the auto-complete search field shown in the header
  * of every page.
- *
+ * @param {angular.$compile} $compile Angular compile service.
  * @return {angular.Directive} Directive Definition Object.
  */
-app.searchDirective = function() {
+app.searchDirective = function($compile) {
   return {
     restrict: 'E',
     controller: 'AppSearchController',
@@ -27,12 +27,14 @@ app.searchDirective = function() {
          * @param {angular.JQLite} element Element.
          */
         function($scope, element) {
+
           var phoneScreen = app.constants.SCREEN.SMARTPHONE;
 
           // Empty the search field on focus and blur.
           $('.page-header').find('input').on('focus blur', function() {
             $(this).typeahead('val', '');
           });
+
           //Remove the class 'show-search' when screen width > @phone (defined in LESS)
           $(window).resize(function resize() {
             if ($(window).width() > phoneScreen) {
@@ -41,35 +43,41 @@ app.searchDirective = function() {
             }
           });
 
-          // Trigger focus on search-icon click for .search
-          $('.page-header .search-icon').on('click', function(event) {
+          element.on('click', function(e) {
+
+            // collapse suggestions
+            if ($('app-search .header').is(e.target)) {
+              $(e.target).siblings('.tt-suggestion').slideToggle();
+            }
+
+            // Trigger focus on search-icon click for .search
             if (window.innerWidth < phoneScreen) {
-              $('.page-header').find('.quick-search').toggleClass('show-search');
-              $('.page-header').find('.search').focus();
-              $('.logo.header, .menu-open-close.header').toggleClass('no-opacity');
-              event.stopPropagation();
+              if ($('.page-header .search-icon').is(e.target)) {
+                $('.page-header').find('.quick-search').toggleClass('show-search');
+                $('.page-header').find('.search').focus();
+                $('.logo.header, .menu-open-close.header').toggleClass('no-opacity');
+              }
             }
           });
 
-          $('body:not(.page-header)').click(function(e) {
-            $('.tt-dataset.empty').remove();
-
-            if (!$('.page-header, .show-search, .quick-search, .search').is(e.target)) {
+          // hide the menu when click outside (smartphone)
+          $('main').click(function(e) {
+            if (window.innerWidth < phoneScreen) {
               $('.show-search').removeClass('show-search');
-              if (window.innerWidth < phoneScreen) {
-                $('.logo.header, .menu-open-close.header').removeClass('no-opacity');
-              }
+              $('.logo.header, .menu-open-close.header').removeClass('no-opacity');
             }
           });
 
           //show spinning gif while waiting for the results
           element.on('typeahead:asyncrequest', function() {
             element.find('input').addClass('loading-gif-typehead');
-          })
+          });
           element.on('typeahead:asynccancel typeahead:asyncreceive', function() {
             element.find('input').removeClass('loading-gif-typehead');
           });
+
         }
+
   };
 };
 
@@ -78,14 +86,15 @@ app.module.directive('appSearch', app.searchDirective);
 
 /**
  * @constructor
- * @param {angular.Scope} $scope Angular scope.
+ * @param {!angular.Scope} $scope Angular scope.
  * @param {angular.$compile} $compile Angular compile service.
+ * @param {angular.$templateCache} $templateCache service
  * @param {angular.Attributes} $attrs Angular attributes.
  * @param {string} apiUrl Base URL of the API.
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @ngInject
  */
-app.SearchController = function($scope, $compile, $attrs, apiUrl, gettextCatalog) {
+app.SearchController = function($scope, $compile, $attrs, apiUrl, gettextCatalog, $templateCache) {
 
   /**
    * Bound from directive.
@@ -107,6 +116,13 @@ app.SearchController = function($scope, $compile, $attrs, apiUrl, gettextCatalog
     this.selectHandler = undefined;
   }
 
+
+  /**
+   * @type {angular.$templateCache}
+   * @private
+   */
+  this.templatecache_ = $templateCache;
+
   /**
    * @type {string}
    * @private
@@ -114,7 +130,7 @@ app.SearchController = function($scope, $compile, $attrs, apiUrl, gettextCatalog
   this.apiUrl_ = apiUrl;
 
   /**
-   * @type {angular.Scope}
+   * @type {!angular.Scope}
    * @private
    */
   this.scope_ = $scope;
@@ -141,8 +157,9 @@ app.SearchController = function($scope, $compile, $attrs, apiUrl, gettextCatalog
    * @export
    */
   this.datasets = [
-    this.createDataset_('waypoints', 'Waypoints'),
-    this.createDataset_('routes', 'Routes')
+    this.createDataset_('waypoints'),
+    this.createDataset_('routes'),
+    this.createDataset_('outings')
   ];
 
   /**
@@ -163,13 +180,13 @@ app.SearchController = function($scope, $compile, $attrs, apiUrl, gettextCatalog
 
 /**
  * @param {string} type The document type.
- * @param {string} title The category title.
  * @return {TypeaheadDataset} A data set.
  * @private
  */
-app.SearchController.prototype.createDataset_ = function(type, title) {
+app.SearchController.prototype.createDataset_ = function(type) {
   var bloodhoundEngine = this.createAndInitBloodhound_(type);
   return /** @type {TypeaheadDataset} */({
+    contents : type,
     source: bloodhoundEngine.ttAdapter(),
     display: function(doc) {
       return doc.label;
@@ -177,18 +194,23 @@ app.SearchController.prototype.createDataset_ = function(type, title) {
     limit: 20,
     templates: {
       header: (function() {
-        return '<div class="header ' + title + '">' +
-            this.gettextCatalog_.getString(title) + '</div>';
+        return '<div class="header" dataset="' + type + '">' + this.gettextCatalog_.getString(type) + '</div>';
       }).bind(this),
+      footer: function() {
+        return '<p class="suggestion-more"><a href="/' + type + '" class="green-text">+ see more results</a></p>';
+      },
       suggestion: function(doc) {
-        return '<p>' + doc.label + '</p>';
-      }
-      // Note: The templates for `notFound` and `pending` are not set, because
-      // they would be shown for each dataset.
+        this.scope_['doc'] = doc;
+        return this.compile_('<app-suggestion  class="tt-suggestion"></app-suggestion>')(this.scope_);
+      }.bind(this),
+      empty: function(res) {
+        if ($('.header.empty').length === 0) {
+          return this.compile_(this.templatecache_.get('/static/partials/suggestionempty.html'))(this.scope_);
+        }
+      }.bind(this)
     }
   });
 };
-
 
 /**
  * @param {string} type The document type.
@@ -196,11 +218,10 @@ app.SearchController.prototype.createDataset_ = function(type, title) {
  * @private
  */
 app.SearchController.prototype.createAndInitBloodhound_ = function(type) {
-  var empty_template = $('#empty-results').html(); // in base.html
   var url = this.apiUrl_ + '/search?q=%QUERY';
 
   var bloodhound = new Bloodhound(/** @type {BloodhoundOptions} */({
-    limit: 10,
+    limit: 7,
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('label'),
     remote: {
@@ -216,28 +237,20 @@ app.SearchController.prototype.createAndInitBloodhound_ = function(type) {
           if (this.datasetLimit_.length === 1) {
             url = url + '&t=' + this.datasetLimit_;
           } else {
-            // you receive for ex 'wro' (waypoints, routes, users) -> split into w,r,o
+            // you receive for ex 'wru' (waypoints, routes, users) -> split into w,r,u
             this.datasetLimit_ = this.datasetLimit_.split('').join(',');
           }
         }
-
         settings['url'] = url.replace('%QUERY', encodeURIComponent(query));
         return settings;
       }).bind(this),
+
       filter: (function(/** appx.SearchResponse */ resp) {
         var documentResponse =
                 /** @type {appx.SearchDocumentResponse} */ (resp[type]);
-
         if (documentResponse) {
           var documents = documentResponse.documents;
           var currentLang = this.gettextCatalog_.currentLanguage;
-
-          if (documents.length === 0) {
-            $('.tt-dataset.empty').remove();
-            $('.tt-empty').append(empty_template);
-          } else {
-            $('.tt-dataset.empty').remove();
-          }
 
           return documents.map(function(/** appx.SearchDocument */ doc) {
             var locale = doc.locales[0];
@@ -278,6 +291,5 @@ app.SearchController.select_ = function(event, doc, dataset) {
     window.location.href = url;
   }
 };
-
 
 app.module.controller('AppSearchController', app.SearchController);
