@@ -4,3 +4,4 @@ export debug_port = 6556
 export instanceid = gberaudo
 export base_url = /${instanceid}
 export api_url = http://127.0.0.1:6546
+export skip_captcha_validation = False

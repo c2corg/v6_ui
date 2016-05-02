@@ -1,3 +1,6 @@
+<%!
+from pyramid.settings import asbool
+%>
 <%inherit file="base.html"/>
 <%namespace file="helpers/common.html" import="show_title"/>
 <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Authentication')">${show_title('Authentication')}</title></%block>
@@ -92,6 +95,11 @@
             <p ng-message="required" translate>This field is required.</p>
           </div>
         </div>
+%if not asbool(request.registry.settings['skip.captcha.validation']):
+        <div id="register-captcha-group" class="form-group">
+          <div vc-recaptcha ng-model="register.captcha" required></div>
+        </div>
+%endif
         <p>
           <button type="submit" class="btn blue-btn" ng-disabled="registerForm.$invalid" translate>Register</button>
         </p>
@@ -159,3 +167,4 @@
 
   </section>
 </div>
+<script src="https://www.google.com/recaptcha/api.js?onload=vcRecaptchaApiLoaded&render=explicit" async defer></script>

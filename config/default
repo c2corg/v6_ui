@@ -14,3 +14,4 @@ export api_url_internal =
 export api_url_host =
 
 export logging_level = WARNING
+export skip_captcha_validation = False

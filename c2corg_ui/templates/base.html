@@ -86,6 +86,7 @@ closure_library_path = settings.get('closure_library_path')
     <script src="${request.static_url('%s/typeahead.js/dist/typeahead.bundle.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/moment/moment.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/angular-moment/angular-moment.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%s/angular-recaptcha/release/angular-recaptcha.js' % node_modules_path)}"></script>
     <script src="${request.route_url('deps.js')}"></script>
     <script src="${request.static_url('c2corg_ui:static/js/main.js')}"></script>
 % else:
@@ -101,6 +102,7 @@ closure_library_path = settings.get('closure_library_path')
     <script src="${request.static_url('%s/typeahead.js/dist/typeahead.bundle.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/moment/min/moment.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/angular-moment/angular-moment.min.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%s/angular-recaptcha/release/angular-recaptcha.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('c2corg_ui:static/build/build.js')}"></script>
 % endif
 
@@ -113,6 +115,9 @@ closure_library_path = settings.get('closure_library_path')
          module.constant('apiUrl', '${api_url}');
          module.constant('authUrl', '${request.route_url('auth')}');
          module.constant('langs', ['${"','".join(default_langs) |n}']);
+         module.config(function(vcRecaptchaServiceProvider) {
+           vcRecaptchaServiceProvider.setSiteKey('${settings["recaptcha_site_key"]}');
+         });
          <%block name="moduleConstantsValues">
          module.value('mapFeatureCollection', null);
          </%block>

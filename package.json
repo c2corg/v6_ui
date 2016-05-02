@@ -8,6 +8,7 @@
     "closure-util": "1.10.0",
     "angular-moment": "^1.0.0-beta.4",
     "angular-ui-bootstrap": "1.1.2",
+    "angular-recaptcha": "git://github.com/VividCortex/angular-recaptcha#3.0.1",
     "async": "1.5.2",
     "bootstrap": "3.3.6",
     "bootstrap-slider": "6.0.16",
@@ -15,18 +16,18 @@
   },
   "devDependencies": {
     "angular": "1.5.0",
-    "angular-messages": "1.5.0",
     "angular-cookies": "1.5.0",
     "angular-gettext": "2.2.1",
     "angular-gettext-tools": "2.1.11",
-    "openlayers": "git://github.com/openlayers/ol3#9baa296a49a75045e756089516f610c58cdc82eb",
-    "ngeo": "git://github.com/camptocamp/ngeo#fd9174ae4ee49c0ace7265f6263d7bf24c658786",
+    "angular-messages": "1.5.0",
+    "eslint": "2.1.0",
+    "eslint-config-openlayers": "4.0.0",
+    "jquery": "2.2.0",
     "less": "git://github.com/less/less.js#ec04a03f1cba3a092d5cd7f7c5d8e28bb43c1932",
     "less-plugin-clean-css": "1.5.1",
+    "ngeo": "git://github.com/camptocamp/ngeo#fd9174ae4ee49c0ace7265f6263d7bf24c658786",
     "nomnom": "1.8.1",
-    "typeahead.js": "git://github.com/corejavascript/typeahead.js#v0.11.1",
-    "jquery": "2.2.0",
-    "eslint": "2.1.0",
-    "eslint-config-openlayers": "4.0.0"
+    "openlayers": "git://github.com/openlayers/ol3#9baa296a49a75045e756089516f610c58cdc82eb",
+    "typeahead.js": "git://github.com/corejavascript/typeahead.js#v0.11.1"
   }
 }
