@@ -54,6 +54,14 @@ To see the debug output:
 
     .build/venv/bin/nosetests -s
 
+
+Captcha
+-------
+
+Captcha configuration is done through https://www.google.com/recaptcha/admin .
+The public key is used in the UI. The corresponding secret key is used in the API.
+
+
 Developer Tips
 --------------
 
