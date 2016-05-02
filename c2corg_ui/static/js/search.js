@@ -196,8 +196,8 @@ app.SearchController.prototype.createDataset_ = function(type) {
       header: (function() {
         return '<div class="header" dataset="' + type + '">' + this.gettextCatalog_.getString(type) + '</div>';
       }).bind(this),
-      footer: function() {
-        return '<p class="suggestion-more"><a href="/' + type + '" class="green-text">+ see more results</a></p>';
+      footer: function(doc) {
+        return '<p class="suggestion-more"><a href="/' + type + '/keyword/' + encodeURI(doc['query']) + '" class="green-text">+ see more results</a></p>';
       },
       suggestion: function(doc) {
         this.scope_['doc'] = doc;
