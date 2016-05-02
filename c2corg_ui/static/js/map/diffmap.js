@@ -73,19 +73,16 @@ app.DiffMapController = function(mapFeatureCollection) {
       new ol.layer.Tile({
         source: new ol.source.OSM()
       })
-    ]
+    ],
+    view: new ol.View({
+      center: ol.extent.getCenter(app.MapController.DEFAULT_EXTENT),
+      zoom: app.MapController.DEFAULT_ZOOM
+    })
   });
 
   var mouseWheelZoomInteraction = new ol.interaction.MouseWheelZoom();
   this.map.addInteraction(mouseWheelZoomInteraction);
   app.utils.setupSmartScroll(mouseWheelZoomInteraction);
-
-  if (!mapFeatureCollection) {
-    this.map.setView(new ol.View({
-      center: app.MapController.DEFAULT_CENTER,
-      zoom: app.MapController.DEFAULT_ZOOM
-    }));
-  }
 
   if (!goog.array.isEmpty(this.features_)) {
     // Recentering on the features extent requires that the map actually
@@ -165,11 +162,13 @@ app.DiffMapController.prototype.showFeatures_ = function(features) {
   var vectorLayer = this.getVectorLayer_();
   vectorLayer.getSource().addFeatures(features);
 
-  var mapSize = this.map.getSize() || null;
-  this.map.getView().fit(vectorLayer.getSource().getExtent(), mapSize, {
-    padding: [10, 10, 10, 10],
-    maxZoom: app.MapController.DEFAULT_POINT_ZOOM
-  });
+  var mapSize = this.map.getSize();
+  if (mapSize) {
+    this.map.getView().fit(vectorLayer.getSource().getExtent(), mapSize, {
+      padding: [10, 10, 10, 10],
+      maxZoom: app.MapController.DEFAULT_POINT_ZOOM
+    });
+  }
 };
 
 app.module.controller('AppDiffMapController', app.DiffMapController);
