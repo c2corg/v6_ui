@@ -13,7 +13,7 @@ class Waypoint(Document):
     @view_config(route_name='waypoints_index_default',
                  renderer='c2corg_ui:templates/waypoint/index.html')
     def index(self):
-        return self.template_input
+        return self._get_index()
 
     @view_config(route_name='waypoints_sitemap',
                  renderer='c2corg_ui:templates/waypoint/sitemap.html')
