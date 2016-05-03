@@ -79,6 +79,9 @@ app.Authentication.prototype.isAuthenticated = function() {
  * @export
  */
 app.Authentication.prototype.hasEditRights = function(users) {
+  if (!this.isAuthenticated()) {
+    return false;
+  }
   var userid = this.userData.id;
   var roles = this.userData.roles;
   // moderator has rigths
@@ -93,10 +96,11 @@ app.Authentication.prototype.hasEditRights = function(users) {
       }
     }
     return false;
-  // by default, user has rights to every doc
+    // by default, user has rights to every doc
   } else {
     return true;
   }
+  // not logged -> return false
 };
 
 
