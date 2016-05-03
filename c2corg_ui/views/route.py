@@ -13,6 +13,13 @@ class Route(Document):
     @view_config(route_name='routes_index_default',
                  renderer='c2corg_ui:templates/route/index.html')
     def index(self):
+        return self.template_input
+
+    @view_config(route_name='routes_sitemap',
+                 renderer='c2corg_ui:templates/route/sitemap.html')
+    @view_config(route_name='routes_sitemap_default',
+                 renderer='c2corg_ui:templates/route/sitemap.html')
+    def sitemap(self):
         routes, total, filter_params, lang = self._get_documents()
         self.template_input.update({
             'routes': routes,

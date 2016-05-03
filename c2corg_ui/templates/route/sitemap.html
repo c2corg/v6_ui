@@ -1,11 +1,14 @@
 <%inherit file="../base.html"/>
 <%namespace file="../helpers/common.html" import="show_title"/>
+<%namespace file="../helpers/list.html" import="add_pagination_links"/>
 <%namespace file="../helpers/view.html" import="route_card, get_document_min_max, show_attr, show_route_title, get_route_activities"/>
 
 <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Routes')">${show_title('Routes')}</title></%block>
 
+<%block name="metarobots"><meta name="robots" content="noindex,follow"></%block>
+
 <header class="page-main-title text-center" ng-cloak>
-  <h3 ng-init="nbItems = 0" ng-cloak><span translate>Routes</span>
+  <h3 ng-init="nbItems = ${total}" ng-cloak><span translate>Routes</span>
     <span class="badge">{{nbItems}}</span>
   </h3>
 </header>
@@ -19,16 +22,23 @@
     <button class="btn btn-default"  protected-url-btn url="'${request.route_url('routes_add')}'">
       <span class="glyphicon glyphicon-plus-sign"></span>
     </button>
+
+    ${add_pagination_links('routes', routes, total, filter_params)}
   </div>
     <div class="list">
+      % for route in routes:
+      <% locale = route['locales'][0] %>\
       <div class="list-item">
-        Some card here
+        ${route_card(route)}
       </div>
+      % endfor
     </div>
 </section>
+% if len(routes):
 <div class="map-right">
   <app-map></app-map>
 </div>
+% endif
 <script>
 window.onload = function(){
   app.stickyFilters();

@@ -1,0 +1,79 @@
+<%inherit file="../base.html"/>
+<%namespace file="../helpers/common.html" import="show_title"/>
+<%namespace file="../helpers/list.html" import="add_pagination_links"/>
+<%namespace file="../helpers/view.html" import="waypoint_card, show_attr"/>
+
+<%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Waypoints')">${show_title('Waypoints')}</title></%block>
+
+<%block name="metarobots"><meta name="robots" content="noindex,follow"></%block>
+
+<%block name="moduleConstantsValues">
+% if len(waypoints):
+module.value('mapFeatureCollection', {
+  "type": "FeatureCollection",
+  "properties": {
+    "enableClickInteraction": true
+  },
+  "features": [
+    <%
+    from json import dumps, loads
+    features = [];
+    for waypoint in waypoints:
+        if waypoint.get('geometry') and waypoint.get('geometry').get('geom'):
+            properties = {
+               "module": "waypoints",
+               "type":  waypoint['waypoint_type'],
+               "documentId": waypoint['document_id'],
+               "lang": waypoint['locales'][0]['lang'],
+               "title": waypoint['locales'][0]['title'] + (
+                " (" + waypoint['locales'][0]['lang'] + ")" if
+                lang != waypoint['locales'][0]['lang'] else ""
+               )
+            }
+            features.append(dumps({
+                "type": "Feature",
+                "geometry": loads(waypoint['geometry']['geom']),
+                "properties": properties
+            }))
+    %>
+    ${', '.join(features) | n}
+  ]
+});
+% endif
+</%block>
+
+<header class="page-main-title" ng-cloak">
+  <h3 ng-init="nbItems = ${total}"><span translate>Waypoints</span>
+    <span class="badge">{{nbItems}}</span>
+  </h3>
+</header>
+<section class="documents-list-section">
+  <%include file="filters.html" />
+  <div class="documents-nav-buttons text-center">
+    <button type="button" class="btn btn-default show-documents-filters-phone" translate>Filters</button>
+    
+    <%include file="c2corg_ui:templates/document/select_document.html" />
+    
+    <button class="btn btn-default"  protected-url-btn url="'${request.route_url('waypoints_add')}'">
+      <span class="glyphicon glyphicon-plus-sign"></span>
+    </button>
+    ${add_pagination_links('waypoints', waypoints, total, filter_params)}
+  </div>
+  <div class="list">
+    % for waypoint in waypoints:
+    <div class="list-item">
+      ${waypoint_card(waypoint)}
+    </div>
+    % endfor
+  </div>
+</section>
+% if len(waypoints):
+<div class="map-right">
+  <app-map></app-map>
+</div>
+% endif
+<script>
+window.onload = function(){
+  app.stickyFilters();
+}
+</script>

@@ -12,6 +12,13 @@ class Outing(Document):
     @view_config(route_name='outings_index_default',
                  renderer='c2corg_ui:templates/outing/index.html')
     def index(self):
+        return self.template_input
+
+    @view_config(route_name='outings_sitemap',
+                 renderer='c2corg_ui:templates/outing/sitemap.html')
+    @view_config(route_name='outings_sitemap_default',
+                 renderer='c2corg_ui:templates/outing/sitemap.html')
+    def sitemap(self):
         outings, total, filter_params, lang = self._get_documents()
         self.template_input.update({
             'outings': outings,

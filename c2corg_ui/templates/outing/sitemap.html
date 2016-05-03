@@ -1,11 +1,14 @@
 <%inherit file="../base.html"/>
 <%namespace file="../helpers/common.html" import="show_title"/>
+<%namespace file="../helpers/list.html" import="add_pagination_links"/>
 <%namespace file="../helpers/view.html" import="show_attr, outing_card"/>
 
 <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Outings')">${show_title('Outings')}</title></%block>
 
+<%block name="metarobots"><meta name="robots" content="noindex,follow"></%block>
+
 <header class="page-main-title" ng-cloak">
-  <h3 ng-init="nbItems = 0"><span translate>Outings</span>
+  <h3 ng-init="nbItems = ${total}"><span translate>Outings</span>
     <span class="badge">{{nbItems}}</span>
   </h3>
 </header>
@@ -20,16 +23,21 @@
     <button class="btn btn-default"  protected-url-btn url="'${request.route_url('outings_add')}'">
       <span class="glyphicon glyphicon-plus-sign"></span>
     </button>
+    ${add_pagination_links('outings', outings, total, filter_params)}
   </div>
   <div class="list">
+    % for outing in outings:
     <div class="list-item outing">
-      Some card here
+      ${outing_card(outing)}
     </div>
+    % endfor
   </div>
 </section>
+% if len(outings):
 <div class="map-right">
   <app-map></app-map>
 </div>
+% endif
 <script>
 window.onload = function(){
   app.stickyFilters();
