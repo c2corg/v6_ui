@@ -166,10 +166,15 @@ app.MapController = function($scope, mapFeatureCollection) {
       this.map.addInteraction(clickInteraction);
     }
   } else {
+    // no special feature displayed on the map => use the default extent
     this.map.setView(new ol.View({
-      center: app.MapController.DEFAULT_CENTER,
-      zoom: this.zoom_ || app.MapController.DEFAULT_ZOOM
+      center: ol.extent.getCenter(app.MapController.DEFAULT_EXTENT),
+      zoom: app.MapController.DEFAULT_ZOOM
     }));
+    this.map.once('change:size', function(event) {
+      var mapSize = this.map.getSize() || null;
+      this.map.getView().fit(app.MapController.DEFAULT_EXTENT, mapSize);
+    }.bind(this));
   }
 
   if (this.drawType) {
@@ -222,7 +227,8 @@ app.MapController = function($scope, mapFeatureCollection) {
  * @const
  * @type {Array.<number>}
  */
-app.MapController.DEFAULT_CENTER = [0, 0];
+app.MapController.DEFAULT_EXTENT = [-400000, 5200000, 1200000, 6000000];
+
 
 /**
  * @const
