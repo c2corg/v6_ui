@@ -2,7 +2,7 @@ goog.provide('app.AddAssociationController');
 goog.provide('app.addAssociationDirective');
 
 /** @suppress {extraRequire} */
-goog.require('app.searchDirective');
+goog.require('app.simpleSearchDirective');
 goog.require('app.Api');
 
 
@@ -14,7 +14,7 @@ goog.require('app.Api');
 app.addAssociationDirective = function($compile) {
 
   var template = function(dataset) {
-    return '<app-search app-select="addCtrl.associate(doc)" app-dataset="' + dataset + '"></app-search>'
+    return '<app-simple-search app-select="addCtrl.associate(doc)" app-dataset="' + dataset + '"></app-simple-search>'
   };
 
   return {
@@ -57,7 +57,7 @@ app.AddAssociationController = function(appApi, $attrs) {
 
   this.dataset = $attrs['dataset'];
   /**
-   * @type {Array.<appx.SearchDocument>}
+   * @type {Array.<appx.SimpleSearchDocument>}
    * @export
    */
   this.addedDocuments = [];
@@ -65,7 +65,7 @@ app.AddAssociationController = function(appApi, $attrs) {
 
 
 /**
- * @param {appx.SearchDocument} doc Document
+ * @param {appx.SimpleSearchDocument} doc Document
  * @export
  */
 app.AddAssociationController.prototype.associate = function(doc) {

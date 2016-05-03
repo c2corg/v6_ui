@@ -23,7 +23,7 @@ goog.require('app.gpxUploadDirective');
 goog.require('app.langDirective');
 goog.require('app.loadingDirective');
 goog.require('app.mapDirective');
-goog.require('app.searchDirective');
+goog.require('app.simpleSearchDirective');
 goog.require('app.searchFiltersDirective');
 goog.require('app.sidemenu');
 goog.require('app.stickyFilters');

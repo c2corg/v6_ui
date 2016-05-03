@@ -102,7 +102,7 @@ app.Api.prototype.getJson_ = function(url) {
 
 /**
  * @param {number} parentId
- * @param {appx.SearchDocument} doc
+ * @param {appx.SimpleSearchDocument} doc
  * @return {!angular.$q.Promise}
  */
 app.Api.prototype.associateDocument = function(parentId, doc) {

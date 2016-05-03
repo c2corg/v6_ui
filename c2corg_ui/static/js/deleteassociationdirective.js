@@ -50,7 +50,7 @@ app.DeleteAssociationController = function(appApi) {
 
   /**
    * Bound from directive.
-   * @type {Array.<appx.SearchDocument>}
+   * @type {Array.<appx.SimpleSearchDocument>}
    * @export
    */
   this.addedDocuments;
