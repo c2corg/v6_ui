@@ -115,7 +115,11 @@ app.MapController = function($scope, mapFeatureCollection) {
       new ol.layer.Tile({
         source: new ol.source.OSM()
       })
-    ]
+    ],
+    view: new ol.View({
+      center: ol.extent.getCenter(app.MapController.DEFAULT_EXTENT),
+      zoom: app.MapController.DEFAULT_ZOOM
+    })
   });
 
   // editing mode
@@ -173,13 +177,11 @@ app.MapController = function($scope, mapFeatureCollection) {
     this.map.addInteraction(clickInteraction);
   } else {
     // no special feature displayed on the map => use the default extent
-    this.map.setView(new ol.View({
-      center: ol.extent.getCenter(app.MapController.DEFAULT_EXTENT),
-      zoom: app.MapController.DEFAULT_ZOOM
-    }));
     this.map.once('change:size', function(event) {
-      var mapSize = this.map.getSize() || null;
-      this.map.getView().fit(app.MapController.DEFAULT_EXTENT, mapSize);
+      var mapSize = this.map.getSize();
+      if (mapSize) {
+        this.map.getView().fit(app.MapController.DEFAULT_EXTENT, mapSize);
+      }
     }.bind(this));
   }
 
