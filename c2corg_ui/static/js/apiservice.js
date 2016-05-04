@@ -207,6 +207,21 @@ app.Api.prototype.updateDocument = function(module, id, json) {
   return promise;
 };
 
+
+/**
+ * @param {string} module Module.
+ */
+app.Api.prototype.listDocuments = function(module) {
+  var url = '/{module}'.replace('{module}', module);
+  var alerts = this.alerts_;
+  var promise = this.getJson_(url);
+  promise.catch(function(response) {
+    alerts.addError(response);
+  });
+  return promise;
+};
+
+
 /**
  * @export
  * @param {number} id Document id.
