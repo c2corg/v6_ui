@@ -14,6 +14,7 @@ goog.require('app.advancedSearchDirective');
 goog.require('app.associationCardDirective');
 goog.require('app.alertsDirective');
 goog.require('app.authDirective');
+goog.require('app.cardDirective');
 goog.require('app.constants');
 goog.require('app.deleteAssociationDirective');
 goog.require('app.diffMapDirective');
