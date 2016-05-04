@@ -38,7 +38,13 @@ app.AdvancedSearchController = function($attrs, appApi) {
    * @type {string}
    * @private
    */
-  this.doctype_ = $attrs['doctype'];
+  this.doctype_ = $attrs['documentType'];
+
+  /**
+   * @type {string}
+   * @private
+   */
+  this.resCounter_ = $attrs['resultsCounter'];
 
   /**
    * @type {app.Api}
@@ -66,12 +72,26 @@ app.AdvancedSearchController = function($attrs, appApi) {
  * @private
  */
 app.AdvancedSearchController.prototype.getResults_ = function() {
-  this.api_.listDocuments(this.doctype_).then(function(response) {
-    if ('data' in response) {
-      this.documents = response['data']['documents'];
-      this.total = response['data']['total'];
-    }
-  }.bind(this));
+  this.api_.listDocuments(this.doctype_).then(
+    this.successList_.bind(this)
+  );
+};
+
+
+/**
+ * @param {Object} response Response from the API server.
+ * @private
+ */
+app.AdvancedSearchController.prototype.successList_ = function(response) {
+  if (!('data' in response)) {
+    return;
+  }
+  this.documents = response['data']['documents'];
+  this.total = response['data']['total'];
+  if (this.resCounter_) {
+    $('#' + this.resCounter_).html(
+      /** @type {string} */ (this.total.toString()));
+  }
 };
 
 

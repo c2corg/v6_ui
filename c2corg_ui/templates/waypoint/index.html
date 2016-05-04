@@ -4,9 +4,9 @@
 
 <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Waypoints')">${show_title('Waypoints')}</title></%block>
 
-<header class="page-main-title" ng-cloak">
-  <h3 ng-init="nbItems = 0"><span translate>Waypoints</span>
-    <span class="badge">{{nbItems}}</span>
+<header class="page-main-title" ng-cloak>
+  <h3><span translate>Waypoints</span>
+    <span class="badge" id="results-counter">0</span>
   </h3>
 </header>
 <section class="documents-list-section">
@@ -20,7 +20,7 @@
       <span class="glyphicon glyphicon-plus-sign"></span>
     </button>
   </div>
-  <app-advanced-search doctype="waypoints"></app-advanced-search>
+  <app-advanced-search document-type="waypoints" results-counter="results-counter"></app-advanced-search>
 </section>
 <div class="map-right">
   <app-map></app-map>
