@@ -40,6 +40,7 @@ app.mapDirective = function() {
       'edit': '=appMapEdit',
       'drawType': '@appMapDrawType',
       'disableWheel': '=appMapDisableWheel',
+      'advancedSearch': '=appMapAdvancedSearch',
       'zoom': '@appMapZoom'
     },
     controller: 'AppMapController',
@@ -126,6 +127,12 @@ app.MapController = function($scope, mapFeatureCollection) {
     this.addTrackImporter_();
   }
 
+  // advanced search mode
+  if (this['advancedSearch']) {
+    this.scope_.$root.$on('searchFeaturesChange',
+        this.handleSearchChange_.bind(this));
+  }
+
   if (!(this['disableWheel'] || false)) {
     var mouseWheelZoomInteraction = new ol.interaction.MouseWheelZoom();
     this.map.addInteraction(mouseWheelZoomInteraction);
@@ -133,11 +140,12 @@ app.MapController = function($scope, mapFeatureCollection) {
   }
 
   if (mapFeatureCollection) {
-    this.getVectorLayer_().setStyle(this.createStyleFunction_(false));
-
-    var properties = mapFeatureCollection['properties'];
     var format = new ol.format.GeoJSON();
     this.features_ = format.readFeatures(mapFeatureCollection);
+  }
+
+  if (mapFeatureCollection || this['advancedSearch']) {
+    this.getVectorLayer_().setStyle(this.createStyleFunction_(false));
 
     var pointerMoveInteraction = new ol.interaction.Select({
       style: this.createStyleFunction_(true),
@@ -145,26 +153,24 @@ app.MapController = function($scope, mapFeatureCollection) {
     });
     this.map.addInteraction(pointerMoveInteraction);
 
-    if (properties && properties['enableClickInteraction']) {
-      var clickInteraction = new ol.interaction.Select({
-        condition: ol.events.condition.click
-      });
-      clickInteraction.on('select', function(e) {
-        /**
-         * @type {ol.Collection.<ol.Feature>}
-         */
-        var features = e.target.getFeatures();
-        if (features.getLength() > 0) {
-          var first = features.getArray()[0];
-          var module = /** @type {string} */(first.get('module'));
-          var id = first.get('documentId').toString();
-          var lang = /** @type {string} */(first.get('lang'));
-          var url = app.utils.buildDocumentUrl(module, id, lang);
-          document.location = url;
-        }
-      }.bind(this));
-      this.map.addInteraction(clickInteraction);
-    }
+    var clickInteraction = new ol.interaction.Select({
+      condition: ol.events.condition.click
+    });
+    clickInteraction.on('select', function(e) {
+      /**
+       * @type {ol.Collection.<ol.Feature>}
+       */
+      var features = e.target.getFeatures();
+      if (features.getLength() > 0) {
+        var first = features.getArray()[0];
+        var module = /** @type {string} */(first.get('module'));
+        var id = first.get('documentId').toString();
+        var lang = /** @type {string} */(first.get('lang'));
+        var url = app.utils.buildDocumentUrl(module, id, lang);
+        document.location = url;
+      }
+    }.bind(this));
+    this.map.addInteraction(clickInteraction);
   } else {
     // no special feature displayed on the map => use the default extent
     this.map.setView(new ol.View({
@@ -373,7 +379,7 @@ app.MapController.prototype.createLineStyle_ = function(feature,
 
 
 /**
- * @param {Array<ol.Feature>} features Features to show.
+ * @param {Array.<ol.Feature>} features Features to show.
  * @private
  */
 app.MapController.prototype.showFeatures_ = function(features) {
@@ -389,10 +395,12 @@ app.MapController.prototype.showFeatures_ = function(features) {
     this.view_.setCenter(point.getCoordinates());
     this.view_.setZoom(this.zoom_ || app.MapController.DEFAULT_POINT_ZOOM);
   } else {
-    var mapSize = this.map.getSize() || null;
-    this.view_.fit(vectorLayer.getSource().getExtent(), mapSize, {
-      padding: [10, 10, 10, 10]
-    });
+    var mapSize = this.map.getSize();
+    if (mapSize) {
+      this.view_.fit(vectorLayer.getSource().getExtent(), mapSize, {
+        padding: [10, 10, 10, 10]
+      });
+    }
   }
 };
 
@@ -451,6 +459,16 @@ app.MapController.prototype.handleDraw_ = function(event) {
 app.MapController.prototype.handleModify_ = function(event) {
   var features = event.features.getArray();
   this.scope_.$root.$emit('mapFeaturesChange', features);
+};
+
+
+/**
+ * @param {Object} event
+ * @param {Array.<ol.Feature>} features Search results features.
+ * @private
+ */
+app.MapController.prototype.handleSearchChange_ = function(event, features) {
+  this.showFeatures_(features);
 };
 
 

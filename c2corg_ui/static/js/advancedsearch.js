@@ -2,6 +2,8 @@ goog.provide('app.AdvancedSearchController');
 goog.provide('app.advancedSearchDirective');
 
 goog.require('app');
+goog.require('ol.Feature');
+goog.require('ol.format.GeoJSON');
 
 
 /**
@@ -26,13 +28,20 @@ app.module.directive('appAdvancedSearch', app.advancedSearchDirective);
 
 
 /**
+ * @param {angular.Scope} $scope Directive scope.
  * @param {angular.Attributes} $attrs Attributes.
  * @param {app.Api} appApi Api service.
  * @constructor
  * @export
  * @ngInject
  */
-app.AdvancedSearchController = function($attrs, appApi) {
+app.AdvancedSearchController = function($scope, $attrs, appApi) {
+
+  /**
+   * @type {angular.Scope}
+   * @private
+   */
+  this.scope_ = $scope;
 
   /**
    * @type {string}
@@ -92,7 +101,48 @@ app.AdvancedSearchController.prototype.successList_ = function(response) {
     $('#' + this.resCounter_).html(
       /** @type {string} */ (this.total.toString()));
   }
+  // TODO: disable map interaction for document types with no geometry
+  this.scope_.$root.$emit('searchFeaturesChange', this.getFeatures_());
 };
 
+
+/**
+ * @return {Array.<ol.Feature>}
+ * @private
+ */
+app.AdvancedSearchController.prototype.getFeatures_ = function() {
+  var features = [];
+  var format = new ol.format.GeoJSON();
+  for (var i = 0, n = this.documents.length; i < n; i++) {
+    var doc = this.documents[i];
+    if ('geometry' in doc && doc['geometry']) {
+      var properties = this.getFeatureProperties_(doc);
+      properties['geometry'] = format.readGeometry(doc['geometry']['geom']);
+      features.push(new ol.Feature(properties));
+    }
+  }
+  return features;
+};
+
+
+/**
+ * @param {Object} doc document data.
+ * @return {Object}
+ * @private
+ */
+app.AdvancedSearchController.prototype.getFeatureProperties_ = function(doc) {
+  // TODO choose the locale according to the UI lang and user prefs
+  var locale = doc['locales'][0];
+  var properties = {
+    'module': this.doctype_,
+    'documentId': doc['document_id'],
+    'lang': locale['lang'],
+    'title': locale['title']
+  };
+  if (this.doctype_ === 'waypoints') {
+    properties['type'] = doc['waypoint_type'];
+  }
+  return properties;
+};
 
 app.module.controller('AppAdvancedSearchController', app.AdvancedSearchController);
