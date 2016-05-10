@@ -534,29 +534,27 @@
   % endif
 </%def>
 
-
-
 <%def name="photoswipe_gallery()">\
-  ##  Root element of PhotoSwipe. Must have class pswp.
+  ## Root element of PhotoSwipe. Must have class pswp.
   <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 
-    ##  Background of PhotoSwipe. 
-    ##  It's a separate element as animating opacity is faster than rgba(). 
+    ## Background of PhotoSwipe. 
+    ## It's a separate element as animating opacity is faster than rgba(). 
     <div class="pswp__bg"></div>
 
-    ##  Slides wrapper with overflow:hidden. 
+    ## Slides wrapper with overflow:hidden. 
     <div class="pswp__scroll-wrap">
 
       ## Container that holds slides. 
-      ##  PhotoSwipe keeps only 3 of them in the DOM to save memory.
-      ##  Don't modify these 3 pswp__item elements, data is added later on. 
+      ## PhotoSwipe keeps only 3 of them in the DOM to save memory.
+      ## Don't modify these 3 pswp__item elements, data is added later on. 
       <div class="pswp__container">
         <div class="pswp__item"></div>
         <div class="pswp__item"></div>
         <div class="pswp__item"></div>
       </div>
 
-      ##  Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. 
+      ## Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. 
       <div class="pswp__ui pswp__ui--hidden">
 
         <div class="pswp__top-bar">
@@ -566,8 +564,8 @@
           <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
           <button class="pswp__button info"><span class="glyphicon glyphicon-info-sign"></span></button>
 
-          ##   Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR 
-          ##  element will get class pswp__preloader--active when preloader is running 
+          ## Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR 
+          ## element will get class pswp__preloader--active when preloader is running 
           <div class="pswp__preloader">
             <div class="pswp__preloader__icn">
               <div class="pswp__preloader__cut">
@@ -592,6 +590,21 @@
         </button>
 
       </div>
+    </div>
+  </div>
+</%def>
+
+<%def name="delete_association_confirmation_modal()">\
+  <div id="delete-association-modal">
+    <div class="modal-header"><h3 class="text-center" translate>Remove association</h3></div>  
+    <div class="modal-body">
+      <p translate class="text-center">Are you sure you want to delete this association?</p>
+    </div>
+    <div class="modal-footer">
+      <p>
+        <button class="btn btn-warning" type="button" ng-click="delModalCtrl.close('remove')" translate>Yes</button>
+        <button class="btn btn-default" type="button" ng-click="delModalCtrl.dismiss()" translate>Cancel</button>
+      </p>
     </div>
   </div>
 </%def>
