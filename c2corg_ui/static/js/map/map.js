@@ -9,6 +9,7 @@ goog.require('ol.Collection');
 goog.require('ol.Feature');
 goog.require('ol.Map');
 goog.require('ol.View');
+goog.require('ol.animation');
 goog.require('ol.format.GeoJSON');
 goog.require('ol.format.GPX');
 goog.require('ol.geom.Point');
@@ -390,6 +391,21 @@ app.MapController.prototype.showFeatures_ = function(features) {
   var source = vectorLayer.getSource();
   source.clear();
   source.addFeatures(features);
+
+  // add a smooth animation when recentering on features
+  var duration = 2000;
+  var start = +new Date();
+  var pan = ol.animation.pan({
+    duration: duration,
+    source: /** @type {ol.Coordinate} */ (this.view_.getCenter()),
+    start: start
+  });
+  var bounce = ol.animation.bounce({
+    duration: duration,
+    resolution: 2 * this.view_.getResolution(),
+    start: start
+  });
+  this.map.beforeRender(pan, bounce);
 
   if (features.length == 1 &&
       features[0].getGeometry() instanceof ol.geom.Point) {
