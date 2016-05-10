@@ -4,9 +4,9 @@
 
 <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Routes')">${show_title('Routes')}</title></%block>
 
-<header class="page-main-title text-center" ng-cloak>
-  <h3 ng-init="nbItems = 0" ng-cloak><span translate>Routes</span>
-    <span class="badge">{{nbItems}}</span>
+<header class="page-main-title">
+  <h3><span translate>Routes</span>
+    <span class="badge" id="results-counter">0</span>
   </h3>
 </header>
 <section class="documents-list-section">
@@ -16,18 +16,14 @@
     
     <%include file="c2corg_ui:templates/document/select_document.html" />
     
-    <button class="btn btn-default"  protected-url-btn url="'${request.route_url('routes_add')}'">
+    <button class="btn btn-default" protected-url-btn url="'${request.route_url('routes_add')}'">
       <span class="glyphicon glyphicon-plus-sign"></span>
     </button>
   </div>
-    <div class="list">
-      <div class="list-item">
-        Some card here
-      </div>
-    </div>
+  <app-advanced-search document-type="routes" results-counter="results-counter"></app-advanced-search>
 </section>
 <div class="map-right">
-  <app-map></app-map>
+  <app-map app-map-advanced-search="true"></app-map>
 </div>
 <script>
 window.onload = function(){

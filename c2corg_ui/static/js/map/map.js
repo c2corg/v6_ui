@@ -107,6 +107,12 @@ app.MapController = function($scope, mapFeatureCollection) {
   this.drawType; // For Closure, comes from isolated scope.
 
   /**
+   * @type {boolean}
+   * @private
+   */
+  this.advancedSearch_ = this['advancedSearch'];
+
+  /**
    * @type {ol.Map}
    * @export
    */
@@ -133,7 +139,7 @@ app.MapController = function($scope, mapFeatureCollection) {
   }
 
   // advanced search mode
-  if (this['advancedSearch']) {
+  if (this.advancedSearch_) {
     this.scope_.$root.$on('searchFeaturesChange',
         this.handleSearchChange_.bind(this));
   }
@@ -149,7 +155,7 @@ app.MapController = function($scope, mapFeatureCollection) {
     this.features_ = format.readFeatures(mapFeatureCollection);
   }
 
-  if (mapFeatureCollection || this['advancedSearch']) {
+  if (mapFeatureCollection || this.advancedSearch_) {
     this.getVectorLayer_().setStyle(this.createStyleFunction_(false));
 
     var pointerMoveInteraction = new ol.interaction.Select({
@@ -290,10 +296,12 @@ app.MapController.prototype.createStyleFunction_ = function(highlight) {
         var module = /** @type {string} */ (feature.get('module'));
         switch (module) {
           case 'waypoints':
-            return this.createWaypointStyle_(feature, resolution, highlight);
+            return this.createPointStyle_(feature, resolution, highlight);
           case 'routes':
           case 'outings':
-            return this.createLineStyle_(feature, resolution, highlight);
+            return this.advancedSearch_ ?
+              this.createPointStyle_(feature, resolution, highlight) :
+              this.createLineStyle_(feature, resolution, highlight);
           default:
             return null;
         }
@@ -308,13 +316,12 @@ app.MapController.prototype.createStyleFunction_ = function(highlight) {
  * @return {ol.style.Style|Array.<ol.style.Style>}
  * @private
  */
-app.MapController.prototype.createWaypointStyle_ = function(feature,
+app.MapController.prototype.createPointStyle_ = function(feature,
     resolution, highlight) {
 
-  var type = /** @type {string} */ (feature.get('type'));
-  if (!type) {
-    // skip this feature
-    return null;
+  var type = /** @type {string} */ (feature.get('module'));
+  if (type === 'waypoints' && feature.get('type')) {
+    type = /** @type {string} */ (feature.get('type'));
   }
 
   var id = /** @type {number} */ (feature.get('documentId'));
@@ -327,7 +334,7 @@ app.MapController.prototype.createWaypointStyle_ = function(feature,
     if (!icon) {
       icon = new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
         scale: scale,
-        src: '/static/img/waypoint_types/' + type + '.svg'
+        src: '/static/img/documents/' + type + '.svg'
       }));
       this.iconCache[iconKey] = icon;
     }
