@@ -6,7 +6,7 @@
     Min {{doc['elevation_min']}} m / Max {{doc['elevation_max']}} m
     <div class="route-activities">
       <span ng-repeat="activity in doc.activities" class="route-activity icon-{{activity}}"
-            uib-tooltip="{{ mainCtrl.translate(activity) }}" tooltip-placement="top"></span>
+            uib-tooltip="{{ cardCtrl.translate(activity) }}" tooltip-placement="top"></span>
     </div>
   </div>
 </a>

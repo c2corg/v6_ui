@@ -48,6 +48,12 @@ app.module.directive('appCard', app.cardDirective);
 app.CardController = function(gettextCatalog) {
 
   /**
+   * @type {angularGettext.Catalog}
+   * @private
+   */
+  this.gettextCatalog_ = gettextCatalog;
+
+  /**
    * @type {string}
    * @export
    */
@@ -72,6 +78,16 @@ app.CardController = function(gettextCatalog) {
       break;
     }
   }
+};
+
+
+/**
+ * @param {string} str String to translate.
+ * @return {string} Translated string.
+ * @export
+ */
+app.CardController.prototype.translate = function(str) {
+  return this.gettextCatalog_.getString(str);
 };
 
 

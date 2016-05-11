@@ -9,7 +9,7 @@
     <span class="list-item-lang" ng-if="cardCtrl.lang != locale.lang">({{locale.lang}})</span>
     <div class="route-activities">
       <span ng-repeat="activity in doc.activities" class="route-activity icon-{{activity}}"
-            uib-tooltip="{{ mainCtrl.translate(activity) }}" tooltip-placement="top"></span>
+            uib-tooltip="{{ cardCtrl.translate(activity) }}" tooltip-placement="top"></span>
     </div>
   </div>
 </a>
