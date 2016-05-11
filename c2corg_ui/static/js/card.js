@@ -8,10 +8,16 @@ goog.require('app.utils');
 /**
  * This directive is used to display a document card.
  *
+ * @param {angular.$compile} $compile Angular compile service.
+ * @param {angular.$templateCache} $templateCache service
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-app.cardDirective = function() {
+app.cardDirective = function($compile, $templateCache) {
+  var template = function(doctype) {
+    return $templateCache.get('/static/partials/card_' + doctype + '.html');
+  };
+
   return {
     restrict: 'E',
     controller: 'AppCardController',
@@ -20,7 +26,12 @@ app.cardDirective = function() {
     scope: {
       'doc': '=appCardDoc'
     },
-    templateUrl: '/static/partials/card.html'
+    link: function(scope, element, attrs) {
+      var doc = scope['cardCtrl']['doc'];
+      var type = app.utils.getDoctype(doc['type']);
+      element.html(template(type));
+      $compile(element.contents())(scope);
+    }
   };
 };
 
