@@ -42,6 +42,10 @@ app.module.directive('appGpxUpload', app.gpxUploadDirective);
  */
 app.GpxUploadController = function($scope) {
 
+  /**
+   * @type {angular.Scope}
+   * @private
+   */
   this.scope_ = $scope;
 
   /**
