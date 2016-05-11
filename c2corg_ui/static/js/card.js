@@ -40,17 +40,38 @@ app.module.directive('appCard', app.cardDirective);
 
 
 /**
+ * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @constructor
  * @export
  * @ngInject
  */
-app.CardController = function() {
+app.CardController = function(gettextCatalog) {
 
   /**
-   * @type{Object}
+   * @type {string}
+   * @export
+   */
+  this.lang = gettextCatalog.currentLanguage;
+
+  /**
+   * @type {Object}
    * @private
    */
   this.doc_ = this['doc'];
+
+  /**
+   * @type {Object}
+   * @export
+   */
+  this.locale = this['doc']['locales'][0];
+  // TODO: use a better default locale than the first one?
+  for (var i = 0, n = this['doc']['locales'].length; i < n; i++) {
+    var l = this['doc']['locales'][i];
+    if (l['lang'] === this.lang) {
+      this.locale = l;
+      break;
+    }
+  }
 };
 
 

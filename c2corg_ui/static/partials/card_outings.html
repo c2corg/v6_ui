@@ -1,4 +1,4 @@
-<a ng-click="cardCtrl.openCardPage()" ng-init="doc = cardCtrl.doc; locale = doc.locales[0];">
+<a ng-click="cardCtrl.openCardPage()" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;">
   <div class="outing-author text-center">
     <div class="outing-date">{{ doc['date_end'] | date: 'dd/MM/yyyy'}}</div>
     <span class="icon-user"></span><br>
@@ -6,6 +6,7 @@
   </div>
   <div class="list-item-info">
     <span class="list-item-title outing">{{locale.title}}</span>
+    <span class="list-item-lang" ng-if="cardCtrl.lang != locale.lang">({{locale.lang}})</span>
     <div class="route-activities">
       <span ng-repeat="activity in doc.activities" class="route-activity icon-{{activity}}"
             uib-tooltip="{{ mainCtrl.translate(activity) }}" tooltip-placement="top"></span>
