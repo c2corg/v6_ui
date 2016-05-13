@@ -210,9 +210,13 @@ app.Api.prototype.updateDocument = function(module, id, json) {
 
 /**
  * @param {string} module Module.
+ * @param {string} qstr Filtering and paginating parameters.
  */
-app.Api.prototype.listDocuments = function(module) {
-  var url = '/{module}'.replace('{module}', module);
+app.Api.prototype.listDocuments = function(module, qstr) {
+  var url = '/{module}{qmark}{qstr}'
+    .replace('{module}', module)
+    .replace('{qmark}', qstr ? '?' : '')
+    .replace('{qstr}', qstr);
   var alerts = this.alerts_;
   var promise = this.getJson_(url);
   promise.catch(function(response) {

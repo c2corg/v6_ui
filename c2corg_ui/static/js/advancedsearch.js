@@ -31,11 +31,12 @@ app.module.directive('appAdvancedSearch', app.advancedSearchDirective);
  * @param {angular.Scope} $scope Directive scope.
  * @param {angular.Attributes} $attrs Attributes.
  * @param {app.Api} appApi Api service.
+ * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @constructor
  * @export
  * @ngInject
  */
-app.AdvancedSearchController = function($scope, $attrs, appApi) {
+app.AdvancedSearchController = function($scope, $attrs, appApi, ngeoLocation) {
 
   /**
    * @type {angular.Scope}
@@ -62,6 +63,12 @@ app.AdvancedSearchController = function($scope, $attrs, appApi) {
   this.api_ = appApi;
 
   /**
+   * @type {ngeo.Location}
+   * @private
+   */
+  this.location_ = ngeoLocation;
+
+  /**
    * @type {number}
    * @export
    */
@@ -73,7 +80,11 @@ app.AdvancedSearchController = function($scope, $attrs, appApi) {
    */
   this.documents = [];
 
+  // Get the initial results when loading the page:
   this.getResults_();
+
+  // Refresh the results when pagination or criterias have changed:
+  this.scope_.$root.$on('searchPageChange', this.getResults_.bind(this));
 };
 
 
@@ -81,7 +92,10 @@ app.AdvancedSearchController = function($scope, $attrs, appApi) {
  * @private
  */
 app.AdvancedSearchController.prototype.getResults_ = function() {
-  this.api_.listDocuments(this.doctype_).then(
+  var url = this.location_.getUriString();
+  var qstr = goog.uri.utils.getQueryData(url) || '';
+  qstr = qstr.replace('debug', ''); // FIXME better handling of special params?
+  this.api_.listDocuments(this.doctype_, qstr).then(
     this.successList_.bind(this)
   );
 };
@@ -102,7 +116,9 @@ app.AdvancedSearchController.prototype.successList_ = function(response) {
       /** @type {string} */ (this.total.toString()));
   }
   // TODO: disable map interaction for document types with no geometry
-  this.scope_.$root.$emit('searchFeaturesChange', this.getFeatures_());
+  // "total" is needed for pagination though
+  this.scope_.$root.$emit('searchFeaturesChange', this.getFeatures_(),
+    this.total);
 };
 
 
