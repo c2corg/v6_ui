@@ -5,7 +5,7 @@
   "scripts": {},
   "license": "BSD",
   "dependencies": {
-    "closure-util": "1.10.0",
+    "closure-util": "1.13.1",
     "angular-moment": "^1.0.0-beta.4",
     "angular-ui-bootstrap": "1.1.2",
     "angular-recaptcha": "git://github.com/VividCortex/angular-recaptcha#3.0.1",
@@ -25,9 +25,9 @@
     "jquery": "2.2.0",
     "less": "git://github.com/less/less.js#ec04a03f1cba3a092d5cd7f7c5d8e28bb43c1932",
     "less-plugin-clean-css": "1.5.1",
-    "ngeo": "git://github.com/camptocamp/ngeo#fd9174ae4ee49c0ace7265f6263d7bf24c658786",
+    "ngeo": "git://github.com/camptocamp/ngeo#c647c11",
     "nomnom": "1.8.1",
-    "openlayers": "git://github.com/openlayers/ol3#9baa296a49a75045e756089516f610c58cdc82eb",
+    "openlayers": "git://github.com/openlayers/ol3#d0e5b1e",
     "typeahead.js": "git://github.com/corejavascript/typeahead.js#v0.11.1"
   }
 }

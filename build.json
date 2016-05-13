@@ -31,7 +31,6 @@
     "define": [
       "goog.array.ASSUME_NATIVE_FUNCTIONS=true",
       "goog.dom.ASSUME_STANDARDS_MODE=true",
-      "goog.json.USE_NATIVE_JSON=true",
       "goog.DEBUG=false",
       "ol.ENABLE_DOM=false",
       "ol.ENABLE_WEBGL=false"
@@ -45,10 +44,10 @@
       "*"
     ],
     "jscomp_off": [
-      "useOfGoogBase", "lintChecks", "unnecessaryCasts"
+      "useOfGoogBase", "lintChecks", "unnecessaryCasts", "analyzerChecks"
     ],
     "extra_annotation_name": [
-      "api", "observable", "ngdoc", "ngname"
+      "api", "observable", "ngdoc", "ngname", "htmlAttribute"
     ],
     "angular_pass": true,
     "compilation_level": "ADVANCED",
