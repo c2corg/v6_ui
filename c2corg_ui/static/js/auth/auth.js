@@ -36,12 +36,19 @@ app.module.directive('appAuth', app.authDirective);
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @param {angular.$q} $q Angular q service.
  * @param {angular.$cookies} $cookies Cookies service.
+ * @param {VCRecaptcha} vcRecaptchaService The recatpcha service from VC.
  * @constructor
  * @export
  * @ngInject
  */
 app.AuthController = function($scope, appApi, appAuthentication,
-    ngeoLocation, appAlerts, gettextCatalog, $q, $cookies) {
+    ngeoLocation, appAlerts, gettextCatalog, $q, $cookies,
+    vcRecaptchaService) {
+
+  /**
+   * @type {VCRecaptcha}
+   */
+  this.vcRecaptchaService_ = vcRecaptchaService;
 
   /**
    * @type {angular.$q}
@@ -206,7 +213,10 @@ app.AuthController.prototype.register = function() {
   this.api_.register(form).then(function() {
     var msg = alerts.gettext('Register success');
     alerts.addSuccess(msg);
-  });
+  }, function() {
+    // The captcha can be used only once
+    this.reloadCaptcha();
+  }.bind(this));
 };
 
 
@@ -235,6 +245,14 @@ app.AuthController.prototype.validateNewPassword = function() {
   var onLogin = this.successLogin_.bind(this, remember);
   var password = this.scope_['changePassword']['password'];
   this.api_.validateNewPassword(this.nonce_, password).then(onLogin);
+};
+
+
+/**
+ * @export
+ */
+app.AuthController.prototype.reloadCaptcha = function() {
+  this.vcRecaptchaService_.reload();
 };
 
 

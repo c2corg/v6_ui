@@ -97,7 +97,7 @@ from pyramid.settings import asbool
         </div>
 %if not asbool(request.registry.settings['skip.captcha.validation']):
         <div id="register-captcha-group" class="form-group">
-          <div vc-recaptcha ng-model="register.captcha" required></div>
+          <div vc-recaptcha ng-model="register.captcha" on-expire="authCtrl.reloadCaptcha()" required></div>
         </div>
 %endif
         <p>
