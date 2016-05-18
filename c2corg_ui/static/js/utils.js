@@ -131,3 +131,32 @@ app.utils.areDifferentDates = function(date1, date2) {
     return date1.toDateString() !== date2.toDateString();
   }
 };
+
+
+/**
+ * convert an image File into a base64 string
+ * @property {Object} uploaded Image File
+ * @export
+ */
+app.utils.getImageFileBase64Source = function(file) {
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    return file.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+};
+
+/**
+ * @param {Object} file : image object from associations or uploaded
+ * @param {string} id to the figure slide
+ * @return {string}
+ * @export
+ */
+app.utils.createImageSlide = function(file, id) {
+  return '<figure id="' + id + '">' +
+               '<a href="' + file.src + '" data-info-id="' + file['id'] + '">' +
+                 '<img src="' + file.src + '">' +
+               '</a>' +
+               '<app-slide-info></app-slide-info>' +
+             '</figure>';
+};
