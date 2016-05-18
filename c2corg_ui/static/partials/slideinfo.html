@@ -1,0 +1,42 @@
+<div id="{{id}}" class="ng-hide"> 
+  <h1 class="image-title">{{locales[0].title}}</h1> 
+  <div class="image-infos"> 
+    <h1 translate>Infos</h1> 
+    <p ng-show="date_time"><span class="glyphicon glyphicon-calendar"></span>{{date_time}}</p> 
+    <p><span class="glyphicon glyphicon-tag"></span>{{locales[0].title}}</p> 
+    <span ng-show="activities">
+      <label translate>activities</label> 
+      <ul> 
+        <li ng-repeat="activity in activities">{{activity| translate}}</li> 
+      </ul> 
+    </span>
+    <span ng-show="categories">
+      <label translate>categories</label> 
+      <ul> 
+        <li ng-repeat="category in categories">{{category| translate}}</li> 
+      </ul> 
+    </span>
+    <p ng-show="camera_name"><span class="glyphicon glyphicon-camera"></span> <label x-translate>{{camera_name}}</label></p> 
+    <p ng-show="image_type"><span class="glyphicon glyphicon-copyright-mark"></span><label x-translate>{{image_type[0]}}</label></p> 
+    <p ng-show="elevation"><span translate>elevation</span>: {{elevation}}m<p/> 
+    <div ng-show="iso_speed || fnumber || exposure_time">  
+      <label translate>Settings</label> 
+      <ul> 
+        <li ng-show="iso_speed"><span >{{iso_speed}} ISO</span></li>  
+        <li ng-show="exposure_time"><span translate>Shutter speed</span>: <span>{{exposure_time}}</span></li>  
+        <li ng-show="fnumber"><span translate>Aperture</span> : <span>{{fnumber}}</span></li>  
+      </ul> 
+    </div> 
+    <span class="image-infos-buttons"> 
+      <button class="btn btn-default" ng-click="slideCtrl.edit()" ng-show="!slideCtrl.editing"> 
+        <span class="glyphicon glyphicon-pencil"></span> 
+      </button> 
+      <button class="btn btn-success" ng-show="slideCtrl.editing" ng-click="slideCtrl.save()"> 
+        <span class="glyphicon glyphicon-ok"></span> 
+      </button> 
+      <button class="btn btn-danger" ng-show="slideCtrl.editing" ng-click="slideCtrl.cancel()"> 
+        <span class="glyphicon glyphicon-remove"></span> 
+      </button> 
+    </span> 
+  </div> 
+</div>
