@@ -3,6 +3,8 @@ goog.provide('app.mapDirective');
 
 goog.require('app');
 goog.require('app.utils');
+goog.require('ngeo.Debounce');
+goog.require('ngeo.Location');
 /** @suppress {extraRequire} */
 goog.require('ngeo.mapDirective');
 goog.require('ol.Collection');
@@ -59,12 +61,14 @@ app.module.directive('appMap', app.mapDirective);
  * @param {angular.Scope} $scope Directive scope.
  * @param {?GeoJSONFeatureCollection} mapFeatureCollection FeatureCollection of
  *    features to show on the map.
+ * @param {ngeo.Location} ngeoLocation ngeo Location service.
+ * @param {ngeo.Debounce} ngeoDebounce ngeo Debounce service.
  * @constructor
  * @export
  * @ngInject
  */
-app.MapController = function($scope, mapFeatureCollection) {
-
+app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
+  ngeoDebounce) {
 
   /**
    * @type {number}
@@ -110,7 +114,25 @@ app.MapController = function($scope, mapFeatureCollection) {
    * @type {boolean}
    * @private
    */
-  this.advancedSearch_ = this['advancedSearch'];
+  this.advancedSearch_ = this['advancedSearch'] || false;
+
+  /**
+   * @type {ngeo.Location}
+   * @private
+   */
+  this.location_ = ngeoLocation;
+
+  /**
+   * @type {ol.format.GeoJSON}
+   * @private
+   */
+  this.geojsonFormat_ = new ol.format.GeoJSON();
+
+  /**
+   * @type {?ol.Extent}
+   * @private
+   */
+  this.initialExtent_ = null;
 
   /**
    * @type {ol.Map}
@@ -129,6 +151,12 @@ app.MapController = function($scope, mapFeatureCollection) {
     })
   });
 
+  /**
+   * @type {ol.View}
+   * @private
+   */
+  this.view_ = this.map.getView();
+
   // editing mode
   if (this['edit']) {
     this.scope_.$root.$on('documentDataChange',
@@ -140,8 +168,24 @@ app.MapController = function($scope, mapFeatureCollection) {
 
   // advanced search mode
   if (this.advancedSearch_) {
+    if (this.location_.hasParam('bbox')) {
+      var bbox = this.location_.getParam('bbox');
+      var extent = bbox.split(',');
+      if (extent.length == 4) {
+        // FIXME what if extent is not valid?
+        this.initialExtent_ = extent.map(function(x) {
+          return parseInt(x, 10);
+        });
+      }
+    }
+
     this.scope_.$root.$on('searchFeaturesChange',
         this.handleSearchChange_.bind(this));
+
+    this.view_.on('propertychange',
+      ngeoDebounce(
+        this.handleMapSearchChange_.bind(this),
+        500, /* invokeApply */ true));
   }
 
   if (!(this['disableWheel'] || false)) {
@@ -151,11 +195,11 @@ app.MapController = function($scope, mapFeatureCollection) {
   }
 
   if (mapFeatureCollection) {
-    var format = new ol.format.GeoJSON();
-    this.features_ = format.readFeatures(mapFeatureCollection);
+    this.features_ = this.geojsonFormat_.readFeatures(mapFeatureCollection);
   }
 
-  if (mapFeatureCollection || this.advancedSearch_) {
+  // add the features interactions
+  if (this.features_.length > 0 || this.advancedSearch_) {
     this.getVectorLayer_().setStyle(this.createStyleFunction_(false));
 
     var pointerMoveInteraction = new ol.interaction.Select({
@@ -182,17 +226,9 @@ app.MapController = function($scope, mapFeatureCollection) {
       }
     }.bind(this));
     this.map.addInteraction(clickInteraction);
-  } else {
-    // no special feature displayed on the map => use the default extent
-    this.map.once('change:size', function(event) {
-      var mapSize = this.map.getSize();
-      if (mapSize) {
-        this.map.getView().fit(app.MapController.DEFAULT_EXTENT, mapSize);
-      }
-    }.bind(this));
   }
 
-  if (this.drawType) {
+  if (this['edit'] && this.drawType) {
     var vectorSource = this.getVectorLayer_().getSource();
 
     var draw = new ol.interaction.Draw({
@@ -216,25 +252,15 @@ app.MapController = function($scope, mapFeatureCollection) {
     this.map.addInteraction(modify);
   }
 
-  /**
-   * @type {ol.View}
-   * @private
-   */
-  this.view_ = this.map.getView();
-
-  /**
-   * @type {ol.format.GeoJSON}
-   * @private
-   */
-  this.geojsonFormat_ = new ol.format.GeoJSON();
-
-  if (!goog.array.isEmpty(this.features_)) {
-    // Recentering on the features extent requires that the map actually
-    // has a target. Else the map size cannot be computed.
-    this.map.on('change:target', goog.bind(function() {
-      this.showFeatures_(this.features_);
-    }, this));
-  }
+  // When the map is rendered:
+  this.map.once('change:size', function(event) {
+    if (this.features_.length > 0) {
+      this.showFeatures_(this.features_, true);
+    } else {
+      var extent = this.initialExtent_ || app.MapController.DEFAULT_EXTENT;
+      this.recenterOnExtent_(extent);
+    }
+  }.bind(this));
 };
 
 
@@ -257,6 +283,20 @@ app.MapController.DEFAULT_ZOOM = 4;
  * @type {number}
  */
 app.MapController.DEFAULT_POINT_ZOOM = 12;
+
+
+/**
+ * @param {ol.Extent} extent Extent to recenter to.
+ * @param {olx.view.FitOptions=} options Options.
+ * @private
+ */
+app.MapController.prototype.recenterOnExtent_ = function(extent, options) {
+  var mapSize = this.map.getSize();
+  if (mapSize) {
+    options = options || {};
+    this.view_.fit(extent, mapSize, options);
+  }
+};
 
 
 /**
@@ -390,41 +430,42 @@ app.MapController.prototype.createLineStyle_ = function(feature,
 
 /**
  * @param {Array.<ol.Feature>} features Features to show.
+ * @param {boolean} recenter Whether or not to recenter on the features.
  * @private
  */
-app.MapController.prototype.showFeatures_ = function(features) {
+app.MapController.prototype.showFeatures_ = function(features, recenter) {
   goog.asserts.assert(features.length > 0);
   var vectorLayer = this.getVectorLayer_();
   var source = vectorLayer.getSource();
   source.clear();
   source.addFeatures(features);
 
-  // add a smooth animation when recentering on features
-  var duration = 2000;
-  var start = +new Date();
-  var pan = ol.animation.pan({
-    duration: duration,
-    source: /** @type {ol.Coordinate} */ (this.view_.getCenter()),
-    start: start
-  });
-  var bounce = ol.animation.bounce({
-    duration: duration,
-    resolution: 2 * this.view_.getResolution(),
-    start: start
-  });
-  this.map.beforeRender(pan, bounce);
+  if (recenter) {
+    // add a smooth animation when recentering on features
+    var duration = 2000;
+    var start = +new Date();
+    var pan = ol.animation.pan({
+      duration: duration,
+      source: /** @type {ol.Coordinate} */ (this.view_.getCenter()),
+      start: start
+    });
+    var bounce = ol.animation.bounce({
+      duration: duration,
+      resolution: 2 * this.view_.getResolution(),
+      start: start
+    });
+    this.map.beforeRender(pan, bounce);
 
-  if (features.length == 1 &&
-      features[0].getGeometry() instanceof ol.geom.Point) {
-    var point = /** @type {ol.geom.Point} */ (features[0].getGeometry());
-    this.view_.setCenter(point.getCoordinates());
-    this.view_.setZoom(this.zoom_ || app.MapController.DEFAULT_POINT_ZOOM);
-  } else {
-    var mapSize = this.map.getSize();
-    if (mapSize) {
-      this.view_.fit(vectorLayer.getSource().getExtent(), mapSize, {
-        padding: [10, 10, 10, 10]
-      });
+    if (features.length == 1 &&
+        features[0].getGeometry() instanceof ol.geom.Point) {
+      var point = /** @type {ol.geom.Point} */ (features[0].getGeometry());
+      this.view_.setCenter(point.getCoordinates());
+      this.view_.setZoom(this.zoom_ || app.MapController.DEFAULT_POINT_ZOOM);
+    } else {
+      this.recenterOnExtent_(
+        vectorLayer.getSource().getExtent(), {
+          padding: [10, 10, 10, 10]
+        });
     }
   }
 };
@@ -441,7 +482,7 @@ app.MapController.prototype.handleEditModelChange_ = function(event, data) {
   if (geomstr) {
     var geometry = this.geojsonFormat_.readGeometry(geomstr);
     var features = [new ol.Feature(geometry)];
-    this.showFeatures_(features);
+    this.showFeatures_(features, true);
   }
 };
 
@@ -453,7 +494,7 @@ app.MapController.prototype.handleEditModelChange_ = function(event, data) {
  */
 app.MapController.prototype.handleFeaturesUpload_ = function(event, features) {
   features.forEach(this.simplifyFeature_);
-  this.showFeatures_(features);
+  this.showFeatures_(features, true);
   this.scope_.$root.$emit('mapFeaturesChange', features);
 };
 
@@ -493,7 +534,33 @@ app.MapController.prototype.handleModify_ = function(event) {
  * @private
  */
 app.MapController.prototype.handleSearchChange_ = function(event, features) {
-  this.showFeatures_(features);
+  // show the search results on the map but don't change the map extent
+  this.showFeatures_(features, false);
+};
+
+
+/**
+ * @param {ol.ObjectEvent} event
+ * @private
+ */
+app.MapController.prototype.handleMapSearchChange_ = function(event) {
+  if (this.initialExtent_) {
+    // The map has just been set with an extent passed as permalink
+    // => no need to set it again in the URL.
+    this.initialExtent_ = null;
+    this.scope_.$root.$emit('searchFilterChange');
+  } else {
+    var mapSize = this.map.getSize();
+    if (mapSize) {
+      var extent = this.view_.calculateExtent(mapSize);
+      extent = extent.map(Math.floor);
+      this.location_.updateParams({
+        'bbox': extent.join(',')
+      });
+      this.location_.deleteParam('offset');
+      this.scope_.$root.$emit('searchFilterChange');
+    }
+  }
 };
 
 
@@ -510,7 +577,7 @@ app.MapController.prototype.addTrackImporter_ = function() {
     var features = event.features;
     if (features.length) {
       features.forEach(this.simplifyFeature_);
-      this.showFeatures_(features);
+      this.showFeatures_(features, true);
       this.scope_.$root.$emit('mapFeaturesChange', features);
     }
   }.bind(this));

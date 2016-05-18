@@ -2,6 +2,8 @@ goog.provide('app.AdvancedSearchController');
 goog.provide('app.advancedSearchDirective');
 
 goog.require('app');
+goog.require('app.Api');
+goog.require('ngeo.Location');
 goog.require('ol.Feature');
 goog.require('ol.format.GeoJSON');
 
@@ -80,11 +82,15 @@ app.AdvancedSearchController = function($scope, $attrs, appApi, ngeoLocation) {
    */
   this.documents = [];
 
-  // Get the initial results when loading the page:
-  this.getResults_();
+  // Get the initial results when loading the page.
+  // If a map is used, wait to get the map extent
+  // before triggering the request.
+  if (!$attrs['useMap']) {
+    this.getResults_();
+  }
 
   // Refresh the results when pagination or criterias have changed:
-  this.scope_.$root.$on('searchPageChange', this.getResults_.bind(this));
+  this.scope_.$root.$on('searchFilterChange', this.getResults_.bind(this));
 };
 
 

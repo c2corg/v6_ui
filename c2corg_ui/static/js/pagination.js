@@ -2,6 +2,7 @@ goog.provide('app.PaginationController');
 goog.provide('app.paginationDirective');
 
 goog.require('app');
+goog.require('ngeo.Location');
 
 
 /**
@@ -87,7 +88,7 @@ app.PaginationController.prototype.handleSearchChange_ = function(event,
  */
 app.PaginationController.prototype.goToFirst = function() {
   this.location_.deleteParam('offset');
-  this.scope_.$root.$emit('searchPageChange');
+  this.scope_.$root.$emit('searchFilterChange');
 };
 
 
@@ -101,7 +102,7 @@ app.PaginationController.prototype.goToPrev = function() {
   } else {
     this.location_.deleteParam('offset');
   }
-  this.scope_.$root.$emit('searchPageChange');
+  this.scope_.$root.$emit('searchFilterChange');
 };
 
 
@@ -111,7 +112,7 @@ app.PaginationController.prototype.goToPrev = function() {
 app.PaginationController.prototype.goToNext = function() {
   var nextOffset = this.offset + this.limit;
   this.location_.updateParams({'offset': nextOffset});
-  this.scope_.$root.$emit('searchPageChange');
+  this.scope_.$root.$emit('searchFilterChange');
 };
 
 
@@ -121,7 +122,7 @@ app.PaginationController.prototype.goToNext = function() {
 app.PaginationController.prototype.goToLast = function() {
   var nextOffset = this.total - (this.total % this.limit);
   this.location_.updateParams({'offset': nextOffset});
-  this.scope_.$root.$emit('searchPageChange');
+  this.scope_.$root.$emit('searchFilterChange');
 };
 
 
