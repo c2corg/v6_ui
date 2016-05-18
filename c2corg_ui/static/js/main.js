@@ -28,6 +28,7 @@ goog.require('app.protectedUrlBtnDirective');
 goog.require('app.searchFiltersDirective');
 goog.require('app.sidemenu');
 goog.require('app.simpleSearchDirective');
+goog.require('app.sliderDirective');
 goog.require('app.stickyFilters');
 goog.require('app.suggestionDirective');
 goog.require('app.userDirective');
