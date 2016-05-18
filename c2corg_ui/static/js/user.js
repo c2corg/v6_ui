@@ -96,6 +96,12 @@ app.UserController.prototype.logout = function() {
     this.alerts_.addSuccess('You have been disconnected');
   }.bind(this)).finally(function() {
     this.auth.removeUserData();
+    var path = this.ngeoLocation_.getPath();
+    if (path.indexOf('/edit/') !== -1 || path.indexOf('/account') !== -1) {
+      // The user is editing a document or viewing the account configuration.
+      // Going to the authentication page.
+      this.showLogin();
+    }
   }.bind(this));
 };
 
