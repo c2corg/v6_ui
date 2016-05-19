@@ -34,11 +34,13 @@ app.module.directive('appAdvancedSearch', app.advancedSearchDirective);
  * @param {angular.Attributes} $attrs Attributes.
  * @param {app.Api} appApi Api service.
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
+ * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @constructor
  * @export
  * @ngInject
  */
-app.AdvancedSearchController = function($scope, $attrs, appApi, ngeoLocation) {
+app.AdvancedSearchController = function($scope, $attrs, appApi, ngeoLocation,
+    gettextCatalog) {
 
   /**
    * @type {angular.Scope}
@@ -71,6 +73,12 @@ app.AdvancedSearchController = function($scope, $attrs, appApi, ngeoLocation) {
   this.location_ = ngeoLocation;
 
   /**
+   * @type {angularGettext.Catalog}
+   * @private
+   */
+  this.gettextCatalog_ = gettextCatalog;
+
+  /**
    * @type {number}
    * @export
    */
@@ -100,6 +108,7 @@ app.AdvancedSearchController = function($scope, $attrs, appApi, ngeoLocation) {
 app.AdvancedSearchController.prototype.getResults_ = function() {
   var url = this.location_.getUriString();
   var qstr = goog.uri.utils.getQueryData(url) || '';
+  qstr += '&pl=' + this.gettextCatalog_.currentLanguage;
   qstr = qstr.replace('debug', ''); // FIXME better handling of special params?
   this.api_.listDocuments(this.doctype_, qstr).then(
     this.successList_.bind(this)
