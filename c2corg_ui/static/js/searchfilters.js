@@ -3,10 +3,13 @@ goog.provide('app.SearchFiltersController');
 
 goog.require('app');
 goog.require('app.utils');
+goog.require('ngeo.Debounce');
+goog.require('ngeo.Location');
+
 
 /**
- * Provides the 'searchFiltersDirective' directive, which is used to enrich
- * filtering components in the documents listing pages.
+ * This directive is used to integrate a criterias form in the advanced search
+ * page. See also {app.advancedSearchDirective}.
  *
  * @return {angular.Directive} The directive specs.
  * @ngInject
@@ -17,35 +20,23 @@ app.searchFiltersDirective = function() {
     controller: 'appSearchFiltersController',
     bindToController: true,
     scope: true,
-    controllerAs: 'searchFiltersCtrl',
+    controllerAs: 'filtersCtrl',
     link: function(scope, element, attrs, ctrl) {
-      // Init sliders
-      $('.range-between').slider({min: 0, max: 9999, value: [0, 9999]});
-      var elevationFilter = $('#elevation-filter');
-      var heightFilter = $('#height-filter');
-
-      // Update elevation slider values
-      elevationFilter.on('slide', function(slideEvt) {
-        ctrl.elevation.min = slideEvt.value[0];
-        ctrl.elevation.max = slideEvt.value[1];
-        scope.$apply();
-      });
-
-      // Update height diff slider values
-      heightFilter.on('slide', function(slideEvt) {
-        ctrl.height_diff_up.min = slideEvt.value[0];
-        ctrl.height_diff_up.max = slideEvt.value[1];
-        scope.$apply();
-      });
-      //on some screen sizes, the dropdown menu is too large and is hidden within documents-list-section
-      // because it's to small. Given that this menu is inside, it will not be show entirely...
+      // FIXME On some screen sizes, the dropdown menu is too large and is
+      // hidden within documents-list-section because it's to small. Given that
+      // this menu is inside, it will not be shown entirely...
       // If someone can fix it using CSS only, you're da real MVP !
       element.on('click', '.dropdown-toggle', function() {
-        $(this).next().css({position: 'fixed', top: $(this).offset().top + 30, left: $(this).offset().left - 10})
+        $(this).next().css({
+          position: 'fixed',
+          top: $(this).offset().top + 30,
+          left: $(this).offset().left - 10
+        });
       });
 
-      // this prevents to 'jump' or 'stutter' on phone - before, if you first opened more-filters
-      // and scrolled, it would unfold filters on whole page and make a stutter. Now it overflows.
+      // This prevents to 'jump' or 'stutter' on phone - before, if you first
+      // opened more-filters and scrolled, it would unfold filters on whole
+      // page and make a stutter. Now it overflows.
       if (window.innerWidth < app.constants.SCREEN.SMARTPHONE) {
         $('.more-filters-btn, .search-filters-btn, .less-filters-btn').click(function() {
           $('.filters').toggleClass('filters-phone');
@@ -61,14 +52,13 @@ app.module.directive('appSearchFilters', app.searchFiltersDirective);
 
 /**
  * @param {angular.Scope} $scope Scope.
- * @param {angular.JQLite} $element Element.
- * @param {angular.Attributes} $attrs Attributes.
+ * @param {ngeo.Location} ngeoLocation ngeo Location service.
+ * @param {ngeo.Debounce} ngeoDebounce ngeo Debounce service.
  * @constructor
  * @ngInject
  * @export
  */
-app.SearchFiltersController = function($scope, $element, $attrs) {
-
+app.SearchFiltersController = function($scope, ngeoLocation, ngeoDebounce) {
 
   /**
    * @type {angular.Scope}
@@ -76,61 +66,78 @@ app.SearchFiltersController = function($scope, $element, $attrs) {
    */
   this.scope_ = $scope;
 
-  // FIXME: not generic to all document types
-  // Init filters object
   /**
-   * @type {Array<string>}
-   * @export
+   * @type {ngeo.Location}
+   * @private
    */
-  this.activities = [];
-
-
-  /**
-   * @type {Array<string>}
-   * @export
-   */
-  this.waypoint_types = [];
-
-
-  /**
-   * @type {string}
-   * @export
-   */
-  this.lang;
-
-
-  /**
-   * @type {string}
-   * @export
-   */
-  this.around;
-
+  this.location_ = ngeoLocation;
 
   /**
    * @type {Object}
    * @export
    */
-  this.height_diff_up = {min: 0, max: 9999};
+  this.filters = {};
 
   /**
-   * @type {Object}
-   * @export
+   * @type {boolean}
+   * @private
    */
-  this.elevation = {min : 0, max: 9999};
+  this.loading_ = true;
+
+  // Fill the filters according to the loaded URL parameters
+  var keys = this.location_.getParamKeys().filter(function(x) {
+    return app.SearchFiltersController.IGNORED_FILTERS.indexOf(x) === -1;
+  });
+  for (var i = 0, n = keys.length; i < n; i++) {
+    var key = keys[i];
+    this.filters[key] = this.location_.getParam(key);
+  }
+
+  this.scope_.$watchCollection(function() {
+    return this.filters;
+  }.bind(this), ngeoDebounce(
+      this.handleFiltersChange_.bind(this),
+      500, /* invokeApply */ true)
+  );
 };
 
 
 /**
- * @param {Object} object
- * @param {string} property name
- * @param {string} value category
+ * @const
+ * @type {Array.<string>}
+ */
+app.SearchFiltersController.IGNORED_FILTERS = ['bbox', 'offset', 'limit'];
+
+
+/**
+ * @private
+ */
+app.SearchFiltersController.prototype.handleFiltersChange_ = function() {
+  // FIXME remove console.log
+  console.log(this.filters);
+  // ignore the initial $watchCollection triggering (at loading time)
+  if (!this.loading_) {
+    this.location_.updateParams(this.filters);
+    this.location_.deleteParam('offset');
+    this.scope_.$root.$emit('searchFilterChange');
+  } else {
+    this.loading_ = false;
+  }
+};
+
+
+/**
+ * @param {string} prop Where to save the value.
+ * @param {string} value Value to save.
  * @param {jQuery.Event | goog.events.Event} event click
  * @export
  */
-app.SearchFiltersController.prototype.selectOption = function(object, property, value, event) {
+app.SearchFiltersController.prototype.selectOption = function(prop, val, event) {
   // Don't close the menu after selecting an option
   event.stopPropagation();
-  app.utils.pushToArray(this, property, value, event);
+  app.utils.pushToArray(this.filters, prop, val, event);
+  // FIXME advertise that this.filters has changed
 };
+
 
 app.module.controller('appSearchFiltersController', app.SearchFiltersController);
