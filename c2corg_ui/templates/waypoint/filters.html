@@ -21,7 +21,7 @@ from c2corg_common.attributes import default_langs, waypoint_types, orientation_
         <ul class="dropdown-menu multiselect-box type">
           <li ng-repeat="type in ['${"','".join(waypoint_types) |n}']">
             <a data-value="{{type}}" ng-click="filtersCtrl.selectOption('wtyp', type, $event)">
-              <input type="checkbox">
+              <input type="checkbox" ng-checked="filtersCtrl.filters.wtyp && filtersCtrl.filters.wtyp.indexOf(type) !== -1">
               <span class="activity">{{mainCtrl.translate(type) | capitalize}}</span>
             </a>
           </li>

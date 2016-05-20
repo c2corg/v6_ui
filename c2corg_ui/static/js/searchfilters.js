@@ -117,18 +117,21 @@ app.SearchFiltersController.IGNORED_FILTERS = ['bbox', 'offset', 'limit'];
  */
 app.SearchFiltersController.prototype.getFilterFromPermalink_ = function(key) {
   // TODO find a more generic way or at least factorize code
-  var val;
+  var val = this.location_.getParam(key);
+  if (val === '') {
+    return;
+  }
   switch (key) {
     case 'wtyp':
-      val = this.location_.getParam(key).split(',');
+      val = val.split(',');
       break;
     case 'walt':
-      val = this.location_.getParam(key).split(',').map(function(x) {
+      val = val.split(',').map(function(x) {
         return parseInt(x, 10);
       });
       break;
     default:
-      val = this.location_.getParam(key);
+      break;
   }
   this.filters[key] = val;
 };
@@ -160,7 +163,11 @@ app.SearchFiltersController.prototype.handleFiltersChange_ = function() {
 app.SearchFiltersController.prototype.selectOption = function(prop, val, event) {
   // Don't close the menu after selecting an option
   event.stopPropagation();
-  app.utils.pushToArray(this.filters, prop, val, event);
+  var checked = app.utils.pushToArray(this.filters, prop, val, event);
+  if (!checked && this.filters[prop].length === 0) {
+    delete this.filters[prop];
+    this.location_.deleteParam(prop);
+  }
 };
 
 
