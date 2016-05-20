@@ -89,15 +89,17 @@ app.SearchFiltersController = function($scope, ngeoLocation, ngeoDebounce) {
     return app.SearchFiltersController.IGNORED_FILTERS.indexOf(x) === -1;
   });
   for (var i = 0, n = keys.length; i < n; i++) {
-    var key = keys[i];
-    this.filters[key] = this.location_.getParam(key);
+    this.getFilterFromPermalink_(keys[i]);
   }
 
-  this.scope_.$watchCollection(function() {
+  // Deep watch is used here because we need to watch the list filters as well
+  // which a simple $watch or $watchCollection does not. Might cause
+  // perf/memory issues though...
+  this.scope_.$watch(function() {
     return this.filters;
   }.bind(this), ngeoDebounce(
       this.handleFiltersChange_.bind(this),
-      500, /* invokeApply */ true)
+      500, /* invokeApply */ true), /* deep watch */ true
   );
 };
 
@@ -107,6 +109,29 @@ app.SearchFiltersController = function($scope, ngeoLocation, ngeoDebounce) {
  * @type {Array.<string>}
  */
 app.SearchFiltersController.IGNORED_FILTERS = ['bbox', 'offset', 'limit'];
+
+
+/**
+ * @param {string} key Filter key.
+ * @private
+ */
+app.SearchFiltersController.prototype.getFilterFromPermalink_ = function(key) {
+  // TODO find a more generic way or at least factorize code
+  var val;
+  switch (key) {
+    case 'wtyp':
+      val = this.location_.getParam(key).split(',');
+      break;
+    case 'walt':
+      val = this.location_.getParam(key).split(',').map(function(x) {
+        return parseInt(x, 10);
+      });
+      break;
+    default:
+      val = this.location_.getParam(key);
+  }
+  this.filters[key] = val;
+};
 
 
 /**
@@ -128,7 +153,7 @@ app.SearchFiltersController.prototype.handleFiltersChange_ = function() {
 
 /**
  * @param {string} prop Where to save the value.
- * @param {string} value Value to save.
+ * @param {string} val Value to save.
  * @param {jQuery.Event | goog.events.Event} event click
  * @export
  */
@@ -136,7 +161,6 @@ app.SearchFiltersController.prototype.selectOption = function(prop, val, event) 
   // Don't close the menu after selecting an option
   event.stopPropagation();
   app.utils.pushToArray(this.filters, prop, val, event);
-  // FIXME advertise that this.filters has changed
 };
 
 
