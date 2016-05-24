@@ -141,8 +141,6 @@ app.SearchFiltersController.prototype.getFilterFromPermalink_ = function(key) {
  * @private
  */
 app.SearchFiltersController.prototype.handleFiltersChange_ = function() {
-  // FIXME remove console.log
-  console.log(this.filters);
   // ignore the initial $watchCollection triggering (at loading time)
   if (!this.loading_) {
     this.location_.updateParams(this.filters);
