@@ -17,6 +17,7 @@ app.utils.getDoctype = function(type) {
     case 'i':
       return 'images';
     default:
+      goog.asserts.fail('Unrecognized type: ' + type);
       return '';
   }
 };

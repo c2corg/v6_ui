@@ -116,24 +116,43 @@ app.SearchFiltersController.IGNORED_FILTERS = ['bbox', 'offset', 'limit'];
  * @private
  */
 app.SearchFiltersController.prototype.getFilterFromPermalink_ = function(key) {
-  // TODO find a more generic way or at least factorize code
   var val = this.location_.getParam(key);
   if (val === '') {
     return;
   }
   switch (key) {
     case 'wtyp':
-      val = val.split(',');
+      this.createListFilter_(key, val);
       break;
     case 'walt':
-      val = val.split(',').map(function(x) {
-        return parseInt(x, 10);
-      });
+      this.createRangeFilter_(key, val);
       break;
     default:
+      this.filters[key] = val;
       break;
   }
-  this.filters[key] = val;
+};
+
+
+/**
+ * @param {string} key Filter key.
+ * @param {string} val Filter value.
+ * @private
+ */
+app.SearchFiltersController.prototype.createListFilter_ = function(key, val) {
+  this.filters[key] = val.split(',');
+};
+
+
+/**
+ * @param {string} key Filter key.
+ * @param {string} val Filter value.
+ * @private
+ */
+app.SearchFiltersController.prototype.createRangeFilter_ = function(key, val) {
+  this.filters[key] = val.split(',').map(function(x) {
+    return parseInt(x, 10);
+  });
 };
 
 

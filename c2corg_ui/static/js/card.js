@@ -70,7 +70,6 @@ app.CardController = function(gettextCatalog) {
    * @export
    */
   this.locale = this['doc']['locales'][0];
-  // TODO: use a better default locale than the first one?
   for (var i = 0, n = this['doc']['locales'].length; i < n; i++) {
     var l = this['doc']['locales'][i];
     if (l['lang'] === this.lang) {

@@ -171,7 +171,6 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
       var bbox = this.location_.getParam('bbox');
       var extent = bbox.split(',');
       if (extent.length == 4) {
-        // FIXME what if extent is not valid?
         this.initialExtent_ = extent.map(function(x) {
           return parseInt(x, 10);
         });
