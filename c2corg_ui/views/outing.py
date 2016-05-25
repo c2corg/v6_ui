@@ -9,8 +9,6 @@ class Outing(Document):
 
     @view_config(route_name='outings_index',
                  renderer='c2corg_ui:templates/outing/index.html')
-    @view_config(route_name='outings_index_default',
-                 renderer='c2corg_ui:templates/outing/index.html')
     def index(self):
         return self._get_index()
 

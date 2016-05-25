@@ -10,8 +10,6 @@ class Route(Document):
 
     @view_config(route_name='routes_index',
                  renderer='c2corg_ui:templates/route/index.html')
-    @view_config(route_name='routes_index_default',
-                 renderer='c2corg_ui:templates/route/index.html')
     def index(self):
         return self._get_index()
 
