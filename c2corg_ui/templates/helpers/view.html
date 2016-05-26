@@ -157,7 +157,7 @@
     ##OUTINGS
     % elif associatedDocuments == 'recent_outings':
     
-      % if len(document['associations']['recent_outings']['outings']) > 0 :
+      % if document['associations']['recent_outings']['total'] > 0 :
         <article>
           <h3 class="heading show-phone outings" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-${associatedDocuments}">
             <span class="glyphicon glyphicon-map-marker"></span>
@@ -176,8 +176,12 @@
             </div>
             % endfor
             
-            % if len(document['associations']['recent_outings']['outings']) == 10 :
-              <div class="list-item vertical-align" onclick="window.location='${request.route_url('outings_index')}';">
+            % if document['associations']['recent_outings']['total'] > 10 :
+              <%
+                  _query = {}
+                  _query[document['type']] = document['document_id']
+              %>
+              <div class="list-item vertical-align" onclick="window.location='${request.route_url('outings_index', _query=_query)}';">
                 <button class="gray-btn btn show-more">show more</button>
               </div>
             % endif
