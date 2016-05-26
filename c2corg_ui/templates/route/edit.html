@@ -1,5 +1,5 @@
 <%!
-from c2corg_common.attributes import default_langs, activities, route_types, orientation_types, route_duration_types, glacier_gear_types, route_configuration_types, mtb_up_ratings, \
+from c2corg_common.attributes import via_ferrata_ratings, default_langs, activities, route_types, orientation_types, route_duration_types, glacier_gear_types, route_configuration_types, mtb_up_ratings, \
 ski_ratings, labande_ski_ratings, global_ratings, engagement_ratings, risk_ratings, ice_ratings, mixed_ratings, aid_ratings, exposition_ratings, equipment_ratings, \
 rock_types, hiking_ratings, exposition_rock_ratings, climbing_outdoor_types, snowshoe_ratings,mtb_up_ratings, mtb_down_ratings, climbing_ratings, quality_types
 %>
@@ -28,7 +28,6 @@ updating_doc = route_id and route_lang
     ## It won't work with ng-init
     <span class="ng-hide">
       {{editCtrl.max_steps = 4}} 
-      {{document = route}}
     </span>
     
     ## PROGRESS BAR
@@ -53,10 +52,10 @@ updating_doc = route_id and route_lang
           <h2 class="heading show-phone" translate>general informations</h2>
 
           <div class="content" id="title-edit">
-           
             ## TITLE
           <div id="title-group" class="form-group" ng-class="{ 'has-error': editForm.title.$touched && editForm.title.$invalid, 'has-success': editForm.title.$valid }">
             <label><span translate>title</span> *</label>
+            <span uib-tooltip="{{mainCtrl.translate('main waypoint title')}}"/><input type="text" name="title" ng-model="route.main_waypoint_title" ng-show="route.main_waypoint_title" class="form-control" disabled></span>
             <input type="text" name="title" ng-model="route.locales[0].title" ng-minlength="3"class="form-control" required />
             <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.title.$valid"></span>
             <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.title.$invalid && editForm.title.$touched"></span>
@@ -92,7 +91,7 @@ updating_doc = route_id and route_lang
           <h2 class="heading show-phone"><span translate>associations </span></h2>
           <div class="content route-associations" id="title-edit">
             ## wr = waypoints, routes
-            <app-add-association parent-id="document.document_id" added-documents="added" dataset="wr"></app-add-association>
+            <app-simple-search parent-id="document.document_id" app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="wr"></app-simple-search>
             <%include file="../route/associated.html"/>
             <%include file="../waypoint/associated.html"/>
           </div>
@@ -481,6 +480,16 @@ updating_doc = route_id and route_lang
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.risk_rating"></span>
             </div>
             
+            ## VIA FERRATA  RATING
+            <div class="form-group data half" ng-class="{ 'has-success': route.via_ferrata_rating}" ng-if="route.activities.indexOf('via_ferrata') > -1">
+              <label translate>via_ferrata_rating</label>
+              <div class="input-group">
+                <select class="form-control" ng-model="route.via_ferrata_rating" ng-options="rat as rat for rat in ${via_ferrata_ratings}"><option value=""></option></select>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.via_ferrata_rating"></span>
+            </div>
+            
             ## HIKING  RATING
             <div class="form-group data half" ng-class="{ 'has-success': route.hiking_rating}" ng-if="route.activities.indexOf('hiking') > -1">
               <label translate>hiking_rating</label>
@@ -655,13 +664,17 @@ updating_doc = route_id and route_lang
           </div>
         </section>
 
-        <p  class="bottom-btns">
-          <button type="submit" class="btn btn-lg orange-btn" ng-disabled="editForm.$invalid || editForm.$pristine" translate>Save</button>
+        <p  class="action-buttons float-buttons">
+          <button type="submit" class="btn btn-lg orange-btn float-button" ng-disabled="editForm.$invalid || editForm.$pristine"  tooltip-placement="left" uib-tooltip="{{'Save' | translate}}">
+            <span class="glyphicon glyphicon-ok"></span>
+          </button>
           <%
           view_url = request.route_url('routes_view', id=route_id, lang=route_lang) if updating_doc else ''
           index_url = request.route_url('routes_index')
           %>
-          <button type="button" class="btn btn-lg gray-btn" ng-click="editCtrl.cancel('${view_url}', '${index_url}')" translate>Cancel</button>
+          <button type="button" class="btn btn-lg gray-btn float-button" ng-click="editCtrl.cancel('${view_url}', '${index_url}')"  tooltip-placement="left" uib-tooltip="{{'Cancel' | translate}}">
+            <span class="glyphicon glyphicon-remove"></span>
+          </button>
         </p>
       </div>
 

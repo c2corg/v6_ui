@@ -48,6 +48,7 @@ app.module.directive('appDocumentEditing', app.documentEditingDirective);
  * @param {app.Authentication} appAuthentication
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {app.Alerts} appAlerts
+ * @param {app.Document} appDocument
  * @param {app.Api} appApi Api service.
  * @param {string} authUrl Base URL of the authentication page.
  * @constructor
@@ -55,20 +56,20 @@ app.module.directive('appDocumentEditing', app.documentEditingDirective);
  * @export
  */
 app.DocumentEditingController = function($scope, $element, $attrs,
-    appAuthentication, ngeoLocation, appAlerts, appApi, authUrl) {
+    appAuthentication, ngeoLocation, appAlerts, appApi, authUrl, appDocument) {
+
+  /**
+   * @type {app.Document}
+   * @export
+   */
+  this.documentService = appDocument;
+
 
   /**
    * @type {ngeo.Location}
    * @private
    */
   this.ngeoLocation_ = ngeoLocation;
-
-
-  /**
-   * @type {angular.Scope}
-   * @private
-   */
-  this.scope_ = $scope;
 
   /**
    * @type {string}
@@ -106,6 +107,12 @@ app.DocumentEditingController = function($scope, $element, $attrs,
    * @private
    */
   this.lang_ = $attrs['appDocumentEditingLang'];
+
+  /**
+   * @type {angular.Scope}
+   * @private
+   */
+  this.scope_ = $scope;
 
   /**
    * @type {ol.format.GeoJSON}
@@ -168,12 +175,6 @@ app.DocumentEditingController = function($scope, $element, $attrs,
   this.submit_ = false;
 
   /**
-   * Waypoint init
-   * @private
-   */
-  this.scope_.waypoint = {};
-
-  /**
    * @export
    */
   this.differentDates;
@@ -192,7 +193,7 @@ app.DocumentEditingController = function($scope, $element, $attrs,
 
   // When creating a new document, the model is not created until
   // the form is touched. At least create an empty object.
-  this.scope_[this.modelName_] = {};
+  this.scope_[this.modelName_] = this.scope_['document'] = this.documentService.document;
   if (this.auth_.isAuthenticated()) {
     if (this.id_ && this.lang_) {
      // Get document attributes from the API to feed the model:
@@ -253,7 +254,7 @@ app.DocumentEditingController.prototype.successRead_ = function(response) {
     this.isNewLang_ = true;
   }
 
-  this.scope_[this.modelName_] = data;
+  this.scope_[this.modelName_] = this.scope_['document'] = this.documentService.document = data;
 
   if (this.modelName_ === 'outing') {
     var outing = this.scope_['outing'];
@@ -351,11 +352,12 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
     if (this.modelName_ === 'outing') {
       // adapt the Object for what's expected at the API side + format the outing
       this.formatOuting_(data);
-      data = {
-        'outing': data,
-        'route_id': data['associations']['routes'][0]['document_id'],
-        'user_ids': [this.auth_.userData.id]
-      };
+
+      for (var i = 0; i < data['associations']['users'].length; i++) {
+        data['associations']['users'][i]['id'] = data['associations']['users'][i]['document_id'];
+        delete data['associations']['users'][i]['document_id'];
+      }
+      data['associations']['users'].push({'id' : this.auth_.userData.id});
     }
 
     this.api_.createDocument(this.module_, data).then(function(response) {
@@ -447,6 +449,7 @@ app.DocumentEditingController.prototype.pushDocToAssociations_ = function() {
   var doctype = Object.keys(this.urlParams_)[0];
   this.api_.getDocumentByIdAndDoctype(this.urlParams_[doctype], doctype[0]).then(function(doc) {
     this.scope_[this.modelName_]['associations'][doctype].push(doc.data[doctype].documents[0]);
+    this.scope_[this.modelName_]['locales'][0]['title'] = doc.data[doctype].documents[0]['locales'][0]['title'];
   }.bind(this));
 };
 
@@ -593,14 +596,9 @@ app.DocumentEditingController.prototype.animateBar_ = function(step, direction) 
  * @param {string} waypointType
  * @export
  */
-
 app.DocumentEditingController.prototype.updateMaxSteps = function(waypointType) {
-  if (app.constants.STEPS[waypointType]) {
-    this.max_steps = app.constants.STEPS[waypointType];
-  } else {
-    this.max_steps = 3;
-  }
-}
+  this.max_steps = app.constants.STEPS[waypointType] || 3;
+};
 
 /**
  * @param {Object} outing
@@ -608,12 +606,9 @@ app.DocumentEditingController.prototype.updateMaxSteps = function(waypointType) 
  */
 app.DocumentEditingController.prototype.formatOuting_ = function(outing) {
   if (this.submit_) {
-    if (outing['locales'][0]['conditions_levels'][0]['level_place'].length > 0) {
-      // transform condition_levels to a string
-      outing['locales'][0]['conditions_levels'] = JSON.stringify(outing['locales'][0]['conditions_levels']);
-    } else {
-      delete outing['locales'][0]['conditions_levels'][0];
-    }
+    // transform condition_levels to a string
+    outing['locales'][0]['conditions_levels'] = JSON.stringify(outing['locales'][0]['conditions_levels']);
+
     // if no date end -> make it the same as date start
     if (!outing['date_end'] && outing['date_start'] instanceof Date) {
       outing['date_end'] = outing['date_start'];
@@ -626,13 +621,11 @@ app.DocumentEditingController.prototype.formatOuting_ = function(outing) {
   if (!outing['associations']) {
     outing['associations'] = {'routes': [], 'waypoints': [], users: []};
   }
-
   // convert existing date from string to a date object
   if (outing['date_end'] && typeof outing['date_end'] === 'string') {
     outing['date_end'] = app.utils.formatDate(outing['date_end']);
   }
-
-  if (outing['date_start'] && outing['date_start'] === 'string') {
+  if (outing['date_start'] && typeof outing['date_start'] === 'string') {
     outing['date_start'] = app.utils.formatDate(outing['date_start']);
   }
 
@@ -650,6 +643,7 @@ app.DocumentEditingController.prototype.formatOuting_ = function(outing) {
       outing['locales'][0]['conditions_levels'] = [{'level_snow_height_soft': '', 'level_snow_height_total': '', 'level_comment': '', 'level_place': ''}];
     }
   }
+  this.submit_ = false;
   return outing;
 };
 
@@ -673,11 +667,9 @@ app.DocumentEditingController.prototype.pushToArray = function(object, property,
  * @param {Object} document (route, outing, waypoint)
  * @export
  */
-
 app.DocumentEditingController.prototype.setOrientation = function(orientation, document, e) {
   app.utils.pushToArray(document, 'orientations', orientation, e);
 }
 
+app.module.controller('appDocumentEditingController', app.DocumentEditingController);
 
-app.module.controller('appDocumentEditingController',
-    app.DocumentEditingController);
