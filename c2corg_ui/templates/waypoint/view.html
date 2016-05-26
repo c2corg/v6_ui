@@ -49,6 +49,7 @@ geometry4326 = geometry
         "geometry": {"type": "Point", "coordinates": [${geometry.x}, ${geometry.y}]},
         "properties": {
           "title": "${locale['title']}",
+          "lang": "${locale['lang']}",
           "documentId": ${waypoint['document_id']},
           % if waypoint['elevation'] is not None:
             "elevation": ${waypoint['elevation']},
