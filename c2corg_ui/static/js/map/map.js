@@ -473,12 +473,23 @@ app.MapController.prototype.showFeatures_ = function(features, recenter) {
  * @private
  */
 app.MapController.prototype.handleEditModelChange_ = function(event, data) {
+  if (!('geometry' in data && data['geometry'])) {
+    return;
+  }
   var geomattr = this.drawType == 'Point' ? 'geom' : 'geom_detail';
-  var geomstr = data['geometry'] ? data['geometry'][geomattr] : null;
+  var geomstr = data['geometry'][geomattr];
+  var geometry;
   if (geomstr) {
-    var geometry = this.geojsonFormat_.readGeometry(geomstr);
+    geometry = this.geojsonFormat_.readGeometry(geomstr);
     var features = [new ol.Feature(geometry)];
     this.showFeatures_(features, true);
+  } else if (this.drawType != 'Point') {
+    // recenter the map on the default point geometry for routes or outings
+    // with no geom_detail
+    geomstr = data['geometry']['geom'];
+    geometry = /** @type {ol.geom.Point} */ (this.geojsonFormat_.readGeometry(geomstr));
+    this.view_.setCenter(geometry.getCoordinates());
+    this.view_.setZoom(this.zoom || app.MapController.DEFAULT_POINT_ZOOM);
   }
 };
 
