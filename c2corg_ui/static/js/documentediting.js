@@ -215,7 +215,6 @@ app.DocumentEditingController = function($scope, $element, $attrs,
 
   this.scope_.$root.$on('mapFeaturesChange', function(event, features) {
     this.handleMapFeaturesChange_(features);
-    this.scope_.$apply();
   }.bind(this));
 };
 
