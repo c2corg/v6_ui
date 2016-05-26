@@ -79,6 +79,7 @@ app.Authentication.prototype.isAuthenticated = function() {
  * @export
  */
 app.Authentication.prototype.hasEditRights = function(users) {
+  // not logged -> return false
   if (!this.isAuthenticated()) {
     return false;
   }
@@ -100,7 +101,6 @@ app.Authentication.prototype.hasEditRights = function(users) {
   } else {
     return true;
   }
-  // not logged -> return false
 };
 
 

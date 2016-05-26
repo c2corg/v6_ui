@@ -14,7 +14,7 @@ goog.require('app.Api');
 app.addAssociationDirective = function($compile) {
 
   var template = function(dataset) {
-    return '<app-simple-search app-select="addCtrl.associate(doc)" app-dataset="' + dataset + '"></app-simple-search>'
+    return '<app-simple-search app-select="addCtrl.associate(doc)" dataset="' + dataset + '"></app-simple-search>';
   };
 
   return {
@@ -22,16 +22,15 @@ app.addAssociationDirective = function($compile) {
     controller: 'AppAddAssociationController',
     bindToController: {
       'parentId': '=',
-      'addedDocuments': '=',
-      'dataset' : '='
+      'addedDocuments': '='
     },
     controllerAs: 'addCtrl',
 
     link: function(scope, element, attrs, ctrl) {
-      element.html(template(ctrl.dataset));
+      element.html(template(attrs.dataset));
       $compile(element.contents())(scope);
     }
-  }
+  };
 };
 
 app.module.directive('appAddAssociation', app.addAssociationDirective);
@@ -41,10 +40,12 @@ app.module.directive('appAddAssociation', app.addAssociationDirective);
  * @constructor
  * @param {app.Api} appApi The API service
  * @ngInject
+ * @struct
  */
-app.AddAssociationController = function(appApi, $attrs) {
+app.AddAssociationController = function(appApi) {
+
   /**
-   * @type {number} // bound from directive
+   * @type {number}
    * @export
    */
   this.parentId;
@@ -55,7 +56,6 @@ app.AddAssociationController = function(appApi, $attrs) {
   this.api_ = appApi;
 
 
-  this.dataset = $attrs['dataset'];
   /**
    * @type {Array.<appx.SimpleSearchDocument>}
    * @export
