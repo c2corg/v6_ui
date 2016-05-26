@@ -156,7 +156,6 @@
 
     h2 {
       text-align: left;
-      font-size: 1.5em;
     }
     .heading {
       margin-top: 0;
@@ -246,21 +245,6 @@
       border: 1px solid #eee;
       padding-bottom: 10px;
       margin-bottom: 5px;
-      
-      app-delete-association {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        margin-bottom: 5px;
-        margin-right: 5px;
-
-        .glyphicon {
-          color: red;
-        }
-        button {
-          padding: 5px;
-        }
-      }
     }
   }
 
@@ -393,9 +377,12 @@
       }
 
       &.location {
-        display: none;
-        @media @phone {
-          .flex();
+        .flex();
+        ul {
+          display: none;
+          @media @phone {
+            display: block;
+          }
         }
       }
       &.maps {
@@ -509,7 +496,7 @@
 
 app-add-association {
 
-  app-search {
+  app-simple-search {
     margin-bottom: 20px;
     width: 346px;
 
@@ -633,11 +620,11 @@ app-add-association {
   
   @media @phone {
     justify-content: flex-start;
+    display: none;
   }
   
   #orientation-svg{
     height: 110px;
-    width: 110px;
-    margin-bottom: 10px;
+    width: 100%;
   }
 }

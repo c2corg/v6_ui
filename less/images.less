@@ -1,7 +1,7 @@
 .drop-box {
   background: #F8F8F8;
   border: 5px dashed #DDD;
-  height: 90%;
+  height: 100%;
   width: 100%;
   text-align: center;
   padding-top: 25px;
@@ -10,7 +10,11 @@
   border: 5px dashed red;
 }
 #image-uploader {
-  height: 90%;
+  height: 95%;
+  @media @phone {
+    height: 90%;
+    padding: 0;
+  }
   > button {
     float: right;
     margin-top: 10px;
@@ -21,9 +25,6 @@
     font-size: 14px;
     margin-top: 4px;
   }
-  @media @phone{
-    padding: 0;
-  }
 }
 .progress {
   margin: 0;
@@ -32,7 +33,7 @@
   .flex();
   flex-flow: wrap row;
   width: 100%;
-  height: 105%;
+  height: 100%;
   overflow: auto;
 }
 .uploaded-image {
@@ -130,17 +131,23 @@
 .modal-xl {
   width: 90%;
   height: 90%;
+  
+  @media @phone{
+    width: 100%;
+    height: 95%;
+    margin: 0;
+  }
   &.modal-dialog {
     margin: 5vh auto auto auto;
+    @media @phone {
+      margin-top: 3vh;
+    }
   }
   .modal-content {
     padding: 2%;
     height: 100%;
   }
-  @media @phone{
-    width: 100%;
-    margin: 0;
-  }
+
 }
 
 .photoswipe-image-container {

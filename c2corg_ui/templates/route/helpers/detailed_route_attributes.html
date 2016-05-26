@@ -14,7 +14,11 @@
         
         % if route.get('orientations'):
           <%include file="c2corg_ui:static/img/orientation.svg" />
-          <p id="orientation-list">${', '.join(route['orientations'])}</p>
+          <ul id="orientation-list">
+            % for orientation in route.get('orientations'):
+              <li>${orientation}</li>
+            % endfor
+          </ul>
         % endif
       </span>
     </div>
@@ -115,48 +119,51 @@
 
 ## HEIGHTS  
 <%def name="get_route_heights(route)">\
-  <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
-    <h4><span translate>heights</span><span class="glyphicon glyphicon-menu-right"></span></h4>
-    <div class="name-icon">
-      <span class="glyphicon glyphicon-stats"></span>
-      <p translate>heights</p>
+  % if route.get('route_length') or route.get('mtb_height_diff_portages') or route.get('height_diff_difficulties') or route.get('difficulties_height') \
+        or route.get('mtb_length_asphalt') or route.get('mtb_length_trail') or locale.get('slope'):
+    <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
+      <h4><span translate>heights</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+      <div class="name-icon">
+        <span class="glyphicon glyphicon-stats"></span>
+        <p translate>heights</p>
+      </div>
+      <span class="detail-text accordion">
+
+       ${get_document_min_max(route, 'elevation')}
+
+       ${get_document_up_down(route, 'height_diff')}
+
+        % if route.get('route_length'):
+        <p><span translate class="value-title">route_length</span>: <b class="value">${route['route_length']/1000} km</b></p>
+        % endif
+
+        % if route.get('mtb_height_diff_portages'):
+        <p><span translate class="value-title">mtb_height_diff_portages</span>: <b class="value">${route['mtb_height_diff_portages']}</b></p>
+        % endif
+
+        %if route.get('height_diff_difficulties'):
+        <p><span translate class="value-title">height_diff_difficulties</span>: <b class="value">${route['height_diff_difficulties']} m</b></p>
+        % endif
+
+        %if route.get('difficulties_height'):
+        <p><span translate class="value-title">difficulties_height</span>: <b class="value">${route['difficulties_height']} m</b></p>
+        % endif
+
+        % if route.get('mtb_length_asphalt'):
+        <p><span translate class="value-title">mtb_length_asphalt</span>: <b class="value">${route['mtb_length_asphalt']} m</b></p>
+        % endif
+
+        % if route.get('mtb_length_trail'):
+        <p><span translate class="value-title">mtb_length_trail</span>: <b class="value">${route['mtb_length_trail']} m</b></p>
+        % endif
+
+        % if locale.get('slope'):
+        <p><span translate class="value-title">slope</span>: <b class="value">${locale['slope']}</b></p>
+        % endif
+
+      </span>
     </div>
-    <span class="detail-text accordion">
-            
-     ${get_document_min_max(route, 'elevation')}
-
-     ${get_document_up_down(route, 'height_diff')}
-
-      % if route.get('route_length'):
-      <p><span translate class="value-title">route_length</span>: <b class="value">${route['route_length']/1000} km</b></p>
-      % endif
-
-      % if route.get('mtb_height_diff_portages'):
-      <p><span translate class="value-title">mtb_height_diff_portages</span>: <b class="value">${route['mtb_height_diff_portages']}</b></p>
-      % endif
-
-      %if route.get('height_diff_difficulties'):
-      <p><span translate class="value-title">height_diff_difficulties</span>: <b class="value">${route['height_diff_difficulties']} m</b></p>
-      % endif
-      
-      %if route.get('difficulties_height'):
-      <p><span translate class="value-title">difficulties_height</span>: <b class="value">${route['difficulties_height']} m</b></p>
-      % endif
-      
-      % if route.get('mtb_length_asphalt'):
-      <p><span translate class="value-title">mtb_length_asphalt</span>: <b class="value">${route['mtb_length_asphalt']} m</b></p>
-      % endif
-
-      % if route.get('mtb_length_trail'):
-      <p><span translate class="value-title">mtb_length_trail</span>: <b class="value">${route['mtb_length_trail']} m</b></p>
-      % endif
-      
-      % if locale.get('slope'):
-      <p><span translate class="value-title">slope</span>: <b class="value">${locale['slope']}</b></p>
-      % endif
-
-    </span>
-  </div>
+  % endif
 </%def>
 
 ## ACCESS
