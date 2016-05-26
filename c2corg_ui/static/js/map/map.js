@@ -63,6 +63,7 @@ app.module.directive('appMap', app.mapDirective);
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {ngeo.Debounce} ngeoDebounce ngeo Debounce service.
  * @constructor
+ * @struct
  * @export
  * @ngInject
  */
@@ -71,9 +72,9 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
 
   /**
    * @type {number}
-   * @private
+   * @export
    */
-  this.zoom_ = this['zoom'];
+  this.zoom;
 
   /**
    * @type {angular.Scope}
@@ -111,9 +112,21 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
 
   /**
    * @type {boolean}
-   * @private
+   * @export
    */
-  this.advancedSearch_ = this['advancedSearch'] || false;
+  this.advancedSearch;
+
+  /**
+   * @type {boolean}
+   * @export
+   */
+  this.edit;
+
+  /**
+   * @type {boolean}
+   * @export
+   */
+  this.disableWheel;
 
   /**
    * @type {ngeo.Location}
@@ -157,7 +170,7 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
   this.view_ = this.map.getView();
 
   // editing mode
-  if (this['edit']) {
+  if (this.edit) {
     this.scope_.$root.$on('documentDataChange',
         this.handleEditModelChange_.bind(this));
     this.scope_.$root.$on('featuresUpload',
@@ -166,7 +179,7 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
   }
 
   // advanced search mode
-  if (this.advancedSearch_) {
+  if (this.advancedSearch) {
     if (this.location_.hasParam('bbox')) {
       var bbox = this.location_.getParam('bbox');
       var extent = bbox.split(',');
@@ -186,7 +199,7 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
         500, /* invokeApply */ true));
   }
 
-  if (!(this['disableWheel'] || false)) {
+  if (!this.disableWheel) {
     var mouseWheelZoomInteraction = new ol.interaction.MouseWheelZoom();
     this.map.addInteraction(mouseWheelZoomInteraction);
     app.utils.setupSmartScroll(mouseWheelZoomInteraction);
@@ -197,7 +210,7 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
   }
 
   // add the features interactions
-  if (this.features_.length > 0 || this.advancedSearch_) {
+  if (this.features_.length > 0 || this.advancedSearch) {
     this.getVectorLayer_().setStyle(this.createStyleFunction_(false));
 
     var pointerMoveInteraction = new ol.interaction.Select({
@@ -215,7 +228,7 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
        */
       var features = e.target.getFeatures();
       if (features.getLength() > 0) {
-        var first = features.getArray()[0];
+        var first = features.item(0);
         var module = /** @type {string} */(first.get('module'));
         var id = first.get('documentId').toString();
         var lang = /** @type {string} */(first.get('lang'));
@@ -226,7 +239,7 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
     this.map.addInteraction(clickInteraction);
   }
 
-  if (this['edit'] && this.drawType) {
+  if (this.edit && this.drawType) {
     var vectorSource = this.getVectorLayer_().getSource();
 
     var draw = new ol.interaction.Draw({
@@ -337,7 +350,7 @@ app.MapController.prototype.createStyleFunction_ = function(highlight) {
             return this.createPointStyle_(feature, resolution, highlight);
           case 'routes':
           case 'outings':
-            return this.advancedSearch_ ?
+            return this.advancedSearch ?
               this.createPointStyle_(feature, resolution, highlight) :
               this.createLineStyle_(feature, resolution, highlight);
           default:
@@ -443,7 +456,7 @@ app.MapController.prototype.showFeatures_ = function(features, recenter) {
         features[0].getGeometry() instanceof ol.geom.Point) {
       var point = /** @type {ol.geom.Point} */ (features[0].getGeometry());
       this.view_.setCenter(point.getCoordinates());
-      this.view_.setZoom(this.zoom_ || app.MapController.DEFAULT_POINT_ZOOM);
+      this.view_.setZoom(this.zoom || app.MapController.DEFAULT_POINT_ZOOM);
     } else {
       this.recenterOnExtent_(
         vectorLayer.getSource().getExtent(), {

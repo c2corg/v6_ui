@@ -23,8 +23,8 @@ app.searchFiltersDirective = function() {
     controllerAs: 'filtersCtrl',
     link: function(scope, element, attrs, ctrl) {
       // FIXME On some screen sizes, the dropdown menu is too large and is
-      // hidden within documents-list-section because it's to small. Given that
-      // this menu is inside, it will not be shown entirely...
+      // hidden within documents-list-section because it's too small. Given
+      // that this menu is inside, it will not be shown entirely...
       // If someone can fix it using CSS only, you're da real MVP !
       element.on('click', '.dropdown-toggle', function() {
         $(this).next().css({
@@ -99,7 +99,8 @@ app.SearchFiltersController = function($scope, ngeoLocation, ngeoDebounce) {
     return this.filters;
   }.bind(this), ngeoDebounce(
       this.handleFiltersChange_.bind(this),
-      500, /* invokeApply */ true), /* deep watch */ true
+      500, /* invokeApply */ true),
+    /* deep watch */ true
   );
 };
 

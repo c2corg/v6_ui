@@ -5,7 +5,7 @@
   "scripts": {},
   "license": "BSD",
   "dependencies": {
-    "closure-util": "1.13.1",
+    "closure-util": "1.14.0",
     "angular-moment": "^1.0.0-beta.4",
     "angular-ui-bootstrap": "1.1.2",
     "angular-recaptcha": "git://github.com/VividCortex/angular-recaptcha#3.0.1",

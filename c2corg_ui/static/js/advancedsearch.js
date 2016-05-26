@@ -147,7 +147,7 @@ app.AdvancedSearchController.prototype.getFeatures_ = function() {
   for (var i = 0, n = this.documents.length; i < n; i++) {
     var doc = this.documents[i];
     if ('geometry' in doc && doc['geometry']) {
-      var properties = this.getFeatureProperties_(doc);
+      var properties = this.createFeatureProperties_(doc);
       properties['geometry'] = format.readGeometry(doc['geometry']['geom']);
       features.push(new ol.Feature(properties));
     }
@@ -161,7 +161,7 @@ app.AdvancedSearchController.prototype.getFeatures_ = function() {
  * @return {Object}
  * @private
  */
-app.AdvancedSearchController.prototype.getFeatureProperties_ = function(doc) {
+app.AdvancedSearchController.prototype.createFeatureProperties_ = function(doc) {
   // TODO choose the locale according to the UI lang and user prefs
   var locale = doc['locales'][0];
   var properties = {
