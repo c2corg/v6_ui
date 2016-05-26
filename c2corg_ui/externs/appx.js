@@ -19,32 +19,32 @@ appx.AuthData;
 
 /**
  * @typedef {{
- *   routes: appx.SearchDocumentResponse,
- *   waypoints: appx.SearchDocumentResponse
+ *   routes: appx.SimpleSearchDocumentResponse,
+ *   waypoints: appx.SimpleSearchDocumentResponse
  * }}
  */
-appx.SearchResponse;
+appx.SimpleSearchResponse;
 
 
 /**
  * @typedef {{
  *   total: number,
- *   documents: Array.<appx.SearchDocument>
+ *   documents: Array.<appx.SimpleSearchDocument>
  * }}
  */
-appx.SearchDocumentResponse;
+appx.SimpleSearchDocumentResponse;
 
 
 /**
  * @typedef {{
  *   document_id: number,
- *   locales: Array.<appx.SearchDocumentLocale>,
+ *   locales: Array.<appx.SimpleSearchDocumentLocale>,
  *   document_type: string,
  *   label: string,
  *   documentType: string
  * }}
  */
-appx.SearchDocument;
+appx.SimpleSearchDocument;
 
 
 /**
@@ -54,7 +54,7 @@ appx.SearchDocument;
  *   lang: string
  * }}
  */
-appx.SearchDocumentLocale;
+appx.SimpleSearchDocumentLocale;
 
 
 /**

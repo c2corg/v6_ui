@@ -102,7 +102,7 @@ app.Api.prototype.getJson_ = function(url) {
 
 /**
  * @param {number} parentId
- * @param {appx.SearchDocument} doc
+ * @param {appx.SimpleSearchDocument} doc
  * @return {!angular.$q.Promise}
  */
 app.Api.prototype.associateDocument = function(parentId, doc) {
@@ -206,6 +206,25 @@ app.Api.prototype.updateDocument = function(module, id, json) {
   promise.catch(this.errorSaveDocument_.bind(this));
   return promise;
 };
+
+
+/**
+ * @param {string} module Module.
+ * @param {string} qstr Filtering and paginating parameters.
+ */
+app.Api.prototype.listDocuments = function(module, qstr) {
+  var url = '/{module}{qmark}{qstr}'
+    .replace('{module}', module)
+    .replace('{qmark}', qstr ? '?' : '')
+    .replace('{qstr}', qstr);
+  var alerts = this.alerts_;
+  var promise = this.getJson_(url);
+  promise.catch(function(response) {
+    alerts.addError(response);
+  });
+  return promise;
+};
+
 
 /**
  * @export

@@ -1,43 +1,31 @@
 <%inherit file="../base.html"/>
 <%namespace file="../helpers/common.html" import="show_title"/>
-<%namespace file="../helpers/list.html" import="add_pagination_links"/>
 <%namespace file="../helpers/view.html" import="show_attr, outing_card"/>
 
 <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Outings')">${show_title('Outings')}</title></%block>
 
-<%block name="metarobots"><meta name="robots" content="noindex,follow"></%block>
-
-<header class="page-main-title" ng-cloak">
-  <h3 ng-init="nbItems = ${total}"><span translate>Outings</span>
-    <span class="badge">{{nbItems}}</span>
+<header class="page-main-title">
+  <h3><span translate>Outings</span>
+    <span class="badge" id="results-counter">0</span>
   </h3>
 </header>
-
 <section class="documents-list-section">
-
   <%include file="filters.html" />
   <div class="documents-nav-buttons text-center">
-    <button type="button" class="btn btn-default show-documents-filters-phone" translate>Filters</button>
+    <button class="btn btn-default show-documents-filters-phone" translate>Filters</button>
     
     <%include file="c2corg_ui:templates/document/select_document.html" />
-    <button class="btn btn-default"  protected-url-btn url="'${request.route_url('outings_add')}'">
+
+    <button class="btn btn-default" protected-url-btn url="'${request.route_url('outings_add')}'">
       <span class="glyphicon glyphicon-plus-sign"></span>
     </button>
-    ${add_pagination_links('outings', outings, total, filter_params)}
+    <app-pagination></app-pagination>
   </div>
-  <div class="list">
-    % for outing in outings:
-    <div class="list-item outing">
-      ${outing_card(outing)}
-    </div>
-    % endfor
-  </div>
+  <app-advanced-search document-type="outings" use-map="true" results-counter="results-counter"></app-advanced-search>
 </section>
-% if len(outings):
 <div class="map-right">
-  <app-map></app-map>
+  <app-map app-map-advanced-search="true"></app-map>
 </div>
-% endif
 <script>
 window.onload = function(){
   app.stickyFilters();

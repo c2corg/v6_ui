@@ -1,22 +1,27 @@
 <%!
-from c2corg_common.attributes import default_langs, waypoint_types, activities, orientation_types
+from c2corg_common.attributes import default_langs, waypoint_types, orientation_types
 %>
 <form app-search-filters>
   <div class="filters">
     <div class="simple-filters">
 
       <div class="filter">
-        <label>{{'type'| translate | capitalize }}</label><br>
+        <label translate>title</label>
+        <input type="text" class="form-control" ng-model="filtersCtrl.filters.q">
+      </div>
+
+      <div class="filter">
+        <label translate>type</label><br>
         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
           <p>
-            <span ng-if="searchFiltersCtrl.waypoint_types.length > 0"> ({{searchFiltersCtrl.waypoint_types.length}})</span>
+            <span ng-if="filtersCtrl.filters.wtyp.length > 0" ng-cloak> ({{filtersCtrl.filters.wtyp.length}})</span>
             <span class="glyphicon glyphicon-menu-down"></span>
           </p>
         </button>
         <ul class="dropdown-menu multiselect-box type">
           <li ng-repeat="type in ['${"','".join(waypoint_types) |n}']">
-            <a data-value="{{type}}" ng-click="searchFiltersCtrl.selectOption(waypoint, 'waypoint_types', type, $event)">
-              <input type="checkbox">
+            <a data-value="{{type}}" ng-click="filtersCtrl.selectOption('wtyp', type, $event)">
+              <input type="checkbox" ng-checked="filtersCtrl.filters.wtyp && filtersCtrl.filters.wtyp.indexOf(type) !== -1">
               <span class="activity">{{mainCtrl.translate(type) | capitalize}}</span>
             </a>
           </li>
@@ -24,16 +29,8 @@ from c2corg_common.attributes import default_langs, waypoint_types, activities, 
       </div>
 
       <div class="filter">
-        <label translate>lang</label>
-        <select ng-model="searchFiltersCtrl.lang" class="form-control" ng-options="lang as (mainCtrl.translate(lang) |  capitalize ) for lang in ['${"','".join(default_langs) |n}'] | translate" ng-model="lang"></select>
-      </div>
-      
-      <div class="filter">
-        <label translate>some filter</label>
-        <select ng-model="searchFiltersCtrl.lang" class="form-control">
-          <option>yes</option>
-          <option>no</option>
-        </select>
+        <label translate>elevation</label><br>
+        <app-slider filter="walt"></app-slider>
       </div>
       
     </div>
@@ -41,12 +38,12 @@ from c2corg_common.attributes import default_langs, waypoint_types, activities, 
 
       <div class="filter col-xs-12 col-sm-6">
         <label translate>Cable car</label>
-        <select class="form-control" ng-model="searchFiltersCtrl.georef"><option translate>Yes</option><option translate>No</option></select>
+        <select class="form-control" ng-model="filtersCtrl.georef"><option translate>Yes</option><option translate>No</option></select>
       </div>
       
       <div class="filter col-xs-12 col-sm-6">
-        <label>{{'summit'| translate | capitalize}}</label>
-        <input type="text" class="form-control">
+        <label translate>lang</label>
+        <select ng-model="filtersCtrl.lang" class="form-control" ng-options="lang as (mainCtrl.translate(lang) |  capitalize ) for lang in ['${"','".join(default_langs) |n}'] | translate" ng-model="lang"></select>
       </div>
       
       <div class="col-xs-12 col-sm-6 col-md-6 filter orientation" ng-init="orientations = ${orientation_types}">
@@ -57,20 +54,7 @@ from c2corg_common.attributes import default_langs, waypoint_types, activities, 
 
       <div class="col-xs-12 col-sm-5 col-md-5 filter">
         <label translate>height_diff</label><br>
-        <input type="range" class="range-between" id="height-filter" data-slider-tooltip="hide">
-        <span class="slider-min-max">
-          <p class="min-value">{{searchFiltersCtrl.height_diff_up.min}} m</p>
-          <p class="max-value">{{searchFiltersCtrl.height_diff_up.max}} m</p>
-        </span>
-      </div>
-      
-      <div class="col-xs-12 col-sm-5 col-md-5 filter">
-        <label translate>elevation</label><br>
-        <input type="range" id="elevation-filter" class="range-between" data-slider-tooltip="hide">
-        <span class="slider-min-max">
-          <p class="min-value">{{searchFiltersCtrl.elevation.min}} m</p>
-          <p class="max-value">{{searchFiltersCtrl.elevation.max}} m</p>
-        </span>
+        <app-slider></app-slider>
       </div>
       
       <div class="filters-bottom-buttons">

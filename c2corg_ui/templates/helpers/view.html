@@ -177,7 +177,7 @@
             % endfor
             
             % if len(document['associations']['recent_outings']['outings']) == 10 :
-              <div class="list-item vertical-align" onclick="window.location= '${request.route_url('outings_index_default')}'; ">
+              <div class="list-item vertical-align" onclick="window.location='${request.route_url('outings_index')}';">
                 <button class="gray-btn btn show-more">show more</button>
               </div>
             % endif

@@ -2,6 +2,27 @@ goog.provide('app.utils');
 
 
 /**
+ * @param {string} type Short document type code.
+ * @return {string} Full document type name.
+ */
+app.utils.getDoctype = function(type) {
+  // TODO add other types
+  switch (type) {
+    case 'w':
+      return 'waypoints';
+    case 'r':
+      return 'routes';
+    case 'o':
+      return 'outings';
+    case 'i':
+      return 'images';
+    default:
+      goog.asserts.fail('Unrecognized type: ' + type);
+      return '';
+  }
+};
+
+/**
  * @param {string} document_type The document type.
  * @param {string|number} documentId The document id.
  * @param {string} lang Lang.

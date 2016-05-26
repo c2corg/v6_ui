@@ -1,12 +1,15 @@
 <%inherit file="../base.html"/>
 <%namespace file="../helpers/common.html" import="show_title"/>
+<%namespace file="../helpers/list.html" import="add_pagination_links"/>
 <%namespace file="../helpers/view.html" import="route_card, get_document_min_max, show_attr, show_route_title, get_route_activities"/>
 
 <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Routes')">${show_title('Routes')}</title></%block>
 
-<header class="page-main-title">
-  <h3><span translate>Routes</span>
-    <span class="badge" id="results-counter">0</span>
+<%block name="metarobots"><meta name="robots" content="noindex,follow"></%block>
+
+<header class="page-main-title text-center" ng-cloak>
+  <h3 ng-init="nbItems = ${total}" ng-cloak><span translate>Routes</span>
+    <span class="badge">{{nbItems}}</span>
   </h3>
 </header>
 <section class="documents-list-section">
@@ -16,16 +19,26 @@
     
     <%include file="c2corg_ui:templates/document/select_document.html" />
     
-    <button class="btn btn-default" protected-url-btn url="'${request.route_url('routes_add')}'">
+    <button class="btn btn-default"  protected-url-btn url="'${request.route_url('routes_add')}'">
       <span class="glyphicon glyphicon-plus-sign"></span>
     </button>
-    <app-pagination></app-pagination>
+
+    ${add_pagination_links('routes', routes, total, filter_params)}
   </div>
-  <app-advanced-search document-type="routes" use-map="true"results-counter="results-counter"></app-advanced-search>
+    <div class="list">
+      % for route in routes:
+      <% locale = route['locales'][0] %>\
+      <div class="list-item">
+        ${route_card(route)}
+      </div>
+      % endfor
+    </div>
 </section>
+% if len(routes):
 <div class="map-right">
-  <app-map app-map-advanced-search="true"></app-map>
+  <app-map></app-map>
 </div>
+% endif
 <script>
 window.onload = function(){
   app.stickyFilters();

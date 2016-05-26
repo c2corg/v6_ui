@@ -110,9 +110,7 @@ class Document(object):
         return document, locale, version
 
     def _get_documents(self):
-        params = self._get_filter_params()
-        lang = self.request.cookies.get('interface_lang', 'fr')
-        params.append(('pl', lang))
+        params, filters, lang = self._get_index_data()
 
         # query_string contains filter params using the standard URL format
         # (eg. ?offset=50&limit=20&elevation=>2000).
@@ -120,8 +118,6 @@ class Document(object):
         url = '%s%s' % (self._API_ROUTE, query_string)
         resp, content = self._call_api(url)
 
-        # Inject default list filters params:
-        filters = dict(self._DEFAULT_FILTERS, **{k: v for k, v in params})
         if resp['status'] == '200':
             documents = content['documents']
             total = content['total']
@@ -129,6 +125,14 @@ class Document(object):
             raise HTTPInternalServerError(
                 "An error occured while loading the results")
         return documents, total, filters, lang
+
+    def _get_index_data(self):
+        params = self._get_filter_params()
+        lang = self.request.cookies.get('interface_lang', 'fr')
+        params.append(('pl', lang))
+        # Inject default list filters params:
+        filters = dict(self._DEFAULT_FILTERS, **{k: v for k, v in params})
+        return params, filters, lang
 
     def _get_filter_params(self):
         """This function is used to parse the filters provided in URLs such as
@@ -151,6 +155,14 @@ class Document(object):
                 if i % 2 == 0:
                     params.append(filters[i:i+2])
         return params
+
+    def _get_index(self):
+        params, filters, lang = self._get_index_data()
+        self.template_input.update({
+            'filter_params': filters,
+            'lang': lang
+        })
+        return self.template_input
 
     def _get_history(self):
         id, lang = self._validate_id_lang()

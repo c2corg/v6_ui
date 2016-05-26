@@ -138,7 +138,7 @@ app.DocumentEditingController = function($scope, $element, $attrs,
   this.next_step = 2;
 
   /**
-   * Current step is 1by default
+   * Current step is 1 by default
    * @export
    */
   this.current_step = 1;

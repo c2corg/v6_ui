@@ -1,5 +1,5 @@
-goog.provide('app.SearchController');
-goog.provide('app.searchDirective');
+goog.provide('app.SimpleSearchController');
+goog.provide('app.simpleSearchDirective');
 
 goog.require('app');
 goog.require('app.utils');
@@ -12,15 +12,15 @@ goog.require('ngeo.searchDirective');
  * @param {angular.$compile} $compile Angular compile service.
  * @return {angular.Directive} Directive Definition Object.
  */
-app.searchDirective = function($compile) {
+app.simpleSearchDirective = function($compile) {
   return {
     restrict: 'E',
-    controller: 'AppSearchController',
+    controller: 'AppSimpleSearchController',
     bindToController: {
       selectHandler: '&appSelect'
     },
     controllerAs: 'searchCtrl',
-    templateUrl: '/static/partials/search.html',
+    templateUrl: '/static/partials/simplesearch.html',
     link:
         /**
          * @param {angular.Scope} $scope Scope.
@@ -46,7 +46,7 @@ app.searchDirective = function($compile) {
           element.on('click', function(e) {
 
             // collapse suggestions
-            if ($('app-search .header').is(e.target)) {
+            if ($('app-simple-search .header').is(e.target)) {
               $(e.target).siblings('.tt-suggestion').slideToggle();
             }
 
@@ -81,7 +81,7 @@ app.searchDirective = function($compile) {
   };
 };
 
-app.module.directive('appSearch', app.searchDirective);
+app.module.directive('appSimpleSearch', app.simpleSearchDirective);
 
 
 /**
@@ -94,11 +94,11 @@ app.module.directive('appSearch', app.searchDirective);
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @ngInject
  */
-app.SearchController = function($scope, $compile, $attrs, apiUrl, gettextCatalog, $templateCache) {
+app.SimpleSearchController = function($scope, $compile, $attrs, apiUrl, gettextCatalog, $templateCache) {
 
   /**
    * Bound from directive.
-   * @type {function({doc: appx.SearchDocument})|undefined}
+   * @type {function({doc: appx.SimpleSearchDocument})|undefined}
    * @export
    */
   this.selectHandler;
@@ -173,7 +173,7 @@ app.SearchController = function($scope, $compile, $attrs, apiUrl, gettextCatalog
    * @export
    */
   this.listeners = /** @type {ngeox.SearchDirectiveListeners} */ ({
-    select: app.SearchController.select_.bind(this)
+    select: app.SimpleSearchController.select_.bind(this)
   });
 };
 
@@ -183,7 +183,7 @@ app.SearchController = function($scope, $compile, $attrs, apiUrl, gettextCatalog
  * @return {TypeaheadDataset} A data set.
  * @private
  */
-app.SearchController.prototype.createDataset_ = function(type) {
+app.SimpleSearchController.prototype.createDataset_ = function(type) {
   var bloodhoundEngine = this.createAndInitBloodhound_(type);
   return /** @type {TypeaheadDataset} */({
     contents : type,
@@ -197,7 +197,7 @@ app.SearchController.prototype.createDataset_ = function(type) {
         return '<div class="header" dataset="' + type + '">' + this.gettextCatalog_.getString(type) + '</div>';
       }).bind(this),
       footer: function(doc) {
-        return '<p class="suggestion-more"><a href="/' + type + '/keyword/' + encodeURI(doc['query']) + '" class="green-text">+ see more results</a></p>';
+        return '<p class="suggestion-more"><a href="/' + type + '/keyword/' + encodeURI(doc['query']) + '" class="green-text" translate>More results</a></p>';
       },
       suggestion: function(doc) {
         this.scope_['doc'] = doc;
@@ -205,7 +205,7 @@ app.SearchController.prototype.createDataset_ = function(type) {
       }.bind(this),
       empty: function(res) {
         if ($('.header.empty').length === 0) {
-          return this.compile_(this.templatecache_.get('/static/partials/suggestionempty.html'))(this.scope_);
+          return this.compile_(this.templatecache_.get('/static/partials/suggestion_empty.html'))(this.scope_);
         }
       }.bind(this)
     }
@@ -217,7 +217,7 @@ app.SearchController.prototype.createDataset_ = function(type) {
  * @return {Bloodhound} The bloodhound engine.
  * @private
  */
-app.SearchController.prototype.createAndInitBloodhound_ = function(type) {
+app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
   var url = this.apiUrl_ + '/search?q=%QUERY';
 
   var bloodhound = new Bloodhound(/** @type {BloodhoundOptions} */({
@@ -245,14 +245,14 @@ app.SearchController.prototype.createAndInitBloodhound_ = function(type) {
         return settings;
       }).bind(this),
 
-      filter: (function(/** appx.SearchResponse */ resp) {
+      filter: (function(/** appx.SimpleSearchResponse */ resp) {
         var documentResponse =
-                /** @type {appx.SearchDocumentResponse} */ (resp[type]);
+                /** @type {appx.SimpleSearchDocumentResponse} */ (resp[type]);
         if (documentResponse) {
           var documents = documentResponse.documents;
           var currentLang = this.gettextCatalog_.currentLanguage;
 
-          return documents.map(function(/** appx.SearchDocument */ doc) {
+          return documents.map(function(/** appx.SimpleSearchDocument */ doc) {
             var locale = doc.locales[0];
             doc.label = type === 'routes' && locale.title_prefix ?
                     locale.title_prefix + ' : ' : '';
@@ -276,12 +276,12 @@ app.SearchController.prototype.createAndInitBloodhound_ = function(type) {
 
 /**
  * @param {jQuery.Event} event Event.
- * @param {!appx.SearchDocument} doc Suggested document.
+ * @param {!appx.SimpleSearchDocument} doc Suggested document.
  * @param {TypeaheadDataset} dataset Dataset.
- * @this {app.SearchController}
+ * @this {app.SimpleSearchController}
  * @private
  */
-app.SearchController.select_ = function(event, doc, dataset) {
+app.SimpleSearchController.select_ = function(event, doc, dataset) {
   if (this.selectHandler) {
     this.selectHandler({'doc': doc});
   } else {
@@ -292,4 +292,4 @@ app.SearchController.select_ = function(event, doc, dataset) {
   }
 };
 
-app.module.controller('AppSearchController', app.SearchController);
+app.module.controller('AppSimpleSearchController', app.SimpleSearchController);

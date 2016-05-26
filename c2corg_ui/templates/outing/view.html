@@ -50,7 +50,7 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
   <h1>
     ${locale['title']}<br>
     <span class="outing-date" class="ng-cloak">${show_fulldate(outing['date_start'], outing['date_end'])}</span>
-    <label class="badge outing" onClick="window.location='${request.route_url('outings_index_default')}' ">
+    <label class="badge outing" onClick="window.location='${request.route_url('outings_index')}' ">
       <span class="glyphicon glyphicon-arrow-right"></span>&nbsp;<span translate>outing</span>
     </label>
   </h1>

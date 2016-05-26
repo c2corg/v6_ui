@@ -1,7 +1,7 @@
 @import (inline) "../node_modules/openlayers/css/ol.css";
 @import "../node_modules/bootstrap/less/bootstrap.less";
 @icon-font-path: "../../../node_modules/bootstrap/fonts/";
-@import "search.less";
+@import "simplesearch.less";
 @import "diff.less";
 @import "sidemenu.less";
 @import "scrollbar.less";
@@ -236,11 +236,15 @@ main {
     margin-bottom: 5px;
   }
 
-  li {
+  ul {
     display:inline-block;
 
-    a,  .glyphicon {
-      color:white;
+    li {
+      display:inline-block;
+
+      a,  .glyphicon {
+        color:white;
+      }
     }
   }
 }
@@ -478,7 +482,7 @@ main {
 
   @media @phone {
     cursor: pointer;
-    /*hover triggers the search input to appear in search.JS*/
+    /*hover triggers the search input to appear in simplesearch.js*/
   }
 }
 
@@ -588,7 +592,7 @@ app-lang{
   }
 }
 
-app-search {
+app-simple-search {
   .flex();
   border-radius: 6px;
   padding-left: 10px;

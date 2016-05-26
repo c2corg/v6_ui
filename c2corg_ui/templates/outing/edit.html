@@ -572,7 +572,7 @@ updating_doc = outing_id and outing_lang
           <button type="submit" class="btn btn-lg orange-btn" ng-disabled="editForm.$invalid || editForm.$pristine" translate>Save</button>
           <%
           view_url = request.route_url('outings_view', id=outing_id, lang=outing_lang) if updating_doc else ''
-          index_url = request.route_url('outings_index_default')
+          index_url = request.route_url('outings_index')
           %>
           <button type="button" class="btn btn-lg gray-btn" ng-click="editCtrl.cancel('${view_url}', '${index_url}')" translate>Cancel</button>
         </p>
