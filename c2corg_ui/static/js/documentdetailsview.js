@@ -88,13 +88,11 @@ app.ViewDetailsController = function($uibModal, $compile, $scope, appApi) {
    */
   this.compile_ = $compile;
 
-
   /**
    * @type {app.Api}
    * @private
    */
   this.api_ = appApi;
-
 
   /**
    * @type {!angular.Scope}
@@ -113,6 +111,7 @@ app.ViewDetailsController = function($uibModal, $compile, $scope, appApi) {
     }
   };
 };
+
 
 /**
  * @param {string} selector
@@ -145,11 +144,11 @@ app.ViewDetailsController.prototype.openTab = function(tab) {
 
 
 /**
- * copied and adapted from http://codepen.io/jeffpannone/pen/GpKOed
+ * Copied and adapted from http://codepen.io/jeffpannone/pen/GpKOed
  * @private
  */
 app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
-//Photoswipe configuration for product page zoom
+  //Photoswipe configuration for product page zoom
   var initPhotoSwipeFromDOM = function(gallerySelector) {
     // parse slide data (url, title, size ...) from DOM elements
     // (children of gallerySelector)
@@ -283,9 +282,10 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
       galleryElements[i].onclick = onThumbnailsClick;
     }
   }.bind(this);
-// execute above function
+  // execute above function
   initPhotoSwipeFromDOM('.photos');
 };
+
 
 /**
  * @private
@@ -299,7 +299,7 @@ app.ViewDetailsController.prototype.initSlickGallery_ = function() {
 
 
 /**
- * loads images and appends them to .photos gallery
+ * Loads images and appends them to .photos gallery
  * @param {Function} initGalleries callback
  * @private
  */
@@ -317,5 +317,6 @@ app.ViewDetailsController.prototype.loadImages_ = function(initGalleries) {
   }
   initGalleries();
 };
+
 
 app.module.controller('AppViewDetailsController', app.ViewDetailsController);

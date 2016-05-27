@@ -27,13 +27,11 @@ app.Api = function(apiUrl, $http, appAlerts, $q) {
    */
   this.http_ = $http;
 
-
   /**
    * @type {angular.$q}
    * @private
    */
   this.q_ = $q;
-
 
   /**
    * @private
@@ -132,7 +130,7 @@ app.Api.prototype.associateDocument = function(parentId, doc) {
     alerts.addError(msg);
   });
   return promise;
-}
+};
 
 
 /**
@@ -153,7 +151,7 @@ app.Api.prototype.unassociateDocument = function(parentId, childId) {
     alerts.addError(msg);
   });
   return promise;
-}
+};
 
 
 /**
@@ -400,6 +398,7 @@ app.Api.prototype.uploadImage = function(file) {
   return defer.promise;
 };
 
+
 /**
  * @param {Object} file
  */
@@ -433,5 +432,6 @@ app.Api.prototype.saveImages = function(files) {
   console.log(metadatas);
   return defer.promise;
 };
+
 
 app.module.service('appApi', app.Api);

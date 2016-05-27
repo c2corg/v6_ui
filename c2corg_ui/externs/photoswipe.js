@@ -1,25 +1,25 @@
-  /**
-   * @fileoverview Externs for photoswipe
-   *
-   * @externs
-   */
+/**
+ * @fileoverview Externs for photoswipe
+ *
+ * @externs
+ */
 
 
-  /**
-   * @param {Object} pswpElement
-   * @param {Array<Object>} items slides
-   * @param {Object | null} PhotoSwipeUI_Default
-   * @param {Object} options
-   * @constructor
-   */
-  function PhotoSwipe (pswpElement, PhotoSwipeUI_Default, items, options) {};
-  
-  
-  /**
-   * @return {number} index
-   */
-  PhotoSwipe.prototype.getCurrentIndex = function(){};
-  
+/**
+ * @param {Object} pswpElement
+ * @param {Array<Object>} items slides
+ * @param {Object | null} PhotoSwipeUI_Default
+ * @param {Object} options
+ * @constructor
+ */
+function PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options) {};
+
+
+/**
+ * @return {number} index
+ */
+PhotoSwipe.prototype.getCurrentIndex = function(){};
+
 
 PhotoSwipe.prototype.init = function() {};
 

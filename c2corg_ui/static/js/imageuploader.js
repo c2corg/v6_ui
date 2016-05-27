@@ -28,6 +28,7 @@ app.imageUploaderDirective = function() {
   };
 };
 
+
 app.module.directive('appImageUploader', app.imageUploaderDirective);
 
 
@@ -58,13 +59,11 @@ app.ImageUploaderController = function($scope, Upload, $uibModal, $compile, $q, 
    */
   this.api_ = appApi;
 
-
   /**
    * @type {app.Alerts}
    * @private
    */
   this.alerts_ = appAlerts;
-
 
   /**
    * @type {angular.$compile}
@@ -72,19 +71,16 @@ app.ImageUploaderController = function($scope, Upload, $uibModal, $compile, $q, 
    */
   this.compile_ = $compile;
 
-
   /**
    * @type {angular.$q}
    * @private
    */
   this.q_ = $q;
 
-
   /**
    * @private
    */
   this.Upload_ = Upload;
-
 
   /**
    * @type {Array.<Object>}
@@ -92,20 +88,17 @@ app.ImageUploaderController = function($scope, Upload, $uibModal, $compile, $q, 
    */
   this.uploading = [];
 
-
   /**
    * @type {Array.<Object>}
    * @export
    */
   this.promises = [];
 
-
   /**
    * @type {Array.<Object>}
    * @export
    */
   this.files = [];
-
 
   /**
    * @type {!angular.Scope}
@@ -143,13 +136,13 @@ app.ImageUploaderController = function($scope, Upload, $uibModal, $compile, $q, 
     }
   }.bind(this));
 
-
   /**
    * @type {boolean}
    * @export
    */
   this.areAllUploaded = false;
 };
+
 
 /**
  * We have to use a secondary controller for the modal so that we can inject
@@ -160,6 +153,7 @@ app.ImageUploaderController = function($scope, Upload, $uibModal, $compile, $q, 
  * @returns {app.ImageUploaderModalController}
  */
 app.ImageUploaderModalController = function($uibModalInstance) {
+
   /**
    * @type {Object} $uibModalInstance angular bootstrap
    * @private
@@ -217,6 +211,7 @@ app.ImageUploaderController.prototype.upload_ = function() {
   }
   this.areAllUploadedCheck_(interval);
 };
+
 
 /**
  * Lets showing the 'save' button when all images have been uploaded.
@@ -365,6 +360,7 @@ app.ImageUploaderController.prototype.selectOption = function(object, property, 
   event.stopPropagation();
   app.utils.pushToArray(object, property, value, event);
 };
+
 
 app.module.controller('AppImageUploaderController', app.ImageUploaderController);
 app.module.controller('AppImageUploaderModalController', app.ImageUploaderModalController);

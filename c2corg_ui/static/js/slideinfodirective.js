@@ -13,15 +13,18 @@ app.slideInfoDirective = function() {
     bindToController: true,
     scope: true,
     templateUrl: '/static/partials/slideinfo.html',
-    link:function(scope, el) {
+    link: function(scope, el) {
       angular.extend(scope, scope.$parent['photo']);
     }
   };
 };
 
+
 app.module.directive('appSlideInfo', app.slideInfoDirective);
 
+
 /**
+ * @param {app.Api} appApi Api service.
  * @param {!angular.Scope} $scope Scope.
  * @constructor
  * @export
@@ -48,12 +51,14 @@ app.SlideInfoController = function(appApi, $scope) {
   this.editing = false;
 };
 
+
 /**
  * @export
  */
 app.SlideInfoController.prototype.edit = function() {
   this.editing = true;
 };
+
 
 /**
  * @export
@@ -69,5 +74,6 @@ app.SlideInfoController.prototype.save = function() {
 app.SlideInfoController.prototype.cancel = function() {
   this.editing = false;
 };
+
 
 app.module.controller('AppSlideInfoController', app.SlideInfoController);
