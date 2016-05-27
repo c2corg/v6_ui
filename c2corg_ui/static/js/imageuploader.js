@@ -83,19 +83,19 @@ app.ImageUploaderController = function($scope, Upload, $uibModal, $compile, $q, 
   this.Upload_ = Upload;
 
   /**
-   * @type {Array.<Object>}
+   * @type {Array.<angular.$q.Promise>}
    * @export
    */
   this.uploading = [];
 
   /**
-   * @type {Array.<Object>}
+   * @type {Array.<angular.$q.Promise>}
    * @export
    */
   this.promises = [];
 
   /**
-   * @type {Array.<Object>}
+   * @type {Array.<File>}
    * @export
    */
   this.files = [];

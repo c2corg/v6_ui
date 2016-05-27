@@ -7,8 +7,8 @@ goog.require('app');
  * Service for accessing the API.
  * @param {string} apiUrl URL to the API.
  * @param {angular.$http} $http
- * @param {angular.$q} $q promise
  * @param {app.Alerts} appAlerts The Alerts service
+ * @param {angular.$q} $q
  * @constructor
  * @struct
  * @ngInject
@@ -382,6 +382,7 @@ app.Api.prototype.updateAccount = function(data) {
 
 
 /**
+ * @param {File} file
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.uploadImage = function(file) {
@@ -400,7 +401,7 @@ app.Api.prototype.uploadImage = function(file) {
 
 
 /**
- * @param {Object} file
+ * @param {File} file
  */
 app.Api.prototype.updateImageMetadata = function(file) {
   console.log('updating image')
