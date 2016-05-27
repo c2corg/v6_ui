@@ -126,8 +126,12 @@ app.Api.prototype.associateDocument = function(parentId, childId) {
   };
 
   var promise = this.postJson_('/associations', data);
-  promise.catch(function() {
-    var msg = alerts.gettext('Failed to associate document');
+  promise.catch(function(res) {
+    var error = '';
+    for (var i = 0; i < res['data']['errors'].length; i++) {
+      error = error + ' ' + res['data']['errors'][i]['description'];
+    }
+    var msg = alerts.gettext('Failed to unassociate document : ' + error);
     alerts.addError(msg);
   });
   return promise;
@@ -147,8 +151,12 @@ app.Api.prototype.unassociateDocument = function(parentId, childId) {
   };
 
   var promise = this.deleteJson_('/associations', data);
-  promise.catch(function() {
-    var msg = alerts.gettext('Failed to unassociate document');
+  promise.catch(function(res) {
+    var error = '';
+    for (var i = 0; i < res['data']['errors'].length; i++) {
+      error = error + ' ' + res['data']['errors'][i]['description'];
+    }
+    var msg = alerts.gettext('Failed to unassociate document :' + error);
     alerts.addError(msg);
   });
   return promise;
