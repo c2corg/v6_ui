@@ -4,6 +4,7 @@ goog.provide('app.viewDetailsDirective');
 goog.require('app');
 
 /**
+ * @ngInject
  * @return {angular.Directive} directive for detailed views
  */
 app.viewDetailsDirective = function() {
@@ -13,9 +14,28 @@ app.viewDetailsDirective = function() {
     controllerAs: 'detailsCtrl',
     bindToController: true,
     link: function(el, scope, attrs, ctrl) {
+
+      function initGalleries() {
+        ctrl.initSlickGallery_();
+        ctrl.initPhotoswipe_();
+        $('.photos figure').each(function() {
+          $(this).css('width', '');
+        })
+      }
+      ctrl.loadImages_(initGalleries);
+
+      $('.pswp__button.info').click(function(e) {
+        $('.photoswipe-image-container .image-infos, .photoswipe-image-container img').toggleClass('showing-info');
+        //$compile($('.image-infos.showing-info'))(ctrl.scope_);
+      });
+
+      $('.pswp__button--arrow--left, .pswp__button--arrow--right').click(function() {
+        $('.showing-info').removeClass('showing-info');
+      });
+
       var s = app.constants.SCREEN;
-      var notPhone  = window.matchMedia('(max-width: ' + s.SMARTPHONE + 'px)');
-      var onPhone  = window.matchMedia('(min-width: ' + (s.SMARTPHONE + 1) + 'px)');
+      var notPhone = window.matchMedia('(max-width: ' + s.SMARTPHONE + 'px)');
+      var onPhone = window.matchMedia('(min-width: ' + (s.SMARTPHONE + 1) + 'px)');
 
       $('.location-static').css({top: $('app-map').offset().top + 40});
 
@@ -48,12 +68,14 @@ app.module.directive('appViewDetails', app.viewDetailsDirective);
 /**
  * @param {Object} $uibModal modal from angular bootstrap
  * @param {!angular.Scope} $scope Scope.
+ * @param {app.Api} appApi Api service.
  * @param {angular.$compile} $compile Angular compile service.
  * @constructor
  * @export
  * @ngInject
  */
-app.ViewDetailsController = function($uibModal, $compile, $scope) {
+app.ViewDetailsController = function($uibModal, $compile, $scope, appApi) {
+
   /**
    * @type {Object}
    * @private
@@ -67,12 +89,29 @@ app.ViewDetailsController = function($uibModal, $compile, $scope) {
   this.compile_ = $compile;
 
   /**
+   * @type {app.Api}
+   * @private
+   */
+  this.api_ = appApi;
+
+  /**
    * @type {!angular.Scope}
    * @private
    */
   this.scope_ = $scope;
+  this.scope_['document'] = { // hardcoded for testing
+    'associations': {
+      'images': [
+        {'src': 'http://s.camptocamp.org/uploads/images/1463740758_235613570.jpg', date: '23-02-2015', activities: ['hiking, snow'], 'elevation': Math.random(), iso_speed: 100, filename: 'image2.jpg', camera_name: 'Nikon', locales: [{'title' : 'inizio del canale'}], date_time: new Date(), 'fnumber' : 2.3},
+        {'src': 'http://s.camptocamp.org/uploads/images/1463694562_1216719818.jpg', date: '23-22-2025', activities: ['hiking'], elevation: Math.random(), iso_speed: 230, filename: 'image1.jpg', camera_name: 'Sony', locales: [{'title' : 'never let me down'}], date_time: new Date(), 'fnumber' : 5.5},
+        {'src': 'http://s.camptocamp.org/uploads/images/1463694970_824684659.jpg', date: new Date(), activities: ['snow'], elevation: Math.random(), iso_speed: 400, filename: 'image231.jpg', camera_name: 'Canon', locales: [{'title' : 'my favorite place'}], date_time: new Date(), 'fnumber' : 4.2},
+        {'src': 'http://s.camptocamp.org/uploads/images/1463741192_488006925.jpg', date: '23-323', activities: ['hiking, snow, ski'], elevation: Math.random(), iso_speed: 1200, filename: 'image94.jpg', camera_name: 'Fuji', locales: [{'title' : 'superb view'}]},
+        {'src': 'http://s.camptocamp.org/uploads/images/1463694980_966569102.jpg', date: '099-02-2015', activities: ['paragliding'], elevation: Math.random(), iso_speed: 2300, filename: 'image55.jpg', camera_name: 'Sigma', locales: [{'title' : 'great view'}] , date_time: new Date(), 'fnumber' : 10}
+      ]
+    }
+  };
+};
 
-}
 
 /**
  * @param {string} selector
@@ -90,7 +129,6 @@ app.ViewDetailsController.prototype.openModal = function(selector) {
  */
 app.ViewDetailsController.prototype.openTab = function(tab) {
   var s = app.constants.SCREEN;
-
   // only for smartphones
   if (window.innerWidth < s.SMARTPHONE) {
     if (tab.target) { // tab = event
@@ -102,5 +140,183 @@ app.ViewDetailsController.prototype.openTab = function(tab) {
       $('.tab.' + tab).show();
     }
   }
-}
+};
+
+
+/**
+ * Copied and adapted from http://codepen.io/jeffpannone/pen/GpKOed
+ * @private
+ */
+app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
+  //Photoswipe configuration for product page zoom
+  var initPhotoSwipeFromDOM = function(gallerySelector) {
+    // parse slide data (url, title, size ...) from DOM elements
+    // (children of gallerySelector)
+    var parseThumbnailElements = function(el) {
+      var thumbElements = el.childNodes;
+      var items = [];
+      var figureEl;
+      var linkEl;
+      var item;
+      var id;
+      var info;
+
+      for (var i = 0; i < thumbElements.length; i++) {
+        figureEl = thumbElements[i]; // <figure> element
+        linkEl = figureEl.children[0]; // <a> element
+        // get the data-info-id and clone into the slide that's being opened
+        id = linkEl.getAttribute('data-info-id');
+        info = $(document.getElementById(id));
+
+        var image = new Image();
+        var direction = 'horizontal';
+        image['src'] = linkEl.getAttribute('href');
+        if (image.naturalHeight > image.naturalWidth) {
+          direction = 'vertical';
+        }
+
+        // create slide object
+        item = {
+          html: '<div class="photoswipe-image-container ' + direction + '">' +
+                  info.html() +
+                  '<img src="' + linkEl.getAttribute('href') + '">' +
+                  '</div>'
+        };
+        // <img> thumbnail element, retrieving thumbnail url (small img)
+        if (linkEl.children.length > 0) {
+          item.msrc = linkEl.children[0].getAttribute('src');
+        }
+        item.el = figureEl; // save link to element for getThumbBoundsFn
+        items.push(item);
+      }
+      return items;
+    }.bind(this);
+
+    // find nearest parent element
+    var closest = function closest(el, fn) {
+      return el && (fn(el) ? el : closest(el.parentNode, fn));
+    };
+
+    var openPhotoSwipe = function(index, clickedGallery) {
+      var pswpElement = document.querySelectorAll('.pswp')[0];
+      var gallery;
+      var options;
+      var items = parseThumbnailElements(clickedGallery);
+
+      // define options (if needed)
+      options = {
+        index: parseInt(index, 10),
+        bgOpacity: 1,
+        tapToClose: true,
+        tapToToggleControls: true,
+        closeOnScroll: false,
+        closeOnVerticalDrag: false,
+        fullscreenEl: true,
+        escKey: true,
+        arrowKeys: true,
+        preload: [3, 3],
+        zoomEl: false,
+        counterEl: false,
+        shareEl: false,
+        arrowEl: true,
+        galleryUID: clickedGallery.getAttribute('data-pswp-uid'),
+        getThumbBoundsFn: function(index) {
+          // See Options -> getThumbBoundsFn section of documentation for more info
+          var thumbnail = items[index].el.getElementsByTagName('img')[0]; // find thumbnail
+          var pageYScroll = window.pageYOffset || document.documentElement.scrollTop;
+          var rect = thumbnail.getBoundingClientRect();
+          return {x: rect.left, y: rect.top + pageYScroll, w: rect.width};
+        }
+      };
+      // exit if index not found
+      if (isNaN(options.index)) {
+        return;
+      }
+      // Pass data to PhotoSwipe and initialize it
+      gallery = new window.PhotoSwipe(pswpElement, window.PhotoSwipeUI_Default, items, options);
+      gallery.init();
+    }.bind(this);
+
+    // triggers when user clicks on thumbnail
+    var onThumbnailsClick = function(e) {
+      e = e || window.event;
+      e.preventDefault ? e.preventDefault() : e.returnValue = false;
+      var eTarget = e.target || e.srcElement;
+
+      // find root element of slide
+      var clickedListItem = closest(eTarget, function(el) {
+        return (el.tagName && el.tagName.toUpperCase() === 'FIGURE');
+      });
+      if (!clickedListItem) {
+        return;
+      }
+      // find index of clicked item by looping through all child nodes
+      // alternatively, you may define index via data- attribute
+      var clickedGallery = clickedListItem.parentNode;
+      var childNodes = clickedListItem.parentNode.childNodes;
+      var numChildNodes = childNodes.length;
+      var nodeIndex = 0;
+      var index;
+
+      for (var i = 0; i < numChildNodes; i++) {
+        if (childNodes[i].nodeType !== 1) {
+          continue;
+        }
+        if (childNodes[i] === clickedListItem) {
+          index = nodeIndex;
+          break;
+        }
+        nodeIndex++;
+      }
+      // open PhotoSwipe if valid index found
+      if (index >= 0) {
+        openPhotoSwipe(index, clickedGallery);
+      }
+      return false;
+    };
+    // loop through all gallery elements and bind events
+    var galleryElements = document.querySelectorAll(gallerySelector);
+
+    for (var i = 0, l = galleryElements.length; i < l; i++) {
+      galleryElements[i].setAttribute('data-pswp-uid', i + 1);
+      galleryElements[i].onclick = onThumbnailsClick;
+    }
+  }.bind(this);
+  // execute above function
+  initPhotoSwipeFromDOM('.photos');
+};
+
+
+/**
+ * @private
+ */
+app.ViewDetailsController.prototype.initSlickGallery_ = function() {
+  $('.photos').slick({
+    slidesToScroll: 2,
+    dots: false
+  });
+};
+
+
+/**
+ * Loads images and appends them to .photos gallery
+ * @param {Function} initGalleries callback
+ * @private
+ */
+app.ViewDetailsController.prototype.loadImages_ = function(initGalleries) {
+  var photos = this.scope_['document']['associations']['images'];
+  for (var i in photos) {
+    photos[i]['id'] = 'image-' + (+new Date());
+
+    var element = app.utils.createImageSlide(photos[i], 'loaded-' + photos[i]['id']);
+    $('.photos').append(element);
+
+    var scope = this.scope_.$new(true);
+    scope['photo'] = photos[i]
+    this.compile_($('.photos figure:last-of-type').contents())(scope);
+  }
+  initGalleries();
+};
+
+
 app.module.controller('AppViewDetailsController', app.ViewDetailsController);

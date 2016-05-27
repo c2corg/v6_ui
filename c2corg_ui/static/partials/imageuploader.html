@@ -1,0 +1,117 @@
+  <div ng-if="uplCtrl.files.length === 0"
+       ngf-drop
+       ngf-select
+       ng-model="uplCtrl.files"
+       class="drop-box" 
+       ngf-drag-over-class="'dragover'"
+       ngf-multiple="true"
+       ngf-keep="'distinct'" 
+       ngf-fix-orientation="true"
+       ngf-allow-dir="true"
+       accept="image/*" 
+       ngf-pattern="'image/*'">
+    <span translate>Drop images here or click to upload</span>
+  </div>
+
+  <div ng-show="uplCtrl.files.length > 0" class="images-container" app-loading>
+    <div ng-repeat="file in uplCtrl.files track by $index" class="uploaded-image {{$index}}" ng-show="file">
+
+      <div class="img-container" style="background-image: url({{file.src}})">
+        <!-- EXIF INFO-->
+        <div class="exif" ng-style="file.metadata.FocalLength && {'opacity': 1} || {'opacity' : 0}">
+          <p ng-if="file.metadata.DateTime"><span class="glyphicon glyphicon-calendar"></span><span>{{file.metadata.DateTime}}</span></p>
+          <p><span class="glyphicon glyphicon-certificate"></span><span>{{file.metadata.FocalLength}}f</span>&nbsp;
+            <span ng-if="file.metadata.ShutterSpeedValue">1/{{file.metadata.ShutterSpeedValue}}s</span> &nbsp; 
+            <span><b>ISO:</b> <span>{{file.metadata.PhotographicSensitivity}}</span></span>
+          </p>
+          <p ng-if="file.metadata.geo"><span class="glyphicon glyphicon-map-marker"></span><b>{{file.metadata.geo.label}}</b></p>
+        </div>
+        <span class="glyphicon glyphicon-remove-circle remove-image-btn" type="button" ng-click="uplCtrl.deleteImage($index)" ng-show="file.progress >= 100"></span>
+      </div>
+
+      <div class="img-data">
+        <!-- TITLE-->
+        <input type="text" class="form-control" ng-model="file.metadata.title" placeholder="title" ng-change="uplCtrl.rename(file, file.metadata.title)">
+
+        <div class="image-attributes btn-group" ng-show="file.progress >= 100">
+          <!-- GEOLOCATION-->
+          <div class="btn-group">
+            <button class="btn btn-default dropdown-toggle" ng-class="{'btn-success': file.metadata.geo}" type="button" data-toggle="dropdown">
+              <span class="glyphicon glyphicon-globe"></span>
+            </button>
+            <div class="dropdown-menu geo">
+              <p translate ng-if="!file.metadata.geo">You can add geolocation info by typing in the input field.</p>
+              <label ng-if="file.metadata.geo">{{file.metadata.geo.label}}</label>
+              <app-simple-search dataset="wr" app-select="uplCtrl.addGeoinfo(doc, file)"></app-simple-search>
+            </div>
+          </div>
+          <!-- ACTIVITIES-->
+          <div class="btn-group">
+            <button class="btn btn-default dropdown-toggle" ng-class="{'btn-success': file.metadata.activities.length > 0}" type="button" data-toggle="dropdown">
+              <label translate>activities</label>
+              <span class="glyphicon glyphicon-menu-down"></span>
+            </button>
+            <ul class="dropdown-menu multiselect-box type">
+              <li ng-repeat="activity in activities">
+                <a ng-click="uplCtrl.selectOption(file.metadata, 'activities', activity, $event)">
+                  <input type="checkbox">
+                  <span class="activity">{{activity| translate}}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <!-- CATEGORIES-->
+          <div class="btn-group">
+            <button class="btn btn-default dropdown-toggle" ng-class="{'btn-success': file.metadata.categories.length > 0}" type="button" data-toggle="dropdown">
+              <label translate>categories</label>
+              <span class="glyphicon glyphicon-menu-down"></span>
+            </button>
+            <ul class="dropdown-menu multiselect-box type">
+              <li ng-repeat="category in categories">
+                <a ng-click="uplCtrl.selectOption(file.metadata, 'categories', category, $event)">
+                  <input type="checkbox">
+                  <span class="category">{{category| translate}}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <!-- IMAGE TYPE-->
+          <div class="btn-group">
+            <button class="btn btn-default dropdown-toggle" ng-class="{'btn-success': file.metadata.image_type.length > 0}" type="button" data-toggle="dropdown">
+              <label translate>type</label>
+              <span class="glyphicon glyphicon-menu-down"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li ng-repeat="type in types" ng-click="uplCtrl.selectOption(file.metadata, 'image_type', type, $event)">
+                <a class="radio"><label><input type="radio" name="types">{{type| translate}}</label></a>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+      <!-- PROGRESS BAR-->
+      <div  class="progress" ng-show="file.progress < 100">
+        <div class="progress-bar progress-bar-striped active" role="progressbar" style="width:{{file.progress}}%;">{{file.progress}}%</div>
+      </div>
+      <!-- ABORT BUTTON-->
+      <button class="btn btn-danger" type="button" ng-click="uplCtrl.abortUploadingImage($index)" ng-show="file.progress < 100">Abort</button>
+    </div>
+    <div class="upload-file uploaded-image drop-box"
+         ngf-drop
+         ngf-select
+         multiple
+         ng-model="uplCtrl.files"
+         class="drop-box" 
+         ngf-drag-over-class="'dragover'"
+         ngf-multiple="true"
+         ngf-keep="'distinct'" 
+         ngf-fix-orientation="true"
+         ngf-allow-dir="true"
+         accept="image/*" 
+         ngf-pattern="'image/*'"> 
+      <button class="orange-btn btn" type="button" translate>add images</button> 
+    </div>
+  </div>
+  <button class="btn btn-warning" type="button" ng-click="imageModalCtrl.close()">close</button>
+  <button class="btn btn-primary" type="button" ng-click="uplCtrl.save()" ng-show="uplCtrl.areAllUploaded">Save</button>

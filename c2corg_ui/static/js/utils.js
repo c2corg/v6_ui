@@ -22,6 +22,7 @@ app.utils.getDoctype = function(type) {
   }
 };
 
+
 /**
  * @param {string} document_type The document type.
  * @param {string|number} documentId The document id.
@@ -52,6 +53,7 @@ app.utils.setupSmartScroll = function(mouseWheelZoomInteraction) {
   });
 };
 
+
 /**
  * Update arrays and creates one, if not existing
  * form : object[property] = value
@@ -62,7 +64,6 @@ app.utils.setupSmartScroll = function(mouseWheelZoomInteraction) {
  * @param {goog.events.Event | jQuery.Event} event
  * @export
  */
-
 app.utils.pushToArray = function(object, property, value, event) {
   var checkbox = $(event.currentTarget).find('input') || null;
 
@@ -130,4 +131,34 @@ app.utils.areDifferentDates = function(date1, date2) {
   if (date1 !== null && date2 !== null) {
     return date1.toDateString() !== date2.toDateString();
   }
+};
+
+
+/**
+ * convert an image File into a base64 string
+ * @property {Object} uploaded Image File
+ * @export
+ */
+app.utils.getImageFileBase64Source = function(file) {
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    return file.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+};
+
+
+/**
+ * @param {Object} file : image object from associations or uploaded
+ * @param {string} id to the figure slide
+ * @return {string}
+ * @export
+ */
+app.utils.createImageSlide = function(file, id) {
+  return '<figure id="' + id + '">' +
+           '<a href="' + file.src + '" data-info-id="' + file['id'] + '">' +
+             '<img src="' + file.src + '">' +
+           '</a>' +
+           '<app-slide-info></app-slide-info>' +
+         '</figure>';
 };

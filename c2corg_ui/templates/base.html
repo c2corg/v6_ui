@@ -36,6 +36,10 @@ closure_library_path = settings.get('closure_library_path')
     <link rel="stylesheet" href="${request.static_url('%s/bootstrap-slider/dist/css/bootstrap-slider.css' % node_modules_path)}">
     <link rel="stylesheet" href="${request.static_url('c2corg_ui:static/build/build.min.css')}">
 % endif
+    <link rel="stylesheet"  href="${request.static_url('%s/slick-carousel/slick/slick.css' % node_modules_path)}">
+    <link rel="stylesheet"  href="${request.static_url('%s/photoswipe/dist/photoswipe.css' % node_modules_path)}">
+    <link rel="stylesheet"  href="${request.static_url('%s/photoswipe/dist/default-skin/default-skin.css' % node_modules_path)}">
+    <link rel="stylesheet"  href="${request.static_url('%s/slick-carousel/slick/slick-theme.css' % node_modules_path)}">
   </head>
   <body class="on-load loading">
     <%include file="sidemenu.html"/>
@@ -87,6 +91,15 @@ closure_library_path = settings.get('closure_library_path')
     <script src="${request.static_url('%s/moment/moment.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/angular-moment/angular-moment.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/angular-recaptcha/release/angular-recaptcha.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%s/ng-file-upload/dist/ng-file-upload.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%s/blueimp-load-image/js/load-image.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%s/slick-carousel/slick/slick.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%s/blueimp-load-image/js/load-image-orientation.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%s/blueimp-load-image/js/load-image-meta.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%s/blueimp-load-image/js/load-image-exif.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%s/blueimp-load-image/js/load-image-exif-map.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%s/photoswipe/dist/photoswipe.min.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%s/photoswipe/dist/photoswipe-ui-default.js' % node_modules_path)}"></script>
     <script src="${request.route_url('deps.js')}"></script>
     <script src="${request.static_url('c2corg_ui:static/js/main.js')}"></script>
 % else:
@@ -101,8 +114,13 @@ closure_library_path = settings.get('closure_library_path')
     <script src="${request.static_url('%s/angular-cookies/angular-cookies.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/typeahead.js/dist/typeahead.bundle.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/moment/min/moment.min.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%s/slick-carousel/slick/slick.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/angular-moment/angular-moment.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/angular-recaptcha/release/angular-recaptcha.min.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%s/ng-file-upload/dist/ng-file-upload.min.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%s/blueimp-load-image/js/load-image.all.min.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%s/photoswipe/dist/photoswipe.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%s/photoswipe/dist/photoswipe-ui-default.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('c2corg_ui:static/build/build.js')}"></script>
 % endif
 
@@ -110,6 +128,16 @@ closure_library_path = settings.get('closure_library_path')
     
     <script>
       (function() {
+        // prevent loading a file from accidental image drag-drop outside the drop-box
+        window.addEventListener("dragover",function(e){
+          e = e || event;
+          e.preventDefault();
+        },false);
+        window.addEventListener("drop",function(e){
+          e = e || event;
+          e.preventDefault();
+        },false);
+
          var module = angular.module('app');
          module.constant('langUrlTemplate', '${request.static_url('c2corg_ui:static/build/locale/__lang__/c2corg_ui.json')}');
          module.constant('apiUrl', '${api_url}');
@@ -118,6 +146,7 @@ closure_library_path = settings.get('closure_library_path')
          module.config(function(vcRecaptchaServiceProvider) {
            vcRecaptchaServiceProvider.setSiteKey('${settings["recaptcha_site_key"]}');
          });
+
          <%block name="moduleConstantsValues">
          module.value('mapFeatureCollection', null);
          </%block>

@@ -8,11 +8,12 @@ goog.require('app');
  * @param {string} apiUrl URL to the API.
  * @param {angular.$http} $http
  * @param {app.Alerts} appAlerts The Alerts service
+ * @param {angular.$q} $q
  * @constructor
  * @struct
  * @ngInject
  */
-app.Api = function(apiUrl, $http, appAlerts) {
+app.Api = function(apiUrl, $http, appAlerts, $q) {
 
   /**
    * @type {string}
@@ -27,9 +28,20 @@ app.Api = function(apiUrl, $http, appAlerts) {
   this.http_ = $http;
 
   /**
+   * @type {angular.$q}
+   * @private
+   */
+  this.q_ = $q;
+
+  /**
    * @private
    */
   this.alerts_ = appAlerts;
+
+  /**
+   * @private
+   */
+  this.uploadingImages_ = [];
 };
 
 
@@ -118,7 +130,7 @@ app.Api.prototype.associateDocument = function(parentId, doc) {
     alerts.addError(msg);
   });
   return promise;
-}
+};
 
 
 /**
@@ -139,7 +151,7 @@ app.Api.prototype.unassociateDocument = function(parentId, childId) {
     alerts.addError(msg);
   });
   return promise;
-}
+};
 
 
 /**
@@ -366,6 +378,60 @@ app.Api.prototype.updateAccount = function(data) {
     this.alerts_.addError(response);
   }.bind(this));
   return promise;
+};
+
+
+/**
+ * @param {File} file
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.uploadImage = function(file) {
+  var defer = this.q_.defer();
+  this.uploadingImages_.push(defer);
+  setInterval(function() {
+    file['progress']++;
+    defer.notify({'loaded': (file['progress'] / 100) * file['size'], 'total': file['size']}); // for the progress function
+    if (file['progress'] >= 100) {
+      file['metadata']['filename'] = '23259810.jpg';
+      defer.resolve(file);
+    }
+  }, 30);
+  return defer.promise;
+};
+
+
+/**
+ * @param {File} file
+ */
+app.Api.prototype.updateImageMetadata = function(file) {
+  console.log('updating image')
+  console.log(file)
+};
+
+
+/**
+ * @param {number} index
+ */
+app.Api.prototype.abortUploadingImage = function(index) {
+  console.log('abort uploading image')
+};
+
+
+/**
+ * Saves the images and sends the metadatas (exif, title, server_file_name, activities...)
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ * @param {Array<File>} files
+ */
+app.Api.prototype.saveImages = function(files) {
+  var defer = this.q_.defer();
+  var metadatas = [];
+  for (var i = 0; i < files.length; i++) {
+    files[i]['metadata']['size'] = files[i]['size'];
+    metadatas.push(files[i]['metadata']);
+  }
+  defer.resolve();
+  console.log(metadatas);
+  return defer.promise;
 };
 
 

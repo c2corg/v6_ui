@@ -11,5 +11,13 @@ goog.require('ngeo');
  * @const
  * @type {!angular.Module}
  */
-app.module = angular.module('app', [ngeo.module.name, 'gettext', 'ngMessages',
-    'ngCookies', 'ui.bootstrap', 'angularMoment', 'vcRecaptcha']);
+app.module = angular.module('app', [
+  ngeo.module.name,
+  'gettext',
+  'ngMessages',
+  'ngCookies',
+  'ui.bootstrap',
+  'angularMoment',
+  'ngFileUpload',
+  'vcRecaptcha'
+]);
