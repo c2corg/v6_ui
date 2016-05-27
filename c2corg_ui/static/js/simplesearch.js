@@ -46,7 +46,6 @@ app.simpleSearchDirective = function() {
               $('.logo.header, .menu-open-close.header').removeClass('no-opacity');
             }
           });
-
           element.on('click', function(e) {
 
             // collapse suggestions
@@ -238,8 +237,12 @@ app.SimpleSearchController.prototype.createDataset_ = function(type) {
         return '<div class="header" dataset="' + type + '">' + this.gettextCatalog_.getString(type) + '</div>';
       }).bind(this),
       footer: function(doc) {
-        return '<p class="suggestion-more"><a href="/' + type + '/keyword/' + encodeURI(doc['query']) + '" class="green-text" translate>More results</a></p>';
-      },
+        if (!this.associationContext_) { // don't add this if you're typing in an add-association-tool
+          return '<p class="suggestion-more"><a href="/' + type + '?q=' + encodeURI(doc['query']) + '" class="green-text">+ see more results</a></p>';
+        } else {
+          return '';
+        }
+      }.bind(this),
       suggestion: function(doc) {
         if (doc) {
           this.scope_['doc'] = doc;
