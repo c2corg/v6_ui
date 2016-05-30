@@ -35,6 +35,7 @@ app.Api = function(apiUrl, $http, appAlerts, $q) {
 
   /**
    * @private
+   * @type {app.Alerts}
    */
   this.alerts_ = appAlerts;
 
@@ -264,7 +265,7 @@ app.Api.prototype.errorSaveDocument_ = function(response) {
   var msg;
   if (response['data'] instanceof Object && 'errors' in response['data']) {
     msg = response;
-  } else if (response['status'] == 403) {
+  } else if (response['status'] === 403) {
     msg = 'You have no permission to modify this document';
   } else {
     msg = 'Failed saving the changes';

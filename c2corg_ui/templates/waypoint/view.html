@@ -165,7 +165,7 @@ geometry4326 = geometry
       <section>
         <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
           <label translate>Add association</label>:
-          <app-add-association parent-id="${waypoint_id}" added-documents="added"></app-add-association>
+          <app-add-association parent-id="${waypoint_id}" added-documents="added" dataset="rw"></app-add-association>
         </div>
         ${show_associated_waypoints(waypoint, 'waypoint_parents')}
         ${show_associated_waypoints(waypoint, 'waypoint_children')}
@@ -201,7 +201,7 @@ ${show_float_buttons(None, 'waypoints', waypoint_id, lang, other_langs, missing_
   <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);">&nbsp;<span class="glyphicon glyphicon-menu-up"></span></button>
 </div>
 
-<div class="ng-hide">
+<div class="ng-hide" ng-init="detailsCtrl.documentService.document = ${waypoint}">
   <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
 </div>
 ${photoswipe_gallery()}
