@@ -5,10 +5,12 @@ from c2corg_ui.templates.utils import get_lang_lists
 
 <%inherit file="../base.html"/>
 <%namespace file="../helpers/common.html" import="show_title, show_fulldate"/>
-<%namespace file="helpers/detailed_outings_attributes.html" import="get_outing_snow, get_outing_access, get_outing_participants, get_outing_general, get_outing_heights"/>
-<%namespace file="../helpers/view.html" import="photoswipe_gallery, get_document_min_max, get_document_locale_text, show_attr, show_missing_langs_links,
-    show_other_langs_links, show_archive_data, show_route_title, get_route_activities, 
-    show_areas, show_float_buttons, get_associated_documents"/>
+<%namespace file="helpers/detailed_outings_attributes.html" import="get_outing_snow,
+    get_outing_access, get_outing_participants, get_outing_general, get_outing_heights"/>
+<%namespace file="../helpers/view.html" import="photoswipe_gallery, get_document_min_max,
+    get_document_locale_text, show_attr, show_missing_langs_links, show_other_langs_links,
+    show_archive_data, show_route_title, get_route_activities, show_areas, show_float_buttons,
+    show_associated_waypoints, show_associated_routes"/>
     
 <%
 outing_id = outing['document_id']
@@ -132,7 +134,7 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
   </div>
 
   ## ASSOCIATIONS
-  % if not version and ('waypoint' in outing['associations'] and  len(outing['associations']['waypoints']) > 0 or 'routes' in outing['associations'] and  len(outing['associations']['routes']) > 0):
+  % if not version:
   <div class="view-details-associations col-xs-12 tab associations">
     <span class="lead">
       <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
@@ -140,8 +142,8 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
         <app-add-association parent-id="${outing_id}" added-documents="added"></app-add-association>
       </div>
       <section>
-        ${get_associated_documents(outing, 'routes')}
-        ${get_associated_documents(outing, 'waypoints')}
+        ${show_associated_routes(outing)}
+        ${show_associated_waypoints(outing)}
       </section>
     </span>
   </div>

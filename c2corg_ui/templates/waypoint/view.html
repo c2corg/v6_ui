@@ -5,10 +5,14 @@ from c2corg_ui.templates.utils import get_lang_lists
 
 <%inherit file="../base.html"/>
 <%namespace file="../helpers/common.html" import="show_title"/>
-<%namespace file="helpers/detailed_waypoint_attributes.html" import="get_waypoint_equipment, get_waypoint_orientation, get_waypoint_contact, get_waypoint_style, get_waypoint_rating, get_waypoint_access, get_waypoint_heights, get_waypoint_location, get_waypoint_general, get_waypoint_maps_info"/>
-<%namespace file="../helpers/view.html" import="photoswipe_gallery, get_document_locale_text, show_attr, show_missing_langs_links,
-    show_other_langs_links, show_archive_data, show_route_title, get_associated_documents,
-    show_areas, show_maps, show_float_buttons"/>
+<%namespace file="helpers/detailed_waypoint_attributes.html" import="get_waypoint_equipment,
+    get_waypoint_orientation, get_waypoint_contact, get_waypoint_style, get_waypoint_rating,
+    get_waypoint_access, get_waypoint_heights, get_waypoint_location, get_waypoint_general,
+    get_waypoint_maps_info"/>
+<%namespace file="../helpers/view.html" import="photoswipe_gallery, get_document_locale_text,
+    show_attr, show_missing_langs_links, show_other_langs_links, show_archive_data, 
+    show_route_title, show_areas, show_maps, show_float_buttons,
+    show_associated_waypoints, show_associated_routes, show_associated_outings"/>
     
 <%
 waypoint_id = waypoint['document_id']
@@ -125,27 +129,27 @@ geometry4326 = geometry
     </section>
   </div>
   
-    ## DESCRIPTION
-    % if locale['summary'] or locale['description']:
-      <div class="view-details-description col-xs-12 tab description">
-        <h3 class="heading"><span translate>description</span></h3>
-        <span class="lead">
-          <div id="document-description" class="collapse in">
-            % if locale['summary']:
-              <summary class="document-summary">
-                <label translate>summary</label><br>
-                ${show_attr(locale, 'summary')}
-              </summary>
-            % endif
+  ## DESCRIPTION
+  % if locale['summary'] or locale['description']:
+    <div class="view-details-description col-xs-12 tab description">
+      <h3 class="heading"><span translate>description</span></h3>
+      <span class="lead">
+        <div id="document-description" class="collapse in">
+          % if locale['summary']:
+            <summary class="document-summary">
+              <label translate>summary</label><br>
+              ${show_attr(locale, 'summary')}
+            </summary>
+          % endif
 
-            % if locale['description'] :
-              ${show_attr(locale, 'description')}
-            % else :
-              <h3 class="text-center" translate>No description available</h3>
-            % endif
-          </div>
-        </span>
-      </div>
+          % if locale['description'] :
+            ${show_attr(locale, 'description')}
+          % else :
+            <h3 class="text-center" translate>No description available</h3>
+          % endif
+        </div>
+      </span>
+    </div>
   % endif
 
   
@@ -155,9 +159,7 @@ geometry4326 = geometry
   </div>
   
   ## ASSOCIATIONS
-  % if not version and (('waypoints' in waypoint['associations'] and \
-       len(waypoint['associations']['waypoints']) > 0) or \
-       ('routes' in waypoint['associations'] and len(waypoint['associations']['routes']) > 0)):
+  % if not version:
     <div class="view-details-associations col-xs-12 tab associations">
       <span class="lead">
       <section>
@@ -165,8 +167,9 @@ geometry4326 = geometry
           <label translate>Add association</label>:
           <app-add-association parent-id="${waypoint_id}" added-documents="added"></app-add-association>
         </div>
-        ${get_associated_documents(waypoint, 'routes')}
-        ${get_associated_documents(waypoint, 'waypoints')}
+        ${show_associated_waypoints(waypoint, 'waypoint_parents')}
+        ${show_associated_waypoints(waypoint, 'waypoint_children')}
+        ${show_associated_routes(waypoint, 'all_routes')}
       </section>
       </span>
     </div>
@@ -176,7 +179,7 @@ geometry4326 = geometry
   <div class="view-details-associations col-xs-12 tab associations">
     <span class="lead">
       <section>
-        ${get_associated_documents(waypoint, 'recent_outings')}
+        ${show_associated_outings(waypoint)}
       </section>
     </span>
   </div>
