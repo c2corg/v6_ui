@@ -103,96 +103,116 @@
 </%def>
 
 
-<%def name="get_associated_documents(document, associatedDocuments)">\
-  ##ROUTES
-  % if associatedDocuments == 'routes':
-  
-    % if 'routes' in document['associations'] and  len(document['associations']['routes']) > 0 :
+<%def name="show_associated_routes(document, type='routes')">\
+  ## Possible values for type: routes, all_routes
+  <%
+      associations = document['associations']
+      routes = []
+      if type in associations:
+          routes = associations['all_routes']['routes'] if type == 'all_routes' else associations['routes']
+  %>
+  % if len(routes) > 0 :
     <article>
-      <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-${associatedDocuments}">
+      <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-routes">
         <span class="glyphicon glyphicon-map-marker"></span>
-        <span x-translate>associated ${associatedDocuments}</span><span class="glyphicon glyphicon-menu-down"></span>
+        <span translate>Associated routes</span><span class="glyphicon glyphicon-menu-down"></span>
       </h3>
-      <div class="associated-documents collapse in" id="associated-${associatedDocuments}">
-        % for route in document['associations']['routes']:
+      <div class="associated-documents collapse in" id="associated-routes">
+        % for route in routes:
           <div class="list-item">
             ${route_card(route)}
-            <app-delete-association parent-id="${document['document_id']}" child-id="${route['document_id']}" ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
+            <app-delete-association parent-id="${document['document_id']}" child-id="${route['document_id']}"
+              ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
           </div>
         % endfor
-        <article class="list-item" ng-repeat="doc in added | filter:{'documentType': '${associatedDocuments}'}">
+        % if type == 'all_routes' and associations['all_routes']['total'] > len(routes):
+          <%
+              _query = {}
+              _query[document['type']] = document['document_id']
+          %>
+          <div class="list-item vertical-align" onclick="window.location='${request.route_url('routes_index', _query=_query)}';">
+            <button class="gray-btn btn show-more" translate>show more</button>
+          </div>
+        % endif
+        <article class="list-item" ng-repeat="doc in added | filter:{'documentType': 'routes'}">
           <app-association-card parent-id="${document['document_id']}" doc="doc" added-documents="added"></app-association-card>
         </article>
       </div>
     </article>
-    % endif
-    
-    ##WAYPOINTS
-    % elif associatedDocuments == 'waypoints':
-    
-      % if 'waypoints' in document['associations'] and  len(document['associations']['waypoints']) > 0 :
-      <article>
-        <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-${associatedDocuments}">
-          <span class="glyphicon glyphicon-map-marker"></span>
-          <span x-translate>associated ${associatedDocuments}</span><span class="glyphicon glyphicon-menu-down"></span>
-        </h3>
-        <div class="associated-documents collapse in" id="associated-${associatedDocuments}">
-          % for waypoint in document['associations']['waypoints']:
-            <div class="list-item" 
-                 % if document.get('route_types'):
-                    ng-class="{'main-waypoint': ${document['main_waypoint_id']} === ${waypoint['document_id']} } "
-                 % endif
-                >
-              ${waypoint_card(waypoint)}
-              <app-delete-association parent-id="${document['document_id']}" child-id="${waypoint['document_id']}" ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
-            </div>
-          % endfor
-          <article class="list-item" ng-repeat="doc in added | filter:{'documentType': '${associatedDocuments}'}">
-            <app-association-card parent-id="${document['document_id']}" doc="doc" added-documents="added"></app-association-card>
-          </article>
-        </div>
-      </article>
-      % endif
+  % endif
+</%def>
 
-    ##OUTINGS
-    % elif associatedDocuments == 'recent_outings':
-    
-      % if document['associations']['recent_outings']['total'] > 0 :
-        <article>
-          <h3 class="heading show-phone outings" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-${associatedDocuments}">
-            <span class="glyphicon glyphicon-map-marker"></span>
-            <span x-translate>associated ${associatedDocuments}</span><span class="glyphicon glyphicon-menu-down"></span>
-          </h3>
-          <div class="associated-documents collapse in" id="associated-${associatedDocuments}">
-            <div class="list-item vertical-align" protected-url-btn url="'${request.route_url('outings_add')}' + '?${document['doctype']}=${document['document_id']}'">
-              <a>
-                <button class="btn orange-btn">add a new outing to this document</button>
-              </a>
-            </div>
-            % for outing in document['associations']['recent_outings']['outings']:
-            <div class="list-item outing">
-              ${outing_card(outing)}
-              <app-delete-association parent-id="${document['document_id']}" child-id="${outing['document_id']}" ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
-            </div>
-            % endfor
-            
-            % if document['associations']['recent_outings']['total'] > 10 :
-              <%
-                  _query = {}
-                  _query[document['type']] = document['document_id']
-              %>
-              <div class="list-item vertical-align" onclick="window.location='${request.route_url('outings_index', _query=_query)}';">
-                <button class="gray-btn btn show-more">show more</button>
-              </div>
-            % endif
-            
-            <article class="list-item" ng-repeat="doc in added | filter:{'documentType': '${associatedDocuments}'}">
-              <app-association-card parent-id="${document['document_id']}" doc="doc" added-documents="added"></app-association-card>
-            </article>
+<%def name="show_associated_waypoints(document, type='waypoints')">\
+  ## Possible values for type: waypoints, waypoint_parents, waypoint_children
+  <%
+      associations = document['associations']
+  %>
+  % if type in associations and len(associations[type]) > 0 :
+    <article>
+      <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-waypoints">
+        <span class="glyphicon glyphicon-map-marker"></span>
+        <span x-translate>Associated ${type}</span><span class="glyphicon glyphicon-menu-down"></span>
+      </h3>
+      <div class="associated-documents collapse in" id="associated-waypoints">
+        % for waypoint in associations[type]:
+          <div class="list-item"
+               % if document.get('type') == 'r':
+                  ng-class="{'main-waypoint': ${document['main_waypoint_id']} === ${waypoint['document_id']} } "
+               % endif
+              >
+            ${waypoint_card(waypoint)}
+            <app-delete-association parent-id="${document['document_id']}" child-id="${waypoint['document_id']}"
+              ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
           </div>
+        % endfor
+        <article class="list-item" ng-repeat="doc in added | filter:{'documentType': 'waypoints'}">
+          <app-association-card parent-id="${document['document_id']}" doc="doc" added-documents="added"></app-association-card>
         </article>
-      % endif
-    
+      </div>
+    </article>
+  % endif
+</%def>
+
+<%def name="show_associated_outings(document)">\
+  <%
+      associations = document['associations']
+  %>
+  % if 'recent_outings' in associations and associations['recent_outings']['total'] > 0:
+    <article>
+      <h3 class="heading show-phone outings" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-outings">
+        <span class="glyphicon glyphicon-map-marker"></span>
+        <span translate>Associated outings</span><span class="glyphicon glyphicon-menu-down"></span>
+      </h3>
+      <div class="associated-documents collapse in" id="associated-outings">
+        <div class="list-item vertical-align" protected-url-btn
+             url="'${request.route_url('outings_add')}' + '?${document['doctype']}=${document['document_id']}'">
+          <a>
+            <button class="btn orange-btn" translate>add a new outing to this document</button>
+          </a>
+        </div>
+        % for outing in associations['recent_outings']['outings']:
+        <div class="list-item outing">
+          ${outing_card(outing)}
+          <app-delete-association parent-id="${document['document_id']}" child-id="${outing['document_id']}"
+            ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
+        </div>
+        % endfor
+
+        % if associations['recent_outings']['total'] > 10 :
+          <%
+              _query = {}
+              _query[document['type']] = document['document_id']
+          %>
+          <div class="list-item vertical-align" onclick="window.location='${request.route_url('outings_index', _query=_query)}';">
+            <button class="gray-btn btn show-more" translate>show more</button>
+          </div>
+        % endif
+
+        <article class="list-item" ng-repeat="doc in added | filter:{'documentType': 'outings'}">
+          <app-association-card parent-id="${document['document_id']}" doc="doc" added-documents="added"></app-association-card>
+        </article>
+      </div>
+    </article>
   % endif
 </%def>
 
