@@ -55,13 +55,11 @@ app.AddAssociationController = function(appApi, $attrs) {
    */
   this.api_ = appApi;
 
-
   /**
    * @type {string}
    * @private
    */
   this.dataset_ = $attrs['dataset'];
-
 
   /**
    * Typed directly in the directive HTML.
@@ -76,7 +74,6 @@ app.AddAssociationController = function(appApi, $attrs) {
    * @private
    */
   this.parentDocType = $attrs['parentDocType'];
-
 
   /**
    * @type {Array.<appx.SimpleSearchDocument>}

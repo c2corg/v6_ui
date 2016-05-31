@@ -143,20 +143,11 @@ other_langs, missing_langs = get_lang_lists(route, lang)
     
   ## ASSOCIATIONS
   % if not version:
-    <div class="view-details-associations col-xs-12 tab associations" 
-         ng-show="document.associations.recent_outings.outings.length > 0 || filteredAddedOutings.length > 0">
-      <span class="lead">
-        <section>
-          ${show_associated_outings(route, 'routes')}
-        </section>
-      </span>
-    </div>
-
     <div class="view-details-associations col-xs-12 tab associations">
       <span class="lead">
         <section>
           <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
-            <label translate>Add association</label>:
+            <label translate>Add association</label>
             <app-add-association parent-id="${route_id}" added-documents="added" parent-doc-type="routes" dataset="wr"></app-add-association>
           </div>  
           % if len(route['associations']['recent_outings']['outings']) == 0:
@@ -169,6 +160,15 @@ other_langs, missing_langs = get_lang_lists(route, lang)
           % endif
           ${show_associated_waypoints(route, 'routes')}
           ${show_associated_routes(route, 'routes')}
+        </section>
+      </span>
+    </div>
+
+    <div class="view-details-associations col-xs-12 tab associations"
+         ng-show="document.associations.recent_outings.outings.length > 0 || filteredAddedOutings.length > 0">
+      <span class="lead">
+        <section>
+          ${show_associated_outings(route)}
         </section>
       </span>
     </div>

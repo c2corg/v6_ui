@@ -150,36 +150,36 @@ geometry4326 = geometry
     </div>
   % endif
 
-  
   <div class="description tab">
     ${get_document_locale_text(locale, 'access')}
     ${get_document_locale_text(locale, 'access_period')}
   </div>
-  
+
   ## ASSOCIATIONS
   % if not version:
     <div class="view-details-associations col-xs-12 tab associations">
       <span class="lead">
       <section>
         <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
-          <label translate>Add association</label>:
+          <label translate>Add association</label>
           <app-add-association parent-id="${waypoint_id}" added-documents="added" parent-doc-type="waypoints" dataset="wr"></app-add-association>
         </div>
         ${show_associated_waypoints(waypoint, 'waypoints', 'waypoint_parents')}
         ${show_associated_waypoints(waypoint, 'waypoints', 'waypoint_children')}
-        ${show_associated_routes(waypoint, 'all_routes')}
+        ${show_associated_routes(waypoint, 'waypoints', 'all_routes')}
       </section>
       </span>
     </div>
-  
-  % if 'recent_outings' in waypoint['associations'] and len(waypoint['associations']['recent_outings']['outings']) > 0 :
-    <div class="view-details-associations col-xs-12 tab associations">
-      <span class="lead">
-        <section>
-          ${show_associated_outings(waypoint)}
-        </section>
-      </span>
-    </div>
+
+    % if 'recent_outings' in waypoint['associations'] and len(waypoint['associations']['recent_outings']['outings']) > 0 :
+      <div class="view-details-associations col-xs-12 tab associations">
+        <span class="lead">
+          <section>
+            ${show_associated_outings(waypoint)}
+          </section>
+        </span>
+      </div>
+    % endif
   % endif
 
   ## OTHER BUTTON contents

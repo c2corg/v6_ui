@@ -110,11 +110,14 @@
   <%
       associations = document['associations']
       routes = []
+      path = ''
       if type in associations:
           routes = associations['all_routes']['routes'] if type == 'all_routes' else associations['routes']
+          path = 'all_routes.routes' if type == 'all_routes' else 'routes'
   %>
-  % if len(routes) > 0 :
-    <section ng-show="document.associations.routes.length > 0 || filteredAddedRoutes.length > 0">
+  % if path:
+    <section ng-show="document.associations.${path}.length > 0 || filteredAddedRoutes.length > 0">
+      <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-routes">
         <span class="glyphicon glyphicon-map-marker"></span>
         <span translate>Associated routes</span><span class="glyphicon glyphicon-menu-down"></span>
       </h3>
@@ -146,18 +149,14 @@
 
 <%def name="show_associated_waypoints(document, doctype, type='waypoints')">\
   ## Possible values for type: waypoints, waypoint_parents, waypoint_children
-  <section ng-show="document.associations.waypoints.length > 0 || filteredAddedWps.length > 0">
+  <section ng-show="document.associations.${type}.length > 0 || filteredAddedWps.length > 0">
     <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-waypoints">
       <span class="glyphicon glyphicon-map-marker"></span>
       <span x-translate>Associated ${type}</span><span class="glyphicon glyphicon-menu-down"></span>
     </h3>
     <div class="associated-documents collapse in" id="associated-waypoints">
       % for waypoint in document['associations'][type]:
-        <div class="list-item"
-             % if doctype == 'routes':
-                ng-class="{'main-waypoint': ${document['main_waypoint_id']} === ${waypoint['document_id']} } "
-             % endif
-            >
+        <div class="list-item ${'main-waypoint' if doctype == 'routes' and document['main_waypoint_id'] == waypoint['document_id'] else ''}">
           ${waypoint_card(waypoint)}
           <app-delete-association parent-doc-type="${doctype}" child-doc-type="waypoints"
             parent-id="${document['document_id']}" child-id="${waypoint['document_id']}"
