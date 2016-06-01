@@ -94,5 +94,6 @@ class NotFound():
         self.request.response.status_code = self.context.code
         return {
           'api_url': self.settings['api_url'],
+          'image_backend_url': self.settings['image_backend_url'],
           'error_msg': self.context.detail if self.context.detail else ''
         }

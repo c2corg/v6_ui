@@ -10,6 +10,7 @@ host = c2corgv6.demo-camptocamp.com
 url = http://$(host)
 
 export api_url = http://c2corgv6-api.demo-camptocamp.com
+export image_backend_url = http://c2corgv6-demo.gis.internal:8480
 export api_url_internal =
 export api_url_host =
 
