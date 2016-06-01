@@ -105,7 +105,7 @@
 </%def>
 
 
-<%def name="show_associated_routes(document, doctype, type='routes')">\
+<%def name="show_associated_routes(document, type='routes')">\
   ## Possible values for type: routes, all_routes
   <%
       associations = document['associations']
@@ -125,7 +125,7 @@
         % for route in routes:
           <div class="list-item">
             ${route_card(route)}
-            <app-delete-association parent-doc-type="${doctype}" child-doc-type="routes" 
+            <app-delete-association parent-doc-type="${document['doctype']}" child-doc-type="routes"
               parent-id="${document['document_id']}" child-id="${route['document_id']}"
               ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
           </div>
@@ -147,7 +147,7 @@
   % endif
 </%def>
 
-<%def name="show_associated_waypoints(document, doctype, type='waypoints')">\
+<%def name="show_associated_waypoints(document, type='waypoints')">\
   ## Possible values for type: waypoints, waypoint_parents, waypoint_children
   <section ng-show="document.associations.${type}.length > 0 || filteredAddedWps.length > 0">
     <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-waypoints">
@@ -156,9 +156,9 @@
     </h3>
     <div class="associated-documents collapse in" id="associated-waypoints">
       % for waypoint in document['associations'][type]:
-        <div class="list-item ${'main-waypoint' if doctype == 'routes' and document['main_waypoint_id'] == waypoint['document_id'] else ''}">
+        <div class="list-item ${'main-waypoint' if document['doctype'] == 'routes' and document['main_waypoint_id'] == waypoint['document_id'] else ''}">
           ${waypoint_card(waypoint)}
-          <app-delete-association parent-doc-type="${doctype}" child-doc-type="waypoints"
+          <app-delete-association parent-doc-type="${document['doctype']}" child-doc-type="waypoints"
             parent-id="${document['document_id']}" child-id="${waypoint['document_id']}"
             ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
         </div>

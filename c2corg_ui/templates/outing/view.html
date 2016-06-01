@@ -142,8 +142,8 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
         <app-add-association parent-doc-type="outings" parent-id="${outing_id}" added-documents="added" dataset="r"></app-add-association>
       </div>
       <section>
-        ${show_associated_routes(outing, 'outings')}
-        ${show_associated_waypoints(outing, 'outings')}
+        ${show_associated_routes(outing)}
+        ${show_associated_waypoints(outing)}
       </section>
     </span>
   </div>
