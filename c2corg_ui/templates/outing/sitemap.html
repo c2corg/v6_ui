@@ -1,7 +1,6 @@
 <%inherit file="../base.html"/>
 <%namespace file="../helpers/common.html" import="show_title"/>
-<%namespace file="../helpers/list.html" import="add_pagination_links"/>
-<%namespace file="../helpers/view.html" import="show_attr, outing_card"/>
+<%namespace file="../helpers/view.html" import="add_seo_association_links"/>
 
 <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Outings')">${show_title('Outings')}</title></%block>
 
@@ -14,32 +13,6 @@
 </header>
 
 <section class="documents-list-section">
-
-  <%include file="filters.html" />
-  <div class="documents-nav-buttons text-center">
-    <button type="button" class="btn btn-default show-documents-filters-phone" translate>Filters</button>
-    
-    <%include file="c2corg_ui:templates/document/select_document.html" />
-    <button class="btn btn-default"  protected-url-btn url="'${request.route_url('outings_add')}'">
-      <span class="glyphicon glyphicon-plus-sign"></span>
-    </button>
-    ${add_pagination_links('outings', outings, total, filter_params)}
-  </div>
-  <div class="list">
-    % for outing in outings:
-    <div class="list-item outing">
-      ${outing_card(outing)}
-    </div>
-    % endfor
-  </div>
+  <h2>Temporary page for sitemap</h2>
+  ${add_seo_association_links(outings, 'outings', False)}
 </section>
-% if len(outings):
-<div class="map-right">
-  <app-map></app-map>
-</div>
-% endif
-<script>
-window.onload = function(){
-  app.stickyFilters();
-}
-</script>

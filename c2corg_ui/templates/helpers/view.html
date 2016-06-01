@@ -105,9 +105,9 @@
 </%def>
 
 
-<%def name="add_seo_association_links(documents, doctype)">\
+<%def name="add_seo_association_links(documents, doctype, hide=True)">\
   % if len(documents):
-    <ul class="ng-hide">
+    <ul ${'class="ng-hide"' if hide else '' | n}>
       % for doc in documents:
         <%
             locale = doc['locales'][0]
