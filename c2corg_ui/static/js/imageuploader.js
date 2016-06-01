@@ -44,7 +44,6 @@ app.module.directive('appImageUploader', app.imageUploaderDirective);
  * @param {app.Document} appDocument service
  * @constructor
  * @struct
- * @export
  * @ngInject
  */
 app.ImageUploaderController = function($scope, Upload, $uibModal, $compile, $q, appAlerts, appApi, appDocument) {
@@ -97,10 +96,10 @@ app.ImageUploaderController = function($scope, Upload, $uibModal, $compile, $q, 
   this.uploading = [];
 
   /**
-   * @type {Array.<angular.$q.Promise>}
+   * @type {Array.<!angular.$q.Deferred>}
    * @export
    */
-  this.promises = [];
+  this.cancellers = [];
 
   /**
    * @type {Array.<File>}
@@ -204,16 +203,21 @@ app.ImageUploaderController.prototype.upload_ = function() {
       });
 
       this.getImageMetadata_(file);
-      this.uploading[i] = this.api_.uploadImage(file);
-      this.promises.push(this.uploading[i]);
 
-      this.uploading[i].then(function(resp) {
+      var canceller = this.q_.defer();
+      var promise = this.api_.uploadImage(file, canceller.promise, function(file, event) {
+        var progress = event.loaded / event.total;
+        file['progress'] = 100 * progress;
+        console.log('progress', 100 * progress, file['metadata']['id']);
+      }.bind(this, file));
+      this.uploading[i] = promise;
+      this.cancellers.push(canceller);
+
+      promise.then(function(resp) {
         console.log('100% uploaded! ' + file['metadata']['title'] + ' ' + i);
       }.bind(this), function(resp) {
         this.alerts_.addError('error while uploading the image ' + resp);
-      }.bind(this), function(evt) { // handled by defer.notify()
-          //var progressPercentage = parseInt(100.0 * evt.loaded / evt.total, 10);
-      });
+      }.bind(this));
     }
   }
   this.areAllUploadedCheck_(interval);
@@ -226,8 +230,8 @@ app.ImageUploaderController.prototype.upload_ = function() {
  * @private
  */
 app.ImageUploaderController.prototype.areAllUploadedCheck_ = function(interval) {
-  this.q_.all(this.promises).then(function(res) {
-    if (this.files.length > 0 && (this.files.length === this.promises.length || this.promises.length >= this.promises.length)) {
+  this.q_.all(this.cancellers).then(function(res) {
+    if (this.files.length > 0 && (this.files.length === this.cancellers.length || this.cancellers.length >= this.cancellers.length)) {
       this.areAllUploaded = true;
       clearInterval(interval);
     } else {
@@ -276,15 +280,14 @@ app.ImageUploaderController.prototype.save = function() {
 
 
 /**
- * TODO: REALLY cancel an image being sent? promise.resolve?
  * @param {number} index
  * @export
  */
 app.ImageUploaderController.prototype.abortUploadingImage = function(index) {
   this.uploading.splice(index, 1);
   this.files.splice(index, 1);
-  this.promises.splice(index, 1);
-  this.api_.abortUploadingImage(index);
+  var canceller = this.cancellers.splice(index, 1)[0];
+  canceller.reject(); // cancel
 };
 
 

@@ -6,6 +6,7 @@ goog.require('app');
 /**
  * Service for accessing the API.
  * @param {string} apiUrl URL to the API.
+ * @param {string} imageBackendUrl URL to the image backend.
  * @param {angular.$http} $http
  * @param {app.Alerts} appAlerts The Alerts service
  * @param {angular.$q} $q
@@ -13,13 +14,19 @@ goog.require('app');
  * @struct
  * @ngInject
  */
-app.Api = function(apiUrl, $http, appAlerts, $q) {
+app.Api = function(apiUrl, imageBackendUrl, $http, appAlerts, $q) {
 
   /**
    * @type {string}
    * @private
    */
   this.apiUrl_ = apiUrl;
+
+  /**
+   * @type {string}
+   * @private
+   */
+  this.imageBackendUrl_ = imageBackendUrl;
 
   /**
    * @type {angular.$http}
@@ -38,11 +45,6 @@ app.Api = function(apiUrl, $http, appAlerts, $q) {
    * @type {app.Alerts}
    */
   this.alerts_ = appAlerts;
-
-  /**
-   * @private
-   */
-  this.uploadingImages_ = [];
 };
 
 
@@ -412,20 +414,30 @@ app.Api.prototype.updateAccount = function(data) {
 
 /**
  * @param {File} file
+ * @param {!angular.$q.Promise} canceller
+ * @param {function(ProgressEvent)} progress
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
-app.Api.prototype.uploadImage = function(file) {
-  var defer = this.q_.defer();
-  this.uploadingImages_.push(defer);
-  setInterval(function() {
-    file['progress']++;
-    defer.notify({'loaded': (file['progress'] / 100) * file['size'], 'total': file['size']}); // for the progress function
-    if (file['progress'] >= 100) {
-      file['metadata']['filename'] = '23259810.jpg';
-      defer.resolve(file);
+app.Api.prototype.uploadImage = function(file, canceller, progress) {
+  var formData = new FormData();
+  formData.append('file', file);
+
+  var url = this.imageBackendUrl_ + '/upload';
+  var promise = this.http_.post(url, formData, {
+    headers: {
+      'Content-Type': undefined
+    },
+    'timeout': canceller,
+    'uploadEventHandlers': {
+      progress: progress
     }
-  }, 30);
-  return defer.promise;
+  }).then(function(response) {
+    file['metadata']['filename'] = response['data']['filename'];
+    return file;
+  }, function() {
+    return this.q_.reject();
+  }.bind(this));
+  return promise;
 };
 
 
