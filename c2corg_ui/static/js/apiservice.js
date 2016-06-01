@@ -131,7 +131,7 @@ app.Api.prototype.associateDocument = function(parentId, childId) {
     for (var i = 0; i < res['data']['errors'].length; i++) {
       error = error + ' ' + res['data']['errors'][i]['description'];
     }
-    var msg = alerts.gettext('Failed to unassociate document : ' + error);
+    var msg = alerts.gettext('Failed to associate document:') + ' ' + error;
     alerts.addError(msg);
   });
   return promise;
@@ -156,7 +156,7 @@ app.Api.prototype.unassociateDocument = function(parentId, childId) {
     for (var i = 0; i < res['data']['errors'].length; i++) {
       error = error + ' ' + res['data']['errors'][i]['description'];
     }
-    var msg = alerts.gettext('Failed to unassociate document :' + error);
+    var msg = alerts.gettext('Failed to unassociate document:') + ' ' + error;
     alerts.addError(msg);
   });
   return promise;
