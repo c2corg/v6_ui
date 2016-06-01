@@ -105,6 +105,24 @@
 </%def>
 
 
+<%def name="add_seo_association_links(documents, doctype)">\
+  % if len(documents):
+    <ul class="ng-hide">
+      % for doc in documents:
+        <%
+            locale = doc['locales'][0]
+        %>
+        ## TODO add slug to URL
+        <li>
+          <a href="${request.route_url(doctype + '_view', id=doc['document_id'], lang=locale['lang'])}">
+          ${locale['title_prefix'] + ' : ' if doctype == 'routes' else ''}${locale['title']}</a>
+        </li>
+      % endfor
+    </ul>
+  % endif
+</%def>
+
+
 <%def name="show_associated_routes(document, type='routes')">\
   ## Possible values for type: routes, all_routes
   <%
@@ -116,20 +134,19 @@
           path = 'all_routes.routes' if type == 'all_routes' else 'routes'
   %>
   % if path:
+    ${add_seo_association_links(routes, 'routes')}
     <section ng-show="document.associations.${path}.length > 0 || filteredAddedRoutes.length > 0">
       <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-routes">
         <span class="glyphicon glyphicon-map-marker"></span>
         <span translate>Associated routes</span><span class="glyphicon glyphicon-menu-down"></span>
       </h3>
       <div class="associated-documents collapse in" id="associated-routes">
-        % for route in routes:
-          <div class="list-item">
-            ${route_card(route)}
-            <app-delete-association parent-doc-type="${document['doctype']}" child-doc-type="routes"
-              parent-id="${document['document_id']}" child-id="${route['document_id']}"
-              ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
-          </div>
-        % endfor
+        <div class="list-item" ng-repeat="doc in document.associations.${path}">
+          <app-card app-card-doc="doc"></app-card>
+          <app-delete-association parent-doc-type="${document['doctype']}" child-doc-type="routes"
+            parent-id="${document['document_id']}" child-id="doc.document_id"
+            ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
+        </div>
         % if type == 'all_routes' and associations['all_routes']['total'] > len(routes):
           <%
               _query = {}
@@ -149,6 +166,7 @@
 
 <%def name="show_associated_waypoints(document, type='waypoints')">\
   ## Possible values for type: waypoints, waypoint_parents, waypoint_children
+  ${add_seo_association_links(document['associations'][type], 'waypoints')}
   % if type == 'waypoint_parents':
     <section ng-show="document.associations.${type}.length > 0">
   % else:
@@ -159,14 +177,16 @@
       <span x-translate>Associated ${type}</span><span class="glyphicon glyphicon-menu-down"></span>
     </h3>
     <div class="associated-documents collapse in" id="associated-waypoints">
-      % for waypoint in document['associations'][type]:
-        <div class="list-item ${'main-waypoint' if document['doctype'] == 'routes' and document['main_waypoint_id'] == waypoint['document_id'] else ''}">
-          ${waypoint_card(waypoint)}
-          <app-delete-association parent-doc-type="${document['doctype']}" child-doc-type="waypoints"
-            parent-id="${document['document_id']}" child-id="${waypoint['document_id']}"
-            ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
-        </div>
-      % endfor
+      <div class="list-item"
+        % if document['doctype'] == 'routes':
+          ng-class="{'main-waypoint': doc.document_id === ${document['main_waypoint_id']}}"
+        % endif
+          ng-repeat="doc in document.associations.${type}">
+        <app-card app-card-doc="doc"></app-card>
+        <app-delete-association parent-doc-type="${document['doctype']}" child-doc-type="waypoints"
+          parent-id="${document['document_id']}" child-id="doc.document_id"
+          ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
+      </div>
       ## When associating a WP to a WP, the newly associated WP is always added to waypoint_children.
       % if type != 'waypoint_parents':
         <article class="list-item" ng-repeat="doc in filteredAddedWps = (added | filter:{'documentType': 'waypoints'})">
@@ -182,6 +202,7 @@
       associations = document['associations']
   %>
   % if 'recent_outings' in associations and associations['recent_outings']['total'] > 0:
+    ${add_seo_association_links(associations['recent_outings']['outings'], 'outings')}
     <article>
       <h3 class="heading show-phone outings" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-outings">
         <span class="glyphicon glyphicon-map-marker"></span>
@@ -194,14 +215,9 @@
             <button class="btn orange-btn" translate>add a new outing to this document</button>
           </a>
         </div>
-        % for outing in associations['recent_outings']['outings']:
-        <div class="list-item outing">
-          ${outing_card(outing)}
-          <app-delete-association parent-id="${document['document_id']}" child-id="${outing['document_id']}"
-            ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
+        <div class="list-item outing" ng-repeat="doc in document.associations.recent_outings.outings">
+          <app-card app-card-doc="doc"></app-card>
         </div>
-        % endfor
-
         % if associations['recent_outings']['total'] > 10 :
           <%
               _query = {}
@@ -296,60 +312,6 @@
       </div>
     % endif
   % endif
-</%def>
-
-
-## Draw route card with or without additionnal items like delete button.
-<%def name="route_card(route)">\
-    <a href="${request.route_url('routes_view', id=route['document_id'], lang=route['locales'][0]['lang'])}">
-      <span class="list-item-title">${show_route_title(route['locales'][0])}</span>
-      % if lang != route['locales'][0]:
-      <span class="list-item-lang"> (${route['locales'][0]['lang']})</span><br>
-      % endif
-      <div class="list-item-info">
-        ${get_document_min_max(route, 'elevation')}
-        <div class="route-activities">
-          ${get_route_activities(route, 'right')}
-        </div>
-      </div>
-    </a>
-</%def>
-
-
-## Draw waypoint card with or without additionnal items like delete button.
-<%def name="waypoint_card(waypoint)">\
-  <a href="${request.route_url('waypoints_view', id=waypoint['document_id'], lang=waypoint['locales'][0]['lang'])}">
-    <span class="list-item-title">${waypoint['locales'][0]['title']}</span>
-    % if lang != waypoint['locales'][0]:
-    <span class="list-item-lang"> (${waypoint['locales'][0]['lang']})</span><br>
-    % endif
-
-    <span class="list-item-info">
-      % if waypoint.get('elevation'):
-      <p><b  class="value-title" translate>elevation</b>:  <span class="value"> ${waypoint['elevation']} m </span></p>
-      % endif
-      <span class="icon-${waypoint['waypoint_type']} waypoint-type"></span>
-      <span x-translate>${waypoint['waypoint_type']}</span>
-    </span>
-  </a>
-</%def>
-
-
-<%def name="outing_card(outing)">\
-  <a href="${request.route_url('outings_view', id=outing['document_id'], lang=outing['locales'][0]['lang'])}">
-    <div class="outing-author text-center">
-      <div class="outing-date">{{ '${outing['date_start']}' | date: 'dd/MM/yyyy'}}</div>
-      <span class="icon-user"></span><br>
-      <b class="author-name">${outing['author']['username']}</b>
-    </div>
-    <div class="list-item-info">
-      <span class="list-item-title outing">${show_attr(outing['locales'][0], 'title', False)} (${outing['locales'][0]['lang']})</span>
-      ${get_document_min_max(outing, 'elevation')}
-      <div class="route-activities">
-        ${get_route_activities(outing, 'right')}
-      </div>
-    </div>
-  </a>
 </%def>
 
 
