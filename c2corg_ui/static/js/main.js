@@ -12,7 +12,6 @@ goog.require('app.AccountController');
 goog.require('app.addAssociationDirective');
 goog.require('app.advancedSearchDirective');
 goog.require('app.alertsDirective');
-goog.require('app.associationCardDirective');
 goog.require('app.authDirective');
 goog.require('app.cardDirective');
 goog.require('app.constants');
