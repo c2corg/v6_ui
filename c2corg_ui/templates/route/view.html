@@ -69,7 +69,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
   });
 </%block>
 
-<header  class="view-details-title">
+<header class="view-details-title">
   <h1>${show_route_title(locale)}
     <label class="badge route" onClick="window.location='${request.route_url('routes_index')}' ">
       <span class="glyphicon glyphicon-arrow-right"></span>&nbsp;<span translate>route</span>
@@ -156,7 +156,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
         <section>
           <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
             <label translate>Add association</label>
-            <app-add-association parent-id="${route_id}" added-documents="added" parent-doc-type="routes" dataset="wr"></app-add-association>
+            <app-add-association parent-id="${route_id}" parent-doctype="routes" dataset="wr"></app-add-association>
           </div>  
           % if len(route['associations']['recent_outings']['outings']) == 0:
             <div class="add-outing">

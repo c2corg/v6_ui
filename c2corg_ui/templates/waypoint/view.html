@@ -170,7 +170,7 @@ geometry4326 = geometry
       <section>
         <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
           <label translate>Add association</label>
-          <app-add-association parent-id="${waypoint_id}" added-documents="added" parent-doc-type="waypoints" dataset="wr"></app-add-association>
+          <app-add-association parent-id="${waypoint_id}" parent-doctype="waypoints" dataset="wr"></app-add-association>
         </div>
         ${show_associated_waypoints(waypoint, 'waypoint_parents')}
         ${show_associated_waypoints(waypoint, 'waypoint_children')}
