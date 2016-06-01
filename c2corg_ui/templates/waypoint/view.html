@@ -1,6 +1,7 @@
 <%!
 from c2corg_common.attributes import activities, image_categories, image_types
 from c2corg_ui.templates.utils import get_lang_lists
+from json import dumps
 %>
 
 <%inherit file="../base.html"/>
@@ -61,6 +62,13 @@ geometry4326 = geometry
     null
   % endif
   );
+
+  module.value('documentData', {
+    % if waypoint.get('orientations'):
+      "orientations": [${'"' + '","'.join(waypoint['orientations']) + '"' if len(waypoint['orientations']) else '' | n}],
+    % endif
+    "associations": ${dumps(waypoint.get('associations')) | n}
+  });
 </%block>
 
 <header class="view-details-title">
@@ -200,10 +208,6 @@ ${show_float_buttons(None, 'waypoints', waypoint_id, lang, other_langs, missing_
 
 <div class="ng-hide" ng-init="detailsCtrl.documentService.document = ${waypoint}">
   <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
-  <span ng-init="document.associations = ${waypoint.get('associations')}"></span>
-  % if waypoint.get('orientations'):
-    {{document.orientations = "${waypoint['orientations']}"}}
-  % endif
   ${delete_association_confirmation_modal()}
 </div>
 

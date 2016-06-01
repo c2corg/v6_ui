@@ -1,6 +1,7 @@
 <%!
 from c2corg_common.attributes import activities, image_categories, image_types
 from c2corg_ui.templates.utils import get_lang_lists
+from json import dumps
 %>
 
 <%inherit file="../base.html"/>
@@ -59,6 +60,13 @@ other_langs, missing_langs = get_lang_lists(route, lang)
       null
     % endif
   );
+
+  module.value('documentData', {
+    % if route.get('orientations'):
+      "orientations": [${'"' + '","'.join(route['orientations']) + '"' if len(route['orientations']) else '' | n}],
+    % endif
+    "associations": ${dumps(route.get('associations')) | n}
+  });
 </%block>
 
 <header  class="view-details-title">
@@ -191,10 +199,6 @@ ${show_float_buttons(None, 'routes', route_id, lang, other_langs, missing_langs)
 
 <div class="ng-hide" ng-init="detailsCtrl.documentService.document = ${route}">
   <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
-  <span ng-init="document.associations = ${route.get('associations')}"></span>
-  % if route.get('orientations'):
-    {{document.orientations = "${route['orientations']}"}}
-  % endif
   ${delete_association_confirmation_modal()}
 </div>
 

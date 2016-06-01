@@ -1,6 +1,7 @@
 <%!
 from c2corg_common.attributes import activities, image_categories, image_types
 from c2corg_ui.templates.utils import get_lang_lists
+from json import dumps
 %>
 
 <%inherit file="../base.html"/>
@@ -45,6 +46,10 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
         "module": "outings"
       }
     }]
+  });
+
+  module.value('documentData', {
+    "associations": ${dumps(outing.get('associations')) | n}
   });
 </%block>
 
@@ -167,7 +172,6 @@ ${show_float_buttons(outing['associations']['users'], 'outings', outing_id, lang
 
 <div class="ng-hide" ng-init="detailsCtrl.documentService.document = ${outing}">
   <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
-  <span ng-init="document.associations = ${outing.get('associations')}"></span>
   ${delete_association_confirmation_modal()}
 </div>
 
