@@ -1,23 +1,17 @@
-<section ng-if="document['associations']['waypoints'].length > 0" class="associated-section">
+<section ng-show="document.associations.waypoints.length > 0" class="associated-section">
   <label translate>Associated waypoints</label>
-  <article class="associated-documents" >
-    <div class="list-item" 
-         ng-repeat="waypoint in document['associations']['waypoints'] | orderBy: 'waypoint_type'" 
-         ng-class="{'main-waypoint': document['main_waypoint_id'] === waypoint['document_id']}" 
-         ng-style="document['main_waypoint_id'] === waypoint['document_id'] && { 'order' : '-1'}  ">
-      
-      <%include file="../waypoint/card.html"/>
-      <div translate ng-if="document.main_waypoint_id === waypoint.document_id" ng-init="document.main_waypoint_title = waypoint.locales[0].title">main waypoint</div>
-      <button class="btn btn-sm btn-default" 
-              ng-click="document.main_waypoint_id = waypoint.document_id; document.main_waypoint_title = waypoint.locales[0].title" 
-              ng-if="document.main_waypoint_id != waypoint.document_id" translate>
+  <article class="associated-documents">
+    <div class="list-item"
+         ng-repeat="waypoint in document.associations.waypoints | orderBy: 'waypoint_type'"
+         ng-class="{'main-waypoint': document.main_waypoint_id === waypoint.document_id}">
+      <app-card app-card-doc="waypoint" app-card-disable-click="true"></app-card>
+      <div ng-if="document.main_waypoint_id === waypoint.document_id" translate>main waypoint</div>
+      <button class="btn btn-sm btn-default" translate
+              ng-click="document.main_waypoint_id = waypoint.document_id"
+              ng-if="document.main_waypoint_id != waypoint.document_id">
         set as main waypoint
       </button>
-       <span class="glyphicon glyphicon-trash" ng-click="editCtrl.documentService.removeAssociation(waypoint.document_id, 'waypoints')" ng-if="userCtrl.auth.isAuthenticated()"></span>
-      
+      <span class="glyphicon glyphicon-trash" ng-click="editCtrl.documentService.removeAssociation(waypoint.document_id, 'waypoints')"></span>
     </div>
-    <article class="list-item" ng-repeat="doc in added| filter:{'documentType': 'waypoints'}">
-      <app-association-card parent-id="document.document_id" doc="document" added-documents="added"></app-association-card>
-    </article>
   </article>
 </section>

@@ -13,9 +13,18 @@ updating_doc = outing_id and outing_lang
 
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
 
+<%block name="moduleConstantsValues">
+  module.value('mapFeatureCollection', null);
+  module.value('documentData', {
+    "associations": {}
+  });
+</%block>
+
 <section class="create-edit-document">
   
-  <h1 ng-cloak ng-init="id=${outing_id if outing_id else 0}" ng-bind="id ? ('Editing an outing' | translate) : ('Creating an outing' | translate)" class="text-center"></h1>
+  <h1 ng-cloak ng-init="id=${outing_id if outing_id else 0}"
+      ng-bind="id ? ('Editing an outing' | translate) : ('Creating an outing' | translate)"
+      class="text-center"></h1>
   
   <form app-loading app-document-editing="outings" app-document-editing-model="outing"
   % if updating_doc:
@@ -71,7 +80,6 @@ updating_doc = outing_id and outing_lang
 
             ## ROUTE TAKEN
             <div class="data full" class="form-group">
-              ## todo: add a taken route as card
               <label translate>routes_taken *</label>
               <app-simple-search parent-id="document.document_id" app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="r"></app-simple-search>
             </div>
@@ -183,8 +191,6 @@ updating_doc = outing_id and outing_lang
             </section>
           </div>
         </section>
-
-
       </div>
 
       <div class="step step-2">

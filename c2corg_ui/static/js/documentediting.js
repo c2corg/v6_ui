@@ -48,22 +48,23 @@ app.module.directive('appDocumentEditing', app.documentEditingDirective);
  * @param {app.Authentication} appAuthentication
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {app.Alerts} appAlerts
- * @param {app.Document} appDocument
  * @param {app.Api} appApi Api service.
  * @param {string} authUrl Base URL of the authentication page.
+ * @param {app.Document} appDocument
+ * @param {appx.DocumentData} documentData Some document data.
  * @constructor
  * @ngInject
  * @export
  */
 app.DocumentEditingController = function($scope, $element, $attrs,
-    appAuthentication, ngeoLocation, appAlerts, appApi, authUrl, appDocument) {
+    appAuthentication, ngeoLocation, appAlerts, appApi, authUrl,
+    appDocument, documentData) {
 
   /**
    * @type {app.Document}
    * @export
    */
   this.documentService = appDocument;
-
 
   /**
    * @type {ngeo.Location}
@@ -139,6 +140,12 @@ app.DocumentEditingController = function($scope, $element, $attrs,
   this.alerts_ = appAlerts;
 
   /**
+   * @type {appx.DocumentData}
+   * @private
+   */
+  this.document_ = documentData;
+
+  /**
    * first next step would be 2 by default
    * @export
    */
@@ -185,7 +192,7 @@ app.DocumentEditingController = function($scope, $element, $attrs,
    */
   this.api_ = appApi;
 
-  // allow association only new outing  to existing route
+  // allow association only new outing to existing route
   if (this.ngeoLocation_.hasParam('routes')) {
     this.urlParams_ = {'routes': this.ngeoLocation_.getParam('routes')};
     this.pushDocToAssociations_();
@@ -231,6 +238,8 @@ app.DocumentEditingController.prototype.successRead_ = function(response) {
         (this.geojsonFormat_.readGeometry(str));
     return this.getCoordinatesFromPoint_(point);
   }).bind(this);
+
+  this.document_.associations = data['associations'];
 
   if ('geometry' in data && data['geometry']) {
     var geometry = data['geometry'];
@@ -583,13 +592,14 @@ app.DocumentEditingController.prototype.animateBar_ = function(step, direction) 
     }
 
     $('.progress-bar-edit')
-            .css({'background-image': '-webkit-linear-gradient(left, ' + green + ' 0,' + green + ' ' + willBe + '%,' + gray + ' ' + (willBe + 7) + '%,' + gray + ' 0%)'})
-            .css({'background-image': '-o-linear-gradient(left, ' + green + ' 0,' + green + ' ' + willBe + '%,' + gray + ' ' + (willBe + 7) + '%,' + gray + ' 0%)'})
-            .css({'background-image': '-moz-linear-gradient(left, ' + green + ' 0,' + green + ' ' + willBe + '%,' + gray + ' ' + (willBe + 7) + '%,' + gray + ' 0%)'})
-            .css({'background-image': '-ms-linear-gradient(left, ' + green + ' 0,' + green + ' ' + willBe + '%,' + gray + ' ' + (willBe + 7) + '%,' + gray + ' 0%)'})
-            .css({'background-image': 'linear-gradient(left, ' + green + ' 0,' + green + ' ' + willBe + '%,' + gray + ' ' + (willBe + 7) + '%,' + gray + ' 0%)'});
+      .css({'background-image': '-webkit-linear-gradient(left, ' + green + ' 0,' + green + ' ' + willBe + '%,' + gray + ' ' + (willBe + 7) + '%,' + gray + ' 0%)'})
+      .css({'background-image': '-o-linear-gradient(left, ' + green + ' 0,' + green + ' ' + willBe + '%,' + gray + ' ' + (willBe + 7) + '%,' + gray + ' 0%)'})
+      .css({'background-image': '-moz-linear-gradient(left, ' + green + ' 0,' + green + ' ' + willBe + '%,' + gray + ' ' + (willBe + 7) + '%,' + gray + ' 0%)'})
+      .css({'background-image': '-ms-linear-gradient(left, ' + green + ' 0,' + green + ' ' + willBe + '%,' + gray + ' ' + (willBe + 7) + '%,' + gray + ' 0%)'})
+      .css({'background-image': 'linear-gradient(left, ' + green + ' 0,' + green + ' ' + willBe + '%,' + gray + ' ' + (willBe + 7) + '%,' + gray + ' 0%)'});
   }.bind(this), 10);
 };
+
 
 /**
  * Update steps, depending on the waypoint type.
@@ -599,6 +609,7 @@ app.DocumentEditingController.prototype.animateBar_ = function(step, direction) 
 app.DocumentEditingController.prototype.updateMaxSteps = function(waypointType) {
   this.max_steps = app.constants.STEPS[waypointType] || 3;
 };
+
 
 /**
  * @param {Object} outing
@@ -671,5 +682,5 @@ app.DocumentEditingController.prototype.setOrientation = function(orientation, d
   app.utils.pushToArray(document, 'orientations', orientation, e);
 }
 
-app.module.controller('appDocumentEditingController', app.DocumentEditingController);
 
+app.module.controller('appDocumentEditingController', app.DocumentEditingController);
