@@ -49,8 +49,8 @@ geometry4326 = geometry
         "properties": {
           "title": "${locale['title']}",
           "documentId": ${waypoint['document_id']},
-          % if waypoint['waypoint_type'] != 'climbing_outdoor':
-          "elevation": ${waypoint['elevation']},
+          % if waypoint['elevation'] is not None:
+            "elevation": ${waypoint['elevation']},
           % endif
           "module": "waypoints",
           "type": "${waypoint['waypoint_type']}"
