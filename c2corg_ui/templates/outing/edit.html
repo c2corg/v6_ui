@@ -87,7 +87,7 @@ updating_doc = outing_id and outing_lang
             <section class="section associations">
               <div class="data full route-associations">
                 <h5 translate ng-show="document.associations.routes.length == 0">choose at least one route taken during the outing.</h5>
-                <%include file="../route/associated.html"/>
+                <%include file="../route/edit_associated.html"/>
               </div>
             </section>
 
@@ -186,7 +186,7 @@ updating_doc = outing_id and outing_lang
             </div>
             <section class="section associations" ng-if="outing.associations.waypoints.length > 0">
               <div class="data full route-associations">
-                <%include file="../waypoint/associated.html"/>
+                <%include file="../waypoint/edit_associated.html"/>
               </div>
             </section>
           </div>
