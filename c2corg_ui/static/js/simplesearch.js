@@ -305,7 +305,7 @@ app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
             hasAssociation = this.documentService_.hasAssociation(type,  doc.document_id);
 
             var locale = doc.locales[0];
-            doc.label = type === ('routes' && locale.title_prefix) ? locale.title_prefix + ' : ' : '';
+            doc.label = (type === 'routes' && locale.title_prefix) ? locale.title_prefix + ' : ' : '';
             doc.label += locale.title;
 
             if (currentLang !== locale.lang) {
