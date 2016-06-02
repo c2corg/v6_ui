@@ -58,7 +58,7 @@ closure_library_path = settings.get('closure_library_path')
       </div>
       <app-user></app-user>
       
-      <button class="btn orange-btn" id="add-my-outing" protected-url-btn url="'${request.route_url('outings_add')}'"><span class="glyphicon glyphicon-plus-sign"></span><span translate>add an outing</span></button>
+      <button class="btn orange-btn" id="add-my-outing" protected-url-btn url="${request.route_url('outings_add')}"><span class="glyphicon glyphicon-plus-sign"></span><span translate>add an outing</span></button>
       
       <div class="lang-user">
         <div class="lang-selector">
