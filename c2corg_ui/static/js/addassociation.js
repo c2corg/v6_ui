@@ -42,7 +42,6 @@ app.module.directive('appAddAssociation', app.addAssociationDirective);
  * @constructor
  * @struct
  * @ngInject
- * @struct
  */
 app.AddAssociationController = function(appApi, documentData) {
 
@@ -106,11 +105,11 @@ app.AddAssociationController.prototype.associate = function(doc) {
   this.api_.associateDocument(parentId, childId).then(function() {
     if (this.parentDoctype === 'waypoints' && doc['type'] === 'w') {
       // associating a waypoint to a waypoint
-      this.document_.associations.waypoint_children.push(doc);
+      this.document_.associations.waypoint_children.push(/** @type appx.Waypoint */ (doc));
     } else if (this.parentDoctype === 'waypoints' && doc['type'] === 'r') {
       // associating a route to a waypoint
       this.document_.associations.all_routes.total++;
-      this.document_.associations.all_routes.routes.push(doc);
+      this.document_.associations.all_routes.routes.push(/** @type appx.Route */ (doc));
     } else {
       var doctype = app.utils.getDoctype(doc['type']);
       this.document_.associations[doctype].push(doc);
