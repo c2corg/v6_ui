@@ -35,7 +35,6 @@
     <span class="ng-hide">
       {{editCtrl.updateMaxSteps(waypoint.waypoint_type)}} 
       {{editCtrl.waypoint_type = waypoint.waypoint_type}}
-      {{document = waypoint}}
       {{type = waypoint.waypoint_type}}
     </span>
     
@@ -136,7 +135,7 @@
             </div>
             
             ## ELEVATION MIN
-            <div id="elevation_min-group" ng-if="type == 'access'" class="form-group data third" ng-class="{ 'has-error': editForm.elevation_min.$touched && editForm.elevation_min.$invalid, 'has-success': editForm.elevation_min.$valid && waypoint.elevation_min}">
+            <div id="elevation_min-group" ng-if="type == 'access'" class="form-group data third" ng-class="{ 'has-error': editForm.elevation_min.$touched && editForm.elevation_min.$invalid, 'has-success': waypoint.elevation_min}">
               <label translate>elevation_min</label>
               <div class="input-group">
                 <input type="number" name="elevation_min" min="0" ng-model="waypoint.elevation_min" class="form-control" max="9999"/>
@@ -706,7 +705,7 @@
           <h2 class="heading show-phone" translate>associations</h2>
           <div class="content">
             ## wr = waypoints, routes
-            <app-add-association parent-id="document.document_id" added-documents="added" dataset="wr"></app-add-association>
+            <app-simple-search parent-id="document.document_id" app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="wr"></app-simple-search>
             <%include file="../route/associated.html"/>
             <%include file="../waypoint/associated.html"/>
           </div>
@@ -780,13 +779,17 @@
           </div>
         </section>
         
-        <p class="bottom-btns">
-          <button type="submit" class="btn orange-btn btn-lg" ng-disabled="editForm.$invalid || editForm.$pristine" translate>Save</button>
+        <p class="action-buttons float-buttons">
+          <button type="submit" class="btn orange-btn btn-lg float-button" ng-disabled="editForm.$invalid || editForm.$pristine" tooltip-placement="left" uib-tooltip="{{'Save' | translate}}">
+            <span class="glyphicon glyphicon-ok"></span>
+          </button>
           <%
           view_url = request.route_url('waypoints_view', id=waypoint_id, lang=waypoint_lang) if updating_doc else ''
           index_url = request.route_url('waypoints_index')
           %>
-          <button type="button" class="btn gray-btn btn-lg" ng-click="editCtrl.cancel('${view_url}', '${index_url}')" translate>Cancel</button>
+          <button type="button" class="btn gray-btn btn-lg float-button" ng-click="editCtrl.cancel('${view_url}', '${index_url}')" tooltip-placement="left" uib-tooltip="{{'Cancel' | translate}}">
+            <span class="glyphicon glyphicon-remove"></span>
+          </button>
         </p>
       </div>
 

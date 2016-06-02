@@ -16,8 +16,7 @@ app.suggestionDirective = function($compile, $sce, $templateCache) {
     restrict: 'E',
     scope: true,
     /**@suppress {checkTypes} for JSON.parse */
-    link: function(scope, element, attrs) {
-
+    link: function(scope, element) {
       scope.highlight = function(text, search) {
         if (search) { // i = case insensitive
           return $sce.trustAsHtml(text.replace(new RegExp(search, 'ig'), '<span class="tt-highlight">$&</span>'));
@@ -27,9 +26,9 @@ app.suggestionDirective = function($compile, $sce, $templateCache) {
 
       var document = scope.$parent['doc'];
       angular.extend(scope, document);
-      var activities = document['activities'];
 
-      if (activities) {
+      if (document['activities']) {
+        var activities = document['activities'];
         var activitiesHtml = '';
         for (var i = 0; i < activities.length; i++) {
           activitiesHtml += '<span class="icon-' + activities[i] + '"></span>';

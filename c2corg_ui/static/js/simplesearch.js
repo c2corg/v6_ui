@@ -3,16 +3,16 @@ goog.provide('app.simpleSearchDirective');
 
 goog.require('app');
 goog.require('app.utils');
+goog.require('app.Document');
 /** @suppress {extraRequire} */
 goog.require('ngeo.searchDirective');
 
 /**
  * The directive for the auto-complete search field shown in the header
  * of every page.
- * @param {angular.$compile} $compile Angular compile service.
  * @return {angular.Directive} Directive Definition Object.
  */
-app.simpleSearchDirective = function($compile) {
+app.simpleSearchDirective = function() {
   return {
     restrict: 'E',
     controller: 'AppSimpleSearchController',
@@ -26,9 +26,13 @@ app.simpleSearchDirective = function($compile) {
          * @param {angular.Scope} $scope Scope.
          * @param {angular.JQLite} element Element.
          */
-        function($scope, element) {
+        function($scope, element, attrs, ctrl) {
 
           var phoneScreen = app.constants.SCREEN.SMARTPHONE;
+
+          if ($(element).closest('app-add-association').length) {
+            ctrl.associationContext_ = true;
+          }
 
           // Empty the search field on focus and blur.
           $('.page-header').find('input').on('focus blur', function() {
@@ -89,12 +93,21 @@ app.module.directive('appSimpleSearch', app.simpleSearchDirective);
  * @param {!angular.Scope} $scope Angular scope.
  * @param {angular.$compile} $compile Angular compile service.
  * @param {angular.$templateCache} $templateCache service
+ * @param {app.Document} appDocument service
+ * @param {app.Authentication} appAuthentication service
  * @param {angular.Attributes} $attrs Angular attributes.
  * @param {string} apiUrl Base URL of the API.
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @ngInject
  */
-app.SimpleSearchController = function($scope, $compile, $attrs, apiUrl, gettextCatalog, $templateCache) {
+app.SimpleSearchController = function(appDocument, $scope, $compile, $attrs, apiUrl,
+    gettextCatalog, $templateCache, appAuthentication) {
+
+  /**
+   * @type {app.Document}
+   * @private
+   */
+  this.documentService_ = appDocument;
 
   /**
    * Bound from directive.
@@ -116,6 +129,11 @@ app.SimpleSearchController = function($scope, $compile, $attrs, apiUrl, gettextC
     this.selectHandler = undefined;
   }
 
+  /**
+   * @type  {app.Authentication} appAuthentication
+   * @private
+   */
+  this.auth_ = appAuthentication;
 
   /**
    * @type {angular.$templateCache}
@@ -134,7 +152,6 @@ app.SimpleSearchController = function($scope, $compile, $attrs, apiUrl, gettextC
    * @private
    */
   this.scope_ = $scope;
-
 
   /**
    * @type {angularGettext.Catalog}
@@ -156,17 +173,39 @@ app.SimpleSearchController = function($scope, $compile, $attrs, apiUrl, gettextC
    * @type {Array.<TypeaheadDataset>}
    * @export
    */
-  this.datasets = [
-    this.createDataset_('waypoints'),
-    this.createDataset_('routes'),
-    this.createDataset_('outings')
-  ];
+  this.datasets = [];
 
   /**
    * @type {string}
    * @private
    */
-  this.datasetLimit_ = $attrs['appDataset'];
+  this.datasetLimit_ = $attrs['dataset'];
+
+  // create only given datasets
+  for (var i = 0; i < this.datasetLimit_.length; i++) {
+    switch (this.datasetLimit_[i]) {
+      case 'u':
+        this.datasets.push(this.createDataset_('users'));
+        break;
+      case 'o':
+        this.datasets.push(this.createDataset_('outings'));
+        break;
+      case 'w':
+        this.datasets.push(this.createDataset_('waypoints'));
+        break;
+      case 'r':
+        this.datasets.push(this.createDataset_('routes'));
+        break;
+      default:
+        break;
+    }
+  }
+
+  /**
+   * @type {boolean}
+   * @private
+   */
+  this.associationContext_ = false;
 
   /**
    * @type {ngeox.SearchDirectiveListeners}
@@ -189,7 +228,9 @@ app.SimpleSearchController.prototype.createDataset_ = function(type) {
     contents : type,
     source: bloodhoundEngine.ttAdapter(),
     display: function(doc) {
-      return doc.label;
+      if (doc) {
+        return doc.label;
+      }
     },
     limit: 20,
     templates: {
@@ -200,8 +241,12 @@ app.SimpleSearchController.prototype.createDataset_ = function(type) {
         return '<p class="suggestion-more"><a href="/' + type + '/keyword/' + encodeURI(doc['query']) + '" class="green-text" translate>More results</a></p>';
       },
       suggestion: function(doc) {
-        this.scope_['doc'] = doc;
-        return this.compile_('<app-suggestion  class="tt-suggestion"></app-suggestion>')(this.scope_);
+        if (doc) {
+          this.scope_['doc'] = doc;
+          return this.compile_('<app-suggestion class="tt-suggestion"></app-suggestion>')(this.scope_);
+        } else {
+          return '<div class="ng-hide"></div>';
+        }
       }.bind(this),
       empty: function(res) {
         if ($('.header.empty').length === 0) {
@@ -230,16 +275,16 @@ app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
       rateLimitWait: 50,
       prepare: (function(query, settings) {
 
-        var url = settings['url'] +
-                '&pl=' + this.gettextCatalog_.currentLanguage;
+        var url = settings['url'] + '&pl=' + this.gettextCatalog_.currentLanguage;
 
         if (this.datasetLimit_) {
-          if (this.datasetLimit_.length === 1) {
-            url = url + '&t=' + this.datasetLimit_;
-          } else {
-            // you receive for ex 'wru' (waypoints, routes, users) -> split into w,r,u
-            this.datasetLimit_ = this.datasetLimit_.split('').join(',');
+          // add the Auth header if searching for users
+          if (this.datasetLimit_.indexOf('u') > -1 && this.auth_.isAuthenticated()) {
+            settings['headers'] = {
+              'Authorization': 'JWT token="' + this.auth_.userData.token + '"'
+            };
           }
+          url = url + '&t=' + this.datasetLimit_.split('').join(',');
         }
         settings['url'] = url.replace('%QUERY', encodeURIComponent(query));
         return settings;
@@ -251,20 +296,26 @@ app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
         if (documentResponse) {
           var documents = documentResponse.documents;
           var currentLang = this.gettextCatalog_.currentLanguage;
+          var hasAssociation;
 
           return documents.map(function(/** appx.SimpleSearchDocument */ doc) {
+            hasAssociation = this.documentService_.hasAssociation(type,  doc.document_id);
+
             var locale = doc.locales[0];
-            doc.label = type === 'routes' && locale.title_prefix ?
-                    locale.title_prefix + ' : ' : '';
+            doc.label = type === ('routes' && locale.title_prefix) ? locale.title_prefix + ' : ' : '';
             doc.label += locale.title;
 
             if (currentLang !== locale.lang) {
               doc.label += ' (' + locale.lang + ')';
             }
-
             doc.documentType = type;
-            return doc;
-          });
+
+            // don't show already associated docs in the results, but only in the app-add-association
+            // -> everything should be shown in the main simple-search.
+            if (!this.associationContext_ || (this.associationContext_ && !hasAssociation)) {
+              return doc;
+            }
+          }.bind(this));
         }
       }).bind(this)
     }

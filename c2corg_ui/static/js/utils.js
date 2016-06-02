@@ -14,6 +14,8 @@ app.utils.getDoctype = function(type) {
       return 'routes';
     case 'o':
       return 'outings';
+    case 'u':
+      return 'users';
     case 'i':
       return 'images';
     default:
@@ -116,9 +118,7 @@ app.utils.animateHeaderIcon = function(e) {
  * @param {string} date
  */
 app.utils.formatDate = function(date) {
-  if (typeof date === 'string') {
-    return new Date(date);
-  }
+  return new Date(date);
 };
 
 

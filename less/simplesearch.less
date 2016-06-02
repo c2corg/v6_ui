@@ -25,13 +25,16 @@
   }
 }
 
-.view-details-associations, .route-associations, .associations, .associated-documents {
+.view-details-associations, .route-associations, .associations, .associated-documents, #participants-group {
   .tt-open {
     max-height: 400px;
     overflow-y: scroll;
     @media @phone {
       max-height: 300px;
     }
+  }
+  app-simple-search {
+    margin-bottom: 10px;
   }
 }
 
@@ -151,6 +154,10 @@ span.twitter-typeahead {
 .tt-menu {
   border: none !important;
   min-width: 35vw !important;
+  
+  @media @phone {
+    min-width: 80vw !important;
+  }
 
   .suggestion-more {
     float: right;

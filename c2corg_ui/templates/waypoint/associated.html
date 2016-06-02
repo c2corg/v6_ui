@@ -7,13 +7,13 @@
          ng-style="document['main_waypoint_id'] === waypoint['document_id'] && { 'order' : '-1'}  ">
       
       <%include file="../waypoint/card.html"/>
-      <div translate ng-if="document.main_waypoint_id === waypoint.document_id">main waypoint</div>
+      <div translate ng-if="document.main_waypoint_id === waypoint.document_id" ng-init="document.main_waypoint_title = waypoint.locales[0].title">main waypoint</div>
       <button class="btn btn-sm btn-default" 
-              ng-click="document.main_waypoint_id = waypoint.document_id" 
-              ng-if="document.main_waypoint_id != waypoint.document_id">
+              ng-click="document.main_waypoint_id = waypoint.document_id; document.main_waypoint_title = waypoint.locales[0].title" 
+              ng-if="document.main_waypoint_id != waypoint.document_id" translate>
         set as main waypoint
       </button>
-      <app-delete-association parent-id="document.document_id" child-id="waypoint.document_id" ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
+       <span class="glyphicon glyphicon-trash" ng-click="editCtrl.documentService.removeAssociation(waypoint.document_id, 'waypoints')" ng-if="userCtrl.auth.isAuthenticated()"></span>
       
     </div>
     <article class="list-item" ng-repeat="doc in added| filter:{'documentType': 'waypoints'}">

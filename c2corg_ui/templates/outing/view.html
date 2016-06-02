@@ -139,7 +139,7 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
     <span class="lead">
       <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
         <label translate>Add association</label>:
-        <app-add-association parent-id="${outing_id}" added-documents="added"></app-add-association>
+        <app-add-association parent-id="${outing_id}" added-documents="added" dataset="r"></app-add-association>
       </div>
       <section>
         ${show_associated_routes(outing)}
@@ -165,7 +165,7 @@ ${show_float_buttons(outing['associations']['users'], 'outings', outing_id, lang
   <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);">&nbsp;<span class="glyphicon glyphicon-menu-up"></span></button>
 </div>
 
-<div class="ng-hide">
+<div class="ng-hide" ng-init="detailsCtrl.documentService.document = ${outing}">
   <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
 </div>
 ${photoswipe_gallery()}

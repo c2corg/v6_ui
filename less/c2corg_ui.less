@@ -22,7 +22,7 @@ html, body{
   margin: 0;
   width: 100%;
   overflow-x: hidden;
-  background-color: rgba(235,228,209,.1);
+  background-color: @body-color;
 }
 
 .ol-zoom {
@@ -89,14 +89,9 @@ html, body{
   }
 }
 
-
-
 h1 {
   font-size: 3em;
 }
-
-
-
 
 #waypoints, #routes {
   padding-right: 2%;
@@ -238,7 +233,8 @@ main {
 
   ul {
     display:inline-block;
-
+    margin-bottom: 0;
+    
     li {
       display:inline-block;
 
@@ -325,7 +321,7 @@ main {
     transition: 0.1s ease-in-out;
   }
   @media @tablet {
-    margin-bottom: 3%;
+    margin-bottom: 10px;
     border-width: 1px;
   }
   @media @phone {
@@ -367,7 +363,9 @@ main {
         font-size: 3em;
       }
     }
-
+    .glyphicon-trash {
+      top: 65% !important;
+    }
   }
   a {
     display: block;
@@ -435,7 +433,7 @@ main {
     margin-left:0;
   }
 }
-.documents-list-section, .map-right .map, .auth-form, .not-found-section {
+.documents-list-section, .map-right .map, .not-found-section {
   height: calc(~"100vh -" @page-header-height);
   height: -moz-calc(~"100vh -" @page-header-height);
   height: -webkit-calc(~"100vh -" @page-header-height);
@@ -468,7 +466,7 @@ main {
   }
 }
 .list {
-  padding: 0 2% 2% 2%;
+  padding: 1% 2% 2% 2%;
   .list-item {
     display: inline-table;
     width: 100%;
@@ -530,7 +528,6 @@ app-user{
     display: none;
   }
 }
-
 
 .search {
   background-color: #FBFBFB !important;
@@ -598,7 +595,7 @@ app-simple-search {
   padding-left: 10px;
   margin-right: 10px;
   background: @C2C-orange;
-  width: 30%;
+  width: 25%;
   
   .glyphicon {
     color: #F9F9F9;
@@ -611,16 +608,18 @@ app-simple-search {
 }
 
 .page-header {
+  .flex();
+  background-color: @body-color;
   position: absolute;
-  top: 0;
   width: 100%;
   border-bottom: 2px solid @C2C-orange !important;
   justify-content: flex-end;
-  margin-top: 5px;
-  border: 0;
-  .flex();
+  margin-top: 0;
+  top: 0;
   margin-bottom: 0;
+  border: 0;
   padding-bottom: 5px;
+  padding-top: 5px;
 
   @media @phone {
     position: fixed;
@@ -721,8 +720,8 @@ app-simple-search {
   width: 80px;
 
   @media @phone {
-    display: block;
     position: fixed;
+    display: block;
     top: 6px;
   }
   @media @tablet {
@@ -800,7 +799,9 @@ app-alerts {
 }
 
 .auth-form {
-  padding: 8% 10% 0 10%;
+  padding: 0 10% 0 10%;
+  margin-top: 100px;
+      
   section {
     background-color: white;
     padding-top: 0.01%;
@@ -989,7 +990,6 @@ ul {
 .select-document {
   width: 170px;
   margin-right: 10px;
-  margin-bottom: 5px;
 }
 
 .section.associations, .view-details-section {
@@ -1007,6 +1007,7 @@ ul {
   }
   app-add-association, .associated-section {
     width: 100%;
+    margin-top: 10px;
   }
   .associated-documents {
     max-height: 600px;
@@ -1017,12 +1018,13 @@ ul {
 
     app-delete-association {
       position: absolute;
-      bottom: 0;
+      bottom: 30px;
       right: 0;
       margin-right: 5px;
-      font-size: 1.2em;
+      font-size: 15px;
+      
       @media @phone {
-        font-size: .9em;
+        font-size: 13px;
       }
       .glyphicon {
         color: red;
@@ -1031,7 +1033,14 @@ ul {
         padding: 5px;
       }
     }
-
+    .glyphicon-trash:not(app-delete-association) {
+      position: absolute;
+      color: red;
+      font-size: 1.3em;
+      right: 0;
+      margin-right: 5px;
+      top: 80%;
+    }
   }
   .route-activities {
     justify-content: flex-start !important;

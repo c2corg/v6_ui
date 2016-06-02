@@ -41,18 +41,7 @@
     font-size: 0.6em;
     margin: 0;
   }
-  .dropdown-menu {
-    top: -115%;
-    left: -100%;
-    position: relative;
-    float: right;
-    z-index: 1100;
-    
-    @media @phone{
-      left: -165px;
-    }
 
-  }
   .float-button-text {
     display: none;
     
@@ -109,7 +98,7 @@
   z-index: 3;
   transition: 0.4s;
   @media all and (max-height: 400px) {
-        top: 14vh;
+    top: 14vh;
   }
   @media @phone {
     padding: 2% 5px 1% 5px;
@@ -131,5 +120,17 @@
   }
   .dropdown-toggle {
     box-shadow: none !important;
+  }
+  .dropdown-menu {
+    left: -100%;
+    position: relative;
+    float: right;
+    margin-top: -55px;
+
+    @media @phone{
+      left: -165px;
+      position: absolute;
+      top: -80px;
+    }
   }
 }

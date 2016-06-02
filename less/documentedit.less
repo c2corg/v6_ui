@@ -240,7 +240,7 @@
       
       &.waypoint-association {
         min-height:  300px;
-        app-search {
+        app-simple-search {
           height: 37px;
         }
       }
@@ -333,6 +333,7 @@
   
   .map-edit {
     margin-top: -5px;
+    margin-bottom: 10px;
     flex-basis: 100%;
     @media @phone {
       margin-top: 8px;
@@ -477,9 +478,11 @@
   } 
 }
 
-.bottom-btns {
-  text-align: center;
-  margin-bottom: 50px;
+.action-buttons {
+  margin-top: 100px;
+  .glyphicon-ok {
+    color: white !important;
+  }
 }
 #title-group {
   flex-basis: 75%;

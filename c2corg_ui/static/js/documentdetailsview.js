@@ -2,6 +2,7 @@ goog.provide('app.ViewDetailsController');
 goog.provide('app.viewDetailsDirective');
 
 goog.require('app');
+goog.require('app.Document');
 
 /**
  * @ngInject
@@ -20,13 +21,12 @@ app.viewDetailsDirective = function() {
         ctrl.initPhotoswipe_();
         $('.photos figure').each(function() {
           $(this).css('width', '');
-        })
+        });
       }
       ctrl.loadImages_(initGalleries);
 
-      $('.pswp__button.info').click(function(e) {
+      $('.pswp__button.info').on('touchend click', function(e) {
         $('.photoswipe-image-container .image-infos, .photoswipe-image-container img').toggleClass('showing-info');
-        //$compile($('.image-infos.showing-info'))(ctrl.scope_);
       });
 
       $('.pswp__button--arrow--left, .pswp__button--arrow--right').click(function() {
@@ -44,7 +44,7 @@ app.viewDetailsDirective = function() {
         if (mql.matches) {
           $('.tab, .accordion').show();
         }
-      })
+      });
 
       // show description tab by default or selected tab
       notPhone.addListener(function(mql) {
@@ -69,12 +69,19 @@ app.module.directive('appViewDetails', app.viewDetailsDirective);
  * @param {Object} $uibModal modal from angular bootstrap
  * @param {!angular.Scope} $scope Scope.
  * @param {app.Api} appApi Api service.
+ * @param {app.Document} appDocument service
  * @param {angular.$compile} $compile Angular compile service.
  * @constructor
  * @export
  * @ngInject
  */
-app.ViewDetailsController = function($uibModal, $compile, $scope, appApi) {
+app.ViewDetailsController = function($uibModal, $compile, $scope, appApi, appDocument) {
+
+  /**
+   * @type {app.Document}
+   * @export
+   */
+  this.documentService = appDocument;
 
   /**
    * @type {Object}
@@ -99,14 +106,18 @@ app.ViewDetailsController = function($uibModal, $compile, $scope, appApi) {
    * @private
    */
   this.scope_ = $scope;
-  this.scope_['document'] = { // hardcoded for testing
+
+  /**
+   * @type {appx.Document}
+   */
+  this.scope_['document'] = {// hardcoded for testing
     'associations': {
       'images': [
-        {'src': 'http://s.camptocamp.org/uploads/images/1463740758_235613570.jpg', date: '23-02-2015', activities: ['hiking, snow'], 'elevation': Math.random(), iso_speed: 100, filename: 'image2.jpg', camera_name: 'Nikon', locales: [{'title' : 'inizio del canale'}], date_time: new Date(), 'fnumber' : 2.3},
-        {'src': 'http://s.camptocamp.org/uploads/images/1463694562_1216719818.jpg', date: '23-22-2025', activities: ['hiking'], elevation: Math.random(), iso_speed: 230, filename: 'image1.jpg', camera_name: 'Sony', locales: [{'title' : 'never let me down'}], date_time: new Date(), 'fnumber' : 5.5},
-        {'src': 'http://s.camptocamp.org/uploads/images/1463694970_824684659.jpg', date: new Date(), activities: ['snow'], elevation: Math.random(), iso_speed: 400, filename: 'image231.jpg', camera_name: 'Canon', locales: [{'title' : 'my favorite place'}], date_time: new Date(), 'fnumber' : 4.2},
-        {'src': 'http://s.camptocamp.org/uploads/images/1463741192_488006925.jpg', date: '23-323', activities: ['hiking, snow, ski'], elevation: Math.random(), iso_speed: 1200, filename: 'image94.jpg', camera_name: 'Fuji', locales: [{'title' : 'superb view'}]},
-        {'src': 'http://s.camptocamp.org/uploads/images/1463694980_966569102.jpg', date: '099-02-2015', activities: ['paragliding'], elevation: Math.random(), iso_speed: 2300, filename: 'image55.jpg', camera_name: 'Sigma', locales: [{'title' : 'great view'}] , date_time: new Date(), 'fnumber' : 10}
+        {'src': 'http://s.camptocamp.org/uploads/images/1463740758_235613570.jpg', date: '23-02-2015', activities: ['hiking, snow'], 'elevation': Math.random(), iso_speed: 100, filename: 'image2.jpg', camera_name: 'Nikon', locales: [{'title': 'inizio del canale'}], date_time: new Date(), 'fnumber': 2.3},
+        {'src': 'http://s.camptocamp.org/uploads/images/1463694562_1216719818.jpg', date: '23-22-2025', activities: ['hiking'], elevation: Math.random(), iso_speed: 230, filename: 'image1.jpg', camera_name: 'Sony', locales: [{'title': 'never let me down'}], date_time: new Date(), 'fnumber': 5.5},
+        {'src': 'http://s.camptocamp.org/uploads/images/1463694970_824684659.jpg', date: new Date(), activities: ['snow'], elevation: Math.random(), iso_speed: 400, filename: 'image231.jpg', camera_name: 'Canon', locales: [{'title': 'my favorite place'}], date_time: new Date(), 'fnumber': 4.2},
+        {'src': 'http://s.camptocamp.org/uploads/images/1463741192_488006925.jpg', date: '23-323', activities: ['hiking, snow, ski'], elevation: Math.random(), iso_speed: 1200, filename: 'image94.jpg', camera_name: 'Fuji', locales: [{'title': 'superb view'}]},
+        {'src': 'http://s.camptocamp.org/uploads/images/1463694980_966569102.jpg', date: '099-02-2015', activities: ['paragliding'], elevation: Math.random(), iso_speed: 2300, filename: 'image55.jpg', camera_name: 'Sigma', locales: [{'title': 'great view'}], date_time: new Date(), 'fnumber': 10}
       ]
     }
   };
@@ -312,7 +323,7 @@ app.ViewDetailsController.prototype.loadImages_ = function(initGalleries) {
     $('.photos').append(element);
 
     var scope = this.scope_.$new(true);
-    scope['photo'] = photos[i]
+    scope['photo'] = photos[i];
     this.compile_($('.photos figure:last-of-type').contents())(scope);
   }
   initGalleries();
