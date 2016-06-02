@@ -8,17 +8,11 @@ from c2corg_common.attributes import default_langs, activities, condition_rating
 updating_doc = outing_id and outing_lang
 %>
 <%namespace file="../helpers/common.html" import="show_title"/>
+<%namespace file="../helpers/edit.html" import="show_editing_associated_waypoints, show_editing_associated_routes"/>
 
 <%block name="pagetitle"><title ng-init="id=${outing_id if outing_id else 0}" ng-bind="id ? mainCtrl.page_title('Editing an outing') : mainCtrl.page_title('Creating an outing')">${show_title('Create/edit outing')}</title></%block>
 
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
-
-<%block name="moduleConstantsValues">
-  module.value('mapFeatureCollection', null);
-  module.value('documentData', {
-    "associations": {}
-  });
-</%block>
 
 <section class="create-edit-document">
   
@@ -80,14 +74,15 @@ updating_doc = outing_id and outing_lang
 
             ## ROUTE TAKEN
             <div class="data full" class="form-group">
-              <label translate>routes_taken *</label>
-              <app-simple-search parent-id="document.document_id" app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="r"></app-simple-search>
+              <label><span translate>routes_taken</span> *</label>
+              <app-simple-search parent-id="outing.document_id"
+                app-select="editCtrl.documentService.pushToAssociations(doc, 'routes', true)" dataset="r"></app-simple-search>
             </div>
             
             <section class="section associations">
               <div class="data full route-associations">
-                <h5 translate ng-show="document.associations.routes.length == 0">choose at least one route taken during the outing.</h5>
-                <%include file="../route/edit_associated.html"/>
+                <h5 translate ng-show="outing.associations.routes.length == 0">choose at least one route taken during the outing.</h5>
+                ${show_editing_associated_routes('outing')}
               </div>
             </section>
 
@@ -186,7 +181,7 @@ updating_doc = outing_id and outing_lang
             </div>
             <section class="section associations" ng-if="outing.associations.waypoints.length > 0">
               <div class="data full route-associations">
-                <%include file="../waypoint/edit_associated.html"/>
+                ${show_editing_associated_waypoints('outing')}
               </div>
             </section>
           </div>
@@ -479,13 +474,14 @@ updating_doc = outing_id and outing_lang
             ## ASSOCIATED PARTICIPANTS
             ## todo: better to show all users in one row, will have to convert users in controller.
             <div id="participants-group" class="form-group data full" ng-class="{'has-success': outing.locales[0]['participants']}">
-              <app-simple-search parent-id="document.document_id" app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="u"></app-simple-search>
+              <app-simple-search parent-id="outing.document_id"
+                app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="u"></app-simple-search>
               <section class="section associations" ng-show="outing.associations.users.length > 0">
                 <label translate>associated_participants</label>
                 
                 <section class="associated-section">
                   <article class="associated-documents">
-                    <h5 translate ng-show="document.associations.users.length == 0">you can look up for users that were with you during the outing.</h5>
+                    <h5 translate ng-show="outing.associations.users.length == 0">you can look up for users that were with you during the outing.</h5>
                     <div class="list-item outing user-id-{{user.document_id}}" ng-repeat="user in outing.associations.users">
                       <a>
                         <div class="outing-author text-center">

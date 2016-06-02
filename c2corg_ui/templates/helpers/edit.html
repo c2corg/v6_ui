@@ -1,0 +1,31 @@
+<%def name="show_editing_associated_waypoints(model)">\
+  <section ng-show="${model}.associations.waypoints.length > 0" class="associated-section">
+    <label translate>Associated waypoints</label>
+    <article class="associated-documents">
+      <div class="list-item"
+           ng-repeat="wp in ${model}.associations.waypoints | orderBy: 'waypoint_type'"
+           ng-class="{'main-waypoint': ${model}.main_waypoint_id === wp.document_id}">
+        <app-card app-card-doc="wp" app-card-disable-click="true"></app-card>
+        <div ng-if="${model}.main_waypoint_id === wp.document_id" translate>main waypoint</div>
+        <button class="btn btn-sm btn-default" translate
+                ng-click="${model}.main_waypoint_id = wp.document_id"
+                ng-if="${model}.main_waypoint_id != wp.document_id">
+          set as main waypoint
+        </button>
+        <span class="glyphicon glyphicon-trash" ng-click="editCtrl.documentService.removeAssociation(wp.document_id, 'waypoints')"></span>
+      </div>
+    </article>
+  </section>
+</%def>
+
+<%def name="show_editing_associated_routes(model)">\
+  <section ng-show="${model}.associations.all_routes.routes.length > 0" class="associated-section">
+    <label translate>Associated routes</label>
+    <article class="associated-documents">
+      <div class="list-item" ng-repeat="rte in ${model}.associations.all_routes.routes">
+        <app-card app-card-doc="rte" app-card-disable-click="true"></app-card>
+        <span class="glyphicon glyphicon-trash" ng-click="editCtrl.documentService.removeAssociation(rte.document_id, 'all_routes')"></span>
+      </div>
+    </article>
+  </section>
+</%def>

@@ -10,17 +10,11 @@ rock_types, hiking_ratings, exposition_rock_ratings, climbing_outdoor_types, sno
 updating_doc = route_id and route_lang
 %>
 <%namespace file="../helpers/common.html" import="show_title"/>
+<%namespace file="../helpers/edit.html" import="show_editing_associated_waypoints, show_editing_associated_routes"/>
 
 <%block name="pagetitle"><title ng-init="id=${route_id if route_id else 0}" ng-bind="id ? mainCtrl.page_title('Editing a route') : mainCtrl.page_title('Creating a route')">${show_title('Create/edit route')}</title></%block>
 
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
-
-<%block name="moduleConstantsValues">
-  module.value('mapFeatureCollection', null);
-  module.value('documentData', {
-    "associations": {}
-  });
-</%block>
 
 <section class="create-edit-document">
   
@@ -98,9 +92,10 @@ updating_doc = route_id and route_lang
           <h2 class="heading show-phone"><span translate>associations </span></h2>
           <div class="content route-associations" id="title-edit">
             ## wr = waypoints, routes
-            <app-simple-search parent-id="document.document_id" app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="wr"></app-simple-search>
-            <%include file="../route/edit_associated.html"/>
-            <%include file="../waypoint/edit_associated.html"/>
+            <app-simple-search parent-id="route.document_id"
+              app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="wr"></app-simple-search>
+            ${show_editing_associated_waypoints('route')}
+            ${show_editing_associated_routes('route')}
           </div>
         </section>
         

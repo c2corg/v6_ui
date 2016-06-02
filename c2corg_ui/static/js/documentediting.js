@@ -3,6 +3,7 @@ goog.provide('app.documentEditingDirective');
 
 goog.require('app');
 goog.require('app.Alerts');
+goog.require('app.Document');
 goog.require('app.utils');
 goog.require('goog.asserts');
 goog.require('ol.format.GeoJSON');
@@ -51,14 +52,13 @@ app.module.directive('appDocumentEditing', app.documentEditingDirective);
  * @param {app.Api} appApi Api service.
  * @param {string} authUrl Base URL of the authentication page.
  * @param {app.Document} appDocument
- * @param {appx.Document} documentData Some document data.
  * @constructor
  * @ngInject
  * @export
  */
 app.DocumentEditingController = function($scope, $element, $attrs,
     appAuthentication, ngeoLocation, appAlerts, appApi, authUrl,
-    appDocument, documentData) {
+    appDocument) {
 
   /**
    * @type {app.Document}
@@ -140,12 +140,6 @@ app.DocumentEditingController = function($scope, $element, $attrs,
   this.alerts_ = appAlerts;
 
   /**
-   * @type {appx.Document}
-   * @private
-   */
-  this.document_ = documentData;
-
-  /**
    * first next step would be 2 by default
    * @export
    */
@@ -198,9 +192,8 @@ app.DocumentEditingController = function($scope, $element, $attrs,
     this.pushDocToAssociations_();
   }
 
-  // When creating a new document, the model is not created until
-  // the form is touched. At least create an empty object.
-  this.scope_[this.modelName_] = this.scope_['document'] = this.documentService.document;
+  this.scope_[this.modelName_] = this.documentService.document;
+
   if (this.auth_.isAuthenticated()) {
     if (this.id_ && this.lang_) {
      // Get document attributes from the API to feed the model:
@@ -239,7 +232,7 @@ app.DocumentEditingController.prototype.successRead_ = function(response) {
     return this.getCoordinatesFromPoint_(point);
   }).bind(this);
 
-  this.document_.associations = data['associations'];
+  this.documentService.setAssociations(data['associations']);
 
   if ('geometry' in data && data['geometry']) {
     var geometry = data['geometry'];

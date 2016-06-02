@@ -9,6 +9,7 @@
   updating_doc = waypoint_id and waypoint_lang
 %>
 <%namespace file="../helpers/common.html" import="show_title"/>
+<%namespace file="../helpers/edit.html" import="show_editing_associated_waypoints, show_editing_associated_routes"/>
 
 <%block name="pagetitle">
 <title ng-init="id = ${waypoint_id if waypoint_id else 0}" ng-bind="id ?
@@ -17,13 +18,6 @@
 </%block>
 
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
-
-<%block name="moduleConstantsValues">
-  module.value('mapFeatureCollection', null);
-  module.value('documentData', {
-    "associations": {}
-  });
-</%block>
 
 <section class="create-edit-document">
 
@@ -711,9 +705,10 @@
           <h2 class="heading show-phone" translate>associations</h2>
           <div class="content">
             ## wr = waypoints, routes
-            <app-simple-search parent-id="document.document_id" app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="wr"></app-simple-search>
-            <%include file="../route/edit_associated.html"/>
-            <%include file="../waypoint/edit_associated.html"/>
+            <app-simple-search parent-id="waypoint.document_id"
+              app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="wr"></app-simple-search>
+            ${show_editing_associated_waypoints('waypoint')}
+            ${show_editing_associated_routes('waypoint')}
           </div>
         </section>
         
