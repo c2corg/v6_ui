@@ -48,7 +48,7 @@
     <div class="modal-header"><h3 class="text-center" translate>Translate into an other lang</h3></div>  
     <ul>
       % for lang in missing_langs:
-      <li protected-url-btn url="'${request.route_url(module + '_edit', id=document['document_id'], lang=lang)}'">
+      <li protected-url-btn url="${request.route_url(module + '_edit', id=document['document_id'], lang=lang)}">
         <span x-translate>${lang}</span><span class="glyphicon glyphicon-chevron-right"></span>
       </li>
       % endfor
@@ -126,45 +126,42 @@
 <%def name="show_associated_routes(document, type='routes')">\
   ## Possible values for type: routes, all_routes
   <%
-      associations = document['associations']
-      routes = []
-      path = ''
-      if type in associations:
-          routes = associations['all_routes']['routes'] if type == 'all_routes' else associations['routes']
-          path = 'all_routes.routes' if type == 'all_routes' else 'routes'
+      routes = document['associations']['all_routes']['routes'] if type == 'all_routes' else document['associations']['routes']
+      associations = 'detailsCtrl.documentService.document.associations.'
+      associations += 'all_routes.routes' if type == 'all_routes' else 'routes'
   %>
-  % if path:
-    ${add_seo_association_links(routes, 'routes')}
-    <section ng-show="document.associations.${path}.length > 0">
-      <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-routes">
-        <span class="glyphicon glyphicon-map-marker"></span>
-        <span translate>Associated routes</span><span class="glyphicon glyphicon-menu-down"></span>
-      </h3>
-      <div class="associated-documents collapse in" id="associated-routes">
-        <div class="list-item" ng-repeat="doc in document.associations.${path}">
-          <app-card app-card-doc="doc"></app-card>
-          <app-delete-association parent-doc-type="${document['doctype']}" child-doc-type="routes"
-            parent-id="${document['document_id']}" child-id="doc.document_id"
-            ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
-        </div>
-        % if type == 'all_routes' and associations['all_routes']['total'] > len(routes):
-          <%
-              _query = {}
-              _query[document['type']] = document['document_id']
-          %>
-          <div class="list-item vertical-align" onclick="window.location='${request.route_url('routes_index', _query=_query)}';">
-            <button class="gray-btn btn show-more" translate>show more</button>
-          </div>
-        % endif
+  ${add_seo_association_links(routes, 'routes')}
+  <section ng-show="${associations}.length > 0">
+    <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-routes">
+      <span class="glyphicon glyphicon-map-marker"></span>
+      <span translate>Associated routes</span><span class="glyphicon glyphicon-menu-down"></span>
+    </h3>
+    <div class="associated-documents collapse in" id="associated-routes">
+      <div class="list-item" ng-repeat="doc in ${associations}">
+        <app-card app-card-doc="doc"></app-card>
+        <app-delete-association child-doctype="routes" parent-id="${document['document_id']}" child-id="doc.document_id"
+          ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
       </div>
-    </section>
-  % endif
+      % if type == 'all_routes' and document['associations']['all_routes']['total'] > len(routes):
+        <%
+            _query = {}
+            _query[document['type']] = document['document_id']
+        %>
+        <div class="list-item vertical-align" onclick="window.location='${request.route_url('routes_index', _query=_query)}';">
+          <button class="gray-btn btn show-more" translate>show more</button>
+        </div>
+      % endif
+    </div>
+  </section>
 </%def>
 
 <%def name="show_associated_waypoints(document, type='waypoints')">\
   ## Possible values for type: waypoints, waypoint_parents, waypoint_children
+  <%
+      associations = 'detailsCtrl.documentService.document.associations.' + type
+  %>
   ${add_seo_association_links(document['associations'][type], 'waypoints')}
-  <section ng-show="document.associations.${type}.length > 0">
+  <section ng-show="${associations}.length > 0">
     <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-waypoints">
       <span class="glyphicon glyphicon-map-marker"></span>
       <span x-translate>Associated ${type}</span><span class="glyphicon glyphicon-menu-down"></span>
@@ -174,10 +171,9 @@
         % if document['doctype'] == 'routes':
           ng-class="{'main-waypoint': doc.document_id === ${document['main_waypoint_id']}}"
         % endif
-          ng-repeat="doc in document.associations.${type}">
+          ng-repeat="doc in ${associations}">
         <app-card app-card-doc="doc"></app-card>
-        <app-delete-association parent-doc-type="${document['doctype']}" child-doc-type="waypoints"
-          parent-id="${document['document_id']}" child-id="doc.document_id"
+        <app-delete-association child-doctype="waypoints" parent-id="${document['document_id']}" child-id="doc.document_id"
           ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
       </div>
     </div>
@@ -197,15 +193,15 @@
       </h3>
       <div class="associated-documents collapse in" id="associated-outings">
         <div class="list-item vertical-align" protected-url-btn
-             url="'${request.route_url('outings_add')}' + '?${document['doctype']}=${document['document_id']}'">
+             url="${request.route_url('outings_add') + '?' + document['doctype'] + '=' + str(document['document_id'])}">
           <a>
             <button class="btn orange-btn" translate>add a new outing to this document</button>
           </a>
         </div>
-        <div class="list-item outing" ng-repeat="doc in document.associations.recent_outings.outings">
+        <div class="list-item outing" ng-repeat="doc in detailsCtrl.documentService.document.associations.recent_outings.outings">
           <app-card app-card-doc="doc"></app-card>
         </div>
-        % if associations['recent_outings']['total'] > 10 :
+        % if associations['recent_outings']['total'] > len(associations['recent_outings']['outings']) :
           <%
               _query = {}
               _query[document['type']] = document['document_id']
@@ -303,7 +299,7 @@
   <div class="float-buttons">
       <div ng-if="::userCtrl.hasEditRights(${outingUsers if outingUsers is not None else ''})" class="float-button float-edit"
            tooltip-placement="left" uib-tooltip="{{'Edit' | translate}}"
-           protected-url-btn url="'${request.route_url( doctype + '_edit' , id=doc_id, lang=doc_lang)}'">
+           protected-url-btn url="${request.route_url(doctype + '_edit', id=doc_id, lang=doc_lang)}">
         <span class="glyphicon glyphicon-edit"></span>
         <p class="float-button-text" translate>Edit</p>
       </div>

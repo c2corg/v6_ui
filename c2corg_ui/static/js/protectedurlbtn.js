@@ -12,7 +12,7 @@ app.protectedUrlBtnDirective = function() {
     restrict: 'A',
     controller: 'AppProtectedUrlBtnController',
     scope: {
-      'url': '='
+      'url': '@'
     },
     link: function(scope, el, attr, ctrl) {
       el.click(function() {

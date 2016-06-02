@@ -2,9 +2,9 @@ goog.provide('app.AddAssociationController');
 goog.provide('app.addAssociationDirective');
 
 goog.require('app.Api');
+goog.require('app.Document');
 /** @suppress {extraRequire} */
 goog.require('app.simpleSearchDirective');
-goog.require('app.utils');
 
 
 /**
@@ -15,7 +15,8 @@ goog.require('app.utils');
 app.addAssociationDirective = function($compile) {
 
   var template = function(dataset) {
-    return '<app-simple-search app-select="addCtrl.associate(doc)" dataset="' + dataset + '"></app-simple-search>';
+    return '<app-simple-search app-select="addCtrl.associate(doc)" dataset="' +
+      dataset + '"></app-simple-search>';
   };
 
   return {
@@ -38,12 +39,12 @@ app.module.directive('appAddAssociation', app.addAssociationDirective);
 
 /**
  * @param {app.Api} appApi The API service
- * @param {appx.DocumentData} documentData Some document data.
+ * @param {app.Document} appDocument service
  * @constructor
  * @struct
  * @ngInject
  */
-app.AddAssociationController = function(appApi, documentData) {
+app.AddAssociationController = function(appApi, appDocument) {
 
   /**
    * @type {app.Api} appApi The API service
@@ -52,10 +53,10 @@ app.AddAssociationController = function(appApi, documentData) {
   this.api_ = appApi;
 
   /**
-   * @type {appx.DocumentData}
+   * @type {app.Document}
    * @private
    */
-  this.document_ = documentData;
+  this.documentService_ = appDocument;
 
   /**
    * @type {number}
@@ -64,14 +65,6 @@ app.AddAssociationController = function(appApi, documentData) {
   this.parentId;
 
   /**
-   * Typed directly in the directive HTML.
-   * It is the currently viewed document type.
-   *
-   * For example, if you are looking at a waypoint (waypoint details-view page) ->
-   * parentType = waypoint, parentID = waypoint's_id.
-   *
-   * The child type and ID will depend on the document selected
-   * in the results of the app-search dropdown.
    * @type {string}
    * @export
    */
@@ -105,14 +98,12 @@ app.AddAssociationController.prototype.associate = function(doc) {
   this.api_.associateDocument(parentId, childId).then(function() {
     if (this.parentDoctype === 'waypoints' && doc['type'] === 'w') {
       // associating a waypoint to a waypoint
-      this.document_.associations.waypoint_children.push(/** @type appx.Waypoint */ (doc));
+      this.documentService_.pushToAssociations(doc, 'waypoint_children');
     } else if (this.parentDoctype === 'waypoints' && doc['type'] === 'r') {
       // associating a route to a waypoint
-      this.document_.associations.all_routes.total++;
-      this.document_.associations.all_routes.routes.push(/** @type appx.Route */ (doc));
+      this.documentService_.pushToAssociations(doc, 'all_routes');
     } else {
-      var doctype = app.utils.getDoctype(doc['type']);
-      this.document_.associations[doctype].push(doc);
+      this.documentService_.pushToAssociations(doc);
     }
   }.bind(this));
 };

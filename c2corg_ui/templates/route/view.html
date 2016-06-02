@@ -197,7 +197,7 @@ ${show_float_buttons(None, 'routes', route_id, lang, other_langs, missing_langs)
   <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);">&nbsp;<span class="glyphicon glyphicon-menu-up"></span></button>
 </div>
 
-<div class="ng-hide" ng-init="detailsCtrl.documentService.document = ${route}">
+<div class="ng-hide">
   <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
   ${delete_association_confirmation_modal()}
 </div>

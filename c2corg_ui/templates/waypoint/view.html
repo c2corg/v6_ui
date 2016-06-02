@@ -206,7 +206,7 @@ ${show_float_buttons(None, 'waypoints', waypoint_id, lang, other_langs, missing_
   <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);">&nbsp;<span class="glyphicon glyphicon-menu-up"></span></button>
 </div>
 
-<div class="ng-hide" ng-init="detailsCtrl.documentService.document = ${waypoint}">
+<div class="ng-hide">
   <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
   ${delete_association_confirmation_modal()}
 </div>

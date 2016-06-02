@@ -51,7 +51,7 @@ app.module.directive('appDocumentEditing', app.documentEditingDirective);
  * @param {app.Api} appApi Api service.
  * @param {string} authUrl Base URL of the authentication page.
  * @param {app.Document} appDocument
- * @param {appx.DocumentData} documentData Some document data.
+ * @param {appx.Document} documentData Some document data.
  * @constructor
  * @ngInject
  * @export
@@ -140,7 +140,7 @@ app.DocumentEditingController = function($scope, $element, $attrs,
   this.alerts_ = appAlerts;
 
   /**
-   * @type {appx.DocumentData}
+   * @type {appx.Document}
    * @private
    */
   this.document_ = documentData;

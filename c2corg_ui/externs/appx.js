@@ -85,15 +85,6 @@ appx.BootstrapSliderValues;
 appx.auth.RequestChangePassword;
 
 
-/**
- * @typedef {{
- *   associations: appx.DocumentAssociations,
- *   orientations: ?Array.<string>
- * }}
- */
-appx.DocumentData;
-
-
 // TODO: extern for users + add it to associations
 
 /**

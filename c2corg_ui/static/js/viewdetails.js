@@ -71,7 +71,7 @@ app.module.directive('appViewDetails', app.viewDetailsDirective);
  * @param {Object} $uibModal modal from angular bootstrap
  * @param {app.Api} appApi Api service.
  * @param {app.Document} appDocument service
- * @param {appx.DocumentData} documentData Some document data.
+ * @param {appx.Document} documentData Data set as module value in the HTML.
  * @constructor
  * @export
  * @ngInject
@@ -109,19 +109,22 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
    */
   this.scope_ = $scope;
 
-  /**
-   * @type {appx.DocumentData}
-   */
-  this.scope_['document'] = documentData;
-
-  // hardcoded for testing
-  this.scope_['document']['associations']['images'] = [
+  // FIXME: hardcoded for testing (to be removed)
+  documentData['associations']['images'] = [
     {'src': 'http://s.camptocamp.org/uploads/images/1463740758_235613570.jpg', date: '23-02-2015', activities: ['hiking, snow'], 'elevation': Math.random(), iso_speed: 100, filename: 'image2.jpg', camera_name: 'Nikon', locales: [{'title' : 'inizio del canale'}], date_time: new Date(), 'fnumber' : 2.3},
     {'src': 'http://s.camptocamp.org/uploads/images/1463694562_1216719818.jpg', date: '23-22-2025', activities: ['hiking'], elevation: Math.random(), iso_speed: 230, filename: 'image1.jpg', camera_name: 'Sony', locales: [{'title' : 'never let me down'}], date_time: new Date(), 'fnumber' : 5.5},
     {'src': 'http://s.camptocamp.org/uploads/images/1463694970_824684659.jpg', date: new Date(), activities: ['snow'], elevation: Math.random(), iso_speed: 400, filename: 'image231.jpg', camera_name: 'Canon', locales: [{'title' : 'my favorite place'}], date_time: new Date(), 'fnumber' : 4.2},
     {'src': 'http://s.camptocamp.org/uploads/images/1463741192_488006925.jpg', date: '23-323', activities: ['hiking, snow, ski'], elevation: Math.random(), iso_speed: 1200, filename: 'image94.jpg', camera_name: 'Fuji', locales: [{'title' : 'superb view'}]},
     {'src': 'http://s.camptocamp.org/uploads/images/1463694980_966569102.jpg', date: '099-02-2015', activities: ['paragliding'], elevation: Math.random(), iso_speed: 2300, filename: 'image55.jpg', camera_name: 'Sigma', locales: [{'title' : 'great view'}] , date_time: new Date(), 'fnumber' : 10}
   ];
+
+  this.documentService.setAssociations(documentData.associations);
+
+  /**
+   * Used to pass the associated images to the slideshow
+   * @type {appx.Document}
+   */
+  this.scope_['document'] = this.documentService.document;
 
   this.scope_.$on('unassociateDoc', function(e, doc) {
     this.removeAssociation_(doc);

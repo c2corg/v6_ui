@@ -4,7 +4,7 @@ goog.require('app');
 
 
 /**
- * This services is used to acces the document properties
+ * This service is used to access the document properties
  * within other controllers, for example to set the properties in one
  * controller and then read them in another.
  * Also to do all functions common to all documents.
@@ -21,7 +21,6 @@ app.Document = function(appAuthentication) {
    */
   this.auth_ = appAuthentication;
 
-
   /**
    * @export
    */
@@ -32,8 +31,8 @@ app.Document = function(appAuthentication) {
       'users': [],
       'recent_outings': {'total': 0, 'outings': []},
       'images': [],
-      'waypoints_children': [],
-      'waypoints_parents': [],
+      'waypoint_children': [],
+      'waypoint_parents': [],
       'all_routes': {'total': 0, 'routes': []}
     },
     'locales': [{'title': ''}],
@@ -41,7 +40,6 @@ app.Document = function(appAuthentication) {
     'document_id': 0,
     'quality': ''
   });
-
 
   /**
    * @type {{
@@ -56,6 +54,20 @@ app.Document = function(appAuthentication) {
     'routes': [], 'waypoints': [], 'images': [], 'users': []
   };
 };
+
+
+/**
+ * @param {appx.DocumentAssociations} associations
+ * @export
+ */
+app.Document.prototype.setAssociations = function(associations) {
+  for (var type in associations) {
+    if (type in this.document.associations) {
+      this.document.associations[type] = associations[type];
+    }
+  }
+};
+
 
 /**
  * @export
@@ -78,52 +90,72 @@ app.Document.prototype.hasAssociation = function(type, id) {
 
 /**
  * @param {appx.SimpleSearchDocument} doc
+ * @param {string=} doctype Optional doctype
+ * @param {boolean=} setOutingTitle
  * @export
  */
-app.Document.prototype.pushToAssociations = function(doc) {
-  var routesLength =  this.document.associations['routes'].length;
+app.Document.prototype.pushToAssociations = function(doc, doctype,
+    setOutingTitle) {
   var associations = this.document.associations;
-  var doctype = app.utils.getDoctype(doc['type']);
+  doctype = doctype || app.utils.getDoctype(doc['type']);
+  setOutingTitle = typeof setOutingTitle !== 'undefined' ?
+    setOutingTitle : false;
 
-  if (doctype === 'routes') {
-    // if there are no routes = new document => set title to the title of the first associated route
-    if (!routesLength) {
-      this.document['locales'][0]['title'] = doc['locales'][0]['title'];
+  if (doctype === 'all_routes') {
+    associations.all_routes.total++;
+    associations.all_routes.routes.push(/** @type appx.Route */ (doc));
+  } else {
+    associations[doctype].push(doc);
+
+    // When creating an outing, the outing title defaults to the title
+    // of the first associated route.
+    if (setOutingTitle && doctype === 'routes' &&
+        !this.document.locales[0]['title'] &&
+        this.document.associations.routes.length == 1) {
+      var title = 'title_prefix' in doc.locales[0] &&
+        doc.locales[0]['title_prefix'] ?
+        doc.locales[0]['title_prefix'] + ' : ' : '';
+      title += doc.locales[0]['title'];
+      this.document.locales[0]['title'] = title;
     }
   }
-  associations[doctype].push(doc);
-  return;
 };
 
 
 /**
- * @param {number} id
- * @param {string} type
+ * @param {number} id Id of document to unassociate
+ * @param {string} type Type of document to unassociate
  * @export
  */
 app.Document.prototype.removeAssociation = function(id, type) {
-  var associations = this.document.associations;
-  for (var i = 0; i < associations[type].length; i++) {
-    if (associations[type][i]['document_id'] === id) {
-      associations[type].splice(i, 1);
-      return;
+  var associations = (type === 'all_routes') ?
+    this.document.associations.all_routes.routes :
+    this.document.associations[type];
+  for (var i = 0; i < associations.length; i++) {
+    if (associations[i]['document_id'] === id) {
+      associations.splice(i, 1);
+      if (type === 'all_routes') {
+        this.document.associations.all_routes.total--;
+      }
+      break;
     }
   }
 };
 
 
 /**
- * - waypoints, routes and books are not protected => collaborative
- * - outings and books are personal and we have to check if the current user is the owner
+ * - waypoints, routes and books are collaborative
+ * - outings and books are personal and we have to check if the current user
+ *   has editing rights
  * - images can be both and we have to check the image_type property
  * @param {string} type
- * @export
  * @return boolean
+ * @export
  */
 app.Document.prototype.isCollaborative = function(type) {
   if (type === 'waypoints' || type === 'routes' || type === 'books') {
     return true;
-  } else if (type === 'incident_reports') {
+  } else if (type === 'xreports') {
     // personal -> check if user == owner
     return false;
   } else if (type === 'outings' || type === 'articles') {
@@ -131,9 +163,8 @@ app.Document.prototype.isCollaborative = function(type) {
     return this.auth_.hasEditRights(this.document.associations['users']);
   } else if (type === 'images') {
     return this.document['image_type'] === 'collaborative';
-  } else {
-    return true;
   }
+  return true;
 };
 
 app.module.service('appDocument', app.Document);
