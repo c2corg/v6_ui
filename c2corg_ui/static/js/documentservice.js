@@ -57,6 +57,21 @@ app.Document = function(appAuthentication) {
 
 
 /**
+ * @param {appx.Document} doc
+ * @export
+ */
+app.Document.prototype.setDocument = function(doc) {
+  for (var attr in doc) {
+    if (attr === 'associations') {
+      this.setAssociations(doc.associations);
+    } else {
+      this.document[attr] = doc[attr];
+    }
+  }
+};
+
+
+/**
  * @param {appx.DocumentAssociations} associations
  * @export
  */

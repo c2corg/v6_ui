@@ -118,10 +118,11 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
     {'src': 'http://s.camptocamp.org/uploads/images/1463694980_966569102.jpg', date: '099-02-2015', activities: ['paragliding'], elevation: Math.random(), iso_speed: 2300, filename: 'image55.jpg', camera_name: 'Sigma', locales: [{'title' : 'great view'}] , date_time: new Date(), 'fnumber' : 10}
   ];
 
-  this.documentService.setAssociations(documentData.associations);
+  this.documentService.setDocument(documentData);
 
   /**
    * Used to pass the associated images to the slideshow
+   * FIXME: use the documentService instead of passing 'document' to the scope?
    * @type {appx.Document}
    */
   this.scope_['document'] = this.documentService.document;

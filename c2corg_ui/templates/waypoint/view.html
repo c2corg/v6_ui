@@ -94,11 +94,7 @@ geometry4326 = geometry
   % endif
 </article>
 
-<section class="view-details-section" app-view-details 
-        % if waypoint.get('orientations'):
-          orientations="${waypoint['orientations']}"
-        % endif 
-        >
+<section class="view-details-section" app-view-details>
 
   <uib-tabset>
     <uib-tab heading="{{mainCtrl.translate('Description')}}" ng-click="detailsCtrl.openTab('description')" id="description-tab"></uib-tab>
