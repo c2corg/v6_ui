@@ -199,7 +199,7 @@ app.DocumentEditingController = function($scope, $element, $attrs,
      // Get document attributes from the API to feed the model:
       goog.asserts.assert(!goog.isNull(this.id_));
       goog.asserts.assert(!goog.isNull(this.lang_));
-      this.api_.readDocument(this.module_, this.id_, this.lang_).then(
+      this.api_.readDocument(this.module_, this.id_, this.lang_, true).then(
           this.successRead_.bind(this)
       );
     } else if (this.modelName_ === 'outing') {

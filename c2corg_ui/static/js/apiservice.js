@@ -195,14 +195,17 @@ app.Api.prototype.createDocument = function(module, json) {
  * @param {string} module Module.
  * @param {number} id Document id.
  * @param {string} lang Language.
+ * @param {boolean=} editing True if in editing mode (default: false).
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
-app.Api.prototype.readDocument = function(module, id, lang) {
+app.Api.prototype.readDocument = function(module, id, lang, editing) {
   var alerts = this.alerts_;
-  var url = '/{module}/{id}?l={lang}'
+  editing = typeof editing === 'undefined' ? false : editing;
+  var url = '/{module}/{id}?l={lang}{editing}'
     .replace('{module}', module)
     .replace('{id}', String(id))
-    .replace('{lang}', lang);
+    .replace('{lang}', lang)
+    .replace('{editing}', editing ? '&e=1' : '');
 
   var promise = this.getJson_(url);
   promise.catch(function(response) {
