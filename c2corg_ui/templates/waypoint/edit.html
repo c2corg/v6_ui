@@ -170,7 +170,7 @@
                                       'has-success': editForm.longitude.$valid && waypoint.lonlat.longitude}">
               <label><span translate>longitude</span> *</label>
               <div class="input-group">
-                <input type="number" name="longitude" ng-model="waypoint.lonlat.longitude" ng-change="editCtrl.updateMap()" class="form-control" required required min="-90" max="90" />
+                <input type="number" name="longitude" ng-model="waypoint.lonlat.longitude" ng-change="editCtrl.updateMap()" class="form-control" required min="-90" max="90" />
                 <span class="input-group-addon">°E</span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.longitude.$valid && waypoint.lonlat.longitude"></span>
@@ -188,7 +188,7 @@
                                       'has-success': editForm.latitude.$valid && waypoint.lonlat.latitude}">
               <label><span translate>Latitude</span> *</label>
               <div class="input-group">
-                <input type="number" name="latitude" ng-model="waypoint.lonlat.latitude" ng-change="editCtrl.updateMap()" class="form-control" required required min="-90" max="90" />
+                <input type="number" name="latitude" ng-model="waypoint.lonlat.latitude" ng-change="editCtrl.updateMap()" class="form-control" required min="-90" max="90" />
                 <span class="input-group-addon">°N</span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.lonlat.latitude"></span>

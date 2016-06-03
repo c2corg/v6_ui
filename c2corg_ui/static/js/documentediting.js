@@ -425,6 +425,7 @@ app.DocumentEditingController.prototype.handleMapFeaturesChange_ = function(
       'longitude': coords[0],
       'latitude': coords[1]
     };
+    this.scope_.$apply();
   } else {
     var center;
     // For lines, use the middle point as point geometry:
