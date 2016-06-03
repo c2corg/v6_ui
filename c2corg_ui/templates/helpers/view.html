@@ -193,7 +193,7 @@
     <article>
       <h3 class="heading show-phone outings" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-outings">
         <span class="glyphicon glyphicon-map-marker"></span>
-        <span translate>Associated outings</span><span class="glyphicon glyphicon-menu-down"></span>
+        <span translate>Last outings</span><span class="glyphicon glyphicon-menu-down"></span>
       </h3>
       <div class="associated-documents collapse in" id="associated-outings">
         <div class="list-item vertical-align" protected-url-btn
@@ -202,7 +202,7 @@
             <button class="btn orange-btn" translate>add a new outing to this document</button>
           </a>
         </div>
-        <div class="list-item outing" ng-repeat="doc in detailsCtrl.documentService.document.associations.recent_outings.outings">
+        <div class="list-item outings" ng-repeat="doc in detailsCtrl.documentService.document.associations.recent_outings.outings">
           <app-card app-card-doc="doc"></app-card>
         </div>
         % if associations['recent_outings']['total'] > len(associations['recent_outings']['outings']) :
