@@ -99,9 +99,6 @@ app.AddAssociationController.prototype.associate = function(doc) {
     if (this.parentDoctype === 'waypoints' && doc['type'] === 'w') {
       // associating a waypoint to a waypoint
       this.documentService_.pushToAssociations(doc, 'waypoint_children');
-    } else if (this.parentDoctype === 'waypoints' && doc['type'] === 'r') {
-      // associating a route to a waypoint
-      this.documentService_.pushToAssociations(doc, 'all_routes');
     } else {
       this.documentService_.pushToAssociations(doc);
     }

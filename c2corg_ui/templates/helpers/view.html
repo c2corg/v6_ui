@@ -139,8 +139,10 @@
     <div class="associated-documents collapse in" id="associated-routes">
       <div class="list-item" ng-repeat="doc in ${associations}">
         <app-card app-card-doc="doc"></app-card>
-        <app-delete-association child-doctype="routes" parent-id="${document['document_id']}" child-id="doc.document_id"
-          ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
+        % if type == 'routes':
+          <app-delete-association child-doctype="routes" parent-id="${document['document_id']}" child-id="doc.document_id"
+            ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
+        % endif
       </div>
       % if type == 'all_routes' and document['associations']['all_routes']['total'] > len(routes):
         <%
@@ -173,8 +175,10 @@
         % endif
           ng-repeat="doc in ${associations}">
         <app-card app-card-doc="doc"></app-card>
-        <app-delete-association child-doctype="waypoints" parent-id="${document['document_id']}" child-id="doc.document_id"
-          ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
+        % if type != 'waypoint_parents':
+          <app-delete-association child-doctype="waypoints" parent-id="${document['document_id']}" child-id="doc.document_id"
+            ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
+        % endif
       </div>
     </div>
   </section>

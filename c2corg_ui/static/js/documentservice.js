@@ -116,23 +116,18 @@ app.Document.prototype.pushToAssociations = function(doc, doctype,
   setOutingTitle = typeof setOutingTitle !== 'undefined' ?
     setOutingTitle : false;
 
-  if (doctype === 'all_routes') {
-    associations.all_routes.total++;
-    associations.all_routes.routes.push(/** @type appx.Route */ (doc));
-  } else {
-    associations[doctype].push(doc);
+  associations[doctype].push(doc);
 
-    // When creating an outing, the outing title defaults to the title
-    // of the first associated route.
-    if (setOutingTitle && doctype === 'routes' &&
-        !this.document.locales[0]['title'] &&
-        this.document.associations.routes.length == 1) {
-      var title = 'title_prefix' in doc.locales[0] &&
-        doc.locales[0]['title_prefix'] ?
-        doc.locales[0]['title_prefix'] + ' : ' : '';
-      title += doc.locales[0]['title'];
-      this.document.locales[0]['title'] = title;
-    }
+  // When creating an outing, the outing title defaults to the title
+  // of the first associated route.
+  if (setOutingTitle && doctype === 'routes' &&
+      !this.document.locales[0]['title'] &&
+      this.document.associations.routes.length == 1) {
+    var title = 'title_prefix' in doc.locales[0] &&
+      doc.locales[0]['title_prefix'] ?
+      doc.locales[0]['title_prefix'] + ' : ' : '';
+    title += doc.locales[0]['title'];
+    this.document.locales[0]['title'] = title;
   }
 };
 
@@ -143,15 +138,10 @@ app.Document.prototype.pushToAssociations = function(doc, doctype,
  * @export
  */
 app.Document.prototype.removeAssociation = function(id, type) {
-  var associations = (type === 'all_routes') ?
-    this.document.associations.all_routes.routes :
-    this.document.associations[type];
+  var associations = this.document.associations[type];
   for (var i = 0; i < associations.length; i++) {
     if (associations[i]['document_id'] === id) {
       associations.splice(i, 1);
-      if (type === 'all_routes') {
-        this.document.associations.all_routes.total--;
-      }
       break;
     }
   }

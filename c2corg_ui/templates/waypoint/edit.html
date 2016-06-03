@@ -704,11 +704,10 @@
         <section class="section associations" ng-if="type != 'climbing_indoor' ">
           <h2 class="heading show-phone" translate>associations</h2>
           <div class="content">
-            ## wr = waypoints, routes
+            ## w = waypoints
             <app-simple-search parent-id="waypoint.document_id"
-              app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="wr"></app-simple-search>
+              app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="w"></app-simple-search>
             ${show_editing_associated_waypoints('waypoint')}
-            ${show_editing_associated_routes('waypoint')}
           </div>
         </section>
         

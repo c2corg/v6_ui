@@ -1,9 +1,9 @@
-<%def name="show_editing_associated_waypoints(model)">\
-  <section ng-show="${model}.associations.waypoints.length > 0" class="associated-section">
+<%def name="show_editing_associated_waypoints(model, type='waypoints')">\
+  <section ng-show="${model}.associations.${type}.length > 0" class="associated-section">
     <label translate>Associated waypoints</label>
     <article class="associated-documents">
       <div class="list-item"
-           ng-repeat="wp in ${model}.associations.waypoints | orderBy: 'waypoint_type'"
+           ng-repeat="wp in ${model}.associations.${type} | orderBy: 'waypoint_type'"
            ng-class="{'main-waypoint': ${model}.main_waypoint_id === wp.document_id}">
         <app-card app-card-doc="wp" app-card-disable-click="true"></app-card>
         % if model == 'route':
@@ -14,19 +14,19 @@
             set as main waypoint
           </button>
         % endif
-        <span class="glyphicon glyphicon-trash" ng-click="editCtrl.documentService.removeAssociation(wp.document_id, 'waypoints')"></span>
+        <span class="glyphicon glyphicon-trash" ng-click="editCtrl.documentService.removeAssociation(wp.document_id, '${type}')"></span>
       </div>
     </article>
   </section>
 </%def>
 
 <%def name="show_editing_associated_routes(model)">\
-  <section ng-show="${model}.associations.all_routes.routes.length > 0" class="associated-section">
+  <section ng-show="${model}.associations.routes.length > 0" class="associated-section">
     <label translate>Associated routes</label>
     <article class="associated-documents">
-      <div class="list-item" ng-repeat="rte in ${model}.associations.all_routes.routes">
+      <div class="list-item" ng-repeat="rte in ${model}.associations.routes">
         <app-card app-card-doc="rte" app-card-disable-click="true"></app-card>
-        <span class="glyphicon glyphicon-trash" ng-click="editCtrl.documentService.removeAssociation(rte.document_id, 'all_routes')"></span>
+        <span class="glyphicon glyphicon-trash" ng-click="editCtrl.documentService.removeAssociation(rte.document_id, 'routes')"></span>
       </div>
     </article>
   </section>

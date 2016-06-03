@@ -163,15 +163,22 @@ geometry4326 = geometry
   % if not version:
     <div class="view-details-associations col-xs-12 tab associations">
       <span class="lead">
-      <section>
-        <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
-          <label translate>Add association</label>
-          <app-add-association parent-id="${waypoint_id}" parent-doctype="waypoints" dataset="wr"></app-add-association>
-        </div>
-        ${show_associated_waypoints(waypoint, 'waypoint_parents')}
-        ${show_associated_waypoints(waypoint, 'waypoint_children')}
-        ${show_associated_routes(waypoint, 'all_routes')}
-      </section>
+        <section>
+          <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
+            <label translate>Add association</label>
+            <app-add-association parent-id="${waypoint_id}" parent-doctype="waypoints" dataset="w"></app-add-association>
+          </div>
+          ${show_associated_waypoints(waypoint, 'waypoint_parents')}
+          ${show_associated_waypoints(waypoint, 'waypoint_children')}
+        </section>
+      </span>
+    </div>
+
+    <div class="view-details-associations col-xs-12 tab associations">
+      <span class="lead">
+        <section>
+          ${show_associated_routes(waypoint, 'all_routes')}
+        </section>
       </span>
     </div>
 
