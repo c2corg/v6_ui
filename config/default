@@ -13,5 +13,8 @@ export api_url = http://c2corgv6-api.demo-camptocamp.com
 export api_url_internal =
 export api_url_host =
 
+# Valid for http://c2corgv6.demo-camptocamp.com
+export ign_api_key = 9qxhimhvm24i40p8j86n7de3
+
 export logging_level = WARNING
 export skip_captcha_validation = False

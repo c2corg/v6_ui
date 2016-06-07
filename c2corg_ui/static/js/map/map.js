@@ -19,9 +19,7 @@ goog.require('ol.interaction.Draw');
 goog.require('ol.interaction.Modify');
 goog.require('ol.interaction.MouseWheelZoom');
 goog.require('ol.interaction.Select');
-goog.require('ol.layer.Tile');
 goog.require('ol.layer.Vector');
-goog.require('ol.source.OSM');
 goog.require('ol.source.Vector');
 goog.require('ol.style.Fill');
 goog.require('ol.style.Icon');
@@ -49,7 +47,7 @@ app.mapDirective = function() {
     controller: 'AppMapController',
     controllerAs: 'mapCtrl',
     bindToController: true,
-    template: '<div class="map" ngeo-map=mapCtrl.map></div>'
+    templateUrl: '/static/partials/map/map.html'
   };
 };
 
@@ -153,11 +151,6 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
    */
   this.map = new ol.Map({
     interactions: ol.interaction.defaults({mouseWheelZoom: false}),
-    layers: [
-      new ol.layer.Tile({
-        source: new ol.source.OSM()
-      })
-    ],
     view: new ol.View({
       center: ol.extent.getCenter(app.MapController.DEFAULT_EXTENT),
       zoom: app.MapController.DEFAULT_ZOOM

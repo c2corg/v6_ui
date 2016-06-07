@@ -30,7 +30,8 @@ class Document(object):
         self.settings = request.registry.settings
         self.template_input = {
             'debug': 'debug' in self.request.params,
-            'api_url': self.settings['api_url']
+            'api_url': self.settings['api_url'],
+            'ign_api_key': self.settings['ign_api_key']
         }
 
     def _call_api(self, url, method='GET', body=None, headers=None):

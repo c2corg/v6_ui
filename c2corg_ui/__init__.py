@@ -94,5 +94,6 @@ class NotFound():
         self.request.response.status_code = self.context.code
         return {
           'api_url': self.settings['api_url'],
-          'error_msg': self.context.detail if self.context.detail else ''
+          'error_msg': self.context.detail if self.context.detail else '',
+          'ign_api_key': self.settings['ign_api_key']
         }

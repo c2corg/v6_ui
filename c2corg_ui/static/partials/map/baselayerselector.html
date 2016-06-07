@@ -1,0 +1,10 @@
+<div class="dropup">
+  <button type="button" class="btn btn-primary" data-toggle="dropdown">
+    {{bglayerCtrl.currentBgLayer.name}} <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu">
+    <li ng-repeat="layer in ::bglayerCtrl.bgLayers">
+      <a href ng-click="bglayerCtrl.setLayer(layer)" x-translate>{{::layer.name}}</a>
+    </li>
+  </ul>
+</div>
