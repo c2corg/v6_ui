@@ -192,7 +192,7 @@ app.DocumentEditingController = function($scope, $element, $attrs,
     this.pushDocToAssociations_();
   }
 
-  this.scope_[this.modelName_] = this.documentService.document;
+  this.scope_[this.modelName_] = this.scope_['document'] = this.documentService.document;
 
   if (this.auth_.isAuthenticated()) {
     if (this.id_ && this.lang_) {
