@@ -26,14 +26,13 @@ app.Document = function(appAuthentication) {
    */
   this.document = /** @type {appx.Document} */ ({
     'associations': {
-      'routes': [],
       'waypoints': [],
+      'waypoint_children': [],
+      'routes': [],
+      'all_routes': {'total': 0, 'routes': []},
       'users': [],
       'recent_outings': {'total': 0, 'outings': []},
-      'images': [],
-      'waypoint_children': [],
-      'waypoint_parents': [],
-      'all_routes': {'total': 0, 'routes': []}
+      'images': []
     },
     'locales': [{'title': ''}],
     'type': '',

@@ -157,8 +157,8 @@
   </section>
 </%def>
 
-<%def name="show_associated_waypoints(document, type='waypoints')">\
-  ## Possible values for type: waypoints, waypoint_parents, waypoint_children
+<%def name="show_associated_waypoints(document, type='waypoints', showDelete=True)">\
+  ## Possible values for type: waypoints, waypoint_children
   <%
       associations = 'detailsCtrl.documentService.document.associations.' + type
   %>
@@ -175,8 +175,8 @@
         % endif
           ng-repeat="doc in ${associations}">
         <app-card app-card-doc="doc"></app-card>
-        % if type != 'waypoint_parents':
-          <app-delete-association child-doctype="waypoints" parent-id="${document['document_id']}" child-id="doc.document_id"
+        % if showDelete:
+          <app-delete-association child-doctype="${type}" parent-id="${document['document_id']}" child-id="doc.document_id"
             ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
         % endif
       </div>

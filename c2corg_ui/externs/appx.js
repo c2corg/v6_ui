@@ -94,7 +94,6 @@ appx.auth.RequestChangePassword;
  *   routes: ?Array.<appx.Route>,
  *   waypoints: ?Array.<appx.Waypoint>,
  *   waypoint_children: ?Array.<appx.Waypoint>,
- *   waypoint_parents: ?Array.<appx.Waypoint>,
  *   recent_outings: ?appx.RecentOutings,
  *   all_routes: ?appx.AllRoutes
  * }}

@@ -706,8 +706,8 @@
           <div class="content">
             ## w = waypoints
             <app-simple-search parent-id="waypoint.document_id"
-              app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="w"></app-simple-search>
-            ${show_editing_associated_waypoints('waypoint')}
+              app-select="editCtrl.documentService.pushToAssociations(doc, 'waypoint_children')" dataset="w"></app-simple-search>
+            ${show_editing_associated_waypoints('waypoint', type='waypoint_children')}
           </div>
         </section>
         

@@ -168,7 +168,7 @@ geometry4326 = geometry
             <label translate>Add association</label>
             <app-add-association parent-id="${waypoint_id}" parent-doctype="waypoints" dataset="w"></app-add-association>
           </div>
-          ${show_associated_waypoints(waypoint, 'waypoint_parents')}
+          ${show_associated_waypoints(waypoint, 'waypoints', showDelete=False)}
           ${show_associated_waypoints(waypoint, 'waypoint_children')}
         </section>
       </span>
