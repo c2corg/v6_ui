@@ -460,6 +460,10 @@ msgstr ""
 msgid "Send reset email"
 msgstr ""
 
+#: c2corg_ui/templates/helpers/edit.html
+msgid "Set as main waypoint"
+msgstr ""
+
 #: c2corg_ui/static/partials/slideinfo.html
 msgid "Settings"
 msgstr ""
@@ -1704,15 +1708,15 @@ msgid "routes_taken"
 msgstr ""
 
 #: c2corg_ui/templates/i18n.html
+msgid "see more results"
+msgstr ""
+
+#: c2corg_ui/templates/i18n.html
 msgid "sep"
 msgstr ""
 
 #: c2corg_ui/templates/i18n.html
 msgid "service_on_demand"
-msgstr ""
-
-#: c2corg_ui/templates/helpers/edit.html
-msgid "set as main waypoint"
 msgstr ""
 
 #: c2corg_ui/templates/i18n.html

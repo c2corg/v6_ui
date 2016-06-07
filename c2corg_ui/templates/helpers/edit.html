@@ -11,7 +11,7 @@
           <button class="btn btn-sm btn-default" translate
                   ng-click="${model}.main_waypoint_id = wp.document_id; ${model}.main_waypoint_title = wp.locales[0].title"
                   ng-if="${model}.main_waypoint_id != wp.document_id">
-            set as main waypoint
+            Set as main waypoint
           </button>
         % endif
         <span class="glyphicon glyphicon-trash" ng-click="editCtrl.documentService.removeAssociation(wp.document_id, '${type}')"></span>

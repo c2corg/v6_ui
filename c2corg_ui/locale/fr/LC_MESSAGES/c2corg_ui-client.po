@@ -448,6 +448,10 @@ msgstr "Voir la dernière version"
 msgid "Send reset email"
 msgstr "Envoyer l'email de réinitialisation"
 
+#: c2corg_ui/templates/helpers/edit.html
+msgid "Set as main waypoint"
+msgstr "Choisir comme point de passage principal"
+
 #: c2corg_ui/static/partials/slideinfo.html
 msgid "Settings"
 msgstr "Paramètres"
@@ -544,7 +548,9 @@ msgstr "Points de passage"
 
 #: c2corg_ui/static/js/auth/auth.js
 msgid "We sent you an email, please click on the link to reset password."
-msgstr "Vous allez bientôt recevoir un email. Veuillez cliquer sur le lien qu'il contient pour réinitialiser votre mot de passe."
+msgstr ""
+"Vous allez bientôt recevoir un email. Veuillez cliquer sur le lien qu'il "
+"contient pour réinitialiser votre mot de passe."
 
 #: c2corg_ui/templates/index.html
 msgid "Welcome to Camptocamp.org"
@@ -759,7 +765,8 @@ msgstr "Adapté aux enfants ?"
 
 #: c2corg_ui/templates/outing/edit.html
 msgid "choose at least one route taken during the outing."
-msgstr "Veuillez indiquer un ou plusieurs itinéraires empruntés lors de votre sortie."
+msgstr ""
+"Veuillez indiquer un ou plusieurs itinéraires empruntés lors de votre sortie."
 
 #: c2corg_ui/templates/i18n.html
 msgid "cliff"
@@ -1669,16 +1676,16 @@ msgid "routes_taken"
 msgstr ""
 
 #: c2corg_ui/templates/i18n.html
+msgid "see more results"
+msgstr "plus de résultats"
+
+#: c2corg_ui/templates/i18n.html
 msgid "sep"
 msgstr "septembre"
 
 #: c2corg_ui/templates/i18n.html
 msgid "service_on_demand"
 msgstr "service à la demande"
-
-#: c2corg_ui/templates/helpers/edit.html
-msgid "set as main waypoint"
-msgstr "Choisir comme point de passage principal"
 
 #: c2corg_ui/templates/i18n.html
 msgid "shelter"
@@ -1905,66 +1912,3 @@ msgstr "oui"
 #: c2corg_ui/templates/outing/edit.html
 msgid "you can look up for users that were with you during the outing."
 msgstr ""
-
-#~ msgid "Add"
-#~ msgstr "Ajouter"
-
-#~ msgid "Add a route"
-#~ msgstr "Ajouter un itinéraire"
-
-#~ msgid "Add a waypoint"
-#~ msgstr "Ajouter un point de passage"
-
-#~ msgid "Category"
-#~ msgstr "Catégorie"
-
-#~ msgid "Failed to associate document"
-#~ msgstr "Impossible d'associer ce document"
-
-#~ msgid "Failed to unassociate document"
-#~ msgstr "Impossible de dissocier ce document"
-
-#~ msgid "First"
-#~ msgstr "Début"
-
-#~ msgid "Last"
-#~ msgstr "Fin"
-
-#~ msgid "More filters"
-#~ msgstr "Plus de filtres"
-
-#~ msgid "News"
-#~ msgstr "Actualités"
-
-#~ msgid "Next"
-#~ msgstr "Suivant"
-
-#~ msgid "Previous"
-#~ msgstr "Précédent"
-
-#~ msgid "Search"
-#~ msgstr "Rechercher"
-
-#~ msgid "Select"
-#~ msgstr "Sélectionner"
-
-#~ msgid "To page head"
-#~ msgstr "Haut de page"
-
-#~ msgid "moutain_biking"
-#~ msgstr "VTT"
-
-#~ msgid "Has lift access"
-#~ msgstr "Remontée mécanique"
-
-#~ msgid "Longitude"
-#~ msgstr "Longitude"
-
-#~ msgid "This field must be smaller than 9999 m."
-#~ msgstr "Ce champ doit être inférieur à 9999m."
-
-#~ msgid "Associations"
-#~ msgstr "Associations"
-
-#~ msgid "No gear info"
-#~ msgstr "Pas d'informations sur le matériel nécessaire"
