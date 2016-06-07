@@ -20,8 +20,7 @@ app.advancedSearchDirective = function() {
     controller: 'AppAdvancedSearchController',
     controllerAs: 'searchCtrl',
     bindToController: {
-      'doctype': '@documentType',
-      'resCounter': '@resultsCounter'
+      'doctype': '@documentType'
     },
     scope: true,
     templateUrl: '/static/partials/advancedsearch.html'
@@ -57,12 +56,6 @@ app.AdvancedSearchController = function($scope, $attrs, appApi, ngeoLocation,
    * @export
    */
   this.doctype;
-
-  /**
-   * @type {string}
-   * @export
-   */
-  this.resCounter;
 
   /**
    * @type {app.Api}
@@ -130,10 +123,7 @@ app.AdvancedSearchController.prototype.successList_ = function(response) {
   }
   this.documents = response['data']['documents'];
   this.total = response['data']['total'];
-  if (this.resCounter) {
-    $('#' + this.resCounter).html(
-      /** @type {string} */ (this.total.toString()));
-  }
+  this.scope_.$root['resCounter'] = this.total;
   // TODO: disable map interaction for document types with no geometry
   // "total" is needed for pagination though
   this.scope_.$root.$emit('searchFeaturesChange', this.getFeatures_(),

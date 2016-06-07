@@ -5,7 +5,7 @@
 
 <header class="page-main-title">
   <h3><span translate>Waypoints</span>
-    <span class="badge" id="results-counter">0</span>
+    <span class="badge" ng-cloak>{{resCounter}}</span>
   </h3>
 </header>
 <section class="documents-list-section">
@@ -20,7 +20,7 @@
     </button>
     <app-pagination></app-pagination>
   </div>
-  <app-advanced-search document-type="waypoints" use-map="true" results-counter="results-counter"></app-advanced-search>
+  <app-advanced-search document-type="waypoints" use-map="true"></app-advanced-search>
 </section>
 <div class="map-right">
   <app-map app-map-advanced-search="true"></app-map>
