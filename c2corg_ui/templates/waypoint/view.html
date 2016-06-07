@@ -185,7 +185,7 @@ geometry4326 = geometry
       </span>
     </div>
 
-    % if 'recent_outings' in waypoint['associations'] and len(waypoint['associations']['recent_outings']['outings']) > 0 :
+    % if 'recent_outings' in waypoint['associations'] and waypoint['associations']['recent_outings']['total'] > 0 :
       <div class="view-details-associations col-xs-12 tab associations">
         <span class="lead">
           <section>
