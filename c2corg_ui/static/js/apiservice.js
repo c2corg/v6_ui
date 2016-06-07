@@ -119,21 +119,16 @@ app.Api.prototype.getJson_ = function(url) {
  * @return {!angular.$q.Promise}
  */
 app.Api.prototype.associateDocument = function(parentId, childId) {
-  var alerts = this.alerts_;
   var data = {
     'parent_document_id': parentId,
     'child_document_id': childId
   };
-
   var promise = this.postJson_('/associations', data);
   promise.catch(function(res) {
-    var error = '';
-    for (var i = 0; i < res['data']['errors'].length; i++) {
-      error = error + ' ' + res['data']['errors'][i]['description'];
-    }
-    var msg = alerts.gettext('Failed to associate document:') + ' ' + error;
-    alerts.addError(msg);
-  });
+    var error = this.formateAssociationErrors_(res);
+    var msg = this.alerts_.gettext('Failed to associate document:') + ' ' + error;
+    this.alerts_.addError(msg);
+  }.bind(this));
   return promise;
 };
 
@@ -144,22 +139,30 @@ app.Api.prototype.associateDocument = function(parentId, childId) {
  * @return {!angular.$q.Promise}
  */
 app.Api.prototype.unassociateDocument = function(parentId, childId) {
-  var alerts = this.alerts_;
   var data = {
     'parent_document_id': parentId,
     'child_document_id': childId
   };
-
   var promise = this.deleteJson_('/associations', data);
   promise.catch(function(res) {
-    var error = '';
-    for (var i = 0; i < res['data']['errors'].length; i++) {
-      error = error + ' ' + res['data']['errors'][i]['description'];
-    }
-    var msg = alerts.gettext('Failed to unassociate document:') + ' ' + error;
-    alerts.addError(msg);
-  });
+    var error = this.formateAssociationErrors_(res);
+    var msg = this.alerts_.gettext('Failed to unassociate document:') + ' ' + error;
+    this.alerts_.addError(msg);
+  }.bind(this));
   return promise;
+};
+
+
+/**
+ * @param {Object} res
+ * @return {string}
+ */
+app.Api.prototype.formateAssociationErrors_ = function(res) {
+  var error = '';
+  for (var i = 0; i < res['data']['errors'].length; i++) {
+    error = error + ' ' + res['data']['errors'][i]['description'];
+  }
+  return error;
 };
 
 
