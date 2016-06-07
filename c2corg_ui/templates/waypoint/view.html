@@ -99,10 +99,13 @@ geometry4326 = geometry
   <uib-tabset>
     <uib-tab heading="{{mainCtrl.translate('Description')}}" ng-click="detailsCtrl.openTab('description')" id="description-tab"></uib-tab>
     <uib-tab heading="{{mainCtrl.translate('Details')}}" ng-click="detailsCtrl.openTab('informations')"></uib-tab>
-    % if not version and (('waypoints' in waypoint['associations'] and \
-         len(waypoint['associations']['waypoints']) > 0) or \
-         ('routes' in waypoint['associations'] and len(waypoint['associations']['routes']) > 0)):
-    <uib-tab heading="{{mainCtrl.translate('Associations')}}" ng-click="detailsCtrl.openTab('associations')"></uib-tab>
+    <%
+        hasAssociatedWaypoints = 'waypoints' in waypoint['associations'] and len(waypoint['associations']['waypoints']) > 0
+        hasAssociatedWaypointParents = 'waypoint_parents' in waypoint['associations'] and len(waypoint['associations']['waypoint_parents']) > 0
+        hasAssociatedRoutes = 'all_routes' in waypoint['associations'] and waypoint['associations']['all_routes']['total'] > 0
+    %>
+    % if not version and (hasAssociatedWaypoints or hasAssociatedWaypointParents or hasAssociatedRoutes):
+      <uib-tab heading="{{mainCtrl.translate('Associations')}}" ng-click="detailsCtrl.openTab('associations')"></uib-tab>
     % endif
   </uib-tabset>
 
