@@ -19,7 +19,9 @@ app.advancedSearchDirective = function() {
     restrict: 'E',
     controller: 'AppAdvancedSearchController',
     controllerAs: 'searchCtrl',
-    bindToController: true,
+    bindToController: {
+      'doctype': '@documentType'
+    },
     scope: true,
     templateUrl: '/static/partials/advancedsearch.html'
   };
@@ -37,6 +39,7 @@ app.module.directive('appAdvancedSearch', app.advancedSearchDirective);
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @constructor
  * @export
+ * @struct
  * @ngInject
  */
 app.AdvancedSearchController = function($scope, $attrs, appApi, ngeoLocation,
@@ -50,15 +53,9 @@ app.AdvancedSearchController = function($scope, $attrs, appApi, ngeoLocation,
 
   /**
    * @type {string}
-   * @private
+   * @export
    */
-  this.doctype_ = $attrs['documentType'];
-
-  /**
-   * @type {string}
-   * @private
-   */
-  this.resCounter_ = $attrs['resultsCounter'];
+  this.doctype;
 
   /**
    * @type {app.Api}
@@ -110,7 +107,7 @@ app.AdvancedSearchController.prototype.getResults_ = function() {
   var qstr = goog.uri.utils.getQueryData(url) || '';
   qstr += '&pl=' + this.gettextCatalog_.currentLanguage;
   qstr = qstr.replace('debug', ''); // FIXME better handling of special params?
-  this.api_.listDocuments(this.doctype_, qstr).then(
+  this.api_.listDocuments(this.doctype, qstr).then(
     this.successList_.bind(this)
   );
 };
@@ -126,10 +123,7 @@ app.AdvancedSearchController.prototype.successList_ = function(response) {
   }
   this.documents = response['data']['documents'];
   this.total = response['data']['total'];
-  if (this.resCounter_) {
-    $('#' + this.resCounter_).html(
-      /** @type {string} */ (this.total.toString()));
-  }
+  this.scope_.$root['resCounter'] = this.total;
   // TODO: disable map interaction for document types with no geometry
   // "total" is needed for pagination though
   this.scope_.$root.$emit('searchFeaturesChange', this.getFeatures_(),
@@ -165,12 +159,12 @@ app.AdvancedSearchController.prototype.createFeatureProperties_ = function(doc) 
   // TODO choose the locale according to the UI lang and user prefs
   var locale = doc['locales'][0];
   var properties = {
-    'module': this.doctype_,
+    'module': this.doctype,
     'documentId': doc['document_id'],
     'lang': locale['lang'],
     'title': locale['title']
   };
-  if (this.doctype_ === 'waypoints') {
+  if (this.doctype === 'waypoints') {
     properties['type'] = doc['waypoint_type'];
   }
   return properties;

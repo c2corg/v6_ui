@@ -1,7 +1,6 @@
 <%inherit file="../base.html"/>
 <%namespace file="../helpers/common.html" import="show_title"/>
-<%namespace file="../helpers/list.html" import="add_pagination_links"/>
-<%namespace file="../helpers/view.html" import="route_card, get_document_min_max, show_attr, show_route_title, get_route_activities"/>
+<%namespace file="../helpers/view.html" import="add_seo_association_links"/>
 
 <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Routes')">${show_title('Routes')}</title></%block>
 
@@ -13,34 +12,6 @@
   </h3>
 </header>
 <section class="documents-list-section">
-  <%include file="filters.html" />
-  <div class="documents-nav-buttons text-center">
-    <button class="btn btn-default show-documents-filters-phone" translate>Filters</button>
-    
-    <%include file="c2corg_ui:templates/document/select_document.html" />
-    
-    <button class="btn btn-default"  protected-url-btn url="'${request.route_url('routes_add')}'">
-      <span class="glyphicon glyphicon-plus-sign"></span>
-    </button>
-
-    ${add_pagination_links('routes', routes, total, filter_params)}
-  </div>
-    <div class="list">
-      % for route in routes:
-      <% locale = route['locales'][0] %>\
-      <div class="list-item">
-        ${route_card(route)}
-      </div>
-      % endfor
-    </div>
+  <h2>Temporary page for sitemap</h2>
+  ${add_seo_association_links(routes, 'routes', False)}
 </section>
-% if len(routes):
-<div class="map-right">
-  <app-map></app-map>
-</div>
-% endif
-<script>
-window.onload = function(){
-  app.stickyFilters();
-}
-</script>

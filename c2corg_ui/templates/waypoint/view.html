@@ -1,6 +1,7 @@
 <%!
 from c2corg_common.attributes import activities, image_categories, image_types
 from c2corg_ui.templates.utils import get_lang_lists
+from json import dumps
 %>
 
 <%inherit file="../base.html"/>
@@ -12,7 +13,8 @@ from c2corg_ui.templates.utils import get_lang_lists
 <%namespace file="../helpers/view.html" import="photoswipe_gallery, get_document_locale_text,
     show_attr, show_missing_langs_links, show_other_langs_links, show_archive_data, 
     show_route_title, show_areas, show_maps, show_float_buttons,
-    show_associated_waypoints, show_associated_routes, show_associated_outings"/>
+    show_associated_waypoints, show_associated_routes, show_associated_outings,
+    delete_association_confirmation_modal"/>
     
 <%
 waypoint_id = waypoint['document_id']
@@ -48,8 +50,8 @@ geometry4326 = geometry
         "properties": {
           "title": "${locale['title']}",
           "documentId": ${waypoint['document_id']},
-          % if waypoint['waypoint_type'] != 'climbing_outdoor':
-          "elevation": ${waypoint['elevation']},
+          % if waypoint['elevation'] is not None:
+            "elevation": ${waypoint['elevation']},
           % endif
           "module": "waypoints",
           "type": "${waypoint['waypoint_type']}"
@@ -60,14 +62,14 @@ geometry4326 = geometry
     null
   % endif
   );
-</%block>
 
-## for SVG setOrientation(document, orientation)
-% if waypoint.get('orientation'):
-  <div class="ng-hide">
-   {{document.orientation = ${waypoint.get('orientation')} }}
-  </div>
-% endif
+  module.value('documentData', {
+    % if waypoint.get('orientations'):
+      "orientations": [${'"' + '","'.join(waypoint['orientations']) + '"' if len(waypoint['orientations']) else '' | n}],
+    % endif
+    "associations": ${dumps(waypoint.get('associations')) | n}
+  });
+</%block>
 
 <header class="view-details-title">
   <h1>${locale['title']}
@@ -93,14 +95,17 @@ geometry4326 = geometry
 </article>
 
 <section class="view-details-section" app-view-details>
-  
+
   <uib-tabset>
     <uib-tab heading="{{mainCtrl.translate('Description')}}" ng-click="detailsCtrl.openTab('description')" id="description-tab"></uib-tab>
     <uib-tab heading="{{mainCtrl.translate('Details')}}" ng-click="detailsCtrl.openTab('informations')"></uib-tab>
-    % if not version and (('waypoints' in waypoint['associations'] and \
-         len(waypoint['associations']['waypoints']) > 0) or \
-         ('routes' in waypoint['associations'] and len(waypoint['associations']['routes']) > 0)):
-    <uib-tab heading="{{mainCtrl.translate('Associations')}}" ng-click="detailsCtrl.openTab('associations')"></uib-tab>
+    <%
+        hasAssociatedWaypoints = 'waypoints' in waypoint['associations'] and len(waypoint['associations']['waypoints']) > 0
+        hasAssociatedWaypointParents = 'waypoint_parents' in waypoint['associations'] and len(waypoint['associations']['waypoint_parents']) > 0
+        hasAssociatedRoutes = 'all_routes' in waypoint['associations'] and waypoint['associations']['all_routes']['total'] > 0
+    %>
+    % if not version and (hasAssociatedWaypoints or hasAssociatedWaypointParents or hasAssociatedRoutes):
+      <uib-tab heading="{{mainCtrl.translate('Associations')}}" ng-click="detailsCtrl.openTab('associations')"></uib-tab>
     % endif
   </uib-tabset>
 
@@ -152,37 +157,43 @@ geometry4326 = geometry
     </div>
   % endif
 
-  
   <div class="description tab">
     ${get_document_locale_text(locale, 'access')}
     ${get_document_locale_text(locale, 'access_period')}
   </div>
-  
+
   ## ASSOCIATIONS
   % if not version:
     <div class="view-details-associations col-xs-12 tab associations">
       <span class="lead">
-      <section>
-        <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
-          <label translate>Add association</label>:
-          <app-add-association parent-id="${waypoint_id}" added-documents="added" dataset="rw"></app-add-association>
-        </div>
-        ${show_associated_waypoints(waypoint, 'waypoint_parents')}
-        ${show_associated_waypoints(waypoint, 'waypoint_children')}
-        ${show_associated_routes(waypoint, 'all_routes')}
-      </section>
+        <section>
+          <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
+            <label translate>Add association</label>
+            <app-add-association parent-id="${waypoint_id}" parent-doctype="waypoints" dataset="w"></app-add-association>
+          </div>
+          ${show_associated_waypoints(waypoint, 'waypoints', showDelete=False)}
+          ${show_associated_waypoints(waypoint, 'waypoint_children')}
+        </section>
       </span>
     </div>
-  % endif
-  
-  % if 'recent_outings' in waypoint['associations'] and len(waypoint['associations']['recent_outings']['outings']) > 0 :
-  <div class="view-details-associations col-xs-12 tab associations">
-    <span class="lead">
-      <section>
-        ${show_associated_outings(waypoint)}
-      </section>
-    </span>
-  </div>
+
+    <div class="view-details-associations col-xs-12 tab associations">
+      <span class="lead">
+        <section>
+          ${show_associated_routes(waypoint, 'all_routes')}
+        </section>
+      </span>
+    </div>
+
+    % if 'recent_outings' in waypoint['associations'] and waypoint['associations']['recent_outings']['total'] > 0 :
+      <div class="view-details-associations col-xs-12 tab associations">
+        <span class="lead">
+          <section>
+            ${show_associated_outings(waypoint)}
+          </section>
+        </span>
+      </div>
+    % endif
   % endif
 
   ## OTHER BUTTON contents
@@ -201,9 +212,11 @@ ${show_float_buttons(None, 'waypoints', waypoint_id, lang, other_langs, missing_
   <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);">&nbsp;<span class="glyphicon glyphicon-menu-up"></span></button>
 </div>
 
-<div class="ng-hide" ng-init="detailsCtrl.documentService.document = ${waypoint}">
+<div class="ng-hide">
   <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
+  ${delete_association_confirmation_modal()}
 </div>
+
 ${photoswipe_gallery()}
 
 <script>

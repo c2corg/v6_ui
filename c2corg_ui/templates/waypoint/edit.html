@@ -9,6 +9,7 @@
   updating_doc = waypoint_id and waypoint_lang
 %>
 <%namespace file="../helpers/common.html" import="show_title"/>
+<%namespace file="../helpers/edit.html" import="show_editing_associated_waypoints, show_editing_associated_routes"/>
 
 <%block name="pagetitle">
 <title ng-init="id = ${waypoint_id if waypoint_id else 0}" ng-bind="id ?
@@ -17,7 +18,6 @@
 </%block>
 
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
-
 
 <section class="create-edit-document">
 
@@ -170,7 +170,7 @@
                                       'has-success': editForm.longitude.$valid && waypoint.lonlat.longitude}">
               <label><span translate>longitude</span> *</label>
               <div class="input-group">
-                <input type="number" name="longitude" ng-model="waypoint.lonlat.longitude" ng-change="editCtrl.updateMap()" class="form-control" required required min="-90" max="90" />
+                <input type="number" name="longitude" ng-model="waypoint.lonlat.longitude" ng-change="editCtrl.updateMap()" class="form-control" required min="-90" max="90" />
                 <span class="input-group-addon">°E</span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.longitude.$valid && waypoint.lonlat.longitude"></span>
@@ -188,7 +188,7 @@
                                       'has-success': editForm.latitude.$valid && waypoint.lonlat.latitude}">
               <label><span translate>Latitude</span> *</label>
               <div class="input-group">
-                <input type="number" name="latitude" ng-model="waypoint.lonlat.latitude" ng-change="editCtrl.updateMap()" class="form-control" required required min="-90" max="90" />
+                <input type="number" name="latitude" ng-model="waypoint.lonlat.latitude" ng-change="editCtrl.updateMap()" class="form-control" required min="-90" max="90" />
                 <span class="input-group-addon">°N</span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.lonlat.latitude"></span>
@@ -704,10 +704,10 @@
         <section class="section associations" ng-if="type != 'climbing_indoor' ">
           <h2 class="heading show-phone" translate>associations</h2>
           <div class="content">
-            ## wr = waypoints, routes
-            <app-simple-search parent-id="document.document_id" app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="wr"></app-simple-search>
-            <%include file="../route/associated.html"/>
-            <%include file="../waypoint/associated.html"/>
+            ## w = waypoints
+            <app-simple-search parent-id="waypoint.document_id"
+              app-select="editCtrl.documentService.pushToAssociations(doc, 'waypoint_children')" dataset="w"></app-simple-search>
+            ${show_editing_associated_waypoints('waypoint', type='waypoint_children')}
           </div>
         </section>
         

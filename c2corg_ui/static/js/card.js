@@ -24,7 +24,8 @@ app.cardDirective = function($compile, $templateCache) {
     controllerAs: 'cardCtrl',
     bindToController: true,
     scope: {
-      'doc': '=appCardDoc'
+      'doc': '=appCardDoc',
+      'disableClick': '=appCardDisableClick'
     },
     link: function(scope, element, attrs) {
       var doc = scope['cardCtrl']['doc'];
@@ -43,6 +44,7 @@ app.module.directive('appCard', app.cardDirective);
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @constructor
  * @export
+ * @struct
  * @ngInject
  */
 app.CardController = function(gettextCatalog) {
@@ -61,17 +63,23 @@ app.CardController = function(gettextCatalog) {
 
   /**
    * @type {Object}
-   * @private
+   * @export
    */
-  this.doc_ = this['doc'];
+  this.doc;
+
+  /**
+   * @type {boolean}
+   * @export
+   */
+  this.disableClick;
 
   /**
    * @type {Object}
    * @export
    */
-  this.locale = this['doc']['locales'][0];
-  for (var i = 0, n = this['doc']['locales'].length; i < n; i++) {
-    var l = this['doc']['locales'][i];
+  this.locale = this.doc['locales'][0];
+  for (var i = 0, n = this.doc['locales'].length; i < n; i++) {
+    var l = this.doc['locales'][i];
     if (l['lang'] === this.lang) {
       this.locale = l;
       break;
@@ -94,10 +102,12 @@ app.CardController.prototype.translate = function(str) {
  * @export
  */
 app.CardController.prototype.openCardPage = function() {
-  window.location.href = app.utils.buildDocumentUrl(
-    app.utils.getDoctype(this.doc_['type']),
-    this.doc_['document_id'],
-    this.doc_['locales'][0]['lang']);
+  if (!this.disableClick) {
+    window.location.href = app.utils.buildDocumentUrl(
+      app.utils.getDoctype(this.doc['type']),
+      this.doc['document_id'],
+      this.doc['locales'][0]['lang']);
+  }
 };
 
 

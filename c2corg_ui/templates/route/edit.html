@@ -10,6 +10,7 @@ rock_types, hiking_ratings, exposition_rock_ratings, climbing_outdoor_types, sno
 updating_doc = route_id and route_lang
 %>
 <%namespace file="../helpers/common.html" import="show_title"/>
+<%namespace file="../helpers/edit.html" import="show_editing_associated_waypoints, show_editing_associated_routes"/>
 
 <%block name="pagetitle"><title ng-init="id=${route_id if route_id else 0}" ng-bind="id ? mainCtrl.page_title('Editing a route') : mainCtrl.page_title('Creating a route')">${show_title('Create/edit route')}</title></%block>
 
@@ -55,7 +56,8 @@ updating_doc = route_id and route_lang
             ## TITLE
           <div id="title-group" class="form-group" ng-class="{ 'has-error': editForm.title.$touched && editForm.title.$invalid, 'has-success': editForm.title.$valid }">
             <label><span translate>title</span> *</label>
-            <span uib-tooltip="{{mainCtrl.translate('main waypoint title')}}"/><input type="text" name="title" ng-model="route.main_waypoint_title" ng-show="route.main_waypoint_title" class="form-control" disabled></span>
+            <span uib-tooltip="{{mainCtrl.translate('main waypoint title')}}"/><input type="text" name="main_waypoint_title"
+              ng-model="route.main_waypoint_title" ng-show="route.main_waypoint_title" class="form-control" disabled></span>
             <input type="text" name="title" ng-model="route.locales[0].title" ng-minlength="3"class="form-control" required />
             <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.title.$valid"></span>
             <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.title.$invalid && editForm.title.$touched"></span>
@@ -91,9 +93,10 @@ updating_doc = route_id and route_lang
           <h2 class="heading show-phone"><span translate>associations </span></h2>
           <div class="content route-associations" id="title-edit">
             ## wr = waypoints, routes
-            <app-simple-search parent-id="document.document_id" app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="wr"></app-simple-search>
-            <%include file="../route/associated.html"/>
-            <%include file="../waypoint/associated.html"/>
+            <app-simple-search parent-id="route.document_id"
+              app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="wr"></app-simple-search>
+            ${show_editing_associated_waypoints('route')}
+            ${show_editing_associated_routes('route')}
           </div>
         </section>
         

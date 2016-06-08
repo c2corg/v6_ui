@@ -14,7 +14,7 @@ app.viewDetailsDirective = function() {
     controller: 'AppViewDetailsController',
     controllerAs: 'detailsCtrl',
     bindToController: true,
-    link: function(el, scope, attrs, ctrl) {
+    link: function(scope, el, attrs, ctrl) {
 
       function initGalleries() {
         ctrl.initSlickGallery_();
@@ -66,16 +66,18 @@ app.module.directive('appViewDetails', app.viewDetailsDirective);
 
 
 /**
- * @param {Object} $uibModal modal from angular bootstrap
  * @param {!angular.Scope} $scope Scope.
+ * @param {angular.$compile} $compile Angular compile service.
+ * @param {Object} $uibModal modal from angular bootstrap
  * @param {app.Api} appApi Api service.
  * @param {app.Document} appDocument service
- * @param {angular.$compile} $compile Angular compile service.
+ * @param {appx.Document} documentData Data set as module value in the HTML.
  * @constructor
  * @export
  * @ngInject
  */
-app.ViewDetailsController = function($uibModal, $compile, $scope, appApi, appDocument) {
+app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
+    appDocument, documentData) {
 
   /**
    * @type {app.Document}
@@ -107,20 +109,27 @@ app.ViewDetailsController = function($uibModal, $compile, $scope, appApi, appDoc
    */
   this.scope_ = $scope;
 
+  // FIXME: hardcoded for testing (to be removed)
+  documentData['associations']['images'] = [
+    {'src': 'http://s.camptocamp.org/uploads/images/1463740758_235613570.jpg', date: '23-02-2015', activities: ['hiking, snow'], 'elevation': Math.random(), iso_speed: 100, filename: 'image2.jpg', camera_name: 'Nikon', locales: [{'title' : 'inizio del canale'}], date_time: new Date(), 'fnumber' : 2.3},
+    {'src': 'http://s.camptocamp.org/uploads/images/1463694562_1216719818.jpg', date: '23-22-2025', activities: ['hiking'], elevation: Math.random(), iso_speed: 230, filename: 'image1.jpg', camera_name: 'Sony', locales: [{'title' : 'never let me down'}], date_time: new Date(), 'fnumber' : 5.5},
+    {'src': 'http://s.camptocamp.org/uploads/images/1463694970_824684659.jpg', date: new Date(), activities: ['snow'], elevation: Math.random(), iso_speed: 400, filename: 'image231.jpg', camera_name: 'Canon', locales: [{'title' : 'my favorite place'}], date_time: new Date(), 'fnumber' : 4.2},
+    {'src': 'http://s.camptocamp.org/uploads/images/1463741192_488006925.jpg', date: '23-323', activities: ['hiking, snow, ski'], elevation: Math.random(), iso_speed: 1200, filename: 'image94.jpg', camera_name: 'Fuji', locales: [{'title' : 'superb view'}]},
+    {'src': 'http://s.camptocamp.org/uploads/images/1463694980_966569102.jpg', date: '099-02-2015', activities: ['paragliding'], elevation: Math.random(), iso_speed: 2300, filename: 'image55.jpg', camera_name: 'Sigma', locales: [{'title' : 'great view'}] , date_time: new Date(), 'fnumber' : 10}
+  ];
+
+  this.documentService.setDocument(documentData);
+
   /**
+   * Used to pass the associated images to the slideshow
+   * FIXME: use the documentService instead of passing 'document' to the scope?
    * @type {appx.Document}
    */
-  this.scope_['document'] = {// hardcoded for testing
-    'associations': {
-      'images': [
-        {'src': 'http://s.camptocamp.org/uploads/images/1463740758_235613570.jpg', date: '23-02-2015', activities: ['hiking, snow'], 'elevation': Math.random(), iso_speed: 100, filename: 'image2.jpg', camera_name: 'Nikon', locales: [{'title': 'inizio del canale'}], date_time: new Date(), 'fnumber': 2.3},
-        {'src': 'http://s.camptocamp.org/uploads/images/1463694562_1216719818.jpg', date: '23-22-2025', activities: ['hiking'], elevation: Math.random(), iso_speed: 230, filename: 'image1.jpg', camera_name: 'Sony', locales: [{'title': 'never let me down'}], date_time: new Date(), 'fnumber': 5.5},
-        {'src': 'http://s.camptocamp.org/uploads/images/1463694970_824684659.jpg', date: new Date(), activities: ['snow'], elevation: Math.random(), iso_speed: 400, filename: 'image231.jpg', camera_name: 'Canon', locales: [{'title': 'my favorite place'}], date_time: new Date(), 'fnumber': 4.2},
-        {'src': 'http://s.camptocamp.org/uploads/images/1463741192_488006925.jpg', date: '23-323', activities: ['hiking, snow, ski'], elevation: Math.random(), iso_speed: 1200, filename: 'image94.jpg', camera_name: 'Fuji', locales: [{'title': 'superb view'}]},
-        {'src': 'http://s.camptocamp.org/uploads/images/1463694980_966569102.jpg', date: '099-02-2015', activities: ['paragliding'], elevation: Math.random(), iso_speed: 2300, filename: 'image55.jpg', camera_name: 'Sigma', locales: [{'title': 'great view'}], date_time: new Date(), 'fnumber': 10}
-      ]
-    }
-  };
+  this.scope_['document'] = this.documentService.document;
+
+  this.scope_.$on('unassociateDoc', function(e, doc) {
+    this.removeAssociation_(doc);
+  }.bind(this));
 };
 
 
@@ -133,6 +142,27 @@ app.ViewDetailsController.prototype.openModal = function(selector) {
   this.modal_.open({animation: true, size: 'lg', template: this.compile_(template)(this.scope_)});
 };
 
+/**
+ * @param {Object} doc
+ * @private
+ */
+app.ViewDetailsController.prototype.removeAssociation_ = function(doc) {
+  var associations;
+
+  if (doc['type'] === 'outings') {
+    associations = this.scope_['document']['associations']['recent_outings']['outings'];
+  } else {
+    associations = this.scope_['document']['associations'][doc['type']];
+  }
+  if (associations) {
+    for (var i = 0; i < associations.length; i++) {
+      if (associations[i]['document_id'] === doc['id']) {
+        associations.splice(i, 1);
+        return;
+      }
+    }
+  }
+};
 
 /**
  * @param {Event} tab the clicked tab

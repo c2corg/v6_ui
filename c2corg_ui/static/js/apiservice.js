@@ -115,21 +115,20 @@ app.Api.prototype.getJson_ = function(url) {
 
 /**
  * @param {number} parentId
- * @param {appx.SimpleSearchDocument} doc
+ * @param {number} childId
  * @return {!angular.$q.Promise}
  */
-app.Api.prototype.associateDocument = function(parentId, doc) {
-  var alerts = this.alerts_;
+app.Api.prototype.associateDocument = function(parentId, childId) {
   var data = {
     'parent_document_id': parentId,
-    'child_document_id': doc.document_id
+    'child_document_id': childId
   };
-
   var promise = this.postJson_('/associations', data);
-  promise.catch(function() {
-    var msg = alerts.gettext('Failed to associate document');
-    alerts.addError(msg);
-  });
+  promise.catch(function(res) {
+    var error = this.formateAssociationErrors_(res);
+    var msg = this.alerts_.gettext('Failed to associate document:') + ' ' + error;
+    this.alerts_.addError(msg);
+  }.bind(this));
   return promise;
 };
 
@@ -140,18 +139,30 @@ app.Api.prototype.associateDocument = function(parentId, doc) {
  * @return {!angular.$q.Promise}
  */
 app.Api.prototype.unassociateDocument = function(parentId, childId) {
-  var alerts = this.alerts_;
   var data = {
     'parent_document_id': parentId,
     'child_document_id': childId
   };
-
   var promise = this.deleteJson_('/associations', data);
-  promise.catch(function() {
-    var msg = alerts.gettext('Failed to unassociate document');
-    alerts.addError(msg);
-  });
+  promise.catch(function(res) {
+    var error = this.formateAssociationErrors_(res);
+    var msg = this.alerts_.gettext('Failed to unassociate document:') + ' ' + error;
+    this.alerts_.addError(msg);
+  }.bind(this));
   return promise;
+};
+
+
+/**
+ * @param {Object} res
+ * @return {string}
+ */
+app.Api.prototype.formateAssociationErrors_ = function(res) {
+  var error = '';
+  for (var i = 0; i < res['data']['errors'].length; i++) {
+    error = error + ' ' + res['data']['errors'][i]['description'];
+  }
+  return error;
 };
 
 
@@ -187,14 +198,17 @@ app.Api.prototype.createDocument = function(module, json) {
  * @param {string} module Module.
  * @param {number} id Document id.
  * @param {string} lang Language.
+ * @param {boolean=} editing True if in editing mode (default: false).
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
-app.Api.prototype.readDocument = function(module, id, lang) {
+app.Api.prototype.readDocument = function(module, id, lang, editing) {
   var alerts = this.alerts_;
-  var url = '/{module}/{id}?l={lang}'
+  editing = typeof editing === 'undefined' ? false : editing;
+  var url = '/{module}/{id}?l={lang}{editing}'
     .replace('{module}', module)
     .replace('{id}', String(id))
-    .replace('{lang}', lang);
+    .replace('{lang}', lang)
+    .replace('{editing}', editing ? '&e=1' : '');
 
   var promise = this.getJson_(url);
   promise.catch(function(response) {

@@ -3,6 +3,7 @@ goog.provide('app.documentEditingDirective');
 
 goog.require('app');
 goog.require('app.Alerts');
+goog.require('app.Document');
 goog.require('app.utils');
 goog.require('goog.asserts');
 goog.require('ol.format.GeoJSON');
@@ -48,22 +49,22 @@ app.module.directive('appDocumentEditing', app.documentEditingDirective);
  * @param {app.Authentication} appAuthentication
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {app.Alerts} appAlerts
- * @param {app.Document} appDocument
  * @param {app.Api} appApi Api service.
  * @param {string} authUrl Base URL of the authentication page.
+ * @param {app.Document} appDocument
  * @constructor
  * @ngInject
  * @export
  */
 app.DocumentEditingController = function($scope, $element, $attrs,
-    appAuthentication, ngeoLocation, appAlerts, appApi, authUrl, appDocument) {
+    appAuthentication, ngeoLocation, appAlerts, appApi, authUrl,
+    appDocument) {
 
   /**
    * @type {app.Document}
    * @export
    */
   this.documentService = appDocument;
-
 
   /**
    * @type {ngeo.Location}
@@ -185,21 +186,20 @@ app.DocumentEditingController = function($scope, $element, $attrs,
    */
   this.api_ = appApi;
 
-  // allow association only new outing  to existing route
+  // allow association only new outing to existing route
   if (this.ngeoLocation_.hasParam('routes')) {
     this.urlParams_ = {'routes': this.ngeoLocation_.getParam('routes')};
     this.pushDocToAssociations_();
   }
 
-  // When creating a new document, the model is not created until
-  // the form is touched. At least create an empty object.
   this.scope_[this.modelName_] = this.scope_['document'] = this.documentService.document;
+
   if (this.auth_.isAuthenticated()) {
     if (this.id_ && this.lang_) {
      // Get document attributes from the API to feed the model:
       goog.asserts.assert(!goog.isNull(this.id_));
       goog.asserts.assert(!goog.isNull(this.lang_));
-      this.api_.readDocument(this.module_, this.id_, this.lang_).then(
+      this.api_.readDocument(this.module_, this.id_, this.lang_, true).then(
           this.successRead_.bind(this)
       );
     } else if (this.modelName_ === 'outing') {
@@ -231,6 +231,8 @@ app.DocumentEditingController.prototype.successRead_ = function(response) {
         (this.geojsonFormat_.readGeometry(str));
     return this.getCoordinatesFromPoint_(point);
   }).bind(this);
+
+  this.documentService.setAssociations(data['associations']);
 
   if ('geometry' in data && data['geometry']) {
     var geometry = data['geometry'];
@@ -423,6 +425,7 @@ app.DocumentEditingController.prototype.handleMapFeaturesChange_ = function(
       'longitude': coords[0],
       'latitude': coords[1]
     };
+    this.scope_.$apply();
   } else {
     var center;
     // For lines, use the middle point as point geometry:
@@ -583,13 +586,14 @@ app.DocumentEditingController.prototype.animateBar_ = function(step, direction) 
     }
 
     $('.progress-bar-edit')
-            .css({'background-image': '-webkit-linear-gradient(left, ' + green + ' 0,' + green + ' ' + willBe + '%,' + gray + ' ' + (willBe + 7) + '%,' + gray + ' 0%)'})
-            .css({'background-image': '-o-linear-gradient(left, ' + green + ' 0,' + green + ' ' + willBe + '%,' + gray + ' ' + (willBe + 7) + '%,' + gray + ' 0%)'})
-            .css({'background-image': '-moz-linear-gradient(left, ' + green + ' 0,' + green + ' ' + willBe + '%,' + gray + ' ' + (willBe + 7) + '%,' + gray + ' 0%)'})
-            .css({'background-image': '-ms-linear-gradient(left, ' + green + ' 0,' + green + ' ' + willBe + '%,' + gray + ' ' + (willBe + 7) + '%,' + gray + ' 0%)'})
-            .css({'background-image': 'linear-gradient(left, ' + green + ' 0,' + green + ' ' + willBe + '%,' + gray + ' ' + (willBe + 7) + '%,' + gray + ' 0%)'});
+      .css({'background-image': '-webkit-linear-gradient(left, ' + green + ' 0,' + green + ' ' + willBe + '%,' + gray + ' ' + (willBe + 7) + '%,' + gray + ' 0%)'})
+      .css({'background-image': '-o-linear-gradient(left, ' + green + ' 0,' + green + ' ' + willBe + '%,' + gray + ' ' + (willBe + 7) + '%,' + gray + ' 0%)'})
+      .css({'background-image': '-moz-linear-gradient(left, ' + green + ' 0,' + green + ' ' + willBe + '%,' + gray + ' ' + (willBe + 7) + '%,' + gray + ' 0%)'})
+      .css({'background-image': '-ms-linear-gradient(left, ' + green + ' 0,' + green + ' ' + willBe + '%,' + gray + ' ' + (willBe + 7) + '%,' + gray + ' 0%)'})
+      .css({'background-image': 'linear-gradient(left, ' + green + ' 0,' + green + ' ' + willBe + '%,' + gray + ' ' + (willBe + 7) + '%,' + gray + ' 0%)'});
   }.bind(this), 10);
 };
+
 
 /**
  * Update steps, depending on the waypoint type.
@@ -599,6 +603,7 @@ app.DocumentEditingController.prototype.animateBar_ = function(step, direction) 
 app.DocumentEditingController.prototype.updateMaxSteps = function(waypointType) {
   this.max_steps = app.constants.STEPS[waypointType] || 3;
 };
+
 
 /**
  * @param {Object} outing
@@ -671,5 +676,5 @@ app.DocumentEditingController.prototype.setOrientation = function(orientation, d
   app.utils.pushToArray(document, 'orientations', orientation, e);
 }
 
-app.module.controller('appDocumentEditingController', app.DocumentEditingController);
 
+app.module.controller('appDocumentEditingController', app.DocumentEditingController);

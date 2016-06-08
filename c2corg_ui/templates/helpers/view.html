@@ -1,5 +1,7 @@
-<%! from c2corg_ui.templates.utils import get_attr %>
-<%! import json %>
+<%!
+    from c2corg_ui.templates.utils import get_attr
+    import json
+%>
 
 <%def name="show_attr(obj, key, parse=True)">\
   <%
@@ -46,7 +48,7 @@
     <div class="modal-header"><h3 class="text-center" translate>Translate into an other lang</h3></div>  
     <ul>
       % for lang in missing_langs:
-      <li protected-url-btn url="'${request.route_url(module + '_edit', id=document['document_id'], lang=lang)}'">
+      <li protected-url-btn url="${request.route_url(module + '_edit', id=document['document_id'], lang=lang)}">
         <span x-translate>${lang}</span><span class="glyphicon glyphicon-chevron-right"></span>
       </li>
       % endfor
@@ -103,74 +105,83 @@
 </%def>
 
 
-<%def name="show_associated_routes(document, type='routes')">\
-  ## Possible values for type: routes, all_routes
-  <%
-      associations = document['associations']
-      routes = []
-      if type in associations:
-          routes = associations['all_routes']['routes'] if type == 'all_routes' else associations['routes']
-  %>
-  % if len(routes) > 0 :
-    <article>
-      <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-routes">
-        <span class="glyphicon glyphicon-map-marker"></span>
-        <span translate>Associated routes</span><span class="glyphicon glyphicon-menu-down"></span>
-      </h3>
-      <div class="associated-documents collapse in" id="associated-routes">
-        % for route in routes:
-          <div class="list-item">
-            ${route_card(route)}
-            <app-delete-association parent-id="${document['document_id']}" child-id="${route['document_id']}"
-              ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
-          </div>
-        % endfor
-        % if type == 'all_routes' and associations['all_routes']['total'] > len(routes):
-          <%
-              _query = {}
-              _query[document['type']] = document['document_id']
-          %>
-          <div class="list-item vertical-align" onclick="window.location='${request.route_url('routes_index', _query=_query)}';">
-            <button class="gray-btn btn show-more" translate>show more</button>
-          </div>
-        % endif
-        <article class="list-item" ng-repeat="doc in added | filter:{'documentType': 'routes'}">
-          <app-association-card parent-id="${document['document_id']}" doc="doc" added-documents="added"></app-association-card>
-        </article>
-      </div>
-    </article>
+<%def name="add_seo_association_links(documents, doctype, hide=True)">\
+  % if len(documents):
+    <ul ${'class="ng-hide"' if hide else '' | n}>
+      % for doc in documents:
+        <%
+            locale = doc['locales'][0]
+        %>
+        ## TODO add slug to URL
+        <li>
+          <a href="${request.route_url(doctype + '_view', id=doc['document_id'], lang=locale['lang'])}">
+          ${locale['title_prefix'] + ' : ' if doctype == 'routes' else ''}${locale['title']}</a>
+        </li>
+      % endfor
+    </ul>
   % endif
 </%def>
 
-<%def name="show_associated_waypoints(document, type='waypoints')">\
-  ## Possible values for type: waypoints, waypoint_parents, waypoint_children
+
+<%def name="show_associated_routes(document, type='routes')">\
+  ## Possible values for type: routes, all_routes
   <%
-      associations = document['associations']
+      routes = document['associations']['all_routes']['routes'] if type == 'all_routes' else document['associations']['routes']
+      associations = 'detailsCtrl.documentService.document.associations.'
+      associations += 'all_routes.routes' if type == 'all_routes' else 'routes'
   %>
-  % if type in associations and len(associations[type]) > 0 :
-    <article>
-      <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-waypoints">
-        <span class="glyphicon glyphicon-map-marker"></span>
-        <span x-translate>Associated ${type}</span><span class="glyphicon glyphicon-menu-down"></span>
-      </h3>
-      <div class="associated-documents collapse in" id="associated-waypoints">
-        % for waypoint in associations[type]:
-          <div class="list-item"
-               % if document.get('type') == 'r':
-                  ng-class="{'main-waypoint': ${document['main_waypoint_id']} === ${waypoint['document_id']} } "
-               % endif
-              >
-            ${waypoint_card(waypoint)}
-            <app-delete-association parent-id="${document['document_id']}" child-id="${waypoint['document_id']}"
-              ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
-          </div>
-        % endfor
-        <article class="list-item" ng-repeat="doc in added | filter:{'documentType': 'waypoints'}">
-          <app-association-card parent-id="${document['document_id']}" doc="doc" added-documents="added"></app-association-card>
-        </article>
+  ${add_seo_association_links(routes, 'routes')}
+  <section ng-show="${associations}.length > 0">
+    <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-routes">
+      <span class="glyphicon glyphicon-map-marker"></span>
+      <span translate>Associated routes</span><span class="glyphicon glyphicon-menu-down"></span>
+    </h3>
+    <div class="associated-documents collapse in" id="associated-routes">
+      <div class="list-item" ng-repeat="doc in ${associations}">
+        <app-card app-card-doc="doc"></app-card>
+        % if type == 'routes':
+          <app-delete-association child-doctype="routes" parent-id="${document['document_id']}" child-id="doc.document_id"
+            ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
+        % endif
       </div>
-    </article>
-  % endif
+      % if type == 'all_routes' and document['associations']['all_routes']['total'] > len(routes):
+        <%
+            _query = {}
+            _query[document['type']] = document['document_id']
+        %>
+        <div class="list-item vertical-align" onclick="window.location='${request.route_url('routes_index', _query=_query)}';">
+          <button class="gray-btn btn show-more" translate>show more</button>
+        </div>
+      % endif
+    </div>
+  </section>
+</%def>
+
+<%def name="show_associated_waypoints(document, type='waypoints', showDelete=True)">\
+  ## Possible values for type: waypoints, waypoint_children
+  <%
+      associations = 'detailsCtrl.documentService.document.associations.' + type
+  %>
+  ${add_seo_association_links(document['associations'][type], 'waypoints')}
+  <section ng-show="${associations}.length > 0">
+    <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-waypoints">
+      <span class="glyphicon glyphicon-map-marker"></span>
+      <span x-translate>Associated ${type}</span><span class="glyphicon glyphicon-menu-down"></span>
+    </h3>
+    <div class="associated-documents collapse in" id="associated-waypoints">
+      <div class="list-item"
+        % if document['doctype'] == 'routes':
+          ng-class="{'main-waypoint': doc.document_id === ${document['main_waypoint_id']}}"
+        % endif
+          ng-repeat="doc in ${associations}">
+        <app-card app-card-doc="doc"></app-card>
+        % if showDelete:
+          <app-delete-association child-doctype="${type}" parent-id="${document['document_id']}" child-id="doc.document_id"
+            ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
+        % endif
+      </div>
+    </div>
+  </section>
 </%def>
 
 <%def name="show_associated_outings(document)">\
@@ -178,27 +189,23 @@
       associations = document['associations']
   %>
   % if 'recent_outings' in associations and associations['recent_outings']['total'] > 0:
+    ${add_seo_association_links(associations['recent_outings']['outings'], 'outings')}
     <article>
       <h3 class="heading show-phone outings" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-outings">
         <span class="glyphicon glyphicon-map-marker"></span>
-        <span translate>Associated outings</span><span class="glyphicon glyphicon-menu-down"></span>
+        <span translate>Last outings</span><span class="glyphicon glyphicon-menu-down"></span>
       </h3>
       <div class="associated-documents collapse in" id="associated-outings">
         <div class="list-item vertical-align" protected-url-btn
-             url="'${request.route_url('outings_add')}' + '?${document['doctype']}=${document['document_id']}'">
+             url="${request.route_url('outings_add') + '?' + document['doctype'] + '=' + str(document['document_id'])}">
           <a>
             <button class="btn orange-btn" translate>add a new outing to this document</button>
           </a>
         </div>
-        % for outing in associations['recent_outings']['outings']:
-        <div class="list-item outing">
-          ${outing_card(outing)}
-          <app-delete-association parent-id="${document['document_id']}" child-id="${outing['document_id']}"
-            ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
+        <div class="list-item outings" ng-repeat="doc in detailsCtrl.documentService.document.associations.recent_outings.outings">
+          <app-card app-card-doc="doc"></app-card>
         </div>
-        % endfor
-
-        % if associations['recent_outings']['total'] > 10 :
+        % if associations['recent_outings']['total'] > len(associations['recent_outings']['outings']) :
           <%
               _query = {}
               _query[document['type']] = document['document_id']
@@ -207,10 +214,6 @@
             <button class="gray-btn btn show-more" translate>show more</button>
           </div>
         % endif
-
-        <article class="list-item" ng-repeat="doc in added | filter:{'documentType': 'outings'}">
-          <app-association-card parent-id="${document['document_id']}" doc="doc" added-documents="added"></app-association-card>
-        </article>
       </div>
     </article>
   % endif
@@ -295,65 +298,12 @@
 </%def>
 
 
-## Draw route card with or without additionnal items like delete button.
-<%def name="route_card(route)">\
-    <a href="${request.route_url('routes_view', id=route['document_id'], lang=route['locales'][0]['lang'])}">
-      <span class="list-item-title">${show_route_title(route['locales'][0])}</span>
-      % if lang != route['locales'][0]:
-      <span class="list-item-lang"> (${route['locales'][0]['lang']})</span><br>
-      % endif
-      <div class="list-item-info">
-        ${get_document_min_max(route, 'elevation')}
-        <div class="route-activities">
-          ${get_route_activities(route, 'top')}
-        </div>
-      </div>
-    </a>
-</%def>
-
-
-## Draw waypoint card with or without additionnal items like delete button.
-<%def name="waypoint_card(waypoint)">\
-  <a href="${request.route_url('waypoints_view', id=waypoint['document_id'], lang=waypoint['locales'][0]['lang'])}">
-    <span class="list-item-title">${waypoint['locales'][0]['title']}</span>
-    % if lang != waypoint['locales'][0]:
-    <span class="list-item-lang"> (${waypoint['locales'][0]['lang']})</span><br>
-    % endif
-
-    <span class="list-item-info">
-      % if waypoint.get('elevation'):
-      <p><b  class="value-title" translate>elevation</b>:  <span class="value"> ${waypoint['elevation']} m </span></p>
-      % endif
-      <span class="icon-${waypoint['waypoint_type']} waypoint-type"></span>
-      <span x-translate>${waypoint['waypoint_type']}</span>
-    </span>
-  </a>
-</%def>
-
-
-<%def name="outing_card(outing)">\
-  <a href="${request.route_url('outings_view', id=outing['document_id'], lang=outing['locales'][0]['lang'])}">
-    <div class="outing-author text-center">
-      <div class="outing-date">{{ '${outing['date_start']}' | date: 'dd/MM/yyyy'}}</div>
-      <span class="icon-user"></span><br>
-      <b class="author-name">${outing['author']['username']}</b>
-    </div>
-    <div class="list-item-info">
-      <span class="list-item-title outing">${show_attr(outing['locales'][0], 'title', False)} (${outing['locales'][0]['lang']})</span>
-      ${get_document_min_max(outing, 'elevation')}
-      <div class="route-activities">
-        ${get_route_activities(outing, 'right')}
-      </div>
-    </div>        
-  </a>
-</%def>
-
-
 ## Float buttons
 <%def name="show_float_buttons(outingUsers, doctype, doc_id, doc_lang, other_langs, missing_langs)">\
   <div class="float-buttons">
-      <div ng-if="::userCtrl.hasEditRights(${outingUsers if outingUsers is not None else ''})" class="float-button float-edit" tooltip-placement="left" uib-tooltip="{{'Edit' | translate}}"
-           protected-url-btn url="'${request.route_url( doctype + '_edit' , id=doc_id, lang=doc_lang)}'">
+      <div ng-if="::userCtrl.hasEditRights(${outingUsers if outingUsers is not None else ''})" class="float-button float-edit"
+           tooltip-placement="left" uib-tooltip="{{'Edit' | translate}}"
+           protected-url-btn url="${request.route_url(doctype + '_edit', id=doc_id, lang=doc_lang)}">
         <span class="glyphicon glyphicon-edit"></span>
         <p class="float-button-text" translate>Edit</p>
       </div>
@@ -375,7 +325,8 @@
     </div>
 
     <div class="dropdown">
-      <div class="btn-group float-more float-button dropdown-toggle" type="button"data-toggle="dropdown" tooltip-placement="left" uib-tooltip="{{'More' | translate}}">
+      <div class="btn-group float-more float-button dropdown-toggle" type="button" data-toggle="dropdown"
+           tooltip-placement="left" uib-tooltip="{{'More' | translate}}">
         <span class="glyphicon glyphicon-th-list"></span>
         <p class="float-button-text" translate>More</p>
       </div>
@@ -385,7 +336,8 @@
         <li ng-click="detailsCtrl.openModal('#other-langs')"><a translate>View in other lang</a></li>
         % endif
         % if missing_langs:
-        <li ng-if="::userCtrl.hasEditRights(${outingUsers if outingUsers is not None else ''})" ng-click="detailsCtrl.openModal('#missing-langs')"><a translate>Translate into an other lang</a></li>
+        <li ng-if="::userCtrl.hasEditRights(${outingUsers if outingUsers is not None else ''})"
+            ng-click="detailsCtrl.openModal('#missing-langs')"><a translate>Translate into an other lang</a></li>
         % endif
         <li role="separator" class="divider"></li>
         <li><a href="#">Print</a></li>
@@ -533,29 +485,27 @@
   % endif
 </%def>
 
-
-
 <%def name="photoswipe_gallery()">\
-  ##  Root element of PhotoSwipe. Must have class pswp.
+  ## Root element of PhotoSwipe. Must have class pswp.
   <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 
-    ##  Background of PhotoSwipe. 
-    ##  It's a separate element as animating opacity is faster than rgba(). 
+    ## Background of PhotoSwipe. 
+    ## It's a separate element as animating opacity is faster than rgba(). 
     <div class="pswp__bg"></div>
 
-    ##  Slides wrapper with overflow:hidden. 
+    ## Slides wrapper with overflow:hidden. 
     <div class="pswp__scroll-wrap">
 
       ## Container that holds slides. 
-      ##  PhotoSwipe keeps only 3 of them in the DOM to save memory.
-      ##  Don't modify these 3 pswp__item elements, data is added later on. 
+      ## PhotoSwipe keeps only 3 of them in the DOM to save memory.
+      ## Don't modify these 3 pswp__item elements, data is added later on. 
       <div class="pswp__container">
         <div class="pswp__item"></div>
         <div class="pswp__item"></div>
         <div class="pswp__item"></div>
       </div>
 
-      ##  Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. 
+      ## Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. 
       <div class="pswp__ui pswp__ui--hidden">
 
         <div class="pswp__top-bar">
@@ -565,8 +515,8 @@
           <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
           <button class="pswp__button info"><span class="glyphicon glyphicon-info-sign"></span></button>
 
-          ##   Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR 
-          ##  element will get class pswp__preloader--active when preloader is running 
+          ## Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR 
+          ## element will get class pswp__preloader--active when preloader is running 
           <div class="pswp__preloader">
             <div class="pswp__preloader__icn">
               <div class="pswp__preloader__cut">
@@ -591,6 +541,21 @@
         </button>
 
       </div>
+    </div>
+  </div>
+</%def>
+
+<%def name="delete_association_confirmation_modal()">\
+  <div id="delete-association-modal">
+    <div class="modal-header"><h3 class="text-center" translate>Remove association</h3></div>  
+    <div class="modal-body">
+      <p translate class="text-center">Are you sure you want to delete this association?</p>
+    </div>
+    <div class="modal-footer">
+      <p>
+        <button class="btn btn-warning" type="button" ng-click="delModalCtrl.close('remove')" translate>Yes</button>
+        <button class="btn btn-default" type="button" ng-click="delModalCtrl.dismiss()" translate>Cancel</button>
+      </p>
     </div>
   </div>
 </%def>

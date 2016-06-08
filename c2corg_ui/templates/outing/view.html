@@ -1,6 +1,7 @@
 <%!
 from c2corg_common.attributes import activities, image_categories, image_types
 from c2corg_ui.templates.utils import get_lang_lists
+from json import dumps
 %>
 
 <%inherit file="../base.html"/>
@@ -10,7 +11,7 @@ from c2corg_ui.templates.utils import get_lang_lists
 <%namespace file="../helpers/view.html" import="photoswipe_gallery, get_document_min_max,
     get_document_locale_text, show_attr, show_missing_langs_links, show_other_langs_links,
     show_archive_data, show_route_title, get_route_activities, show_areas, show_float_buttons,
-    show_associated_waypoints, show_associated_routes"/>
+    show_associated_waypoints, show_associated_routes, delete_association_confirmation_modal"/>
     
 <%
 outing_id = outing['document_id']
@@ -45,6 +46,10 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
         "module": "outings"
       }
     }]
+  });
+
+  module.value('documentData', {
+    "associations": ${dumps(outing.get('associations')) | n}
   });
 </%block>
 
@@ -138,8 +143,8 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
   <div class="view-details-associations col-xs-12 tab associations">
     <span class="lead">
       <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
-        <label translate>Add association</label>:
-        <app-add-association parent-id="${outing_id}" added-documents="added" dataset="r"></app-add-association>
+        <label translate>Add association</label>
+        <app-add-association parent-doctype="outings" parent-id="${outing_id}" dataset="r"></app-add-association>
       </div>
       <section>
         ${show_associated_routes(outing)}
@@ -165,9 +170,11 @@ ${show_float_buttons(outing['associations']['users'], 'outings', outing_id, lang
   <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);">&nbsp;<span class="glyphicon glyphicon-menu-up"></span></button>
 </div>
 
-<div class="ng-hide" ng-init="detailsCtrl.documentService.document = ${outing}">
+<div class="ng-hide">
   <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
+  ${delete_association_confirmation_modal()}
 </div>
+
 ${photoswipe_gallery()}
 
 <script>
@@ -176,4 +183,3 @@ ${photoswipe_gallery()}
      $('[data-toggle=\'tooltip\']').tooltip();
   };
 </script>
-

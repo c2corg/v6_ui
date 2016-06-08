@@ -1,6 +1,7 @@
 <%!
 from c2corg_common.attributes import activities, image_categories, image_types
 from c2corg_ui.templates.utils import get_lang_lists
+from json import dumps
 %>
 
 <%inherit file="../base.html"/>
@@ -8,11 +9,11 @@ from c2corg_ui.templates.utils import get_lang_lists
     get_document_locale_text, show_attr, show_missing_langs_links,
     show_other_langs_links, show_archive_data, show_route_title,
     show_areas, show_float_buttons, show_maps, get_route_activities,
-    show_associated_waypoints, show_associated_routes, show_associated_outings" />
+    show_associated_waypoints, show_associated_routes, show_associated_outings,
+    delete_association_confirmation_modal" />
     
 <%namespace file="helpers/detailed_route_attributes.html" import="get_route_location, 
-  get_route_rating, get_route_general, get_route_heights, get_route_access, get_route_associated_maps" 
- />
+    get_route_rating, get_route_general, get_route_heights, get_route_access, get_route_associated_maps" />
  
 <%
 route_id = route['document_id']
@@ -59,15 +60,16 @@ other_langs, missing_langs = get_lang_lists(route, lang)
       null
     % endif
   );
+
+  module.value('documentData', {
+    % if route.get('orientations'):
+      "orientations": [${'"' + '","'.join(route['orientations']) + '"' if len(route['orientations']) else '' | n}],
+    % endif
+    "associations": ${dumps(route.get('associations')) | n}
+  });
 </%block>
 
-% if route.get('orientations'):
-  <div class="ng-hide">
-   {{document.orientations = ${route.get('orientations')} }}
-  </div>
-% endif
-
-<header  class="view-details-title">
+<header class="view-details-title">
   <h1>${show_route_title(locale)}
     <label class="badge route" onClick="window.location='${request.route_url('routes_index')}' ">
       <span class="glyphicon glyphicon-arrow-right"></span>&nbsp;<span translate>route</span>
@@ -79,7 +81,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
 <app-map class="view-details-map"></app-map>
 
 <section class="view-details-section" app-view-details>
-  
+
   <uib-tabset>
     <uib-tab heading="{{mainCtrl.translate('Description')}}" ng-click="detailsCtrl.openTab('description')" id="description-tab"></uib-tab>
     <uib-tab heading="{{mainCtrl.translate('Details')}}" ng-click="detailsCtrl.openTab('informations')"></uib-tab>
@@ -153,12 +155,12 @@ other_langs, missing_langs = get_lang_lists(route, lang)
       <span class="lead">
         <section>
           <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
-            <label translate>Add association</label>:
-            <app-add-association parent-id="${route_id}" added-documents="added" dataset="rw"></app-add-association>
-          </div>
+            <label translate>Add association</label>
+            <app-add-association parent-id="${route_id}" parent-doctype="routes" dataset="wr"></app-add-association>
+          </div>  
           % if len(route['associations']['recent_outings']['outings']) == 0:
             <div class="add-outing">
-              <p class="text-center"><strong>no outings yet?</strong><p>
+              <p class="text-center"><strong translate>no outings yet?</strong><p>
                 <button type="button" class="btn gray-btn" protected-url-btn
                         url="'${request.route_url('outings_add')}' + '?routes=${route_id}'"
                         translate>add a new one to this document</button>
@@ -170,15 +172,14 @@ other_langs, missing_langs = get_lang_lists(route, lang)
       </span>
     </div>
 
-    % if len(route['associations']['recent_outings']['outings']) > 0:
-      <div class="view-details-associations col-xs-12 tab associations">
-        <span class="lead">
-          <section>
-            ${show_associated_outings(route)}
-          </section>
-        </span>
-      </div>
-    % endif
+    <div class="view-details-associations col-xs-12 tab associations"
+         ng-show="document.associations.recent_outings.outings.length > 0 || filteredAddedOutings.length > 0">
+      <span class="lead">
+        <section>
+          ${show_associated_outings(route)}
+        </section>
+      </span>
+    </div>
   % endif
   
   ## OTHER BUTTON contents
@@ -196,9 +197,11 @@ ${show_float_buttons(None, 'routes', route_id, lang, other_langs, missing_langs)
   <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);">&nbsp;<span class="glyphicon glyphicon-menu-up"></span></button>
 </div>
 
-<div class="ng-hide" ng-init="detailsCtrl.documentService.document = ${route}">
+<div class="ng-hide">
   <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
+  ${delete_association_confirmation_modal()}
 </div>
+
 ${photoswipe_gallery()}
 
 <script>

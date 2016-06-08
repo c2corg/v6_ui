@@ -1,5 +1,5 @@
 <div class="list">
-  <div class="list-item" ng-repeat="doc in searchCtrl.documents">
+  <div class="list-item" ng-class="[searchCtrl.doctype]" ng-repeat="doc in searchCtrl.documents">
     <app-card app-card-doc="doc"></app-card>
   </div>
 </div>

@@ -46,7 +46,6 @@ app.simpleSearchDirective = function() {
               $('.logo.header, .menu-open-close.header').removeClass('no-opacity');
             }
           });
-
           element.on('click', function(e) {
 
             // collapse suggestions
@@ -238,8 +237,15 @@ app.SimpleSearchController.prototype.createDataset_ = function(type) {
         return '<div class="header" dataset="' + type + '">' + this.gettextCatalog_.getString(type) + '</div>';
       }).bind(this),
       footer: function(doc) {
-        return '<p class="suggestion-more"><a href="/' + type + '/keyword/' + encodeURI(doc['query']) + '" class="green-text" translate>More results</a></p>';
-      },
+        if (!this.associationContext_) {
+          // don't add this if you're typing in an add-association-tool
+          var moreLink = '<p class="suggestion-more"><a href="/' + type +
+            '?q=' + encodeURI(doc['query']) + '" class="green-text" translate>' +
+            this.gettextCatalog_.getString('see more results') + '</a></p>';
+          return this.compile_(moreLink)(this.scope_);
+        }
+        return '';
+      }.bind(this),
       suggestion: function(doc) {
         if (doc) {
           this.scope_['doc'] = doc;
@@ -302,7 +308,7 @@ app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
             hasAssociation = this.documentService_.hasAssociation(type,  doc.document_id);
 
             var locale = doc.locales[0];
-            doc.label = type === ('routes' && locale.title_prefix) ? locale.title_prefix + ' : ' : '';
+            doc.label = (type === 'routes' && locale.title_prefix) ? locale.title_prefix + ' : ' : '';
             doc.label += locale.title;
 
             if (currentLang !== locale.lang) {

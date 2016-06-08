@@ -77,7 +77,6 @@ appx.AlertMessage;
 appx.BootstrapSliderValues;
 
 
-
 /**
  * @typedef {{
  *   email: string
@@ -86,32 +85,15 @@ appx.BootstrapSliderValues;
 appx.auth.RequestChangePassword;
 
 
-/**
- * @typedef {{
- *   total: number,
- *   outings: Array.<appx.Outing>
- * }}
- */
-appx.RecentOutings;
-
+// TODO: extern for users + add it to associations
 
 /**
  * @typedef {{
- *   total: number,
- *   routes: Array.<appx.Route>
- * }}
- */
-appx.AllRoutes;
-
-
-/**
- * @typedef {{
- *   images: Array.<Object>,
+ *   images: Array.<appx.Image>,
  *   users: ?Array.<Object>,
  *   routes: ?Array.<appx.Route>,
  *   waypoints: ?Array.<appx.Waypoint>,
  *   waypoint_children: ?Array.<appx.Waypoint>,
- *   waypoint_parents: ?Array.<appx.Waypoint>,
  *   recent_outings: ?appx.RecentOutings,
  *   all_routes: ?appx.AllRoutes
  * }}
@@ -224,6 +206,7 @@ appx.Outing;
  */
 appx.Route;
 
+
 /**
  * @typedef {{
  *   associations: appx.DocumentAssociations,
@@ -279,6 +262,7 @@ appx.Route;
  */
 appx.Waypoint;
 
+
 /**
  * @typedef {{
  *   associations: appx.DocumentAssociations,
@@ -288,3 +272,21 @@ appx.Waypoint;
  * }}
  */
 appx.Image;
+
+
+/**
+ * @typedef {{
+ *   total: number,
+ *   outings: Array.<appx.Outing>
+ * }}
+ */
+appx.RecentOutings;
+
+
+/**
+ * @typedef {{
+ *   total: number,
+ *   routes: Array.<appx.Route>
+ * }}
+ */
+appx.AllRoutes;
