@@ -1,4 +1,4 @@
-<a ng-click="cardCtrl.openCardPage()" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;">
+<a ng-href="{{cardCtrl.createURL()}}" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;">
   <span class="list-item-title">{{locale.title}}</span>
   <span class="list-item-lang" ng-if="cardCtrl.lang != locale.lang">({{locale.lang}})</span>
   <br>

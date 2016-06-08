@@ -24,8 +24,7 @@ app.cardDirective = function($compile, $templateCache) {
     controllerAs: 'cardCtrl',
     bindToController: true,
     scope: {
-      'doc': '=appCardDoc',
-      'disableClick': '=appCardDisableClick'
+      'doc': '=appCardDoc'
     },
     link: function(scope, element, attrs) {
       var doc = scope['cardCtrl']['doc'];
@@ -68,12 +67,6 @@ app.CardController = function(gettextCatalog) {
   this.doc;
 
   /**
-   * @type {boolean}
-   * @export
-   */
-  this.disableClick;
-
-  /**
    * @type {Object}
    * @export
    */
@@ -100,13 +93,14 @@ app.CardController.prototype.translate = function(str) {
 
 /**
  * @export
+ * @return {string | undefined}
  */
-app.CardController.prototype.openCardPage = function() {
-  if (!this.disableClick) {
-    window.location.href = app.utils.buildDocumentUrl(
-      app.utils.getDoctype(this.doc['type']),
-      this.doc['document_id'],
-      this.doc['locales'][0]['lang']);
+app.CardController.prototype.createURL = function() {
+  if (window.location.pathname.indexOf('edit') === -1) {
+    return app.utils.buildDocumentUrl(
+            app.utils.getDoctype(this.doc['type']),
+            this.doc['document_id'],
+            this.doc['locales'][0]['lang']);
   }
 };
 
