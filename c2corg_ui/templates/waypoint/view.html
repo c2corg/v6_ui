@@ -73,7 +73,7 @@ geometry4326 = geometry
 
 <header class="view-details-title">
   <h1>${locale['title']}
-    <label class="badge waypoint" onClick="window.location='${request.route_url('waypoints_index')}' ">
+    <label class="badge waypoint" onClick="window.location='${request.route_url('waypoints_index', _query={'wtyp': waypoint['waypoint_type']})}'">
       <span class="glyphicon glyphicon-arrow-right"></span>&nbsp;<span translate>waypoint</span>
     </label>
   </h1>
