@@ -137,7 +137,9 @@ app.Document.prototype.pushToAssociations = function(doc, doctype,
  * @export
  */
 app.Document.prototype.removeAssociation = function(id, type) {
-  var associations = this.document.associations[type];
+  var associations = type === 'outings' ?
+    this.document.associations.recent_outings.outings :
+    this.document.associations[type];
   for (var i = 0; i < associations.length; i++) {
     if (associations[i]['document_id'] === id) {
       associations.splice(i, 1);

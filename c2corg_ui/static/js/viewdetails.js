@@ -128,7 +128,7 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
   this.scope_['document'] = this.documentService.document;
 
   this.scope_.$on('unassociateDoc', function(e, doc) {
-    this.removeAssociation_(doc);
+    this.documentService.removeAssociation(doc['id'], doc['type']);
   }.bind(this));
 };
 
@@ -142,27 +142,6 @@ app.ViewDetailsController.prototype.openModal = function(selector) {
   this.modal_.open({animation: true, size: 'lg', template: this.compile_(template)(this.scope_)});
 };
 
-/**
- * @param {Object} doc
- * @private
- */
-app.ViewDetailsController.prototype.removeAssociation_ = function(doc) {
-  var associations;
-
-  if (doc['type'] === 'outings') {
-    associations = this.scope_['document']['associations']['recent_outings']['outings'];
-  } else {
-    associations = this.scope_['document']['associations'][doc['type']];
-  }
-  if (associations) {
-    for (var i = 0; i < associations.length; i++) {
-      if (associations[i]['document_id'] === doc['id']) {
-        associations.splice(i, 1);
-        return;
-      }
-    }
-  }
-};
 
 /**
  * @param {Event} tab the clicked tab
