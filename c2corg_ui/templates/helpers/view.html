@@ -196,12 +196,14 @@
         <span translate>Last outings</span><span class="glyphicon glyphicon-menu-down"></span>
       </h3>
       <div class="associated-documents collapse in" id="associated-outings">
-        <div class="list-item vertical-align" protected-url-btn
-             url="${request.route_url('outings_add') + '?' + document['doctype'] + '=' + str(document['document_id'])}">
-          <a>
-            <button class="btn orange-btn" translate>add a new outing to this document</button>
-          </a>
-        </div>
+        % if document['doctype'] == 'routes':
+          <div class="list-item vertical-align" protected-url-btn
+               url="${request.route_url('outings_add') + '?r=' + str(document['document_id'])}">
+            <a>
+              <button class="btn orange-btn" translate>add a new outing to this document</button>
+            </a>
+          </div>
+        % endif
         <div class="list-item outings" ng-repeat="doc in detailsCtrl.documentService.document.associations.recent_outings.outings">
           <app-card app-card-doc="doc"></app-card>
         </div>

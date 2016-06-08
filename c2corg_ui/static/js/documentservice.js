@@ -121,7 +121,7 @@ app.Document.prototype.pushToAssociations = function(doc, doctype,
   // of the first associated route.
   if (setOutingTitle && doctype === 'routes' &&
       !this.document.locales[0]['title'] &&
-      this.document.associations.routes.length == 1) {
+      this.document.associations.routes.length === 1) {
     var title = 'title_prefix' in doc.locales[0] &&
       doc.locales[0]['title_prefix'] ?
       doc.locales[0]['title_prefix'] + ' : ' : '';
