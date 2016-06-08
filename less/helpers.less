@@ -268,3 +268,55 @@ p {
     width: 10px;
   }
 }
+
+@-webkit-keyframes turnIn {
+  from {
+    opacity: 0;
+      transform: rotateX(-90deg);
+  }
+  to {
+    transform: rotateX(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes turnIn {
+  from {
+    opacity: 0;
+      transform: rotateX(-90deg)
+  }
+  to {
+    transform: rotateX(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes removeItem {
+  to {
+    width: 0;
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes removeItem {
+  to {
+    width: 0;
+    opacity: 0;
+  }
+}
+
+.new-item {
+  -webkit-animation: turnIn 0.5s linear forwards;
+  -o-animation: turnIn 0.5s linear forwards;
+  animation: turnIn 0.5s linear forwards;
+  transition: all 0.5s ease-in-out !important;
+}
+
+.remove-item {
+  white-space: nowrap;
+  overflow: hidden;
+  -webkit-animation: removeItem 0.5s linear forwards;
+  -o-animation: removeItem 0.5s linear forwards;
+  animation: removeItem 0.5s linear forwards;
+  transition: ease-in-out .5;
+}
