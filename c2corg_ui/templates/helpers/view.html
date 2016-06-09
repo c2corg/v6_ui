@@ -115,7 +115,8 @@
         ## TODO add slug to URL
         <li>
           <a href="${request.route_url(doctype + '_view', id=doc['document_id'], lang=locale['lang'])}">
-          ${locale['title_prefix'] + ' : ' if doctype == 'routes' else ''}${locale['title']}</a>
+            ${locale['title_prefix'] + ' : ' if doctype == 'routes' and locale['title_prefix'] is not None else ''}${locale['title']}
+          </a>
         </li>
       % endfor
     </ul>
@@ -137,7 +138,7 @@
       <span translate>Associated routes</span><span class="glyphicon glyphicon-menu-down"></span>
     </h3>
     <div class="associated-documents collapse in" id="associated-routes">
-      <div class="list-item" ng-repeat="doc in ${associations}">
+      <div class="list-item" ng-repeat="doc in ${associations}" ng-class="{'new-item': doc['new']}">
         <app-card app-card-doc="doc"></app-card>
         % if type == 'routes':
           <app-delete-association child-doctype="routes" parent-id="${document['document_id']}" child-id="doc.document_id"
@@ -171,7 +172,9 @@
     <div class="associated-documents collapse in" id="associated-waypoints">
       <div class="list-item"
         % if document['doctype'] == 'routes':
-          ng-class="{'main-waypoint': doc.document_id === ${document['main_waypoint_id']}}"
+          ng-class="{'main-waypoint': doc.document_id === ${document['main_waypoint_id']}, 'new-item': doc['new']}"
+        % else: 
+          ng-class="{'new-item': doc['new']}"
         % endif
           ng-repeat="doc in ${associations}">
         <app-card app-card-doc="doc"></app-card>

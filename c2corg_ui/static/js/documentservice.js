@@ -9,11 +9,18 @@ goog.require('app');
  * controller and then read them in another.
  * Also to do all functions common to all documents.
  * @param {app.Authentication} appAuthentication
+ * @param {angular.Scope} $rootScope Scope.
  * @constructor
  * @ngInject
  * @struct
  */
-app.Document = function(appAuthentication) {
+app.Document = function(appAuthentication, $rootScope) {
+
+  /**
+   * @type {angular.Scope}
+   * @private
+   */
+  this.rootScope_ = $rootScope;
 
   /**
    * @type {app.Authentication}
@@ -114,14 +121,14 @@ app.Document.prototype.pushToAssociations = function(doc, doctype,
   doctype = doctype || app.utils.getDoctype(doc['type']);
   setOutingTitle = typeof setOutingTitle !== 'undefined' ?
     setOutingTitle : false;
-
+  doc['new'] = true;
   associations[doctype].push(doc);
 
   // When creating an outing, the outing title defaults to the title
   // of the first associated route.
   if (setOutingTitle && doctype === 'routes' &&
       !this.document.locales[0]['title'] &&
-      this.document.associations.routes.length == 1) {
+      this.document.associations.routes.length === 1) {
     var title = 'title_prefix' in doc.locales[0] &&
       doc.locales[0]['title_prefix'] ?
       doc.locales[0]['title_prefix'] + ' : ' : '';
@@ -134,18 +141,26 @@ app.Document.prototype.pushToAssociations = function(doc, doctype,
 /**
  * @param {number} id Id of document to unassociate
  * @param {string} type Type of document to unassociate
+ * @param {goog.events.Event | jQuery.Event} [event]
  * @export
  */
-app.Document.prototype.removeAssociation = function(id, type) {
+app.Document.prototype.removeAssociation = function(id, type, event) {
   var associations = type === 'outings' ?
-    this.document.associations.recent_outings.outings :
-    this.document.associations[type];
-  for (var i = 0; i < associations.length; i++) {
-    if (associations[i]['document_id'] === id) {
-      associations.splice(i, 1);
-      break;
+          this.document.associations.recent_outings.outings :
+          this.document.associations[type];
+
+  event.currentTarget.closest('.list-item').className += ' remove-item';
+  // you need settimeout because if you splice the array immediatly, the animation
+  // will have not enough time to complete and therefore will disappear instantly. Animation first, then remove from array.
+  setTimeout(function() {
+    for (var i = 0; i < associations.length; i++) {
+      if (associations[i]['document_id'] === id) {
+        associations.splice(i, 1);
+        this.rootScope_.$apply();
+        break;
+      }
     }
-  }
+  }.bind(this), 500); //remove animation duration
 };
 
 

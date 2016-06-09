@@ -20,11 +20,11 @@ app.deleteAssociationDirective = function() {
       'childDoctype': '@'
     },
     link: function(scope, element, attrs, controller) {
-      $(element).on('click', function() {
+      $(element).on('click', function(e) {
         var modal = controller.openModal_();
         modal.result.then(function(res) {
           if (res) {
-            controller.unassociateDocument_();
+            controller.unassociateDocument_(e);
           }
         });
       });
@@ -122,14 +122,12 @@ app.DeleteAssociationController.prototype.openModal_ = function() {
 
 /**
  * Unassociate the document and remove the card.
+ * @param {goog.events.Event | jQuery.Event} [event]
  * @private
  */
-app.DeleteAssociationController.prototype.unassociateDocument_ = function() {
+app.DeleteAssociationController.prototype.unassociateDocument_ = function(event) {
   this.api_.unassociateDocument(this.parentId, this.childId).then(function() {
-    this.documentService_.removeAssociation(this.childId, this.childDoctype);
-    this.rootscope_.$broadcast('unassociateDoc', {
-      'id': this.childId, 'type': this.childDoctype
-    });
+    this.documentService_.removeAssociation(this.childId, this.childDoctype, event);
   }.bind(this));
 };
 

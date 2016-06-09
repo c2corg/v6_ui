@@ -126,10 +126,6 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
    * @type {appx.Document}
    */
   this.scope_['document'] = this.documentService.document;
-
-  this.scope_.$on('unassociateDoc', function(e, doc) {
-    this.documentService.removeAssociation(doc['id'], doc['type']);
-  }.bind(this));
 };
 
 
