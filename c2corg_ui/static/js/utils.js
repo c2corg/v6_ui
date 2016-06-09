@@ -150,15 +150,23 @@ app.utils.getImageFileBase64Source = function(file) {
 
 /**
  * @param {Object} file : image object from associations or uploaded
- * @param {string} id to the figure slide
  * @return {string}
  * @export
  */
-app.utils.createImageSlide = function(file, id) {
-  return '<figure id="' + id + '">' +
-           '<a href="' + file.src + '" data-info-id="' + file['id'] + '">' +
-             '<img src="' + file.src + '">' +
-           '</a>' +
-           '<app-slide-info></app-slide-info>' +
-         '</figure>';
+app.utils.createImageSlide = function(file) {
+  var img;
+  var ahref;
+  // if !src => it's an already existing image, else it's an image that has just been uploaded
+  if (!file['src']) {
+    ahref = '<a href="' + app.constants.imagesURL + file.filename + '" data-info-id="' + file['document_id'] + '">';
+    img = '<img src="' + app.constants.imagesURL + file.filename + '">';
+  } else {
+    ahref = '<a href="' + file['src'] + '" data-info-id="' + file['document_id'] + '">';
+    img = '<img src=" ' + file['src'] + '">';
+  }
+  return '<figure id="image-' + file['document_id'] + '">' +
+               ahref + img +
+               '</a>' +
+               '<app-slide-info></app-slide-info>' +
+             '</figure>';
 };

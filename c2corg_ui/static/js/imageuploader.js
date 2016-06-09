@@ -40,12 +40,19 @@ app.module.directive('appImageUploader', app.imageUploaderDirective);
  * @param {app.Api} appApi Api service.
  * @param {app.Alerts} appAlerts
  * @param {Object} Upload ng-file-upload Upload service.
+ * @param {app.Document} appDocument service
  * @constructor
  * @struct
  * @export
  * @ngInject
  */
-app.ImageUploaderController = function($scope, Upload, $uibModal, $compile, $q, appAlerts, appApi) {
+app.ImageUploaderController = function($scope, Upload, $uibModal, $compile, $q, appAlerts, appApi, appDocument) {
+
+  /**
+   * @type {app.Document}
+   * @export
+   */
+  this.documentService = appDocument;
 
   /**
    * @type {Object} angular bootstrap modal
@@ -241,10 +248,9 @@ app.ImageUploaderController.prototype.save = function() {
   $('.img-container').each(function(i, image) {
     meta = this.files[i]['metadata'];
     id = 'image-' + (+new Date());
-    //var source = $(image).css('background-image').substring(5, $(image).css('background-image').length - 2); // remove 'url()'
-    this.files[i]['id'] = id;
+    this.files[i]['document_id'] = id;
 
-    var element = app.utils.createImageSlide(this.files[i], 'added-' + id);
+    var element = app.utils.createImageSlide(this.files[i]);
     $('.photos').slick('slickAdd', element);
 
     var scope = this.scope_.$new(true);
@@ -258,10 +264,10 @@ app.ImageUploaderController.prototype.save = function() {
       'fnumber' : meta['FocalLength'],
       'camera_name' : meta['Make'] + ' ' + meta['Model'],
       'categories': meta['categories'],
-      'id': id
+      'document_id': id
     };
-
-    this.compile_($('#added-' + id).contents())(scope);
+    this.documentService.document.associations['images'].push(scope['photo']);
+    this.compile_($('#image-' + id).contents())(scope);
 
   }.bind(this));
   $('.modal, .modal-backdrop').remove();
