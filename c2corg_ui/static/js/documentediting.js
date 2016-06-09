@@ -186,10 +186,12 @@ app.DocumentEditingController = function($scope, $element, $attrs,
    */
   this.api_ = appApi;
 
-  // allow association only new outing to existing route
-  if (this.ngeoLocation_.hasParam('routes')) {
-    this.urlParams_ = {'routes': this.ngeoLocation_.getParam('routes')};
-    this.pushDocToAssociations_();
+  // allow association only for a new outing to existing route
+  if (this.ngeoLocation_.hasParam('r')) {
+    var urlParam = {'routes': this.ngeoLocation_.getParam('r')};
+    this.api_.getDocumentByIdAndDoctype(urlParam['routes'], 'r').then(function(doc) {
+      this.documentService.pushToAssociations(doc.data['routes'].documents[0], 'routes', true);
+    }.bind(this));
   }
 
   this.scope_[this.modelName_] = this.scope_['document'] = this.documentService.document;
@@ -441,19 +443,6 @@ app.DocumentEditingController.prototype.handleMapFeaturesChange_ = function(
     data['geometry']['geom_detail'] = this.geojsonFormat_.writeGeometry(geometry);
   }
   this.hasGeomChanged_ = true;
-};
-
-
-/**
- * It doesn't associate, it just pushes it into associations array.
- * @private
- */
-app.DocumentEditingController.prototype.pushDocToAssociations_ = function() {
-  var doctype = Object.keys(this.urlParams_)[0];
-  this.api_.getDocumentByIdAndDoctype(this.urlParams_[doctype], doctype[0]).then(function(doc) {
-    this.scope_[this.modelName_]['associations'][doctype].push(doc.data[doctype].documents[0]);
-    this.scope_[this.modelName_]['locales'][0]['title'] = doc.data[doctype].documents[0]['locales'][0]['title'];
-  }.bind(this));
 };
 
 
