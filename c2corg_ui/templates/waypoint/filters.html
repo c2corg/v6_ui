@@ -1,6 +1,11 @@
 <%!
-from c2corg_common.attributes import default_langs, waypoint_types, orientation_types
+from c2corg_common.attributes import default_langs, waypoint_types, orientation_types, quality_types, \
+    rock_types, climbing_styles, product_types, rain_proof_types, children_proof_types, custodianship_types, \
+    public_transportation_types, public_transportation_ratings, snow_clearance_ratings, weather_station_types, \
+    climbing_outdoor_types, climbing_indoor_types, months, access_times, climbing_ratings, equipment_ratings
 %>
+<%namespace file="../helpers/filters.html" import="add_multiselect"/>
+
 <form app-search-filters>
   <div class="filters">
     <div class="simple-filters">
@@ -12,20 +17,7 @@ from c2corg_common.attributes import default_langs, waypoint_types, orientation_
 
       <div class="filter">
         <label translate>type</label><br>
-        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-          <p>
-            <span ng-if="filtersCtrl.filters.wtyp.length > 0" ng-cloak> ({{filtersCtrl.filters.wtyp.length}})</span>
-            <span class="glyphicon glyphicon-menu-down"></span>
-          </p>
-        </button>
-        <ul class="dropdown-menu multiselect-box type">
-          <li ng-repeat="type in ['${"','".join(waypoint_types) |n}']">
-            <a data-value="{{type}}" ng-click="filtersCtrl.selectOption('wtyp', type, $event)">
-              <input type="checkbox" ng-checked="filtersCtrl.filters.wtyp && filtersCtrl.filters.wtyp.indexOf(type) !== -1">
-              <span class="activity">{{mainCtrl.translate(type) | capitalize}}</span>
-            </a>
-          </li>
-        </ul>
+        ${add_multiselect('wtyp', waypoint_types)}
       </div>
 
       <div class="filter">
@@ -36,39 +28,160 @@ from c2corg_common.attributes import default_langs, waypoint_types, orientation_
     </div>
     <div class="collapse" id="moreFilters">
 
-      <div class="filter col-xs-12 col-sm-6">
-        <label translate>Cable car</label>
-        <select class="form-control" ng-model="filtersCtrl.georef"><option translate>Yes</option><option translate>No</option></select>
-      </div>
-      
-      <div class="filter col-xs-12 col-sm-6">
-        <label translate>lang</label>
-        <select ng-model="filtersCtrl.lang" class="form-control" ng-options="lang as (mainCtrl.translate(lang) |  capitalize ) for lang in ['${"','".join(default_langs) |n}'] | translate" ng-model="lang"></select>
-      </div>
-      
-      <div class="col-xs-12 col-sm-6 col-md-6 filter orientation" ng-init="orientations = ${orientation_types}">
-        <label translate>orientation</label>
-        <%include file="c2corg_ui:static/img/orientation.svg" />
-        <select class="form-control" ng-options="orient as orient for orient in ${orientation_types} | translate" ng-model="orientation"></select>
+      ## SUMMITS
+      <div class="filter col-xs-12 col-sm-6" ng-show="filtersCtrl.filters.wtyp.length && filtersCtrl.filters.wtyp.indexOf('summit') !== -1">
+        <label translate>prominence</label><br>
+        <app-slider filter="prom" min="0" max="1000" step="10"></app-slider>
       </div>
 
-      <div class="col-xs-12 col-sm-5 col-md-5 filter">
-        <label translate>height_diff</label><br>
-        <app-slider></app-slider>
+      ## CLIMBING INDOOR SITES
+      <div class="filter col-xs-12 col-sm-6" ng-show="filtersCtrl.filters.wtyp.length && filtersCtrl.filters.wtyp.indexOf('climbing_indoor') !== -1">
+        <label translate>climbing_indoor_types</label><br>
+        ${add_multiselect('gtyp', climbing_indoor_types)}
       </div>
-      
+
+      ## CLIMBING OUTDOOR SITES
+      <div ng-show="filtersCtrl.filters.wtyp.length && filtersCtrl.filters.wtyp.indexOf('climbing_outdoor') !== -1">
+        <div class="filter col-xs-12 col-sm-6">
+          <label translate>rock_types</label><br>
+          ${add_multiselect('wrock', rock_types)}
+        </div>
+
+        <div class="filter col-xs-12 col-sm-6">
+          <label translate>climbing_outdoor_types</label><br>
+          ${add_multiselect('ttyp', climbing_outdoor_types)}
+        </div>
+
+        <div class="filter col-xs-12 col-sm-6">
+          <label translate>climbing_styles</label><br>
+          ${add_multiselect('tcsty', climbing_styles)}
+        </div>
+
+        <div class="filter col-xs-12 col-sm-6">
+          <label translate>routes_quantity</label><br>
+          <app-slider filter="rqua" min="0" max="500" step="20" unit=''></app-slider>
+        </div>
+
+        <div class="filter col-xs-12 col-sm-6">
+          <label translate>climbing_rating_min</label><br>
+          ${add_multiselect('tminr', climbing_ratings)}
+        </div>
+
+        <div class="filter col-xs-12 col-sm-6">
+          <label translate>climbing_rating_max</label><br>
+          ${add_multiselect('tmaxr', climbing_ratings)}
+        </div>
+
+        <div class="filter col-xs-12 col-sm-6">
+          <label translate>climbing_rating_median</label><br>
+          ${add_multiselect('tmedr', climbing_ratings)}
+        </div>
+
+        <div class="filter col-xs-12 col-sm-6">
+          <label translate>equipment_ratings</label><br>
+          ${add_multiselect('anchq', equipment_ratings)}
+        </div>
+
+        <div class="col-xs-12 col-sm-6 col-md-6 filter orientation" ng-init="document.orientations = ${orientation_types}">
+          <label translate>orientations</label>
+          <%include file="c2corg_ui:static/img/orientation.svg" />
+          <select class="form-control" ng-options="orient as orient for orient in ${orientation_types} | translate"
+            ng-model="filtersCtrl.filters.orientations"></select>
+        </div>
+
+        <div class="col-xs-12 col-sm-5 col-md-5 filter">
+          <label translate>height_min</label><br>
+          <app-slider filter="tminh" min="0" max="200" step="10"></app-slider>
+        </div>
+
+        <div class="col-xs-12 col-sm-5 col-md-5 filter">
+          <label translate>height_max</label><br>
+          <app-slider filter="tmaxh" min="0" max="200" step="10"></app-slider>
+        </div>
+
+        <div class="col-xs-12 col-sm-5 col-md-5 filter">
+          <label translate>height_median</label><br>
+          <app-slider filter="tmedh" min="0" max="200" step="10"></app-slider>
+        </div>
+
+        <div class="filter col-xs-12 col-sm-6">
+          <label translate>best_periods</label><br>
+          ${add_multiselect('period', months)}
+        </div>
+
+        <div class="filter col-xs-12 col-sm-6">
+          <label translate>access_time</label><br>
+          ${add_multiselect('tappt', access_times)}
+        </div>
+
+        <div class="filter col-xs-12 col-sm-6">
+          <label translate>rain_proof</label><br>
+          ${add_multiselect('rain', rain_proof_types)}
+        </div>
+
+        <div class="filter col-xs-12 col-sm-6">
+          <label translate>children_proof</label><br>
+          ${add_multiselect('chil', children_proof_types)}
+        </div>
+      </div>
+
+      ## HUTS
+      <div ng-show="filtersCtrl.filters.wtyp.length && filtersCtrl.filters.wtyp.indexOf('hut') !== -1">
+        <div class="filter col-xs-12 col-sm-6">
+          <label translate>custodianship</label><br>
+          ${add_multiselect('hsta', custodianship_types)}
+        </div>
+        <div class="filter col-xs-12 col-sm-6">
+          <label translate>capacity_staffed</label><br>
+          <app-slider filter="hscap" min="0" max="200" step="10" unit=''></app-slider>
+        </div>
+      </div>
+
+      ## ACCESSES
+      <div ng-show="filtersCtrl.filters.wtyp.length && filtersCtrl.filters.wtyp.indexOf('access') !== -1">
+        <div class="filter col-xs-12 col-sm-6">
+          <label translate>public_transportation_types</label><br>
+          ${add_multiselect('tpty', public_transportation_types)}
+        </div>
+
+        <div class="filter col-xs-12 col-sm-6">
+          <label translate>public_transportation_ratings</label><br>
+          ${add_multiselect('tp', public_transportation_ratings)}
+        </div>
+
+        <div class="filter col-xs-12 col-sm-6">
+          <label translate>snow_clearance_ratings</label><br>
+          ${add_multiselect('psnow', snow_clearance_ratings)}
+        </div>
+      </div>
+
+      ## LOCAL PRODUCTS
+      <div class="filter col-xs-12 col-sm-6" ng-show="filtersCtrl.filters.wtyp.length && filtersCtrl.filters.wtyp.indexOf('local_product') !== -1">
+        <label translate>product_types</label><br>
+        ${add_multiselect('ftyp', product_types)}
+      </div>
+
+      ## WEATHER STATIONS
+      <div class="filter col-xs-12 col-sm-6" ng-show="filtersCtrl.filters.wtyp.length && filtersCtrl.filters.wtyp.indexOf('weather_station') !== -1">
+        <label translate>weather_station_types</label><br>
+        ${add_multiselect('whtyp', weather_station_types)}
+      </div>
+
+      <div class="filter col-xs-12 col-sm-6">
+        <label translate>document_quality</label><br>
+        ${add_multiselect('qa', quality_types)}
+      </div>
+
       <div class="filters-bottom-buttons">
-        <button class="btn less-filters-btn gray-btn" data-toggle="collapse" data-target="#moreFilters" aria-expanded="false">
-          <span translate>close and cancel</span> 
-        </button>
         <button class="btn search-filters-btn orange-btn" data-toggle="collapse" 
                 data-target="#moreFilters" aria-expanded="false">
-          <span translate>apply and search</span> 
+          <span translate>Show results</span>
         </button>
       </div>
     </div>
     <div class="more-filters-btn-container">
-      <button class="btn orange-btn more-filters-btn" data-toggle="collapse" data-target="#moreFilters" aria-expanded="false" aria-controls="moreFilters" translate>more filters</button>
+      <button class="btn orange-btn more-filters-btn" data-toggle="collapse" data-target="#moreFilters"
+        aria-expanded="false" aria-controls="moreFilters" translate>more filters</button>
     </div>
 
   </div>

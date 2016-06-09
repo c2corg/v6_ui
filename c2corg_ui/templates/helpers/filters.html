@@ -1,0 +1,16 @@
+<%def name="add_multiselect(attr, values)">\
+  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+    <p>
+      <span ng-if="filtersCtrl.filters.${attr}.length > 0" ng-cloak> ({{filtersCtrl.filters.${attr}.length}})</span>
+      <span class="glyphicon glyphicon-menu-down"></span>
+    </p>
+  </button>
+  <ul class="dropdown-menu multiselect-box type">
+    <li ng-repeat="val in ['${"','".join(values) |n}']">
+      <a data-value="{{val}}" ng-click="filtersCtrl.selectOption('${attr}', val, $event)">
+        <input type="checkbox" ng-checked="filtersCtrl.filters.${attr} && filtersCtrl.filters.${attr}.indexOf(val) !== -1">
+        <span class="activity">{{mainCtrl.translate(val) | capitalize}}</span>
+      </a>
+    </li>
+  </ul>
+</%def>

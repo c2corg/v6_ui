@@ -77,7 +77,7 @@ app.SliderController = function($scope, $element, $attrs, ngeoLocation) {
    * @type {string}
    * @export
    */
-  this.unit = $attrs['unit'] || app.SliderController.UNIT;
+  this.unit = 'unit' in $attrs ? $attrs['unit'] : app.SliderController.UNIT;
 
   /**
    * @type {string}
