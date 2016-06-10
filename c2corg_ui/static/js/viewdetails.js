@@ -84,6 +84,7 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
    * @export
    */
   this.documentService = appDocument;
+  this.documentService.setDocument(documentData);
 
   /**
    * @type {Object}
@@ -109,23 +110,6 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
    */
   this.scope_ = $scope;
 
-  // FIXME: hardcoded for testing (to be removed)
-  documentData['associations']['images'] = [
-    {'src': 'http://s.camptocamp.org/uploads/images/1463740758_235613570.jpg', date: '23-02-2015', activities: ['hiking, snow'], 'elevation': Math.random(), iso_speed: 100, filename: 'image2.jpg', camera_name: 'Nikon', locales: [{'title' : 'inizio del canale'}], date_time: new Date(), 'fnumber' : 2.3},
-    {'src': 'http://s.camptocamp.org/uploads/images/1463694562_1216719818.jpg', date: '23-22-2025', activities: ['hiking'], elevation: Math.random(), iso_speed: 230, filename: 'image1.jpg', camera_name: 'Sony', locales: [{'title' : 'never let me down'}], date_time: new Date(), 'fnumber' : 5.5},
-    {'src': 'http://s.camptocamp.org/uploads/images/1463694970_824684659.jpg', date: new Date(), activities: ['snow'], elevation: Math.random(), iso_speed: 400, filename: 'image231.jpg', camera_name: 'Canon', locales: [{'title' : 'my favorite place'}], date_time: new Date(), 'fnumber' : 4.2},
-    {'src': 'http://s.camptocamp.org/uploads/images/1463741192_488006925.jpg', date: '23-323', activities: ['hiking, snow, ski'], elevation: Math.random(), iso_speed: 1200, filename: 'image94.jpg', camera_name: 'Fuji', locales: [{'title' : 'superb view'}]},
-    {'src': 'http://s.camptocamp.org/uploads/images/1463694980_966569102.jpg', date: '099-02-2015', activities: ['paragliding'], elevation: Math.random(), iso_speed: 2300, filename: 'image55.jpg', camera_name: 'Sigma', locales: [{'title' : 'great view'}] , date_time: new Date(), 'fnumber' : 10}
-  ];
-
-  this.documentService.setDocument(documentData);
-
-  /**
-   * Used to pass the associated images to the slideshow
-   * FIXME: use the documentService instead of passing 'document' to the scope?
-   * @type {appx.Document}
-   */
-  this.scope_['document'] = this.documentService.document;
 };
 
 
@@ -186,17 +170,32 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
 
         var image = new Image();
         var direction = 'horizontal';
+        var stretched = false;
+        var height;
+        var imgHtml;
+        var width;
+        var margin;
         image['src'] = linkEl.getAttribute('href');
         if (image.naturalHeight > image.naturalWidth) {
           direction = 'vertical';
         }
-
+        // if the image is too small for the screen, don't stretch it and show the original size only.
+        if (window.innerWidth > image.naturalWidth + 100 || window.innerHeight > image.naturalHeight + 100) {
+          height = image.naturalHeight;
+          width = image.naturalWidth;
+          margin = 'auto';
+          stretched = true;
+        }
+        if (!stretched) {
+          imgHtml = '<img src="' + linkEl.getAttribute('href') + '">';
+        } else {
+          imgHtml = '<img src="' + linkEl.getAttribute('href') + '" style="height: ' + height + 'px; width: ' + width + 'px; margin: ' + margin + ';">';
+        }
         // create slide object
         item = {
           html: '<div class="photoswipe-image-container ' + direction + '">' +
-                  info.html() +
-                  '<img src="' + linkEl.getAttribute('href') + '">' +
-                  '</div>'
+                      info.html() + imgHtml +
+                    '</div>'
         };
         // <img> thumbnail element, retrieving thumbnail url (small img)
         if (linkEl.children.length > 0) {
@@ -307,10 +306,7 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
  * @private
  */
 app.ViewDetailsController.prototype.initSlickGallery_ = function() {
-  $('.photos').slick({
-    slidesToScroll: 2,
-    dots: false
-  });
+  $('.photos').slick({slidesToScroll: 3, dots: false});
 };
 
 
@@ -320,16 +316,15 @@ app.ViewDetailsController.prototype.initSlickGallery_ = function() {
  * @private
  */
 app.ViewDetailsController.prototype.loadImages_ = function(initGalleries) {
-  var photos = this.scope_['document']['associations']['images'];
+  var photos = this.documentService.document['associations']['images'];
   for (var i in photos) {
-    photos[i]['id'] = 'image-' + (+new Date());
 
-    var element = app.utils.createImageSlide(photos[i], 'loaded-' + photos[i]['id']);
+    var element = app.utils.createImageSlide(photos[i]);
     $('.photos').append(element);
 
     var scope = this.scope_.$new(true);
     scope['photo'] = photos[i];
-    this.compile_($('.photos figure:last-of-type').contents())(scope);
+    this.compile_($('#image-' + photos[i]['document_id']).contents())(scope);
   }
   initGalleries();
 };

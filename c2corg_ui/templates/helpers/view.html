@@ -104,7 +104,7 @@
   % endif
 </%def>
 
-
+## Links generated only for the search engines, hidden.
 <%def name="add_seo_association_links(documents, doctype, hide=True)">\
   % if len(documents):
     <ul ${'class="ng-hide"' if hide else '' | n}>
@@ -562,5 +562,12 @@
         <button class="btn btn-default" type="button" ng-click="delModalCtrl.dismiss()" translate>Cancel</button>
       </p>
     </div>
+  </div>
+</%def>
+
+
+<%def name="get_image_gallery()">\
+  <div class="view-details-photos col-xs-12 tab description" ng-show="detailsCtrl.documentService.document.associations.images.length > 0">
+    <div class="photos" data-slick='{"variableWidth": true, "infinite": false, "focusOnSelect": false, "lazyLoad": "progressive"}'></div>
   </div>
 </%def>

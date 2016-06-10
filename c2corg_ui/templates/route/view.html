@@ -5,7 +5,7 @@ from json import dumps
 %>
 
 <%inherit file="../base.html"/>
-<%namespace file="../helpers/view.html" import="photoswipe_gallery, get_document_locale_text,
+<%namespace file="../helpers/view.html" import="get_image_gallery, photoswipe_gallery, get_document_locale_text,
     get_document_locale_text, show_attr, show_missing_langs_links,
     show_other_langs_links, show_archive_data, show_route_title,
     show_areas, show_float_buttons, show_maps, get_route_activities,
@@ -101,11 +101,9 @@ other_langs, missing_langs = get_lang_lists(route, lang)
 
   ## IMAGES
   % if not version:
-    <div class="view-details-photos col-xs-12 tab description">
-      <div class="photos" data-slick='{"variableWidth": true, "infinite": true, "focusOnSelect": false, "lazyLoad": "progressive"}'></div>
-    </div>
+    ${get_image_gallery()}
   % endif
-  
+
       <div class="thumbnail view-details-informations tab  col-sm-12 informations">
         <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
           <span translate>Informations</span><span class="glyphicon glyphicon-menu-down"></span>
@@ -171,15 +169,16 @@ other_langs, missing_langs = get_lang_lists(route, lang)
         </section>
       </span>
     </div>
-
-    <div class="view-details-associations col-xs-12 tab associations"
-         ng-show="document.associations.recent_outings.outings.length > 0 || filteredAddedOutings.length > 0">
+  
+    % if 'recent_outings' in route['associations'] and route['associations']['recent_outings']['total'] > 0:
+    <div class="view-details-associations col-xs-12 tab associations">
       <span class="lead">
         <section>
           ${show_associated_outings(route)}
         </section>
       </span>
     </div>
+    % endif
   % endif
   
   ## OTHER BUTTON contents

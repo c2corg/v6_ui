@@ -175,9 +175,13 @@
   img {
     width: 100%;
     transition: 0.3s;
+    
     &.showing-info {
       width: 80%;
       transition: 0.3s;
+      @media @tablet {
+        width: 70%;
+      }
       @media @phone {
         width: 100%;
       }
@@ -198,18 +202,22 @@
   .image-infos {
     width: 20%;
     right: -20%;
-    padding: 1.5% 1.5% 0 2%;
+    padding: 3.5% 1.5% 0 2%;
     color: white;
     height: 100%;
     top: 0;
     position: absolute;
     transition: 0.3s;
+    @media @tablet {
+      width: 30%;
+      right: -30%;
+    }
     &.showing-info {
       right: 0;
       transition: 0.3s;
+      background-color: #1D1D1D;
       @media @phone {
         width: 70%;
-        background-color: #1D1D1D;
         padding-left: 7%;
       }
     }
