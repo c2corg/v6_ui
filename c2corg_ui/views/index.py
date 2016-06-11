@@ -8,7 +8,8 @@ class Pages(object):
         self.settings = request.registry.settings
         self.template_input = {
             'debug': 'debug' in self.request.params,
-            'api_url': self.settings['api_url']
+            'api_url': self.settings['api_url'],
+            'image_backend_url': self.settings['image_backend_url']
         }
 
     @view_config(route_name='index', renderer='c2corg_ui:templates/index.html')
