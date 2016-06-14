@@ -6,14 +6,17 @@
 
 
 /**
- * @constructor
+ * @typedef {{
+ *  min: number,
+ *  max: number,
+ *  value: Array.<number>
+ * }}
  */
-function Slider(arg1, arg2) {};
+var bootstrapSliderParameters;
 
 
 /**
- * @param {appx.BootstrapSliderValues} arg
+ * @param {bootstrapSliderParameters} arg
  * @return {!jQuery}
  */
 $.prototype.slider = function(arg) {};
-
