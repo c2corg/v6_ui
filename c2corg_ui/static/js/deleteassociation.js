@@ -41,7 +41,7 @@ app.module.directive('appDeleteAssociation', app.deleteAssociationDirective);
  * @param {angular.Scope} $rootScope
  * @param {!angular.Scope} $scope Scope.
  * @param {angular.$compile} $compile Angular compile service.
- * @param {Object} $uibModal modal from angular bootstrap
+ * @param {ui.bootstrap.$modal} $uibModal modal from angular bootstrap
  * @param {app.Api} appApi The API service
  * @param {app.Document} appDocument service
  * @ngInject
@@ -63,7 +63,7 @@ app.DeleteAssociationController = function($rootScope, $scope, $compile,
   this.scope_ = $scope;
 
   /**
-   * @type {Object} angular bootstrap modal
+   * @type {ui.bootstrap.$modal} angular bootstrap modal
    * @private
    */
   this.modal_ = $uibModal;
@@ -107,6 +107,7 @@ app.DeleteAssociationController = function($rootScope, $scope, $compile,
 
 
 /**
+ * @return {ui.bootstrap.modalInstance}
  * @private
  */
 app.DeleteAssociationController.prototype.openModal_ = function() {
