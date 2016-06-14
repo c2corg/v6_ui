@@ -183,7 +183,6 @@ app.ImageUploaderModalController.prototype.close = function() {
 app.ImageUploaderController.prototype.upload_ = function() {
   this.areAllUploaded = false;
   var file;
-  var promise;
 
   var interval = setInterval(function() {
     this.scope_.$apply();
@@ -204,8 +203,8 @@ app.ImageUploaderController.prototype.upload_ = function() {
       });
 
       this.getImageMetadata_(file);
-      promise = this.uploading[i] = this.api_.uploadImage(file);
-      this.promises.push(promise);
+      this.uploading[i] = this.api_.uploadImage(file);
+      this.promises.push(this.uploading[i]);
 
       this.uploading[i].then(function(resp) {
         console.log('100% uploaded! ' + file['metadata']['title'] + ' ' + i);
@@ -300,13 +299,13 @@ app.ImageUploaderController.prototype.deleteImage = function(index) {
 
 
 /**
- * @property {Object} file image
+ * @property {File} file image
  * @suppress {missingProperties}
  * @private
  */
 app.ImageUploaderController.prototype.getImageMetadata_ = function(file) {
   window.loadImage.parseMetaData(file, function(data) {
-    var exif = data['exif'];
+    var exif = data.exif;
     if (exif) {
       angular.extend(file['metadata'], exif.getAll());
       return;

@@ -1,5 +1,5 @@
 /**
- * @fileoverview Externs for bootstrap-slider
+ * @fileoverview Externs for angular-moment
  *
  * @externs
  */
