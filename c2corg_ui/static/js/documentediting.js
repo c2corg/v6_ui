@@ -186,6 +186,34 @@ app.DocumentEditingController = function($scope, $element, $attrs,
    */
   this.api_ = appApi;
 
+  /**
+   * Start cannot be after today nor end_date.
+   * @type {Date}
+   * @export
+   */
+  this.dateMaxStart = new Date();
+
+  /**
+   * @type {Date}
+   * @export
+   */
+  this.today = new Date();
+
+  /**
+   * The end date cannot be before start nor today.
+   * @type {Date}
+   * @export
+   */
+  this.dateMaxEnd = new Date();
+
+  /**
+   * The end date cannot be before start.
+   * @type {Date}
+   * @export
+   */
+  this.dateMinEnd;
+
+
   // allow association only for a new outing to existing route
   if (this.ngeoLocation_.hasParam('r')) {
     var urlParam = {'routes': this.ngeoLocation_.getParam('r')};
@@ -205,6 +233,11 @@ app.DocumentEditingController = function($scope, $element, $attrs,
           this.successRead_.bind(this)
       );
     } else if (this.modelName_ === 'outing') {
+      this.scope_['outing']['associations']['users'].push({
+        'id' : this.auth_.userData.id,
+        'document_id': this.auth_.userData.id,
+        'username': this.auth_.userData.username
+      });
       this.formatOuting_(this.scope_['outing']);
     }
   } else {
@@ -266,8 +299,11 @@ app.DocumentEditingController.prototype.successRead_ = function(response) {
     if (this.auth_.hasEditRights(outing['associations']['users'])) {
       this.scope_['outing'] = this.formatOuting_(outing);
       this.differentDates = app.utils.areDifferentDates(outing['date_start'], outing['date_end']);
+      if (!this.differentDates) {
+        outing['date_end'] = undefined;
+      }
     } else {
-      this.alerts_.addError('you have no rights to edit this document');
+      this.alerts_.addError('You have no rights to edit this document.');
       setTimeout(function() { // redirect to the details-view page
         window.location = window.location.href.replace('/edit', '');
       }, 3000);
@@ -291,6 +327,7 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
     this.alerts_.addError('You must log in to edit this document.');
     return;
   }
+
   // push to API
   var data = angular.copy(this.scope_[this.modelName_]);
   if (!goog.isArray(data['locales'])) {
@@ -341,6 +378,9 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
       message = data['message'];
       delete data['message'];
     }
+    if (this.modelName_ === 'outing') {
+      this.formatOuting_(data);
+    }
     data = {
       'message': message,
       'document': data
@@ -354,16 +394,8 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
     // creating a new document
     this.lang_ = data['locales'][0]['lang'];
     if (this.modelName_ === 'outing') {
-      // adapt the Object for what's expected at the API side + format the outing
       this.formatOuting_(data);
-
-      for (var i = 0; i < data['associations']['users'].length; i++) {
-        data['associations']['users'][i]['id'] = data['associations']['users'][i]['document_id'];
-        delete data['associations']['users'][i]['document_id'];
-      }
-      data['associations']['users'].push({'id' : this.auth_.userData.id});
     }
-
     this.api_.createDocument(this.module_, data).then(function(response) {
       this.id_ = response['data']['document_id'];
       window.location.href = app.utils.buildDocumentUrl(
@@ -596,42 +628,43 @@ app.DocumentEditingController.prototype.updateMaxSteps = function(waypointType) 
 
 
 /**
- * @param {Object} outing
+ * @param {appx.Outing} outing
  * @private
  */
 app.DocumentEditingController.prototype.formatOuting_ = function(outing) {
   if (this.submit_) {
     // transform condition_levels to a string
-    outing['locales'][0]['conditions_levels'] = JSON.stringify(outing['locales'][0]['conditions_levels']);
-
+    if (typeof outing.locales[0]['conditions_levels'] !== 'string') {
+      outing.locales[0]['conditions_levels'] = JSON.stringify(outing['locales'][0]['conditions_levels']);
+    }
     // if no date end -> make it the same as date start
-    if (!outing['date_end'] && outing['date_start'] instanceof Date) {
-      outing['date_end'] = outing['date_start'];
+    if (!outing.date_end && outing.date_start instanceof Date) {
+      outing.date_start.setHours(outing.date_start.getHours() + 2);
+      outing.date_end = outing.date_start;
+    }
+
+    var associations = outing.associations;
+    for (var i = 0; i < associations['users'].length; i++) {
+      associations['users'][i]['id'] = associations['users'][i]['document_id'] || associations['users'][i]['id'];
+      delete associations['users'][i]['document_id'];
     }
   }
-  // creating a new outing -> init locales and associations
-  if (!outing['locales']) {
-    outing['locales'] = [{}];
-  }
-  if (!outing['associations']) {
-    outing['associations'] = {'routes': [], 'waypoints': [], users: []};
-  }
   // convert existing date from string to a date object
-  if (outing['date_end'] && typeof outing['date_end'] === 'string') {
-    outing['date_end'] = app.utils.formatDate(outing['date_end']);
-  }
-  if (outing['date_start'] && typeof outing['date_start'] === 'string') {
-    outing['date_start'] = app.utils.formatDate(outing['date_start']);
+  if (outing.date_end && typeof outing.date_end === 'string') {
+    outing.date_end = app.utils.formatDate(outing.date_end);
+    this.dateMaxStart = outing.date_end;
   }
 
-  var conditions = outing['locales'][0]['conditions_levels'];
+  if (outing.date_start && typeof outing.date_start === 'string') {
+    outing.date_start = app.utils.formatDate(outing.date_start);
+    this.dateMinEnd = outing.date_start;
+  }
+
+  var conditions = outing.locales[0]['conditions_levels'];
   // conditions_levels -> to Object, snow_height -> to INT
   if (conditions && typeof conditions === 'string') {
     conditions = JSON.parse(conditions);
-    for (var i = 0; i < conditions.length; i++) {
-      conditions[i]['level_snow_height_soft'] = parseInt(conditions[i]['level_snow_height_soft'], 10);
-      conditions[i]['level_snow_height_total'] = parseInt(conditions[i]['level_snow_height_total'], 10);
-    }
+    this.scope_['outing']['locales'][0]['conditions_levels'] = conditions;
   } else {
     if (!this.submit_) {
       // init empty conditions_levels for ng-repeat
