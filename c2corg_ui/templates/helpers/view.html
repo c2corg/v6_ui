@@ -250,35 +250,36 @@
           % endif
 
           % if locale.get('conditions_levels') :
-            <table class="table table-striped conditions-levels">
-              <thead>
-                <tr>
-                  <th class="location"><span translate>location</span> / <span translate>altitude</span> / <span translate>orientation</span> / <span translate>time</span></th>
-                  <th class="soft-snow" translate>soft snow</th>
-                  <th class="total-snow" translate>total snow</th>
-                  <th class="comment" translate>comment</th>
-                </tr>
-              </thead>
-              <tbody>
-                % for condition in json.loads(locale['conditions_levels']):
-                <tr>
-                  <td>${condition['level_place']}</td>
-                  % if 'level_snow_height_soft' in condition and condition['level_snow_height_soft'] != '':
-                  <td>${condition['level_snow_height_soft']} cm</td>
-                  % else:
-                  <td></td>
-                  % endif
-                  % if 'level_snow_height_total' in condition and condition['level_snow_height_total'] != '':
-                  <td>${condition['level_snow_height_total']} cm</td>
-                  % else:
-                  <td></td>
-                  % endif
-                  <td >${condition['level_comment']}</td>
-                </tr>
-                % endfor
-              </tbody>
-            </table>
-          
+            <div class="table-responsive">
+              <table class="table table-striped conditions-levels">
+                <thead>
+                  <tr>
+                    <th class="location"><span translate>location</span> / <span translate>altitude</span> / <span translate>orientation</span> / <span translate>time</span></th>
+                    <th class="soft-snow" translate>soft snow</th>
+                    <th class="total-snow" translate>total snow</th>
+                    <th class="comment" translate>comment</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  % for condition in json.loads(locale['conditions_levels']):
+                  <tr>
+                    <td>${condition['level_place']}</td>
+                    % if 'level_snow_height_soft' in condition and condition['level_snow_height_soft'] != '':
+                    <td>${condition['level_snow_height_soft']} cm</td>
+                    % else:
+                    <td></td>
+                    % endif
+                    % if 'level_snow_height_total' in condition and condition['level_snow_height_total'] != '':
+                    <td>${condition['level_snow_height_total']} cm</td>
+                    % else:
+                    <td></td>
+                    % endif
+                    <td >${condition['level_comment']}</td>
+                  </tr>
+                  % endfor
+                </tbody>
+              </table>
+            </div>
           % endif
         </div>
       </section>

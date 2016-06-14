@@ -41,7 +41,7 @@ app.Document = function(appAuthentication, $rootScope) {
       'recent_outings': {'total': 0, 'outings': []},
       'images': []
     },
-    'locales': [{'title': ''}],
+    'locales': [{'title': '', 'lang': ''}],
     'type': '',
     'document_id': 0,
     'quality': ''

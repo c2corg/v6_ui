@@ -480,10 +480,14 @@
 
 .action-buttons {
   margin-top: 100px;
+  button {
+    padding: 0;
+  }
   .glyphicon-ok {
     color: white !important;
   }
 }
+
 #title-group {
   flex-basis: 75%;
   margin-bottom: 10px;
@@ -517,6 +521,9 @@
   @media @phone {
     float: none;
     width: 18%;
+    &:last-of-type {
+      margin-bottom: 5%;
+    }
   }
 }
 .bullet-container {

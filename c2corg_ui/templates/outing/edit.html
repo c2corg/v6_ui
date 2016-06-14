@@ -558,9 +558,17 @@ updating_doc = outing_id and outing_lang
           </div>
         </section>
 
-        <p  class="action-buttons float-buttons">
-          <button type="submit" class="btn btn-lg orange-btn float-button" ng-disabled="editForm.$invalid || editForm.$pristine"  tooltip-placement="left" uib-tooltip="{{'Save' | translate}}">
+        <div class="action-buttons float-buttons">
+          <button type="submit" class="btn btn-lg orange-btn float-button" ng-if="!editForm.$invalid && !editCtrl.hasMissingProps(outing, false)" 
+            tooltip-placement="left" uib-tooltip="{{'Save' | translate}}">
             <span class="glyphicon glyphicon-ok"></span>
+            <p class="float-button-text" translate>Save</p>
+          </button>
+          <button type="button" class="btn btn-lg orange-btn float-button" 
+                  ng-style="(editForm.$invalid || editCtrl.hasMissingProps(outing, false)) && {'opacity': 0.5}" tooltip-placement="left" uib-tooltip="{{'What is missing?' | translate}}" 
+                  ng-if="editForm.$invalid || editCtrl.hasMissingProps(outing, false)" ng-click="editCtrl.hasMissingProps(outing, true)">
+            <span class="glyphicon glyphicon-ok"></span>
+            <p class="float-button-text" translate>What is missing?</p>
           </button>
           <%
           view_url = request.route_url('outings_view', id=outing_id, lang=outing_lang) if updating_doc else ''
@@ -568,8 +576,9 @@ updating_doc = outing_id and outing_lang
           %>
           <button type="button" class="btn btn-lg gray-btn float-button" ng-click="editCtrl.cancel('${view_url}', '${index_url}')"  tooltip-placement="left" uib-tooltip="{{'Cancel' | translate}}">
             <span class="glyphicon glyphicon-remove"></span>
+            <p class="float-button-text" translate>Cancel</p>
           </button>
-        </p>
+        </div>
         
       </div>
     </section>

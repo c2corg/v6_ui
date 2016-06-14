@@ -29,18 +29,9 @@ app.constants = {
     'webcam': 4
   },
   REQUIRED_FIELDS : {
-    waypoint: {
-      step_1 : ['title' , 'lang', 'waypoint_type'],
-      step_2 : ['longitude', 'latitude', 'elevation'],
-      step_3: [],
-      step_4: []
-    },
-    route : {
-      step_1: ['title', 'lang', 'waypoint_type'],
-      step_2: ['longitude', 'latitude', 'elevation'],
-      step_3: [],
-      step_4: []
-    }
+    waypoints: ['title' , 'lang', 'waypoint_type', 'elevation', 'longitude', 'latitude'],
+    routes : ['title' , 'lang', 'activities'],
+    outings : ['title' , 'lang', 'date_start', 'routes', 'activities']
   },
   documentEditing: {
     FORM_PROJ: 'EPSG:4326',
