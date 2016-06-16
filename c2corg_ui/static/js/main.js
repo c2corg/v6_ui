@@ -9,6 +9,7 @@ goog.provide('app.main');
 
 goog.require('app.MainController');
 goog.require('app.AccountController');
+goog.require('app.OutingEditingController');
 goog.require('app.addAssociationDirective');
 goog.require('app.advancedSearchDirective');
 goog.require('app.alertsDirective');

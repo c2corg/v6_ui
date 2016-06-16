@@ -21,6 +21,7 @@ updating_doc = outing_id and outing_lang
       class="text-center"></h1>
   
   <form app-loading app-document-editing="outings" app-document-editing-model="outing"
+    app-document-editing-controller-name="appOutingEditingController"
   % if updating_doc:
     app-document-editing-id="${outing_id}" app-document-editing-lang="${outing_lang}"
   % endif 
