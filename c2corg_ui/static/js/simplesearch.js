@@ -256,7 +256,7 @@ app.SimpleSearchController.prototype.createDataset_ = function(type) {
       }.bind(this),
       empty: function(res) {
         if ($('.header.empty').length === 0) {
-          return this.compile_(this.templatecache_.get('/static/partials/suggestion_empty.html'))(this.scope_);
+          return this.compile_(this.templatecache_.get('/static/partials/suggestions/empty.html'))(this.scope_);
         }
       }.bind(this)
     }
