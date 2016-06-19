@@ -170,3 +170,31 @@ app.utils.createImageSlide = function(file) {
                '<app-slide-info></app-slide-info>' +
              '</figure>';
 };
+
+/**
+ * http://openlayers.org/en/latest/examples/vector-labels.html
+ * http://stackoverflow.com/questions/14484787/wrap-text-in-javascript
+ * @param {string} str String to divide.
+ * @param {number} width Max string length before wrapping.
+ * @param {string} spaceReplacer
+ * @return {string}
+ */
+app.utils.stringDivider = function(str, width, spaceReplacer) {
+  if (str.length > width) {
+    var p = width;
+    while (p > 0 && (str[p] != ' ' && str[p] != '-')) {
+      p--;
+    }
+    if (p > 0) {
+      var left;
+      if (str.substring(p, p + 1) == '-') {
+        left = str.substring(0, p + 1);
+      } else {
+        left = str.substring(0, p);
+      }
+      var right = str.substring(p + 1);
+      return left + spaceReplacer + app.utils.stringDivider(right, width, spaceReplacer);
+    }
+  }
+  return str;
+};
