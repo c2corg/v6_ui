@@ -42,7 +42,8 @@ app.mapDirective = function() {
       'drawType': '@appMapDrawType',
       'disableWheel': '=appMapDisableWheel',
       'advancedSearch': '=appMapAdvancedSearch',
-      'zoom': '@appMapZoom'
+      'zoom': '@appMapZoom',
+      'showRecenterTools': '=appMapShowRecenterTools'
     },
     controller: 'AppMapController',
     controllerAs: 'mapCtrl',
@@ -126,6 +127,12 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
    * @export
    */
   this.disableWheel;
+
+  /**
+   * @type {boolean}
+   * @export
+   */
+  this.showRecenterTools;
 
   /**
    * @type {ngeo.Location}
