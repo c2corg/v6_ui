@@ -16,6 +16,10 @@
       "c2corg_ui/externs/slick.js",
       "c2corg_ui/externs/photoswipe.js",
       "c2corg_ui/externs/loadImage.js",
+      "c2corg_ui/externs/ui-bootstrap.js",
+      "c2corg_ui/externs/angular-1.5.js",
+      "c2corg_ui/externs/angular-1.5-q_templated.js",
+      "c2corg_ui/externs/angular-1.5-http-promise_templated.js",
       "node_modules/openlayers/externs/bingmaps.js",
       "node_modules/openlayers/externs/closure-compiler.js",
       "node_modules/openlayers/externs/esrijson.js",
@@ -27,10 +31,7 @@
       "node_modules/ngeo/externs/angular-gettext.js",
       "node_modules/ngeo/externs/closure-compiler.js",
       "node_modules/ngeo/externs/twbootstrap.js",
-      "node_modules/ngeo/externs/typeahead.js",
-      "c2corg_ui/externs/angular-1.5.js",
-      "c2corg_ui/externs/angular-1.5-q_templated.js",
-      "c2corg_ui/externs/angular-1.5-http-promise_templated.js"
+      "node_modules/ngeo/externs/typeahead.js"
     ],
     "define": [
       "goog.array.ASSUME_NATIVE_FUNCTIONS=true",

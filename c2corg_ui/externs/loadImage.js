@@ -6,22 +6,38 @@
 
 
 /**
+ * @const
+ */
+var loadImage = {};
+
+
+/**
+ * @param {File|Blob} file
+ * @param {function(loadImageMetaData)} callback
+ * @param {Object=} opt_options
+ */
+loadImage.parseMetaData = function(file, callback, opt_options) {};
+
+
+/**
  * @constructor
  */
-function loadImage(file, callback, options) {};
+var loadImageMetaData = function() {};
 
 
 /**
- * @param {Object} file
- * @param {Object} callback
- * @param {Object} options
+ * @type {loadImageExif}
  */
-window.prototype.loadImage = function(file, callback, options) {};
+loadImageMetaData.prototype.exif;
 
 
 /**
- * @param {Object} file
- * @param {Object} callback
- * @param {Object} options
+ * @constructor
  */
-window.prototype.loadImage.parseMetaData = function(file, callback, options) {};
+var loadImageExif = function() {};
+
+
+/**
+ * @return Object
+ */
+loadImageExif.prototype.getAll = function() {};

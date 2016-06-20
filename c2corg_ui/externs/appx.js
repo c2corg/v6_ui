@@ -69,16 +69,6 @@ appx.AlertMessage;
 
 /**
  * @typedef {{
- *  min: number,
- *  max: number,
- *  value: Array.<number>
- * }}
- */
-appx.BootstrapSliderValues;
-
-
-/**
- * @typedef {{
  *   email: string
  * }}
  */
