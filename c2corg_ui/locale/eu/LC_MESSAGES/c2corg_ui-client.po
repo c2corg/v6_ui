@@ -220,6 +220,10 @@ msgstr ""
 msgid "Equipment"
 msgstr ""
 
+#: c2corg_ui/templates/i18n.html
+msgid "Failed loading this map background"
+msgstr ""
+
 #: c2corg_ui/static/js/apiservice.js
 msgid "Failed to associate document:"
 msgstr ""
@@ -722,6 +726,10 @@ msgid "best_periods"
 msgstr ""
 
 #: c2corg_ui/templates/i18n.html
+msgid "bing"
+msgstr ""
+
+#: c2corg_ui/templates/i18n.html
 msgid "bisse"
 msgstr ""
 
@@ -1041,6 +1049,10 @@ msgid "es"
 msgstr ""
 
 #: c2corg_ui/templates/i18n.html
+msgid "esri"
+msgstr ""
+
+#: c2corg_ui/templates/i18n.html
 msgid "eu"
 msgstr ""
 
@@ -1232,6 +1244,14 @@ msgstr ""
 #: c2corg_ui/templates/route/create_edit_summary.html
 #: c2corg_ui/templates/route/edit.html
 msgid "ice_rating"
+msgstr ""
+
+#: c2corg_ui/templates/i18n.html
+msgid "ign maps"
+msgstr ""
+
+#: c2corg_ui/templates/i18n.html
+msgid "ign ortho"
 msgstr ""
 
 #: c2corg_ui/templates/i18n.html
@@ -1470,6 +1490,10 @@ msgstr ""
 #: c2corg_ui/templates/route/create_edit_summary.html
 #: c2corg_ui/templates/waypoint/edit.html
 msgid "orientations"
+msgstr ""
+
+#: c2corg_ui/templates/i18n.html
+msgid "osm"
 msgstr ""
 
 #: c2corg_ui/templates/outing/view.html
@@ -1799,6 +1823,10 @@ msgstr ""
 #: c2corg_ui/templates/i18n.html c2corg_ui/templates/outing/filters.html
 #: c2corg_ui/templates/route/filters.html
 msgid "summit"
+msgstr ""
+
+#: c2corg_ui/templates/i18n.html
+msgid "swisstopo"
 msgstr ""
 
 #: c2corg_ui/templates/sidemenu.html
