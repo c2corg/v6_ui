@@ -5,7 +5,7 @@ from json import dumps
 %>
 
 <%inherit file="../base.html"/>
-<%namespace file="../helpers/view.html" import="get_image_gallery, photoswipe_gallery, get_document_locale_text,
+<%namespace file="../helpers/view.html" import="get_comments, get_image_gallery, photoswipe_gallery, get_document_locale_text,
     get_document_locale_text, show_attr, show_missing_langs_links,
     show_other_langs_links, show_archive_data, show_route_title,
     show_areas, show_float_buttons, show_maps, get_route_activities,
@@ -70,6 +70,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
     "document_id": ${route.get('document_id')},
     "lang": "${lang}",
     "type": "r",
+    "topic_id": ${dumps(locale.get('topic_id'))},
     % if route.get('orientations'):
       "orientations": [${'"' + '","'.join(route['orientations']) + '"' if len(route['orientations']) else '' | n}],
     % endif
@@ -183,6 +184,8 @@ other_langs, missing_langs = get_lang_lists(route, lang)
         </span>
       </div>
     % endif
+
+  ${get_comments()}
 
   ## OTHER BUTTON contents
     ${show_other_langs_links('routes', route, other_langs)}

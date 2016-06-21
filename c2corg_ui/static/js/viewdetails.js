@@ -124,6 +124,16 @@ app.ViewDetailsController.prototype.openModal = function(selector) {
 
 
 /**
+ * @export
+ */
+app.ViewDetailsController.prototype.scrollToComments = function() {
+  $('html, body').animate({
+    scrollTop: $('#discourse-comments').offset().top
+  }, 1000);
+};
+
+
+/**
  * @param {Event} tab the clicked tab
  * @export
  */
@@ -303,6 +313,48 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
  */
 app.ViewDetailsController.prototype.initSlickGallery_ = function() {
   $('.photos').slick({slidesToScroll: 3, dots: false});
+};
+
+
+/**
+ * @export
+ */
+app.ViewDetailsController.prototype.getComments = function() {
+  var topic_id = this.documentService.document['topic_id'];
+  if (topic_id === null) {
+    return;
+  }
+
+  // create DiscourseEmbed script tag. From a discourse tutorial.
+  // https://meta.discourse.org/t/embedding-discourse-comments-via-javascript/31963
+  var s = document.createElement('script');
+  /**
+   * @export
+   * @type {appx.DiscourseEmbedded}
+   */
+  window.DiscourseEmbed = {
+    'discourseUrl': this.discourseUrl_,
+    'topicId': topic_id
+  };
+  s.src = this.discourseUrl_ + 'javascripts/embed.js';
+  document.getElementsByTagName('body')[0].appendChild(s);
+};
+
+
+/**
+ * @export
+ */
+app.ViewDetailsController.prototype.createTopic = function() {
+  var document = this.documentService.document;
+  var document_id = document.document_id;
+  var lang = document.lang;
+  this.api_.createTopic(document_id, lang).then(function(resp) {
+    var topic_id = resp['data']['topic_id'];
+    this.documentService.document.topic_id = topic_id;
+    this.getComments();
+    var url = this.discourseUrl_ + 't/' + document_id + '_' + lang + '/' + topic_id;
+    window.open(url);
+  }.bind(this));
 };
 
 

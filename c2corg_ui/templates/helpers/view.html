@@ -417,7 +417,8 @@
       <p class="float-button-text" translate>Favorites</p>
     </div>
 
-    <div class="float-button float-comments" tooltip-placement="left" uib-tooltip="{{'Comments' | translate}}">
+    <div class="float-button float-comments" tooltip-placement="left" uib-tooltip="{{'Comments' | translate}}"
+         ng-click="detailsCtrl.scrollToComments()">
       <span class="glyphicon glyphicon-comment"></span>
       <p class="float-button-text" translate>Comments</p>
     </div>
@@ -663,5 +664,29 @@
 <%def name="get_image_gallery()">\
   <div class="view-details-photos col-xs-12 tab description" ng-show="detailsCtrl.documentService.document.associations.images.length > 0">
     <div class="photos" data-slick='{"variableWidth": true, "infinite": false, "focusOnSelect": false, "lazyLoad": "progressive"}'></div>
+  </div>
+</%def>
+
+
+<%def name="get_comments()">\
+  <div class="view-details-comments col-xs-12 comments">
+    <h3 class="heading comments"
+        data-toggle="collapse" data-target="#discourse-comments"
+        ng-click="mainCtrl.animateHeaderIcon($event)">
+      <span class="glyphicon glyphicon-comment"></span>
+      <span translate>Comments</span>
+      <span class="glyphicon glyphicon-menu-down"></span>
+    </h3>
+    <section id="discourse-comments" class="collapse in" ng-init="detailsCtrl.getComments()">
+      <div ng-if="detailsCtrl.documentService.document.topic_id == null" class="no-thread">
+        <p class="text-center">No thread yet?</p>
+        <p class="text-center"
+            ng-if="!userCtrl.auth.isAuthenticated()">Log in to post the first comment</p>
+        <button class="btn gray-btn"
+            ng-if="userCtrl.auth.isAuthenticated()"
+            ng-click="detailsCtrl.createTopic()"
+            translate>Post the first comment</button>
+      </div>
+    </section>
   </div>
 </%def>
