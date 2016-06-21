@@ -399,6 +399,7 @@ app.DocumentEditingController.prototype.updateMap = function() {
       // If creating a new document, the model has no geometry attribute yet:
       data['geometry'] = data['geometry'] || {};
       data['geometry']['geom'] = this.geojsonFormat_.writeGeometry(point);
+      this.hasGeomChanged_ = true;
       this.scope_.$root.$emit('documentDataChange', data);
     }
   }
