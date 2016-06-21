@@ -15,7 +15,7 @@ goog.require('app.utils');
  */
 app.cardDirective = function($compile, $templateCache) {
   var template = function(doctype) {
-    return $templateCache.get('/static/partials/card_' + doctype + '.html');
+    return $templateCache.get('/static/partials/cards/' + doctype + '.html');
   };
 
   return {

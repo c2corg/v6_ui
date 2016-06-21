@@ -9,7 +9,7 @@ goog.provide('app.suggestionDirective');
  */
 app.suggestionDirective = function($compile, $sce, $templateCache) {
   var template = function(doctype) {
-    return $templateCache.get('/static/partials/suggestion_' + doctype + '.html');
+    return $templateCache.get('/static/partials/suggestions/' + doctype + '.html');
   };
 
   return {
