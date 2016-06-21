@@ -450,4 +450,11 @@ app.Api.prototype.saveImages = function(files) {
 };
 
 
+/**
+ * @param {string} topic
+ */
+app.Api.prototype.getForumThread = function(topic) {
+  return this.getJson_('/forum/get-topic/' + topic);
+};
+
 app.module.service('appApi', app.Api);

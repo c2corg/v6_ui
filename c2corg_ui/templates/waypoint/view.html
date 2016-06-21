@@ -10,7 +10,7 @@ from json import dumps
     get_waypoint_orientation, get_waypoint_contact, get_waypoint_style, get_waypoint_rating,
     get_waypoint_access, get_waypoint_heights, get_waypoint_location, get_waypoint_general,
     get_waypoint_maps_info"/>
-<%namespace file="../helpers/view.html" import="get_image_gallery, photoswipe_gallery, get_document_locale_text,
+<%namespace file="../helpers/view.html" import="get_comments, get_image_gallery, photoswipe_gallery, get_document_locale_text,
     show_attr, show_missing_langs_links, show_other_langs_links, show_archive_data, 
     show_route_title, show_areas, show_maps, show_float_buttons,
     show_associated_waypoints, show_associated_routes, show_associated_outings,
@@ -193,7 +193,9 @@ geometry4326 = geometry
       </div>
     % endif
   % endif
-
+  
+  ${get_comments(waypoint_id, lang)}
+  
   ## OTHER BUTTON contents
   % if version:
     ${show_archive_data('waypoints', waypoint, locale, version)}

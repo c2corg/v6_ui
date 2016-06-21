@@ -110,6 +110,12 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
    */
   this.scope_ = $scope;
 
+  /**
+   * @type {boolean}
+   * @export
+   */
+  this.createNewTopic = false;
+
 };
 
 
@@ -120,6 +126,16 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
 app.ViewDetailsController.prototype.openModal = function(selector) {
   var template = $(selector).clone();
   this.modal_.open({animation: true, size: 'lg', template: this.compile_(template)(this.scope_)});
+};
+
+
+/**
+ * @export
+ */
+app.ViewDetailsController.prototype.scrollToComments = function() {
+  $('html, body').animate({
+    scrollTop: $('#discourse-comments').offset().top
+  }, 1000);
 };
 
 
@@ -307,6 +323,35 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
  */
 app.ViewDetailsController.prototype.initSlickGallery_ = function() {
   $('.photos').slick({slidesToScroll: 3, dots: false});
+};
+
+
+/**
+ * @param {string} topic
+ * @export
+ */
+app.ViewDetailsController.prototype.getComments = function(topic) {
+  this.api_.getForumThread(topic).then(function(res) {
+    var thread = res['data']['thread'];
+    var id = thread['draft_key'].split('_')[1]; // topic ID
+    // create DiscourseEmbed script tag. From a discourse tutorial.
+    var s = document.createElement('script');
+    /**
+     * @export
+     * @type {appx.DiscourseEmbedded}
+     */
+    window.DiscourseEmbed = {
+      'discourseUrl': app.constants.discourseURL,
+      'topicId': id
+    };
+    s.src = app.constants.discourseURL + 'javascripts/embed.js';
+    document.getElementsByTagName('body')[0].appendChild(s);
+    console.log(thread);
+  }.bind(this)).catch(function(e) {
+    // no topic found
+    this.createNewTopic = true;
+
+  }.bind(this));
 };
 
 

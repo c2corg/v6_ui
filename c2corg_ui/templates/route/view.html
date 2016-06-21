@@ -5,7 +5,7 @@ from json import dumps
 %>
 
 <%inherit file="../base.html"/>
-<%namespace file="../helpers/view.html" import="get_image_gallery, photoswipe_gallery, get_document_locale_text,
+<%namespace file="../helpers/view.html" import="get_comments, get_image_gallery, photoswipe_gallery, get_document_locale_text,
     get_document_locale_text, show_attr, show_missing_langs_links,
     show_other_langs_links, show_archive_data, show_route_title,
     show_areas, show_float_buttons, show_maps, get_route_activities,
@@ -180,6 +180,9 @@ other_langs, missing_langs = get_lang_lists(route, lang)
     </div>
     % endif
   % endif
+
+  ${get_comments(route_id, lang)}
+
   
   ## OTHER BUTTON contents
   % if version:

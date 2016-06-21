@@ -8,7 +8,7 @@ from json import dumps
 <%namespace file="../helpers/common.html" import="show_title, show_fulldate"/>
 <%namespace file="helpers/detailed_outings_attributes.html" import="get_outing_snow,
     get_outing_access, get_outing_participants, get_outing_general, get_outing_heights"/>
-<%namespace file="../helpers/view.html" import="get_image_gallery, photoswipe_gallery, get_document_min_max,
+<%namespace file="../helpers/view.html" import="get_comments, get_image_gallery, photoswipe_gallery, get_document_min_max,
     get_document_locale_text, show_attr, show_missing_langs_links, show_other_langs_links,
     show_archive_data, show_route_title, get_route_activities, show_areas, show_float_buttons,
     show_associated_waypoints, show_associated_routes, delete_association_confirmation_modal"/>
@@ -151,6 +151,8 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
     </span>
   </div>
   % endif
+  
+  ${get_comments(outing_id, lang)}
 
   ## OTHER BUTTON contents
   % if version:

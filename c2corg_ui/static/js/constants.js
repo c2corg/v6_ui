@@ -37,5 +37,6 @@ app.constants = {
     FORM_PROJ: 'EPSG:4326',
     DATA_PROJ: 'EPSG:3857'
   },
+  discourseURL: 'http://c2corgv6-discourse.demo-camptocamp.com/',
   imagesURL : 'http://s.camptocamp.org/uploads/images/'
 };
