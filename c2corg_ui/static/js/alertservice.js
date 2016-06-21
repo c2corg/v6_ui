@@ -120,11 +120,11 @@ app.Alerts.prototype.formatErrorMsg_ = function(response) {
   if (len > 1) {
     var msg = '<ul>';
     for (var i = 0; i < len; i++) {
-      msg += '<li>' + this.filterStr_(errors[i]['description']) + '</li>';
+      msg += '<li>' + this.filterStr_(errors[i]['description']) + ' : ' + this.filterStr_(errors[i]['name']) + '</li>';
     }
     return msg + '</ul>';
   }
-  return this.filterStr_(errors[0]['description']);
+  return this.filterStr_(errors[0]['description']) + ' : ' + this.filterStr_(errors[0]['name']);
 };
 
 

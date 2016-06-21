@@ -95,6 +95,9 @@ updating_doc = route_id and route_lang
             ## wr = waypoints, routes
             <app-simple-search parent-id="route.document_id"
               app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="wr"></app-simple-search>
+            <h5 translate ng-show="editCtrl.documentService.document.associations.routes.length == 0 && editCtrl.documentService.document.associations.waypoints.length == 0">
+              You can add associated routes and waypoints by searching in the field.
+            </h5>
             ${show_editing_associated_waypoints('route')}
             ${show_editing_associated_routes('route')}
           </div>
@@ -150,7 +153,7 @@ updating_doc = route_id and route_lang
             <div class="form-group data half">
               
               ## ROUTE TYPES      
-              <label><span translate>route_types</span> *</label>
+              <label translate>route_types</label>
               <ul class="types">
                 <li ng-repeat="type in ${route_types}" ng-click="editCtrl.pushToArray(route, 'route_types', type, $event)">
                   <div class="checkbox"><input type="checkbox" ng-checked="route.route_types.indexOf(type) > -1"><span>{{type|| translate}}</span></div>
@@ -667,8 +670,14 @@ updating_doc = route_id and route_lang
           </div>
         </section>
 
-        <p  class="action-buttons float-buttons">
-          <button type="submit" class="btn btn-lg orange-btn float-button" ng-disabled="editForm.$invalid || editForm.$pristine"  tooltip-placement="left" uib-tooltip="{{'Save' | translate}}">
+        <div class="action-buttons float-buttons">
+          <button type="submit" class="btn btn-lg orange-btn float-button" ng-if="!editForm.$invalid && !editCtrl.hasMissingProps(route, false)" 
+                  tooltip-placement="left" uib-tooltip="{{'Save' | translate}}">
+            <span class="glyphicon glyphicon-ok"></span>
+          </button>
+          
+          <button type="button" class="btn btn-lg orange-btn float-button" ng-style="(editForm.$invalid || editCtrl.hasMissingProps(route, false)) && {'opacity': 0.5}" 
+                  tooltip-placement="left" uib-tooltip="{{'What is missing?' | translate}}" ng-if="editForm.$invalid || editCtrl.hasMissingProps(route, false)" ng-click="editCtrl.hasMissingProps(route, true)">
             <span class="glyphicon glyphicon-ok"></span>
           </button>
           <%
@@ -678,7 +687,7 @@ updating_doc = route_id and route_lang
           <button type="button" class="btn btn-lg gray-btn float-button" ng-click="editCtrl.cancel('${view_url}', '${index_url}')"  tooltip-placement="left" uib-tooltip="{{'Cancel' | translate}}">
             <span class="glyphicon glyphicon-remove"></span>
           </button>
-        </p>
+        </div>
       </div>
 
     </section>

@@ -223,7 +223,6 @@ app.DocumentEditingController = function($scope, $element, $attrs,
   }
 
   this.scope_[this.modelName_] = this.scope_['document'] = this.documentService.document;
-
   if (this.auth_.isAuthenticated()) {
     if (this.id_ && this.lang_) {
      // Get document attributes from the API to feed the model:
@@ -629,6 +628,55 @@ app.DocumentEditingController.prototype.updateMaxSteps = function(waypointType) 
 
 /**
  * @param {appx.Outing} outing
+ * Check what properties are missing and tell the user.
+ * @export
+ * @return {boolean | undefined}
+ */
+app.DocumentEditingController.prototype.hasMissingProps = function(doc, showError) {
+  var type = doc.type ? app.utils.getDoctype(doc.type) : this.module_;
+  var fields = app.constants.REQUIRED_FIELDS[type];
+  // understandable structure by alertService
+  var missing = {'data': {'errors': []}};
+  var error;
+  var field;
+  for (var i = 0; i < fields.length; i++) {
+    field = fields[i];
+    error = false;
+
+    if (field === 'title' || field === 'lang') {
+      error = (!doc['locales'] || !doc['locales'][0][field]);
+    } else if (field === 'activities') {
+      error = (!doc['activities'] || doc['activities'].length === 0);
+    } else if (field === 'routes') {
+      error = (!doc['associations'] || doc['associations']['routes'].length === 0);
+    } else if (field === 'latitude' || field === 'longitude') {
+      error = (!doc['lonlat'] || (doc['lonlat'][field] === null || doc['lonlat'][field] === undefined));
+    } else if (field === 'date_start') {
+      error = (doc['date_start'] === null || doc['date_start']  === undefined);
+    } else {
+      error = (!doc[field] || doc[field] === null || doc[field] === undefined);
+    }
+    if (error) {
+      if (showError) {
+        missing['data']['errors'].push({
+          'description': 'Missing field',
+          'name': field
+        });
+      } else {
+        return true;
+      }
+    }
+  }
+  if (missing['data']['errors'].length > 0) {
+    this.alerts_.addError(missing);
+  }
+  return error;
+};
+
+
+/**
+ * @param {Object} outing
+ * better edit-form checking before saving
  * @private
  */
 app.DocumentEditingController.prototype.formatOuting_ = function(outing) {

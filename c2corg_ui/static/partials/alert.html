@@ -3,6 +3,7 @@
     <span aria-hidden="true">&times;</span>
     <span class="sr-only">Close</span>
   </button>
+  <h4 translate ng-show="alertCtrl.title">{{alertCtrl.title}}</h4>
   <div ng-bind-html="alertCtrl.msg | appTrustAsHtml" class="alert-text" translate></div>
 </div>
 

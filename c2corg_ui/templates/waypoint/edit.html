@@ -273,21 +273,21 @@
             </div>
 
             ## ACCESS TIME
-            <div class="form-group data half" ng-if="type == 'climbing_outdoor'">
+            <div class="form-group data half" ng-if="type == 'climbing_outdoor'" ng-class="{'has-success': waypoint.access_time}">
               <label translate>access_time</label>
               <select class="form-control" ng-model="waypoint.access_time" ng-options="time as time for time in ${access_times}"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.access_time"></span>
             </div>
 
             ## RAIN PROOF
-            <div class="form-group data half" ng-if="type == 'climbing_outdoor'" ng-class="{ 'has-error': editForm.rain_proof.$touched && editForm.rain_proof.$invalid, 'has-success': editForm.rain_proof.$valid }">
+            <div class="form-group data half" ng-if="type == 'climbing_outdoor'" ng-class="{'has-success': waypoint.rain_proof}">
               <label><span translate>rain_proof</span></label>
               <select class="form-control " ng-model="waypoint.rain_proof" ng-options="type as mainCtrl.translate(type) for type in ${rain_proof_types}"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.rain_proof"></span>
             </div>
 
             ## CHILDREN PROOF
-            <div class="form-group data half" ng-if="type == 'climbing_outdoor'">
+            <div class="form-group data half" ng-if="type == 'climbing_outdoor'" ng-class="{'has-success': waypoint.children_proof}">
               <label translate>children_proof</label>
               <select ng-options="type as type for type in ${children_proof_types}" ng-model="waypoint.children_proof" class="form-control "><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.children_proof"></span>
@@ -482,7 +482,7 @@
 
             ## PARAGLIDING RATING
             <div class="form-group data half rating" ng-if="type == 'paragliding_takeoff' || type == 'paragliding_landing'"
-                 ng-class="{ 'has-error': editForm.paragliding_rating.$touched && editForm.paragliding_rating.$invalid, 'has-success': editForm.paragliding_rating.$valid }">
+                 ng-class="{'has-success': waypoint.paragliding_rating }">
               <label><span translate>paragliding_rating</span></label><br>
               <select class="form-control" ng-options="rat as rat for rat in [1, 2, 3, 4, 5]" ng-model="waypoint.paragliding_rating"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.paragliding_rating"></span>
@@ -490,7 +490,7 @@
 
             ## EXPOSITION RATING
             <div class="form-group data half" ng-if="type == 'paragliding_takeoff' || type == 'paragliding_landing'"
-                 ng-class="{ 'has-error': editForm.exposition_rating.$touched && editForm.exposition_rating.$invalid, 'has-success': editForm.exposition_rating.$valid }">
+                 ng-class="{ 'has-success': waypoint.exposition_rating }">
               <label translate>exposition_rating</label>
               <select class="form-control " ng-model="waypoint.exposition_rating" ng-options="rat as mainCtrl.translate(rat) for rat in ${exposition_ratings}"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.exposition_rating"></span>
@@ -498,7 +498,7 @@
 
             ## EQUIPMENT RATINGS
             <div class="form-group data half rating" ng-if="type == 'climbing_outdoor'"
-                 ng-class="{ 'has-error': editForm.equipment_ratings.$touched && editForm.equipment_ratings.$invalid,'has-success': editForm.equipment_ratings.$valid }">
+                 ng-class="{'has-success': waypoint.equipment_ratings }">
               <label><span translate>equipment_ratings</span></label><br>
               <ul class="types">
                 <li ng-repeat="type in ${equipment_ratings}" ng-click="editCtrl.pushToArray(waypoint, 'equipment_ratings', type, $event)">
@@ -511,7 +511,7 @@
 
             ## CLIMBING RATING MIN
             <div class="form-group data half rating" ng-if="type == 'climbing_outdoor' || type == 'climbing_indoor'"
-                 ng-class="{ 'has-error': editForm.climbing_rating_min.$touched && editForm.climbing_rating_min.$invalid, 'has-success': editForm.climbing_rating_min.$valid }">
+                 ng-class="{ 'has-success': waypoint.climbing_rating_min }">
               <label><span translate>climbing_rating_min</span></label><br>
               <select ng-model="waypoint.climbing_rating_min" ng-options="rat as rat for rat in ${climbing_ratings}" class="form-control"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.climbing_rating_min"></span>
@@ -519,7 +519,7 @@
 
             ## CLIMBING RATING MAX
             <div class="form-group data half rating" ng-if="type == 'climbing_outdoor' || type == 'climbing_indoor'"
-                 ng-class="{ 'has-error': editForm.climbing_rating_max.$touched && editForm.climbing_rating_max.$invalid, 'has-success': editForm.climbing_rating_max.$valid }">
+                  ng-class="{ 'has-success': waypoint.climbing_rating_max }">
               <label><span translate>climbing_rating_max</span></label><br>
               <select ng-model="waypoint.climbing_rating_max" ng-options="rat as rat for rat in ${climbing_ratings}" class="form-control"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.climbing_rating_max"></span>
@@ -527,7 +527,7 @@
 
             ## CLIMBING RATING MEDIAN
             <div class="form-group data half rating" ng-if="type == 'climbing_outdoor' || type == 'climbing_indoor'"
-                 ng-class="{ 'has-error': editForm.climbing_rating_median.$touched && editForm.climbing_rating_median.$invalid, 'has-success': editForm.climbing_rating_median.$valid }">
+                 ng-class="{'has-success': waypoint.climbing_rating_median }">
               <label><span translate>climbing_rating_median</span></label><br>
               <select ng-model="waypoint.climbing_rating_median" ng-options="rat as rat for rat in ${climbing_ratings}" class="form-control"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.climbing_rating_median"></span>
@@ -705,10 +705,14 @@
           <h2 class="heading show-phone" translate>associations</h2>
           <div class="content">
             ## w = waypoints
-            <app-simple-search parent-id="waypoint.document_id"
-              app-select="editCtrl.documentService.pushToAssociations(doc, 'waypoint_children')" dataset="w"></app-simple-search>
+            <app-simple-search parent-id="waypoint.document_id" app-select="editCtrl.documentService.pushToAssociations(doc, 'waypoint_children')" dataset="w">
+            </app-simple-search>
+            <h5 translate ng-show="editCtrl.documentService.document.associations.waypoint_children.length == 0">
+              You can add associated waypoints by searching in the field.
+            </h5>
             ${show_editing_associated_waypoints('waypoint', type='waypoint_children')}
           </div>
+          
         </section>
         
         <section class="section">
@@ -780,7 +784,13 @@
         </section>
         
         <p class="action-buttons float-buttons">
-          <button type="submit" class="btn orange-btn btn-lg float-button" ng-disabled="editForm.$invalid || editForm.$pristine" tooltip-placement="left" uib-tooltip="{{'Save' | translate}}">
+          <button type="submit" class="btn orange-btn btn-lg float-button" 
+            ng-if="!editForm.$invalid && !editCtrl.hasMissingProps(waypoint, false)" tooltip-placement="left" uib-tooltip="{{'Save' | translate}}">
+            <span class="glyphicon glyphicon-ok"></span>
+          </button>
+          <button type="button" class="btn btn-lg orange-btn float-button" 
+                  ng-style="(editForm.$invalid || editCtrl.hasMissingProps(waypoint, false)) && {'opacity': 0.5}" tooltip-placement="left" uib-tooltip="{{'What is missing?' | translate}}" 
+                  ng-if="editForm.$invalid || editCtrl.hasMissingProps(waypoint, false)" ng-click="editCtrl.hasMissingProps(waypoint, true)">
             <span class="glyphicon glyphicon-ok"></span>
           </button>
           <%

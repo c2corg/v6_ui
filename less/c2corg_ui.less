@@ -778,19 +778,33 @@ app-simple-search {
   }
 }
 
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
 app-alerts {
-  position: absolute;
-  bottom: 10px;
   position: fixed;
   top: 30vh;
+  left: 45vw;
   z-index: 20;
   .flex();
-  height: 0;
-  width: 100%;
   justify-content: center;
+  flex-direction: column;
+  @media @phone {
+    left: 5vw;
+    width: 90%;
+  }
   
+  ul {
+    list-style: none;
+  }
   app-alert {
-    width: 40%;
+    -webkit-animation: fadein .3s;
+    -moz-animation: fadein .3s;
+    -ms-animation: fadein .3s;
+    -o-animation: fadein .3s;
+    animation: fadein .3s;
     text-align: center;
   }
   .alert {
