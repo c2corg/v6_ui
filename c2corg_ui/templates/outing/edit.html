@@ -194,10 +194,11 @@ updating_doc = outing_id and outing_lang
           <div class="content outing-weather" id="title-edit">
            
             ## DATE START
-            <div class="data half remain form-group" ng-init="openDateStart = false">
+            <div class="data half form-group" ng-init="openDateStart = false">
               <label><span translate>date_start</span> *</label>
-              <div class="input-group" ng-model="outing.date_start" uib-datepicker-popup="dd MM yyyy" is-open="openDateStart">
-                <input type="text" class="form-control" value="{{outing.date_start | amDateFormat:'Do MMMM YYYY' }}"/>
+              <div class="input-group" ng-model="outing.date_start" datepicker-options="{maxDate : editCtrl.dateMaxStart}" 
+                   uib-datepicker-popup="dd MM yyyy" is-open="openDateStart" ng-change="editCtrl.dateMinEnd = outing.date_start">
+                <input type="text" disabled class="form-control" value="{{outing.date_start | amDateFormat:'Do MMMM YYYY' }}" required/>
                 <span class="input-group-btn">
                   <button type="button" class="btn btn-default" ng-click="openDateStart = true"><span class="glyphicon glyphicon-calendar"></span></button>
                 </span>
@@ -205,16 +206,17 @@ updating_doc = outing_id and outing_lang
             </div>
               
             ## DATE END
-            <div class="data half remain form-group baseline-align" ng-init="openDateEnd = false">
+            <div class="data half form-group baseline-align" ng-init="openDateEnd = false">
               <div  ng-show="editCtrl.differentDates">
                 <label><span translate>date_end </span></label>               
-                <div class="input-group" ng-model="outing.date_end" uib-datepicker-popup="dd MM yyyy" is-open="openDateEnd">
-                  <input type="text" class="form-control" value="{{outing.date_end | amDateFormat:'Do MMMM YYYY' }}"/>
+                <div class="input-group" ng-model="outing.date_end" datepicker-options="{maxDate : editCtrl.dateMaxEnd, minDate: editCtrl.dateMinEnd}" 
+                     uib-datepicker-popup="dd MM yyyy" is-open="openDateEnd" ng-change="editCtrl.dateMaxStart = outing.date_end">
+                  <input disabled type="text" class="form-control" value="{{outing.date_end | amDateFormat:'Do MMMM YYYY' }}"/>
                   <span class="input-group-btn">
                     <button type="button" class="btn btn-default" ng-click="openDateEnd = true"><span class="glyphicon glyphicon-calendar"></span></button>
                   </span>
                 </div>
-                <span class="glyphicon glyphicon-remove form-control-feedback"  ng-click="editCtrl.differentDates = false"></span>
+                <span class="glyphicon glyphicon-remove form-control-feedback"  ng-click="editCtrl.differentDates = false; outing.date_end = undefined; editCtrl.dateMaxStart = editCtrl.today;"></span>
               </div>
               <div ng-click="editCtrl.differentDates = true" ng-show="!editCtrl.differentDates" class="baseline-align">
                 <button class="btn orange-btn" type="button">several days?</button>
@@ -482,7 +484,7 @@ updating_doc = outing_id and outing_lang
                 <section class="associated-section">
                   <article class="associated-documents">
                     <h5 translate ng-show="outing.associations.users.length == 0">you can look up for users that were with you during the outing.</h5>
-                    <div class="list-item outing user-id-{{user.document_id}}" ng-repeat="user in outing.associations.users">
+                    <div class="list-item outings user-id-{{user.document_id}}" ng-repeat="user in outing.associations.users">
                       <a>
                         <div class="outing-author text-center">
                           <span class="icon-user"></span><br>
@@ -491,7 +493,7 @@ updating_doc = outing_id and outing_lang
                           <span class="list-item-title outing">{{user.username}}</span>
                         </div>
                       </a>
-                      <span class="glyphicon glyphicon-trash" ng-click="editCtrl.documentService.removeAssociation(user.document_id, 'users')"></span>
+                      <span class="glyphicon glyphicon-trash" ng-click="editCtrl.documentService.removeAssociation(user.document_id, 'users', $event)"></span>
                     </div>
                   </article>
                 </section>

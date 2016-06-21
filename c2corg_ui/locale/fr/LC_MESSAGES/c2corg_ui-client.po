@@ -158,12 +158,12 @@ msgid "Describe here the waypoint"
 msgstr "Décrivez ici l'itinéraire"
 
 #: c2corg_ui/templates/i18n.html
-msgid "Document has been deprotected"
-msgstr "Le document a été déverrouillé."
-
-#: c2corg_ui/templates/i18n.html
 msgid "Document has been protected"
 msgstr "Le document a été verrouillé."
+
+#: c2corg_ui/templates/i18n.html
+msgid "Document has been unprotected"
+msgstr ""
 
 #: c2corg_ui/static/partials/imageuploader.html
 msgid "Drop images here or click to upload"
@@ -238,6 +238,10 @@ msgstr "Filtres"
 #: c2corg_ui/templates/auth.html
 msgid "Forgot password?"
 msgstr "Mot de passe oublié?"
+
+#: c2corg_ui/templates/i18n.html
+msgid "Form is not valid"
+msgstr ""
 
 #: c2corg_ui/templates/sidemenu.html
 msgid "Forum"
@@ -570,6 +574,14 @@ msgstr "Vous consultez une ancienne version de ce document."
 #: c2corg_ui/static/partials/imageuploader.html
 msgid "You can add geolocation info by typing in the input field."
 msgstr ""
+
+#: c2corg_ui/templates/i18n.html
+msgid "You have no rights to edit this document."
+msgstr "Vous n'avez pas les droits pour éditer ce document."
+
+#: c2corg_ui/templates/i18n.html
+msgid "You must log in to edit this document."
+msgstr "Vous devez être loggué pour éditer ce document."
 
 #: c2corg_ui/templates/i18n.html c2corg_ui/templates/outing/edit.html
 #: c2corg_ui/templates/waypoint/create_edit_summary.html
@@ -1282,7 +1294,7 @@ msgstr "Remontées mécaniques"
 #: c2corg_ui/templates/outing/edit.html
 #: c2corg_ui/templates/outing/helpers/detailed_outings_attributes.html
 msgid "lift_status"
-msgstr ""
+msgstr "Remontées mécaniques"
 
 #: c2corg_ui/templates/i18n.html
 msgid "local_product"
@@ -1294,7 +1306,7 @@ msgstr "Lieu-dit"
 
 #: c2corg_ui/templates/helpers/view.html c2corg_ui/templates/outing/edit.html
 msgid "location"
-msgstr ""
+msgstr "Situation"
 
 #: c2corg_ui/templates/waypoint/edit.html
 msgid "longitude"
@@ -1417,7 +1429,7 @@ msgstr "novembre"
 
 #: c2corg_ui/templates/route/edit.html
 msgid "numbers"
-msgstr ""
+msgstr "Nombres"
 
 #: c2corg_ui/templates/i18n.html
 msgid "oct"
@@ -1604,7 +1616,7 @@ msgstr "aller-retour"
 #: c2corg_ui/templates/outing/edit.html c2corg_ui/templates/route/edit.html
 #: c2corg_ui/templates/waypoint/edit.html
 msgid "review"
-msgstr ""
+msgstr "Revue"
 
 #: c2corg_ui/templates/route/create_edit_summary.html
 #: c2corg_ui/templates/route/edit.html
@@ -1673,7 +1685,7 @@ msgstr "Quantité des itinéraires"
 
 #: c2corg_ui/templates/outing/edit.html
 msgid "routes_taken"
-msgstr ""
+msgstr "Itinéraires empruntés"
 
 #: c2corg_ui/templates/i18n.html
 msgid "see more results"
@@ -1785,7 +1797,7 @@ msgstr "Conditions d'utilisation"
 
 #: c2corg_ui/templates/helpers/view.html c2corg_ui/templates/outing/edit.html
 msgid "time"
-msgstr ""
+msgstr "Temps"
 
 #: c2corg_ui/templates/outing/edit.html
 msgid "timing"

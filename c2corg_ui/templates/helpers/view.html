@@ -263,12 +263,12 @@
                 % for condition in json.loads(locale['conditions_levels']):
                 <tr>
                   <td>${condition['level_place']}</td>
-                  % if condition['level_snow_height_soft'] != '':
+                  % if 'level_snow_height_soft' in condition and condition['level_snow_height_soft'] != '':
                   <td>${condition['level_snow_height_soft']} cm</td>
                   % else:
                   <td></td>
                   % endif
-                  % if condition['level_snow_height_total'] != '':
+                  % if 'level_snow_height_total' in condition and condition['level_snow_height_total'] != '':
                   <td>${condition['level_snow_height_total']} cm</td>
                   % else:
                   <td></td>

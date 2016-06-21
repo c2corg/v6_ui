@@ -162,11 +162,11 @@ msgid "Describe here the waypoint"
 msgstr ""
 
 #: c2corg_ui/templates/i18n.html
-msgid "Document has been deprotected"
+msgid "Document has been protected"
 msgstr ""
 
 #: c2corg_ui/templates/i18n.html
-msgid "Document has been protected"
+msgid "Document has been unprotected"
 msgstr ""
 
 #: c2corg_ui/static/partials/imageuploader.html
@@ -243,6 +243,10 @@ msgstr ""
 
 #: c2corg_ui/templates/auth.html
 msgid "Forgot password?"
+msgstr ""
+
+#: c2corg_ui/templates/i18n.html
+msgid "Form is not valid"
 msgstr ""
 
 #: c2corg_ui/templates/sidemenu.html
@@ -584,6 +588,14 @@ msgstr ""
 
 #: c2corg_ui/static/partials/imageuploader.html
 msgid "You can add geolocation info by typing in the input field."
+msgstr ""
+
+#: c2corg_ui/templates/i18n.html
+msgid "You have no rights to edit this document."
+msgstr ""
+
+#: c2corg_ui/templates/i18n.html
+msgid "You must log in to edit this document."
 msgstr ""
 
 #: c2corg_ui/templates/i18n.html
