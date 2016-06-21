@@ -156,7 +156,6 @@ app.AdvancedSearchController.prototype.getFeatures_ = function() {
  * @private
  */
 app.AdvancedSearchController.prototype.createFeatureProperties_ = function(doc) {
-  // TODO choose the locale according to the UI lang and user prefs
   var locale = doc['locales'][0];
   var properties = {
     'module': this.doctype,
@@ -166,6 +165,8 @@ app.AdvancedSearchController.prototype.createFeatureProperties_ = function(doc) 
   };
   if (this.doctype === 'waypoints') {
     properties['type'] = doc['waypoint_type'];
+  } else if (this.doctype === 'routes') {
+    properties['title_prefix'] = locale['title_prefix'];
   }
   return properties;
 };

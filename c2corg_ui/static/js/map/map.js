@@ -23,6 +23,7 @@ goog.require('ol.layer.Tile');
 goog.require('ol.layer.Vector');
 goog.require('ol.source.OSM');
 goog.require('ol.source.Vector');
+goog.require('ol.style.Fill');
 goog.require('ol.style.Icon');
 goog.require('ol.style.Stroke');
 goog.require('ol.style.Style');
@@ -392,13 +393,24 @@ app.MapController.prototype.createPointStyle_ = function(feature,
 
     var text;
     if (highlight) { // on hover in list view
-      var title = /** @type {string} */(feature.get('title'));
+      var title = '';
+      if (type === 'routes' && feature.get('title_prefix')) {
+        title = feature.get('title_prefix') + ' : ';
+      }
+      title += feature.get('title');
 
       text = new ol.style.Text({
-        text: title,
+        text: app.utils.stringDivider(title, 30, '\n'),
         textAlign: 'left',
         offsetX: 20,
-        font: 'bold 14px Calibri,sans-serif',
+        font: '12px verdana,sans-serif',
+        stroke: new ol.style.Stroke({
+          color: 'white',
+          width: 3
+        }),
+        fill: new ol.style.Fill({
+          color: 'black'
+        }),
         textBaseline: 'middle'
       });
     }
