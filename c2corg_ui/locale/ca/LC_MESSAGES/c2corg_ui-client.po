@@ -115,15 +115,15 @@ msgstr ""
 msgid "Contact"
 msgstr ""
 
-#: c2corg_ui/static/partials/suggestion_empty.html
+#: c2corg_ui/static/partials/suggestions/empty.html
 msgid "Create a new outing"
 msgstr ""
 
-#: c2corg_ui/static/partials/suggestion_empty.html
+#: c2corg_ui/static/partials/suggestions/empty.html
 msgid "Create a new route"
 msgstr ""
 
-#: c2corg_ui/static/partials/suggestion_empty.html
+#: c2corg_ui/static/partials/suggestions/empty.html
 msgid "Create a new waypoint"
 msgstr ""
 
@@ -373,7 +373,7 @@ msgstr ""
 msgid "No maps associated"
 msgstr ""
 
-#: c2corg_ui/static/partials/suggestion_empty.html
+#: c2corg_ui/static/partials/suggestions/empty.html
 msgid "No results"
 msgstr ""
 
@@ -558,6 +558,11 @@ msgstr ""
 msgid "Welcome to Camptocamp.org"
 msgstr "Benvingut/da a Camptocamp.org!"
 
+#: c2corg_ui/templates/outing/edit.html c2corg_ui/templates/route/edit.html
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "What is missing?"
+msgstr ""
+
 #: c2corg_ui/templates/helpers/view.html
 #: c2corg_ui/templates/outing/filters.html
 #: c2corg_ui/templates/route/filters.html
@@ -567,6 +572,14 @@ msgstr ""
 
 #: c2corg_ui/templates/helpers/view.html
 msgid "You are viewing an archived version of this document."
+msgstr ""
+
+#: c2corg_ui/templates/route/edit.html
+msgid "You can add associated routes and waypoints by searching in the field."
+msgstr ""
+
+#: c2corg_ui/templates/waypoint/edit.html
+msgid "You can add associated waypoints by searching in the field."
 msgstr ""
 
 #: c2corg_ui/static/partials/imageuploader.html

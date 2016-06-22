@@ -126,11 +126,13 @@ app.utils.formatDate = function(date) {
  * @export
  * @param {Date} date1
  * @param {Date} date2
+ * @return {?boolean}
  */
 app.utils.areDifferentDates = function(date1, date2) {
   if (date1 !== null && date2 !== null) {
     return date1.toDateString() !== date2.toDateString();
   }
+  return null;
 };
 
 

@@ -32,7 +32,8 @@ app.documentEditingDirective = function() {
   return {
     restrict: 'A',
     scope: true,
-    controller: 'appDocumentEditingController',
+    controller: '@',
+    name: 'appDocumentEditingControllerName',
     controllerAs: 'editCtrl',
     bindToController: true
   };
@@ -80,9 +81,9 @@ app.DocumentEditingController = function($scope, $element, $attrs,
 
   /**
    * @type {app.Authentication}
-   * @private
+   * @public
    */
-  this.auth_ = appAuthentication;
+  this.auth = appAuthentication;
 
   /**
    * @type {string}
@@ -93,9 +94,9 @@ app.DocumentEditingController = function($scope, $element, $attrs,
 
   /**
    * @type {string}
-   * @private
+   * @public
    */
-  this.modelName_ = $attrs['appDocumentEditingModel'];
+  this.modelName = $attrs['appDocumentEditingModel'];
 
   /**
    * @type {number}
@@ -111,9 +112,9 @@ app.DocumentEditingController = function($scope, $element, $attrs,
 
   /**
    * @type {angular.Scope}
-   * @private
+   * @export
    */
-  this.scope_ = $scope;
+  this.scope = $scope;
 
   /**
    * @type {ol.format.GeoJSON}
@@ -135,9 +136,9 @@ app.DocumentEditingController = function($scope, $element, $attrs,
 
   /**
    * @type {app.Alerts}
-   * @private
+   * @public
    */
-  this.alerts_ = appAlerts;
+  this.alerts = appAlerts;
 
   /**
    * first next step would be 2 by default
@@ -171,14 +172,9 @@ app.DocumentEditingController = function($scope, $element, $attrs,
 
  /**
   * @type {boolean}
-  * @private
+  * @public
   */
-  this.submit_ = false;
-
-  /**
-   * @export
-   */
-  this.differentDates;
+  this.submit = false;
 
   /**
    * @type {app.Api}
@@ -186,58 +182,16 @@ app.DocumentEditingController = function($scope, $element, $attrs,
    */
   this.api_ = appApi;
 
-  /**
-   * Start cannot be after today nor end_date.
-   * @type {Date}
-   * @export
-   */
-  this.dateMaxStart = new Date();
+  this.scope[this.modelName] = this.scope['document'] = this.documentService.document;
 
-  /**
-   * @type {Date}
-   * @export
-   */
-  this.today = new Date();
-
-  /**
-   * The end date cannot be before start nor today.
-   * @type {Date}
-   * @export
-   */
-  this.dateMaxEnd = new Date();
-
-  /**
-   * The end date cannot be before start.
-   * @type {Date}
-   * @export
-   */
-  this.dateMinEnd;
-
-
-  // allow association only for a new outing to existing route
-  if (this.ngeoLocation_.hasParam('r')) {
-    var urlParam = {'routes': this.ngeoLocation_.getParam('r')};
-    this.api_.getDocumentByIdAndDoctype(urlParam['routes'], 'r').then(function(doc) {
-      this.documentService.pushToAssociations(doc.data['routes'].documents[0], 'routes', true);
-    }.bind(this));
-  }
-
-  this.scope_[this.modelName_] = this.scope_['document'] = this.documentService.document;
-  if (this.auth_.isAuthenticated()) {
+  if (this.auth.isAuthenticated()) {
     if (this.id_ && this.lang_) {
      // Get document attributes from the API to feed the model:
       goog.asserts.assert(!goog.isNull(this.id_));
       goog.asserts.assert(!goog.isNull(this.lang_));
       this.api_.readDocument(this.module_, this.id_, this.lang_, true).then(
-          this.successRead_.bind(this)
+          this.successRead.bind(this)
       );
-    } else if (this.modelName_ === 'outing') {
-      this.scope_['outing']['associations']['users'].push({
-        'id' : this.auth_.userData.id,
-        'document_id': this.auth_.userData.id,
-        'username': this.auth_.userData.username
-      });
-      this.formatOuting_(this.scope_['outing']);
     }
   } else {
     // Redirect to the auth page
@@ -248,7 +202,7 @@ app.DocumentEditingController = function($scope, $element, $attrs,
     return;
   }
 
-  this.scope_.$root.$on('mapFeaturesChange', function(event, features) {
+  this.scope.$root.$on('mapFeaturesChange', function(event, features) {
     this.handleMapFeaturesChange_(features);
   }.bind(this));
 };
@@ -256,9 +210,9 @@ app.DocumentEditingController = function($scope, $element, $attrs,
 
 /**
  * @param {Object} response Response from the API server.
- * @private
+ * @public
  */
-app.DocumentEditingController.prototype.successRead_ = function(response) {
+app.DocumentEditingController.prototype.successRead = function(response) {
   var data = response['data'];
   var toCoordinates = (function(str) {
     var point = /** @type {ol.geom.Point} */
@@ -290,25 +244,8 @@ app.DocumentEditingController.prototype.successRead_ = function(response) {
     this.isNewLang_ = true;
   }
 
-  this.scope_[this.modelName_] = this.scope_['document'] = this.documentService.document = data;
-
-  if (this.modelName_ === 'outing') {
-    var outing = this.scope_['outing'];
-    // check if user has right to edit -> the user is one of the associated users
-    if (this.auth_.hasEditRights(outing['associations']['users'])) {
-      this.scope_['outing'] = this.formatOuting_(outing);
-      this.differentDates = app.utils.areDifferentDates(outing['date_start'], outing['date_end']);
-      if (!this.differentDates) {
-        outing['date_end'] = undefined;
-      }
-    } else {
-      this.alerts_.addError('You have no rights to edit this document.');
-      setTimeout(function() { // redirect to the details-view page
-        window.location = window.location.href.replace('/edit', '');
-      }, 3000);
-    }
-  }
-  this.scope_.$root.$emit('documentDataChange', data);
+  this.scope[this.modelName] = this.scope['document'] = this.documentService.document = data;
+  this.scope.$root.$emit('documentDataChange', data);
 };
 
 
@@ -318,17 +255,17 @@ app.DocumentEditingController.prototype.successRead_ = function(response) {
  */
 app.DocumentEditingController.prototype.submitForm = function(isValid) {
   if (!isValid) {
-    this.alerts_.addError('Form is not valid');
+    this.alerts.addError('Form is not valid');
     return;
   }
 
-  if (!this.auth_.isAuthenticated()) {
-    this.alerts_.addError('You must log in to edit this document.');
+  if (!this.auth.isAuthenticated()) {
+    this.alerts.addError('You must log in to edit this document.');
     return;
   }
 
   // push to API
-  var data = angular.copy(this.scope_[this.modelName_]);
+  var data = angular.copy(this.scope[this.modelName]);
   if (!goog.isArray(data['locales'])) {
     // With ng-model="route.locales[0].description" route.locales is taken
     // as an object instead of an array.
@@ -361,7 +298,7 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
     delete data['read_lonlat'];
   }
 
-  this.submit_ = true;
+  this.submit = true;
 
   if (this.id_) {
     // updating an existing document
@@ -377,9 +314,7 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
       message = data['message'];
       delete data['message'];
     }
-    if (this.modelName_ === 'outing') {
-      this.formatOuting_(data);
-    }
+    data = this.prepareData(data);
     data = {
       'message': message,
       'document': data
@@ -392,15 +327,25 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
   } else {
     // creating a new document
     this.lang_ = data['locales'][0]['lang'];
-    if (this.modelName_ === 'outing') {
-      this.formatOuting_(data);
-    }
+    data = this.prepareData(data);
     this.api_.createDocument(this.module_, data).then(function(response) {
       this.id_ = response['data']['document_id'];
       window.location.href = app.utils.buildDocumentUrl(
         this.module_, this.id_, this.lang_);
     }.bind(this));
   }
+};
+
+
+/**
+ * @param {appx.Document} data Document attributes.
+ * @return {appx.Document}
+ * @public
+ */
+app.DocumentEditingController.prototype.prepareData = function(data) {
+  // Do nothing special in the standard editing controller.
+  // Might be overridden in inheriting controllers.
+  return data;
 };
 
 
@@ -421,7 +366,7 @@ app.DocumentEditingController.prototype.cancel = function(view_url,
  * @export
  */
 app.DocumentEditingController.prototype.updateMap = function() {
-  var data = this.scope_[this.modelName_];
+  var data = this.scope[this.modelName];
   if ('lonlat' in data && data['lonlat']) {
     var lonlat = data['lonlat'];
     if ('longitude' in lonlat && 'latitude' in lonlat) {
@@ -431,7 +376,7 @@ app.DocumentEditingController.prototype.updateMap = function() {
       data['geometry'] = data['geometry'] || {};
       data['geometry']['geom'] = this.geojsonFormat_.writeGeometry(point);
       this.hasGeomChanged_ = true;
-      this.scope_.$root.$emit('documentDataChange', data);
+      this.scope.$root.$emit('documentDataChange', data);
     }
   }
 };
@@ -448,7 +393,7 @@ app.DocumentEditingController.prototype.handleMapFeaturesChange_ = function(
   var geometry = feature.getGeometry();
   goog.asserts.assert(geometry);
   var isPoint = geometry instanceof ol.geom.Point;
-  var data = this.scope_[this.modelName_];
+  var data = this.scope[this.modelName];
   // If creating a new document, the model has no geometry attribute yet:
   data['geometry'] = data['geometry'] || {};
   if (isPoint) {
@@ -459,7 +404,7 @@ app.DocumentEditingController.prototype.handleMapFeaturesChange_ = function(
       'longitude': coords[0],
       'latitude': coords[1]
     };
-    this.scope_.$apply();
+    this.scope.$apply();
   } else {
     var center;
     // For lines, use the middle point as point geometry:
@@ -485,7 +430,8 @@ app.DocumentEditingController.prototype.handleMapFeaturesChange_ = function(
  */
 app.DocumentEditingController.prototype.getCoordinatesFromPoint_ = function(
     geometry) {
-  geometry.transform(app.constants.documentEditing.DATA_PROJ, app.constants.documentEditing.FORM_PROJ);
+  geometry.transform(app.constants.documentEditing.DATA_PROJ,
+                     app.constants.documentEditing.FORM_PROJ);
   var coords = geometry.getCoordinates();
   return goog.array.map(coords, function(coord) {
     return Math.round(coord * 1000000) / 1000000;
@@ -499,7 +445,6 @@ app.DocumentEditingController.prototype.getCoordinatesFromPoint_ = function(
  * @param {string} direction
  * @export
  */
-
 app.DocumentEditingController.prototype.step = function(step, document, direction) {
 
   switch (step) {
@@ -555,7 +500,6 @@ app.DocumentEditingController.prototype.step = function(step, document, directio
  * @param {string} direction
  * @private
  */
-
 app.DocumentEditingController.prototype.animateBar_ = function(step, direction) {
   var percent = 100 / this.max_steps;
   var green = '#7EFF1F'; // completed color
@@ -627,7 +571,8 @@ app.DocumentEditingController.prototype.updateMaxSteps = function(waypointType) 
 
 
 /**
- * @param {appx.Outing} outing
+ * @param {appx.Document} doc
+ * @param {boolean} showError Whether alerts must be shown for detected errors.
  * Check what properties are missing and tell the user.
  * @export
  * @return {boolean | undefined}
@@ -637,26 +582,26 @@ app.DocumentEditingController.prototype.hasMissingProps = function(doc, showErro
   var fields = app.constants.REQUIRED_FIELDS[type];
   // understandable structure by alertService
   var missing = {'data': {'errors': []}};
-  var error;
+  var hasError;
   var field;
   for (var i = 0; i < fields.length; i++) {
     field = fields[i];
-    error = false;
+    hasError = false;
 
     if (field === 'title' || field === 'lang') {
-      error = (!doc['locales'] || !doc['locales'][0][field]);
+      hasError = (!doc['locales'] || !doc['locales'][0][field]);
     } else if (field === 'activities') {
-      error = (!doc['activities'] || doc['activities'].length === 0);
+      hasError = (!doc['activities'] || doc['activities'].length === 0);
     } else if (field === 'routes') {
-      error = (!doc['associations'] || doc['associations']['routes'].length === 0);
+      hasError = (!doc['associations'] || doc['associations']['routes'].length === 0);
     } else if (field === 'latitude' || field === 'longitude') {
-      error = (!doc['lonlat'] || (doc['lonlat'][field] === null || doc['lonlat'][field] === undefined));
+      hasError = (!doc['lonlat'] || (doc['lonlat'][field] === null || doc['lonlat'][field] === undefined));
     } else if (field === 'date_start') {
-      error = (doc['date_start'] === null || doc['date_start']  === undefined);
+      hasError = (doc['date_start'] === null || doc['date_start']  === undefined);
     } else {
-      error = (!doc[field] || doc[field] === null || doc[field] === undefined);
+      hasError = (!doc[field] || doc[field] === null || doc[field] === undefined);
     }
-    if (error) {
+    if (hasError) {
       if (showError) {
         missing['data']['errors'].push({
           'description': 'Missing field',
@@ -668,59 +613,9 @@ app.DocumentEditingController.prototype.hasMissingProps = function(doc, showErro
     }
   }
   if (missing['data']['errors'].length > 0) {
-    this.alerts_.addError(missing);
+    this.alerts.addError(missing);
   }
-  return error;
-};
-
-
-/**
- * @param {Object} outing
- * better edit-form checking before saving
- * @private
- */
-app.DocumentEditingController.prototype.formatOuting_ = function(outing) {
-  if (this.submit_) {
-    // transform condition_levels to a string
-    if (typeof outing.locales[0]['conditions_levels'] !== 'string') {
-      outing.locales[0]['conditions_levels'] = JSON.stringify(outing['locales'][0]['conditions_levels']);
-    }
-    // if no date end -> make it the same as date start
-    if (!outing.date_end && outing.date_start instanceof Date) {
-      outing.date_start.setHours(outing.date_start.getHours() + 2);
-      outing.date_end = outing.date_start;
-    }
-
-    var associations = outing.associations;
-    for (var i = 0; i < associations['users'].length; i++) {
-      associations['users'][i]['id'] = associations['users'][i]['document_id'] || associations['users'][i]['id'];
-      delete associations['users'][i]['document_id'];
-    }
-  }
-  // convert existing date from string to a date object
-  if (outing.date_end && typeof outing.date_end === 'string') {
-    outing.date_end = app.utils.formatDate(outing.date_end);
-    this.dateMaxStart = outing.date_end;
-  }
-
-  if (outing.date_start && typeof outing.date_start === 'string') {
-    outing.date_start = app.utils.formatDate(outing.date_start);
-    this.dateMinEnd = outing.date_start;
-  }
-
-  var conditions = outing.locales[0]['conditions_levels'];
-  // conditions_levels -> to Object, snow_height -> to INT
-  if (conditions && typeof conditions === 'string') {
-    conditions = JSON.parse(conditions);
-    this.scope_['outing']['locales'][0]['conditions_levels'] = conditions;
-  } else {
-    if (!this.submit_) {
-      // init empty conditions_levels for ng-repeat
-      outing['locales'][0]['conditions_levels'] = [{'level_snow_height_soft': '', 'level_snow_height_total': '', 'level_comment': '', 'level_place': ''}];
-    }
-  }
-  this.submit_ = false;
-  return outing;
+  return hasError;
 };
 
 

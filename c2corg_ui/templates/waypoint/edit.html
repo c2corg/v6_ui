@@ -26,10 +26,11 @@
   </h1>
 
   <form app-loading app-document-editing="waypoints" app-document-editing-model="waypoint"
-        % if updating_doc:
-        app-document-editing-id="${waypoint_id}" app-document-editing-lang="${waypoint_lang}"
-        % endif
-        class="document-editing" name="editForm" novalidate ng-submit="editCtrl.submitForm(editForm.$valid)">
+    app-document-editing-controller-name="appDocumentEditingController"
+  % if updating_doc:
+    app-document-editing-id="${waypoint_id}" app-document-editing-lang="${waypoint_lang}"
+  % endif
+    class="document-editing" name="editForm" novalidate ng-submit="editCtrl.submitForm(editForm.$valid)">
     
     ## It won't work with ng-init
     <span class="ng-hide">
