@@ -32,7 +32,7 @@ app.sliderDirective = function() {
         step: parseInt(attr['step'], 10) || app.SliderController.STEP
       });
     }
-  }
+  };
 };
 
 app.module.directive('appSlider', app.sliderDirective);
