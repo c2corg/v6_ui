@@ -4,6 +4,20 @@
 
 <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Waypoints')">${show_title('Waypoints')}</title></%block>
 
+<%block name="moduleConstantsValues">
+  module.value('mapFeatureCollection', null);
+  module.value('advancedSearchFilters', {
+    'wtyp': {'type': 'list'},
+    'walt': {'type': 'range'},
+    'wrock': {'type': 'list'},
+    'tcsty': {'type': 'list'},
+    'ttyp': {'type': 'list'},
+    'period': {'type': 'list'},
+    'rain': {'type': 'list'},
+    'chil': {'type': 'list'}
+  });
+</%block>
+
 <header class="page-main-title">
   <h3><span translate>Waypoints</span>
     <span class="badge" ng-cloak>{{resCounter}}</span>

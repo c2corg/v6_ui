@@ -54,11 +54,13 @@ app.module.directive('appSearchFilters', app.searchFiltersDirective);
  * @param {angular.Scope} $scope Scope.
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {ngeo.Debounce} ngeoDebounce ngeo Debounce service.
+ * @param {Object} advancedSearchFilters Config of the filters.
  * @constructor
  * @ngInject
  * @export
  */
-app.SearchFiltersController = function($scope, ngeoLocation, ngeoDebounce) {
+app.SearchFiltersController = function($scope, ngeoLocation, ngeoDebounce,
+    advancedSearchFilters) {
 
   /**
    * @type {angular.Scope}
@@ -71,6 +73,12 @@ app.SearchFiltersController = function($scope, ngeoLocation, ngeoDebounce) {
    * @private
    */
   this.location_ = ngeoLocation;
+
+  /**
+   * @type {Object}
+   * @private
+   */
+  this.config_ = advancedSearchFilters;
 
   /**
    * @type {Object}
@@ -121,16 +129,23 @@ app.SearchFiltersController.prototype.getFilterFromPermalink_ = function(key) {
   if (val === '') {
     return;
   }
-  switch (key) {
-    case 'wtyp':
-      this.createListFilter_(key, val);
-      break;
-    case 'walt':
-      this.createRangeFilter_(key, val);
-      break;
-    default:
-      this.filters[key] = val;
-      break;
+  if (key === 'qa') {
+    this.createListFilter_(key, val);
+  } else if (key in this.config_) {
+    // Filters are described in the 'advancedSearchFilters' module value
+    // set in c2corg_ui/templates/*/index.html.
+    switch (this.config_[key]['type']) {
+      case 'list':
+        this.createListFilter_(key, val);
+        break;
+      case 'range':
+        this.createRangeFilter_(key, val);
+        break;
+      default:
+        break;
+    }
+  } else {
+    this.filters[key] = val;
   }
 };
 
