@@ -26,8 +26,8 @@ app.sliderDirective = function() {
         '</span>',
     link: function(scope, el, attr, ctrl) {
       el.find('.range-between').slider({
-        min: parseInt(attr['min'], 10) || app.SliderController.MIN,
-        max: parseInt(attr['max'], 10) || app.SliderController.MAX,
+        min: ctrl.boundaries[0],
+        max: ctrl.boundaries[1],
         value: [ctrl.min, ctrl.max],
         step: parseInt(attr['step'], 10) || app.SliderController.STEP
       });
@@ -62,16 +62,25 @@ app.SliderController = function($scope, $element, $attrs, ngeoLocation) {
   this.location_ = ngeoLocation;
 
   /**
-   * @type {number}
-   * @export
+   * @type {Array.<number>}
+   * @const
    */
-  this.min = parseInt($attrs['min'], 10) || app.SliderController.MIN;
+  this.boundaries = [
+    parseInt($attrs['min'], 10) || app.SliderController.MIN,
+    parseInt($attrs['max'], 10) || app.SliderController.MAX
+  ];
 
   /**
    * @type {number}
    * @export
    */
-  this.max = parseInt($attrs['max'], 10) || app.SliderController.MAX;
+  this.min = this.boundaries[0];
+
+  /**
+   * @type {number}
+   * @export
+   */
+  this.max = this.boundaries[1];
 
   /**
    * @type {string}
@@ -130,9 +139,14 @@ app.SliderController.prototype.handleRangeChange_ = function() {
     return;
   }
   if (this.sliderFirst_) {
-    var params = {};
-    params[this.filter_] = [this.min, this.max].join(',');
-    this.location_.updateParams(params);
+    if (this.min === this.boundaries[0] && this.max === this.boundaries[1]) {
+      // Remove the permalink parameter if the min/max values are the boundaries.
+      this.location_.deleteParam(this.filter_);
+    } else {
+      var params = {};
+      params[this.filter_] = [this.min, this.max].join(',');
+      this.location_.updateParams(params);
+    }
     this.location_.deleteParam('offset');
     this.scope_.$root.$emit('searchFilterChange');
   }
