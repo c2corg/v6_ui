@@ -135,7 +135,7 @@ app.LangController.prototype.updateLang = function(lang) {
   // This will retrieve then _evaluate_ the content of the file.
   $.get('/node_modules/moment/locale/' + lang + '.js', function() {
     this.amMoment_.changeLocale(lang);
-  }.bind(this))
+  }.bind(this));
 };
 
 

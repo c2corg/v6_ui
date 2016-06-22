@@ -85,7 +85,7 @@ app.alertDirective = function() {
           $('.loading').removeClass('loading');
           $('.alert').hide();
         }
-      })
+      });
     }
   };
 };

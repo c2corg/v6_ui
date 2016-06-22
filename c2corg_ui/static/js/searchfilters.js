@@ -43,7 +43,7 @@ app.searchFiltersDirective = function() {
         });
       }
     }
-  }
+  };
 };
 
 

@@ -419,8 +419,8 @@ app.Api.prototype.uploadImage = function(file) {
  * @param {File} file
  */
 app.Api.prototype.updateImageMetadata = function(file) {
-  console.log('updating image')
-  console.log(file)
+  console.log('updating image');
+  console.log(file);
 };
 
 
@@ -428,7 +428,7 @@ app.Api.prototype.updateImageMetadata = function(file) {
  * @param {number} index
  */
 app.Api.prototype.abortUploadingImage = function(index) {
-  console.log('abort uploading image')
+  console.log('abort uploading image');
 };
 
 

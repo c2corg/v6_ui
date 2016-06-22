@@ -546,7 +546,7 @@ app.DocumentEditingController.prototype.step = function(step, document, directio
     default:
       break;
   }
-}
+};
 
 
 /**
@@ -745,7 +745,7 @@ app.DocumentEditingController.prototype.pushToArray = function(object, property,
  */
 app.DocumentEditingController.prototype.setOrientation = function(orientation, document, e) {
   app.utils.pushToArray(document, 'orientations', orientation, e);
-}
+};
 
 
 app.module.controller('appDocumentEditingController', app.DocumentEditingController);

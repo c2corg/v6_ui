@@ -1,6 +1,7 @@
 goog.provide('app.ImageUploaderController');
 goog.provide('app.imageUploaderDirective');
-goog.provide('app.ImageUploaderModalController')
+goog.provide('app.ImageUploaderModalController');
+
 goog.require('app');
 
 

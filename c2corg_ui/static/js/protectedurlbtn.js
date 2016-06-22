@@ -17,9 +17,9 @@ app.protectedUrlBtnDirective = function() {
     link: function(scope, el, attr, ctrl) {
       el.click(function() {
         ctrl.redirectToProtectedUrl(scope.url);
-      })
+      });
     }
-  }
+  };
 };
 
 app.module.directive('protectedUrlBtn', app.protectedUrlBtnDirective);
@@ -44,7 +44,7 @@ app.ProtectedUrlBtnController = function(appAuthentication, authUrl) {
    * @private
    */
   this.authUrl_ = authUrl;
-}
+};
 
 app.ProtectedUrlBtnController.prototype.redirectToProtectedUrl = function(url) {
   if (this.auth_.isAuthenticated()) {
@@ -54,6 +54,6 @@ app.ProtectedUrlBtnController.prototype.redirectToProtectedUrl = function(url) {
         .replace('{authUrl}', this.authUrl_)
         .replace('{redirect}', encodeURIComponent(url));
   }
-}
+};
 
 app.module.controller('AppProtectedUrlBtnController', app.ProtectedUrlBtnController);
