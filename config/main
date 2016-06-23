@@ -1,4 +1,4 @@
-include config/dev
+include Makefile
 
 export debug_port = 6553
 export instanceid = ui
