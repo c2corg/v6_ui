@@ -95,5 +95,6 @@ class NotFound():
         return {
           'api_url': self.settings['api_url'],
           'error_msg': self.context.detail if self.context.detail else '',
-          'ign_api_key': self.settings['ign_api_key']
+          'ign_api_key': self.settings['ign_api_key'],
+          'bing_api_key': self.settings['bing_api_key']
         }

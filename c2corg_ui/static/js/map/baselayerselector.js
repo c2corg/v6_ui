@@ -6,6 +6,7 @@ goog.require('ngeo.BackgroundLayerMgr');
 goog.require('ol.Attribution');
 goog.require('ol.format.WMTSCapabilities');
 goog.require('ol.layer.Tile');
+goog.require('ol.source.BingMaps');
 goog.require('ol.source.OSM');
 goog.require('ol.source.WMTS');
 goog.require('ol.tilegrid.WMTS');
@@ -38,7 +39,7 @@ app.module.directive('appBaselayerSelector', app.baselayerSelectorDirective);
  * @param {angular.$http} $http
  * @param {ngeo.BackgroundLayerMgr} ngeoBackgroundLayerMgr Background layer
  *     manager.
- * @param {string} ignApiKey IGN API key.
+ * @param {appx.mapApiKeys} mapApiKeys Set of map API keys.
  * @param {app.Alerts} appAlerts
  * @param {app.Authentication} appAuthentication
  * @constructor
@@ -47,7 +48,7 @@ app.module.directive('appBaselayerSelector', app.baselayerSelectorDirective);
  * @ngInject
  */
 app.BaselayerSelectorController = function($http, ngeoBackgroundLayerMgr,
-  ignApiKey, appAlerts, appAuthentication) {
+  mapApiKeys, appAlerts, appAuthentication) {
 
   /**
    * @type {angular.$http}
@@ -59,13 +60,19 @@ app.BaselayerSelectorController = function($http, ngeoBackgroundLayerMgr,
    * @type {ngeo.BackgroundLayerMgr}
    * @private
    */
-  this.backgroundLayerMgr_ = ngeoBackgroundLayerMgr;
+  this.bgLayerMgr_ = ngeoBackgroundLayerMgr;
 
   /**
    * @type {string}
    * @private
    */
-  this.ignApiKey_ = ignApiKey;
+  this.ignApiKey_ = mapApiKeys['ign'];
+
+  /**
+   * @type {string}
+   * @private
+   */
+  this.bingApiKey_ = mapApiKeys['bing'];
 
   /**
    * @type {app.Alerts}
@@ -80,7 +87,7 @@ app.BaselayerSelectorController = function($http, ngeoBackgroundLayerMgr,
   this.map;
 
   /**
-   * @type {Object}
+   * @type {Object<string, ol.layer.Tile>}
    * @private
    */
   this.cachedLayers_ = {};
@@ -95,20 +102,19 @@ app.BaselayerSelectorController = function($http, ngeoBackgroundLayerMgr,
    * @type {Object}
    * @export
    */
-  this.currentBgLayer;
+  this.currentBgLayerSpec;
 
   /**
    * @type {Array.<Object>}
    * @export
    */
-  this.bgLayers = app.BaselayerSelectorController.BACKGROUND_LAYERS.filter(
+  this.bgLayerSpecs = app.BaselayerSelectorController.BG_LAYER_SPECS.filter(
     function(layer) {
-      return !('auth' in layer) || !layer['auth'] ||
-        (layer['auth'] && appAuthentication.isAuthenticated());
+      return appAuthentication.isAuthenticated() || !layer['auth'];
     }
   );
 
-  this.setLayer(this.bgLayers[0]);
+  this.setLayer(this.bgLayerSpecs[0]);
 };
 
 
@@ -116,8 +122,10 @@ app.BaselayerSelectorController = function($http, ngeoBackgroundLayerMgr,
  * @const
  * @type {Array.<Object>}
  */
-app.BaselayerSelectorController.BACKGROUND_LAYERS = [{
+app.BaselayerSelectorController.BG_LAYER_SPECS = [{
   'name': 'osm'
+}, {
+  'name': 'bing'
 }, {
   'name': 'esri'
 }, {
@@ -137,10 +145,10 @@ app.BaselayerSelectorController.BACKGROUND_LAYERS = [{
  * @export
  */
 app.BaselayerSelectorController.prototype.setLayer = function(layerSpec) {
-  this.currentBgLayer = layerSpec;
+  this.currentBgLayerSpec = layerSpec;
   var layer = this.createLayer_(layerSpec['name']);
   if (layer) {
-    this.backgroundLayerMgr_.set(this.map, layer);
+    this.bgLayerMgr_.set(this.map, layer);
   }
 };
 
@@ -165,6 +173,12 @@ app.BaselayerSelectorController.prototype.createLayer_ = function(layerName) {
         }, 'esri');
       // layer creation is asynchronous
       return null;
+    case 'bing':
+      source = new ol.source.BingMaps({
+        key: this.bingApiKey_,
+        imagerySet: 'AerialWithLabels'
+      });
+      break;
     case 'ign maps':
       source = this.createIgnSource_('GEOGRAPHICALGRIDSYSTEMS.MAPS');
       break;
@@ -211,7 +225,7 @@ app.BaselayerSelectorController.prototype.createWMTSLayerFromCapabilities_ = fun
         source: new ol.source.WMTS(options)
       });
       this.cachedLayers_[name] = layer;
-      this.backgroundLayerMgr_.set(this.map, layer);
+      this.bgLayerMgr_.set(this.map, layer);
     }.bind(this),
     // failure
     function(response) {

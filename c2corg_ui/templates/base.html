@@ -143,7 +143,10 @@ closure_library_path = settings.get('closure_library_path')
          module.constant('apiUrl', '${api_url}');
          module.constant('authUrl', '${request.route_url('auth')}');
          module.constant('langs', ['${"','".join(default_langs) |n}']);
-         module.constant('ignApiKey', '${ign_api_key}');
+         module.constant('mapApiKeys', {
+           'ign': '${ign_api_key}',
+           'bing': '${bing_api_key}'
+         });
          module.config(function(vcRecaptchaServiceProvider) {
            vcRecaptchaServiceProvider.setSiteKey('${settings["recaptcha_site_key"]}');
          });

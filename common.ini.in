@@ -8,6 +8,7 @@ api_url_internal = {api_url_internal}
 api_url_host = {api_url_host}
 
 ign_api_key = {ign_api_key}
+bing_api_key = {bing_api_key}
 
 pyramid.default_locale_name = fr
 
