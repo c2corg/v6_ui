@@ -162,15 +162,19 @@ app.BaselayerSelectorController.prototype.createLayer_ = function(layerName) {
   if (layerName in this.cachedLayers_) {
     return this.cachedLayers_[layerName];
   }
-  var source;
+  var source, attributions;
   switch (layerName) {
     case 'esri':
+      attributions = [new ol.Attribution({
+        html: '<a href="https://www.arcgis.com/home/item.html?id=30e5fe3149c34df1ba922e6f5bbf808f"' +
+          ' target="_blank">Esri</a>'
+      })];
       this.createWMTSLayerFromCapabilities_(
         'https://server.arcgisonline.com/arcgis/rest/services/' +
         'World_Topo_Map/MapServer/WMTS/1.0.0/WMTSCapabilities.xml', {
           'layer': 'World_Topo_Map',
           'matrixSet': 'GoogleMapsCompatible'
-        }, 'esri');
+        }, 'esri', attributions);
       // layer creation is asynchronous
       return null;
     case 'bing':
@@ -186,13 +190,16 @@ app.BaselayerSelectorController.prototype.createLayer_ = function(layerName) {
       source = this.createIgnSource_('ORTHOIMAGERY.ORTHOPHOTOS');
       break;
     case 'swisstopo':
+      attributions = [new ol.Attribution({
+        html: '<a href="http://www.swisstopo.admin.ch/" target="_blank">swisstopo</a>'
+      })];
       this.createWMTSLayerFromCapabilities_(
         'http://wmts10.geo.admin.ch/EPSG/3857/1.0.0/WMTSCapabilities.xml', {
           'layer': 'ch.swisstopo.pixelkarte-farbe',
           'matrixSet': '3857',
           'projection': 'EPSG:3857',
           'requestEncoding': 'REST'
-        }, 'swisstopo');
+        }, 'swisstopo', attributions);
       // layer creation is asynchronous
       return null;
     case 'osm':
@@ -211,16 +218,20 @@ app.BaselayerSelectorController.prototype.createLayer_ = function(layerName) {
  * @param {Object} config Configuration properties for the layer.
  *   See ol.source.WMTS.optionsFromCapabilities for details.
  * @param {string} name Name of the layer in the baselayer selector.
+ * @param {Array.<ol.Attribution>=} attributions Optional list of attributions.
  * @private
  */
 app.BaselayerSelectorController.prototype.createWMTSLayerFromCapabilities_ = function(
-    url, config, name) {
+    url, config, name, attributions) {
   this.http_.get(url).then(
     // success
     function(response) {
       this.wmtsParser_ = this.wmtsParser_ || new ol.format.WMTSCapabilities();
       var result = this.wmtsParser_.read(response.data);
       var options = ol.source.WMTS.optionsFromCapabilities(result, config);
+      if (attributions) {
+        options.attributions = attributions;
+      }
       var layer = new ol.layer.Tile({
         source: new ol.source.WMTS(options)
       });
