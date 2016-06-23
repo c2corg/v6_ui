@@ -22,7 +22,7 @@ from c2corg_common.attributes import default_langs, waypoint_types, orientation_
 
       <div class="filter">
         <label translate>elevation</label><br>
-        <app-slider filter="walt"></app-slider>
+        <app-slider filter="walt" filters-list="filtersCtrl.filters" max="8850"></app-slider>
       </div>
       
     </div>
@@ -31,7 +31,7 @@ from c2corg_common.attributes import default_langs, waypoint_types, orientation_
       ## SUMMITS
       <div class="filter col-xs-12 col-sm-6" ng-show="filtersCtrl.filters.wtyp.length && filtersCtrl.filters.wtyp.indexOf('summit') !== -1">
         <label translate>prominence</label><br>
-        <app-slider filter="prom" min="0" max="1000" step="10"></app-slider>
+        <app-slider filter="prom" filters-list="filtersCtrl.filters" min="0" max="1000" step="10"></app-slider>
       </div>
 
       ## CLIMBING INDOOR SITES
@@ -59,7 +59,7 @@ from c2corg_common.attributes import default_langs, waypoint_types, orientation_
 
         <div class="filter col-xs-12 col-sm-6">
           <label translate>routes_quantity</label><br>
-          <app-slider filter="rqua" min="0" max="500" step="20" unit=''></app-slider>
+          <app-slider filter="rqua" filters-list="filtersCtrl.filters" min="0" max="500" step="20" unit=''></app-slider>
         </div>
 
         <div class="filter col-xs-12 col-sm-6">
@@ -91,17 +91,17 @@ from c2corg_common.attributes import default_langs, waypoint_types, orientation_
 
         <div class="col-xs-12 col-sm-5 col-md-5 filter">
           <label translate>height_min</label><br>
-          <app-slider filter="tminh" min="0" max="200" step="10"></app-slider>
+          <app-slider filter="tminh" filters-list="filtersCtrl.filters" min="0" max="200" step="10"></app-slider>
         </div>
 
         <div class="col-xs-12 col-sm-5 col-md-5 filter">
           <label translate>height_max</label><br>
-          <app-slider filter="tmaxh" min="0" max="200" step="10"></app-slider>
+          <app-slider filter="tmaxh" filters-list="filtersCtrl.filters" min="0" max="200" step="10"></app-slider>
         </div>
 
         <div class="col-xs-12 col-sm-5 col-md-5 filter">
           <label translate>height_median</label><br>
-          <app-slider filter="tmedh" min="0" max="200" step="10"></app-slider>
+          <app-slider filter="tmedh" filters-list="filtersCtrl.filters" min="0" max="200" step="10"></app-slider>
         </div>
 
         <div class="filter col-xs-12 col-sm-6">
@@ -133,7 +133,7 @@ from c2corg_common.attributes import default_langs, waypoint_types, orientation_
         </div>
         <div class="filter col-xs-12 col-sm-6">
           <label translate>capacity_staffed</label><br>
-          <app-slider filter="hscap" min="0" max="200" step="10" unit=''></app-slider>
+          <app-slider filter="hscap" filters-list="filtersCtrl.filters" min="0" max="200" step="10" unit=''></app-slider>
         </div>
       </div>
 
@@ -177,11 +177,15 @@ from c2corg_common.attributes import default_langs, waypoint_types, orientation_
                 data-target="#moreFilters" aria-expanded="false">
           <span translate>Show results</span> ({{resCounter}})
         </button>
+        <button class="btn blue-btn search-filters-btn" ng-click="filtersCtrl.clear()"
+                ng-show="filtersCtrl.filtersNb > 0"><span translate>Clear filters</span> ({{filtersCtrl.filtersNb}})</button>
       </div>
     </div>
     <div class="more-filters-btn-container">
       <button class="btn orange-btn more-filters-btn" data-toggle="collapse" data-target="#moreFilters"
-        aria-expanded="false" aria-controls="moreFilters" translate>more filters</button>
+        aria-expanded="false" aria-controls="moreFilters" translate>All filters</button>
+      <button class="btn blue-btn more-filters-btn" ng-click="filtersCtrl.clear()" ng-cloak
+              ng-show="filtersCtrl.filtersNb > 0"><span translate>Clear filters</span> ({{filtersCtrl.filtersNb}})</button>
     </div>
 
   </div>

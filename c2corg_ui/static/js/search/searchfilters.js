@@ -87,6 +87,12 @@ app.SearchFiltersController = function($scope, ngeoLocation, ngeoDebounce,
   this.filters = {};
 
   /**
+   * @type {number}
+   * @export
+   */
+  this.filtersNb = 0;
+
+  /**
    * @type {boolean}
    * @private
    */
@@ -184,6 +190,8 @@ app.SearchFiltersController.prototype.handleFiltersChange_ = function() {
   } else {
     this.loading_ = false;
   }
+  goog.asserts.assert(this.filters);
+  this.filtersNb = Object.keys(this.filters).length;
 };
 
 
@@ -201,6 +209,18 @@ app.SearchFiltersController.prototype.selectOption = function(prop, val, event) 
     delete this.filters[prop];
     this.location_.deleteParam(prop);
   }
+};
+
+
+/**
+ * @export
+ */
+app.SearchFiltersController.prototype.clear = function() {
+  for (var key in this.filters) {
+    this.location_.deleteParam(key);
+  }
+  this.filters = {};
+  this.scope_.$root.$emit('searchFilterClear');
 };
 
 

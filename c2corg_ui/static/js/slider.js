@@ -17,7 +17,10 @@ app.sliderDirective = function() {
     controller: 'AppSliderController',
     controllerAs: 'sliderCtrl',
     bindToController: true,
-    scope: true,
+    scope: {
+      'filter': '@',
+      'filtersList': '='
+    },
     template:
         '<input type="range" class="range-between" data-slider-tooltip="hide">' +
         '<span class="slider-min-max">' +
@@ -44,6 +47,7 @@ app.module.directive('appSlider', app.sliderDirective);
  * @param {angular.Attributes} $attrs Attributes.
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @constructor
+ * @struct
  * @export
  * @ngInject
  */
@@ -54,6 +58,12 @@ app.SliderController = function($scope, $element, $attrs, ngeoLocation) {
    * @private
    */
   this.scope_ = $scope;
+
+  /**
+   * @type {angular.JQLite}
+   * @private
+   */
+  this.element_ = $element;
 
   /**
    * @type {ngeo.Location}
@@ -90,9 +100,15 @@ app.SliderController = function($scope, $element, $attrs, ngeoLocation) {
 
   /**
    * @type {string}
-   * @private
+   * @export
    */
-  this.filter_ = $attrs['filter'];
+  this.filter;
+
+  /**
+   * @type {Object}
+   * @export
+   */
+  this.filtersList;
 
   /**
    * @type {boolean}
@@ -102,13 +118,15 @@ app.SliderController = function($scope, $element, $attrs, ngeoLocation) {
 
   this.getRangeFromUrl_();
 
-  $element.on('slide', function(event) {
+  this.element_.on('slide', function(event) {
     this.min = event.value[0];
     this.max = event.value[1];
     this.scope_.$apply();
   }.bind(this));
 
-  $element.on('slideStop', this.handleRangeChange_.bind(this));
+  this.element_.on('slideStop', this.handleRangeChange_.bind(this));
+
+  this.scope_.$root.$on('searchFilterClear', this.handleClear_.bind(this));
 };
 
 
@@ -116,7 +134,7 @@ app.SliderController = function($scope, $element, $attrs, ngeoLocation) {
  * @private
  */
 app.SliderController.prototype.getRangeFromUrl_ = function() {
-  var param = this.filter_ ? this.location_.getParam(this.filter_) : '';
+  var param = this.filter ? this.location_.getParam(this.filter) : '';
   if (param) {
     var range = param.split(',');
     if (range.length != 2) {
@@ -135,24 +153,32 @@ app.SliderController.prototype.getRangeFromUrl_ = function() {
  * @private
  */
 app.SliderController.prototype.handleRangeChange_ = function() {
-  if (!this.filter_) {
+  if (!this.filter) {
     return;
   }
   if (this.sliderFirst_) {
     if (this.min === this.boundaries[0] && this.max === this.boundaries[1]) {
-      // Remove the permalink parameter if the min/max values are the boundaries.
-      this.location_.deleteParam(this.filter_);
+      // Remove filter if the min/max values are the boundaries.
+      delete this.filtersList[this.filter];
+      this.location_.deleteParam(this.filter);
     } else {
-      var params = {};
-      params[this.filter_] = [this.min, this.max].join(',');
-      this.location_.updateParams(params);
+      this.filtersList[this.filter] = [this.min, this.max];
     }
-    this.location_.deleteParam('offset');
-    this.scope_.$root.$emit('searchFilterChange');
+    this.scope_.$apply();
   }
   // Because the slider has 2 handles, the slideStop event occurs twice:
   // we take into account only one out of two calls.
   this.sliderFirst_ = !this.sliderFirst_;
+};
+
+
+/**
+ * @private
+ */
+app.SliderController.prototype.handleClear_ = function() {
+  this.min = this.boundaries[0];
+  this.max = this.boundaries[1];
+  // FIXME make sure the slider handles are reset too
 };
 
 
