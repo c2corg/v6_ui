@@ -218,6 +218,10 @@ msgstr "Adresse email"
 msgid "Equipment"
 msgstr "Équipement"
 
+#: c2corg_ui/templates/i18n.html
+msgid "Failed loading this map background"
+msgstr ""
+
 #: c2corg_ui/static/js/apiservice.js
 msgid "Failed to associate document:"
 msgstr "Impossible d'associer le document :"
@@ -724,6 +728,10 @@ msgid "best_periods"
 msgstr "Meilleures périodes"
 
 #: c2corg_ui/templates/i18n.html
+msgid "bing"
+msgstr "Bing Maps"
+
+#: c2corg_ui/templates/i18n.html
 msgid "bisse"
 msgstr "bisse"
 
@@ -1044,6 +1052,10 @@ msgid "es"
 msgstr "espagnol"
 
 #: c2corg_ui/templates/i18n.html
+msgid "esri"
+msgstr "Esri World Topo Map"
+
+#: c2corg_ui/templates/i18n.html
 msgid "eu"
 msgstr "basque"
 
@@ -1236,6 +1248,14 @@ msgstr "Cascade de glace"
 #: c2corg_ui/templates/route/edit.html
 msgid "ice_rating"
 msgstr "Cotation glace"
+
+#: c2corg_ui/templates/i18n.html
+msgid "ign maps"
+msgstr "Cartes IGN"
+
+#: c2corg_ui/templates/i18n.html
+msgid "ign ortho"
+msgstr "Photos aériennes IGN"
 
 #: c2corg_ui/templates/i18n.html
 msgid "imported from v4"
@@ -1474,6 +1494,10 @@ msgstr "orientation"
 #: c2corg_ui/templates/waypoint/edit.html
 msgid "orientations"
 msgstr "orientations"
+
+#: c2corg_ui/templates/i18n.html
+msgid "osm"
+msgstr "OpenStreetMap"
 
 #: c2corg_ui/templates/outing/view.html
 msgid "outing"
@@ -1803,6 +1827,10 @@ msgstr "Résumé"
 #: c2corg_ui/templates/route/filters.html
 msgid "summit"
 msgstr "sommet"
+
+#: c2corg_ui/templates/i18n.html
+msgid "swisstopo"
+msgstr "Cartes Swisstopo"
 
 #: c2corg_ui/templates/sidemenu.html
 msgid "terms of use"

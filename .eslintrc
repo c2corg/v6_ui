@@ -5,6 +5,7 @@
     "goog": false,
     "ol": false,
     "ngeo": false,
+    "gmf": false,
     "angular": false,
     "$": false,
     "Bloodhound": false

@@ -11,9 +11,7 @@ goog.require('ol.Map');
 goog.require('ol.View');
 goog.require('ol.format.GeoJSON');
 goog.require('ol.interaction.MouseWheelZoom');
-goog.require('ol.layer.Tile');
 goog.require('ol.layer.Vector');
-goog.require('ol.source.OSM');
 goog.require('ol.source.Vector');
 goog.require('ol.style.Circle');
 goog.require('ol.style.Fill');
@@ -35,7 +33,7 @@ app.diffMapDirective = function() {
     controller: 'AppDiffMapController',
     controllerAs: 'diffMapCtrl',
     bindToController: true,
-    template: '<div class="map" ngeo-map=diffMapCtrl.map></div>'
+    templateUrl: '/static/partials/map/diffmap.html'
   };
 };
 
@@ -69,11 +67,6 @@ app.DiffMapController = function(mapFeatureCollection) {
    */
   this.map = new ol.Map({
     interactions: ol.interaction.defaults({mouseWheelZoom: false}),
-    layers: [
-      new ol.layer.Tile({
-        source: new ol.source.OSM()
-      })
-    ],
     view: new ol.View({
       center: ol.extent.getCenter(app.MapController.DEFAULT_EXTENT),
       zoom: app.MapController.DEFAULT_ZOOM

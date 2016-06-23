@@ -3,6 +3,7 @@
     "node_modules/openlayers/src/**/*.js",
     "node_modules/openlayers/build/ol.ext/**/*.js",
     "node_modules/ngeo/src/**/*.js",
+    "node_modules/ngeo/contribs/gmf/src/**/*.js",
     "c2corg_ui/static/js/**/*.js",
     "c2corg_ui/static/build/templatecache.js"
   ],
@@ -43,7 +44,8 @@
     "js": [
       "node_modules/openlayers/externs/olx.js",
       "node_modules/openlayers/externs/oli.js",
-      "node_modules/ngeo/externs/ngeox.js"
+      "node_modules/ngeo/externs/ngeox.js",
+      "node_modules/ngeo/contribs/gmf/externs/gmfx.js"
     ],
     "jscomp_error": [
       "*"

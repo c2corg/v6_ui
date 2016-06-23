@@ -1,1 +1,9 @@
 include Makefile
+
+# Key valid for http://c2corgv6-demo.gis.internal/
+#export ign_api_key = d2ezzb6cot60zoskmm2ormt9
+
+# Key valid for localhost (expires 19/09/2016)
+export ign_api_key = x216cgugvwkn0go20sm2mgar
+
+export bing_api_key = ApgmUK6zfKqlvU9kNDbXeLFL2KvhC0BF3Jy-nUbcnkFJK_Y7UgMCyRq1NTu_ptyj

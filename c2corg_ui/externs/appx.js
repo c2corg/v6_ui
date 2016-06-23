@@ -280,3 +280,11 @@ appx.RecentOutings;
  * }}
  */
 appx.AllRoutes;
+
+/**
+ * @typedef {{
+ *   ign: string,
+ *   bing: string
+ * }}
+ */
+appx.mapApiKeys;
