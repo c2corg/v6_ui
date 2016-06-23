@@ -78,7 +78,7 @@ app.MainController.prototype.isPath = function(path) {
     return 'home';
   // if topoguide, it can be all kinds of documents
   } else if (path === 'topoguide') {
-    return location.indexOf('waypoints') > -1 || location.indexOf('routes') > -1 || location.indexOf('outings') > -1
+    return location.indexOf('waypoints') > -1 || location.indexOf('routes') > -1 || location.indexOf('outings') > -1;
   } else {
     return location.indexOf(path) > -1;
   }
@@ -90,4 +90,4 @@ app.MainController.prototype.isPath = function(path) {
  */
 app.MainController.prototype.animateHeaderIcon = function(e) {
   app.utils.animateHeaderIcon(e);
-}
+};

@@ -1,4 +1,4 @@
-goog.provide('app.sidemenu')
+goog.provide('app.sidemenu');
 
 goog.require('app');
 
@@ -6,7 +6,6 @@ goog.require('app');
  * @export
  */
 app.sidemenu = function() {
-
   $('.menu-open-close').click(function() {
     if ($('#sidemenu').hasClass('menu-open')) {
       $('#sidemenu').removeClass('menu-open');
@@ -19,6 +18,5 @@ app.sidemenu = function() {
 
   $('.menu-open-close').click(function() {
     $('.menu-open-close.menu').toggleClass('is-active');
-  })
-
+  });
 };
