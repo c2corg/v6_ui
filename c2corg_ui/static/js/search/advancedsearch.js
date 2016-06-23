@@ -120,15 +120,16 @@ app.AdvancedSearchController.prototype.getResults_ = function() {
 
 
 /**
- * @param {Object} response Response from the API server.
+ * @param {angular.$http.Response} response Response from the API server.
  * @private
  */
 app.AdvancedSearchController.prototype.successList_ = function(response) {
   if (!('data' in response)) {
     return;
   }
-  this.documents = response['data']['documents'];
-  this.total = response['data']['total'];
+  var data = /** @type {appx.SearchDocumentResponse} */ (response['data']);
+  this.documents = data.documents;
+  this.total = data.total;
   this.scope_.$root['resCounter'] = this.total;
   // TODO: disable map interaction for document types with no geometry
   // "total" is needed for pagination though
