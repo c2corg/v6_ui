@@ -1,4 +1,5 @@
 <%namespace file="../../helpers/view.html" import="get_document_min_max, show_areas, show_attr, show_maps"/>
+<%namespace file="../../helpers/orientations.svg" import="show_orientations"/>
 
 ## MAPSINFO
 <%def name="get_waypoint_maps_info(waypoint)">\
@@ -389,7 +390,7 @@
         <p translate>orientation</p>
       </div>
       <span class="detail-text accordion" id="detail-orientation">
-        <%include file="c2corg_ui:static/img/orientation.svg" />
+        ${show_orientations()}
         <p id="orientation-list">${', '.join(waypoint['orientations'])}</p>
       </span>
     </div>

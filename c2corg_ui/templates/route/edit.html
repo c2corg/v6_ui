@@ -1,16 +1,18 @@
 <%!
-from c2corg_common.attributes import via_ferrata_ratings, default_langs, activities, route_types, orientation_types, route_duration_types, glacier_gear_types, route_configuration_types, mtb_up_ratings, \
-ski_ratings, labande_ski_ratings, global_ratings, engagement_ratings, risk_ratings, ice_ratings, mixed_ratings, aid_ratings, exposition_ratings, equipment_ratings, \
-rock_types, hiking_ratings, exposition_rock_ratings, climbing_outdoor_types, snowshoe_ratings,mtb_up_ratings, mtb_down_ratings, climbing_ratings, quality_types
+from c2corg_common.attributes import via_ferrata_ratings, default_langs, activities, route_types, \
+    orientation_types, route_duration_types, glacier_gear_types, route_configuration_types, mtb_up_ratings, \
+    ski_ratings, labande_ski_ratings, global_ratings, engagement_ratings, risk_ratings, ice_ratings, \
+    mixed_ratings, aid_ratings, exposition_ratings, equipment_ratings, rock_types, hiking_ratings, \
+    exposition_rock_ratings, climbing_outdoor_types, snowshoe_ratings,mtb_up_ratings, mtb_down_ratings, \
+    climbing_ratings, quality_types
 %>
-
 <%inherit file="../base.html"/>
-
 <%
 updating_doc = route_id and route_lang
 %>
 <%namespace file="../helpers/common.html" import="show_title"/>
 <%namespace file="../helpers/edit.html" import="show_editing_associated_waypoints, show_editing_associated_routes"/>
+<%namespace file="../helpers/orientations.svg" import="show_orientations"/>
 
 <%block name="pagetitle"><title ng-init="id=${route_id if route_id else 0}" ng-bind="id ? mainCtrl.page_title('Editing a route') : mainCtrl.page_title('Creating a route')">${show_title('Create/edit route')}</title></%block>
 
@@ -148,7 +150,7 @@ updating_doc = route_id and route_lang
                   <div class="checkbox"><input type="checkbox" ng-checked="route.orientations.indexOf(type) > - 1"><span x-translate>{{type}}</span></div>
                 </li>
               </ul>
-              <%include file="c2corg_ui:static/img/orientation.svg" />
+              ${show_orientations()}
             </div>
                
             <div class="form-group data half">

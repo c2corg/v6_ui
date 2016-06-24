@@ -5,6 +5,7 @@ from c2corg_common.attributes import default_langs, waypoint_types, orientation_
     climbing_outdoor_types, climbing_indoor_types, months, access_times, climbing_ratings, equipment_ratings
 %>
 <%namespace file="../helpers/filters.html" import="add_multiselect"/>
+<%namespace file="../helpers/orientations.svg" import="show_orientations"/>
 
 <form app-search-filters>
   <div class="filters">
@@ -88,7 +89,7 @@ from c2corg_common.attributes import default_langs, waypoint_types, orientation_
 
         <div class="col-xs-12 col-sm-6 col-md-6 filter orientation" ng-init="document.orientations = ${orientation_types}">
           <label translate>orientations</label>
-          <%include file="c2corg_ui:static/img/orientation.svg" />
+          ${show_orientations()}
           <select class="form-control" ng-options="orient as orient for orient in ${orientation_types} | translate"
             ng-model="filtersCtrl.filters.orientations"></select>
         </div>

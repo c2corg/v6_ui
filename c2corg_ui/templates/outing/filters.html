@@ -1,6 +1,7 @@
 <%!
 from c2corg_common.attributes import default_langs, route_types, activities, route_duration_types, orientation_types
 %>
+<%namespace file="../helpers/orientations.svg" import="show_orientations"/>
 <form app-search-filters>
   <div class="filters">
     <div class="row simple-filters">
@@ -73,7 +74,7 @@ from c2corg_common.attributes import default_langs, route_types, activities, rou
 
       <div class="col-xs-12 col-sm-6 col-md-6 filter orientation">
         <label translate>orientation</label>
-        <%include file="c2corg_ui:static/img/orientation.svg" />
+        ${show_orientations()}
        <select class="form-control" ng-options="orient as orient for orient in ${orientation_types} | translate" ng-model="orientation"></select>
       </div>
       <div class="col-xs-12 col-sm-5 col-md-5 filter">
