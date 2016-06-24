@@ -59,7 +59,14 @@ from c2corg_common.attributes import default_langs, waypoint_types, orientation_
 
         <div class="filter col-xs-12 col-sm-6">
           <label translate>routes_quantity</label><br>
-          <app-slider filter="rqua" filters-list="filtersCtrl.filters" min="0" max="500" step="20" unit=''></app-slider>
+          <app-slider filter="rqua" filters-list="filtersCtrl.filters"
+            min="0" max="500" step="20" unit=''></app-slider>
+        </div>
+
+        <div class="filter col-xs-12 col-sm-6">
+          <label translate>climbing_rating</label><br>
+          <app-slider filter="crat" filters-list="filtersCtrl.filters" unit=''
+            values-list="['${"','".join(climbing_ratings) |n}']"></app-slider>
         </div>
 
         <div class="filter col-xs-12 col-sm-6">
