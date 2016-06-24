@@ -4,6 +4,12 @@
 
 <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Routes')">${show_title('Routes')}</title></%block>
 
+<%block name="moduleConstantsValues">
+  module.value('mapFeatureCollection', null);
+  module.value('advancedSearchFilters', {
+  });
+</%block>
+
 <header class="page-main-title">
   <h3><span translate>Routes</span>
     <span class="badge" ng-cloak>{{resCounter}}</span>
