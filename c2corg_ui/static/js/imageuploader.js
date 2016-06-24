@@ -266,8 +266,11 @@ app.ImageUploaderController.prototype.save = function() {
     this.compile_($('#image-' + id).contents())(scope);
 
   }.bind(this));
-  $('.modal, .modal-backdrop').remove();
-  this.api_.saveImages(this.files);
+
+  this.api_.createImages(this.files, this.documentService.document)
+  .then(function() {
+    $('.modal, .modal-backdrop').remove();
+  });
 };
 
 

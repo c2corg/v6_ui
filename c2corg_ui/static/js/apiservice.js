@@ -458,16 +458,23 @@ app.Api.prototype.abortUploadingImage = function(index) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  * @param {Array<File>} files
  */
-app.Api.prototype.saveImages = function(files) {
-  var defer = this.q_.defer();
-  var metadatas = [];
+app.Api.prototype.createImages = function(files, document) {
+  var documentType = app.utils.getDoctype(document.type);
+  var associations = {};
+  associations[documentType] = [{'document_id': document.document_id}];
+  var images = [];
   for (var i = 0; i < files.length; i++) {
-    files[i]['metadata']['size'] = files[i]['size'];
-    metadatas.push(files[i]['metadata']);
+    var image = files[i]['metadata'];
+    image['size'] = files[i]['size'];
+    image['associations'] = associations;
+    image['locales'] = [{'lang': document.lang, 'title': image['title']}];
+    images.push(image);
   }
-  defer.resolve();
-  console.log(metadatas);
-  return defer.promise;
+  var json = {'images': images};
+
+  var promise = this.postJson_('/images/list', json);
+  promise.catch(this.errorSaveDocument_.bind(this));
+  return promise;
 };
 
 
