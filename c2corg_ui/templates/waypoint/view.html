@@ -65,6 +65,9 @@ geometry4326 = geometry
   );
 
   module.value('documentData', {
+    "document_id": ${waypoint.get('document_id')},
+    "lang": "${lang}",
+    "type": "w",
     % if waypoint.get('orientations'):
       "orientations": [${'"' + '","'.join(waypoint['orientations']) + '"' if len(waypoint['orientations']) else '' | n}],
     % endif

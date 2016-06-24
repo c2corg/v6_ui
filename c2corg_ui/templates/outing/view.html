@@ -50,6 +50,9 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
   });
 
   module.value('documentData', {
+    "document_id": ${outing.get('document_id')},
+    "lang": "${lang}",
+    "type": "o",
     "associations": ${dumps(outing.get('associations')) | n}
   });
 </%block>
