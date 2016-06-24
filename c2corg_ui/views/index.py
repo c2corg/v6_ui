@@ -11,7 +11,8 @@ class Pages(object):
             'api_url': self.settings['api_url'],
             'ign_api_key': self.settings['ign_api_key'],
             'bing_api_key': self.settings['bing_api_key'],
-            'image_backend_url': self.settings['image_backend_url']
+            'image_backend_url': self.settings['image_backend_url'],
+            'image_url': self.settings['image_url']
         }
 
     @view_config(route_name='index', renderer='c2corg_ui:templates/index.html')

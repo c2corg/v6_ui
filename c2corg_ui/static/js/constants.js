@@ -36,6 +36,5 @@ app.constants = {
   documentEditing: {
     FORM_PROJ: 'EPSG:4326',
     DATA_PROJ: 'EPSG:3857'
-  },
-  imagesURL : 'http://s.camptocamp.org/uploads/images/'
+  }
 };

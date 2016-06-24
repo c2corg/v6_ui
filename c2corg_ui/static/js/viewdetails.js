@@ -57,12 +57,13 @@ app.module.directive('appViewDetails', app.viewDetailsDirective);
  * @param {app.Api} appApi Api service.
  * @param {app.Document} appDocument service
  * @param {appx.Document} documentData Data set as module value in the HTML.
+ * @param {String} imageUrl URL to the image backend.
  * @constructor
  * @export
  * @ngInject
  */
 app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
-    appDocument, documentData) {
+    appDocument, documentData, imageUrl) {
 
   /**
    * @type {app.Document}
@@ -88,6 +89,12 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
    * @private
    */
   this.api_ = appApi;
+
+  /**
+   * @type {String}
+   * @private
+   */
+  this.imageUrl_ = imageUrl;
 
   /**
    * @type {!angular.Scope}
@@ -300,7 +307,7 @@ app.ViewDetailsController.prototype.loadImages_ = function(initGalleries) {
   var photos = this.documentService.document['associations']['images'];
   for (var i in photos) {
 
-    var element = app.utils.createImageSlide(photos[i]);
+    var element = app.utils.createImageSlide(photos[i], this.imageUrl_);
     $('.photos').append(element);
 
     var scope = this.scope_.$new(true);

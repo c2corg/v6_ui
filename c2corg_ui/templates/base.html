@@ -142,6 +142,7 @@ closure_library_path = settings.get('closure_library_path')
          module.constant('langUrlTemplate', '${request.static_url('c2corg_ui:static/build/locale/__lang__/c2corg_ui.json')}');
          module.constant('apiUrl', '${api_url}');
          module.constant('imageBackendUrl', '${image_backend_url}');
+         module.constant('imageUrl', '${image_url}');
          module.constant('authUrl', '${request.route_url('auth')}');
          module.constant('langs', ['${"','".join(default_langs) |n}']);
          module.constant('mapApiKeys', {

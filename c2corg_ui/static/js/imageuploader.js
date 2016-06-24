@@ -41,11 +41,12 @@ app.module.directive('appImageUploader', app.imageUploaderDirective);
  * @param {app.Api} appApi Api service.
  * @param {app.Alerts} appAlerts
  * @param {app.Document} appDocument service
+ * @param {String} imageUrl URL to the image backend.
  * @constructor
  * @struct
  * @ngInject
  */
-app.ImageUploaderController = function($scope, $uibModal, $compile, $q, appAlerts, appApi, appDocument) {
+app.ImageUploaderController = function($scope, $uibModal, $compile, $q, appAlerts, appApi, appDocument, imageUrl) {
 
   /**
    * @type {app.Document}
@@ -64,6 +65,12 @@ app.ImageUploaderController = function($scope, $uibModal, $compile, $q, appAlert
    * @private
    */
   this.api_ = appApi;
+
+  /**
+   * @type {String}
+   * @private
+   */
+  this.imageUrl_ = imageUrl;
 
   /**
    * @type {app.Alerts}
@@ -246,7 +253,7 @@ app.ImageUploaderController.prototype.save = function() {
     id = 'image-' + (+new Date());
     this.files[i]['document_id'] = id;
 
-    var element = app.utils.createImageSlide(this.files[i]);
+    var element = app.utils.createImageSlide(this.files[i], this.imageUrl_);
     $('.photos').slick('slickAdd', element);
 
     var scope = this.scope_.$new(true);
