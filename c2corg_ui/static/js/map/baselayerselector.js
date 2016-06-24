@@ -4,11 +4,11 @@ goog.provide('app.baselayerSelectorDirective');
 goog.require('app');
 goog.require('ngeo.BackgroundLayerMgr');
 goog.require('ol.Attribution');
-goog.require('ol.format.WMTSCapabilities');
 goog.require('ol.layer.Tile');
 goog.require('ol.source.BingMaps');
 goog.require('ol.source.OSM');
 goog.require('ol.source.WMTS');
+goog.require('ol.source.XYZ');
 goog.require('ol.tilegrid.WMTS');
 
 
@@ -162,21 +162,11 @@ app.BaselayerSelectorController.prototype.createLayer_ = function(layerName) {
   if (layerName in this.cachedLayers_) {
     return this.cachedLayers_[layerName];
   }
-  var source, attributions;
+  var source;
   switch (layerName) {
     case 'esri':
-      attributions = [new ol.Attribution({
-        html: '<a href="https://www.arcgis.com/home/item.html?id=30e5fe3149c34df1ba922e6f5bbf808f"' +
-          ' target="_blank">Esri</a>'
-      })];
-      this.createWMTSLayerFromCapabilities_(
-        'https://server.arcgisonline.com/arcgis/rest/services/' +
-        'World_Topo_Map/MapServer/WMTS/1.0.0/WMTSCapabilities.xml', {
-          'layer': 'World_Topo_Map',
-          'matrixSet': 'GoogleMapsCompatible'
-        }, 'esri', attributions);
-      // layer creation is asynchronous
-      return null;
+      source = this.createEsriSource_();
+      break;
     case 'bing':
       source = new ol.source.BingMaps({
         key: this.bingApiKey_,
@@ -190,18 +180,8 @@ app.BaselayerSelectorController.prototype.createLayer_ = function(layerName) {
       source = this.createIgnSource_('ORTHOIMAGERY.ORTHOPHOTOS');
       break;
     case 'swisstopo':
-      attributions = [new ol.Attribution({
-        html: '<a href="http://www.swisstopo.admin.ch/" target="_blank">swisstopo</a>'
-      })];
-      this.createWMTSLayerFromCapabilities_(
-        'http://wmts10.geo.admin.ch/EPSG/3857/1.0.0/WMTSCapabilities.xml', {
-          'layer': 'ch.swisstopo.pixelkarte-farbe',
-          'matrixSet': '3857',
-          'projection': 'EPSG:3857',
-          'requestEncoding': 'REST'
-        }, 'swisstopo', attributions);
-      // layer creation is asynchronous
-      return null;
+      source = this.createSwisstopoSource_('ch.swisstopo.pixelkarte-farbe');
+      break;
     case 'osm':
     default:
       source = new ol.source.OSM();
@@ -210,39 +190,6 @@ app.BaselayerSelectorController.prototype.createLayer_ = function(layerName) {
   var layer = new ol.layer.Tile({source: source});
   this.cachedLayers_[layerName] = layer;
   return layer;
-};
-
-
-/**
- * @param {string} url URL of the WMTS capabilities file.
- * @param {Object} config Configuration properties for the layer.
- *   See ol.source.WMTS.optionsFromCapabilities for details.
- * @param {string} name Name of the layer in the baselayer selector.
- * @param {Array.<ol.Attribution>=} attributions Optional list of attributions.
- * @private
- */
-app.BaselayerSelectorController.prototype.createWMTSLayerFromCapabilities_ = function(
-    url, config, name, attributions) {
-  this.http_.get(url).then(
-    // success
-    function(response) {
-      this.wmtsParser_ = this.wmtsParser_ || new ol.format.WMTSCapabilities();
-      var result = this.wmtsParser_.read(response.data);
-      var options = ol.source.WMTS.optionsFromCapabilities(result, config);
-      if (attributions) {
-        options.attributions = attributions;
-      }
-      var layer = new ol.layer.Tile({
-        source: new ol.source.WMTS(options)
-      });
-      this.cachedLayers_[name] = layer;
-      this.bgLayerMgr_.set(this.map, layer);
-    }.bind(this),
-    // failure
-    function(response) {
-      this.alerts_.addError('Failed loading this map background');
-    }.bind(this)
-  );
 };
 
 
@@ -281,6 +228,46 @@ app.BaselayerSelectorController.prototype.createIgnSource_ = function(layer) {
           '<img src="//api.ign.fr/geoportail/api/js/latest/' +
           'theme/geoportal/img/logo_gp.gif"></a>'
     })]
+  });
+};
+
+
+/**
+ * @param {string} layer Swisstopo layer name.
+ * @return {ol.source.XYZ}
+ * @private
+ */
+app.BaselayerSelectorController.prototype.createSwisstopoSource_ = function(layer) {
+  return new ol.source.XYZ({
+    attributions: [
+      new ol.Attribution({
+        html: '<a target="_blank" href="http://www.swisstopo.admin.ch/' +
+        'internet/swisstopo/en/home.html">swisstopo</a>'
+      })
+    ],
+    urls: ['10', '11', '12', '13', '14'].map(function(i) {
+      return 'https://wmts' + i + '.geo.admin.ch/1.0.0/' + layer + '/default/current' +
+        '/3857/{z}/{x}/{y}.jpeg';
+    })
+  });
+};
+
+
+/**
+ * @return {ol.source.XYZ}
+ * @private
+ */
+app.BaselayerSelectorController.prototype.createEsriSource_ = function() {
+  return new ol.source.XYZ({
+    attributions: [
+      new ol.Attribution({
+        html: '<a href="https://www.arcgis.com/home/item.html?id=30e5fe3149c34df1ba922e6f5bbf808f"' +
+          ' target="_blank">Esri</a>'
+      })
+    ],
+    url: 'https://server.arcgisonline.com/arcgis/rest/services/World_Topo_Map/MapServer/WMTS?' +
+      'layer=World_Topo_Map&style=default&tilematrixset=GoogleMapsCompatible&Service=WMTS&' +
+      'Request=GetTile&Version=1.0.0&Format=image%2Fjpeg&TileMatrix={z}&TileCol={x}&TileRow={y}'
   });
 };
 
