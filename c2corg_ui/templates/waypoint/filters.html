@@ -49,12 +49,17 @@ from c2corg_common.attributes import default_langs, waypoint_types, orientation_
 
         <div class="filter col-xs-12 col-sm-6">
           <label translate>climbing_outdoor_types</label><br>
-          ${add_multiselect('ttyp', climbing_outdoor_types)}
+          ${add_multiselect('ctout', climbing_outdoor_types)}
         </div>
 
         <div class="filter col-xs-12 col-sm-6">
           <label translate>climbing_styles</label><br>
           ${add_multiselect('tcsty', climbing_styles)}
+        </div>
+
+        <div class="filter col-xs-12 col-sm-6">
+          <label translate>best_periods</label><br>
+          ${add_multiselect('period', months)}
         </div>
 
         <div class="filter col-xs-12 col-sm-6">
@@ -64,29 +69,21 @@ from c2corg_common.attributes import default_langs, waypoint_types, orientation_
         </div>
 
         <div class="filter col-xs-12 col-sm-6">
-          <label translate>climbing_rating</label><br>
+          <label translate>equipment_ratings</label><br>
+          <app-slider filter="anchq" filters-list="filtersCtrl.filters" unit=''
+            values-list="['${"','".join(equipment_ratings) |n}']"></app-slider>
+        </div>
+
+        <div class="filter col-xs-12 col-sm-6">
+          <label translate>climbing_ratings</label><br>
           <app-slider filter="crat" filters-list="filtersCtrl.filters" unit=''
             values-list="['${"','".join(climbing_ratings) |n}']"></app-slider>
         </div>
 
         <div class="filter col-xs-12 col-sm-6">
-          <label translate>climbing_rating_min</label><br>
-          ${add_multiselect('tminr', climbing_ratings)}
-        </div>
-
-        <div class="filter col-xs-12 col-sm-6">
-          <label translate>climbing_rating_max</label><br>
-          ${add_multiselect('tmaxr', climbing_ratings)}
-        </div>
-
-        <div class="filter col-xs-12 col-sm-6">
           <label translate>climbing_rating_median</label><br>
-          ${add_multiselect('tmedr', climbing_ratings)}
-        </div>
-
-        <div class="filter col-xs-12 col-sm-6">
-          <label translate>equipment_ratings</label><br>
-          ${add_multiselect('anchq', equipment_ratings)}
+          <app-slider filter="tmedr" filters-list="filtersCtrl.filters" unit=''
+            values-list="['${"','".join(climbing_ratings) |n}']"></app-slider>
         </div>
 
         <div class="col-xs-12 col-sm-6 col-md-6 filter orientation" ng-init="document.orientations = ${orientation_types}">
@@ -96,29 +93,20 @@ from c2corg_common.attributes import default_langs, waypoint_types, orientation_
             ng-model="filtersCtrl.filters.orientations"></select>
         </div>
 
-        <div class="col-xs-12 col-sm-5 col-md-5 filter">
-          <label translate>height_min</label><br>
-          <app-slider filter="tminh" filters-list="filtersCtrl.filters" min="0" max="200" step="10"></app-slider>
+        <div class="col-xs-12 col-sm-6 col-md-6 filter">
+          <label translate>height</label><br>
+          <app-slider filter="height" filters-list="filtersCtrl.filters" min="0" max="200" step="10"></app-slider>
         </div>
 
-        <div class="col-xs-12 col-sm-5 col-md-5 filter">
-          <label translate>height_max</label><br>
-          <app-slider filter="tmaxh" filters-list="filtersCtrl.filters" min="0" max="200" step="10"></app-slider>
-        </div>
-
-        <div class="col-xs-12 col-sm-5 col-md-5 filter">
+        <div class="col-xs-12 col-sm-6 col-md-6 filter">
           <label translate>height_median</label><br>
           <app-slider filter="tmedh" filters-list="filtersCtrl.filters" min="0" max="200" step="10"></app-slider>
         </div>
 
         <div class="filter col-xs-12 col-sm-6">
-          <label translate>best_periods</label><br>
-          ${add_multiselect('period', months)}
-        </div>
-
-        <div class="filter col-xs-12 col-sm-6">
           <label translate>access_time</label><br>
-          ${add_multiselect('tappt', access_times)}
+          <app-slider filter="tappt" filters-list="filtersCtrl.filters" unit=''
+            values-list="['${"','".join(access_times) |n}']"></app-slider>
         </div>
 
         <div class="filter col-xs-12 col-sm-6">
