@@ -224,4 +224,15 @@ app.SearchFiltersController.prototype.clear = function() {
 };
 
 
+/**
+ * @param {string} orientation
+ * @param {appx.Document} document
+ * @param {goog.events.Event | jQuery.Event} event
+ * @export
+ */
+app.SearchFiltersController.prototype.setOrientation = function(orientation, document, e) {
+  // TODO
+};
+
+
 app.module.controller('appSearchFiltersController', app.SearchFiltersController);

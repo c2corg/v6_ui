@@ -82,7 +82,7 @@ from c2corg_common.attributes import default_langs, route_types, activities, rou
 
       <div class="col-xs-12 col-sm-6 col-md-6 filter orientation">
         <label translate>orientation</label>
-        ${show_orientations()}
+        ${show_orientations('searchFiltersCtrl', 'document')}
         <select class="form-control" ng-options="orient as orient for orient in ${orientation_types} | translate" ng-model="orientation"></select>
       </div>
       <div class="col-xs-12 col-sm-5 col-md-5 filter">

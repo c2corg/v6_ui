@@ -390,7 +390,7 @@
         <p translate>orientation</p>
       </div>
       <span class="detail-text accordion" id="detail-orientation">
-        ${show_orientations()}
+        ${show_orientations('detailsCtrl', 'detailsCtrl.documentService.document')}
         <p id="orientation-list">${', '.join(waypoint['orientations'])}</p>
       </span>
     </div>

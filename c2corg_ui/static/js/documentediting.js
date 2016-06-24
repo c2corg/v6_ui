@@ -182,7 +182,7 @@ app.DocumentEditingController = function($scope, $element, $attrs,
    */
   this.api_ = appApi;
 
-  this.scope[this.modelName] = this.scope['document'] = this.documentService.document;
+  this.scope[this.modelName] = this.documentService.document;
 
   if (this.auth.isAuthenticated()) {
     if (this.id_ && this.lang_) {
@@ -635,7 +635,8 @@ app.DocumentEditingController.prototype.pushToArray = function(object, property,
 /**
  * Set the orientation of a document. Can have multiple orientations
  * @param {string} orientation
- * @param {Object} document (route, outing, waypoint)
+ * @param {appx.Document} document
+ * @param {goog.events.Event | jQuery.Event} event
  * @export
  */
 app.DocumentEditingController.prototype.setOrientation = function(orientation, document, e) {

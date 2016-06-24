@@ -336,7 +336,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
                   <div class="checkbox"><input type="checkbox" ng-checked="waypoint.orientations.indexOf(type) > - 1"><span x-translate>{{type}}</span></div>
                 </li>
               </ul>
-              ${show_orientations()}
+              ${show_orientations('editCtrl', 'waypoint')}
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.orientations.$valid"></span>
             </div>
             

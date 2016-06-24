@@ -14,7 +14,7 @@
         ${show_areas(route)}
         
         % if route.get('orientations'):
-          ${show_orientations()}
+          ${show_orientations('detailsCtrl', 'detailsCtrl.documentService.document')}
           <ul id="orientation-list">
             % for orientation in route.get('orientations'):
               <li>${orientation}</li>

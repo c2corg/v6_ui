@@ -1,4 +1,4 @@
-<%def name="show_orientations()">\
+<%def name="show_orientations(ctrl, model)">\
   <svg
      xmlns:dc="http://purl.org/dc/elements/1.1/"
      xmlns:cc="http://creativecommons.org/ns#"
@@ -59,10 +59,10 @@
         <g
            id="g4160"
            transform="translate(-134.37278,-286.88378)">
-          <g ng-click="editCtrl.setOrientation('N', document, $event)">
+          <g ng-click="${ctrl}.setOrientation('N', ${model}, $event)">
             <rect x="722.5813"  y="453.6731" width="400" height="400" style="opacity: 0;"></rect>
             <text
-                   ng-class="{ 'orientation-text-selected': document.orientations.indexOf('N') > -1 }"
+                   ng-class="{ 'orientation-text-selected': ${model}.orientations.indexOf('N') > -1 }"
                    style="font-size:294.78234863px;fill:#808080"
                    x="822.5813"
                    y="753.6731"
@@ -71,10 +71,10 @@
                    inkscape:export-xdpi="87.938904"
                    inkscape:export-ydpi="87.938904">N</text>
           </g>
-          <g ng-click="editCtrl.setOrientation('NE', document, $event)">
+          <g ng-click="${ctrl}.setOrientation('NE', ${model}, $event)">
              <rect x="1360"  y="700" width="350" height="300" style="opacity: 0;"></rect>
              <text
-                  ng-class="{ 'orientation-text-selected': document.orientations.indexOf('NE') > -1 }"
+                  ng-class="{ 'orientation-text-selected': ${model}.orientations.indexOf('NE') > -1 }"
                   style="font-size:155px;fill:#808080"
                   x="1420"
                   y="900"
@@ -83,10 +83,10 @@
                   inkscape:export-xdpi="87.938904"
                   inkscape:export-ydpi="87.938904">NE</text>
           </g>
-          <g ng-click="editCtrl.setOrientation('NW', document, $event)">
+          <g ng-click="${ctrl}.setOrientation('NW', ${model}, $event)">
             <rect x="140"  y="700" width="350" height="300" style="opacity: 0;"></rect>
             <text
-                  ng-class="{ 'orientation-text-selected': document.orientations.indexOf('NW') > -1 }"
+                  ng-class="{ 'orientation-text-selected': ${model}.orientations.indexOf('NW') > -1 }"
                   style="font-size:155px;fill:#808080"
                   x="170"
                   y="900"
@@ -95,10 +95,10 @@
                   inkscape:export-xdpi="87.938904"
                   inkscape:export-ydpi="87.938904">NW</text>
           </g>
-          <g ng-click="editCtrl.setOrientation('SE', document, $event)">
+          <g ng-click="${ctrl}.setOrientation('SE', ${model}, $event)">
             <rect x="1350"  y="1900" width="350" height="300" style="opacity: 0;"></rect>
             <text
-                ng-class="{ 'orientation-text-selected': document.orientations.indexOf('SE') > -1 }"
+                ng-class="{ 'orientation-text-selected': ${model}.orientations.indexOf('SE') > -1 }"
                style="font-size:155px;fill:#808080"
                x="1420"
                y="2100"
@@ -107,10 +107,10 @@
                inkscape:export-xdpi="87.938904"
                inkscape:export-ydpi="87.938904">SE</text>
           </g>
-          <g ng-click="editCtrl.setOrientation('SW', document, $event)">
+          <g ng-click="${ctrl}.setOrientation('SW', ${model}, $event)">
             <rect x="150"  y="1900" width="350" height="300" style="opacity: 0;"></rect>
             <text
-                    ng-class="{ 'orientation-text-selected': document.orientations.indexOf('SW') > -1 }"
+                    ng-class="{ 'orientation-text-selected': ${model}.orientations.indexOf('SW') > -1 }"
                     style="font-size:155px;fill:#808080"
                     x="180"
                     y="2100"
@@ -119,10 +119,10 @@
                     inkscape:export-xdpi="87.938904"
                     inkscape:export-ydpi="87.938904">SW</text>
           </g>
-          <g ng-click="editCtrl.setOrientation('S', document, $event)">
+          <g ng-click="${ctrl}.setOrientation('S', ${model}, $event)">
             <rect x="722.5813"  y="2000" width="400" height="400" style="opacity: 0;"></rect>
             <text
-               ng-class="{ 'orientation-text-selected': document.orientations.indexOf('S') > -1 }"
+               ng-class="{ 'orientation-text-selected': ${model}.orientations.indexOf('S') > -1 }"
                style="font-size:294.78234863px;fill:#808080"
                x="830"
                y="2287.98"
@@ -131,10 +131,10 @@
                inkscape:export-xdpi="87.938904"
                inkscape:export-ydpi="87.938904">S</text>
           </g>
-          <g ng-click="editCtrl.setOrientation('E', document, $event)">
+          <g ng-click="${ctrl}.setOrientation('E', ${model}, $event)">
             <rect x="1500"  y="1250" width="400" height="400" style="opacity: 0;"></rect>
             <text
-               ng-class="{ 'orientation-text-selected': document.orientations.indexOf('E') > -1 }"
+               ng-class="{ 'orientation-text-selected': ${model}.orientations.indexOf('E') > -1 }"
                style="font-size:294.78234863px;fill:#808080"
                x="1626.5331"
                y="1559.9829"
@@ -143,10 +143,10 @@
                inkscape:export-xdpi="87.938904"
                inkscape:export-ydpi="87.938904">E</text>
           </g>
-          <g ng-click="editCtrl.setOrientation('W', document, $event)">
+          <g ng-click="${ctrl}.setOrientation('W', ${model}, $event)">
             <rect x="-20"  y="1250" width="400" height="400" style="opacity: 0;"></rect>
             <text
-               ng-class="{ 'orientation-text-selected': document.orientations.indexOf('W') > -1 }"
+               ng-class="{ 'orientation-text-selected': ${model}.orientations.indexOf('W') > -1 }"
                style="font-size:294.78234863px;fill:#808080"
                x="18.629496"
                y="1559.9829"
@@ -168,41 +168,41 @@
                style="fill:none;stroke:#1c0000;stroke-width:5.9000001;stroke-linecap:round;stroke-linejoin:bevel;stroke-opacity:0.37562998" />
           </g>
           <path
-             ng-class="{ 'half-circle-selected': document.orientations.indexOf('SE') > -1 }"
+             ng-class="{ 'half-circle-selected': ${model}.orientations.indexOf('SE') > -1 }"
              style="fill:none;fill-opacity:1;stroke:#E8E5E5;stroke-width:60;stroke-linecap:round;stroke-linejoin:bevel;stroke-opacity:0.72588998"
              d="m 944.48909,2448.8091 c 547.72661,-15.9027 986.84591,-458.3667 998.59261,-1006.1983 -11.5333,548.874 -450.5029,990.8632 -998.59261,1006.1983 z"
              id="circle-SE"
-                ng-click="editCtrl.setOrientation('SE', document, $event)"
+                ng-click="${ctrl}.setOrientation('SE', ${model}, $event)"
              inkscape:label="#path4325"
              inkscape:connector-curvature="0"
              inkscape:export-xdpi="87.938904"
              inkscape:export-ydpi="87.938904" />
           <path
-             ng-class="{ 'half-circle-selected': document.orientations.indexOf('SW') > -1 }"
+             ng-class="{ 'half-circle-selected': ${model}.orientations.indexOf('SW') > -1 }"
              style="fill:none;fill-opacity:1;stroke:#E8E5E5;stroke-width:60;stroke-linecap:round;stroke-linejoin:bevel;stroke-opacity:0.72588998"
              d="m -112.73114,1442.6108 c 11.91194,551.4284 456.6057,995.3332 1008.0545,1006.2653 -551.18312,-11.2334 -996.02593,-454.7977 -1008.0545,-1006.2653 z"
              id="circle-SW"
-                ng-click="editCtrl.setOrientation('SW', document, $event)"
+                ng-click="${ctrl}.setOrientation('SW', ${model}, $event)"
              inkscape:label="#path4323"
              inkscape:connector-curvature="0"
              inkscape:export-xdpi="87.938904"
              inkscape:export-ydpi="87.938904" />
           <path
-             ng-class="{ 'half-circle-selected': document.orientations.indexOf('NE') > -1 }"
+             ng-class="{ 'half-circle-selected': ${model}.orientations.indexOf('NE') > -1 }"
              style="fill:none;fill-opacity:1;stroke:#E8E5E5;stroke-width:60;stroke-linecap:round;stroke-linejoin:bevel;stroke-opacity:0.72588998"
              d="M 944.48909,393.98048 C 1496.7393,410.51081 1937.2443,858.62339 1943.0145,1410.8033 1936.8867,858.85815 1496.2317,410.12866 944.48909,393.98048 Z"
              id="circle-NE"
-                ng-click="editCtrl.setOrientation('NE', document, $event)"
+                ng-click="${ctrl}.setOrientation('NE', ${model}, $event)"
              inkscape:label="#path4321"
              inkscape:connector-curvature="0"
              inkscape:export-xdpi="87.938904"
              inkscape:export-ydpi="87.938904" />
           <path
-             ng-class="{ 'half-circle-selected': document.orientations.indexOf('NW') > -1 }"
+             ng-class="{ 'half-circle-selected': ${model}.orientations.indexOf('NW') > -1 }"
              style="fill:none;fill-opacity:1;stroke:#E8E5E5;stroke-width:60;stroke-linecap:round;stroke-linejoin:bevel;stroke-opacity:0.72588998"
              d="M 895.32336,393.19744 C 339.22605,403.87284 -107.67176,854.63472 -113.55873,1410.8033 -108.83519,853.44058 338.57019,404.06847 895.32336,393.19744 Z"
              id="circle-NW"
-                ng-click="editCtrl.setOrientation('NW', document, $event)"
+                ng-click="${ctrl}.setOrientation('NW', ${model}, $event)"
              inkscape:label="#circle-main"
              inkscape:connector-curvature="0"
              inkscape:export-xdpi="87.938904"
@@ -214,29 +214,29 @@
              inkscape:export-ydpi="87.938904"
              transform="matrix(5.3596791,0,0,5.3596791,-1106.9032,-1280.6464)">
             <circle
-               ng-class="{ 'circle-selected': document.orientations.indexOf('N') > -1 }"
-               ng-click="editCtrl.setOrientation('N', document, $event)"
+               ng-class="{ 'circle-selected': ${model}.orientations.indexOf('N') > -1 }"
+               ng-click="${ctrl}.setOrientation('N', ${model}, $event)"
                id="circle-N"
                cx="380"
                cy="312.59"
                r="17" />
             <circle
-               ng-class="{ 'circle-selected': document.orientations.indexOf('S') > -1 }"
-               ng-click="editCtrl.setOrientation('S', document, $event)"
+               ng-class="{ 'circle-selected': ${model}.orientations.indexOf('S') > -1 }"
+               ng-click="${ctrl}.setOrientation('S', ${model}, $event)"
                id="circle-S"
                cx="380"
                cy="694.90997"
                r="17" />
             <circle
-               ng-class="{ 'circle-selected': document.orientations.indexOf('W') > -1 }"
-               ng-click="editCtrl.setOrientation('W', document, $event)"
+               ng-class="{ 'circle-selected': ${model}.orientations.indexOf('W') > -1 }"
+               ng-click="${ctrl}.setOrientation('W', ${model}, $event)"
                id="circle-W"
                cx="188"
                cy="506.07999"
                r="17" />
             <circle
-               ng-class="{ 'circle-selected': document.orientations.indexOf('E') > -1 }"
-               ng-click="editCtrl.setOrientation('E', document, $event)"
+               ng-class="{ 'circle-selected': ${model}.orientations.indexOf('E') > -1 }"
+               ng-click="${ctrl}.setOrientation('E', ${model}, $event)"
                id="circle-E"
                cx="570"
                cy="506.07999"
