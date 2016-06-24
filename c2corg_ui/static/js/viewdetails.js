@@ -333,7 +333,7 @@ app.ViewDetailsController.prototype.loadImages_ = function(initGalleries) {
 /**
  * @param {string} orientation
  * @param {appx.Document} document
- * @param {goog.events.Event | jQuery.Event} event
+ * @param {goog.events.Event | jQuery.Event} e
  * @export
  */
 app.ViewDetailsController.prototype.setOrientation = function(orientation, document, e) {

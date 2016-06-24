@@ -87,11 +87,9 @@ from c2corg_common.attributes import default_langs, waypoint_types, orientation_
             values-list="['${"','".join(climbing_ratings) |n}']"></app-slider>
         </div>
 
-        <div class="col-xs-12 col-sm-6 col-md-6 filter orientation" ng-init="document.orientations = ${orientation_types}">
+        <div class="col-xs-12 col-sm-6 col-md-6 filter orientation">
           <label translate>orientations</label>
-          ${show_orientations('searchFiltersCtrl', 'document')}
-          <select class="form-control" ng-options="orient as orient for orient in ${orientation_types} | translate"
-            ng-model="filtersCtrl.filters.orientations"></select>
+          ${show_orientations('filtersCtrl', 'filtersCtrl', 'wfac')}
         </div>
 
         <div class="col-xs-12 col-sm-6 col-md-6 filter">

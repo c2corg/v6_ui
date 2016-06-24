@@ -636,7 +636,7 @@ app.DocumentEditingController.prototype.pushToArray = function(object, property,
  * Set the orientation of a document. Can have multiple orientations
  * @param {string} orientation
  * @param {appx.Document} document
- * @param {goog.events.Event | jQuery.Event} event
+ * @param {goog.events.Event | jQuery.Event} e
  * @export
  */
 app.DocumentEditingController.prototype.setOrientation = function(orientation, document, e) {

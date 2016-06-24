@@ -93,6 +93,12 @@ app.SearchFiltersController = function($scope, ngeoLocation, ngeoDebounce,
   this.filtersNb = 0;
 
   /**
+   * @type {Array.<string>}
+   * @export
+   */
+  this.orientations = [];
+
+  /**
    * @type {boolean}
    * @private
    */
@@ -146,6 +152,11 @@ app.SearchFiltersController.prototype.getFilterFromPermalink_ = function(key) {
         break;
       case 'range':
         this.createRangeFilter_(key, val);
+        break;
+      case 'orientations':
+        this.createListFilter_(key, val);
+        // initialize the orientations SVG
+        this.orientations = this.filters[key];
         break;
       default:
         break;
@@ -220,18 +231,33 @@ app.SearchFiltersController.prototype.clear = function() {
     this.location_.deleteParam(key);
   }
   this.filters = {};
+  this.orientations = [];
   this.scope_.$root.$emit('searchFilterClear');
 };
 
 
 /**
  * @param {string} orientation
- * @param {appx.Document} document
- * @param {goog.events.Event | jQuery.Event} event
+ * @param {app.SearchFiltersController} ctrl
+ * @param {goog.events.Event | jQuery.Event} e
+ * @param {string} filterName Name of the filter param in the URL.
  * @export
  */
-app.SearchFiltersController.prototype.setOrientation = function(orientation, document, e) {
-  // TODO
+app.SearchFiltersController.prototype.setOrientation = function(orientation,
+    ctrl, e, filterName) {
+  if (this.orientations.indexOf(orientation) === -1) {
+    this.orientations.push(orientation);
+  } else {
+    this.orientations = this.orientations.filter(function(val) {
+      return val !== orientation;
+    });
+  }
+  if (this.orientations.length) {
+    this.filters[filterName] = this.orientations;
+  } else {
+    delete this.filters[filterName];
+    this.location_.deleteParam(filterName);
+  }
 };
 
 
