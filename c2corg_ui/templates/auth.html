@@ -11,7 +11,7 @@ from pyramid.settings import asbool
     <div ng-show="authCtrl.uiStates.showLoginForm">
       <h1 translate>Login</h1>
 
-      <form name="loginForm" novalidate ng-submit="authCtrl.login()">
+      <form name="loginForm" novalidate ng-submit="authCtrl.login()" app-loading>
         <div id="login-username-group" class="form-group" ng-class="{ 'has-error': loginForm.username.$touched && loginForm.username.$invalid }">
           <label translate>Username</label>
           <input type="text" name="username" ng-model="login.username" class="form-control" required />
@@ -56,7 +56,7 @@ from pyramid.settings import asbool
     <div ng-show="authCtrl.uiStates.showRegisterForm">
       <h1 translate>Register</h1>
 
-      <form name="registerForm" novalidate ng-submit="authCtrl.register()">
+      <form name="registerForm" novalidate ng-submit="authCtrl.register()" app-loading>
         <div id="register-name-group" class="form-group" ng-class="{ 'has-error': registerForm.name.$touched && registerForm.name.$invalid }">
           <label translate>Fullname</label>
           <input type="text" name="name" ng-model="register.name" class="form-control" required />
@@ -118,7 +118,7 @@ from pyramid.settings import asbool
     <div ng-show="authCtrl.uiStates.showRequestChangePasswordForm">
       <h1 translate>Reset password</h1>
 
-      <form name="requestChangePasswordForm" novalidate ng-submit="authCtrl.requestPasswordChange()">
+      <form name="requestChangePasswordForm" novalidate ng-submit="authCtrl.requestPasswordChange()" app-loading>
         <div id="register-password-group" class="form-group" ng-class="{ 'has-error': requestChangePasswordForm.email.$touched && requestChangePasswordForm.email.$invalid }">
           <label translate>Email</label>
           <input type="email" name="email" ng-model="requestChangePassword.email" class="form-control" required />
