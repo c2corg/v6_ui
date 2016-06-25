@@ -32,7 +32,7 @@ from pyramid.settings import asbool
           </label>
         </div>
         <p>
-          <button type="submit" class="btn blue-btn" ng-disabled="loginForm.$invalid" translate>Login</button>
+          <button type="submit" class="btn blue-btn" translate>Login</button>
           <button type="button" class="btn gray-btn" 
                   ng-click="authCtrl.uiStates.showRequestChangePasswordForm = true;
                                      authCtrl.uiStates.showRegisterForm = false;
@@ -51,7 +51,6 @@ from pyramid.settings import asbool
         </button>
       </p>
     </div>
-
 
     <div ng-show="authCtrl.uiStates.showRegisterForm">
       <h1 translate>Register</h1>
@@ -73,7 +72,7 @@ from pyramid.settings import asbool
         </div>
         <div id="register-forum_username-group" class="form-group" ng-class="{ 'has-error': registerForm.forum_username.$touched && registerForm.forum_username.$invalid }">
           <label translate>forum_user username</label>
-          <!-- http://stackoverflow.com/questions/1538512/how-can-i-invert-a-regular-expression-in-javascript: opposite test of /[^a-zA-Z0-9]/ -->
+          ## http://stackoverflow.com/questions/1538512/how-can-i-invert-a-regular-expression-in-javascript: opposite test of /[^a-zA-Z0-9]/
           <input type="text" name="forum_username" ng-minlength="3" maxlength="15" ng-pattern="/^(?!.*[^a-zA-Z0-9])/" ng-model="register.forum_username" class="form-control" required />
           <div class="help-block" ng-messages="registerForm.forum_username.$error" ng-if="registerForm.forum_username.$touched">
             <p ng-message="required" translate>This field is required.</p>
@@ -114,7 +113,6 @@ from pyramid.settings import asbool
       </p>
     </div>
 
-
     <div ng-show="authCtrl.uiStates.showRequestChangePasswordForm">
       <h1 translate>Reset password</h1>
 
@@ -146,7 +144,6 @@ from pyramid.settings import asbool
         </button>
       </p>
     </div>
-
 
     <div ng-show="authCtrl.uiStates.showChangePasswordForm">
       <h1 translate>Change password</h1>
