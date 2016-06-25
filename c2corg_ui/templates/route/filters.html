@@ -1,118 +1,283 @@
 <%!
-from c2corg_common.attributes import default_langs, route_types, activities, route_duration_types, orientation_types
+from c2corg_common.attributes import default_langs, quality_types, route_types, activities, \
+    route_duration_types, orientation_types, route_types, ski_ratings, exposition_ratings, \
+    labande_ski_ratings, global_ratings, engagement_ratings, risk_ratings, equipment_ratings, \
+    ice_ratings, mixed_ratings, climbing_ratings, exposition_rock_ratings, aid_ratings, \
+    via_ferrata_ratings, hiking_ratings, snowshoe_ratings, mtb_up_ratings, mtb_down_ratings, \
+    route_configuration_types, climbing_outdoor_types, rock_types
+
+activities = [activity for activity in activities if activity != 'paragliding']
 %>
+<%namespace file="../helpers/filters.html" import="add_multiselect"/>
 <%namespace file="../helpers/orientations.svg" import="show_orientations"/>
 <form app-search-filters>
   <div class="filters">
-    <div class="row simple-filters">
+    <div class="simple-filters">
 
       <div class="filter">
-        <label>{{'type'| translate | capitalize }}</label><br>
-        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-          <p>
-            <span ng-if="searchFiltersCtrl.route_types.length > 0"> ({{searchFiltersCtrl.route_types.length}})</span>
-            <span class="glyphicon glyphicon-menu-down"></span>
-          </p>
-        </button>
-        <ul class="dropdown-menu multiselect-box type">
-          <li ng-repeat="type in ['${"','".join(route_types) |n}']">
-            <a data-value="{{type}}" ng-click="searchFiltersCtrl.selectOption(route, 'route_types', type, $event)">
-              <input type="checkbox">
-              <span class="activity">{{mainCtrl.translate(type) | capitalize}}</span>
-            </a>
-          </li>
-        </ul>
+        <label translate>title</label>
+        <input type="text" class="form-control" ng-model="filtersCtrl.filters.q">
       </div>
 
       <div class="filter">
-        <label translate>duration_types</label>
-        <div class="input-group">
-          <select class="form-control" ng-model="route.duration" ng-options="dur as dur for dur in ${route_duration_types}"></select>
-          <span class="input-group-addon">H</span>
-        </div>
+        <label translate>activities</label><br>
+        ${add_multiselect('act', activities)}
       </div>
-      
+
       <div class="filter">
-        <label translate>lift access</label>
-        <select ng-model="searchFiltersCtrl.lang" class="form-control">
-          <option>yes</option>
-          <option>no</option>
-        </select>
+        <label translate>elevation_max</label><br>
+        <app-slider filter="rmaxa" filters-list="filtersCtrl.filters" max="8850"></app-slider>
       </div>
-      
+
     </div>
-    <div class="row collapse" id="moreFilters">
+    <div class="collapse" id="moreFilters">
       
-      <div class="col-xs-12 filter route-activities" ng-init="activities = ${activities}">
-        <label translate>activities</label><br>
-        <div class="activities">
-          <div ng-repeat="activity in activities" class="activity" ng-if="activity !== 'paragliding' ">
-            <div>
-              <div class="icon-{{activity}}" ng-click="editCtrl.pushToArray(route, 'activities', activity, $event)"
-                   ng-class="{'activity-selected' : route.activities.indexOf(activity) > -1}">
-              </div>
-              <p>{{activity | translate}}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-xs-12 filter route-activities show-tight" ng-init="activities = ${activities}">
-        <label translate>activities</label><br>
-        <ul class="activities">
-          <li ng-repeat="activity in activities" class="activity" ng-if="activity !== 'paragliding' ">
-            <div class="checkbox"><input type="checkbox"><span x-translate>{{activity | translate}}</span></div>
-          </li>
-        </ul>
+      <div class="col-xs-12 col-sm-6 filter">
+        <label translate>elevation_min</label>
+        <app-slider filter="rmina" filters-list="filtersCtrl.filters" max="6000"></app-slider>
       </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-4 filter">
-        <label translate>lang</label>
-        <select ng-model="searchFiltersCtrl.lang" class="form-control" ng-options="lang as (mainCtrl.translate(lang) |  capitalize ) for lang in ['${"','".join(default_langs) |n}'] | translate" ng-model="lang"></select>
-      </div>
-      
-      <div class="col-xs-12 col-sm-6 col-md-4 filter">
-        <label>{{'summit'| translate | capitalize}}</label>
-        <input type="text" class="form-control">
+      <div class="col-xs-12 col-sm-6 filter">
+        <label translate>durations</label>
+        <app-slider filter="time" filters-list="filtersCtrl.filters" unit=""
+          values-list="['${"','".join(route_duration_types) |n}']"></app-slider>
       </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-4 filter">
-        <label translate>GPS Track</label>
-        <select class="form-control" ng-model="searchFiltersCtrl.georef"><option translate>Yes</option><option translate>No</option></select>
+      <div class="col-xs-12 col-sm-6 filter">
+        <label translate>height_diff_up</label>
+        <app-slider filter="hdif" filters-list="filtersCtrl.filters" max="10000"></app-slider>
+      </div>
+
+      <div class="col-xs-12 col-sm-6 filter">
+        <label translate>height_diff_down</label>
+        <app-slider filter="ddif" filters-list="filtersCtrl.filters" max="10000"></app-slider>
+      </div>
+
+      <div class="col-xs-12 col-sm-6 filter">
+        <label translate>route_types</label>
+        ${add_multiselect('rtyp', route_types)}
+      </div>
+
+      <div class="col-xs-12 col-sm-6 filter">
+        <label translate>configuration</label>
+        ${add_multiselect('conf', route_configuration_types)}
       </div>
 
       <div class="col-xs-12 col-sm-6 col-md-6 filter orientation">
-        <label translate>orientation</label>
-        ${show_orientations('searchFiltersCtrl', 'document')}
-        <select class="form-control" ng-options="orient as orient for orient in ${orientation_types} | translate" ng-model="orientation"></select>
+        <label translate>orientations</label>
+        ${show_orientations('filtersCtrl', 'filtersCtrl', 'fac')}
       </div>
-      <div class="col-xs-12 col-sm-5 col-md-5 filter">
-        <label translate>height_diff</label><br>
-        <input type="range" class="range-between" id="height-filter" data-slider-tooltip="hide">
-        <span class="slider-min-max">
-          <p class="min-value">{{searchFiltersCtrl.height_diff_up.min}} m</p>
-          <p class="max-value">{{searchFiltersCtrl.height_diff_up.max}} m</p>
-        </span>
+
+      ## SKITOURING
+      <div ng-show="filtersCtrl.filters.act.length && filtersCtrl.filters.act.indexOf('skitouring') !== -1">
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>ski_rating</label>
+          <app-slider filter="trat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(ski_ratings) |n}']"></app-slider>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>ski_exposition</label>
+          <app-slider filter="sexpo" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(exposition_ratings) |n}']"></app-slider>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>labande_global_rating</label>
+          <app-slider filter="lrat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(global_ratings) |n}']"></app-slider>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>labande_ski_rating</label>
+          <app-slider filter="srat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(labande_ski_ratings) |n}']"></app-slider>
+        </div>
       </div>
-      <div class="col-xs-12 col-sm-5 col-md-5 filter">
-        <label translate>elevation</label><br>
-        <input type="range" id="elevation-filter" class="range-between" data-slider-tooltip="hide">
-        <span class="slider-min-max">
-          <p class="min-value">{{searchFiltersCtrl.elevation.min}} m</p>
-          <p class="max-value">{{searchFiltersCtrl.elevation.max}} m</p>
-        </span>
+
+      ## ROCK CLIMBING
+      <div ng-show="filtersCtrl.filters.act.length && filtersCtrl.filters.act.indexOf('rock_climbing') !== -1">
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>climbing_outdoor_type</label>
+          ${add_multiselect('crtyp', climbing_outdoor_types)}
+        </div>
       </div>
-      <div class="row filters-bottom-buttons">
-        <button class="btn less-filters-btn gray-btn" data-toggle="collapse" data-target="#moreFilters" 
-                aria-expanded="false"> <span translate>close and cancel</span> 
-        </button>
+
+      ## SNOW, ICE, ROCK AND ALPINE CLIMBING
+      <div ng-show="filtersCtrl.filters.act.length && (filtersCtrl.filters.act.indexOf('snow_ice_mixed') !== -1 ||
+                    filtersCtrl.filters.act.indexOf('rock_climbing') !== -1 ||
+                    filtersCtrl.filters.act.indexOf('mountain_climbing') !== -1 ||
+                    filtersCtrl.filters.act.indexOf('ice_climbing') !== -1)">
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>global_rating</label>
+          <app-slider filter="grat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(global_ratings) |n}']"></app-slider>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>engagement_rating</label>
+          <app-slider filter="erat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(engagement_ratings) |n}']"></app-slider>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>risk_rating</label>
+          <app-slider filter="orrat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(risk_ratings) |n}']"></app-slider>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>equipment_rating</label>
+          <app-slider filter="prat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(equipment_ratings) |n}']"></app-slider>
+        </div>
+      </div>
+
+      ## SNOW_ICE_MIXED, ROCK AND ALPINE CLIMBING
+      <div ng-show="filtersCtrl.filters.act.length && (filtersCtrl.filters.act.indexOf('snow_ice_mixed') !== -1 ||
+                    filtersCtrl.filters.act.indexOf('rock_climbing') !== -1 ||
+                    filtersCtrl.filters.act.indexOf('mountain_climbing') !== -1)">
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>rock_types</label>
+          ${add_multiselect('rock', rock_types)}
+        </div>
+      </div>
+
+      ## ICE AND SNOW_ICE_MIXED
+      <div ng-show="filtersCtrl.filters.act.length && (filtersCtrl.filters.act.indexOf('snow_ice_mixed') !== -1 ||
+                    filtersCtrl.filters.act.indexOf('ice_climbing') !== -1)">
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>ice_rating</label>
+          <app-slider filter="irat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(ice_ratings) |n}']"></app-slider>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>mixed_rating</label>
+          <app-slider filter="mrat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(mixed_ratings) |n}']"></app-slider>
+        </div>
+      </div>
+
+      ## ROCK AND ALPINE CLIMBING
+      <div ng-show="filtersCtrl.filters.act.length && (filtersCtrl.filters.act.indexOf('rock_climbing') !== -1 ||
+                    filtersCtrl.filters.act.indexOf('alpine_climbing') !== -1)">
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>rock_free_rating</label>
+          <app-slider filter="frat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(climbing_ratings) |n}']"></app-slider>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>rock_required_rating</label>
+          <app-slider filter="rrat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(climbing_ratings) |n}']"></app-slider>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>exposition_rock_rating</label>
+          <app-slider filter="rexpo" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(exposition_rock_ratings) |n}']"></app-slider>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>aid_rating</label>
+          <app-slider filter="arat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(aid_ratings) |n}']"></app-slider>
+        </div>
+      </div>
+
+      ## VIA FERRATA
+      <div ng-show="filtersCtrl.filters.act.length && filtersCtrl.filters.act.indexOf('via_ferrata') !== -1">
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>via_ferrata_rating</label>
+          <app-slider filter="krat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(via_ferrata_ratings) |n}']"></app-slider>
+        </div>
+      </div>
+
+      ## HIKING
+      <div ng-show="filtersCtrl.filters.act.length && filtersCtrl.filters.act.indexOf('hiking') !== -1">
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>hiking_rating</label>
+          <app-slider filter="hrat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(hiking_ratings) |n}']"></app-slider>
+        </div>
+      </div>
+
+      ## SNOWSHOEING
+      <div ng-show="filtersCtrl.filters.act.length && filtersCtrl.filters.act.indexOf('snowshoeing') !== -1">
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>snowshoe_rating</label>
+          <app-slider filter="wrat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(snowshoe_ratings) |n}']"></app-slider>
+        </div>
+      </div>
+
+      ## MOUNTAIN BIKING
+      <div ng-show="filtersCtrl.filters.act.length && filtersCtrl.filters.act.indexOf('mountain_biking') !== -1">
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>mtb_up_rating</label>
+          <app-slider filter="mbur" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(mtb_up_ratings) |n}']"></app-slider>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>mtb_down_rating</label>
+          <app-slider filter="mbdr" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(mtb_down_ratings) |n}']"></app-slider>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>mtb_length_asphalt</label>
+          <app-slider filter="mbroad" filters-list="filtersCtrl.filters" max="50" step="5" unit="km"></app-slider>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>mtb_length_trail</label>
+          <app-slider filter="mbtrack" filters-list="filtersCtrl.filters" max="50" step="5" unit="km"></app-slider>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>mtb_height_diff_portages</label>
+          <app-slider filter="mbpush" filters-list="filtersCtrl.filters" max="50" step="5" unit="km"></app-slider>
+        </div>
+      </div>
+
+      ## HIKING AND MOUNTAIN BIKING
+      <div ng-show="filtersCtrl.filters.act.length && (filtersCtrl.filters.act.indexOf('mountain_biking') !== -1 ||
+                    filtersCtrl.filters.act.indexOf('hiking') !== -1)">
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>hiking_mtb_exposition</label>
+          <app-slider filter="hexpo" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(exposition_ratings) |n}']"></app-slider>
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-sm-6 filter">
+        <label translate>lang</label>
+        ${add_multiselect('tlang', default_langs)}
+      </div>
+
+      <div class="col-xs-12 col-sm-6 filter">
+        <label translate>document_quality</label>
+        ${add_multiselect('qa', quality_types)}
+      </div>
+
+      <div class="filters-bottom-buttons">
         <button class="btn search-filters-btn orange-btn" data-toggle="collapse" 
                 data-target="#moreFilters" aria-expanded="false">
-          <span translate>apply and search</span> 
+          <span translate>Show results</span> ({{resCounter}})
         </button>
+        <button class="btn blue-btn search-filters-btn" ng-click="filtersCtrl.clear()"
+                ng-show="filtersCtrl.filtersNb > 0"><span translate>Clear filters</span> ({{filtersCtrl.filtersNb}})</button>
       </div>
     </div>
     <div class="more-filters-btn-container">
-      <button class="btn orange-btn more-filters-btn" data-toggle="collapse" data-target="#moreFilters" aria-expanded="false" aria-controls="moreFilters" translate>more filters</button>
+      <button class="btn orange-btn more-filters-btn" data-toggle="collapse" data-target="#moreFilters"
+        aria-expanded="false" aria-controls="moreFilters" translate>All filters</button>
+      <button class="btn blue-btn more-filters-btn" ng-click="filtersCtrl.clear()" ng-cloak
+              ng-show="filtersCtrl.filtersNb > 0"><span translate>Clear filters</span> ({{filtersCtrl.filtersNb}})</button>
     </div>
 
   </div>
