@@ -15,7 +15,6 @@ app.suggestionDirective = function($compile, $sce, $templateCache) {
   return {
     restrict: 'E',
     scope: true,
-    /**@suppress {checkTypes} for JSON.parse */
     link: function(scope, element) {
       scope.highlight = function(text, search) {
         if (search) { // i = case insensitive

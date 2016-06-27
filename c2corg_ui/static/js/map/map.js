@@ -227,7 +227,9 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
         var id = first.get('documentId').toString();
         var lang = /** @type {string} */(first.get('lang'));
         var url = app.utils.buildDocumentUrl(module, id, lang);
-        document.location = url;
+        if (url) {
+          window.location.href = url;
+        }
       }
     }.bind(this));
     this.map.addInteraction(clickInteraction);

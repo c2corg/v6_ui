@@ -54,11 +54,13 @@ app.module.directive('appSearchFilters', app.searchFiltersDirective);
  * @param {angular.Scope} $scope Scope.
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {ngeo.Debounce} ngeoDebounce ngeo Debounce service.
+ * @param {Object} advancedSearchFilters Config of the filters.
  * @constructor
  * @ngInject
  * @export
  */
-app.SearchFiltersController = function($scope, ngeoLocation, ngeoDebounce) {
+app.SearchFiltersController = function($scope, ngeoLocation, ngeoDebounce,
+    advancedSearchFilters) {
 
   /**
    * @type {angular.Scope}
@@ -74,9 +76,27 @@ app.SearchFiltersController = function($scope, ngeoLocation, ngeoDebounce) {
 
   /**
    * @type {Object}
+   * @private
+   */
+  this.config_ = advancedSearchFilters;
+
+  /**
+   * @type {Object}
    * @export
    */
   this.filters = {};
+
+  /**
+   * @type {number}
+   * @export
+   */
+  this.filtersNb = 0;
+
+  /**
+   * @type {Array.<string>}
+   * @export
+   */
+  this.orientations = [];
 
   /**
    * @type {boolean}
@@ -121,16 +141,28 @@ app.SearchFiltersController.prototype.getFilterFromPermalink_ = function(key) {
   if (val === '') {
     return;
   }
-  switch (key) {
-    case 'wtyp':
-      this.createListFilter_(key, val);
-      break;
-    case 'walt':
-      this.createRangeFilter_(key, val);
-      break;
-    default:
-      this.filters[key] = val;
-      break;
+  if (key === 'qa') {
+    this.createListFilter_(key, val);
+  } else if (key in this.config_) {
+    // Filters are described in the 'advancedSearchFilters' module value
+    // set in c2corg_ui/templates/*/index.html.
+    switch (this.config_[key]['type']) {
+      case 'list':
+        this.createListFilter_(key, val);
+        break;
+      case 'range':
+        this.createRangeFilter_(key, val);
+        break;
+      case 'orientations':
+        this.createListFilter_(key, val);
+        // initialize the orientations SVG
+        this.orientations = this.filters[key];
+        break;
+      default:
+        break;
+    }
+  } else {
+    this.filters[key] = val;
   }
 };
 
@@ -169,6 +201,8 @@ app.SearchFiltersController.prototype.handleFiltersChange_ = function() {
   } else {
     this.loading_ = false;
   }
+  goog.asserts.assert(this.filters);
+  this.filtersNb = Object.keys(this.filters).length;
 };
 
 
@@ -185,6 +219,44 @@ app.SearchFiltersController.prototype.selectOption = function(prop, val, event) 
   if (!checked && this.filters[prop].length === 0) {
     delete this.filters[prop];
     this.location_.deleteParam(prop);
+  }
+};
+
+
+/**
+ * @export
+ */
+app.SearchFiltersController.prototype.clear = function() {
+  for (var key in this.filters) {
+    this.location_.deleteParam(key);
+  }
+  this.filters = {};
+  this.orientations = [];
+  this.scope_.$root.$emit('searchFilterClear');
+};
+
+
+/**
+ * @param {string} orientation
+ * @param {app.SearchFiltersController} ctrl
+ * @param {goog.events.Event | jQuery.Event} e
+ * @param {string} filterName Name of the filter param in the URL.
+ * @export
+ */
+app.SearchFiltersController.prototype.toggleOrientation = function(orientation,
+    ctrl, e, filterName) {
+  if (this.orientations.indexOf(orientation) === -1) {
+    this.orientations.push(orientation);
+  } else {
+    this.orientations = this.orientations.filter(function(val) {
+      return val !== orientation;
+    });
+  }
+  if (this.orientations.length) {
+    this.filters[filterName] = this.orientations;
+  } else {
+    delete this.filters[filterName];
+    this.location_.deleteParam(filterName);
   }
 };
 

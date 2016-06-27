@@ -20,7 +20,8 @@ app.advancedSearchDirective = function() {
     controller: 'AppAdvancedSearchController',
     controllerAs: 'searchCtrl',
     bindToController: {
-      'doctype': '@documentType'
+      'doctype': '@documentType',
+      'useMap': '='
     },
     scope: true,
     templateUrl: '/static/partials/advancedsearch.html'
@@ -33,16 +34,15 @@ app.module.directive('appAdvancedSearch', app.advancedSearchDirective);
 
 /**
  * @param {angular.Scope} $scope Directive scope.
- * @param {angular.Attributes} $attrs Attributes.
  * @param {app.Api} appApi Api service.
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @constructor
- * @export
  * @struct
+ * @export
  * @ngInject
  */
-app.AdvancedSearchController = function($scope, $attrs, appApi, ngeoLocation,
+app.AdvancedSearchController = function($scope, appApi, ngeoLocation,
     gettextCatalog) {
 
   /**
@@ -56,6 +56,12 @@ app.AdvancedSearchController = function($scope, $attrs, appApi, ngeoLocation,
    * @export
    */
   this.doctype;
+
+  /**
+   * @type {boolean}
+   * @export
+   */
+  this.useMap;
 
   /**
    * @type {app.Api}
@@ -90,7 +96,7 @@ app.AdvancedSearchController = function($scope, $attrs, appApi, ngeoLocation,
   // Get the initial results when loading the page.
   // If a map is used, wait to get the map extent
   // before triggering the request.
-  if (!$attrs['useMap']) {
+  if (!this.useMap) {
     this.getResults_();
   }
 
@@ -114,15 +120,16 @@ app.AdvancedSearchController.prototype.getResults_ = function() {
 
 
 /**
- * @param {Object} response Response from the API server.
+ * @param {angular.$http.Response} response Response from the API server.
  * @private
  */
 app.AdvancedSearchController.prototype.successList_ = function(response) {
   if (!('data' in response)) {
     return;
   }
-  this.documents = response['data']['documents'];
-  this.total = response['data']['total'];
+  var data = /** @type {appx.SearchDocumentResponse} */ (response['data']);
+  this.documents = data.documents;
+  this.total = data.total;
   this.scope_.$root['resCounter'] = this.total;
   // TODO: disable map interaction for document types with no geometry
   // "total" is needed for pagination though
@@ -156,6 +163,8 @@ app.AdvancedSearchController.prototype.getFeatures_ = function() {
  * @private
  */
 app.AdvancedSearchController.prototype.createFeatureProperties_ = function(doc) {
+  // Since the request is done with the "pl" parameter (prefered language),
+  // the API returns the best locale first.
   var locale = doc['locales'][0];
   var properties = {
     'module': this.doctype,
@@ -170,5 +179,6 @@ app.AdvancedSearchController.prototype.createFeatureProperties_ = function(doc) 
   }
   return properties;
 };
+
 
 app.module.controller('AppAdvancedSearchController', app.AdvancedSearchController);

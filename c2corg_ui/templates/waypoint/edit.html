@@ -1,15 +1,17 @@
 <%!
-  from c2corg_common.attributes import default_langs, climbing_outdoor_types, public_transportation_types, custodianship_types, climbing_indoor_types, product_types, ground_types, weather_station_types, \
-  rain_proof_types, public_transportation_ratings, children_proof_types, snow_clearance_ratings, exposition_ratings, rock_types, orientation_types, months, parking_fee_types, climbing_styles, \
-  access_times, climbing_ratings, equipment_ratings, map_editors, quality_types
+from c2corg_common.attributes import default_langs, climbing_outdoor_types, public_transportation_types, \
+    custodianship_types, climbing_indoor_types, product_types, ground_types, weather_station_types, \
+    rain_proof_types, public_transportation_ratings, children_proof_types, snow_clearance_ratings, \
+    exposition_ratings, rock_types, orientation_types, months, parking_fee_types, climbing_styles, \
+    access_times, climbing_ratings, equipment_ratings, map_editors, quality_types
 %>
-
 <%inherit file="../base.html"/>
 <%
   updating_doc = waypoint_id and waypoint_lang
 %>
 <%namespace file="../helpers/common.html" import="show_title"/>
 <%namespace file="../helpers/edit.html" import="show_editing_associated_waypoints, show_editing_associated_routes"/>
+<%namespace file="../helpers/orientations.svg" import="show_orientations"/>
 
 <%block name="pagetitle">
 <title ng-init="id = ${waypoint_id if waypoint_id else 0}" ng-bind="id ?
@@ -326,7 +328,7 @@
             </div>
             
             ## ORIENTATION
-            <div class="form-group data half" ng-if="['paragliding_takeoff', 'paragliding_landing',' climbing_outdoor'].indexOf(type) > -1"
+            <div class="form-group data half" ng-if="['paragliding_takeoff', 'paragliding_landing', 'climbing_outdoor'].indexOf(type) > -1"
                  ng-class="{ 'has-error': editForm.orientations.$touched && editForm.orientations.$invalid,'has-success': editForm.orientations.$valid }">
               <label><span translate>orientations</span></label>
               <ul class="types long" id="orientation-list">
@@ -334,7 +336,7 @@
                   <div class="checkbox"><input type="checkbox" ng-checked="waypoint.orientations.indexOf(type) > - 1"><span x-translate>{{type}}</span></div>
                 </li>
               </ul>
-              <%include file="c2corg_ui:static/img/orientation.svg" />
+              ${show_orientations('editCtrl', 'waypoint')}
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.orientations.$valid"></span>
             </div>
             
@@ -745,10 +747,9 @@
               <label translate ng-if="type == 'hut' || type == 'gite' || type == 'camp_site'">opening_periods</label>
               <label translate ng-if="type == 'local_product'">opening_hours</label>
               <textarea name="access_period" ng-model="waypoint.locales[0].access_period" class="form-control" 
-                placeholder="{{ (type == 'hut' || type == 'gite' || type == 'camp_site') 
-                                              ? mainCtrl.translate('describe opening_periods') 
-                                              : (type == 'local_product' ? mainCtrl.translate('describe opening_hours')  : mainCtrl.translate('describe access_period') ) 
-                                         }}">
+                placeholder="{{ (type == 'hut' || type == 'gite' || type == 'camp_site') ?
+                  mainCtrl.translate('describe opening_periods') :
+                  (type == 'local_product' ? mainCtrl.translate('describe opening_hours')  : mainCtrl.translate('describe access_period') ) }}">
               </textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.locales[0].access_period"></span>
             </div>

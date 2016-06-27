@@ -19,6 +19,15 @@ appx.AuthData;
 
 /**
  * @typedef {{
+ *   total: number,
+ *   documents: Array.<appx.Document>
+ * }}
+ */
+appx.SearchDocumentResponse;
+
+
+/**
+ * @typedef {{
  *   routes: appx.SimpleSearchDocumentResponse,
  *   waypoints: appx.SimpleSearchDocumentResponse
  * }}

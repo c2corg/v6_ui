@@ -330,4 +330,15 @@ app.ViewDetailsController.prototype.loadImages_ = function(initGalleries) {
 };
 
 
+/**
+ * @param {string} orientation
+ * @param {appx.Document} document
+ * @param {goog.events.Event | jQuery.Event} e
+ * @export
+ */
+app.ViewDetailsController.prototype.toggleOrientation = function(orientation, document, e) {
+  // Do nothing
+};
+
+
 app.module.controller('AppViewDetailsController', app.ViewDetailsController);

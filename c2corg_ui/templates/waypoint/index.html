@@ -1,7 +1,23 @@
 <%inherit file="../base.html"/>
 <%namespace file="../helpers/common.html" import="show_title"/>
+<%namespace file="../helpers/list.html" import="add_doctype_selector"/>
 
 <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Waypoints')">${show_title('Waypoints')}</title></%block>
+
+<%block name="moduleConstantsValues">
+  module.value('mapFeatureCollection', null);
+  module.value('advancedSearchFilters', {
+    'walt': {'type': 'range'},
+    'wtyp': {'type': 'list'},
+    'wfac': {'type': 'orientations'},
+    'wrock': {'type': 'list'},
+    'tcsty': {'type': 'list'},
+    'ttyp': {'type': 'list'},
+    'period': {'type': 'list'},
+    'rain': {'type': 'list'},
+    'chil': {'type': 'list'}
+  });
+</%block>
 
 <header class="page-main-title">
   <h3><span translate>Waypoints</span>
@@ -12,9 +28,7 @@
   <%include file="filters.html" />
   <div class="documents-nav-buttons text-center">
     <button class="btn btn-default show-documents-filters-phone" translate>Filters</button>
-    
-    <%include file="c2corg_ui:templates/document/select_document.html" />
-    
+    ${add_doctype_selector()}
     <button class="btn btn-default" protected-url-btn url="${request.route_url('waypoints_add')}">
       <span class="glyphicon glyphicon-plus-sign"></span>
     </button>

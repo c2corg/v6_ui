@@ -238,6 +238,7 @@ app.Api.prototype.updateDocument = function(module, id, json) {
 /**
  * @param {string} module Module.
  * @param {string} qstr Filtering and paginating parameters.
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.listDocuments = function(module, qstr) {
   var url = '/{module}{qmark}{qstr}'
