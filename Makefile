@@ -31,7 +31,7 @@ help:
 	@echo "- lint			Check the JavaScript code with linters"
 	@echo "- build			Build the project"
 	@echo "- install		Install and build the project"
-	@echo "- serve			Run the development server (pserve)"
+	@echo "- serve			Run the development server"
 	@echo "- template		Replace the config vars in the .in templates"
 	@echo "- update-node-modules	Update node modules (using --force)"
 	@echo "- upgrade		Upgrade the Python dependencies."
@@ -83,7 +83,7 @@ less: c2corg_ui/static/build/build.min.css c2corg_ui/static/build/build.css
 
 .PHONY: serve
 serve: install build development.ini
-	.build/venv/bin/pserve --reload development.ini
+	.build/venv/bin/gunicorn --paste development.ini --reload
 
 .PHONY: update-node-modules
 update-node-modules:
