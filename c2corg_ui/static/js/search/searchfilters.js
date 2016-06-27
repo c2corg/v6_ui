@@ -243,7 +243,7 @@ app.SearchFiltersController.prototype.clear = function() {
  * @param {string} filterName Name of the filter param in the URL.
  * @export
  */
-app.SearchFiltersController.prototype.setOrientation = function(orientation,
+app.SearchFiltersController.prototype.toggleOrientation = function(orientation,
     ctrl, e, filterName) {
   if (this.orientations.indexOf(orientation) === -1) {
     this.orientations.push(orientation);

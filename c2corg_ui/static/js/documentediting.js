@@ -639,7 +639,7 @@ app.DocumentEditingController.prototype.pushToArray = function(object, property,
  * @param {goog.events.Event | jQuery.Event} e
  * @export
  */
-app.DocumentEditingController.prototype.setOrientation = function(orientation, document, e) {
+app.DocumentEditingController.prototype.toggleOrientation = function(orientation, document, e) {
   app.utils.pushToArray(document, 'orientations', orientation, e);
 };
 
