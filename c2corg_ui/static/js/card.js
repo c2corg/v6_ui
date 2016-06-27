@@ -59,7 +59,7 @@ app.CardController = function(gettextCatalog) {
   this.lang = gettextCatalog.currentLanguage;
 
   /**
-   * @type {Object}
+   * @type {appx.Document}
    * @export
    */
   this.doc;
