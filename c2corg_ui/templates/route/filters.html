@@ -4,7 +4,7 @@ from c2corg_common.attributes import default_langs, quality_types, route_types, 
     labande_ski_ratings, global_ratings, engagement_ratings, risk_ratings, equipment_ratings, \
     ice_ratings, mixed_ratings, climbing_ratings, exposition_rock_ratings, aid_ratings, \
     via_ferrata_ratings, hiking_ratings, snowshoe_ratings, mtb_up_ratings, mtb_down_ratings, \
-    route_configuration_types, climbing_outdoor_types, rock_types
+    route_configuration_types, climbing_outdoor_types, rock_types, glacier_gear_types
 
 activities = [activity for activity in activities if activity != 'paragliding']
 %>
@@ -39,7 +39,7 @@ activities = [activity for activity in activities if activity != 'paragliding']
 
       <div class="col-xs-12 col-sm-6 filter">
         <label translate>durations</label>
-        <app-slider filter="time" filters-list="filtersCtrl.filters" unit=""
+        <app-slider filter="time" filters-list="filtersCtrl.filters" unit="days"
           values-list="['${"','".join(route_duration_types) |n}']"></app-slider>
       </div>
 
@@ -66,6 +66,25 @@ activities = [activity for activity in activities if activity != 'paragliding']
       <div class="col-xs-12 col-sm-6 col-md-6 filter orientation">
         <label translate>orientations</label>
         ${show_orientations('filtersCtrl', 'filtersCtrl', 'fac')}
+      </div>
+
+      ## ALL EXCEPT MOUNTAIN BIKING
+      <div ng-show="filtersCtrl.filters.act.length && filtersCtrl.filters.act.indexOf('mountain_biking') === -1">
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>glacier_gear</label>
+          ${add_multiselect('glac', glacier_gear_types)}
+        </div>
+      </div>
+
+      ## SKITOURING, SNOWSHOEING, HIKING, MOUNTAIN BIKING
+      <div ng-show="filtersCtrl.filters.act.length && (filtersCtrl.filters.act.indexOf('skitouring') !== -1 ||
+                    filtersCtrl.filters.act.indexOf('snowshoeing') !== -1 ||
+                    filtersCtrl.filters.act.indexOf('hiking') !== -1 ||
+                    filtersCtrl.filters.act.indexOf('mountain_biking') !== -1)">
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>route_length</label>
+          <app-slider filter="rlen" filters-list="filtersCtrl.filters" max="100" step="5" unit="km"></app-slider>
+        </div>
       </div>
 
       ## SKITOURING
@@ -108,6 +127,21 @@ activities = [activity for activity in activities if activity != 'paragliding']
                     filtersCtrl.filters.act.indexOf('rock_climbing') !== -1 ||
                     filtersCtrl.filters.act.indexOf('mountain_climbing') !== -1 ||
                     filtersCtrl.filters.act.indexOf('ice_climbing') !== -1)">
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>difficulties_height</label>
+          <app-slider filter="ralt" filters-list="filtersCtrl.filters" max="6000"></app-slider>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>height_diff_access</label>
+          <app-slider filter="rappr" filters-list="filtersCtrl.filters" max="3000"></app-slider>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>height_diff_difficulties</label>
+          <app-slider filter="dhei" filters-list="filtersCtrl.filters" max="3000"></app-slider>
+        </div>
+
         <div class="col-xs-12 col-sm-6 filter">
           <label translate>global_rating</label>
           <app-slider filter="grat" filters-list="filtersCtrl.filters" unit=""
