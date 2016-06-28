@@ -46,6 +46,14 @@ from c2corg_common.attributes import default_langs, quality_types, activities, f
           values-list="['${"','".join(frequentation_types) |n}']"></app-slider>
       </div>
 
+      <div class="col-xs-12 col-sm-6 filter">
+        <label translate>public_transport</label><br>
+        <a ng-click="filtersCtrl.toggleCheckbox('owpt')">
+          <input type="checkbox" ng-checked="filtersCtrl.filters.owpt">
+          <span></span>
+        </a>
+      </div>
+
       ## SNOW ACTVITIES
       <div ng-show="filtersCtrl.filters.act.length && (filtersCtrl.filters.act.indexOf('skitouring') !== -1 ||
                     filtersCtrl.filters.act.indexOf('snowshoeing') !== -1 ||

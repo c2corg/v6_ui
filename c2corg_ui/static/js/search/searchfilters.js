@@ -261,4 +261,18 @@ app.SearchFiltersController.prototype.toggleOrientation = function(orientation,
 };
 
 
+/**
+ * @param {string} filterName Name of the filter param.
+ * @export
+ */
+app.SearchFiltersController.prototype.toggleCheckbox = function(filterName) {
+  if (filterName in this.filters) {
+    delete this.filters[filterName];
+    this.location_.deleteParam(filterName);
+  } else {
+    this.filters[filterName] = true;
+  }
+};
+
+
 app.module.controller('appSearchFiltersController', app.SearchFiltersController);
