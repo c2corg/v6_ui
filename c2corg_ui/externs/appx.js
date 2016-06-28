@@ -119,7 +119,7 @@ appx.Document;
  *   type : string,
  *   quality: string,
  *   document_id: number,
- *   
+ *
  *   geometry: Object,
  *   date_start: (string | Date),
  *   date_end: (string | Date),
@@ -158,7 +158,7 @@ appx.Outing;
  *   type : string,
  *   quality: string,
  *   document_id: number,
- *   
+ *
  *   height_diff_up: number,
  *   height_diff_down: number,
  *   height_diff_access: number,
@@ -213,7 +213,7 @@ appx.Route;
  *   type : string,
  *   quality: string,
  *   document_id: number,
- *   
+ *
  *   elevation: number,
  *   elevation_min: number,
  *   maps: Array.<Object>,
@@ -297,3 +297,11 @@ appx.AllRoutes;
  * }}
  */
 appx.mapApiKeys;
+
+/**
+ * @typedef {{
+ *   discourseUrl: string,
+ *   topicId: number
+ * }}
+ */
+appx.DiscourseEmbedded;

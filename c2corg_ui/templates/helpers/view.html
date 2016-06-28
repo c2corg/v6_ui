@@ -325,7 +325,8 @@
       <p class="float-button-text" translate>Favorites</p>
     </div>
     
-    <div class="float-button float-comments" tooltip-placement="left" uib-tooltip="{{'Comments' | translate}}">
+    <div class="float-button float-comments" tooltip-placement="left" uib-tooltip="{{'Comments' | translate}}" ng-if="!detailsCtrl.createNewTopic"
+         ng-click="detailsCtrl.scrollToComments()">
       <span class="glyphicon glyphicon-comment"></span>
       <p class="float-button-text" translate>Comments</p>
     </div>
@@ -570,5 +571,26 @@
 <%def name="get_image_gallery()">\
   <div class="view-details-photos col-xs-12 tab description" ng-show="detailsCtrl.documentService.document.associations.images.length > 0">
     <div class="photos" data-slick='{"variableWidth": true, "infinite": false, "focusOnSelect": false, "lazyLoad": "progressive"}'></div>
+  </div>
+</%def>
+
+
+<%def name="get_comments(id, lang)">\
+  <div class="view-details-associations comments col-xs-12 tab description">
+    <span class="lead">
+      <section>
+        <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#discourse-comments">
+          <span class="glyphicon glyphicon-comment"></span>
+          <span translate>Comments</span>
+          <span class="glyphicon glyphicon-menu-down"></span>
+        </h3>
+        <section id="discourse-comments" class="collapse in" ng-init="detailsCtrl.getComments('${id}-${lang}')">
+          <div ng-if="detailsCtrl.createNewTopic" class="add-outing">
+            <p class="text-center">No thread yet?</p>
+            <button protected-url-btn url="http://c2corgv6-discourse.demo-camptocamp.com/new-topic?title=${id}_${lang}&category=commentaires du topoguide/comments" class="btn gray-btn"  translate>Post the first comment</button>
+          </div>
+        </section>
+      </section>
+    </span>
   </div>
 </%def>
