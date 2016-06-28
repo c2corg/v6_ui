@@ -94,9 +94,7 @@
     margin-left: 4%;
     width: 89%;
   }
-  .nav-tabs {
-    border: none;
-  }
+
   .view-details-photos {
     width: 92% !important;
     margin-right: 4%;
@@ -185,9 +183,6 @@
     width: 100%;
     border: 1px solid #eee;
 
-    @media @phone {
-      display: none;
-    }
     @media @big {
       section article {
         min-width:  48%;
@@ -258,10 +253,6 @@
     padding: 0;
     margin-bottom: 20px;
 
-    @media @phone {
-      margin-bottom: -200px;
-      display: none;
-    }
     @media (max-width: 1400px) {
       width: 100%;
     }
@@ -417,6 +408,8 @@
       }
       @media @phone {
         display: block;
+        font-size: 1em;
+        margin-left: 10px;
       }
     }
 
@@ -477,9 +470,6 @@
 .view-details-other {
   width: 100% !important;
   margin: 0 0 40px 0 !important;
-  @media @phone {
-    display: none;
-  }
 }
 
 .document-summary{
@@ -602,7 +592,6 @@ app-add-association {
   }
 }
 .view-details-description {
-
   @media @phone {
     min-height:  50px;
     margin-bottom: -200px;

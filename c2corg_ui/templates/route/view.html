@@ -11,10 +11,10 @@ from json import dumps
     show_areas, show_float_buttons, show_maps, get_route_activities,
     show_associated_waypoints, show_associated_routes, show_associated_outings,
     delete_association_confirmation_modal" />
-    
-<%namespace file="helpers/detailed_route_attributes.html" import="get_route_location, 
+
+<%namespace file="helpers/detailed_route_attributes.html" import="get_route_location,
     get_route_rating, get_route_general, get_route_heights, get_route_access, get_route_associated_maps" />
- 
+
 <%
 route_id = route['document_id']
 route['doctype'] = 'routes'
@@ -83,16 +83,6 @@ other_langs, missing_langs = get_lang_lists(route, lang)
 
 <section class="view-details-section" app-view-details>
 
-  <uib-tabset>
-    <uib-tab heading="{{mainCtrl.translate('Description')}}" ng-click="detailsCtrl.openTab('description')" id="description-tab"></uib-tab>
-    <uib-tab heading="{{mainCtrl.translate('Details')}}" ng-click="detailsCtrl.openTab('informations')"></uib-tab>
-    % if route.get('associations'):
-      % if 'routes' in route['associations']  or 'waypoint' in route['associations']  :
-        <uib-tab heading="{{mainCtrl.translate('Associations')}}" ng-click="detailsCtrl.openTab('associations')"></uib-tab>
-      % endif
-    % endif
-  </uib-tabset>
-            
     % if route.get('areas'):
       <article class="location-static text-center">
         <span class="pin"></span>
@@ -105,7 +95,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
     ${get_image_gallery()}
   % endif
 
-      <div class="thumbnail view-details-informations tab  col-sm-12 informations">
+      <div class="thumbnail view-details-informations   col-sm-12 informations">
         <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
           <span translate>Informations</span><span class="glyphicon glyphicon-menu-down"></span>
         </h3>
@@ -118,10 +108,10 @@ other_langs, missing_langs = get_lang_lists(route, lang)
           ${get_route_associated_maps(route)}
         </section>
       </div>
-  
+
     ## DESCRIPTION
     % if locale['summary'] or locale['description']:
-    <div class="view-details-description col-xs-12 tab description">
+    <div class="view-details-description col-xs-12  description">
       <h3 class="heading show-phone"><span translate>description</span></h3>
       <span class="lead">
         <div id="document-description" class="collapse in">
@@ -142,21 +132,21 @@ other_langs, missing_langs = get_lang_lists(route, lang)
     </div>
     % endif
 
-    <div class="description tab">
+    <div class="description ">
       ${get_document_locale_text(locale, 'remarks')}
       ${get_document_locale_text(locale, 'gear')}
       ${get_document_locale_text(locale, 'route_history')}
     </div>
-    
+
   ## ASSOCIATIONS
   % if not version:
-    <div class="view-details-associations col-xs-12 tab associations">
+    <div class="view-details-associations col-xs-12  associations">
       <span class="lead">
         <section>
           <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
             <label translate>Add association</label>
             <app-add-association parent-id="${route_id}" parent-doctype="routes" dataset="wr"></app-add-association>
-          </div>  
+          </div>
           % if len(route['associations']['recent_outings']['outings']) == 0:
             <div class="add-outing">
               <p class="text-center"><strong translate>no outings yet?</strong><p>
@@ -170,9 +160,9 @@ other_langs, missing_langs = get_lang_lists(route, lang)
         </section>
       </span>
     </div>
-  
+
     % if 'recent_outings' in route['associations'] and route['associations']['recent_outings']['total'] > 0:
-    <div class="view-details-associations col-xs-12 tab associations">
+    <div class="view-details-associations col-xs-12  associations">
       <span class="lead">
         <section>
           ${show_associated_outings(route)}
@@ -181,7 +171,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
     </div>
     % endif
   % endif
-  
+
   ## OTHER BUTTON contents
   % if version:
   ${show_archive_data('routes', route, locale, version)}

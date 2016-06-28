@@ -11,11 +11,11 @@ from json import dumps
     get_waypoint_access, get_waypoint_heights, get_waypoint_location, get_waypoint_general,
     get_waypoint_maps_info"/>
 <%namespace file="../helpers/view.html" import="get_image_gallery, photoswipe_gallery, get_document_locale_text,
-    show_attr, show_missing_langs_links, show_other_langs_links, show_archive_data, 
+    show_attr, show_missing_langs_links, show_other_langs_links, show_archive_data,
     show_route_title, show_areas, show_maps, show_float_buttons,
     show_associated_waypoints, show_associated_routes, show_associated_outings,
     delete_association_confirmation_modal"/>
-    
+
 <%
 waypoint_id = waypoint['document_id']
 other_langs, missing_langs = get_lang_lists(waypoint, lang)
@@ -97,25 +97,12 @@ geometry4326 = geometry
 
 <section class="view-details-section" app-view-details>
 
-  <uib-tabset>
-    <uib-tab heading="{{mainCtrl.translate('Description')}}" ng-click="detailsCtrl.openTab('description')" id="description-tab"></uib-tab>
-    <uib-tab heading="{{mainCtrl.translate('Details')}}" ng-click="detailsCtrl.openTab('informations')"></uib-tab>
-    <%
-        hasAssociatedWaypoints = 'waypoints' in waypoint['associations'] and len(waypoint['associations']['waypoints']) > 0
-        hasAssociatedWaypointParents = 'waypoint_parents' in waypoint['associations'] and len(waypoint['associations']['waypoint_parents']) > 0
-        hasAssociatedRoutes = 'all_routes' in waypoint['associations'] and waypoint['associations']['all_routes']['total'] > 0
-    %>
-    % if not version and (hasAssociatedWaypoints or hasAssociatedWaypointParents or hasAssociatedRoutes):
-      <uib-tab heading="{{mainCtrl.translate('Associations')}}" ng-click="detailsCtrl.openTab('associations')"></uib-tab>
-    % endif
-  </uib-tabset>
-
   ## IMAGES
   % if not version:
     ${get_image_gallery()}
   % endif
-  
-  <div class="view-details-informations col-xs-12 tab informations">
+
+  <div class="view-details-informations col-xs-12  informations">
     <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
       <span translate>Informations</span><span class="glyphicon glyphicon-menu-down"></span>
     </h3>
@@ -132,11 +119,11 @@ geometry4326 = geometry
       ${get_waypoint_access(waypoint, locale)}
     </section>
   </div>
-  
+
   ## DESCRIPTION
   % if locale['summary'] or locale['description']:
-    <div class="view-details-description col-xs-12 tab description">
-      <h3 class="heading"><span translate>description</span></h3>
+    <div class="view-details-description col-xs-12  description">
+      <h3 class="heading show-phone"><span translate>description</span></h3>
       <span class="lead">
         <div id="document-description" class="collapse in">
           % if locale['summary']:
@@ -156,14 +143,14 @@ geometry4326 = geometry
     </div>
   % endif
 
-  <div class="description tab">
+  <div class="description ">
     ${get_document_locale_text(locale, 'access')}
     ${get_document_locale_text(locale, 'access_period')}
   </div>
 
   ## ASSOCIATIONS
   % if not version:
-    <div class="view-details-associations col-xs-12 tab associations">
+    <div class="view-details-associations col-xs-12  associations">
       <span class="lead">
         <section>
           <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
@@ -176,7 +163,7 @@ geometry4326 = geometry
       </span>
     </div>
 
-    <div class="view-details-associations col-xs-12 tab associations">
+    <div class="view-details-associations col-xs-12  associations">
       <span class="lead">
         <section>
           ${show_associated_routes(waypoint, 'all_routes')}
@@ -185,7 +172,7 @@ geometry4326 = geometry
     </div>
 
     % if 'recent_outings' in waypoint['associations'] and waypoint['associations']['recent_outings']['total'] > 0:
-      <div class="view-details-associations col-xs-12 tab associations">
+      <div class="view-details-associations col-xs-12  associations">
         <span class="lead">
           <section>
             ${show_associated_outings(waypoint)}
