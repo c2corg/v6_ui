@@ -1056,9 +1056,12 @@ ul {
       position: absolute;
       color: red;
       font-size: 1.3em;
-      right: 0;
-      margin-right: 5px;
+      right: 10px;
       top: 80%;
+      @media @phone {
+        font-size: 1em;
+        top: 78%;
+      }
     }
   }
   .route-activities {
