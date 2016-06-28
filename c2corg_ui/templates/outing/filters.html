@@ -26,6 +26,28 @@ from c2corg_common.attributes import default_langs, quality_types, activities, f
     <div class="row collapse" id="moreFilters">
 
       <div class="col-xs-12 col-sm-6 filter">
+        <label translate>date_start</label><br>
+        <div class="input-group" ng-model="filtersCtrl.dates[0]"
+             uib-datepicker-popup="dd MM yyyy" is-open="openDateStart" ng-change="filtersCtrl.setDate('date')">
+          <input type="text" disabled class="form-control" value="{{filtersCtrl.dates[0] | amDateFormat:'Do MMMM YYYY'}}" required/>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="openDateStart = true"><span class="glyphicon glyphicon-calendar"></span></button>
+          </span>
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-sm-6 filter">
+        <label translate>date_end</label><br>
+        <div class="input-group" ng-model="filtersCtrl.dates[1]"
+             uib-datepicker-popup="dd MM yyyy" is-open="openDateEnd" ng-change="filtersCtrl.setDate('date')">
+          <input type="text" disabled class="form-control" value="{{filtersCtrl.dates[1] | amDateFormat:'Do MMMM YYYY'}}" required/>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="openDateEnd = true"><span class="glyphicon glyphicon-calendar"></span></button>
+          </span>
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-sm-6 filter">
         <label translate>elevation_max</label><br>
         <app-slider filter="oalt" filters-list="filtersCtrl.filters" max="8850"></app-slider>
       </div>

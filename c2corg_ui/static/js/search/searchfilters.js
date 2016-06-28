@@ -104,6 +104,12 @@ app.SearchFiltersController = function($scope, ngeoLocation, ngeoDebounce,
    */
   this.loading_ = true;
 
+  /**
+   * @type {Array.<Date>}
+   * @export
+   */
+  this.dates = [];
+
   // Fill the filters according to the loaded URL parameters
   var keys = this.location_.getParamKeys().filter(function(x) {
     return app.SearchFiltersController.IGNORED_FILTERS.indexOf(x) === -1;
@@ -142,21 +148,30 @@ app.SearchFiltersController.prototype.getFilterFromPermalink_ = function(key) {
     return;
   }
   if (key === 'qa') {
-    this.createListFilter_(key, val);
+    this.filters[key] = val.split(',');
   } else if (key in this.config_) {
     // Filters are described in the 'advancedSearchFilters' module value
     // set in c2corg_ui/templates/*/index.html.
     switch (this.config_[key]['type']) {
       case 'list':
-        this.createListFilter_(key, val);
+        this.filters[key] = val.split(',');
         break;
       case 'range':
-        this.createRangeFilter_(key, val);
+        this.filters[key] = val.split(',').map(function(x) {
+          return parseInt(x, 10);
+        });
         break;
       case 'orientations':
-        this.createListFilter_(key, val);
+        this.filters[key] = val.split(',');
         // initialize the orientations SVG
         this.orientations = this.filters[key];
+        break;
+      case 'date':
+        var dates = val.split(',');
+        dates.forEach(function(date) {
+          this.dates.push(app.utils.formatDate(date));
+        }.bind(this));
+        this.filters[key] = dates;
         break;
       default:
         break;
@@ -164,28 +179,6 @@ app.SearchFiltersController.prototype.getFilterFromPermalink_ = function(key) {
   } else {
     this.filters[key] = val;
   }
-};
-
-
-/**
- * @param {string} key Filter key.
- * @param {string} val Filter value.
- * @private
- */
-app.SearchFiltersController.prototype.createListFilter_ = function(key, val) {
-  this.filters[key] = val.split(',');
-};
-
-
-/**
- * @param {string} key Filter key.
- * @param {string} val Filter value.
- * @private
- */
-app.SearchFiltersController.prototype.createRangeFilter_ = function(key, val) {
-  this.filters[key] = val.split(',').map(function(x) {
-    return parseInt(x, 10);
-  });
 };
 
 
@@ -232,6 +225,7 @@ app.SearchFiltersController.prototype.clear = function() {
   }
   this.filters = {};
   this.orientations = [];
+  this.dates = [];
   this.scope_.$root.$emit('searchFilterClear');
 };
 
@@ -272,6 +266,38 @@ app.SearchFiltersController.prototype.toggleCheckbox = function(filterName) {
   } else {
     this.filters[filterName] = true;
   }
+};
+
+
+/**
+ * @param {string} filterName Name of the filter param.
+ * @export
+ */
+app.SearchFiltersController.prototype.setDate = function(filterName) {
+  this.dates = this.dates.filter(function(date) {
+    return date !== null;
+  });
+  if (this.dates.length) {
+    this.filters[filterName] = this.dates.map(this.formatDate_);
+  } else {
+    delete this.filters[filterName];
+    this.location_.deleteParam(filterName);
+  }
+};
+
+
+/**
+ * @param {Date} date
+ * @return {string}
+ * @private
+ */
+app.SearchFiltersController.prototype.formatDate_ = function(date) {
+  var year = date.getFullYear().toString();
+  var month = date.getMonth() + 1;
+  month = month < 10 ? '0' + month.toString() : month.toString();
+  var day = date.getDate();
+  day = day < 10 ? '0' + day.toString() : day.toString();
+  return year + '-' + month + '-' + day;
 };
 
 
