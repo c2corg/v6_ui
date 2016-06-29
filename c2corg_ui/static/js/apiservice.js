@@ -437,23 +437,6 @@ app.Api.prototype.uploadImage = function(file, canceller, progress) {
 
 
 /**
- * @param {File} file
- */
-app.Api.prototype.updateImageMetadata = function(file) {
-  console.log('updating image');
-  console.log(file);
-};
-
-
-/**
- * @param {number} index
- */
-app.Api.prototype.abortUploadingImage = function(index) {
-  console.log('abort uploading image');
-};
-
-
-/**
  * Saves the images and sends the metadatas (exif, title, server_file_name, activities...)
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  * @param {Array<File>} files
