@@ -54,7 +54,7 @@ app.utils.setupSmartScroll = function(mouseWheelZoomInteraction) {
     }
     scrollTimer = setTimeout(function() {
       mouseWheelZoomInteraction.setActive(true);
-    }, 500);
+    }, 1000);
   });
 };
 
