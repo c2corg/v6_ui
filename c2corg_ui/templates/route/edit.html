@@ -145,11 +145,6 @@ updating_doc = route_id and route_lang
             ## ORIENTATION
             <div class="form-group data half">
               <label><span translate>orientation</span></label>
-              <ul class="types long" id="orientation-list">
-                <li ng-repeat="type in ${orientation_types}" ng-click="editCtrl.pushToArray(route, 'orientations', type, $event)">
-                  <div class="checkbox"><input type="checkbox" ng-checked="route.orientations.indexOf(type) > - 1"><span x-translate>{{type}}</span></div>
-                </li>
-              </ul>
               ${show_orientations('editCtrl', 'route')}
             </div>
                
