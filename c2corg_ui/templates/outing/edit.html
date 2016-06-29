@@ -1,5 +1,5 @@
 <%!
-from c2corg_common.attributes import default_langs, activities, condition_ratings, awesomeness, quality_types, hut_status, lift_status, frequentation_types, avalanche_signs,  route_duration_types, access_conditions, public_transportation_types, glacier_ratings
+from c2corg_common.attributes import default_langs, activities, condition_ratings, awesomeness, quality_types, hut_status, lift_status, frequentation_types, avalanche_signs,  route_duration_types, access_conditions, glacier_ratings
 %>
 
 <%inherit file="../base.html"/>
@@ -94,12 +94,12 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## PARTIAL TRIP
-            <div class="form-group data half" ng-class="{'has-success': outing.partial_trip }">
-              <label translate>partial_trip</label>
-              <select ng-model="outing.partial_trip" class="form-control">
-                <option value="true">yes</option>
-                <option value="false">no</option>
-              </select>
+            <div class="form-group data half" ng-class="{'has-success': outing.partial_trip != undefined}">
+              <label class="text-center">
+                <label translate>partial_trip</label>
+              <input type="checkbox" ng-model="outing.partial_trip" ng-checked="outing.partial_trip == true">
+              <span></span>
+              </label>
             </div>
 
             ## DURATION
@@ -394,10 +394,12 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## PUBLIC TRANSPORT
-            <div class="form-group data half" ng-class="{'has-success': outing.public_transport}">
-              <label translate>public_transport</label>
-              <select class="form-control" ng-model="outing.public_transport" ng-options="rat as rat for rat in ${public_transportation_types}"><option value=""></option></select>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.public_transport"></span>
+            <div class="form-group data half" ng-class="{'has-success': outing.public_transport != undefined}">
+              <label class="text-center">
+                <label translate>public_transport</label>
+              <input type="checkbox" ng-model="outing.public_transport" ng-checked="outing.public_transport == true">
+              <span></span>
+              </label>
             </div>
 
             ## FREQUENTATION
