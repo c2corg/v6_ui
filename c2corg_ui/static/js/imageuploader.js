@@ -84,18 +84,6 @@ app.ImageUploaderController = function($scope, $uibModal, $compile, $q, appAlert
   this.q_ = $q;
 
   /**
-   * @type {Array.<angular.$q.Promise>}
-   * @export
-   */
-  this.uploading = [];
-
-  /**
-   * @type {Array.<!angular.$q.Deferred>}
-   * @export
-   */
-  this.cancellers = [];
-
-  /**
    * @type {Array.<File>}
    * @export
    */
@@ -204,8 +192,8 @@ app.ImageUploaderController.prototype.upload_ = function() {
         file['progress'] = 100 * progress;
         console.log('progress', 100 * progress, file['metadata']['id']);
       }.bind(this, file));
-      this.uploading[i] = promise;
-      this.cancellers.push(canceller);
+      file.uploading = promise;
+      file.canceller = canceller;
 
       promise.then(function(resp) {
         console.log('100% uploaded! ' + file['metadata']['title'] + ' ' + i);
@@ -224,8 +212,12 @@ app.ImageUploaderController.prototype.upload_ = function() {
  * @private
  */
 app.ImageUploaderController.prototype.areAllUploadedCheck_ = function(interval) {
-  this.q_.all(this.cancellers).then(function(res) {
-    if (this.files.length > 0 && (this.files.length === this.cancellers.length || this.cancellers.length >= this.cancellers.length)) {
+  var uploading = this.files.map(function(file) {
+    return file.uploading;
+  });
+
+  this.q_.all(this.uploading).then(function(res) {
+    if (this.files.length > 0) {
       this.areAllUploaded = true;
       clearInterval(interval);
     } else {
@@ -278,10 +270,7 @@ app.ImageUploaderController.prototype.save = function() {
  * @export
  */
 app.ImageUploaderController.prototype.abortUploadingImage = function(index) {
-  this.uploading.splice(index, 1);
-  this.files.splice(index, 1);
-  var canceller = this.cancellers.splice(index, 1)[0];
-  canceller.reject(); // cancel
+  this.files[index].canceller.resolve();
 };
 
 
