@@ -110,6 +110,27 @@ app.SearchFiltersController = function($scope, ngeoLocation, ngeoDebounce,
    */
   this.dates = [];
 
+  /**
+   * Start cannot be after today nor end_date.
+   * @type {Date}
+   * @export
+   */
+  this.dateMaxStart = new Date();
+
+  /**
+   * The end date cannot be before start nor today.
+   * @type {Date}
+   * @export
+   */
+  this.dateMaxEnd = new Date();
+
+  /**
+   * The end date cannot be before start.
+   * @type {?Date}
+   * @export
+   */
+  this.dateMinEnd = null;
+
   // Fill the filters according to the loaded URL parameters
   var keys = this.location_.getParamKeys().filter(function(x) {
     return app.SearchFiltersController.IGNORED_FILTERS.indexOf(x) === -1;
@@ -172,6 +193,7 @@ app.SearchFiltersController.prototype.getFilterFromPermalink_ = function(key) {
           this.dates.push(app.utils.formatDate(date));
         }.bind(this));
         this.filters[key] = dates;
+        this.updateMinMaxDates_();
         break;
       default:
         break;
@@ -225,7 +247,7 @@ app.SearchFiltersController.prototype.clear = function() {
   }
   this.filters = {};
   this.orientations = [];
-  this.dates = [];
+  this.resetDates_();
   this.scope_.$root.$emit('searchFilterClear');
 };
 
@@ -278,8 +300,10 @@ app.SearchFiltersController.prototype.setDate = function(filterName) {
     return date !== null;
   });
   if (this.dates.length) {
+    this.updateMinMaxDates_();
     this.filters[filterName] = this.dates.map(this.formatDate_);
   } else {
+    this.resetDates_();
     delete this.filters[filterName];
     this.location_.deleteParam(filterName);
   }
@@ -298,6 +322,31 @@ app.SearchFiltersController.prototype.formatDate_ = function(date) {
   var day = date.getDate();
   day = day < 10 ? '0' + day.toString() : day.toString();
   return year + '-' + month + '-' + day;
+};
+
+
+/**
+ * @private
+ */
+app.SearchFiltersController.prototype.updateMinMaxDates_ = function() {
+  var nb_dates = this.dates.length;
+  if (nb_dates > 0) {
+    this.dateMaxStart = nb_dates > 1 ? this.dates[1] : this.dateMaxStart;
+    this.dateMinEnd = this.dates[0];
+  } else {
+    this.resetDates_();
+  }
+};
+
+
+/**
+ * @private
+ */
+app.SearchFiltersController.prototype.resetDates_ = function() {
+  this.dates = [];
+  this.dateMaxStart = new Date();
+  this.dateMaxEnd = new Date();
+  this.dateMinEnd = null;
 };
 
 
