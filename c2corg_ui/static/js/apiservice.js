@@ -431,12 +431,7 @@ app.Api.prototype.uploadImage = function(file, canceller, progress) {
     'uploadEventHandlers': {
       progress: progress
     }
-  }).then(function(response) {
-    file['metadata']['filename'] = response['data']['filename'];
-    return file;
-  }, function() {
-    return this.q_.reject();
-  }.bind(this));
+  });
   return promise;
 };
 

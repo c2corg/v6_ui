@@ -228,6 +228,10 @@ msgstr ""
 msgid "Equipment"
 msgstr ""
 
+#: c2corg_ui/static/js/imageuploader.js
+msgid "Error while uploading the image :"
+msgstr ""
+
 #: c2corg_ui/templates/i18n.html
 msgid "Failed loading this map background"
 msgstr ""

@@ -190,15 +190,21 @@ app.ImageUploaderController.prototype.upload_ = function() {
       var promise = this.api_.uploadImage(file, canceller.promise, function(file, event) {
         var progress = event.loaded / event.total;
         file['progress'] = 100 * progress;
-        console.log('progress', 100 * progress, file['metadata']['id']);
       }.bind(this, file));
-      file.uploading = promise;
-      file.canceller = canceller;
+      file['uploading'] = promise;
+      file['canceller'] = canceller;
 
       promise.then(function(resp) {
-        console.log('100% uploaded! ' + file['metadata']['title'] + ' ' + i);
+        file['metadata']['filename'] = resp['data']['filename'];
       }.bind(this), function(resp) {
-        this.alerts_.addError('error while uploading the image ' + resp);
+        if (resp.status == -1) {
+          if (!file['manuallyAborted']) {
+            this.alerts_.addError(this.alerts_.gettext('Error while uploading the image : ') + 'Timeout');
+          }
+        } else {
+          this.alerts_.addError(this.alerts_.gettext('Error while uploading the image : ') + resp.statusText);
+        }
+        this.deleteImage(this.files.indexOf(file));
       }.bind(this));
     }
   }
@@ -212,11 +218,11 @@ app.ImageUploaderController.prototype.upload_ = function() {
  * @private
  */
 app.ImageUploaderController.prototype.areAllUploadedCheck_ = function(interval) {
-  var uploading = this.files.map(function(file) {
-    return file.uploading;
+  var promises = this.files.map(function(file) {
+    return file['uploading'];
   });
 
-  this.q_.all(this.uploading).then(function(res) {
+  this.q_.all(promises).then(function(res) {
     if (this.files.length > 0) {
       this.areAllUploaded = true;
       clearInterval(interval);
@@ -270,7 +276,8 @@ app.ImageUploaderController.prototype.save = function() {
  * @export
  */
 app.ImageUploaderController.prototype.abortUploadingImage = function(index) {
-  this.files[index].canceller.resolve();
+  this.files[index]['manuallyAborted'] = true;
+  this.files[index]['canceller'].resolve();
 };
 
 
