@@ -29,7 +29,7 @@
 <%def name="show_other_langs_links(module, document, other_langs)">\
   % if other_langs:
     <div id="other-langs">
-      <div class="modal-header"><h3 class="text-center" translate>View in other lang</h3></div>  
+      <div class="modal-header"><h3 class="text-center" translate>View in other lang</h3></div>
       <ul>
       % for l in other_langs:
         <li>
@@ -45,7 +45,7 @@
 <%def name="show_missing_langs_links(module, document, missing_langs)">\
 % if missing_langs:
   <div  id="missing-langs">
-    <div class="modal-header"><h3 class="text-center" translate>Translate into an other lang</h3></div>  
+    <div class="modal-header"><h3 class="text-center" translate>Translate into an other lang</h3></div>
     <ul>
       % for lang in missing_langs:
       <li protected-url-btn url="${request.route_url(module + '_edit', id=document['document_id'], lang=lang)}">
@@ -97,10 +97,10 @@
 
 
 <%def name="get_route_activities(route, tooltipPosition)">\
-  % if 'activities' in route and route.get('activities'): 
+  % if 'activities' in route and route.get('activities'):
     % for activity in route['activities'] :
       <span class="route-activity icon-${activity}" uib-tooltip="{{ mainCtrl.translate('${activity}') }}" tooltip-placement="${tooltipPosition}"></span>
-    % endfor 
+    % endfor
   % endif
 </%def>
 
@@ -173,7 +173,7 @@
       <div class="list-item"
         % if document['doctype'] == 'routes':
           ng-class="{'main-waypoint': doc.document_id === ${document['main_waypoint_id']}, 'new-item': doc['new']}"
-        % else: 
+        % else:
           ng-class="{'new-item': doc['new']}"
         % endif
           ng-repeat="doc in ${associations}">
@@ -226,9 +226,22 @@
 
 
 <%def name="get_document_locale_text(locale, text)">\
+
+
   ## WEATHER AND CONDITIONS
   % if text == 'weather':
-    % if locale['weather'] or locale['conditions'] or locale['conditions_levels']:
+  <%
+      if type(locale['conditions_levels']) is str:
+          cond = json.loads(locale['conditions_levels'])
+          conditions_levels_exist = (cond is not Null and len(cond)) and \
+              ( ('level_snow_height_total' in cond[0] and cond[0].get('level_snow_height_total') != '' and cond[0].get('level_snow_height_total') is not None) or \
+              ('level_snow_height_soft' in cond[0] and  cond[0]['level_snow_height_soft'] != '' and cond[0].get('level_snow_height_soft') is not None) or \
+              ('level_place' in cond[0] and cond[0].get('level_place')  != '') or \
+              ('level_comment' in cond[0] and cond[0].get('level_comment') != '') )
+      else:
+          conditions_levels_exist = False
+  %>
+  % if locale['weather'] or locale['conditions'] or conditions_levels_exist:
     <div class="view-details-info col-xs-12">
       <h3 class="heading closed show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#weather-conditions">
         <span translate>weather and conditions</span><span class="glyphicon glyphicon-menu-right"></span>
@@ -249,32 +262,45 @@
           </div>
           % endif
 
-          % if locale.get('conditions_levels') :
+          % if conditions_levels_exist:
             <div class="table-responsive">
               <table class="table table-striped conditions-levels">
                 <thead>
                   <tr>
-                    <th class="location"><span translate>location</span> / <span translate>altitude</span> / <span translate>orientation</span> / <span translate>time</span></th>
+                    <th class="location"><span translate>location</span> |
+                      <span translate>altitude</span> |
+                      <span translate>orientation</span> |
+                      <span translate>time</span>
+                    </th>
                     <th class="soft-snow" translate>soft snow</th>
                     <th class="total-snow" translate>total snow</th>
-                    <th class="comment" translate>comment</th>
+                    <th class="comment text-center" translate>comment</th>
                   </tr>
                 </thead>
                 <tbody>
-                  % for condition in json.loads(locale['conditions_levels']):
+                  % for condition in cond:
                   <tr>
-                    <td>${condition['level_place']}</td>
-                    % if 'level_snow_height_soft' in condition and condition['level_snow_height_soft'] != '':
-                    <td>${condition['level_snow_height_soft']} cm</td>
+                    ## print empty td for alignement
+                    % if 'level_place' and condition.get('level_place'):
+                      <td>${condition['level_place']}</td>
+                    % else:
+                      <td></td>
+                    % endif
+                    % if 'level_snow_height_soft' in condition and condition['level_snow_height_soft'] != '' and condition['level_snow_height_soft'] is not None:
+                      <td>${condition['level_snow_height_soft']} cm</td>
                     % else:
                     <td></td>
                     % endif
-                    % if 'level_snow_height_total' in condition and condition['level_snow_height_total'] != '':
-                    <td>${condition['level_snow_height_total']} cm</td>
+                    % if 'level_snow_height_total' in condition and condition['level_snow_height_total'] != '' and condition['level_snow_height_total']:
+                      <td>${condition['level_snow_height_total']} cm</td>
                     % else:
                     <td></td>
                     % endif
-                    <td >${condition['level_comment']}</td>
+                    % if 'level_comment' and condition.get('level_comment'):
+                      <td >${condition['level_comment']}</td>
+                    % else:
+                      <td></td>
+                    % endif
                   </tr>
                   % endfor
                 </tbody>
@@ -283,10 +309,10 @@
           % endif
         </div>
       </section>
-      
+
    </div>
     % endif
-    
+
   % else :
     % if text in locale and locale[text]:
       <div class="view-details-info col-xs-12">
@@ -313,18 +339,18 @@
         <span class="glyphicon glyphicon-edit"></span>
         <p class="float-button-text" translate>Edit</p>
       </div>
-    
+
     <div class="float-button float-favorites" tooltip-placement="left" uib-tooltip="{{'Add images' | translate}}"
          ng-click="uplCtrl.openModal()" ng-if="userCtrl.auth.isAuthenticated() && detailsCtrl.documentService.isCollaborative('${doctype}')">
       <span class="glyphicon glyphicon-picture"></span>
       <p class="float-button-text" translate>Add images</p>
     </div>
-    
+
     <div class="float-button float-favorites" tooltip-placement="left" uib-tooltip="{{'Add to favorites' | translate}}">
       <span class="glyphicon glyphicon-heart"></span>
       <p class="float-button-text" translate>Favorites</p>
     </div>
-    
+
     <div class="float-button float-comments" tooltip-placement="left" uib-tooltip="{{'Comments' | translate}}">
       <span class="glyphicon glyphicon-comment"></span>
       <p class="float-button-text" translate>Comments</p>
@@ -350,7 +376,7 @@
         <li><a href="#">Save</a></li>
       </ul>
     </div>
-    
+
   </div>
 </%def>
 
@@ -358,7 +384,7 @@
 <%def name="get_document_min_max(document, prop)">\
   % if document.get(prop + '_min') and document.get(prop + '_max') and (document.get(prop + '_max') is not None and document.get(prop + '_min') is not None):
   <p><b x-translate class="value-title">${prop}</b>: <span class="value">min ${document[prop + '_min']} m / max ${document[prop + '_max']} m</span></p>
-  %  elif (document.get(prop + '_min') and document.get(prop + '_min') is not None) and not document.get(prop + '_max'): 
+  %  elif (document.get(prop + '_min') and document.get(prop + '_min') is not None) and not document.get(prop + '_max'):
   <p><b x-translate class="value-title">${prop + '_min'}</b>: <span class="value">${document[prop + '_min']} m</span></p>
   % elif document.get(prop + '_max') and document.get(prop + '_max') is not None:
   <p><b x-translate class="value-title">${prop + '_max'}</b>: <span class="value">${document[prop + '_max']} m</span></p>
@@ -369,7 +395,7 @@
 <%def name="get_document_up_down(document, prop)">\
   % if document.get(prop + '_down') and document.get(prop + '_up') and (document.get(prop + '_up') is not None and document.get(prop + '_down') is not None):
   <p><b x-translate class="value-title">${prop}</b>: <span class="value">-${document[prop + '_down']} m / +${document[prop + '_up']} m</span></p>
-  %  elif (document.get(prop + '_down') and document.get(prop + '_down') is not None) and not document.get(prop + '_up'): 
+  %  elif (document.get(prop + '_down') and document.get(prop + '_down') is not None) and not document.get(prop + '_up'):
   <p><b x-translate class="value-title">${prop + '_down'}</b>: <span class="value">${document[prop + '_down']} m</span></p>
   % elif document.get(prop + '_up') and document.get(prop + '_up') is not None:
   <p><b x-translate class="value-title">${prop + '_up'}</b>: <span class="value">${document[prop + '_up']} m</span></p>
@@ -379,11 +405,11 @@
 
 <%def name="get_skitouring_rating(document)">\
   % if document.get('ski_rating') or document.get('ski_exposition') or document.get('labande_ski_rating') or document.get('labande_global_rating'):
-  
+
     <div class="rating-block b">
       % if document.get('ski_rating'):
         <span uib-tooltip="{{mainCtrl.translate('ski_rating')}}" class="value">${document['ski_rating']}</span>
-      % endif 
+      % endif
       ${'/' if document.get('ski_rating') and document.get('ski_exposition') else ''}
       % if document.get('ski_exposition'):
         <span uib-tooltip="{{mainCtrl.translate('ski_exposition')}}" class="value">${document['ski_exposition']}</span>
@@ -393,13 +419,13 @@
     <div class="rating-block b">
       % if document.get('labande_global_rating'):
         <span uib-tooltip="{{mainCtrl.translate('labande_global_rating')}}" class="value">${document['labande_global_rating']}</span>
-      % endif 
+      % endif
       ${'/' if document.get('labande_global_rating') and document.get('labande_ski_rating') else ''}
       % if document.get('labande_ski_rating') is not None:
         <span uib-tooltip="{{mainCtrl.translate('labande_ski_rating')}}" class="value">${document['labande_ski_rating']}</span>
       %endif
      </div>
-  
+
   % endif
 </%def>
 
@@ -407,7 +433,7 @@
 ## GET HIKING MTB RATING
 <%def name="get_hiking_mtb_rating(document)">\
   % if document.get('hiking_rating') or document.get('hiking_mtb_exposition') :
-  
+
       % if document.get('hiking_rating'):
         <div class="rating-block c">
           <span uib-tooltip="{{mainCtrl.translate('hiking_rating')}}" class="value">${document['hiking_rating']}</span>
@@ -430,7 +456,7 @@
             <span uib-tooltip="{{mainCtrl.translate('mtb_down_rating')}}" class="value space">${document['mtb_down_rating']}</span>
           % endif
         </div>
-      % endif 
+      % endif
 
   % endif
 </%def>
@@ -455,7 +481,7 @@
       % endif
       </div>
     % endif
-    
+
     % if route.get('aid_rating'):
       <span uib-tooltip="{{mainCtrl.translate('aid_rating')}}" class="value">${route['aid_rating']}</span>&nbsp;
     % endif
@@ -487,7 +513,7 @@
     % if route.get('exposition_rock_rating'):
      <span uib-tooltip="{{mainCtrl.translate('exposition_rock_rating')}}" class="value">${route['exposition_rock_rating']}</span>&nbsp;
     % endif
-      
+
   % endif
 </%def>
 
@@ -495,23 +521,23 @@
   ## Root element of PhotoSwipe. Must have class pswp.
   <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 
-    ## Background of PhotoSwipe. 
-    ## It's a separate element as animating opacity is faster than rgba(). 
+    ## Background of PhotoSwipe.
+    ## It's a separate element as animating opacity is faster than rgba().
     <div class="pswp__bg"></div>
 
-    ## Slides wrapper with overflow:hidden. 
+    ## Slides wrapper with overflow:hidden.
     <div class="pswp__scroll-wrap">
 
-      ## Container that holds slides. 
+      ## Container that holds slides.
       ## PhotoSwipe keeps only 3 of them in the DOM to save memory.
-      ## Don't modify these 3 pswp__item elements, data is added later on. 
+      ## Don't modify these 3 pswp__item elements, data is added later on.
       <div class="pswp__container">
         <div class="pswp__item"></div>
         <div class="pswp__item"></div>
         <div class="pswp__item"></div>
       </div>
 
-      ## Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. 
+      ## Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed.
       <div class="pswp__ui pswp__ui--hidden">
 
         <div class="pswp__top-bar">
@@ -521,8 +547,8 @@
           <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
           <button class="pswp__button info"><span class="glyphicon glyphicon-info-sign"></span></button>
 
-          ## Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR 
-          ## element will get class pswp__preloader--active when preloader is running 
+          ## Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR
+          ## element will get class pswp__preloader--active when preloader is running
           <div class="pswp__preloader">
             <div class="pswp__preloader__icn">
               <div class="pswp__preloader__cut">
@@ -537,7 +563,7 @@
         </div>
 
         <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-          <div class="pswp__share-tooltip"></div> 
+          <div class="pswp__share-tooltip"></div>
         </div>
 
         <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
@@ -553,7 +579,7 @@
 
 <%def name="delete_association_confirmation_modal()">\
   <div id="delete-association-modal">
-    <div class="modal-header"><h3 class="text-center" translate>Remove association</h3></div>  
+    <div class="modal-header"><h3 class="text-center" translate>Remove association</h3></div>
     <div class="modal-body">
       <p translate class="text-center">Are you sure you want to delete this association?</p>
     </div>
