@@ -39,7 +39,7 @@ after_failure:
   cat v6_api/nohup.out
 
 after_success:
-- make cleanall publish
+- if [ "$TRAVIS_NODE_VERSION" = "4" ]; then make cleanall publish; fi
 
 notifications:
   email: false
