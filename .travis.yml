@@ -1,5 +1,8 @@
-sudo: false
+sudo: required
 language: python
+
+services:
+- docker
 
 python:
 - 3.4
@@ -25,6 +28,9 @@ script:
 
 after_failure:
   cat v6_api/nohup.out
+
+after_success:
+- make cleanall publish
 
 notifications:
   email: false

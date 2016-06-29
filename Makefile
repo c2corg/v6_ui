@@ -37,6 +37,7 @@ help:
 	@echo "- upgrade		Upgrade the Python dependencies."
 	@echo "- upgrade-dev		Upgrade the Python dev. dependencies."
 	@echo "- less			Rebuild CSS files."
+	@echo "- publish		Push docker image to dockerhub from travis-ci"
 	@echo
 
 .PHONY: check
@@ -165,3 +166,9 @@ $(TEMPLATE_FILES): %: %.in
 	scripts/env_replace < $< > $@
 	chmod --reference $< $@
 	sed -i 's|__CLOSURE_LIBRARY_PATH__|$(CLOSURE_LIBRARY_PATH)|g' $@
+
+.PHONY: publish
+publish: template
+	scripts/travis-build.sh
+	scripts/travis-publish.sh
+
