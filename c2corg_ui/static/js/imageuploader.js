@@ -40,13 +40,12 @@ app.module.directive('appImageUploader', app.imageUploaderDirective);
  * @param {angular.$q} $q promise
  * @param {app.Api} appApi Api service.
  * @param {app.Alerts} appAlerts
- * @param {Object} Upload ng-file-upload Upload service.
  * @param {app.Document} appDocument service
  * @constructor
  * @struct
  * @ngInject
  */
-app.ImageUploaderController = function($scope, Upload, $uibModal, $compile, $q, appAlerts, appApi, appDocument) {
+app.ImageUploaderController = function($scope, $uibModal, $compile, $q, appAlerts, appApi, appDocument) {
 
   /**
    * @type {app.Document}
@@ -83,11 +82,6 @@ app.ImageUploaderController = function($scope, Upload, $uibModal, $compile, $q, 
    * @private
    */
   this.q_ = $q;
-
-  /**
-   * @private
-   */
-  this.Upload_ = Upload;
 
   /**
    * @type {Array.<angular.$q.Promise>}
