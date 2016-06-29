@@ -109,6 +109,8 @@ app.OutingFiltersController.prototype.setDate = function(filterName) {
  * @private
  */
 app.OutingFiltersController.prototype.formatDate_ = function(date) {
+  // TODO use angular-moment instead. Eg.
+  // return this.moment_(date).format('YYYY-MM-DD');
   var year = date.getFullYear().toString();
   var month = date.getMonth() + 1;
   month = month < 10 ? '0' + month.toString() : month.toString();
