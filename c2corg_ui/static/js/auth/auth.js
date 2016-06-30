@@ -126,7 +126,8 @@ app.AuthController = function($scope, appApi, appAuthentication,
     }.bind(this));
     this.uiStates = {};
   } else if (this.ngeoLocation_.hasParam('change_password')) {
-    // Activate and log in from API by using the nonce
+    // Display the new password form and populate the nonce field.
+    // On submission success the user will be logged in.
     this.nonce_ = get_nonce('change_password');
     this.uiStates = {
       'showChangePasswordForm': true
