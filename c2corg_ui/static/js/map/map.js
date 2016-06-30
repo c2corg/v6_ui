@@ -459,12 +459,15 @@ app.MapController.prototype.createLineStyle_ = function(feature,
  * @private
  */
 app.MapController.prototype.showFeatures_ = function(features, recenter) {
-  goog.asserts.assert(features.length > 0);
   var vectorLayer = this.getVectorLayer_();
   var source = vectorLayer.getSource();
   source.clear();
-  source.addFeatures(features);
 
+  if (!features.length) {
+    return;
+  }
+
+  source.addFeatures(features);
   if (recenter) {
     if (features.length == 1 &&
         features[0].getGeometry() instanceof ol.geom.Point) {

@@ -1,104 +1,145 @@
 <%!
-from c2corg_common.attributes import default_langs, route_types, activities, route_duration_types
+from c2corg_common.attributes import default_langs, quality_types, activities, frequentation_types, \
+    condition_ratings, glacier_ratings, avalanche_signs
 %>
-<form app-search-filters>
+<%namespace file="../helpers/filters.html" import="add_multiselect"/>
+<form app-search-filters app-search-filters-controller-name="appOutingFiltersController">
   <div class="filters">
     <div class="row simple-filters">
-      
-      <div class="col-xs-12 col-sm-6 col-md-4 filter">
-        <label translate>GPS Track</label>
-        <select class="form-control" ng-model="searchFiltersCtrl.georef"><option translate>Yes</option><option translate>No</option></select>
-      </div>
-      
-      <div class="col-xs-12 col-sm-6 col-md-4 filter">
-        <label>{{'type'| translate | capitalize }}</label><br>
-        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-          <p>
-            <span ng-if="searchFiltersCtrl.route_types.length > 0"> ({{searchFiltersCtrl.route_types.length}})</span>
-            <span class="glyphicon glyphicon-menu-down"></span>
-          </p>
-        </button>
-        <ul class="dropdown-menu multiselect-box type">
-          <li ng-repeat="type in ['${"','".join(route_types) |n}']">
-            <a data-value="{{type}}" ng-click="searchFiltersCtrl.selectOption(type, 'route_types', $event)">
-              <input type="checkbox">
-              <span class="activity">{{mainCtrl.translate(type) | capitalize}}</span>
-            </a>
-          </li>
-        </ul>
+
+      <div class="filter">
+        <label translate>title</label>
+        <input type="text" class="form-control" ng-model="filtersCtrl.filters.q">
       </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-4 filter">
-        <label translate>duration_types</label>
-        <div class="input-group">
-          <select class="form-control" ng-model="outing.duration" ng-options="dur as dur for dur in ${route_duration_types}"></select>
-          <span class="input-group-addon">H</span>
-        </div>
+      <div class="filter">
+        <label translate>activities</label><br>
+        ${add_multiselect('act', activities)}
       </div>
 
+      <div class="filter">
+        <label translate>condition_rating</label><br>
+        <app-slider filter="ocond" filters-list="filtersCtrl.filters" unit=""
+          values-list="['${"','".join(condition_ratings) |n}']"></app-slider>
+      </div>
     </div>
     <div class="row collapse" id="moreFilters">
-      
-      <div class="col-xs-12 filter route-activities" ng-init="activities = ${activities}">
-        <label translate>activities</label><br>
-        <div class="activities">
-          <div ng-repeat="activity in activities" class="activity" ng-if="activity !== 'paragliding' ">
-            <div>
-              <div class="icon-{{activity}}" class="icon-" ng-click="editCtrl.pushToArray(outing, 'activities', activity, $event)"
-                   ng-class="{'activity-selected' : outing.activities.indexOf(activity) > -1}">
-              </div>
-              <p>{{activity | translate}}</p>
-            </div>
-          </div>
+
+      <div class="col-xs-12 col-sm-6 filter">
+        <label translate>date_start</label><br>
+        <div class="input-group" ng-model="filtersCtrl.dates[0]" datepicker-options="{maxDate: filtersCtrl.dateMaxStart}"
+             uib-datepicker-popup="dd MM yyyy" is-open="openDateStart" ng-change="filtersCtrl.setDate('date')">
+          <input type="text" disabled class="form-control" value="{{filtersCtrl.dates[0] | amDateFormat:'Do MMMM YYYY'}}" required/>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="openDateStart = true"><span class="glyphicon glyphicon-calendar"></span></button>
+          </span>
         </div>
       </div>
-      <div class="col-xs-12 filter route-activities show-tight" ng-init="activities = ${activities}">
-        <label translate>activities</label><br>
-        <ul class="activities">
-          <li ng-repeat="activity in activities" class="activity" ng-if="activity !== 'paragliding' ">
-            <div class="checkbox"><input type="checkbox"><span x-translate>{{activity | translate}}</span></div>
-          </li>
-        </ul>
+
+      <div class="col-xs-12 col-sm-6 filter">
+        <label translate>date_end</label><br>
+        <div class="input-group" ng-model="filtersCtrl.dates[1]" datepicker-options="{maxDate: filtersCtrl.dateMaxEnd, minDate: filtersCtrl.dateMinEnd}"
+             uib-datepicker-popup="dd MM yyyy" is-open="openDateEnd" ng-change="filtersCtrl.setDate('date')">
+          <input type="text" disabled class="form-control" value="{{filtersCtrl.dates[1] | amDateFormat:'Do MMMM YYYY'}}" required/>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="openDateEnd = true"><span class="glyphicon glyphicon-calendar"></span></button>
+          </span>
+        </div>
       </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-4 filter">
-        <label translate>lang</label>
-        <select ng-model="searchFiltersCtrl.lang" class="form-control" ng-options="lang as (mainCtrl.translate(lang) |  capitalize ) for lang in ['${"','".join(default_langs) |n}'] | translate" ng-model="lang"></select>
-      </div>
-      
-      <div class="col-xs-12 col-sm-6 col-md-4 filter">
-        <label>{{'summit'| translate | capitalize}}</label>
-        <input type="text" class="form-control">
+      <div class="col-xs-12 col-sm-6 filter">
+        <label translate>elevation_max</label><br>
+        <app-slider filter="oalt" filters-list="filtersCtrl.filters" max="8850"></app-slider>
       </div>
 
-      <div class="col-xs-12 col-sm-5 col-md-5 filter">
-        <label translate>height_diff</label><br>
-        <input type="range" class="range-between" id="height-filter" data-slider-tooltip="hide">
-        <span class="slider-min-max">
-          <p class="min-value">{{searchFiltersCtrl.height_diff_up.min}} m</p>
-          <p class="max-value">{{searchFiltersCtrl.height_diff_up.max}} m</p>
-        </span>
+      <div class="col-xs-12 col-sm-6 filter">
+        <label translate>height_diff_up</label><br>
+        <app-slider filter="odif" filters-list="filtersCtrl.filters" max="5000"></app-slider>
       </div>
-      <div class="col-xs-12 col-sm-5 col-md-5 filter">
-        <label translate>elevation</label><br>
-        <input type="range" id="elevation-filter" class="range-between" data-slider-tooltip="hide">
-        <span class="slider-min-max">
-          <p class="min-value">{{searchFiltersCtrl.elevation.min}} m</p>
-          <p class="max-value">{{searchFiltersCtrl.elevation.max}} m</p>
-        </span>
+
+      <div class="col-xs-12 col-sm-6 filter">
+        <label translate>elevation_access</label><br>
+        <app-slider filter="oparka" filters-list="filtersCtrl.filters" max="5000"></app-slider>
       </div>
-      <div class="row filters-bottom-buttons">
-        <button class="btn less-filters-btn gray-btn" data-toggle="collapse" data-target="#moreFilters" 
-                aria-expanded="false"> <span translate>close and cancel</span> 
-        </button>
+
+      <div class="col-xs-12 col-sm-6 filter">
+        <label translate>frequentation</label><br>
+        <app-slider filter="ofreq" filters-list="filtersCtrl.filters" unit=""
+          values-list="['${"','".join(frequentation_types) |n}']"></app-slider>
+      </div>
+
+      <div class="col-xs-12 col-sm-6 filter">
+        <label translate>public_transport</label><br>
+        <a ng-click="filtersCtrl.toggleCheckbox('owpt')">
+          <input type="checkbox" ng-checked="filtersCtrl.filters.owpt">
+          <span></span>
+        </a>
+      </div>
+
+      ## SNOW ACTVITIES
+      <div ng-show="filtersCtrl.filters.act.length && (filtersCtrl.filters.act.indexOf('skitouring') !== -1 ||
+                    filtersCtrl.filters.act.indexOf('snowshoeing') !== -1 ||
+                    filtersCtrl.filters.act.indexOf('snow_ice_mixed') !== -1 ||
+                    filtersCtrl.filters.act.indexOf('mountain_climbing') !== -1 ||
+                    filtersCtrl.filters.act.indexOf('ice_climbing') !== -1)">
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>elevation_up_snow</label><br>
+          <app-slider filter="swlu" filters-list="filtersCtrl.filters" max="3000"></app-slider>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>elevation_down_snow</label><br>
+          <app-slider filter="swld" filters-list="filtersCtrl.filters" max="3000"></app-slider>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>snow_quantity</label><br>
+          <app-slider filter="swquan" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(condition_ratings) |n}']"></app-slider>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>snow_quality</label><br>
+          <app-slider filter="swqual" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(condition_ratings) |n}']"></app-slider>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>glacier_rating</label><br>
+          <app-slider filter="oglac" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(glacier_ratings) |n}']"></app-slider>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>avalanche_signs</label><br>
+          ${add_multiselect('avdate', avalanche_signs)}
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-sm-6 filter">
+        <label translate>lang</label><br>
+        ${add_multiselect('l', default_langs)}
+      </div>
+
+      <div class="col-xs-12 col-sm-6 filter">
+        <label translate>document_quality</label><br>
+        ${add_multiselect('qa', quality_types)}
+      </div>
+
+      <div class="filters-bottom-buttons">
         <button class="btn search-filters-btn orange-btn" data-toggle="collapse" 
                 data-target="#moreFilters" aria-expanded="false">
-          <span translate>apply and search</span> 
+          <span translate>Show results</span> ({{resCounter}})
         </button>
+        <button class="btn blue-btn search-filters-btn" ng-click="filtersCtrl.clear()"
+                ng-show="filtersCtrl.filtersNb > 0"><span translate>Clear filters</span> ({{filtersCtrl.filtersNb}})</button>
       </div>
     </div>
     <div class="more-filters-btn-container">
-      <button class="btn orange-btn more-filters-btn" data-toggle="collapse" data-target="#moreFilters" aria-expanded="false" aria-controls="moreFilters" translate>more filters</button>
+      <button class="btn orange-btn more-filters-btn" data-toggle="collapse" data-target="#moreFilters"
+        aria-expanded="false" aria-controls="moreFilters" translate>All filters</button>
+      <button class="btn blue-btn more-filters-btn" ng-click="filtersCtrl.clear()" ng-cloak
+              ng-show="filtersCtrl.filtersNb > 0"><span translate>Clear filters</span> ({{filtersCtrl.filtersNb}})</button>
     </div>
 
   </div>

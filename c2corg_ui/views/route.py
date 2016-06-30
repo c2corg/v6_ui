@@ -11,7 +11,7 @@ class Route(Document):
     @view_config(route_name='routes_index',
                  renderer='c2corg_ui:templates/route/index.html')
     def index(self):
-        return self._get_index()
+        return self.template_input
 
     @view_config(route_name='routes_sitemap',
                  renderer='c2corg_ui:templates/route/sitemap.html')

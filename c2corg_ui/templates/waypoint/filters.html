@@ -8,12 +8,12 @@ from c2corg_common.attributes import default_langs, waypoint_types, orientation_
 <%namespace file="../helpers/filters.html" import="add_multiselect"/>
 <%namespace file="../helpers/orientations.svg" import="show_orientations"/>
 
-<form app-search-filters>
+<form app-search-filters app-search-filters-controller-name="appSearchFiltersController">
   <div class="filters">
-    <div class="simple-filters">
+    <div class="row simple-filters">
 
       <div class="filter">
-        <label translate>title</label>
+        <label translate>title</label><br>
         <input type="text" class="form-control" ng-model="filtersCtrl.filters.q">
       </div>
 
@@ -28,7 +28,7 @@ from c2corg_common.attributes import default_langs, waypoint_types, orientation_
       </div>
       
     </div>
-    <div class="collapse" id="moreFilters">
+    <div class="row collapse" id="moreFilters">
 
       ## SUMMITS
       <div class="filter col-xs-12 col-sm-6" ng-show="filtersCtrl.filters.wtyp.length && filtersCtrl.filters.wtyp.indexOf('summit') !== -1">
@@ -92,7 +92,7 @@ from c2corg_common.attributes import default_langs, waypoint_types, orientation_
       <div ng-show="filtersCtrl.filters.wtyp.length && (filtersCtrl.filters.wtyp.indexOf('climbing_outdoor') !== -1 ||
                     filtersCtrl.filters.wtyp.indexOf('paragliding_takeoff') !== -1)">
         <div class="col-xs-12 col-sm-6 col-md-6 filter orientation">
-          <label translate>orientations</label>
+          <label translate>orientations</label><br>
           ${show_orientations('filtersCtrl', 'filtersCtrl', 'wfac')}
         </div>
       </div>

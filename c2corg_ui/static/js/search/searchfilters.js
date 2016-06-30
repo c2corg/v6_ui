@@ -17,7 +17,8 @@ goog.require('ngeo.Location');
 app.searchFiltersDirective = function() {
   return {
     restrict: 'A',
-    controller: 'appSearchFiltersController',
+    controller: '@',
+    name: 'appSearchFiltersControllerName',
     bindToController: true,
     scope: true,
     controllerAs: 'filtersCtrl',
@@ -70,15 +71,15 @@ app.SearchFiltersController = function($scope, ngeoLocation, ngeoDebounce,
 
   /**
    * @type {ngeo.Location}
-   * @private
+   * @public
    */
-  this.location_ = ngeoLocation;
+  this.location = ngeoLocation;
 
   /**
    * @type {Object}
-   * @private
+   * @public
    */
-  this.config_ = advancedSearchFilters;
+  this.config = advancedSearchFilters;
 
   /**
    * @type {Object}
@@ -105,11 +106,11 @@ app.SearchFiltersController = function($scope, ngeoLocation, ngeoDebounce,
   this.loading_ = true;
 
   // Fill the filters according to the loaded URL parameters
-  var keys = this.location_.getParamKeys().filter(function(x) {
+  var keys = this.location.getParamKeys().filter(function(x) {
     return app.SearchFiltersController.IGNORED_FILTERS.indexOf(x) === -1;
   });
   for (var i = 0, n = keys.length; i < n; i++) {
-    this.getFilterFromPermalink_(keys[i]);
+    this.getFilterFromPermalink(keys[i]);
   }
 
   // Deep watch is used here because we need to watch the list filters as well
@@ -134,27 +135,29 @@ app.SearchFiltersController.IGNORED_FILTERS = ['bbox', 'offset', 'limit'];
 
 /**
  * @param {string} key Filter key.
- * @private
+ * @public
  */
-app.SearchFiltersController.prototype.getFilterFromPermalink_ = function(key) {
-  var val = this.location_.getParam(key);
+app.SearchFiltersController.prototype.getFilterFromPermalink = function(key) {
+  var val = this.location.getParam(key);
   if (val === '') {
     return;
   }
   if (key === 'qa') {
-    this.createListFilter_(key, val);
-  } else if (key in this.config_) {
+    this.filters[key] = val.split(',');
+  } else if (key in this.config) {
     // Filters are described in the 'advancedSearchFilters' module value
     // set in c2corg_ui/templates/*/index.html.
-    switch (this.config_[key]['type']) {
+    switch (this.config[key]['type']) {
       case 'list':
-        this.createListFilter_(key, val);
+        this.filters[key] = val.split(',');
         break;
       case 'range':
-        this.createRangeFilter_(key, val);
+        this.filters[key] = val.split(',').map(function(x) {
+          return parseInt(x, 10);
+        });
         break;
       case 'orientations':
-        this.createListFilter_(key, val);
+        this.filters[key] = val.split(',');
         // initialize the orientations SVG
         this.orientations = this.filters[key];
         break;
@@ -168,35 +171,13 @@ app.SearchFiltersController.prototype.getFilterFromPermalink_ = function(key) {
 
 
 /**
- * @param {string} key Filter key.
- * @param {string} val Filter value.
- * @private
- */
-app.SearchFiltersController.prototype.createListFilter_ = function(key, val) {
-  this.filters[key] = val.split(',');
-};
-
-
-/**
- * @param {string} key Filter key.
- * @param {string} val Filter value.
- * @private
- */
-app.SearchFiltersController.prototype.createRangeFilter_ = function(key, val) {
-  this.filters[key] = val.split(',').map(function(x) {
-    return parseInt(x, 10);
-  });
-};
-
-
-/**
  * @private
  */
 app.SearchFiltersController.prototype.handleFiltersChange_ = function() {
   // ignore the initial $watchCollection triggering (at loading time)
   if (!this.loading_) {
-    this.location_.updateParams(this.filters);
-    this.location_.deleteParam('offset');
+    this.location.updateParams(this.filters);
+    this.location.deleteParam('offset');
     this.scope_.$root.$emit('searchFilterChange');
   } else {
     this.loading_ = false;
@@ -218,7 +199,7 @@ app.SearchFiltersController.prototype.selectOption = function(prop, val, event) 
   var checked = app.utils.pushToArray(this.filters, prop, val, event);
   if (!checked && this.filters[prop].length === 0) {
     delete this.filters[prop];
-    this.location_.deleteParam(prop);
+    this.location.deleteParam(prop);
   }
 };
 
@@ -228,7 +209,7 @@ app.SearchFiltersController.prototype.selectOption = function(prop, val, event) 
  */
 app.SearchFiltersController.prototype.clear = function() {
   for (var key in this.filters) {
-    this.location_.deleteParam(key);
+    this.location.deleteParam(key);
   }
   this.filters = {};
   this.orientations = [];
@@ -256,7 +237,21 @@ app.SearchFiltersController.prototype.toggleOrientation = function(orientation,
     this.filters[filterName] = this.orientations;
   } else {
     delete this.filters[filterName];
-    this.location_.deleteParam(filterName);
+    this.location.deleteParam(filterName);
+  }
+};
+
+
+/**
+ * @param {string} filterName Name of the filter param.
+ * @export
+ */
+app.SearchFiltersController.prototype.toggleCheckbox = function(filterName) {
+  if (filterName in this.filters) {
+    delete this.filters[filterName];
+    this.location.deleteParam(filterName);
+  } else {
+    this.filters[filterName] = true;
   }
 };
 

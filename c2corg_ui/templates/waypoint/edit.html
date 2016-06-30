@@ -331,11 +331,6 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
             <div class="form-group data half" ng-if="['paragliding_takeoff', 'paragliding_landing', 'climbing_outdoor'].indexOf(type) > -1"
                  ng-class="{ 'has-error': editForm.orientations.$touched && editForm.orientations.$invalid,'has-success': editForm.orientations.$valid }">
               <label><span translate>orientations</span></label>
-              <ul class="types long" id="orientation-list">
-                <li ng-repeat="type in ${orientation_types}" ng-click="editCtrl.pushToArray(waypoint, 'orientations', type, $event)">
-                  <div class="checkbox"><input type="checkbox" ng-checked="waypoint.orientations.indexOf(type) > - 1"><span x-translate>{{type}}</span></div>
-                </li>
-              </ul>
               ${show_orientations('editCtrl', 'waypoint')}
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.orientations.$valid"></span>
             </div>
