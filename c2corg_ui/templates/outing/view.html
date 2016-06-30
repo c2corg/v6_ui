@@ -12,7 +12,7 @@ from json import dumps
     get_document_locale_text, show_attr, show_missing_langs_links, show_other_langs_links,
     show_archive_data, show_route_title, get_route_activities, show_areas, show_float_buttons,
     show_associated_waypoints, show_associated_routes, delete_association_confirmation_modal"/>
-    
+
 <%
 outing_id = outing['document_id']
 outing['doctype'] = 'outings'
@@ -76,22 +76,12 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
 
 <section class="view-details-section" app-view-details>
 
-  <uib-tabset>
-    <uib-tab heading="{{mainCtrl.translate('Description')}}" ng-click="detailsCtrl.openTab('description')" id="description-tab"></uib-tab>
-    <uib-tab heading="{{mainCtrl.translate('Details')}}" ng-click="detailsCtrl.openTab('informations')"></uib-tab>
-    % if outing.get('associations'):
-      % if 'routes' in outing['associations'] or 'outing' in outing['associations']  :
-        <uib-tab heading="{{mainCtrl.translate('Associations')}}" ng-click="detailsCtrl.openTab('associations')"></uib-tab>
-      % endif
-    % endif
-  </uib-tabset>
-  
   ## IMAGES
   % if not version:
     ${get_image_gallery()}
   % endif
 
-  <div class="view-details-informations col-xs-12 tab informations">
+  <div class="view-details-informations col-xs-12  informations">
     <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
       <span translate>Informations</span><span class="glyphicon glyphicon-menu-down"></span>
     </h3>
@@ -106,8 +96,8 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
 
   ## DESCRIPTION
   % if locale['summary'] or locale['description']:
-  <div class="view-details-description col-xs-12 tab description">
-    <h3 class="heading"><span translate>personal comments</span></h3>
+  <div class="view-details-description col-xs-12  description">
+    <h3 class="heading show-phone"><span translate>personal comments</span></h3>
     <span class="lead">
       <div id="document-description" class="collapse in">
 
@@ -127,7 +117,7 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
   </div>
   % endif
 
-  <div class="description tab">
+  <div class="description ">
     ${get_document_locale_text(locale, 'route_description')}
     ${get_document_locale_text(locale, 'avalanches')}
     ${get_document_locale_text(locale, 'hut_comment')}
@@ -139,7 +129,7 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
 
   ## ASSOCIATIONS
   % if not version:
-  <div class="view-details-associations col-xs-12 tab associations">
+  <div class="view-details-associations col-xs-12  associations">
     <span class="lead">
       <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
         <label translate>Add association</label>

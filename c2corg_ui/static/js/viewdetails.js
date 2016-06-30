@@ -35,27 +35,12 @@ app.viewDetailsDirective = function() {
 
       var s = app.constants.SCREEN;
       var notPhone = window.matchMedia('(max-width: ' + s.SMARTPHONE + 'px)');
-      var onPhone = window.matchMedia('(min-width: ' + (s.SMARTPHONE + 1) + 'px)');
 
       $('.location-static').css({top: $('app-map').offset().top + 40});
 
-      // show tabs if they have been hidden on smartphone and inversely
-      onPhone.addListener(function(mql) {
-        if (mql.matches) {
-          $('.tab, .accordion').show();
-        }
-      });
-
-      // show description tab by default or selected tab
       notPhone.addListener(function(mql) {
         if (mql.matches) {
           $('.location-static').css({top: $('app-map').offset().top + 40});
-          $('.tab').hide();
-          if (!ctrl.selected) {
-            $('.description.tab').show();
-          } else {
-            ctrl.selected.show();
-          }
         }
       });
     }
@@ -134,10 +119,6 @@ app.ViewDetailsController.prototype.openTab = function(tab) {
     if (tab.target) { // tab = event
       $(tab.target).closest('.name-icon-value').find('.glyphicon-menu-right').toggleClass('rotate-arrow-down');
       $(tab.target).closest('.name-icon-value').find('.accordion').slideToggle();
-    } else {
-      this.selected = $('.tab.' + tab);
-      $('.tab').hide();
-      $('.tab.' + tab).show();
     }
   }
 };
