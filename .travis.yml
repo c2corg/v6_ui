@@ -1,15 +1,27 @@
-sudo: false
+sudo: required
 language: python
+
+services:
+- docker
 
 python:
 - 3.4
 
 addons:
   postgresql: "9.4"
+  apt:
+    packages:
+    - postgresql-9.4-postgis-scripts
+    - postgresql-9.4-postgis-2.2
 
 env:
+  matrix:
   - TRAVIS_NODE_VERSION="6"
   - TRAVIS_NODE_VERSION="4"
+  global:
+  - secure: K4mQN/+W0W9M/CzCU6YQ8GdnajASnoCWXWv6+EqbFc6U+7iXMdpg2yL+XJZIsNLakOo/Fmp01r1bSb7DB8S1y5yeaDKLzOp4aXFJcb7KbCUHyAblfRO1cjpno2hvhj7/P4G3NSpRgcJyhRivYVCQ84JtfLNWt6Ts9vk3ILesOpCf/NYT0wlpldNO6T04gm5dAranWGdx1SnSVph6Mn9U1qJRxuU0F87DJthNGaP3aF5Iz31hPT/QxmvP5mh/JNXg8n1MK7+O5G3p3oKQNPCLbJgdBEunRmlaszsg/cfA+n1WekdjE60k3xscMP94X9GKUQ6HxJWV27X3P4OFm7yZipK/yducXanBCtg9hoFLzs8cutRC08fNRwO4tXhcDmgjdfddejd+A2OMGb62/MOyba84/D7XV7xdQ6YCvk8GJDscbQEKc101UdF9o/aOEa2NjGtHmImJf/5glMNvBbo5ULAK0FjkO5SLU1cXNScMqkm5VH6guUudngOZoceRl7oYQTAK5Mncpke7JnzYdY763KpwRJSYRuZZzTIawXO+ZhmQt5xNUtQFZSo9etgRW7Z+8zIOSWIQ3WsuRrdn6kxNBayYYrxKUBjkiTBhbYrZ4q9+5r/Jh6qGML1b2bFIX1o+jKS3w6wkpNTih/idN9XvIvLZEqPxQoX3olex/L6BkvA=
+  - secure: DzA/3MbQClStpMNUz3/p3c/jFeMQkfTJYGQeurnxFMFYZeLsW3XlUIpn74ouyRaJP1zVypVUa+ExsT7vYKpzaflUSeyiup1/+aNXQ4JcyoYPu12Q4GknhAQsHcyPvDkWPmv/nK3gRNaeSMzXeykNXmnag6PMlUdDvkUXMzop+cWj22gtvT+U9QWUMDipzfCS1ucZkNtQPgw8OwS/cWFquDrT0d/qsbbtM855oOuZ/XZ1uhjH+Ln+5q4NmAb/TeZ0OwvEHULpkxBy9PIDm75sKoOswijxPSsKBa4eJzd+bH/iFWutYC/Qj0StBaWRsw9aN5zDr2DiKmA1blHsrC8R5SGEQ915MecV8KCyalB2yjpmwg49HF0BqYSkAdodFYKAxLgy+s6xIDl7kxZ4oJ1caPwCR0ajm2vdterIjT0ty9LNAS5YNmwu3yWqA2319+Ma+VkgBcYxFxlCat172Vt5y7KLkH3VfFlprfTIO0pNjGkEKn4TjxgrzpX0ByVtD3Q+p1+4oFuBRvH1xdYdnDw1Tz7iFsynuufoJo64f3Ouzy5BuI2/JRjhmNODC4Bp7fYS64DiufQzejtycl61DtsiYFUSyLIx5G3JHaBOVtQLwaTo+WMFMdMqVxciCVTPUzviaHeYgaWnhzKn6NOPpKMre7kZ3kcc0MRYrYdg6CUKRuw=
+  - secure: Qdl3Jnp2DAVhh6GDODcMi44/Dq/M8J5cUbw/0tLyPkzwzrMF9BekSkwxaLJhUAYrMjJ2qUUBj2Pq3Qk4zIzCwSyiMbmksYEG9pT2IYudrp7udGshx9yXE/jE49LG0UJcta6O8G25NorjQ39VfTwZ4dbGniuWH/rL5ru1FvlvTcLtIp/NcCIwUuVYS2fNb546ScPkbyqHcUv67rEHMcYU9KIQBs88vK52RBHG6sfX5PnfxP9by+sH0Wj1sEXc+h5T9BbTx2pSWmDBa+o9gKpuKxquvXaeYd5NEzb34BDP1J7HEUH9zw6UBBRGRGkZljjVTGET3hEW1CVD6yacT/J6CdK2oZXXIuCpKzAiwHnxztwdXayn8sfqY6Ho4SaC6JlKGamktIx6R2qG/0xpXl8vfA2Ij722QEjwqsJgs2RluxjHnwi3l/yzT1KtDvRaMMmlvIvEKJxCSdpqDALYcXOPSd2CiP2MNaePsbfbEFzQKOw1+NpeX+nR8yE+da+rijz1DWyfwfUtRXxuuOe0EiqhvXkAMUaWMIhrRWTmclSTvt6FTf9VdvAAVNAJki92DEOvZN8IHgGXiqOl4sgliCG3QfON6ZDgZ1BXP0D/h2HBQTKcS3aYpULYmBYCGdSkse11U4tGdAvn8WWAhEL/uUqPnC1YxzkX/L8VNHxbhyZAYy8=
 
 install:
 - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $TRAVIS_NODE_VERSION
@@ -25,6 +37,9 @@ script:
 
 after_failure:
   cat v6_api/nohup.out
+
+after_success:
+- if [ "$TRAVIS_NODE_VERSION" = "4" ]; then make cleanall publish; fi
 
 notifications:
   email: false
