@@ -41,7 +41,7 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
       "type": "Feature",
       "geometry": ${geometry | n},
       "properties": {
-        "title": "${locale['title']}",
+        "title": ${dumps(locale['title']) | n},
         "lang": "${locale['lang']}",
         "documentId": ${outing['document_id']},
         "module": "outings"

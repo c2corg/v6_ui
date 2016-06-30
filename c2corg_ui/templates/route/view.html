@@ -50,7 +50,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
           "type": "Feature",
           "geometry": ${geometry | n},
           "properties": {
-            "title": "${locale['title']}",
+            "title": ${dumps(locale['title']) | n},
             "lang": "${locale['lang']}",
             "documentId": ${route['document_id']},
             "module": "routes"
