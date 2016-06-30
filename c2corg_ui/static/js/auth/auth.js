@@ -113,16 +113,21 @@ app.AuthController = function($scope, appApi, appAuthentication,
 
   if (this.ngeoLocation_.hasParam('validate_register_email')) {
     // Activate and log in from API by using the nonce
-    var nonce = get_nonce('validate_register_email');
+    var nonce1 = get_nonce('validate_register_email');
     var remember = true;
     var onLogin = this.successLogin_.bind(this, remember);
-    this.api_.validateRegisterEmail(nonce).then(onLogin);
-
-    this.uiStates = {
-    };
-  }
-  if (this.ngeoLocation_.hasParam('change_password')) {
-    // Activate and log in from API by using the nonce
+    this.api_.validateRegisterEmail(nonce1).then(onLogin);
+    this.uiStates = {};
+  } else if (this.ngeoLocation_.hasParam('validate_change_email')) {
+    // Activate the email and redirect
+    var nonce2 = get_nonce('validate_change_email');
+    this.api_.validateChangeEmail(nonce2).then(function() {
+      this.redirect_();
+    }.bind(this));
+    this.uiStates = {};
+  } else if (this.ngeoLocation_.hasParam('change_password')) {
+    // Display the new password form and populate the nonce field.
+    // On submission success the user will be logged in.
     this.nonce_ = get_nonce('change_password');
     this.uiStates = {
       'showChangePasswordForm': true
@@ -176,6 +181,21 @@ app.AuthController.prototype.loginToDiscourse_ = function(url) {
 
 
 /**
+ * Redirect to specified URL or previous page if a from parameter exists
+ * otherwise redirect to /.
+ * @param {string=} opt_location Redirect location.
+ * @private
+ */
+app.AuthController.prototype.redirect_ = function(opt_location) {
+  if (!opt_location) {
+    opt_location = this.ngeoLocation_.hasParam('from') ?
+        decodeURIComponent(this.ngeoLocation_.getParam('from')) : '/';
+  }
+  window.location.href = opt_location;
+};
+
+
+/**
  * @param {boolean} remember whether to store the data in local storage.
  * @param {Object} response Response from the API server.
  * @private
@@ -189,15 +209,7 @@ app.AuthController.prototype.successLogin_ = function(remember, response) {
   var promise = discourse_url ? this.loginToDiscourse_(discourse_url) :
       this.q_.when(true);
 
-  promise.finally(function() {
-    // redirect to previous page or the page sent by the server
-    var redirect = data.redirect;
-    if (!redirect) {
-      redirect = this.ngeoLocation_.hasParam('from') ?
-          decodeURIComponent(this.ngeoLocation_.getParam('from')) : '/';
-    }
-    window.location.href = redirect;
-  }.bind(this));
+  promise.finally(this.redirect_.bind(this, data.redirect));
 };
 
 
