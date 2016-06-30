@@ -1,8 +1,9 @@
 @import: 'variables.less';
 
-.twitter-typeahead, .tt-dropdown-menu, .tt-hint {
+app-simple-search .twitter-typeahead, app-simple-search .tt-dropdown-menu, app-simple-search .tt-hint {
   width: 220px;
 }
+
 .page-header {
   .tt-open {
     max-height: 90vh;
@@ -38,7 +39,7 @@
   }
 }
 
-span.twitter-typeahead {
+app-simple-search span.twitter-typeahead {
   width: 100%;
   input.tt-hint {
     width: 0;
@@ -53,7 +54,7 @@ span.twitter-typeahead {
     &:extend(.dropdown-menu);
   }
   
-  .tt-suggestion{
+  .tt-suggestion {
     padding: 5px 10px 5px 25px;
     margin-bottom: 0 !important;
     -webkit-background-clip: padding-box; /* for Safari */
@@ -97,7 +98,7 @@ span.twitter-typeahead {
 
   .tt-suggestion.tt-cursor {
     &:extend(.dropdown-menu > .active > a);
-    .suggestion-text {
+    .suggestion-title {
       color: white !important;
     }
   }

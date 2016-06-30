@@ -1,6 +1,10 @@
 .map {
   margin:0;
   position: relative;
+
+  .glyphicon {
+    color: white !important;
+  }
 }
 
 app-baselayer-selector {
@@ -15,4 +19,55 @@ app-geolocation {
   bottom: 10px;
   left: 100px;
   z-index: 2;
+}
+
+app-map-search {
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  z-index: 2;
+  background-color: white;
+
+  .tt-menu {
+    min-width: 14vw !important;
+    max-width: 30vw !important;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    -moz-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    @media @phone {
+      max-width: 86vw !important;
+    }
+    .tt-dataset {
+      background-color: white;
+      min-height: 20px;
+      min-width: 20px;
+    }
+  }
+
+  span.twitter-typeahead {
+    width: 150px;
+
+    .tt-suggestion {
+      background-color: white;
+      margin-bottom: 0 !important;
+      -webkit-background-clip: padding-box; /* for Safari */
+      background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
+      padding-left: 5px !important;
+      white-space: pre;
+      .flex();
+
+      &:extend(.dropdown-menu > li > a);
+      &:hover, &:focus {
+        &:extend(.dropdown-menu > .active > a);
+        cursor: pointer;
+        .suggestion-title {
+          color: white;
+        }
+      }
+      .suggestion-title {
+        font-weight: bold;
+        color: graytext;
+      }
+    }
+  }
 }

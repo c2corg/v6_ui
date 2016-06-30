@@ -415,6 +415,10 @@ msgstr "Cotation"
 msgid "Recenter on your current position"
 msgstr ""
 
+#: c2corg_ui/static/partials/map/search.html
+msgid "Recenter on..."
+msgstr "Recentrer sur..."
+
 #: c2corg_ui/templates/auth.html
 msgid "Register"
 msgstr "S'inscrire"
