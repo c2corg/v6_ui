@@ -15,23 +15,23 @@ updating_doc = outing_id and outing_lang
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
 
 <section class="create-edit-document">
-  
+
   <h1 ng-cloak ng-init="id=${outing_id if outing_id else 0}"
       ng-bind="id ? ('Editing an outing' | translate) : ('Creating an outing' | translate)"
       class="text-center"></h1>
-  
+
   <form app-loading app-document-editing="outings" app-document-editing-model="outing"
     app-document-editing-controller-name="appOutingEditingController"
   % if updating_doc:
     app-document-editing-id="${outing_id}" app-document-editing-lang="${outing_lang}"
-  % endif 
+  % endif
     name="editForm" novalidate ng-submit="editCtrl.submitForm(editForm.$valid)" class="document-editing">
-    
+
     ## It won't work with ng-init
     <span class="ng-hide">
-      {{editCtrl.max_steps = 4}} 
+      {{editCtrl.max_steps = 4}}
     </span>
-    
+
     ## PROGRESS BAR
     <ul class="progress-bar-edit">
       <li class="nav-step-1" ng-click="editCtrl.step(1, 'outing',  'backwards')" ng-class="{'nav-step-selected': editCtrl.current_step == 1 }"><span class="nav-text"><span translate>track</span></span><span class="bullet-container"><span class="bullet"></span></span></li>
@@ -48,13 +48,13 @@ updating_doc = outing_id and outing_lang
 
     <section class="editing outing">
       <div class="step step-1">
-        
+
         <section class="section title">
           <h2 class="heading show-phone" translate>general informations</h2>
           <div class="content collapse in" id="title-edit">
 
             ## ACTIVITIES
-            <div class="form-group data full" id="outing-activities" ng-init="activities = ${activities}" 
+            <div class="form-group data full" id="outing-activities" ng-init="activities = ${activities}"
                  ng-class="{ 'has-error': editForm.activities.$touched && editForm.activities.$invalid, 'has-success': editForm.activities.$valid }">
               <label><span translate>activities</span> *</label>
               <div class="route-activities">
@@ -68,7 +68,7 @@ updating_doc = outing_id and outing_lang
                 </div>
               </div>
             </div>
-            
+
             ## MAP
             <app-gpx-upload></app-gpx-upload>
             <app-map app-map-edit="true" app-map-draw-type="LineString" class="map-edit"></app-map>
@@ -79,7 +79,7 @@ updating_doc = outing_id and outing_lang
               <app-simple-search parent-id="outing.document_id"
                 app-select="editCtrl.documentService.pushToAssociations(doc, 'routes', true)" dataset="r"></app-simple-search>
             </div>
-            
+
             <section class="section associations">
               <div class="data full route-associations">
                 <h5 translate ng-show="outing.associations.routes.length == 0">choose at least one route taken during the outing.</h5>
@@ -107,6 +107,17 @@ updating_doc = outing_id and outing_lang
               <label translate>duration</label>
               <div class="input-group">
                 <input type="number" min="1" minlength="1" name="duration" ng-model="outing.duration" class="form-control" />
+                <span class="input-group-addon">min</span>
+              </div>
+            </div>
+
+            ## DURATION DIFFICULTIES
+            <div class="form-group data half" ng-class="{'has-success': outing.duration_difficulties}"
+                 ng-if="outing.activities.indexOf('snow_ice_mixed') > -1 || outing.activities.indexOf('mountain_climbing') > -1 ||
+                           outing.activities.indexOf('rock_climbing') > -1 || outing.activities.indexOf('ice_climbing') > -1 || outing.activities.indexOf('via_ferrata') > -1">
+              <label translate>duration_difficulties</label>
+              <div class="input-group">
+                <input type="number" min="1" minlength="1" name="duration_difficulties" ng-model="outing.duration_difficulties" class="form-control" />
                 <span class="input-group-addon">min</span>
               </div>
             </div>
@@ -193,11 +204,11 @@ updating_doc = outing_id and outing_lang
         <section class="section weather">
           <h2 class="heading show-phone"><span translate>weather </span></h2>
           <div class="content outing-weather" id="title-edit">
-           
+
             ## DATE START
             <div class="data half form-group" ng-init="openDateStart = false">
               <label><span translate>date_start</span> *</label>
-              <div class="input-group" ng-model="outing.date_start" datepicker-options="{maxDate : editCtrl.dateMaxStart}" 
+              <div class="input-group" ng-model="outing.date_start" datepicker-options="{maxDate : editCtrl.dateMaxStart}"
                    uib-datepicker-popup="dd MM yyyy" is-open="openDateStart" ng-change="editCtrl.dateMinEnd = outing.date_start">
                 <input type="text" disabled class="form-control" value="{{outing.date_start | amDateFormat:'Do MMMM YYYY' }}" required/>
                 <span class="input-group-btn">
@@ -205,12 +216,12 @@ updating_doc = outing_id and outing_lang
                 </span>
               </div>
             </div>
-              
+
             ## DATE END
             <div class="data half form-group baseline-align" ng-init="openDateEnd = false">
               <div  ng-show="editCtrl.differentDates">
-                <label><span translate>date_end </span></label>               
-                <div class="input-group" ng-model="outing.date_end" datepicker-options="{maxDate : editCtrl.dateMaxEnd, minDate: editCtrl.dateMinEnd}" 
+                <label><span translate>date_end </span></label>
+                <div class="input-group" ng-model="outing.date_end" datepicker-options="{maxDate : editCtrl.dateMaxEnd, minDate: editCtrl.dateMinEnd}"
                      uib-datepicker-popup="dd MM yyyy" is-open="openDateEnd" ng-change="editCtrl.dateMaxStart = outing.date_end">
                   <input disabled type="text" class="form-control" value="{{outing.date_end | amDateFormat:'Do MMMM YYYY' }}"/>
                   <span class="input-group-btn">
@@ -229,13 +240,13 @@ updating_doc = outing_id and outing_lang
               <label translate>timing</label>
               <textarea class="form-control" ng-model="outing.locales[0]['timing']" placeholder="{{mainCtrl.translate('describe timing')}}"></textarea>
             </div>
-            
+
             ## WEATHER
             <div class="data full form-group">
               <label translate>weather</label>
               <textarea class="form-control" ng-model="outing.locales[0]['weather']" placeholder="{{mainCtrl.translate('describe weather')}}"></textarea>
-            </div>            
-            
+            </div>
+
         </section>
 
         <section class="section conditions">
@@ -243,7 +254,7 @@ updating_doc = outing_id and outing_lang
           <div class="content collapse in" id="outing-conditions">
 
             ## CONDITIONS LEVELS
-            <div class="data full form-group" ng-class="{'has-success': outing.condition_levels}"   
+            <div class="data full form-group" ng-class="{'has-success': outing.condition_levels}"
                  ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('ice_climbing') > -1 || outing.activities.indexOf('snow_ice_mixed') > -1 ">
               <label translate>condition_levels</label>
               <table class="table table-striped conditions-levels">
@@ -284,7 +295,7 @@ updating_doc = outing_id and outing_lang
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.condition_rating"></span>
             </div>
-            
+
             ## ELEVATION UP SNOW
             <div id="elevation_up_snow-group" class="data half form-group" ng-class="{ 'has-error': editForm.elevation_up_snow.$touched && editForm.elevation_up_snow.$invalid,'has-success': outing.elevation_up_snow }"
                  ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('ice_climbing') > -1  || outing.activities.indexOf('mountain_climbing') > -1  || outing.activities.indexOf('snow_ice_mixed') > -1 ">
@@ -336,7 +347,7 @@ updating_doc = outing_id and outing_lang
                 <p ng-message="number" class="label label-danger" style="{{ (editForm.snow_quality.$invalid && editForm.snow_quality.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
               </div>
             </div>
-            
+
             ## GLACIER RATING
             <div class="form-group data half" ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('via_ferrata') > -1  || outing.activities.indexOf('mountain_climbing') > -1  || outing.activities.indexOf('snow_ice_mixed') > -1 ">
               <label translate>glacier_rating</label>
@@ -346,7 +357,7 @@ updating_doc = outing_id and outing_lang
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.glacier_rating"></span>
             </div>
-                        
+
             ## AVALANCHE SIGNS
             <div class="form-group data half" ng-class="{'has-success': outing.avalanche_sign}"
                   ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('ice_climbing') > -1 || outing.activities.indexOf('snow_ice_mixed') > -1">
@@ -357,18 +368,18 @@ updating_doc = outing_id and outing_lang
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.avalanche_sign"></span>
             </div>
-                                    
+
             ## AVALANCHES
-            <div class="form-group data full"  ng-if="(outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 
+            <div class="form-group data full"  ng-if="(outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1
                       || outing.activities.indexOf('ice_climbing') > -1 || outing.activities.indexOf('snow_ice_mixed') > -1) && (outing.avalanche_sign != 'no' && outing.avalanche_sign != null) ">
               <label translate>avalanches_info</label>
               <textarea class="form-control" ng-model="outing.locales[0]['avalanches']"></textarea>
             </div>
-            
+
           </div>
         </section>
-        
-        
+
+
         <section class="section access">
           <h2 class="heading show-phone">
             <span><span translate>access</span> & <span translate>hut</span></span>
@@ -382,11 +393,18 @@ updating_doc = outing_id and outing_lang
               <textarea class="form-control " ng-model="outing.locales[0].access_comment"></textarea>
             </div>
 
-            ## PUBLIC TRANSPORT 
+            ## PUBLIC TRANSPORT
             <div class="form-group data half" ng-class="{'has-success': outing.public_transport}">
               <label translate>public_transport</label>
               <select class="form-control" ng-model="outing.public_transport" ng-options="rat as rat for rat in ${public_transportation_types}"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.public_transport"></span>
+            </div>
+
+            ## FREQUENTATION
+            <div class="form-group data half" ng-class="{'has-success': outing.frequentation}">
+              <label translate>frequentation</label>
+              <select class="form-control" ng-model="outing.frequentation" ng-options="rat as rat for rat in ${frequentation_types}"><option value=""></option></select>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.frequentation"></span>
             </div>
 
             ## LIFT STATUS
@@ -398,7 +416,7 @@ updating_doc = outing_id and outing_lang
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.lift_status"></span>
             </div>
-            
+
             ## HUT COMMENT
             <div class="form-group data full" ng-class="{'has-success': outing.locales[0].hut_comment}">
               <label translate>hut_comment</label>
@@ -441,7 +459,7 @@ updating_doc = outing_id and outing_lang
 
           </div>
         </section>
-        
+
       </div>
 
       <div class="step step-3">
@@ -481,7 +499,7 @@ updating_doc = outing_id and outing_lang
                 app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="u"></app-simple-search>
               <section class="section associations" ng-show="outing.associations.users.length > 0">
                 <label translate>associated_participants</label>
-                
+
                 <section class="associated-section">
                   <article class="associated-documents">
                     <h5 translate ng-show="outing.associations.users.length == 0">you can look up for users that were with you during the outing.</h5>
@@ -498,7 +516,7 @@ updating_doc = outing_id and outing_lang
                     </div>
                   </article>
                 </section>
-                
+
               </section>
             </div>
 
@@ -519,20 +537,20 @@ updating_doc = outing_id and outing_lang
                 <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
               </div>
             </div>
-            
+
             ## COMMENT
             <div class="data full form-group">
               <label translate>personal comment</label>
               <textarea class="form-control description" placeholder="{{mainCtrl.translate('write your comment')}}" ng-model="outing.locales[0]['description']"></textarea>
             </div>
 
-          </div>   
+          </div>
         </section>
 
       </div>
-      
+
       <div class="step step-4"></div>
-          
+
       <div class="step step-5">
         <section class="section summary">
           <h2 class="heading show-phone"><span translate>summary</span></h2>
@@ -546,7 +564,7 @@ updating_doc = outing_id and outing_lang
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.message"></span>
             </div>
             % endif
-            
+
             ## QUALITY
             <div class="form-group" ng-style="{'has-success': outing.quality}" ng-init="qualityTypes = ${quality_types}">
               ## I tried with ng-init, ng-selected..so hacking
@@ -555,18 +573,18 @@ updating_doc = outing_id and outing_lang
               <select ng-options="type as mainCtrl.translate(type) for type in qualityTypes" ng-model="outing.quality" class="form-control"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.quality"></span>
             </div>
-            
+
           </div>
         </section>
 
         <div class="action-buttons float-buttons">
-          <button type="submit" class="btn btn-lg orange-btn float-button" ng-if="!editForm.$invalid && !editCtrl.hasMissingProps(outing, false)" 
+          <button type="submit" class="btn btn-lg orange-btn float-button" ng-if="!editForm.$invalid && !editCtrl.hasMissingProps(outing, false)"
             tooltip-placement="left" uib-tooltip="{{'Save' | translate}}">
             <span class="glyphicon glyphicon-ok"></span>
             <p class="float-button-text" translate>Save</p>
           </button>
-          <button type="button" class="btn btn-lg orange-btn float-button" 
-                  ng-style="(editForm.$invalid || editCtrl.hasMissingProps(outing, false)) && {'opacity': 0.5}" tooltip-placement="left" uib-tooltip="{{'What is missing?' | translate}}" 
+          <button type="button" class="btn btn-lg orange-btn float-button"
+                  ng-style="(editForm.$invalid || editCtrl.hasMissingProps(outing, false)) && {'opacity': 0.5}" tooltip-placement="left" uib-tooltip="{{'What is missing?' | translate}}"
                   ng-if="editForm.$invalid || editCtrl.hasMissingProps(outing, false)" ng-click="editCtrl.hasMissingProps(outing, true)">
             <span class="glyphicon glyphicon-ok"></span>
             <p class="float-button-text" translate>What is missing?</p>
@@ -580,7 +598,7 @@ updating_doc = outing_id and outing_lang
             <p class="float-button-text" translate>Cancel</p>
           </button>
         </div>
-        
+
       </div>
     </section>
   </form>

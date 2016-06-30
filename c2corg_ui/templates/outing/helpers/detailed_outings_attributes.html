@@ -19,28 +19,28 @@
       </article>
     % endif
 
-    % if outing.get('awesomeness'):
-    <p><span class="value-title" translate>awesomeness</span>: <span class="value">${outing['awesomeness']}</span></p>
-    % endif
-
     % if outing.get('duration'):
     <p><span class="value-title" translate>duration</span>: <span class="value">${outing['duration']}</span></p>
     % endif
-    
+
     % if outing.get('duration_difficulties'):
-    <p><span class="value-title" translate>duration_difficulties</span>: <span class="value">${outing['duration_difficulties']}</span></p>
+    <p><span class="value-title" translate>duration_difficulties</span>: <span class="value">${outing['duration_difficulties']} min</span></p>
     % endif
-    
+
     % if outing.get('frequentation'):
     <p><span class="value-title" translate>frequentation</span>: <span class="value" x-translate>${outing['frequentation']}</span></p>
     % endif
-    
+
     %if outing.get('condition_rating'):
     <p><span class="value-title" translate>condition_rating</span>: <span class="value">${outing['condition_rating']}</span></p>
     % endif
-    
+
     % if outing.get('partial_trip'):
     <p><span class="value-title" translate>partial_trip</span>: <span class="value" x-translate>${outing['partial_trip']}</span></p>
+    % endif
+
+    % if outing.get('quality'):
+    <p><span class="value-title" translate>document_quality</span>: <span class="value" x-translate>${outing['quality']}</span></p>
     % endif
   </span>
 </div>
@@ -48,7 +48,8 @@
 
 ## SNOW
 <%def name="get_outing_snow(waypoint)">\
-  % if outing.get('elevation_up_snow') or outing.get('snow_quantity') or outing.get('snow_quality') or outing.get('glacier_rating') or outing.get('avalanche_signs'):
+  % if outing.get('elevation_up_snow') or outing.get('snow_quantity') or outing.get('snow_quality') or outing.get('glacier_rating') \
+  or outing.get('avalanche_signs') or outing.get('elevation_down_snow'):
     <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
       <h4><span translate>snow</span><span class="glyphicon glyphicon-menu-right"></span></h4>
       <div class="name-icon">
@@ -60,13 +61,17 @@
         <p><span class="value-title" translate>elevation_up_snow</span>: <span class="value">${outing['elevation_up_snow']} m</span></p>
         % endif
 
+        % if outing.get('elevation_down_snow'):
+        <p><span class="value-title" translate>elevation_down_snow</span>: <span class="value">${outing['elevation_down_snow']} m</span></p>
+        % endif
+
         % if outing.get('snow_quantity'):
         <p><span class="value-title" translate>snow_quantity</span>: <span class="value">${outing['snow_quantity']}</span></p>
         % endif
 
         % if outing.get('snow_quality'):
         <p><span class="value-title" translate>snow_quality</span>: <span class="value">${outing['snow_quality']}</span></p>
-        % endif   
+        % endif
 
         % if outing.get('glacier_rating'):
         <p><span class="value-title" translate>glacier_rating</span>: <span class="value">${outing['glacier_rating']}</span></p>
@@ -125,14 +130,14 @@
         % if outing.get('participant_count') :
         <p><span translate>participant_count</span>: <b>${outing['participant_count']}</b></p>
         % endif
-        
+
         <p>
           % for user in outing['associations']['users']:
             <a href="#TODO">${user['name']}</a>${'' if loop.last and not outing['locales'][0]['participants'] else ', '}
           % endfor
           ${outing['locales'][0]['participants'] or ''}
         </p>
-        
+
       </span>
     </div>
   % endif
