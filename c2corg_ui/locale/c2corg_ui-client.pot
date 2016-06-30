@@ -420,6 +420,10 @@ msgstr ""
 msgid "Rating"
 msgstr ""
 
+#: c2corg_ui/static/partials/map/geolocation.html
+msgid "Recenter on your current position"
+msgstr ""
+
 #: c2corg_ui/templates/auth.html
 msgid "Register"
 msgstr ""
@@ -734,10 +738,6 @@ msgstr ""
 msgid "avalanches_info"
 msgstr ""
 
-#: c2corg_ui/templates/outing/helpers/detailed_outings_attributes.html
-msgid "awesomeness"
-msgstr ""
-
 #: c2corg_ui/templates/i18n.html
 msgid "base_camp"
 msgstr ""
@@ -1004,6 +1004,7 @@ msgid "difficulties_length"
 msgstr ""
 
 #: c2corg_ui/templates/outing/edit.html
+#: c2corg_ui/templates/outing/helpers/detailed_outings_attributes.html
 #: c2corg_ui/templates/route/edit.html
 #: c2corg_ui/templates/route/filters.html
 #: c2corg_ui/templates/waypoint/edit.html
@@ -1017,6 +1018,7 @@ msgstr ""
 msgid "duration"
 msgstr ""
 
+#: c2corg_ui/templates/outing/edit.html
 #: c2corg_ui/templates/outing/helpers/detailed_outings_attributes.html
 msgid "duration_difficulties"
 msgstr ""
@@ -1046,6 +1048,7 @@ msgid "elevation_access"
 msgstr ""
 
 #: c2corg_ui/templates/outing/edit.html
+#: c2corg_ui/templates/outing/helpers/detailed_outings_attributes.html
 msgid "elevation_down_snow"
 msgstr ""
 
@@ -1144,6 +1147,7 @@ msgstr ""
 msgid "fr"
 msgstr ""
 
+#: c2corg_ui/templates/outing/edit.html
 #: c2corg_ui/templates/outing/helpers/detailed_outings_attributes.html
 msgid "frequentation"
 msgstr ""
