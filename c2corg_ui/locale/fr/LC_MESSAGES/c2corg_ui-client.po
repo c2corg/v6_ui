@@ -409,6 +409,10 @@ msgstr "Mot de passe"
 msgid "Rating"
 msgstr "Cotation"
 
+#: c2corg_ui/static/partials/map/geolocation.html
+msgid "Recenter on your current position"
+msgstr ""
+
 #: c2corg_ui/templates/auth.html
 msgid "Register"
 msgstr "S'inscrire"
@@ -710,10 +714,6 @@ msgstr "Signes d'avalanche"
 msgid "avalanches_info"
 msgstr "Avalanches observées"
 
-#: c2corg_ui/templates/outing/helpers/detailed_outings_attributes.html
-msgid "awesomeness"
-msgstr ""
-
 #: c2corg_ui/templates/i18n.html
 msgid "base_camp"
 msgstr "camp de base"
@@ -975,8 +975,9 @@ msgstr "Hauteur des difficultés"
 msgid "difficulties_length"
 msgstr "Longueur des difficultés"
 
-#: c2corg_ui/templates/outing/edit.html c2corg_ui/templates/route/edit.html
-#: c2corg_ui/templates/route/filters.html
+#: c2corg_ui/templates/outing/edit.html
+#: c2corg_ui/templates/outing/helpers/detailed_outings_attributes.html
+#: c2corg_ui/templates/route/edit.html c2corg_ui/templates/route/filters.html
 #: c2corg_ui/templates/waypoint/edit.html
 #: c2corg_ui/templates/waypoint/filters.html
 msgid "document_quality"
@@ -988,6 +989,7 @@ msgstr "Qualité du document"
 msgid "duration"
 msgstr "Durée"
 
+#: c2corg_ui/templates/outing/edit.html
 #: c2corg_ui/templates/outing/helpers/detailed_outings_attributes.html
 msgid "duration_difficulties"
 msgstr "Durée des difficultés"
@@ -1016,6 +1018,7 @@ msgid "elevation_access"
 msgstr "Altitude de l'accès"
 
 #: c2corg_ui/templates/outing/edit.html
+#: c2corg_ui/templates/outing/helpers/detailed_outings_attributes.html
 msgid "elevation_down_snow"
 msgstr "Altitude de la neige à la descente"
 
@@ -1108,6 +1111,7 @@ msgstr ""
 msgid "fr"
 msgstr "français"
 
+#: c2corg_ui/templates/outing/edit.html
 #: c2corg_ui/templates/outing/helpers/detailed_outings_attributes.html
 msgid "frequentation"
 msgstr "Fréquentation"
