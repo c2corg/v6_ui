@@ -6,6 +6,7 @@ goog.require('app');
 /**
  * Service for accessing the API.
  * @param {string} apiUrl URL to the API.
+ * @param {string} imageBackendUrl URL to the image backend.
  * @param {angular.$http} $http
  * @param {app.Alerts} appAlerts The Alerts service
  * @param {angular.$q} $q
@@ -13,13 +14,19 @@ goog.require('app');
  * @struct
  * @ngInject
  */
-app.Api = function(apiUrl, $http, appAlerts, $q) {
+app.Api = function(apiUrl, imageBackendUrl, $http, appAlerts, $q) {
 
   /**
    * @type {string}
    * @private
    */
   this.apiUrl_ = apiUrl;
+
+  /**
+   * @type {string}
+   * @private
+   */
+  this.imageBackendUrl_ = imageBackendUrl;
 
   /**
    * @type {angular.$http}
@@ -38,11 +45,6 @@ app.Api = function(apiUrl, $http, appAlerts, $q) {
    * @type {app.Alerts}
    */
   this.alerts_ = appAlerts;
-
-  /**
-   * @private
-   */
-  this.uploadingImages_ = [];
 };
 
 
@@ -412,37 +414,25 @@ app.Api.prototype.updateAccount = function(data) {
 
 /**
  * @param {File} file
+ * @param {!angular.$q.Promise} canceller
+ * @param {function(ProgressEvent)} progress
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
-app.Api.prototype.uploadImage = function(file) {
-  var defer = this.q_.defer();
-  this.uploadingImages_.push(defer);
-  setInterval(function() {
-    file['progress']++;
-    defer.notify({'loaded': (file['progress'] / 100) * file['size'], 'total': file['size']}); // for the progress function
-    if (file['progress'] >= 100) {
-      file['metadata']['filename'] = '23259810.jpg';
-      defer.resolve(file);
+app.Api.prototype.uploadImage = function(file, canceller, progress) {
+  var formData = new FormData();
+  formData.append('file', file);
+
+  var url = this.imageBackendUrl_ + '/upload';
+  var promise = this.http_.post(url, formData, {
+    headers: {
+      'Content-Type': undefined
+    },
+    'timeout': canceller,
+    'uploadEventHandlers': {
+      progress: progress
     }
-  }, 30);
-  return defer.promise;
-};
-
-
-/**
- * @param {File} file
- */
-app.Api.prototype.updateImageMetadata = function(file) {
-  console.log('updating image');
-  console.log(file);
-};
-
-
-/**
- * @param {number} index
- */
-app.Api.prototype.abortUploadingImage = function(index) {
-  console.log('abort uploading image');
+  });
+  return promise;
 };
 
 
@@ -451,16 +441,23 @@ app.Api.prototype.abortUploadingImage = function(index) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  * @param {Array<File>} files
  */
-app.Api.prototype.saveImages = function(files) {
-  var defer = this.q_.defer();
-  var metadatas = [];
+app.Api.prototype.createImages = function(files, document) {
+  var documentType = app.utils.getDoctype(document.type);
+  var associations = {};
+  associations[documentType] = [{'document_id': document.document_id}];
+  var images = [];
   for (var i = 0; i < files.length; i++) {
-    files[i]['metadata']['size'] = files[i]['size'];
-    metadatas.push(files[i]['metadata']);
+    var image = files[i]['metadata'];
+    image['size'] = files[i]['size'];
+    image['associations'] = associations;
+    image['locales'] = [{'lang': document.lang, 'title': image['title']}];
+    images.push(image);
   }
-  defer.resolve();
-  console.log(metadatas);
-  return defer.promise;
+  var json = {'images': images};
+
+  var promise = this.postJson_('/images/list', json);
+  promise.catch(this.errorSaveDocument_.bind(this));
+  return promise;
 };
 
 

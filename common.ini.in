@@ -4,6 +4,8 @@
 use = egg:c2corg_ui
 
 api_url = {api_url}
+image_backend_url = {image_backend_url}
+image_url = {image_url}
 api_url_internal = {api_url_internal}
 api_url_host = {api_url_host}
 

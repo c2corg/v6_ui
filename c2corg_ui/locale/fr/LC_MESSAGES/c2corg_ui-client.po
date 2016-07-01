@@ -226,6 +226,10 @@ msgstr "Adresse email"
 msgid "Equipment"
 msgstr "Équipement"
 
+#: c2corg_ui/static/js/imageuploader.js
+msgid "Error while uploading the image :"
+msgstr "Une erreur est apparue pendant le téléchargement de l'image :"
+
 #: c2corg_ui/templates/i18n.html
 msgid "Failed loading this map background"
 msgstr ""

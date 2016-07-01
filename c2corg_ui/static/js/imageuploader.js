@@ -40,14 +40,13 @@ app.module.directive('appImageUploader', app.imageUploaderDirective);
  * @param {angular.$q} $q promise
  * @param {app.Api} appApi Api service.
  * @param {app.Alerts} appAlerts
- * @param {Object} Upload ng-file-upload Upload service.
  * @param {app.Document} appDocument service
+ * @param {String} imageUrl URL to the image backend.
  * @constructor
  * @struct
- * @export
  * @ngInject
  */
-app.ImageUploaderController = function($scope, Upload, $uibModal, $compile, $q, appAlerts, appApi, appDocument) {
+app.ImageUploaderController = function($scope, $uibModal, $compile, $q, appAlerts, appApi, appDocument, imageUrl) {
 
   /**
    * @type {app.Document}
@@ -68,6 +67,12 @@ app.ImageUploaderController = function($scope, Upload, $uibModal, $compile, $q, 
   this.api_ = appApi;
 
   /**
+   * @type {String}
+   * @private
+   */
+  this.imageUrl_ = imageUrl;
+
+  /**
    * @type {app.Alerts}
    * @private
    */
@@ -84,23 +89,6 @@ app.ImageUploaderController = function($scope, Upload, $uibModal, $compile, $q, 
    * @private
    */
   this.q_ = $q;
-
-  /**
-   * @private
-   */
-  this.Upload_ = Upload;
-
-  /**
-   * @type {Array.<angular.$q.Promise>}
-   * @export
-   */
-  this.uploading = [];
-
-  /**
-   * @type {Array.<angular.$q.Promise>}
-   * @export
-   */
-  this.promises = [];
 
   /**
    * @type {Array.<File>}
@@ -204,16 +192,27 @@ app.ImageUploaderController.prototype.upload_ = function() {
       });
 
       this.getImageMetadata_(file);
-      this.uploading[i] = this.api_.uploadImage(file);
-      this.promises.push(this.uploading[i]);
 
-      this.uploading[i].then(function(resp) {
-        console.log('100% uploaded! ' + file['metadata']['title'] + ' ' + i);
+      var canceller = this.q_.defer();
+      var promise = this.api_.uploadImage(file, canceller.promise, function(file, event) {
+        var progress = event.loaded / event.total;
+        file['progress'] = 100 * progress;
+      }.bind(this, file));
+      file['uploading'] = promise;
+      file['canceller'] = canceller;
+
+      promise.then(function(resp) {
+        file['metadata']['filename'] = resp['data']['filename'];
       }.bind(this), function(resp) {
-        this.alerts_.addError('error while uploading the image ' + resp);
-      }.bind(this), function(evt) { // handled by defer.notify()
-          //var progressPercentage = parseInt(100.0 * evt.loaded / evt.total, 10);
-      });
+        if (resp.status == -1) {
+          if (!file['manuallyAborted']) {
+            this.alerts_.addError(this.alerts_.gettext('Error while uploading the image : ') + 'Timeout');
+          }
+        } else {
+          this.alerts_.addError(this.alerts_.gettext('Error while uploading the image : ') + resp.statusText);
+        }
+        this.deleteImage(this.files.indexOf(file));
+      }.bind(this));
     }
   }
   this.areAllUploadedCheck_(interval);
@@ -226,8 +225,12 @@ app.ImageUploaderController.prototype.upload_ = function() {
  * @private
  */
 app.ImageUploaderController.prototype.areAllUploadedCheck_ = function(interval) {
-  this.q_.all(this.promises).then(function(res) {
-    if (this.files.length > 0 && (this.files.length === this.promises.length || this.promises.length >= this.promises.length)) {
+  var promises = this.files.map(function(file) {
+    return file['uploading'];
+  });
+
+  this.q_.all(promises).then(function(res) {
+    if (this.files.length > 0) {
       this.areAllUploaded = true;
       clearInterval(interval);
     } else {
@@ -242,49 +245,48 @@ app.ImageUploaderController.prototype.areAllUploadedCheck_ = function(interval) 
  * @export
  */
 app.ImageUploaderController.prototype.save = function() {
-  var meta;
-  var id;
+  this.api_.createImages(this.files, this.documentService.document)
+  .then(function() {
+    var meta;
+    var id;
 
-  $('.img-container').each(function(i, image) {
-    meta = this.files[i]['metadata'];
-    id = 'image-' + (+new Date());
-    this.files[i]['document_id'] = id;
+    $('.img-container').each(function(i, image) {
+      meta = this.files[i]['metadata'];
+      id = 'image-' + (+new Date());
+      this.files[i]['document_id'] = id;
 
-    var element = app.utils.createImageSlide(this.files[i]);
-    $('.photos').slick('slickAdd', element);
+      var element = app.utils.createImageSlide(this.files[i], this.imageUrl_);
+      $('.photos').slick('slickAdd', element);
 
-    var scope = this.scope_.$new(true);
-    scope['photo'] = {
-      'filename' : meta['filename'],
-      'locales' : [{'title': meta['title']}],
-      'date_time': meta['DateTime'],
-      'activities' : meta['activities'],
-      'iso_speed' : meta['PhotographicSensitivity'],
-      'image_type' : meta['image_type'],
-      'fnumber' : meta['FocalLength'],
-      'camera_name' : meta['Make'] + ' ' + meta['Model'],
-      'categories': meta['categories'],
-      'document_id': id
-    };
-    this.documentService.document.associations['images'].push(scope['photo']);
-    this.compile_($('#image-' + id).contents())(scope);
+      var scope = this.scope_.$new(true);
+      scope['photo'] = {
+        'filename' : meta['filename'],
+        'locales' : [{'title': meta['title']}],
+        'date_time': meta['DateTime'],
+        'activities' : meta['activities'],
+        'iso_speed' : meta['PhotographicSensitivity'],
+        'image_type' : meta['image_type'],
+        'fnumber' : meta['FocalLength'],
+        'camera_name' : meta['Make'] + ' ' + meta['Model'],
+        'categories': meta['categories'],
+        'document_id': id
+      };
+      this.documentService.document.associations['images'].push(scope['photo']);
+      this.compile_($('#image-' + id).contents())(scope);
+    }.bind(this));
 
+    $('.modal, .modal-backdrop').remove();
   }.bind(this));
-  $('.modal, .modal-backdrop').remove();
-  this.api_.saveImages(this.files);
 };
 
 
 /**
- * TODO: REALLY cancel an image being sent? promise.resolve?
  * @param {number} index
  * @export
  */
 app.ImageUploaderController.prototype.abortUploadingImage = function(index) {
-  this.uploading.splice(index, 1);
-  this.files.splice(index, 1);
-  this.promises.splice(index, 1);
-  this.api_.abortUploadingImage(index);
+  this.files[index]['manuallyAborted'] = true;
+  this.files[index]['canceller'].resolve();
 };
 
 

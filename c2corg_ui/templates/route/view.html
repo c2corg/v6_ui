@@ -63,6 +63,9 @@ other_langs, missing_langs = get_lang_lists(route, lang)
   );
 
   module.value('documentData', {
+    "document_id": ${route.get('document_id')},
+    "lang": "${lang}",
+    "type": "r",
     % if route.get('orientations'):
       "orientations": [${'"' + '","'.join(route['orientations']) + '"' if len(route['orientations']) else '' | n}],
     % endif

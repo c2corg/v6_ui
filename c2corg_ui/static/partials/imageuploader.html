@@ -77,13 +77,15 @@
           </div>
           <!-- IMAGE TYPE-->
           <div class="btn-group">
-            <button class="btn btn-default dropdown-toggle" ng-class="{'btn-success': file.metadata.image_type.length > 0}" type="button" data-toggle="dropdown">
+            <button class="btn btn-default dropdown-toggle" ng-class="{'btn-success': file.metadata.image_type}" type="button" data-toggle="dropdown">
               <label translate>type</label>
               <span class="glyphicon glyphicon-menu-down"></span>
             </button>
             <ul class="dropdown-menu">
-              <li ng-repeat="type in types" ng-click="uplCtrl.selectOption(file.metadata, 'image_type', type, $event)">
-                <a class="radio"><label><input type="radio" name="types">{{type| translate}}</label></a>
+              <li ng-repeat="type in types">
+                <div class="radio">
+                  <label><input type="radio" name="types" ng-model="file.metadata.image_type" value="{{type}}">{{type| translate}}</label>
+                </div>
               </li>
             </ul>
           </div>
@@ -92,7 +94,7 @@
       </div>
       <!-- PROGRESS BAR-->
       <div  class="progress" ng-show="file.progress < 100">
-        <div class="progress-bar progress-bar-striped active" role="progressbar" style="width:{{file.progress}}%;">{{file.progress}}%</div>
+        <div class="progress-bar progress-bar-striped active" role="progressbar" style="width:{{file.progress}}%;">{{file.progress | number : 0}}%</div>
       </div>
       <!-- ABORT BUTTON-->
       <button class="btn btn-danger" type="button" ng-click="uplCtrl.abortUploadingImage($index)" ng-show="file.progress < 100">Abort</button>

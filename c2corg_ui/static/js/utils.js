@@ -158,13 +158,13 @@ app.utils.getImageFileBase64Source = function(file) {
  * @return {string}
  * @export
  */
-app.utils.createImageSlide = function(file) {
+app.utils.createImageSlide = function(file, imageUrl) {
   var img;
   var ahref;
   // if !src => it's an already existing image, else it's an image that has just been uploaded
   if (!file['src']) {
-    ahref = '<a href="' + app.constants.imagesURL + file.filename + '" data-info-id="' + file['document_id'] + '">';
-    img = '<img src="' + app.constants.imagesURL + file.filename + '">';
+    ahref = '<a href="' + imageUrl + file.filename + '" data-info-id="' + file['document_id'] + '">';
+    img = '<img src="' + imageUrl + file.filename + '">';
   } else {
     ahref = '<a href="' + file['src'] + '" data-info-id="' + file['document_id'] + '">';
     img = '<img src=" ' + file['src'] + '">';
