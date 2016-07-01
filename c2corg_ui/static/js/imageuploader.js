@@ -245,39 +245,38 @@ app.ImageUploaderController.prototype.areAllUploadedCheck_ = function(interval) 
  * @export
  */
 app.ImageUploaderController.prototype.save = function() {
-  var meta;
-  var id;
-
-  $('.img-container').each(function(i, image) {
-    meta = this.files[i]['metadata'];
-    id = 'image-' + (+new Date());
-    this.files[i]['document_id'] = id;
-
-    var element = app.utils.createImageSlide(this.files[i], this.imageUrl_);
-    $('.photos').slick('slickAdd', element);
-
-    var scope = this.scope_.$new(true);
-    scope['photo'] = {
-      'filename' : meta['filename'],
-      'locales' : [{'title': meta['title']}],
-      'date_time': meta['DateTime'],
-      'activities' : meta['activities'],
-      'iso_speed' : meta['PhotographicSensitivity'],
-      'image_type' : meta['image_type'],
-      'fnumber' : meta['FocalLength'],
-      'camera_name' : meta['Make'] + ' ' + meta['Model'],
-      'categories': meta['categories'],
-      'document_id': id
-    };
-    this.documentService.document.associations['images'].push(scope['photo']);
-    this.compile_($('#image-' + id).contents())(scope);
-
-  }.bind(this));
-
   this.api_.createImages(this.files, this.documentService.document)
   .then(function() {
+    var meta;
+    var id;
+
+    $('.img-container').each(function(i, image) {
+      meta = this.files[i]['metadata'];
+      id = 'image-' + (+new Date());
+      this.files[i]['document_id'] = id;
+
+      var element = app.utils.createImageSlide(this.files[i], this.imageUrl_);
+      $('.photos').slick('slickAdd', element);
+
+      var scope = this.scope_.$new(true);
+      scope['photo'] = {
+        'filename' : meta['filename'],
+        'locales' : [{'title': meta['title']}],
+        'date_time': meta['DateTime'],
+        'activities' : meta['activities'],
+        'iso_speed' : meta['PhotographicSensitivity'],
+        'image_type' : meta['image_type'],
+        'fnumber' : meta['FocalLength'],
+        'camera_name' : meta['Make'] + ' ' + meta['Model'],
+        'categories': meta['categories'],
+        'document_id': id
+      };
+      this.documentService.document.associations['images'].push(scope['photo']);
+      this.compile_($('#image-' + id).contents())(scope);
+    }.bind(this));
+
     $('.modal, .modal-backdrop').remove();
-  });
+  }.bind(this));
 };
 
 
