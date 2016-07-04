@@ -12,18 +12,18 @@
    width="65"
    height="65"
    viewBox="0 0 65.000001 65.000001"
-   id="svg2"
+   id="svg4604"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="shelter.svg">
+   sodipodi:docname="locality.svg">
   <defs
-     id="defs4">
+     id="defs4606">
     <clipPath
        clipPathUnits="userSpaceOnUse"
-       id="clipPath304">
+       id="clipPath286">
       <path
-         d="m 0,368 595.28,0 0,-368 L 0,0 0,368 Z"
-         id="path306"
+         d="m 513.739,235.444 21.56,0 0,25.556 -21.56,0 0,-25.556 z"
+         id="path288"
          inkscape:connector-curvature="0" />
     </clipPath>
   </defs>
@@ -35,26 +35,26 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="5.6"
-     inkscape:cx="31.637729"
-     inkscape:cy="15.245742"
+     inkscape:cx="31.33398"
+     inkscape:cy="37.096075"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      units="px"
-     inkscape:window-width="1855"
-     inkscape:window-height="1056"
-     inkscape:window-x="1665"
+     inkscape:window-width="768"
+     inkscape:window-height="848"
+     inkscape:window-x="75"
      inkscape:window-y="24"
-     inkscape:window-maximized="1" />
+     inkscape:window-maximized="0" />
   <metadata
-     id="metadata7">
+     id="metadata4609">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -64,12 +64,12 @@
      id="layer1"
      transform="translate(0,-987.36216)">
     <g
-       id="g182"
-       transform="matrix(2.5368894,0,0,-2.5368894,33.213353,993.60527)">
+       id="g278"
+       transform="matrix(2.5769044,0,0,-2.5769044,16.875947,1010.4785)">
       <path
-         d="m 0,0 5.45,-5.072 5.452,-5.074 c 0.221,-0.211 0.235,-0.557 0.032,-0.788 -0.112,-0.116 -0.262,-0.172 -0.41,-0.172 l 0,-0.007 -2.758,0 0,-9.957 c 0,-0.308 -0.252,-0.56 -0.559,-0.56 l -2.116,0 c -0.308,0 -0.551,0.252 -0.551,0.56 l 0,8.767 -9.837,0 0,-8.767 c 0,-0.308 -0.251,-0.56 -0.56,-0.56 l -2.116,0 c -0.307,0 -0.552,0.252 -0.552,0.56 l 0,9.957 -2.762,0 c -0.308,0 -0.553,0.25 -0.553,0.557 0,0.175 0.08,0.332 0.206,0.434 l 5.426,5.05 5.452,5.081 C -0.545,0.206 -0.213,0.206 0,0"
-         style="fill:#FFAA45;fill-opacity:1;fill-rule:nonzero;stroke:none"
-         id="path184"
+         d="m 0,0 c -0.265,0 -0.479,0.214 -0.479,0.479 0,0.265 0.214,0.479 0.479,0.479 l 12.542,0 c 0.264,0 0.479,-0.214 0.479,-0.479 C 13.021,0.214 12.806,0 12.542,0 L 0,0 Z m 0,3.875 12.542,0 c 0.264,0 0.479,-0.215 0.479,-0.479 0,-0.265 -0.215,-0.479 -0.479,-0.479 L 0,2.917 c -0.265,0 -0.479,0.214 -0.479,0.479 0,0.264 0.214,0.479 0.479,0.479 m 15.826,-6.207 0,8.333 -8.56,0 0,1.936 -1.999,0 0,-1.936 -8.551,0 0,-8.333 8.551,0 0,-11.159 -4.109,0 0,-1.999 10.217,0 0,1.999 -4.109,0 0,11.159 8.56,0 z"
+         style="fill:#ffaa45;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="path280"
          inkscape:connector-curvature="0" />
     </g>
   </g>

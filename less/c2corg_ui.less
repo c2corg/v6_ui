@@ -8,7 +8,10 @@
 @import "floatbuttons.less";
 @import "stickyfilters.less";
 @import "filters.less";
-@import "svg-icons.less";
+@import "other-icons.less";
+@import "social-icons.less";
+@import "waypoint-types.less";
+@import "activities.less";
 @import "viewdetails.less";
 @import "documentedit.less";
 @import "helpers.less";
@@ -260,7 +263,9 @@ main {
   .flex();
   justify-content: space-around;
   flex-flow: wrap row;
-
+  align-items: baseline;
+  align-content: flex-start;
+  
   .list-item {
     flex-basis: 48%;
     @media @big {
