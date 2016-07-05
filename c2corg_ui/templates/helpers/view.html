@@ -170,13 +170,14 @@
       <span x-translate>Associated ${type}</span><span class="glyphicon glyphicon-menu-down"></span>
     </h3>
     <div class="associated-documents collapse in" id="associated-waypoints">
-      <div class="list-item"
+      <div class="list-item waypoints"
         % if document['doctype'] == 'routes':
           ng-class="{'main-waypoint': doc.document_id === ${document['main_waypoint_id']}, 'new-item': doc['new']}"
+          ng-style="doc.document_id === ${document['main_waypoint_id']} && {'order': -1}"
         % else:
           ng-class="{'new-item': doc['new']}"
         % endif
-          ng-repeat="doc in ${associations}">
+          ng-repeat="doc in ${associations} | orderBy: 'waypoint_type'">
         <app-card app-card-doc="doc"></app-card>
         % if showDelete:
           <app-delete-association child-doctype="${type}" parent-id="${document['document_id']}" child-id="doc.document_id"
@@ -269,12 +270,11 @@
                   <tr>
                     <th class="location"><span translate>location</span> |
                       <span translate>altitude</span> |
-                      <span translate>orientation</span> |
-                      <span translate>time</span>
+                      <span translate>orientation</span>
                     </th>
                     <th class="soft-snow" translate>soft snow</th>
                     <th class="total-snow" translate>total snow</th>
-                    <th class="comment text-center" translate>comment</th>
+                    <th class="comment" translate>comment</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -315,11 +315,18 @@
 
   % else :
     % if text in locale and locale[text]:
+    <%
+      open_tab =  text == 'route_description' or text == 'hut_comment'
+    %>
       <div class="view-details-info col-xs-12">
-        <h3 class="heading closed show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#${text}">
+        <h3 class="heading
+            ${'closed' if not open_tab else ''}
+            show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#${text}">
           <span x-translate>${text}</span><span class="glyphicon glyphicon-menu-right"></span>
         </h3>
-        <section class="collapse" id="${text}" aria-expanded="trues">
+        <section
+          class="${'collapse in' if open_tab else 'collapse'}"
+          id="${text}" aria-expanded="trues">
           <div class="lead">
             ${show_attr(locale, text)}
           </div>
