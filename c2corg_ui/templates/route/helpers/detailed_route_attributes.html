@@ -4,22 +4,18 @@
 ## LOCATION
 <%def name="get_route_location(route)">\
   % if route.get('areas') or route.get('orientations'):
-    <div class="name-icon-value location" ng-click="detailsCtrl.openTab($event)">
+  <div class="name-icon-value location  ${'ng-hide' if route.get('areas') and not route.get('orientations') else ''} "
+       ng-click="detailsCtrl.openTab($event)">
       <h4><span translate>Location</span><span class="glyphicon glyphicon-menu-right"></span></h4>
       <div class="name-icon">
         <span class="glyphicon glyphicon-map-marker"></span>
         <p translate>Location</p>
       </div>
       <span class="detail-text accordion" id="detail-orientation">
-        ${show_areas(route)}
-        
+        <span class="areas">{show_areas(route)}</span>
+
         % if route.get('orientations'):
           ${show_orientations('detailsCtrl', 'detailsCtrl.documentService.document')}
-          <ul id="orientation-list">
-            % for orientation in route.get('orientations'):
-              <li>${orientation}</li>
-            % endfor
-          </ul>
         % endif
       </span>
     </div>
@@ -44,20 +40,25 @@
           % endfor
         </article>
       % endif
-    
+
       % if route.get('activities'):
         <article class="value activities">
           <span translate class="value-title">activities</span><br>
           % for type in route.get('activities') :
-          <span x-translate  class="green-text">${type}</span>${'' if loop.last else ', '}
+            <span x-translate  class="route-activity icon-${type}" uib-tooltip="{{mainCtrl.translate('${type}')}}" ></span>
           % endfor
         </article>
       % endif
 
       % if route.get('durations'):
-      <p><span translate class="value-title">durations</span>: <b class="value">${route['durations']}</b></p>
+        <article>
+          <span translate class="value-title">durations</span><br>
+          % for duration in route.get('durations') :
+          <span x-translate class="value">${duration}</span>${'' if loop.last else ', '}
+          % endfor
+        </article>
       % endif
-      
+
       % if route.get('rock_types'):
         <article>
           <span translate class="value-title">rock_types</span><br>
@@ -66,7 +67,7 @@
           % endfor
         </article>
       % endif
-      
+
       % if route.get('climbing_outdoor_type'):
         <p><span translate class="value-title">climbing_outdoor_type</span>: <b class="value">${route['climbing_outdoor_type']}</b></p>
       % endif
@@ -85,7 +86,7 @@
 </%def>
 
 
-## RATING  
+## RATING
 <%def name="get_route_rating(route)">\
 % if route.get('global_rating') or route.get('engagement_rating') or route.get('risk_rating') or route.get('exposition_rock_rating') \
   or route.get('rock_free_rating') or route.get('rock_required_rating') or route.get('hiking_rating') \
@@ -99,7 +100,7 @@
       <p translate>Rating</p>
     </div>
     <span class="detail-text accordion ratings">
-      
+
       ${get_global_rating(route)}
 
       ${get_hiking_mtb_rating(route)}
@@ -111,14 +112,14 @@
       % endif
 
         ${get_skitouring_rating(route)}
-      
+
     </span>
   </div>
   % endif
 </%def>
 
 
-## HEIGHTS  
+## HEIGHTS
 <%def name="get_route_heights(route)">\
   % if route.get('route_length') or route.get('mtb_height_diff_portages') or route.get('height_diff_difficulties') or route.get('difficulties_height') \
         or route.get('mtb_length_asphalt') or route.get('mtb_length_trail') or locale.get('slope') or route.get('elevation_max') or route.get('elevation_min') \
@@ -177,7 +178,7 @@
         <span class="glyphicon glyphicon-road"></span>
         <p translate>Access</p>
       </div>
-      
+
       <span class="detail-text accordion">
         % if route.get('lift_access'):
         <span x-translate class="value-title">lift_access</span> : <span translate class="value">yes</span><br>
@@ -204,7 +205,7 @@
       <p translate>Maps</p>
     </div>
     <span class="detail-text accordion">
-        ${show_maps(route)} 
+        ${show_maps(route)}
     </span>
   </div>
   % endif

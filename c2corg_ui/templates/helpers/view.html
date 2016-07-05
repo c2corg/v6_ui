@@ -390,22 +390,22 @@
 
 <%def name="get_document_min_max(document, prop)">\
   % if document.get(prop + '_min') and document.get(prop + '_max') and (document.get(prop + '_max') is not None and document.get(prop + '_min') is not None):
-  <p><b x-translate class="value-title">${prop}</b>: <span class="value">min ${document[prop + '_min']} m / max ${document[prop + '_max']} m</span></p>
+  <p><b x-translate class="value-title">${prop} min / max </b>: <span class="value"> ${document[prop + '_min']}m / ${document[prop + '_max']}m</span></p>
   %  elif (document.get(prop + '_min') and document.get(prop + '_min') is not None) and not document.get(prop + '_max'):
-  <p><b x-translate class="value-title">${prop + '_min'}</b>: <span class="value">${document[prop + '_min']} m</span></p>
+  <p><b x-translate class="value-title">${prop + '_min'}</b>: <span class="value">${document[prop + '_min']}m</span></p>
   % elif document.get(prop + '_max') and document.get(prop + '_max') is not None:
-  <p><b x-translate class="value-title">${prop + '_max'}</b>: <span class="value">${document[prop + '_max']} m</span></p>
+  <p><b x-translate class="value-title">${prop + '_max'}</b>: <span class="value">${document[prop + '_max']}m</span></p>
   % endif
 </%def>
 
 
 <%def name="get_document_up_down(document, prop)">\
   % if document.get(prop + '_down') and document.get(prop + '_up') and (document.get(prop + '_up') is not None and document.get(prop + '_down') is not None):
-  <p><b x-translate class="value-title">${prop}</b>: <span class="value">-${document[prop + '_down']} m / +${document[prop + '_up']} m</span></p>
+  <p><b x-translate class="value-title">${prop}</b>: <span class="value">+${document[prop + '_up']}m / -${document[prop + '_down']}m</span></p>
   %  elif (document.get(prop + '_down') and document.get(prop + '_down') is not None) and not document.get(prop + '_up'):
-  <p><b x-translate class="value-title">${prop + '_down'}</b>: <span class="value">${document[prop + '_down']} m</span></p>
+  <p><b x-translate class="value-title">${prop + '_down'}</b>: <span class="value">${document[prop + '_down']}m</span></p>
   % elif document.get(prop + '_up') and document.get(prop + '_up') is not None:
-  <p><b x-translate class="value-title">${prop + '_up'}</b>: <span class="value">${document[prop + '_up']} m</span></p>
+  <p><b x-translate class="value-title">${prop + '_up'}</b>: <span class="value">${document[prop + '_up']}m</span></p>
   % endif
 </%def>
 
@@ -476,19 +476,6 @@
       <span uib-tooltip="{{mainCtrl.translate('global_rating')}}" class="value">${document['global_rating']}</span>&nbsp;
     % endif
 
-    ## [A0] (without bracket) is showed only if equipment_rating = P1 or P1+, and if aid_rating is empty.
-    % if document.get('rock_required_rating') or document.get('rock_free_rating'):
-      <div class="rating-block">
-      % if document.get('rock_required_rating'):
-        <span uib-tooltip="{{mainCtrl.translate('rock_free_rating')}}" class="value">${document.get('rock_free_rating')}</span>
-      % endif
-      ${'>' if document.get('rock_required_rating') and document.get('rock_free_rating') else ''}
-      % if document.get('rock_required_rating') and document.get('rock_free_rating'):
-        <span uib-tooltip="{{mainCtrl.translate('rock_required_rating')}}" class="value">${document['rock_required_rating']}${'A0' if (document.get('equipment_rating') == 'P1' or document.get('equipment_rating') == 'P1+') and not document.get('aid_rating') else ''}</span></p>
-      % endif
-      </div>
-    % endif
-
     % if route.get('aid_rating'):
       <span uib-tooltip="{{mainCtrl.translate('aid_rating')}}" class="value">${route['aid_rating']}</span>&nbsp;
     % endif
@@ -519,6 +506,21 @@
 
     % if route.get('exposition_rock_rating'):
      <span uib-tooltip="{{mainCtrl.translate('exposition_rock_rating')}}" class="value">${route['exposition_rock_rating']}</span>&nbsp;
+    % endif
+
+    ## [A0] (without bracket) is showed only if equipment_rating = P1 or P1+, and if aid_rating is empty.
+    % if document.get('rock_required_rating') or document.get('rock_free_rating'):
+      <div class="rating-block">
+      % if document.get('rock_free_rating'):
+        <span uib-tooltip="{{mainCtrl.translate('rock_free_rating')}}" class="value">${document.get('rock_free_rating')}</span>
+      % endif
+
+      ${'>' if document.get('rock_required_rating') and document.get('rock_free_rating') else ''}
+
+      % if document.get('rock_required_rating') and document.get('rock_free_rating'):
+        <span uib-tooltip="{{mainCtrl.translate('rock_required_rating')}}" class="value">${document['rock_required_rating']}${'A0' if (document.get('equipment_rating') == 'P1' or document.get('equipment_rating') == 'P1+') and not document.get('aid_rating') else ''}</span></p>
+      % endif
+      </div>
     % endif
 
   % endif
