@@ -119,28 +119,30 @@
 
 ## PARTICIPANTS
 <%def name="get_outing_participants(outing)">\
-  % if outing.get('participant_count')  or outing['locales'][0]['participants'] or outing['associations']['users']:
-    <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
-      <h4><span translate>participants</span><span class="glyphicon glyphicon-menu-right"></span></h4>
-      <div class="name-icon">
-        <span class="icon-user"></span>
-        <p translate>participants</p>
+    % if outing.get('participant_count') or outing['locales'][0]['participants'] or outing['associations']['users']:
+      <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
+        <h4><span translate>participants</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+        <div class="name-icon">
+          <span class="icon-user"></span>
+          <p translate>participants</p>
+        </div>
+        <span class="detail-text accordion">
+          % if outing.get('participant_count') :
+          <p><span translate>participant_count</span>: <b>${outing['participant_count']}</b></p>
+          % endif
+
+          % if outing.get('associations').get('users'):
+            <p>
+                % for user in outing['associations']['users']:
+                  <a href="#TODO">${user['name']}</a>${'' if loop.last and not outing['locales'][0]['participants'] else ', '}
+                % endfor
+              ${outing['locales'][0]['participants'] or ''}
+            </p>
+          % endif
+          
+        </span>
       </div>
-      <span class="detail-text accordion">
-        % if outing.get('participant_count') :
-        <p><span translate>participant_count</span>: <b>${outing['participant_count']}</b></p>
-        % endif
-
-        <p>
-          % for user in outing['associations']['users']:
-            <a href="#TODO">${user['name']}</a>${'' if loop.last and not outing['locales'][0]['participants'] else ', '}
-          % endfor
-          ${outing['locales'][0]['participants'] or ''}
-        </p>
-
-      </span>
-    </div>
-  % endif
+    % endif
 </%def>
 
 

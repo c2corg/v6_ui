@@ -22,7 +22,7 @@
       <p><button type="submit" class="btn btn-primary" translate>Compare selected versions</button></p>
      % endif
     <div class="table-responsive">
-      <table class="versions-list table table-striped table-bordered">
+      <table class="versions-list table table-striped">
         <tr>
           % if has_several_versions:
           <th translate class="from-to"></th>
@@ -32,16 +32,16 @@
           <th translate>Comment about the changes</th>
         </tr>
         % for v in document_versions:
+          % if loop.first:
+            <div ng-init="to = ${v['version_id']}"></div>
+          % elif loop.index == 1:
+            <div ng-init="from = ${v['version_id']}"></div>
+          % endif
           <tr>
             % if has_several_versions:
               <td>
-                % if loop.first:
-                  <div ng-init="to = ${v['version_id']}"></div>
-                % elif loop.index == 1:
-                  <div ng-init="from = ${v['version_id']}"></div>
-                % endif
-                <input class="radio-to" type="radio" ng-model="from" ng-value="${v['version_id']}" ng-class="{'hide-radio': ${v['version_id']} >= to}">
-                <input class="radio-from" type="radio" ng-model="to" ng-value="${v['version_id']}" ng-class="{'hide-radio': ${v['version_id']} <= from}">
+                <input class="radio-to" type="radio" ng-model="from" ng-value="${v['version_id']}" ng-class="{'hide-radio': ${v['version_id']} >= to, 'radio-right': ${v['version_id']} <= to }">
+                <input class="radio-from" type="radio" ng-model="to" ng-value="${v['version_id']}" ng-class="{'hide-radio': ${v['version_id']} <= from, 'radio-right': ${v['version_id']} >= from}">
               </td>
             % endif
             <%
@@ -50,8 +50,8 @@
                 else:
                     version_url = request.route_url(module + '_archive', id=document_id, lang=lang, version=v['version_id'])
             %>
-            <td><a href="${version_url}">{{'${1000 * v['written_at']}' | amDateFormat:'dddd Do MMMM YYYY - hh:ss'}}</a></td>
-            <td><a href="#TODO profile for ${v['user_id']}">${v['username']}</a></td>
+            <td><a href="${version_url}">{{'${1000 * v['written_at']}' | date: 'dd.MM.yyyy - HH:mm':'-0000' }}</a></td>
+            <td class="text-center"><a href="#TODO profile for ${v['user_id']}">${v['username']}</a></td>
             <td x-translate>${show_version_comment(v)}</td>
           </tr>
         % endfor

@@ -32,6 +32,7 @@ class Outing(Document):
                  renderer='c2corg_ui:templates/outing/view.html')
     def view(self):
         id, lang = self._validate_id_lang()
+        version = False
         if 'version' in self.request.matchdict:
             version_id = int(self.request.matchdict['version'])
             outing, locale, version = self._get_archived_document(
@@ -42,6 +43,7 @@ class Outing(Document):
             'lang': lang,
             'outing': outing,
             'locale': locale,
+            'version': version
         })
         return self.template_input
 
