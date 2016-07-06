@@ -11,6 +11,7 @@ goog.require('app.utils');
  * @param {angular.Scope} $scope Scope.
  * @param {angular.JQLite} $element Element.
  * @param {angular.Attributes} $attrs Attributes.
+ * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @param {app.Authentication} appAuthentication
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {app.Alerts} appAlerts
@@ -22,11 +23,11 @@ goog.require('app.utils');
  * @ngInject
  * @export
  */
-app.OutingEditingController = function($scope, $element, $attrs,
+app.OutingEditingController = function($scope, $element, $attrs, gettextCatalog,
     appAuthentication, ngeoLocation, appAlerts, appApi, authUrl,
     appDocument) {
 
-  goog.base(this, $scope, $element, $attrs, appAuthentication,
+  goog.base(this, $scope, $element, $attrs, gettextCatalog, appAuthentication,
     ngeoLocation, appAlerts, appApi, authUrl, appDocument);
 
   /**
@@ -143,6 +144,7 @@ app.DocumentEditingController.prototype.formatOuting_ = function(outing) {
       delete associations['users'][i]['document_id'];
     }
   }
+
   // convert existing date from string to a date object
   if (outing.date_end && typeof outing.date_end === 'string') {
     outing.date_end = app.utils.formatDate(outing.date_end);
