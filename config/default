@@ -14,6 +14,7 @@ export image_backend_url = http://c2corgv6-demo.gis.internal:8480
 export image_url = http://c2corgv6-demo.gis.internal:8480/active/
 export api_url_internal =
 export api_url_host =
+export discourse_url = http://c2corgv6-discourse.demo-camptocamp.com/
 
 # Valid for http://c2corgv6.demo-camptocamp.com
 export ign_api_key = 9qxhimhvm24i40p8j86n7de3

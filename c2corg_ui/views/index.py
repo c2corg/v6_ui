@@ -15,7 +15,8 @@ class Pages(object):
             'ign_api_key': self.settings['ign_api_key'],
             'bing_api_key': self.settings['bing_api_key'],
             'image_backend_url': self.settings['image_backend_url'],
-            'image_url': self.settings['image_url']
+            'image_url': self.settings['image_url'],
+            'discourse_url': self.settings['discourse_url']
         }
 
     @view_config(route_name='index')

@@ -116,6 +116,7 @@ class NotFound():
           'bing_api_key': self.settings['bing_api_key'],
           'image_backend_url': self.settings['image_backend_url'],
           'image_url': self.settings['image_url'],
+          'discourse_url': self.settings['discourse_url'],
           'error_msg': self.context.detail if self.context.detail else ''
         }
 

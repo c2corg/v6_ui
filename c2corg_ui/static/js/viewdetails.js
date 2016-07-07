@@ -57,13 +57,14 @@ app.module.directive('appViewDetails', app.viewDetailsDirective);
  * @param {app.Api} appApi Api service.
  * @param {app.Document} appDocument service
  * @param {appx.Document} documentData Data set as module value in the HTML.
- * @param {String} imageUrl URL to the image backend.
+ * @param {string} imageUrl URL to the image backend.
+ * @param {string} discourseUrl URL to discourse.
  * @constructor
  * @export
  * @ngInject
  */
 app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
-    appDocument, documentData, imageUrl) {
+    appDocument, documentData, imageUrl, discourseUrl) {
 
   /**
    * @type {app.Document}
@@ -91,10 +92,17 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
   this.api_ = appApi;
 
   /**
-   * @type {String}
+   * @type {string}
    * @private
    */
   this.imageUrl_ = imageUrl;
+
+
+  /**
+   * @type {string}
+   * @private
+   */
+  this.discourseUrl_ = discourseUrl;
 
   /**
    * @type {!angular.Scope}

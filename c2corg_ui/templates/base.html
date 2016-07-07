@@ -145,6 +145,7 @@ closure_library_path = settings.get('closure_library_path')
          module.constant('apiUrl', '${api_url}');
          module.constant('imageBackendUrl', '${image_backend_url}');
          module.constant('imageUrl', '${image_url}');
+         module.constant('discourseUrl', '${discourse_url}');
          module.constant('authUrl', '${request.route_url('auth')}');
          module.constant('langs', ['${"','".join(default_langs) |n}']);
          module.constant('mapApiKeys', {
