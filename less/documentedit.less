@@ -83,7 +83,7 @@
   #maps_info-group {
     width: 100%;
     margin-top: 15px;
-    
+
     input:not(last-of-type) {
       margin-bottom: 10px;
     }
@@ -110,13 +110,13 @@
     .flex();
     flex-flow: wrap row;
     justify-content: space-between;
-    border: 2px solid #eee;  
+    border: 2px solid #eee;
     border-radius: 5px;
     background: white;
     margin-bottom: 15px;
     width: 100%;
-    
-    .route-activities { 
+
+    .route-activities {
       .flex();
       justify-content: space-around;
       flex-flow: wrap row;
@@ -150,7 +150,17 @@
         }
       }
     }
-    
+
+    app-simple-search {
+      width: 100px;
+      @media @phone {
+        width: 100%;
+        .search {
+          width: 100%;
+        }
+      }
+    }
+
     .conditions-levels {
       margin-bottom: 10px;
       th {
@@ -163,13 +173,14 @@
         font-size: 1.4em;
       }
     }
-    .data.third, .data.half, .data.full, #rock_types-group, #title-group {
+
+    .data.third, .data.half, .data.full, #rock_types-group, #title-group, #lang-group {
       float: left;
       margin-right: 2%;
       margin-left: 2%;
-      
+
       @media @phone {
-        margin-right: .5%;
+        margin-right: 0;
         flex-basis: 100% !important;
       }
     }
@@ -203,7 +214,7 @@
     textarea.description {
       height: 300px !important;
     }
-    .route-activities { 
+    .route-activities {
      @media @phone {
         justify-content: space-between;
       }
@@ -237,7 +248,7 @@
       .flex();
       flex-flow: wrap row;
       justify-content: space-between;
-      
+
       &.waypoint-association {
         min-height:  300px;
         app-simple-search {
@@ -286,7 +297,7 @@
           padding: 10px;
           border: 1px solid #eee;
           border-radius: 5px;
-          
+
           @media @tablet {
             flex-basis: 49%;
           }
@@ -325,12 +336,12 @@
     height: 0;
     z-index: 0 !important;
     pointer-events: all;
-    
+
     @media @phone {
       display: none;
     }
   }
-  
+
   .map-edit {
     margin-top: -5px;
     margin-bottom: 10px;
@@ -360,7 +371,7 @@
     @media @phone {
       display: none;
     }
-    
+
     @media @tablet {
       width: 106%;
       margin-left: -10px;
@@ -429,7 +440,7 @@
     border: none;
     margin-bottom: 0;
   }
-  
+
   ul {
     padding: 0;
     list-style: none;
@@ -440,7 +451,7 @@
     -moz-column-count: 2;
     list-style: none;
     margin-bottom: 5px;
-    
+
     @media @phone {
       column-count: 1;
       -webkit-column-count: 1;
@@ -475,7 +486,7 @@
   }
   label, .months, .types, #route-activities, h2, #message-group  {
     width: 100%;
-  } 
+  }
 }
 
 .action-buttons {
@@ -496,6 +507,9 @@
 #lang-group {
   margin: 0 !important;
   flex-basis: 20%;
+  @media @phone {
+    margin: 0 .5% 15px 2% !important;
+  }
 }
 
 #waypoint_type-group {
@@ -595,4 +609,8 @@ input[type="radio"] {
 .activity-selected {
   color: @C2C-orange !important;
   transition: 0.2s ease-in-out;
+}
+
+#participants-group {
+  margin-top: 10px;
 }

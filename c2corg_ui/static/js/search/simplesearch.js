@@ -29,8 +29,8 @@ app.simpleSearchDirective = function() {
         function($scope, element, attrs, ctrl) {
 
           var phoneScreen = app.constants.SCREEN.SMARTPHONE;
-
-          if ($(element).closest('app-add-association').length) {
+          // don't show "show more" button for this cases.
+          if ($(element).closest('app-add-association').length || $(element).closest('#participants-group').length) {
             ctrl.associationContext_ = true;
           }
 

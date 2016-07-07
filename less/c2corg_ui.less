@@ -138,7 +138,7 @@ h1 {
       width: 25%;
     }
     li {
-      color: #337ab7; 
+      color: #337ab7;
       cursor: pointer;
       height: 30px;
       transition: 0.1s;
@@ -152,14 +152,14 @@ h1 {
       }
 
     }
-  } 
+  }
 }
 
 main {
   #missing-langs, #other-langs {
     display: none;
   }
-} 
+}
 
 .nav-tabs {
   display: none;
@@ -235,7 +235,7 @@ main {
   ul {
     display:inline-block;
     margin-bottom: 0;
-    
+
     li {
       display:inline-block;
 
@@ -415,7 +415,7 @@ main {
 .map-right {
   position: relative;
 
-  .map {        
+  .map {
     @media (max-height: 300px) {
       height: 70vh;
     }
@@ -512,7 +512,7 @@ app-user{
     font-size: 2em;
   }
   .login-out-button {
-    span { 
+    span {
       @media @phone {
         display: none;
       }
@@ -596,8 +596,7 @@ app-simple-search {
   padding-left: 10px;
   margin-right: 10px;
   background: @C2C-orange;
-  width: 25%;
-  
+
   .glyphicon {
     color: #F9F9F9;
   }
@@ -710,7 +709,7 @@ app-simple-search {
       }
     }
   }
-}/* page-header */ 
+}/* page-header */
 
 .logo.header {
   position: relative;
@@ -796,7 +795,7 @@ app-alerts {
     left: 5vw;
     width: 90%;
   }
-  
+
   ul {
     list-style: none;
   }
@@ -821,7 +820,7 @@ app-alerts {
 .auth-form {
   padding: 0 10% 0 10%;
   margin-top: 100px;
-      
+
   section {
     background-color: white;
     padding-top: 0.01%;
@@ -897,13 +896,13 @@ button:focus {
 }
 
 input[type=checkbox]{
-  width: 0px; 
+  width: 0px;
   display: none;
 }
 
 input[type=checkbox] + * {
   padding-left:21px;
-  height:16px; 
+  height:16px;
   display:inline-block;
   line-height:16px;
   background-repeat:no-repeat;
@@ -913,10 +912,10 @@ input[type=checkbox] + * {
   cursor:pointer;
   background-image:url(../img/checkbox-bg.svg);
   transition: 0.2s ease-in-out;
-  -moz-box-sizing: border-box; 
+  -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  display: inline-block;    
+  display: inline-block;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -1042,7 +1041,7 @@ ul {
       right: 0;
       margin-right: 5px;
       font-size: 15px;
-      
+
       @media @phone {
         font-size: 13px;
       }
@@ -1057,9 +1056,12 @@ ul {
       position: absolute;
       color: red;
       font-size: 1.3em;
-      right: 0;
-      margin-right: 5px;
+      right: 10px;
       top: 80%;
+      @media @phone {
+        font-size: 1em;
+        top: 78%;
+      }
     }
   }
   .route-activities {
