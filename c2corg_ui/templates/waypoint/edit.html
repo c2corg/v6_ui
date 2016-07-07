@@ -33,46 +33,47 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
     app-document-editing-id="${waypoint_id}" app-document-editing-lang="${waypoint_lang}"
   % endif
     class="document-editing" name="editForm" novalidate ng-submit="editCtrl.submitForm(editForm.$valid)">
-    
-    ## It won't work with ng-init
-    <span class="ng-hide">
-      {{editCtrl.updateMaxSteps(waypoint.waypoint_type)}} 
-      {{editCtrl.waypoint_type = waypoint.waypoint_type}}
-      {{type = waypoint.waypoint_type}}
-    </span>
-    
-    ## PROGRESS BAR
-    <ul class="progress-bar-edit">
-      <li class="nav-step-1"ng-click="editCtrl.step(1, 'waypoint',  'backwards')" ng-class="{'nav-step-selected': editCtrl.current_step == 1 }"><span class="nav-text"><span translate>waypoint</span></span><span class="bullet-container"><span class="bullet"></span></span></li>
-      <li class="nav-step-2" ng-click="editCtrl.step(2, 'waypoint', editCtrl.previous_step >= 2 ? 'backwards' : 'forwards')" 
-          ng-if="['paragliding_takeoff', 'paragliding_landing', 'climbing_outdoor', 'climbing_indoor',  'local_product', 'weather_station', 'gite',  'camp_site', 'hut',  'bivouac', 'shelter', 'access'].indexOf(type) > -1">
-        <span class="nav-text"><span translate>figures</span></span><span class="bullet-container"><span class="bullet"></span></span>
-      </li>
-      
-      <li class="nav-step-{{editCtrl.max_steps -1}}" ng-click="editCtrl.step((editCtrl.max_steps == 4 ? 3 : 2), 'waypoint',  editCtrl.previous_step >= ((editCtrl.max_steps == 4) ? 3 : 2) ? 'backwards' : 'forwards')" >
-        <span class="nav-text"><span ng-if="type != 'climbing_indoor' "><span translate>associations</span> & </span><span translate>descriptions</span></span></span><span class="bullet-container"><span class="bullet"></span></span>
-      </li>
-      
-      <li class="nav-step-{{editCtrl.max_steps}}" ng-click="editCtrl.step(editCtrl.max_steps, 'forwards')"><span translate class="nav-text">review</span>
-        <span class="bullet-container"><span class="bullet"></span></span>
-      </li>
-    </ul>
 
-    ## NAV BUTTONS
-    <div class="nav-buttons">
-      <button class="btn btn-primary prev" type="button" ng-if="editCtrl.previous_step !== 0" ng-click="editCtrl.step(editCtrl.previous_step, 'waypoint', 'backwards')"><span class="glyphicon glyphicon-triangle-left"></span></button>
-      <button class="btn btn-primary next" type="button" ng-if="editCtrl.next_step <= editCtrl.max_steps" ng-click="editCtrl.step(editCtrl.next_step, 'waypoint', 'forwards')"><span class="glyphicon glyphicon-triangle-right"></span></button>
-    </div>
+    <div class="ng-hide">{{type = waypoint.waypoint_type}}</div>
+
+    ## PROGRESS BAR
+    <app-progress-bar>
+      ## It won't work with ng-init
+      <span class="ng-hide">
+        {{progressBarCtrl.updateMaxSteps(waypoint.waypoint_type)}}
+        {{progressBarCtrl.waypointType = waypoint.waypoint_type}}
+      </span>
+
+      <ul class="progress-bar-edit">
+        <li class="nav-step-1"ng-click="progressBarCtrl.step(1, 'waypoint',  'backwards')" ng-class="{'nav-step-selected': progressBarCtrl.currentStep == 1 }"><span class="nav-text"><span translate>waypoint</span></span><span class="bullet-container"><span class="bullet"></span></span></li>
+        <li class="nav-step-2" ng-click="progressBarCtrl.step(2, 'waypoint', progressBarCtrl.previousStep >= 2 ? 'backwards' : 'forwards')"
+            ng-if="['paragliding_takeoff', 'paragliding_landing', 'climbing_outdoor', 'climbing_indoor',  'local_product', 'weather_station', 'gite',  'camp_site', 'hut',  'bivouac', 'shelter', 'access'].indexOf(type) > -1">
+          <span class="nav-text"><span translate>figures</span></span><span class="bullet-container"><span class="bullet"></span></span>
+        </li>
+        <li class="nav-step-{{progressBarCtrl.maxSteps -1}}" ng-click="progressBarCtrl.step((progressBarCtrl.maxSteps == 4 ? 3 : 2), 'waypoint',  progressBarCtrl.previousStep >= ((progressBarCtrl.maxSteps == 4) ? 3 : 2) ? 'backwards' : 'forwards')" >
+          <span class="nav-text"><span ng-if="type != 'climbing_indoor' "><span translate>associations</span> & </span><span translate>descriptions</span></span></span><span class="bullet-container"><span class="bullet"></span></span>
+        </li>
+        <li class="nav-step-{{progressBarCtrl.maxSteps}}" ng-click="progressBarCtrl.step(progressBarCtrl.maxSteps, 'forwards')"><span translate class="nav-text">review</span>
+          <span class="bullet-container"><span class="bullet"></span></span>
+        </li>
+      </ul>
+
+      ## NAV BUTTONS
+      <div class="nav-buttons">
+        <button class="btn btn-primary prev" type="button" ng-if="progressBarCtrl.previousStep !== 0" ng-click="progressBarCtrl.step(progressBarCtrl.previousStep, 'waypoint', 'backwards')"><span class="glyphicon glyphicon-triangle-left"></span></button>
+        <button class="btn btn-primary next" type="button" ng-if="progressBarCtrl.nextStep <= progressBarCtrl.maxSteps" ng-click="progressBarCtrl.step(progressBarCtrl.nextStep, 'waypoint', 'forwards')"><span class="glyphicon glyphicon-triangle-right"></span></button>
+      </div>
+    </app-progress-bar>
 
     <section class="editing">
       <div class="step step-1">
         <section class="section title">
           <h2 class="heading show-phone"><span translate>title</span></h2>
-        
+
           <div class="content" id="title-edit">
-            
+
             ## TITLE
-            <div id="title-group" class="form-group data full" 
+            <div id="title-group" class="form-group data full"
                  ng-class="{ 'has-error': editForm.title.$touched && editForm.title.$invalid, 'has-success': editForm.title.$valid }">
               <label><span translate>title</span> *</label>
               <input type="text" name="title" ng-model="waypoint.locales[0].title" class="form-control" required ng-minlength="3" />
@@ -85,7 +86,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
             </div>
 
             ## LANGUAGE
-            <div id="lang-group" class="form-group" 
+            <div id="lang-group" class="form-group"
                  ng-class="{ 'has-error': editForm.lang.$touched && editForm.lang.$invalid, 'has-success': editForm.lang.$valid}">
               <label><span translate>lang</span> *</label>
               % if waypoint_lang:
@@ -111,16 +112,16 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
                   <p ng-message="required" style="{{ (editForm.waypoint_type.$invalid && editForm.waypoint_type.$touched) ? 'display:inline' : ''}}" translate>This field is required.</p>
                 </div>
               </div>
-              
+
           </div>
         </section>
 
-                
+
        ## MAPS
         <section class="section maps-info">
           <h2 class="heading show-phone"><span translate>geolocation</span></h2>
           <div class="content" id="edit-maps">
-            
+
             ## ELEVATION
             <div id="elevation-group" class="form-group data third" ng-if="type != 'climbing_indoor' " ng-class="{ 'has-error': editForm.elevation.$touched && editForm.elevation.$invalid, 'has-success': editForm.elevation.$valid && waypoint.elevation }">
               <label><span translate>elevation</span> *</label>
@@ -136,7 +137,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
                 <p ng-message="number" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
               </div>
             </div>
-            
+
             ## ELEVATION MIN
             <div id="elevation_min-group" ng-if="type == 'access'" class="form-group data third" ng-class="{ 'has-error': editForm.elevation_min.$touched && editForm.elevation_min.$invalid, 'has-success': waypoint.elevation_min}">
               <label translate>elevation_min</label>
@@ -152,9 +153,9 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
                 <p ng-message="number" style="{{ (editForm.elevation_min.$invalid && editForm.elevation_min.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
               </div>
             </div>
-            
+
             ##  PROMINENCE
-            <div id="prominence-group" ng-if="type == 'summit'" class="form-group data third" ng-class="{ 'has-error': editForm.prominence.$touched && editForm.prominence.$invalid, 
+            <div id="prominence-group" ng-if="type == 'summit'" class="form-group data third" ng-class="{ 'has-error': editForm.prominence.$touched && editForm.prominence.$invalid,
                       'has-success': editForm.prominence.$valid && waypoint.prominence }">
               <label><span translate>prominence</span></label>
               <div class="input-group">
@@ -167,7 +168,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
                 <p ng-message="number" style="{{ (editForm.prominence.$invalid && editForm.prominence.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
               </div>
             </div>
-            
+
              ## LONGITUDE
             <div id="longitude-group" class="form-group data third" ng-class="{ 'has-error': editForm.longitude.$touched && editForm.longitude.$invalid,
                                       'has-success': editForm.longitude.$valid && waypoint.lonlat.longitude}">
@@ -220,9 +221,9 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
           </div>
         </section>
       </div>
-      
+
       <div class="step step-2" ng-if="['paragliding_takeoff', 'paragliding_landing', 'climbing_outdoor', 'climbing_indoor',  'local_product', 'weather_station', 'gite',  'camp_site', 'hut',  'bivouac', 'shelter', 'access'].indexOf(type) > -1">
-        
+
          ## TYPES & STYLES
         <section class="section " ng-if="['paragliding_takeoff', 'paragliding_landing', 'climbing_outdoor', 'local_product', 'weather_station', 'climbing_indoor'].indexOf(type) > -1">
           <h2 class="heading show-phone" >
@@ -240,7 +241,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
                 </li>
               </ul>
             </div>
-            
+
             <div class="data half" ng-if="type == 'climbing_outdoor' || type == 'climbing_indoor'">
 
               ## CLIMBING OUT TYPES
@@ -264,7 +265,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               </div>
 
             </div>
-            
+
             ## BEST PERIODS
             <div class="form-group data half" ng-if="type == 'climbing_outdoor'">
               <label translate>best_periods</label>
@@ -295,7 +296,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <select ng-options="type as type for type in ${children_proof_types}" ng-model="waypoint.children_proof" class="form-control "><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.children_proof"></span>
             </div>
-            
+
             ## WEATHER STATION TYPES
             <div class="form-group data half" ng-if="type == 'weather_station'"
                  ng-class="{ 'has-error': editForm.weather_station_types.$touched && editForm.weather_station_types.$invalid, 'has-success': editForm.weather_station_types.$valid }">
@@ -326,7 +327,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
                 </li>
               </ul>
             </div>
-            
+
             ## ORIENTATION
             <div class="form-group data half" ng-if="['paragliding_takeoff', 'paragliding_landing', 'climbing_outdoor'].indexOf(type) > -1"
                  ng-class="{ 'has-error': editForm.orientations.$touched && editForm.orientations.$invalid,'has-success': editForm.orientations.$valid }">
@@ -334,15 +335,15 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               ${show_orientations('editCtrl', 'waypoint')}
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.orientations.$valid"></span>
             </div>
-            
+
           </div>
         </section>
-         
+
         ## NUMBERS
         <section class="section numbers" ng-if="['paragliding_takeoff', 'paragliding_landing', 'climbing_outdoor', 'climbing_indoor', 'gite', 'camp_site', 'hut', 'shelter'].indexOf(type) > -1 ">
           <h2 class="heading show-phone" ><span translate>Numbers</span></h2>
           <div class="content" id="edit-numbers">
-            
+
             ## LENGTH
             <div id="length-group" class="form-group data half" ng-if="type == 'paragliding_takeoff' || type == 'paragliding_landing'"
                  ng-class="{ 'has-error': editForm.length.$touched && editForm.length.$invalid, 'has-success': editForm.length.$valid && waypoint.length  }">
@@ -373,7 +374,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               </div>
             </div>
 
-            
+
             ## HEIGHT MAX
             <div class="form-group data half" ng-if="type == 'climbing_outdoor' || type == 'climbing_indoor'"
                  ng-class="{ 'has-error': editForm.height_max.$touched && editForm.height_max.$invalid,
@@ -453,7 +454,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <select class="form-control" name="custodianship" ng-options="type as mainCtrl.translate(type) for type in ${custodianship_types}" ng-model="waypoint.custodianship" ng-required="type == 'gite' || type == 'hut' || type == 'camp_site'"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.custodianship"></span>
             </div>
-            
+
             ## CAPACITY STAFFED
             <div class="form-group data half" ng-if="['gite', 'camp_site', 'hut', 'shelter'].indexOf(type) > -1"
                  ng-class="{ 'has-error': editForm.capacity_staffed.$touched && editForm.capacity_staffed.$invalid, 'has-success': editForm.capacity_staffed.$valid && waypoint.capacity_staffed }">
@@ -466,13 +467,13 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.capacity_staffed.$invalid && editForm.capacity_staffed.$touched"></span>
               <div class="help-block" ng-messages="editForm.capacity_staffed.$error">
                 <p ng-message="number" style="{{ (editForm.capacity_staffed.$invalid && editForm.capacity_staffed.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
-              </div> 
+              </div>
            </div>
 
           </div>
         </section>
-        
- 
+
+
         ##RATINGS
         <section class="section ratings" ng-if="['climbing_outdoor', 'climbing_indoor', 'paragliding_landing', 'paragliding_takeoff'].indexOf(type) > -1">
           <h2 class="heading show-phone"><span translate>ratings</span></h2>
@@ -539,7 +540,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
           <h2 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#edit-transports">
             <span><span translate>transport</span> & <span translate>access</span></span></h2>
           <div class="content" id="edit-transports">
-            
+
             ## SNOW CLEARANCE RATINGS
             <div class="form-group data half" ng-if="type == 'access'" ng-class="{'has-success': waypoint.snow_clearance_rating}">
               <label translate>snow_clearance_ratings</label>
@@ -563,7 +564,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.lift_access"></span>
             </div>
-            
+
             ## PUBLIC TRANSPORT TYPES
             <div class="form-group data half" ng-if="type == 'access' ">
               <label translate>public_transportation_types</label>
@@ -600,7 +601,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
           <h2 class="heading show-phone"><span translate>Equipment</span></h2>
           <div class="content" id="edit-equipment">
 
-            ## MATRESS 
+            ## MATRESS
             <div class="form-group data">
               <label translate>matress_unstaffed</label>
               <div class="radio">
@@ -658,14 +659,14 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
 
           </div>
         </section>
-        
+
         ## CONTACT
         <section class="section contact" ng-if="['climbing_indoor', 'local_product', 'gite' , 'webcam', 'local_product', 'camp_site', 'hut', 'weather_station', 'climbing_indoor', 'climbing_outdoor'].indexOf(type) > -1">
           <h2 class="heading show-phone"><span translate>Contact</span></h2>
           <div class="content" id="edit-contact">
 
             ## URL
-            <div class="form-group data half" 
+            <div class="form-group data half"
                  ng-if="['climbing_indoor', 'local_product', 'gite' , 'webcam', 'local_product', 'camp_site', 'hut', 'weather_station', 'climbing_indoor', 'climbing_outdoor'].indexOf(type) >-1"ng-class="{'has-success': waypoint.url}">
               <label><span translate>url</span> <span ng-if="type == 'webcam' || type == 'weather_station'">*</span></label>
               <input type="text" name="message" ng-model="waypoint.url" class="form-control" placeholder="www.adress.com" ng-required="['webcam', 'weather_station']. indexOf(type) > -1"/>
@@ -695,10 +696,10 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
 
           </div>
         </section>
-        
+
       </div>
 
-      <div class="step step-{{editCtrl.max_steps -1}}">
+      <div class="step step-{{editCtrl.maxSteps -1}}">
         <section class="section associations" ng-if="type != 'climbing_indoor' ">
           <h2 class="heading show-phone" translate>associations</h2>
           <div class="content">
@@ -710,9 +711,9 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
             </h5>
             ${show_editing_associated_waypoints('waypoint', type='waypoint_children')}
           </div>
-          
+
         </section>
-        
+
         <section class="section">
           <h2 class="heading show-phone" translate>descriptions</h2>
           <div class="content">
@@ -728,20 +729,20 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <label translate>description</label>
               <textarea name="description" ng-model="waypoint.locales[0].description" class="form-control description" placeholder="{{'Describe here the waypoint'|translate}}"></textarea>
             </div>
-            
+
             ## ACCESS
             <div class="form-group data full" ng-if="['access', 'local_product', 'climbing_outdoor'].indexOf(type) > -1">
               <label translate>access</label>
               <textarea name="access" ng-model="waypoint.locales[0].access" class="form-control" placeholder="{{'Describe access'|translate}}"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.locales[0].access"></span>
             </div>
-            
+
             ## ACCESS PERIOD
             <div id="access-period" class="form-group data full" ng-if="['access', 'local_product', 'hut', 'gite', 'camp_site', 'climbing_outdoor'].indexOf(type) > -1">
               <label translate ng-if="type == 'access' ">access_period</label>
               <label translate ng-if="type == 'hut' || type == 'gite' || type == 'camp_site'">opening_periods</label>
               <label translate ng-if="type == 'local_product'">opening_hours</label>
-              <textarea name="access_period" ng-model="waypoint.locales[0].access_period" class="form-control" 
+              <textarea name="access_period" ng-model="waypoint.locales[0].access_period" class="form-control"
                 placeholder="{{ (type == 'hut' || type == 'gite' || type == 'camp_site') ?
                   mainCtrl.translate('describe opening_periods') :
                   (type == 'local_product' ? mainCtrl.translate('describe opening_hours')  : mainCtrl.translate('describe access_period') ) }}">
@@ -754,7 +755,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
       </div>
 
       ##SUMMARY
-      <div class="step step-{{editCtrl.max_steps}}">
+      <div class="step step-{{editCtrl.maxSteps}}">
 
         <section class="section summary">
           <h2 class="heading show-phone"><span translate>summary</span></span></h2>
@@ -767,7 +768,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <input type="text" name="message" ng-model="waypoint.message" class="form-control" placeholder="{{'Short description of the applied changes'|translate}}" />
             </div>
             % endif
-            
+
             ## QUALITY
             <div class="form-group" ng-style="{'has-success': waypoint.quality}" ng-init="qualityTypes = ${quality_types}">
               ## I tried with ng-init, ng-selected..so hacking
@@ -776,17 +777,17 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <select ng-options="type as mainCtrl.translate(type) for type in qualityTypes" ng-model="waypoint.quality" class="form-control"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.quality"></span>
             </div>
-            
+
           </div>
         </section>
-        
+
         <p class="action-buttons float-buttons">
-          <button type="submit" class="btn orange-btn btn-lg float-button" 
+          <button type="submit" class="btn orange-btn btn-lg float-button"
             ng-if="!editForm.$invalid && !editCtrl.hasMissingProps(waypoint, false)" tooltip-placement="left" uib-tooltip="{{'Save' | translate}}">
             <span class="glyphicon glyphicon-ok"></span>
           </button>
-          <button type="button" class="btn btn-lg orange-btn float-button" 
-                  ng-style="(editForm.$invalid || editCtrl.hasMissingProps(waypoint, false)) && {'opacity': 0.5}" tooltip-placement="left" uib-tooltip="{{'What is missing?' | translate}}" 
+          <button type="button" class="btn btn-lg orange-btn float-button"
+                  ng-style="(editForm.$invalid || editCtrl.hasMissingProps(waypoint, false)) && {'opacity': 0.5}" tooltip-placement="left" uib-tooltip="{{'What is missing?' | translate}}"
                   ng-if="editForm.$invalid || editCtrl.hasMissingProps(waypoint, false)" ng-click="editCtrl.hasMissingProps(waypoint, true)">
             <span class="glyphicon glyphicon-ok"></span>
           </button>

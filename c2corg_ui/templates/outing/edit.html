@@ -27,24 +27,24 @@ updating_doc = outing_id and outing_lang
   % endif
     name="editForm" novalidate ng-submit="editCtrl.submitForm(editForm.$valid)" class="document-editing">
 
-    ## It won't work with ng-init
-    <span class="ng-hide">
-      {{editCtrl.max_steps = 4}}
-    </span>
+    <app-progress-bar>
+      ## It won't work with ng-init
+      <span class="ng-hide">{{progressBarCtrl.maxSteps = 4}}</span>
 
-    ## PROGRESS BAR
-    <ul class="progress-bar-edit">
-      <li class="nav-step-1" ng-click="editCtrl.step(1, 'outing',  'backwards')" ng-class="{'nav-step-selected': editCtrl.current_step == 1 }"><span class="nav-text"><span translate>track</span></span><span class="bullet-container"><span class="bullet"></span></span></li>
-      <li class="nav-step-2" ng-click="editCtrl.step(2, 'outing', editCtrl.previous_step >= 2 ? 'backwards' : 'forwards')"><span class="nav-text"><span translate>weather</span> & <span translate>conditions</span></span><span class="bullet-container"><span class="bullet"></span></span></li>
-      <li class="nav-step-3" ng-click="editCtrl.step(3, 'outing', editCtrl.previous_step >= 3 ? 'backwards' : 'forwards')"><span class="nav-text"><span translate>personal informations</span></span><span class="bullet-container"><span class="bullet"></span></span></li>
-      <li class="nav-step-4" ng-click="editCtrl.step(4, 'outing',  'forwards')"><span translate class="nav-text">review</span><span class="bullet-container"><span class="bullet"></span></span></li>
-    </ul>
+      ## PROGRESS BAR
+      <ul class="progress-bar-edit">
+        <li class="nav-step-1" ng-click="progressBarCtrl.step(1, 'outing',  'backwards')" ng-class="{'nav-step-selected': progressBarCtrl.currentStep == 1 }"><span class="nav-text"><span translate>track</span></span><span class="bullet-container"><span class="bullet"></span></span></li>
+        <li class="nav-step-2" ng-click="progressBarCtrl.step(2, 'outing', progressBarCtrl.previousStep >= 2 ? 'backwards' : 'forwards')"><span class="nav-text"><span translate>weather</span> & <span translate>conditions</span></span><span class="bullet-container"><span class="bullet"></span></span></li>
+        <li class="nav-step-3" ng-click="progressBarCtrl.step(3, 'outing', progressBarCtrl.previousStep >= 3 ? 'backwards' : 'forwards')"><span class="nav-text"><span translate>personal informations</span></span><span class="bullet-container"><span class="bullet"></span></span></li>
+        <li class="nav-step-4" ng-click="progressBarCtrl.step(4, 'outing',  'forwards')"><span translate class="nav-text">review</span><span class="bullet-container"><span class="bullet"></span></span></li>
+      </ul>
 
-    ## NAV BUTTONS
-    <div class="nav-buttons">
-      <button class="btn btn-primary prev" type="button" ng-if="editCtrl.previous_step !== 0" ng-click="editCtrl.step(editCtrl.previous_step, 'outing', 'backwards')"><span class="glyphicon glyphicon-triangle-left"></span></button>
-      <button class="btn btn-primary next" type="button" ng-if="editCtrl.next_step <= editCtrl.max_steps" ng-click="editCtrl.step(editCtrl.next_step, 'outing', 'forwards')"><span class="glyphicon glyphicon-triangle-right"></span></button>
-    </div>
+      ## NAV BUTTONS
+      <div class="nav-buttons">
+        <button class="btn btn-primary prev" type="button" ng-if="progressBarCtrl.previousStep !== 0" ng-click="progressBarCtrl.step(progressBarCtrl.previousStep, 'outing', 'backwards')"><span class="glyphicon glyphicon-triangle-left"></span></button>
+        <button class="btn btn-primary next" type="button" ng-if="progressBarCtrl.nextStep <= progressBarCtrl.maxSteps" ng-click="progressBarCtrl.step(progressBarCtrl.nextStep, 'outing', 'forwards')"><span class="glyphicon glyphicon-triangle-right"></span></button>
+      </div>
+    </app-progress-bar>
 
     <section class="editing outing">
       <div class="step step-1">

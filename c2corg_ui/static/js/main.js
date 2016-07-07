@@ -25,6 +25,7 @@ goog.require('app.geolocationDirective');
 goog.require('app.gpxUploadDirective');
 goog.require('app.imageUploaderDirective');
 goog.require('app.langDirective');
+goog.require('app.progressBarDirective');
 goog.require('app.loadingDirective');
 goog.require('app.mapDirective');
 goog.require('app.paginationDirective');
