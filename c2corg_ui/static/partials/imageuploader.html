@@ -13,7 +13,7 @@
     <span translate>Drop images here or click to upload</span>
   </div>
 
-  <div ng-show="uplCtrl.files.length > 0" class="images-container" app-loading>
+  <div ng-show="uplCtrl.files.length > 0" class="images-container">
     <div ng-repeat="file in uplCtrl.files track by $index" class="uploaded-image {{$index}}" ng-show="file">
 
       <div class="img-container" style="background-image: url({{file.src}})">
@@ -26,14 +26,14 @@
           </p>
           <p ng-if="file.metadata.geo"><span class="glyphicon glyphicon-map-marker"></span><b>{{file.metadata.geo.label}}</b></p>
         </div>
-        <span class="glyphicon glyphicon-remove-circle remove-image-btn" type="button" ng-click="uplCtrl.deleteImage($index)" ng-show="file.progress >= 100"></span>
+        <span class="glyphicon glyphicon-remove-circle remove-image-btn" type="button" ng-click="uplCtrl.deleteImage($index)" ng-show="file['processed']"></span>
       </div>
 
       <div class="img-data">
         <!-- TITLE-->
         <input type="text" class="form-control" ng-model="file.metadata.title" placeholder="title" ng-change="uplCtrl.rename(file, file.metadata.title)">
 
-        <div class="image-attributes btn-group" ng-show="file.progress >= 100">
+        <div class="image-attributes btn-group" ng-show="file['processed']">
           <!-- GEOLOCATION-->
           <div class="btn-group">
             <button class="btn btn-default dropdown-toggle" ng-class="{'btn-success': file.metadata.geo}" type="button" data-toggle="dropdown">
@@ -93,11 +93,14 @@
         </div>
       </div>
       <!-- PROGRESS BAR-->
-      <div  class="progress" ng-show="file.progress < 100">
-        <div class="progress-bar progress-bar-striped active" role="progressbar" style="width:{{file.progress}}%;">{{file.progress | number : 0}}%</div>
+      <div class="progress" ng-show="!file['processed']">
+        <div class="progress-bar progress-bar-striped active" role="progressbar" style="width:{{file.progress}}%;">
+          <span ng-show="file.progress < 100">{{file.progress | number : 0}}%</span>
+          <span ng-show="file.progress >= 100" translate>Processing</span>
+        </div>
       </div>
       <!-- ABORT BUTTON-->
-      <button class="btn btn-danger" type="button" ng-click="uplCtrl.abortUploadingImage($index)" ng-show="file.progress < 100">Abort</button>
+      <button class="btn btn-danger" type="button" ng-click="uplCtrl.abortFileUpload(file)" ng-show="!file['processed']">Abort</button>
     </div>
     <div class="upload-file uploaded-image drop-box"
          ngf-drop
@@ -116,4 +119,4 @@
     </div>
   </div>
   <button class="btn btn-warning" type="button" ng-click="imageModalCtrl.close()">close</button>
-  <button class="btn btn-primary" type="button" ng-click="uplCtrl.save()" ng-show="uplCtrl.areAllUploaded">Save</button>
+  <button class="btn btn-primary" type="button" ng-click="imageModalCtrl.save()" ng-show="uplCtrl.areAllUploaded">Save</button>

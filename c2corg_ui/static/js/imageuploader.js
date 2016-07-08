@@ -148,13 +148,23 @@ app.ImageUploaderController = function($scope, $uibModal, $compile, $q, appAlert
  * @ngInject
  * @returns {app.ImageUploaderModalController}
  */
-app.ImageUploaderModalController = function($uibModalInstance) {
+app.ImageUploaderModalController = function($scope, $uibModalInstance) {
+
+  /**
+   * @type {!angular.Scope}
+   * @private
+   */
+  this.scope_ = $scope;
 
   /**
    * @type {Object} $uibModalInstance angular bootstrap
    * @private
    */
   this.modalInstance_ = $uibModalInstance;
+
+  $scope.$on('modal.closing', function(event, reason, closed) {
+    this.scope_['uplCtrl'].abortAllUploads();
+  }.bind(this));
 };
 
 
@@ -163,6 +173,16 @@ app.ImageUploaderModalController = function($uibModalInstance) {
  */
 app.ImageUploaderModalController.prototype.close = function() {
   this.modalInstance_.close();
+};
+
+
+/**
+ * @export
+ */
+app.ImageUploaderModalController.prototype.save = function() {
+  this.scope_['uplCtrl'].save().then(function() {
+    this.modalInstance_.close();
+  }.bind(this));
 };
 
 
@@ -182,40 +202,50 @@ app.ImageUploaderController.prototype.upload_ = function() {
     file = this.files[i];
 
     if (!file['metadata']) {
-      angular.extend(file, {
-        'src': app.utils.getImageFileBase64Source(file),
-        'progress': 0,
-        'metadata': {
-          'title': file['name'],
-          'id': file['name'] + '-' + new Date().toISOString()
-        }
-      });
-
-      this.getImageMetadata_(file);
-
-      var canceller = this.q_.defer();
-      var promise = this.api_.uploadImage(file, canceller.promise, function(file, event) {
-        var progress = event.loaded / event.total;
-        file['progress'] = 100 * progress;
-      }.bind(this, file));
-      file['uploading'] = promise;
-      file['canceller'] = canceller;
-
-      promise.then(function(resp) {
-        file['metadata']['filename'] = resp['data']['filename'];
-      }.bind(this), function(resp) {
-        if (resp.status == -1) {
-          if (!file['manuallyAborted']) {
-            this.alerts_.addError(this.alerts_.gettext('Error while uploading the image : ') + 'Timeout');
-          }
-        } else {
-          this.alerts_.addError(this.alerts_.gettext('Error while uploading the image : ') + resp.statusText);
-        }
-        this.deleteImage(this.files.indexOf(file));
-      }.bind(this));
+      this.uploadFile_(file);
     }
   }
   this.areAllUploadedCheck_(interval);
+};
+
+
+/**
+ * @private
+ */
+app.ImageUploaderController.prototype.uploadFile_ = function(file) {
+  angular.extend(file, {
+    'src': app.utils.getImageFileBase64Source(file),
+    'progress': 0,
+    'metadata': {
+      'title': file['name'],
+      'id': file['name'] + '-' + new Date().toISOString()
+    }
+  });
+
+  this.getImageMetadata_(file);
+
+  file['processed'] = false;
+  var canceller = this.q_.defer();
+  var promise = this.api_.uploadImage(file, canceller.promise, function(file, event) {
+    var progress = event.loaded / event.total;
+    file['progress'] = 100 * progress;
+  }.bind(this, file));
+  file['uploading'] = promise;
+  file['canceller'] = canceller;
+
+  promise.then(function(resp) {
+    file['metadata']['filename'] = resp['data']['filename'];
+    file['processed'] = true;
+  }.bind(this), function(resp) {
+    if (resp.status == -1) {
+      if (!file['manuallyAborted']) {
+        this.alerts_.addError(this.alerts_.gettext('Error while uploading the image : ') + 'Timeout');
+      }
+    } else {
+      this.alerts_.addError(this.alerts_.gettext('Error while uploading the image : ') + resp.statusText);
+    }
+    this.deleteImage(this.files.indexOf(file));
+  }.bind(this));
 };
 
 
@@ -245,6 +275,8 @@ app.ImageUploaderController.prototype.areAllUploadedCheck_ = function(interval) 
  * @export
  */
 app.ImageUploaderController.prototype.save = function() {
+  var defer = this.q_.defer();
+
   this.api_.createImages(this.files, this.documentService.document)
   .then(function() {
     var meta;
@@ -275,18 +307,32 @@ app.ImageUploaderController.prototype.save = function() {
       this.compile_($('#image-' + id).contents())(scope);
     }.bind(this));
 
-    $('.modal, .modal-backdrop').remove();
-  }.bind(this));
+    defer.resolve();
+  }.bind(this), function() {
+    defer.reject();
+  });
+
+  return defer.promise;
 };
 
 
 /**
- * @param {number} index
+ * @param {Object} file
  * @export
  */
-app.ImageUploaderController.prototype.abortUploadingImage = function(index) {
-  this.files[index]['manuallyAborted'] = true;
-  this.files[index]['canceller'].resolve();
+app.ImageUploaderController.prototype.abortFileUpload = function(file) {
+  file['manuallyAborted'] = true;
+  file['canceller'].resolve();
+};
+
+
+/**
+* @export
+*/
+app.ImageUploaderController.prototype.abortAllUploads = function() {
+  this.files.forEach(function(file) {
+    this.abortFileUpload(file);
+  }.bind(this));
 };
 
 

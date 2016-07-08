@@ -402,6 +402,10 @@ msgstr "Page non trouvée"
 msgid "Password"
 msgstr "Mot de passe"
 
+#: c2corg_ui/static/partials/imageuploader.html
+msgid "Processing"
+msgstr "Traitement"
+
 #: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "Rating"

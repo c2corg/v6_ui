@@ -405,6 +405,10 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
+#: c2corg_ui/static/partials/imageuploader.html
+msgid "Processing"
+msgstr ""
+
 #: c2corg_ui/templates/route/helpers/detailed_route_attributes.html
 #: c2corg_ui/templates/waypoint/helpers/detailed_waypoint_attributes.html
 msgid "Rating"
