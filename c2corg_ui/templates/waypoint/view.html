@@ -76,14 +76,13 @@ geometry4326 = geometry
 </%block>
 
 <header class="view-details-title">
-  <h1>${locale['title']}
+  <h1>
+    <span>${locale['title']}</span>
+    <span class="icon-${waypoint['waypoint_type']} waypoint-type" uib-tooltip="${waypoint['waypoint_type']}"></span>
     <label class="badge waypoint" onClick="window.location='${request.route_url('waypoints_index', _query={'wtyp': waypoint['waypoint_type']})}'">
       <span class="glyphicon glyphicon-arrow-right"></span>&nbsp;<span translate>waypoint</span>
     </label>
   </h1>
-  <div class="icons-header">
-    <span class="icon-${waypoint['waypoint_type']} waypoint-type" uib-tooltip="${waypoint['waypoint_type']}"></span>
-  </div>
 </header>
 
 <app-map class="view-details-map"></app-map>
