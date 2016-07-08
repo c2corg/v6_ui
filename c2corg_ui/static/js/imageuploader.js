@@ -177,6 +177,16 @@ app.ImageUploaderModalController.prototype.close = function() {
 
 
 /**
+ * @export
+ */
+app.ImageUploaderModalController.prototype.save = function() {
+  this.scope_['uplCtrl'].save().then(function() {
+    this.modalInstance_.close();
+  }.bind(this));
+};
+
+
+/**
  * @private
  */
 app.ImageUploaderController.prototype.upload_ = function() {
@@ -255,6 +265,8 @@ app.ImageUploaderController.prototype.areAllUploadedCheck_ = function(interval) 
  * @export
  */
 app.ImageUploaderController.prototype.save = function() {
+  var defer = this.q_.defer();
+
   this.api_.createImages(this.files, this.documentService.document)
   .then(function() {
     var meta;
@@ -285,8 +297,12 @@ app.ImageUploaderController.prototype.save = function() {
       this.compile_($('#image-' + id).contents())(scope);
     }.bind(this));
 
-    this.closeModal();
-  }.bind(this));
+    defer.resolve();
+  }.bind(this), function() {
+    defer.reject();
+  });
+
+  return defer.promise;
 };
 
 
