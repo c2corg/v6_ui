@@ -8,8 +8,12 @@
 
 <section class="document-differences">
   <h3 class="text-center" translate>Comparing documents</h3>
-  <h1 class="text-center">${title}</h1>
-
+  <h2 class="text-center">${title}</h2><br>
+  <p class="text-center">
+    <a href="${request.route_url(module + '_view', id=document_id, lang=lang)}">
+      <button class="btn orange-btn" translate>See the latest version</button>
+    </a>
+  </p>
   <table class="diff_header table table-bordered table-striped">
     <tr>
       <td>

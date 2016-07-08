@@ -52,8 +52,10 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
   module.value('documentData', {
     "document_id": ${outing.get('document_id')},
     "lang": "${lang}",
-    "type": "o",
-    "associations": ${dumps(outing.get('associations')) | n}
+    "type": "o"
+    % if not version:
+       , "associations": ${dumps(outing.get('associations')) | n}
+    % endif
   });
 </%block>
 
@@ -79,6 +81,10 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
 
 <section class="view-details-section" app-view-details>
 
+  % if version:
+    ${show_archive_data('outings', outing, locale, version)}
+  % endif
+
   ## IMAGES
   % if not version:
     ${get_image_gallery()}
@@ -90,7 +96,9 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
     </h3>
     <section id="document-informations" class="collapse in">
       ${get_outing_general(outing)}
-      ${get_outing_participants(outing)}
+      % if not version:
+        ${get_outing_participants(outing)}
+      % endif
       ${get_outing_heights(outing)}
       ${get_outing_access(outing)}
       ${get_outing_snow(outing)}
@@ -144,19 +152,14 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
       </section>
     </span>
   </div>
-  % endif
 
   ## OTHER BUTTON contents
-  % if version:
-  ${show_archive_data('outings', outing, locale, version)}
-  % else:
-  ${show_other_langs_links('outings', outing, other_langs)}
-  ${show_missing_langs_links('outings', outing, missing_langs)}
+    ${show_other_langs_links('outings', outing, other_langs)}
+    ${show_missing_langs_links('outings', outing, missing_langs)}
+    ${show_float_buttons(outing['associations']['users'], 'outings', outing_id, lang, other_langs, missing_langs)}
   % endif
-
 </section>
 
-${show_float_buttons(outing['associations']['users'], 'outings', outing_id, lang, other_langs, missing_langs)}
 
 <div class="text-center">
   <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);">&nbsp;<span class="glyphicon glyphicon-menu-up"></span></button>
