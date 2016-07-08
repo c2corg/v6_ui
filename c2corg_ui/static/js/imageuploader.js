@@ -213,6 +213,7 @@ app.ImageUploaderController.prototype.upload_ = function() {
 
       this.getImageMetadata_(file);
 
+      file['processed'] = false;
       var canceller = this.q_.defer();
       var promise = this.api_.uploadImage(file, canceller.promise, function(file, event) {
         var progress = event.loaded / event.total;
@@ -223,6 +224,7 @@ app.ImageUploaderController.prototype.upload_ = function() {
 
       promise.then(function(resp) {
         file['metadata']['filename'] = resp['data']['filename'];
+        file['processed'] = true;
       }.bind(this), function(resp) {
         if (resp.status == -1) {
           if (!file['manuallyAborted']) {
