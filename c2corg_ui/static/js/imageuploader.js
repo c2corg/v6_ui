@@ -202,42 +202,50 @@ app.ImageUploaderController.prototype.upload_ = function() {
     file = this.files[i];
 
     if (!file['metadata']) {
-      angular.extend(file, {
-        'src': app.utils.getImageFileBase64Source(file),
-        'progress': 0,
-        'metadata': {
-          'title': file['name'],
-          'id': file['name'] + '-' + new Date().toISOString()
-        }
-      });
-
-      this.getImageMetadata_(file);
-
-      file['processed'] = false;
-      var canceller = this.q_.defer();
-      var promise = this.api_.uploadImage(file, canceller.promise, function(file, event) {
-        var progress = event.loaded / event.total;
-        file['progress'] = 100 * progress;
-      }.bind(this, file));
-      file['uploading'] = promise;
-      file['canceller'] = canceller;
-
-      promise.then(function(resp) {
-        file['metadata']['filename'] = resp['data']['filename'];
-        file['processed'] = true;
-      }.bind(this), function(resp) {
-        if (resp.status == -1) {
-          if (!file['manuallyAborted']) {
-            this.alerts_.addError(this.alerts_.gettext('Error while uploading the image : ') + 'Timeout');
-          }
-        } else {
-          this.alerts_.addError(this.alerts_.gettext('Error while uploading the image : ') + resp.statusText);
-        }
-        this.deleteImage(this.files.indexOf(file));
-      }.bind(this));
+      this.uploadFile_(file);
     }
   }
   this.areAllUploadedCheck_(interval);
+};
+
+
+/**
+ * @private
+ */
+app.ImageUploaderController.prototype.uploadFile_ = function(file) {
+  angular.extend(file, {
+    'src': app.utils.getImageFileBase64Source(file),
+    'progress': 0,
+    'metadata': {
+      'title': file['name'],
+      'id': file['name'] + '-' + new Date().toISOString()
+    }
+  });
+
+  this.getImageMetadata_(file);
+
+  file['processed'] = false;
+  var canceller = this.q_.defer();
+  var promise = this.api_.uploadImage(file, canceller.promise, function(file, event) {
+    var progress = event.loaded / event.total;
+    file['progress'] = 100 * progress;
+  }.bind(this, file));
+  file['uploading'] = promise;
+  file['canceller'] = canceller;
+
+  promise.then(function(resp) {
+    file['metadata']['filename'] = resp['data']['filename'];
+    file['processed'] = true;
+  }.bind(this), function(resp) {
+    if (resp.status == -1) {
+      if (!file['manuallyAborted']) {
+        this.alerts_.addError(this.alerts_.gettext('Error while uploading the image : ') + 'Timeout');
+      }
+    } else {
+      this.alerts_.addError(this.alerts_.gettext('Error while uploading the image : ') + resp.statusText);
+    }
+    this.deleteImage(this.files.indexOf(file));
+  }.bind(this));
 };
 
 
