@@ -97,7 +97,7 @@
         <div class="progress-bar progress-bar-striped active" role="progressbar" style="width:{{file.progress}}%;">{{file.progress | number : 0}}%</div>
       </div>
       <!-- ABORT BUTTON-->
-      <button class="btn btn-danger" type="button" ng-click="uplCtrl.abortUploadingImage($index)" ng-show="file.progress < 100">Abort</button>
+      <button class="btn btn-danger" type="button" ng-click="uplCtrl.abortFileUpload(file)" ng-show="file.progress < 100">Abort</button>
     </div>
     <div class="upload-file uploaded-image drop-box"
          ngf-drop

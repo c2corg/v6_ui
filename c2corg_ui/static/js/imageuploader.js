@@ -148,13 +148,23 @@ app.ImageUploaderController = function($scope, $uibModal, $compile, $q, appAlert
  * @ngInject
  * @returns {app.ImageUploaderModalController}
  */
-app.ImageUploaderModalController = function($uibModalInstance) {
+app.ImageUploaderModalController = function($scope, $uibModalInstance) {
+
+  /**
+   * @type {!angular.Scope}
+   * @private
+   */
+  this.scope_ = $scope;
 
   /**
    * @type {Object} $uibModalInstance angular bootstrap
    * @private
    */
   this.modalInstance_ = $uibModalInstance;
+
+  $scope.$on('modal.closing', function(event, reason, closed) {
+    this.scope_['uplCtrl'].abortAllUploads();
+  }.bind(this));
 };
 
 
@@ -275,18 +285,28 @@ app.ImageUploaderController.prototype.save = function() {
       this.compile_($('#image-' + id).contents())(scope);
     }.bind(this));
 
-    $('.modal, .modal-backdrop').remove();
+    this.closeModal();
   }.bind(this));
 };
 
 
 /**
- * @param {number} index
+ * @param {Object} file
  * @export
  */
-app.ImageUploaderController.prototype.abortUploadingImage = function(index) {
-  this.files[index]['manuallyAborted'] = true;
-  this.files[index]['canceller'].resolve();
+app.ImageUploaderController.prototype.abortFileUpload = function(file) {
+  file['manuallyAborted'] = true;
+  file['canceller'].resolve();
+};
+
+
+/**
+* @export
+*/
+app.ImageUploaderController.prototype.abortAllUploads = function() {
+  this.files.forEach(function(file) {
+    this.abortFileUpload(file);
+  }.bind(this));
 };
 
 
