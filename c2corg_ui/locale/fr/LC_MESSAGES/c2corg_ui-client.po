@@ -455,6 +455,7 @@ msgstr "Enregistrer"
 msgid "Search ..."
 msgstr "Rechercher ..."
 
+#: c2corg_ui/templates/document/diff.html
 #: c2corg_ui/templates/helpers/view.html
 msgid "See the latest version"
 msgstr "Voir la dernière version"
@@ -1853,7 +1854,7 @@ msgstr "Cartes Swisstopo"
 msgid "terms of use"
 msgstr "Conditions d'utilisation"
 
-#: c2corg_ui/templates/helpers/view.html c2corg_ui/templates/outing/edit.html
+#: c2corg_ui/templates/outing/edit.html
 msgid "time"
 msgstr "Temps"
 

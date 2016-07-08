@@ -469,6 +469,7 @@ msgstr ""
 msgid "Search ..."
 msgstr ""
 
+#: c2corg_ui/templates/document/diff.html
 #: c2corg_ui/templates/helpers/view.html
 msgid "See the latest version"
 msgstr ""
@@ -1927,7 +1928,6 @@ msgstr ""
 msgid "terms of use"
 msgstr ""
 
-#: c2corg_ui/templates/helpers/view.html
 #: c2corg_ui/templates/outing/edit.html
 msgid "time"
 msgstr ""
