@@ -160,7 +160,6 @@
         }
       }
     }
-
     .conditions-levels {
       margin-bottom: 10px;
       th {
@@ -436,10 +435,6 @@
       margin-bottom: 0;
     }
   }
-  .section {
-    border: none;
-    margin-bottom: 0;
-  }
 
   ul {
     padding: 0;
@@ -498,12 +493,14 @@
     color: white !important;
   }
 }
-
+#title-edit {
+  justify-content: flex-start;
+}
 #title-group {
-  flex-basis: 75%;
+  flex-basis: 74%;
+  margin-right: 3% !important;
   margin-bottom: 10px;
 }
-
 #lang-group {
   margin: 0 !important;
   flex-basis: 20%;
@@ -511,7 +508,6 @@
     margin: 0 .5% 15px 2% !important;
   }
 }
-
 #waypoint_type-group {
   height: 70px;
 }
@@ -531,6 +527,12 @@
   float: left;
   margin-right: 2%;
   width: 17%;
+
+  @media @big {
+    margin-right: 2.6%;
+    margin-left: .5%;
+    width: 16%;
+  }
 
   @media @phone {
     float: none;

@@ -141,39 +141,9 @@ app.DocumentEditingController = function($scope, $element, $attrs,
   this.alerts = appAlerts;
 
   /**
-   * first next step would be 2 by default
-   * @export
+   * @type {boolean}
+   * @public
    */
-  this.next_step = 2;
-
-  /**
-   * Current step is 1 by default
-   * @export
-   */
-  this.current_step = 1;
-
-  /**
-   * Waypoint type initialised in the edit.html
-   * @export
-   */
-  this.waypoint_type;
-
-  /**
-   * Previous step is 0 by default
-   * @export
-   */
-  this.previous_step = 0;
-
-  /**
-   * Max possible steps for creation/edition
-   * @export
-   */
-  this.max_steps;
-
- /**
-  * @type {boolean}
-  * @public
-  */
   this.submit = false;
 
   /**
@@ -354,8 +324,7 @@ app.DocumentEditingController.prototype.prepareData = function(data) {
  * @param {string} index_url URL of index page.
  * @export
  */
-app.DocumentEditingController.prototype.cancel = function(view_url,
-    index_url) {
+app.DocumentEditingController.prototype.cancel = function(view_url, index_url) {
   var url = !view_url || this.isNewLang_ ? index_url : view_url;
   window.location.href = url;
 };
@@ -437,138 +406,6 @@ app.DocumentEditingController.prototype.getCoordinatesFromPoint_ = function(
     return Math.round(coord * 1000000) / 1000000;
   });
 };
-
-
-/**
- * Navigate through creation/editing steps
- * @param {number} step
- * @param {string} direction
- * @export
- */
-app.DocumentEditingController.prototype.step = function(step, document, direction) {
-
-  switch (step) {
-    case 1:
-      $('.editing').animate({left: '0'});
-      this.animateBar_(step, direction);
-      this.previous_step = 0;
-      this.current_step = 1;
-      this.next_step = 2;
-      break;
-
-    case 2:
-      $('.editing').animate({left: '-115%'});
-      this.animateBar_(step, direction);
-      this.previous_step = 1;
-      this.current_step = 2;
-      this.next_step = 3;
-      break;
-
-    case 3:
-      $('.editing').animate({left: '-229%'});
-      this.animateBar_(step, direction);
-      this.previous_step = 2;
-      this.current_step = 3;
-      this.next_step = 4;
-      break;
-
-    case 4:
-      $('.editing').animate({left: '-343%'});
-      this.animateBar_(step, direction);
-      this.previous_step = 3;
-      this.current_step = 4;
-      this.next_step = 5;
-      break;
-
-    case 5:
-      $('.editing').animate({left: '-457%'});
-      this.animateBar_(step, direction);
-      this.previous_step = 4;
-      this.current_step = 5;
-      this.next_step = 6;
-      break;
-
-    default:
-      break;
-  }
-};
-
-
-/**
- * Animate the progress bar
- * @param {number} step
- * @param {string} direction
- * @private
- */
-app.DocumentEditingController.prototype.animateBar_ = function(step, direction) {
-  var percent = 100 / this.max_steps;
-  var green = '#7EFF1F'; // completed color
-  var gray = '#B4B4B4'; // left color
-  var willBe;
-  var nextPosition;
-  var stopBack;
-
-  $('.nav-step-selected').removeClass('nav-step-selected');
-  $('.nav-step-' + step).addClass('nav-step-selected');
-  $('html, body').animate({scrollTop: 0}, 'slow');
-
-  if (direction === 'forwards') {
-    willBe = (percent * (step - 1)) - 10;
-    nextPosition = (percent * step) - 10;
-  } else {
-    willBe = (percent * step) - 10;
-    nextPosition = (percent * (step + 1)) - 10;
-    stopBack = willBe;
-  }
-
-  // bar animation, timeout for a gradual filling
-  var timeout = setInterval(function() {
-    // if the direction is forwards, animate bar to the right
-    if (direction === 'forwards') {
-      // animate till the end (120%)
-      if (step === this.max_steps) {
-        if (willBe >= 120) {
-          clearTimeout(timeout);
-        } else {
-          willBe++;
-        }
-        // animate to the next position ->
-      } else {
-        if (willBe >= nextPosition) {
-          clearTimeout(timeout);
-        } else {
-          willBe++;
-        }
-      }
-      // if the direction is backwards, animate bar to the left <-
-    } else {
-      if (willBe >= stopBack) {
-        nextPosition--;
-        willBe = nextPosition;
-      } else {
-        clearTimeout(timeout);
-      }
-    }
-
-    $('.progress-bar-edit')
-      .css({'background-image': '-webkit-linear-gradient(left, ' + green + ' 0,' + green + ' ' + willBe + '%,' + gray + ' ' + (willBe + 7) + '%,' + gray + ' 0%)'})
-      .css({'background-image': '-o-linear-gradient(left, ' + green + ' 0,' + green + ' ' + willBe + '%,' + gray + ' ' + (willBe + 7) + '%,' + gray + ' 0%)'})
-      .css({'background-image': '-moz-linear-gradient(left, ' + green + ' 0,' + green + ' ' + willBe + '%,' + gray + ' ' + (willBe + 7) + '%,' + gray + ' 0%)'})
-      .css({'background-image': '-ms-linear-gradient(left, ' + green + ' 0,' + green + ' ' + willBe + '%,' + gray + ' ' + (willBe + 7) + '%,' + gray + ' 0%)'})
-      .css({'background-image': 'linear-gradient(left, ' + green + ' 0,' + green + ' ' + willBe + '%,' + gray + ' ' + (willBe + 7) + '%,' + gray + ' 0%)'});
-  }.bind(this), 10);
-};
-
-
-/**
- * Update steps, depending on the waypoint type.
- * @param {string} waypointType
- * @export
- */
-app.DocumentEditingController.prototype.updateMaxSteps = function(waypointType) {
-  this.max_steps = app.constants.STEPS[waypointType] || 3;
-};
-
 
 /**
  * @param {appx.Document} doc
