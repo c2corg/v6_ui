@@ -24,7 +24,7 @@
     % endif
 
     % if outing.get('duration_difficulties'):
-    <p><span class="value-title" translate>duration_difficulties</span>: <span class="value">${outing['duration_difficulties']} min</span></p>
+    <p><span class="value-title" translate>duration_difficulties</span>: <span class="value">${outing['duration_difficulties']}&nbsp;min</span></p>
     % endif
 
     % if outing.get('frequentation'):
@@ -58,11 +58,11 @@
       </div>
       <span class="detail-text accordion">
         % if outing.get('elevation_up_snow'):
-        <p><span class="value-title" translate>elevation_up_snow</span>: <span class="value">${outing['elevation_up_snow']} m</span></p>
+        <p><span class="value-title" translate>elevation_up_snow</span>: <span class="value">${outing['elevation_up_snow']}&nbsp;m</span></p>
         % endif
 
         % if outing.get('elevation_down_snow'):
-        <p><span class="value-title" translate>elevation_down_snow</span>: <span class="value">${outing['elevation_down_snow']} m</span></p>
+        <p><span class="value-title" translate>elevation_down_snow</span>: <span class="value">${outing['elevation_down_snow']}&nbsp;m</span></p>
         % endif
 
         % if outing.get('snow_quantity'):
@@ -139,7 +139,7 @@
               ${outing['locales'][0]['participants'] or ''}
             </p>
           % endif
-          
+
         </span>
       </div>
     % endif
@@ -162,13 +162,13 @@
         ${get_document_min_max(outing, 'elevation')}
 
         % if outing.get('elevation_access'):
-        <p><b class="value-title" translate>elevation_access</b>:  <span class="value">${outing['elevation_access']} m</span></p>
+        <p><b class="value-title" translate>elevation_access</b>:  <span class="value">${outing['elevation_access']}&nbsp;m</span></p>
         % endif
 
        ${get_document_up_down(outing, 'height_diff')}
 
         % if outing.get('length_total'):
-        <p><span class="value-title" translate>length_total</span>: <span class="value">${outing['length_total']} m</span></p>
+        <p><span class="value-title" translate>length_total</span>: <span class="value">${outing['length_total']}&nbsp;m</span></p>
         % endif
       </span>
     </div>

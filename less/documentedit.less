@@ -31,6 +31,9 @@
       position: fixed;
       top: 50vh;
       z-index: 4;
+      height: 45px;
+      width: 45px;
+      border-radius: 50%;
       .glyphicon {
         color: white;
       }
@@ -173,7 +176,7 @@
       }
     }
 
-    .data.third, .data.half, .data.full, #rock_types-group, #title-group, #lang-group {
+    .third, .half, .full, #rock_types-group, #title-group, #lang-group, .date {
       float: left;
       margin-right: 2%;
       margin-left: 2%;
@@ -183,11 +186,15 @@
         flex-basis: 100% !important;
       }
     }
-    .data.third {
+    .date {
+      width: 45%;
+      flex-basis: 45%;
+    }
+    .third {
       width: 29%;
       flex-basis: 29%;
     }
-    .data.half {
+    .half {
       width: 45%;
       flex-basis: 45%;
 
@@ -205,7 +212,7 @@
         left: 102%;
       }
     }
-    .data.full {
+    .full {
       flex-basis: 100%;
       margin-right: 1.5%;
       margin-bottom: 10px;
@@ -262,10 +269,10 @@
       }
       &.route-associations {
         overflow: visible;
+        padding: 1%;
       }
       .associated-documents {
         margin-bottom: 3%;
-        border: 1px solid #eee;
         padding-bottom: 10px;
       }
     }
@@ -418,7 +425,7 @@
       .nav-text {
         font-variant: small-caps;
         @media @big {
-          font-size: 1.3em;
+          font-size: 1.2em;
         }
         @media @desktop {
           font-size: 1.1em;
@@ -429,7 +436,10 @@
 }
 
 .section {
-  &:last-child {
+  .associations {
+    padding: 1%;
+  }
+  &:last-child:not(.associations) {
     margin-bottom: 20%;
     @media @phone {
       margin-bottom: 0;

@@ -99,7 +99,7 @@
 <%def name="get_route_activities(route, tooltipPosition)">\
   % if 'activities' in route and route.get('activities'):
     % for activity in route['activities'] :
-      <span class="route-activity icon-${activity}" uib-tooltip="{{ mainCtrl.translate('${activity}') }}" tooltip-placement="${tooltipPosition}"></span>
+      <span class="route-activity icon-${activity}" uib-tooltip="{{mainCtrl.translate('${activity}') }}" tooltip-placement="${tooltipPosition}"></span>
     % endfor
   % endif
 </%def>
@@ -340,7 +340,7 @@
 ## Float buttons
 <%def name="show_float_buttons(outingUsers, doctype, doc_id, doc_lang, other_langs, missing_langs)">\
   <div class="float-buttons">
-      <div ng-if="::userCtrl.hasEditRights(${json.dumps(outingUsers) | n})" class="float-button float-edit"
+      <div ng-if="::userCtrl.hasEditRights(${json.dumps(outingUsers)})" class="float-button float-edit"
            tooltip-placement="left" uib-tooltip="{{'Edit' | translate}}"
            protected-url-btn url="${request.route_url(doctype + '_edit', id=doc_id, lang=doc_lang)}">
         <span class="glyphicon glyphicon-edit"></span>
@@ -390,22 +390,22 @@
 
 <%def name="get_document_min_max(document, prop)">\
   % if document.get(prop + '_min') and document.get(prop + '_max') and (document.get(prop + '_max') is not None and document.get(prop + '_min') is not None):
-  <p><b x-translate class="value-title">${prop} min / max </b>: <span class="value"> ${document[prop + '_min']}m / ${document[prop + '_max']}m</span></p>
+  <p><b class="value-title"><span x-translate>${prop}</span>&nbsp;<span translate>min</span>/<span translate>max</span> </b>: <span class="value"> ${document[prop + '_min']}&nbsp;m / ${document[prop + '_max']}&nbsp;m</span></p>
   %  elif (document.get(prop + '_min') and document.get(prop + '_min') is not None) and not document.get(prop + '_max'):
-  <p><b x-translate class="value-title">${prop + '_min'}</b>: <span class="value">${document[prop + '_min']}m</span></p>
+  <p><b x-translate class="value-title">${prop + '_min'}</b>: <span class="value">${document[prop + '_min']}&nbsp;m</span></p>
   % elif document.get(prop + '_max') and document.get(prop + '_max') is not None:
-  <p><b x-translate class="value-title">${prop + '_max'}</b>: <span class="value">${document[prop + '_max']}m</span></p>
+  <p><b x-translate class="value-title">${prop + '_max'}</b>: <span class="value">${document[prop + '_max']}&nbsp;m</span></p>
   % endif
 </%def>
 
 
 <%def name="get_document_up_down(document, prop)">\
   % if document.get(prop + '_down') and document.get(prop + '_up') and (document.get(prop + '_up') is not None and document.get(prop + '_down') is not None):
-  <p><b x-translate class="value-title">${prop}</b>: <span class="value">+${document[prop + '_up']}m / -${document[prop + '_down']}m</span></p>
+  <p><b x-translate class="value-title">${prop}</b>: <span class="value">+${document[prop + '_up']}&nbsp;m / -${document[prop + '_down']}&nbsp;m</span></p>
   %  elif (document.get(prop + '_down') and document.get(prop + '_down') is not None) and not document.get(prop + '_up'):
-  <p><b x-translate class="value-title">${prop + '_down'}</b>: <span class="value">${document[prop + '_down']}m</span></p>
+  <p><b x-translate class="value-title">${prop + '_down'}</b>: <span class="value">${document[prop + '_down']}&nbsp;m</span></p>
   % elif document.get(prop + '_up') and document.get(prop + '_up') is not None:
-  <p><b x-translate class="value-title">${prop + '_up'}</b>: <span class="value">${document[prop + '_up']}m</span></p>
+  <p><b x-translate class="value-title">${prop + '_up'}</b>: <span class="value">${document[prop + '_up']}&nbsp;m</span></p>
   % endif
 </%def>
 
