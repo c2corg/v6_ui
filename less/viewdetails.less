@@ -7,7 +7,6 @@
 }
 
 .view-details-title {
-  .flex();
   margin-top: 60px;
   margin-bottom: 5px;
 
@@ -17,6 +16,14 @@
   }
   @media @tablet {
     margin-top: 50px;
+  }
+  .outing-date {
+    font-size: 1.4em;
+    color: darkgray;
+    text-align: center;
+    @media @phone {
+      font-size: 1em;
+    }
   }
   >h1 {
     margin: auto;
@@ -77,10 +84,6 @@
       &.waypoint {
         background-color: @bright-green;
       }
-    }
-    .outing-date {
-      font-size: 0.7em;
-      color: darkgray;
     }
   }
   .icons-header {
