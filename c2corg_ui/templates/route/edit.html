@@ -37,7 +37,7 @@ updating_doc = route_id and route_lang
       <ul class="progress-bar-edit">
         <li class="nav-step-1" ng-click="progressBarCtrl.step(1, 'route',  'backwards')" ng-class="{'nav-step-selected': progressBarCtrl.currentStep == 1 }"><span class="nav-text"><span translate>route</span> & <span translate>associations</span></span><span class="bullet-container"><span class="bullet"></span></span></li>
         <li class="nav-step-2" ng-click="progressBarCtrl.step(2, 'route', progressBarCtrl.previousStep >= 2 ? 'backwards' : 'forwards')"><span class="nav-text"><span translate>figures</span></span><span class="bullet-container"><span class="bullet"></span></span></li>
-        <li class="nav-step-3" ng-click="progressBarCtrl.step(3, 'route', progressBarCtrl.previousStep >= 3 ? 'backwards' : 'forwards')"><span class="nav-text"><span translate>comments</span></span></span><span class="bullet-container"><span class="bullet"></span></span></li>
+        <li class="nav-step-3" ng-click="progressBarCtrl.step(3, 'route', progressBarCtrl.previousStep >= 3 ? 'backwards' : 'forwards')"><span class="nav-text"><span translate>Comments</span></span></span><span class="bullet-container"><span class="bullet"></span></span></li>
         <li class="nav-step-4" ng-click="progressBarCtrl.step(4, 'route',  'forwards')"><span translate class="nav-text">review</span><span class="bullet-container"><span class="bullet"></span></span></li>
       </ul>
 
@@ -144,7 +144,7 @@ updating_doc = route_id and route_lang
 
             ## ORIENTATION
             <div class="form-group data half">
-              <label><span translate>orientation</span></label>
+              <label><span translate>orientations</span></label>
               ${show_orientations('editCtrl', 'route')}
             </div>
 
@@ -596,7 +596,7 @@ updating_doc = route_id and route_lang
 
       <div class="step step-3">
         <section class="section">
-          <h2 class="heading show-phone" translate>comments</h2>
+          <h2 class="heading show-phone" translate>Comments</h2>
           <div class="content" id="title-edit">
 
             ## SUMMARY

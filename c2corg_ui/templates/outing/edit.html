@@ -1,5 +1,5 @@
 <%!
-from c2corg_common.attributes import default_langs, activities, condition_ratings, awesomeness, quality_types, hut_status, lift_status, frequentation_types, avalanche_signs,  route_duration_types, access_conditions, glacier_ratings
+from c2corg_common.attributes import default_langs, activities, condition_ratings, awesomeness, quality_types, hut_status, lift_status, frequentation_types, avalanche_signs, route_duration_types, access_conditions, glacier_ratings
 %>
 
 <%inherit file="../base.html"/>
@@ -75,14 +75,14 @@ updating_doc = outing_id and outing_lang
 
             ## ROUTE TAKEN
             <div class=" full" class="form-group">
-              <label><span translate>routes_taken</span> *</label>
+              <label><span translate>Taken routes</span> *</label>
               <app-simple-search parent-id="outing.document_id"
                 app-select="editCtrl.documentService.pushToAssociations(doc, 'routes', true)" dataset="r"></app-simple-search>
             </div>
 
             <section class="section associations">
               <div class="route-associations">
-                <h5 translate ng-show="outing.associations.routes.length == 0">choose at least one route taken during the outing.</h5>
+                <h5 translate ng-show="outing.associations.routes.length == 0">Choose at least one route taken during the outing.</h5>
                 ${show_editing_associated_routes('outing')}
               </div>
             </section>
@@ -270,8 +270,8 @@ updating_doc = outing_id and outing_lang
               <table class="table table-striped conditions-levels" ng-if="outing.locales[0].conditions_levels[0]">
                 <thead>
                   <tr>
-                    <th class="location"><span translate>location</span> / <span translate>altitude</span> / <span translate>orientation</span></th>
-                    <th class="soft-snow"><span translate>soft snow (</span>cm)</th>
+                    <th class="location"><span translate>location</span> / <span translate>altitude</span> / <span translate>orientations</span></th>
+                    <th class="soft-snow"><span translate>soft snow</span> (cm)</th>
                     <th class="total-snow"><span translate>total snow</span> (cm)</th>
                     <th class="comment" translate>comment</th>
                     <th class="delete"></th>
@@ -369,19 +369,19 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## AVALANCHE SIGNS
-            <div class="form-group half" ng-class="{'has-success': outing.avalanche_sign}"
+            <div class="form-group half" ng-class="{'has-success': outing.avalanche_signs}"
                   ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('ice_climbing') > -1 || outing.activities.indexOf('snow_ice_mixed') > -1">
-              <label translate>avalanche_sign</label>
+              <label translate>avalanche_signs</label>
               <div class="input-group">
-                <select class="form-control" ng-model="outing.avalanche_sign" ng-options="rat as rat for rat in ${avalanche_signs}"><option value=""></option></select>
+                <select class="form-control" ng-model="outing.avalanche_signs" ng-options="rat as rat for rat in ${avalanche_signs}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon glyphicon-alert"></span></span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.avalanche_sign"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.avalanche_signs"></span>
             </div>
 
             ## AVALANCHES
             <div class="form-group  full"  ng-if="(outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1
-                      || outing.activities.indexOf('ice_climbing') > -1 || outing.activities.indexOf('snow_ice_mixed') > -1) && (outing.avalanche_sign != 'no' && outing.avalanche_sign != null) ">
+                      || outing.activities.indexOf('ice_climbing') > -1 || outing.activities.indexOf('snow_ice_mixed') > -1) && (outing.avalanche_signs != 'no' && outing.avalanche_signs != null) ">
               <label translate>avalanches_info</label>
               <textarea class="form-control" ng-model="outing.locales[0]['avalanches']"></textarea>
             </div>
@@ -475,7 +475,7 @@ updating_doc = outing_id and outing_lang
 
       <div class="step step-3">
         <section class="section">
-          <h2 class="heading show-phone"><span translate>comments</span></h2>
+          <h2 class="heading show-phone"><span translate>Comments</span></h2>
           <div class="content collapse in">
 
             ## TITLE
@@ -504,7 +504,7 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## ASSOCIATED PARTICIPANTS
-            ## todo: better to show all users in one row, will have to convert users in controller.
+            ## TODO better to show all users in one row, will have to convert users in controller.
             <div id="participants-group" class="form-group  full" ng-class="{'has-success': outing.locales[0]['participants']}">
               <app-simple-search parent-id="outing.document_id"
                 app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="u"></app-simple-search>
@@ -513,7 +513,7 @@ updating_doc = outing_id and outing_lang
 
                 <section class="associated-section">
                   <article class="associated-documents">
-                    <h5 translate ng-show="outing.associations.users.length == 0">you can look up for users that were with you during the outing.</h5>
+                    <h5 translate ng-show="outing.associations.users.length == 0">You can look up for users that were with you during the outing.</h5>
                     <div class="list-item outings user-id-{{user.document_id}}" ng-repeat="user in outing.associations.users">
                       <a>
                         <div class="outing-author text-center">
@@ -551,8 +551,8 @@ updating_doc = outing_id and outing_lang
 
             ## COMMENT
             <div class=" full form-group">
-              <label translate>personal comment</label>
-              <textarea class="form-control description" placeholder="{{mainCtrl.translate('write your comment')}}" ng-model="outing.locales[0]['description']"></textarea>
+              <label translate>personal comments</label>
+              <textarea class="form-control description" placeholder="{{mainCtrl.translate('write your comments')}}" ng-model="outing.locales[0]['description']"></textarea>
             </div>
 
           </div>
