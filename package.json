@@ -2,7 +2,10 @@
   "name": "c2corg_ui",
   "version": "0.0.1",
   "description": "Camptocamp.org UI",
-  "scripts": {},
+  "scripts": {
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
+  },
   "license": "BSD",
   "dependencies": {
     "closure-util": "1.14.0",
@@ -15,7 +18,8 @@
     "bootstrap-slider": "7.1.0",
     "moment": "2.13.0",
     "photoswipe": "4.1.1",
-    "slick-carousel": "1.6.0"
+    "slick-carousel": "1.6.0",
+    "snyk": "^1.17.0"
   },
   "devDependencies": {
     "angular": "1.5.7",
@@ -33,5 +37,6 @@
     "nomnom": "1.8.1",
     "openlayers": "git://github.com/openlayers/ol3#d0e5b1e",
     "typeahead.js": "git://github.com/corejavascript/typeahead.js#v0.11.1"
-  }
+  },
+  "snyk": true
 }
