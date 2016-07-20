@@ -94,7 +94,7 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## PARTIAL TRIP
-            <div class="form-group  half" ng-class="{'has-success': outing.partial_trip != undefined}">
+            <div class="form-group half" ng-class="{'has-success': outing.partial_trip != undefined}">
               <label class="text-center">
                 <label translate>partial_trip</label>
               <input type="checkbox" ng-model="outing.partial_trip" ng-checked="outing.partial_trip == true">
@@ -103,16 +103,21 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## DURATION
-            <div class="form-group  half" ng-class="{'has-success': outing.duration}">
+            <div class="form-group half" ng-class="{'has-success': outing.duration, 'has-error': editForm.duration.$touched && editForm.duration.$invalid}">
               <label translate>duration</label>
               <div class="input-group">
                 <input type="number" min="1" minlength="1" name="duration" ng-model="outing.duration" class="form-control" />
                 <span class="input-group-addon">min</span>
               </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.duration.$valid && outing.duration"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.duration.$invalid && outing.duration"></span>
+              <div class="help-block" ng-messages="editForm.duration.$error">
+                <p ng-message="number" class="label label-danger" style="{{ (editForm.duration.$invalid && editForm.duration.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
+              </div>
             </div>
 
             ## DURATION DIFFICULTIES
-            <div class="form-group  half" ng-class="{'has-success': outing.duration_difficulties}"
+            <div class="form-group half" ng-class="{'has-success': outing.duration_difficulties, 'has-error': editForm.duration_difficulties.$touched && editForm.duration_difficulties.$invalid}"
                  ng-if="outing.activities.indexOf('snow_ice_mixed') > -1 || outing.activities.indexOf('mountain_climbing') > -1 ||
                            outing.activities.indexOf('rock_climbing') > -1 || outing.activities.indexOf('ice_climbing') > -1 || outing.activities.indexOf('via_ferrata') > -1">
               <label translate>duration_difficulties</label>
@@ -120,10 +125,15 @@ updating_doc = outing_id and outing_lang
                 <input type="number" min="1" minlength="1" name="duration_difficulties" ng-model="outing.duration_difficulties" class="form-control" />
                 <span class="input-group-addon">min</span>
               </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.duration_difficulties.$valid && outing.duration_difficulties"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.duration_difficulties.$invalid && outing.duration_difficulties"></span>
+              <div class="help-block" ng-messages="editForm.duration_difficulties.$error">
+                <p ng-message="number" class="label label-danger" style="{{ (editForm.duration_difficulties.$invalid && editForm.duration_difficulties.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
+              </div>
             </div>
 
             ## LENGTH TOTAL
-            <div id="length_total-group" class=" half form-group" ng-class="{ 'has-error': editForm.length_total.$touched && editForm.length_total.$invalid,'has-success': outing.length_total }">
+            <div id="length_total-group" class="half form-group" ng-class="{ 'has-error': editForm.length_total.$touched && editForm.length_total.$invalid,'has-success': outing.length_total }">
               <label translate>length_total</label>
               <div class="input-group">
                 <input type="number" min="0" minlength="1" name="length_total" ng-model="outing.length_total" class="form-control" />
@@ -137,7 +147,7 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## ELEVATION MIN
-            <div id="elevation_min-group" class=" half remain form-group" ng-class="{ 'has-error': editForm.elevation_min.$touched && editForm.elevation_min.$invalid,'has-success': outing.elevation_min }">
+            <div id="elevation_min-group" class="half remain form-group" ng-class="{ 'has-error': editForm.elevation_min.$touched && editForm.elevation_min.$invalid,'has-success': outing.elevation_min }">
               <label translate>elevation_min</label>
               <div class="input-group">
                 <input type="number" min="0" minlength="1" name="elevation_min" ng-model="outing.elevation_min" class="form-control" />
@@ -151,7 +161,7 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## ELEVATION MAX
-            <div id="elevation_max-group" class=" half remain form-group" ng-class="{ 'has-error': editForm.elevation_max.$touched && editForm.elevation_max.$invalid,'has-success': outing.elevation_max }">
+            <div id="elevation_max-group" class="half remain form-group" ng-class="{ 'has-error': editForm.elevation_max.$touched && editForm.elevation_max.$invalid,'has-success': outing.elevation_max }">
               <label translate>elevation_max</label>
               <div class="input-group">
                 <input type="number" min="0" minlength="1" name="elevation_max" ng-model="outing.elevation_max" class="form-control" />
@@ -165,7 +175,7 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## HEIGHT DIFF UP
-            <div id="height_diff_up-group" class=" half remain form-group" ng-class="{ 'has-error': editForm.height_diff_up.$touched && editForm.height_diff_up.$invalid,'has-success': outing.height_diff_up }">
+            <div id="height_diff_up-group" class="half remain form-group" ng-class="{ 'has-error': editForm.height_diff_up.$touched && editForm.height_diff_up.$invalid,'has-success': outing.height_diff_up }">
               <label translate>height_diff_up</label>
               <div class="input-group">
                 <input type="number" min="0" minlength="1" name="height_diff_up" ng-model="outing.height_diff_up" class="form-control" />
@@ -179,7 +189,7 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## HEIGHT DIFF DOWN
-            <div id="height_diff_down-group" class=" half remain form-group" ng-class="{ 'has-error': editForm.height_diff_down.$touched && editForm.height_diff_down.$invalid,'has-success': outing.height_diff_down }">
+            <div id="height_diff_down-group" class="half remain form-group" ng-class="{ 'has-error': editForm.height_diff_down.$touched && editForm.height_diff_down.$invalid,'has-success': outing.height_diff_down }">
               <label translate>height_diff_down</label>
               <div class="input-group">
                 <input type="number" min="0" minlength="1" name="height_diff_down" ng-model="outing.height_diff_down" class="form-control" />
@@ -270,8 +280,8 @@ updating_doc = outing_id and outing_lang
                 <tbody>
                   <tr ng-repeat="cond in outing.locales[0].conditions_levels">
                     <td><input type="text" class="form-control" ng-model="outing.locales[0].conditions_levels[$index].level_place"></td>
-                    <td><input type="number" min="0" class="form-control" ng-model="outing.locales[0].conditions_levels[$index].level_snow_height_soft"></td>
-                    <td><input type="number" min="0" class="form-control" ng-model="outing.locales[0].conditions_levels[$index].level_snow_height_total"></td>
+                    <td><input type="text" class="form-control" ng-model="outing.locales[0].conditions_levels[$index].level_snow_height_soft"></td>
+                    <td><input type="text" class="form-control" ng-model="outing.locales[0].conditions_levels[$index].level_snow_height_total"></td>
                     <td><input type="text" class="form-control" ng-model="outing.locales[0].conditions_levels[$index].level_comment"></td>
                     <td ng-click="outing.locales[0].conditions_levels.splice($index, 1)"><span class="glyphicon glyphicon-trash"></span></td>
                   </tr>
@@ -287,7 +297,7 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## CONDITION RATING
-            <div class="form-group  half" ng-class="{'has-success': outing.condition_rating}">
+            <div class="form-group half" ng-class="{'has-success': outing.condition_rating}">
               <label translate>condition_rating</label>
               <div class="input-group">
                 <select class="form-control" ng-model="outing.condition_rating" ng-options="rat as rat for rat in ${condition_ratings}"><option value=""></option></select>
@@ -297,7 +307,7 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## ELEVATION UP SNOW
-            <div id="elevation_up_snow-group" class=" half form-group" ng-class="{ 'has-error': editForm.elevation_up_snow.$touched && editForm.elevation_up_snow.$invalid,'has-success': outing.elevation_up_snow }"
+            <div id="elevation_up_snow-group" class="half form-group" ng-class="{ 'has-error': editForm.elevation_up_snow.$touched && editForm.elevation_up_snow.$invalid,'has-success': outing.elevation_up_snow }"
                  ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('ice_climbing') > -1  || outing.activities.indexOf('mountain_climbing') > -1  || outing.activities.indexOf('snow_ice_mixed') > -1 ">
               <label translate>elevation_up_snow</label>
               <div class="input-group">
@@ -312,7 +322,7 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## ELEVATION DOWN SNOW
-            <div id="elevation_down_snow-group" class=" half form-group" ng-class="{ 'has-error': editForm.elevation_down_snow.$touched && editForm.elevation_down_snow.$invalid,'has-success': outing.elevation_down_snow }"
+            <div id="elevation_down_snow-group" class="half form-group" ng-class="{ 'has-error': editForm.elevation_down_snow.$touched && editForm.elevation_down_snow.$invalid,'has-success': outing.elevation_down_snow }"
                  ng-if="outing.activities.indexOf('snow_ice_mixed') > -1 || outing.activities.indexOf('mountain_climbing') > -1 || outing.activities.indexOf('ice_climbing') > -1  || outing.activities.indexOf('snowshoeing') > -1">
               <label translate>elevation_down_snow</label>
               <div class="input-group">
@@ -327,7 +337,7 @@ updating_doc = outing_id and outing_lang
             </div>
 
               ## SNOW QUANTITY
-            <div id="snow_quantity-group" class=" half form-group" ng-class="{ 'has-error': editForm.snow_quantity.$touched && editForm.snow_quantity.$invalid,'has-success': outing.snow_quantity }"
+            <div id="snow_quantity-group" class="half form-group" ng-class="{ 'has-error': editForm.snow_quantity.$touched && editForm.snow_quantity.$invalid,'has-success': outing.snow_quantity }"
                  ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('ice_climbing') > -1  || outing.activities.indexOf('mountain_climbing') > -1  || outing.activities.indexOf('snow_ice_mixed') > -1 ">
               <label translate>snow_quantity</label>
               <select class="form-control" ng-model="outing.snow_quantity" ng-options="rat as rat for rat in ${condition_ratings}"><option value=""></option></select>
@@ -338,7 +348,7 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## SNOW QUALITY
-            <div id="snow_quality-group" class=" half form-group" ng-class="{ 'has-error': editForm.snow_quality.$touched && editForm.snow_quality.$invalid,'has-success': outing.snow_quality }"
+            <div id="snow_quality-group" class="half form-group" ng-class="{ 'has-error': editForm.snow_quality.$touched && editForm.snow_quality.$invalid,'has-success': outing.snow_quality }"
                  ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('ice_climbing') > -1  || outing.activities.indexOf('mountain_climbing') > -1  || outing.activities.indexOf('snow_ice_mixed') > -1">
               <label translate>snow_quality</label>
               <select class="form-control" ng-model="outing.snow_quality" ng-options="rat as rat for rat in ${condition_ratings}"><option value=""></option></select>
@@ -349,7 +359,7 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## GLACIER RATING
-            <div class="form-group  half" ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('via_ferrata') > -1  || outing.activities.indexOf('mountain_climbing') > -1  || outing.activities.indexOf('snow_ice_mixed') > -1 ">
+            <div class="form-group half" ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('via_ferrata') > -1  || outing.activities.indexOf('mountain_climbing') > -1  || outing.activities.indexOf('snow_ice_mixed') > -1 ">
               <label translate>glacier_rating</label>
               <div class="input-group" ng-class="{'has-success': outing.glacier_rating }">
                 <select class="form-control" ng-model="outing.glacier_rating" ng-options="rat as rat for rat in ${glacier_ratings}"><option value=""></option></select>
@@ -359,7 +369,7 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## AVALANCHE SIGNS
-            <div class="form-group  half" ng-class="{'has-success': outing.avalanche_sign}"
+            <div class="form-group half" ng-class="{'has-success': outing.avalanche_sign}"
                   ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('ice_climbing') > -1 || outing.activities.indexOf('snow_ice_mixed') > -1">
               <label translate>avalanche_sign</label>
               <div class="input-group">
@@ -379,7 +389,6 @@ updating_doc = outing_id and outing_lang
           </div>
         </section>
 
-
         <section class="section access">
           <h2 class="heading show-phone">
             <span><span translate>access</span> & <span translate>hut</span></span>
@@ -388,7 +397,7 @@ updating_doc = outing_id and outing_lang
           <div class="content outing-route" id="track-edit">
 
             ## PUBLIC TRANSPORT
-            <div class="form-group  half" ng-class="{'has-success': outing.public_transport != undefined}">
+            <div class="form-group half" ng-class="{'has-success': outing.public_transport != undefined}">
               <label class="text-center">
                 <label translate>public_transport</label>
               <input type="checkbox" ng-model="outing.public_transport" ng-checked="outing.public_transport == true">
@@ -397,14 +406,14 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## FREQUENTATION
-            <div class="form-group  half" ng-class="{'has-success': outing.frequentation}">
+            <div class="form-group half" ng-class="{'has-success': outing.frequentation}">
               <label translate>frequentation</label>
               <select class="form-control" ng-model="outing.frequentation" ng-options="rat as rat for rat in ${frequentation_types}"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.frequentation"></span>
             </div>
 
             ## LIFT STATUS
-            <div class="form-group  half" ng-class="{'has-success': outing.lift_status}">
+            <div class="form-group half" ng-class="{'has-success': outing.lift_status}">
               <label translate>lift_status</label>
               <div class="input-group">
                 <select class="form-control" ng-model="outing.lift_status" ng-options="rat as rat for rat in ${lift_status}"><option value=""></option></select>
@@ -420,7 +429,7 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## HUT STATUS
-            <div class="form-group  half" ng-class="{'has-success': outing.hut_status}">
+            <div class="form-group half" ng-class="{'has-success': outing.hut_status}">
               <label translate>hut_status</label>
               <div class="input-group">
                 <select class="form-control" ng-model="outing.hut_status" ng-options="rat as rat for rat in ${hut_status}"><option value=""></option></select>
@@ -430,7 +439,7 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## ELEVATION ACCESS
-            <div id="elevation_access-group" class=" half form-group" ng-class="{ 'has-error': editForm.elevation_access.$touched && editForm.elevation_access.$invalid,'has-success': outing.elevation_access }">
+            <div id="elevation_access-group" class="half form-group" ng-class="{ 'has-error': editForm.elevation_access.$touched && editForm.elevation_access.$invalid,'has-success': outing.elevation_access }">
               <label translate>elevation_access</label>
               <div class="input-group">
                 <input type="number" min="0" minlength="1" name="elevation_access" ng-model="outing.elevation_access" class="form-control" />
@@ -444,7 +453,7 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## ACCESS CONDITION
-            <div class="form-group  half"  ng-class="{'has-success': outing.access_condition}">
+            <div class="form-group half"  ng-class="{'has-success': outing.access_condition}">
               <label translate>access_condition</label>
               <div class="input-group">
                 <select class="form-control" ng-model="outing.access_condition" ng-options="rat as rat for rat in ${access_conditions}"><option value=""></option></select>
@@ -532,7 +541,7 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## NUMBER OF PARTICIPANTS
-            <div id="participants-group" class="form-group  half" ng-class="{'has-success': outing.participant_count }">
+            <div id="participants-group" class="form-group half" ng-class="{'has-success': outing.participant_count }">
               <label translate>participant_count</label>
               <div class="input-group">
                 <input type="number" min="1" ng-model="outing.participant_count" class="form-control" />
