@@ -14,7 +14,7 @@ from json import dumps
     show_attr, show_missing_langs_links, show_other_langs_links, show_archive_data,
     show_route_title, show_areas, show_maps, show_float_buttons,
     show_associated_waypoints, show_associated_routes, show_associated_outings,
-    delete_association_confirmation_modal"/>
+    delete_association_confirmation_modal, associated_waypoints_featurelist"/>
 
 <%
 waypoint_id = waypoint['document_id']
@@ -44,7 +44,8 @@ geometry4326 = geometry
     {
       "type": "FeatureCollection",
       "properties": {},
-      "features": [{
+      "features": [
+      {
         "type": "Feature",
         "geometry": {"type": "Point", "coordinates": [${geometry.x}, ${geometry.y}]},
         "properties": {
@@ -57,8 +58,9 @@ geometry4326 = geometry
           "module": "waypoints",
           "type": "${waypoint['waypoint_type']}"
         }
-      }]
-    }
+      }
+      ${associated_waypoints_featurelist(waypoint)}
+    ]}
   % else:
     null
   % endif
