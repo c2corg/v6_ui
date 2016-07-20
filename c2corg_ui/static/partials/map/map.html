@@ -1,4 +1,7 @@
 <div class="map" ngeo-map="::mapCtrl.map">
   <app-baselayer-selector app-baselayer-selector-map="::mapCtrl.map"></app-baselayer-selector>
-  <app-geolocation app-geolocation-map="::mapCtrl.map" ng-show="::mapCtrl.showRecenterTools"></app-geolocation>
+  <div ng-show="::mapCtrl.showRecenterTools">
+    <app-geolocation app-geolocation-map="::mapCtrl.map"></app-geolocation>
+    <app-map-search app-map-search-map="::mapCtrl.map"></app-map-search>
+  </div>
 </div>
