@@ -51,7 +51,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
           <span class="nav-text"><span translate>figures</span></span><span class="bullet-container"><span class="bullet"></span></span>
         </li>
         <li class="nav-step-{{progressBarCtrl.maxSteps -1}}" ng-click="progressBarCtrl.step((progressBarCtrl.maxSteps == 4 ? 3 : 2), 'waypoint',  progressBarCtrl.previousStep >= ((progressBarCtrl.maxSteps == 4) ? 3 : 2) ? 'backwards' : 'forwards')" >
-          <span class="nav-text"><span ng-if="type != 'climbing_indoor' "><span translate>associations</span> & </span><span translate>descriptions</span></span></span><span class="bullet-container"><span class="bullet"></span></span>
+          <span class="nav-text"><span ng-if="type != 'climbing_indoor' "><span translate>associations</span> & </span><span translate>description</span></span></span><span class="bullet-container"><span class="bullet"></span></span>
         </li>
         <li class="nav-step-{{progressBarCtrl.maxSteps}}" ng-click="progressBarCtrl.step(progressBarCtrl.maxSteps, 'forwards')"><span translate class="nav-text">review</span>
           <span class="bullet-container"><span class="bullet"></span></span>
@@ -133,7 +133,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.elevation.$invalid && editForm.elevation.$touched"></span>
               <div class="help-block" ng-messages="editForm.elevation.$error">
                 <p ng-message="required" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : ''}}" translate>This field is required.</p>
-                <p ng-message="max" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : ''}}" translate>This field must be  than 9999 m.</p>
+                <p ng-message="max" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : ''}}" translate>This field must be lower than 9999 m.</p>
                 <p ng-message="number" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
               </div>
             </div>
@@ -149,7 +149,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.elevation_min.$invalid && editForm.elevation_min.$touched"></span>
               <div class="help-block" ng-messages="editForm.elevation_min.$error">
                 <p ng-message="required" style="{{ (editForm.elevation_min.$invalid && editForm.elevation_min.$touched) ? 'display:inline' : ''}}" translate>This field is required.</p>
-                <p ng-message="max" style="{{ (editForm.elevation_min.$invalid && editForm.elevation_min.$touched) ? 'display:inline' : ''}}" translate>This field must be  than 9999 m.</p>
+                <p ng-message="max" style="{{ (editForm.elevation_min.$invalid && editForm.elevation_min.$touched) ? 'display:inline' : ''}}" translate>This field must be lower than 9999 m.</p>
                 <p ng-message="number" style="{{ (editForm.elevation_min.$invalid && editForm.elevation_min.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
               </div>
             </div>
@@ -579,7 +579,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
 
             ## PUBLIC TRANSPORT RATINGS
             <div class="form-group data half" ng-if="type == 'access' " ng-class="{'has-success': waypoint.public_transportation_rating}">
-              <label translate>public_transportation_ratings</label>
+              <label translate>public_transportation_rating</label>
               <div class="input-group">
                 <select class="form-control" ng-options="rat as mainCtrl.translate(rat) for rat in ${public_transportation_ratings}" ng-model="waypoint.public_transportation_rating"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
@@ -715,7 +715,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
         </section>
 
         <section class="section">
-          <h2 class="heading show-phone" translate>descriptions</h2>
+          <h2 class="heading show-phone" translate>description</h2>
           <div class="content">
 
             ## SUMMARY

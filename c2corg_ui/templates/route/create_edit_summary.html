@@ -13,9 +13,9 @@
     <input disabled class="form-control" value="{{mainCtrl.translate(route.locales[0].lang)}}">
   </article>
 
-  <article ng-if="route.duration">
-    <label translate>duration</label>
-    <input disabled class="form-control" value="route.duration">
+  <article ng-if="route.durations">
+    <label translate>durations</label>
+    <input disabled class="form-control" value="route.durations">
   </article>
 
   <article ng-if="route.activities.length > 0">
@@ -25,10 +25,10 @@
     </ul>
   </article>
 
-  <article ng-if="route.orientation.length > 0">
+  <article ng-if="route.orientations.length > 0">
     <label translate>orientations</label><br>
     <ul class="types">
-      <li ng-repeat="type in route['orientation']" x-translate>{{type}}</li>
+      <li ng-repeat="type in route['orientations']" x-translate>{{type}}</li>
     </ul>
   </article>
 

@@ -239,10 +239,10 @@ app.ImageUploaderController.prototype.uploadFile_ = function(file) {
   }.bind(this), function(resp) {
     if (resp.status == -1) {
       if (!file['manuallyAborted']) {
-        this.alerts_.addError(this.alerts_.gettext('Error while uploading the image : ') + 'Timeout');
+        this.alerts_.addError(this.alerts_.gettext('Error while uploading the image:') + ' Timeout');
       }
     } else {
-      this.alerts_.addError(this.alerts_.gettext('Error while uploading the image : ') + resp.statusText);
+      this.alerts_.addError(this.alerts_.gettext('Error while uploading the image:') + ' ' + resp.statusText);
     }
     this.deleteImage(this.files.indexOf(file));
   }.bind(this));

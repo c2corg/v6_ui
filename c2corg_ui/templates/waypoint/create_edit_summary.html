@@ -14,7 +14,7 @@
     <p class="text-danger" translate ng-if="!waypoint.locales[0].lang">This field is required.</p>
   </p>
   <p ng-if="waypoint.waypoint_type == 'paragliding_takeoff' || waypoint.waypoint_type == 'paragliding_landing' || waypoint.waypoint_type == 'climbing_outdoor'">
-    <label translate>orientation</label>{{waypoint.orientation}}</p>
+    <label translate>orientations</label>{{waypoint.orientations}}</p>
   <p ng-if="waypoint.areas[0].locales[0].title"><label translate>country</label>{{waypoint.areas[0].locales[0].title}}</p>
   <p ng-if="waypoint.waypoint_type == 'climbing_outdoor'"><label translate>children_proof</label>{{waypoint.children_proof}}</p>
   <p ng-if="waypoint.waypoint_type == 'climbing_outdoor'"><label translate>rain_proof</label>{{waypoint.rain_proof}}</p>

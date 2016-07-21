@@ -36,7 +36,7 @@
 
     % if waypoint.get('orientations'):
       <p>
-        <span translate>orientation</span>:
+        <span translate>orientations</span>:
        ${', '.join(waypoint['orientations'])}
       </p>
     % endif
@@ -384,10 +384,10 @@
 <%def name="get_waypoint_orientation(waypoint)">\
   % if waypoint.get('orientations') :
     <div class="name-icon-value orientation" ng-click="detailsCtrl.openTab($event)">
-      <h4><span translate>orientation</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+      <h4><span translate>orientations</span><span class="glyphicon glyphicon-menu-right"></span></h4>
       <div class="name-icon">
         <span class="glyphicon glyphicon-move"></span>
-        <p translate>orientation</p>
+        <p translate>orientations</p>
       </div>
       <span class="detail-text accordion" id="detail-orientation">
         ${show_orientations('detailsCtrl', 'detailsCtrl.documentService.document')}
