@@ -5,8 +5,21 @@
     <b class="author-name">{{doc['author']['username']}}</b>
   </div>
   <div class="list-item-info">
+
     <span class="list-item-title">{{locale.title}}</span>
     <span class="list-item-lang" ng-if="cardCtrl.lang != locale.lang">({{locale.lang}})</span>
+
+    <br>
+    <span class="quality" ng-if="doc['quality']" uib-tooltip="{{'quality' | translate}}" tooltip-placement="top">
+      <span class="glyphicon glyphicon-file"></span>
+      <span translate>{{doc['quality']}}</span>
+    </span>
+
+    <span class="elevation-max" ng-if="doc['elevation_max']" uib-tooltip="{{'elevation_max' | translate}}">
+      <span translate class="value-title glyphicon glyphicon-sort-by-attributes"></span>
+      <span class="value">{{doc['elevation_max']}}&nbsp;m</span>
+    </span>
+
     <div class="route-activities">
       <span ng-repeat="activity in doc.activities" class="route-activity icon-{{activity}}"
             uib-tooltip="{{ cardCtrl.translate(activity) }}" tooltip-placement="top"></span>

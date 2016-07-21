@@ -107,4 +107,100 @@ app.CardController.prototype.createURL = function() {
 };
 
 
+/**
+ * Gets the global ratings for each activity of a route.
+ * @export
+ * @return {Object | null} ratings
+ */
+app.CardController.prototype.getGlobalRatings = function() {
+  var doc = this.doc;
+  var ratings = {};
+
+  doc.activities.forEach(function(a) {
+    if (a === 'rock_climbing' || a === 'mountain_climbing' || a === 'snow_ice_mixed') {
+      ratings['global_rating'] = doc.global_rating;
+
+    } else if (a === 'via_ferrata') {
+      ratings['via_ferrata_rating'] = doc.via_ferrata_rating;
+
+    } else if (a === 'snowshoeing') {
+      ratings['snowshoe_rating'] = doc.snowshoe_rating;
+
+    } else if (a === 'hiking') {
+      ratings['hiking_rating'] = doc.hiking_rating;
+
+    } else if (a === 'ice_climbing') {
+      ratings['ice_rating'] = this.slashSeparatedRating_(doc.ice_rating, doc.engagement_rating);
+
+    } else if (a === 'skitouring') {
+      ratings['labande_global_rating'] = this.slashSeparatedRating_(doc.ski_rating, doc.ski_exposition);
+      ratings['labande_global_rating'] += doc.labande_global_rating ? doc.labande_global_rating : '';
+
+    } else if (a === 'mountain_biking') {
+      ratings['biking_rating'] = this.slashSeparatedRating_(doc.mtb_down_rating, doc.hiking_mtb_exposition);
+    }
+  }.bind(this));
+
+  ratings = Object.keys(ratings)[0] ? ratings : null;
+  return ratings;
+};
+
+
+/**
+ * Based on mako functions in helpers/view.html and route/detailed_route_attributes.html
+ * @export
+ * @return {Object} ratings
+ */
+app.CardController.prototype.getFullRatings = function() {
+  var doc = this.doc;
+  var ratings = {};
+
+  for (var p in doc) {
+    // every property that has 'rating' in it but with some exceptions.
+    if (doc.hasOwnProperty(p) &&
+      (p.indexOf('rating') > -1 && p !== 'rock_free_rating' && p !== 'rock_required_rating' && p !== 'ski_rating'
+        && p !== 'hiking_mtb_exposition' && p !== 'labande_global_rating' && p !== 'labande_ski_rating'
+        && p !== 'mtb_up_rating' && p !== 'mtb_down_rating')) {
+      ratings[p] = doc[p];
+    } else {
+      if (doc.hiking_mtb_exposition) {
+        ratings['hiking_mtb_exposition'] = doc.hiking_mtb_exposition;
+      }
+      if (p === 'ski_rating' || p === 'ski_exposition') {
+        ratings['ski_rating'] = this.slashSeparatedRating_(doc.ski_rating, doc.ski_exposition);
+
+      } else if (p === 'labande_global_rating' || p === 'labande_ski_rating') {
+        ratings['labande_rating'] = this.slashSeparatedRating_(doc.labande_global_rating, doc.labande_ski_rating);
+
+      } else if (p === 'mtb_up_rating' || p === 'mtb_down_rating') {
+        ratings['mtb_rating'] = this.slashSeparatedRating_(doc.mtb_down_rating, doc.hiking_mtb_exposition);
+
+      } else if (p === 'rock_required_rating' || p === 'rock_free_rating') {
+        ratings['rock_rating'] = doc.rock_free_rating;
+
+        if (doc.rock_required_rating && doc.rock_free_rating) {
+          // [A0] (without bracket) is showed only if equipment_rating = P1 or P1+, and if aid_rating is empty.
+          var A0 = (doc.equipment_rating === 'P1' || doc.equipment_rating === 'P1+') && !doc.aid_rating;
+          ratings['rock_rating'] += '>';
+          ratings['rock_rating'] += doc.rock_required_rating ? doc.rock_required_rating + ' ' : '';
+          ratings['rock_rating'] += A0 ? doc.rock_free_rating : '';
+        }
+      }
+    }
+  }
+  return ratings;
+};
+
+/**
+ * @private
+ * @return {string} rating
+ */
+app.CardController.prototype.slashSeparatedRating_ = function(rating1, rating2) {
+  var rating = rating1 ? rating1 + '' : '';
+  rating += (rating1 && rating2) ? '/' : '';
+  rating += rating2 ? rating2 + '' : '';
+
+  return rating;
+};
+
 app.module.controller('AppCardController', app.CardController);

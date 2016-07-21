@@ -14,7 +14,7 @@
   cursor: pointer;
   margin-top: 10px;
   margin-bottom: 10px;
-  
+
   @media @phone {
     margin: 24px 0 0 0;
   }
@@ -80,13 +80,13 @@
 }
 
 input[type=checkbox]{
-  width: 0px; 
+  width: 0px;
     display: none;
 }
 
 input[type=checkbox] + * {
   padding-left:21px;
-  height:16px; 
+  height:16px;
   display:inline-block;
   line-height:16px;
   background-repeat:no-repeat;
@@ -96,10 +96,10 @@ input[type=checkbox] + * {
   cursor:pointer;
   background-image:url(../img/checkbox-bg.svg);
   transition: 0.2s ease-in-out;
-  -moz-box-sizing: border-box; 
+  -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  display: inline-block;    
+  display: inline-block;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -113,7 +113,7 @@ input[type=checkbox]:checked + * {
 .no-opacity {
   opacity: 0 !important;
   pointer-events: none;
-} 
+}
 
 .green-text {
   color: @bright-green;
@@ -187,11 +187,11 @@ input[type=checkbox]:checked + * {
   border-radius: 4px;
   margin-top: 1%;
   transition: .2s ease-in-out;
-  
+
   >span {
     pointer-events: none;
   }
-  
+
   &.closed {
     background-color: white;
     color: @C2C-orange;
@@ -211,11 +211,11 @@ input[type=checkbox]:checked + * {
     color: white;
     font-size: .8em
   }
-  
+
   &:not(.show-phone) {
     @media @phone {
       display: none;
-    }  
+    }
   }
 }
 
@@ -242,16 +242,18 @@ p {
 }
 
 .baseline-align {
-  .flex();
+  align-items: baseline;
+}
+
+.flexend-align {
   align-items: flex-end;
 }
 
 .vertical-align {
   .flex() !important;
-    align-items: center;
-    justify-content: space-around;
+  align-items: center;
+  justify-content: space-around;
 }
-
 
 .conditions-levels {
   .location {
@@ -315,4 +317,17 @@ p {
   -o-animation: removeItem 0.5s linear forwards;
   animation: removeItem 0.5s linear forwards;
   transition: ease-in-out .5;
+}
+
+
+.flex {
+  .flex();
+}
+
+.wrap-row {
+  flex-flow: wrap row;
+}
+
+.center-items-align {
+  align-items: center;
 }
