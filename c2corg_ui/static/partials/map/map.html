@@ -4,4 +4,6 @@
     <app-geolocation app-geolocation-map="::mapCtrl.map"></app-geolocation>
     <app-map-search app-map-search-map="::mapCtrl.map"></app-map-search>
   </div>
+  <button type="button" ng-show="mapCtrl.edit" ng-click="mapCtrl.resetFeature()"
+    class="btn btn-primary map-reset-feature" translate>Reset feature</button>
 </div>
