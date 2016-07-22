@@ -18,6 +18,7 @@ goog.require('ol.interaction.DragAndDrop');
 goog.require('ol.interaction.Draw');
 goog.require('ol.interaction.Modify');
 goog.require('ol.interaction.MouseWheelZoom');
+/** @suppress {extraRequire} */
 goog.require('ol.interaction.Select');
 goog.require('ol.layer.Vector');
 goog.require('ol.source.Vector');
@@ -171,6 +172,12 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
   this.isDrawing_ = false;
 
   /**
+   * @type {?number}
+   * @private
+   */
+  this.currentSelectedFeatureId_ = null;
+
+  /**
    * @type {ol.Map}
    * @export
    */
@@ -211,6 +218,12 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
 
     this.scope_.$root.$on('searchFeaturesChange',
         this.handleSearchChange_.bind(this));
+    this.scope_.$root.$on('cardEnter', function(event, id) {
+      this.toggleFeatureHighlight_(id, true);
+    }.bind(this));
+    this.scope_.$root.$on('cardLeave', function(event, id) {
+      this.toggleFeatureHighlight_(id, false);
+    }.bind(this));
 
     this.view_.on('propertychange',
       ngeoDebounce(
@@ -230,34 +243,9 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
 
   // add the features interactions
   if (this.features_.length > 0 || this.advancedSearch) {
-    this.getVectorLayer_().setStyle(this.createStyleFunction_(false));
-
-    var pointerMoveInteraction = new ol.interaction.Select({
-      style: this.createStyleFunction_(true),
-      condition: ol.events.condition.pointerMove
-    });
-    this.map.addInteraction(pointerMoveInteraction);
-
-    var clickInteraction = new ol.interaction.Select({
-      condition: ol.events.condition.click
-    });
-    clickInteraction.on('select', function(e) {
-      /**
-       * @type {ol.Collection.<ol.Feature>}
-       */
-      var features = e.target.getFeatures();
-      if (features.getLength() > 0) {
-        var first = features.item(0);
-        var module = /** @type {string} */(first.get('module'));
-        var id = first.get('documentId').toString();
-        var lang = /** @type {string} */(first.get('lang'));
-        var url = app.utils.buildDocumentUrl(module, id, lang);
-        if (url) {
-          window.location.href = url;
-        }
-      }
-    }.bind(this));
-    this.map.addInteraction(clickInteraction);
+    this.getVectorLayer_().setStyle(this.createStyleFunction_());
+    this.map.on('click', this.handleMapFeatureClick_.bind(this));
+    this.map.on('pointermove', this.handleMapFeatureHover_.bind(this));
   }
 
   if (this.edit && this.drawType) {
@@ -354,11 +342,10 @@ app.MapController.prototype.getVectorLayer_ = function() {
 
 
 /**
- * @param {boolean} highlight
  * @return {ol.style.StyleFunction}
  * @private
  */
-app.MapController.prototype.createStyleFunction_ = function(highlight) {
+app.MapController.prototype.createStyleFunction_ = function() {
   return (
       /**
        * @param {ol.Feature|ol.render.Feature} feature
@@ -369,12 +356,12 @@ app.MapController.prototype.createStyleFunction_ = function(highlight) {
         var module = /** @type {string} */ (feature.get('module'));
         switch (module) {
           case 'waypoints':
-            return this.createPointStyle_(feature, resolution, highlight);
+            return this.createPointStyle_(feature, resolution);
           case 'routes':
           case 'outings':
             return this.advancedSearch ?
-              this.createPointStyle_(feature, resolution, highlight) :
-              this.createLineStyle_(feature, resolution, highlight);
+              this.createPointStyle_(feature, resolution) :
+              this.createLineStyle_(feature, resolution);
           default:
             return null;
         }
@@ -385,12 +372,10 @@ app.MapController.prototype.createStyleFunction_ = function(highlight) {
 /**
  * @param {ol.Feature|ol.render.Feature} feature
  * @param {number} resolution
- * @param {boolean} highlight
  * @return {ol.style.Style|Array.<ol.style.Style>}
  * @private
  */
-app.MapController.prototype.createPointStyle_ = function(feature,
-    resolution, highlight) {
+app.MapController.prototype.createPointStyle_ = function(feature, resolution) {
 
   var type = /** @type {string} */ (feature.get('module'));
   if (type === 'waypoints' && feature.get('type')) {
@@ -398,6 +383,7 @@ app.MapController.prototype.createPointStyle_ = function(feature,
   }
 
   var id = /** @type {number} */ (feature.get('documentId'));
+  var highlight = /** @type {boolean} */ (!!feature.get('highlight'));
   var scale = highlight ? 1 : 0.5;
   var key = type + scale + '_' + id;
   var style = this.styleCache[key];
@@ -449,13 +435,12 @@ app.MapController.prototype.createPointStyle_ = function(feature,
 /**
  * @param {ol.Feature|ol.render.Feature} feature
  * @param {number} resolution
- * @param {boolean} highlight
  * @return {ol.style.Style|Array.<ol.style.Style>}
  * @private
  */
-app.MapController.prototype.createLineStyle_ = function(feature,
-    resolution, highlight) {
+app.MapController.prototype.createLineStyle_ = function(feature, resolution) {
 
+  var highlight = /** @type {boolean} */ (feature.get('highlight'));
   var key = 'lines' + (highlight ? ' _highlight' : '');
   var style = this.styleCache[key];
   if (!style) {
@@ -485,6 +470,13 @@ app.MapController.prototype.showFeatures_ = function(features, recenter) {
   if (!features.length) {
     return;
   }
+
+  features.forEach(function(feature) {
+    var properties = feature.getProperties();
+    if (properties['documentId']) {
+      feature.setId(/** @type {number} */ (properties['documentId']));
+    }
+  });
 
   source.addFeatures(features);
   if (recenter) {
@@ -594,6 +586,20 @@ app.MapController.prototype.handleSearchChange_ = function(event, features) {
 
 
 /**
+ * @param {number} id Feature id.
+ * @param {boolean} highlight Whether the feature must be highlighted.
+ * @private
+ */
+app.MapController.prototype.toggleFeatureHighlight_ = function(id, highlight) {
+  var feature = this.getVectorLayer_().getSource().getFeatureById(id);
+  if (feature) {
+    this.currentSelectedFeatureId_ = highlight ? id : null;
+    feature.set('highlight', highlight);
+  }
+};
+
+
+/**
  * @param {ol.ObjectEvent} event
  * @private
  */
@@ -614,6 +620,66 @@ app.MapController.prototype.handleMapSearchChange_ = function(event) {
       this.location_.deleteParam('offset');
       this.scope_.$root.$emit('searchFilterChange');
     }
+  }
+};
+
+
+/**
+ * @param {ol.MapBrowserEvent} event
+ * @private
+ */
+app.MapController.prototype.handleMapFeatureClick_ = function(event) {
+  var feature = this.map.forEachFeatureAtPixel(event.pixel, function(feature) {
+    return feature;
+  }, this, function(layer) {
+    // test only features from the current vector layer
+    return layer === this.getVectorLayer_();
+  }, this);
+  if (feature) {
+    var module = /** @type {string} */(feature.get('module'));
+    var id = feature.get('documentId').toString();
+    var lang = /** @type {string} */(feature.get('lang'));
+    var url = app.utils.buildDocumentUrl(module, id, lang);
+    if (url) {
+      window.location.href = url;
+    }
+  }
+};
+
+
+/**
+ * @param {ol.MapBrowserEvent} event
+ * @private
+ */
+app.MapController.prototype.handleMapFeatureHover_ = function(event) {
+  if (event.dragging) {
+    return;
+  }
+  var pixel = this.map.getEventPixel(event.originalEvent);
+  var hit = this.map.hasFeatureAtPixel(pixel, function(layer) {
+    // test only features from the current vector layer
+    return layer === this.getVectorLayer_();
+  }, this);
+  this.map.getTarget().style.cursor = hit ? 'pointer' : '';
+
+  if (hit) {
+    var feature = this.map.forEachFeatureAtPixel(pixel, function(feature) {
+      return feature;
+    }, this, function(layer) {
+      // test only features from the current vector layer
+      return layer === this.getVectorLayer_();
+    }, this);
+    if (this.currentSelectedFeatureId_) {
+      // reset any feature that was highlighted previously
+      this.toggleFeatureHighlight_(this.currentSelectedFeatureId_, false);
+    }
+    var id = /** @type {number} */ (feature.getId());
+    this.toggleFeatureHighlight_(id, true);
+    this.scope_.$root.$emit('mapFeatureHover', id);
+  } else if (this.currentSelectedFeatureId_) {
+    // if a feature was highlighted but no longer hovered
+    this.toggleFeatureHighlight_(this.currentSelectedFeatureId_, false);
+    this.scope_.$root.$emit('mapFeatureHover', null);
   }
 };
 

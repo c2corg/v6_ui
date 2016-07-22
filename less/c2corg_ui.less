@@ -300,7 +300,7 @@ main {
     transition: 0.2s ease-in-out;
     outline: none;
   }
-  &:hover {
+  &:hover, &.highlight {
     background-color: #EFEFEF;
     transition: 0.1s ease-in-out;
   }
@@ -452,7 +452,10 @@ main {
       font-size: .8em;
     }
   } /*list-item a*/
-
+  &.highlight a .list-item-title {
+    color: teal;
+    transition: 0.1s ease-in-out;
+  }
 } /* list-item*/
 
 .line-separator{
