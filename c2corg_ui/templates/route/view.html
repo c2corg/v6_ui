@@ -57,7 +57,9 @@ other_langs, missing_langs = get_lang_lists(route, lang)
             "module": "routes"
           }
         }
-        ${associated_waypoints_featurelist(route)}
+        % if not version:
+          ${associated_waypoints_featurelist(route)}
+        % endif
       ]}
     % else:
       null

@@ -59,7 +59,9 @@ geometry4326 = geometry
           "type": "${waypoint['waypoint_type']}"
         }
       }
-      ${associated_waypoints_featurelist(waypoint)}
+      % if not version:
+        ${associated_waypoints_featurelist(waypoint)}
+      % endif
     ]}
   % else:
     null
