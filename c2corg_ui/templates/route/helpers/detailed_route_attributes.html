@@ -211,3 +211,20 @@
   </div>
   % endif
 </%def>
+
+## GLACIER GEAR
+<%def name="get_route_glacier_gear(route)">\
+  % if route.get('glacier_gear'):
+    <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
+      <h4><span translate>gear</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+      <div class="name-icon">
+        <span class="icon-glacier"></span>
+        <p translate>gear</p>
+      </div>
+      <span class="detail-text accordion" id="glacier-gear">
+        <span translate class="value-title">glacier_gear</span>:
+        <span class="value">${route.get('glacier_gear')}</span>
+      </span>
+    </div>
+  % endif
+</%def>
