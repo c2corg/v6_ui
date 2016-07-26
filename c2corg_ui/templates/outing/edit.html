@@ -535,11 +535,16 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## NUMBER OF PARTICIPANTS
-            <div id="participants-group" class="form-group half" ng-class="{'has-success': outing.participant_count }">
+            <div id="participants-group" class="form-group half" ng-class="{'has-success': outing.participant_count, 'has-error': editForm.participant_count.$touched && editForm.participant_count.$invalid }">
               <label translate>participant_count</label>
               <div class="input-group">
-                <input type="number" min="1" ng-model="outing.participant_count" class="form-control" />
+                <input type="number" min="1" name="participant_count" ng-model="outing.participant_count" class="form-control" />
                 <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.participant_count"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.participant_count.$invalid"></span>
+              <div class="help-block" ng-messages="editForm.participant_count.$error">
+                <p ng-message="number" class="label label-danger" style="{{ (editForm.participant_count.$invalid && editForm.participant_count.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
               </div>
             </div>
 
