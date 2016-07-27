@@ -226,7 +226,7 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## DATE END
-            <div class="date form-group baseline-align" ng-init="openDateEnd = false">
+            <div class="date form-group flex flexend-align" ng-init="openDateEnd = false">
               <div  ng-show="editCtrl.differentDates">
                 <label><span translate>date_end </span></label>
                 <div class="input-group" ng-model="outing.date_end" datepicker-options="{maxDate : editCtrl.dateMaxEnd, minDate: editCtrl.dateMinEnd}"
@@ -238,7 +238,7 @@ updating_doc = outing_id and outing_lang
                 </div>
                 <span class="glyphicon glyphicon-remove form-control-feedback"  ng-click="editCtrl.differentDates = false; outing.date_end = undefined; editCtrl.dateMaxStart = editCtrl.today;"></span>
               </div>
-              <div ng-click="editCtrl.differentDates = true" ng-show="!editCtrl.differentDates" class="baseline-align">
+              <div ng-click="editCtrl.differentDates = true" ng-show="!editCtrl.differentDates" class="flex flexend-align">
                 <button class="btn orange-btn" type="button">several days?</button>
               </div>
             </div>

@@ -224,8 +224,8 @@ main {
 #pagination {
   position: absolute;
   right: 0;
-  margin: 0 10px;
   padding: 0;
+  margin-top: 5px;
 
   @media (max-width: @screen-sm-min) {
     position: relative;
@@ -278,29 +278,12 @@ main {
   }
 }
 
-.list-item-title {
-  font-weight: bold;
-  color: graytext;
-  line-height: 5px;
-
-  @media @tablet {
-    font-size: 1em;
-  }
-}
-
-.list-item-info {
-  text-decoration: none;
-  color: black;
-  font-weight: normal;
-}
-
 .list-item {
   position: relative;
   cursor: pointer;
   padding: 10px;
   background-color: white;
-  min-height: 100px;
-  margin-top: 1%;
+  margin-top: 2%;
   outline: none;
   border-radius: 7px;
   -moz-border-radius: 7px;
@@ -329,9 +312,77 @@ main {
     border-width: 1px;
     font-size: 1.2em;
   }
+
+  .list-item-title {
+    font-weight: bold;
+    color: graytext;
+    line-height: 5px;
+
+    @media @tablet {
+      font-size: 1em;
+    }
+  }
+
+  .list-item-info {
+    margin-top: 5px;
+    text-decoration: none;
+    color: #919191;
+    font-weight: normal;
+
+    .quality, .orientations {
+      white-space: nowrap;
+      .glyphicon {
+        margin-right: 3px;
+      }
+    }
+    .elevation-max .glyphicon {
+      transform: rotateX(180deg);
+    }
+    .elevation-max, .height-diff, .height-diff-difficulties, .orientations {
+      margin-right: 5px;
+    }
+    .icon-rating {
+      font-size: 1.4em;
+      margin-left: -2px;
+    }
+    .rating {
+      margin-right: 8px;
+    }
+    .orientations, .height-diff, .height-diff-difficulties, .elevation-max {
+      white-space: nowrap;
+      @media (max-width: @phone-max) {
+        display: none;
+      }
+    }
+    .global-rating {
+      margin-bottom: 5px;
+      @media (min-width: @phone-max) {
+        display: none;
+      }
+    }
+    .full-rating {
+      margin-bottom: 5px;
+      margin-top: 5px;
+      .glyphicon {
+        font-size: 1.3em;
+        margin-left: -3px;
+        margin-right: 3px !important;
+      }
+      @media (max-width: @phone-max) {
+        display: none;
+      }
+    }
+    .glyphicon, [class*="icon-"]:not(.route-activity):not(.waypoint-type) {
+      color: @bright-green;
+      margin-right: 5px;
+    }
+  }/*list-item-info*/
+
+
   .waypoint-type {
     font-size: 2em;
     color: @C2C-orange;
+    margin-right: 3px;
   }
   .route-activity {
     font-size: 3.5em;
@@ -352,13 +403,13 @@ main {
       font-size: 0.9em;
     }
     .list-item-info {
-      width: 67%;
-      margin-left: 15px;
+      margin-left: 10px;
     }
     .outing-author {
       width: 33%;
       color: gray;
-      margin: auto;
+      margin-top: auto;
+      margin-bottom: auto;
 
       .icon-user {
         font-size: 3em;
