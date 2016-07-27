@@ -35,7 +35,7 @@
 
       % if route.get('route_types'):
         <article>
-          <span translate class="value-title">route_types</span><br>
+          <span translate class="value-title">route_types</span>: 
           % for type in route.get('route_types') :
           <span x-translate class="value">${type}</span>${'' if loop.last else ', '}
           % endfor
@@ -53,16 +53,17 @@
 
       % if route.get('durations'):
         <article>
-          <span translate class="value-title">durations</span><br>
+          <span translate class="value-title">durations</span>:
           % for duration in route.get('durations') :
           <span x-translate class="value">${duration}</span>${'' if loop.last else ', '}
+          <span translate class="value">day(s)</span>
           % endfor
         </article>
       % endif
 
       % if route.get('rock_types'):
         <article>
-          <span translate class="value-title">rock_types</span><br>
+          <span translate class="value-title">rock_types</span>:
           % for rock_type in route.get('rock_types') :
             <span x-translate class="value">${rock_type}</span>${'' if loop.last else ', '}
           % endfor
@@ -75,7 +76,7 @@
 
       % if route.get('configuration'):
         <article>
-          <span translate class="value-title">configuration</span><br>
+          <span translate class="value-title">configuration</span>:
           % for type in route.get('configuration') :
           <span x-translate class="value">${type}</span>${'' if loop.last else ', '}
           % endfor
@@ -209,5 +210,22 @@
         ${show_maps(route)}
     </span>
   </div>
+  % endif
+</%def>
+
+## GLACIER GEAR
+<%def name="get_route_glacier_gear(route)">\
+  % if route.get('glacier_gear'):
+    <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
+      <h4><span translate>gear</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+      <div class="name-icon">
+        <span class="icon-glacier"></span>
+        <p translate>gear</p>
+      </div>
+      <span class="detail-text accordion" id="glacier-gear">
+        <span translate class="value-title">glacier_gear</span>:
+        <span class="value">${route.get('glacier_gear')}</span>
+      </span>
+    </div>
   % endif
 </%def>

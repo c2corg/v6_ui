@@ -47,7 +47,7 @@ app.module.directive('appDocumentEditing', app.documentEditingDirective);
  * @param {angular.Scope} $scope Scope.
  * @param {angular.JQLite} $element Element.
  * @param {angular.Attributes} $attrs Attributes.
- * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
+ * @param {angular.$cookies} $cookies Cookies service.
  * @param {app.Authentication} appAuthentication
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {app.Alerts} appAlerts
@@ -58,8 +58,9 @@ app.module.directive('appDocumentEditing', app.documentEditingDirective);
  * @ngInject
  * @export
  */
-app.DocumentEditingController = function($scope, $element, $attrs, gettextCatalog,
-    appAuthentication, ngeoLocation, appAlerts, appApi, authUrl, appDocument) {
+app.DocumentEditingController = function($scope, $element, $attrs, $cookies,
+        appAuthentication, ngeoLocation, appAlerts, appApi, authUrl, appDocument) {
+
 
   /**
    * @type {app.Document}
@@ -108,7 +109,7 @@ app.DocumentEditingController = function($scope, $element, $attrs, gettextCatalo
    * @type {string}
    * @private
    */
-  this.lang_ = $attrs['appDocumentEditingLang'] || gettextCatalog.currentLanguage;
+  this.lang_ = $attrs['appDocumentEditingLang'];
 
   /**
    * @type {angular.Scope}
@@ -164,7 +165,7 @@ app.DocumentEditingController = function($scope, $element, $attrs, gettextCatalo
       );
     } else if (!this.id_) {
       // new doc lang = user interface lang
-      this.scope[this.modelName]['locales'][0]['lang'] = this.lang_;
+      this.scope[this.modelName]['locales'][0]['lang'] = $cookies.get('interface_lang');
     }
   } else {
     // Redirect to the auth page

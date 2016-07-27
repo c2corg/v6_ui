@@ -12,7 +12,7 @@ from json import dumps
     show_associated_waypoints, show_associated_routes, show_associated_outings,
     delete_association_confirmation_modal, associated_waypoints_featurelist" />
 
-<%namespace file="helpers/detailed_route_attributes.html" import="get_route_location,
+<%namespace file="helpers/detailed_route_attributes.html" import="get_route_location, get_route_glacier_gear,
     get_route_rating, get_route_general, get_route_heights, get_route_access, get_route_associated_maps" />
 
 <%
@@ -116,6 +116,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
           ${get_route_location(route)}
           ${get_route_heights(route)}
           ${get_route_rating(route)}
+          ${get_route_glacier_gear(route)}
           ${get_route_access(route)}
           ${get_route_associated_maps(route)}
         </section>

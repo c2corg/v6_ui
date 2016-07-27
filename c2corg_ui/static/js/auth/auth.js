@@ -90,6 +90,7 @@ app.AuthController = function($scope, appApi, appAuthentication,
   this.alerts_ = appAlerts;
 
   /**
+   * @type {angular.$cookies}
    * @private
    */
   this.cookies_ = $cookies;

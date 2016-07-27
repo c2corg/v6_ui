@@ -11,7 +11,7 @@ goog.require('app.utils');
  * @param {angular.Scope} $scope Scope.
  * @param {angular.JQLite} $element Element.
  * @param {angular.Attributes} $attrs Attributes.
- * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
+ * @param {angular.$cookies} $cookies Cookies service.
  * @param {app.Authentication} appAuthentication
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {app.Alerts} appAlerts
@@ -23,11 +23,11 @@ goog.require('app.utils');
  * @ngInject
  * @export
  */
-app.OutingEditingController = function($scope, $element, $attrs, gettextCatalog,
+app.OutingEditingController = function($scope, $element, $attrs, $cookies,
     appAuthentication, ngeoLocation, appAlerts, appApi, authUrl,
     appDocument) {
 
-  goog.base(this, $scope, $element, $attrs, gettextCatalog, appAuthentication,
+  goog.base(this, $scope, $element, $attrs, $cookies, appAuthentication,
     ngeoLocation, appAlerts, appApi, authUrl, appDocument);
 
   /**

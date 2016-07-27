@@ -80,8 +80,8 @@ updating_doc = outing_id and outing_lang
                 app-select="editCtrl.documentService.pushToAssociations(doc, 'routes', true)" dataset="r"></app-simple-search>
             </div>
 
-            <section class="section associations">
-              <div class="route-associations">
+            <section class="section associations full">
+              <div class="route-associations full">
                 <h5 translate ng-show="outing.associations.routes.length == 0">Choose at least one route taken during the outing.</h5>
                 ${show_editing_associated_routes('outing')}
               </div>
@@ -95,11 +95,9 @@ updating_doc = outing_id and outing_lang
 
             ## PARTIAL TRIP
             <div class="form-group half" ng-class="{'has-success': outing.partial_trip != undefined}">
-              <label class="text-center">
-                <label translate>partial_trip</label>
+              <label translate>partial_trip</label>
               <input type="checkbox" ng-model="outing.partial_trip" ng-checked="outing.partial_trip == true">
               <span></span>
-              </label>
             </div>
 
             ## DURATION
@@ -359,7 +357,7 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## GLACIER RATING
-            <div class="form-group half" ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('via_ferrata') > -1  || outing.activities.indexOf('mountain_climbing') > -1  || outing.activities.indexOf('snow_ice_mixed') > -1 ">
+            <div class="form-group half" ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('mountain_climbing') > -1  || outing.activities.indexOf('snow_ice_mixed') > -1 ">
               <label translate>glacier_rating</label>
               <div class="input-group" ng-class="{'has-success': outing.glacier_rating }">
                 <select class="form-control" ng-model="outing.glacier_rating" ng-options="rat as rat for rat in ${glacier_ratings}"><option value=""></option></select>
@@ -398,11 +396,9 @@ updating_doc = outing_id and outing_lang
 
             ## PUBLIC TRANSPORT
             <div class="form-group half" ng-class="{'has-success': outing.public_transport != undefined}">
-              <label class="text-center">
-                <label translate>public_transport</label>
+              <label translate>public_transport</label>
               <input type="checkbox" ng-model="outing.public_transport" ng-checked="outing.public_transport == true">
               <span></span>
-              </label>
             </div>
 
             ## FREQUENTATION
@@ -496,8 +492,6 @@ updating_doc = outing_id and outing_lang
               % else:
                 <select name="lang" ng-options="lang as mainCtrl.translate(lang) for lang in ['${"','".join(default_langs) |n}'] | translate" ng-model="outing.locales[0].lang" class="form-control" required><option value=""></option></select>
               % endif
-                <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.locales[0].lang"></span>
-              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.lang.$touched && editForm.lang.$invalid"></span>
               <div class="help-block" ng-messages="editForm.lang.$error">
                 <p ng-message="required" class="label label-danger" style="{{ (editForm.lang.$invalid && editForm.lang.$touched) ? 'display:inline' : '' }}" translate>This field is required.</p>
               </div>
@@ -541,11 +535,16 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## NUMBER OF PARTICIPANTS
-            <div id="participants-group" class="form-group half" ng-class="{'has-success': outing.participant_count }">
+            <div id="participants-group" class="form-group half" ng-class="{'has-success': outing.participant_count, 'has-error': editForm.participant_count.$touched && editForm.participant_count.$invalid }">
               <label translate>participant_count</label>
               <div class="input-group">
-                <input type="number" min="1" ng-model="outing.participant_count" class="form-control" />
+                <input type="number" min="1" name="participant_count" ng-model="outing.participant_count" class="form-control" />
                 <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.participant_count"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.participant_count.$invalid"></span>
+              <div class="help-block" ng-messages="editForm.participant_count.$error">
+                <p ng-message="number" class="label label-danger" style="{{ (editForm.participant_count.$invalid && editForm.participant_count.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
               </div>
             </div>
 
@@ -577,7 +576,7 @@ updating_doc = outing_id and outing_lang
             % endif
 
             ## QUALITY
-            <div class="form-group" ng-style="{'has-success': outing.quality}" ng-init="qualityTypes = ${quality_types}">
+            <div class="form-group half" ng-style="{'has-success': outing.quality}" ng-init="qualityTypes = ${quality_types}">
               ## I tried with ng-init, ng-selected..so hacking
               <div class="ng-hide">{{outing.quality = outing.quality || qualityTypes[1]}}</div>
               <label translate>document_quality</label>

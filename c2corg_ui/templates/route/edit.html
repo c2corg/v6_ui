@@ -94,13 +94,13 @@ updating_doc = route_id and route_lang
 
         <section class="section associations">
           <h2 class="heading show-phone"><span translate>associations </span></h2>
+          <h5 class="full" translate ng-show="editCtrl.documentService.document.associations.routes.length == 0 && editCtrl.documentService.document.associations.waypoints.length == 0">
+            You can add associated routes and waypoints by searching in the field.
+          </h5>
           <div class="content route-associations" id="title-edit">
             ## wr = waypoints, routes
             <app-simple-search parent-id="route.document_id"
               app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="wr"></app-simple-search>
-            <h5 translate ng-show="editCtrl.documentService.document.associations.routes.length == 0 && editCtrl.documentService.document.associations.waypoints.length == 0">
-              You can add associated routes and waypoints by searching in the field.
-            </h5>
             ${show_editing_associated_waypoints('route')}
             ${show_editing_associated_routes('route')}
           </div>
@@ -377,9 +377,7 @@ updating_doc = route_id and route_lang
           </div>
         </section>
 
-        <section class="section ratings" ng-if="(route.activities.indexOf('mountain_climbing') > -1 || route.activities.indexOf('mountain_biking') > -1 || route.activities.indexOf('rock_climbing') > -1
-                  || route.activities.indexOf('skitouring') > -1 || route.activities.indexOf('snowshoeing') > -1 || route.activities.indexOf('snow_ice_mixed') > -1
-                  || route.activities.indexOf('ice_climbing') > -1 || route.activities.indexOf('hiking') > -1 || route.activities.indexOf('mountain_biking') > -1)">
+        <section class="section ratings">
           <h2 class="heading show-phone" translate>ratings</h2>
           <div class="content" id="rating-edit">
 
@@ -657,7 +655,7 @@ updating_doc = route_id and route_lang
             % endif
 
             ## QUALITY
-            <div class="form-group" ng-style="{'has-success': route.quality}" ng-init="qualityTypes = ${quality_types}">
+            <div class="form-group half" ng-style="{'has-success': route.quality}" ng-init="qualityTypes = ${quality_types}">
               ## I tried with ng-init, ng-selected..so hacking
               <div class="ng-hide">{{route.quality = route.quality || qualityTypes[1]}}</div>
               <label translate>document_quality</label>
