@@ -4,6 +4,7 @@ goog.provide('app.authDirective');
 goog.require('app');
 goog.require('app.Alerts');
 goog.require('app.Authentication');
+goog.require('app.Lang');
 goog.require('ngeo.Location');
 
 
@@ -35,14 +36,14 @@ app.module.directive('appAuth', app.authDirective);
  * @param {app.Alerts} appAlerts
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @param {angular.$q} $q Angular q service.
- * @param {angular.$cookies} $cookies Cookies service.
+ * @param {app.Lang} appLang Lang service.
  * @param {VCRecaptcha} vcRecaptchaService The recatpcha service from VC.
  * @constructor
  * @export
  * @ngInject
  */
 app.AuthController = function($scope, appApi, appAuthentication,
-    ngeoLocation, appAlerts, gettextCatalog, $q, $cookies,
+    ngeoLocation, appAlerts, gettextCatalog, $q, appLang,
     vcRecaptchaService) {
 
   /**
@@ -90,10 +91,10 @@ app.AuthController = function($scope, appApi, appAuthentication,
   this.alerts_ = appAlerts;
 
   /**
-   * @type {angular.$cookies}
+   * @type {app.Lang}
    * @private
    */
-  this.cookies_ = $cookies;
+  this.langService_ = appLang;
 
   /**
    * @export
@@ -219,7 +220,7 @@ app.AuthController.prototype.successLogin_ = function(remember, response) {
  */
 app.AuthController.prototype.register = function() {
   var alerts = this.alerts_;
-  var lang = this.cookies_.get('interface_lang'); // initialized in lang.js
+  var lang = this.langService_.detectLang();
   var form = this.scope_['register'];
   form['lang'] = lang; // inject the current language
 

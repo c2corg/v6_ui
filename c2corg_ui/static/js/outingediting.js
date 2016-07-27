@@ -4,6 +4,7 @@ goog.require('app');
 goog.require('app.DocumentEditingController');
 goog.require('app.Alerts');
 goog.require('app.Document');
+goog.require('app.Lang');
 goog.require('app.utils');
 
 
@@ -11,7 +12,7 @@ goog.require('app.utils');
  * @param {angular.Scope} $scope Scope.
  * @param {angular.JQLite} $element Element.
  * @param {angular.Attributes} $attrs Attributes.
- * @param {angular.$cookies} $cookies Cookies service.
+ * @param {app.Lang} appLang Lang service.
  * @param {app.Authentication} appAuthentication
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {app.Alerts} appAlerts
@@ -23,11 +24,11 @@ goog.require('app.utils');
  * @ngInject
  * @export
  */
-app.OutingEditingController = function($scope, $element, $attrs, $cookies,
+app.OutingEditingController = function($scope, $element, $attrs, appLang,
     appAuthentication, ngeoLocation, appAlerts, appApi, authUrl,
     appDocument) {
 
-  goog.base(this, $scope, $element, $attrs, $cookies, appAuthentication,
+  goog.base(this, $scope, $element, $attrs, appLang, appAuthentication,
     ngeoLocation, appAlerts, appApi, authUrl, appDocument);
 
   /**
