@@ -8,7 +8,7 @@
   },
   "license": "BSD",
   "dependencies": {
-    "closure-util": "1.14.0",
+    "closure-util": "1.15.0",
     "angular-moment": "^1.0.0-beta.4",
     "angular-recaptcha": "git://github.com/VividCortex/angular-recaptcha#3.0.1",
     "angular-ui-bootstrap": "1.3.3",
