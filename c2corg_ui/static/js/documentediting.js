@@ -446,8 +446,8 @@ app.DocumentEditingController.prototype.hasMissingProps = function(doc, showErro
       hasError = (!doc['locales'] || !doc['locales'][0][field]);
     } else if (field === 'activities') {
       hasError = (!doc['activities'] || doc['activities'].length === 0);
-    } else if (field === 'routes') {
-      hasError = (!doc['associations'] || doc['associations']['routes'].length === 0);
+    } else if (field === 'routes' || field === 'waypoints') {
+      hasError = (!doc['associations'] || doc['associations'][field].length === 0);
     } else if (field === 'latitude' || field === 'longitude') {
       hasError = (!doc['lonlat'] || (doc['lonlat'][field] === null || doc['lonlat'][field] === undefined));
     } else if (field === 'date_start') {
@@ -455,8 +455,12 @@ app.DocumentEditingController.prototype.hasMissingProps = function(doc, showErro
     } else {
       hasError = (!doc[field] || doc[field] === null || doc[field] === undefined);
     }
+
     if (hasError) {
       if (showError) {
+        if (field === 'routes' || field === 'waypoints') {
+          field = 'no associated ' + field;
+        }
         missing['data']['errors'].push({
           'description': 'Missing field',
           'name': field

@@ -96,11 +96,13 @@ app.CardController.prototype.translate = function(str) {
 
 
 /**
+ * Don't create any url on edit and add pages.
  * @export
  * @return {string | undefined}
  */
 app.CardController.prototype.createURL = function() {
-  if (window.location.pathname.indexOf('edit') === -1) {
+  var loc = window.location.pathname;
+  if (loc.indexOf('edit') === -1 && loc.indexOf('add') === -1) {
     return app.utils.buildDocumentUrl(this.type, this.doc['document_id'],
       this.doc['locales'][0]['lang']);
   }
