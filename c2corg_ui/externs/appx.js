@@ -143,7 +143,6 @@ appx.Document;
  *   public_transport: string,
  *   access_condition: string,
  *   lift_status: string,
- *   awesomeness: string,
  *   condition_rating: string,
  *   hut_status: string,
  * }}
