@@ -4,6 +4,7 @@ goog.provide('app.documentEditingDirective');
 goog.require('app');
 goog.require('app.Alerts');
 goog.require('app.Document');
+goog.require('app.Lang');
 goog.require('app.utils');
 goog.require('goog.asserts');
 goog.require('ol.format.GeoJSON');
@@ -47,7 +48,7 @@ app.module.directive('appDocumentEditing', app.documentEditingDirective);
  * @param {angular.Scope} $scope Scope.
  * @param {angular.JQLite} $element Element.
  * @param {angular.Attributes} $attrs Attributes.
- * @param {angular.$cookies} $cookies Cookies service.
+ * @param {app.Lang} appLang Lang service.
  * @param {app.Authentication} appAuthentication
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {app.Alerts} appAlerts
@@ -58,7 +59,7 @@ app.module.directive('appDocumentEditing', app.documentEditingDirective);
  * @ngInject
  * @export
  */
-app.DocumentEditingController = function($scope, $element, $attrs, $cookies,
+app.DocumentEditingController = function($scope, $element, $attrs, appLang,
         appAuthentication, ngeoLocation, appAlerts, appApi, authUrl, appDocument) {
 
 
@@ -165,7 +166,7 @@ app.DocumentEditingController = function($scope, $element, $attrs, $cookies,
       );
     } else if (!this.id_) {
       // new doc lang = user interface lang
-      this.scope[this.modelName]['locales'][0]['lang'] = $cookies.get('interface_lang');
+      this.scope[this.modelName]['locales'][0]['lang'] = appLang.getLang();
     }
   } else {
     // Redirect to the auth page
