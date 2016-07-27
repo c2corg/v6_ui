@@ -108,6 +108,10 @@
     <p><span translate class="value-title">length</span>: <span  class="value">${waypoint['length']} m</span></p>
     % endif
 
+    % if waypoint.get('quality'):
+    <p><span translate class="value-title">length</span>: <span  class="value">${waypoint['quality']} m</span></p>
+    % endif
+
   </span>
 </div>
 </%def>

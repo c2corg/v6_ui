@@ -35,7 +35,7 @@
 
       % if route.get('route_types'):
         <article>
-          <span translate class="value-title">route_types</span>: 
+          <span translate class="value-title">route_types</span>:
           % for type in route.get('route_types') :
           <span x-translate class="value">${type}</span>${'' if loop.last else ', '}
           % endfor
@@ -82,6 +82,10 @@
           % endfor
         </article>
       % endif
+
+    % if route.get('quality'):
+    <p><span class="value-title" translate>document_quality</span>: <span class="value" x-translate>${route['quality']}</span></p>
+    % endif
 
     </span>
   </div>
