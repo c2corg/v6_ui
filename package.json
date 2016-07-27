@@ -4,7 +4,8 @@
   "description": "Camptocamp.org UI",
   "scripts": {
     "snyk-protect": "snyk protect",
-    "prepublish": "npm run snyk-protect"
+    "prepublish": "npm run snyk-protect",
+    "test": "snyk test"
   },
   "license": "BSD",
   "dependencies": {
@@ -31,11 +32,11 @@
     "eslint-config-openlayers": "5.0.0",
     "jquery": "2.2.4",
     "less": "2.7.1",
-    "ng-file-upload": "12.0.4",
     "less-plugin-clean-css": "1.5.1",
+    "ng-file-upload": "12.0.4",
     "ngeo": "git://github.com/camptocamp/ngeo#c647c11",
     "nomnom": "1.8.1",
-    "openlayers": "git://github.com/openlayers/ol3#d0e5b1e",
+    "openlayers": "^3.17.0",
     "typeahead.js": "git://github.com/corejavascript/typeahead.js#v0.11.1"
   },
   "snyk": true
