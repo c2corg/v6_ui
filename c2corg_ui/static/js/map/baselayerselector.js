@@ -248,7 +248,8 @@ app.BaselayerSelectorController.prototype.createSwisstopoSource_ = function(laye
     urls: ['10', '11', '12', '13', '14'].map(function(i) {
       return 'https://wmts' + i + '.geo.admin.ch/1.0.0/' + layer + '/default/current' +
         '/3857/{z}/{x}/{y}.jpeg';
-    })
+    }),
+    maxZoom: 17
   });
 };
 
