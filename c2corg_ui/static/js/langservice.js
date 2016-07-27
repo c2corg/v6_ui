@@ -67,6 +67,11 @@ app.Lang = function($cookies, gettextCatalog, ngeoGetBrowserLanguage, langs,
    * @private
    */
   this.langUrlTemplate_ = langUrlTemplate;
+
+  this.updateLang(
+    this.cookies_.get('interface_lang') ||
+    this.ngeoGetBrowserLanguage_(this.langs_) || 'fr'
+  );
 };
 
 
@@ -81,9 +86,8 @@ app.Lang.prototype.getAvailableLangs = function() {
 /**
  * @return {string}
  */
-app.Lang.prototype.detectLang = function() {
-  return this.cookies_.get('interface_lang') ||
-    this.ngeoGetBrowserLanguage_(this.langs_) || 'fr';
+app.Lang.prototype.getLang = function() {
+  return this.gettextCatalog_.currentLanguage;
 };
 
 

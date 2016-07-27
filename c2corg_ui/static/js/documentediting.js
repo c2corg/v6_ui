@@ -166,7 +166,7 @@ app.DocumentEditingController = function($scope, $element, $attrs, appLang,
       );
     } else if (!this.id_) {
       // new doc lang = user interface lang
-      this.scope[this.modelName]['locales'][0]['lang'] = appLang.detectLang();
+      this.scope[this.modelName]['locales'][0]['lang'] = appLang.getLang();
     }
   } else {
     // Redirect to the auth page

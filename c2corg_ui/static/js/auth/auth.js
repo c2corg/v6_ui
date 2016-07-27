@@ -220,7 +220,7 @@ app.AuthController.prototype.successLogin_ = function(remember, response) {
  */
 app.AuthController.prototype.register = function() {
   var alerts = this.alerts_;
-  var lang = this.langService_.detectLang();
+  var lang = this.langService_.getLang();
   var form = this.scope_['register'];
   form['lang'] = lang; // inject the current language
 

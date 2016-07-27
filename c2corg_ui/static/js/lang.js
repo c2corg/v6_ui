@@ -58,9 +58,7 @@ app.LangController = function(appLang) {
    * @type {string}
    * @export
    */
-  this.lang;
-
-  this.updateLang(appLang.detectLang());
+  this.lang = appLang.getLang();
 };
 
 
