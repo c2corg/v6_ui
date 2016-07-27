@@ -275,8 +275,8 @@ updating_doc = route_id and route_lang
 
             ## DIFFICULTIES HEIGHT
             <div id="difficulties_height-group" class="data half form-group" ng-class="{ 'has-error': editForm.difficulties_height.$touched && editForm.difficulties_height.$invalid,'has-success': route.difficulties_height }"
-                 ng-if="route.activities.indexOf('via_ferrata') > -1 || route.activities.indexOf('mountain_biking') > -1 || route.activities.indexOf('snowshoeing') > -1 || route.activities.indexOf('hiking') > -1|| route.activities.indexOf('ice_climbing') > -1 || route.activities.indexOf('rock_climbing') > -1
-                  || route.activities.indexOf('mountain_climbing') > -1 || route.activities.indexOf('snow_ice_mixed') > -1">
+                 ng-if="route.activities.indexOf('via_ferrata') > -1 || route.activities.indexOf('ice_climbing') > -1 || route.activities.indexOf('rock_climbing') > -1 || route.activities.indexOf('snowshoeing') > -1
+                    || route.activities.indexOf('mountain_climbing') > -1 || route.activities.indexOf('snow_ice_mixed') > -1 || route.activities.indexOf('hiking') > -1 || route.activities.indexOf('mountain_biking') > -1">
               <label translate>difficulties_height</label>
               <div class="input-group">
                 <input type="number" min="0" name="difficulties_height" ng-model="route.difficulties_height" class="form-control" />
@@ -377,7 +377,7 @@ updating_doc = route_id and route_lang
           </div>
         </section>
 
-        <section class="section ratings">
+        <section class="section ratings" ng-if="route.activities.length > 1">
           <h2 class="heading show-phone" translate>ratings</h2>
           <div class="content" id="rating-edit">
 
