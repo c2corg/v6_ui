@@ -175,8 +175,8 @@ app.DocumentEditingController = function($scope, $element, $attrs, gettextCatalo
     return;
   }
 
-  this.scope.$root.$on('mapFeaturesChange', function(event, features) {
-    this.handleMapFeaturesChange_(features);
+  this.scope.$root.$on('mapFeaturesChange', function(event, features, isReset) {
+    this.handleMapFeaturesChange_(features, isReset || false);
   }.bind(this));
 };
 
@@ -356,16 +356,26 @@ app.DocumentEditingController.prototype.updateMap = function() {
 
 /**
  * @param {Array.<ol.Feature>} features
+ * @param {boolean} isReset True if feature has been reset to its inital value
  * @private
  */
 app.DocumentEditingController.prototype.handleMapFeaturesChange_ = function(
-    features) {
-  // TODO handle multiple features?
+    features, isReset) {
+  var data = this.scope[this.modelName];
+  if (isReset && !features.length) {
+    // geometry has been reset
+    delete data['geometry'];
+    if (this.module_ === 'waypoints') {
+      data['lonlat'] = {'longitude': '', 'latitude': ''};
+    }
+    this.hasGeomChanged_ = false;
+    return;
+  }
+
   var feature = features[0];
   var geometry = feature.getGeometry();
   goog.asserts.assert(geometry);
   var isPoint = geometry instanceof ol.geom.Point;
-  var data = this.scope[this.modelName];
   // If creating a new document, the model has no geometry attribute yet:
   data['geometry'] = data['geometry'] || {};
   if (isPoint) {
@@ -376,7 +386,9 @@ app.DocumentEditingController.prototype.handleMapFeaturesChange_ = function(
       'longitude': coords[0],
       'latitude': coords[1]
     };
-    this.scope.$apply();
+    if (!isReset) {
+      this.scope.$apply();
+    }
   } else {
     var center;
     // For lines, use the middle point as point geometry:
@@ -391,7 +403,7 @@ app.DocumentEditingController.prototype.handleMapFeaturesChange_ = function(
     data['geometry']['geom'] = this.geojsonFormat_.writeGeometry(centerPoint);
     data['geometry']['geom_detail'] = this.geojsonFormat_.writeGeometry(geometry);
   }
-  this.hasGeomChanged_ = true;
+  this.hasGeomChanged_ = !isReset; // geom has changed unless it has been reset
 };
 
 

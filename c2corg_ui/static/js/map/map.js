@@ -153,6 +153,24 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
   this.initialExtent_ = null;
 
   /**
+   * @type {?ol.Feature}
+   * @private
+   */
+  this.initialFeature_ = null;
+
+  /**
+   * @type {ol.interaction.Draw}
+   * @private
+   */
+  this.draw_;
+
+  /**
+   * @type {boolean}
+   * @private
+   */
+  this.isDrawing_ = false;
+
+  /**
    * @type {ol.Map}
    * @export
    */
@@ -245,12 +263,13 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
   if (this.edit && this.drawType) {
     var vectorSource = this.getVectorLayer_().getSource();
 
-    var draw = new ol.interaction.Draw({
+    this.draw_ = new ol.interaction.Draw({
       source: vectorSource,
       type: this.drawType
     });
-    draw.on('drawend', this.handleDraw_.bind(this));
-    this.map.addInteraction(draw);
+    this.draw_.on('drawstart', this.handleDrawStart_.bind(this));
+    this.draw_.on('drawend', this.handleDrawEnd_.bind(this));
+    this.map.addInteraction(this.draw_);
 
     var modify = new ol.interaction.Modify({
       features: vectorSource.getFeaturesCollection(),
@@ -508,6 +527,9 @@ app.MapController.prototype.handleEditModelChange_ = function(event, data) {
     this.view_.setCenter(geometry.getCoordinates());
     this.view_.setZoom(this.zoom || app.MapController.DEFAULT_POINT_ZOOM);
   }
+  if (!this.initialFeature_) {
+    this.initialFeature_ = new ol.Feature(geometry.clone());
+  }
 };
 
 
@@ -527,18 +549,26 @@ app.MapController.prototype.handleFeaturesUpload_ = function(event, features) {
  * @param {ol.interaction.DrawEvent} event
  * @private
  */
-app.MapController.prototype.handleDraw_ = function(event) {
+app.MapController.prototype.handleDrawStart_ = function(event) {
+  this.isDrawing_ = true;
   var feature = event.feature;
-  if (this.drawType == 'Point') {
-    // Only one point can be drawn at a time
-    var source = this.getVectorLayer_().getSource();
-    goog.array.forEach(source.getFeatures(), function(f) {
-      if (f !== feature) {
-        this.removeFeature(f);
-      }
-    }, source);
-  }
-  this.scope_.$root.$emit('mapFeaturesChange', [feature]);
+  // Only one feature can be drawn at a time
+  var source = this.getVectorLayer_().getSource();
+  source.getFeatures().forEach(function(f) {
+    if (f !== feature) {
+      source.removeFeature(f);
+    }
+  });
+};
+
+
+/**
+ * @param {ol.interaction.DrawEvent} event
+ * @private
+ */
+app.MapController.prototype.handleDrawEnd_ = function(event) {
+  this.isDrawing_ = false;
+  this.scope_.$root.$emit('mapFeaturesChange', [event.feature]);
 };
 
 
@@ -620,6 +650,25 @@ app.MapController.prototype.simplifyFeature_ = function(feature) {
   geometry = geometry.simplify(20);
   feature.setGeometry(geometry);
   return feature;
+};
+
+
+/**
+ * @export
+ */
+app.MapController.prototype.resetFeature = function() {
+  if (this.isDrawing_) {
+    this.draw_.finishDrawing();
+  }
+  var source = this.getVectorLayer_().getSource();
+  source.clear();
+  var features = [];
+  if (this.initialFeature_) {
+    var feature = this.initialFeature_.clone();
+    source.addFeature(feature);
+    features.push(feature);
+  }
+  this.scope_.$root.$emit('mapFeaturesChange', features, true /* isReset */);
 };
 
 
