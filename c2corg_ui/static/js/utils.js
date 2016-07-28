@@ -176,6 +176,7 @@ app.utils.createImageSlide = function(file, imageUrl) {
              '</figure>';
 };
 
+
 /**
  * http://openlayers.org/en/latest/examples/vector-labels.html
  * http://stackoverflow.com/questions/14484787/wrap-text-in-javascript
@@ -202,4 +203,22 @@ app.utils.stringDivider = function(str, width, spaceReplacer) {
     }
   }
   return str;
+};
+
+
+/**
+ * @param {string} path Path of the partial.
+ * @param {angular.$templateCache} $templateCache service
+ * @return {string}
+ */
+app.utils.getTemplate = function(path, $templateCache) {
+  var tpl = $templateCache.get(path);
+  if (goog.DEBUG && !tpl) {
+    var req = new XMLHttpRequest();
+    req.open('GET', path, false /* synchronous */);
+    req.send(null);
+    tpl = req.status === 200 ? req.responseText : 'Partial not found';
+    $templateCache.put(path, tpl);
+  }
+  return tpl;
 };
