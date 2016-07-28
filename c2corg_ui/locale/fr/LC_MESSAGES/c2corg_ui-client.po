@@ -401,6 +401,15 @@ msgstr "Aucun résultat"
 msgid "Numbers"
 msgstr "Données"
 
+msgid "no associated waypoints"
+msgstr "aucun point de passage associé"
+
+msgid "no associated routes"
+msgstr "aucun itinéraire associé"
+
+msgid "Missing field"
+msgstr "champ manquant"
+
 #: c2corg_ui/templates/auth.html
 msgid "Only letters and numbers are allowed."
 msgstr "Seuls des lettres et des chiffres sont autorisés."
