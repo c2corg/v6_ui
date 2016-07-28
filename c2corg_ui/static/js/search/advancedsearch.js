@@ -3,6 +3,7 @@ goog.provide('app.advancedSearchDirective');
 
 goog.require('app');
 goog.require('app.Api');
+goog.require('app.utils');
 goog.require('ngeo.Location');
 goog.require('ol.Feature');
 goog.require('ol.format.GeoJSON');
@@ -99,20 +100,31 @@ app.AdvancedSearchController = function($scope, appApi, ngeoLocation,
    */
   this.highlightId = null;
 
-  // Get the initial results when loading the page.
-  // If a map is used, wait to get the map extent
-  // before triggering the request.
-  if (!this.useMap) {
-    this.getResults_();
-  }
+  /**
+   * @type {boolean}
+   * @private
+   *
+   * Recenter the map if no bbox filter is provided AND
+   * a document id is provided
+   */
+  this.recenter_ = !this.location_.hasParam('bbox') &&
+    app.utils.detectDocumentIdFilter(this.location_);
 
   // Refresh the results when pagination or criterias have changed:
   this.scope_.$root.$on('searchFilterChange', this.getResults_.bind(this));
 
-  // Hilight matching cards when a map feature is hovered
-  this.scope_.$root.$on('mapFeatureHover', function(event, id) {
-    this.onMapFeatureHover_(id);
-  }.bind(this));
+  // Get the initial results when loading the page unless a map is used.
+  // In that case wait to get the map extent before triggering the request.
+  if (!this.useMap || this.recenter_) {
+    this.getResults_();
+  }
+
+  if (this.useMap) {
+    // Hilight matching cards when a map feature is hovered
+    this.scope_.$root.$on('mapFeatureHover', function(event, id) {
+      this.onMapFeatureHover_(id);
+    }.bind(this));
+  }
 };
 
 
@@ -145,7 +157,8 @@ app.AdvancedSearchController.prototype.successList_ = function(response) {
   // TODO: disable map interaction for document types with no geometry
   // "total" is needed for pagination though
   this.scope_.$root.$emit('searchFeaturesChange', this.getFeatures_(),
-    this.total);
+    this.total, this.recenter_);
+  this.recenter_ = false;
 };
 
 

@@ -222,3 +222,18 @@ app.utils.getTemplate = function(path, $templateCache) {
   }
   return tpl;
 };
+
+
+/**
+ * @param {ngeo.Location} ngeoLocation ngeo Location service.
+ * @return {boolean}
+ */
+app.utils.detectDocumentIdFilter = function(ngeoLocation) {
+  var associatedDocTypes = ['w', 'r'];
+  for (var i = 0, n = associatedDocTypes.length; i < n; i++) {
+    if (ngeoLocation.hasParam(associatedDocTypes[i])) {
+      return true;
+    }
+  }
+  return false;
+};
