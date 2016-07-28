@@ -16,6 +16,7 @@
       "c2corg_ui/externs/vcrecaptcha.js",
       "c2corg_ui/externs/slick.js",
       "c2corg_ui/externs/photoswipe.js",
+      "c2corg_ui/externs/moment.js",
       "c2corg_ui/externs/loadImage.js",
       "c2corg_ui/externs/ui-bootstrap.js",
       "c2corg_ui/externs/angular-1.5.js",
