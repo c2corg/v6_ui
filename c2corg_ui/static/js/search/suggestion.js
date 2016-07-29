@@ -1,5 +1,8 @@
 goog.provide('app.suggestionDirective');
 
+goog.require('app.utils');
+
+
 /**
  * @param {angular.$compile} $compile Angular compile service.
  * @param {angular.$sce} $sce Angular Strict Contextual Escaping service.
@@ -9,7 +12,8 @@ goog.provide('app.suggestionDirective');
  */
 app.suggestionDirective = function($compile, $sce, $templateCache) {
   var template = function(doctype) {
-    return $templateCache.get('/static/partials/suggestions/' + doctype + '.html');
+    var path = '/static/partials/suggestions/' + doctype + '.html';
+    return app.utils.getTemplate(path, $templateCache);
   };
 
   return {
@@ -18,7 +22,9 @@ app.suggestionDirective = function($compile, $sce, $templateCache) {
     link: function(scope, element) {
       scope.highlight = function(text, search) {
         if (search) { // i = case insensitive
-          return $sce.trustAsHtml(text.replace(new RegExp(search, 'ig'), '<span class="tt-highlight">$&</span>'));
+          return $sce.trustAsHtml(text.replace(
+            new RegExp(search, 'ig'),
+            '<span class="tt-highlight">$&</span>'));
         }
         return $sce.trustAsHtml(text);
       };
