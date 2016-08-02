@@ -195,8 +195,8 @@
       flex-basis: 29.3%;
     }
     .half {
-      width: 45%;
-      flex-basis: 45%;
+      width: 46%;
+      flex-basis: 46%;
 
       @media @big {
         flex-basis: 29.3%;
@@ -205,8 +205,9 @@
 
       &.remain {
         flex-basis: 46% !important;
-        margin-right: 2%;
-        margin-left: 2%;
+        @media @phone {
+          flex-basis: 48% !important;
+        }
       }
       .glyphicon-warning-sign, .glyphicon-ok {
         left: 102%;
