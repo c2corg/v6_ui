@@ -306,7 +306,7 @@ updating_doc = outing_id and outing_lang
 
             ## ELEVATION UP SNOW
             <div id="elevation_up_snow-group" class="half form-group" ng-class="{ 'has-error': editForm.elevation_up_snow.$touched && editForm.elevation_up_snow.$invalid,'has-success': outing.elevation_up_snow }"
-                 ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('ice_climbing') > -1  || outing.activities.indexOf('mountain_climbing') > -1  || outing.activities.indexOf('snow_ice_mixed') > -1 ">
+                 ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('ice_climbing') > -1  || outing.activities.indexOf('mountain_climbing') > -1  || outing.activities.indexOf('snow_ice_mixed') > -1">
               <label translate>elevation_up_snow</label>
               <div class="input-group">
                 <input type="number" min="0" minlength="1" name="elevation_up_snow" ng-model="outing.elevation_up_snow" class="form-control" />
@@ -321,7 +321,7 @@ updating_doc = outing_id and outing_lang
 
             ## ELEVATION DOWN SNOW
             <div id="elevation_down_snow-group" class="half form-group" ng-class="{ 'has-error': editForm.elevation_down_snow.$touched && editForm.elevation_down_snow.$invalid,'has-success': outing.elevation_down_snow }"
-                 ng-if="outing.activities.indexOf('snow_ice_mixed') > -1 || outing.activities.indexOf('mountain_climbing') > -1 || outing.activities.indexOf('ice_climbing') > -1  || outing.activities.indexOf('snowshoeing') > -1">
+                 ng-if="outing.activities.indexOf('snow_ice_mixed') > -1 || outing.activities.indexOf('mountain_climbing') > -1 || outing.activities.indexOf('ice_climbing') > -1  || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('skitouring') > -1">
               <label translate>elevation_down_snow</label>
               <div class="input-group">
                 <input type="number" min="0" minlength="1" name="elevation_down_snow" ng-model="outing.elevation_down_snow" class="form-control" />
