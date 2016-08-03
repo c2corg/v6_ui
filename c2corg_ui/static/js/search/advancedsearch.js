@@ -93,6 +93,12 @@ app.AdvancedSearchController = function($scope, appApi, ngeoLocation,
    */
   this.documents = [];
 
+  /**
+   * @type {?number}
+   * @export
+   */
+  this.highlightId = null;
+
   // Get the initial results when loading the page.
   // If a map is used, wait to get the map extent
   // before triggering the request.
@@ -102,6 +108,11 @@ app.AdvancedSearchController = function($scope, appApi, ngeoLocation,
 
   // Refresh the results when pagination or criterias have changed:
   this.scope_.$root.$on('searchFilterChange', this.getResults_.bind(this));
+
+  // Hilight matching cards when a map feature is hovered
+  this.scope_.$root.$on('mapFeatureHover', function(event, id) {
+    this.onMapFeatureHover_(id);
+  }.bind(this));
 };
 
 
@@ -158,7 +169,7 @@ app.AdvancedSearchController.prototype.getFeatures_ = function() {
 
 
 /**
- * @param {Object} doc document data.
+ * @param {Object} doc Document data.
  * @return {Object}
  * @private
  */
@@ -178,6 +189,35 @@ app.AdvancedSearchController.prototype.createFeatureProperties_ = function(doc) 
     properties['title_prefix'] = locale['title_prefix'];
   }
   return properties;
+};
+
+
+/**
+ * @param {number} id Document id.
+ * @export
+ */
+app.AdvancedSearchController.prototype.onMouseEnter = function(id) {
+  this.scope_.$root.$emit('cardEnter', id);
+};
+
+
+/**
+ * @param {number} id Document id.
+ * @export
+ */
+app.AdvancedSearchController.prototype.onMouseLeave = function(id) {
+  this.scope_.$root.$emit('cardLeave', id);
+};
+
+
+/**
+ * @param {?number} id Document id.
+ * @private
+ */
+app.AdvancedSearchController.prototype.onMapFeatureHover_ = function(id) {
+  // Update feature id for card's ng-class in the partial
+  this.highlightId = id;
+  this.scope_.$apply();
 };
 
 
