@@ -5,7 +5,6 @@ goog.require('app');
 goog.require('app.Document');
 
 /**
- * @ngInject
  * @return {angular.Directive} directive for detailed views
  */
 app.viewDetailsDirective = function() {
@@ -19,18 +18,16 @@ app.viewDetailsDirective = function() {
       function initGalleries() {
         ctrl.initSlickGallery_();
         ctrl.initPhotoswipe_();
-        $('.photos figure').each(function() {
-          $(this).css('width', '');
-        });
       }
       ctrl.loadImages_(initGalleries);
 
-      $('.pswp__button.info').on('touchend click', function(e) {
+      $('.pswp__button.info').on('touchend click', function() {
         $('.photoswipe-image-container .image-infos, .photoswipe-image-container img').toggleClass('showing-info');
       });
 
       $('.pswp__button--arrow--left, .pswp__button--arrow--right').click(function() {
         $('.showing-info').removeClass('showing-info');
+        ctrl.compile_($('.image-infos-buttons').contents())(ctrl.scope_); // recompile the protected-url-btn on each slide change
       });
     }
   };
@@ -48,12 +45,13 @@ app.module.directive('appViewDetails', app.viewDetailsDirective);
  * @param {appx.Document} documentData Data set as module value in the HTML.
  * @param {string} imageUrl URL to the image backend.
  * @param {string} discourseUrl URL to discourse.
+ * @param {app.Url} appUrl
  * @constructor
  * @export
  * @ngInject
  */
 app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
-    appDocument, documentData, imageUrl, discourseUrl) {
+    appDocument, documentData, imageUrl, discourseUrl, appUrl) {
 
   /**
    * @type {app.Document}
@@ -67,6 +65,12 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
    * @private
    */
   this.modal_ = $uibModal;
+
+  /**
+   * @type {app.Url}
+   * @private
+   */
+  this.url_ = appUrl;
 
   /**
    * @type {angular.$compile}
@@ -162,38 +166,22 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
         // get the data-info-id and clone into the slide that's being opened
         id = linkEl.getAttribute('data-info-id');
         info = $(document.getElementById(id));
-
         var image = new Image();
-        var direction = 'horizontal';
-        var stretched = false;
-        var height;
-        var imgHtml;
-        var width;
-        var margin;
         image['src'] = linkEl.getAttribute('href');
-        if (image.naturalHeight > image.naturalWidth) {
-          direction = 'vertical';
-        }
-        // if the image is too small for the screen, don't stretch it and show the original size only.
-        if (window.innerWidth > image.naturalWidth + 100 || window.innerHeight > image.naturalHeight + 100) {
-          height = image.naturalHeight;
-          width = image.naturalWidth;
-          margin = 'auto';
-          stretched = true;
-        }
-        if (!stretched) {
-          imgHtml = '<img src="' + linkEl.getAttribute('href') + '">';
-        } else {
-          imgHtml = '<img src="' + linkEl.getAttribute('href') + '" style="height: ' + height + 'px; width: ' + width + 'px; margin: ' + margin + ';">';
-        }
-        // create slide object
-        item = {
-          html: '<div class="photoswipe-image-container ' + direction + '">' +
+        var imgHtml = '<img src="' + linkEl.getAttribute('href') + '">';
+
+        item = { // create slide object
+          html: '<div class="photoswipe-image-container">' +
                       info.html() + imgHtml +
                     '</div>'
+         // TODO: for zoom in animation -> add this when WIDTH & HEIGHT will be returned by API in image properties
+         // w: image.naturalWidth,
+         // h: image.naturalHeight
         };
+
         // <img> thumbnail element, retrieving thumbnail url (small img)
         if (linkEl.children.length > 0) {
+         // ADD  item.src = linkEl.getAttribute('href'); when WIDHT & HEIGHT will be returned
           item.msrc = linkEl.children[0].getAttribute('src');
         }
         item.el = figureEl; // save link to element for getThumbBoundsFn
@@ -232,7 +220,7 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
         galleryUID: clickedGallery.getAttribute('data-pswp-uid'),
         getThumbBoundsFn: function(index) {
           // See Options -> getThumbBoundsFn section of documentation for more info
-          var thumbnail = items[index].el.getElementsByTagName('img')[0]; // find thumbnail
+          var thumbnail = items[index].el.getElementsByTagName('img')[0];
           var pageYScroll = window.pageYOffset || document.documentElement.scrollTop;
           var rect = thumbnail.getBoundingClientRect();
           return {x: rect.left, y: rect.top + pageYScroll, w: rect.width};
@@ -245,6 +233,8 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
       // Pass data to PhotoSwipe and initialize it
       gallery = new window.PhotoSwipe(pswpElement, window.PhotoSwipeUI_Default, items, options);
       gallery.init();
+      this.compile_($('.image-infos-buttons').contents())(this.scope_);  // recompile the protected-url-btn on gallery open
+
     }.bind(this);
 
     // triggers when user clicks on thumbnail
@@ -355,13 +345,16 @@ app.ViewDetailsController.prototype.createTopic = function() {
 app.ViewDetailsController.prototype.loadImages_ = function(initGalleries) {
   var photos = this.documentService.document['associations']['images'];
   for (var i in photos) {
+    var scope = this.scope_.$new(true);
+    var id = 'image-' + photos[i]['document_id'];
+    photos[i]['edit_url'] = '/images/edit/' + photos[i]['document_id'] + '/' + photos[i]['locales'][0]['lang'];
+    photos[i]['image_id'] = id;
+    scope['photo'] = photos[i];
 
     var element = app.utils.createImageSlide(photos[i], this.imageUrl_);
-    $('.photos').append(element);
+    $('.photos').prepend(element);
 
-    var scope = this.scope_.$new(true);
-    scope['photo'] = photos[i];
-    this.compile_($('#image-' + photos[i]['document_id']).contents())(scope);
+    this.compile_($('#' + id).contents())(scope);
   }
   initGalleries();
 };
