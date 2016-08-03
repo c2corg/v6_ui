@@ -1,3 +1,4 @@
+import requests
 from pyramid.config import Configurator
 from pyramid_mako import add_mako_renderer
 from c2corg_ui.lib.cacheversion import version_cache_buster, CACHE_PATH
@@ -13,6 +14,17 @@ def main(global_config, **settings):
     """
     config = Configurator(settings=settings)
     add_mako_renderer(config, '.html')
+
+    # configure connection pool for http requests
+    max_connections = int(settings.get('http_request_connection_pool_size'))
+    http_requests.session = requests.Session()
+    # see: http://docs.python-requests.org/en/master/api/#requests.adapters.HTTPAdapter  # noqa
+    # and: http://urllib3.readthedocs.io/en/1.2.1/managers.html
+    adapter = requests.adapters.HTTPAdapter(
+        pool_connections=1,  # number of pools (one pool per host)
+        pool_maxsize=max_connections  # connections per pool
+    )
+    http_requests.session.mount('http://', adapter)
 
     # Register a tween to get back the cache buster path.
     config.add_tween("c2corg_ui.lib.cacheversion.CachebusterTween")
@@ -101,3 +113,9 @@ class NotFound():
           'image_url': self.settings['image_url'],
           'error_msg': self.context.detail if self.context.detail else ''
         }
+
+
+class HTTPRequests():
+    # a `requests` session object initialized in `main()`
+    session = None
+http_requests = HTTPRequests()

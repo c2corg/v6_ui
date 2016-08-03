@@ -9,6 +9,8 @@ image_url = {image_url}
 api_url_internal = {api_url_internal}
 api_url_host = {api_url_host}
 
+http_request_connection_pool_size = {http_request_connection_pool_size}
+
 ign_api_key = {ign_api_key}
 bing_api_key = {bing_api_key}
 

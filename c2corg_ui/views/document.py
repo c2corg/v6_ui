@@ -1,9 +1,9 @@
+from c2corg_ui import http_requests
 from c2corg_ui.diff.differ import diff_documents
 from shapely.geometry import asShape
 from shapely.ops import transform
 from functools import partial
 from urllib.parse import urlencode
-import httplib2
 import pyproj
 import json
 import logging
@@ -37,7 +37,7 @@ class Document(object):
             'image_url': self.settings['image_url']
         }
 
-    def _call_api(self, url, method='GET', body=None, headers=None):
+    def _call_api(self, url, headers=None):
         settings = self.settings
         if 'api_url_internal' in settings and settings['api_url_internal']:
             api_url = settings['api_url_internal']
@@ -48,16 +48,13 @@ class Document(object):
             api_url = settings['api_url']
         url = '%s/%s' % (api_url, url)
         if log.isEnabledFor(logging.DEBUG):
-            log.debug('API: %s %s', method, url)
-        http = httplib2.Http()
+            log.debug('API: %s %s', 'GET', url)
         try:
-            resp, content = http.request(
-                url, method=method, body=body, headers=headers
-            )
-            return resp, json.loads(content.decode('utf-8'))
+            resp = http_requests.session.get(url, headers=headers)
+            return resp, resp.json()
         except Exception:
-            # TODO: return error message as the second item
-            return {'status': '500'}, {}
+            log.error('Request failed: {0}'.format(url), exc_info=1)
+            return resp, {}
 
     def _validate_id_lang(self):
         if 'id' not in self.request.matchdict:
@@ -84,9 +81,9 @@ class Document(object):
     def _get_document(self, id, lang):
         url = '%s/%d?l=%s' % (self._API_ROUTE, id, lang)
         resp, document = self._call_api(url)
-        if resp['status'] == '404':
+        if resp.status_code == 404:
             raise HTTPNotFound()
-        elif resp['status'] != '200':
+        elif resp.status_code != 200:
             raise HTTPInternalServerError(
                 "An error occured while loading the document")
         # When requesting a lang that does not exist yet, the API sends
@@ -101,9 +98,9 @@ class Document(object):
     def _get_archived_document(self, id, lang, version_id):
         url = '%s/%d/%s/%d' % (self._API_ROUTE, id, lang, version_id)
         resp, content = self._call_api(url)
-        if resp['status'] == '404':
+        if resp.status_code == 404:
             raise HTTPNotFound()
-        elif resp['status'] != '200':
+        elif resp.status_code != 200:
             raise HTTPInternalServerError(
                 "An error occured while loading the document")
         document = content['document']
@@ -126,7 +123,7 @@ class Document(object):
         url = '%s%s' % (self._API_ROUTE, query_string)
         resp, content = self._call_api(url)
 
-        if resp['status'] == '200':
+        if resp.status_code == 200:
             documents = content['documents']
             total = content['total']
         else:
@@ -139,7 +136,7 @@ class Document(object):
         url = 'document/%d/history/%s' % (id, lang)
         resp, content = self._call_api(url)
         # TODO: better error handling
-        if resp['status'] == '200':
+        if resp.status_code == 200:
             versions = content['versions']
             title = content['title']
             self.template_input.update({
@@ -175,7 +172,7 @@ class Document(object):
         resp_v2, content_v2 = self._call_api(url)
 
         # TODO: better error handling
-        if resp_v1['status'] == '200' and resp_v2['status'] == '200':
+        if resp_v1.status_code == 200 and resp_v2.status_code == 200:
             version1 = content_v1['version']
             doc_v1 = content_v1['document']
             version2 = content_v2['version']
