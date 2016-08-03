@@ -220,7 +220,8 @@ app.CardController.prototype.getFullRatings = function() {
 };
 
 /**
- * @private
+ * @param {string} rating1
+ * @param {string} rating2
  * @return {string} rating
  */
 app.CardController.prototype.slashSeparatedRating_ = function(rating1, rating2) {
