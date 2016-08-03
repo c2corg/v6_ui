@@ -30,7 +30,7 @@ app.constants = {
   },
   REQUIRED_FIELDS : {
     waypoints: ['title' , 'lang', 'waypoint_type', 'elevation', 'longitude', 'latitude'],
-    routes : ['title' , 'lang', 'activities'],
+    routes : ['title' , 'lang', 'activities', 'waypoints'],
     outings : ['title' , 'lang', 'date_start', 'routes', 'activities']
   },
   documentEditing: {
