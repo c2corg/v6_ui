@@ -97,7 +97,7 @@ updating_doc = outing_id and outing_lang
             <div class="form-group half" ng-class="{'has-success': outing.partial_trip != undefined}">
               <label translate>partial_trip</label>
               <input type="checkbox" ng-model="outing.partial_trip" ng-checked="outing.partial_trip == true">
-              <span></span>
+              <span ng-click="editCtrl.pushToArray(outing, 'partial_trip', !outing.partial_trip, $event)"></span>
             </div>
 
             ## DURATION
@@ -306,7 +306,7 @@ updating_doc = outing_id and outing_lang
 
             ## ELEVATION UP SNOW
             <div id="elevation_up_snow-group" class="half form-group" ng-class="{ 'has-error': editForm.elevation_up_snow.$touched && editForm.elevation_up_snow.$invalid,'has-success': outing.elevation_up_snow }"
-                 ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('ice_climbing') > -1  || outing.activities.indexOf('mountain_climbing') > -1  || outing.activities.indexOf('snow_ice_mixed') > -1 ">
+                 ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('ice_climbing') > -1  || outing.activities.indexOf('mountain_climbing') > -1  || outing.activities.indexOf('snow_ice_mixed') > -1">
               <label translate>elevation_up_snow</label>
               <div class="input-group">
                 <input type="number" min="0" minlength="1" name="elevation_up_snow" ng-model="outing.elevation_up_snow" class="form-control" />
@@ -321,7 +321,7 @@ updating_doc = outing_id and outing_lang
 
             ## ELEVATION DOWN SNOW
             <div id="elevation_down_snow-group" class="half form-group" ng-class="{ 'has-error': editForm.elevation_down_snow.$touched && editForm.elevation_down_snow.$invalid,'has-success': outing.elevation_down_snow }"
-                 ng-if="outing.activities.indexOf('snow_ice_mixed') > -1 || outing.activities.indexOf('mountain_climbing') > -1 || outing.activities.indexOf('ice_climbing') > -1  || outing.activities.indexOf('snowshoeing') > -1">
+                 ng-if="outing.activities.indexOf('snow_ice_mixed') > -1 || outing.activities.indexOf('mountain_climbing') > -1 || outing.activities.indexOf('ice_climbing') > -1  || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('skitouring') > -1">
               <label translate>elevation_down_snow</label>
               <div class="input-group">
                 <input type="number" min="0" minlength="1" name="elevation_down_snow" ng-model="outing.elevation_down_snow" class="form-control" />
@@ -367,14 +367,18 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## AVALANCHE SIGNS
-            <div class="form-group half" ng-class="{'has-success': outing.avalanche_signs}"
+            <div class="form-group half" ng-init="signs = ${avalanche_signs}; outing.avalanche_signs = outing.avalanche_signs || [];"
                   ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('ice_climbing') > -1 || outing.activities.indexOf('snow_ice_mixed') > -1">
               <label translate>avalanche_signs</label>
-              <div class="input-group">
-                <select class="form-control" ng-model="outing.avalanche_signs" ng-options="rat as rat for rat in ${avalanche_signs}"><option value=""></option></select>
-                <span class="input-group-addon"><span class="glyphicon glyphicon glyphicon-alert"></span></span>
-              </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.avalanche_signs"></span>
+              <ul class="types">
+                <li ng-click="outing.avalanche_signs.indexOf('no') == -1 ? (outing.avalanche_signs = ['no']) : (outing.avalanche_signs[outing.avalanche_signs.indexOf('no')] = null)">
+                  <div class="checkbox"><input type="checkbox" ng-checked="outing.avalanche_signs.indexOf('no') > -1"><span>{{'no' | translate}}</span></div>
+                </li>
+                ## don't show other options if 'no' is selected
+                <li ng-repeat="type in signs" ng-click="editCtrl.pushToArray(outing, 'avalanche_signs', type, $event)" ng-if="$index > 0 && outing.avalanche_signs.indexOf('no') == -1">
+                  <div class="checkbox"><input type="checkbox" ng-checked="outing.avalanche_signs.indexOf(type) > -1"><span>{{type | translate}}</span></div>
+                </li>
+              </ul>
             </div>
 
             ## AVALANCHES
@@ -514,7 +518,7 @@ updating_doc = outing_id and outing_lang
                           <span class="icon-user"></span><br>
                         </div>
                         <div class="list-item-info">
-                          <span class="list-item-title outing">{{user.username}}</span>
+                          <span class="list-item-title outing">{{user.name}}</span>
                         </div>
                       </a>
                       <span class="glyphicon glyphicon-trash" ng-click="editCtrl.documentService.removeAssociation(user.document_id, 'users', $event)"></span>

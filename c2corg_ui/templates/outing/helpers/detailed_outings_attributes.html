@@ -78,7 +78,12 @@
         % endif
 
         % if outing.get('avalanche_signs'):
-        <p><span class="value-title" translate>avalanche_signs</span>: <span class="value">${outing['avalanche_signs']}</span></p>
+        <article class="value activities">
+          <span translate class="value-title">avalanche_signs</span>: 
+          % for type in outing.get('avalanche_signs') :
+          <span x-translate  class="value">${type}</span>${'' if loop.last else ', '}
+          % endfor
+        </article>
         % endif
 
       </span>

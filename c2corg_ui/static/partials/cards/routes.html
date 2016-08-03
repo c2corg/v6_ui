@@ -21,7 +21,7 @@
 
       <div ng-if="doc['orientations']" class="orientations" uib-tooltip="{{'orientations'| translate}}" tooltip-placement="left">
         <span class="glyphicon glyphicon-fullscreen"></span>
-        <span ng-repeat="o in doc['orientations']">{{o}}{{$last ? ', ' : ''}}</span>
+        <span ng-repeat="o in doc['orientations']">{{o}}{{$last ? '' : ', '}}</span>
       </div>
     </div>
 

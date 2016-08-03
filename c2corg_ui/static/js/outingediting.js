@@ -144,6 +144,14 @@ app.DocumentEditingController.prototype.formatOuting_ = function(outing) {
       associations['users'][i]['id'] = associations['users'][i]['document_id'] || associations['users'][i]['id'];
       delete associations['users'][i]['document_id'];
     }
+    // remove 'null' from the array, it's not accepted by the API
+    if (outing.avalanche_signs && outing.avalanche_signs[0] === null) {
+      if (outing.avalanche_signs.length === 1) {
+        delete outing.avalanche_signs;
+      } else {
+        outing.avalanche_signs.splice(0, 1);
+      }
+    }
   }
 
   // convert existing date from string to a date object
