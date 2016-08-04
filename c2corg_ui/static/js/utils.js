@@ -117,29 +117,6 @@ app.utils.animateHeaderIcon = function(e) {
 
 
 /**
- * @export
- * @param {string} date
- */
-app.utils.formatDate = function(date) {
-  return new Date(date);
-};
-
-
-/**
- * @export
- * @param {Date} date1
- * @param {Date} date2
- * @return {?boolean}
- */
-app.utils.areDifferentDates = function(date1, date2) {
-  if (date1 !== null && date2 !== null) {
-    return date1.toDateString() !== date2.toDateString();
-  }
-  return null;
-};
-
-
-/**
  * convert an image File into a base64 string
  * @property {Object} uploaded Image File
  * @export
@@ -188,12 +165,12 @@ app.utils.createImageSlide = function(file, imageUrl) {
 app.utils.stringDivider = function(str, width, spaceReplacer) {
   if (str.length > width) {
     var p = width;
-    while (p > 0 && (str[p] != ' ' && str[p] != '-')) {
+    while (p > 0 && (str[p] !== ' ' && str[p] !== '-')) {
       p--;
     }
     if (p > 0) {
       var left;
-      if (str.substring(p, p + 1) == '-') {
+      if (str.substring(p, p + 1) === '-') {
         left = str.substring(0, p + 1);
       } else {
         left = str.substring(0, p);

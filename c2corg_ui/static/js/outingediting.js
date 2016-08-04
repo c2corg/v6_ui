@@ -5,7 +5,6 @@ goog.require('app.DocumentEditingController');
 goog.require('app.Alerts');
 goog.require('app.Document');
 goog.require('app.Lang');
-goog.require('app.utils');
 
 
 /**
@@ -96,7 +95,7 @@ app.OutingEditingController.prototype.successRead = function(response) {
   // check if user has right to edit -> the user is one of the associated users
   if (this.auth.hasEditRights(outing['associations']['users'])) {
     outing = this.formatOuting_(outing);
-    this.differentDates = app.utils.areDifferentDates(outing['date_start'], outing['date_end']);
+    this.differentDates = window.moment(outing['date_start']).diff(outing['date_end']) !== 0;
     if (!this.differentDates) {
       outing['date_end'] = undefined;
     }
@@ -133,10 +132,14 @@ app.DocumentEditingController.prototype.formatOuting_ = function(outing) {
     if (typeof outing.locales[0]['conditions_levels'] !== 'string') {
       outing.locales[0]['conditions_levels'] = JSON.stringify(outing['locales'][0]['conditions_levels']);
     }
+    if (outing.date_start instanceof Date) {
+      outing.date_start = window.moment(outing.date_start).format('YYYY-MM-DD');
+    }
     // if no date end -> make it the same as date start
-    if (!outing.date_end && outing.date_start instanceof Date) {
-      outing.date_start.setHours(outing.date_start.getHours() + 2);
+    if (!outing.date_end && outing.date_start) {
       outing.date_end = outing.date_start;
+    } else if (outing.date_end instanceof Date) {
+      outing.date_end = window.moment(outing.date_end).format('YYYY-MM-DD');
     }
 
     var associations = outing.associations;
@@ -152,26 +155,23 @@ app.DocumentEditingController.prototype.formatOuting_ = function(outing) {
         outing.avalanche_signs.splice(0, 1);
       }
     }
-  }
-
-  // convert existing date from string to a date object
-  if (outing.date_end && typeof outing.date_end === 'string') {
-    outing.date_end = app.utils.formatDate(outing.date_end);
-    this.dateMaxStart = outing.date_end;
-  }
-
-  if (outing.date_start && typeof outing.date_start === 'string') {
-    outing.date_start = app.utils.formatDate(outing.date_start);
-    this.dateMinEnd = outing.date_start;
-  }
-
-  var conditions = outing.locales[0]['conditions_levels'];
-  // conditions_levels -> to Object, snow_height -> to INT
-  if (conditions && typeof conditions === 'string') {
-    conditions = JSON.parse(conditions);
-    this.scope[this.modelName]['locales'][0]['conditions_levels'] = conditions;
   } else {
-    if (!this.submit) {
+    // convert existing date from string to a date object
+    if (outing.date_end && typeof outing.date_end === 'string') {
+      outing.date_end = window.moment(outing.date_end).toDate();
+      this.dateMaxStart = outing.date_end;
+    }
+    if (outing.date_start && typeof outing.date_start === 'string') {
+      outing.date_start = window.moment(outing.date_start).toDate();
+      this.dateMinEnd = outing.date_start;
+    }
+
+    var conditions = outing.locales[0]['conditions_levels'];
+    // conditions_levels -> to Object, snow_height -> to INT
+    if (conditions && typeof conditions === 'string') {
+      conditions = JSON.parse(conditions);
+      this.scope[this.modelName]['locales'][0]['conditions_levels'] = conditions;
+    } else {
       // init empty conditions_levels for ng-repeat
       outing['locales'][0]['conditions_levels'] = [{
         'level_snow_height_soft': '',
@@ -181,6 +181,7 @@ app.DocumentEditingController.prototype.formatOuting_ = function(outing) {
       }];
     }
   }
+
   this.submit = false;
   return outing;
 };
