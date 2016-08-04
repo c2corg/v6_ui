@@ -178,6 +178,12 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
   this.currentSelectedFeatureId_ = null;
 
   /**
+   * @type {boolean}
+   * @private
+   */
+  this.ignoreExtentChange_ = false;
+
+  /**
    * @type {ol.Map}
    * @export
    */
@@ -214,6 +220,8 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
           return parseInt(x, 10);
         });
       }
+    } else {
+      this.ignoreExtentChange_ = app.utils.detectDocumentIdFilter(this.location_);
     }
 
     this.scope_.$root.$on('searchFeaturesChange',
@@ -313,7 +321,10 @@ app.MapController.DEFAULT_POINT_ZOOM = 12;
  */
 app.MapController.prototype.recenterOnExtent_ = function(extent, options) {
   var mapSize = this.map.getSize();
-  if (mapSize) {
+  if (!mapSize || !ol.extent.getWidth(extent) || !ol.extent.getHeight(extent)) {
+    this.view_.setCenter(ol.extent.getCenter(extent));
+    this.view_.setZoom(this.zoom || app.MapController.DEFAULT_POINT_ZOOM);
+  } else {
     options = options || {};
     this.view_.fit(extent, mapSize, options);
   }
@@ -480,17 +491,9 @@ app.MapController.prototype.showFeatures_ = function(features, recenter) {
 
   source.addFeatures(features);
   if (recenter) {
-    if (features.length == 1 &&
-        features[0].getGeometry() instanceof ol.geom.Point) {
-      var point = /** @type {ol.geom.Point} */ (features[0].getGeometry());
-      this.view_.setCenter(point.getCoordinates());
-      this.view_.setZoom(this.zoom || app.MapController.DEFAULT_POINT_ZOOM);
-    } else {
-      this.recenterOnExtent_(
-        vectorLayer.getSource().getExtent(), {
-          padding: [10, 10, 10, 10]
-        });
-    }
+    this.recenterOnExtent_(source.getExtent(), {
+      padding: [10, 10, 10, 10]
+    });
   }
 };
 
@@ -577,11 +580,17 @@ app.MapController.prototype.handleModify_ = function(event) {
 /**
  * @param {Object} event
  * @param {Array.<ol.Feature>} features Search results features.
+ * @param {number} total Total number of results.
+ * @param {boolean} recenter
  * @private
  */
-app.MapController.prototype.handleSearchChange_ = function(event, features) {
+app.MapController.prototype.handleSearchChange_ = function(event,
+    features, total, recenter) {
   // show the search results on the map but don't change the map extent
-  this.showFeatures_(features, false);
+  // if recentering on search results, the extent change must not trigger
+  // a new search request.
+  this.ignoreExtentChange_ = recenter;
+  this.showFeatures_(features, recenter);
 };
 
 
@@ -612,6 +621,10 @@ app.MapController.prototype.handleMapSearchChange_ = function(event) {
   } else {
     var mapSize = this.map.getSize();
     if (mapSize) {
+      if (this.ignoreExtentChange_) {
+        this.ignoreExtentChange_ = false;
+        return;
+      }
       var extent = this.view_.calculateExtent(mapSize);
       extent = extent.map(Math.floor);
       this.location_.updateParams({

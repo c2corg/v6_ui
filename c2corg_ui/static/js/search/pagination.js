@@ -74,10 +74,11 @@ app.PaginationController = function($scope, ngeoLocation) {
  * @param {Object} event
  * @param {Array.<ol.Feature>} features Search results features.
  * @param {number} total Total number of results.
+ * @param {boolean} recenter
  * @private
  */
 app.PaginationController.prototype.handleSearchChange_ = function(event,
-    features, total) {
+    features, total, recenter) {
   this.total = total;
   this.offset = this.location_.getParamAsInt('offset') || 0;
 };
