@@ -321,7 +321,10 @@ app.MapController.DEFAULT_POINT_ZOOM = 12;
  */
 app.MapController.prototype.recenterOnExtent_ = function(extent, options) {
   var mapSize = this.map.getSize();
-  if (mapSize) {
+  if (!mapSize || !ol.extent.getWidth(extent) || !ol.extent.getHeight(extent)) {
+    this.view_.setCenter(ol.extent.getCenter(extent));
+    this.view_.setZoom(this.zoom || app.MapController.DEFAULT_POINT_ZOOM);
+  } else {
     options = options || {};
     this.view_.fit(extent, mapSize, options);
   }
@@ -488,17 +491,9 @@ app.MapController.prototype.showFeatures_ = function(features, recenter) {
 
   source.addFeatures(features);
   if (recenter) {
-    if (features.length == 1 &&
-        features[0].getGeometry() instanceof ol.geom.Point) {
-      var point = /** @type {ol.geom.Point} */ (features[0].getGeometry());
-      this.view_.setCenter(point.getCoordinates());
-      this.view_.setZoom(this.zoom || app.MapController.DEFAULT_POINT_ZOOM);
-    } else {
-      this.recenterOnExtent_(
-        vectorLayer.getSource().getExtent(), {
-          padding: [10, 10, 10, 10]
-        });
-    }
+    this.recenterOnExtent_(source.getExtent(), {
+      padding: [10, 10, 10, 10]
+    });
   }
 };
 
