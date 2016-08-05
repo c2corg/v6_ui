@@ -226,24 +226,26 @@
 </%def>
 
 <%def name="associated_waypoints_featurelist(document)">\
-  % if document.get('associations').get('waypoints'):
-    % for wp in document.get('associations').get('waypoints'):
-      % if wp.get('geometry'):
-        ,
-        {
-          "type": "Feature",
-          "geometry": ${wp['geometry']['geom'] | n},
-          "properties": {
-            "title": ${dumps(wp['locales'][0]['title']) | n},
-            "lang": ${dumps(wp['locales'][0]['lang']) | n},
-            "documentId": ${wp['document_id']},
-            "module": "waypoints",
-            "type": "${wp['waypoint_type']}"
+  % for wp_category in ['waypoints', 'waypoint_children']:
+    % if document.get('associations').get(wp_category):
+      % for wp in document.get('associations').get(wp_category):
+        % if wp.get('geometry'):
+          ,
+          {
+            "type": "Feature",
+            "geometry": ${wp['geometry']['geom'] | n},
+            "properties": {
+              "title": ${dumps(wp['locales'][0]['title']) | n},
+              "lang": ${dumps(wp['locales'][0]['lang']) | n},
+              "documentId": ${wp['document_id']},
+              "module": "waypoints",
+              "type": "${wp['waypoint_type']}"
+            }
           }
-        }
-      % endif
-    % endfor
-  % endif
+        % endif
+      % endfor
+    % endif
+  % endfor
 </%def>
 
 <%def name="get_document_locale_text(locale, text)">\
