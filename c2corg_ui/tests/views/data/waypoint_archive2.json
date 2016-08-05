@@ -1,0 +1,40 @@
+{
+	"document": {
+		"elevation": 800,
+		"parking_fee": null,
+		"quality": "medium",
+		"geometry": {
+			"version": 3,
+			"geom": "{\"coordinates\": [709197.9968084743, 5895264.409731769], \"type\": \"Point\"}"
+		},
+		"waypoint_type": "access",
+		"type": "w",
+		"public_transportation_rating": "good",
+		"maps_info": null,
+		"elevation_min": null,
+		"protected": false,
+		"lift_access": null,
+		"locales": [{
+			"title": "Vallorbe",
+			"description": "...",
+			"access_period": null,
+			"summary": null,
+			"version": 3,
+			"lang": "fr",
+			"access": "En train, [url=http://www.sbb.ch/fr/]horaires[/url]"
+		}],
+		"version": 3,
+		"document_id": 117982,
+		"public_transportation_types": ["train"],
+		"snow_clearance_rating": "often"
+	},
+	"version": {
+		"user_id": 122824,
+		"username": "xbrrr",
+		"version_id": 292856,
+		"comment": "Edit in fr",
+		"written_at": 1258305865
+	},
+	"previous_version_id": 131565,
+	"next_version_id": null
+}

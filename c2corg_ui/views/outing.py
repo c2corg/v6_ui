@@ -72,8 +72,7 @@ class Outing(Document):
     def history(self):
         return self._get_history()
 
-    @view_config(route_name='outings_diff',
-                 renderer='c2corg_ui:templates/document/diff.html')
+    @view_config(route_name='outings_diff')
     def diff(self):
         return self._diff()
 

@@ -101,6 +101,13 @@ class TestWaypointUi(BaseTestUi):
         url = '/{0}/history/735553/fr'.format(self._prefix)
         self._test_page(url, waypoint_history_mock, '735553-fr-1')
 
+    def test_diff(self):
+        url = '/{0}/diff/117982/fr/131565/292856'.format(self._prefix)
+        self._test_page(
+            url,
+            waypoint_diff_mock,
+            '117982-fr-1-131565-117982-fr-1-292856')
+
     def test_reprojection(self):
         # Testing lon/lat coordinates
         point = Point(6, 46)
@@ -151,3 +158,17 @@ def waypoint_history_mock(url, request):
         request,
         os.path.join(base_path, 'data', 'route_history.json'),
         'W/"735553-fr-1"')
+
+
+@all_requests
+def waypoint_diff_mock(url, request):
+    if '292856' in url.path:
+        return handle_mock_request(
+            request,
+            os.path.join(base_path, 'data', 'waypoint_archive2.json'),
+            'W/"117982-fr-1-292856"')
+    else:
+        return handle_mock_request(
+            request,
+            os.path.join(base_path, 'data', 'waypoint_archive.json'),
+            'W/"117982-fr-1-131565"')

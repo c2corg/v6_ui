@@ -5,7 +5,8 @@ from pyramid.renderers import render
 
 from c2corg_ui import http_requests
 from c2corg_ui.caching import cache_document_detail, CachedPage, \
-    cache_document_archive, CACHE_VERSION, cache_document_history
+    cache_document_archive, CACHE_VERSION, cache_document_history, \
+    cache_document_diff
 from c2corg_ui.diff.differ import diff_documents
 from shapely.geometry import asShape
 from shapely.ops import transform
@@ -83,7 +84,8 @@ class Document(object):
             render_page, self._get_cache_key_archive)
 
     def _get_or_create(
-            self, request_data, cache, load_data, render_page, get_cache_key):
+            self, request_data, cache, load_data, render_page, get_cache_key,
+            get_etag_key=None):
         if self.debug:
             # do not cache when in debug mode
             _, _, loaded_data = load_data()
@@ -103,7 +105,8 @@ class Document(object):
         # be returned.
         not_modified, api_cache_key, loaded_data = load_data(old_api_cache_key)
 
-        ui_etag_key = self._get_etag_key(api_cache_key)
+        ui_etag_key = get_etag_key(api_cache_key) if get_etag_key else \
+            self._get_etag_key(api_cache_key)
         if not_modified:
             # the cached page is still valid
             log.debug('Serving from cache {0}'.format(cache_key))
@@ -281,33 +284,49 @@ class Document(object):
             (id, lang), cache_document_history, load_data, render_page,
             self._get_cache_key)
 
-    def _get_geometry(self, data):
-        return asShape(json.loads(data)) if data else None
-
-    def _transform(self, geometry, source_epsg, dest_epsg):
-        source_proj = pyproj.Proj(init=source_epsg)
-        dest_proj = pyproj.Proj(init=dest_epsg)
-        project = partial(pyproj.transform, source_proj, dest_proj)
-        return transform(project, geometry)
-
     def _diff(self):
+        """ Return a diff page for two versions of a document.
+        """
         id = self._validate_int('id')
         lang = self._validate_lang()
         v1 = self._validate_int('v1')
         v2 = self._validate_int('v2')
 
-        url = '%s/%d/%s/%d' % (self._API_ROUTE, id, lang, v1)
-        resp_v1, content_v1 = self._call_api(url)
+        def load_data(old_api_cache_key=None):
+            if old_api_cache_key:
+                (old_api_cache_key1, old_api_cache_key2) = old_api_cache_key
+            else:
+                old_api_cache_key1 = None
+                old_api_cache_key2 = None
 
-        url = '%s/%d/%s/%d' % (self._API_ROUTE, id, lang, v2)
-        resp_v2, content_v2 = self._call_api(url)
+            url1 = '%s/%d/%s/%d' % (self._API_ROUTE, id, lang, v1)
+            not_modified1, api_cache_key1, content1 = self._get_with_etag(
+                url1, old_api_cache_key1)
 
-        # TODO: better error handling
-        if resp_v1.status_code == 200 and resp_v2.status_code == 200:
-            version1 = content_v1['version']
-            doc_v1 = content_v1['document']
-            version2 = content_v2['version']
-            doc_v2 = content_v2['document']
+            url2 = '%s/%d/%s/%d' % (self._API_ROUTE, id, lang, v2)
+            not_modified2, api_cache_key2, content2 = self._get_with_etag(
+                url2, old_api_cache_key2)
+
+            if not_modified1 and not_modified2:
+                return True, (api_cache_key1, api_cache_key2), None
+
+            # if only one of the versions has changed, and the other not,
+            # a 2nd request has to be made to get the content for that
+            # version again, so that the page can be rendered
+            if not_modified1 and not content1:
+                _, api_cache_key1, content1 = self._get_with_etag(
+                    url1, old_api_cache_key=None)
+            if not_modified2 and not content2:
+                _, api_cache_key2, content2 = self._get_with_etag(
+                    url2, old_api_cache_key=None)
+
+            return False, (api_cache_key1, api_cache_key2), (content1, content2)  # noqa
+
+        def render_page(content1, content2):
+            version1 = content1['version']
+            doc_v1 = content1['document']
+            version2 = content2['version']
+            doc_v2 = content2['document']
             field_diffs = diff_documents(doc_v1, doc_v2)
 
             self.template_input.update({
@@ -324,12 +343,27 @@ class Document(object):
                 if doc_v1['geometry'] else None,
                 'geometry2': doc_v2['geometry']['geom']
                 if doc_v2['geometry'] else None,
-                'previous_version_id': content_v1['previous_version_id'],
-                'next_version_id': content_v2['next_version_id']
+                'previous_version_id': content1['previous_version_id'],
+                'next_version_id': content2['next_version_id']
             })
-            return self.template_input
 
-        raise HTTPNotFound()
+            return render(
+                'c2corg_ui:templates/document/diff.html',
+                self.template_input,
+                self.request)
+
+        return self._get_or_create(
+            (id, lang, v1, v2), cache_document_diff, load_data, render_page,
+            self._get_cache_key_diff, get_etag_key=self._get_etag_key_diff)
+
+    def _get_geometry(self, data):
+        return asShape(json.loads(data)) if data else None
+
+    def _transform(self, geometry, source_epsg, dest_epsg):
+        source_proj = pyproj.Proj(init=source_epsg)
+        dest_proj = pyproj.Proj(init=dest_epsg)
+        project = partial(pyproj.transform, source_proj, dest_proj)
+        return transform(project, geometry)
 
     def _get_cache_key(self, id, lang):
         return '{0}-{1}-{2}'.format(id, lang, CACHE_VERSION)
@@ -337,8 +371,15 @@ class Document(object):
     def _get_cache_key_archive(self, id, lang, version_id):
         return '{0}-{1}-{2}-{3}'.format(id, lang, version_id, CACHE_VERSION)
 
+    def _get_cache_key_diff(self, id, lang, v1, v2):
+        return '{0}-{1}-{2}-{3}-{4}'.format(id, lang, v1, v2, CACHE_VERSION)
+
     def _get_etag_key(self, api_cache_key):
         return '{0}-{1}'.format(api_cache_key, CACHE_VERSION)
+
+    def _get_etag_key_diff(self, api_cache_key):
+        (key_v1, key_v2) = api_cache_key
+        return '{0}-{1}-{2}'.format(key_v1, key_v2, CACHE_VERSION)
 
     def _get_api_cache_key_from_etag(self, etag):
         if_none_matches = IF_NONE_MATCH.findall(etag)
