@@ -1,10 +1,11 @@
 import re
 
 from dogpile.cache.api import NO_VALUE
+from pyramid.renderers import render
 
 from c2corg_ui import http_requests
 from c2corg_ui.caching import cache_document_detail, CachedPage, \
-    cache_document_archive, CACHE_VERSION
+    cache_document_archive, CACHE_VERSION, cache_document_history
 from c2corg_ui.diff.differ import diff_documents
 from shapely.geometry import asShape
 from shapely.ops import transform
@@ -241,17 +242,28 @@ class Document(object):
             total = content['total']
         else:
             raise HTTPInternalServerError(
-                "An error occured while loading the results")
+                "An error occurred while loading the results")
         return documents, total, filters, lang
 
     def _get_history(self):
+        """ Return a history page for a document.
+        """
         id, lang = self._validate_id_lang()
-        url = 'document/%d/history/%s' % (id, lang)
-        resp, content = self._call_api(url)
-        # TODO: better error handling
-        if resp.status_code == 200:
+
+        def load_data(old_api_cache_key=None):
+            url = 'document/%d/history/%s' % (id, lang)
+            not_modified, api_cache_key, content = self._get_with_etag(
+                url, old_api_cache_key)
+
+            if not_modified:
+                return not_modified, api_cache_key, None
+
+            return False, api_cache_key, (content, )
+
+        def render_page(content):
             versions = content['versions']
             title = content['title']
+
             self.template_input.update({
                 'module': self._API_ROUTE,
                 'document_versions': versions,
@@ -259,9 +271,15 @@ class Document(object):
                 'title': title,
                 'document_id': id
             })
-            return self.template_input
-        else:
-            raise HTTPNotFound()
+
+            return render(
+                'c2corg_ui:templates/document/history.html',
+                self.template_input,
+                self.request)
+
+        return self._get_or_create(
+            (id, lang), cache_document_history, load_data, render_page,
+            self._get_cache_key)
 
     def _get_geometry(self, data):
         return asShape(json.loads(data)) if data else None

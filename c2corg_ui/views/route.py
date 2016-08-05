@@ -70,6 +70,15 @@ class Route(Document):
 
         return self._get_or_create_archive(id, lang, version_id, render_page)
 
+    @view_config(route_name='routes_history')
+    def history(self):
+        return self._get_history()
+
+    @view_config(route_name='routes_diff',
+                 renderer='c2corg_ui:templates/document/diff.html')
+    def diff(self):
+        return self._diff()
+
     @view_config(route_name='routes_add',
                  renderer='c2corg_ui:templates/route/edit.html')
     @view_config(route_name='routes_edit',
@@ -83,13 +92,3 @@ class Route(Document):
             'route_id': id
         })
         return self.template_input
-
-    @view_config(route_name='routes_history',
-                 renderer='c2corg_ui:templates/document/history.html')
-    def history(self):
-        return self._get_history()
-
-    @view_config(route_name='routes_diff',
-                 renderer='c2corg_ui:templates/document/diff.html')
-    def diff(self):
-        return self._diff()

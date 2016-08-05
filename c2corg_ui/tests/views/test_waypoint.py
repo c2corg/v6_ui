@@ -118,6 +118,31 @@ class TestWaypointUi(BaseTestUi):
             }
             self.app.get(url, status=200, headers=headers)
 
+    def test_history(self):
+        """ An ETag header is set, using the ETag of the API response.
+        """
+        with HTTMock(waypoint_history_mock):
+            url = '/{0}/history/735553/fr'.format(self._prefix)
+            resp = self.app.get(url, status=200)
+
+            etag = resp.headers.get('ETag')
+            self.assertIsNotNone(etag)
+            self.assertEqual(
+                etag,
+                'W/"735553-fr-1-{0}"'.format(CACHE_VERSION))
+
+            # then request the page again with the etag
+            headers = {
+                'If-None-Match': etag
+            }
+            self.app.get(url, status=304, headers=headers)
+
+            # if a wrong/outdated etag is provided, the full page is returned
+            headers = {
+                'If-None-Match': 'W/"123456-xy-0-1234-c796286-123456"'
+            }
+            self.app.get(url, status=200, headers=headers)
+
     def test_reprojection(self):
         # Testing lon/lat coordinates
         point = Point(6, 46)
@@ -160,3 +185,11 @@ def waypoint_archive_mock(url, request):
         request,
         os.path.join(base_path, 'data', 'waypoint_archive.json'),
         'W/"117982-fr-1-131565"')
+
+
+@all_requests
+def waypoint_history_mock(url, request):
+    return handle_mock_request(
+        request,
+        os.path.join(base_path, 'data', 'route_history.json'),
+        'W/"735553-fr-1"')

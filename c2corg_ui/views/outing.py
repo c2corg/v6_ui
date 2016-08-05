@@ -68,6 +68,15 @@ class Outing(Document):
 
         return self._get_or_create_archive(id, lang, version_id, render_page)
 
+    @view_config(route_name='outings_history')
+    def history(self):
+        return self._get_history()
+
+    @view_config(route_name='outings_diff',
+                 renderer='c2corg_ui:templates/document/diff.html')
+    def diff(self):
+        return self._diff()
+
     @view_config(route_name='outings_add',
                  renderer='c2corg_ui:templates/outing/edit.html')
     @view_config(route_name='outings_edit',
@@ -79,13 +88,3 @@ class Outing(Document):
             'outing_id': id
         })
         return self.template_input
-
-    @view_config(route_name='outings_history',
-                 renderer='c2corg_ui:templates/document/history.html')
-    def history(self):
-        return self._get_history()
-
-    @view_config(route_name='outings_diff',
-                 renderer='c2corg_ui:templates/document/diff.html')
-    def diff(self):
-        return self._diff()

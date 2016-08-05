@@ -77,6 +77,15 @@ class Waypoint(Document):
 
         return self._get_or_create_archive(id, lang, version_id, render_page)
 
+    @view_config(route_name='waypoints_history')
+    def history(self):
+        return self._get_history()
+
+    @view_config(route_name='waypoints_diff',
+                 renderer='c2corg_ui:templates/document/diff.html')
+    def diff(self):
+        return self._diff()
+
     @view_config(route_name='waypoints_add',
                  renderer='c2corg_ui:templates/waypoint/edit.html')
     @view_config(route_name='waypoints_edit',
@@ -89,13 +98,3 @@ class Waypoint(Document):
             'waypoint_id': id
         })
         return self.template_input
-
-    @view_config(route_name='waypoints_history',
-                 renderer='c2corg_ui:templates/document/history.html')
-    def history(self):
-        return self._get_history()
-
-    @view_config(route_name='waypoints_diff',
-                 renderer='c2corg_ui:templates/document/diff.html')
-    def diff(self):
-        return self._diff()
