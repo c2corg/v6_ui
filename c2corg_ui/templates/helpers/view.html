@@ -232,13 +232,13 @@
         ,
         {
           "type": "Feature",
-          "geometry": ${dumps(wp['geometry']['geom']) | n},
+          "geometry": ${wp['geometry']['geom'] | n},
           "properties": {
             "title": ${dumps(wp['locales'][0]['title']) | n},
             "lang": ${dumps(wp['locales'][0]['lang']) | n},
             "documentId": ${wp['document_id']},
             "module": "waypoints",
-            "type": "${dumps(wp['waypoint_type']) | n}"
+            "type": "${wp['waypoint_type']}"
           }
         }
       % endif
@@ -433,21 +433,21 @@
 
     <div class="rating-block b">
       % if document.get('ski_rating'):
-        <span uib-tooltip="{{mainCtrl.translate('ski_rating')}}" class="value">${document['ski_rating']}</span>
+        <span uib-tooltip="{{'ski_rating' | translate}}" class="value">${document['ski_rating']}</span>
       % endif
       ${'/' if document.get('ski_rating') and document.get('ski_exposition') else ''}
       % if document.get('ski_exposition'):
-        <span uib-tooltip="{{mainCtrl.translate('ski_exposition')}}" class="value">${document['ski_exposition']}</span>
+        <span uib-tooltip="{{'ski_exposition' | translate}}" class="value">${document['ski_exposition']}</span>
       %endif
     </div>
 
     <div class="rating-block b">
       % if document.get('labande_global_rating'):
-        <span uib-tooltip="{{mainCtrl.translate('labande_global_rating')}}" class="value">${document['labande_global_rating']}</span>
+        <span uib-tooltip="{{'labande_global_rating' | translate}}" class="value">${document['labande_global_rating']}</span>
       % endif
       ${'/' if document.get('labande_global_rating') and document.get('labande_ski_rating') else ''}
       % if document.get('labande_ski_rating') is not None:
-        <span uib-tooltip="{{mainCtrl.translate('labande_ski_rating')}}" class="value">${document['labande_ski_rating']}</span>
+        <span uib-tooltip="{{'labande_ski_rating' | translate}}" class="value">${document['labande_ski_rating']}</span>
       %endif
      </div>
 
@@ -461,24 +461,24 @@
 
       % if document.get('hiking_rating'):
         <div class="rating-block c">
-          <span uib-tooltip="{{mainCtrl.translate('hiking_rating')}}" class="value">${document['hiking_rating']}</span>
+          <span uib-tooltip="{{'hiking_rating' | translate}}" class="value">${document['hiking_rating']}</span>
         </div>
       % endif
 
       % if document.get('hiking_mtb_exposition'):
         <div class="rating-block f">
-          <span uib-tooltip="{{mainCtrl.translate('hiking_mtb_exposition')}}"  class="value">${document['hiking_mtb_exposition']}</span>
+          <span uib-tooltip="{{'hiking_mtb_exposition' | translate}}"  class="value">${document['hiking_mtb_exposition']}</span>
         </div>
       % endif
 
       % if document.get('mtb_down_rating') or document.get('mtb_up_rating'):
         <div class="rating-block e">
           % if document.get('mtb_up_rating'):
-            <span uib-tooltip="{{mainCtrl.translate('mtb_up_rating')}}" class="value">${document['mtb_up_rating']}</span>
+            <span uib-tooltip="{{'mtb_up_rating' | translate}}" class="value">${document['mtb_up_rating']}</span>
           % endif
           ${'' if document.get('mtb_up_rating') and document.get('mtb_down_rating') else ''}
           % if document.get('mtb_down_rating'):
-            <span uib-tooltip="{{mainCtrl.translate('mtb_down_rating')}}" class="value space">${document['mtb_down_rating']}</span>
+            <span uib-tooltip="{{'mtb_down_rating' | translate}}" class="value space">${document['mtb_down_rating']}</span>
           % endif
         </div>
       % endif
@@ -491,52 +491,52 @@
   % if 'snow_ice_mixed' in document.get('activities') or 'via_ferrata' in document.get('activities') or 'mountain_climbing' in document.get('activities') or 'rock_climbing' in document.get('activities') or 'ice_climbing' in document.get('activities'):
 
     % if document.get('global_rating'):
-      <span uib-tooltip="{{mainCtrl.translate('global_rating')}}" class="value">${document['global_rating']}</span>&nbsp;
+      <span uib-tooltip="{{'global_rating' | translate}}" class="value">${document['global_rating']}</span>&nbsp;
     % endif
 
     % if route.get('aid_rating'):
-      <span uib-tooltip="{{mainCtrl.translate('aid_rating')}}" class="value">${route['aid_rating']}</span>&nbsp;
+      <span uib-tooltip="{{'aid_rating' | translate}}" class="value">${route['aid_rating']}</span>&nbsp;
     % endif
 
     % if route.get('ice_rating'):
-      <span uib-tooltip="{{mainCtrl.translate('ice_rating')}}" class="value">${route['ice_rating']}</span>&nbsp;
+      <span uib-tooltip="{{'ice_rating' | translate}}" class="value">${route['ice_rating']}</span>&nbsp;
     % endif
 
     % if route.get('mixed_rating'):
-      <span uib-tooltip="{{mainCtrl.translate('mixed_rating')}}" class="value">${route['mixed_rating']}</span>&nbsp;
+      <span uib-tooltip="{{'mixed_rating' | translate}}" class="value">${route['mixed_rating']}</span>&nbsp;
     % endif
 
     % if route.get('via_ferrata_rating'):
-      <span uib-tooltip="{{mainCtrl.translate('via_ferrata_rating')}}" class="value">${route['via_ferrata_rating']}</span>&nbsp;
+      <span uib-tooltip="{{'via_ferrata_rating' | translate}}" class="value">${route['via_ferrata_rating']}</span>&nbsp;
     % endif
 
     % if route.get('engagement_rating'):
-      <span uib-tooltip="{{mainCtrl.translate('engagement_rating')}}" class="value">${route['engagement_rating']}</span>&nbsp;
+      <span uib-tooltip="{{'engagement_rating' | translate}}" class="value">${route['engagement_rating']}</span>&nbsp;
     % endif
 
     % if route.get('risk_rating'):
-      <span class="value"  uib-tooltip="{{mainCtrl.translate('risk_rating')}}">${route['risk_rating']}</span>&nbsp;
+      <span class="value" uib-tooltip="{{'risk_rating' | translate}}">${route['risk_rating']}</span>&nbsp;
     % endif
 
     % if route.get('equipment_rating'):
-      <span class="value" uib-tooltip="{{mainCtrl.translate('equipment_rating')}}">${route['equipment_rating']}</span>&nbsp;
+      <span class="value" uib-tooltip="{{'equipment_rating' | translate}}">${route['equipment_rating']}</span>&nbsp;
     % endif
 
     % if route.get('exposition_rock_rating'):
-     <span uib-tooltip="{{mainCtrl.translate('exposition_rock_rating')}}" class="value">${route['exposition_rock_rating']}</span>&nbsp;
+     <span uib-tooltip="{{'exposition_rock_rating' | translate}}" class="value">${route['exposition_rock_rating']}</span>&nbsp;
     % endif
 
     ## [A0] (without bracket) is showed only if equipment_rating = P1 or P1+, and if aid_rating is empty.
     % if document.get('rock_required_rating') or document.get('rock_free_rating'):
       <div class="rating-block">
       % if document.get('rock_free_rating'):
-        <span uib-tooltip="{{mainCtrl.translate('rock_free_rating')}}" class="value">${document.get('rock_free_rating')}</span>
+        <span uib-tooltip="{{'rock_free_rating' | translate}}" class="value">${document.get('rock_free_rating')}</span>
       % endif
 
       ${'>' if document.get('rock_required_rating') and document.get('rock_free_rating') else ''}
 
       % if document.get('rock_required_rating') and document.get('rock_free_rating'):
-        <span uib-tooltip="{{mainCtrl.translate('rock_required_rating')}}" class="value">${document['rock_required_rating']}${'A0' if (document.get('equipment_rating') == 'P1' or document.get('equipment_rating') == 'P1+') and not document.get('aid_rating') else ''}</span></p>
+        <span uib-tooltip="{{'rock_required_rating' | translate}}" class="value">${document['rock_required_rating']}${'A0' if (document.get('equipment_rating') == 'P1' or document.get('equipment_rating') == 'P1+') and not document.get('aid_rating') else ''}</span></p>
       % endif
       </div>
     % endif
@@ -570,8 +570,8 @@
         <div class="pswp__top-bar">
           <div class="pswp__counter"></div>
 
-          <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-          <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+          <button class="pswp__button pswp__button--close" title="{{'Close (Esc)' | translate}}"></button>
+          <button class="pswp__button pswp__button--fs" title="{{'Toggle fullscreen' | translate}}"></button>
           <button class="pswp__button info"><span class="glyphicon glyphicon-info-sign"></span></button>
 
           ## Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR
