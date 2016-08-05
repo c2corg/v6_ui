@@ -1,7 +1,12 @@
+import logging
+
+from pyramid.renderers import render
 from pyramid.view import view_config
 
 from c2corg_ui.views.document import Document
 from c2corg_common.attributes import waypoint_types
+
+log = logging.getLogger(__name__)
 
 
 class Waypoint(Document):
@@ -27,28 +32,50 @@ class Waypoint(Document):
         })
         return self.template_input
 
-    @view_config(route_name='waypoints_view',
-                 renderer='c2corg_ui:templates/waypoint/view.html')
-    @view_config(route_name='waypoints_archive',
-                 renderer='c2corg_ui:templates/waypoint/view.html')
-    def view(self):
+    @view_config(route_name='waypoints_view')
+    def detail(self):
         id, lang = self._validate_id_lang()
-        if 'version' in self.request.matchdict:
-            version_id = int(self.request.matchdict['version'])
-            waypoint, locale, version = self._get_archived_document(
-                id, lang, version_id)
-        else:
-            waypoint, locale = self._get_document(id, lang)
-            version = None
-        self.template_input.update({
-            'lang': lang,
-            'waypoint': waypoint,
-            'locale': locale,
-            'geometry': self._get_geometry(waypoint['geometry']['geom']),
-            'transform': self._transform,
-            'version': version
-        })
-        return self.template_input
+
+        def render_page(waypoint, locale):
+            self.template_input.update({
+                'lang': lang,
+                'waypoint': waypoint,
+                'locale': locale,
+                'geometry': self._get_geometry(waypoint['geometry']['geom']),
+                'transform': self._transform,
+                'version': None
+            })
+
+            return render(
+                'c2corg_ui:templates/waypoint/view.html',
+                self.template_input,
+                self.request
+            )
+
+        return self._get_or_create_detail(id, lang, render_page)
+
+    @view_config(route_name='waypoints_archive')
+    def archive(self):
+        id, lang = self._validate_id_lang()
+        version_id = int(self.request.matchdict['version'])
+
+        def render_page(waypoint, locale, version):
+            self.template_input.update({
+                'lang': lang,
+                'waypoint': waypoint,
+                'locale': locale,
+                'geometry': self._get_geometry(waypoint['geometry']['geom']),
+                'transform': self._transform,
+                'version': version
+            })
+
+            return render(
+                'c2corg_ui:templates/waypoint/view.html',
+                self.template_input,
+                self.request
+            )
+
+        return self._get_or_create_archive(id, lang, version_id, render_page)
 
     @view_config(route_name='waypoints_add',
                  renderer='c2corg_ui:templates/waypoint/edit.html')

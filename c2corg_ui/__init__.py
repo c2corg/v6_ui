@@ -1,11 +1,13 @@
 import requests
 from pyramid.config import Configurator
-from pyramid_mako import add_mako_renderer
-from c2corg_ui.lib.cacheversion import version_cache_buster, CACHE_PATH
 from pyramid.httpexceptions import (
     HTTPBadRequest, HTTPInternalServerError)
-from pyramid.view import view_config
 from pyramid.view import notfound_view_config
+from pyramid.view import view_config
+from pyramid_mako import add_mako_renderer
+
+from c2corg_ui.caching import configure_caches
+from c2corg_ui.caching.cacheversion import version_cache_buster, CACHE_PATH
 
 
 def main(global_config, **settings):
@@ -14,6 +16,9 @@ def main(global_config, **settings):
     """
     config = Configurator(settings=settings)
     add_mako_renderer(config, '.html')
+
+    # set up redis cache
+    configure_caches(settings)
 
     # configure connection pool for http requests
     max_connections = int(settings.get('http_request_connection_pool_size'))
@@ -27,7 +32,7 @@ def main(global_config, **settings):
     http_requests.session.mount('http://', adapter)
 
     # Register a tween to get back the cache buster path.
-    config.add_tween("c2corg_ui.lib.cacheversion.CachebusterTween")
+    config.add_tween("c2corg_ui.caching.cacheversion.CachebusterTween")
 
     _add_static_view(config, 'static', 'c2corg_ui:static')
     config.add_static_view('node_modules', settings.get('node_modules_path'),

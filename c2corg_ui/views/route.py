@@ -1,3 +1,4 @@
+from pyramid.renderers import render
 from pyramid.view import view_config
 
 from c2corg_ui.views.document import Document
@@ -29,24 +30,45 @@ class Route(Document):
 
     @view_config(route_name='routes_view',
                  renderer='c2corg_ui:templates/route/view.html')
-    @view_config(route_name='routes_archive',
-                 renderer='c2corg_ui:templates/route/view.html')
-    def view(self):
+    def detail(self):
         id, lang = self._validate_id_lang()
-        if 'version' in self.request.matchdict:
-            version_id = int(self.request.matchdict['version'])
-            route, locale, version = self._get_archived_document(
-                id, lang, version_id)
-        else:
-            route, locale = self._get_document(id, lang)
-            version = None
-        self.template_input.update({
-            'lang': lang,
-            'route': route,
-            'locale': locale,
-            'version': version
-        })
-        return self.template_input
+
+        def render_page(route, locale):
+            self.template_input.update({
+                'lang': lang,
+                'route': route,
+                'locale': locale,
+                'version': None
+            })
+
+            return render(
+                'c2corg_ui:templates/route/view.html',
+                self.template_input,
+                self.request
+            )
+
+        return self._get_or_create_detail(id, lang, render_page)
+
+    @view_config(route_name='routes_archive')
+    def archive(self):
+        id, lang = self._validate_id_lang()
+        version_id = int(self.request.matchdict['version'])
+
+        def render_page(route, locale, version):
+            self.template_input.update({
+                'lang': lang,
+                'route': route,
+                'locale': locale,
+                'version': version
+            })
+
+            return render(
+                'c2corg_ui:templates/route/view.html',
+                self.template_input,
+                self.request
+            )
+
+        return self._get_or_create_archive(id, lang, version_id, render_page)
 
     @view_config(route_name='routes_add',
                  renderer='c2corg_ui:templates/route/edit.html')

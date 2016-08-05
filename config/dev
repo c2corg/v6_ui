@@ -7,3 +7,5 @@ include Makefile
 export ign_api_key = x216cgugvwkn0go20sm2mgar
 
 export bing_api_key = ApgmUK6zfKqlvU9kNDbXeLFL2KvhC0BF3Jy-nUbcnkFJK_Y7UgMCyRq1NTu_ptyj
+
+export redis_db = 3
