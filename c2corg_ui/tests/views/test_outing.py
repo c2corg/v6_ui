@@ -9,10 +9,10 @@ from c2corg_ui.views.route import Route
 base_path = os.path.dirname(os.path.abspath(__file__))
 
 
-class TestRouteUi(BaseTestUi):
+class TestOutingUi(BaseTestUi):
 
     def setUp(self):  # noqa
-        self.set_prefix("routes")
+        self.set_prefix("outings")
         BaseTestUi.setUp(self)
         self.view = Route(request=self.request)
 
@@ -28,15 +28,15 @@ class TestRouteUi(BaseTestUi):
     def test_detail(self):
         """ An ETag header is set, using the ETag of the API response.
         """
-        with HTTMock(route_detail_mock):
-            url = '/{0}/736901/ca'.format(self._prefix)
+        with HTTMock(outing_detail_mock):
+            url = '/{0}/735574/fr'.format(self._prefix)
             resp = self.app.get(url, status=200)
 
             etag = resp.headers.get('ETag')
             self.assertIsNotNone(etag)
             self.assertEqual(
                 etag,
-                'W/"736901-ca-1-{0}"'.format(CACHE_VERSION))
+                'W/"735574-fr-1-{0}"'.format(CACHE_VERSION))
 
             # then request the page again with the etag
             headers = {
@@ -53,15 +53,15 @@ class TestRouteUi(BaseTestUi):
     def test_archive(self):
         """ An ETag header is set, using the ETag of the API response.
         """
-        with HTTMock(route_archive_mock):
-            url = '/{0}/735553/fr/1162880'.format(self._prefix)
+        with HTTMock(outing_archive_mock):
+            url = '/{0}/735574/fr/1163060'.format(self._prefix)
             resp = self.app.get(url, status=200)
 
             etag = resp.headers.get('ETag')
             self.assertIsNotNone(etag)
             self.assertEqual(
                 etag,
-                'W/"735553-fr-1-1162880-{0}"'.format(CACHE_VERSION))
+                'W/"735574-fr-1-1163060-{0}"'.format(CACHE_VERSION))
 
             # then request the page again with the etag
             headers = {
@@ -77,16 +77,16 @@ class TestRouteUi(BaseTestUi):
 
 
 @all_requests
-def route_detail_mock(url, request):
+def outing_detail_mock(url, request):
     return handle_mock_request(
         request,
-        os.path.join(base_path, 'data', 'route.json'),
-        'W/"736901-ca-1"')
+        os.path.join(base_path, 'data', 'outing.json'),
+        'W/"735574-fr-1"')
 
 
 @all_requests
-def route_archive_mock(url, request):
+def outing_archive_mock(url, request):
     return handle_mock_request(
         request,
-        os.path.join(base_path, 'data', 'route_archive.json'),
-        'W/"735553-fr-1-1162880"')
+        os.path.join(base_path, 'data', 'outing_archive.json'),
+        'W/"735574-fr-1-1163060"')

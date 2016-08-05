@@ -1,0 +1,56 @@
+{
+	"document": {
+		"elevation_max": 775,
+		"locales": [{
+			"title": "Saut du Day",
+			"hut_comment": null,
+			"access_comment": null,
+			"description": "...",
+			"lang": "fr",
+			"timing": "11h-14h30",
+			"summary": null,
+			"conditions": "Sentiers un peu humides par endroits.",
+			"participants": "Andr\u00e9e",
+			"version": 2,
+			"conditions_levels": null,
+			"weather": "Beau, chaud et brumeux",
+			"route_description": "Petite boucle depuis les contrebas de Ballaigues, Saut du Day, Bloc erratique, Les Tassonni\u00e8res."
+		}],
+		"quality": "medium",
+		"public_transport": null,
+		"type": "o",
+		"participant_count": null,
+		"length_total": 2600,
+		"height_diff_down": 140,
+		"date_start": "2016-03-20",
+		"partial_trip": true,
+		"protected": false,
+		"duration": null,
+		"date_end": "2016-03-20",
+		"access_condition": null,
+		"geometry": {
+			"geom_detail": null,
+			"version": 1,
+			"geom": "{\"coordinates\": [716464.6363154836, 5896270.4462415995], \"type\": \"Point\"}"
+		},
+		"height_diff_up": 140,
+		"elevation_access": 775,
+		"elevation_min": null,
+		"activities": ["hiking"],
+		"condition_rating": "good",
+		"hut_status": null,
+		"version": 1,
+		"document_id": 735574,
+		"frequentation": "some",
+		"lift_status": null
+	},
+	"version": {
+		"user_id": 131,
+		"username": "ckiener",
+		"version_id": 1163060,
+		"comment": "Edit in fr",
+		"written_at": 1458509295
+	},
+	"previous_version_id": 1162915,
+	"next_version_id": 1163092
+}

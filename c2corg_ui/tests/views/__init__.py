@@ -1,4 +1,4 @@
-from c2corg_ui.tests import BaseTestCase, settings
+from c2corg_ui.tests import BaseTestCase, settings, read_file
 from pyramid import testing
 
 
@@ -49,3 +49,22 @@ class BaseTestUi(BaseTestCase):
         self.assertEqual(isinstance(total, int), True)
         self.assertEqual(isinstance(documents, list), True)
         self.assertEqual(isinstance(params, dict), True)
+
+
+def handle_mock_request(request, file, etag):
+    if request.headers.get('If-None-Match') == etag:
+        return {
+            'status_code': 304,
+            'headers': {
+                'ETag': etag
+            }
+        }
+    else:
+        return {
+            'status_code': 200,
+            'headers': {
+                'Content-Type': 'application/json; charset = UTF-8',
+                'ETag': etag
+            },
+            'content': read_file(file)
+        }

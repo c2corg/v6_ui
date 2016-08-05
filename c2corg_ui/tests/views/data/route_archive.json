@@ -1,0 +1,50 @@
+{
+	"document": {
+		"elevation_max": 800,
+		"height_diff_access": null,
+		"difficulties_height": null,
+		"height_diff_down": 350,
+		"quality": "medium",
+		"type": "r",
+		"route_types": ["traverse"],
+		"protected": false,
+		"main_waypoint_id": null,
+		"hiking_mtb_exposition": null,
+		"height_diff_difficulties": null,
+		"orientations": null,
+		"hiking_rating": "T2",
+		"geometry": {
+			"geom_detail": null,
+			"version": 1,
+			"geom": "{\"coordinates\": [716464.6363154836, 5896270.4462415995], \"type\": \"Point\"}"
+		},
+		"lift_access": null,
+		"height_diff_up": null,
+		"elevation_min": 450,
+		"locales": [{
+			"title": "Vallorbe >> Orbe",
+			"external_resources": null,
+			"remarks": "* ...",
+			"version": 1,
+			"description": "...",
+			"summary": null,
+			"route_history": null,
+			"lang": "fr",
+			"gear": null
+		}],
+		"version": 1,
+		"route_length": 16300,
+		"document_id": 735553,
+		"durations": ["1"],
+		"activities": ["hiking"]
+	},
+	"version": {
+		"user_id": 131,
+		"username": "ckiener",
+		"version_id": 1162880,
+		"comment": "Edit in fr",
+		"written_at": 1458506363
+	},
+	"previous_version_id": null,
+	"next_version_id": 1162889
+}

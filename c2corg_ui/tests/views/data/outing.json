@@ -1,0 +1,126 @@
+{
+	"elevation_max": 775,
+	"quality": "medium",
+	"public_transport": null,
+	"type": "o",
+	"participant_count": null,
+	"hut_status": null,
+	"length_total": 2600,
+	"height_diff_down": 140,
+	"date_start": "2016-03-20",
+	"partial_trip": true,
+	"areas": [{
+		"protected": false,
+		"locales": [{
+			"title": "Suisse",
+			"version": 1,
+			"lang": "fr"
+		}],
+		"version": 8,
+		"available_langs": null,
+		"document_id": 14067,
+		"type": "a",
+		"area_type": "country"
+	}, {
+		"protected": false,
+		"locales": [{
+			"title": "Vaud",
+			"version": 1,
+			"lang": "fr"
+		}],
+		"version": 1,
+		"available_langs": null,
+		"document_id": 14397,
+		"type": "a",
+		"area_type": "admin_limits"
+	}],
+	"protected": false,
+	"duration": null,
+	"date_end": "2016-03-20",
+	"available_langs": ["fr"],
+	"geometry": {
+		"geom_detail": null,
+		"version": 1,
+		"geom": "{\"coordinates\": [716464.6363154836, 5896270.4462415995], \"type\": \"Point\"}"
+	},
+	"height_diff_up": 140,
+	"elevation_access": 775,
+	"elevation_min": null,
+	"activities": ["hiking"],
+	"condition_rating": "good",
+	"locales": [{
+		"title": "Saut du Day",
+		"hut_comment": null,
+		"access_comment": null,
+		"description": "...",
+		"lang": "fr",
+		"timing": "11h-14h30",
+		"summary": null,
+		"conditions": "Sentiers un peu humides par endroits.",
+		"participants": "Andr\u00e9e",
+		"version": 3,
+		"conditions_levels": null,
+		"weather": "Beau, chaud et brumeux",
+		"route_description": "Petite boucle depuis les contrebas de Ballaigues, Saut du Day, Bloc erratique, Les Tassonni\u00e8res."
+	}],
+	"version": 1,
+	"document_id": 735574,
+	"associations": {
+		"users": [{
+			"username": "kakaka",
+			"name": "Sakapof-Kakaka",
+			"id": 501630
+		}, {
+			"username": "doudouchien",
+			"name": "Doudouchien",
+			"id": 426684
+		}],
+		"routes": [{
+			"protected": false,
+			"elevation_max": 817,
+			"locales": [{
+				"title": "Vallorbe >> Orbe",
+				"version": 1,
+				"title_prefix": "Saut du Day",
+				"lang": "fr"
+			}],
+			"version": 2,
+			"available_langs": null,
+			"document_id": 735553,
+			"type": "r",
+			"elevation_min": 441,
+			"activities": ["hiking"]
+		}],
+		"images": [{
+			"protected": false,
+			"locales": [{
+				"title": "Le bloc erratique",
+				"version": 1,
+				"lang": "fr"
+			}],
+			"version": 1,
+			"available_langs": null,
+			"document_id": 735595,
+			"author": null,
+			"type": "i",
+			"filename": "1458503704_493257965.jpg"
+		}, {
+			"protected": false,
+			"locales": [{
+				"title": "Saut du Day",
+				"version": 1,
+				"lang": "fr"
+			}],
+			"version": 2,
+			"available_langs": null,
+			"document_id": 735594,
+			"author": null,
+			"type": "i",
+			"filename": "1458503702_76085702.jpg"
+		}],
+		"waypoints": []
+	},
+	"frequentation": "some",
+	"access_condition": null,
+	"lift_status": null
+}
