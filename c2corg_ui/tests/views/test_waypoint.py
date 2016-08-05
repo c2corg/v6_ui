@@ -93,55 +93,13 @@ class TestWaypointUi(BaseTestUi):
             self.assertEqual(cache_value, NO_VALUE)
             self.assertIsNone(response.headers.get('ETag'))
 
-    def test_archive_etag(self):
-        """ An ETag header is set, using the ETag of the API response.
-        """
-        with HTTMock(waypoint_archive_mock):
-            url = '/{0}/117982/fr/131565'.format(self._prefix)
-            resp = self.app.get(url, status=200)
-
-            etag = resp.headers.get('ETag')
-            self.assertIsNotNone(etag)
-            self.assertEqual(
-                etag,
-                'W/"117982-fr-1-131565-{0}"'.format(CACHE_VERSION))
-
-            # then request the page again with the etag
-            headers = {
-                'If-None-Match': etag
-            }
-            self.app.get(url, status=304, headers=headers)
-
-            # if a wrong/outdated etag is provided, the full page is returned
-            headers = {
-                'If-None-Match': 'W/"123456-xy-0-1234-c796286-123456"'
-            }
-            self.app.get(url, status=200, headers=headers)
+    def test_archive(self):
+        url = '/{0}/117982/fr/131565'.format(self._prefix)
+        self._test_page(url, waypoint_archive_mock, '117982-fr-1-131565')
 
     def test_history(self):
-        """ An ETag header is set, using the ETag of the API response.
-        """
-        with HTTMock(waypoint_history_mock):
-            url = '/{0}/history/735553/fr'.format(self._prefix)
-            resp = self.app.get(url, status=200)
-
-            etag = resp.headers.get('ETag')
-            self.assertIsNotNone(etag)
-            self.assertEqual(
-                etag,
-                'W/"735553-fr-1-{0}"'.format(CACHE_VERSION))
-
-            # then request the page again with the etag
-            headers = {
-                'If-None-Match': etag
-            }
-            self.app.get(url, status=304, headers=headers)
-
-            # if a wrong/outdated etag is provided, the full page is returned
-            headers = {
-                'If-None-Match': 'W/"123456-xy-0-1234-c796286-123456"'
-            }
-            self.app.get(url, status=200, headers=headers)
+        url = '/{0}/history/735553/fr'.format(self._prefix)
+        self._test_page(url, waypoint_history_mock, '735553-fr-1')
 
     def test_reprojection(self):
         # Testing lon/lat coordinates

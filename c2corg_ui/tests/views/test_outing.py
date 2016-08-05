@@ -1,8 +1,7 @@
 import os
 
-from httmock import HTTMock, all_requests
+from httmock import all_requests
 
-from c2corg_ui.caching import CACHE_VERSION
 from c2corg_ui.tests.views import BaseTestUi, handle_mock_request
 from c2corg_ui.views.route import Route
 
@@ -26,79 +25,16 @@ class TestOutingUi(BaseTestUi):
         self._test_get_documents()
 
     def test_detail(self):
-        """ An ETag header is set, using the ETag of the API response.
-        """
-        with HTTMock(outing_detail_mock):
-            url = '/{0}/735574/fr'.format(self._prefix)
-            resp = self.app.get(url, status=200)
-
-            etag = resp.headers.get('ETag')
-            self.assertIsNotNone(etag)
-            self.assertEqual(
-                etag,
-                'W/"735574-fr-1-{0}"'.format(CACHE_VERSION))
-
-            # then request the page again with the etag
-            headers = {
-                'If-None-Match': etag
-            }
-            self.app.get(url, status=304, headers=headers)
-
-            # if a wrong/outdated etag is provided, the full page is returned
-            headers = {
-                'If-None-Match': 'W/"123456-xy-0-c796286-123456"'
-            }
-            self.app.get(url, status=200, headers=headers)
+        url = '/{0}/735574/fr'.format(self._prefix)
+        self._test_page(url, outing_detail_mock, '735574-fr-1')
 
     def test_archive(self):
-        """ An ETag header is set, using the ETag of the API response.
-        """
-        with HTTMock(outing_archive_mock):
-            url = '/{0}/735574/fr/1163060'.format(self._prefix)
-            resp = self.app.get(url, status=200)
-
-            etag = resp.headers.get('ETag')
-            self.assertIsNotNone(etag)
-            self.assertEqual(
-                etag,
-                'W/"735574-fr-1-1163060-{0}"'.format(CACHE_VERSION))
-
-            # then request the page again with the etag
-            headers = {
-                'If-None-Match': etag
-            }
-            self.app.get(url, status=304, headers=headers)
-
-            # if a wrong/outdated etag is provided, the full page is returned
-            headers = {
-                'If-None-Match': 'W/"123456-xy-0-1234-c796286-123456"'
-            }
-            self.app.get(url, status=200, headers=headers)
+        url = '/{0}/735574/fr/1163060'.format(self._prefix)
+        self._test_page(url, outing_archive_mock, '735574-fr-1-1163060')
 
     def test_history(self):
-        """ An ETag header is set, using the ETag of the API response.
-        """
-        with HTTMock(outing_history_mock):
-            url = '/{0}/history/735553/fr'.format(self._prefix)
-            resp = self.app.get(url, status=200)
-
-            etag = resp.headers.get('ETag')
-            self.assertIsNotNone(etag)
-            self.assertEqual(
-                etag,
-                'W/"735553-fr-1-{0}"'.format(CACHE_VERSION))
-
-            # then request the page again with the etag
-            headers = {
-                'If-None-Match': etag
-            }
-            self.app.get(url, status=304, headers=headers)
-
-            # if a wrong/outdated etag is provided, the full page is returned
-            headers = {
-                'If-None-Match': 'W/"123456-xy-0-1234-c796286-123456"'
-            }
-            self.app.get(url, status=200, headers=headers)
+        url = '/{0}/history/735553/fr'.format(self._prefix)
+        self._test_page(url, outing_history_mock, '735553-fr-1')
 
 
 @all_requests
