@@ -8,10 +8,9 @@ class Outing(Document):
 
     _API_ROUTE = 'outings'
 
-    @view_config(route_name='outings_index',
-                 renderer='c2corg_ui:templates/outing/index.html')
+    @view_config(route_name='outings_index')
     def index(self):
-        return self.template_input
+        return self._index('c2corg_ui:templates/outing/index.html')
 
     @view_config(route_name='outings_sitemap',
                  renderer='c2corg_ui:templates/outing/sitemap.html')

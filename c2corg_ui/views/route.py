@@ -9,10 +9,9 @@ class Route(Document):
 
     _API_ROUTE = 'routes'
 
-    @view_config(route_name='routes_index',
-                 renderer='c2corg_ui:templates/route/index.html')
+    @view_config(route_name='routes_index')
     def index(self):
-        return self.template_input
+        return self._index('c2corg_ui:templates/route/index.html')
 
     @view_config(route_name='routes_sitemap',
                  renderer='c2corg_ui:templates/route/sitemap.html')

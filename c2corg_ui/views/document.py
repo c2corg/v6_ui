@@ -20,7 +20,7 @@ from c2corg_common.attributes import default_langs
 from pyramid.httpexceptions import (
     HTTPBadRequest, HTTPNotFound, HTTPInternalServerError)
 
-from c2corg_ui.views import etag_cache
+from c2corg_ui.views import etag_cache, get_response, get_or_create_page
 
 log = logging.getLogger(__name__)
 
@@ -49,6 +49,18 @@ class Document(object):
             'image_backend_url': self.settings['image_backend_url'],
             'image_url': self.settings['image_url']
         }
+
+    def _index(self, template):
+        # FIXME no ETag is set, because the filters are set as query params,
+        # see https://github.com/c2corg/v6_ui/issues/554
+        return get_or_create_page(
+            self._API_ROUTE,
+            template,
+            self.template_input,
+            self.request,
+            self.debug,
+            no_etag=True
+        )
 
     def _get_or_create_detail(self, id, lang, render_page):
         """ Returns a detail page for a document
@@ -388,5 +400,4 @@ class Document(object):
             return if_none_matches[0]
 
     def _get_response(self, page_html):
-        self.request.response.text = page_html
-        return self.request.response
+        return get_response(self.request, page_html)

@@ -13,10 +13,9 @@ class Waypoint(Document):
 
     _API_ROUTE = 'waypoints'
 
-    @view_config(route_name='waypoints_index',
-                 renderer='c2corg_ui:templates/waypoint/index.html')
+    @view_config(route_name='waypoints_index')
     def index(self):
-        return self.template_input
+        return self._index('c2corg_ui:templates/waypoint/index.html')
 
     @view_config(route_name='waypoints_sitemap',
                  renderer='c2corg_ui:templates/waypoint/sitemap.html')
