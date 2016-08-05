@@ -84,8 +84,15 @@ class Waypoint(Document):
     def diff(self):
         return self._diff()
 
-    @view_config(route_name='waypoints_add',
-                 renderer='c2corg_ui:templates/waypoint/edit.html')
+    @view_config(route_name='waypoints_add')
+    def add(self):
+        self.template_input.update({
+            'waypoint_types': waypoint_types,
+            'waypoint_lang': None,
+            'waypoint_id': None
+        })
+        return self._add('c2corg_ui:templates/waypoint/edit.html')
+
     @view_config(route_name='waypoints_edit',
                  renderer='c2corg_ui:templates/waypoint/edit.html')
     def edit(self):

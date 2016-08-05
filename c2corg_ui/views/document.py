@@ -146,17 +146,18 @@ class Document(object):
         url = '%s/%s' % (api_url, url)
         if log.isEnabledFor(logging.DEBUG):
             log.debug('API: %s %s', 'GET', url)
+        resp = None
         try:
             resp = http_requests.session.get(url, headers=headers)
-
-            if resp.status_code == 304:
-                # no content for 'not modified'
-                return resp, {}
-            else:
-                return resp, resp.json()
-        except Exception:
+        except:
             log.error('Request failed: {0}'.format(url), exc_info=1)
+            raise
+
+        if resp.status_code == 304:
+            # no content for 'not modified'
             return resp, {}
+        else:
+            return resp, resp.json()
 
     def _validate_id_lang(self):
         if 'id' not in self.request.matchdict:
@@ -367,6 +368,15 @@ class Document(object):
         return self._get_or_create(
             (id, lang, v1, v2), cache_document_diff, load_data, render_page,
             self._get_cache_key_diff, get_etag_key=self._get_etag_key_diff)
+
+    def _add(self, template):
+        return get_or_create_page(
+            '{0}-add'.format(self._API_ROUTE),
+            template,
+            self.template_input,
+            self.request,
+            self.debug
+        )
 
     def _get_geometry(self, data):
         return asShape(json.loads(data)) if data else None

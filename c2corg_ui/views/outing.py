@@ -75,8 +75,14 @@ class Outing(Document):
     def diff(self):
         return self._diff()
 
-    @view_config(route_name='outings_add',
-                 renderer='c2corg_ui:templates/outing/edit.html')
+    @view_config(route_name='outings_add')
+    def add(self):
+        self.template_input.update({
+            'outing_lang': None,
+            'outing_id': None
+        })
+        return self._add('c2corg_ui:templates/outing/edit.html')
+
     @view_config(route_name='outings_edit',
                  renderer='c2corg_ui:templates/outing/edit.html')
     def edit(self):

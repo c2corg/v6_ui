@@ -77,8 +77,16 @@ class Route(Document):
     def diff(self):
         return self._diff()
 
-    @view_config(route_name='routes_add',
-                 renderer='c2corg_ui:templates/route/edit.html')
+    @view_config(route_name='routes_add')
+    def add(self):
+        self.template_input.update({
+            'activities': activities,
+            'route_types': route_types,
+            'route_lang': None,
+            'route_id': None
+        })
+        return self._add('c2corg_ui:templates/route/edit.html')
+
     @view_config(route_name='routes_edit',
                  renderer='c2corg_ui:templates/route/edit.html')
     def edit(self):
