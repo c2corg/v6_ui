@@ -248,6 +248,32 @@
   % endfor
 </%def>
 
+<%def name="associated_routes_featurelist(document)">\
+  % if document.get('associations').get('all_routes') and document.get('associations').get('all_routes').get('routes'):
+    % for route in document.get('associations').get('all_routes').get('routes'):
+      % if route.get('geometry').get('geom_detail'):
+        <%
+        route_title = ''
+        if route['locales'][0]['title_prefix']:
+            route_title += route['locales'][0]['title_prefix'] + '&nbsp;: '
+        route_title += route['locales'][0]['title'];
+        %>
+        ,
+        {
+          "type": "Feature",
+          "geometry": ${route['geometry']['geom_detail'] | n},
+          "properties": {
+            "title": ${dumps(route_title) | n},
+            "lang": ${dumps(route['locales'][0]['lang']) | n},
+            "documentId": ${route['document_id']},
+            "module": "routes"
+          }
+        }
+      % endif
+    % endfor
+  % endif
+</%def>
+
 <%def name="get_document_locale_text(locale, text)">\
   ## WEATHER AND CONDITIONS
   % if text == 'weather':
