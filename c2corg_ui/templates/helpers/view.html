@@ -252,18 +252,13 @@
   % if document.get('associations').get('all_routes') and document.get('associations').get('all_routes').get('routes'):
     % for route in document.get('associations').get('all_routes').get('routes'):
       % if route.get('geometry').get('geom_detail'):
-        <%
-        route_title = ''
-        if route['locales'][0]['title_prefix']:
-            route_title += route['locales'][0]['title_prefix'] + '&nbsp;: '
-        route_title += route['locales'][0]['title'];
-        %>
         ,
         {
           "type": "Feature",
           "geometry": ${route['geometry']['geom_detail'] | n},
           "properties": {
-            "title": ${dumps(route_title) | n},
+            "title": ${dumps(route['locales'][0]['title']) | n},
+            "title_prefix": ${dumps(route['locales'][0]['title_prefix']) | n},
             "lang": ${dumps(route['locales'][0]['lang']) | n},
             "documentId": ${route['document_id']},
             "module": "routes"

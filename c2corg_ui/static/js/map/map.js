@@ -388,12 +388,10 @@ app.MapController.prototype.createStyleFunction_ = function() {
  * @private
  */
 app.MapController.prototype.createPointStyle_ = function(feature, resolution) {
-
   var type = /** @type {string} */ (feature.get('module'));
   if (type === 'waypoints' && feature.get('type')) {
     type = /** @type {string} */ (feature.get('type'));
   }
-
   var id = /** @type {number} */ (feature.get('documentId'));
   var highlight = /** @type {boolean} */ (!!feature.get('highlight'));
   var scale = highlight ? 1 : 0.5;
@@ -409,34 +407,9 @@ app.MapController.prototype.createPointStyle_ = function(feature, resolution) {
       }));
       this.iconCache[iconKey] = icon;
     }
-
-    var text;
-    if (highlight) { // on hover in list view
-      var title = '';
-      if (type === 'routes' && feature.get('title_prefix')) {
-        title = feature.get('title_prefix') + ' : ';
-      }
-      title += feature.get('title');
-
-      text = new ol.style.Text({
-        text: app.utils.stringDivider(title, 30, '\n'),
-        textAlign: 'left',
-        offsetX: 20,
-        font: '12px verdana,sans-serif',
-        stroke: new ol.style.Stroke({
-          color: 'white',
-          width: 3
-        }),
-        fill: new ol.style.Fill({
-          color: 'black'
-        }),
-        textBaseline: 'middle'
-      });
-    }
-
     style = new ol.style.Style({
       image: icon,
-      text: text
+      text: this.createTextStyle_(feature, type, highlight)
     });
     this.styleCache[key] = style;
   }
@@ -451,9 +424,10 @@ app.MapController.prototype.createPointStyle_ = function(feature, resolution) {
  * @private
  */
 app.MapController.prototype.createLineStyle_ = function(feature, resolution) {
-
+  var type = /** @type {string} */ (feature.get('module'));
   var highlight = /** @type {boolean} */ (feature.get('highlight'));
-  var key = 'lines' + (highlight ? ' _highlight' : '');
+  var id = /** @type {number} */ (feature.get('documentId'));
+  var key = 'lines' + (highlight ? ' _highlight' : '') + '_' + id;
   var style = this.styleCache[key];
   if (!style) {
     var stroke = new ol.style.Stroke({
@@ -461,11 +435,46 @@ app.MapController.prototype.createLineStyle_ = function(feature, resolution) {
       width: 3
     });
     style = new ol.style.Style({
+      text: this.createTextStyle_(feature, type, highlight),
       stroke: stroke
     });
     this.styleCache[key] = style;
   }
   return style;
+};
+
+
+/**
+ * @param {ol.Feature|ol.render.Feature} feature
+ * @param {string} type
+ * @param {boolean} highlight
+ * @return {ol.style.Text|undefined}
+ */
+app.MapController.prototype.createTextStyle_ = function(feature, type, highlight) {
+  var text;
+  if (highlight) { // on hover in list view
+    var title = '';
+    if (type === 'routes' && feature.get('title_prefix')) {
+      title = feature.get('title_prefix') + ' : ';
+    }
+    title += feature.get('title');
+
+    text = new ol.style.Text({
+      text: app.utils.stringDivider(title, 30, '\n'),
+      textAlign: 'left',
+      offsetX: 20,
+      font: '12px verdana,sans-serif',
+      stroke: new ol.style.Stroke({
+        color: 'white',
+        width: 3
+      }),
+      fill: new ol.style.Fill({
+        color: 'black'
+      }),
+      textBaseline: 'middle'
+    });
+  }
+  return text;
 };
 
 
