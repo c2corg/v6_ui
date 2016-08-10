@@ -367,6 +367,7 @@ app.MapController.prototype.createStyleFunction_ = function() {
         var module = /** @type {string} */ (feature.get('module'));
         switch (module) {
           case 'waypoints':
+          case 'images':
             return this.createPointStyle_(feature, resolution);
           case 'routes':
           case 'outings':

@@ -11,7 +11,8 @@ from json import dumps
 <%namespace file="../helpers/view.html" import="get_image_gallery, photoswipe_gallery, get_document_min_max,
     get_document_locale_text, show_attr, show_missing_langs_links, show_other_langs_links,
     show_archive_data, show_route_title, get_route_activities, show_areas, show_float_buttons,
-    show_associated_waypoints, show_associated_routes, delete_association_confirmation_modal"/>
+    show_associated_waypoints, show_associated_routes, delete_association_confirmation_modal,
+    associated_images_featurelist"/>
 
 <%
 outing_id = outing['document_id']
@@ -46,7 +47,11 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
         "documentId": ${outing['document_id']},
         "module": "outings"
       }
-    }]
+    }
+    % if not version:
+      ${associated_images_featurelist(outing)}
+    % endif
+    ]
   });
 
   module.value('documentData', {
