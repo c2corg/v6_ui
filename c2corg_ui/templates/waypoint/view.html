@@ -14,7 +14,7 @@ from json import dumps
     show_attr, show_missing_langs_links, show_other_langs_links, show_archive_data,
     show_route_title, show_areas, show_maps, show_float_buttons,
     show_associated_waypoints, show_associated_routes, show_associated_outings,
-    delete_association_confirmation_modal, associated_waypoints_featurelist"/>
+    delete_association_confirmation_modal, associated_waypoints_featurelist, associated_routes_featurelist"/>
 
 <%
 waypoint_id = waypoint['document_id']
@@ -56,11 +56,13 @@ geometry4326 = geometry
             "elevation": ${waypoint['elevation']},
           % endif
           "module": "waypoints",
+          "highlight": true,
           "type": "${waypoint['waypoint_type']}"
         }
       }
       % if not version:
         ${associated_waypoints_featurelist(waypoint)}
+        ${associated_routes_featurelist(waypoint)}
       % endif
     ]}
   % else:
@@ -81,7 +83,7 @@ geometry4326 = geometry
 
 <header class="view-details-title">
   <h1>
-    <span class="icon-${waypoint['waypoint_type']} waypoint-type" uib-tooltip="${waypoint['waypoint_type']}"></span>
+    <span class="icon-${waypoint['waypoint_type']} waypoint-type" uib-tooltip="{{mainCtrl.translate('${waypoint['waypoint_type']}')}}"></span>
     <span>${locale['title']}</span>
     <label class="badge waypoint" onClick="window.location='${request.route_url('waypoints_index', _query={'wtyp': waypoint['waypoint_type']})}'">
       <span class="glyphicon glyphicon-arrow-right"></span>&nbsp;<span translate>waypoint</span>
