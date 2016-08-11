@@ -30,6 +30,10 @@ class CachebusterTween:
     @staticmethod
     def is_git_hash(str):
         # 592d5db = git rev-parse --short HEAD
+        if '-' in str:
+            # when in dev. mode, the cache key is appended
+            # with a timestamp, e.g. "592d5db-123456789"
+            str = str.split('-')[0]
         return len(str) == 7 and CachebusterTween.is_hexa(str)
 
     def __call__(self, request):

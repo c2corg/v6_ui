@@ -1,3 +1,4 @@
+from pyramid.renderers import render
 from pyramid.view import view_config
 
 from c2corg_ui.views.document import Document
@@ -7,10 +8,9 @@ class Outing(Document):
 
     _API_ROUTE = 'outings'
 
-    @view_config(route_name='outings_index',
-                 renderer='c2corg_ui:templates/outing/index.html')
+    @view_config(route_name='outings_index')
     def index(self):
-        return self.template_input
+        return self._index('c2corg_ui:templates/outing/index.html')
 
     @view_config(route_name='outings_sitemap',
                  renderer='c2corg_ui:templates/outing/sitemap.html')
@@ -26,29 +26,63 @@ class Outing(Document):
         })
         return self.template_input
 
-    @view_config(route_name='outings_view',
-                 renderer='c2corg_ui:templates/outing/view.html')
-    @view_config(route_name='outings_archive',
-                 renderer='c2corg_ui:templates/outing/view.html')
-    def view(self):
+    @view_config(route_name='outings_view')
+    def detail(self):
         id, lang = self._validate_id_lang()
-        version = False
-        if 'version' in self.request.matchdict:
-            version_id = int(self.request.matchdict['version'])
-            outing, locale, version = self._get_archived_document(
-                id, lang, version_id)
-        else:
-            outing, locale = self._get_document(id, lang)
-        self.template_input.update({
-            'lang': lang,
-            'outing': outing,
-            'locale': locale,
-            'version': version
-        })
-        return self.template_input
 
-    @view_config(route_name='outings_add',
-                 renderer='c2corg_ui:templates/outing/edit.html')
+        def render_page(outing, locale):
+            self.template_input.update({
+                'lang': lang,
+                'outing': outing,
+                'locale': locale,
+                'version': None
+            })
+
+            return render(
+                'c2corg_ui:templates/outing/view.html',
+                self.template_input,
+                self.request
+            )
+
+        return self._get_or_create_detail(id, lang, render_page)
+
+    @view_config(route_name='outings_archive')
+    def archive(self):
+        id, lang = self._validate_id_lang()
+        version_id = int(self.request.matchdict['version'])
+
+        def render_page(outing, locale, version):
+            self.template_input.update({
+                'lang': lang,
+                'outing': outing,
+                'locale': locale,
+                'version': version
+            })
+
+            return render(
+                'c2corg_ui:templates/outing/view.html',
+                self.template_input,
+                self.request
+            )
+
+        return self._get_or_create_archive(id, lang, version_id, render_page)
+
+    @view_config(route_name='outings_history')
+    def history(self):
+        return self._get_history()
+
+    @view_config(route_name='outings_diff')
+    def diff(self):
+        return self._diff()
+
+    @view_config(route_name='outings_add')
+    def add(self):
+        self.template_input.update({
+            'outing_lang': None,
+            'outing_id': None
+        })
+        return self._add('c2corg_ui:templates/outing/edit.html')
+
     @view_config(route_name='outings_edit',
                  renderer='c2corg_ui:templates/outing/edit.html')
     def edit(self):
@@ -58,13 +92,3 @@ class Outing(Document):
             'outing_id': id
         })
         return self.template_input
-
-    @view_config(route_name='outings_history',
-                 renderer='c2corg_ui:templates/document/history.html')
-    def history(self):
-        return self._get_history()
-
-    @view_config(route_name='outings_diff',
-                 renderer='c2corg_ui:templates/document/diff.html')
-    def diff(self):
-        return self._diff()

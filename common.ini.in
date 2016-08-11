@@ -9,6 +9,12 @@ image_url = {image_url}
 api_url_internal = {api_url_internal}
 api_url_host = {api_url_host}
 
+http_request_connection_pool_size = {http_request_connection_pool_size}
+
+redis.url = {redis_url}?db={redis_db}
+redis.cache_key_prefix = {redis_cache_key_prefix}
+redis.cache_pool = 20
+
 ign_api_key = {ign_api_key}
 bing_api_key = {bing_api_key}
 
@@ -16,6 +22,7 @@ pyramid.default_locale_name = fr
 
 cache_max_age = 3600
 cache_version = {version}
+cache_version_timestamp = False
 
 logging.level = {logging_level}
 

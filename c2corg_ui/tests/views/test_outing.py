@@ -8,10 +8,10 @@ from c2corg_ui.views.route import Route
 base_path = os.path.dirname(os.path.abspath(__file__))
 
 
-class TestRouteUi(BaseTestUi):
+class TestOutingUi(BaseTestUi):
 
     def setUp(self):  # noqa
-        self.set_prefix("routes")
+        self.set_prefix("outings")
         BaseTestUi.setUp(self)
         self.view = Route(request=self.request)
 
@@ -25,36 +25,36 @@ class TestRouteUi(BaseTestUi):
         self._test_get_documents()
 
     def test_detail(self):
-        url = '/{0}/736901/ca'.format(self._prefix)
-        self._test_page(url, route_detail_mock, '736901-ca-1')
+        url = '/{0}/735574/fr'.format(self._prefix)
+        self._test_page(url, outing_detail_mock, '735574-fr-1')
 
     def test_archive(self):
-        url = '/{0}/735553/fr/1162880'.format(self._prefix)
-        self._test_page(url, route_archive_mock, '735553-fr-1-1162880')
+        url = '/{0}/735574/fr/1163060'.format(self._prefix)
+        self._test_page(url, outing_archive_mock, '735574-fr-1-1163060')
 
     def test_history(self):
         url = '/{0}/history/735553/fr'.format(self._prefix)
-        self._test_page(url, route_history_mock, '735553-fr-1')
+        self._test_page(url, outing_history_mock, '735553-fr-1')
 
 
 @all_requests
-def route_detail_mock(url, request):
+def outing_detail_mock(url, request):
     return handle_mock_request(
         request,
-        os.path.join(base_path, 'data', 'route.json'),
-        'W/"736901-ca-1"')
+        os.path.join(base_path, 'data', 'outing.json'),
+        'W/"735574-fr-1"')
 
 
 @all_requests
-def route_archive_mock(url, request):
+def outing_archive_mock(url, request):
     return handle_mock_request(
         request,
-        os.path.join(base_path, 'data', 'route_archive.json'),
-        'W/"735553-fr-1-1162880"')
+        os.path.join(base_path, 'data', 'outing_archive.json'),
+        'W/"735574-fr-1-1163060"')
 
 
 @all_requests
-def route_history_mock(url, request):
+def outing_history_mock(url, request):
     return handle_mock_request(
         request,
         os.path.join(base_path, 'data', 'route_history.json'),

@@ -1,0 +1,96 @@
+{
+	"elevation_max": 1570,
+	"height_diff_access": null,
+	"difficulties_height": null,
+	"main_waypoint_id": 722162,
+	"quality": "medium",
+	"type": "r",
+	"route_types": ["return_same_way"],
+	"protected": false,
+	"maps": [],
+	"height_diff_down": 700,
+	"hiking_rating": "T2",
+	"hiking_mtb_exposition": null,
+	"height_diff_difficulties": null,
+	"areas": [{
+		"protected": false,
+		"locales": [{
+			"title": "Estat espanyol",
+			"version": 3,
+			"lang": "ca"
+		}],
+		"version": 11,
+		"available_langs": null,
+		"document_id": 14267,
+		"type": "a",
+		"area_type": "country"
+	}],
+	"orientations": ["SE"],
+	"associations": {
+		"recent_outings": {
+			"total": 1,
+			"outings": [{
+				"protected": false,
+				"locales": [{
+					"title": "Comillini: des de Cadolla per la casa Encantada",
+					"version": 1,
+					"lang": "ca"
+				}],
+				"date_end": "2016-02-07",
+				"version": 1,
+				"available_langs": null,
+				"document_id": 736934,
+				"date_start": "2016-02-07",
+				"author": {
+					"user_id": 112603,
+					"username": "p\u00e8descau\u00e7",
+					"name": "Cesc Grau"
+				},
+				"type": "o",
+				"activities": ["hiking"]
+			}]
+		},
+		"routes": [],
+		"images": [],
+		"waypoints": [{
+			"elevation": 1275,
+			"protected": false,
+			"locales": [{
+				"title": "Corroncui",
+				"version": 1,
+				"lang": "ca"
+			}],
+			"version": 1,
+			"available_langs": null,
+			"document_id": 736903,
+			"waypoint_type": "access",
+			"type": "w"
+		}]
+	},
+	"available_langs": ["ca"],
+	"geometry": {
+		"geom_detail": null,
+		"version": 1,
+		"geom": "{\"coordinates\": [97634.23014221099, 5211573.605420916], \"type\": \"Point\"}"
+	},
+	"lift_access": null,
+	"height_diff_up": 700,
+	"elevation_min": 945,
+	"locales": [{
+		"title": "des de Cadolla per la casa Encantada",
+		"external_resources": null,
+		"remarks": null,
+		"version": 1,
+		"title_prefix": "Comillini",
+		"summary": null,
+		"description": "...",
+		"lang": "ca",
+		"route_history": null,
+		"gear": null
+	}],
+	"version": 1,
+	"route_length": null,
+	"document_id": 736901,
+	"durations": ["1"],
+	"activities": ["hiking"]
+}

@@ -1,4 +1,7 @@
-from c2corg_ui.tests import BaseTestCase, settings
+from httmock import HTTMock
+
+from c2corg_ui.caching import CACHE_VERSION
+from c2corg_ui.tests import BaseTestCase, settings, read_file
 from pyramid import testing
 
 
@@ -36,7 +39,7 @@ class BaseTestUi(BaseTestCase):
 
     def _test_api_call(self):
         resp, content = self.view._call_api(self._prefix)
-        self.assertEqual(resp['status'], '200')
+        self.assertEqual(resp.status_code, 200)
         self.assertTrue('total' in content)
         self.assertTrue('documents' in content)
         total = content['total']
@@ -49,3 +52,46 @@ class BaseTestUi(BaseTestCase):
         self.assertEqual(isinstance(total, int), True)
         self.assertEqual(isinstance(documents, list), True)
         self.assertEqual(isinstance(params, dict), True)
+
+    def _test_page(self, url, request_mock, cache_key):
+        """ An ETag header is set, using the ETag of the API response.
+        """
+        with HTTMock(request_mock):
+            resp = self.app.get(url, status=200)
+
+            etag = resp.headers.get('ETag')
+            self.assertIsNotNone(etag)
+            self.assertEqual(
+                etag,
+                'W/"{0}-{1}"'.format(cache_key, CACHE_VERSION))
+
+            # then request the page again with the etag
+            headers = {
+                'If-None-Match': etag
+            }
+            self.app.get(url, status=304, headers=headers)
+
+            # if a wrong/outdated etag is provided, the full page is returned
+            headers = {
+                'If-None-Match': 'W/"123456-xy-0-1234-c796286-123456"'
+            }
+            self.app.get(url, status=200, headers=headers)
+
+
+def handle_mock_request(request, file, etag):
+    if request.headers.get('If-None-Match') == etag:
+        return {
+            'status_code': 304,
+            'headers': {
+                'ETag': etag
+            }
+        }
+    else:
+        return {
+            'status_code': 200,
+            'headers': {
+                'Content-Type': 'application/json; charset = UTF-8',
+                'ETag': etag
+            },
+            'content': read_file(file)
+        }

@@ -1,0 +1,41 @@
+{
+	"previous_version_id": 131564,
+	"document": {
+		"public_transportation_rating": "good",
+		"maps_info": null,
+		"elevation": 800,
+		"locales": [{
+			"description": "...",
+			"summary": null,
+			"lang": "fr",
+			"title": "Vallorbe (gare CFF)",
+			"access": "En train, [url=http://www.sbb.ch/fr/]horaires[/url]",
+			"access_period": null,
+			"version": 2
+		}],
+		"elevation_min": null,
+		"parking_fee": null,
+		"geometry": {
+			"version": 2,
+			"geom": "{\"coordinates\": [709197.9968084743, 5895264.409731769], \"type\": \"Point\"}"
+		},
+		"version": 2,
+		"lift_access": null,
+		"type": "w",
+		"quality": "medium",
+		"document_id": 117982,
+		"snow_clearance_rating": "often",
+		"waypoint_type": "access",
+		"protected": false,
+		"public_transportation_types": null
+	},
+	"next_version_id": 292856,
+	"version": {
+		"comment": "Edit in fr",
+		"username": "ckiener",
+		"name": "Chris",
+		"version_id": 131565,
+		"user_id": 131,
+		"written_at": 1203164362
+	}
+}

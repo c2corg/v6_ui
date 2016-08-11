@@ -1,10 +1,10 @@
 export instanceid = main
 export base_url = /
 
-export version = $(shell git rev-parse --short HEAD 2>/dev/null || echo "0")
 export debug_port = 6553
 
-export elasticsearch_host = ...
+# the size of the connection pool for http requests (to the API)
+export http_request_connection_pool_size = 200
 
 host = c2corgv6.demo-camptocamp.com
 url = http://$(host)
@@ -21,3 +21,11 @@ export bing_api_key = AudizIfCd3NAdt91ubJMGkMI-swfHxe1R-_U7KiLxCHqepDy70txQ-_-89
 
 export logging_level = WARNING
 export skip_captcha_validation = False
+
+
+# version used for the cache
+export version = $(shell git rev-parse --short HEAD 2>/dev/null || echo "0")
+
+export redis_url = redis://localhost:6379/
+export redis_db = 2
+export redis_cache_key_prefix = c2corg_ui_$(instanceid)
