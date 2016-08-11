@@ -106,7 +106,7 @@ app.SearchFiltersController = function($scope, ngeoLocation, ngeoDebounce,
   this.loading_ = true;
 
   // Fill the filters according to the loaded URL parameters
-  var keys = this.location.getParamKeys().filter(function(x) {
+  var keys = this.location.getFragmentParamKeys().filter(function(x) {
     return app.SearchFiltersController.IGNORED_FILTERS.indexOf(x) === -1;
   });
   for (var i = 0, n = keys.length; i < n; i++) {
@@ -138,7 +138,7 @@ app.SearchFiltersController.IGNORED_FILTERS = ['bbox', 'offset', 'limit'];
  * @public
  */
 app.SearchFiltersController.prototype.getFilterFromPermalink = function(key) {
-  var val = this.location.getParam(key);
+  var val = this.location.getFragmentParam(key);
   if (val === '') {
     return;
   }
@@ -176,8 +176,8 @@ app.SearchFiltersController.prototype.getFilterFromPermalink = function(key) {
 app.SearchFiltersController.prototype.handleFiltersChange_ = function() {
   // ignore the initial $watchCollection triggering (at loading time)
   if (!this.loading_) {
-    this.location.updateParams(this.filters);
-    this.location.deleteParam('offset');
+    this.location.updateFragmentParams(this.filters);
+    this.location.deleteFragmentParam('offset');
     this.scope_.$root.$emit('searchFilterChange');
   } else {
     this.loading_ = false;
@@ -199,7 +199,7 @@ app.SearchFiltersController.prototype.selectOption = function(prop, val, event) 
   var checked = app.utils.pushToArray(this.filters, prop, val, event);
   if (!checked && this.filters[prop].length === 0) {
     delete this.filters[prop];
-    this.location.deleteParam(prop);
+    this.location.deleteFragmentParam(prop);
   }
 };
 
@@ -209,7 +209,7 @@ app.SearchFiltersController.prototype.selectOption = function(prop, val, event) 
  */
 app.SearchFiltersController.prototype.clear = function() {
   for (var key in this.filters) {
-    this.location.deleteParam(key);
+    this.location.deleteFragmentParam(key);
   }
   this.filters = {};
   this.orientations = [];
@@ -237,7 +237,7 @@ app.SearchFiltersController.prototype.toggleOrientation = function(orientation,
     this.filters[filterName] = this.orientations;
   } else {
     delete this.filters[filterName];
-    this.location.deleteParam(filterName);
+    this.location.deleteFragmentParam(filterName);
   }
 };
 
@@ -249,7 +249,7 @@ app.SearchFiltersController.prototype.toggleOrientation = function(orientation,
 app.SearchFiltersController.prototype.toggleCheckbox = function(filterName) {
   if (filterName in this.filters) {
     delete this.filters[filterName];
-    this.location.deleteParam(filterName);
+    this.location.deleteFragmentParam(filterName);
   } else {
     this.filters[filterName] = true;
   }

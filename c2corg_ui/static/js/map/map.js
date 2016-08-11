@@ -212,8 +212,8 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
 
   // advanced search mode
   if (this.advancedSearch) {
-    if (this.location_.hasParam('bbox')) {
-      var bbox = this.location_.getParam('bbox');
+    if (this.location_.hasFragmentParam('bbox')) {
+      var bbox = this.location_.getFragmentParam('bbox');
       var extent = bbox.split(',');
       if (extent.length == 4) {
         this.initialExtent_ = extent.map(function(x) {
@@ -637,10 +637,10 @@ app.MapController.prototype.handleMapSearchChange_ = function(event) {
       }
       var extent = this.view_.calculateExtent(mapSize);
       extent = extent.map(Math.floor);
-      this.location_.updateParams({
+      this.location_.updateFragmentParams({
         'bbox': extent.join(',')
       });
-      this.location_.deleteParam('offset');
+      this.location_.deleteFragmentParam('offset');
       this.scope_.$root.$emit('searchFilterChange');
     }
   }

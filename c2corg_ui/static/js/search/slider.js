@@ -173,7 +173,7 @@ app.SliderController = function($scope, $element, $attrs, ngeoLocation) {
  * @private
  */
 app.SliderController.prototype.getRangeFromUrl_ = function() {
-  var param = this.filter ? this.location_.getParam(this.filter) : '';
+  var param = this.filter ? this.location_.getFragmentParam(this.filter) : '';
   if (param) {
     var range = param.split(',');
     if (range.length != 2) {
@@ -206,7 +206,7 @@ app.SliderController.prototype.handleRangeChange_ = function() {
     if (this.min === this.boundaries[0] && this.max === this.boundaries[1]) {
       // Remove filter if the min/max values are the boundaries.
       delete this.filtersList[this.filter];
-      this.location_.deleteParam(this.filter);
+      this.location_.deleteFragmentParam(this.filter);
     } else {
       this.filtersList[this.filter] = [this.dispMin, this.dispMax];
     }

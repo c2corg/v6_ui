@@ -57,13 +57,13 @@ app.PaginationController = function($scope, ngeoLocation) {
    * @type {number}
    * @export
    */
-  this.offset = ngeoLocation.getParamAsInt('offset') || 0;
+  this.offset = ngeoLocation.getFragmentParamAsInt('offset') || 0;
 
   /**
    * @type {number}
    * @export
    */
-  this.limit = ngeoLocation.getParamAsInt('limit') || 30;
+  this.limit = ngeoLocation.getFragmentParamAsInt('limit') || 30;
 
   this.scope_.$root.$on('searchFeaturesChange',
     this.handleSearchChange_.bind(this));
@@ -80,7 +80,7 @@ app.PaginationController = function($scope, ngeoLocation) {
 app.PaginationController.prototype.handleSearchChange_ = function(event,
     features, total, recenter) {
   this.total = total;
-  this.offset = this.location_.getParamAsInt('offset') || 0;
+  this.offset = this.location_.getFragmentParamAsInt('offset') || 0;
 };
 
 
@@ -88,7 +88,7 @@ app.PaginationController.prototype.handleSearchChange_ = function(event,
  * @export
  */
 app.PaginationController.prototype.goToFirst = function() {
-  this.location_.deleteParam('offset');
+  this.location_.deleteFragmentParam('offset');
   this.scope_.$root.$emit('searchFilterChange');
 };
 
@@ -99,9 +99,9 @@ app.PaginationController.prototype.goToFirst = function() {
 app.PaginationController.prototype.goToPrev = function() {
   var prevOffset = this.offset - this.limit;
   if (prevOffset > 0) {
-    this.location_.updateParams({'offset': prevOffset});
+    this.location_.updateFragmentParams({'offset': prevOffset});
   } else {
-    this.location_.deleteParam('offset');
+    this.location_.deleteFragmentParam('offset');
   }
   this.scope_.$root.$emit('searchFilterChange');
 };
@@ -112,7 +112,7 @@ app.PaginationController.prototype.goToPrev = function() {
  */
 app.PaginationController.prototype.goToNext = function() {
   var nextOffset = this.offset + this.limit;
-  this.location_.updateParams({'offset': nextOffset});
+  this.location_.updateFragmentParams({'offset': nextOffset});
   this.scope_.$root.$emit('searchFilterChange');
 };
 
@@ -122,7 +122,7 @@ app.PaginationController.prototype.goToNext = function() {
  */
 app.PaginationController.prototype.goToLast = function() {
   var nextOffset = this.total - (this.total % this.limit);
-  this.location_.updateParams({'offset': nextOffset});
+  this.location_.updateFragmentParams({'offset': nextOffset});
   this.scope_.$root.$emit('searchFilterChange');
 };
 
