@@ -353,7 +353,7 @@ app.MapController.prototype.getVectorLayer_ = function() {
 
 
 /**
- * @return {ol.style.StyleFunction}
+ * @return {ol.StyleFunction}
  * @private
  */
 app.MapController.prototype.createStyleFunction_ = function() {
