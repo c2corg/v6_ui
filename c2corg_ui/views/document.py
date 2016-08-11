@@ -12,13 +12,15 @@ from shapely.geometry import asShape
 from shapely.ops import transform
 from functools import partial
 from urllib.parse import urlencode
+from slugify import slugify
 import pyproj
 import json
 import logging
 from c2corg_common.attributes import default_langs
 
 from pyramid.httpexceptions import (
-    HTTPBadRequest, HTTPNotFound, HTTPInternalServerError)
+    HTTPBadRequest, HTTPNotFound, HTTPInternalServerError,
+    HTTPMovedPermanently)
 
 from c2corg_ui.views import etag_cache, get_response, get_or_create_page
 
@@ -178,8 +180,10 @@ class Document(object):
         except Exception:
             raise HTTPBadRequest("Incorrect " + field)
 
-    def _get_document(self, id, lang, old_api_cache_key=None):
-        url = '%s/%d?l=%s' % (self._API_ROUTE, id, lang)
+    def _get_document(self, id, lang=None, old_api_cache_key=None):
+        url = '%s/%d' % (self._API_ROUTE, id)
+        if lang:
+            url += '?l=%s' % lang
         not_modified, api_cache_key, document = self._get_with_etag(
             url, old_api_cache_key)
 
@@ -408,3 +412,20 @@ class Document(object):
 
     def _get_response(self, page_html):
         return get_response(self.request, page_html)
+
+    def _redirect_to_full_url(self):
+        id = self._validate_int('id')
+        lang = self._validate_lang() \
+            if 'lang' in self.request.matchdict else None
+
+        # TODO use a dedicated service that returns only title/title_prefix
+        # TODO also support URLs with no lang (should redirect to "best" lang)
+        document, locale = self._get_document(id, lang)
+        title = ''
+        if self._API_ROUTE == 'routes' and locale['title_prefix']:
+            title += locale['title_prefix'] + ' '
+        title += locale['title']
+        location = self.request.route_url(
+            self._API_ROUTE + '_view', id=document['document_id'],
+            lang=locale['lang'], slug=slugify(title))
+        raise HTTPMovedPermanently(location=location)

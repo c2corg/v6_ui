@@ -42,40 +42,46 @@ def main(global_config, **settings):
 
     config.add_route('index', '/')
 
-    config.add_route('waypoints_view', '/waypoints/{id}/{lang}')
     config.add_route('waypoints_index', '/waypoints')
     config.add_route('waypoints_sitemap_default', '/waypoints/sitemap')
     config.add_route('waypoints_sitemap', '/waypoints/sitemap*filters')
     config.add_route('waypoints_add', '/waypoints/add')
-    config.add_route('waypoints_edit', '/waypoints/edit/{id}/{lang}')
-    config.add_route('waypoints_history', '/waypoints/history/{id}/{lang}')
+    config.add_route('waypoints_edit', '/waypoints/edit/{id:\d+}/{lang}')
+    config.add_route('waypoints_history', '/waypoints/history/{id:\d+}/{lang}')
     config.add_route('waypoints_archive',
-                     '/waypoints/{id}/{lang}/{version:\d+}')
+                     '/waypoints/{id:\d+}/{lang}/{version:\d+}')
+    config.add_route('waypoints_view', '/waypoints/{id:\d+}/{lang}/{slug}')
+    config.add_route('waypoints_view_id_lang', '/waypoints/{id:\d+}/{lang}')
+    config.add_route('waypoints_view_id', '/waypoints/{id:\d+}')
     config.add_route(
-        'waypoints_diff', '/waypoints/diff/{id}/{lang}/{v1}/{v2}')
+        'waypoints_diff', '/waypoints/diff/{id:\d+}/{lang}/{v1}/{v2}')
 
-    config.add_route('routes_view', '/routes/{id}/{lang}')
     config.add_route('routes_index', '/routes')
     config.add_route('routes_sitemap_default', '/routes/sitemap')
     config.add_route('routes_sitemap', '/routes/sitemap*filters')
     config.add_route('routes_add', '/routes/add')
-    config.add_route('routes_edit', '/routes/edit/{id}/{lang}')
-    config.add_route('routes_history', '/routes/history/{id}/{lang}')
-    config.add_route('routes_archive', '/routes/{id}/{lang}/{version:\d+}')
+    config.add_route('routes_edit', '/routes/edit/{id:\d+}/{lang}')
+    config.add_route('routes_history', '/routes/history/{id:\d+}/{lang}')
+    config.add_route('routes_archive', '/routes/{id:\d+}/{lang}/{version:\d+}')
+    config.add_route('routes_view', '/routes/{id:\d+}/{lang}/{slug}')
+    config.add_route('routes_view_id_lang', '/routes/{id:\d+}/{lang}')
+    config.add_route('routes_view_id', '/routes/{id:\d+}')
     config.add_route(
-        'routes_diff', '/routes/diff/{id}/{lang}/{v1}/{v2}')
+        'routes_diff', '/routes/diff/{id:\d+}/{lang}/{v1}/{v2}')
 
-    config.add_route('outings_view', '/outings/{id}/{lang}')
     config.add_route('outings_index', '/outings')
     config.add_route('outings_sitemap_default', '/outings/sitemap')
     config.add_route('outings_sitemap', '/outings/sitemap*filters')
     config.add_route('outings_add', '/outings/add')
-    config.add_route('outings_edit', '/outings/edit/{id}/{lang}')
-    config.add_route('outings_history', '/outings/history/{id}/{lang}')
+    config.add_route('outings_edit', '/outings/edit/{id:\d+}/{lang}')
+    config.add_route('outings_history', '/outings/history/{id:\d+}/{lang}')
     config.add_route('outings_archive',
-                     '/outings/{id}/{lang}/{version:\d+}')
+                     '/outings/{id:\d+}/{lang}/{version:\d+}')
+    config.add_route('outings_view', '/outings/{id:\d+}/{lang}/{slug}')
+    config.add_route('outings_view_id_lang', '/outings/{id:\d+}/{lang}')
+    config.add_route('outings_view_id', '/outings/{id:\d+}')
     config.add_route(
-        'outings_diff', '/outings/diff/{id}/{lang}/{v1}/{v2}')
+        'outings_diff', '/outings/diff/{id:\d+}/{lang}/{v1}/{v2}')
 
     config.add_route('auth', '/auth')
 

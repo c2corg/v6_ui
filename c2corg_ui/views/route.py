@@ -27,6 +27,11 @@ class Route(Document):
         })
         return self.template_input
 
+    @view_config(route_name='routes_view_id')
+    @view_config(route_name='routes_view_id_lang')
+    def redirect_to_full_url(self):
+        self._redirect_to_full_url()
+
     @view_config(route_name='routes_view',
                  renderer='c2corg_ui:templates/route/view.html')
     def detail(self):

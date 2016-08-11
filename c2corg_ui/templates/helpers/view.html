@@ -1,6 +1,7 @@
 <%!
     from c2corg_ui.templates.utils import get_attr
     from json import dumps, loads
+    from slugify import slugify
 %>
 
 <%def name="show_attr(obj, key, parse=True)">\
@@ -19,7 +20,7 @@
       <p><b translate>Changes</b>: <span x-translate>${show_version_comment(version)}</span></p>
     </div>
     <p class="text-center">
-        <a href="${request.route_url(module + '_view', id=document['document_id'], lang=locale['lang'])}">
+        <a href="${request.route_url(module + '_view_id_lang', id=document['document_id'], lang=locale['lang'])}">
           <button class="btn btn-default" translate>See the latest version</button>
         </a>
     </p>
@@ -33,7 +34,7 @@
       <ul>
       % for l in other_langs:
         <li>
-          <a href="${request.route_url(module + '_view', id=document['document_id'], lang=l)}" x-translate>${l}</a>
+          <a href="${request.route_url(module + '_view_id_lang', id=document['document_id'], lang=l)}" x-translate>${l}</a>
           <span class="glyphicon glyphicon-chevron-right"></span>
         </li>
       % endfor
@@ -111,12 +112,11 @@
       % for doc in documents:
         <%
             locale = doc['locales'][0]
+            title = locale['title_prefix'] + ' : ' if doctype == 'routes' and locale['title_prefix'] is not None else ''
+            title += locale['title']
         %>
-        ## TODO add slug to URL
         <li>
-          <a href="${request.route_url(doctype + '_view', id=doc['document_id'], lang=locale['lang'])}">
-            ${locale['title_prefix'] + ' : ' if doctype == 'routes' and locale['title_prefix'] is not None else ''}${locale['title']}
-          </a>
+          <a href="${request.route_url(doctype + '_view', id=doc['document_id'], lang=locale['lang'], slug=slugify(title))}">${title}</a>
         </li>
       % endfor
     </ul>

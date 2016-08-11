@@ -604,7 +604,7 @@ updating_doc = outing_id and outing_lang
             <p class="float-button-text" translate>What is missing?</p>
           </button>
           <%
-          view_url = request.route_url('outings_view', id=outing_id, lang=outing_lang) if updating_doc else ''
+          view_url = request.route_url('outings_view_id_lang', id=outing_id, lang=outing_lang) if updating_doc else ''
           index_url = request.route_url('outings_index')
           %>
           <button type="button" class="btn btn-lg gray-btn float-button" ng-click="editCtrl.cancel('${view_url}', '${index_url}')"  tooltip-placement="left" uib-tooltip="{{'Cancel' | translate}}">
