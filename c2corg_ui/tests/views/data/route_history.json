@@ -3,12 +3,14 @@
 	"versions": [{
 		"user_id": 131,
 		"username": "ckiener",
+		"name": "Chris",
 		"version_id": 1162880,
 		"comment": "Edit in fr",
 		"written_at": 1458506363
 	}, {
 		"user_id": 131,
 		"username": "ckiener",
+		"name": "Chris",
 		"version_id": 1162889,
 		"comment": "Edit in fr",
 		"written_at": 1458506554
