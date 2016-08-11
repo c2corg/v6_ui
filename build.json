@@ -3,7 +3,6 @@
     "node_modules/openlayers/src/**/*.js",
     "node_modules/openlayers/build/ol.ext/**/*.js",
     "node_modules/ngeo/src/**/*.js",
-    "node_modules/ngeo/contribs/gmf/src/**/*.js",
     "c2corg_ui/static/js/**/*.js",
     "c2corg_ui/static/build/templatecache.js"
   ],
@@ -30,19 +29,23 @@
       "node_modules/openlayers/externs/jquery-1.9.js",
       "node_modules/openlayers/externs/tilejson.js",
       "node_modules/openlayers/externs/topojson.js",
+      "node_modules/openlayers/externs/cartodb.js",
+      "node_modules/ngeo/externs/jqueryui.js",
       "node_modules/ngeo/externs/angular-gettext.js",
       "node_modules/ngeo/externs/closure-compiler.js",
       "node_modules/ngeo/externs/twbootstrap.js",
-      "node_modules/ngeo/externs/typeahead.js"
+      "node_modules/ngeo/externs/typeahead.js",
+      "node_modules/ngeo/externs/mapfish-print-v3.js",
+      "node_modules/ngeo/externs/d3.js"
     ],
     "define": [
       "goog.array.ASSUME_NATIVE_FUNCTIONS=true",
-      "goog.dom.ASSUME_STANDARDS_MODE=true",
       "goog.DEBUG=false",
       "ol.ENABLE_DOM=false",
       "ol.ENABLE_WEBGL=false"
     ],
     "js": [
+      "node_modules/openlayers/src/ol/typedefs.js",
       "node_modules/openlayers/externs/olx.js",
       "node_modules/openlayers/externs/oli.js",
       "node_modules/ngeo/externs/ngeox.js",
