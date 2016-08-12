@@ -107,7 +107,7 @@ app.AdvancedSearchController = function($scope, appApi, ngeoLocation,
    * Recenter the map if no bbox filter is provided AND
    * a document id is provided
    */
-  this.recenter_ = !this.location_.hasParam('bbox') &&
+  this.recenter_ = !this.location_.hasFragmentParam('bbox') &&
     app.utils.detectDocumentIdFilter(this.location_);
 
   // Refresh the results when pagination or criterias have changed:
@@ -133,7 +133,7 @@ app.AdvancedSearchController = function($scope, appApi, ngeoLocation,
  */
 app.AdvancedSearchController.prototype.getResults_ = function() {
   var url = this.location_.getUriString();
-  var qstr = goog.uri.utils.getQueryData(url) || '';
+  var qstr = goog.uri.utils.getFragment(url) || '';
   qstr += '&pl=' + this.gettextCatalog_.currentLanguage;
   qstr = qstr.replace('debug', ''); // FIXME better handling of special params?
   this.api_.listDocuments(this.doctype, qstr).then(

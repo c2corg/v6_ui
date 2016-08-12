@@ -147,10 +147,9 @@
         </div>
         % if type == 'all_routes' and document['associations']['all_routes']['total'] > len(routes):
           <%
-              _query = {}
-              _query[document['type']] = document['document_id']
+              fragment = '{0}={1}'.format(document['type'], document['document_id'])
           %>
-          <div class="list-item vertical-align" onclick="window.location='${request.route_url('routes_index', _query=_query)}';">
+          <div class="list-item vertical-align" onclick="window.location='${request.route_url('routes_index')}#${fragment}';">
             <button class="gray-btn btn show-more" translate>show more</button>
           </div>
         % endif
@@ -213,10 +212,9 @@
         </div>
         % if associations['recent_outings']['total'] > len(associations['recent_outings']['outings']) :
           <%
-              _query = {}
-              _query[document['type']] = document['document_id']
+              fragment = '{0}={1}'.format(document['type'], document['document_id'])
           %>
-          <div class="list-item vertical-align" onclick="window.location='${request.route_url('outings_index', _query=_query)}';">
+          <div class="list-item vertical-align" onclick="window.location='${request.route_url('outings_index')}#${fragment}';">
             <button class="gray-btn btn show-more" translate>show more</button>
           </div>
         % endif
