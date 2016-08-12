@@ -51,15 +51,12 @@ class Document(object):
         }
 
     def _index(self, template):
-        # FIXME no ETag is set, because the filters are set as query params,
-        # see https://github.com/c2corg/v6_ui/issues/554
         return get_or_create_page(
             self._API_ROUTE,
             template,
             self.template_input,
             self.request,
-            self.debug,
-            no_etag=True
+            self.debug
         )
 
     def _get_or_create_detail(self, id, lang, render_page):
