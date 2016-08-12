@@ -9,11 +9,12 @@ Requirements
  * Java (1.7 or higher)
  * gettext (0.18 or higher)
  * virtualenv (1.7 or higher)
+ * Redis 2.8
  * GEOS (3.4 or higher)
 
 On Debian/Ubuntu systems the required components may be installed using
 
-    sudo apt-get install virtualenv python3-dev nodejs-legacy npm openjdk-7-jdk gettext libgeos-dev
+    sudo apt-get install virtualenv python3-dev nodejs-legacy npm openjdk-7-jdk gettext libgeos-dev redis-server
 
 Checkout
 --------
