@@ -99,6 +99,14 @@ upgrade:
 upgrade-dev:
 	.build/venv/bin/pip install --upgrade -r dev-requirements.txt
 
+.PHONY: clear-cache
+clear-cache: install development.ini
+	.build/venv/bin/python c2corg_ui/scripts/redis-flushdb.py development.ini
+
+.PHONY: clear-cache-prod
+clear-cache-prod: install production.ini
+	.build/venv/bin/python c2corg_ui/scripts/redis-flushdb.py production.ini
+
 c2corg_ui/closure/%.py: $(CLOSURE_LIBRARY_PATH)/closure/bin/build/%.py
 	cp $< $@
 
