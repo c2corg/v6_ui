@@ -3,6 +3,7 @@ goog.provide('app.mapDirective');
 
 goog.require('app');
 goog.require('app.utils');
+goog.require('app.Url');
 goog.require('ngeo.Debounce');
 goog.require('ngeo.Location');
 /** @suppress {extraRequire} */
@@ -63,13 +64,14 @@ app.module.directive('appMap', app.mapDirective);
  *    features to show on the map.
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {ngeo.Debounce} ngeoDebounce ngeo Debounce service.
+ * @param {app.Url} appUrl URL service.
  * @constructor
  * @struct
  * @export
  * @ngInject
  */
 app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
-  ngeoDebounce) {
+  ngeoDebounce, appUrl) {
 
   /**
    * @type {number}
@@ -182,6 +184,12 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
    * @private
    */
   this.ignoreExtentChange_ = false;
+
+  /**
+   * @type {app.Url}
+   * @private
+   */
+  this.url_ = appUrl;
 
   /**
    * @type {ol.Map}
@@ -659,13 +667,17 @@ app.MapController.prototype.handleMapFeatureClick_ = function(event) {
     return layer === this.getVectorLayer_();
   }, this);
   if (feature) {
-    var module = /** @type {string} */(feature.get('module'));
-    var id = feature.get('documentId').toString();
-    var lang = /** @type {string} */(feature.get('lang'));
-    var url = app.utils.buildDocumentUrl(module, id, lang);
-    if (url) {
-      window.location.href = url;
+    var module = feature.get('module');
+    var id = feature.get('documentId');
+    var locale = {
+      'lang': feature.get('lang'),
+      'title': feature.get('title')
+    };
+    if (module === 'routes' && feature.get('title_prefix')) {
+      locale['title_prefix'] = feature.get('title_prefix');
     }
+    window.location.href = this.url_.buildDocumentUrl(
+      module, id, /** @type {appx.DocumentLocale} */ (locale));
   }
 };
 

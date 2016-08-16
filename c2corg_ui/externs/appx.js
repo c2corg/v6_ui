@@ -47,7 +47,7 @@ appx.SimpleSearchDocumentResponse;
 /**
  * @typedef {{
  *   document_id: number,
- *   locales: Array.<appx.SimpleSearchDocumentLocale>,
+ *   locales: Array.<appx.DocumentLocale>,
  *   document_type: string,
  *   label: string,
  *   documentType: string
@@ -63,7 +63,7 @@ appx.SimpleSearchDocument;
  *   lang: string
  * }}
  */
-appx.SimpleSearchDocumentLocale;
+appx.DocumentLocale;
 
 
 /**

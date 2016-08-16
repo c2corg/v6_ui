@@ -19,5 +19,6 @@ app.module = angular.module('app', [
   'ui.bootstrap',
   'angularMoment',
   'ngFileUpload',
+  'slug',
   'vcRecaptcha'
 ]);

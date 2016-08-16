@@ -2,8 +2,8 @@ goog.provide('app.SimpleSearchController');
 goog.provide('app.simpleSearchDirective');
 
 goog.require('app');
-goog.require('app.utils');
 goog.require('app.Document');
+goog.require('app.Url');
 /** @suppress {extraRequire} */
 goog.require('ngeo.searchDirective');
 
@@ -97,10 +97,11 @@ app.module.directive('appSimpleSearch', app.simpleSearchDirective);
  * @param {angular.Attributes} $attrs Angular attributes.
  * @param {string} apiUrl Base URL of the API.
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
+ * @param {app.Url} appUrl URL service.
  * @ngInject
  */
 app.SimpleSearchController = function(appDocument, $scope, $compile, $attrs, apiUrl,
-    gettextCatalog, $templateCache, appAuthentication) {
+    gettextCatalog, $templateCache, appAuthentication, appUrl) {
 
   /**
    * @type {app.Document}
@@ -157,6 +158,12 @@ app.SimpleSearchController = function(appDocument, $scope, $compile, $attrs, api
    * @private
    */
   this.gettextCatalog_ = gettextCatalog;
+
+  /**
+   * @type {app.Url}
+   * @private
+   */
+  this.url_ = appUrl;
 
   /**
    * @type {TypeaheadOptions}
@@ -342,10 +349,8 @@ app.SimpleSearchController.select_ = function(event, doc, dataset) {
   if (this.selectHandler) {
     this.selectHandler({'doc': doc});
   } else {
-    var lang = doc.locales[0].lang;
-    var type = doc.documentType;
-    var url = app.utils.buildDocumentUrl(type, doc.document_id, lang);
-    window.location.href = url;
+    window.location.href = this.url_.buildDocumentUrl(
+      doc.documentType, doc.document_id, doc.locales[0]);
   }
 };
 

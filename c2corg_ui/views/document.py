@@ -420,7 +420,8 @@ class Document(object):
 
         # TODO use a dedicated service that returns only title/title_prefix
         # TODO also support URLs with no lang (should redirect to "best" lang)
-        document, locale = self._get_document(id, lang)
+        not_modified, api_cache_key, data = self._get_document(id, lang)
+        (document, locale) = data
         title = ''
         if self._API_ROUTE == 'routes' and locale['title_prefix']:
             title += locale['title_prefix'] + ' '

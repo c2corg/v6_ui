@@ -26,23 +26,6 @@ app.utils.getDoctype = function(type) {
 
 
 /**
- * @param {string} documentType The document type.
- * @param {string|number} documentId The document id.
- * @param {string} lang Lang.
- * @return {string} Url.
- */
-app.utils.buildDocumentUrl = function(documentType, documentId, lang) {
-  if (!documentType || !documentId || !lang) {
-    return '';
-  }
-  return '/{type}/{id}/{lang}'
-    .replace('{type}', documentType)
-    .replace('{id}', String(documentId))
-    .replace('{lang}', lang);
-};
-
-
-/**
  * @param {ol.interaction.MouseWheelZoom} mouseWheelZoomInteraction
  */
 app.utils.setupSmartScroll = function(mouseWheelZoomInteraction) {
