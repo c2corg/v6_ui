@@ -1,0 +1,14 @@
+[main]
+host = https://www.transifex.com
+
+[c2corg_ui.v6]
+source_file = .build/locale/c2corg_ui-client.pot
+source_lang = en_US
+type = PO
+trans.ca = .build/locale/ca/LC_MESSAGES/c2corg_ui-client.po
+trans.de = .build/locale/de/LC_MESSAGES/c2corg_ui-client.po
+trans.en = .build/locale/en/LC_MESSAGES/c2corg_ui-client.po
+trans.es = .build/locale/es/LC_MESSAGES/c2corg_ui-client.po
+trans.eu = .build/locale/eu/LC_MESSAGES/c2corg_ui-client.po
+trans.fr = .build/locale/fr/LC_MESSAGES/c2corg_ui-client.po
+trans.it = .build/locale/it/LC_MESSAGES/c2corg_ui-client.po
