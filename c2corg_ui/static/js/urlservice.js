@@ -11,6 +11,16 @@ goog.require('app');
  */
 app.Url = function(slug) {
 
+  slug.defaults.modes['custom'] = {
+    replacement: '-',
+    symbols: false,
+    remove: null,
+    lower: true,
+    charmap: angular.extend({'\'': ' '}, slug.defaults.charmap),
+    multicharmap: slug.defaults.multicharmap
+  };
+  slug.defaults.mode = 'custom';
+
   /**
    * @type {function(string):string}
    * @private
