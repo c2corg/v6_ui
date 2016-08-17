@@ -26,15 +26,11 @@ class BaseTestUi(BaseTestCase):
         self.assertEqual(response.content_type, 'text/html')
 
         # ask for a non existing lang foo
-        route = '/%s/1/foo' % self._prefix
-        response = self.app.get(route, status=400)
-
-        # ask for a non integer document id foo
-        route = '/%s/foo/fr' % self._prefix
+        route = '/%s/1/foo/bar' % self._prefix
         response = self.app.get(route, status=400)
 
         # ask for a non existing document
-        route = '/%s/9999999999/fr' % self._prefix
+        route = '/%s/9999999999/fr/bar' % self._prefix
         response = self.app.get(route, status=404)
 
     def _test_api_call(self):
