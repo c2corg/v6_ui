@@ -135,7 +135,6 @@ app.AdvancedSearchController.prototype.getResults_ = function() {
   var url = this.location_.getUriString();
   var qstr = goog.uri.utils.getFragment(url) || '';
   qstr += '&pl=' + this.gettextCatalog_.currentLanguage;
-  qstr = qstr.replace('debug', ''); // FIXME better handling of special params?
   this.api_.listDocuments(this.doctype, qstr).then(
     this.successList_.bind(this)
   );
