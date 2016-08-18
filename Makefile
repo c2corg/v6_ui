@@ -49,6 +49,8 @@ help:
 	@echo "- upgrade-dev		Upgrade the Python dev. dependencies."
 	@echo "- less			Rebuild CSS files."
 	@echo "- publish		Push docker image to dockerhub from travis-ci"
+	@echo "- transifex-get		Retrieve the i18n files (POT/PO) from Transifex"
+	@echo "- transifex-send	Push the new i18n strings to Transifex"
 	@echo
 
 .PHONY: check
@@ -61,7 +63,7 @@ build: c2corg_ui/static/build/build.js less compile-catalog $(TEMPLATE_FILES)
 clean:
 	rm -f .build/node_modules.timestamp
 	rm -f .build/dev-requirements.timestamp
-	rm -f .build/locale/c2corg_ui-client.pot
+	rm -fr .build/locale
 	rm -f $(TEMPLATE_FILES)
 	rm -rf c2corg_ui/static/build
 
@@ -69,7 +71,6 @@ clean:
 cleanall: clean
 	rm -rf .build
 	rm -rf node_modules
-	rm -f $(L10N_PO_FILES)
 
 .PHONY: compile-catalog
 compile-catalog: c2corg_ui/static/build/locale/fr/c2corg_ui.json c2corg_ui/static/build/locale/de/c2corg_ui.json c2corg_ui/static/build/locale/it/c2corg_ui.json c2corg_ui/static/build/locale/en/c2corg_ui.json c2corg_ui/static/build/locale/es/c2corg_ui.json c2corg_ui/static/build/locale/eu/c2corg_ui.json c2corg_ui/static/build/locale/ca/c2corg_ui.json
@@ -139,8 +140,7 @@ $(HOME)/.transifexrc:
 .tx/config: $(HOME)/.transifexrc
 
 .PHONY: transifex-get
-transifex-get: $(L10N_PO_FILES)
-	.build/locale/c2corg_ui-client.pot
+transifex-get: $(L10N_PO_FILES) .build/locale/c2corg_ui-client.pot
 
 .PHONY: transifex-send
 transifex-send: .tx/config .build/locale/c2corg_ui-client.pot .build/venv/bin/tx
