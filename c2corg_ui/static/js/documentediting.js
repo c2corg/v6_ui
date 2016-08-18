@@ -5,6 +5,7 @@ goog.require('app');
 goog.require('app.Alerts');
 goog.require('app.Document');
 goog.require('app.Lang');
+goog.require('app.Url');
 goog.require('app.utils');
 goog.require('goog.asserts');
 goog.require('ol.format.GeoJSON');
@@ -55,13 +56,14 @@ app.module.directive('appDocumentEditing', app.documentEditingDirective);
  * @param {app.Api} appApi Api service.
  * @param {string} authUrl Base URL of the authentication page.
  * @param {app.Document} appDocument
+ * @param {app.Url} appUrl URL service.
  * @constructor
  * @ngInject
  * @export
  */
 app.DocumentEditingController = function($scope, $element, $attrs, appLang,
-        appAuthentication, ngeoLocation, appAlerts, appApi, authUrl, appDocument) {
-
+    appAuthentication, ngeoLocation, appAlerts, appApi, authUrl, appDocument,
+    appUrl) {
 
   /**
    * @type {app.Document}
@@ -153,6 +155,12 @@ app.DocumentEditingController = function($scope, $element, $attrs, appLang,
    * @private
    */
   this.api_ = appApi;
+
+  /**
+   * @type {app.Url}
+   * @private
+   */
+  this.url_ = appUrl;
 
   this.scope[this.modelName] = this.documentService.document;
 
@@ -295,8 +303,8 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
       'document': data
     };
     this.api_.updateDocument(this.module_, this.id_, data).then(function() {
-      window.location.href = app.utils.buildDocumentUrl(
-        this.module_, this.id_, this.lang_);
+      window.location.href = this.url_.buildDocumentUrl(
+        this.module_, this.id_, data['locales']['0']);
     }.bind(this)
     );
   } else {
@@ -305,8 +313,8 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
     data = this.prepareData(data);
     this.api_.createDocument(this.module_, data).then(function(response) {
       this.id_ = response['data']['document_id'];
-      window.location.href = app.utils.buildDocumentUrl(
-        this.module_, this.id_, this.lang_);
+      window.location.href = this.url_.buildDocumentUrl(
+        this.module_, this.id_, data['locales']['0']);
     }.bind(this));
   }
 };

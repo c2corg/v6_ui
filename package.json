@@ -29,6 +29,7 @@
     "angular-gettext": "2.3.4",
     "angular-gettext-tools": "2.2.3",
     "angular-messages": "1.5.8",
+    "angular-slug": "git://github.com/lucasconstantino/angular-slug#v0.0.4",
     "eslint": "2.13.1",
     "eslint-config-openlayers": "5.0.0",
     "jquery": "2.2.4",

@@ -101,6 +101,8 @@ closure_library_path = settings.get('closure_library_path')
     <script src="${request.static_url('%s/blueimp-load-image/js/load-image-exif-map.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/photoswipe/dist/photoswipe.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/photoswipe/dist/photoswipe-ui-default.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%s/angular-slug/angular-slug.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%s/slug/slug.js' % node_modules_path)}"></script>
     <script src="${request.route_url('deps.js')}"></script>
     <script src="${request.static_url('c2corg_ui:static/js/main.js')}"></script>
 % else:
@@ -123,6 +125,8 @@ closure_library_path = settings.get('closure_library_path')
     <script src="${request.static_url('%s/blueimp-load-image/js/load-image.all.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/photoswipe/dist/photoswipe.min.js' % node_modules_path)}"></script>
     <script src="${request.static_url('%s/photoswipe/dist/photoswipe-ui-default.min.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%s/angular-slug/angular-slug.js' % node_modules_path)}"></script>
+    <script src="${request.static_url('%s/slug/slug.js' % node_modules_path)}"></script>
     <script src="${request.static_url('c2corg_ui:static/build/build.js')}"></script>
 % endif
 

@@ -792,7 +792,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
             <span class="glyphicon glyphicon-ok"></span>
           </button>
           <%
-          view_url = request.route_url('waypoints_view', id=waypoint_id, lang=waypoint_lang) if updating_doc else ''
+          view_url = request.route_url('waypoints_view_id_lang', id=waypoint_id, lang=waypoint_lang) if updating_doc else ''
           index_url = request.route_url('waypoints_index')
           %>
           <button type="button" class="btn gray-btn btn-lg float-button" ng-click="editCtrl.cancel('${view_url}', '${index_url}')" tooltip-placement="left" uib-tooltip="{{'Cancel' | translate}}">

@@ -18,6 +18,7 @@ goog.require('app.Lang');
  * @param {app.Api} appApi Api service.
  * @param {string} authUrl Base URL of the authentication page.
  * @param {app.Document} appDocument
+ * @param {app.Url} appUrl URL service.
  * @constructor
  * @extends {app.DocumentEditingController}
  * @ngInject
@@ -25,10 +26,10 @@ goog.require('app.Lang');
  */
 app.OutingEditingController = function($scope, $element, $attrs, appLang,
     appAuthentication, ngeoLocation, appAlerts, appApi, authUrl,
-    appDocument) {
+    appDocument, appUrl) {
 
   goog.base(this, $scope, $element, $attrs, appLang, appAuthentication,
-    ngeoLocation, appAlerts, appApi, authUrl, appDocument);
+    ngeoLocation, appAlerts, appApi, authUrl, appDocument, appUrl);
 
   /**
    * Start cannot be after today nor end_date.

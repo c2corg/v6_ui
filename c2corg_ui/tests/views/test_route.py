@@ -1,6 +1,6 @@
 import os
 
-from httmock import all_requests
+from httmock import HTTMock, all_requests
 
 from c2corg_ui.tests.views import BaseTestUi, handle_mock_request
 from c2corg_ui.views.route import Route
@@ -24,8 +24,17 @@ class TestRouteUi(BaseTestUi):
     def test_get_documents(self):
         self._test_get_documents()
 
+    def test_slug(self):
+        with HTTMock(route_detail_mock):
+            url = '/{0}/736901/ca'.format(self._prefix)
+            resp = self.app.get(url, status=301)
+
+            redir = resp.headers.get('Location')
+            self.assertEqual(
+                redir, 'http://localhost/routes/736901/ca/comillini-des-de-cadolla-per-la-casa-encantada')  # noqa
+
     def test_detail(self):
-        url = '/{0}/736901/ca'.format(self._prefix)
+        url = '/{0}/736901/ca/foo'.format(self._prefix)
         self._test_page(url, route_detail_mock, '736901-ca-1')
 
     def test_archive(self):

@@ -31,6 +31,11 @@ class Waypoint(Document):
         })
         return self.template_input
 
+    @view_config(route_name='waypoints_view_id')
+    @view_config(route_name='waypoints_view_id_lang')
+    def redirect_to_full_url(self):
+        self._redirect_to_full_url()
+
     @view_config(route_name='waypoints_view')
     def detail(self):
         id, lang = self._validate_id_lang()

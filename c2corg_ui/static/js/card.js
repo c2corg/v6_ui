@@ -3,6 +3,7 @@ goog.provide('app.cardDirective');
 
 goog.require('app');
 goog.require('app.utils');
+goog.require('app.Url');
 
 
 /**
@@ -40,18 +41,25 @@ app.module.directive('appCard', app.cardDirective);
 
 /**
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
+ * @param {app.Url} appUrl URL service.
  * @constructor
  * @struct
  * @export
  * @ngInject
  */
-app.CardController = function(gettextCatalog) {
+app.CardController = function(gettextCatalog, appUrl) {
 
   /**
    * @type {angularGettext.Catalog}
    * @private
    */
   this.gettextCatalog_ = gettextCatalog;
+
+  /**
+   * @type {app.Url}
+   * @private
+   */
+  this.url_ = appUrl;
 
   /**
    * @type {string}
@@ -104,8 +112,8 @@ app.CardController.prototype.translate = function(str) {
 app.CardController.prototype.createURL = function() {
   var loc = window.location.pathname;
   if (loc.indexOf('edit') === -1 && loc.indexOf('add') === -1) {
-    return app.utils.buildDocumentUrl(this.type, this.doc['document_id'],
-      this.doc['locales'][0]['lang']);
+    return this.url_.buildDocumentUrl(
+      this.type, this.doc['document_id'], this.doc['locales'][0]);
   }
 };
 

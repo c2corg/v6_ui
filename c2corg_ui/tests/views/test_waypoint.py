@@ -27,11 +27,20 @@ class TestWaypointUi(BaseTestUi):
     def test_get_documents(self):
         self._test_get_documents()
 
+    def test_slug(self):
+        with HTTMock(waypoint_detail_mock):
+            url = '/{0}/117982/fr'.format(self._prefix)
+            resp = self.app.get(url, status=301)
+
+            redir = resp.headers.get('Location')
+            self.assertEqual(
+                redir, 'http://localhost/waypoints/117982/fr/vallorbe')
+
     def test_detail_etag(self):
         """ An ETag header is set, using the ETag of the API response.
         """
         with HTTMock(waypoint_detail_mock):
-            url = '/{0}/117982/fr'.format(self._prefix)
+            url = '/{0}/117982/fr/foo'.format(self._prefix)
             resp = self.app.get(url, status=200)
 
             etag = resp.headers.get('ETag')
@@ -53,7 +62,7 @@ class TestWaypointUi(BaseTestUi):
             self.app.get(url, status=200, headers=headers)
 
     def test_detail_caching(self):
-        url = '/{0}/117982/fr'.format(self._prefix)
+        url = '/{0}/117982/fr/foo'.format(self._prefix)
         cache_key = self.view._get_cache_key(117982, 'fr')
 
         with HTTMock(waypoint_detail_mock):
@@ -82,7 +91,7 @@ class TestWaypointUi(BaseTestUi):
     def test_detail_caching_debug(self):
         """ Check that the cache is not used when using the debug flag.
         """
-        url = '/{0}/117982/fr?debug'.format(self._prefix)
+        url = '/{0}/117982/fr/foo?debug'.format(self._prefix)
         cache_key = self.view._get_cache_key(117982, 'fr')
         cache_document_detail.delete(cache_key)
 

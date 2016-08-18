@@ -25,7 +25,7 @@ class TestOutingUi(BaseTestUi):
         self._test_get_documents()
 
     def test_detail(self):
-        url = '/{0}/735574/fr'.format(self._prefix)
+        url = '/{0}/735574/fr/foo'.format(self._prefix)
         self._test_page(url, outing_detail_mock, '735574-fr-1')
 
     def test_archive(self):
