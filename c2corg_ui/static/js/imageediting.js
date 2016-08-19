@@ -9,6 +9,7 @@ goog.require('app.Document');
  * @param {angular.Scope} $scope Scope.
  * @param {angular.JQLite} $element Element.
  * @param {angular.Attributes} $attrs Attributes.
+ * @param {angular.$http} $http
  * @param {app.Lang} appLang Lang service.
  * @param {app.Authentication} appAuthentication
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
@@ -23,11 +24,11 @@ goog.require('app.Document');
  * @ngInject
  * @export
  */
-app.ImageEditingController = function($scope, $element, $attrs, appLang,
+app.ImageEditingController = function($scope, $element, $attrs, $http, appLang,
         appAuthentication, ngeoLocation, appAlerts, appApi, authUrl,
         appDocument, appUrl, imageUrl) {
 
-  goog.base(this, $scope, $element, $attrs, appLang, appAuthentication,
+  goog.base(this, $scope, $element, $attrs, $http, appLang, appAuthentication,
           ngeoLocation, appAlerts, appApi, authUrl, appDocument, appUrl, imageUrl);
 
   /**

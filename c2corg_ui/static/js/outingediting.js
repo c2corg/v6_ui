@@ -11,6 +11,7 @@ goog.require('app.Lang');
  * @param {angular.Scope} $scope Scope.
  * @param {angular.JQLite} $element Element.
  * @param {angular.Attributes} $attrs Attributes.
+ * @param {angular.$http} $http
  * @param {app.Lang} appLang Lang service.
  * @param {app.Authentication} appAuthentication
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
@@ -25,11 +26,11 @@ goog.require('app.Lang');
  * @ngInject
  * @export
  */
-app.OutingEditingController = function($scope, $element, $attrs, appLang,
-    appAuthentication, ngeoLocation, appAlerts, appApi, authUrl,
+app.OutingEditingController = function($scope, $element, $attrs, $http,
+    appLang, appAuthentication, ngeoLocation, appAlerts, appApi, authUrl,
     appDocument, appUrl, imageUrl) {
 
-  goog.base(this, $scope, $element, $attrs, appLang, appAuthentication,
+  goog.base(this, $scope, $element, $attrs, $http, appLang, appAuthentication,
     ngeoLocation, appAlerts, appApi, authUrl, appDocument, appUrl, imageUrl);
 
   /**

@@ -49,6 +49,7 @@ app.module.directive('appDocumentEditing', app.documentEditingDirective);
  * @param {angular.Scope} $scope Scope.
  * @param {angular.JQLite} $element Element.
  * @param {angular.Attributes} $attrs Attributes.
+ * @param {angular.$http} $http
  * @param {app.Lang} appLang Lang service.
  * @param {app.Authentication} appAuthentication
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
@@ -62,9 +63,9 @@ app.module.directive('appDocumentEditing', app.documentEditingDirective);
  * @ngInject
  * @export
  */
-app.DocumentEditingController = function($scope, $element, $attrs, appLang,
-    appAuthentication, ngeoLocation, appAlerts, appApi, authUrl, appDocument,
-    appUrl, imageUrl) {
+app.DocumentEditingController = function($scope, $element, $attrs, $http,
+    appLang, appAuthentication, ngeoLocation, appAlerts, appApi, authUrl,
+    appDocument, appUrl, imageUrl) {
 
   /**
    * @type {app.Document}
@@ -162,6 +163,12 @@ app.DocumentEditingController = function($scope, $element, $attrs, appLang,
    * @private
    */
   this.url_ = appUrl;
+
+  /**
+   * @type {angular.$http}
+   * @private
+   */
+  this.http_ = $http;
 
   this.scope[this.modelName] = this.documentService.document;
 
@@ -509,6 +516,31 @@ app.DocumentEditingController.prototype.pushToArray = function(object, property,
  */
 app.DocumentEditingController.prototype.toggleOrientation = function(orientation, document, e) {
   app.utils.pushToArray(document, 'orientations', orientation, e);
+};
+
+
+/**
+ * @export
+ */
+app.DocumentEditingController.prototype.preview = function() {
+  var config = {
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Accept': 'application/json'
+    }
+  };
+  var url = '/' + this.module_ + '/preview';
+  var payload = {
+    'document': angular.copy(this.scope[this.modelName])
+  };
+  this.http_.post(url, payload, config).
+    catch(function(response) {
+      this.alerts.addError('A server error prevented creating the preview');
+      this.scope['preview'] = '';
+    }.bind(this)).
+    then(function(response) {
+      this.scope['preview'] = response['data'];
+    }.bind(this));
 };
 
 

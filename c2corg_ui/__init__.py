@@ -59,6 +59,7 @@ def main(global_config, **settings):
     config.add_route('waypoints_view_id', '/waypoints/{id:\d+}')
     config.add_route(
         'waypoints_diff', '/waypoints/diff/{id:\d+}/{lang}/{v1}/{v2}')
+    config.add_route('waypoints_preview', '/waypoints/preview')
 
     config.add_route('routes_index', '/routes')
     config.add_route('routes_sitemap_default', '/routes/sitemap')
