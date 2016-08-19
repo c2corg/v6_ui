@@ -261,13 +261,18 @@ publish: template
 deps: c2corg_ui/static/build/deps.js c2corg_ui/static/build/deps.css
 
 # concatenate all JS dependencies into one file
-c2corg_ui/static/build/deps.js: $(LIBS_JS_FILES) c2corg_ui/static/build/locale_moment
+c2corg_ui/static/build/deps.js: $(LIBS_JS_FILES) c2corg_ui/static/build/locale_moment slick-assets
 	@echo "Creating deps.js"
 	awk 'FNR==1{print ";\n"}1' $(LIBS_JS_FILES) > $@
 
 # copy locales of moment.js
 c2corg_ui/static/build/locale_moment: .build/node_modules.timestamp
 	cp -r node_modules/moment/locale/ c2corg_ui/static/build/locale_moment
+
+# copy files used by "slick-carousel" (?!)
+slick-assets: .build/node_modules.timestamp
+	cp node_modules/slick-carousel/slick/ajax-loader.gif c2corg_ui/static/build/ajax-loader.gif
+	cp -r node_modules/slick-carousel/slick/fonts c2corg_ui/static/build/fonts
 
 # concatenate all CSS dependencies into one file
 c2corg_ui/static/build/deps.css: $(LIBS_CSS_FILES)
