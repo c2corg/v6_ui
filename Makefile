@@ -127,7 +127,7 @@ install: build template .build/node_modules.timestamp
 template: $(TEMPLATE_FILES)
 
 .PHONY: less
-less: c2corg_ui/static/build/build.min.css c2corg_ui/static/build/build.css
+less: c2corg_ui/static/build/build.min.css c2corg_ui/static/build/build.css c2corg_ui/static/build/bootstrap_fonts
 
 .PHONY: serve
 serve: install build development.ini
@@ -261,11 +261,19 @@ publish: template
 deps: c2corg_ui/static/build/deps.js c2corg_ui/static/build/deps.css
 
 # concatenate all JS dependencies into one file
-c2corg_ui/static/build/deps.js: $(LIBS_JS_FILES)
+c2corg_ui/static/build/deps.js: $(LIBS_JS_FILES) c2corg_ui/static/build/locale_moment
 	@echo "Creating deps.js"
 	awk 'FNR==1{print ";\n"}1' $(LIBS_JS_FILES) > $@
+
+# copy locales of moment.js
+c2corg_ui/static/build/locale_moment: .build/node_modules.timestamp
+	cp -r node_modules/moment/locale/ c2corg_ui/static/build/locale_moment
 
 # concatenate all CSS dependencies into one file
 c2corg_ui/static/build/deps.css: $(LIBS_CSS_FILES)
 	@echo "Creating deps.css"
 	awk 'FNR==1{print "\n"}1' $(LIBS_CSS_FILES) > $@
+
+# copy bootstrap fonts
+c2corg_ui/static/build/bootstrap_fonts: .build/node_modules.timestamp
+	cp -r node_modules/bootstrap/fonts/ c2corg_ui/static/build/bootstrap_fonts

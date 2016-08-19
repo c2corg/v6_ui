@@ -14,12 +14,13 @@ goog.require('ngeo.GetBrowserLanguage');
  * @param {app.Api} appApi Api service.
  * @param {app.Authentication} appAuthentication Authentication service.
  * @param {string} langUrlTemplate Language URL template.
+ * @param {string} langMomentPath Path to the moment.js language files.
  * @constructor
  * @ngInject
  * @struct
  */
 app.Lang = function($cookies, gettextCatalog, ngeoGetBrowserLanguage, langs,
-  amMoment, appApi, appAuthentication, langUrlTemplate) {
+  amMoment, appApi, appAuthentication, langUrlTemplate, langMomentPath) {
 
   /**
    * @type {angular.$cookies}
@@ -49,6 +50,11 @@ app.Lang = function($cookies, gettextCatalog, ngeoGetBrowserLanguage, langs,
    * @type {amMoment}
    */
   this.amMoment_ = amMoment;
+
+  /**
+   * @type {string}
+   */
+  this.langMomentPath_ = langMomentPath;
 
   /**
    * @type {app.Api}
@@ -116,7 +122,7 @@ app.Lang.prototype.updateLang = function(lang) {
   }
 
   // This will retrieve then _evaluate_ the content of the file.
-  $.get('/node_modules/moment/locale/' + lang + '.js', function() {
+  $.get(this.langMomentPath_ + '/' + lang + '.js', function() {
     this.amMoment_.changeLocale(lang);
   }.bind(this));
 };
