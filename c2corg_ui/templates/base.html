@@ -125,6 +125,7 @@ closure_library_path = settings.get('closure_library_path')
          var module = angular.module('app');
          module.constant('langUrlTemplate', '${request.static_url('c2corg_ui:static/build/locale/__lang__/c2corg_ui.json')}');
          module.constant('langMomentPath', '${request.static_url('c2corg_ui:static/build/locale_moment')}');
+         module.constant('imgPath', '${request.static_url('c2corg_ui:static/img')}');
          module.constant('apiUrl', '${api_url}');
          module.constant('imageBackendUrl', '${image_backend_url}');
          module.constant('imageUrl', '${image_url}');
