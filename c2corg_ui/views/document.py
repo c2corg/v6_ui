@@ -39,6 +39,8 @@ class Document(object):
         'limit': 30
     }
 
+    _DEFAULT_LANG = 'fr'
+
     def __init__(self, request):
         self.request = request
         self.settings = request.registry.settings
@@ -244,7 +246,7 @@ class Document(object):
 
     def _get_documents(self):
         params = []
-        lang = self.request.cookies.get('interface_lang', 'fr')
+        lang = self.request.cookies.get('interface_lang', self._DEFAULT_LANG)
         params.append(('pl', lang))
         # Inject default list filters params:
         filters = dict(self._DEFAULT_FILTERS, **{k: v for k, v in params})
@@ -417,17 +419,26 @@ class Document(object):
     def _redirect_to_full_url(self):
         id = self._validate_int('id')
         lang = self._validate_lang() \
-            if 'lang' in self.request.matchdict else None
+            if 'lang' in self.request.matchdict else \
+            self.request.cookies.get('interface_lang', self._DEFAULT_LANG)
 
-        # TODO use a dedicated service that returns only title/title_prefix
-        # TODO also support URLs with no lang (should redirect to "best" lang)
-        not_modified, api_cache_key, data = self._get_document(id, lang)
-        (document, locale) = data
+        url = '%s/%d/%s/info' % (self._API_ROUTE, id, lang)
+        resp, data = self._call_api(url)
+
+        if resp.status_code == 404:
+            raise HTTPNotFound()
+        elif resp.status_code == 400:
+            raise HTTPBadRequest("Incorrect document id or lang")
+        elif resp.status_code != 200:
+            raise HTTPInternalServerError(
+                "An error occurred while loading the document")
+
+        locale = data['locales'][0]
         title = ''
         if self._API_ROUTE == 'routes' and locale['title_prefix']:
             title += locale['title_prefix'] + ' '
         title += locale['title']
         location = self.request.route_url(
-            self._API_ROUTE + '_view', id=document['document_id'],
+            self._API_ROUTE + '_view', id=data['document_id'],
             lang=locale['lang'], slug=slugify(title))
         raise HTTPMovedPermanently(location=location)
