@@ -34,12 +34,16 @@ def main(global_config, **settings):
     # Register a tween to get back the cache buster path.
     config.add_tween("c2corg_ui.caching.cacheversion.CachebusterTween")
 
+    # view for assets with cache buster
     _add_static_view(config, 'static', 'c2corg_ui:static')
+
+    # static views only used in debug mode
     config.add_static_view('node_modules', settings.get('node_modules_path'),
                            cache_max_age=3600)
     config.add_static_view('closure', settings.get('closure_library_path'),
                            cache_max_age=3600)
 
+    # page views
     config.add_route('index', '/')
 
     config.add_route('waypoints_index', '/waypoints')
@@ -92,10 +96,11 @@ def main(global_config, **settings):
 
 
 def _add_static_view(config, name, path):
+    # assets with a cache buster use a far-in-the-future "max-age" of 1 year
     config.add_static_view(
         name=name,
         path=path,
-        cache_max_age=int(config.get_settings()['cache_max_age']),
+        cache_max_age=60*60*24*365,  # 1 year
     )
     config.add_cache_buster(path, version_cache_buster)
     CACHE_PATH.append(name)
