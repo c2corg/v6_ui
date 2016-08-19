@@ -193,6 +193,12 @@ class Document(object):
         if not_modified:
             return not_modified, api_cache_key, None
 
+        # Manage merged documents (redirecting to another document)
+        if 'redirects_to' in document:
+            if lang is None or lang not in document['available_langs']:
+                lang = self._get_preferred_lang()
+            self._redirect(document['redirects_to'], lang)
+
         # When requesting a lang that does not exist yet, the API sends
         # back an empty list as 'locales'
         if not document['locales']:
