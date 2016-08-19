@@ -246,7 +246,7 @@ class Document(object):
 
     def _get_documents(self):
         params = []
-        lang = self.request.cookies.get('interface_lang', self._DEFAULT_LANG)
+        lang = self._get_preferred_lang()
         params.append(('pl', lang))
         # Inject default list filters params:
         filters = dict(self._DEFAULT_FILTERS, **{k: v for k, v in params})
@@ -416,12 +416,21 @@ class Document(object):
     def _get_response(self, page_html):
         return get_response(self.request, page_html)
 
+    def _redirect(self, id, lang, slug=None):
+        location = ''
+        if slug is None:
+            location = self.request.route_url(
+                self._API_ROUTE + '_view_id_lang', id=id, lang=lang)
+        else:
+            location = self.request.route_url(
+                self._API_ROUTE + '_view', id=id, lang=lang, slug=slug)
+        raise HTTPMovedPermanently(location=location)
+
     def _redirect_to_full_url(self):
         id = self._validate_int('id')
         lang = self._validate_lang() \
             if 'lang' in self.request.matchdict else \
-            self.request.cookies.get('interface_lang', self._DEFAULT_LANG)
-
+            self._get_preferred_lang()
         url = '%s/%d/%s/info' % (self._API_ROUTE, id, lang)
         resp, data = self._call_api(url)
 
@@ -433,12 +442,17 @@ class Document(object):
             raise HTTPInternalServerError(
                 "An error occurred while loading the document")
 
-        locale = data['locales'][0]
-        title = ''
-        if self._API_ROUTE == 'routes' and locale['title_prefix']:
-            title += locale['title_prefix'] + ' '
-        title += locale['title']
-        location = self.request.route_url(
-            self._API_ROUTE + '_view', id=data['document_id'],
-            lang=locale['lang'], slug=slugify(title))
-        raise HTTPMovedPermanently(location=location)
+        if 'redirects_to' in data:
+            if lang not in data['available_langs']:
+                lang = self._get_preferred_lang()
+            self._redirect(data['redirects_to'], lang)
+        else:
+            locale = data['locales'][0]
+            title = ''
+            if self._API_ROUTE == 'routes' and locale['title_prefix']:
+                title += locale['title_prefix'] + ' '
+            title += locale['title']
+            self._redirect(data['document_id'], locale['lang'], slugify(title))
+
+    def _get_preferred_lang(self):
+        return self.request.cookies.get('interface_lang', self._DEFAULT_LANG)
