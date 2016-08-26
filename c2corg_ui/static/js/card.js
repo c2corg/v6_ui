@@ -47,7 +47,7 @@ app.module.directive('appCard', app.cardDirective);
  * @export
  * @ngInject
  */
-app.CardController = function(gettextCatalog, appUrl) {
+app.CardController = function(gettextCatalog, appUrl, imageUrl) {
 
   /**
    * @type {angularGettext.Catalog}
@@ -60,6 +60,12 @@ app.CardController = function(gettextCatalog, appUrl) {
    * @private
    */
   this.url_ = appUrl;
+
+  /**
+   * @type {app.Url}
+   * @private
+   */
+  this.imageUrl_ = imageUrl;
 
   /**
    * @type {string}
@@ -117,6 +123,15 @@ app.CardController.prototype.createURL = function() {
   }
 };
 
+
+/**
+ * Don't create any url on edit and add pages.
+ * @export
+ * @return {string | undefined}
+ */
+app.CardController.prototype.createImg = function() {
+  return this.imageUrl_ + this.doc['filename'];
+};
 
 /**
  * Gets the global ratings for each activity of a route.
