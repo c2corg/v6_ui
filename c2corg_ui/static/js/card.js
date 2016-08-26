@@ -42,12 +42,13 @@ app.module.directive('appCard', app.cardDirective);
 /**
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @param {app.Url} appUrl URL service.
+ * @param {!string} imageUrl URL to the image backend.
  * @constructor
  * @struct
  * @export
  * @ngInject
  */
-app.CardController = function(gettextCatalog, appUrl) {
+app.CardController = function(gettextCatalog, appUrl, imageUrl) {
 
   /**
    * @type {angularGettext.Catalog}
@@ -60,6 +61,12 @@ app.CardController = function(gettextCatalog, appUrl) {
    * @private
    */
   this.url_ = appUrl;
+
+  /**
+   * @type {string}
+   * @private
+   */
+  this.imageUrl_ = imageUrl;
 
   /**
    * @type {string}
@@ -105,18 +112,29 @@ app.CardController.prototype.translate = function(str) {
 
 
 /**
- * Don't create any url on edit and add pages.
+ * Creates a link to the document view-page
  * @export
  * @return {string | undefined}
  */
 app.CardController.prototype.createURL = function() {
   var loc = window.location.pathname;
+  // Don't create links on edit and add pages.
   if (loc.indexOf('edit') === -1 && loc.indexOf('add') === -1) {
     return this.url_.buildDocumentUrl(
       this.type, this.doc['document_id'], this.doc['locales'][0]);
   }
 };
 
+
+/**
+ * Don't create any url on edit and add pages.
+ * @export
+ * @param {string} suffix (BI, SI, MI)
+ * @return {string}
+ */
+app.CardController.prototype.createImg = function(suffix) {
+  return this.imageUrl_ + app.utils.createImageUrl(this.doc['filename'], 'MI');
+};
 
 /**
  * Gets the global ratings for each activity of a route.

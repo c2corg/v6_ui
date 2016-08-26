@@ -138,6 +138,20 @@ app.utils.createImageSlide = function(file, imageUrl) {
 
 
 /**
+ * @param {string} url
+ * @param {string} suffix
+ * @return {string | undefined}
+ * @export
+ */
+app.utils.createImageUrl = function(url, suffix) {
+  if (url) {
+    var i = url.lastIndexOf('.');
+    return url.slice(0, i) + suffix + url.slice(i);
+  }
+};
+
+
+/**
  * http://openlayers.org/en/latest/examples/vector-labels.html
  * http://stackoverflow.com/questions/14484787/wrap-text-in-javascript
  * @param {string} str String to divide.
