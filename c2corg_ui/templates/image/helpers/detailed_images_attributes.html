@@ -1,0 +1,104 @@
+<%namespace file="../../helpers/view.html" import="show_areas, show_attr, get_document_up_down, get_document_min_max"/>
+<%! import math %>
+
+## GENERAL
+<%def name="get_image_general(image)">\
+<div class="name-icon-value general" ng-click="detailsCtrl.openTab($event)">
+  <h4><span translate>General</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+  <div class="name-icon">
+    <span class="glyphicon glyphicon-info-sign"></span>
+    <p translate>General</p>
+  </div>
+  <span class="detail-text accordion">
+
+    % if image.get('activities') :
+      <article class="value activities">
+        <span translate class="value-title">activities</span><br>
+        % for type in image.get('activities') :
+        <span x-translate  class="route-activity icon-${type}" uib-tooltip="{{mainCtrl.translate('${type}')}}" ></span>
+        % endfor
+      </article>
+    % endif
+
+    % if image.get('categories') :
+      <article class="value categories">
+        <span translate class="value-title">categories</span>:
+        % for type in image.get('categories') :
+        <span x-translate  class="green-text">${type}</span>${'' if loop.last else ', '}
+        % endfor
+      </article>
+    % endif
+
+    % if image.get('date_time'):
+    <p><span class="value-title" translate>date_taken</span>: <span class="value">{{'${image['date_time']}' | amDateFormat:"Do MMMM YYYY"}}</span></p>
+    % endif
+
+    % if image.get('author'):
+    <p><span class="value-title" translate>author taken</span>: <span class="value">${image['author']}</span></p>
+    % endif
+
+    % if image.get('elevation'):
+    <p><span class="value-title" translate>elevation</span>: <span class="value">${image['elevation']}&nbsp;m</span></p>
+    % endif
+
+    % if image.get('quality'):
+    <p><span class="value-title" translate>quality</span>: <span class="value">${image['quality']}</span></p>
+    % endif
+
+    % if image.get('image_type'):
+    <p><span class="value-title" translate>image_type</span>: <span class="value">${image['image_type']}</span></p>
+    % endif
+  </span>
+</div>
+</%def>
+
+## CAMERA SETTINGS
+<%def name="get_image_camera_settings(image)">\
+
+% if image.get('camera_name') or image.get('fnumber') or image.get('exposure_time') or image.get('iso_speed') or \
+ image.get('width') or image.get('height') or image.get('focal_length'):
+  <div class="name-icon-value general" ng-click="detailsCtrl.openTab($event)">
+    <h4><span translate>camera</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+    <div class="name-icon">
+      <span class="glyphicon glyphicon-camera"></span>
+      <p translate>camera</p>
+    </div>
+    <span class="detail-text accordion">
+
+      % if image.get('camera_name'):
+      <p><span class="value-title" translate>camera_name</span>: <span class="value">${image['camera_name']}</span></p>
+      % endif
+
+      % if image.get('fnumber'):
+      <p><span class="value-title" translate>fnumber</span>: <span class="value">f/${image['fnumber']}</span></p>
+      % endif
+
+      % if image.get('iso_speed'):
+      <p><span class="value-title" translate>iso_speed</span>: <span class="value">${image['iso_speed']}</span></p>
+      % endif
+
+
+      % if image.get('exposure_time'):
+        ## some values are not saved as for ex "1/600" but 0.0017 so we have to calculate
+        % if str(image.get('exposure_time'))[0] == '0':
+         <p><span class="value-title" translate>exposure_time</span>: <span class="value">1/${math.ceil(1/image['exposure_time']/10) * 10 }&nbsp;s</span></p>
+        % else:
+         <p><span class="value-title" translate>exposure_time</span>: <span class="value">1/${image['exposure_time']}&nbsp;s</span></p>
+        % endif
+      % endif
+
+      % if image.get('width'):
+      <p><span class="value-title" translate>width</span>: <span class="value">${image['width']}&nbsp;px</span></p>
+      % endif
+
+      % if image.get('height'):
+      <p><span class="value-title" translate>height</span>: <span class="value">${image['height']}&nbsp;px</span></p>
+      % endif
+
+      % if image.get('focal_length'):
+      <p><span class="value-title" translate>focal_length</span>: <span class="value">${image['focal_length']}&nbsp;mm</span></p>
+      % endif
+    </span>
+  </div>
+ % endif
+</%def>
