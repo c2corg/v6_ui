@@ -17,6 +17,9 @@
   @media @tablet {
     margin-top: 50px;
   }
+  &.image {
+    margin-bottom: 30px;
+  }
   .outing-date {
     font-size: 2.2em;
     color: darkgray;
@@ -131,6 +134,9 @@
   @media @big {
     margin-left: 4%;
     width: 89%;
+  }
+  &.images {
+    margin-top: 0;
   }
 
   .view-details-photos {
@@ -494,7 +500,7 @@
 } /*.view-details-section*/
 
 
-.view-details-map{
+.view-details-map {
   .map {
     width: 100%;
     margin-bottom: 29px;
@@ -513,6 +519,9 @@
     @media @phone {
       height: 170px !important;
     }
+  }
+  &.image .ol-viewport {
+    height: 150px !important;
   }
 }
 
@@ -641,6 +650,9 @@ app-add-association {
   }
 }
 .view-details-description {
+  img.image {
+    width: 100%;
+  }
   @media @phone {
     min-height:  50px;
     margin-bottom: -200px;
