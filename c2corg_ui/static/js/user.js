@@ -105,11 +105,13 @@ app.UserController.prototype.logout = function() {
 
 
 /**
+ * @param {string} doctype
+ * @param {Object} options
  * @return {boolean}
  * @export
  */
-app.UserController.prototype.hasEditRights = function(users) {
-  return this.auth.hasEditRights(users);
+app.UserController.prototype.hasEditRights = function(doctype, options) {
+  return this.auth.hasEditRights(doctype, options);
 };
 
 app.module.controller('AppUserController', app.UserController);

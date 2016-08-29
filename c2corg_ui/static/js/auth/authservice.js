@@ -89,31 +89,68 @@ app.Authentication.prototype.isAuthenticated = function() {
 /**
  * Checks if the current user has rights to access/edit the document.
  * TODO: rights to personal documents only for current user.
+ * @param {string} doctype
+ * @param {Object} options
  * @return {boolean}
  * @export
  */
-app.Authentication.prototype.hasEditRights = function(users) {
+app.Authentication.prototype.hasEditRights = function(doctype, options) {
   // not logged -> return false
   if (!this.isAuthenticated()) {
     return false;
   }
-  var userid = this.userData.id;
+
   var roles = this.userData.roles;
   // moderator has rigths
   if (roles.indexOf('moderator') > -1) {
     return true;
   }
-  // we are checking for editing rights of an outing
-  if (users) {
-    for (var i = 0; i < users.length; i++) {
-      if (userid === users[i].id) {
+
+  if (doctype === 'outings') {
+    return this.hasEditRightsOuting_(options['users']);
+  } else if (doctype === 'images') {
+    return this.hasEditRightsImage_(options['imageType'], options['imageCreator']);
+  } else {
+    return true;
+  }
+};
+
+
+/**
+ * Checks if the current user has rights to access/edit the outing.
+ * @param {!Array<string> | !string} users
+ * @return {boolean}
+ * @private
+ */
+app.Authentication.prototype.hasEditRightsOuting_ = function(users) {
+  var userid = this.userData.id;
+  var u;
+
+  if (typeof users === 'string') {
+    u = JSON.parse(users);
+  }
+  if (u) {
+    for (var i = 0; i < u.length; i++) {
+      if (userid === u[i].id) {
         return true;
       }
     }
-    return false;
-    // by default, user has rights to every doc
-  } else {
+  }
+  return false;
+};
+
+
+/**
+ * Checks if the current user has rights to access/edit the image.
+ * @param {?string} imageType
+ * @return {boolean}
+ * @private
+ */
+app.Authentication.prototype.hasEditRightsImage_ = function(imageType, creator) {
+  if (imageType === 'collaborative') {
     return true;
+  } else {
+    return this.userData.id === creator;
   }
 };
 

@@ -181,7 +181,7 @@ app.Document.prototype.isCollaborative = function(type) {
     return false;
   } else if (type === 'outings' || type === 'articles') {
     // check if user == owner or participant of the outing/article
-    return this.auth_.hasEditRights(this.document.associations['users']);
+    return this.auth_.hasEditRights(type, this.document.associations['users']);
   } else if (type === 'images') {
     return this.document['image_type'] === 'collaborative';
   }
