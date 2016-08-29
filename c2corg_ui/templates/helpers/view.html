@@ -472,7 +472,7 @@
 <%def name="get_skitouring_rating(document)">\
   % if document.get('ski_rating') or document.get('ski_exposition') or document.get('labande_ski_rating') or document.get('labande_global_rating'):
 
-    <div class="rating-block b">
+    <div class="rating-block a">
       % if document.get('ski_rating'):
         <span uib-tooltip="{{'ski_rating' | translate}}" class="value">${document['ski_rating']}</span>
       % endif
@@ -498,19 +498,7 @@
 
 ## GET HIKING MTB RATING
 <%def name="get_hiking_mtb_rating(document)">\
-  % if document.get('hiking_rating') or document.get('hiking_mtb_exposition') :
-
-      % if document.get('hiking_rating'):
-        <div class="rating-block c">
-          <span uib-tooltip="{{'hiking_rating' | translate}}" class="value">${document['hiking_rating']}</span>
-        </div>
-      % endif
-
-      % if document.get('hiking_mtb_exposition'):
-        <div class="rating-block f">
-          <span uib-tooltip="{{'hiking_mtb_exposition' | translate}}"  class="value">${document['hiking_mtb_exposition']}</span>
-        </div>
-      % endif
+  % if document.get('mtb_down_rating') or document.get('mtb_up_rating') or document.get('hiking_mtb_exposition'):
 
       % if document.get('mtb_down_rating') or document.get('mtb_up_rating'):
         <div class="rating-block e">
@@ -524,15 +512,36 @@
         </div>
       % endif
 
+      % if document.get('hiking_mtb_exposition'):
+        <div class="rating-block f">
+          <span uib-tooltip="{{'hiking_mtb_exposition' | translate}}"  class="value">${document['hiking_mtb_exposition']}</span>&nbsp;
+        </div>
+      % endif
+
   % endif
 </%def>
 
 ## GET GLOBAL RATING
 <%def name="get_global_rating(document)">\
   % if 'snow_ice_mixed' in document.get('activities') or 'via_ferrata' in document.get('activities') or 'mountain_climbing' in document.get('activities') or 'rock_climbing' in document.get('activities') or 'ice_climbing' in document.get('activities'):
-
+  <div class="rating-block b">
     % if document.get('global_rating'):
-      <span uib-tooltip="{{'global_rating' | translate}}" class="value">${document['global_rating']}</span>&nbsp;
+      <span uib-tooltip="{{'global_rating' | translate}}" class="value">${document['global_rating']}</span>&nbsp;&nbsp;
+    % endif
+
+    ## [A0] (without bracket) is showed only if equipment_rating = P1 or P1+, and if aid_rating is empty.
+    % if document.get('rock_required_rating') or document.get('rock_free_rating'):
+      <div class="rating-block">
+      % if document.get('rock_free_rating'):
+        <span uib-tooltip="{{'rock_free_rating' | translate}}" class="value">${document.get('rock_free_rating')}</span>
+      % endif
+
+      ${'>' if document.get('rock_required_rating') and document.get('rock_free_rating') else ''}
+
+      % if document.get('rock_required_rating') and document.get('rock_free_rating'):
+        <span uib-tooltip="{{'rock_required_rating' | translate}}" class="value">${document['rock_required_rating']}${'A0' if (document.get('equipment_rating') == 'P1' or document.get('equipment_rating') == 'P1+') and not document.get('aid_rating') else ''}</span></p>
+      % endif
+      </div>&nbsp;
     % endif
 
     % if route.get('aid_rating'):
@@ -552,7 +561,7 @@
     % endif
 
     % if route.get('engagement_rating'):
-      <span uib-tooltip="{{'engagement_rating' | translate}}" class="value">${route['engagement_rating']}</span>&nbsp;
+      &nbsp;&nbsp;<span uib-tooltip="{{'engagement_rating' | translate}}" class="value">${route['engagement_rating']}</span>&nbsp;
     % endif
 
     % if route.get('risk_rating'):
@@ -560,27 +569,13 @@
     % endif
 
     % if route.get('equipment_rating'):
-      <span class="value" uib-tooltip="{{'equipment_rating' | translate}}">${route['equipment_rating']}</span>&nbsp;
+      &nbsp;&nbsp;<span class="value" uib-tooltip="{{'equipment_rating' | translate}}">${route['equipment_rating']}</span>&nbsp;
     % endif
 
     % if route.get('exposition_rock_rating'):
      <span uib-tooltip="{{'exposition_rock_rating' | translate}}" class="value">${route['exposition_rock_rating']}</span>&nbsp;
     % endif
-
-    ## [A0] (without bracket) is showed only if equipment_rating = P1 or P1+, and if aid_rating is empty.
-    % if document.get('rock_required_rating') or document.get('rock_free_rating'):
-      <div class="rating-block">
-      % if document.get('rock_free_rating'):
-        <span uib-tooltip="{{'rock_free_rating' | translate}}" class="value">${document.get('rock_free_rating')}</span>
-      % endif
-
-      ${'>' if document.get('rock_required_rating') and document.get('rock_free_rating') else ''}
-
-      % if document.get('rock_required_rating') and document.get('rock_free_rating'):
-        <span uib-tooltip="{{'rock_required_rating' | translate}}" class="value">${document['rock_required_rating']}${'A0' if (document.get('equipment_rating') == 'P1' or document.get('equipment_rating') == 'P1+') and not document.get('aid_rating') else ''}</span></p>
-      % endif
-      </div>
-    % endif
+</div>
 
   % endif
 </%def>
