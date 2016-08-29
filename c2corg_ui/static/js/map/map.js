@@ -65,13 +65,14 @@ app.module.directive('appMap', app.mapDirective);
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {ngeo.Debounce} ngeoDebounce ngeo Debounce service.
  * @param {app.Url} appUrl URL service.
+ * @param {string} imgPath Path to the image directory.
  * @constructor
  * @struct
  * @export
  * @ngInject
  */
 app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
-  ngeoDebounce, appUrl) {
+  ngeoDebounce, appUrl, imgPath) {
 
   /**
    * @type {number}
@@ -84,6 +85,12 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
    * @private
    */
   this.scope_ = $scope;
+
+  /**
+   * @type {string}
+   * @private
+   */
+  this.imgPath_ = imgPath;
 
   /**
    * @type {?ol.layer.Vector}
@@ -411,7 +418,7 @@ app.MapController.prototype.createPointStyle_ = function(feature, resolution) {
     if (!icon) {
       icon = new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
         scale: scale,
-        src: '/static/img/documents/' + type + '.svg'
+        src: this.imgPath_ + '/documents/' + type + '.svg'
       }));
       this.iconCache[iconKey] = icon;
     }
