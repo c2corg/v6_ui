@@ -66,59 +66,63 @@ other_langs, missing_langs = get_lang_lists(image, lang)
   </h1>
 </header>
 
-% if image.get('areas'):
-  <article class="location-static">
-    <span class="pin"></span>
-    ${show_areas(image)}
-  </article>
-% endif
-
 <section class="view-details-section images" app-view-details>
 
   % if version:
     ${show_archive_data('images', image, locale, version)}
   % endif
 
-  <div class="view-details-informations col-xs-12  informations">
-    <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
-      <span translate>Informations</span><span class="glyphicon glyphicon-menu-down"></span>
-    </h3>
-    <section id="document-informations" class="collapse in">
-      ${get_image_general(image)}
-      ${get_image_camera_settings(image)}
-    </section>
-  </div>
+  <div class="view-details-wrapper">
 
-  ## DESCRIPTION
-  % if locale['summary'] or locale['description']:
-  <div class="view-details-description col-xs-12  description">
-    <h3 class="heading show-phone"><span translate>personal comments</span></h3>
-    <span class="lead">
-      <div id="document-description" class="collapse in">
+    <div class="view-details-informations col-xs-12  informations">
+      <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
+        <span translate>Informations</span><span class="glyphicon glyphicon-menu-down"></span>
+      </h3>
 
-        % if locale['summary']:
-        <summary class="document-summary">
-          <label translate>summary</label><br>
-          ${show_attr(locale, 'summary')}
-        </summary>
-        % endif
+      <section id="document-informations" class="collapse in">
+        ${get_image_general(image)}
+        ${get_image_camera_settings(image)}
+      </section>
+    </div>
 
-        % if locale['description'] :
-        ${show_attr(locale, 'description')}
-        % endif
+      ## DESCRIPTION
+      % if locale['summary'] or locale['description']:
+      <div class="view-details-description col-xs-12  description">
+        <h3 class="heading show-phone"><span translate>personal comments</span></h3>
+        <span class="lead">
+          <div id="document-description" class="collapse in">
 
+            % if locale['summary']:
+            <summary class="document-summary">
+              <label translate>summary</label><br>
+              ${show_attr(locale, 'summary')}
+            </summary>
+            % endif
+
+            % if locale['description'] :
+            ${show_attr(locale, 'description')}
+            % endif
+
+          </div>
+        </span>
       </div>
-    </span>
-  </div>
-  % endif
+      % endif
 
-  <div class="view-details-description col-xs-12  description">
-    <span class="lead">
-      <img class="image" src="${image_url}/${image['filename']}" alt="${locale['title']}">
-    </span>
-  </div>
+      <div class="view-details-description col-xs-12  description">
+        <span class="lead">
+          <img class="image" src="${image_url}/${image['filename']}" alt="${locale['title']}">
+        </span>
+      </div>
+    </div>
 
-  <app-map class="view-details-map image"></app-map>
+    % if image.get('areas'):
+    <article class="location-static">
+      <span class="pin"></span>
+      ${show_areas(image)}
+    </article>
+    % endif
+    <app-map class="view-details-map"></app-map>
+
 
   ## ASSOCIATIONS
   % if not version:

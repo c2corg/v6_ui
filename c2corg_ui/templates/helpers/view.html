@@ -249,7 +249,7 @@
 <%def name="associated_routes_featurelist(document)">\
   % if document.get('associations').get('all_routes') and document.get('associations').get('all_routes').get('routes'):
     % for route in document.get('associations').get('all_routes').get('routes'):
-      % if route.get('geometry').get('geom_detail'):
+      % if 'geometry' in route and route.get('geometry').get('geom_detail'):
         ,
         {
           "type": "Feature",
