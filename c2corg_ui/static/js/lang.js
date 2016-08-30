@@ -68,7 +68,7 @@ app.LangController = function(appLang) {
 app.LangController.prototype.updateLang = function(lang) {
   if (this.langs.indexOf(lang) > -1) {
     this.lang = lang;
-    this.langService_.updateLang(lang);
+    this.langService_.updateLang(lang, /* syncWithApi */ true);
   }
 };
 
