@@ -541,9 +541,6 @@
     height: auto !important;
     width: auto !important;
   }
-  &.image .ol-viewport {
-    height: 150px !important;
-  }
 }
 
 .view-details-other {
@@ -621,12 +618,21 @@ app-add-association {
   margin-top: 50px;
   margin-bottom: 25px;
 }
+.view-details-wrapper {
+  width:  100%;
+  display: inline-block;
+}
 
 .location-static {
   min-height: 80px;
+  max-width: 250px;
   padding: 10px;
-  position: absolute;
-  background: #FFFB80;
+  position: relative;
+  float: right;
+  z-index: 20;
+  margin-bottom: -18%;
+  top: 45px;
+  background: #FFFB80; /*yellow*/
   -webkit-transform: rotate(4deg);
   -moz-transform: rotate(4deg);
   -o-transform: rotate(4deg);
@@ -637,10 +643,10 @@ app-add-association {
   @media @tablet {
     right: 30px;
     font-size: 1em;
-    width: 167px;
+    max-width: 200px;
   }
   @media @phone {
-    display: none;
+    display: none !important;
   }
   @media @big {
     font-size: 1.1em;

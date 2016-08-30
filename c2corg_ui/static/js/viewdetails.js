@@ -32,17 +32,6 @@ app.viewDetailsDirective = function() {
       $('.pswp__button--arrow--left, .pswp__button--arrow--right').click(function() {
         $('.showing-info').removeClass('showing-info');
       });
-
-      var s = app.constants.SCREEN;
-      var notPhone = window.matchMedia('(max-width: ' + s.SMARTPHONE + 'px)');
-
-      $('.location-static').css({top: $('app-map').offset().top + 40});
-
-      notPhone.addListener(function(mql) {
-        if (mql.matches) {
-          $('.location-static').css({top: $('app-map').offset().top + 40});
-        }
-      });
     }
   };
 };

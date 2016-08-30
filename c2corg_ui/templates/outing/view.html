@@ -76,15 +76,13 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
   <div class="outing-date" class="ng-cloak">${show_fulldate(outing['date_start'], outing['date_end'])}</div>
 </header>
 
-
-<app-map class="view-details-map"></app-map>
-
 % if outing.get('areas'):
   <article class="location-static">
     <span class="pin"></span>
     ${show_areas(outing)}
   </article>
 % endif
+<app-map class="view-details-map"></app-map>
 
 <section class="view-details-section" app-view-details>
 
