@@ -11,7 +11,8 @@ var appx;
  *   expire: number,
  *   roles: Array.<string>,
  *   redirect: string,
- *   remember: boolean
+ *   remember: boolean,
+ *   lang: string,
  * }}
  */
 appx.AuthData;

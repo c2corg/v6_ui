@@ -25,6 +25,12 @@ app.Authentication = function(apiUrl, $rootScope) {
   this.http_ = null;
 
   /**
+   * @type {app.Lang}
+   * @private
+   */
+  this.langService_ = null;
+
+  /**
    * @type {string}
    * @private
    * @const
@@ -60,6 +66,14 @@ app.Authentication = function(apiUrl, $rootScope) {
  */
 app.Authentication.prototype.setHttpService = function($http) {
   this.http_ = $http;
+};
+
+
+/**
+ * @param {app.Lang} appLang Lang service.
+ */
+app.Authentication.prototype.setLangService = function(appLang) {
+  this.langService_ = appLang;
 };
 
 
@@ -112,6 +126,10 @@ app.Authentication.prototype.setUserData = function(data) {
   try {
     var raw = JSON.stringify(data);
     this.userData = this.parseUserData_(raw);
+
+    // set the interface language
+    this.langService_.updateLang(this.userData.lang, /* syncWithApi */ false);
+
     var storage = data.remember ? window.localStorage : window.sessionStorage;
     if (goog.DEBUG) {
       console.log('Stored user data in', data.remember ? 'local' : 'session');
@@ -124,7 +142,7 @@ app.Authentication.prototype.setUserData = function(data) {
     // browser.
     // TODO: display error message to user
     if (goog.DEBUG) {
-      console.log('Fatal : failed to set authentication token', e);
+      console.error('Fatal : failed to set authentication token', e);
     }
     return false;
   }
@@ -304,9 +322,11 @@ app.module.factory('appAuthentication', app.AuthenticationFactory_);
  * @private
  * @param {app.Authentication} appAuthentication
  * @param {angular.$http} $http
+ * @param {app.Lang} appLang Lang service.
  */
-app.AuthenticationFactoryRun_ = function(appAuthentication, $http) {
-  // The http service is set now to avoid circular dependency.
+app.AuthenticationFactoryRun_ = function(appAuthentication, $http, appLang) {
+  // The http and lang service are set now to avoid circular dependency.
   appAuthentication.setHttpService($http);
+  appAuthentication.setLangService(appLang);
 };
 app.module.run(app.AuthenticationFactoryRun_);
