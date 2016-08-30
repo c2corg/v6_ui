@@ -172,7 +172,8 @@
       }
     }
   }
-  .view-details-description, .view-details-other,  .view-details-info, .view-details-associations, .view-details-photos {
+  .view-details-description, .view-details-other,  .view-details-info, .view-details-associations, .view-details-photos,
+  .view-details-comments {
     padding-left: 0;
     padding-right: 0;
     background: white;
@@ -488,6 +489,25 @@
         text-align: center;
         vertical-align: middle;
         padding: 1%;
+      }
+    }
+  }
+  .view-details-comments {
+    @media @big {
+      width: 100%;
+    }
+
+    #discourse-comments {
+      text-align: center;
+
+      .no-thread {
+        display: inline-block;
+        background: #CACACA;
+        margin: 10px;
+        padding: .5%;
+        color: white;
+        border-radius: 5px;
+        font-variant: small-caps;
       }
     }
   }

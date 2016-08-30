@@ -57,13 +57,14 @@ app.module.directive('appViewDetails', app.viewDetailsDirective);
  * @param {app.Api} appApi Api service.
  * @param {app.Document} appDocument service
  * @param {appx.Document} documentData Data set as module value in the HTML.
- * @param {String} imageUrl URL to the image backend.
+ * @param {string} imageUrl URL to the image backend.
+ * @param {string} discourseUrl URL to discourse.
  * @constructor
  * @export
  * @ngInject
  */
 app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
-    appDocument, documentData, imageUrl) {
+    appDocument, documentData, imageUrl, discourseUrl) {
 
   /**
    * @type {app.Document}
@@ -91,10 +92,17 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
   this.api_ = appApi;
 
   /**
-   * @type {String}
+   * @type {string}
    * @private
    */
   this.imageUrl_ = imageUrl;
+
+
+  /**
+   * @type {string}
+   * @private
+   */
+  this.discourseUrl_ = discourseUrl;
 
   /**
    * @type {!angular.Scope}
@@ -112,6 +120,16 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
 app.ViewDetailsController.prototype.openModal = function(selector) {
   var template = $(selector).clone();
   this.modal_.open({animation: true, size: 'lg', template: this.compile_(template)(this.scope_)});
+};
+
+
+/**
+ * @export
+ */
+app.ViewDetailsController.prototype.scrollToComments = function() {
+  $('html, body').animate({
+    scrollTop: $('#discourse-comments').offset().top
+  }, 1000);
 };
 
 
@@ -295,6 +313,48 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
  */
 app.ViewDetailsController.prototype.initSlickGallery_ = function() {
   $('.photos').slick({slidesToScroll: 3, dots: false});
+};
+
+
+/**
+ * @export
+ */
+app.ViewDetailsController.prototype.getComments = function() {
+  var topic_id = this.documentService.document['topic_id'];
+  if (topic_id === null) {
+    return;
+  }
+
+  // create DiscourseEmbed script tag. From a discourse tutorial.
+  // https://meta.discourse.org/t/embedding-discourse-comments-via-javascript/31963
+  var s = document.createElement('script');
+  /**
+   * @export
+   * @type {appx.DiscourseEmbedded}
+   */
+  window.DiscourseEmbed = {
+    'discourseUrl': this.discourseUrl_,
+    'topicId': topic_id
+  };
+  s.src = this.discourseUrl_ + 'javascripts/embed.js';
+  document.getElementsByTagName('body')[0].appendChild(s);
+};
+
+
+/**
+ * @export
+ */
+app.ViewDetailsController.prototype.createTopic = function() {
+  var document = this.documentService.document;
+  var document_id = document.document_id;
+  var lang = document.lang;
+  this.api_.createTopic(document_id, lang).then(function(resp) {
+    var topic_id = resp['data']['topic_id'];
+    this.documentService.document.topic_id = topic_id;
+    this.getComments();
+    var url = this.discourseUrl_ + 't/' + document_id + '_' + lang + '/' + topic_id;
+    window.open(url);
+  }.bind(this));
 };
 
 

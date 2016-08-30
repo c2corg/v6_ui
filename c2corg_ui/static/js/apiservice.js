@@ -461,4 +461,18 @@ app.Api.prototype.createImages = function(files, document) {
 };
 
 
+/**
+ * @param {number} document_id
+ * @param {string} lang
+ */
+app.Api.prototype.createTopic = function(document_id, lang) {
+  var promise = this.postJson_('/forum/topics', {
+    'document_id': document_id,
+    'lang': lang
+  });
+  promise.catch(this.errorSaveDocument_.bind(this));
+  return promise;
+};
+
+
 app.module.service('appApi', app.Api);
