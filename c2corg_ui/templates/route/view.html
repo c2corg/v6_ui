@@ -165,7 +165,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
             <div class="add-outing">
               <p class="text-center"><strong translate>no outings yet?</strong><p>
                 <button type="button" class="btn gray-btn" protected-url-btn
-                        url="${request.route_url('outings_add', _query={'r': route_id})}"
+                        url="${request.route_path('outings_add', _query={'r': route_id})}"
                         translate>add a new one to this document</button>
             </div>
           % endif

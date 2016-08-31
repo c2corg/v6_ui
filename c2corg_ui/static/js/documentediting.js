@@ -178,10 +178,7 @@ app.DocumentEditingController = function($scope, $element, $attrs, appLang,
     }
   } else {
     // Redirect to the auth page
-    var current_url = window.location.href;
-    window.location.href = '{authUrl}?from={redirect}'
-        .replace('{authUrl}', this.authUrl_)
-        .replace('{redirect}', encodeURIComponent(current_url));
+    app.utils.redirectToLogin(this.authUrl_);
     return;
   }
 

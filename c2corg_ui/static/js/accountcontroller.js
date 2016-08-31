@@ -47,11 +47,7 @@ app.AccountController = function($scope, appAuthentication, appAlerts,
       $scope['account'] = angular.copy(this.initialData_);
     }.bind(this));
   } else {
-    // Redirect to the auth page
-    var current_url = window.location.href;
-    window.location.href = '{authUrl}?from={redirect}'
-        .replace('{authUrl}', authUrl)
-        .replace('{redirect}', encodeURIComponent(current_url));
+    app.utils.redirectToLogin(authUrl);
   }
 };
 

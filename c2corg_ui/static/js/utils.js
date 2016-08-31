@@ -197,3 +197,16 @@ app.utils.detectDocumentIdFilter = function(ngeoLocation) {
   }
   return false;
 };
+
+
+/**
+ * Redirects to the login page.
+ * @param {string} authUrl
+ */
+app.utils.redirectToLogin = function(authUrl) {
+  var location = window.location;
+  var current_url = location.pathname + location.search + location.hash;
+  location.href = '{login}?from={current}'
+      .replace('{login}', authUrl)
+      .replace('{current}', encodeURIComponent(current_url));
+};

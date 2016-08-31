@@ -4,6 +4,7 @@ goog.provide('app.userDirective');
 goog.require('app');
 goog.require('app.Alerts');
 goog.require('ngeo.Location');
+goog.require('app.utils');
 
 
 /**
@@ -81,10 +82,7 @@ app.UserController = function(appAuthentication, ngeoLocation,
  * @export
  */
 app.UserController.prototype.showLogin = function() {
-  var current_url = this.ngeoLocation_.getUriString();
-  window.location.href = '{login}?from={current}'
-      .replace('{login}', this.authUrl_)
-      .replace('{current}', encodeURIComponent(current_url));
+  app.utils.redirectToLogin(this.authUrl_);
 };
 
 
