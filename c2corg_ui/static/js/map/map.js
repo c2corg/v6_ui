@@ -23,6 +23,7 @@ goog.require('ol.interaction.MouseWheelZoom');
 goog.require('ol.interaction.Select');
 goog.require('ol.layer.Vector');
 goog.require('ol.source.Vector');
+goog.require('ol.style.Circle');
 goog.require('ol.style.Fill');
 goog.require('ol.style.Icon');
 goog.require('ol.style.Stroke');
@@ -410,9 +411,10 @@ app.MapController.prototype.createPointStyle_ = function(feature, resolution) {
   var id = /** @type {number} */ (feature.get('documentId'));
   var highlight = /** @type {boolean} */ (!!feature.get('highlight'));
   var scale = highlight ? 1 : 0.5;
+  var imgSize = highlight ? 32 : 16;
   var key = type + scale + '_' + id;
-  var style = this.styleCache[key];
-  if (!style) {
+  var styles = this.styleCache[key];
+  if (!styles) {
     var iconKey = type + scale;
     var icon = this.iconCache[iconKey];
     if (!icon) {
@@ -422,13 +424,26 @@ app.MapController.prototype.createPointStyle_ = function(feature, resolution) {
       }));
       this.iconCache[iconKey] = icon;
     }
-    style = new ol.style.Style({
-      image: icon,
-      text: this.createTextStyle_(feature, type, highlight)
-    });
-    this.styleCache[key] = style;
+    styles = [
+      // render a transparent circle behind the actual icon so that selecting
+      // is easier (the icons contain transparent areas that are not
+      // selectable).
+      new ol.style.Style({
+        image: new ol.style.Circle({
+          radius: imgSize,
+          fill: new ol.style.Fill({
+            color: 'rgba(255, 255, 255, 0.01)'
+          })
+        })
+      }),
+      new ol.style.Style({
+        image: icon,
+        text: this.createTextStyle_(feature, type, highlight)
+      })
+    ];
+    this.styleCache[key] = styles;
   }
-  return style;
+  return styles;
 };
 
 
