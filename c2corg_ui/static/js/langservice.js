@@ -99,8 +99,9 @@ app.Lang.prototype.getLang = function() {
 
 /**
  * @param {string} lang
+ * @param {boolean=} opt_syncWithApi
  */
-app.Lang.prototype.updateLang = function(lang) {
+app.Lang.prototype.updateLang = function(lang, opt_syncWithApi) {
   this.gettextCatalog_.setCurrentLanguage(lang);
   this.gettextCatalog_.loadRemote(
           this.langUrlTemplate_.replace('__lang__', lang));
@@ -113,7 +114,7 @@ app.Lang.prototype.updateLang = function(lang) {
     'expires': d
   });
 
-  if (this.appAuthentication_.isAuthenticated()) {
+  if (opt_syncWithApi && this.appAuthentication_.isAuthenticated()) {
     this.api_.updatePreferredLanguage(lang);
   }
 
