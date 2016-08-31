@@ -210,7 +210,7 @@ app.utils.redirectToLogin = function(authUrl) {
     // do not redirect to the 'auth' page
     current_url = '/';
   }
-  location.href = '{login}?from={current}'
+  location.href = '{login}?to={current}'
       .replace('{login}', authUrl)
       .replace('{current}', encodeURIComponent(current_url));
 };
