@@ -254,7 +254,7 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
   if (!goog.isArray(data['locales'])) {
     // With ng-model="route.locales[0].description" route.locales is taken
     // as an object instead of an array.
-    var locale = data['locales']['0'];
+    var locale = data['locales'][0];
     data['locales'] = [locale];
   }
 
