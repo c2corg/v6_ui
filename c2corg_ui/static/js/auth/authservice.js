@@ -89,32 +89,42 @@ app.Authentication.prototype.isAuthenticated = function() {
 /**
  * Checks if the current user has rights to access/edit the document.
  * TODO: rights to personal documents only for current user.
+ * @param {Array<string>} users
+ * @param {?string} imageType
  * @return {boolean}
  * @export
  */
-app.Authentication.prototype.hasEditRights = function(users) {
+app.Authentication.prototype.hasEditRights = function(users, imageType) {
   // not logged -> return false
   if (!this.isAuthenticated()) {
     return false;
   }
+
   var userid = this.userData.id;
   var roles = this.userData.roles;
   // moderator has rigths
   if (roles.indexOf('moderator') > -1) {
     return true;
   }
-  // we are checking for editing rights of an outing
-  if (users) {
+  if (!imageType && users) {
     for (var i = 0; i < users.length; i++) {
       if (userid === users[i].id) {
         return true;
       }
     }
     return false;
+  } else if (imageType) {
+    if (imageType === 'collaborative') {
+      return true;
+    // TODO: check if user == author
+    } else {
+      return false;
+    }
     // by default, user has rights to every doc
   } else {
     return true;
   }
+
 };
 
 

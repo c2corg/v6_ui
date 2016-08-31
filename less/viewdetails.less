@@ -17,6 +17,9 @@
   @media @tablet {
     margin-top: 50px;
   }
+  &.image {
+    margin-bottom: 30px;
+  }
   .outing-date {
     font-size: 2.2em;
     color: darkgray;
@@ -131,6 +134,9 @@
   @media @big {
     margin-left: 4%;
     width: 89%;
+  }
+  &.images {
+    margin-top: 0;
   }
 
   .view-details-photos {
@@ -514,7 +520,7 @@
 } /*.view-details-section*/
 
 
-.view-details-map{
+.view-details-map {
   .map {
     width: 100%;
     margin-bottom: 29px;
@@ -611,12 +617,21 @@ app-add-association {
   margin-top: 50px;
   margin-bottom: 25px;
 }
+.view-details-wrapper {
+  width:  100%;
+  display: inline-block;
+}
 
 .location-static {
   min-height: 80px;
+  max-width: 250px;
   padding: 10px;
-  position: absolute;
-  background: #FFFB80;
+  position: relative;
+  float: right;
+  z-index: 20;
+  margin-bottom: -18%;
+  top: 45px;
+  background: #FFFB80; /*yellow*/
   -webkit-transform: rotate(4deg);
   -moz-transform: rotate(4deg);
   -o-transform: rotate(4deg);
@@ -627,10 +642,10 @@ app-add-association {
   @media @tablet {
     right: 30px;
     font-size: 1em;
-    width: 167px;
+    max-width: 200px;
   }
   @media @phone {
-    display: none;
+    display: none !important;
   }
   @media @big {
     font-size: 1.1em;
@@ -661,6 +676,9 @@ app-add-association {
   }
 }
 .view-details-description {
+  img.image {
+    width: 100%;
+  }
   @media @phone {
     min-height:  50px;
     margin-bottom: -200px;

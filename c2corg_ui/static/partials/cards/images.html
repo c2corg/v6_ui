@@ -1,0 +1,26 @@
+<a ng-href="{{cardCtrl.createURL()}}" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;">
+  <img ng-src="{{cardCtrl.createImg()}}" alt="{{locale['title']}}">
+  <div class="list-item-info">
+    <div class="outing-date">{{ doc['date_time'] | date: 'dd/MM/yyyy'}}</div>
+    <div ng-if="doc['author']"><span class="value-title" translate>author</span>: <span class="value">{{doc['author']}}</span></div>
+
+    <span class="list-item-title">{{locale.title}}</span>
+    <span class="list-item-lang" ng-if="cardCtrl.lang != locale.lang">({{locale.lang}})</span>
+
+    <br>
+    <span class="quality" ng-if="doc['quality']" uib-tooltip="{{'quality'| translate}}" tooltip-placement="top">
+      <span class="glyphicon glyphicon-file"></span>
+      <span x-translate>{{doc['quality']}}</span>
+    </span>
+
+    <span class="elevation-max" ng-if="doc['elevation']" uib-tooltip="{{'elevation'| translate}}">
+      <span translate class="value-title glyphicon glyphicon-sort-by-attributes"></span>
+      <span class="value">{{doc['elevation']}}&nbsp;m</span>
+    </span>
+
+    <div class="route-activities">
+      <span ng-repeat="activity in doc.activities" class="route-activity icon-{{activity}}"
+            uib-tooltip="{{ cardCtrl.translate(activity)}}" tooltip-placement="top"></span>
+    </div>
+  </div>
+</a>

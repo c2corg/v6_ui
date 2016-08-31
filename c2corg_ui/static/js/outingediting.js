@@ -94,7 +94,7 @@ app.OutingEditingController.prototype.successRead = function(response) {
 
   var outing = this.scope[this.modelName];
   // check if user has right to edit -> the user is one of the associated users
-  if (this.auth.hasEditRights(outing['associations']['users'])) {
+  if (this.auth.hasEditRights(outing['associations']['users'], null)) {
     outing = this.formatOuting_(outing);
     this.differentDates = window.moment(outing['date_start']).diff(outing['date_end']) !== 0;
     if (!this.differentDates) {
