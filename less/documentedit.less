@@ -202,6 +202,12 @@
         flex-basis: 29.3%;
         width: 29.3%;
       }
+      &.half-group {
+        @media @big {
+          width: 45% !important;
+          flex-basis: 45% !important;
+        }
+      }
 
       &.remain {
         flex-basis: 46% !important;
@@ -629,4 +635,8 @@ input[type="radio"] {
 
 #participants-group {
   margin-top: 10px;
+}
+
+ul.uib-datepicker {
+  padding: 10px;
 }

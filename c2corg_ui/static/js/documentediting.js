@@ -151,6 +151,12 @@ app.DocumentEditingController = function($scope, $element, $attrs, appLang,
   this.submit = false;
 
   /**
+   * @type {Date}
+   * @export
+   */
+  this.today = new Date();
+
+  /**
    * @type {app.Api}
    * @private
    */
@@ -225,6 +231,10 @@ app.DocumentEditingController.prototype.successRead = function(response) {
       'lang': this.lang_
     });
     this.isNewLang_ = true;
+  }
+  // image's date has to be converted to Date object because uib-datepicker will treat it as invalid -> invalid form.
+  if (this.modelName === 'image') {
+    data['date_time'] = new Date(data['date_time']);
   }
 
   this.scope[this.modelName] = this.scope['document'] = this.documentService.document = data;
