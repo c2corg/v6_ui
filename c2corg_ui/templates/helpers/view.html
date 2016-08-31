@@ -49,7 +49,7 @@
     <div class="modal-header"><h3 class="text-center" translate>Translate into an other lang</h3></div>
     <ul>
       % for lang in missing_langs:
-      <li protected-url-btn url="${request.route_url(module + '_edit', id=document['document_id'], lang=lang)}">
+      <li protected-url-btn url="${request.route_path(module + '_edit', id=document['document_id'], lang=lang)}">
         <span x-translate>${lang}</span><span class="glyphicon glyphicon-chevron-right"></span>
       </li>
       % endfor
@@ -201,7 +201,7 @@
       <div class="associated-documents collapse in" id="associated-outings">
         % if document['doctype'] == 'routes':
           <div class="list-item vertical-align" protected-url-btn
-               url="${request.route_url('outings_add') + '?r=' + str(document['document_id'])}">
+               url="${request.route_path('outings_add') + '?r=' + str(document['document_id'])}">
             <a>
               <button class="btn orange-btn" translate>add a new outing to this document</button>
             </a>
@@ -401,7 +401,7 @@
   <div class="float-buttons">
       <div ng-if="::userCtrl.hasEditRights(${dumps(outingUsers)})" class="float-button float-edit"
            tooltip-placement="left" uib-tooltip="{{'Edit' | translate}}"
-           protected-url-btn url="${request.route_url(doctype + '_edit', id=doc_id, lang=doc_lang)}">
+           protected-url-btn url="${request.route_path(doctype + '_edit', id=doc_id, lang=doc_lang)}">
         <span class="glyphicon glyphicon-edit"></span>
         <p class="float-button-text" translate>Edit</p>
       </div>

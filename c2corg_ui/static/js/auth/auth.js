@@ -185,13 +185,14 @@ app.AuthController.prototype.loginToDiscourse_ = function(url) {
 /**
  * Redirect to specified URL or previous page if a from parameter exists
  * otherwise redirect to /.
- * @param {string=} opt_location Redirect location.
+ * @param {string=} opt_location Redirect location (absolute URL).
  * @private
  */
 app.AuthController.prototype.redirect_ = function(opt_location) {
   if (!opt_location) {
-    opt_location = this.ngeoLocation_.hasParam('from') ?
-        decodeURIComponent(this.ngeoLocation_.getParam('from')) : '/';
+    var relativeUrl = this.ngeoLocation_.hasParam('to') ?
+        decodeURIComponent(this.ngeoLocation_.getParam('to')) : '/';
+    opt_location = window.location.protocol + '//' + window.location.host + relativeUrl;
   }
   window.location.href = opt_location;
 };
