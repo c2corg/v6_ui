@@ -84,6 +84,23 @@ app.Alerts.prototype.addError = function(msg) {
 
 
 /**
+ * @param {string} msg
+ * @param {Object} errors
+ * @export
+ */
+app.Alerts.prototype.addErrorWithMsg = function(msg, errors) {
+  var content = msg + '<br>' + this.formatErrorMsg_(errors);
+  var timeout = 5000;
+  this.addLoading_(timeout);
+  this.alerts_.push({
+    type: 'danger',
+    msg: content,
+    timeout: timeout
+  });
+};
+
+
+/**
  * @return {Array.<appx.AlertMessage>}
  * @export
  */
