@@ -131,7 +131,7 @@ other_langs, missing_langs = get_lang_lists(image, lang)
     <span class="lead">
       <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
         <label translate>Add association</label>
-        <app-add-association parent-doctype="images" parent-id="${image_id}" dataset="r"></app-add-association>
+        <app-add-association parent-doctype="images" parent-id="${image_id}" dataset="wr"></app-add-association>
       </div>
       <section>
         ${show_associated_routes(image)}

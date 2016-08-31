@@ -83,11 +83,12 @@ app.AddAssociationController = function(appApi, appDocument) {
  */
 app.AddAssociationController.prototype.associate = function(doc) {
   var parentId, childId;
+  var parentType = this.parentDoctype;
 
   // if the parent doc is a route and the child doc is a waypoint OR
   // if the parent doc is an outing, inverse the IDs.
-  if ((this.parentDoctype === 'routes' && doc['type'] === 'w') ||
-      this.parentDoctype === 'outings') {
+  if ((parentType === 'routes' && doc['parentType'] === 'w') ||
+      parentType === 'outings' || parentType === 'images') {
     childId = this.parentId;
     parentId = doc['document_id'];
   } else {
@@ -96,7 +97,7 @@ app.AddAssociationController.prototype.associate = function(doc) {
   }
 
   this.api_.associateDocument(parentId, childId).then(function() {
-    if (this.parentDoctype === 'waypoints' && doc['type'] === 'w') {
+    if (parentType === 'waypoints' && doc['type'] === 'w') {
       // associating a waypoint to a waypoint
       this.documentService_.pushToAssociations(doc, 'waypoint_children');
     } else {
