@@ -127,9 +127,8 @@ app.Api.prototype.associateDocument = function(parentId, childId) {
   };
   var promise = this.postJson_('/associations', data);
   promise.catch(function(res) {
-    var error = this.formateAssociationErrors_(res);
-    var msg = this.alerts_.gettext('Failed to associate document:') + ' ' + error;
-    this.alerts_.addError(msg);
+    var msg = this.alerts_.gettext('Failed to associate document:');
+    this.alerts_.addErrorWithMsg(msg, res);
   }.bind(this));
   return promise;
 };
@@ -147,24 +146,10 @@ app.Api.prototype.unassociateDocument = function(parentId, childId) {
   };
   var promise = this.deleteJson_('/associations', data);
   promise.catch(function(res) {
-    var error = this.formateAssociationErrors_(res);
-    var msg = this.alerts_.gettext('Failed to unassociate document:') + ' ' + error;
-    this.alerts_.addError(msg);
+    var msg = this.alerts_.gettext('Failed to unassociate document:');
+    this.alerts_.addErrorWithMsg(msg, res);
   }.bind(this));
   return promise;
-};
-
-
-/**
- * @param {Object} res
- * @return {string}
- */
-app.Api.prototype.formateAssociationErrors_ = function(res) {
-  var error = '';
-  for (var i = 0; i < res['data']['errors'].length; i++) {
-    error = error + ' ' + res['data']['errors'][i]['description'];
-  }
-  return error;
 };
 
 
@@ -172,13 +157,13 @@ app.Api.prototype.formateAssociationErrors_ = function(res) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.logoutFromApiAndDiscourse = function() {
-  var alerts = this.alerts_;
   var data = {
     'discourse': true
   };
   var promise = this.postJson_('/users/logout', data);
   promise.catch(function(response) {
-    alerts.addError(response);
+    var msg = this.alerts_.gettext('Logout failed:');
+    this.alerts_.addErrorWithMsg(msg, response);
   });
   return promise;
 };
@@ -298,7 +283,8 @@ app.Api.prototype.errorSaveDocument_ = function(response) {
 app.Api.prototype.register = function(data) {
   var promise = this.postJson_('/users/register', data);
   promise.catch(function(response) {
-    this.alerts_.addError(response);
+    var msg = this.alerts_.gettext('Registration failed:');
+    this.alerts_.addErrorWithMsg(msg, response);
   }.bind(this));
   return promise;
 };
@@ -311,7 +297,8 @@ app.Api.prototype.register = function(data) {
 app.Api.prototype.validateRegisterEmail = function(nonce) {
   var promise = this.postJson_('/users/validate_register_email/' + nonce, {});
   promise.catch(function(response) {
-    this.alerts_.addError(response);
+    var msg = this.alerts_.gettext('Your account could not be activated:');
+    this.alerts_.addErrorWithMsg(msg, response);
   }.bind(this));
   return promise;
 };
@@ -324,7 +311,8 @@ app.Api.prototype.validateRegisterEmail = function(nonce) {
 app.Api.prototype.validateChangeEmail = function(nonce) {
   var promise = this.postJson_('/users/validate_change_email/' + nonce, {});
   promise.catch(function(response) {
-    this.alerts_.addError(response);
+    var msg = this.alerts_.gettext('Your new email could not be activated:');
+    this.alerts_.addErrorWithMsg(msg, response);
   }.bind(this));
   return promise;
 };
@@ -338,7 +326,8 @@ app.Api.prototype.requestPasswordChange = function(email) {
   var promise = this.postJson_('/users/request_password_change', {
     'email': email});
   promise.catch(function(response) {
-    this.alerts_.addError(response);
+    var msg = this.alerts_.gettext('No email could be sent:');
+    this.alerts_.addErrorWithMsg(msg, response);
   }.bind(this));
   return promise;
 };
@@ -354,7 +343,8 @@ app.Api.prototype.validateNewPassword = function(nonce, password) {
     'password': password
   });
   promise.catch(function(response) {
-    this.alerts_.addError(response);
+    var msg = this.alerts_.gettext('Password could not be changed:');
+    this.alerts_.addErrorWithMsg(msg, response);
   }.bind(this));
   return promise;
 };
@@ -367,7 +357,8 @@ app.Api.prototype.validateNewPassword = function(nonce, password) {
 app.Api.prototype.login = function(data) {
   var promise = this.postJson_('/users/login', data);
   promise.catch(function(response) {
-    this.alerts_.addError(response);
+    var msg = this.alerts_.gettext('Login failed:');
+    this.alerts_.addErrorWithMsg(msg, response);
   }.bind(this));
   return promise;
 };
@@ -393,7 +384,8 @@ app.Api.prototype.updatePreferredLanguage = function(lang) {
 app.Api.prototype.readAccount = function() {
   var promise = this.getJson_('/users/account');
   promise.catch(function(response) {
-    this.alerts_.addError(response);
+    var msg = this.alerts_.gettext('Getting account data failed:');
+    this.alerts_.addErrorWithMsg(msg, response);
   }.bind(this));
   return promise;
 };
@@ -406,7 +398,8 @@ app.Api.prototype.readAccount = function() {
 app.Api.prototype.updateAccount = function(data) {
   var promise = this.postJson_('/users/account', data);
   promise.catch(function(response) {
-    this.alerts_.addError(response);
+    var msg = this.alerts_.gettext('Updating account failed:');
+    this.alerts_.addErrorWithMsg(msg, response);
   }.bind(this));
   return promise;
 };
