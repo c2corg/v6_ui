@@ -206,6 +206,10 @@ app.utils.detectDocumentIdFilter = function(ngeoLocation) {
 app.utils.redirectToLogin = function(authUrl) {
   var location = window.location;
   var current_url = location.pathname + location.search + location.hash;
+  if (location.pathname == '/auth') {
+    // do not redirect to the 'auth' page
+    current_url = '/';
+  }
   location.href = '{login}?from={current}'
       .replace('{login}', authUrl)
       .replace('{current}', encodeURIComponent(current_url));
