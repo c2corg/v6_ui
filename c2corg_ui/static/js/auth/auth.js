@@ -110,24 +110,24 @@ app.AuthController = function($scope, appApi, appAuthentication,
   this.nonce_;
 
   var get_nonce = function(key) {
-    return ngeoLocation.getParam(key).replace(/[^0-9a-z_]/gi, '');
+    return ngeoLocation.getFragmentParam(key).replace(/[^0-9a-z_]/gi, '');
   };
 
-  if (this.ngeoLocation_.hasParam('validate_register_email')) {
+  if (this.ngeoLocation_.hasFragmentParam('validate_register_email')) {
     // Activate and log in from API by using the nonce
     var nonce1 = get_nonce('validate_register_email');
     var remember = true;
     var onLogin = this.successLogin_.bind(this, remember);
     this.api_.validateRegisterEmail(nonce1).then(onLogin);
     this.uiStates = {};
-  } else if (this.ngeoLocation_.hasParam('validate_change_email')) {
+  } else if (this.ngeoLocation_.hasFragmentParam('validate_change_email')) {
     // Activate the email and redirect
     var nonce2 = get_nonce('validate_change_email');
     this.api_.validateChangeEmail(nonce2).then(function() {
       this.redirect_();
     }.bind(this));
     this.uiStates = {};
-  } else if (this.ngeoLocation_.hasParam('change_password')) {
+  } else if (this.ngeoLocation_.hasFragmentParam('change_password')) {
     // Display the new password form and populate the nonce field.
     // On submission success the user will be logged in.
     this.nonce_ = get_nonce('change_password');
@@ -147,9 +147,9 @@ app.AuthController.prototype.login = function() {
 
   // Discourse SSO
   login['discourse'] = true;
-  if (this.ngeoLocation_.hasParam('sso')) {
-    login['sso'] = this.ngeoLocation_.getParam('sso');
-    login['sig'] = this.ngeoLocation_.getParam('sig');
+  if (this.ngeoLocation_.hasFragmentParam('sso')) {
+    login['sso'] = this.ngeoLocation_.getFragmentParam('sso');
+    login['sig'] = this.ngeoLocation_.getFragmentParam('sig');
   }
 
   this.api_.login(login).then(this.successLogin_.bind(this, remember));
@@ -190,8 +190,8 @@ app.AuthController.prototype.loginToDiscourse_ = function(url) {
  */
 app.AuthController.prototype.redirect_ = function(opt_location) {
   if (!opt_location) {
-    var relativeUrl = this.ngeoLocation_.hasParam('to') ?
-        decodeURIComponent(this.ngeoLocation_.getParam('to')) : '/';
+    var relativeUrl = this.ngeoLocation_.hasFragmentParam('to') ?
+        decodeURIComponent(this.ngeoLocation_.getFragmentParam('to')) : '/';
     opt_location = window.location.protocol + '//' + window.location.host + relativeUrl;
   }
   window.location.href = opt_location;
