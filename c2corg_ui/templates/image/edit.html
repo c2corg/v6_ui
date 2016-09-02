@@ -25,7 +25,7 @@ from c2corg_common.attributes import default_langs, activities, quality_types, i
   </h1>
 
   <form app-loading app-document-editing="images" app-document-editing-model="image"
-    app-document-editing-controller-name="appDocumentEditingController"
+    app-document-editing-controller-name="appImageEditingController"
   % if updating_doc:
     app-document-editing-id="${image_id}" app-document-editing-lang="${image_lang}"
   % endif
@@ -181,12 +181,14 @@ from c2corg_common.attributes import default_langs, activities, quality_types, i
             </div>
 
             ## Fnumber
-            <div class="form-group half">
+            <div class="form-group half" ng-class="{ 'has-error': editForm.fnumber.$invalid, 'has-success': editForm.fnumber.$valid && image.fnumber }">
               <label translate>fnumber</label>
               <div class="input-group">
                 <span class="input-group-addon">f/</span>
-                <input type="text" ng-model="image.fnumber" class="form-control">
+                <input type="text" ng-model="image.fnumber" name="fnumber" class="form-control">
               </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.fnumber.$valid && image.fnumber"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.fnumber.$invalid && editForm.fnumber.$touched"></span>
             </div>
 
             ## FOCAL LENGTH
@@ -204,8 +206,7 @@ from c2corg_common.attributes import default_langs, activities, quality_types, i
             </div>
 
             ## EXPOSURE TIME
-            <div class="form-group half" ng-class="{ 'has-error': editForm.exposure_time.$invalid, 'has-success': editForm.exposure_time.$valid && image.exposure_time}"
-                 ng-init="editCtrl.convertExposureTime(image.exposure_time)">
+            <div class="form-group half" ng-class="{ 'has-error': editForm.exposure_time.$invalid || editCtrl.exposureError, 'has-success': editForm.exposure_time.$valid && image.exposure_time}">
               <label translate>exposure_time</label>
               <span ng-bind-html="editCtrl.convertExposureTime(image.exposure_time)"></span>
               <div class="input-group flex">
@@ -215,9 +216,9 @@ from c2corg_common.attributes import default_langs, activities, quality_types, i
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.exposure_time.$valid && image.exposure_time"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.exposure_time.$invalid && editForm.exposure_time.$touched"></span>
-              <div class="help-block" ng-messages="editForm.exposure_time.$error">
-                <p ng-message="value" class="label label-danger" style="{{ editCtrl.exposureError ? 'display:inline' : ''}}" translate>Cannot be 0.</p>
+              <div class="help-block" ng-messages="editForm.exposure_time.$error || editCtrl.exposureError">
                 <p ng-message="number" class="label label-danger" style="{{ (editForm.exposure_time.$invalid) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
+                <p class="label label-danger" style="{{editCtrl.exposureError ? 'display:inline' : ''}}"><span translate>This field must be a number</span> > 0 <span translate>and</span> < 30</p>
                 <p ng-message="min" class="label label-danger" style="{{ (editForm.exposure_time.$invalid) ? 'display:inline' : ''}}"><span translate>This field must be a number</span> > 0 <span translate>and</span> < 30</p>
                 <p ng-message="max" class="label label-danger" style="{{ (editForm.exposure_time.$invalid) ? 'display:inline' : ''}}"><span translate>This field must be a number</span> > 0 <span translate>and</span> < 30</p>
               </div>

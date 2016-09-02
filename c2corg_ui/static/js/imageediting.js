@@ -57,19 +57,21 @@ goog.inherits(app.ImageEditingController, app.DocumentEditingController);
  * @export
  */
 app.ImageEditingController.prototype.convertExposureTime = function(value) {
-  var exposure = this['scope']['image']['exposure_time_converted'];
+  var exposure;
+
   if (value === 0) {
     this.exposureError = true;
-    exposure = '';
+    this['scope']['image']['exposure_time_converted'] = '';
     return;
   } else if (value < 1 && value) {
-    exposure = '1/' + (1 / value) + ' s';
+    exposure = '1/' + Math.round(1 / value) + ' s';
   } else if (value >= 1) {
     exposure = value + ' s';
   } else if (!value) {
     exposure = '';
   }
   this.exposureError = false;
+  this['scope']['image']['exposure_time_converted'] = exposure;
 };
 
 
