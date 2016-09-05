@@ -180,7 +180,11 @@
            <app-card app-card-doc="doc"></app-card>
         % if showDelete:
         <app-delete-association child-doctype="${type}" parent-id="${document['document_id']}" child-id="doc.document_id"
-                                ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
+                                ng-if="userCtrl.auth.isAuthenticated()
+                                % if document['doctype'] == 'routes':
+                                    && ${associations}.length > 1
+                                % endif
+                                "></app-delete-association>
         % endif
       </div>
     </div>

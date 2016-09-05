@@ -301,7 +301,7 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
     };
     this.api_.updateDocument(this.module_, this.id_, data).then(function() {
       window.location.href = this.url_.buildDocumentUrl(
-        this.module_, this.id_, data['locales']['0']);
+        this.module_, this.id_, this.documentService.document['locales'][0]);
     }.bind(this)
     );
   } else {
@@ -311,7 +311,7 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
     this.api_.createDocument(this.module_, data).then(function(response) {
       this.id_ = response['data']['document_id'];
       window.location.href = this.url_.buildDocumentUrl(
-        this.module_, this.id_, data['locales']['0']);
+        this.module_, this.id_, data['locales'][0]);
     }.bind(this));
   }
 };
