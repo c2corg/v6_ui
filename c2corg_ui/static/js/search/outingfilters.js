@@ -57,7 +57,7 @@ goog.inherits(app.OutingFiltersController, app.SearchFiltersController);
  */
 app.OutingFiltersController.prototype.getFilterFromPermalink = function(key) {
   if (key in this.config && this.config[key]['type'] === 'date') {
-    var val = this.location.getParam(key);
+    var val = this.location.getFragmentParam(key);
     if (val === '') {
       return;
     }
