@@ -20,7 +20,7 @@ from c2corg_common.attributes import default_langs, langs_priority
 
 from pyramid.httpexceptions import (
     HTTPBadRequest, HTTPNotFound, HTTPInternalServerError,
-    HTTPMovedPermanently)
+    HTTPMovedPermanently, HTTPFound)
 
 from c2corg_ui.views import etag_cache, get_response, get_or_create_page
 
@@ -195,9 +195,11 @@ class Document(object):
 
         # Manage merged documents (redirecting to another document)
         if 'redirects_to' in document:
-            if lang is None or lang not in document['available_langs']:
+            is_lang_set = lang is not None and \
+                          lang in document['available_langs']
+            if not is_lang_set:
                 lang = self._get_best_lang(document['available_langs'])
-            self._redirect(document['redirects_to'], lang)
+            self._redirect(document['redirects_to'], lang, None, is_lang_set)
 
         # When requesting a lang that does not exist yet, the API sends
         # back an empty list as 'locales'
@@ -422,21 +424,27 @@ class Document(object):
     def _get_response(self, page_html):
         return get_response(self.request, page_html)
 
-    def _redirect(self, id, lang, slug=None):
-        location = ''
+    def _redirect(self, id, lang, slug=None, is_lang_set=False):
         if slug is None:
             location = self.request.route_url(
                 self._API_ROUTE + '_view_id_lang', id=id, lang=lang)
         else:
             location = self.request.route_url(
                 self._API_ROUTE + '_view', id=id, lang=lang, slug=slug)
-        raise HTTPMovedPermanently(location=location)
+        if is_lang_set:
+            raise HTTPMovedPermanently(location=location)
+        else:
+            # The original URL had no lang param, which means it had to be
+            # figured out according to the user's interface and available
+            # langs => the redirection cannot be permanent since it may differ
+            # from one user to another.
+            raise HTTPFound(location=location)
 
     def _redirect_to_full_url(self):
         id = self._validate_int('id')
-        lang = self._validate_lang() \
-            if 'lang' in self.request.matchdict else \
-            self._get_interface_lang()
+        is_lang_set = 'lang' in self.request.matchdict
+        lang = self._validate_lang() if is_lang_set \
+            else self._get_interface_lang()
 
         url = '%s/%d/%s/info' % (self._API_ROUTE, id, lang)
         if log.isEnabledFor(logging.DEBUG):
@@ -454,14 +462,15 @@ class Document(object):
         if 'redirects_to' in data:
             if lang not in data['available_langs']:
                 lang = self._get_best_lang(data['available_langs'])
-            self._redirect(data['redirects_to'], lang)
+            self._redirect(data['redirects_to'], lang, None, is_lang_set)
         else:
             locale = data['locales'][0]
             title = ''
             if self._API_ROUTE == 'routes' and locale['title_prefix']:
                 title += locale['title_prefix'] + ' '
             title += locale['title']
-            self._redirect(data['document_id'], locale['lang'], slugify(title))
+            self._redirect(data['document_id'], locale['lang'],
+                           slugify(title), is_lang_set)
 
     def _get_interface_lang(self):
         return self.request.cookies.get('interface_lang', self._DEFAULT_LANG)
