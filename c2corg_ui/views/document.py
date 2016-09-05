@@ -16,7 +16,7 @@ from slugify import slugify
 import pyproj
 import json
 import logging
-from c2corg_common.attributes import default_langs
+from c2corg_common.attributes import default_langs, langs_priority
 
 from pyramid.httpexceptions import (
     HTTPBadRequest, HTTPNotFound, HTTPInternalServerError,
@@ -196,7 +196,7 @@ class Document(object):
         # Manage merged documents (redirecting to another document)
         if 'redirects_to' in document:
             if lang is None or lang not in document['available_langs']:
-                lang = self._get_preferred_lang()
+                lang = self._get_best_lang(document['available_langs'])
             self._redirect(document['redirects_to'], lang)
 
         # When requesting a lang that does not exist yet, the API sends
@@ -252,7 +252,7 @@ class Document(object):
 
     def _get_documents(self):
         params = []
-        lang = self._get_preferred_lang()
+        lang = self._get_interface_lang()
         params.append(('pl', lang))
         # Inject default list filters params:
         filters = dict(self._DEFAULT_FILTERS, **{k: v for k, v in params})
@@ -436,8 +436,11 @@ class Document(object):
         id = self._validate_int('id')
         lang = self._validate_lang() \
             if 'lang' in self.request.matchdict else \
-            self._get_preferred_lang()
+            self._get_interface_lang()
+
         url = '%s/%d/%s/info' % (self._API_ROUTE, id, lang)
+        if log.isEnabledFor(logging.DEBUG):
+            log.debug('API: %s %s', 'GET', url)
         resp, data = self._call_api(url)
 
         if resp.status_code == 404:
@@ -450,7 +453,7 @@ class Document(object):
 
         if 'redirects_to' in data:
             if lang not in data['available_langs']:
-                lang = self._get_preferred_lang()
+                lang = self._get_best_lang(data['available_langs'])
             self._redirect(data['redirects_to'], lang)
         else:
             locale = data['locales'][0]
@@ -460,5 +463,13 @@ class Document(object):
             title += locale['title']
             self._redirect(data['document_id'], locale['lang'], slugify(title))
 
-    def _get_preferred_lang(self):
+    def _get_interface_lang(self):
         return self.request.cookies.get('interface_lang', self._DEFAULT_LANG)
+
+    def _get_best_lang(self, available_langs):
+        interface_lang = self._get_interface_lang()
+        if interface_lang in available_langs:
+            return interface_lang
+        return next(
+            (lang for lang in langs_priority if lang in available_langs),
+            None)
