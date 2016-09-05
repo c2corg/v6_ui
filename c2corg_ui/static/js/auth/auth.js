@@ -147,9 +147,9 @@ app.AuthController.prototype.login = function() {
 
   // Discourse SSO
   login['discourse'] = true;
-  if (this.ngeoLocation_.hasFragmentParam('sso')) {
-    login['sso'] = this.ngeoLocation_.getFragmentParam('sso');
-    login['sig'] = this.ngeoLocation_.getFragmentParam('sig');
+  if (this.ngeoLocation_.hasParam('sso')) {
+    login['sso'] = this.ngeoLocation_.getParam('sso');
+    login['sig'] = this.ngeoLocation_.getParam('sig');
   }
 
   this.api_.login(login).then(this.successLogin_.bind(this, remember));

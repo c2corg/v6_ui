@@ -27,15 +27,21 @@ class Pages(object):
     def auth(self):
         return self._get_page('auth', 'c2corg_ui:templates/auth.html')
 
+    @view_config(route_name='auth-sso')
+    def auth_sso(self):
+        return self._get_page(
+            'auth', 'c2corg_ui:templates/auth.html', no_etag=True)
+
     @view_config(route_name='account')
     def account(self):
         return self._get_page('account', 'c2corg_ui:templates/account.html')
 
-    def _get_page(self, page_key, template):
+    def _get_page(self, page_key, template, no_etag=False):
         return get_or_create_page(
             page_key,
             template,
             self.template_input,
             self.request,
-            self.debug
+            self.debug,
+            no_etag
         )

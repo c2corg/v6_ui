@@ -88,6 +88,7 @@ def main(global_config, **settings):
         'outings_diff', '/outings/diff/{id:\d+}/{lang}/{v1}/{v2}')
 
     config.add_route('auth', '/auth')
+    config.add_route('auth-sso', '/auth-sso')
 
     config.add_route('account', '/account')
 
