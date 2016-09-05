@@ -192,9 +192,8 @@ app.CardController.prototype.getFullRatings = function() {
         if (doc.rock_required_rating && doc.rock_free_rating) {
           // [A0] (without bracket) is showed only if equipment_rating = P1 or P1+, and if aid_rating is empty.
           var A0 = (doc.equipment_rating === 'P1' || doc.equipment_rating === 'P1+') && !doc.aid_rating;
-          ratings['rock_rating'] += '>';
-          ratings['rock_rating'] += doc.rock_required_rating ? doc.rock_required_rating + ' ' : '';
-          ratings['rock_rating'] += A0 ? doc.rock_free_rating : '';
+          ratings['rock_rating'] += '>' + doc.rock_required_rating;
+          ratings['rock_rating'] += A0 ? '[A0]' : '';
         }
       }
     }

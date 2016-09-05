@@ -108,8 +108,13 @@
     <span class="detail-text accordion ratings">
 
       ${get_global_rating(route)}
+      ${get_skitouring_rating(route)}
 
-      ${get_hiking_mtb_rating(route)}
+      % if route.get('hiking_rating'):
+        <div class="rating-block c">
+          <span uib-tooltip="{{'hiking_rating' | translate}}" class="value">${route['hiking_rating']}</span>&nbsp;
+        </div>
+      % endif
 
       % if route.get('snowshoe_rating'):
         <div class="rating-block d">
@@ -117,8 +122,7 @@
         </div>
       % endif
 
-        ${get_skitouring_rating(route)}
-
+      ${get_hiking_mtb_rating(route)}
     </span>
   </div>
   % endif
