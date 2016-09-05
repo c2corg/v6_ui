@@ -1,0 +1,312 @@
+<%!
+from c2corg_common.attributes import default_langs, activities, quality_types, image_types, image_categories \
+%>
+<%inherit file="../base.html"/>
+<%
+  updating_doc = image_id and image_lang
+%>
+<%namespace file="../helpers/common.html" import="show_title"/>
+
+<%namespace file="../helpers/edit.html" import="show_editing_associated_waypoints, show_editing_associated_routes"/>
+
+
+<%block name="pagetitle">
+<title ng-init="id = ${image_id if image_id else 0}" ng-bind="id ?
+          mainCtrl.page_title('Editing an image') : mainCtrl.page_title('Creating an image')">${show_title('Create/edit image')}
+</title>
+</%block>
+
+<%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
+
+<section class="create-edit-document">
+
+  <h1 ng-init="id = ${image_id if image_id else 0}" class="text-center">
+    <label class="label label-primary" ng-bind="id ? ('Editing an image' | translate) : ('Creating an image' | translate)"></label>
+  </h1>
+
+  <form app-loading app-document-editing="images" app-document-editing-model="image"
+    app-document-editing-controller-name="appDocumentEditingController"
+  % if updating_doc:
+    app-document-editing-id="${image_id}" app-document-editing-lang="${image_lang}"
+  % endif
+    class="document-editing" name="editForm" novalidate ng-submit="editCtrl.submitForm(editForm.$valid)">
+
+    ## PROGRESS BAR
+    <app-progress-bar ng-init="progressBarCtrl.maxSteps = 2">
+      <ul class="progress-bar-edit">
+        <li class="nav-step-1"ng-click="progressBarCtrl.step(1, 'image',  'backwards')" ng-class="{'nav-step-selected': progressBarCtrl.currentStep == 1 }"><span class="nav-text"><span translate>image</span></span><span class="bullet-container"><span class="bullet"></span></span></li>
+        <li class="nav-step-2"ng-click="progressBarCtrl.step(2, 'image',  'backwards')" ng-class="{'nav-step-selected': progressBarCtrl.currentStep == 2 }"><span class="nav-text"><span translate>comments</span> & <span translate>associations</span></span><span class="bullet-container"><span class="bullet"></span></span></li>
+      </ul>
+
+      ## NAV BUTTONS
+      <div class="nav-buttons">
+        <button class="btn btn-primary prev" type="button" ng-if="progressBarCtrl.previousStep !== 0" ng-click="progressBarCtrl.step(progressBarCtrl.previousStep, 'image', 'backwards')"><span class="glyphicon glyphicon-triangle-left"></span></button>
+        <button class="btn btn-primary next" type="button" ng-if="progressBarCtrl.nextStep <=  progressBarCtrl.maxSteps" ng-click="progressBarCtrl.step(progressBarCtrl.nextStep, 'image', 'forwards')"><span class="glyphicon glyphicon-triangle-right"></span></button>
+      </div>
+    </app-progress-bar>
+
+    <section class="editing">
+
+      <div class="step step-1">
+        <section class="section">
+          <h2 class="heading show-phone" translate>general informations</h2>
+          <div class="content">
+
+            ## TITLE
+            <div id="title-group" class="form-group" ng-class="{ 'has-error': editForm.title.$touched && editForm.title.$invalid, 'has-success': editForm.title.$valid }">
+              <label><span translate>title</span> *</label>
+              <input type="text" name="title" ng-model="image.locales[0].title" ng-minlength="3"class="form-control" required />
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.title.$valid"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.title.$invalid && editForm.title.$touched"></span>
+              <div class="help-block" ng-messages="editForm.title.$error">
+                <p ng-message="required" class="label label-danger" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : '' }}" translate>This field is required.</p>
+                <p ng-message="minlength" class="label label-danger" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : '' }}" translate>Title must have at least 3 characters.</p>
+              </div>
+            </div>
+
+            ## LANGUAGE
+            <div id="lang-group" class="form-group" ng-class="{ 'has-error': editForm.lang.$touched && editForm.lang.$invalid, 'has-success': editForm.lang.$valid}">
+              <label><span translate>lang</span> *</label>
+              % if image_lang:
+              <input disabled x-translate class="form-control" value="${image_lang}">
+              % else:
+              <select name="lang" ng-options="lang as mainCtrl.translate(lang) for lang in ['${"','".join(default_langs) |n}'] | translate" ng-model="image.locales[0].lang" class="form-control" required><option value=""></option></select>
+              % endif
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="image.locales[0].lang"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.lang.$touched && editForm.lang.$invalid"></span>
+              <div class="help-block" ng-messages="editForm.lang.$error">
+                <p ng-message="required" class="label label-danger" style="{{ (editForm.lang.$invalid && editForm.lang.$touched) ? 'display:inline' : '' }}" translate>This field is required.</p>
+              </div>
+            </div>
+
+            ## FILENAME
+            <div id="title-group" class="form-group">
+              <label translate>filename</label>
+              <input disabled  type="text" name="filename" ng-model="image.filename" class="form-control" />
+            </div>
+
+            ## ACTIVITIES
+            <div class="form-group full" ng-init="activities = ${activities}">
+              <label translate>activities</label>
+              <div class="route-activities">
+                <div ng-repeat="activity in activities" class="activity" ng-if="activity !== 'paragliding' ">
+                  <div>
+                    <div class="icon-{{activity}}" class="icon-" ng-click="editCtrl.pushToArray(image, 'activities', activity, $event)"
+                         ng-class="{'activity-selected' : image.activities.indexOf(activity) > -1}">
+                    </div>
+                    <p>{{activity | translate}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            ## CATEGORIES
+            <div class="form-group half">
+              <label translate>image_categories</label>
+              <ul class="types">
+                <li ng-repeat="type in ${image_categories}" ng-click="editCtrl.pushToArray(image, 'categories', type, $event)">
+                  <div class="checkbox"><input type="checkbox" ng-checked="image.categories.indexOf(type) > -1"><span>{{type|| translate}}</span></div>
+                </li>
+              </ul>
+            </div>
+
+            ## IMAGE TYPE
+            <div class="form-group half half-group">
+
+              ## DATE
+              <label translate>date</label>
+              <div class="input-group" ng-init="openDateStart = false" ng-model="image.date_time" datepicker-options="{maxDate : editCtrl.today}"
+                   uib-datepicker-popup="dd MM yyyy" is-open="openDateStart">
+                <input type="text" disabled class="form-control" value="{{image.date_time | amDateFormat: 'Do MMMM YYYY' }}"/>
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="openDateStart = true"><span class="glyphicon glyphicon-calendar"></span></button>
+                </span>
+              </div>
+
+              <br>
+              <div ng-class="{ 'has-success': image.image_type}">
+                <label><span translate>image_type</span> *</label>
+                <div class="input-group">
+                  <select class="form-control" ng-model="image.image_type" ng-options="rat as rat for rat in ${image_types}"><option value=""></option></select>
+                  <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
+                </div>
+                <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="image.image_type"></span>
+              </div>
+
+              <br>
+              ## ELEVATION
+              <div ng-class="{ 'has-success': image.elevation}">
+                <label translate>elevation</label>
+                <div class="input-group">
+                  <input type="number" min="0" minlength="1" name="elevation" ng-model="image.elevation" class="form-control" />
+                  <span class="input-group-addon">m</span>
+                </div>
+                <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="image.elevation"></span>
+                <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.elevation.$invalid && image.elevation"></span>
+                <div class="help-block" ng-messages="editForm.elevation.$error">
+                  <p ng-message="number" class="label label-danger" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
+                </div>
+              </div>
+            </div>
+
+            <app-map class="map-edit"></app-map>
+
+          </div>
+        </section>
+
+
+        <section class="section">
+          <h2 class="heading show-phone" translate>camera settings</h2>
+          <div class="content">
+
+            ## CAMERA NAME
+            <div class="form-group half">
+              <label translate>camera_name</label>
+              <input type="text" ng-model="image.camera_name" class="form-control">
+            </div>
+
+            ## Fnumber
+            <div class="form-group half">
+              <label translate>fnumber</label>
+              <div class="input-group">
+                <span class="input-group-addon">f/</span>
+                <input type="text" ng-model="image.fnumber" class="form-control">
+              </div>
+            </div>
+
+            ## FOCAL LENGTH
+            <div class="form-group half" ng-class="{ 'has-error': editForm.focal_length.$invalid, 'has-success': editForm.focal_length.$valid && image.focal_length }">
+              <label translate>focal_length</label>
+              <div class="input-group">
+                <input type="number" min="1" name="focal_length" ng-model="image.focal_length" class="form-control">
+                <span class="input-group-addon">mm</span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.focal_length.$valid && image.focal_length"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.focal_length.$invalid && editForm.focal_length.$touched"></span>
+              <div class="help-block" ng-messages="editForm.focal_length.$error">
+                <p ng-message="number" class="label label-danger" style="{{ (editForm.focal_length.$invalid && editForm.focal_length.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
+              </div>
+            </div>
+
+            ## EXPOSURE TIME
+            <div class="form-group half" ng-class="{ 'has-error': editForm.exposure_time.$invalid, 'has-success': editForm.exposure_time.$valid && image.exposure_time }">
+              <label translate>exposure_time</label>
+              <div class="input-group">
+                <span class="input-group-addon">1/</span>
+                <input type="number" min="1" name="exposure_time" ng-model="image.exposure_time" class="form-control">
+                <span class="input-group-addon">s</span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.exposure_time.$valid && image.exposure_time"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.exposure_time.$invalid && editForm.exposure_time.$touched"></span>
+              <div class="help-block" ng-messages="editForm.exposure_time.$error">
+                <p ng-message="number" class="label label-danger" style="{{ (editForm.exposure_time.$invalid && editForm.exposure_time.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
+              </div>
+            </div>
+
+            ## ISO
+            <div class="form-group half" ng-class="{ 'has-error': editForm.iso_speed.$invalid, 'has-success': editForm.iso_speed.$valid && image.iso_speed }">
+              <label translate>iso_speed</label>
+              <div class="input-group">
+                <span class="input-group-addon">ISO</span>
+                <input type="number" min="1" name="iso_speed" ng-model="image.iso_speed" class="form-control">
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.iso_speed.$valid && image.iso_speed"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.iso_speed.$invalid && editForm.iso_speed.$touched"></span>
+              <div class="help-block" ng-messages="editForm.iso_speed.$error">
+                <p ng-message="number" class="label label-danger" style="{{ (editForm.iso_speed.$invalid && editForm.iso_speed.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
+              </div>
+            </div>
+
+            ## WIDTH
+            <div class="form-group half" ng-if="image.width">
+              <label translate>width</label>
+              <div class="input-group">
+                <input type="number" disabled min="0" minlength="1" name="width" ng-model="image.width" class="form-control" />
+                <span class="input-group-addon">px</span>
+              </div>
+            </div>
+
+            ## HEIGHT
+            <div class="form-group half" ng-if="image.height">
+              <label translate>height</label>
+              <div class="input-group">
+                <input type="number" disabled min="0" minlength="1" name="height" ng-model="image.height" class="form-control" />
+                <span class="input-group-addon">px</span>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+      </div>
+
+      <div class="step step-2">
+        <section class="section">
+          <h2 class="heading show-phone" translate>comments</h2>
+          <div class="content">
+
+            ## DESCRIPTION
+            <div id="description-group" class="form-group full">
+              <label translate>description</label>
+              <textarea name="description" ng-model="image.locales[0].description" class="form-control description"></textarea>
+            </div>
+
+            ## SUMMARY
+            <div id="summary-group" class="form-group full">
+              <label translate>summary</label>
+              <textarea name="summary" ng-model="image.locales[0].summary" class="form-control"></textarea>
+            </div>
+
+            ## AUTHOR
+            <div class="form-group half">
+              <label translate>author</label>
+              <input type="text" class="form-control" ng-model="image.author">
+            </div>
+
+            ## QUALITY
+            <div class="form-group remain half" ng-style="{'has-success': image.quality}" ng-init="qualityTypes = ${quality_types}">
+              ## I tried with ng-init, ng-selected..so hacking
+              <div class="ng-hide">{{image.quality = image.quality || qualityTypes[1]}}</div>
+              <label translate>quality</label>
+              <select ng-options="type as mainCtrl.translate(type) for type in qualityTypes" ng-model="image.quality" class="form-control"><option value=""></option></select>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="image.quality"></span>
+            </div>
+          </div>
+        </section>
+
+        <section class="section associations">
+          <h2 class="heading show-phone" translate>associations</h2>
+          <div class="content">
+            <app-simple-search parent-id="image.document_id" app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="wro"></app-simple-search>
+            ${show_editing_associated_routes('image')}
+            ${show_editing_associated_waypoints('image')}
+          </div>
+        </section>
+      </div>
+
+    </section>
+
+    <div class="action-buttons float-buttons">
+      <button type="submit" class="btn btn-lg orange-btn float-button" ng-if="!editForm.$invalid && !editCtrl.hasMissingProps(image, false)"
+              tooltip-placement="left" uib-tooltip="{{'Save' | translate}}">
+        <span class="glyphicon glyphicon-ok"></span>
+        <p class="float-button-text" translate>Save</p>
+      </button>
+      <button type="button" class="btn btn-lg orange-btn float-button"
+              ng-style="(editForm.$invalid || editCtrl.hasMissingProps(image, false)) && {'opacity': 0.5}" tooltip-placement="left" uib-tooltip="{{'What is missing?' | translate}}"
+              ng-if="editForm.$invalid || editCtrl.hasMissingProps(image, false)" ng-click="editCtrl.hasMissingProps(image, true)">
+        <span class="glyphicon glyphicon-ok"></span>
+        <p class="float-button-text" translate>What is missing?</p>
+      </button>
+      <%
+      view_url = request.route_url('images_view', id=image_id, lang=image_lang) if updating_doc else ''
+      index_url = request.route_url('images_index')
+      %>
+      <button type="button" class="btn btn-lg gray-btn float-button" ng-click="editCtrl.cancel('${view_url}', '${index_url}')"  tooltip-placement="left" uib-tooltip="{{'Cancel' | translate}}">
+        <span class="glyphicon glyphicon-remove"></span>
+        <p class="float-button-text" translate>Cancel</p>
+      </button>
+    </div>
+
+  </form>
+</section>

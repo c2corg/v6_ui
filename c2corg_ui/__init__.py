@@ -87,6 +87,18 @@ def main(global_config, **settings):
     config.add_route(
         'outings_diff', '/outings/diff/{id:\d+}/{lang}/{v1}/{v2}')
 
+    config.add_route('images_view', '/images/{id}/{lang}')
+    config.add_route('images_index', '/images')
+    config.add_route('images_sitemap_default', '/images/sitemap')
+    config.add_route('images_sitemap', '/images/sitemap*filters')
+    config.add_route('images_add', '/images/add')
+    config.add_route('images_edit', '/images/edit/{id}/{lang}')
+    config.add_route('images_history', '/images/history/{id}/{lang}')
+    config.add_route('images_archive',
+                     '/images/{id}/{lang}/{version:\d+}')
+    config.add_route(
+        'images_diff', '/images/diff/{id}/{lang}/{v1}/{v2}')
+
     config.add_route('auth', '/auth')
 
     config.add_route('account', '/account')
