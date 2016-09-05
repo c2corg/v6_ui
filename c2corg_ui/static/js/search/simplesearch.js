@@ -247,7 +247,7 @@ app.SimpleSearchController.prototype.createDataset_ = function(type) {
         if (!this.associationContext_) {
           // don't add this if you're typing in an add-association-tool
           var moreLink = '<p class="suggestion-more"><a href="/' + type +
-            '?q=' + encodeURI(doc['query']) + '" class="green-text" translate>' +
+            '#q=' + encodeURI(doc['query']) + '" class="green-text" translate>' +
             this.gettextCatalog_.getString('see more results') + '</a></p>';
           return this.compile_(moreLink)(this.scope_);
         }
@@ -285,7 +285,7 @@ app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
     remote: {
       url: url,
       wildcard: '%QUERY',
-      rateLimitWait: 50,
+      rateLimitWait: 300,
       prepare: (function(query, settings) {
 
         var url = settings['url'] + '&pl=' + this.gettextCatalog_.currentLanguage;
