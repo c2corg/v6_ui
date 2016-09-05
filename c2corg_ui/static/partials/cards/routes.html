@@ -4,7 +4,7 @@
   <br>
   <div class="list-item-info">
     <div class="flex wrap-row">
-      <span class="elevation-max" ng-if="doc['elevation_max']" uib-tooltip="{{'elevation_max'| translate}}" tooltip-placement="right">
+      <span class="elevation-max" ng-if="doc['elevation_max']" uib-tooltip="{{'elevation_max'| translate}}">
         <span translate class="value-title glyphicon glyphicon-sort-by-attributes"></span>
         <span class="value">{{doc['elevation_max']}}&nbsp;m</span>
       </span>
@@ -19,7 +19,7 @@
         <span class="value">{{doc['height_diff_difficulties']}}&nbsp;m</span>
       </span>
 
-      <div ng-if="doc['orientations']" class="orientations" uib-tooltip="{{'orientations'| translate}}" tooltip-placement="left">
+      <div ng-if="doc['orientations']" class="orientations" uib-tooltip="{{'orientations'| translate}}">
         <span class="glyphicon glyphicon-fullscreen"></span>
         <span ng-repeat="o in doc['orientations']">{{o}}{{$last ? '' : ', '}}</span>
       </div>
@@ -40,7 +40,7 @@
     </div>
 
     <div class="route-activities">
-      <span ng-repeat="activity in doc.activities" class="route-activity icon-{{activity}}" uib-tooltip="{{ cardCtrl.translate(activity)}}" tooltip-placement="top"></span>
+      <span ng-repeat="activity in doc.activities" class="route-activity icon-{{activity}}" uib-tooltip="{{ cardCtrl.translate(activity)}}"></span>
     </div>
   </div>
 </a>
