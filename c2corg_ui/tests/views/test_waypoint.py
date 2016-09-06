@@ -29,12 +29,24 @@ class TestWaypointUi(BaseTestUi):
 
     def test_slug(self):
         with HTTMock(waypoint_detail_mock):
+            url = '/{0}/117982'.format(self._prefix)
+            self.app.get(url, status=302)
+
             url = '/{0}/117982/fr'.format(self._prefix)
             resp = self.app.get(url, status=301)
 
             redir = resp.headers.get('Location')
             self.assertEqual(
                 redir, 'http://localhost/waypoints/117982/fr/vallorbe')
+
+    def test_merged(self):
+        with HTTMock(waypoint_detail_merged_mock):
+            url = '/{0}/123456/fr/foo'.format(self._prefix)
+            resp = self.app.get(url, status=301)
+
+            redir = resp.headers.get('Location')
+            self.assertEqual(
+                redir, 'http://localhost/waypoints/733992/fr')
 
     def test_detail_etag(self):
         """ An ETag header is set, using the ETag of the API response.
@@ -181,3 +193,11 @@ def waypoint_diff_mock(url, request):
             request,
             os.path.join(base_path, 'data', 'waypoint_archive.json'),
             'W/"117982-fr-1-131565"')
+
+
+@all_requests
+def waypoint_detail_merged_mock(url, request):
+    return handle_mock_request(
+        request,
+        os.path.join(base_path, 'data', 'waypoint_merged.json'),
+        'W/"123456-fr-1"')
