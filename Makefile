@@ -85,6 +85,8 @@ help:
 	@echo "- publish		Push docker image to dockerhub from travis-ci"
 	@echo "- transifex-get		Retrieve the i18n files (POT/PO) from Transifex"
 	@echo "- transifex-send	Push the new i18n strings to Transifex"
+	@echo "- clear-cache		Reset the server cache container"
+	@echo "- clear-cache-prod	Reset the server cache container in prod environment"
 	@echo
 
 .PHONY: check
