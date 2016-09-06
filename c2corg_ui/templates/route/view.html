@@ -5,15 +5,18 @@ from json import dumps
 %>
 
 <%inherit file="../base.html"/>
-<%namespace file="../helpers/view.html" import="get_comments, get_image_gallery, photoswipe_gallery, get_document_locale_text,
+<%namespace file="../helpers/view.html" import="get_comments, get_image_gallery,
+    photoswipe_gallery, get_document_locale_text,
     get_document_locale_text, show_attr, show_missing_langs_links,
     show_other_langs_links, show_archive_data, show_route_title,
     show_areas, show_float_buttons, show_maps, get_route_activities,
     show_associated_waypoints, show_associated_routes, show_associated_outings,
-    delete_association_confirmation_modal, associated_waypoints_featurelist" />
+    delete_association_confirmation_modal, associated_waypoints_featurelist,
+    show_badge" />
 
-<%namespace file="helpers/detailed_route_attributes.html" import="get_route_location, get_route_glacier_gear,
-    get_route_rating, get_route_general, get_route_heights, get_route_access, get_route_associated_maps" />
+<%namespace file="helpers/detailed_route_attributes.html" import="get_route_location,
+    get_route_glacier_gear, get_route_rating, get_route_general, get_route_heights,
+    get_route_access, get_route_associated_maps" />
 
 <%
 route_id = route['document_id']
@@ -82,9 +85,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
   <h1 class="routes">
     <div class="icons-header routes">${get_route_activities(route, 'top')}</div>
     <span class="title">${show_route_title(locale)}</span>
-    <label class="badge route" onClick="window.location='${request.route_url('routes_index')}' ">
-      <span class="glyphicon glyphicon-arrow-right"></span>&nbsp;<span translate>route</span>
-    </label>
+    ${show_badge(route, 'route')}
   </h1>
 </header>
 

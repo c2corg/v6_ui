@@ -7,10 +7,11 @@ from json import dumps
 <%inherit file="../base.html"/>
 <%namespace file="../helpers/common.html" import="show_title"/>
 
-<%namespace file="helpers/detailed_images_attributes.html" import="get_image_general, get_image_camera_settings"/>
+<%namespace file="helpers/detailed_images_attributes.html"
+    import="get_image_general, get_image_camera_settings"/>
 
 <%namespace file="../helpers/view.html" import="get_image_gallery, photoswipe_gallery,
-    show_attr, show_missing_langs_links, show_other_langs_links,
+    show_attr, show_missing_langs_links, show_other_langs_links, show_badge,
     show_archive_data, show_route_title, get_route_activities, show_areas, show_float_buttons,
     show_associated_waypoints, show_associated_routes, delete_association_confirmation_modal"/>
 
@@ -60,9 +61,7 @@ other_langs, missing_langs = get_lang_lists(image, lang)
   <h1 class="routes">
     <div class="icons-header">${get_route_activities(image, 'top')}</div>
     <span class="title">${show_route_title(locale)}</span><br>
-    <label class="badge" onClick="window.location='${request.route_url('images_index')}' ">
-      <span class="glyphicon glyphicon-arrow-right"></span>&nbsp;<span translate>image</span>
-    </label>
+    ${show_badge(image, 'image')}
   </h1>
 </header>
 
