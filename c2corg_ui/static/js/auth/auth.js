@@ -226,7 +226,10 @@ app.AuthController.prototype.register = function() {
   form['lang'] = lang; // inject the current language
 
   this.api_.register(form).then(function() {
-    var msg = alerts.gettext('Register success');
+    var msg = alerts.gettext(
+        'Thank you for your registration! ' +
+        'We sent you an email, please click on the link to activate ' +
+        'your account.');
     alerts.addSuccess(msg);
   }, function() {
     // The captcha can be used only once
