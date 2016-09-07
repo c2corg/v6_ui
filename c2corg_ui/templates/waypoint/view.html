@@ -10,11 +10,13 @@ from json import dumps
     get_waypoint_orientation, get_waypoint_contact, get_waypoint_style, get_waypoint_rating,
     get_waypoint_access, get_waypoint_heights, get_waypoint_location, get_waypoint_general,
     get_waypoint_maps_info"/>
-<%namespace file="../helpers/view.html" import="get_comments, get_image_gallery, photoswipe_gallery, get_document_locale_text,
+<%namespace file="../helpers/view.html" import="get_comments, get_image_gallery,
+    photoswipe_gallery, get_document_locale_text,
     show_attr, show_missing_langs_links, show_other_langs_links, show_archive_data,
     show_route_title, show_areas, show_maps, show_float_buttons,
     show_associated_waypoints, show_associated_routes, show_associated_outings,
-    delete_association_confirmation_modal, associated_waypoints_featurelist, associated_routes_featurelist"/>
+    delete_association_confirmation_modal, associated_waypoints_featurelist,
+    associated_routes_featurelist, show_badge"/>
 
 <%
 waypoint_id = waypoint['document_id']
@@ -86,9 +88,7 @@ geometry4326 = geometry
   <h1>
     <span class="icon-${waypoint['waypoint_type']} waypoint-type" uib-tooltip="{{mainCtrl.translate('${waypoint['waypoint_type']}')}}"></span>
     <span>${locale['title']}</span>
-    <label class="badge waypoint" onClick="window.location='${request.route_url('waypoints_index', _query={'wtyp': waypoint['waypoint_type']})}'">
-      <span class="glyphicon glyphicon-arrow-right"></span>&nbsp;<span translate>waypoint</span>
-    </label>
+    ${show_badge(waypoint, 'waypoint')}
   </h1>
 </header>
 

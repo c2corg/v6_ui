@@ -1,6 +1,8 @@
 <%!
     from c2corg_ui.templates.utils import get_attr
     from json import dumps, loads
+    from shapely.geometry import asShape
+    from math import floor
     from slugify import slugify
 %>
 
@@ -674,7 +676,6 @@
   </div>
 </%def>
 
-
 <%def name="get_comments()">\
   <div class="view-details-comments col-xs-12 comments">
     <h3 class="heading comments"
@@ -696,4 +697,22 @@
       </div>
     </section>
   </div>
+</%def>
+
+<%def name="show_badge(document, type)">\
+  <%
+      fragments = []
+      if document.get('geometry') and document.get('geometry').get('geom'):
+          geojson = loads(document.get('geometry').get('geom'))
+          geom = asShape(geojson)
+          buffer = geom.buffer(10000)
+          bounds = map(floor, buffer.bounds)
+          fragments.append(('bbox', ','.join(map(str, bounds))))
+      if type == 'waypoint':
+          fragments.append(('wtyp', document['waypoint_type']))
+  %>
+  <label class="badge ${type}">
+    <a href="${request.route_url(type + 's_index')}#${'&'.join(['='.join(fragment) for fragment in fragments])}"><span
+       class="glyphicon glyphicon-arrow-right"></span>&nbsp;<span translate>${type}</span></a>
+  </label>
 </%def>
