@@ -210,7 +210,7 @@ updating_doc = outing_id and outing_lang
 
       <div class="step step-2">
         <section class="section weather">
-          <h2 class="heading show-phone"><span translate>weather </span></h2>
+          <h2 class="heading show-phone"><span translate>weather</span></h2>
           <div class="content outing-weather" id="title-edit">
 
             ## DATE START
@@ -268,7 +268,7 @@ updating_doc = outing_id and outing_lang
               <table class="table table-striped conditions-levels" ng-if="outing.locales[0].conditions_levels[0]">
                 <thead>
                   <tr>
-                    <th class="location"><span translate>location</span> / <span translate>altitude</span> / <span translate>orientations</span></th>
+                    <th class="location"><span translate>location</span> / <span translate>elevation</span> / <span translate>orientations</span></th>
                     <th class="soft-snow"><span translate>soft snow</span> (cm)</th>
                     <th class="total-snow"><span translate>total snow</span> (cm)</th>
                     <th class="comment" translate>comment</th>
@@ -372,11 +372,11 @@ updating_doc = outing_id and outing_lang
               <label translate>avalanche_signs</label>
               <ul class="types">
                 <li ng-click="outing.avalanche_signs.indexOf('no') == -1 ? (outing.avalanche_signs = ['no']) : (outing.avalanche_signs[outing.avalanche_signs.indexOf('no')] = null)">
-                  <div class="checkbox"><input type="checkbox" ng-checked="outing.avalanche_signs.indexOf('no') > -1"><span>{{'no' | translate}}</span></div>
+                  <div class="checkbox"><input type="checkbox" ng-checked="outing.avalanche_signs.indexOf('no') > -1"><span translate>no</span></div>
                 </li>
                 ## don't show other options if 'no' is selected
                 <li ng-repeat="type in signs" ng-click="editCtrl.pushToArray(outing, 'avalanche_signs', type, $event)" ng-if="$index > 0 && outing.avalanche_signs.indexOf('no') == -1">
-                  <div class="checkbox"><input type="checkbox" ng-checked="outing.avalanche_signs.indexOf(type) > -1"><span>{{type | translate}}</span></div>
+                  <div class="checkbox"><input type="checkbox" ng-checked="outing.avalanche_signs.indexOf(type) > -1"><span x-translate>{{type}}</span></div>
                 </li>
               </ul>
             </div>
@@ -492,7 +492,7 @@ updating_doc = outing_id and outing_lang
             <div id="lang-group" class="form-group" ng-class="{ 'has-error': editForm.lang.$touched && editForm.lang.$invalid, 'has-success': editForm.lang.$valid}">
               <label><span translate>lang</span> *</label>
               % if outing_lang:
-                <input disabled x-translate class="form-control" value="${outing_lang}">
+                <input disabled class="form-control" value="{{mainCtrl.translate('${outing_lang}')}}">
               % else:
                 <select name="lang" ng-options="lang as mainCtrl.translate(lang) for lang in ['${"','".join(default_langs) |n}'] | translate" ng-model="outing.locales[0].lang" class="form-control" required><option value=""></option></select>
               % endif

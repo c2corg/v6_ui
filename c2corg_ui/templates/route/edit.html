@@ -74,7 +74,7 @@ updating_doc = route_id and route_lang
             <div id="lang-group" class="form-group" ng-class="{ 'has-error': editForm.lang.$touched && editForm.lang.$invalid, 'has-success': editForm.lang.$valid}">
               <label><span translate>lang</span> *</label>
               % if route_lang:
-                <input disabled x-translate class="form-control" value="${route_lang}">
+                <input disabled class="form-control" value="{{mainCtrl.translate('${route_lang}')}}">
               % else:
                 <select name="lang" ng-options="lang as mainCtrl.translate(lang) for lang in ['${"','".join(default_langs) |n}'] | translate" ng-model="route.locales[0].lang" class="form-control" required><option value=""></option></select>
               % endif
@@ -93,7 +93,7 @@ updating_doc = route_id and route_lang
         </section>
 
         <section class="section associations">
-          <h2 class="heading show-phone"><span translate>associations </span></h2>
+          <h2 class="heading show-phone"><span translate>associations</span></h2>
           <h5 class="full" translate ng-show="editCtrl.documentService.document.associations.routes.length == 0 && editCtrl.documentService.document.associations.waypoints.length == 0">
             You can add associated routes and waypoints by searching in the field.
           </h5>
@@ -154,7 +154,7 @@ updating_doc = route_id and route_lang
               <label translate>route_types</label>
               <ul class="types">
                 <li ng-repeat="type in ${route_types}" ng-click="editCtrl.pushToArray(route, 'route_types', type, $event)">
-                  <div class="checkbox"><input type="checkbox" ng-checked="route.route_types.indexOf(type) > -1"><span>{{type|| translate}}</span></div>
+                  <div class="checkbox"><input type="checkbox" ng-checked="route.route_types.indexOf(type) > -1"><span>{{type | translate}}</span></div>
                 </li>
               </ul>
 
@@ -165,7 +165,7 @@ updating_doc = route_id and route_lang
                 <label translate>route_configuration_types</label>
                 <ul class="types">
                   <li ng-repeat="type in ${route_configuration_types}" ng-click="editCtrl.pushToArray(route, 'configuration', type, $event)">
-                    <div class="checkbox"><input type="checkbox" ng-checked="route.configuration.indexOf(type) > -1"><span x-translate>{{type}}</span></div>
+                    <div class="checkbox"><input type="checkbox" ng-checked="route.configuration.indexOf(type) > -1"><span>{{type | translate}}</span></div>
                   </li>
                 </ul>
               </div>
@@ -177,7 +177,7 @@ updating_doc = route_id and route_lang
               <label translate>rock_types</label>
               <ul class="types long">
                 <li ng-repeat="type in ${rock_types}" ng-click="editCtrl.pushToArray(route, 'rock_types', type, $event)">
-                  <div class="checkbox"><input type="checkbox" ng-checked="route.rock_types.indexOf(type) > -1"><span x-translate>{{type}}</span></div>
+                  <div class="checkbox"><input type="checkbox" ng-checked="route.rock_types.indexOf(type) > -1"><span>{{type | translate}}</span></div>
                 </li>
               </ul>
             </div>
@@ -354,7 +354,7 @@ updating_doc = route_id and route_lang
               <label><span translate>durations</span> (<span translate>days</span>)</span></label>
               <ul class="types">
                 <li ng-repeat="type in ${route_duration_types}" ng-click="editCtrl.pushToArray(route, 'durations', type, $event)">
-                  <div class="checkbox"><input type="checkbox" ng-checked="route.durations.indexOf(type) > -1"><span x-translate>{{type}}</span></div>
+                  <div class="checkbox"><input type="checkbox" ng-checked="route.durations.indexOf(type) > -1"><span>{{type | translate}}</span></div>
                 </li>
               </ul>
             </div>
@@ -364,8 +364,8 @@ updating_doc = route_id and route_lang
               <label translate>lift_access</label>
               <div class="input-group">
                <select class="form-control" ng-model="route.lift_access">
-                  <option value="true" ng-selected="route.lift_access == true"><span translate>yes</span></option>
-                  <option value="false" ng-selected="route.lift_access == false"><span translate>no</span></option>
+                  <option value="true" ng-selected="route.lift_access == true" translate>yes</option>
+                  <option value="false" ng-selected="route.lift_access == false" translate>no</option>
                   <option value="" translate>no info</option>
                 </select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-resize-vertical"></span></span>
