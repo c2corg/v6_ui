@@ -92,17 +92,17 @@ geometry4326 = geometry
   </h1>
 </header>
 
-<app-map class="view-details-map"></app-map>
-<article class="location-static text-center">
+<article class="location-static">
   <span class="pin"></span>
     ${show_areas(waypoint)}
     % if waypoint.get('elevation'):
-      <b>${waypoint['elevation']} m</b></p>
+    <p class="text-center"><b>${waypoint['elevation']} m</b></p>
     % endif
   % if geometry4326:
     <p>${round(geometry4326.x)} °E / ${round(geometry4326.y)} °N</p>
   % endif
 </article>
+<app-map class="view-details-map"></app-map>
 
 <section class="view-details-section" app-view-details>
 

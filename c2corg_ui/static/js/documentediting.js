@@ -57,13 +57,14 @@ app.module.directive('appDocumentEditing', app.documentEditingDirective);
  * @param {string} authUrl Base URL of the authentication page.
  * @param {app.Document} appDocument
  * @param {app.Url} appUrl URL service.
+ * @param {!string} imageUrl URL to the image backend.
  * @constructor
  * @ngInject
  * @export
  */
 app.DocumentEditingController = function($scope, $element, $attrs, appLang,
     appAuthentication, ngeoLocation, appAlerts, appApi, authUrl, appDocument,
-    appUrl) {
+    appUrl, imageUrl) {
 
   /**
    * @type {app.Document}
@@ -223,6 +224,10 @@ app.DocumentEditingController.prototype.successRead = function(response) {
     });
     this.isNewLang_ = true;
   }
+  // image's date has to be converted to Date object because uib-datepicker will treat it as invalid -> invalid form.
+  if (this.modelName === 'image') {
+    data['date_time'] = new Date(data['date_time']);
+  }
 
   this.scope[this.modelName] = this.scope['document'] = this.documentService.document = data;
   this.scope.$root.$emit('documentDataChange', data);
@@ -249,7 +254,7 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
   if (!goog.isArray(data['locales'])) {
     // With ng-model="route.locales[0].description" route.locales is taken
     // as an object instead of an array.
-    var locale = data['locales']['0'];
+    var locale = data['locales'][0];
     data['locales'] = [locale];
   }
 

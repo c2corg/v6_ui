@@ -132,9 +132,9 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.elevation.$valid && waypoint.elevation"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.elevation.$invalid && editForm.elevation.$touched"></span>
               <div class="help-block" ng-messages="editForm.elevation.$error">
-                <p ng-message="required" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : ''}}" translate>This field is required.</p>
-                <p ng-message="max" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : ''}}" translate>This field must be lower than 9999 m.</p>
-                <p ng-message="number" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
+                <p ng-message="required" class="label label-danger" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : ''}}" translate>This field is required.</p>
+                <p ng-message="max" class="label label-danger" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : ''}}" translate>This field must be lower than 9999 m.</p>
+                <p ng-message="number" class="label label-danger" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
               </div>
             </div>
 
@@ -148,9 +148,9 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.elevation_min.$valid && elevation.elevation_min"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.elevation_min.$invalid && editForm.elevation_min.$touched"></span>
               <div class="help-block" ng-messages="editForm.elevation_min.$error">
-                <p ng-message="required" style="{{ (editForm.elevation_min.$invalid && editForm.elevation_min.$touched) ? 'display:inline' : ''}}" translate>This field is required.</p>
-                <p ng-message="max" style="{{ (editForm.elevation_min.$invalid && editForm.elevation_min.$touched) ? 'display:inline' : ''}}" translate>This field must be lower than 9999 m.</p>
-                <p ng-message="number" style="{{ (editForm.elevation_min.$invalid && editForm.elevation_min.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
+                <p ng-message="required" class="label label-danger" style="{{ (editForm.elevation_min.$invalid && editForm.elevation_min.$touched) ? 'display:inline' : ''}}" translate>This field is required.</p>
+                <p ng-message="max"class="label label-danger"  style="{{ (editForm.elevation_min.$invalid && editForm.elevation_min.$touched) ? 'display:inline' : ''}}" translate>This field must be lower than 9999 m.</p>
+                <p ng-message="number" class="label label-danger" style="{{ (editForm.elevation_min.$invalid && editForm.elevation_min.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
               </div>
             </div>
 
@@ -165,7 +165,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.prominence.$valid && waypoint.prominence"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.prominence.$invalid && editForm.prominence.$touched"></span>
               <div class="help-block" ng-messages="editForm.prominence.$error">
-                <p ng-message="number" style="{{ (editForm.prominence.$invalid && editForm.prominence.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
+                <p ng-message="number" class="label label-danger" style="{{ (editForm.prominence.$invalid && editForm.prominence.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
               </div>
             </div>
 
@@ -180,10 +180,10 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.longitude.$valid && waypoint.lonlat.longitude"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.longitude.$invalid && editForm.longitude.$touched"></span>
               <div class="help-block" ng-messages="editForm.longitude.$error">
-                <p ng-message="required" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : ''}}" translate>This field is required.</p>
-                <p ng-message="number" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
-                <p ng-message="min" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : ''}}" translate>This field must be between -180° and 180°.</p>
-                <p ng-message="max" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : ''}}" translate>This field must be between -180° and 180°.</p>
+                <p ng-message="required" class="label label-danger" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : ''}}" translate>This field is required.</p>
+                <p ng-message="number" class="label label-danger" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
+                <p ng-message="min" class="label label-danger" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : ''}}" translate>This field must be between -180° and 180°.</p>
+                <p ng-message="max" class="label label-danger" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : ''}}" translate>This field must be between -180° and 180°.</p>
               </div>
             </div>
 
@@ -198,10 +198,10 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.lonlat.latitude"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.latitude.$invalid && editForm.latitude.$touched"></span>
               <div class="help-block" ng-messages="editForm.latitude.$error">
-                <p ng-message="required" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : ''}}" translate>This field is required.</p>
-                <p ng-message="number" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
-                <p ng-message="min" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : ''}}" translate>This field must be between -90° and 90°.</p>
-                <p ng-message="max" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : ''}}" translate>This field must be between -90° and 90°.</p>
+                <p ng-message="required" class="label label-danger" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : ''}}" translate>This field is required.</p>
+                <p ng-message="number" class="label label-danger" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
+                <p ng-message="min" class="label label-danger" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : ''}}" translate>This field must be between -90° and 90°.</p>
+                <p ng-message="max" class="label label-danger" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : ''}}" translate>This field must be between -90° and 90°.</p>
               </div>
             </div>
 
@@ -355,7 +355,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.length.$valid && waypoint.length"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.length.$invalid && editForm.length.$touched"></span>
               <div class="help-block" ng-messages="editForm.length.$error">
-                <p ng-message="number" style="{{ (editForm.length.$invalid && editForm.length.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
+                <p ng-message="number" class="label label-danger" style="{{ (editForm.length.$invalid && editForm.length.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
               </div>
             </div>
 
@@ -387,7 +387,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.height_max.$valid && waypoint.height_max"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.height_max.$invalid && editForm.height_max.$touched"></span>
               <div class="help-block" ng-messages="editForm.height_max.$error">
-                <p ng-message="number" style="{{ (editForm.height_max.$invalid && editForm.height_max.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
+                <p ng-message="number" class="label label-danger" style="{{ (editForm.height_max.$invalid && editForm.height_max.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
               </div>
             </div>
 
@@ -402,7 +402,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.height_min.$valid && waypoint.height_min"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.height_min.$invalid && editForm.height_min.$touched"></span>
               <div class="help-block" ng-messages="editForm.height_min.$error">
-                <p ng-message="number" style="{{ (editForm.height_min.$invalid && editForm.height_min.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
+                <p ng-message="number" class="label label-danger" style="{{ (editForm.height_min.$invalid && editForm.height_min.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
               </div>
             </div>
 
@@ -417,7 +417,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.height_median.$valid && waypoint.height_median"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.height_median.$invalid && editForm.height_median.$touched"></span>
               <div class="help-block" ng-messages="editForm.height_median.$error">
-                <p ng-message="number" style="{{ (editForm.height_median.$invalid && editForm.height_median.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
+                <p ng-message="number" class="label label-danger" style="{{ (editForm.height_median.$invalid && editForm.height_median.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
               </div>
             </div>
 
@@ -429,7 +429,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.routes_quantity.$valid && waypoint.routes_quantity"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.routes_quantity.$invalid && editForm.routes_quantity.$touched"></span>
               <div class="help-block" ng-messages="editForm.routes_quantity.$error">
-                <p ng-message="number" style="{{ (editForm.routes_quantity.$invalid && editForm.routes_quantity.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
+                <p ng-message="number" class="label label-danger" style="{{ (editForm.routes_quantity.$invalid && editForm.routes_quantity.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
               </div>
             </div>
 
@@ -444,7 +444,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.capacity"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.capacity.$invalid && editForm.capacity.$touched"></span>
               <div class="help-block" ng-messages="editForm.capacity.$error">
-                <p ng-message="number" style="{{ (editForm.capacity.$invalid && editForm.capacity.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
+                <p ng-message="number" class="label label-danger" style="{{ (editForm.capacity.$invalid && editForm.capacity.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
               </div>
             </div>
 
@@ -466,7 +466,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.capacity_staffed.$valid && waypoint.capacity_staffed"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.capacity_staffed.$invalid && editForm.capacity_staffed.$touched"></span>
               <div class="help-block" ng-messages="editForm.capacity_staffed.$error">
-                <p ng-message="number" style="{{ (editForm.capacity_staffed.$invalid && editForm.capacity_staffed.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
+                <p ng-message="number" class="label label-danger" style="{{ (editForm.capacity_staffed.$invalid && editForm.capacity_staffed.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
               </div>
            </div>
 

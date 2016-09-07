@@ -88,19 +88,17 @@ other_langs, missing_langs = get_lang_lists(route, lang)
   </h1>
 </header>
 
+% if route.get('areas'):
+  <article class="location-static text-center">
+    <span class="pin"></span>
+    ${show_areas(route)}
+  </article>
+% endif
 <app-map class="view-details-map"></app-map>
 
 <section class="view-details-section" app-view-details>
-
   % if version:
     ${show_archive_data('routes', route, locale, version)}
-  % endif
-
-  % if route.get('areas'):
-    <article class="location-static text-center">
-      <span class="pin"></span>
-      ${show_areas(route)}
-    </article>
   % endif
 
   ## IMAGES
@@ -108,49 +106,49 @@ other_langs, missing_langs = get_lang_lists(route, lang)
     ${get_image_gallery()}
   % endif
 
-      <div class="thumbnail view-details-informations   col-sm-12 informations">
-        <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
-          <span translate>Informations</span><span class="glyphicon glyphicon-menu-down"></span>
-        </h3>
-        <section id="document-informations" class="collapse in">
-          ${get_route_general(route, locale)}
-          ${get_route_location(route)}
-          ${get_route_heights(route)}
-          ${get_route_rating(route)}
-          ${get_route_glacier_gear(route)}
-          ${get_route_access(route)}
-          ${get_route_associated_maps(route)}
-        </section>
+  <div class="thumbnail view-details-informations col-sm-12 informations">
+    <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
+      <span translate>Informations</span><span class="glyphicon glyphicon-menu-down"></span>
+    </h3>
+    <section id="document-informations" class="collapse in">
+      ${get_route_general(route, locale)}
+      ${get_route_location(route)}
+      ${get_route_heights(route)}
+      ${get_route_rating(route)}
+      ${get_route_glacier_gear(route)}
+      ${get_route_access(route)}
+      ${get_route_associated_maps(route)}
+    </section>
+  </div>
+
+  ## DESCRIPTION
+  % if locale['summary'] or locale['description']:
+  <div class="view-details-description col-xs-12  description">
+    <h3 class="heading show-phone"><span translate>description</span></h3>
+    <span class="lead">
+      <div id="document-description" class="collapse in">
+
+        % if locale['summary']:
+        <summary class="document-summary">
+          <label translate>summary</label><br>
+          ${show_attr(locale, 'summary')}
+        </summary>
+        % endif
+
+        % if locale['description']:
+        ${show_attr(locale, 'description')}
+        % endif
+
       </div>
+    </span>
+  </div>
+  % endif
 
-    ## DESCRIPTION
-    % if locale['summary'] or locale['description']:
-    <div class="view-details-description col-xs-12  description">
-      <h3 class="heading show-phone"><span translate>description</span></h3>
-      <span class="lead">
-        <div id="document-description" class="collapse in">
-
-          % if locale['summary']:
-          <summary class="document-summary">
-            <label translate>summary</label><br>
-            ${show_attr(locale, 'summary')}
-          </summary>
-          % endif
-
-          % if locale['description']:
-          ${show_attr(locale, 'description')}
-          % endif
-
-        </div>
-      </span>
-    </div>
-    % endif
-
-    <div class="description ">
-      ${get_document_locale_text(locale, 'remarks')}
-      ${get_document_locale_text(locale, 'gear')}
-      ${get_document_locale_text(locale, 'route_history')}
-    </div>
+  <div class="description ">
+    ${get_document_locale_text(locale, 'remarks')}
+    ${get_document_locale_text(locale, 'gear')}
+    ${get_document_locale_text(locale, 'route_history')}
+  </div>
 
   ## ASSOCIATIONS
   % if not version:

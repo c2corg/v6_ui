@@ -153,6 +153,15 @@
         }
       }
     }
+    #image{
+      width: 100%;
+      .image {
+        height: 300px;
+        background-size: contain;
+        background-position: 50%;
+        background-repeat: no-repeat;
+      }
+    }
 
     app-simple-search {
       width: 100px;
@@ -201,6 +210,12 @@
       @media @big {
         flex-basis: 29.3%;
         width: 29.3%;
+      }
+      &.half-group {
+        @media @big {
+          width: 45% !important;
+          flex-basis: 45% !important;
+        }
       }
 
       &.remain {
@@ -349,7 +364,7 @@
   }
 
   .map-edit {
-    margin-top: -5px;
+    margin-top: 5px;
     margin-bottom: 10px;
     flex-basis: 100%;
     @media @phone {
@@ -629,4 +644,8 @@ input[type="radio"] {
 
 #participants-group {
   margin-top: 10px;
+}
+
+ul.uib-datepicker {
+  padding: 10px;
 }

@@ -19,6 +19,7 @@ goog.require('app.Lang');
  * @param {string} authUrl Base URL of the authentication page.
  * @param {app.Document} appDocument
  * @param {app.Url} appUrl URL service.
+ * @param {!string} imageUrl URL to the image backend.
  * @constructor
  * @extends {app.DocumentEditingController}
  * @ngInject
@@ -26,10 +27,10 @@ goog.require('app.Lang');
  */
 app.OutingEditingController = function($scope, $element, $attrs, appLang,
     appAuthentication, ngeoLocation, appAlerts, appApi, authUrl,
-    appDocument, appUrl) {
+    appDocument, appUrl, imageUrl) {
 
   goog.base(this, $scope, $element, $attrs, appLang, appAuthentication,
-    ngeoLocation, appAlerts, appApi, authUrl, appDocument, appUrl);
+    ngeoLocation, appAlerts, appApi, authUrl, appDocument, appUrl, imageUrl);
 
   /**
    * Start cannot be after today nor end_date.
@@ -94,7 +95,7 @@ app.OutingEditingController.prototype.successRead = function(response) {
 
   var outing = this.scope[this.modelName];
   // check if user has right to edit -> the user is one of the associated users
-  if (this.auth.hasEditRights(outing['associations']['users'])) {
+  if (this.auth.hasEditRights(outing['associations']['users'], null)) {
     outing = this.formatOuting_(outing);
     this.differentDates = window.moment(outing['date_start']).diff(outing['date_end']) !== 0;
     if (!this.differentDates) {
