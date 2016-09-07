@@ -205,7 +205,7 @@
       <div class="associated-documents collapse in" id="associated-outings">
         % if document['doctype'] == 'routes':
           <div class="list-item vertical-align" protected-url-btn
-               url="${request.route_path('outings_add') + '?r=' + str(document['document_id'])}">
+               url="${request.route_path('outings_add') + '#r=' + str(document['document_id'])}">
             <a>
               <button class="btn orange-btn" translate>add a new outing to this document</button>
             </a>

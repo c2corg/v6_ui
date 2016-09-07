@@ -65,8 +65,8 @@ app.OutingEditingController = function($scope, $element, $attrs, appLang,
   this.differentDates;
 
   // allow association only for a new outing to existing route
-  if (ngeoLocation.hasParam('r')) {
-    var urlParam = {'routes': ngeoLocation.getParam('r')};
+  if (ngeoLocation.hasFragmentParam('r')) {
+    var urlParam = {'routes': ngeoLocation.getFragmentParam('r')};
     appApi.getDocumentByIdAndDoctype(urlParam['routes'], 'r').then(function(doc) {
       this.documentService.pushToAssociations(doc.data['routes'].documents[0], 'routes', true);
     }.bind(this));

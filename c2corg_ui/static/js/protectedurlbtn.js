@@ -50,7 +50,7 @@ app.ProtectedUrlBtnController.prototype.redirectToProtectedUrl = function(url) {
   if (this.auth_.isAuthenticated()) {
     window.location.href = url;
   } else {
-    window.location.href = '{authUrl}?to={redirect}'
+    window.location.href = '{authUrl}#to={redirect}'
         .replace('{authUrl}', this.authUrl_)
         .replace('{redirect}', encodeURIComponent(url));
   }
