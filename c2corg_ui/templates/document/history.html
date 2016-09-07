@@ -1,5 +1,8 @@
 <%!
     from slugify import slugify
+
+    def title_escape(title):
+        return title.replace("'", "\\'")
 %>
 <%inherit file="../base.html"/>
 <%namespace file="../helpers/common.html" import="show_title"/>
@@ -7,7 +10,7 @@
 
 <%block name="pagelang">lang="${lang}"</%block>
 
-<%block name="pagetitle"><title ng-bind="'${title} - '+ mainCtrl.page_title('History')">${title} - ${show_title('History')}</title></%block>
+<%block name="pagetitle"><title ng-bind="'${title | n,title_escape} - ' + mainCtrl.page_title('History')">${title} - ${show_title('History')}</title></%block>
 
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
 
