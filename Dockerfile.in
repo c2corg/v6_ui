@@ -13,6 +13,7 @@ COPY requirements.txt \
      package.json \
      Makefile \
      common.ini.in \
+     development.ini.in \
      production.ini.in \
      README.md \
      CHANGES.txt \
