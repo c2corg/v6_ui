@@ -713,6 +713,6 @@
   %>
   <label class="badge ${type}">
     <a href="${request.route_url(type + 's_index')}#${'&'.join(['='.join(fragment) for fragment in fragments])}"><span
-       class="glyphicon glyphicon-arrow-right"></span>&nbsp;<span translate>${type}</span></a>
+       class="glyphicon glyphicon-arrow-right"></span>&nbsp;<span x-translate>${type}</span></a>
   </label>
 </%def>

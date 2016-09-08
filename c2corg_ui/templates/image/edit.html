@@ -68,7 +68,7 @@ from c2corg_common.attributes import default_langs, activities, quality_types, i
             <div id="lang-group" class="form-group" ng-class="{ 'has-error': editForm.lang.$touched && editForm.lang.$invalid, 'has-success': editForm.lang.$valid}">
               <label><span translate>lang</span> *</label>
               % if image_lang:
-              <input disabled x-translate class="form-control" value="${image_lang}">
+              <input disabled class="form-control" value="{{mainCtrl.translate('${image_lang}')}}">
               % else:
               <select name="lang" ng-options="lang as mainCtrl.translate(lang) for lang in ['${"','".join(default_langs) |n}'] | translate" ng-model="image.locales[0].lang" class="form-control" required><option value=""></option></select>
               % endif
@@ -86,8 +86,8 @@ from c2corg_common.attributes import default_langs, activities, quality_types, i
             </div>
 
             ## THE IMAGE
-            <a class="full" href="#" translate data-target="#image" data-toggle="collapse"><label translate>see the image</label></a>
-            <div  id="image" class="collapse">
+            <a class="full" href="#" data-target="#image" data-toggle="collapse"><label translate>see the image</label></a>
+            <div id="image" class="collapse">
               <div class="image" style="background-image: url('{{editCtrl.createImgUrl(image.filename)}}');"></div>
             </div>
 
@@ -119,8 +119,8 @@ from c2corg_common.attributes import default_langs, activities, quality_types, i
             <div class="form-group half">
               <label translate>image_categories</label>
               <ul class="types">
-                <li ng-repeat="type in ${image_categories}" ng-click="editCtrl.pushToArray(image, 'categories', type, $event)">
-                  <div class="checkbox"><input type="checkbox" ng-checked="image.categories.indexOf(type) > -1"><span>{{type|| translate}}</span></div>
+                <li ng-repeat="category in ${image_categories}" ng-click="editCtrl.pushToArray(image, 'categories', category, $event)">
+                  <div class="checkbox"><input type="checkbox" ng-checked="image.categories.indexOf(category) > -1"><span>{{category | translate}}</span></div>
                 </li>
               </ul>
             </div>

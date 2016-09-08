@@ -90,7 +90,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
                  ng-class="{ 'has-error': editForm.lang.$touched && editForm.lang.$invalid, 'has-success': editForm.lang.$valid}">
               <label><span translate>lang</span> *</label>
               % if waypoint_lang:
-              <input class="form-control" disabled x-translate value="${waypoint_lang}">
+              <input class="form-control" disabled value="{{mainCtrl.translate('${waypoint_lang}')}}">
               % else:
               <select name="lang" ng-options="lang as mainCtrl.translate(lang) for lang in ['${"','".join(default_langs) |n}'] | translate"
                       ng-model="waypoint.locales[0].lang" class="form-control" required><option value=""></option></select>
@@ -237,7 +237,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <label translate>rock_types</label>
               <ul class="types long">
                 <li ng-repeat="type in ${rock_types}" ng-click="editCtrl.pushToArray(waypoint, 'rock_types', type, $event)">
-                  <div class="checkbox"><input type="checkbox" ng-checked="waypoint.rock_types.indexOf(type) > - 1"><span x-translate>{{type}}</span></div>
+                  <div class="checkbox"><input type="checkbox" ng-checked="waypoint.rock_types.indexOf(type) > - 1"><span>{{type | translate}}</span></div>
                 </li>
               </ul>
             </div>
@@ -249,7 +249,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
                 <label translate>climbing_outdoor_types</label>
                 <ul class="types">
                   <li ng-repeat="type in ${climbing_outdoor_types}" ng-click="editCtrl.pushToArray(waypoint, 'climbing_outdoor_types', type, $event)">
-                    <div class="checkbox"><input type="checkbox" ng-checked="waypoint.climbing_outdoor_types.indexOf(type) > - 1"><span x-translate>{{type}}</span></div>
+                    <div class="checkbox"><input type="checkbox" ng-checked="waypoint.climbing_outdoor_types.indexOf(type) > - 1"><span>{{type | translate}}</span></div>
                   </li>
                 </ul>
               </div>
@@ -258,8 +258,8 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <div class="form-group" ng-if="type == 'climbing_outdoor' || type == 'climbing_indoor'">
                 <label translate>climbing_styles</label>
                 <ul class="types">
-                  <li ng-repeat="type in ${climbing_styles}" ng-click="editCtrl.pushToArray(waypoint, 'climbing_styles', type, $event)">
-                    <div class="checkbox"><input type="checkbox" ng-checked="waypoint.climbing_styles.indexOf(type) > - 1"><span x-translate>{{type}}</span></div>
+                  <li ng-repeat="style in ${climbing_styles}" ng-click="editCtrl.pushToArray(waypoint, 'climbing_styles', style, $event)">
+                    <div class="checkbox"><input type="checkbox" ng-checked="waypoint.climbing_styles.indexOf(style) > - 1"><span>{{style | translate}}</span></div>
                   </li>
                 </ul>
               </div>
@@ -271,7 +271,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <label translate>best_periods</label>
               <ul class="types">
                 <li ng-click="editCtrl.pushToArray(waypoint, 'best_periods', month, $event)" ng-repeat="month in ${months}">
-                  <div class="checkbox"><input type="checkbox" ng-checked="waypoint.best_periods.indexOf(month) > - 1"><span x-translate>{{month}}</span></div>
+                  <div class="checkbox"><input type="checkbox" ng-checked="waypoint.best_periods.indexOf(month) > - 1"><span>{{month | translate}}</span></div>
                 </li>
               </ul>
             </div>
@@ -303,7 +303,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <label><span translate>weather_station_types</span></label>
               <ul class="types">
                 <li ng-repeat="type in ${weather_station_types}" ng-click="editCtrl.pushToArray(waypoint, 'weather_station_types', type, $event)">
-                  <div class="checkbox"><input type="checkbox" ng-checked="waypoint.weather_station_types.indexOf(type) > - 1"><span x-translate>{{type}}</span></div>
+                  <div class="checkbox"><input type="checkbox" ng-checked="waypoint.weather_station_types.indexOf(type) > - 1"><span>{{type | translate}}</span></div>
                 </li>
               </ul>
             </div>
@@ -313,7 +313,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <label translate>climbing_indoor_types</label>
               <ul class="types">
                 <li ng-repeat="type in ${climbing_indoor_types}" ng-click="editCtrl.pushToArray(waypoint, 'climbing_indoor_types', type, $event)">
-                  <div class="checkbox"><input type="checkbox" ng-checked="waypoint.climbing_indoor_types.indexOf(type) > - 1"><span x-translate>{{type}}</span></div>
+                  <div class="checkbox"><input type="checkbox" ng-checked="waypoint.climbing_indoor_types.indexOf(type) > - 1"><span>{{type | translate}}</span></div>
                 </li>
               </ul>
             </div>
@@ -323,7 +323,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <label><span translate>product_types</span><span ng-if="type == 'local_product'"> *</span></label>
               <ul class="types" required>
                 <li ng-repeat="type in ${product_types}" ng-click="editCtrl.pushToArray(waypoint, 'product_types', type, $event)">
-                  <div class="checkbox"><input type="checkbox"><span x-translate>{{type}}</span></div>
+                  <div class="checkbox"><input type="checkbox"><span>{{type | translate}}</span></div>
                 </li>
               </ul>
             </div>
@@ -500,9 +500,9 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
                  ng-class="{'has-success': waypoint.equipment_ratings }">
               <label><span translate>equipment_ratings</span></label><br>
               <ul class="types">
-                <li ng-repeat="type in ${equipment_ratings}" ng-click="editCtrl.pushToArray(waypoint, 'equipment_ratings', type, $event)">
+                <li ng-repeat="rating in ${equipment_ratings}" ng-click="editCtrl.pushToArray(waypoint, 'equipment_ratings', rating, $event)">
                   <div class="checkbox">
-                    <input type="checkbox" ng-checked="waypoint.equipment_ratings.indexOf(type) > - 1"><span x-translate>{{type}}</span>
+                    <input type="checkbox" ng-checked="waypoint.equipment_ratings.indexOf(rating) > - 1"><span>{{rating | translate}}</span>
                   </div>
                 </li>
               </ul>
@@ -556,9 +556,9 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <label translate>lift_access</label>
               <div class="input-group">
                 <select class="form-control" ng-model="waypoint.lift_access">
-                  <option value="" translate></option>
-                  <option value="true" ng-selected="waypoint.lift_access == true"><span translate>yes</span></option>
-                  <option value="false" ng-selected="waypoint.lift_access == false"><span translate>no</span></option>
+                  <option value="" translate>no info</option>
+                  <option value="true" ng-selected="waypoint.lift_access == true" translate>yes</option>
+                  <option value="false" ng-selected="waypoint.lift_access == false" translate>no</option>
                 </select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-resize-vertical"></span></span>
               </div>
@@ -571,7 +571,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <ul class="types">
                 <li ng-repeat="type in ${public_transportation_types}" ng-click="editCtrl.pushToArray(waypoint, 'public_transportation_types', type, $event)">
                   <div class="checkbox">
-                    <input type="checkbox" ng-checked="waypoint.public_transportation_types.indexOf(type) > - 1"><span x-translate>{{type}}</span>
+                    <input type="checkbox" ng-checked="waypoint.public_transportation_types.indexOf(type) > - 1"><span>{{type | translate}}</span>
                   </div>
                 </li>
               </ul>
@@ -588,7 +588,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
             </div>
 
             ## PARKING FEE TYPES
-            <div class="form-group data half" ng-if="type == 'access' " ng-class="{'has-success': waypoint.parking_fee}">
+            <div class="form-group data half" ng-if="type == 'access'" ng-class="{'has-success': waypoint.parking_fee}">
               <label translate>parking_fee_types</label>
               <select ng-options="type as mainCtrl.translate(type) for type in ${parking_fee_types}" ng-model="waypoint.parking_fee" class="form-control"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.parking_fee"></span>
@@ -739,7 +739,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
 
             ## ACCESS PERIOD
             <div id="access-period" class="form-group data full" ng-if="['access', 'local_product', 'hut', 'gite', 'camp_site', 'climbing_outdoor'].indexOf(type) > -1">
-              <label translate ng-if="type == 'access' ">access_period</label>
+              <label translate ng-if="type == 'access'">access_period</label>
               <label translate ng-if="type == 'hut' || type == 'gite' || type == 'camp_site'">opening_periods</label>
               <label translate ng-if="type == 'local_product'">opening_hours</label>
               <textarea name="access_period" ng-model="waypoint.locales[0].access_period" class="form-control"
