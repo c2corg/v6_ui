@@ -2,13 +2,13 @@
        ngf-drop
        ngf-select
        ng-model="uplCtrl.files"
-       class="drop-box" 
+       class="drop-box"
        ngf-drag-over-class="'dragover'"
        ngf-multiple="true"
-       ngf-keep="'distinct'" 
+       ngf-keep="'distinct'"
        ngf-fix-orientation="true"
        ngf-allow-dir="true"
-       accept="image/*" 
+       accept="image/*"
        ngf-pattern="'image/*'">
     <span translate>Drop images here or click to upload</span>
   </div>
@@ -21,7 +21,7 @@
         <div class="exif" ng-style="file.metadata.FocalLength && {'opacity': 1} || {'opacity' : 0}">
           <p ng-if="file.metadata.DateTime"><span class="glyphicon glyphicon-calendar"></span><span>{{file.metadata.DateTime}}</span></p>
           <p><span class="glyphicon glyphicon-certificate"></span><span>{{file.metadata.FocalLength}}f</span>&nbsp;
-            <span ng-if="file.metadata.ShutterSpeedValue">1/{{file.metadata.ShutterSpeedValue}}s</span> &nbsp; 
+            <span ng-if="file.metadata.ShutterSpeedValue">1/{{file.metadata.ShutterSpeedValue}}s</span> &nbsp;
             <span><b>ISO:</b> <span>{{file.metadata.PhotographicSensitivity}}</span></span>
           </p>
           <p ng-if="file.metadata.geo"><span class="glyphicon glyphicon-map-marker"></span><b>{{file.metadata.geo.label}}</b></p>
@@ -107,14 +107,14 @@
          ngf-select
          multiple
          ng-model="uplCtrl.files"
-         class="drop-box" 
+         class="drop-box"
          ngf-drag-over-class="'dragover'"
          ngf-multiple="true"
-         ngf-keep="'distinct'" 
+         ngf-keep="'distinct'"
          ngf-fix-orientation="true"
          ngf-allow-dir="true"
-         accept="image/*" 
-         ngf-pattern="'image/*'"> 
+         accept="image/*"
+         ngf-pattern="'image/*'">
       <button class="orange-btn btn" type="button" translate>Add images</button>
     </div>
   </div>
