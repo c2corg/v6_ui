@@ -31,3 +31,12 @@
     </article>
   </section>
 </%def>
+
+<%def name="show_preview_container()">\
+  <div class="ng-hide">
+    <div id="preview-container">
+      <div id="preview-container-content"></div>
+      <button class="btn btn-warning" type="button" ng-click="previewModalCtrl.close()" translate>Close</button>
+    </div>
+  </div>
+</%def>

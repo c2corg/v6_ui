@@ -10,7 +10,8 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
   updating_doc = waypoint_id and waypoint_lang
 %>
 <%namespace file="../helpers/common.html" import="show_title"/>
-<%namespace file="../helpers/edit.html" import="show_editing_associated_waypoints, show_editing_associated_routes"/>
+<%namespace file="../helpers/edit.html" import="show_editing_associated_waypoints,
+    show_editing_associated_routes, show_preview_container"/>
 <%namespace file="../helpers/orientations.svg" import="show_orientations"/>
 
 <%block name="pagetitle">
@@ -758,7 +759,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
       <div class="step step-{{editCtrl.maxSteps}}">
 
         <section class="section summary">
-          <h2 class="heading show-phone" translate>Preview</h2>
+          <h2 class="heading show-phone" translate>Review</h2>
           <div class="content">
             % if updating_doc:
             <div id="message-group" class="form-group data">
@@ -775,8 +776,6 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <select ng-options="type as mainCtrl.translate(type) for type in qualityTypes" ng-model="waypoint.quality" class="form-control"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.quality"></span>
             </div>
-
-            <article class="preview" ng-bind-html="preview | appTrustAsHtml"></article>
           </div>
         </section>
 
@@ -814,3 +813,5 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
     </section>
   </form>
 </section>
+
+${show_preview_container()}
