@@ -538,7 +538,9 @@
 
 ## GET GLOBAL RATING
 <%def name="get_global_rating(document)">\
-  % if 'snow_ice_mixed' in document.get('activities') or 'via_ferrata' in document.get('activities') or 'mountain_climbing' in document.get('activities') or 'rock_climbing' in document.get('activities') or 'ice_climbing' in document.get('activities'):
+  % if 'snow_ice_mixed' in document.get('activities') or 'via_ferrata' in document.get('activities') \
+        or 'mountain_climbing' in document.get('activities') or 'rock_climbing' in document.get('activities') \
+        or 'ice_climbing' in document.get('activities'):
   <div class="rating-block b">
     % if document.get('global_rating'):
       <span uib-tooltip="{{'global_rating' | translate}}" class="value">${document['global_rating']}</span>&nbsp;&nbsp;
@@ -559,36 +561,36 @@
       </div>&nbsp;
     % endif
 
-    % if route.get('aid_rating'):
-      <span uib-tooltip="{{'aid_rating' | translate}}" class="value">${route['aid_rating']}</span>&nbsp;
+    % if document.get('aid_rating'):
+      <span uib-tooltip="{{'aid_rating' | translate}}" class="value">${document['aid_rating']}</span>&nbsp;
     % endif
 
-    % if route.get('ice_rating'):
-      <span uib-tooltip="{{'ice_rating' | translate}}" class="value">${route['ice_rating']}</span>&nbsp;
+    % if document.get('ice_rating'):
+      <span uib-tooltip="{{'ice_rating' | translate}}" class="value">${document['ice_rating']}</span>&nbsp;
     % endif
 
-    % if route.get('mixed_rating'):
-      <span uib-tooltip="{{'mixed_rating' | translate}}" class="value">${route['mixed_rating']}</span>&nbsp;
+    % if document.get('mixed_rating'):
+      <span uib-tooltip="{{'mixed_rating' | translate}}" class="value">${document['mixed_rating']}</span>&nbsp;
     % endif
 
-    % if route.get('via_ferrata_rating'):
-      <span uib-tooltip="{{'via_ferrata_rating' | translate}}" class="value">${route['via_ferrata_rating']}</span>&nbsp;
+    % if document.get('via_ferrata_rating'):
+      <span uib-tooltip="{{'via_ferrata_rating' | translate}}" class="value">${document['via_ferrata_rating']}</span>&nbsp;
     % endif
 
-    % if route.get('engagement_rating'):
-      &nbsp;&nbsp;<span uib-tooltip="{{'engagement_rating' | translate}}" class="value">${route['engagement_rating']}</span>&nbsp;
+    % if document.get('engagement_rating'):
+      &nbsp;&nbsp;<span uib-tooltip="{{'engagement_rating' | translate}}" class="value">${document['engagement_rating']}</span>&nbsp;
     % endif
 
-    % if route.get('risk_rating'):
-      <span class="value" uib-tooltip="{{'risk_rating' | translate}}">${route['risk_rating']}</span>&nbsp;
+    % if document.get('risk_rating'):
+      <span class="value" uib-tooltip="{{'risk_rating' | translate}}">${document['risk_rating']}</span>&nbsp;
     % endif
 
-    % if route.get('equipment_rating'):
-      &nbsp;&nbsp;<span class="value" uib-tooltip="{{'equipment_rating' | translate}}">${route['equipment_rating']}</span>&nbsp;
+    % if document.get('equipment_rating'):
+      &nbsp;&nbsp;<span class="value" uib-tooltip="{{'equipment_rating' | translate}}">${document['equipment_rating']}</span>&nbsp;
     % endif
 
-    % if route.get('exposition_rock_rating'):
-     <span uib-tooltip="{{'exposition_rock_rating' | translate}}" class="value">${route['exposition_rock_rating']}</span>&nbsp;
+    % if document.get('exposition_rock_rating'):
+     <span uib-tooltip="{{'exposition_rock_rating' | translate}}" class="value">${document['exposition_rock_rating']}</span>&nbsp;
     % endif
 </div>
 
