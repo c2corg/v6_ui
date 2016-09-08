@@ -23,48 +23,52 @@ ${show_preview_warning()}
   </h1>
 </header>
 
-<div class="view-details-informations col-xs-12  informations">
-  <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
-    <span translate>Informations</span><span class="glyphicon glyphicon-menu-down"></span>
-  </h3>
-  <section id="document-informations" class="collapse in">
-    ${get_waypoint_general(waypoint)}
-    ${get_waypoint_orientation(waypoint)}
-    ${get_waypoint_location(waypoint, geometry4326) if geometry4326 else ''}
-    ${get_waypoint_contact(waypoint)}
-    ${get_waypoint_maps_info(waypoint)}
-    ${get_waypoint_rating(waypoint)}
-    ${get_waypoint_heights(waypoint)}
-    ${get_waypoint_equipment(waypoint)}
-    ${get_waypoint_style(waypoint)}
-    ${get_waypoint_access(waypoint, locale)}
-  </section>
-</div>
+<section class="view-details-section" app-view-details>
 
-## DESCRIPTION
-% if locale['summary'] or locale['description']:
-  <div class="view-details-description col-xs-12  description">
-    <h3 class="heading show-phone"><span translate>description</span></h3>
-    <span class="lead">
-      <div id="document-description" class="collapse in">
-        % if locale['summary']:
-          <summary class="document-summary">
-            <label translate>summary</label><br>
-            ${show_attr(locale, 'summary')}
-          </summary>
-        % endif
-
-        % if locale['description'] :
-          ${show_attr(locale, 'description')}
-        % else :
-          <h3 class="text-center" translate>No description available</h3>
-        % endif
-      </div>
-    </span>
+  <div class="view-details-informations col-xs-12  informations">
+    <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
+      <span translate>Informations</span><span class="glyphicon glyphicon-menu-down"></span>
+    </h3>
+    <section id="document-informations" class="collapse in">
+      ${get_waypoint_general(waypoint)}
+      ${get_waypoint_orientation(waypoint)}
+      ${get_waypoint_location(waypoint, geometry4326) if geometry4326 else ''}
+      ${get_waypoint_contact(waypoint)}
+      ${get_waypoint_maps_info(waypoint)}
+      ${get_waypoint_rating(waypoint)}
+      ${get_waypoint_heights(waypoint)}
+      ${get_waypoint_equipment(waypoint)}
+      ${get_waypoint_style(waypoint)}
+      ${get_waypoint_access(waypoint, locale)}
+    </section>
   </div>
-% endif
 
-<div class="description ">
-  ${get_document_locale_text(locale, 'access')}
-  ${get_document_locale_text(locale, 'access_period')}
-</div>
+  ## DESCRIPTION
+  % if locale.get('summary') or locale.get('description'):
+    <div class="view-details-description col-xs-12  description">
+      <h3 class="heading show-phone"><span translate>description</span></h3>
+      <span class="lead">
+        <div id="document-description" class="collapse in">
+          % if locale.get('summary'):
+            <summary class="document-summary">
+              <label translate>summary</label><br>
+              ${show_attr(locale, 'summary')}
+            </summary>
+          % endif
+
+          % if locale.get('description'):
+            ${show_attr(locale, 'description')}
+          % else :
+            <h3 class="text-center" translate>No description available</h3>
+          % endif
+        </div>
+      </span>
+    </div>
+  % endif
+
+  <div class="description ">
+    ${get_document_locale_text(locale, 'access')}
+    ${get_document_locale_text(locale, 'access_period')}
+  </div>
+
+</section>
