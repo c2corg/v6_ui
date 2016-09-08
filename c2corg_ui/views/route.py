@@ -103,3 +103,8 @@ class Route(Document):
             'route_id': id
         })
         return self.template_input
+
+    @view_config(route_name='routes_preview',
+                 renderer='c2corg_ui:templates/route/preview.html')
+    def preview(self):
+        return self._preview()
