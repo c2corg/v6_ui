@@ -40,3 +40,35 @@
     </div>
   </div>
 </%def>
+
+<%def name="show_editing_buttons(model, updating_doc, id, lang)">\
+  <div class="action-buttons float-buttons">
+    <button type="button" class="btn blue-btn btn-lg float-button"
+      ng-if="!editForm.$invalid && !editCtrl.hasMissingProps(${model}, false)"
+      ng-click="editCtrl.preview()"
+      tooltip-placement="left" uib-tooltip="{{'Preview' | translate}}">
+      <span class="glyphicon glyphicon-eye-open"></span>
+    </button>
+    <button type="submit" class="btn orange-btn btn-lg float-button"
+      ng-if="!editForm.$invalid && !editCtrl.hasMissingProps(${model}, false)"
+      tooltip-placement="left" uib-tooltip="{{'Save' | translate}}">
+      <span class="glyphicon glyphicon-ok"></span>
+    </button>
+    <button type="button" class="btn orange-btn btn-lg float-button"
+      ng-style="(editForm.$invalid || editCtrl.hasMissingProps(${model}, false)) && {'opacity': 0.5}"
+      tooltip-placement="left" uib-tooltip="{{'What is missing?' | translate}}"
+      ng-if="editForm.$invalid || editCtrl.hasMissingProps(${model}, false)"
+      ng-click="editCtrl.hasMissingProps(${model}, true)">
+      <span class="glyphicon glyphicon-ok"></span>
+    </button>
+    <%
+    view_url = request.route_url(model + 's_view_id_lang', id=id, lang=lang) if updating_doc else ''
+    index_url = request.route_url(model + 's_index')
+    %>
+    <button type="button" class="btn gray-btn btn-lg float-button"
+      ng-click="editCtrl.cancel('${view_url}', '${index_url}')"
+      tooltip-placement="left" uib-tooltip="{{'Cancel' | translate}}">
+      <span class="glyphicon glyphicon-remove"></span>
+    </button>
+  </div>
+</%def>
