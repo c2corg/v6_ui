@@ -1,5 +1,7 @@
 <%!
-from c2corg_common.attributes import default_langs, activities, condition_ratings, quality_types, hut_status, lift_status, frequentation_types, avalanche_signs, route_duration_types, access_conditions, glacier_ratings
+from c2corg_common.attributes import default_langs, activities, condition_ratings, \
+    quality_types, hut_status, lift_status, frequentation_types, avalanche_signs, \
+    route_duration_types, access_conditions, glacier_ratings
 %>
 
 <%inherit file="../base.html"/>
@@ -9,7 +11,9 @@ updating_doc = outing_id and outing_lang
 %>
 
 <%namespace file="../helpers/common.html" import="show_title"/>
-<%namespace file="../helpers/edit.html" import="show_editing_associated_waypoints, show_editing_associated_routes"/>
+<%namespace file="../helpers/edit.html" import="show_editing_associated_waypoints,
+    show_editing_associated_routes,show_preview_container,
+    show_editing_buttons"/>
 
 <%block name="pagetitle"><title ng-init="id=${outing_id if outing_id else 0}" ng-bind="id ? mainCtrl.page_title('Editing an outing') : mainCtrl.page_title('Creating an outing')">${show_title('Create/edit outing')}</title></%block>
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
@@ -211,7 +215,7 @@ updating_doc = outing_id and outing_lang
       <div class="step step-2">
         <section class="section weather">
           <h2 class="heading show-phone"><span translate>weather</span></h2>
-          <div class="content outing-weather" id="title-edit">
+          <div class="content outing-weather">
 
             ## DATE START
             <div class="date form-group" ng-init="openDateStart = false">
@@ -563,14 +567,14 @@ updating_doc = outing_id and outing_lang
 
       </div>
 
+      ## FIXME: really useful?
       <div class="step step-4"></div>
 
       <div class="step step-5">
         <section class="section summary">
           <h2 class="heading show-phone"><span translate>summary</span></h2>
 
-          <div class="content collapse in" id="title-edit">
-            <%include file="create_edit_summary.html" />
+          <div class="content collapse in">
             % if updating_doc:
             <div id="message-group" class="form-group">
               <label translate>Comment about the changes</label>
@@ -587,33 +591,14 @@ updating_doc = outing_id and outing_lang
               <select ng-options="type as mainCtrl.translate(type) for type in qualityTypes" ng-model="outing.quality" class="form-control"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.quality"></span>
             </div>
-
           </div>
         </section>
-
-        <div class="action-buttons float-buttons">
-          <button type="submit" class="btn btn-lg orange-btn float-button" ng-if="!editForm.$invalid && !editCtrl.hasMissingProps(outing, false)"
-            tooltip-placement="left" uib-tooltip="{{'Save' | translate}}">
-            <span class="glyphicon glyphicon-ok"></span>
-            <p class="float-button-text" translate>Save</p>
-          </button>
-          <button type="button" class="btn btn-lg orange-btn float-button"
-                  ng-style="(editForm.$invalid || editCtrl.hasMissingProps(outing, false)) && {'opacity': 0.5}" tooltip-placement="left" uib-tooltip="{{'What is missing?' | translate}}"
-                  ng-if="editForm.$invalid || editCtrl.hasMissingProps(outing, false)" ng-click="editCtrl.hasMissingProps(outing, true)">
-            <span class="glyphicon glyphicon-ok"></span>
-            <p class="float-button-text" translate>What is missing?</p>
-          </button>
-          <%
-          view_url = request.route_url('outings_view_id_lang', id=outing_id, lang=outing_lang) if updating_doc else ''
-          index_url = request.route_url('outings_index')
-          %>
-          <button type="button" class="btn btn-lg gray-btn float-button" ng-click="editCtrl.cancel('${view_url}', '${index_url}')"  tooltip-placement="left" uib-tooltip="{{'Cancel' | translate}}">
-            <span class="glyphicon glyphicon-remove"></span>
-            <p class="float-button-text" translate>Cancel</p>
-          </button>
-        </div>
-
       </div>
+
+      ${show_editing_buttons('outing', updating_doc, outing_id, outing_lang)}
+
     </section>
   </form>
 </section>
+
+${show_preview_container()}

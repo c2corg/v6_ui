@@ -47,9 +47,10 @@
 </%def>
 
 ## SNOW
-<%def name="get_outing_snow(waypoint)">\
-  % if outing.get('elevation_up_snow') or outing.get('snow_quantity') or outing.get('snow_quality') or outing.get('glacier_rating') \
-  or outing.get('avalanche_signs') or outing.get('elevation_down_snow'):
+<%def name="get_outing_snow(outing)">\
+  % if outing.get('elevation_up_snow') or outing.get('snow_quantity') \
+        or outing.get('snow_quality') or outing.get('glacier_rating') \
+        or outing.get('avalanche_signs') or outing.get('elevation_down_snow'):
     <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
       <h4><span translate>snow</span><span class="glyphicon glyphicon-menu-right"></span></h4>
       <div class="name-icon">

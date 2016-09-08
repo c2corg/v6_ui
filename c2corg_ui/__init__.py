@@ -88,6 +88,7 @@ def main(global_config, **settings):
     config.add_route('outings_view_id', '/outings/{id:\d+}')
     config.add_route(
         'outings_diff', '/outings/diff/{id:\d+}/{lang}/{v1}/{v2}')
+    config.add_route('outings_preview', '/outings/preview')
 
     config.add_route('images_index', '/images')
     config.add_route('images_sitemap_default', '/images/sitemap')
