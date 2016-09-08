@@ -100,7 +100,7 @@
         </div>
       </div>
       <!-- ABORT BUTTON-->
-      <button class="btn btn-danger" type="button" ng-click="uplCtrl.abortFileUpload(file)" ng-show="!file['processed']">Abort</button>
+      <button class="btn btn-danger" type="button" ng-click="uplCtrl.abortFileUpload(file)" ng-show="!file['processed']" translate>Abort</button>
     </div>
     <div class="upload-file uploaded-image drop-box"
          ngf-drop
@@ -115,8 +115,8 @@
          ngf-allow-dir="true"
          accept="image/*" 
          ngf-pattern="'image/*'"> 
-      <button class="orange-btn btn" type="button" translate>add images</button> 
+      <button class="orange-btn btn" type="button" translate>Add images</button>
     </div>
   </div>
-  <button class="btn btn-warning" type="button" ng-click="imageModalCtrl.close()">close</button>
-  <button class="btn btn-primary" type="button" ng-click="imageModalCtrl.save()" ng-show="uplCtrl.areAllUploaded">Save</button>
+  <button class="btn btn-warning" type="button" ng-click="imageModalCtrl.close()" translate>Close</button>
+  <button class="btn btn-primary" type="button" ng-click="imageModalCtrl.save()" ng-show="uplCtrl.areAllUploaded" translate>Save</button>
