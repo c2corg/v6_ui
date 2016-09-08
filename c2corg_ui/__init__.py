@@ -102,6 +102,7 @@ def main(global_config, **settings):
     config.add_route('images_view_id', '/images/{id:\d+}')
     config.add_route(
         'images_diff', '/images/diff/{id:\d+}/{lang}/{v1}/{v2}')
+    config.add_route('images_preview', '/images/preview')
 
     config.add_route('auth', '/auth')
     config.add_route('auth-sso', '/auth-sso')

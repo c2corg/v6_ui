@@ -90,3 +90,8 @@ class Image(Document):
             'image_backend': self.settings.image_backend_url
         })
         return self.template_input
+
+    @view_config(route_name='images_preview',
+                 renderer='c2corg_ui:templates/image/preview.html')
+    def preview(self):
+        return self._preview()
