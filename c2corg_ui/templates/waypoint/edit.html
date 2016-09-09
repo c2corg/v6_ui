@@ -10,7 +10,9 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
   updating_doc = waypoint_id and waypoint_lang
 %>
 <%namespace file="../helpers/common.html" import="show_title"/>
-<%namespace file="../helpers/edit.html" import="show_editing_associated_waypoints, show_editing_associated_routes"/>
+<%namespace file="../helpers/edit.html" import="show_editing_associated_waypoints,
+    show_editing_associated_routes, show_preview_container,
+    show_editing_buttons"/>
 <%namespace file="../helpers/orientations.svg" import="show_orientations"/>
 
 <%block name="pagetitle">
@@ -756,12 +758,9 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
 
       ##SUMMARY
       <div class="step step-{{editCtrl.maxSteps}}">
-
         <section class="section summary">
-          <h2 class="heading show-phone"><span translate>summary</span></span></h2>
+          <h2 class="heading show-phone" translate>summary</h2>
           <div class="content">
-            <%include file="create_edit_summary.html" />
-
             % if updating_doc:
             <div id="message-group" class="form-group data">
               <label translate>Comment about the changes</label>
@@ -777,30 +776,14 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <select ng-options="type as mainCtrl.translate(type) for type in qualityTypes" ng-model="waypoint.quality" class="form-control"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.quality"></span>
             </div>
-
           </div>
         </section>
-
-        <p class="action-buttons float-buttons">
-          <button type="submit" class="btn orange-btn btn-lg float-button"
-            ng-if="!editForm.$invalid && !editCtrl.hasMissingProps(waypoint, false)" tooltip-placement="left" uib-tooltip="{{'Save' | translate}}">
-            <span class="glyphicon glyphicon-ok"></span>
-          </button>
-          <button type="button" class="btn btn-lg orange-btn float-button"
-                  ng-style="(editForm.$invalid || editCtrl.hasMissingProps(waypoint, false)) && {'opacity': 0.5}" tooltip-placement="left" uib-tooltip="{{'What is missing?' | translate}}"
-                  ng-if="editForm.$invalid || editCtrl.hasMissingProps(waypoint, false)" ng-click="editCtrl.hasMissingProps(waypoint, true)">
-            <span class="glyphicon glyphicon-ok"></span>
-          </button>
-          <%
-          view_url = request.route_url('waypoints_view_id_lang', id=waypoint_id, lang=waypoint_lang) if updating_doc else ''
-          index_url = request.route_url('waypoints_index')
-          %>
-          <button type="button" class="btn gray-btn btn-lg float-button" ng-click="editCtrl.cancel('${view_url}', '${index_url}')" tooltip-placement="left" uib-tooltip="{{'Cancel' | translate}}">
-            <span class="glyphicon glyphicon-remove"></span>
-          </button>
-        </p>
       </div>
+
+      ${show_editing_buttons('waypoint', updating_doc, waypoint_id, waypoint_lang)}
 
     </section>
   </form>
 </section>
+
+${show_preview_container()}

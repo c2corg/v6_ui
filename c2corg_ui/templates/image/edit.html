@@ -7,8 +7,9 @@ from c2corg_common.attributes import default_langs, activities, quality_types, i
 %>
 <%namespace file="../helpers/common.html" import="show_title"/>
 
-<%namespace file="../helpers/edit.html" import="show_editing_associated_waypoints, show_editing_associated_routes"/>
-
+<%namespace file="../helpers/edit.html" import="show_editing_associated_waypoints,
+    show_editing_associated_routes, show_preview_container,
+    show_editing_buttons"/>
 
 <%block name="pagetitle">
 <title ng-init="id = ${image_id if image_id else 0}" ng-bind="id ?
@@ -169,7 +170,6 @@ from c2corg_common.attributes import default_langs, activities, quality_types, i
           </div>
         </section>
 
-
         <section class="section">
           <h2 class="heading show-phone" translate>camera settings</h2>
           <div class="content">
@@ -287,29 +287,10 @@ from c2corg_common.attributes import default_langs, activities, quality_types, i
         </section>
       </div>
 
+      ${show_editing_buttons('image', updating_doc, image_id, image_lang)}
+
     </section>
-
-    <div class="action-buttons float-buttons">
-      <button type="submit" class="btn btn-lg orange-btn float-button" ng-if="!editForm.$invalid && !editCtrl.hasMissingProps(image, false)"
-              tooltip-placement="left" uib-tooltip="{{'Save' | translate}}">
-        <span class="glyphicon glyphicon-ok"></span>
-        <p class="float-button-text" translate>Save</p>
-      </button>
-      <button type="button" class="btn btn-lg orange-btn float-button"
-              ng-style="(editForm.$invalid || editCtrl.hasMissingProps(image, false)) && {'opacity': 0.5}" tooltip-placement="left" uib-tooltip="{{'What is missing?' | translate}}"
-              ng-if="editForm.$invalid || editCtrl.hasMissingProps(image, false)" ng-click="editCtrl.hasMissingProps(image, true)">
-        <span class="glyphicon glyphicon-ok"></span>
-        <p class="float-button-text" translate>What is missing?</p>
-      </button>
-      <%
-      view_url = request.route_url('images_view_id_lang', id=image_id, lang=image_lang) if updating_doc else ''
-      index_url = request.route_url('images_index')
-      %>
-      <button type="button" class="btn btn-lg gray-btn float-button" ng-click="editCtrl.cancel('${view_url}', '${index_url}')"  tooltip-placement="left" uib-tooltip="{{'Cancel' | translate}}">
-        <span class="glyphicon glyphicon-remove"></span>
-        <p class="float-button-text" translate>Cancel</p>
-      </button>
-    </div>
-
   </form>
 </section>
+
+${show_preview_container()}

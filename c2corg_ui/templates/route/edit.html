@@ -11,7 +11,8 @@ from c2corg_common.attributes import via_ferrata_ratings, default_langs, activit
 updating_doc = route_id and route_lang
 %>
 <%namespace file="../helpers/common.html" import="show_title"/>
-<%namespace file="../helpers/edit.html" import="show_editing_associated_waypoints, show_editing_associated_routes"/>
+<%namespace file="../helpers/edit.html" import="show_editing_associated_waypoints,
+    show_editing_associated_routes, show_preview_container, show_editing_buttons"/>
 <%namespace file="../helpers/orientations.svg" import="show_orientations"/>
 
 <%block name="pagetitle"><title ng-init="id=${route_id if route_id else 0}" ng-bind="id ? mainCtrl.page_title('Editing a route') : mainCtrl.page_title('Creating a route')">${show_title('Create/edit route')}</title></%block>
@@ -97,7 +98,7 @@ updating_doc = route_id and route_lang
           <h5 class="full" translate ng-show="editCtrl.documentService.document.associations.routes.length == 0 && editCtrl.documentService.document.associations.waypoints.length == 0">
             You can add associated routes and waypoints by searching in the field.
           </h5>
-          <div class="content route-associations" id="title-edit">
+          <div class="content route-associations">
             ## wr = waypoints, routes
             <app-simple-search parent-id="route.document_id"
               app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="wr"></app-simple-search>
@@ -595,7 +596,7 @@ updating_doc = route_id and route_lang
       <div class="step step-3">
         <section class="section">
           <h2 class="heading show-phone" translate>Comments</h2>
-          <div class="content" id="title-edit">
+          <div class="content">
 
             ## SUMMARY
             <div id="summary-group" class="form-group data full">
@@ -644,8 +645,7 @@ updating_doc = route_id and route_lang
         <section class="section summary">
           <h2 class="heading show-phone" translate>summary</h2>
 
-          <div class="content" id="title-edit">
-            <%include file="create_edit_summary.html" />
+          <div class="content">
             % if updating_doc:
             <div id="message-group" class="form-group">
               <label translate>Comment about the changes</label>
@@ -662,30 +662,14 @@ updating_doc = route_id and route_lang
               <select ng-options="type as mainCtrl.translate(type) for type in qualityTypes" ng-model="route.quality" class="form-control"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.quality"></span>
             </div>
-
           </div>
         </section>
-
-        <div class="action-buttons float-buttons">
-          <button type="submit" class="btn btn-lg orange-btn float-button" ng-if="!editForm.$invalid && !editCtrl.hasMissingProps(route, false)"
-                  tooltip-placement="left" uib-tooltip="{{'Save' | translate}}">
-            <span class="glyphicon glyphicon-ok"></span>
-          </button>
-
-          <button type="button" class="btn btn-lg orange-btn float-button" ng-style="(editForm.$invalid || editCtrl.hasMissingProps(route, false)) && {'opacity': 0.5}"
-                  tooltip-placement="left" uib-tooltip="{{'What is missing?' | translate}}" ng-if="editForm.$invalid || editCtrl.hasMissingProps(route, false)" ng-click="editCtrl.hasMissingProps(route, true)">
-            <span class="glyphicon glyphicon-ok"></span>
-          </button>
-          <%
-          view_url = request.route_url('routes_view_id_lang', id=route_id, lang=route_lang) if updating_doc else ''
-          index_url = request.route_url('routes_index')
-          %>
-          <button type="button" class="btn btn-lg gray-btn float-button" ng-click="editCtrl.cancel('${view_url}', '${index_url}')"  tooltip-placement="left" uib-tooltip="{{'Cancel' | translate}}">
-            <span class="glyphicon glyphicon-remove"></span>
-          </button>
-        </div>
       </div>
+
+      ${show_editing_buttons('route', updating_doc, route_id, route_lang)}
 
     </section>
   </form>
 </section>
+
+${show_preview_container()}

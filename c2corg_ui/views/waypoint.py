@@ -108,3 +108,8 @@ class Waypoint(Document):
             'waypoint_id': id
         })
         return self.template_input
+
+    @view_config(route_name='waypoints_preview',
+                 renderer='c2corg_ui:templates/waypoint/preview.html')
+    def preview(self):
+        return self._preview()

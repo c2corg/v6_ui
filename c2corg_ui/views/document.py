@@ -482,3 +482,10 @@ class Document(object):
         return next(
             (lang for lang in langs_priority if lang in available_langs),
             None)
+
+    def _preview(self):
+        document = self.request.json_body.get('document')
+        self.template_input.update({
+            'document': document
+        })
+        return self.template_input

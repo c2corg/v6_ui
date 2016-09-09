@@ -59,6 +59,7 @@ def main(global_config, **settings):
     config.add_route('waypoints_view_id', '/waypoints/{id:\d+}')
     config.add_route(
         'waypoints_diff', '/waypoints/diff/{id:\d+}/{lang}/{v1}/{v2}')
+    config.add_route('waypoints_preview', '/waypoints/preview')
 
     config.add_route('routes_index', '/routes')
     config.add_route('routes_sitemap_default', '/routes/sitemap')
@@ -72,6 +73,7 @@ def main(global_config, **settings):
     config.add_route('routes_view_id', '/routes/{id:\d+}')
     config.add_route(
         'routes_diff', '/routes/diff/{id:\d+}/{lang}/{v1}/{v2}')
+    config.add_route('routes_preview', '/routes/preview')
 
     config.add_route('outings_index', '/outings')
     config.add_route('outings_sitemap_default', '/outings/sitemap')
@@ -86,6 +88,7 @@ def main(global_config, **settings):
     config.add_route('outings_view_id', '/outings/{id:\d+}')
     config.add_route(
         'outings_diff', '/outings/diff/{id:\d+}/{lang}/{v1}/{v2}')
+    config.add_route('outings_preview', '/outings/preview')
 
     config.add_route('images_index', '/images')
     config.add_route('images_sitemap_default', '/images/sitemap')
@@ -99,6 +102,7 @@ def main(global_config, **settings):
     config.add_route('images_view_id', '/images/{id:\d+}')
     config.add_route(
         'images_diff', '/images/diff/{id:\d+}/{lang}/{v1}/{v2}')
+    config.add_route('images_preview', '/images/preview')
 
     config.add_route('auth', '/auth')
     config.add_route('auth-sso', '/auth-sso')

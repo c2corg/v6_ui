@@ -1,4 +1,5 @@
 goog.provide('app.DocumentEditingController');
+goog.provide('app.PreviewModalController');
 goog.provide('app.documentEditingDirective');
 
 goog.require('app');
@@ -46,9 +47,12 @@ app.module.directive('appDocumentEditing', app.documentEditingDirective);
 
 
 /**
- * @param {angular.Scope} $scope Scope.
+ * @param {!angular.Scope} $scope Scope.
  * @param {angular.JQLite} $element Element.
  * @param {angular.Attributes} $attrs Attributes.
+ * @param {angular.$http} $http
+ * @param {Object} $uibModal modal from angular bootstrap.
+ * @param {angular.$compile} $compile Angular compile service.
  * @param {app.Lang} appLang Lang service.
  * @param {app.Authentication} appAuthentication
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
@@ -62,9 +66,9 @@ app.module.directive('appDocumentEditing', app.documentEditingDirective);
  * @ngInject
  * @export
  */
-app.DocumentEditingController = function($scope, $element, $attrs, appLang,
-    appAuthentication, ngeoLocation, appAlerts, appApi, authUrl, appDocument,
-    appUrl, imageUrl) {
+app.DocumentEditingController = function($scope, $element, $attrs, $http,
+    $uibModal, $compile, appLang, appAuthentication, ngeoLocation, appAlerts,
+    appApi, authUrl, appDocument, appUrl, imageUrl) {
 
   /**
    * @type {app.Document}
@@ -116,7 +120,7 @@ app.DocumentEditingController = function($scope, $element, $attrs, appLang,
   this.lang_ = $attrs['appDocumentEditingLang'];
 
   /**
-   * @type {angular.Scope}
+   * @type {!angular.Scope}
    * @export
    */
   this.scope = $scope;
@@ -162,6 +166,24 @@ app.DocumentEditingController = function($scope, $element, $attrs, appLang,
    * @private
    */
   this.url_ = appUrl;
+
+  /**
+   * @type {angular.$http}
+   * @private
+   */
+  this.http_ = $http;
+
+  /**
+   * @type {Object} angular bootstrap modal
+   * @private
+   */
+  this.modal_ = $uibModal;
+
+  /**
+   * @type {angular.$compile}
+   * @private
+   */
+  this.compile_ = $compile;
 
   this.scope[this.modelName] = this.documentService.document;
 
@@ -512,4 +534,68 @@ app.DocumentEditingController.prototype.toggleOrientation = function(orientation
 };
 
 
+/**
+ * @export
+ */
+app.DocumentEditingController.prototype.preview = function() {
+  var template = $('#preview-container').clone();
+  this.modal_.open({
+    animation: true,
+    template: this.compile_(template)(this.scope),
+    controller: 'appPreviewModalController',
+    controllerAs: 'previewModalCtrl',
+    size: 'xl'
+  });
+
+  // TODO: loading indicator?
+
+  var config = {
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Accept': 'application/json'
+    }
+  };
+  var url = '/' + this.module_ + '/preview';
+  var payload = {
+    'document': angular.copy(this.scope[this.modelName])
+  };
+  this.http_.post(url, payload, config).
+    catch(function(response) {
+      this.alerts.addError('A server error prevented creating the preview');
+    }.bind(this)).
+    then(function(response) {
+      $('#preview-container-content').html(response['data']);
+    }.bind(this));
+};
+
+
 app.module.controller('appDocumentEditingController', app.DocumentEditingController);
+
+
+/**
+ * We have to use a secondary controller for the modal so that we can inject
+ * uibModalInstance which is not available from the first level controller.
+ * @param {Object} $uibModalInstance modal from angular bootstrap
+ * @constructor
+ * @ngInject
+ * @returns {app.PreviewModalController}
+ */
+app.PreviewModalController = function($uibModalInstance) {
+
+  /**
+   * @type {Object} $uibModalInstance angular bootstrap
+   * @private
+   */
+  this.modalInstance_ = $uibModalInstance;
+};
+
+
+/**
+ * @export
+ */
+app.PreviewModalController.prototype.close = function() {
+  this.modalInstance_.close();
+};
+
+
+app.module.controller('appPreviewModalController', app.PreviewModalController);
