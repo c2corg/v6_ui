@@ -48,8 +48,7 @@ app.mapDirective = function() {
       'zoom': '@appMapZoom',
       'showRecenterTools': '=appMapShowRecenterTools'
     },
-    controller: 'AppMapController',
-    controllerAs: 'mapCtrl',
+    controller: 'AppMapController as mapCtrl',
     bindToController: true,
     templateUrl: '/static/partials/map/map.html'
   };
@@ -404,6 +403,9 @@ app.MapController.prototype.createStyleFunction_ = function() {
  * @private
  */
 app.MapController.prototype.createPointStyle_ = function(feature, resolution) {
+  var module = feature.get('module');
+  var path;
+  var imgSize;
   var type = /** @type {string} */ (feature.get('module'));
   if (type === 'waypoints' && feature.get('type')) {
     type = /** @type {string} */ (feature.get('type'));
@@ -411,7 +413,18 @@ app.MapController.prototype.createPointStyle_ = function(feature, resolution) {
   var id = /** @type {number} */ (feature.get('documentId'));
   var highlight = /** @type {boolean} */ (!!feature.get('highlight'));
   var scale = highlight ? 1 : 0.5;
-  var imgSize = highlight ? 32 : 16;
+
+  if (module === 'waypoints') {
+    imgSize = highlight ? 40 : 24;
+    path = '/documents/waypoints/' + type + '.svg';
+  } else if (module === 'images') {
+    imgSize = 0; // no circle for images
+    path = '/documents/' + type + '.svg';
+  } else {
+    imgSize = highlight ? 32 : 16;
+    path = '/documents/' + type + '.svg';
+  }
+
   var key = type + scale + '_' + id;
   var styles = this.styleCache[key];
   if (!styles) {
@@ -420,7 +433,7 @@ app.MapController.prototype.createPointStyle_ = function(feature, resolution) {
     if (!icon) {
       icon = new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
         scale: scale,
-        src: this.imgPath_ + '/documents/' + type + '.svg'
+        src: this.imgPath_ + path
       }));
       this.iconCache[iconKey] = icon;
     }
@@ -432,7 +445,11 @@ app.MapController.prototype.createPointStyle_ = function(feature, resolution) {
         image: new ol.style.Circle({
           radius: imgSize,
           fill: new ol.style.Fill({
-            color: 'rgba(255, 255, 255, 0.01)'
+            color: 'rgba(255, 255, 255, 0.5)'
+          }),
+          stroke: new ol.style.Stroke({
+            color: '#ddd',
+            width: 2
           })
         })
       }),
