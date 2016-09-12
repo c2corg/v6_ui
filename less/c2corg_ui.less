@@ -265,7 +265,7 @@ main {
   flex-flow: wrap row;
   align-items: baseline;
   align-content: flex-start;
-  
+
   .list-item {
     flex-basis: 48%;
     @media @big {
@@ -1081,14 +1081,10 @@ ul {
     flex-wrap: wrap;
 
     app-delete-association {
-      position: absolute;
-      bottom: 30px;
-      right: 0;
-      margin-right: 5px;
       font-size: 15px;
 
       @media @phone {
-        font-size: 13px;
+        font-size: 14px;
       }
       .glyphicon {
         color: red;
@@ -1102,14 +1098,7 @@ ul {
       color: red;
       font-size: 1.3em;
       right: 10px;
-          top: calc(~"100% - 25px");
-      @media @phone {
-        font-size: 1em;
-        top: 78%;
-      }
+      top: calc(~"100% - 30px");
     }
-  }
-  .route-activities {
-    justify-content: flex-start !important;
   }
 }

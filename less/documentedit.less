@@ -120,9 +120,6 @@
     width: 100%;
 
     .route-activities {
-      .flex();
-      justify-content: space-around;
-      flex-flow: wrap row;
       @media @phone {
         justify-content: space-between;
       }
@@ -132,9 +129,6 @@
         cursor: pointer;
         @media (max-width: @screen-md-min) {
           width: 33%;
-        }
-        p {
-          text-align: center;
         }
       }
      [class^="icon-"] {
@@ -153,7 +147,7 @@
         }
       }
     }
-    #image{
+    #image {
       width: 100%;
       .image {
         height: 300px;
@@ -288,7 +282,9 @@
         padding: 2%;
       }
       .associated-documents {
-        padding-bottom: 10px;
+        padding: 0 10px 10px 10px;
+        border: 2px solid #eee;
+        border-radius: 5px;
       }
     }
     .heading {
@@ -571,6 +567,15 @@
     }
   }
 }
+
+.step-1, .step-2 {
+  .route-activities {
+    .flex();
+    flex-flow: wrap;
+    justify-content: center;
+  }
+}
+
 .bullet-container {
   position: absolute;
   width: 100%;
