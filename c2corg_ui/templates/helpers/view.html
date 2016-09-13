@@ -129,9 +129,9 @@
 <%def name="show_associated_routes(document, type='routes')">\
   ## Possible values for type: routes, all_routes
   <%
-    routes = document['associations']['all_routes']['routes'] if type == 'all_routes' else document['associations']['routes']
+    routes = document['associations']['all_routes']['documents'] if type == 'all_routes' else document['associations']['routes']
     associations = 'detailsCtrl.documentService.document.associations.'
-    associations += 'all_routes.routes' if type == 'all_routes' else 'routes'
+    associations += 'all_routes.documents' if type == 'all_routes' else 'routes'
   %>
     ${add_seo_association_links(routes, 'routes')}
     <section ng-show="${associations}.length > 0">
@@ -198,7 +198,7 @@
       associations = document['associations']
   %>
   % if 'recent_outings' in associations and associations['recent_outings']['total'] > 0:
-    ${add_seo_association_links(associations['recent_outings']['outings'], 'outings')}
+    ${add_seo_association_links(associations['recent_outings']['documents'], 'outings')}
     <article>
       <h3 class="heading show-phone outings" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-outings">
         <span class="glyphicon glyphicon-map-marker"></span>
@@ -213,10 +213,10 @@
             </a>
           </div>
         % endif
-        <div class="list-item outings" ng-repeat="doc in detailsCtrl.documentService.document.associations.recent_outings.outings">
+        <div class="list-item outings" ng-repeat="doc in detailsCtrl.documentService.document.associations.recent_outings.documents">
           <app-card app-card-doc="doc"></app-card>
         </div>
-        % if associations['recent_outings']['total'] > len(associations['recent_outings']['outings']) :
+        % if associations['recent_outings']['total'] > len(associations['recent_outings']['documents']) :
           <%
               fragment = '{0}={1}'.format(document['type'], document['document_id'])
           %>
@@ -253,8 +253,8 @@
 </%def>
 
 <%def name="associated_routes_featurelist(document)">\
-  % if document.get('associations').get('all_routes') and document.get('associations').get('all_routes').get('routes'):
-    % for route in document.get('associations').get('all_routes').get('routes'):
+  % if document.get('associations').get('all_routes') and document.get('associations').get('all_routes').get('documents'):
+    % for route in document.get('associations').get('all_routes').get('documents'):
       % if 'geometry' in route and route.get('geometry').get('geom_detail'):
         ,
         {

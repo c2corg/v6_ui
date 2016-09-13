@@ -36,9 +36,9 @@ app.Document = function(appAuthentication, $rootScope) {
       'waypoints': [],
       'waypoint_children': [],
       'routes': [],
-      'all_routes': {'total': 0, 'routes': []},
+      'all_routes': {'total': 0, 'documents': []},
       'users': [],
-      'recent_outings': {'total': 0, 'outings': []},
+      'recent_outings': {'total': 0, 'documents': []},
       'images': []
     },
     'locales': [{'title': '', 'lang': ''}],
@@ -146,7 +146,7 @@ app.Document.prototype.pushToAssociations = function(doc, doctype,
  */
 app.Document.prototype.removeAssociation = function(id, type, event) {
   var associations = type === 'outings' ?
-          this.document.associations.recent_outings.outings :
+          this.document.associations.recent_outings.documents :
           this.document.associations[type];
 
   event.currentTarget.closest('.list-item').className += ' remove-item';
