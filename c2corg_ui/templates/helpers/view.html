@@ -252,27 +252,6 @@
   % endfor
 </%def>
 
-<%def name="associated_routes_featurelist(document)">\
-  % if document.get('associations').get('all_routes') and document.get('associations').get('all_routes').get('documents'):
-    % for route in document.get('associations').get('all_routes').get('documents'):
-      % if 'geometry' in route and route.get('geometry').get('geom_detail'):
-        ,
-        {
-          "type": "Feature",
-          "geometry": ${route['geometry']['geom_detail'] | n},
-          "properties": {
-            "title": ${dumps(route['locales'][0]['title']) | n},
-            "title_prefix": ${dumps(route['locales'][0]['title_prefix']) | n},
-            "lang": ${dumps(route['locales'][0]['lang']) | n},
-            "documentId": ${route['document_id']},
-            "module": "routes"
-          }
-        }
-      % endif
-    % endfor
-  % endif
-</%def>
-
 <%def name="associated_images_featurelist(document)">\
   % if document.get('associations').get('images'):
     % for image in document.get('associations').get('images'):
