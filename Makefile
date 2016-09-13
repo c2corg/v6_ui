@@ -190,11 +190,13 @@ transifex-init: .tx/config .build/locale/c2corg_ui-client.pot .build/venv/bin/tx
 .build/locale/%/LC_MESSAGES/c2corg_ui-client.po: .tx/config .build/venv/bin/tx
 	mkdir -p $(dir $@)
 	.build/venv/bin/tx pull -l $* --force
+	test -s $@
 	$(TOUCHBACK_TXRC)
 
 c2corg_ui/static/build/locale/%/c2corg_ui.json: .build/locale/%/LC_MESSAGES/c2corg_ui-client.po
 	mkdir -p $(dir $@)
 	node tools/compile-catalog $< > $@
+	test -s $@
 
 # End of i18n and Transifex tools
 
