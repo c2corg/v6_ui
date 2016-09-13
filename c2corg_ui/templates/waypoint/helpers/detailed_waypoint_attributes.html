@@ -30,6 +30,10 @@
     <p translate>General</p>
   </div>
   <span class="detail-text accordion">
+    % if waypoint.get('elevation'):
+      <p><span translate class="value-title">elevation</span>: <span class="value">${waypoint['elevation']} m</span></p>
+    % endif
+
     % if waypoint.get('waypoint_type'):
       <p><span translate class="value-title">waypoint_type</span>: <span x-translate class="value">${waypoint['waypoint_type']}</span></p>
     % endif
