@@ -4,6 +4,10 @@
   <br>
 
   <div class="list-item-info flex baseline-align">
+
+    <div class="quality" ng-if="doc['quality']" ng-class="doc['quality']"
+         uib-tooltip="{{'quality'| translate}} : {{doc['quality'] | translate}}" tooltip-placement="left"></div>
+
     <span class="{{'icon-' + doc['waypoint_type']}} waypoint-type"
           uib-tooltip="{{ cardCtrl.translate(doc['waypoint_type']) }}"></span>
     <p ng-if="doc['elevation']"><span class="value">{{doc['elevation']}} m</span></p>
