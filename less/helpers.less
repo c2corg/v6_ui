@@ -331,3 +331,27 @@ p {
 .center-items-align {
   align-items: center;
 }
+
+.quality {
+  width: 25px;
+  height: 23px;
+  background-image: url(../img/quality.svg);
+  background-repeat: no-repeat;
+  display: inline-table;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+
+  &.draft {
+    background-position: -23px;
+  }
+  &.medium {
+    background-position: -48px;
+  }
+  &.good {
+    background-position: -72px;
+  }
+  &.excellent {
+    background-position: -96x;
+  }
+}
