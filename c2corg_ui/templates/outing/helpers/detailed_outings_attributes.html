@@ -125,7 +125,7 @@
 
 ## PARTICIPANTS
 <%def name="get_outing_participants(outing)">\
-    % if outing.get('participant_count') or outing['locales'][0]['participants'] or outing['associations']['users']:
+    % if outing.get('participant_count') or outing['locales'][0].get('participants') or outing['associations']['users']:
       <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
         <h4><span translate>participants</span><span class="glyphicon glyphicon-menu-right"></span></h4>
         <div class="name-icon">
@@ -140,9 +140,13 @@
           % if outing.get('associations').get('users'):
             <p>
                 % for user in outing['associations']['users']:
-                  <a href="#TODO">${user['name']}</a>${'' if loop.last and not outing['locales'][0]['participants'] else ', '}
+                  <%
+                      user_name = user['name'] if 'name' in user else user['username']
+                      is_last_participant = loop.last and not outing['locales'][0].get('participants')
+                  %>
+                  <a href="#TODO">${user_name}</a>${'' if is_last_participant else ', '}
                 % endfor
-              ${outing['locales'][0]['participants'] or ''}
+              ${outing['locales'][0].get('participants') or ''}
             </p>
           % endif
 

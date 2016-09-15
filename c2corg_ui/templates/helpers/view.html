@@ -286,7 +286,7 @@
       else:
           conditions_levels_exist = False
   %>
-  % if locale['weather'] or locale['conditions'] or conditions_levels_exist:
+  % if locale.get('weather') or locale.get('conditions') or conditions_levels_exist:
     <div class="view-details-info col-xs-12">
       <h3 class="heading closed show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#weather-conditions">
         <span translate>weather and conditions</span><span class="glyphicon glyphicon-menu-right"></span>
