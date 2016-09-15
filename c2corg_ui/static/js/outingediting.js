@@ -147,6 +147,10 @@ app.DocumentEditingController.prototype.formatOuting_ = function(outing) {
       outing.date_end = window.moment(outing.date_end).format('YYYY-MM-DD');
     }
 
+    var associations = outing.associations;
+    for (var i = 0; i < associations['users'].length; i++) {
+      associations['users'][i]['id'] = associations['users'][i]['document_id'];
+    }
     // remove 'null' from the array, it's not accepted by the API
     if (outing.avalanche_signs && outing.avalanche_signs[0] === null) {
       if (outing.avalanche_signs.length === 1) {
