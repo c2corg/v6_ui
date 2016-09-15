@@ -65,6 +65,8 @@ deploy:
   script: make cleanall publish
   on:
     repo: c2corg/v6_ui
+    all_branches: true
+    tags: true
     condition: '"$TRAVIS_NODE_VERSION" = "4"'
 
 notifications:
