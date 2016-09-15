@@ -79,7 +79,6 @@ app.OutingEditingController = function($scope, $element, $attrs, $http,
 
   if (this.auth.isAuthenticated()) {
     this.scope[this.modelName]['associations']['users'].push({
-      'id' : this.auth.userData.id,
       'document_id': this.auth.userData.id,
       'username': this.auth.userData.username
     });
@@ -148,11 +147,6 @@ app.DocumentEditingController.prototype.formatOuting_ = function(outing) {
       outing.date_end = window.moment(outing.date_end).format('YYYY-MM-DD');
     }
 
-    var associations = outing.associations;
-    for (var i = 0; i < associations['users'].length; i++) {
-      associations['users'][i]['id'] = associations['users'][i]['document_id'] || associations['users'][i]['id'];
-      delete associations['users'][i]['document_id'];
-    }
     // remove 'null' from the array, it's not accepted by the API
     if (outing.avalanche_signs && outing.avalanche_signs[0] === null) {
       if (outing.avalanche_signs.length === 1) {

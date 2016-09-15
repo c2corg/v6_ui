@@ -131,7 +131,7 @@ app.Authentication.prototype.hasEditRightsOuting_ = function(users) {
   }
   if (u) {
     for (var i = 0; i < u.length; i++) {
-      if (userid === u[i].id) {
+      if (userid === u[i].document_id) {
         return true;
       }
     }
