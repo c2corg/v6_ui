@@ -12,7 +12,7 @@ from json import dumps
     show_areas, show_float_buttons, show_maps, get_route_activities,
     show_associated_waypoints, show_associated_routes, show_associated_outings,
     delete_association_confirmation_modal, associated_waypoints_featurelist,
-    show_badge" />
+    show_badge, get_document_description" />
 
 <%namespace file="helpers/detailed_route_attributes.html" import="get_route_location,
     get_route_glacier_gear, get_route_rating, get_route_general, get_route_heights,
@@ -122,28 +122,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
     </section>
   </div>
 
-  ## DESCRIPTION
-  % if locale['summary'] or locale['description']:
-  <div class="view-details-description col-xs-12  description">
-    <h3 class="heading show-phone"><span translate>description</span></h3>
-    <span class="lead">
-      <div id="document-description" class="collapse in">
-
-        % if locale['summary']:
-        <summary class="document-summary">
-          <label translate>summary</label><br>
-          ${show_attr(locale, 'summary')}
-        </summary>
-        % endif
-
-        % if locale['description']:
-        ${show_attr(locale, 'description')}
-        % endif
-
-      </div>
-    </span>
-  </div>
-  % endif
+  ${get_document_description(locale, 'route')}
 
   <div class="description ">
     ${get_document_locale_text(locale, 'remarks')}

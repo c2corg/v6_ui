@@ -2,7 +2,8 @@
 <%namespace file="helpers/detailed_outings_attributes.html" import="get_outing_snow,
     get_outing_access, get_outing_participants, get_outing_general, get_outing_heights"/>
 <%namespace file="../helpers/view.html" import="get_document_min_max,
-    get_document_locale_text, show_attr, show_route_title, get_route_activities"/>
+    get_document_locale_text, show_attr, show_route_title, get_route_activities,
+    get_document_description"/>
 <%namespace file="../helpers/preview.html" import="show_preview_warning"/>
 
 <%
@@ -37,28 +38,7 @@ outing['date_end'] = outing['date_end'] if outing.get('date_end') else outing['d
     </section>
   </div>
 
-  ## DESCRIPTION
-  % if locale.get('summary') or locale.get('description'):
-  <div class="view-details-description col-xs-12  description">
-    <h3 class="heading show-phone"><span translate>personal comments</span></h3>
-    <span class="lead">
-      <div id="document-description" class="collapse in">
-
-        % if locale.get('summary'):
-        <summary class="document-summary">
-          <label translate>summary</label><br>
-          ${show_attr(locale, 'summary')}
-        </summary>
-        % endif
-
-        % if locale.get('description'):
-        ${show_attr(locale, 'description')}
-        % endif
-
-      </div>
-    </span>
-  </div>
-  % endif
+  ${get_document_description(locale, 'outing')}
 
   <div class="description">
     ${get_document_locale_text(locale, 'route_description')}
