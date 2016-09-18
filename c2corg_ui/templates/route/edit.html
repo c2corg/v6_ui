@@ -625,7 +625,7 @@ updating_doc = route_id and route_lang
             ## GEAR LOCALE
             <div id="gear-group" class="form-group data full">
               <label translate>gear</label>
-              <textarea name="gear" ng-model="route.locales[0].gear" class="form-control" placeholder="{{'Describe here the gear needed for this route'|translate}}"></textarea>
+              <textarea name="gear" ng-model="route.locales[0].gear" class="form-control" placeholder="{{'Describe here the gear needed for this route' | translate}}"></textarea>
             </div>
 
             ## GLACIER GEAR
@@ -649,7 +649,7 @@ updating_doc = route_id and route_lang
             % if updating_doc:
             <div id="message-group" class="form-group">
               <label translate>Comment about the changes</label>
-              <input type="text" name="message" ng-model="route.message" class="form-control" placeholder="{{'Short description of the applied changes'|translate}}" />
+              <input type="text" name="message" ng-model="route.message" class="form-control" placeholder="{{'Short description of the applied changes' | translate}}" />
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.message"></span>
             </div>
             % endif
