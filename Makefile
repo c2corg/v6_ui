@@ -9,6 +9,7 @@ APP_JS_FILES = $(shell find c2corg_ui/static/js -type f -name '*.js')
 APP_HTML_FILES = $(shell find c2corg_ui/templates -type f -name '*.html')
 APP_PARTIAL_FILES = $(shell find c2corg_ui/static/partials -type f -name '*.html')
 LESS_FILES = $(shell find less -type f -name '*.less')
+LESS_PRINT_FILES = $(shell find less-print -type f -name '*.less')
 
 # i18n
 L10N_LANGUAGES = ca de en es eu fr it
@@ -129,7 +130,7 @@ install: build template .build/node_modules.timestamp
 template: $(TEMPLATE_FILES)
 
 .PHONY: less
-less: c2corg_ui/static/build/build.min.css c2corg_ui/static/build/build.css c2corg_ui/static/build/bootstrap_fonts
+less: c2corg_ui/static/build/build.min.css c2corg_ui/static/build/build.css c2corg_ui/static/build/build-print.min.css c2corg_ui/static/build/build-print.css c2corg_ui/static/build/bootstrap_fonts
 
 .PHONY: serve
 serve: install build development.ini
@@ -211,6 +212,14 @@ c2corg_ui/static/build/build.min.css: $(LESS_FILES) .build/node_modules.timestam
 c2corg_ui/static/build/build.css: $(LESS_FILES) .build/node_modules.timestamp
 	mkdir -p $(dir $@)
 	./node_modules/.bin/lessc less/c2corg_ui.less > $@
+
+c2corg_ui/static/build/build-print.min.css: $(LESS_PRINT_FILES) .build/node_modules.timestamp
+	mkdir -p $(dir $@)
+	./node_modules/.bin/lessc --clean-css less-print/c2corg_ui.less > $@
+
+c2corg_ui/static/build/build-print.css: $(LESS_PRINT_FILES) .build/node_modules.timestamp
+	mkdir -p $(dir $@)
+	./node_modules/.bin/lessc less-print/c2corg_ui.less > $@
 
 c2corg_ui/static/build/templatecache.js: c2corg_ui/templates/templatecache.js .build/venv/bin/mako-render $(APP_PARTIAL_FILES)
 	mkdir -p $(dir $@)

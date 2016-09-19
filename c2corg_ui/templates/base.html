@@ -35,9 +35,11 @@ closure_library_path = settings.get('closure_library_path')
     <link rel="stylesheet"  href="${request.static_url('%s/photoswipe/dist/default-skin/default-skin.css' % node_modules_path)}">
     <link rel="stylesheet"  href="${request.static_url('%s/slick-carousel/slick/slick-theme.css' % node_modules_path)}">
     <link rel="stylesheet" href="${request.static_url('c2corg_ui:static/build/build.css')}">
+    <link rel="stylesheet" href="${request.static_url('c2corg_ui:static/build/build-print.css')}" media="print">
 % else:
     <link rel="stylesheet" href="${request.static_url('c2corg_ui:static/build/deps.css')}">
     <link rel="stylesheet" href="${request.static_url('c2corg_ui:static/build/build.min.css')}">
+    <link rel="stylesheet" href="${request.static_url('c2corg_ui:static/build/build-print.min.css')}" media="print">
 % endif
   </head>
   <body class="on-load loading">
