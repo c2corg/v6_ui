@@ -18,6 +18,7 @@ redis.cache_pool = 20
 
 ign_api_key = {ign_api_key}
 bing_api_key = {bing_api_key}
+ganalytics_key = {ganalytics_key}
 
 pyramid.default_locale_name = fr
 

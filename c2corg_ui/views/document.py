@@ -50,6 +50,7 @@ class Document(object):
             'api_url': self.settings['api_url'],
             'ign_api_key': self.settings['ign_api_key'],
             'bing_api_key': self.settings['bing_api_key'],
+            'ganalytics_key': self.settings['ganalytics_key'],
             'image_backend_url': self.settings['image_backend_url'],
             'image_url': self.settings['image_url'],
             'discourse_url': self.settings['discourse_url']
