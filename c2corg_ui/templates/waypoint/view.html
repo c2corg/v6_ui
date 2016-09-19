@@ -16,7 +16,7 @@ from json import dumps
     show_route_title, show_areas, show_maps, show_float_buttons,
     show_associated_waypoints, show_associated_routes, show_associated_outings,
     delete_association_confirmation_modal, associated_waypoints_featurelist,
-    associated_routes_featurelist, show_badge"/>
+    show_badge"/>
 
 <%
 waypoint_id = waypoint['document_id']
@@ -64,7 +64,6 @@ geometry4326 = geometry
       }
       % if not version:
         ${associated_waypoints_featurelist(waypoint)}
-        ${associated_routes_featurelist(waypoint)}
       % endif
     ]}
   % else:

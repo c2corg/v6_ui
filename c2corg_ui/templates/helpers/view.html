@@ -129,9 +129,9 @@
 <%def name="show_associated_routes(document, type='routes')">\
   ## Possible values for type: routes, all_routes
   <%
-    routes = document['associations']['all_routes']['routes'] if type == 'all_routes' else document['associations']['routes']
+    routes = document['associations']['all_routes']['documents'] if type == 'all_routes' else document['associations']['routes']
     associations = 'detailsCtrl.documentService.document.associations.'
-    associations += 'all_routes.routes' if type == 'all_routes' else 'routes'
+    associations += 'all_routes.documents' if type == 'all_routes' else 'routes'
   %>
     ${add_seo_association_links(routes, 'routes')}
     <section ng-show="${associations}.length > 0">
@@ -198,7 +198,7 @@
       associations = document['associations']
   %>
   % if 'recent_outings' in associations and associations['recent_outings']['total'] > 0:
-    ${add_seo_association_links(associations['recent_outings']['outings'], 'outings')}
+    ${add_seo_association_links(associations['recent_outings']['documents'], 'outings')}
     <article>
       <h3 class="heading show-phone outings" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-outings">
         <span class="glyphicon glyphicon-map-marker"></span>
@@ -213,10 +213,10 @@
             </a>
           </div>
         % endif
-        <div class="list-item outings" ng-repeat="doc in detailsCtrl.documentService.document.associations.recent_outings.outings">
+        <div class="list-item outings" ng-repeat="doc in detailsCtrl.documentService.document.associations.recent_outings.documents">
           <app-card app-card-doc="doc"></app-card>
         </div>
-        % if associations['recent_outings']['total'] > len(associations['recent_outings']['outings']) :
+        % if associations['recent_outings']['total'] > len(associations['recent_outings']['documents']) :
           <%
               fragment = '{0}={1}'.format(document['type'], document['document_id'])
           %>
@@ -250,27 +250,6 @@
       % endfor
     % endif
   % endfor
-</%def>
-
-<%def name="associated_routes_featurelist(document)">\
-  % if document.get('associations').get('all_routes') and document.get('associations').get('all_routes').get('routes'):
-    % for route in document.get('associations').get('all_routes').get('routes'):
-      % if 'geometry' in route and route.get('geometry').get('geom_detail'):
-        ,
-        {
-          "type": "Feature",
-          "geometry": ${route['geometry']['geom_detail'] | n},
-          "properties": {
-            "title": ${dumps(route['locales'][0]['title']) | n},
-            "title_prefix": ${dumps(route['locales'][0]['title_prefix']) | n},
-            "lang": ${dumps(route['locales'][0]['lang']) | n},
-            "documentId": ${route['document_id']},
-            "module": "routes"
-          }
-        }
-      % endif
-    % endfor
-  % endif
 </%def>
 
 <%def name="associated_images_featurelist(document)">\
@@ -307,7 +286,7 @@
       else:
           conditions_levels_exist = False
   %>
-  % if locale['weather'] or locale['conditions'] or conditions_levels_exist:
+  % if locale.get('weather') or locale.get('conditions') or conditions_levels_exist:
     <div class="view-details-info col-xs-12">
       <h3 class="heading closed show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#weather-conditions">
         <span translate>weather and conditions</span><span class="glyphicon glyphicon-menu-right"></span>

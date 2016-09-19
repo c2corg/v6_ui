@@ -276,7 +276,7 @@ appx.Image;
 /**
  * @typedef {{
  *   total: number,
- *   outings: Array.<appx.Outing>
+ *   documents: Array.<appx.Outing>
  * }}
  */
 appx.RecentOutings;
@@ -285,7 +285,7 @@ appx.RecentOutings;
 /**
  * @typedef {{
  *   total: number,
- *   routes: Array.<appx.Route>
+ *   documents: Array.<appx.Route>
  * }}
  */
 appx.AllRoutes;

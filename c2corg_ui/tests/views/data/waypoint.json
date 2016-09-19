@@ -29,10 +29,10 @@
 		"images": [],
 		"all_routes": {
 			"total": 0,
-			"routes": []
+			"documents": []
 		},
 		"recent_outings": {
-			"outings": [],
+			"documents": [],
 			"total": 0
 		}
 	},

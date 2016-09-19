@@ -69,11 +69,11 @@
 		"users": [{
 			"username": "kakaka",
 			"name": "Sakapof-Kakaka",
-			"id": 501630
+			"document_id": 501630
 		}, {
 			"username": "doudouchien",
 			"name": "Doudouchien",
-			"id": 426684
+			"document_id": 426684
 		}],
 		"routes": [{
 			"protected": false,

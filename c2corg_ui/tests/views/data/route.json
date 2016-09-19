@@ -29,7 +29,7 @@
 	"associations": {
 		"recent_outings": {
 			"total": 1,
-			"outings": [{
+			"documents": [{
 				"protected": false,
 				"locales": [{
 					"title": "Comillini: des de Cadolla per la casa Encantada",

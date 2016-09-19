@@ -160,7 +160,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
             <label translate>Add association</label>
             <app-add-association parent-id="${route_id}" parent-doctype="routes" dataset="wr"></app-add-association>
           </div>
-          % if len(route['associations']['recent_outings']['outings']) == 0:
+          % if len(route['associations']['recent_outings']['documents']) == 0:
             <div class="add-outing">
               <p class="text-center"><strong translate>no outings yet?</strong><p>
                 <button type="button" class="btn gray-btn" protected-url-btn
