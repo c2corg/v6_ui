@@ -267,7 +267,7 @@ from c2corg_common.attributes import default_langs, activities, quality_types, i
             </div>
 
             ## QUALITY
-            <div class="form-group remain half" ng-style="{'has-success': image.quality}" ng-init="qualityTypes = ${quality_types}">
+            <div class="half" ng-style="{'has-success': image.quality}" ng-init="qualityTypes = ${quality_types}">
               ## I tried with ng-init, ng-selected..so hacking
               <div class="ng-hide">{{image.quality = image.quality || qualityTypes[1]}}</div>
               <label translate>quality</label>

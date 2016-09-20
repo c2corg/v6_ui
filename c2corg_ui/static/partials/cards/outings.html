@@ -8,12 +8,9 @@
 
     <span class="list-item-title">{{locale.title}}</span>
     <span class="list-item-lang" ng-if="cardCtrl.lang != locale.lang">({{locale.lang}})</span>
-
     <br>
-    <span class="quality" ng-if="doc['quality']" uib-tooltip="{{'quality' | translate}}">
-      <span class="glyphicon glyphicon-file"></span>
-      <span x-translate>{{doc['quality']}}</span>
-    </span>
+    <div class="quality" ng-if="doc['quality']" ng-class="doc['quality']"
+         uib-tooltip="{{'quality'| translate}} : {{doc['quality'] | translate}}" tooltip-placement="left"></div>
 
     <span class="elevation-max" ng-if="doc['elevation_max']" uib-tooltip="{{'elevation_max' | translate}}">
       <span translate class="value-title glyphicon glyphicon-sort-by-attributes"></span>

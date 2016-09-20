@@ -46,7 +46,7 @@
         <article class="value activities">
           <span translate class="value-title">activities</span><br>
           % for type in route.get('activities') :
-            <span x-translate  class="route-activity icon-${type}" uib-tooltip="{{mainCtrl.translate('${type}')}}" ></span>
+            <span class="route-activity icon-${type}" uib-tooltip="{{mainCtrl.translate('${type}')}}"></span>
           % endfor
         </article>
       % endif

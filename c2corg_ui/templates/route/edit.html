@@ -647,7 +647,7 @@ updating_doc = route_id and route_lang
 
           <div class="content">
             % if updating_doc:
-            <div id="message-group" class="form-group">
+            <div id="message-group" class="full">
               <label translate>Comment about the changes</label>
               <input type="text" name="message" ng-model="route.message" class="form-control" placeholder="{{'Short description of the applied changes'|translate}}" />
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.message"></span>
@@ -655,7 +655,7 @@ updating_doc = route_id and route_lang
             % endif
 
             ## QUALITY
-            <div class="form-group half" ng-style="{'has-success': route.quality}" ng-init="qualityTypes = ${quality_types}">
+            <div class="half" ng-style="{'has-success': route.quality}" ng-init="qualityTypes = ${quality_types}">
               ## I tried with ng-init, ng-selected..so hacking
               <div class="ng-hide">{{route.quality = route.quality || qualityTypes[1]}}</div>
               <label translate>document_quality</label>

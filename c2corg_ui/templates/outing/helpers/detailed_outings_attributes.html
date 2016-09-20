@@ -10,11 +10,11 @@
   </div>
   <span class="detail-text accordion">
 
-    % if outing.get('activities') :
+    % if outing.get('activities'):
       <article class="value activities">
         <span translate class="value-title">activities</span><br>
         % for type in outing.get('activities') :
-        <span x-translate  class="green-text">${type}</span>${'' if loop.last else ', '}
+          <span class="route-activity icon-${type}" uib-tooltip="{{mainCtrl.translate('${type}')}}" ></span>
         % endfor
       </article>
     % endif
@@ -80,7 +80,7 @@
 
         % if outing.get('avalanche_signs'):
         <article class="value activities">
-          <span translate class="value-title">avalanche_signs</span>: 
+          <span translate class="value-title">avalanche_signs</span>:
           % for type in outing.get('avalanche_signs') :
           <span x-translate  class="value">${type}</span>${'' if loop.last else ', '}
           % endfor
