@@ -149,5 +149,11 @@ closure_library_path = settings.get('closure_library_path')
          app.sidemenu();
       })();
     </script>
+    <script>
+      window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
+      ga('create','${ganalytics_key}',{'cookieDomain':window.location.host});
+      ga('send','pageview',{'anonymizeIp':true});
+    </script>
+    <script src="https://www.google-analytics.com/analytics.js" async defer></script>
   </body>
 </html>
