@@ -1,4 +1,53 @@
+<%!
+from c2corg_common.attributes import activities
+%>
 <%inherit file="base.html"/>
 
-<h1 translate class="welcome-title text-center">Welcome to Camptocamp.org</h1>
-<app-map></app-map>
+<div class="home-page">
+  <section ng-hide="userCtrl.auth.isAuthenticated()" class="site-intro not-logged">
+    <div class="intro-banner">
+      <h1 class="welcome-title text-center" translate>The mountain sports community</h1>
+
+      <div class="route-activities text-center">
+        % for activity in activities:
+        <a href="${request.route_url('outings_index')}#&act=${activity}">
+          <span class="activity icon-${activity}" uib-tooltip="{{mainCtrl.translate('${activity}')}}"></span>
+        </a>
+        % endfor
+      </div>
+
+      <p class="text-center" translate>Camptocamp.org aims to
+        facilitate information sharing between
+        mountain addicts and contribute to the safety of mountain activities.
+      </p>
+
+      <div class="intro-shortcuts">
+        <a href="${request.route_url('routes_index')}">
+          <button class="btn green-btn">
+            <span class="glyphicon glyphicon-arrow-right"></span>
+            <span translate>Topoguide</span><br>
+            <span translate class="small">Conditions, summits, routes</span>...
+          </button>
+        </a>
+        <a href="${discourse_url}">
+          <button class="btn blue-btn" translate>
+            <span class="glyphicon glyphicon-th-list"></span>
+            <span translate>Forum</span><br>
+            <span translate class="small">Share with us!</span>
+          </button>
+        </a>
+      </div>
+
+    </div>
+  </section>
+  <section ng-hide="!userCtrl.auth.isAuthenticated()" class="site-intro">
+    <div class="intro-banner">
+      <h1 class="welcome-title text-center" translate>Feed</h1>
+    </div>
+  </section>
+
+  <div class="feed">
+    <button class="btn orange-btn" id="add-my-outing" protected-url-btn url="${request.route_path('outings_add')}"><span class="glyphicon glyphicon-plus-sign"></span><span translate>add an outing</span></button>
+    <app-advanced-search document-type="outings" use-map="false"></app-advanced-search>
+  </div>
+</div>
