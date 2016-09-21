@@ -1,42 +1,46 @@
-<div id="{{document_id}}" class="ng-hide"> 
-  <h1 class="image-title">{{locales[0].title}}</h1> 
-  <div class="image-infos"> 
-    <h2 translate>Infos</h2> 
-    <p ng-show="date_time"><span class="glyphicon glyphicon-calendar"></span>{{date_time}}</p> 
-    <p><span class="glyphicon glyphicon-tag"></span>{{locales[0].title}}</p> 
-    <span ng-show="activities">
-      <label translate>activities</label> 
-      <ul> 
-        <li ng-repeat="activity in activities">{{activity| translate}}</li> 
-      </ul> 
-    </span>
-    <span ng-show="categories">
-      <label translate>categories</label> 
-      <ul> 
-        <li ng-repeat="category in categories">{{category| translate}}</li> 
-      </ul> 
-    </span>
-    <p ng-show="camera_name"><span class="glyphicon glyphicon-camera"></span> <label x-translate>{{camera_name}}</label></p> 
-    <p ng-show="image_type"><span class="glyphicon glyphicon-copyright-mark"></span><label x-translate>{{image_type[0]}}</label></p> 
-    <p ng-show="elevation"><span translate>elevation</span>: {{elevation}}m<p/> 
-    <div ng-show="iso_speed || fnumber || exposure_time">  
-      <label translate>Settings</label> 
-      <ul> 
-        <li ng-show="iso_speed"><span >{{iso_speed}} ISO</span></li>  
-        <li ng-show="exposure_time"><span translate>Shutter speed</span>: <span>{{exposure_time}}</span></li>  
-        <li ng-show="fnumber"><span translate>Aperture</span> : <span>{{fnumber}}</span></li>  
-      </ul> 
-    </div> 
-    <span class="image-infos-buttons"> 
-      <button class="btn btn-default" ng-click="slideCtrl.edit()" ng-show="!slideCtrl.editing"> 
-        <span class="glyphicon glyphicon-pencil"></span> 
-      </button> 
-      <button class="btn btn-success" ng-show="slideCtrl.editing" ng-click="slideCtrl.save()"> 
-        <span class="glyphicon glyphicon-ok"></span> 
-      </button> 
-      <button class="btn btn-danger" ng-show="slideCtrl.editing" ng-click="slideCtrl.cancel()"> 
-        <span class="glyphicon glyphicon-remove"></span> 
-      </button> 
-    </span> 
-  </div> 
+<div id="{{image_id}}-slide" class="ng-hide">
+  <h2 class="image-title">{{locales[0].title}}</h2>
+
+  <div class="image-infos">
+    <h2 translate>Infos</h2>
+
+    <p ng-show="date_time" class="date"><span class="glyphicon glyphicon-calendar"></span>{{date_time | amDateFormat:'Do MMMM YYYY'}}</p>
+    <p class="title"><span class="glyphicon glyphicon-tag"></span>{{locales[0].title}}</p>
+    <p ng-show="locales[0].description" class="description">{{locales[0].description}}</p>
+    <p ng-show="image_type" class="image-type"><span class="glyphicon glyphicon-copyright-mark"></span><label x-translate>{{image_type}}</label></p>
+
+    <div ng-show="activities.length > 0" class="activities">
+      <label translate>activities</label>
+      <ul>
+        <li ng-repeat="activity in activities">{{activity | translate}}</li>
+      </ul>
+    </div>
+
+    <div ng-show="categories.length > 0" class="categories">
+      <label translate>categories</label>
+      <ul>
+        <li ng-repeat="category in categories">{{category | translate}}</li>
+      </ul>
+    </div>
+
+    <div ng-show="iso_speed || focal_length || exposure_time || camera_name" class="settings">
+      <label translate>Settings</label>
+      <ul>
+        <li ng-show="camera_name"><span>{{camera_name}}</span></li>
+        <li ng-show="exposure_time" uib-tooltip="{{'exposure_time' | translate}}"><span>1/{{exposure_time}}&nbsp;s</span></li>
+        <li ng-show="fnumber" uib-tooltip="{{'fnumber' | translate}}"><span>f/{{fnumber}}</span></li>
+        <li ng-show="focal_length" uib-tooltip="{{'focal_length' | translate}}"><span>{{focal_length}}&nbsp;mm</span></li>
+        <li ng-show="iso_speed" uib-tooltip="{{'iso_speed' | translate}}"><span>{{iso_speed}}&nbsp;ISO</span></li>
+        <li ng-show="width && height" uib-tooltip="{{'resolution' | translate}}">{{height}} x {{width}} <span translate>pixels</span></li>
+      </ul>
+    </div>
+
+    <div class="image-infos-buttons">
+      <button class="btn btn-default" protected-url-btn url="{{edit_url}}">
+        <span class="glyphicon glyphicon-edit"></span>
+      </button>
+    </div>
+
+  </div>
+
 </div>

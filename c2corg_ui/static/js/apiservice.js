@@ -439,17 +439,31 @@ app.Api.prototype.createImages = function(files, document) {
   var associations = {};
   associations[documentType] = [{'document_id': document.document_id}];
   var images = [];
+
   for (var i = 0; i < files.length; i++) {
-    var image = files[i]['metadata'];
-    image['size'] = files[i]['size'];
+    var file = files[i];
+    var meta = file['metadata'];
+    var date = meta['DateTime'] ? meta['DateTime'].substring(0, 10).split(':') : null; // convert "2015:12:31 20:56:09"
+    var image = meta;
+
+    image['categories'] = meta['categories'];
+    image['activities'] = meta['activities'];
+    image['file_size'] = file['size'];
+    image['exposure_time'] = meta['ExposureTime'];
     image['associations'] = associations;
     image['locales'] = [{'lang': document.lang, 'title': image['title']}];
+    image['date_time'] = date ? date[0] + '-' + date[1] + '-' + date[2] : window.moment(new Date()).format('YYYY-MM-DD');
+    image['iso_speed'] = meta['PhotographicSensitivity'];
+    image['focal_legth'] = meta['FocalLengthIn35mmFilm'];
+    image['fnumber'] = meta['FNumber'];
+    image['camera_name'] = (meta['Make'] && meta['Model']) ? (meta['Make'] + ' ' + meta['Model']) : null;
+
     images.push(image);
   }
-  var json = {'images': images};
 
-  var promise = this.postJson_('/images/list', json);
+  var promise = this.postJson_('/images/list', {'images': images});
   promise.catch(this.errorSaveDocument_.bind(this));
+  promise['images'] = images;
   return promise;
 };
 

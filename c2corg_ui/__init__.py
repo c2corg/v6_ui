@@ -104,6 +104,19 @@ def main(global_config, **settings):
         'images_diff', '/images/diff/{id:\d+}/{lang}/{v1}/{v2}')
     config.add_route('images_preview', '/images/preview')
 
+    config.add_route('images_index', '/images')
+    config.add_route('images_sitemap_default', '/images/sitemap')
+    config.add_route('images_sitemap', '/images/sitemap*filters')
+    config.add_route('images_edit', '/images/edit/{id:\d+}/{lang}')
+    config.add_route('images_history', '/images/history/{id:\d+}/{lang}')
+    config.add_route('images_archive',
+                     '/images/{id:\d+}/{lang}/{version:\d+}')
+    config.add_route('images_view', '/images/{id:\d+}/{lang}/{slug}')
+    config.add_route('images_view_id_lang', '/images/{id:\d+}/{lang}')
+    config.add_route('images_view_id', '/images/{id:\d+}')
+    config.add_route(
+        'images_diff', '/images/diff/{id:\d+}/{lang}/{v1}/{v2}')
+
     config.add_route('auth', '/auth')
     config.add_route('auth-sso', '/auth-sso')
 
