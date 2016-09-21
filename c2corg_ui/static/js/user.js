@@ -33,12 +33,14 @@ app.module.directive('appUser', app.userDirective);
  * @param {app.Alerts} appAlerts
  * @param {app.Api} appApi
  * @param {string} authUrl Base URL of the authentication page.
+ * @param {function(string):string} gettext Marker function provided
+ *   by angular-gettext.
  * @constructor
  * @export
  * @ngInject
  */
 app.UserController = function(appAuthentication, ngeoLocation,
-    appAlerts, appApi, authUrl) {
+    appAlerts, appApi, authUrl, gettext) {
 
   /**
    * @type {app.Authentication}
@@ -70,6 +72,12 @@ app.UserController = function(appAuthentication, ngeoLocation,
    */
   this.alerts_ = appAlerts;
 
+  /**
+   * @type {function(string):string}
+   * @private
+   */
+  this.gettext = gettext;
+
   if (this.ngeoLocation_.hasParam('logout')) {
     // Logout from API by removing User data
     this.auth.removeUserData();
@@ -91,7 +99,7 @@ app.UserController.prototype.showLogin = function() {
  */
 app.UserController.prototype.logout = function() {
   this.api_.logoutFromApiAndDiscourse().then(function() {
-    this.alerts_.addSuccess('You have been disconnected');
+    this.alerts_.addSuccess(this.gettext('You have been disconnected'));
   }.bind(this)).finally(function() {
     this.auth.removeUserData();
     var path = this.ngeoLocation_.getPath();

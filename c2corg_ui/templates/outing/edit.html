@@ -94,7 +94,7 @@ updating_doc = outing_id and outing_lang
             ## ROUTE DESCRIPTION
             <div class=" full form-group" ng-class="{'has-success': outing.locales[0].route_description}">
               <label translate>route_description</label>
-              <textarea class="form-control" ng-model="outing.locales[0].route_description" placeholder="{{mainCtrl.translate('describe route_conditions')}}"></textarea>
+              <textarea class="form-control" ng-model="outing.locales[0].route_description" placeholder="{{'describe route_conditions' | translate}}"></textarea>
             </div>
 
             ## PARTIAL TRIP
@@ -243,20 +243,20 @@ updating_doc = outing_id and outing_lang
                 <span class="glyphicon glyphicon-remove form-control-feedback"  ng-click="editCtrl.differentDates = false; outing.date_end = undefined; editCtrl.dateMaxStart = editCtrl.today;"></span>
               </div>
               <div ng-click="editCtrl.differentDates = true" ng-show="!editCtrl.differentDates" class="flex flexend-align">
-                <button class="btn orange-btn" type="button">several days?</button>
+                <button class="btn orange-btn" type="button" translate>Several days?</button>
               </div>
             </div>
 
             ## TIMING
             <div class=" full form-group">
               <label translate>timing</label>
-              <textarea class="form-control" ng-model="outing.locales[0]['timing']" placeholder="{{mainCtrl.translate('describe timing')}}"></textarea>
+              <textarea class="form-control" ng-model="outing.locales[0]['timing']" placeholder="{{'describe timing' | translate}}"></textarea>
             </div>
 
             ## WEATHER
             <div class=" full form-group">
               <label translate>weather</label>
-              <textarea class="form-control" ng-model="outing.locales[0]['weather']" placeholder="{{mainCtrl.translate('describe weather')}}"></textarea>
+              <textarea class="form-control" ng-model="outing.locales[0]['weather']" placeholder="{{'describe weather' | translate}}"></textarea>
             </div>
 
         </section>
@@ -295,7 +295,7 @@ updating_doc = outing_id and outing_lang
             ## CONDITIONS
             <div class=" full form-group">
               <label translate>conditions</label>
-              <textarea class="form-control" ng-model="outing.locales[0]['conditions']" placeholder="{{mainCtrl.translate('describe conditions')}}"></textarea>
+              <textarea class="form-control" ng-model="outing.locales[0]['conditions']" placeholder="{{'describe conditions' | translate}}"></textarea>
             </div>
 
             ## CONDITION RATING
@@ -559,7 +559,7 @@ updating_doc = outing_id and outing_lang
             ## COMMENT
             <div class=" full form-group">
               <label translate>personal comments</label>
-              <textarea class="form-control description" placeholder="{{mainCtrl.translate('write your comments')}}" ng-model="outing.locales[0]['description']"></textarea>
+              <textarea class="form-control description" placeholder="{{'write your comments' | translate}}" ng-model="outing.locales[0]['description']"></textarea>
             </div>
 
           </div>
@@ -575,7 +575,7 @@ updating_doc = outing_id and outing_lang
             % if updating_doc:
             <div id="message-group" class="form-group">
               <label translate>Comment about the changes</label>
-              <input type="text" name="message" ng-model="outing.message" class="form-control" placeholder="{{'Short description of the applied changes'|translate}}" />
+              <input type="text" name="message" ng-model="outing.message" class="form-control" placeholder="{{'Short description of the applied changes' | translate}}" />
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.message"></span>
             </div>
             % endif

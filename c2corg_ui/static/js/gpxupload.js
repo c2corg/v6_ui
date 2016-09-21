@@ -21,8 +21,8 @@ app.gpxUploadDirective = function() {
     bindToController: true,
     template:
       '<div class="upload-file">' +
-        '<button class="orange-btn btn" type="button" ' +
-          'translate>upload a GPS track <span ' +
+        '<button class="orange-btn btn" type="button">' +
+          '<span translate>Upload a GPS track</span> <span ' +
           'class="glyphicon glyphicon-upload"></span></button>' +
         '<input type="file" ngeo-filereader="gpxCtrl.fileContent" ' +
           'ngeo-filereader-supported="gpxCtrl.fileReaderSupported" />' +

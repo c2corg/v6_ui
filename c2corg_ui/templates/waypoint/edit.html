@@ -216,7 +216,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
                 <input disabled value="{{map.editor}} - {{map.code}} - {{map.locales[0].title}}" class="form-control">
               </div>
               <div class="map-info data full">
-                <input type="text" name="maps_info" ng-model="waypoint.maps_info" class="form-control" placeholder="if you don't find your map in the referenced maps, you can type it here"/>
+                <input type="text" name="maps_info" ng-model="waypoint.maps_info" class="form-control" placeholder="{{'Add here maps not automatically referenced' | translate}}"/>
               </div>
             </div>
 
@@ -671,7 +671,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
             <div class="form-group data half"
                  ng-if="['climbing_indoor', 'local_product', 'gite' , 'webcam', 'local_product', 'camp_site', 'hut', 'weather_station', 'climbing_indoor', 'climbing_outdoor'].indexOf(type) > -1"ng-class="{'has-success': waypoint.url}">
               <label><span translate>url</span> <span ng-if="type == 'webcam' || type == 'weather_station'">*</span></label>
-              <input type="text" name="message" ng-model="waypoint.url" class="form-control" placeholder="www.adress.com" ng-required="['webcam', 'weather_station']. indexOf(type) > -1"/>
+              <input type="text" name="message" ng-model="waypoint.url" class="form-control" ng-required="['webcam', 'weather_station']. indexOf(type) > -1"/>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.url.$invalid && editForm.url.$touched"></span>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.url"></span>
             </div>
@@ -680,7 +680,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
             <div class="form-group data half" ng-if="['climbing_indoor', 'local_product', 'gite', 'local_product', 'camp_site', 'hut'].indexOf(type) > -1"  ng-class="{'has-success': waypoint.phone}">
               <label translate>phone</label>
               <div class="input-group">
-                <input type="tel" name="message" ng-model="waypoint.phone" class="form-control " placeholder="phone" />
+                <input type="tel" name="message" ng-model="waypoint.phone" class="form-control" />
                 <span class="input-group-addon"><span class="glyphicon glyphicon-earphone"></span></span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.phone"></span>
@@ -690,7 +690,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
             <div class="form-group data half" ng-if="['camp_site', 'hut', 'gite'].indexOf(type) > -1"  ng-class="{'has-success': waypoint.phone_custodian}">
               <label translate>phone_custodian</label>
               <div class="input-group">
-                <input type="tel" name="message" ng-model="waypoint.phone_custodian" class="form-control " placeholder="phone_custodian" />
+                <input type="tel" name="message" ng-model="waypoint.phone_custodian" class="form-control" />
                 <span class="input-group-addon"><span class="glyphicon glyphicon-earphone"></span></span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.phone_custodian"></span>
@@ -728,13 +728,13 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
             ## DESCRIPTION
             <div id="description-group" class="form-group data full">
               <label translate>description</label>
-              <textarea name="description" ng-model="waypoint.locales[0].description" class="form-control description" placeholder="{{'Describe here the waypoint'|translate}}"></textarea>
+              <textarea name="description" ng-model="waypoint.locales[0].description" class="form-control description" placeholder="{{'Describe here the waypoint' | translate}}"></textarea>
             </div>
 
             ## ACCESS
             <div class="form-group data full" ng-if="['access', 'local_product', 'climbing_outdoor'].indexOf(type) > -1">
               <label translate>access</label>
-              <textarea name="access" ng-model="waypoint.locales[0].access" class="form-control" placeholder="{{'Describe access'|translate}}"></textarea>
+              <textarea name="access" ng-model="waypoint.locales[0].access" class="form-control" placeholder="{{'Describe access' | translate}}"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.locales[0].access"></span>
             </div>
 
@@ -764,7 +764,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
             % if updating_doc:
             <div id="message-group" class="full">
               <label translate>Comment about the changes</label>
-              <input type="text" name="message" ng-model="waypoint.message" class="form-control" placeholder="{{'Short description of the applied changes'|translate}}" />
+              <input type="text" name="message" ng-model="waypoint.message" class="form-control" placeholder="{{'Short description of the applied changes' | translate}}" />
             </div>
             % endif
 
