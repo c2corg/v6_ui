@@ -170,7 +170,7 @@ app.AdvancedSearchController.prototype.getFeatures_ = function() {
   var format = new ol.format.GeoJSON();
   for (var i = 0, n = this.documents.length; i < n; i++) {
     var doc = this.documents[i];
-    if ('geometry' in doc && doc['geometry']) {
+    if ('geometry' in doc && doc['geometry'] && doc['geometry']['geom']) {
       var properties = this.createFeatureProperties_(doc);
       properties['geometry'] = format.readGeometry(doc['geometry']['geom']);
       features.push(new ol.Feature(properties));

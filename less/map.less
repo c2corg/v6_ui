@@ -12,6 +12,22 @@
     top: 10px;
     right: 10px;
   }
+
+  .map-filter-switch {
+    position: absolute;
+    top: 50px;
+    right: 10px;
+    z-index: 2;
+    background-color: rgba(255, 255, 255, 0.7);
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    padding: 4px;
+
+    input[type=checkbox]+* {
+      font-weight: normal;
+      font-size: 14px;
+    }
+  }
 }
 
 app-baselayer-selector {
