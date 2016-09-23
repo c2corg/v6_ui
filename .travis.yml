@@ -53,14 +53,10 @@ script:
 after_failure:
   cat v6_api/nohup.out
 
+before_deploy:
+- make transifex-send
+
 deploy:
-- provider: script
-  script: make transifex-send
-  skip_cleanup: true
-  on:
-    repo: c2corg/v6_ui
-    branch: master
-    condition: '"$TRAVIS_NODE_VERSION" = "4"'
 - provider: script
   script: make cleanall publish
   on:
