@@ -216,28 +216,33 @@ app.ImageUploaderController.prototype.uploadFile_ = function(file) {
   angular.extend(file, {
     'src': app.utils.getImageFileBase64Source(file),
     'progress': 0,
+    'processed': false,
     'metadata': {
-      'title': file['name'],
-      'id': file['name'] + '-' + new Date().toISOString()
+      'id': file['name'] + '-' + new Date().toISOString(),
+      'activities': [],
+      'categories': []
     }
   });
-
   this.getImageMetadata_(file);
 
-  file['processed'] = false;
   var canceller = this.q_.defer();
   var promise = this.api_.uploadImage(file, canceller.promise, function(file, event) {
     var progress = event.loaded / event.total;
     file['progress'] = 100 * progress;
   }.bind(this, file));
+
   file['uploading'] = promise;
   file['canceller'] = canceller;
 
   promise.then(function(resp) {
+    var image = new Image();
+    image['src'] = file['src'];
+
     file['metadata']['filename'] = resp['data']['filename'];
     file['processed'] = true;
+
   }.bind(this), function(resp) {
-    if (resp.status == -1) {
+    if (resp.status === -1) {
       if (!file['manuallyAborted']) {
         this.alerts_.addError(this.alerts_.gettext('Error while uploading the image:') + ' Timeout');
       }
@@ -278,33 +283,24 @@ app.ImageUploaderController.prototype.save = function() {
   var defer = this.q_.defer();
 
   this.api_.createImages(this.files, this.documentService.document)
-  .then(function() {
-    var meta;
+  .then(function(data) {
     var id;
+    var images = data['config']['data']['images'];
+    var imageIds = data['data']['images']; // newly created document_id
 
-    $('.img-container').each(function(i, image) {
-      meta = this.files[i]['metadata'];
+    $('.img-container').each(function(i) {
       id = 'image-' + (+new Date());
-      this.files[i]['document_id'] = id;
+      images[i]['image_id'] = id;
 
-      var element = app.utils.createImageSlide(this.files[i], this.imageUrl_);
-      $('.photos').slick('slickAdd', element);
+      var element = app.utils.createImageSlide(images[i], this.imageUrl_);
+      $('.photos').slick('slickAdd', element, true);
 
       var scope = this.scope_.$new(true);
-      scope['photo'] = {
-        'filename' : meta['filename'],
-        'locales' : [{'title': meta['title']}],
-        'date_time': meta['DateTime'],
-        'activities' : meta['activities'],
-        'iso_speed' : meta['PhotographicSensitivity'],
-        'image_type' : meta['image_type'],
-        'fnumber' : meta['FocalLength'],
-        'camera_name' : meta['Make'] + ' ' + meta['Model'],
-        'categories': meta['categories'],
-        'document_id': id
-      };
+      scope['photo'] = images[i];
+      scope['photo']['image_id'] = id;
+      scope['photo']['edit_url'] = '/images/edit/' + imageIds[i]['document_id'] + '/' + images[i]['locales'][0]['lang'];
       this.documentService.document.associations['images'].push(scope['photo']);
-      this.compile_($('#image-' + id).contents())(scope);
+      this.compile_($('#' + id).contents())(scope);
     }.bind(this));
 
     defer.resolve();

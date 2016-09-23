@@ -4,9 +4,11 @@ goog.require('app');
 
 
 /**
+ * @param {angular.$compile} $compile Angular compile service.
  * @return {angular.Directive} Directive Definition Object.
+ * @ngInject
  */
-app.slideInfoDirective = function() {
+app.slideInfoDirective = function($compile) {
   return {
     restrict: 'E',
     controller: 'AppSlideInfoController as slideCtrl',
@@ -15,6 +17,7 @@ app.slideInfoDirective = function() {
     templateUrl: '/static/partials/slideinfo.html',
     link: function(scope, el) {
       angular.extend(scope, scope.$parent['photo']);
+      $compile(el.contents())(scope);
     }
   };
 };
@@ -43,37 +46,6 @@ app.SlideInfoController = function(appApi, $scope) {
    * @private
    */
   this.scope_ = $scope;
-
-  /**
-   * @type {boolean}
-   * @export
-   */
-  this.editing = false;
 };
-
-
-/**
- * @export
- */
-app.SlideInfoController.prototype.edit = function() {
-  this.editing = true;
-};
-
-
-/**
- * @export
- */
-app.SlideInfoController.prototype.save = function() {
-  this.editing = false;
-};
-
-
-/**
- * @export
- */
-app.SlideInfoController.prototype.cancel = function() {
-  this.editing = false;
-};
-
 
 app.module.controller('AppSlideInfoController', app.SlideInfoController);

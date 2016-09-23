@@ -2,13 +2,13 @@
        ngf-drop
        ngf-select
        ng-model="uplCtrl.files"
-       class="drop-box" 
+       class="drop-box"
        ngf-drag-over-class="'dragover'"
        ngf-multiple="true"
-       ngf-keep="'distinct'" 
+       ngf-keep="'distinct'"
        ngf-fix-orientation="true"
        ngf-allow-dir="true"
-       accept="image/*" 
+       accept="image/*"
        ngf-pattern="'image/*'">
     <span translate>Drop images here or click to upload</span>
   </div>
@@ -20,9 +20,10 @@
         <!-- EXIF INFO-->
         <div class="exif" ng-style="file.metadata.FocalLength && {'opacity': 1} || {'opacity' : 0}">
           <p ng-if="file.metadata.DateTime"><span class="glyphicon glyphicon-calendar"></span><span>{{file.metadata.DateTime}}</span></p>
-          <p><span class="glyphicon glyphicon-certificate"></span><span>{{file.metadata.FocalLength}}f</span>&nbsp;
-            <span ng-if="file.metadata.ShutterSpeedValue">1/{{file.metadata.ShutterSpeedValue}}s</span> &nbsp; 
-            <span><b>ISO:</b> <span>{{file.metadata.PhotographicSensitivity}}</span></span>
+          <p><span class="glyphicon glyphicon-certificate"></span><span>f/{{file.metadata.FNumber}}</span>&nbsp;
+            <span ng-if="file.metadata.ExposureTime">1/{{1/file.metadata.ExposureTime}}&nbsp;s</span> &nbsp;
+            <span ng-if="file.metadata.FocalLengthIn35mmFilm">{{file.metadata.FocalLengthIn35mmFilm}}&nbsp;mm</span> &nbsp;
+            <span ng-if="file.metadata.PhotographicSensitivity">{{file.metadata.PhotographicSensitivity}}&nbsp;ISO</span>
           </p>
           <p ng-if="file.metadata.geo"><span class="glyphicon glyphicon-map-marker"></span><b>{{file.metadata.geo.label}}</b></p>
         </div>
@@ -31,7 +32,7 @@
 
       <div class="img-data">
         <!-- TITLE-->
-        <input type="text" class="form-control" ng-model="file.metadata.title" placeholder="title" ng-change="uplCtrl.rename(file, file.metadata.title)">
+        <input type="text" class="form-control" ng-model="file.metadata.title" placeholder="{{'title' | translate}}" ng-change="uplCtrl.rename(file, file.metadata.title)">
 
         <div class="image-attributes btn-group" ng-show="file['processed']">
           <!-- GEOLOCATION-->
@@ -107,14 +108,14 @@
          ngf-select
          multiple
          ng-model="uplCtrl.files"
-         class="drop-box" 
+         class="drop-box"
          ngf-drag-over-class="'dragover'"
          ngf-multiple="true"
-         ngf-keep="'distinct'" 
+         ngf-keep="'distinct'"
          ngf-fix-orientation="true"
          ngf-allow-dir="true"
-         accept="image/*" 
-         ngf-pattern="'image/*'"> 
+         accept="image/*"
+         ngf-pattern="'image/*'">
       <button class="orange-btn btn" type="button" translate>Add images</button>
     </div>
   </div>
