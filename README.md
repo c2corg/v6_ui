@@ -16,6 +16,8 @@ On Debian/Ubuntu systems the required components may be installed using
 
     sudo apt-get install virtualenv python3-dev nodejs-legacy npm openjdk-7-jdk gettext libgeos-dev redis-server
 
+On Ubuntu 16.04, `openjdk-7-jdk` is no longer available but can be replaced by `openjdk-8-jdk`.
+
 Checkout
 --------
 
