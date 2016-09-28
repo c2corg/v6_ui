@@ -32,7 +32,7 @@
     % endif
 
     %if outing.get('condition_rating'):
-    <p><span class="value-title" translate>condition_rating</span>: <span class="value">${outing['condition_rating']}</span></p>
+    <p><span class="value-title" translate>condition_rating</span>: <span class="value" x-translate>${outing['condition_rating']}</span></p>
     % endif
 
     % if outing.get('partial_trip'):
@@ -67,15 +67,15 @@
         % endif
 
         % if outing.get('snow_quantity'):
-        <p><span class="value-title" translate>snow_quantity</span>: <span class="value">${outing['snow_quantity']}</span></p>
+        <p><span class="value-title" translate>snow_quantity</span>: <span class="value" x-translate>${outing['snow_quantity']}</span></p>
         % endif
 
         % if outing.get('snow_quality'):
-        <p><span class="value-title" translate>snow_quality</span>: <span class="value">${outing['snow_quality']}</span></p>
+        <p><span class="value-title" translate>snow_quality</span>: <span class="value" x-translate>${outing['snow_quality']}</span></p>
         % endif
 
         % if outing.get('glacier_rating'):
-        <p><span class="value-title" translate>glacier_rating</span>: <span class="value">${outing['glacier_rating']}</span></p>
+        <p><span class="value-title" translate>glacier_rating</span>: <span class="value" x-translate>${outing['glacier_rating']}</span></p>
         % endif
 
         % if outing.get('avalanche_signs'):
@@ -104,19 +104,19 @@
       </div>
       <span class="detail-text accordion">
         % if outing.get('public_transport'):
-        <p><span class="value-title" translate>public_transport</span>: <span class="value">${outing['public_transport']}</span></p>
+        <p><span class="value-title" translate>public_transport</span>: <span class="value" x-translate>${outing['public_transport']}</span></p>
         % endif
 
         % if outing.get('access_condition'):
-        <p><span class="value-title" translate>access_condition</span>: <span class="value">${outing['access_condition']}</span></p>
+        <p><span class="value-title" translate>access_condition</span>: <span class="value" x-translate>${outing['access_condition']}</span></p>
         % endif
 
         % if outing.get('lift_status'):
-        <p><span class="value-title" translate>lift_status</span>: <span class="value">${outing['lift_status']}</span></p>
+        <p><span class="value-title" translate>lift_status</span>: <span class="value" x-translate>${outing['lift_status']}</span></p>
         % endif
 
         % if outing.get('hut_status'):
-        <p><span class="value-title" translate>hut_status</span>: <span class="value">${outing['hut_status']}</span></p>
+        <p><span class="value-title" translate>hut_status</span>: <span class="value" x-translate>${outing['hut_status']}</span></p>
         % endif
       </span>
     </div>
