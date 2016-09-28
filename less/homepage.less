@@ -1,0 +1,106 @@
+.home-page {
+
+  button {
+    font-size: 1.3em;
+    margin: 5px;
+    @media @phone {
+      width: 100%;
+      font-size: 1em;
+    }
+    .small {
+      text-transform: none;
+    }
+  }
+
+  .site-intro {
+    @media @phone {
+      height: auto;
+
+      .route-activities {
+        display: none;
+      }
+    }
+
+    &.not-logged {
+      background-image:url(../img/home/slide1.jpg);
+      background-size: cover;
+      background-position-y: 50%;
+    }
+
+    .welcome-title {
+      margin-top: 50px;
+      @media @phone {
+        margin-top: 0;
+        font-size: 2em;
+      }
+    }
+    .welcome-title, p {
+      padding: 10px;
+      background-color: rgba(21, 50, 69, 0.3);
+    }
+
+    .intro-banner {
+      padding: 20px;
+      color: white;
+      width: 63%;
+      height: 100%;
+      margin: auto;
+      flex-flow: wrap row;
+      align-items: center;
+      .flex();
+      @media @tablet {
+        width: 80%;
+      }
+      @media @phone {
+        width: 100%;
+        p {
+          font-size: 1em !important;
+        }
+      }
+      >* {
+        width: 100%;
+      }
+      p {
+        font-size: 1.5em;
+      }
+    }
+
+    .route-activities {
+      font-size: 5em;
+      width: 82%;
+      margin: auto;
+      @media @tablet {
+        width: 100%;
+      }
+      a {
+        color: @C2C-orange;
+        &:hover, &:focus {
+          text-decoration: none;
+          outline: none;
+        }
+      }
+      .activity {
+        background-color: white;
+        border-radius: 50%;
+        border: 1px solid #eee;
+        cursor: pointer;
+      }
+    }
+    .intro-shortcuts {
+      text-align: center;
+      padding: 10px 20px 20px 10px;
+
+      .glyphicon {
+        color: white;
+      }
+    }
+  }
+  .feed {
+    padding: 20px;
+    background-color: #E5E5E5;
+    .list {
+      padding: 0;
+    }
+  }
+}
+

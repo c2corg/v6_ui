@@ -36,22 +36,22 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1855"
-     inkscape:window-height="1056"
+     inkscape:window-width="928"
+     inkscape:window-height="1028"
      id="namedview7164"
      showgrid="false"
      inkscape:zoom="8.2024387"
-     inkscape:cx="28.051454"
+     inkscape:cx="26.771347"
      inkscape:cy="31.452942"
-     inkscape:window-x="1665"
+     inkscape:window-x="3585"
      inkscape:window-y="24"
-     inkscape:window-maximized="1"
+     inkscape:window-maximized="0"
      inkscape:current-layer="svg7142" />
   <g
      id="snow_ice_mixed"
      ng-click="editCtrl.pushToArray(route, 'activities', 'snow_ice_mixed', $event)"
      class="activity-icon"
-     transform="matrix(1,0,0,-1,-394.43129,76.069934)">
+     transform="matrix(1,0,0,-1,-393.96021,76.581278)">
     <title
        id="title7145">snow_ice_mixed</title>
     <g
@@ -78,7 +78,8 @@
        x="396.96906"
        y="-5.8529134"
        id="text4346"
-       transform="scale(1,-1)"><tspan
+       transform="scale(1,-1)"
+       sodipodi:linespacing="125%"><tspan
          x="0"
          y="0"
          id="tspan4348"><tspan
