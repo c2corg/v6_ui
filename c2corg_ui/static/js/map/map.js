@@ -46,6 +46,7 @@ app.mapDirective = function() {
       'disableWheel': '=appMapDisableWheel',
       'advancedSearch': '=appMapAdvancedSearch',
       'zoom': '@appMapZoom',
+      'defaultMapFilter': '=appMapDefaultMapFilter',
       'showRecenterTools': '=appMapShowRecenterTools'
     },
     controller: 'AppMapController as mapCtrl',
@@ -145,6 +146,18 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
   this.showRecenterTools;
 
   /**
+   * @type {boolean}
+   * @export
+   */
+  this.defaultMapFilter;
+
+  /**
+   * @type {boolean}
+   * @export
+   */
+  this.enableMapFilter = !!this.defaultMapFilter;
+
+  /**
    * @type {ngeo.Location}
    * @private
    */
@@ -228,6 +241,7 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
   // advanced search mode
   if (this.advancedSearch) {
     if (this.location_.hasFragmentParam('bbox')) {
+      this.enableMapFilter = true;
       var bbox = this.location_.getFragmentParam('bbox');
       var extent = bbox.split(',');
       if (extent.length == 4) {
@@ -252,6 +266,10 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
       ngeoDebounce(
         this.handleMapSearchChange_.bind(this),
         500, /* invokeApply */ true));
+
+    this.scope_.$watch(function() {
+      return this.enableMapFilter;
+    }.bind(this), this.handleMapFilterSwitchChange_.bind(this));
   }
 
   if (!this.disableWheel) {
@@ -536,6 +554,9 @@ app.MapController.prototype.showFeatures_ = function(features, recenter) {
   source.clear();
 
   if (!features.length) {
+    if (recenter) {
+      this.recenterOnExtent_(app.MapController.DEFAULT_EXTENT);
+    }
     return;
   }
 
@@ -643,10 +664,11 @@ app.MapController.prototype.handleModify_ = function(event) {
  */
 app.MapController.prototype.handleSearchChange_ = function(event,
     features, total, recenter) {
-  // show the search results on the map but don't change the map extent
+  // show the search results on the map but don't change the map filter
   // if recentering on search results, the extent change must not trigger
   // a new search request.
   this.ignoreExtentChange_ = recenter;
+  recenter = recenter || !this.enableMapFilter;
   this.showFeatures_(features, recenter);
 };
 
@@ -666,10 +688,12 @@ app.MapController.prototype.toggleFeatureHighlight_ = function(id, highlight) {
 
 
 /**
- * @param {ol.ObjectEvent} event
  * @private
  */
-app.MapController.prototype.handleMapSearchChange_ = function(event) {
+app.MapController.prototype.handleMapSearchChange_ = function() {
+  if (!this.enableMapFilter) {
+    return;
+  }
   if (this.initialExtent_) {
     // The map has just been set with an extent passed as permalink
     // => no need to set it again in the URL.
@@ -754,6 +778,34 @@ app.MapController.prototype.handleMapFeatureHover_ = function(event) {
     // if a feature was highlighted but no longer hovered
     this.toggleFeatureHighlight_(this.currentSelectedFeatureId_, false);
     this.scope_.$root.$emit('mapFeatureHover', null);
+  }
+};
+
+
+/**
+ * @param {boolean} enabled Whether the map filter is enabled or not.
+ * @param {boolean} was_enabled Former value.
+ * @private
+ */
+app.MapController.prototype.handleMapFilterSwitchChange_ = function(enabled,
+    was_enabled) {
+  if (enabled === was_enabled) {
+    // initial setting of the filter switch
+    // * do nothing if the filter is enabled by default
+    //   (request is triggered later)
+    // * trigger a request if disabled by default
+    //   (no request is triggered later)
+    if (!enabled) {
+      this.scope_.$root.$emit('searchFilterChange');
+    }
+    return;
+  }
+  if (enabled) {
+    this.handleMapSearchChange_();
+  } else {
+    this.location_.deleteFragmentParam('bbox');
+    this.location_.deleteFragmentParam('offset');
+    this.scope_.$root.$emit('searchFilterChange');
   }
 };
 
