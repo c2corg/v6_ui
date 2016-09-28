@@ -10,12 +10,12 @@ goog.provide('app.constants');
 app.module.constant('constants', app.constants);
 
 app.constants = {
-  SCREEN : {
+  SCREEN: {
     SMARTPHONE : 620,
     TABLET : 1099,
     DEKTOP : 1400
   },
-  STEPS : {
+  STEPS: {
     'climbing_outdoor' : 4,
     'climbing_indoor' :  4,
     'hut' : 4,
@@ -28,11 +28,11 @@ app.constants = {
     'paragliding_landing' : 4,
     'webcam': 4
   },
-  REQUIRED_FIELDS : {
-    waypoints: ['title' , 'lang', 'waypoint_type', 'elevation', 'longitude', 'latitude'],
-    routes : ['title' , 'lang', 'activities', 'waypoints'],
-    outings : ['title' , 'lang', 'date_start', 'routes', 'activities'],
-    images: ['image_type']
+  REQUIRED_FIELDS: {
+    'waypoints': ['title' , 'lang', 'waypoint_type', 'elevation', 'longitude', 'latitude'],
+    'routes' : ['title' , 'lang', 'activities', 'waypoints'],
+    'outings' : ['title' , 'lang', 'date_start', 'routes', 'activities'],
+    'images': ['image_type']
   },
   documentEditing: {
     FORM_PROJ: 'EPSG:4326',
