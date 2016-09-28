@@ -31,9 +31,13 @@
         % endif
       </td>
       <td>
-        <a href="${request.route_url(
-              module + '_archive', id=document_id, lang=lang,
-              version=version2['version_id'])}"><span translate>Revision as of</span> {{'${1000 * version2['written_at']}' | date:'medium'}}</a><br/>
+        <%
+            if next_version_id:
+                route_url = request.route_url(module + '_archive', id=document_id, lang=lang, version=version2['version_id'])
+            else:
+                route_url = request.route_url(module + '_view_id_lang', id=document_id, lang=lang)
+        %>
+        <a href="${route_url}"><span translate>Revision as of</span> {{'${1000 * version2['written_at']}' | date:'medium'}}</a><br/>
         <span translate>by</span> <a href="#TODO profile for ${version2['user_id']}">${version2['name']}</a>
         % if version2['comment']:
           <br/><span class="revision-comment" x-translate>${show_version_comment(version2)}</span>
