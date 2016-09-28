@@ -54,7 +54,8 @@ def _get_field_diffs(obj1, obj2):
             locale2 = val2[0]
             field_diffs += _get_field_diffs(locale1, locale2)
         elif field == 'geometry':
-            if val1.get('version') != val2.get('version') and not (
+            if val1 is not None and val2 is not None and \
+                val1.get('version') != val2.get('version') and not (
                     val1.get('geom') is None and val2.get('geom') is None):
                 field_diffs.append(FieldDiff('geometry', ''))
         else:
