@@ -82,8 +82,8 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.title.$valid"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.title.$invalid && editForm.title.$touched"></span>
               <div class="help-block" ng-messages="editForm.title.$error">
-                <p ng-message="required" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : ''}}" translate>This field is required.</p>
-                <p ng-message="minlength" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : ''}}" translate>Title must have at least 3 characters.</p>
+                <p class="label label-danger" ng-message="required" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : ''}}" translate>This field is required.</p>
+                <p class="label label-danger" ng-message="minlength" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : ''}}" translate>Title must have at least 3 characters.</p>
               </div>
             </div>
 
@@ -99,7 +99,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.lang.$valid"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.lang.$invalid && editForm.lang.$touched"></span>
               <div class="help-block" ng-messages="editForm.lang.$error">
-                <p ng-message="required" style="{{ (editForm.lang.$invalid && editForm.lang.$touched) ? 'display:inline' : ''}}" translate>This field is required.</p>
+                <p class="label label-danger" ng-message="required" style="{{ (editForm.lang.$invalid && editForm.lang.$touched) ? 'display:inline' : ''}}" translate>This field is required.</p>
               </div>
               % endif
             </div>
@@ -111,7 +111,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
                 <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.waypoint_type.$valid"></span>
                 <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.waypoint_type.$invalid && editForm.waypoint_type.$touched"></span>
                 <div class="help-block" ng-messages="editForm.waypoint_type.$error">
-                  <p ng-message="required" style="{{ (editForm.waypoint_type.$invalid && editForm.waypoint_type.$touched) ? 'display:inline' : ''}}" translate>This field is required.</p>
+                  <p class="label label-danger" ng-message="required" style="{{ (editForm.waypoint_type.$invalid && editForm.waypoint_type.$touched) ? 'display:inline' : ''}}" translate>This field is required.</p>
                 </div>
               </div>
 
