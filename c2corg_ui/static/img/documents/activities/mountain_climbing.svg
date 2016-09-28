@@ -36,22 +36,22 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1855"
-     inkscape:window-height="1056"
+     inkscape:window-width="928"
+     inkscape:window-height="1028"
      id="namedview4592"
      showgrid="false"
      inkscape:zoom="8.0392603"
-     inkscape:cx="7.6204972"
+     inkscape:cx="14.959481"
      inkscape:cy="40.219052"
      inkscape:window-x="3585"
      inkscape:window-y="24"
-     inkscape:window-maximized="1"
+     inkscape:window-maximized="0"
      inkscape:current-layer="svg4575" />
   <g
      id="mountain_climbing"
      ng-click="editCtrl.pushToArray(route, 'activities', 'mountain_climbing', $event)"
      class="activity-icon"
-     transform="matrix(1,0,0,-1,-195.84113,167.82213)">
+     transform="matrix(0.96168157,0,0,-0.964473,-187.01722,163.15468)">
     <title
        id="title4578">mountain_climbing</title>
     <g
