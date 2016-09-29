@@ -1,0 +1,144 @@
+<%!
+from c2corg_common.attributes import activities, image_categories, image_types
+from c2corg_ui.templates.utils import get_lang_lists
+from json import dumps
+%>
+
+<%inherit file="../base.html"/>
+<%namespace file="../helpers/common.html" import="show_title"/>
+<%namespace file="../helpers/view.html" import="get_comments, get_image_gallery,
+    photoswipe_gallery, get_document_locale_text, show_badge,
+    show_attr, show_missing_langs_links, show_other_langs_links, show_archive_data,
+    delete_association_confirmation_modal, show_route_title, show_float_buttons"/>
+<%namespace file="helpers/detailed_area_attributes.html" import="get_area_general"/>
+<%
+area_id = area['document_id']
+other_langs, missing_langs = get_lang_lists(area, lang)
+area['doctype'] = 'areas'
+%>
+
+<%block name="pagelang">lang="${lang}"</%block>
+
+<%block name="pagetitle"><title>${show_route_title(locale, True)}</title></%block>
+
+<%block name="metarobots">
+  % if version:
+    <meta name="robots" content="noindex,follow">
+  % else:
+    <meta name="robots" content="index,follow">
+  % endif
+</%block>
+
+<%block name="moduleConstantsValues">
+  module.value('mapFeatureCollection',
+  % if geometry:
+    {
+      "type": "FeatureCollection",
+      "properties": {},
+      "features": [
+      {
+        "type": "Feature",
+        "geometry": {"type": "Polygon", "coordinates": []},
+        "properties": {
+          "title": ${dumps(locale['title']) | n},
+          "lang": "${locale['lang']}",
+          "documentId": ${area['document_id']},
+          "module": "areas",
+          "highlight": true
+        }
+      }
+    ]}
+  % else:
+    null
+  % endif
+  );
+
+  module.value('documentData', {
+    "document_id": ${area.get('document_id')},
+    "lang": "${lang}",
+    "type": "a",
+    "topic_id": ${dumps(locale.get('topic_id'))}
+  });
+</%block>
+
+<header class="view-details-title">
+  <h1>
+    <span class="icon-${area['area_type']} area-type" uib-tooltip="{{mainCtrl.translate('${area['area_type']}')}}"></span>
+    <span>${locale['title']}</span>
+    ${show_badge(area, 'area')}
+  </h1>
+</header>
+
+<app-map class="view-details-map"></app-map>
+
+<section class="view-details-section" app-view-details>
+
+  % if version:
+    ${show_archive_data('areas', area, locale, version)}
+  % endif
+
+  ## IMAGES
+  % if not version:
+    ${get_image_gallery()}
+  % endif
+
+  <div class="view-details-informations col-xs-12  informations">
+    <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
+      <span translate>Informations</span><span class="glyphicon glyphicon-menu-down"></span>
+    </h3>
+    <section id="document-informations" class="collapse in">
+      ${get_area_general(area)}
+    </section>
+  </div>
+
+  ## DESCRIPTION
+  % if locale['summary'] or locale['description']:
+    <div class="view-details-description col-xs-12  description">
+      <h3 class="heading show-phone"><span translate>description</span></h3>
+      <span class="lead">
+        <div id="document-description" class="collapse in">
+          % if locale['summary']:
+            <summary class="document-summary">
+              <label translate>summary</label><br>
+              ${show_attr(locale, 'summary')}
+            </summary>
+          % endif
+
+          % if locale['description'] :
+            ${show_attr(locale, 'description')}
+          % else :
+            <h3 class="text-center" translate>No description available</h3>
+          % endif
+        </div>
+      </span>
+    </div>
+  % endif
+
+  ${get_comments()}
+
+  ## OTHER BUTTON contents
+  % if not version:
+    ${show_other_langs_links('areas', area, other_langs)}
+    ${show_missing_langs_links('areas', area, missing_langs)}
+    ${show_float_buttons(None, 'areas', area_id, lang, other_langs, missing_langs)}
+  % endif
+</section>
+
+
+<div class="text-center">
+  <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);">&nbsp;<span class="glyphicon glyphicon-menu-up"></span></button>
+</div>
+
+<div class="ng-hide">
+  <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
+  ${delete_association_confirmation_modal()}
+</div>
+
+${photoswipe_gallery()}
+
+<script>
+  window.onload = function() {
+     // init float-buttons tooltips
+     $('[data-toggle=\'tooltip\']').tooltip();
+  };
+</script>

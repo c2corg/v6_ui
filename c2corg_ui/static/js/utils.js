@@ -18,6 +18,8 @@ app.utils.getDoctype = function(type) {
       return 'users';
     case 'i':
       return 'images';
+    case 'a':
+      return 'areas';
     default:
       goog.asserts.fail('Unrecognized type: ' + type);
       return '';

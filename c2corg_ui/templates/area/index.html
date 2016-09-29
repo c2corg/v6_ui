@@ -1,0 +1,34 @@
+<%inherit file="../base.html"/>
+<%namespace file="../helpers/common.html" import="show_title"/>
+<%namespace file="../helpers/list.html" import="add_doctype_selector"/>
+
+<%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Areas')">${show_title('Areas')}</title></%block>
+
+<%block name="moduleConstantsValues">
+  module.value('mapFeatureCollection', null);
+  module.value('advancedSearchFilters', {
+  });
+</%block>
+
+<header class="page-main-title">
+  <h3><span translate>Areas</span>
+    <span class="badge" ng-cloak>{{resCounter}}</span>
+  </h3>
+</header>
+<section class="documents-list-section">
+  <%include file="filters.html" />
+  <div class="documents-nav-buttons text-center">
+    <button class="btn btn-default show-documents-filters-phone" translate>Filters</button>
+    ${add_doctype_selector()}
+    <app-pagination></app-pagination>
+  </div>
+  <app-advanced-search document-type="areas" use-map="true"></app-advanced-search>
+</section>
+<div class="map-right">
+  <app-map app-map-advanced-search="true" app-map-show-recenter-tools="true" app-map-default-map-filter="false"></app-map>
+</div>
+<script>
+window.onload = function(){
+  app.stickyFilters();
+}
+</script>
