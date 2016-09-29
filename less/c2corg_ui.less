@@ -253,19 +253,18 @@ main {
 .list {
   width:100%;
   padding: 1% 2% 2% 2%;
-  .flex();
-  flex-flow: wrap row;
-  justify-content: space-between;
-  align-content: flex-start;
+  column-count: 3;
 
+  @media @big {
+  }
+  @media (max-width: @screen-sm-min) {
+  }
   .list-item {
-    flex-basis: 48%;
-    @media @big {
-      flex-basis: 32%;
-    }
-    @media (max-width: @screen-sm-min) {
-      flex-basis: 100%;
-    }
+    -webkit-column-break-inside:avoid;
+    -moz-column-break-inside:avoid;
+    -o-column-break-inside:avoid;
+    -ms-column-break-inside:avoid;
+    column-break-inside:avoid;
   }
 }
 
@@ -280,7 +279,6 @@ main {
   -webkit-border-radius: 7px;
   transition: .2s ease-in-out;
   border: 2px solid rgba(88, 150, 165, 0.2);
-  position:relative;
 
   &:active {
     -webkit-box-shadow: inset 1px 1px 8px -3px rgba(0,0,0,.75);
