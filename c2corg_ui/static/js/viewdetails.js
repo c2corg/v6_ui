@@ -348,6 +348,7 @@ app.ViewDetailsController.prototype.loadImages_ = function(initGalleries) {
     var scope = this.scope_.$new(true);
     var id = 'image-' + photos[i]['document_id'];
     photos[i]['edit_url'] = '/images/edit/' + photos[i]['document_id'] + '/' + photos[i]['locales'][0]['lang'];
+    photos[i]['view_url'] = this.url_.buildDocumentUrl('images', photos[i]['document_id'], photos[i]['locales'][0], photos[i]['locales'][0]['lang']);
     photos[i]['image_id'] = id;
     scope['photo'] = photos[i];
 

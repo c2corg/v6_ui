@@ -42,11 +42,12 @@ app.module.directive('appImageUploader', app.imageUploaderDirective);
  * @param {app.Alerts} appAlerts
  * @param {app.Document} appDocument service
  * @param {String} imageUrl URL to the image backend.
+ * @param {app.Url} appUrl
  * @constructor
  * @struct
  * @ngInject
  */
-app.ImageUploaderController = function($scope, $uibModal, $compile, $q, appAlerts, appApi, appDocument, imageUrl) {
+app.ImageUploaderController = function($scope, $uibModal, $compile, $q, appAlerts, appApi, appDocument, imageUrl, appUrl) {
 
   /**
    * @type {app.Document}
@@ -65,6 +66,12 @@ app.ImageUploaderController = function($scope, $uibModal, $compile, $q, appAlert
    * @private
    */
   this.api_ = appApi;
+
+  /**
+   * @type {app.Url}
+   * @private
+   */
+  this.url_ = appUrl;
 
   /**
    * @type {String}
@@ -299,6 +306,7 @@ app.ImageUploaderController.prototype.save = function() {
       scope['photo'] = images[i];
       scope['photo']['image_id'] = id;
       scope['photo']['edit_url'] = '/images/edit/' + imageIds[i]['document_id'] + '/' + images[i]['locales'][0]['lang'];
+      scope['photo']['view_url'] = this.url_.buildDocumentUrl('images', imageIds[i]['document_id'], images[i]['locales'][0], images[i]['locales'][0]['lang'] );
       this.documentService.document.associations['images'].push(scope['photo']);
       this.compile_($('#' + id).contents())(scope);
     }.bind(this));
