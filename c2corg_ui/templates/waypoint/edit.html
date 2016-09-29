@@ -295,7 +295,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
             ## CHILDREN PROOF
             <div class="form-group data half" ng-if="type == 'climbing_outdoor'" ng-class="{'has-success': waypoint.children_proof}">
               <label translate>children_proof</label>
-              <select ng-options="type as type for type in ${children_proof_types}" ng-model="waypoint.children_proof" class="form-control "><option value=""></option></select>
+              <select ng-options="type as mainCtrl.translate(type) for type in ${children_proof_types}" ng-model="waypoint.children_proof" class="form-control "><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.children_proof"></span>
             </div>
 
@@ -607,13 +607,13 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
             <div class="form-group data">
               <label translate>matress_unstaffed</label>
               <div class="radio">
-                <label><input type="radio" ng-model="waypoint.matress_unstaffed" ng-value="true" name="matress_unstaffed">Yes</label>
+                <label><input type="radio" ng-model="waypoint.matress_unstaffed" ng-value="true" name="matress_unstaffed"><span translate>yes</span></label>
               </div>
               <div class="radio">
-                <label><input type="radio" ng-model="waypoint.matress_unstaffed" ng-value="false" name="matress_unstaffed">No</label>
+                <label><input type="radio" ng-model="waypoint.matress_unstaffed" ng-value="false" name="matress_unstaffed"><span translate>no</span></label>
               </div>
               <div class="radio">
-                <label><input type="radio" ng-model="waypoint.matress_unstaffed" name="matress_unstaffed">No info</label>
+                <label><input type="radio" ng-model="waypoint.matress_unstaffed" name="matress_unstaffed"><span translate>no info</span></label>
               </div>
             </div>
 
@@ -621,13 +621,13 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
             <div class="form-group data">
               <label translate>blanket_unstaffed</label>
               <div class="radio">
-                <label><input type="radio" ng-model="waypoint.blanket_unstaffed" ng-value="true" name="blanket_unstaffed">Yes</label>
+                <label><input type="radio" ng-model="waypoint.blanket_unstaffed" ng-value="true" name="blanket_unstaffed"><span translate>yes</span></label>
               </div>
               <div class="radio">
-                <label><input type="radio" ng-model="waypoint.blanket_unstaffed" ng-value="false" name="blanket_unstaffed">No</label>
+                <label><input type="radio" ng-model="waypoint.blanket_unstaffed" ng-value="false" name="blanket_unstaffed"><span translate>no</span></label>
               </div>
               <div class="radio">
-                <label><input type="radio" ng-model="waypoint.blanket_unstaffed" name="blanket_unstaffed">No info</label>
+                <label><input type="radio" ng-model="waypoint.blanket_unstaffed" name="blanket_unstaffed"><span translate>no info</span></label>
               </div>
             </div>
 
@@ -635,13 +635,13 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
             <div class="form-group data">
               <label translate>gas_unstaffed</label>
               <div class="radio">
-                <label><input type="radio" ng-model="waypoint.gas_unstaffed" ng-value="true" name="gas_unstaffed">Yes</label>
+                <label><input type="radio" ng-model="waypoint.gas_unstaffed" ng-value="true" name="gas_unstaffed"><span translate>yes</span></label>
               </div>
               <div class="radio">
-                <label><input type="radio" ng-model="waypoint.gas_unstaffed" ng-value="false" name="gas_unstaffed">No</label>
+                <label><input type="radio" ng-model="waypoint.gas_unstaffed" ng-value="false" name="gas_unstaffed"><span translate>no</span></label>
               </div>
               <div class="radio">
-                <label><input type="radio" ng-model="waypoint.gas_unstaffed" name="gas_unstaffed">No info</label>
+                <label><input type="radio" ng-model="waypoint.gas_unstaffed" name="gas_unstaffed"><span translate>no info</span></label>
               </div>
             </div>
 
@@ -649,13 +649,13 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
             <div class="form-group data">
               <label translate>heating_unstaffed</label>
               <div class="radio">
-                <label><input type="radio" ng-model="waypoint.heating_unstaffed" ng-value="true" name="heating_unstaffed">Yes</label>
+                <label><input type="radio" ng-model="waypoint.heating_unstaffed" ng-value="true" name="heating_unstaffed"><span translate>yes</span></label>
               </div>
               <div class="radio">
-                <label><input type="radio" ng-model="waypoint.heating_unstaffed" ng-value="false" name="heating_unstaffed">No</label>
+                <label><input type="radio" ng-model="waypoint.heating_unstaffed" ng-value="false" name="heating_unstaffed"><span translate>no</span></label>
               </div>
               <div class="radio">
-                <label><input type="radio" ng-model="waypoint.heating_unstaffed" name="heating_unstaffed">No info</label>
+                <label><input type="radio" ng-model="waypoint.heating_unstaffed" name="heating_unstaffed"><span translate>no info</span></label>
               </div>
             </div>
 
@@ -745,8 +745,8 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <label translate ng-if="type == 'local_product'">opening_hours</label>
               <textarea name="access_period" ng-model="waypoint.locales[0].access_period" class="form-control"
                 placeholder="{{ (type == 'hut' || type == 'gite' || type == 'camp_site') ?
-                  mainCtrl.translate('describe opening_periods') :
-                  (type == 'local_product' ? mainCtrl.translate('describe opening_hours')  : mainCtrl.translate('describe access_period') ) }}">
+                  mainCtrl.translate('Describe opening periods') :
+                  (type == 'local_product' ? mainCtrl.translate('Describe opening hours')  : mainCtrl.translate('Describe access period') ) }}">
               </textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.locales[0].access_period"></span>
             </div>

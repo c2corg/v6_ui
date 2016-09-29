@@ -302,7 +302,7 @@ updating_doc = outing_id and outing_lang
             <div class="form-group half" ng-class="{'has-success': outing.condition_rating}">
               <label translate>condition_rating</label>
               <div class="input-group">
-                <select class="form-control" ng-model="outing.condition_rating" ng-options="rat as rat for rat in ${condition_ratings}"><option value=""></option></select>
+                <select class="form-control" ng-model="outing.condition_rating" ng-options="rat as mainCtrl.translate(rat) for rat in ${condition_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.condition_rating"></span>
@@ -342,7 +342,7 @@ updating_doc = outing_id and outing_lang
             <div id="snow_quantity-group" class="half form-group" ng-class="{ 'has-error': editForm.snow_quantity.$touched && editForm.snow_quantity.$invalid,'has-success': outing.snow_quantity }"
                  ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('ice_climbing') > -1  || outing.activities.indexOf('mountain_climbing') > -1  || outing.activities.indexOf('snow_ice_mixed') > -1 ">
               <label translate>snow_quantity</label>
-              <select class="form-control" ng-model="outing.snow_quantity" ng-options="rat as rat for rat in ${condition_ratings}"><option value=""></option></select>
+              <select class="form-control" ng-model="outing.snow_quantity" ng-options="rat as mainCtrl.translate(rat) for rat in ${condition_ratings}"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.snow_quantity"></span>
               <div class="help-block" ng-messages="editForm.snow_quantity.$error">
                 <p ng-message="number" class="label label-danger" style="{{ (editForm.snow_quantity.$invalid && editForm.snow_quantity.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
@@ -353,7 +353,7 @@ updating_doc = outing_id and outing_lang
             <div id="snow_quality-group" class="half form-group" ng-class="{ 'has-error': editForm.snow_quality.$touched && editForm.snow_quality.$invalid,'has-success': outing.snow_quality }"
                  ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('ice_climbing') > -1  || outing.activities.indexOf('mountain_climbing') > -1  || outing.activities.indexOf('snow_ice_mixed') > -1">
               <label translate>snow_quality</label>
-              <select class="form-control" ng-model="outing.snow_quality" ng-options="rat as rat for rat in ${condition_ratings}"><option value=""></option></select>
+              <select class="form-control" ng-model="outing.snow_quality" ng-options="rat as mainCtrl.translate(rat) for rat in ${condition_ratings}"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.snow_quality"></span>
               <div class="help-block" ng-messages="editForm.snow_quality.$error">
                 <p ng-message="number" class="label label-danger" style="{{ (editForm.snow_quality.$invalid && editForm.snow_quality.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
@@ -364,7 +364,7 @@ updating_doc = outing_id and outing_lang
             <div class="form-group half" ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('mountain_climbing') > -1  || outing.activities.indexOf('snow_ice_mixed') > -1 ">
               <label translate>glacier_rating</label>
               <div class="input-group" ng-class="{'has-success': outing.glacier_rating }">
-                <select class="form-control" ng-model="outing.glacier_rating" ng-options="rat as rat for rat in ${glacier_ratings}"><option value=""></option></select>
+                <select class="form-control" ng-model="outing.glacier_rating" ng-options="rat as mainCtrl.translate(rat) for rat in ${glacier_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.glacier_rating"></span>
@@ -412,7 +412,7 @@ updating_doc = outing_id and outing_lang
             ## FREQUENTATION
             <div class="form-group half" ng-class="{'has-success': outing.frequentation}">
               <label translate>frequentation</label>
-              <select class="form-control" ng-model="outing.frequentation" ng-options="rat as rat for rat in ${frequentation_types}"><option value=""></option></select>
+              <select class="form-control" ng-model="outing.frequentation" ng-options="rat as mainCtrl.translate(rat) for rat in ${frequentation_types}"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.frequentation"></span>
             </div>
 
@@ -420,7 +420,7 @@ updating_doc = outing_id and outing_lang
             <div class="form-group half" ng-class="{'has-success': outing.lift_status}">
               <label translate>lift_status</label>
               <div class="input-group">
-                <select class="form-control" ng-model="outing.lift_status" ng-options="rat as rat for rat in ${lift_status}"><option value=""></option></select>
+                <select class="form-control" ng-model="outing.lift_status" ng-options="rat as mainCtrl.translate(rat) for rat in ${lift_status}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-resize-vertical"></span></span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.lift_status"></span>
@@ -436,7 +436,7 @@ updating_doc = outing_id and outing_lang
             <div class="form-group half" ng-class="{'has-success': outing.hut_status}">
               <label translate>hut_status</label>
               <div class="input-group">
-                <select class="form-control" ng-model="outing.hut_status" ng-options="rat as rat for rat in ${hut_status}"><option value=""></option></select>
+                <select class="form-control" ng-model="outing.hut_status" ng-options="rat as mainCtrl.translate(rat) for rat in ${hut_status}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.hut_status"></span>
@@ -460,7 +460,7 @@ updating_doc = outing_id and outing_lang
             <div class="form-group half"  ng-class="{'has-success': outing.access_condition}">
               <label translate>access_condition</label>
               <div class="input-group">
-                <select class="form-control" ng-model="outing.access_condition" ng-options="rat as rat for rat in ${access_conditions}"><option value=""></option></select>
+                <select class="form-control" ng-model="outing.access_condition" ng-options="rat as mainCtrl.translate(rat) for rat in ${access_conditions}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-road"></span></span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.access_condition"></span>

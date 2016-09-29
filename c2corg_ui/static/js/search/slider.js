@@ -25,8 +25,8 @@ app.sliderDirective = function() {
     template:
         '<input type="range" class="range-between" data-slider-tooltip="hide">' +
         '<span class="slider-min-max">' +
-          '<p class="min-value">{{sliderCtrl.dispMin}} <span x-translate>{{sliderCtrl.unit}}</span></p>' +
-          '<p class="max-value">{{sliderCtrl.dispMax}} <span x-translate>{{sliderCtrl.unit}}</span></p>' +
+          '<p class="min-value">{{sliderCtrl.dispMin | translate}} {{sliderCtrl.unit | translate}}</p>' +
+          '<p class="max-value">{{sliderCtrl.dispMax | translate}} {{sliderCtrl.unit | translate}}</p>' +
         '</span>',
     link: function(scope, el, attr, ctrl) {
       el.find('.range-between').slider({
