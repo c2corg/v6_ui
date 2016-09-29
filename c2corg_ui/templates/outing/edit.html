@@ -581,7 +581,7 @@ updating_doc = outing_id and outing_lang
             % endif
 
             ## QUALITY
-            <div class="form-group half" ng-style="{'has-success': outing.quality}" ng-init="qualityTypes = ${quality_types}">
+            <div class="form-group half" ng-class="{'has-success': outing.quality}" ng-init="qualityTypes = ${quality_types}">
               ## I tried with ng-init, ng-selected..so hacking
               <div class="ng-hide">{{outing.quality = outing.quality || qualityTypes[1]}}</div>
               <label translate>document_quality</label>

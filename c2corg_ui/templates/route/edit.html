@@ -655,7 +655,7 @@ updating_doc = route_id and route_lang
             % endif
 
             ## QUALITY
-            <div class="half" ng-style="{'has-success': route.quality}" ng-init="qualityTypes = ${quality_types}">
+            <div class="half" ng-class="{'has-success': route.quality}" ng-init="qualityTypes = ${quality_types}">
               ## I tried with ng-init, ng-selected..so hacking
               <div class="ng-hide">{{route.quality = route.quality || qualityTypes[1]}}</div>
               <label translate>document_quality</label>

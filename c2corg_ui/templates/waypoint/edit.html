@@ -769,7 +769,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
             % endif
 
             ## QUALITY
-            <div class="half" ng-style="{'has-success': waypoint.quality}" ng-init="qualityTypes = ${quality_types}">
+            <div class="half" ng-class="{'has-success': waypoint.quality}" ng-init="qualityTypes = ${quality_types}">
               ## I tried with ng-init, ng-selected..so hacking
               <div class="ng-hide">{{waypoint.quality = waypoint.quality || qualityTypes[1]}}</div>
               <label translate>document_quality</label>

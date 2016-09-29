@@ -4,13 +4,13 @@ from c2corg_common.attributes import activities
 <%inherit file="base.html"/>
 
 <div class="home-page">
-  <section ng-hide="userCtrl.auth.isAuthenticated()" class="site-intro not-logged">
+  <section ng-class="{'show': !userCtrl.auth.isAuthenticated()}" class="site-intro not-logged">
     <div class="intro-banner">
       <h1 class="welcome-title text-center" translate>The mountain sports community</h1>
 
       <div class="route-activities text-center">
         % for activity in activities:
-        <a href="${request.route_url('outings_index')}#&act=${activity}">
+        <a href="${request.route_url('outings_index')}#act=${activity}">
           <span class="activity icon-${activity}" uib-tooltip="{{mainCtrl.translate('${activity}')}}"></span>
         </a>
         % endfor
@@ -40,9 +40,9 @@ from c2corg_common.attributes import activities
 
     </div>
   </section>
-  <section ng-hide="!userCtrl.auth.isAuthenticated()" class="site-intro">
+  <section ng-class="{'show': userCtrl.auth.isAuthenticated()}" class="site-intro">
     <div class="intro-banner">
-      <h1 class="welcome-title text-center" translate>Feed</h1>
+      <h1 class="welcome-title text-center" translate>Activity feed</h1>
     </div>
   </section>
 
