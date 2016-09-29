@@ -19,12 +19,6 @@
     .flex() !important;
   }
 
-
-  @media (max-height: 700px){
-    .advertisement {
-      display: none !important;
-    }
-  }
   @media (max-height: 440px) {
     .social-networks {
       display: none !important;
@@ -68,7 +62,7 @@
   position: fixed;
   top: 0;
   white-space: nowrap;
-  z-index: 11;
+  z-index: 24;
   height: 100%;
   font-size: 1em;
   transition: 0.3s;
@@ -85,6 +79,11 @@
         padding-top: 6px!important;
         padding-bottom: 6px !important;
       }
+    }
+  }
+  @media (max-height: 740px){
+    .advertisement {
+      display: none !important;
     }
   }
 
