@@ -306,7 +306,7 @@ app.ImageUploaderController.prototype.save = function() {
       scope['photo'] = images[i];
       scope['photo']['image_id'] = id;
       scope['photo']['edit_url'] = '/images/edit/' + imageIds[i]['document_id'] + '/' + images[i]['locales'][0]['lang'];
-      scope['photo']['view_url'] = this.url_.buildDocumentUrl('images', imageIds[i]['document_id'], images[i]['locales'][0], images[i]['locales'][0]['lang'] );
+      scope['photo']['view_url'] = this.url_.buildDocumentUrl('images', imageIds[i]['document_id'], images[i]['locales'][0], images[i]['locales'][0]['lang']);
       this.documentService.document.associations['images'].push(scope['photo']);
       this.compile_($('#' + id).contents())(scope);
     }.bind(this));
