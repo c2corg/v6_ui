@@ -340,7 +340,8 @@ app.Authentication.prototype.needAuthorization = function(method, url) {
     return false;
   }
 
-  if (url.indexOf('/users/account') !== -1) {
+  if (url.indexOf('/users/account') !== -1 ||
+      url.indexOf('/users/preferences') !== -1) {
     return true;
   }
 

@@ -120,34 +120,6 @@
     margin-bottom: 15px;
     width: 100%;
 
-    .route-activities {
-      @media @phone {
-        justify-content: space-between;
-      }
-      .activity {
-        width: 20%;
-        text-align: center;
-        cursor: pointer;
-        @media (max-width: @screen-md-min) {
-          width: 33%;
-        }
-      }
-     [class^="icon-"] {
-        font-size: 8em;
-        @media @big {
-          font-size: 9em;
-        }
-        @media (max-width: @screen-sm-min) {
-          font-size: 6em;
-        }
-        @media (max-width: @screen-sm-max) {
-          font-size: 7em;
-        }
-        @media @phone {
-          font-size: 5em;
-        }
-      }
-    }
     #image {
       width: 100%;
       .image {
@@ -559,14 +531,6 @@
   @media @phone {
     float: none;
     width: 18%;
-  }
-}
-
-#route-activities, #outing-activities, #image-activities {
-  .route-activities {
-    .flex();
-    flex-flow: wrap;
-    justify-content: center;
   }
 }
 

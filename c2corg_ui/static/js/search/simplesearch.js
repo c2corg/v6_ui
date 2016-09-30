@@ -204,6 +204,9 @@ app.SimpleSearchController = function(appDocument, $scope, $compile, $attrs, api
       case 'r':
         this.datasets.push(this.createDataset_('routes'));
         break;
+      case 'a':
+        this.datasets.push(this.createDataset_('areas'));
+        break;
       default:
         break;
     }

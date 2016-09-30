@@ -37,6 +37,11 @@ class Pages(object):
     def account(self):
         return self._get_page('account', 'c2corg_ui:templates/account.html')
 
+    @view_config(route_name='preferences')
+    def preferences(self):
+        return self._get_page(
+            'preferences', 'c2corg_ui:templates/preferences.html')
+
     def _get_page(self, page_key, template, no_etag=False):
         return get_or_create_page(
             page_key,

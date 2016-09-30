@@ -39,7 +39,8 @@ app.Document = function(appAuthentication, $rootScope) {
       'all_routes': {'total': 0, 'documents': []},
       'users': [],
       'recent_outings': {'total': 0, 'documents': []},
-      'images': []
+      'images': [],
+      'areas': []
     },
     'locales': [{'title': '', 'lang': ''}],
     'type': '',
@@ -57,7 +58,7 @@ app.Document = function(appAuthentication, $rootScope) {
    * @private
    */
   this.associationsIds_ = {
-    'routes': [], 'waypoints': [], 'images': [], 'users': []
+    'routes': [], 'waypoints': [], 'images': [], 'users': [], 'areas': []
   };
 };
 
