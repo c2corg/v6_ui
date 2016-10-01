@@ -13,7 +13,7 @@ from json import dumps
     get_document_locale_text, show_attr, show_missing_langs_links, show_other_langs_links,
     show_archive_data, show_route_title, get_route_activities, show_areas, show_float_buttons,
     show_associated_waypoints, show_associated_routes, delete_association_confirmation_modal,
-    associated_images_featurelist, show_badge"/>
+    associated_images_featurelist, show_badge, get_document_description"/>
 
 <%
 outing_id = outing['document_id']
@@ -109,28 +109,7 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
     </section>
   </div>
 
-  ## DESCRIPTION
-  % if locale['summary'] or locale['description']:
-  <div class="view-details-description col-xs-12  description">
-    <h3 class="heading show-phone"><span translate>personal comments</span></h3>
-    <span class="lead">
-      <div id="document-description" class="collapse in">
-
-        % if locale['summary']:
-        <summary class="document-summary">
-          <label translate>summary</label><br>
-          ${show_attr(locale, 'summary')}
-        </summary>
-        % endif
-
-        % if locale['description'] :
-        ${show_attr(locale, 'description')}
-        % endif
-
-      </div>
-    </span>
-  </div>
-  % endif
+  ${get_document_description(locale, 'outing')}
 
   <div class="description">
     ${get_document_locale_text(locale, 'route_description')}

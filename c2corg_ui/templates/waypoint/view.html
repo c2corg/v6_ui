@@ -16,7 +16,7 @@ from json import dumps
     show_route_title, show_areas, show_maps, show_float_buttons,
     show_associated_waypoints, show_associated_routes, show_associated_outings,
     delete_association_confirmation_modal, associated_waypoints_featurelist,
-    show_badge"/>
+    show_badge, get_document_description"/>
 
 <%
 waypoint_id = waypoint['document_id']
@@ -132,28 +132,7 @@ geometry4326 = geometry
     </section>
   </div>
 
-  ## DESCRIPTION
-  % if locale['summary'] or locale['description']:
-    <div class="view-details-description col-xs-12  description">
-      <h3 class="heading show-phone"><span translate>description</span></h3>
-      <span class="lead">
-        <div id="document-description" class="collapse in">
-          % if locale['summary']:
-            <summary class="document-summary">
-              <label translate>summary</label><br>
-              ${show_attr(locale, 'summary')}
-            </summary>
-          % endif
-
-          % if locale['description'] :
-            ${show_attr(locale, 'description')}
-          % else :
-            <h3 class="text-center" translate>No description available</h3>
-          % endif
-        </div>
-      </span>
-    </div>
-  % endif
+  ${get_document_description(locale, 'waypoint')}
 
   <div class="description ">
     ${get_document_locale_text(locale, 'access')}

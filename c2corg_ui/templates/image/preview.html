@@ -1,6 +1,7 @@
 <%namespace file="helpers/detailed_images_attributes.html"
     import="get_image_general, get_image_camera_settings"/>
-<%namespace file="../helpers/view.html" import="show_attr, show_route_title, get_route_activities"/>
+<%namespace file="../helpers/view.html" import="show_attr, show_route_title,
+    get_route_activities, get_document_description"/>
 <%namespace file="../helpers/preview.html" import="show_preview_warning"/>
 
 <%
@@ -25,7 +26,8 @@ ${show_preview_warning()}
   <div class="view-details-wrapper">
 
     <div class="view-details-informations col-xs-12  informations">
-      <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
+      <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)"
+          data-toggle="collapse" data-target="#document-informations">
         <span translate>Informations</span><span class="glyphicon glyphicon-menu-down"></span>
       </h3>
 
@@ -35,34 +37,12 @@ ${show_preview_warning()}
       </section>
     </div>
 
-      ## DESCRIPTION
-      % if locale.get('summary') or locale.get('description'):
-      <div class="view-details-description col-xs-12  description">
-        <h3 class="heading show-phone" translate>description</h3>
-        <span class="lead">
-          <div id="document-description" class="collapse in">
+    ${get_document_description(locale, 'image')}
 
-            % if locale.get('summary'):
-            <summary class="document-summary">
-              <label translate>summary</label><br>
-              ${show_attr(locale, 'summary')}
-            </summary>
-            % endif
-
-            % if locale.get('description'):
-            ${show_attr(locale, 'description')}
-            % endif
-
-          </div>
-        </span>
-      </div>
-      % endif
-
-      <div class="view-details-description col-xs-12  description">
-        <span class="lead">
-          <img class="image" src="${image_url}/${image['filename']}" alt="${locale['title']}">
-        </span>
-      </div>
+    <div class="view-details-description col-xs-12  description">
+      <span class="lead text-center">
+        <img class="image" src="${image_url}/${image['filename']}" alt="${locale['title']}">
+      </span>
     </div>
 
   </div>

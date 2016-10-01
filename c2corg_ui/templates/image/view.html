@@ -13,7 +13,8 @@ from json import dumps
 <%namespace file="../helpers/view.html" import="get_image_gallery, photoswipe_gallery,
     show_attr, show_missing_langs_links, show_other_langs_links, show_badge,
     show_archive_data, show_route_title, get_route_activities, show_areas, show_float_buttons,
-    show_associated_waypoints, show_associated_routes, delete_association_confirmation_modal"/>
+    show_associated_waypoints, show_associated_routes, delete_association_confirmation_modal,
+    get_document_description"/>
 
 <%
 image_id = image['document_id']
@@ -84,48 +85,26 @@ other_langs, missing_langs = get_lang_lists(image, lang)
       </section>
     </div>
 
-      ## DESCRIPTION
-      % if locale['summary'] or locale['description']:
-      <div class="view-details-description col-xs-12  description">
-        <h3 class="heading show-phone" translate>description</h3>
-        <span class="lead">
-          <div id="document-description" class="collapse in">
+    ${get_document_description(locale, 'image')}
 
-            % if locale['summary']:
-            <summary class="document-summary">
-              <label translate>summary</label><br>
-              ${show_attr(locale, 'summary')}
-            </summary>
-            % endif
-
-            % if locale['description'] :
-            ${show_attr(locale, 'description')}
-            % endif
-
-          </div>
-        </span>
-      </div>
-      % endif
-
-      <div class="view-details-description col-xs-12  description">
-        <span class="lead text-center">
-          <img class="image" src="${image_url}/${image['filename']}" alt="${locale['title']}">
-        </span>
-      </div>
+    <div class="view-details-description col-xs-12 description">
+      <span class="lead text-center">
+        <img class="image" src="${image_url}/${image['filename']}" alt="${locale['title']}">
+      </span>
     </div>
+  </div>
 
-    % if image.get('areas'):
-    <article class="location-static">
-      <span class="pin"></span>
-      ${show_areas(image)}
-    </article>
-    % endif
-    <app-map class="view-details-map"></app-map>
-
+  % if image.get('areas'):
+  <article class="location-static">
+    <span class="pin"></span>
+    ${show_areas(image)}
+  </article>
+  % endif
+  <app-map class="view-details-map"></app-map>
 
   ## ASSOCIATIONS
   % if not version:
-  <div class="view-details-associations col-xs-12  associations">
+  <div class="view-details-associations col-xs-12 associations">
     <span class="lead">
       <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
         <label translate>Add association</label>
