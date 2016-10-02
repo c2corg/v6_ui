@@ -407,6 +407,8 @@ app.MapController.prototype.createStyleFunction_ = function() {
             return this.advancedSearch ?
               this.createPointStyle_(feature, resolution) :
               this.createLineStyle_(feature, resolution);
+          case 'areas':
+            return this.createLineStyle_(feature, resolution);
           default:
             return null;
         }

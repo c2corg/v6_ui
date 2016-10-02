@@ -31,14 +31,14 @@ area['doctype'] = 'areas'
 
 <%block name="moduleConstantsValues">
   module.value('mapFeatureCollection',
-  % if geometry:
+  % if area['geometry']['geom_detail']:
     {
       "type": "FeatureCollection",
       "properties": {},
       "features": [
       {
         "type": "Feature",
-        "geometry": {"type": "Polygon", "coordinates": []},
+        "geometry": ${area['geometry']['geom_detail'] | n},
         "properties": {
           "title": ${dumps(locale['title']) | n},
           "lang": "${locale['lang']}",
