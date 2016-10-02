@@ -9,7 +9,8 @@ from json import dumps
 <%namespace file="../helpers/view.html" import="get_comments, get_image_gallery,
     photoswipe_gallery, get_document_locale_text, show_badge,
     show_attr, show_missing_langs_links, show_other_langs_links, show_archive_data,
-    delete_association_confirmation_modal, show_route_title, show_float_buttons"/>
+    delete_association_confirmation_modal, show_route_title, show_float_buttons,
+    get_document_description"/>
 <%namespace file="helpers/detailed_area_attributes.html" import="get_area_general"/>
 <%
 area_id = area['document_id']
@@ -82,7 +83,7 @@ area['doctype'] = 'areas'
     ${get_image_gallery()}
   % endif
 
-  <div class="view-details-informations col-xs-12  informations">
+  <div class="view-details-informations col-xs-12 informations">
     <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
       <span translate>Informations</span><span class="glyphicon glyphicon-menu-down"></span>
     </h3>
@@ -91,26 +92,25 @@ area['doctype'] = 'areas'
     </section>
   </div>
 
-  ## DESCRIPTION
-  % if locale['summary'] or locale['description']:
-    <div class="view-details-description col-xs-12  description">
-      <h3 class="heading show-phone"><span translate>description</span></h3>
-      <span class="lead">
-        <div id="document-description" class="collapse in">
-          % if locale['summary']:
-            <summary class="document-summary">
-              <label translate>summary</label><br>
-              ${show_attr(locale, 'summary')}
-            </summary>
-          % endif
+  ${get_document_description(locale, 'area')}
 
-          % if locale['description'] :
-            ${show_attr(locale, 'description')}
-          % else :
-            <h3 class="text-center" translate>No description available</h3>
-          % endif
-        </div>
-      </span>
+  ## ASSOCIATIONS
+  % if not version:
+    <div class="view-details-comments col-xs-12 associations">
+      <h3 class="heading associations"
+          data-toggle="collapse" data-target="#associations"
+          ng-click="mainCtrl.animateHeaderIcon($event)">
+        <span class="glyphicon glyphicon-map-marker"></span>
+        <span translate>Associated documents</span>
+        <span class="glyphicon glyphicon-menu-down"></span>
+      </h3>
+      <section id="associations" class="collapse in">
+        <p class="text-center">
+        % for module in ['waypoints', 'routes', 'outings']:
+          <a href="${request.route_url(module + '_index')}#a=${area_id}"><button class="btn orange-btn" x-translate>${module}</button></a>
+        % endfor
+        </p>
+      </section>
     </div>
   % endif
 
@@ -131,7 +131,6 @@ area['doctype'] = 'areas'
 
 <div class="ng-hide">
   <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
-  ${delete_association_confirmation_modal()}
 </div>
 
 ${photoswipe_gallery()}
