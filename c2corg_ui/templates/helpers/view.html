@@ -89,10 +89,16 @@
 
 <%def name="show_areas(document)">\
   % if document.get('areas'):
-  <% areas = document.get('areas') %>\
+    <%
+        areas = document.get('areas')
+    %>
     <ul>
       % for area in areas:
-      <li ng-cloak class="${area['area_type'] }"><a href="#redirectArea">${area['locales'][0]['title']}</a></li>
+        <%
+          locale = area['locales'][0]
+          url = request.route_url('areas_view', id=area['document_id'], lang=locale['lang'], slug=slugify(locale['title']))
+        %>
+        <li class="${area['area_type']}"><a href="${url}">${locale['title']}</a></li>
       % endfor
     </ul>
   % endif
