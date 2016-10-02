@@ -1,0 +1,35 @@
+<%namespace file="helpers/detailed_area_attributes.html" import="get_area_general"/>
+<%namespace file="../helpers/view.html" import="get_document_description"/>
+<%namespace file="../helpers/preview.html" import="show_preview_warning"/>
+
+<%
+area = document
+locale = document['locales'][0]
+%>
+
+${show_preview_warning()}
+
+<header class="view-details-title">
+  <h1>
+    <span class="icon-${area['area_type']} area-type" uib-tooltip="{{mainCtrl.translate('${area['area_type']}')}}"></span>
+    <span>${locale['title']}</span>
+    <label class="badge area">
+      <span class="glyphicon glyphicon-arrow-right"></span>&nbsp;<span translate>area</span>
+    </label>
+  </h1>
+</header>
+
+<section class="view-details-section" app-view-details>
+
+  <div class="view-details-informations col-xs-12 informations">
+    <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
+      <span translate>Informations</span><span class="glyphicon glyphicon-menu-down"></span>
+    </h3>
+    <section id="document-informations" class="collapse in">
+      ${get_area_general(area)}
+    </section>
+  </div>
+
+  ${get_document_description(locale, 'area')}
+
+</section>

@@ -87,6 +87,16 @@ app.Authentication.prototype.isAuthenticated = function() {
 
 
 /**
+ * @return {boolean}
+ * @export
+ */
+app.Authentication.prototype.isModerator = function() {
+  var roles = this.userData.roles;
+  return roles.indexOf('moderator') > -1;
+};
+
+
+/**
  * Checks if the current user has rights to access/edit the document.
  * TODO: rights to personal documents only for current user.
  * @param {string} doctype
@@ -95,24 +105,23 @@ app.Authentication.prototype.isAuthenticated = function() {
  * @export
  */
 app.Authentication.prototype.hasEditRights = function(doctype, options) {
-  // not logged -> return false
   if (!this.isAuthenticated()) {
     return false;
   }
 
-  var roles = this.userData.roles;
-  // moderator has rigths
-  if (roles.indexOf('moderator') > -1) {
+  if (this.isModerator()) {
     return true;
   }
 
   if (doctype === 'outings') {
     return this.hasEditRightsOuting_(options['users']);
-  } else if (doctype === 'images') {
-    return this.hasEditRightsImage_(options['imageType'], options['imageCreator']);
-  } else {
-    return true;
   }
+
+  if (doctype === 'images') {
+    return this.hasEditRightsImage_(options['imageType'], options['imageCreator']);
+  }
+
+  return true;
 };
 
 
