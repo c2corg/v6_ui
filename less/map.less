@@ -22,10 +22,33 @@
     border: 1px solid #ccc;
     border-radius: 2px;
     padding: 4px;
+    .glyphicon {
+      display: none;
+      font-size: 17px;
+      color: @C2C-orange !important;
+    }
 
-    input[type=checkbox]+* {
+    input[type=checkbox] + * {
       font-weight: normal;
       font-size: 14px;
+    }
+  }
+  @media (max-width: @screen-sm-min) {
+    .text {
+      display: none;
+    }
+    .glyphicon {
+      display: block !important;
+    }
+  }
+  @media @phone {
+    .map-filter-switch {
+      top: 4px;
+      right: 6px;
+    }
+    .map-recenter-tools {
+      top: 4px;
+      left: 10px;
     }
   }
 }
@@ -41,7 +64,7 @@ app-baselayer-selector {
   position: absolute;
   top: 50px;
   left: 50px;
-  z-index: 2;
+  z-index: 1;
 }
 
 app-map-search {
@@ -55,6 +78,8 @@ app-map-search {
     box-shadow: 0 6px 12px rgba(0,0,0,.175);
     @media @phone {
       max-width: 86vw !important;
+      max-height: 130px;
+      overflow-y: scroll;
     }
     .tt-dataset {
       background-color: white;

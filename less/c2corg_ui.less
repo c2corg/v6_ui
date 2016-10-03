@@ -44,16 +44,20 @@ html, body{
 .documents-nav-buttons {
   .flex();
   flex-flow: wrap row;
-  margin-left: 3%;
-  margin-top: 1%;
-  width: 100%;
+  padding: 10px 10px 0 10px;
+
+  button[protected-url-btn] {
+    padding: 0 5px;
+    font-size: 20px;
+    span {
+      top: 3px;
+      font-size: 20px;
+      width: 100%;
+    }
+  }
 }
 .add-waypoint, .add-route {
   margin: 1% 0 1% 0;
-
-  a {
-    color:white;
-  }
 }
 
 .page-main-title {
@@ -215,22 +219,57 @@ main {
 }
 
 #pagination {
+  color: lightslategrey;
   position: absolute;
-  right: 20px;
-  padding: 0;
+  right: 10px;
 
-  @media (max-width: @screen-sm-min) {
-    position: relative;
-    margin-bottom: 5px;
+  @media @phone {
+    position: fixed;
+    align-items: baseline;
+    .flex();
+    bottom: 0;
+    z-index: 2;
+    width: 100%;
+    height: 45px;
+    padding: 5px;
+    left: 0;
+    background-color: #f0f0f0;
+
+    ul {
+      .flex();
+      justify-content: space-between;
+      width: 100%;
+      height: 100%;
+    }
+    .page-numbers  {
+      width: 100%;
+      display: block !important;
+    }
+  }
+
+  .page-numbers {
+    @media (max-width: @screen-sm-min){
+      display: none;
+    }
   }
 
   ul {
     display:inline-block;
     margin-bottom: 0;
+    padding-left: 5px;
 
     li {
       display:inline-block;
-
+      a {
+        border-radius: 50%;
+        width: 33px;
+        height: 33px;
+        background-color: @bright-green;
+      }
+      .glyphicon {
+        top: 0px;
+        margin-left: -5px;
+      }
       a,  .glyphicon {
         color:white;
       }
@@ -255,9 +294,12 @@ main {
   padding: 1% 2% 2% 2%;
   column-count: 3;
 
-  @media @big {
+  @media @tablet {
+    column-count: 2;
   }
   @media (max-width: @screen-sm-min) {
+    column-count: 1;
+    padding-bottom: 50px;
   }
   .list-item {
     -webkit-column-break-inside:avoid;
@@ -458,6 +500,7 @@ main {
 
 .map-right {
   position: relative;
+  margin-left: @list-width;
 
   .map {
     @media (max-height: 300px) {
@@ -469,13 +512,15 @@ main {
       box-shadow: 0px 0px 36px -10px rgba(0,0,0,0.56);
       height: 250px;
       margin-top: 0;
-      height: 40vh !important;
+      height: 42vh !important;
     }
   }
-  margin-left: @list-width;
 
   @media @phone {
-    margin-left:0;
+    margin-left: 0;
+    bottom: 40px;
+    position: fixed;
+    width: 100%;
   }
 }
 .documents-list-section, .map-right .map, .not-found-section {

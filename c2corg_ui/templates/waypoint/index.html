@@ -29,7 +29,8 @@
   <div class="documents-nav-buttons text-center">
     <button class="btn btn-default show-documents-filters-phone" translate>Filters</button>
     ${add_doctype_selector()}
-    <button class="btn btn-default" protected-url-btn url="${request.route_path('waypoints_add')}">
+    <button class="btn btn-default orange-btn" protected-url-btn url="${request.route_path('waypoints_add')}"
+            uib-tooltip="{{'Add a new waypoint' | translate }}" tooltip-placement="right">
       <span class="glyphicon glyphicon-plus-sign"></span>
     </button>
     <app-pagination></app-pagination>
