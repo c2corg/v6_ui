@@ -102,7 +102,7 @@ from c2corg_common.attributes import default_langs, activities, quality_types, i
             </div>
 
             ## ACTIVITIES
-            <div class="form-group full" ng-init="activities = ${activities}">
+            <div class="form-group full" ng-init="activities = ${activities}" id="image-activities">
               <label translate>activities</label>
               <div class="route-activities">
                 <div ng-repeat="activity in activities" class="activity" ng-if="activity !== 'paragliding' ">

@@ -8,7 +8,7 @@ from json import dumps
 <%namespace file="../helpers/common.html" import="show_title"/>
 
 <%namespace file="helpers/detailed_images_attributes.html"
-    import="get_image_general, get_image_camera_settings"/>
+    import="get_image_general, get_image_camera_settings, create_image_link"/>
 
 <%namespace file="../helpers/view.html" import="get_image_gallery, photoswipe_gallery,
     show_attr, show_missing_langs_links, show_other_langs_links, show_badge,
@@ -89,7 +89,7 @@ other_langs, missing_langs = get_lang_lists(image, lang)
 
     <div class="view-details-description col-xs-12 description">
       <span class="lead text-center">
-        <img class="image" src="${image_url}/${image['filename']}" alt="${locale['title']}">
+        ${create_image_link(image_url + '/' + image['filename'], 'BI', locale['title'])}
       </span>
     </div>
   </div>
