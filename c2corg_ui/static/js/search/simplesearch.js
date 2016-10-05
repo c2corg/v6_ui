@@ -30,9 +30,9 @@ app.simpleSearchDirective = function() {
 
           var phoneScreen = app.constants.SCREEN.SMARTPHONE;
           // don't show "show more" button for this cases.
-          if ($(element).closest('app-add-association')
-                  || $(element).closest('#participants-group')
-                  || $(element).closest('.section.associations')) {
+          if ($(element).closest('app-add-association').length
+                  || $(element).closest('#participants-group').length
+                  || $(element).closest('.section.associations').length) {
             ctrl.associationContext_ = true;
           }
 
@@ -243,7 +243,8 @@ app.SimpleSearchController.prototype.createDataset_ = function(type) {
     limit: 20,
     templates: {
       header: (function() {
-        return '<div class="header" dataset="' + type + '">' + this.gettextCatalog_.getString(type) + '</div>';
+        var typeUpperCase = type.charAt(0).toUpperCase() + type.substr(1);
+        return '<div class="header" dataset="' + type + '">' +  this.gettextCatalog_.getString(typeUpperCase) + '</div>';
       }).bind(this),
       footer: function(doc) {
         if (!this.associationContext_) {
