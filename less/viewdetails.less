@@ -149,6 +149,7 @@
     width: 90% !important;
     margin-right: 5%;
     padding: 10px 0 10px 0;
+    height: 170px;
     @media @phone {
       width: 88% !important;
       margin-right: 6%;
@@ -524,27 +525,21 @@
   }
 } /*.view-details-section*/
 
-
 .view-details-map {
-  .map {
-    width: 100%;
-    height: 280px !important;
-    margin-bottom: 30px;
+  height: 230px!important;
+  margin-bottom: 30px;
+  display: block;
+  background-color: rgba(164, 164, 166, 0.24);
 
-    @media @tablet {
-      height: 220px !important;
-    }
-    @media @phone {
-      height: 170px !important;
-    }
-    @media @phone {
-      margin-bottom: 0;
-    }
+  @media @tablet {
+    height: 200px !important;
   }
-  /*is 100% by defaul - it stretches the map!*/
-  .ol-unselectable {
-    height: auto !important;
-    width: auto !important;
+  @media @phone {
+    height: 150px !important;
+    margin-bottom: 0;
+  }
+  .map {
+    height: 100%;
   }
 }
 
