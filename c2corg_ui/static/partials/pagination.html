@@ -1,15 +1,14 @@
 <div ng-if="pageCtrl.total > pageCtrl.limit" id="pagination">
-  <span>{{pageCtrl.offset + 1}} -
-     {{(pageCtrl.offset + pageCtrl.limit < pageCtrl.total) ? pageCtrl.offset + pageCtrl.limit : pageCtrl.total}} /
-     {{pageCtrl.total}}</span>
+  <span class="page-numbers">{{pageCtrl.offset + 1}} -
+     {{(pageCtrl.offset + pageCtrl.limit < pageCtrl.total) ? pageCtrl.offset + pageCtrl.limit : pageCtrl.total}}/{{pageCtrl.total}}</span>
   <ul>
-    <li ng-if="pageCtrl.offset > 0"><a class="btn btn-primary" ng-click="pageCtrl.goToFirst();"><span
+    <li ng-if="pageCtrl.offset > 0"><a class="btn" ng-click="pageCtrl.goToFirst();"><span
         class="glyphicon glyphicon-step-backward"></span></a></li>
-    <li ng-if="pageCtrl.offset > 0"><a class="btn btn-primary" ng-click="pageCtrl.goToPrev();"><span
+    <li ng-if="pageCtrl.offset > 0"><a class="btn" ng-click="pageCtrl.goToPrev();"><span
         class="glyphicon glyphicon-menu-left" ></span></a></li>
-    <li ng-if="pageCtrl.offset + pageCtrl.limit < pageCtrl.total"><a class="btn btn-primary" ng-click="pageCtrl.goToNext();"><span
+    <li ng-if="pageCtrl.offset + pageCtrl.limit < pageCtrl.total"><a class="btn" ng-click="pageCtrl.goToNext();"><span
         class="glyphicon glyphicon-menu-right"></span></a></li>
-    <li ng-if="pageCtrl.offset + pageCtrl.limit < pageCtrl.total"><a class="btn btn-primary" ng-click="pageCtrl.goToLast();"><span
+    <li ng-if="pageCtrl.offset + pageCtrl.limit < pageCtrl.total"><a class="btn" ng-click="pageCtrl.goToLast();"><span
         class="glyphicon glyphicon-step-forward"></span></a></li>
   </ul>
 </div>

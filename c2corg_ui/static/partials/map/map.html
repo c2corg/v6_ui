@@ -8,7 +8,11 @@
     class="btn btn-primary map-reset-feature" translate>Reset feature</button>
   <div class="map-filter-switch" ng-show="::mapCtrl.advancedSearch">
     <label>
-      <input type="checkbox" ng-model="mapCtrl.enableMapFilter"><span translate>Filter on map extent</span>
+      <input type="checkbox" ng-model="mapCtrl.enableMapFilter">
+      <div>
+        <span translate class="text">Filter on map extent</span>
+        <span class="glyphicon glyphicon-globe"></span>
+      </div>
     </label>
   </div>
 </div>
