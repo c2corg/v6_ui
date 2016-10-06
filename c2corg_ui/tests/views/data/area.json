@@ -1,0 +1,22 @@
+{
+	"quality": "medium",
+	"area_type": "range",
+	"type": "a",
+	"protected": false,
+	"available_langs": ["fr"],
+	"geometry": {
+		"geom": null,
+		"version": 1,
+		"geom_detail": "{\"coordinates\": [[[1134159.1006611355, 5626112.031368394], [1134783.3525537555, 5626090.0573774], [1134900.8182601575, 5626102.4961598655], [1134159.1006611355, 5626112.031368394]]], \"type\": \"Polygon\"}"
+	},
+	"locales": [{
+		"title": "Un massif",
+		"description": "...",
+		"lang": "fr",
+		"summary": null,
+		"version": 3
+	}],
+	"associations": { },
+	"version": 1,
+	"document_id": 735574
+}
