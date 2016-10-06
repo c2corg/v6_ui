@@ -22,11 +22,8 @@
     ${add_doctype_selector()}
     <app-pagination></app-pagination>
   </div>
-  <app-advanced-search document-type="areas" use-map="true"></app-advanced-search>
+  <app-advanced-search document-type="areas" use-map="false"></app-advanced-search>
 </section>
-<div class="map-right">
-  <app-map app-map-advanced-search="true" app-map-show-recenter-tools="true" app-map-default-map-filter="false"></app-map>
-</div>
 <script>
 window.onload = function(){
   app.stickyFilters();
