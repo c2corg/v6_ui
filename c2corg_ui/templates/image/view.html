@@ -17,9 +17,9 @@ from json import dumps
     get_document_description"/>
 
 <%
-image_id = image['document_id']
-image['doctype'] = 'images'
-other_langs, missing_langs = get_lang_lists(image, lang)
+  image_id = image['document_id']
+  image['doctype'] = 'images'
+  other_langs, missing_langs = get_lang_lists(image, lang)
 %>
 
 <%block name="pagelang">lang="${lang}"</%block>
@@ -33,21 +33,28 @@ other_langs, missing_langs = get_lang_lists(image, lang)
 </%block>
 
 <%block name="moduleConstantsValues">
-  module.value('mapFeatureCollection', {
-    "type": "FeatureCollection",
-    "properties": {},
-    "features": [{
-      "type": "Feature",
-      "geometry": {"type": "Point", "coordinates": [901624.4172679152, 5858812.695644485]},
-      "properties": {
-        "title": ${dumps(locale['title']) | n},
-        "lang": "${locale['lang']}",
-        "documentId": ${image['document_id']},
-        "module": "images"
-      }
-    }]
-  });
-
+  module.value('mapFeatureCollection',
+  % if geometry:
+    {
+      "type": "FeatureCollection",
+      "properties": {},
+      "features": [
+      {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [${geometry.x}, ${geometry.y}]},
+        "properties": {
+          "title": ${dumps(locale['title']) | n},
+          "lang": "${locale['lang']}",
+          "documentId": ${image_id},
+          "module": "images",
+          "highlight": true
+        }
+      }]
+   }
+  % else:
+    null
+  % endif
+  );
   module.value('documentData', {
     "document_id": ${image.get('document_id')},
     "lang": "${lang}",
