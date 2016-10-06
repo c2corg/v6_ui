@@ -183,6 +183,7 @@ app.CardController.prototype.getGlobalRatings = function() {
 app.CardController.prototype.getFullRatings = function() {
   var doc = this.doc;
   var ratings = {};
+  var fullRatings = {};
 
   for (var p in doc) {
     // every property that has 'rating' in it but with some exceptions.
@@ -194,8 +195,8 @@ app.CardController.prototype.getFullRatings = function() {
     } else {
       if (doc.hiking_mtb_exposition) {
         ratings['hiking_mtb_exposition'] = doc.hiking_mtb_exposition;
-      }
-      if (p === 'ski_rating' || p === 'ski_exposition') {
+
+      } else if (p === 'ski_rating' || p === 'ski_exposition') {
         ratings['ski_rating'] = this.slashSeparatedRating_(doc.ski_rating, doc.ski_exposition);
 
       } else if (p === 'labande_global_rating' || p === 'labande_ski_rating') {
@@ -216,7 +217,12 @@ app.CardController.prototype.getFullRatings = function() {
       }
     }
   }
-  return ratings;
+  app.constants.fullRatingOrdered.forEach(function(rating) {
+    if (rating in ratings && ratings[rating]) {
+      fullRatings[rating] = ratings[rating];
+    }
+  });
+  return fullRatings;
 };
 
 /**

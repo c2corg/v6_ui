@@ -37,5 +37,8 @@ app.constants = {
   documentEditing: {
     FORM_PROJ: 'EPSG:4326',
     DATA_PROJ: 'EPSG:3857'
-  }
+  },
+  fullRatingOrdered: ['global_rating', 'rock_rating', 'aid_rating', 'ice_rating', 'mixed_rating',
+    'via_ferrata_rating', 'engagement_rating', 'risk_rating', 'equipment_rating', 'exposition_rock_rating',
+    'ski_rating', 'labande_rating', 'hiking_rating', 'snowshoe_rating', 'mtb_rating', 'hiking_mtb_exposition']
 };

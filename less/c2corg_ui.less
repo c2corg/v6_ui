@@ -393,10 +393,17 @@ main {
     .full-rating {
       margin-bottom: 5px;
       margin-top: 5px;
+      flex-wrap: wrap;
       .glyphicon {
         font-size: 1.3em;
         margin-left: -3px;
         margin-right: 3px !important;
+      }
+      .value {
+        transition: .2s;
+        &:hover {
+          color: gold;
+        }
       }
       @media (max-width: @phone-max) {
         display: none;
