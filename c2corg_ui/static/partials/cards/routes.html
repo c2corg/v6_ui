@@ -35,9 +35,9 @@
       </div>
     </div>
 
-    <div class="full-rating flex flexend-align" ng-init="fullRatings = cardCtrl.getFullRatings()">
+    <div class="full-rating flex" ng-init="fullRatings = cardCtrl.getFullRatings()">
       <span class="icon-rating"></span>
-      <div ng-repeat="(attr, val) in fullRatings" ng-if="val"  uib-tooltip="{{attr | translate}}" class="rating">
+      <div ng-repeat="(attr, val) in fullRatings" uib-tooltip="{{attr | translate}}" class="rating">
         <span class="value">{{val}}</span>
       </div>
     </div>
