@@ -59,6 +59,7 @@
     width: 600%;
     @media @phone {
       position: static;
+      margin-bottom: 100px;
     }
   }
   .form-group {
@@ -558,9 +559,6 @@
   @media @phone {
     float: none;
     width: 18%;
-    &:last-of-type {
-      margin-bottom: 5%;
-    }
   }
 }
 
@@ -643,8 +641,8 @@ input[type="radio"] {
   transition: 0.2s ease-in-out;
 }
 
-#participants-group {
-  margin-top: 10px;
+#participants-group app-simple-search{
+  margin-bottom: 0;
 }
 
 ul.uib-datepicker {
