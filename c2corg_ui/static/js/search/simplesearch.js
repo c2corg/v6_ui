@@ -311,19 +311,11 @@ app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
                 /** @type {appx.SimpleSearchDocumentResponse} */ (resp[type]);
         if (documentResponse) {
           var documents = documentResponse.documents;
-          var currentLang = this.gettextCatalog_.currentLanguage;
           var hasAssociation;
 
           return documents.map(function(/** appx.SimpleSearchDocument */ doc) {
             hasAssociation = this.documentService_.hasAssociation(type,  doc.document_id);
-
-            var locale = doc.locales[0];
-            doc.label = (type === 'routes' && locale.title_prefix) ? locale.title_prefix + ' : ' : '';
-            doc.label += locale.title;
-
-            if (currentLang !== locale.lang) {
-              doc.label += ' (' + locale.lang + ')';
-            }
+            doc.label = this.createDocLabel_(doc, this.gettextCatalog_.currentLanguage);
             doc.documentType = type;
 
             // don't show already associated docs in the results, but only in the app-add-association
@@ -338,6 +330,30 @@ app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
   }));
   bloodhound.initialize();
   return bloodhound;
+};
+
+/**
+ * Return username as label or create a document title
+ * @param {!appx.SimpleSearchDocument} doc Suggested document.
+ * @param {string} currentLang
+ * @return {string} label
+ * @private
+ */
+app.SimpleSearchController.prototype.createDocLabel_ = function(doc, currentLang) {
+  var locale = doc.locales[0];
+  var label;
+  if (doc.type === 'u') {
+    return doc.name;
+  }
+  if (doc.type === 'r' && locale.title_prefix) {
+    label = locale.title_prefix + ' : ';
+  }
+  label += locale.title;
+
+  if (currentLang !== locale.lang) {
+    label += ' (' + locale.lang + ')';
+  }
+  return label;
 };
 
 
