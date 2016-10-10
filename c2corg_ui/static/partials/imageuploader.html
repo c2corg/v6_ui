@@ -85,7 +85,7 @@
             <ul class="dropdown-menu">
               <li ng-repeat="type in types">
                 <div class="radio">
-                  <label><input type="radio" name="types" ng-model="file.metadata.image_type" value="{{type}}">{{type| translate}}</label>
+                  <label><input type="radio" ng-model="file.metadata.image_type" ng-value="type">{{type | translate}}</label>
                 </div>
               </li>
             </ul>
