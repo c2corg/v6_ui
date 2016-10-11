@@ -53,7 +53,7 @@ app-simple-search span.twitter-typeahead {
   .tt-dropdown-menu {
     &:extend(.dropdown-menu);
   }
-  
+
   .tt-suggestion {
     padding: 5px 10px 5px 25px;
     margin-bottom: 0 !important;
@@ -61,7 +61,7 @@ app-simple-search span.twitter-typeahead {
     background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
     justify-content: space-between;
     .flex();
-    
+
     .glyphicon {
       color: @C2C-orange;
     }
@@ -75,8 +75,7 @@ app-simple-search span.twitter-typeahead {
       margin-top: auto;
       margin-bottom: auto;
     }
-
-    @media @phone { 
+    @media @phone {
       white-space : normal;
     }
     @media @tablet {
@@ -88,11 +87,14 @@ app-simple-search span.twitter-typeahead {
       cursor: pointer;
       .suggestion-title {
         color: white;
-      } 
+      }
     }
     .suggestion-title {
       font-weight: bold;
       color: graytext;
+    }
+    .suggestion-text {
+      width: 100%;
     }
   }
 
@@ -155,7 +157,7 @@ app-simple-search span.twitter-typeahead {
 .tt-menu {
   border: none !important;
   min-width: 35vw !important;
-  
+
   @media @phone {
     min-width: 80vw !important;
   }

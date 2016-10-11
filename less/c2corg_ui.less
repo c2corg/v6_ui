@@ -359,7 +359,7 @@ main {
   }
 
   .list-item-info {
-    margin-top: 5px;
+    margin: auto;
     width: 100%;
     text-decoration: none;
     color: #919191;
@@ -444,8 +444,10 @@ main {
     }
   }
   &.outings {
+    min-height: 80px;
     a {
       .flex() !important;
+      height: 100%;
     }
     .outing-author, .outing-date {
       font-size: 0.9em;
@@ -1137,12 +1139,13 @@ ul {
         padding: 5px;
       }
     }
-    .glyphicon-trash:not(app-delete-association) {
-      position: absolute;
-      color: red;
-      font-size: 1.3em;
-      right: 10px;
-      top: calc(~"100% - 30px");
-    }
   }
+}
+
+.glyphicon-trash:not(app-delete-association) {
+  position: absolute;
+  color: red;
+  font-size: 1.3em;
+  right: 10px;
+  top: calc(~"100% - 30px");
 }
