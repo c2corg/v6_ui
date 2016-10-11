@@ -20,10 +20,12 @@
   </section>
 </%def>
 
-<%def name="show_editing_associated_routes(model)">\
+<%def name="show_editing_associated_routes(model, show_title = True)">\
   <section ng-show="${model}.associations.routes.length > 0" class="associated-section">
-    <label translate>Associated routes</label>
-    <article class="associated-documents">
+    % if show_title:
+      <label translate>Associated routes</label>
+    % endif
+    <article class="associated-documents flex wrap-row">
       <div class="list-item" ng-repeat="rte in ${model}.associations.routes" ng-class="{'new-item': rte['new']}">
         <app-card app-card-doc="rte" app-card-disable-click="true"></app-card>
         <span class="glyphicon glyphicon-trash" ng-click="editCtrl.documentService.removeAssociation(rte.document_id, 'routes', $event)"></span>
