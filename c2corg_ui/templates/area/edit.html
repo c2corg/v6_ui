@@ -1,0 +1,119 @@
+<%!
+from c2corg_common.attributes import default_langs, quality_types, area_types
+%>
+<%inherit file="../base.html"/>
+<%
+  updating_doc = area_id and area_lang
+%>
+<%namespace file="../helpers/common.html" import="show_title"/>
+<%namespace file="../helpers/edit.html" import="show_preview_container, show_editing_buttons"/>
+
+<%block name="pagetitle">
+<title ng-init="id = ${area_id if area_id else 0}" ng-bind="id ?
+          mainCtrl.page_title('Editing an area') : mainCtrl.page_title('Creating an area')">${show_title('Create/edit area')}
+</title>
+</%block>
+
+<%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
+
+<section class="create-edit-document">
+
+  <h1 ng-init="id = ${area_id if area_id else 0}" class="text-center">
+    <label class="label label-primary" ng-bind="id ? ('Editing an area' | translate) : ('Creating an area' | translate)"></label>
+  </h1>
+
+  <form app-loading app-document-editing="areas" app-document-editing-model="area"
+    app-document-editing-controller-name="appDocumentEditingController"
+  % if updating_doc:
+    app-document-editing-id="${area_id}" app-document-editing-lang="${area_lang}"
+  % endif
+    class="document-editing" name="editForm" novalidate ng-submit="editCtrl.submitForm(editForm.$valid)">
+
+    <section class="editing">
+
+      <div class="step step-1">
+        <section class="section">
+          <h2 class="heading show-phone" translate>general informations</h2>
+          <div class="content">
+
+            ## TITLE
+            <div id="title-group" class="form-group" ng-class="{ 'has-error': editForm.title.$touched && editForm.title.$invalid, 'has-success': editForm.title.$valid }">
+              <label><span translate>title</span> *</label>
+              <input type="text" name="title" ng-model="area.locales[0].title" ng-minlength="3" class="form-control" required />
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.title.$valid"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.title.$invalid && editForm.title.$touched"></span>
+              <div class="help-block" ng-messages="editForm.title.$error">
+                <p ng-message="required" class="label label-danger" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : '' }}" translate>This field is required.</p>
+                <p ng-message="minlength" class="label label-danger" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : '' }}" translate>Title must have at least 3 characters.</p>
+              </div>
+            </div>
+
+            ## LANGUAGE
+            <div id="lang-group" class="form-group" ng-class="{ 'has-error': editForm.lang.$touched && editForm.lang.$invalid, 'has-success': editForm.lang.$valid}">
+              <label><span translate>lang</span> *</label>
+              % if area_lang:
+                <input disabled class="form-control" value="{{mainCtrl.translate('${area_lang}')}}">
+              % else:
+              <select name="lang" ng-options="lang as mainCtrl.translate(lang) for lang in ['${"','".join(default_langs) |n}'] | translate" ng-model="area.locales[0].lang" class="form-control" required><option value=""></option></select>
+              % endif
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="area.locales[0].lang"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.lang.$touched && editForm.lang.$invalid"></span>
+              <div class="help-block" ng-messages="editForm.lang.$error">
+                <p ng-message="required" class="label label-danger" style="{{ (editForm.lang.$invalid && editForm.lang.$touched) ? 'display:inline' : '' }}" translate>This field is required.</p>
+              </div>
+            </div>
+
+            <div class="form-group half half-group">
+
+              <div ng-class="{ 'has-success': area.area_type}">
+                <label><span translate>area_type</span> *</label>
+                <select class="form-control" ng-model="area.area_type" ng-options="rat as mainCtrl.translate(rat) for rat in ${area_types}"><option value=""></option></select>
+                <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="area.area_type"></span>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        ## MAP
+        <section class="section maps-info" ng-show="userCtrl.auth.isModerator()">
+          <h2 class="heading show-phone"><span translate>geolocation</span></h2>
+          <div class="content" id="edit-maps">
+            <app-map app-map-edit="true" app-map-draw-type="Polygon" class="map-edit"></app-map>
+          </div>
+        </section>
+
+        <section class="section">
+          <h2 class="heading show-phone" translate>description</h2>
+          <div class="content">
+
+            ## SUMMARY
+            <div id="summary-group" class="form-group full">
+              <label translate>summary</label>
+              <textarea name="summary" ng-model="area.locales[0].summary" class="form-control"></textarea>
+            </div>
+
+            ## DESCRIPTION
+            <div id="description-group" class="form-group full">
+              <label translate>description</label>
+              <textarea name="description" ng-model="area.locales[0].description" class="form-control description"></textarea>
+            </div>
+
+            ## QUALITY
+            <div class="half" ng-class="{'has-success': area.quality}" ng-init="qualityTypes = ${quality_types}">
+              ## I tried with ng-init, ng-selected..so hacking
+              <div class="ng-hide">{{area.quality = area.quality || qualityTypes[1]}}</div>
+              <label translate>quality</label>
+              <select ng-options="type as mainCtrl.translate(type) for type in qualityTypes" ng-model="area.quality" class="form-control"><option value=""></option></select>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="area.quality"></span>
+            </div>
+          </div>
+        </section>
+
+      ${show_editing_buttons('area', updating_doc, area_id, area_lang)}
+
+    </section>
+  </form>
+</section>
+
+${show_preview_container()}

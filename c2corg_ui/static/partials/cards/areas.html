@@ -1,0 +1,10 @@
+<a ng-href="{{cardCtrl.createURL()}}" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;">
+  <span class="list-item-title">{{locale.title}}</span>
+  <span class="list-item-lang" ng-if="cardCtrl.lang != locale.lang">({{locale.lang}})</span>
+  <br>
+  <div class="list-item-info flex baseline-align">
+    <div class="quality" ng-if="doc['quality']" ng-class="doc['quality']"
+         uib-tooltip="{{'quality'| translate}} : {{doc['quality'] | translate}}" tooltip-placement="left"></div>
+    <span x-translate>{{doc['area_type']}}</span>
+  </div>
+</a>

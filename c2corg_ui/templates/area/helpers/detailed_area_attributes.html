@@ -1,0 +1,14 @@
+<%namespace file="../../helpers/view.html" import="show_attr"/>
+
+<%def name="get_area_general(area)">\
+  <div class="name-icon-value general" ng-click="detailsCtrl.openTab($event)">
+    <h4><span translate>General</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+    <div class="name-icon">
+      <span class="glyphicon glyphicon-info-sign"></span>
+      <p translate>General</p>
+    </div>
+    <span class="detail-text accordion">
+      <p><span translate class="value-title">area_type</span>: <span x-translate class="value">${area['area_type']}</span></p>
+    </span>
+  </div>
+</%def>

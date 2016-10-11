@@ -18,6 +18,8 @@ app.utils.getDoctype = function(type) {
       return 'users';
     case 'i':
       return 'images';
+    case 'a':
+      return 'areas';
     default:
       goog.asserts.fail('Unrecognized type: ' + type);
       return '';
@@ -193,7 +195,8 @@ app.utils.getTemplate = function(path, $templateCache) {
  * @return {boolean}
  */
 app.utils.detectDocumentIdFilter = function(ngeoLocation) {
-  var associatedDocTypes = ['w', 'r'];
+  // see app.utils.getDoctype() for types definitions
+  var associatedDocTypes = ['w', 'r', 'a'];
   for (var i = 0, n = associatedDocTypes.length; i < n; i++) {
     if (ngeoLocation.hasFragmentParam(associatedDocTypes[i])) {
       return true;

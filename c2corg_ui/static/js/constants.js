@@ -32,7 +32,8 @@ app.constants = {
     'waypoints': ['title' , 'lang', 'waypoint_type', 'elevation', 'longitude', 'latitude'],
     'routes' : ['title' , 'lang', 'activities', 'waypoints'],
     'outings' : ['title' , 'lang', 'date_start', 'routes', 'activities'],
-    'images': ['image_type']
+    'images': ['image_type'],
+    'areas': ['title', 'area_type']
   },
   documentEditing: {
     FORM_PROJ: 'EPSG:4326',
