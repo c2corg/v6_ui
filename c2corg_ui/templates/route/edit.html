@@ -62,7 +62,7 @@ updating_doc = route_id and route_lang
             <label><span translate>title</span> *</label>
             <span uib-tooltip="{{mainCtrl.translate('main waypoint title')}}"/><input type="text" name="main_waypoint_title"
               ng-model="route.main_waypoint_title" ng-show="route.main_waypoint_title" class="form-control" disabled></span>
-            <input type="text" name="title" ng-model="route.locales[0].title" ng-minlength="3"class="form-control" required />
+            <input type="text" name="title" ng-model="route.locales[0].title" ng-minlength="3" class="form-control" required />
             <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.title.$valid"></span>
             <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.title.$invalid && editForm.title.$touched"></span>
             <div class="help-block" ng-messages="editForm.title.$error">
