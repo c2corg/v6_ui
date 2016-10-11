@@ -130,7 +130,7 @@ install: build template .build/node_modules.timestamp
 template: $(TEMPLATE_FILES)
 
 .PHONY: less
-less: c2corg_ui/static/build/build.min.css c2corg_ui/static/build/build.css c2corg_ui/static/build/build-print.min.css c2corg_ui/static/build/build-print.css c2corg_ui/static/build/bootstrap_fonts
+less: c2corg_ui/static/build/build.min.css c2corg_ui/static/build/build.css c2corg_ui/static/build/build-print.min.css c2corg_ui/static/build/build-print.css c2corg_ui/static/build/bootstrap_fonts photoswipe-skins
 
 .PHONY: serve
 serve: install build development.ini
@@ -281,6 +281,10 @@ c2corg_ui/static/build/deps.js: $(LIBS_JS_FILES) c2corg_ui/static/build/locale_m
 # copy locales of moment.js
 c2corg_ui/static/build/locale_moment: .build/node_modules.timestamp
 	cp -r node_modules/moment/locale/ c2corg_ui/static/build/locale_moment
+
+# copy skins of photoswipe.js
+photoswipe-skins: .build/node_modules.timestamp
+	cp node_modules/photoswipe/dist/default-skin/default-skin.png c2corg_ui/static/build/default-skin.png
 
 # copy files used by "slick-carousel" (?!)
 slick-assets: .build/node_modules.timestamp
