@@ -127,6 +127,12 @@ app.ImageUploaderController = function($scope, $uibModal, $compile, $q, appAlert
    */
   this.categories;
 
+  /**
+   * @type {string}
+   * @private
+   */
+  this.image_type_ = this.setImageType_();
+
   this.scope_['activities'] = this.activities;
   this.scope_['types'] = this.types;
   this.scope_['categories'] = this.categories;
@@ -227,7 +233,8 @@ app.ImageUploaderController.prototype.uploadFile_ = function(file) {
     'metadata': {
       'id': file['name'] + '-' + new Date().toISOString(),
       'activities': [],
-      'categories': []
+      'categories': [],
+      'image_type': this.image_type_
     }
   });
   this.getImageMetadata_(file);
@@ -317,6 +324,18 @@ app.ImageUploaderController.prototype.save = function() {
   });
 
   return defer.promise;
+};
+
+
+/**
+ * Sets a default image type = same as the document the image is being uploaded to.
+ * @private
+ * @return {string}
+ */
+app.ImageUploaderController.prototype.setImageType_ = function() {
+  var type = app.utils.getDoctype(this.documentService.document.type);
+  var isColl = this.documentService.isCollaborative(type);
+  return isColl ? 'collaborative' : 'personal';
 };
 
 
