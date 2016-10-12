@@ -1,0 +1,14 @@
+<%inherit file="../base.html"/>
+<%namespace file="../helpers/view.html" import="show_badge"/>
+
+<%block name="pagelang">lang="${lang}"</%block>
+
+<%block name="pagetitle"><title>PROFILE FIXME</title></%block>
+
+<%block name="metarobots">
+  <meta name="robots" content="noindex,follow">
+</%block>
+
+<div app-user-profile="${user_id}" app-user-profile-lang="${lang}">
+  <div id="user-profile-data"></div>
+</div>

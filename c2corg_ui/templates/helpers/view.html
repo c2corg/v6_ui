@@ -313,7 +313,7 @@
 <%def name="get_document_description(locale, doctype)">\
   % if locale.get('summary') or locale.get('description'):
     <div class="view-details-description col-xs-12  description">
-      % if not doctype == 'article':
+      % if doctype != 'article' and doctype != 'user':
         <h3 class="heading show-phone">
           % if doctype == 'outing':
             <span translate>personal comments</span>
@@ -749,17 +749,23 @@
 <%def name="show_badge(document, type)">\
   <%
       fragments = []
-      if document.get('geometry') and document.get('geometry').get('geom'):
-          geojson = loads(document.get('geometry').get('geom'))
-          geom = asShape(geojson)
-          buffer = geom.buffer(10000)
-          bounds = map(floor, buffer.bounds)
-          fragments.append(('bbox', ','.join(map(str, bounds))))
-      if type == 'waypoint':
-          fragments.append(('wtyp', document['waypoint_type']))
+      if document:
+          if document.get('geometry') and document.get('geometry').get('geom'):
+              geojson = loads(document.get('geometry').get('geom'))
+              geom = asShape(geojson)
+              buffer = geom.buffer(10000)
+              bounds = map(floor, buffer.bounds)
+              fragments.append(('bbox', ','.join(map(str, bounds))))
+          if type == 'waypoint':
+              fragments.append(('wtyp', document['waypoint_type']))
   %>
   <label class="badge ${type}">
-    <a href="${request.route_path(type + 's_index')}#${'&'.join(['='.join(fragment) for fragment in fragments])}"><span
-       class="glyphicon glyphicon-arrow-right"></span>&nbsp;<span x-translate>${type}</span></a>
+    % if type != 'user':
+      <a href="${request.route_path(type + 's_index')}${'#' if fragments else ''}${'&'.join(['='.join(fragment) for fragment in fragments])}">
+    % endif
+    <span class="glyphicon glyphicon-arrow-right"></span>&nbsp;<span x-translate>${type}</span>
+    % if type != 'user':
+      </a>
+    % endif
   </label>
 </%def>
