@@ -84,11 +84,9 @@ updating_doc = outing_id and outing_lang
                 app-select="editCtrl.documentService.pushToAssociations(doc, 'routes', true)" dataset="r"></app-simple-search>
             </div>
 
-            <section class="section associations full">
-              <div class="route-associations full">
-                <h5 translate ng-show="outing.associations.routes.length == 0">Choose at least one route taken during the outing.</h5>
-                ${show_editing_associated_routes('outing')}
-              </div>
+            <section class="section associations full route-associations">
+              <h5 translate ng-show="outing.associations.routes.length == 0">Choose at least one route taken during the outing.</h5>
+              ${show_editing_associated_routes('outing', True)}
             </section>
 
             ## ROUTE DESCRIPTION

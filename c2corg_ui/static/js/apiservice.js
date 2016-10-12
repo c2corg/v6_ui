@@ -245,11 +245,12 @@ app.Api.prototype.listDocuments = function(module, qstr) {
  * @export
  * @param {number} id Document id.
  * @param {string} doctype the first letter of document type (o, w, r...)
+ * @param {string} lang
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
-app.Api.prototype.getDocumentByIdAndDoctype = function(id, doctype) {
+app.Api.prototype.getDocumentByIdAndDoctype = function(id, doctype, lang) {
   var alerts = this.alerts_;
-  var promise = this.getJson_('/search?q=' + id + '&t=' + doctype);
+  var promise = this.getJson_('/search?q=' + id + '&t=' + doctype + '&pl=' + lang);
   promise.catch(function(response) {
     alerts.addError(response);
   });

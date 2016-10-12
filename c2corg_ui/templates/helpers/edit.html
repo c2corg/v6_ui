@@ -20,9 +20,11 @@
   </section>
 </%def>
 
-<%def name="show_editing_associated_routes(model)">\
+<%def name="show_editing_associated_routes(model, hide_title = False)">\
   <section ng-show="${model}.associations.routes.length > 0" class="associated-section">
-    <label translate>Associated routes</label>
+    % if not hide_title:
+      <label translate>Associated routes</label>
+    % endif
     <article class="associated-documents">
       <div class="list-item" ng-repeat="rte in ${model}.associations.routes" ng-class="{'new-item': rte['new']}">
         <app-card app-card-doc="rte" app-card-disable-click="true"></app-card>
