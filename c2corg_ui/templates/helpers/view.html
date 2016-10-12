@@ -74,7 +74,6 @@
   ${get_attr(version, 'comment', md=False)  if version['comment'] else '' | n}
 </%def>
 
-
 <%def name="show_maps(document)">\
   % if document.get('maps') and len(document['maps']) > 0:
     <ul>
@@ -112,6 +111,16 @@
     % endfor
   % endif
 </%def>
+
+
+<%def name="get_article_activities(article, tooltipPosition)">\
+  % if 'activities' in article and article.get('activities'):
+    % for activity in article['activities'] :
+      <span class="route-activity icon-${activity}" uib-tooltip="{{mainCtrl.translate('${activity}') }}" tooltip-placement="${tooltipPosition}"></span>
+    % endfor
+  % endif
+</%def>
+
 
 ## Links generated only for the search engines, hidden.
 <%def name="add_seo_association_links(documents, doctype, hide=True)">\
@@ -235,6 +244,42 @@
   % endif
 </%def>
 
+<%def name="show_associated_articles(document)">\
+  <%
+      associations = document['associations']
+  %>
+  % if 'articles' in associations and associations['articles']['total'] > 0:
+    ${add_seo_association_links(associations['articles']['documents'], 'articles')}
+    <article>
+      <h3 class="heading show-phone articles" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-articles">
+        <span class="glyphicon glyphicon-map-marker"></span>
+        <span translate>Last articles</span><span class="glyphicon glyphicon-menu-down"></span>
+      </h3>
+      <div class="associated-documents collapse in" id="associated-articles">
+        % if document['doctype'] == 'articles':
+          <div class="list-item vertical-align" protected-url-btn
+               url="${request.article_path('articles_add') + '#c=' + str(document['document_id'])}">
+            <a>
+              <button class="btn orange-btn" translate>add a new outing to this document</button>
+            </a>
+          </div>
+        % endif
+        <div class="list-item articles" ng-repeat="doc in detailsCtrl.documentService.document.associations.articles.documents">
+          <app-card app-card-doc="doc"></app-card>
+        </div>
+        % if associations['articles']['total'] > len(associations['articles']['documents']) :
+          <%
+              fragment = '{0}={1}'.format(document['type'], document['document_id'])
+          %>
+          <div class="list-item vertical-align" onclick="window.location='${request.articles_url('articles_index')}#${fragment}';">
+            <button class="gray-btn btn show-more" translate>show more</button>
+          </div>
+        % endif
+      </div>
+    </article>
+  % endif
+</%def>
+
 <%def name="associated_waypoints_featurelist(document)">\
   % for wp_category in ['waypoints', 'waypoint_children']:
     % if document.get('associations').get(wp_category):
@@ -284,6 +329,8 @@
       <h3 class="heading show-phone">
         % if doctype == 'outing':
           <span translate>personal comments</span>
+        % elif doctype == 'article':
+          <span></span>
         % else:
           <span translate>description</span>
         % endif
