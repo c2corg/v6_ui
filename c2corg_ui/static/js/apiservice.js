@@ -406,6 +406,33 @@ app.Api.prototype.updateAccount = function(data) {
 
 
 /**
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.readPreferences = function() {
+  var promise = this.getJson_('/users/preferences');
+  promise.catch(function(response) {
+    var msg = this.alerts_.gettext('Getting preferences failed:');
+    this.alerts_.addErrorWithMsg(msg, response);
+  }.bind(this));
+  return promise;
+};
+
+
+/**
+ * @param {Object} data
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.updatePreferences = function(data) {
+  var promise = this.postJson_('/users/preferences', data);
+  promise.catch(function(response) {
+    var msg = this.alerts_.gettext('Updating preferences failed:');
+    this.alerts_.addErrorWithMsg(msg, response);
+  }.bind(this));
+  return promise;
+};
+
+
+/**
  * @param {File} file
  * @param {!angular.$q.Promise} canceller
  * @param {function(ProgressEvent)} progress

@@ -30,6 +30,7 @@ goog.require('app.loadingDirective');
 goog.require('app.mapDirective');
 goog.require('app.mapSearchDirective');
 goog.require('app.paginationDirective');
+goog.require('app.preferencesDirective');
 goog.require('app.progressBarDirective');
 goog.require('app.protectedUrlBtnDirective');
 goog.require('app.searchFiltersDirective');

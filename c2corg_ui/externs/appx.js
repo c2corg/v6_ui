@@ -275,6 +275,18 @@ appx.Image;
 
 /**
  * @typedef {{
+ *   locales: Array.<Object>,
+ *   type : string,
+ *   area_type: string,
+ *   quality: string,
+ *   document_id:number
+ * }}
+ */
+appx.Area;
+
+
+/**
+ * @typedef {{
  *   total: number,
  *   documents: Array.<appx.Outing>
  * }}
@@ -305,3 +317,12 @@ appx.mapApiKeys;
  * }}
  */
 appx.DiscourseEmbedded;
+
+/**
+ * @typedef {{
+ *   'followed_only': boolean,
+ *   'activities': Array.<string>,
+ *   'areas': Array.<appx.Area>
+ * }}
+ */
+appx.UserPreferences;

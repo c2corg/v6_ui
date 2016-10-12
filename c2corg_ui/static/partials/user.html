@@ -12,7 +12,8 @@
   </button>
   <ul class="dropdown-menu" ng-show="userCtrl.auth.isAuthenticated()">
     <li><a translate href="/account">My account</a></li>
-    <li ng-if="userCtrl.auth.isAuthenticated()" ng-click="userCtrl.logout()">
+    <li><a translate href="/preferences">My preferences</a></li>
+    <li ng-click="userCtrl.logout()">
       <a href="#">
         <span translate>Logout</span>
       </a>

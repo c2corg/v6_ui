@@ -1,0 +1,47 @@
+<%!
+from c2corg_common.attributes import activities
+%>
+<%inherit file="base.html"/>
+<%namespace file="helpers/common.html" import="show_title"/>
+<%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Filter preferences')">${show_title('Filter preferences')}</title></%block>
+<%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
+
+<div class="preferences">
+  <section app-preferences class="section">
+    <h1 translate>Filter preferences</h1>
+    <p translate>Here you may set activity and region filters that will apply to the homepage feed.</p>
+    <p translate>Only status updates with the selected activities and in the selected areas are shown in your homepage feed. Status updates from followed users will always be shown.</p>
+    <p>
+      <label>
+        <input type="checkbox" ng-model="prefCtrl.followed_only">
+        <span translate>Show only updates from followed users in the homepage feed</span>
+      </label>
+    </p>
+    <div ng-hide="prefCtrl.followed_only">
+      <h2 translate>activities</h2>
+      <div class="content collapse in">
+        <div class="route-activities">
+          <div ng-repeat="activity in ${activities}" class="activity">
+            <div>
+              <div class="icon-{{activity}}" class="icon-" ng-click="prefCtrl.updateActivities(activity)"
+                   ng-class="{'activity-selected' : prefCtrl.activities.indexOf(activity) > -1}">
+              </div>
+              <p>{{activity | translate}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h2 translate>Areas</h2>
+      <app-simple-search app-select="prefCtrl.addArea(doc)" dataset="a"></app-simple-search>
+      <section ng-show="prefCtrl.areas.length > 0" class="associated-section">
+        <article class="associated-documents">
+          <div class="list-item"
+               ng-repeat="area in prefCtrl.areas" ng-class="{'new-item': area['new']}">
+            <app-card app-card-doc="area" app-card-disable-click="true"></app-card>
+            <span class="glyphicon glyphicon-trash" ng-click="prefCtrl.removeArea(area.document_id)"></span>
+          </div>
+        </article>
+      </section>
+    </div>
+  </section>
+</div>
