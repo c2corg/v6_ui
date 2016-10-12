@@ -1,0 +1,63 @@
+<%!
+from c2corg_common.attributes import default_langs, quality_types, \
+activities, article_categories, article_types
+%>
+<%namespace file="../helpers/filters.html" import="add_multiselect"/>
+<form app-search-filters app-search-filters-controller-name="appSearchFiltersController">
+  <div class="filters">
+    <div class="row simple-filters">
+
+      <div class="filter">
+        <label translate>title</label>
+        <input type="text" class="form-control" ng-model="filtersCtrl.filters.q">
+      </div>
+
+      <div class="filter">
+        <label translate>activities</label><br>
+        ${add_multiselect('act', activities)}
+      </div>
+
+      <div class="filter">
+        <label translate>categories</label><br>
+        ${add_multiselect('acat', article_categories)}
+      </div>
+
+    </div>
+
+    <div class="row collapse" id="moreFilters">
+
+      <div class="col-xs-12 col-sm-6 filter">
+        <label translate>article_type</label><br>
+        ${add_multiselect('atyp', article_types)}
+      </div>
+
+      <div class="col-xs-12 col-sm-6 filter">
+        <label translate>document_quality</label><br>
+        <app-slider filter="qa" filters-list="filtersCtrl.filters" unit=""
+          values-list="['${"','".join(quality_types) |n}']"></app-slider>
+      </div>
+
+      <div class="col-xs-12 col-sm-6 filter">
+        <label translate>lang</label><br>
+        ${add_multiselect('l', default_langs)}
+      </div>
+
+      <div class="filters-bottom-buttons">
+        <button class="btn search-filters-btn orange-btn" data-toggle="collapse" 
+                data-target="#moreFilters" aria-expanded="false">
+          <span translate>Show results</span> ({{resCounter}})
+        </button>
+        <button class="btn blue-btn search-filters-btn" ng-click="filtersCtrl.clear()"
+                ng-show="filtersCtrl.filtersNb > 0"><span translate>Clear filters</span> ({{filtersCtrl.filtersNb}})</button>
+      </div>
+
+    </div>
+    <div class="more-filters-btn-container">
+      <button class="btn orange-btn more-filters-btn" data-toggle="collapse" data-target="#moreFilters"
+        aria-expanded="false" aria-controls="moreFilters" translate>All filters</button>
+      <button class="btn blue-btn more-filters-btn" ng-click="filtersCtrl.clear()" ng-cloak
+              ng-show="filtersCtrl.filtersNb > 0"><span translate>Clear filters</span> ({{filtersCtrl.filtersNb}})</button>
+    </div>
+
+  </div>
+</form>

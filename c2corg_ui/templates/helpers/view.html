@@ -326,15 +326,15 @@
 <%def name="get_document_description(locale, doctype)">\
   % if locale.get('summary') or locale.get('description'):
     <div class="view-details-description col-xs-12  description">
-      <h3 class="heading show-phone">
-        % if doctype == 'outing':
-          <span translate>personal comments</span>
-        % elif doctype == 'article':
-          <span></span>
-        % else:
-          <span translate>description</span>
-        % endif
+      % if not doctype == 'article':
+        <h3 class="heading show-phone">
+          % if doctype == 'outing':
+            <span translate>personal comments</span>
+          % else:
+            <span translate>description</span>
+          % endif
       </h3>
+      % endif
       <span class="lead">
         <div id="document-description" class="collapse in">
           % if locale.get('summary'):

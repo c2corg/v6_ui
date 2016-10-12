@@ -1,0 +1,38 @@
+<%inherit file="../base.html"/>
+<%namespace file="../helpers/common.html" import="show_title"/>
+<%namespace file="../helpers/list.html" import="add_doctype_selector"/>
+
+<%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Articles')">${show_title('Articles')}</title></%block>
+
+<%block name="moduleConstantsValues">
+  module.value('mapFeatureCollection', null);
+  module.value('advancedSearchFilters', {
+    'act': {'type': 'list'},
+    'cat': {'type': 'list'},
+    'atyp': {'type': 'list'},
+    'l': {'type': 'list'}
+  });
+</%block>
+
+<header class="page-main-title">
+  <h3><span translate>Articles</span>
+    <span class="badge" ng-cloak>{{resCounter}}</span>
+  </h3>
+</header>
+<section class="documents-list-section">
+  <%include file="filters.html" />
+  <div class="documents-nav-buttons text-center">
+    <button class="btn btn-default show-documents-filters-phone" translate>Filters</button>
+    <button class="btn btn-default orange-btn" protected-url-btn url="${request.route_path('articles_add')}"
+            uib-tooltip="{{'Create a new article' | translate }}" tooltip-placement="right">
+      <span class="glyphicon glyphicon-plus-sign"></span>
+    </button>
+    <app-pagination></app-pagination>
+  </div>
+  <app-advanced-search document-type="articles" use-map="false"></app-advanced-search>
+</section>
+<script>
+window.onload = function(){
+  app.stickyFilters();
+}
+</script>

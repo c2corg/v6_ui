@@ -1,0 +1,42 @@
+<%namespace file="../../helpers/view.html" import="show_attr"/>
+
+<%def name="get_article_general(article)">\
+<div class="name-icon-value general" ng-click="detailsCtrl.openTab($event)">
+  <h4>
+    <span translate>General</span><span class="glyphicon glyphicon-menu-right"></span>
+  </h4>
+  <div class="name-icon">
+    <span class="glyphicon glyphicon-info-sign"></span>
+    <p translate>General</p>
+  </div>
+  <span class="detail-text accordion">
+
+    % if article.get('activities'):
+      <article class="value activities">
+          <span translate class="value-title">activities</span><br>
+        % for type in article.get('activities') :
+          <span class="route-activity icon-${type}" uib-tooltip="{{mainCtrl.translate('${type}')}}"></span>
+        % endfor
+        </article>
+    % endif
+
+    % if article.get('categories'):
+      <article class="value activities">
+          <span translate class="value-title">article_categories</span><br>
+        % for type in article.get('categories') :
+          <span x-translate class="value">${type}</span>${'' if loop.last else ', '}
+        % endfor
+        </article>
+    % endif
+
+    % if article.get('article_type'):
+      <p><span class="value-title" translate>article_type</span>: <span class="value" x-translate>${article['article_type']}</span></p>
+    % endif
+
+    % if article.get('quality'):
+      <p><span class="value-title" translate>document_quality</span>: <span class="value" x-translate>${article['quality']}</span></p>
+    % endif
+
+    </span>
+</div>
+</%def>
