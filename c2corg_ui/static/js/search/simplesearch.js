@@ -344,7 +344,7 @@ app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
  */
 app.SimpleSearchController.prototype.createDocLabel_ = function(doc, currentLang) {
   var locale = doc.locales[0];
-  var label;
+  var label = '';
   if (doc.type === 'u') {
     return doc.name;
   }
