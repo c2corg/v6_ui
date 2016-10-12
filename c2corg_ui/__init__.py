@@ -133,6 +133,9 @@ def main(global_config, **settings):
         'areas_diff', '/areas/diff/{id:\d+}/{lang}/{v1}/{v2}')
     config.add_route('areas_preview', '/areas/preview')
 
+    config.add_route('users_view', '/users/{id:\d+}/{lang}')
+    config.add_route('users_data', '/users/data/{id:\d+}/{lang}')
+
     config.add_route('auth', '/auth')
     config.add_route('auth-sso', '/auth-sso')
 
