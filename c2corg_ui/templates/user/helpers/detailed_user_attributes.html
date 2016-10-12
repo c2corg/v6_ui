@@ -1,0 +1,25 @@
+<%def name="get_user_general(user)">\
+  <div class="name-icon-value general" ng-click="detailsCtrl.openTab($event)">
+
+    <h4><span translate>General</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+    <div class="name-icon">
+      <span class="glyphicon glyphicon-info-sign"></span>
+      <p translate>General</p>
+    </div>
+    <span class="detail-text accordion">
+
+    <article class="value activities">
+      <span translate class="value-title">activities</span><br>
+      % for activity in user.get('activities'):
+        <span class="route-activity icon-${activity}" uib-tooltip="{{mainCtrl.translate('${activity}')}}"></span>
+      % endfor
+    </article>
+
+    <article>
+      <span translate class="value-title">categories</span>
+      % for category in user.get('categories'):
+        <span class="value" x-translate>${category}</span>${'' if loop.last else ', '}
+      % endfor
+    </article>
+  </div>
+</%def>

@@ -42,5 +42,6 @@ goog.require('app.sliderDirective');
 goog.require('app.stickyFilters');
 goog.require('app.suggestionDirective');
 goog.require('app.userDirective');
+goog.require('app.userProfileDirective');
 goog.require('app.versionsDirective');
 goog.require('app.viewDetailsDirective');

@@ -298,13 +298,6 @@ app.Authentication.prototype.handle_token_renewal_ = function(now, expire) {
  */
 app.Authentication.prototype.addAuthorizationToHeaders = function(url,
     headers) {
-  if (url.indexOf(this.apiUrl_) !== 0) {
-    if (goog.DEBUG) {
-      console.log('ERROR: only requests to API may have auth headers ' + url);
-    }
-    return false;
-  }
-
   var token = this.userData ? this.userData.token : null;
   if (token && !this.isExpired_()) {
     if (goog.DEBUG && url.indexOf('http://') === 0) {
@@ -330,8 +323,15 @@ app.Authentication.prototype.addAuthorizationToHeaders = function(url,
  * @export
  */
 app.Authentication.prototype.needAuthorization = function(method, url) {
-  // External URLs do not need auth.
+
   if (url.indexOf(this.apiUrl_) === -1) {
+    // UI user data service
+    if (url.indexOf('/users/data') !== -1 && this.isAuthenticated()) {
+      // forward auth header if user is authenticated
+      return true;
+    }
+
+    // External URLs do not need auth.
     return false;
   }
   // Login and register API URLs are obviously public.
