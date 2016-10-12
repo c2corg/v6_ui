@@ -30,9 +30,8 @@ app.simpleSearchDirective = function() {
 
           var phoneScreen = app.constants.SCREEN.SMARTPHONE;
           // don't show "show more" button for this cases.
-          if ($(element).closest('app-add-association').length
-                  || $(element).closest('#participants-group').length
-                  || $(element).closest('.section.associations').length) {
+          if ($(element).closest('app-add-association, #participants-group, section.associations').length
+            || element.parent().next().hasClass('section associations')) {
             ctrl.associationContext_ = true;
           }
 
