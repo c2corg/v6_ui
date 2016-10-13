@@ -380,6 +380,36 @@ app.Api.prototype.updatePreferredLanguage = function(lang) {
 
 
 /**
+ * @param {string} type
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.readFeed = function(type) {
+  var url = '';
+
+  switch (type) {
+    case 'standard':
+      url = '/feed';
+      break;
+    case 'personal':
+      url = '/personal-feed';
+      break;
+    case 'profile':
+      url = '/profile-feed';
+      break;
+    default:
+      break;
+  }
+
+  var promise = this.getJson_(url + '?' + $.param({'token': token, 'u': userId}));
+  promise.catch(function(response) {
+    var msg = this.alerts_.gettext('Getting feed data failed:');
+    this.alerts_.addErrorWithMsg(msg, response);
+  }.bind(this));
+  return promise;
+};
+
+
+/**
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.readAccount = function() {

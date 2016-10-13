@@ -339,7 +339,9 @@ app.Authentication.prototype.needAuthorization = function(method, url) {
       url.indexOf('/users/register') !== -1) {
     return false;
   }
-
+  if (url.indexOf('/personal-feed') !== -1) {
+    return true;
+  }
   if (url.indexOf('/users/account') !== -1 ||
       url.indexOf('/users/preferences') !== -1) {
     return true;
