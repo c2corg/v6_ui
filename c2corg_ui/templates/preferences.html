@@ -7,41 +7,47 @@ from c2corg_common.attributes import activities
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
 
 <div class="preferences">
-  <section app-preferences class="section">
-    <h1 translate>Filter preferences</h1>
-    <p translate>Here you may set activity and region filters that will apply to the homepage feed.</p>
-    <p translate>Only status updates with the selected activities and in the selected areas are shown in your homepage feed. Status updates from followed users will always be shown.</p>
-    <p>
+  <section app-preferences>
+    <div class="preferences-filter">
+      <h3 class="green-text" translate>Filter preferences</h3>
+      <p translate>Here you may set activity and region filters that will apply to the homepage feed.</p>
+      <p translate>Only status updates with the selected activities and in the selected areas are shown in your homepage feed. Status updates from followed users will always be shown.</p>
+    </div>
+
+    <p class="followed-only">
       <label>
         <input type="checkbox" ng-model="prefCtrl.followed_only">
         <span translate>Show only updates from followed users in the homepage feed</span>
       </label>
     </p>
-    <div ng-hide="prefCtrl.followed_only">
-      <h2 translate>activities</h2>
-      <div class="content collapse in">
-        <div class="route-activities">
-          <div ng-repeat="activity in ${activities}" class="activity">
-            <div>
-              <div class="icon-{{activity}}" class="icon-" ng-click="prefCtrl.updateActivities(activity)"
-                   ng-class="{'activity-selected' : prefCtrl.activities.indexOf(activity) > -1}">
-              </div>
-              <p>{{activity | translate}}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <h2 translate>Areas</h2>
-      <app-simple-search app-select="prefCtrl.addArea(doc)" dataset="a"></app-simple-search>
-      <section ng-show="prefCtrl.areas.length > 0" class="associated-section">
-        <article class="associated-documents">
-          <div class="list-item"
-               ng-repeat="area in prefCtrl.areas" ng-class="{'new-item': area['new']}">
+
+    <div ng-hide="prefCtrl.followed_only" class="section preferences-act-areas">
+
+      <div class="preferences-areas">
+        <h3 translate class="green-text">Areas</h3>
+        <app-simple-search app-select="prefCtrl.addArea(doc)" dataset="a"></app-simple-search>
+        <p translate ng-show="prefCtrl.areas.length == 0">Select the region of your interest by typing in the fied.</p>
+        <div class="flex wrap-row areas" ng-show="prefCtrl.areas.length > 0">
+          <div class="list-item new-item"
+               ng-repeat="area in prefCtrl.areas">
             <app-card app-card-doc="area" app-card-disable-click="true"></app-card>
             <span class="glyphicon glyphicon-trash" ng-click="prefCtrl.removeArea(area.document_id)"></span>
           </div>
-        </article>
-      </section>
+        </div>
+      </div>
+
+      <div class="preferences-activities section associations ">
+        <h3 class="green-text text-left" translate>activities</h3>
+        <div class="route-activities flex wrap-row">
+          <div ng-repeat="activity in ${activities}" class="activity">
+            <div class="route-activity icon-{{activity}}" class="icon-" ng-click="prefCtrl.updateActivities(activity)"
+                 ng-class="{'activity-selected' : prefCtrl.activities.indexOf(activity) > -1}">
+            </div>
+            <p>{{activity | translate}}</p>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 </div>

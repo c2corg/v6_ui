@@ -323,6 +323,7 @@ main {
   margin-top: 10px;
   outline: none;
   border-radius: 7px;
+  min-height: 80px;
   -moz-border-radius: 7px;
   -webkit-border-radius: 7px;
   transition: .2s ease-in-out;
@@ -817,21 +818,13 @@ app-simple-search {
   z-index: 2;
   width: 80px;
 
-  @media @phone {
+  @media (max-width: 1099px){
     position: fixed;
     display: block;
-    top: 6px;
-  }
-  @media @tablet {
-    display: block;
-    margin-top: 4px;
+    top: 4px;
   }
   img {
     height: 39px;
-
-    @media @phone {
-      height: 37px;
-    }
   }
 }
 
@@ -916,15 +909,19 @@ app-alerts {
 .auth-form, .preferences {
   padding: 0 10% 0 10%;
   margin-top: 100px;
+  margin-bottom: 20px;
+  height: 89vh;
 
   section {
     background-color: white;
-    padding-top: 0.01%;
-    padding-left: 5%;
-    padding-right: 5%;
-    padding-bottom: 6%;
+    padding: 1% 5% 6% 5%;
     border: 1px solid #eee;
     border-radius: 5px;
+  }
+
+  @media @phone {
+    margin-top: 70px;
+    padding: 0 3% 0 3%;
   }
 }
 
@@ -1150,7 +1147,7 @@ ul {
   top: calc(~"100% - 30px");
 }
 
-#route-activities, #outing-activities, #image-activities, .preferences {
+#route-activities, #outing-activities, #image-activities {
   .route-activities {
     .flex();
     flex-flow: wrap;
@@ -1192,8 +1189,49 @@ ul {
 }
 
 .preferences {
-  h1, h2, p {
-    text-align: center;
-    margin-bottom: 20px;
+
+  h3 {
+    margin: 15px 0;
+  }
+  .followed-only {
+    margin-top: 15px;
+    span {
+      font-size: 1em;
+      font-weight: normal;
+    }
+  }
+  .preferences-activities .route-activity {
+    font-size: 5em;
+    margin-bottom: 10px;
+    @media @big {
+      font-size: 7em;
+    }
+  }
+  .preferences-activities, .preferences-areas {
+    border-top: 1px solid rgba(221, 221, 221, 0.5);
+    margin-top: 30px;
+  }
+  .areas .list-item {
+    flex-basis: 33%;
+    margin-right: 10px;
+  }
+  app-simple-search {
+    width: 50%;
+    margin-bottom: 10px;
+
+    .search {
+      width: 100% !important;
+    }
+  }
+  @media @phone {
+    app-simple-search {
+      width: 100%;
+    }
+    .list-item {
+      flex-basis: 100% !important;
+    }
+    .route-activity {
+      font-size: 4em;
+    }
   }
 }
