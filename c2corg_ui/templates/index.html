@@ -37,14 +37,52 @@ from c2corg_common.attributes import activities
 
     </div>
   </section>
-  <section ng-class="{'show': userCtrl.auth.isAuthenticated()}" class="site-intro">
-    <div class="intro-banner">
-      <h1 class="welcome-title text-center" translate>Activity feed</h1>
-    </div>
-  </section>
 
   <div class="feed">
-    <button class="btn orange-btn" id="add-my-outing" protected-url-btn url="${request.route_path('outings_add')}"><span class="glyphicon glyphicon-plus-sign"></span><span translate>add an outing</span></button>
-    <app-advanced-search document-type="outings" use-map="false"></app-advanced-search>
+    <div class="feed-title flex flexend-align" ng-show="!feedCtrl.busy">
+      <span class="icon-news"></span>
+      <h3 translate>Activity feed</h3>
+    </div>
+
+    <div app-feed location="home">
+      <h4 class="text-success text-center" translate ng-show="feedCtrl.busy">Loading feed, please wait...</h4>
+      <div class="feed-list" ng-show="feedCtrl.documents.length > 0"
+           infinite-scroll="feedCtrl.getDocumentsFromFeed()"
+           infinite-scroll-immediate-check="false"
+           infinite-scroll-disabled="feedCtrl.busy">
+
+        <article class="feed-list-item" protected-url-btn url="${request.route_path('outings_add')}">
+          <div class="timeline-bullet icon-outings"></div>
+          <div class="list-item vertical-align">
+            <button class="orange-btn btn">add an outing</button>
+          </div>
+        </article>
+
+        <article class="feed-list-item" ng-repeat="doc in feedCtrl.documents"
+                 ng-init="type = feedCtrl.documentType(doc.document.type);">
+
+          <div class="timeline-bullet icon-{{type}}s"></div>
+
+          <p class="action-line">
+            <span class="action" ng-cloak>
+              <b><a ng-href="todo">{{doc['user']['username']}}</a></b>
+              <span ng-bind-html="feedCtrl.createActionLine(doc)"></span>
+              <b translate>{{type}}</b>
+            </span>
+            <br>
+            <span class="action date">
+              <span class=" glyphicon glyphicon-time"></span>
+              <span am-time-ago="doc.time"></span>
+            </span>
+          </p>
+
+          <div class="list-item">
+            <app-card app-card-doc="doc['document']" class="{{type}}"></app-card>
+          </div>
+        </article>
+        <h4 class="text-success text-center" translate ng-show="feedCtrl.busy">Loading feed, please wait...</h4>
+      </div>
+
+    </div>
   </div>
 </div>
