@@ -383,7 +383,7 @@ app.ImageUploaderController.prototype.getImageMetadata_ = function(file) {
     if (exif) {
       angular.extend(file['metadata'], exif.getAll());
       if (file['metadata']['GPSLatitude']) {
-        this.setGeolocation_(file);
+        this.getGeolocation_(file);
       }
       return;
     }
@@ -395,7 +395,7 @@ app.ImageUploaderController.prototype.getImageMetadata_ = function(file) {
  * @param {File} file
  * @private
  */
-app.ImageUploaderController.prototype.setGeolocation_ = function(file) {
+app.ImageUploaderController.prototype.getGeolocation_ = function(file) {
   var lat = file['metadata']['GPSLatitude'].split(',');
   var lon = file['metadata']['GPSLongitude'].split(',');
   lat = app.utils.convertDMSToDecimal(lat[0], lat[1], lat[2], file['metadata']['GPSLatitudeRef']);
