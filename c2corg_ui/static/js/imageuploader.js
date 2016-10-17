@@ -234,7 +234,9 @@ app.ImageUploaderController.prototype.uploadFile_ = function(file) {
       'id': file['name'] + '-' + new Date().toISOString(),
       'activities': [],
       'categories': [],
-      'image_type': this.image_type_
+      'image_type': this.image_type_,
+      'elevation': null,
+      'geometry': {}
     }
   });
   this.getImageMetadata_(file);
@@ -380,17 +382,29 @@ app.ImageUploaderController.prototype.getImageMetadata_ = function(file) {
     var exif = data.exif;
     if (exif) {
       angular.extend(file['metadata'], exif.getAll());
+      if (file['metadata']['GPSLatitude']) {
+        this.setGeolocation_(file);
+      }
       return;
     }
-  });
+  }.bind(this));
 };
 
 
 /**
- * @export
+ * @param {File} file
+ * @private
  */
-app.ImageUploaderController.prototype.addGeoinfo = function(doc, file) {
-  file['metadata']['geo'] = doc;
+app.ImageUploaderController.prototype.setGeolocation_ = function(file) {
+  var lat = file['metadata']['GPSLatitude'].split(',');
+  var lon = file['metadata']['GPSLongitude'].split(',');
+  lat = app.utils.convertDMSToDecimal(lat[0], lat[1], lat[2], file['metadata']['GPSLatitudeRef']);
+  lon = app.utils.convertDMSToDecimal(lon[0], lon[1], lon[2], file['metadata']['GPSLongitudeRef']);
+  var lonLat = ol.proj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857');
+  var geom = {'coordinates': lonLat, 'type': 'Point'};
+
+  file['metadata']['geometry'] = {'geom': JSON.stringify(geom)};
+  file['metadata']['elevation'] = parseFloat(file['metadata']['GPSAltitude']);
 };
 
 

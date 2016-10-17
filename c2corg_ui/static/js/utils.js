@@ -213,11 +213,28 @@ app.utils.detectDocumentIdFilter = function(ngeoLocation) {
 app.utils.redirectToLogin = function(authUrl) {
   var location = window.location;
   var current_url = location.pathname + location.search + location.hash;
-  if (location.pathname == '/auth') {
+  if (location.pathname === '/auth') {
     // do not redirect to the 'auth' page
     current_url = '/';
   }
   location.href = '{login}#to={current}'
       .replace('{login}', authUrl)
       .replace('{current}', encodeURIComponent(current_url));
+};
+
+
+/**
+ * @param {number} degrees
+ * @param {number} minutes
+ * @param {number} seconds
+ * @param {string} direction
+ * @return {number} decimal
+ */
+app.utils.convertDMSToDecimal = function(degrees, minutes, seconds, direction) {
+  var decimal = Number(degrees) + (Number(minutes) / 60) + (parseFloat(seconds) / 3600);
+  // Don't do anything for N or E
+  if (direction === 'S' || direction === 'W') {
+    decimal = decimal * -1;
+  }
+  return decimal;
 };
