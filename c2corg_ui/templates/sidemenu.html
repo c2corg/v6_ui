@@ -33,8 +33,8 @@
         <span class="menu-text" translate>Accident database</span>
       </a>
     </li>
-    <li class="main-menu" ng-class="{'menu-selected': mainCtrl.isPath('Articles')}">
-      <a>
+    <li class="main-menu" ng-class="{'menu-selected': mainCtrl.isPath('articles')}">
+      <a href="${request.route_url('articles_index')}">
         <i class="glyphicon glyphicon-info-sign" tooltip-placement="right" uib-tooltip="{{'Articles' | translate}}"></i>
         <span class="menu-text" translate>Articles</span>
       </a>

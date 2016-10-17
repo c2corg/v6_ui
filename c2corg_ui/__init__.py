@@ -90,6 +90,21 @@ def main(global_config, **settings):
         'outings_diff', '/outings/diff/{id:\d+}/{lang}/{v1}/{v2}')
     config.add_route('outings_preview', '/outings/preview')
 
+    config.add_route('articles_index', '/articles')
+    config.add_route('articles_sitemap_default', '/articles/sitemap')
+    config.add_route('articles_sitemap', '/articles/sitemap*filters')
+    config.add_route('articles_add', '/articles/add')
+    config.add_route('articles_edit', '/articles/edit/{id:\d+}/{lang}')
+    config.add_route('articles_history', '/articles/history/{id:\d+}/{lang}')
+    config.add_route('articles_archive',
+                     '/articles/{id:\d+}/{lang}/{version:\d+}')
+    config.add_route('articles_view', '/articles/{id:\d+}/{lang}/{slug}')
+    config.add_route('articles_view_id_lang', '/articles/{id:\d+}/{lang}')
+    config.add_route('articles_view_id', '/articles/{id:\d+}')
+    config.add_route(
+        'articles_diff', '/articles/diff/{id:\d+}/{lang}/{v1}/{v2}')
+    config.add_route('articles_preview', '/articles/preview')
+
     config.add_route('images_index', '/images')
     config.add_route('images_sitemap_default', '/images/sitemap')
     config.add_route('images_sitemap', '/images/sitemap*filters')

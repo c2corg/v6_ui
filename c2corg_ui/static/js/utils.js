@@ -16,6 +16,8 @@ app.utils.getDoctype = function(type) {
       return 'outings';
     case 'u':
       return 'users';
+    case 'c':
+      return 'articles';
     case 'i':
       return 'images';
     case 'a':

@@ -1,0 +1,156 @@
+<%!
+from c2corg_common.attributes import default_langs, quality_types, activities, article_categories, article_types
+%>
+<%inherit file="../base.html"/>
+<%
+  updating_doc = article_id and article_lang
+%>
+<%namespace file="../helpers/common.html" import="show_title"/>
+<%namespace file="../helpers/edit.html" import="show_preview_container, show_editing_buttons"/>
+
+<%block name="pagetitle"><title ng-init="id = ${article_id if article_id else 0}" ng-bind="id ? mainCtrl.page_title('Editing an article') : mainCtrl.page_title('Creating an article')">${show_title('Create/edit article')}</title></%block>
+<%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
+
+<section class="create-edit-document">
+
+  <h1 ng-init="id = ${article_id if article_id else 0}" class="text-center">
+    <label class="label label-primary" ng-bind="id ? ('Editing an article' | translate) : ('Creating an article' | translate)"></label>
+  </h1>
+
+  <form app-loading app-document-editing="articles" app-document-editing-model="article"
+    app-document-editing-controller-name="appDocumentEditingController"
+  % if updating_doc:
+    app-document-editing-id="${article_id}" app-document-editing-lang="${article_lang}"
+  % endif
+    class="document-editing" name="editForm" novalidate ng-submit="editCtrl.submitForm(editForm.$valid)">
+
+    <section class="editing">
+
+      <div class="step step-1">
+        <section class="section">
+          <h2 class="heading show-phone" translate>general informations</h2>
+          <div class="content">
+
+            ## TITLE
+            <div id="title-group" class="form-group" ng-class="{ 'has-error': editForm.title.$touched && editForm.title.$invalid, 'has-success': editForm.title.$valid }">
+              <label><span translate>title</span> *</label>
+              <input type="text" name="title" ng-model="article.locales[0].title" ng-minlength="3" class="form-control" required />
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.title.$valid"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.title.$invalid && editForm.title.$touched"></span>
+              <div class="help-block" ng-messages="editForm.title.$error">
+                <p ng-message="required" class="label label-danger" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : '' }}" translate>This field is required.</p>
+                <p ng-message="minlength" class="label label-danger" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : '' }}" translate>Title must have at least 3 characters.</p>
+              </div>
+            </div>
+
+            ## LANGUAGE
+            <div id="lang-group" class="form-group" ng-class="{ 'has-error': editForm.lang.$touched && editForm.lang.$invalid, 'has-success': editForm.lang.$valid}">
+              <label><span translate>lang</span> *</label>
+              % if article_lang:
+                <input disabled class="form-control" value="{{mainCtrl.translate('${article_lang}')}}">
+              % else:
+              <select name="lang" ng-options="lang as mainCtrl.translate(lang) for lang in ['${"','".join(default_langs) |n}'] | translate" ng-model="article.locales[0].lang" class="form-control" required><option value=""></option></select>
+              % endif
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="article.locales[0].lang"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.lang.$touched && editForm.lang.$invalid"></span>
+              <div class="help-block" ng-messages="editForm.lang.$error">
+                <p ng-message="required" class="label label-danger" style="{{ (editForm.lang.$invalid && editForm.lang.$touched) ? 'display:inline' : '' }}" translate>This field is required.</p>
+              </div>
+            </div>
+
+            <section class="section">
+
+              ## ACTIVITIES
+              <div class="form-group data full" id="route-activities" ng-init="activities = ${activities}"
+                   ng-class="{ 'has-error': editForm.activities.$touched && editForm.activities.$invalid, 'has-success': editForm.activities.$valid }">
+                <label><span translate>activities</span> *</label>
+                <div class="route-activities">
+                  <div ng-repeat="activity in activities" class="activity">
+                    <div>
+                      <div class="icon-{{activity}}" class="icon-" ng-click="editCtrl.pushToArray(article, 'activities', activity, $event)"
+                           ng-class="{'activity-selected' : article.activities.indexOf(activity) > -1}">
+                      </div>
+                      <p>{{activity | translate}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </section>
+
+            <div class="form-group half half-group">
+
+              <div ng-class="{ 'has-success': article.article_type}">
+                {{article.article_type}}
+                <label><span translate>article_type</span> *</label>
+                % if updating_doc:
+                  <select ng-if="userCtrl.auth.isModerator()" class="form-control" ng-model="article.article_type"
+                          ng-options="type as mainCtrl.translate(type) for type in ${article_types}" ><option value=""></option></select>
+                  <select ng-if="userCtrl.auth.isModerator() == false && article.article_type =='collab'"
+                          class="form-control" ng-model="article.article_type"
+                          ng-options="type as mainCtrl.translate(type) for type in ${article_types} | filter: 'collab'" ><option value=""></option>
+                  </select>
+                  <select ng-if="userCtrl.auth.isModerator() == false && article.article_type =='personal'"
+                          class="form-control" ng-model="article.article_type"
+                          ng-options="type as mainCtrl.translate(type) for type in ${article_types}" ><option value=""></option>
+                  </select>
+                % else:
+                  <select class="form-control" ng-model="article.article_type" ng-options="type as mainCtrl.translate(type) for type in ${article_types} " ><option value=""></option></select>
+                % endif
+                  <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="article.article_type"></span>
+              </div>
+
+              ## ARTICLE CATEGORIES
+              <div ng-class="{'has-success': article.article_categories}" ng-init="articleCategories = ${article_categories}">
+                <label><span translate>article_categories</span> *</label>
+                <select ng-options="type as mainCtrl.translate(type) for type in articleCategories" ng-model="article.article_categories" class="form-control"><option value=""></option></select>
+                <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="article.article_categories"></span>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <h2 class="heading show-phone" translate>description</h2>
+          <div class="content">
+
+            ## SUMMARY
+            <div id="summary-group" class="form-group full">
+              <label translate>summary</label>
+              <textarea name="summary" ng-model="article.locales[0].summary" class="form-control"></textarea>
+            </div>
+
+            ## DESCRIPTION
+            <div id="description-group" class="form-group full">
+              <label translate>article body</label>
+              <textarea name="description" ng-model="article.locales[0].description" class="form-control description"></textarea>
+            </div>
+
+            ## QUALITY
+            <div class="half" ng-class="{'has-success': article.quality}" ng-init="qualityTypes = ${quality_types}">
+              ## I tried with ng-init, ng-selected..so hacking
+              <div class="ng-hide">{{article.quality = article.quality || qualityTypes[1]}}</div>
+              <label translate>quality</label>
+              <select ng-options="type as mainCtrl.translate(type) for type in qualityTypes" ng-model="article.quality" class="form-control"><option value=""></option></select>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="article.quality"></span>
+            </div>
+
+            % if updating_doc:
+            <div id="message-group" class="full">
+              <label translate>Comment about the changes</label>
+              <input type="text" name="message" ng-model="route.message" class="form-control" placeholder="{{'Short description of the applied changes' | translate}}" />
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.message"></span>
+            </div>
+            % endif
+
+          </div>
+        </section>
+
+      ${show_editing_buttons('article', updating_doc, article_id, article_lang)}
+
+    </section>
+  </form>
+</section>
+
+${show_preview_container()}

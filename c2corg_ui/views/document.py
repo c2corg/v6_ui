@@ -366,9 +366,9 @@ class Document(object):
                 'version1': version1,
                 'version2': version2,
                 'geometry1': doc_v1['geometry']['geom']
-                if doc_v1['geometry'] else None,
+                if 'geometry' in doc_v1 and doc_v1['geometry'] else None,
                 'geometry2': doc_v2['geometry']['geom']
-                if doc_v2['geometry'] else None,
+                if 'geometry' in doc_v2 and doc_v2['geometry'] else None,
                 'previous_version_id': content1['previous_version_id'],
                 'next_version_id': content2['next_version_id']
             })

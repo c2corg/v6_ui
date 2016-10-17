@@ -39,6 +39,7 @@ app.Document = function(appAuthentication, $rootScope) {
       'all_routes': {'total': 0, 'documents': []},
       'users': [],
       'recent_outings': {'total': 0, 'documents': []},
+      'articles': [],
       'images': [],
       'areas': []
     },
