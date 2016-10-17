@@ -538,17 +538,6 @@ app.DocumentEditingController.prototype.toggleOrientation = function(orientation
  * @export
  */
 app.DocumentEditingController.prototype.preview = function() {
-  var template = $('#preview-container').clone();
-  this.modal_.open({
-    animation: true,
-    template: this.compile_(template)(this.scope),
-    controller: 'appPreviewModalController',
-    controllerAs: 'previewModalCtrl',
-    size: 'xl'
-  });
-
-  // TODO: loading indicator?
-
   var config = {
     headers: {
       'Content-Type': 'application/json; charset=UTF-8',
@@ -559,12 +548,22 @@ app.DocumentEditingController.prototype.preview = function() {
   var payload = {
     'document': angular.copy(this.scope[this.modelName])
   };
+  // TODO: loading indicator?
   this.http_.post(url, payload, config).
     catch(function(response) {
       this.alerts.addError('A server error prevented creating the preview');
     }.bind(this)).
     then(function(response) {
-      $('#preview-container-content').html(response['data']);
+      var template = angular.element('#preview-container').clone();
+      template.find('#preview-container-content').append(response['data']);
+
+      this.modal_.open({
+        animation: true,
+        template: this.compile_(template)(this.scope),
+        controller: 'appPreviewModalController',
+        controllerAs: 'previewModalCtrl',
+        size: 'xl'
+      });
     }.bind(this));
 };
 
