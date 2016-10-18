@@ -54,12 +54,14 @@ app.Document = function(appAuthentication, $rootScope) {
    *  routes: Array<number>,
    *  waypoints: Array<number>,
    *  users: Array<number>,
-   *  images: Array<number>
+   *  images: Array<number>,
+   *  areas: Array<number>,
+   *  articles: Array<number>
    * }}
    * @private
    */
   this.associationsIds_ = {
-    'routes': [], 'waypoints': [], 'images': [], 'users': [], 'areas': []
+    'routes': [], 'waypoints': [], 'images': [], 'users': [], 'areas': [], 'articles': []
   };
 };
 
@@ -186,6 +188,8 @@ app.Document.prototype.isCollaborative = function(type) {
     return this.auth_.hasEditRights(type, this.document.associations['users']);
   } else if (type === 'images') {
     return this.document['image_type'] === 'collaborative';
+  } else if (type === 'articles') {
+    return this.document['article_type'] === 'collaborative';
   }
   return true;
 };
