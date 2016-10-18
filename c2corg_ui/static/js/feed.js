@@ -2,7 +2,6 @@ goog.provide('app.FeedController');
 goog.provide('app.feedDirective');
 
 goog.require('app');
-goog.require('app.Alerts');
 goog.require('app.Api');
 goog.require('app.Authentication');
 goog.require('app.utils');
@@ -14,7 +13,10 @@ goog.require('app.utils');
 app.feedDirective = function() {
   return {
     restrict: 'A',
-    controller: 'appFeedController as feedCtrl'
+    controller: 'appFeedController as feedCtrl',
+    bindToController: {
+      'isProfile' : '=appFeedProfile'
+    }
   };
 };
 app.module.directive('appFeed', app.feedDirective);
@@ -24,28 +26,20 @@ app.module.directive('appFeed', app.feedDirective);
  * @param {angular.Scope} $scope Scope.
  * @param {angular.Attributes} $attrs Attributes.
  * @param {app.Authentication} appAuthentication
- * @param {app.Alerts} appAlerts
  * @param {app.Api} appApi Api service.
- * @param {string} authUrl Base URL of the authentication page.
- * @param {angular.$sce} $sce Angular Strict Contextual Escaping
+ * @param {app.Lang} appLang Lang service.
  * @constructor
  * @ngInject
  * @export
+ * @struct
  */
-app.FeedController = function($scope, $attrs, appAuthentication, appAlerts,
-    appApi, authUrl, $sce) {
+app.FeedController = function($scope, $attrs, appAuthentication, appApi, appLang) {
 
   /**
    * @type {angular.Scope}
    * @private
    */
   this.scope_ = $scope;
-
-  /**
-   * @type {app.Alerts}
-   * @private
-   */
-  this.alerts_ = appAlerts;
 
   /**
    * @type {app.Api}
@@ -60,16 +54,10 @@ app.FeedController = function($scope, $attrs, appAuthentication, appAlerts,
   this.auth_ = appAuthentication;
 
   /**
-   * @type {angular.$sce} $sce Angular Strict Contextual Escaping
+   * @type {app.Lang}
    * @private
    */
-  this.sce_ = $sce;
-
-  /**
-   * @type {string}
-   * @private
-   */
-  this.location_ = $attrs['location'];
+  this.lang_ = appLang;
 
   /**
    * @type {Array<Object>}
@@ -90,39 +78,47 @@ app.FeedController = function($scope, $attrs, appAuthentication, appAlerts,
   this.busy = true;
 
   /**
-   * @type {string}
-   * @private
+   * @type {boolean}
+   * @export
    */
-  this.feedType_;
+  this.error = false;
 
-  switch (this.location_) {
-    case 'home':
-      this.feedType_ = this.auth_.isAuthenticated() ? 'personal' : 'standard';
-      break;
-    case 'user-profile':
-      this.feedType_ = 'profile';
-      break;
-    default:
-      break;
-  }
+  /**
+   * set in the directive's template
+   * @type {boolean}
+   * @export
+   */
+  this.isProfile;
 
   this.getDocumentsFromFeed();
 };
 
 
 /**
+ * Fills the feed with documents.
+ * Used by ng-infinite-scroll directive in the template.
  * @export
  */
 app.FeedController.prototype.getDocumentsFromFeed = function() {
   this.busy = true;
-  this.api_.readFeed(this.feedType_, this.nextToken_).then(function(response) {
+  this.api_.readFeed(this.nextToken_, this.lang_.getLang(), this.isProfile).then(function(response) {
     var data = response['data']['feed'];
+    var token = response['data']['pagination_token'];
     for (var i = 0; i < data.length; i++) {
       this.documents.push(data[i]);
     }
-    this.nextToken_ = response['data']['pagination_token'];
+    this.error = false;
+
+    if (token) {
+      this.nextToken_ = token;
+      this.busy = false;
+    } else {  // if no token = reached the end of the feed - disable scroll
+      this.busy = true;
+    }
+
+  }.bind(this), function() { // Error msg is shown in the api service
     this.busy = false;
-    data = [];
+    this.error = true;
   }.bind(this));
 };
 
@@ -138,15 +134,15 @@ app.FeedController.prototype.createActionLine = function(doc) {
 
   switch (doc['change_type']) {
     case 'created':
-      line += ' <span>has created a new</span> ';
+      line += 'has created a new ';
       break;
     case 'updated':
-      line += ' <span>has updated the</span> ';
+      line += 'has updated the ';
       break;
     default:
       break;
   }
-  return this.sce_.trustAsHtml(line);
+  return line + this.documentType(doc['document']['type']);
 };
 
 /**

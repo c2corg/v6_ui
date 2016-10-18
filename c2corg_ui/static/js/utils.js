@@ -6,7 +6,6 @@ goog.provide('app.utils');
  * @return {string} Full document type name.
  */
 app.utils.getDoctype = function(type) {
-  console.log(type)
   // TODO add other types
   switch (type) {
     case 'w':

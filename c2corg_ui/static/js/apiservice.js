@@ -387,32 +387,26 @@ app.Api.prototype.updatePreferredLanguage = function(lang) {
 
 
 /**
- * @param {string} type
  * @param {undefined | string} token
+ * @param {string} lang
+ * @param {boolean} isProfile
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
-app.Api.prototype.readFeed = function(type, token) {
-  var url = '';
-  var userId;
+app.Api.prototype.readFeed = function(token, lang, isProfile) {
+  var url;
+  var params = {'pl': lang};
+  if (token) params['token'] = token;
 
-  switch (type) {
-    case 'standard':
-      url = '/feed';
-      break;
-    case 'personal':
-      url = '/personal-feed';
-      userId = this.auth_.userData.id;
-      break;
-    case 'profile':
-      url = '/profile-feed';
-      break;
-    default:
-      break;
+  if (isProfile) {
+    url = '/user-profile';
+    params['u'] = this.auth_.userData.id;
+  } else if (this.auth_.isAuthenticated()) {
+    url = '/personal-feed';
+  } else {
+    url = '/feed';
   }
-  url += userId ? '&u=' + userId : '';
-  url += token ?  '?token=' + token  : '';
 
-  var promise = this.getJson_(url + '?' + $.param({'token': token, 'u': userId}));
+  var promise = this.getJson_(url + '?' + $.param(params));
   promise.catch(function(response) {
     var msg = this.alerts_.gettext('Getting feed data failed:');
     this.alerts_.addErrorWithMsg(msg, response);
