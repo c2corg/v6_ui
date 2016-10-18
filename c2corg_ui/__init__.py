@@ -134,6 +134,7 @@ def main(global_config, **settings):
     config.add_route('areas_preview', '/areas/preview')
 
     config.add_route('users_view', '/users/{id:\d+}/{lang}')
+    config.add_route('users_view_id', '/users/{id:\d+}')
     config.add_route('users_data', '/users/data/{id:\d+}/{lang}')
 
     config.add_route('auth', '/auth')

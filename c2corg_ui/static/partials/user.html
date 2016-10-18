@@ -11,6 +11,7 @@
     <span class="caret"></span>
   </button>
   <ul class="dropdown-menu" ng-show="userCtrl.auth.isAuthenticated()">
+    <li><a translate ng-href="/users/{{userCtrl.auth.userData.id}}">My profile</a></li>
     <li><a translate href="/account">My account</a></li>
     <li><a translate href="/preferences">My preferences</a></li>
     <li ng-click="userCtrl.logout()">
