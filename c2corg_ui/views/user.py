@@ -22,6 +22,11 @@ class User(Document):
         })
         return self.template_input
 
+    @view_config(route_name='users_view_id')
+    def redirect_to_full_url(self):
+        self._redirect_to_full_url()
+
+
     @view_config(route_name='users_data',
                  renderer='c2corg_ui:templates/user/data.html')
     def data(self):
