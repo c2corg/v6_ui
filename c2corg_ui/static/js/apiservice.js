@@ -10,11 +10,12 @@ goog.require('app');
  * @param {angular.$http} $http
  * @param {app.Alerts} appAlerts The Alerts service
  * @param {angular.$q} $q
+ * @param {app.Authentication} appAuthentication
  * @constructor
  * @struct
  * @ngInject
  */
-app.Api = function(apiUrl, imageBackendUrl, $http, appAlerts, $q) {
+app.Api = function(apiUrl, imageBackendUrl, $http, appAlerts, $q, appAuthentication) {
 
   /**
    * @type {string}
@@ -45,6 +46,12 @@ app.Api = function(apiUrl, imageBackendUrl, $http, appAlerts, $q) {
    * @type {app.Alerts}
    */
   this.alerts_ = appAlerts;
+
+  /**
+   * @type {app.Authentication}
+   * @private
+   */
+  this.auth_ = appAuthentication;
 };
 
 
@@ -381,10 +388,12 @@ app.Api.prototype.updatePreferredLanguage = function(lang) {
 
 /**
  * @param {string} type
+ * @param {undefined | string} token
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
-app.Api.prototype.readFeed = function(type) {
+app.Api.prototype.readFeed = function(type, token) {
   var url = '';
+  var userId;
 
   switch (type) {
     case 'standard':
@@ -392,6 +401,7 @@ app.Api.prototype.readFeed = function(type) {
       break;
     case 'personal':
       url = '/personal-feed';
+      userId = this.auth_.userData.id;
       break;
     case 'profile':
       url = '/profile-feed';
@@ -399,6 +409,8 @@ app.Api.prototype.readFeed = function(type) {
     default:
       break;
   }
+  url += userId ? '&u=' + userId : '';
+  url += token ?  '?token=' + token  : '';
 
   var promise = this.getJson_(url + '?' + $.param({'token': token, 'u': userId}));
   promise.catch(function(response) {

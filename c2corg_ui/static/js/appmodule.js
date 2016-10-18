@@ -20,5 +20,6 @@ app.module = angular.module('app', [
   'angularMoment',
   'ngFileUpload',
   'slug',
-  'vcRecaptcha'
+  'vcRecaptcha',
+  'infinite-scroll'
 ]);
