@@ -134,7 +134,7 @@ less: c2corg_ui/static/build/build.min.css c2corg_ui/static/build/build.css c2co
 
 .PHONY: serve
 serve: install build development.ini
-	.build/venv/bin/gunicorn --paste development.ini --reload
+	.build/venv/bin/pserve development.ini --reload
 
 .PHONY: update-node-modules
 update-node-modules:
