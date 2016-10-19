@@ -485,7 +485,8 @@ app.Api.prototype.createImages = function(files, document) {
     image['focal_legth'] = meta['FocalLengthIn35mmFilm'];
     image['fnumber'] = meta['FNumber'];
     image['camera_name'] = (meta['Make'] && meta['Model']) ? (meta['Make'] + ' ' + meta['Model']) : null;
-
+    image['elevation'] = meta['elevation'];
+    image['geometry'] = meta['geometry'];
     images.push(image);
   }
 

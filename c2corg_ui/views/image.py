@@ -40,6 +40,7 @@ class Image(Document):
                 'lang': lang,
                 'image': image,
                 'locale': locale,
+                'geometry': self._get_geometry(image['geometry']['geom']),
                 'version': None
             })
 
@@ -61,6 +62,7 @@ class Image(Document):
                 'lang': lang,
                 'image': image,
                 'locale': locale,
+                'geometry': self._get_geometry(image['geometry']['geom']),
                 'version': version
             })
 

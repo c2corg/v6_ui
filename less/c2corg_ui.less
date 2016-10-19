@@ -819,9 +819,11 @@ app-simple-search {
   width: 80px;
 
   @media (max-width: 1099px){
-    position: fixed;
     display: block;
     top: 4px;
+  }
+  @media (max-width: @phone-max) {
+    position: fixed;
   }
   img {
     height: 39px;

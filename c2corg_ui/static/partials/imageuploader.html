@@ -35,17 +35,6 @@
         <input type="text" class="form-control" ng-model="file.metadata.title" placeholder="{{'title' | translate}}" ng-change="uplCtrl.rename(file, file.metadata.title)">
 
         <div class="image-attributes btn-group" ng-show="file['processed']">
-          <!-- GEOLOCATION-->
-          <div class="btn-group">
-            <button class="btn btn-default dropdown-toggle" ng-class="{'btn-success': file.metadata.geo}" type="button" data-toggle="dropdown">
-              <span class="glyphicon glyphicon-globe"></span>
-            </button>
-            <div class="dropdown-menu geo">
-              <p translate ng-if="!file.metadata.geo">You can add geolocation info by typing in the input field.</p>
-              <label ng-if="file.metadata.geo">{{file.metadata.geo.label}}</label>
-              <app-simple-search dataset="wr" app-select="uplCtrl.addGeoinfo(doc, file)"></app-simple-search>
-            </div>
-          </div>
           <!-- ACTIVITIES-->
           <div class="btn-group">
             <button class="btn btn-default dropdown-toggle" ng-class="{'btn-success': file.metadata.activities.length > 0}" type="button" data-toggle="dropdown">
