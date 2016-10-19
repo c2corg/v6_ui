@@ -1,6 +1,5 @@
 @margin-desktop: 24%;
 @margin-tablet: 13%;
-@feed-bg:  rgba(229, 229, 229, 0.3);
 
 .home-page {
 
@@ -18,7 +17,7 @@
 
   .site-intro {
     display: none;
-    background-color: @feed-bg;
+    background-color: rgba(229, 229, 229, 0.3);
     @media @phone {
       height: auto;
       .route-activities {
@@ -101,164 +100,6 @@
       }
     }
   }
-  /*feed*/
-
-  .feed {
-    padding-top: 10px;
-    margin-top: 45px;
-    height: 100%;
-    background-color: @feed-bg;
-    .list {
-      padding: 0;
-    }
-    @media @phone {
-      padding-left: 10px;
-      padding-right: 10px;
-
-      .feed-list-item {
-        width: 100%;
-      }
-    }
-
-    .feed-title {
-      color: lightslategrey;
-      padding-left: @margin-desktop - 1;
-      padding-top: 20px;
-      padding-bottom: 20px;
-      .icon-news {
-        font-size: 2em;
-        margin-right: 10px;
-      }
-    }
-  }
-
-  .feed-list {
-    height: 100%;
-    margin-bottom: 200px;
-    position: relative;
-    transition: .3s;
-
-    /*timeline solid*/
-    &:before {
-      content: '';
-      position: absolute;
-      left: @margin-desktop;
-      height: 100%;
-      margin-top: 15px;
-      width: 4px;
-      background-color: #dfdfdf;
-    }
-  }
-  .feed-list-item {
-    margin: 10px auto;
-    background-color: #fbfbfb;
-    border-radius: 10px;
-    width: 40%;
-    padding-top: 13px;
-    transition: .3s;
-
-    /*left triangle*/
-    &:before {
-      border-width: 8px 25px 9px 10px;
-      border-color: transparent #fbfbfb transparent transparent;
-      content: '';
-      position: relative;
-      left: -100%;
-      border-style: solid;
-      display: block;
-      margin-bottom: -30px;
-      transition: .3s;
-    }
-
-    .timeline-bullet {
-      background-color: #96a0ad;
-      position: absolute;
-      width: 40px;
-      height: 40px;
-      margin-top: 2px;
-      left: @margin-desktop;
-      transform: translateX(-45%);
-      border-radius: 50%;
-      border: 1px solid gainsboro;
-      padding-left: 7px;
-      padding-top: 5px;
-      transition: .3s;
-
-      /*bullet icon*/
-      &:before {
-        font-size: 1.8em;
-        color: white;
-      }
-
-      &.icon-routes {
-        padding-top: 7px;
-        padding-left: 6px;
-      }
-      &.icon-waterpoints {
-        padding-top: 6px;
-      }
-    }
-    .glyphicon-time {
-      color: #A9D361;
-    }
-    .action-line {
-      margin: -30px 0 0 0;
-      padding: 5px 10px;
-    }
-    .action {
-      color: slategray;
-      a {
-        color: slategray;
-      }
-    }
-    app-card {
-      &:not(.outing) {
-        a {
-          padding: 15px;
-        }
-      }
-      &.outing {
-        a {
-          .flex();
-        }
-        .list-item-info {
-          width: 70%;
-        }
-        .outing-author {
-          width: 30%;
-          margin: 10px auto;
-        }
-        .icon-user {
-          font-size: 2em;
-        }
-      }
-    }
-  }
-  .list-item {
-    margin-top: 0;
-  }
-
-  /*.home-page*/
-  @media @tablet {
-    margin-top: 80px;
-
-    .feed-list-item {
-      width: 55%;
-    }
-    .feed-list:before, .timeline-bullet, .feed-title {
-      left: @margin-tablet !important;
-    }
-  }
-  @media @phone {
-    .feed-list-item {
-      padding-top: 30px;
-    }
-    .timeline-bullet, .feed-list:before,   .feed-list-item:before,
-    .feed-title {
-      display: none;
-    }
-  }
-
   /*end home-page*/
 }
 
