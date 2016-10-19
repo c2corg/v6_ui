@@ -121,6 +121,10 @@ app.Authentication.prototype.hasEditRights = function(doctype, options) {
     return this.hasEditRightsImage_(options['imageType'], options['imageCreator']);
   }
 
+  if (doctype === 'profiles') {
+    return this.userData.id === options['user_id'];
+  }
+
   return true;
 };
 

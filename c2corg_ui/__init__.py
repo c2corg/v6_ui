@@ -133,7 +133,7 @@ def main(global_config, **settings):
         'areas_diff', '/areas/diff/{id:\d+}/{lang}/{v1}/{v2}')
     config.add_route('areas_preview', '/areas/preview')
 
-    config.add_route('profiles_index', '/profiles')
+    config.add_route('profiles_edit', '/profiles/edit/{id:\d+}/{lang}')
     config.add_route('profiles_view', '/profiles/{id:\d+}/{lang}')
     config.add_route('profiles_view_id', '/profiles/{id:\d+}')
     config.add_route('profiles_data', '/profiles/data/{id:\d+}/{lang}')
