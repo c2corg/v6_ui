@@ -8,18 +8,22 @@
     </div>
     <span class="detail-text accordion">
 
-    <article class="value activities">
-      <span translate class="value-title">activities</span><br>
-      % for activity in profile.get('activities'):
-        <span class="route-activity icon-${activity}" uib-tooltip="{{mainCtrl.translate('${activity}')}}"></span>
-      % endfor
-    </article>
+    % if profile.get('activities'):
+      <article class="value activities">
+        <span translate class="value-title">activities</span><br>
+        % for activity in profile.get('activities'):
+          <span class="route-activity icon-${activity}" uib-tooltip="{{mainCtrl.translate('${activity}')}}"></span>
+        % endfor
+      </article>
+    % endif
 
-    <article>
-      <span translate class="value-title">categories</span>
-      % for category in profile.get('categories'):
-        <span class="value" x-translate>${category}</span>${'' if loop.last else ', '}
-      % endfor
-    </article>
+    % if profile.get('categories'):
+      <article>
+        <span translate class="value-title">categories</span>
+        % for category in profile.get('categories'):
+          <span class="value" x-translate>${category}</span>${'' if loop.last else ', '}
+        % endfor
+      </article>
+    % endif
   </div>
 </%def>
