@@ -12,7 +12,7 @@ from json import dumps
     photoswipe_gallery, get_document_min_max,
     get_document_locale_text, show_attr, show_missing_langs_links, show_other_langs_links,
     show_archive_data, show_route_title, get_route_activities, show_areas, show_float_buttons,
-    show_associated_waypoints, show_associated_routes, delete_association_confirmation_modal,
+    show_associated_waypoints, show_associated_routes, show_associated_articles, delete_association_confirmation_modal,
     associated_images_featurelist, show_badge, get_document_description"/>
 
 <%
@@ -132,6 +132,7 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
       <section>
         ${show_associated_routes(outing)}
         ${show_associated_waypoints(outing)}
+        ${show_associated_articles(outing)}
       </section>
     </span>
   </div>

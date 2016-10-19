@@ -14,7 +14,7 @@ from json import dumps
     photoswipe_gallery, get_document_locale_text,
     show_attr, show_missing_langs_links, show_other_langs_links, show_archive_data,
     show_route_title, show_areas, show_maps, show_float_buttons,
-    show_associated_waypoints, show_associated_routes, show_associated_outings,
+    show_associated_waypoints, show_associated_routes, show_associated_articles, show_associated_outings,
     delete_association_confirmation_modal, associated_waypoints_featurelist,
     show_badge, get_document_description"/>
 
@@ -146,7 +146,7 @@ geometry4326 = geometry
         <section>
           <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
             <label translate>Add association</label>
-            <app-add-association parent-id="${waypoint_id}" parent-doctype="waypoints" dataset="w"></app-add-association>
+            <app-add-association parent-id="${waypoint_id}" parent-doctype="waypoints" dataset="wc"></app-add-association>
           </div>
           ${show_associated_waypoints(waypoint, 'waypoints', showDelete=False)}
           ${show_associated_waypoints(waypoint, 'waypoint_children')}
@@ -165,6 +165,7 @@ geometry4326 = geometry
       <div class="view-details-associations col-xs-12  associations">
         <span class="lead">
           <section>
+            ${show_associated_articles(waypoint)}
             ${show_associated_outings(waypoint)}
           </section>
         </span>
