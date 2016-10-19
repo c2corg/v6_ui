@@ -326,7 +326,7 @@ app.Authentication.prototype.needAuthorization = function(method, url) {
 
   if (url.indexOf(this.apiUrl_) === -1) {
     // UI user data service
-    if (url.indexOf('/users/data') !== -1 && this.isAuthenticated()) {
+    if (url.indexOf('/profiles/data') !== -1 && this.isAuthenticated()) {
       // forward auth header if user is authenticated
       return true;
     }
