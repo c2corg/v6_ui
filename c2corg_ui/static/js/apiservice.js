@@ -10,11 +10,12 @@ goog.require('app');
  * @param {angular.$http} $http
  * @param {app.Alerts} appAlerts The Alerts service
  * @param {angular.$q} $q
+ * @param {app.Authentication} appAuthentication
  * @constructor
  * @struct
  * @ngInject
  */
-app.Api = function(apiUrl, imageBackendUrl, $http, appAlerts, $q) {
+app.Api = function(apiUrl, imageBackendUrl, $http, appAlerts, $q, appAuthentication) {
 
   /**
    * @type {string}
@@ -45,6 +46,12 @@ app.Api = function(apiUrl, imageBackendUrl, $http, appAlerts, $q) {
    * @type {app.Alerts}
    */
   this.alerts_ = appAlerts;
+
+  /**
+   * @type {app.Authentication}
+   * @private
+   */
+  this.auth_ = appAuthentication;
 };
 
 
@@ -374,6 +381,35 @@ app.Api.prototype.updatePreferredLanguage = function(lang) {
     'lang': lang});
   promise.catch(function(response) {
     this.alerts_.addError(response);
+  }.bind(this));
+  return promise;
+};
+
+
+/**
+ * @param {undefined | string} token
+ * @param {string} lang
+ * @param {boolean} isProfile
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.readFeed = function(token, lang, isProfile) {
+  var url;
+  var params = {'pl': lang};
+  if (token) params['token'] = token;
+
+  if (isProfile) {
+    url = '/user-profile';
+    params['u'] = this.auth_.userData.id;
+  } else if (this.auth_.isAuthenticated()) {
+    url = '/personal-feed';
+  } else {
+    url = '/feed';
+  }
+
+  var promise = this.getJson_(url + '?' + $.param(params));
+  promise.catch(function(response) {
+    var msg = this.alerts_.gettext('Getting feed data failed:');
+    this.alerts_.addErrorWithMsg(msg, response);
   }.bind(this));
   return promise;
 };

@@ -22,6 +22,7 @@ goog.require('app.constants');
 goog.require('app.deleteAssociationDirective');
 goog.require('app.diffMapDirective');
 goog.require('app.documentEditingDirective');
+goog.require('app.feedDirective');
 goog.require('app.geolocationDirective');
 goog.require('app.gpxUploadDirective');
 goog.require('app.imageUploaderDirective');

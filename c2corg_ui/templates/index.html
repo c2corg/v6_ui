@@ -37,14 +37,53 @@ from c2corg_common.attributes import activities
 
     </div>
   </section>
-  <section ng-class="{'show': userCtrl.auth.isAuthenticated()}" class="site-intro">
-    <div class="intro-banner">
-      <h1 class="welcome-title text-center" translate>Activity feed</h1>
-    </div>
-  </section>
 
   <div class="feed">
-    <button class="btn orange-btn" id="add-my-outing" protected-url-btn url="${request.route_path('outings_add')}"><span class="glyphicon glyphicon-plus-sign"></span><span translate>add an outing</span></button>
-    <app-advanced-search document-type="outings" use-map="false"></app-advanced-search>
+    <div class="feed-title flex flexend-align" ng-show="!feedCtrl.busy && !feedCtrl.error">
+      <span class="icon-news"></span>
+      <h3 translate>Activity feed</h3>
+    </div>
+    <h3 translate class="text-center text-danger" ng-show="feedCtrl.error">Sorry, there was an error while getting the feed.</h3>
+
+    <div app-feed app-feed-profile="false" app-loading>
+      <h4 class="text-success text-center" translate ng-show="feedCtrl.busy">Loading feed, please wait...</h4>
+      <div class="feed-list" ng-show="feedCtrl.documents.length > 0"
+           infinite-scroll="feedCtrl.getDocumentsFromFeed()"
+           infinite-scroll-immediate-check="false"
+           infinite-scroll-distance="0.7"
+           infinite-scroll-disabled="feedCtrl.busy || feedCtrl.error">
+
+        <article class="feed-list-item" protected-url-btn url="${request.route_path('outings_add')}">
+          <div class="timeline-bullet icon-outings" uib-tooltip="{{'outing' | translate}}" tooltip-placement="left"></div>
+          <div class="list-item vertical-align">
+            <button class="orange-btn btn">add an outing</button>
+          </div>
+        </article>
+
+        <article class="feed-list-item" ng-repeat="doc in feedCtrl.documents"
+                 ng-init="type = feedCtrl.documentType(doc.document.type);">
+
+          <div class="timeline-bullet icon-{{type}}s" uib-tooltip="{{type | translate}}" tooltip-placement="left"></div>
+
+          <p class="action-line">
+            <span class="action" ng-cloak>
+              <b><a ng-href="todo">{{doc['user']['username']}}</a></b>
+              <span x-translate>{{feedCtrl.createActionLine(doc)}}</span>
+            </span>
+            <br>
+            <span class="action date">
+              <span class=" glyphicon glyphicon-time"></span>
+              <span am-time-ago="doc.time"></span>
+            </span>
+          </p>
+
+          <div class="list-item">
+            <app-card app-card-doc="doc['document']" class="{{type}}"></app-card>
+          </div>
+        </article>
+        <h4 class="text-success text-center" translate ng-show="feedCtrl.busy">Loading feed, please wait...</h4>
+      </div>
+
+    </div>
   </div>
 </div>
