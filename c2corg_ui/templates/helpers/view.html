@@ -123,7 +123,7 @@
 
 
 ## Links generated only for the search engines, hidden.
-<%def name="add_seo_association_links(documents, doctype, hide=False)">\
+<%def name="add_seo_association_links(documents, doctype, hide=True)">\
   % if len(documents):
     <ul ${'class="ng-hide"' if hide else '' | n}>
       % for doc in documents:
