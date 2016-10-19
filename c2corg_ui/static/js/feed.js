@@ -12,11 +12,12 @@ goog.require('app.utils');
  */
 app.feedDirective = function() {
   return {
-    restrict: 'A',
+    restrict: 'E',
     controller: 'appFeedController as feedCtrl',
     bindToController: {
       'isProfile' : '=appFeedProfile'
-    }
+    },
+    templateUrl: '/static/partials/feed.html'
   };
 };
 app.module.directive('appFeed', app.feedDirective);
