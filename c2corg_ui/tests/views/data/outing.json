@@ -66,6 +66,32 @@
 	"version": 1,
 	"document_id": 735574,
 	"associations": {
+		"articles": [{
+			"type": "c",
+			"categories": [],
+			"protected": null,
+			"document_id": 713233,
+			"article_type": "personal",
+			"locales": [{
+				"title": "AIDE : Topoguide - fonctionnement de la modération",
+				"summary": "...blabla...",
+				"lang": "fr",
+				"version": 4
+			}],
+			"quality": "draft",
+			"activities": [
+			  "paragliding",
+			  "rock_climbing",
+			  "snow_ice_mixed",
+			  "mountain_climbing",
+			  "hiking",
+			  "snowshoeing",
+			  "ice_climbing",
+			  "skitouring"
+			],
+			"version": 5,
+			"available_langs": ["fr"]
+		}],
 		"users": [{
 			"username": "kakaka",
 			"name": "Sakapof-Kakaka",
