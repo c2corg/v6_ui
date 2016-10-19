@@ -34,30 +34,30 @@
     <div id="other-langs">
       <div class="modal-header"><h3 class="text-center" translate>View in other lang</h3></div>
       <ul>
-      % for l in other_langs:
-        <li>
-          <a href="${request.route_path(module + '_view_id_lang', id=document['document_id'], lang=l)}" x-translate>${l}</a>
-          <span class="glyphicon glyphicon-chevron-right"></span>
-        </li>
-      % endfor
+        % for l in other_langs:
+          <li>
+            <a href="${request.route_path(module + '_view_id_lang', id=document['document_id'], lang=l)}" x-translate>${l}</a>
+            <span class="glyphicon glyphicon-chevron-right"></span>
+          </li>
+        % endfor
       </ul>
     </div>
   % endif
 </%def>
 
 <%def name="show_missing_langs_links(module, document, missing_langs)">\
-% if missing_langs:
-  <div  id="missing-langs">
-    <div class="modal-header"><h3 class="text-center" translate>Translate into an other lang</h3></div>
-    <ul>
-      % for lang in missing_langs:
-      <li protected-url-btn url="${request.route_path(module + '_edit', id=document['document_id'], lang=lang)}">
-        <span x-translate>${lang}</span><span class="glyphicon glyphicon-chevron-right"></span>
-      </li>
-      % endfor
-    </ul>
-  </div>
-% endif
+  % if missing_langs:
+    <div id="missing-langs">
+      <div class="modal-header"><h3 class="text-center" translate>Translate into an other lang</h3></div>
+      <ul>
+        % for lang in missing_langs:
+          <li protected-url-btn url="${request.route_path(module + '_edit', id=document['document_id'], lang=lang)}">
+            <span x-translate>${lang}</span><span class="glyphicon glyphicon-chevron-right"></span>
+          </li>
+        % endfor
+      </ul>
+    </div>
+  % endif
 </%def>
 
 <%def name="show_route_title(locale, is_tab_title=False)">\
@@ -313,7 +313,7 @@
 <%def name="get_document_description(locale, doctype)">\
   % if locale.get('summary') or locale.get('description'):
     <div class="view-details-description col-xs-12  description">
-      % if doctype != 'article' and doctype != 'user':
+      % if doctype != 'article' and doctype != 'profile':
         <h3 class="heading show-phone">
           % if doctype == 'outing':
             <span translate>personal comments</span>
@@ -473,11 +473,6 @@
         <p class="float-button-text" translate>Add images</p>
       </div>
     % endif
-
-    <div class="float-button float-favorites" tooltip-placement="left" uib-tooltip="{{'Add to favorites' | translate}}">
-      <span class="glyphicon glyphicon-heart"></span>
-      <p class="float-button-text" translate>Favorites</p>
-    </div>
 
     <div class="float-button float-comments" tooltip-placement="left" uib-tooltip="{{'Comments' | translate}}"
          ng-click="detailsCtrl.scrollToComments()">
@@ -760,7 +755,11 @@
               fragments.append(('wtyp', document['waypoint_type']))
   %>
   <label class="badge ${type}">
-    <a href="${request.route_path(type + 's_index')}${'#' if fragments else ''}${'&'.join(['='.join(fragment) for fragment in fragments])}"><span
-       class="glyphicon glyphicon-arrow-right"></span>&nbsp;<span x-translate>${type}</span></a>
+    % if type == 'profile':
+      <span class="glyphicon glyphicon-arrow-right"></span>&nbsp;<span x-translate>${type}</span></a>
+    % else:
+      <a href="${request.route_path(type + 's_index')}${'#' if fragments else ''}${'&'.join(['='.join(fragment) for fragment in fragments])}"><span
+         class="glyphicon glyphicon-arrow-right"></span>&nbsp;<span x-translate>${type}</span></a>
+    % endif
   </label>
 </%def>
