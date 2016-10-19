@@ -47,6 +47,7 @@ app.mapDirective = function() {
       'advancedSearch': '=appMapAdvancedSearch',
       'zoom': '@appMapZoom',
       'defaultMapFilter': '=appMapDefaultMapFilter',
+      'featureCollection': '=appMapFeatureCollection',
       'showRecenterTools': '=appMapShowRecenterTools'
     },
     controller: 'AppMapController as mapCtrl',
@@ -156,6 +157,14 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
    * @export
    */
   this.enableMapFilter = !!this.defaultMapFilter;
+
+  /**
+   * @type {?GeoJSONFeatureCollection}
+   * @export
+   */
+  this.featureCollection;
+
+  this.featureCollection = this.featureCollection || mapFeatureCollection;
 
   /**
    * @type {ngeo.Location}
@@ -278,8 +287,8 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
     app.utils.setupSmartScroll(mouseWheelZoomInteraction);
   }
 
-  if (mapFeatureCollection) {
-    this.features_ = this.geojsonFormat_.readFeatures(mapFeatureCollection);
+  if (this.featureCollection) {
+    this.features_ = this.geojsonFormat_.readFeatures(this.featureCollection);
   }
 
   // add the features interactions
@@ -401,6 +410,7 @@ app.MapController.prototype.createStyleFunction_ = function() {
         switch (module) {
           case 'waypoints':
           case 'images':
+          case 'profiles':
             return this.createPointStyle_(feature, resolution);
           case 'routes':
           case 'outings':
@@ -434,15 +444,23 @@ app.MapController.prototype.createPointStyle_ = function(feature, resolution) {
   var highlight = /** @type {boolean} */ (!!feature.get('highlight'));
   var scale = highlight ? 1 : 0.5;
 
-  if (module === 'waypoints') {
-    imgSize = highlight ? 40 : 24;
-    path = '/documents/waypoints/' + type + '.svg';
-  } else if (module === 'images') {
-    imgSize = 0; // no circle for images
-    path = '/documents/' + type + '.svg';
-  } else {
-    imgSize = highlight ? 32 : 16;
-    path = '/documents/' + type + '.svg';
+  switch (module) {
+    case 'waypoints':
+      imgSize = highlight ? 40 : 24;
+      path = '/documents/waypoints/' + type + '.svg';
+      break;
+    case 'images':
+      imgSize = 0; // no circle for images
+      path = '/documents/' + type + '.svg';
+      break;
+    case 'profiles':
+      imgSize = highlight ? 32 : 16;
+      path = '/social/user.svg';
+      break;
+    default:
+      imgSize = highlight ? 32 : 16;
+      path = '/documents/' + type + '.svg';
+      break;
   }
 
   var key = type + scale + '_' + id;
