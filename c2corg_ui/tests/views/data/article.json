@@ -66,10 +66,13 @@
         "article_type": "personal",
         "locales": [
           {
+            "title": "AIDE : Topoguide - fonctionnement de la modération",
+            "summary": "...blabla...",
             "lang": "fr",
             "version": 4
           }
         ],
+        "quality": "draft",
         "activities": [
           "paragliding",
           "rock_climbing",

@@ -10,7 +10,7 @@ from json import dumps
     get_document_locale_text, show_attr, show_missing_langs_links,
     show_other_langs_links, show_archive_data, show_route_title,
     show_areas, show_float_buttons, show_maps, get_route_activities,
-    show_associated_waypoints, show_associated_routes, show_associated_outings,
+    show_associated_waypoints, show_associated_routes, show_associated_outings, show_associated_articles,
     delete_association_confirmation_modal, associated_waypoints_featurelist,
     show_badge, get_document_description" />
 
@@ -137,7 +137,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
         <section>
           <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
             <label translate>Add association</label>
-            <app-add-association parent-id="${route_id}" parent-doctype="routes" dataset="wr"></app-add-association>
+            <app-add-association parent-id="${route_id}" parent-doctype="routes" dataset="wrc"></app-add-association>
           </div>
           % if len(route['associations']['recent_outings']['documents']) == 0:
             <div class="add-outing">
@@ -149,6 +149,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
           % endif
           ${show_associated_waypoints(route)}
           ${show_associated_routes(route)}
+          ${show_associated_articles(route)}
         </section>
       </span>
     </div>
