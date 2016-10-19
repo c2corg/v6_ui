@@ -66,7 +66,7 @@ app.UserProfileController = function($scope, $http, $compile, appAlerts) {
       'Accept': 'application/json'
     }
   };
-  var url = '/users/data/{id}/{lang}'
+  var url = '/profiles/data/{id}/{lang}'
     .replace('{id}', this.userId.toString())
     .replace('{lang}', this.lang);
   var promise = $http.get(url, config);

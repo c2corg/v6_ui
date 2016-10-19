@@ -760,12 +760,7 @@
               fragments.append(('wtyp', document['waypoint_type']))
   %>
   <label class="badge ${type}">
-    % if type != 'user':
-      <a href="${request.route_path(type + 's_index')}${'#' if fragments else ''}${'&'.join(['='.join(fragment) for fragment in fragments])}">
-    % endif
-    <span class="glyphicon glyphicon-arrow-right"></span>&nbsp;<span x-translate>${type}</span>
-    % if type != 'user':
-      </a>
-    % endif
+    <a href="${request.route_path(type + 's_index')}${'#' if fragments else ''}${'&'.join(['='.join(fragment) for fragment in fragments])}"><span
+       class="glyphicon glyphicon-arrow-right"></span>&nbsp;<span x-translate>${type}</span></a>
   </label>
 </%def>
