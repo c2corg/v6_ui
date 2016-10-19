@@ -50,12 +50,6 @@ app.UserProfileController = function($scope, $http, $compile, appAlerts) {
   this.lang;
 
   /**
-   * @type {!angular.Scope}
-   * @private
-   */
-  this.scope_ = $scope;
-
-  /**
    * @type {app.Alerts}
    * @private
    */
