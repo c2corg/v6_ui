@@ -34,11 +34,7 @@
   %>
   <div class="float-buttons">
 
-    ## TODO
-    <div class="float-button float-favorites" tooltip-placement="left" uib-tooltip="{{'Follow this contributor' | translate}}">
-      <span class="glyphicon glyphicon-heart"></span>
-      <p class="float-button-text" translate>Follow</p>
-    </div>
+    <app-follow app-follow-id="${doc_id}" ng-if="userCtrl.auth.isAuthenticated()"></app-follow>
 
     <div ng-if="userCtrl.hasEditRights('profiles', ${options | n})"
      tooltip-placement="left" uib-tooltip="{{'Edit' | translate}}" class="float-button float-edit"
