@@ -345,6 +345,7 @@ app.Authentication.prototype.needAuthorization = function(method, url) {
   }
   if (url.indexOf('/users/account') !== -1 ||
       url.indexOf('/users/preferences') !== -1 ||
+      url.indexOf('/users/following') !== -1 ||
       url.indexOf('/personal-feed') !== -1) {
     return true;
   }

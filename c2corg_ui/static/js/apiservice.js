@@ -536,6 +536,7 @@ app.Api.prototype.createImages = function(files, document) {
 /**
  * @param {number} document_id
  * @param {string} lang
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.createTopic = function(document_id, lang) {
   var promise = this.postJson_('/forum/topics', {
@@ -543,6 +544,63 @@ app.Api.prototype.createTopic = function(document_id, lang) {
     'lang': lang
   });
   promise.catch(this.errorSaveDocument_.bind(this));
+  return promise;
+};
+
+
+/**
+ * @param {number} user_id
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.follow = function(user_id) {
+  var data = {'user_id': user_id};
+  var promise = this.postJson_('/users/follow', data);
+  promise.catch(function(response) {
+    var msg = this.alerts_.gettext('Following user failed:');
+    this.alerts_.addErrorWithMsg(msg, response);
+  }.bind(this));
+  return promise;
+};
+
+
+/**
+ * @param {number} user_id
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.unfollow = function(user_id) {
+  var data = {'user_id': user_id};
+  var promise = this.postJson_('/users/unfollow', data);
+  promise.catch(function(response) {
+    var msg = this.alerts_.gettext('Unfollowing user failed:');
+    this.alerts_.addErrorWithMsg(msg, response);
+  }.bind(this));
+  return promise;
+};
+
+
+/**
+ * @param {number} user_id
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.isFollowing = function(user_id) {
+  var promise = this.getJson_('/users/following-user/' + user_id);
+  promise.catch(function(response) {
+    var msg = this.alerts_.gettext('Checking if following user failed:');
+    this.alerts_.addErrorWithMsg(msg, response);
+  }.bind(this));
+  return promise;
+};
+
+
+/**
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.getFollowing = function() {
+  var promise = this.getJson_('/users/following');
+  promise.catch(function(response) {
+    var msg = this.alerts_.gettext('Getting followed list failed:');
+    this.alerts_.addErrorWithMsg(msg, response);
+  }.bind(this));
   return promise;
 };
 
