@@ -3,7 +3,8 @@ from c2corg_ui.templates.utils import get_lang_lists
 from json import dumps
 %>
 <%namespace file="helpers/detailed_profile_attributes.html" import="get_profile_general"/>
-<%namespace file="../helpers/view.html" import="get_image_gallery, get_document_description"/>
+<%namespace file="../helpers/view.html" import="get_image_gallery, get_document_description,
+    show_areas"/>
 
 % if not_authorized:
   <div class="view-details-description col-xs-12 description">
@@ -15,6 +16,13 @@ from json import dumps
 % else:
 
   % if geometry:
+
+    % if profile.get('areas'):
+      <article class="location-static">
+        ${show_areas(profile)}
+      </article>
+    % endif
+
     <div ng-init='profileFeature = {
         "type": "FeatureCollection",
         "properties": {},
