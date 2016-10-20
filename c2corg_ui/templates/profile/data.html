@@ -47,6 +47,6 @@ from json import dumps
 
   ${get_document_description(locale, 'profile')}
 
-  <p>HERE COMES THE USER FEED</p>
+  <app-feed app-feed-profile="${profile['document_id']}" id="feed"></app-feed>
 
 % endif

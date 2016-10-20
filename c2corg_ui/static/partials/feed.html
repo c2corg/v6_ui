@@ -12,7 +12,7 @@
      infinite-scroll-distance="0.7"
      infinite-scroll-disabled="feedCtrl.busy || feedCtrl.error">
 
-  <article class="feed-list-item" protected-url-btn url="/outings/add">
+  <article class="feed-list-item" protected-url-btn url="/outings/add" ng-if="!feedCtrl.userId">
     <div class="timeline-bullet icon-outings" uib-tooltip="{{'outing'| translate}}" tooltip-placement="left"></div>
     <div class="list-item vertical-align">
       <button class="orange-btn btn">add an outing</button>
@@ -26,7 +26,7 @@
 
     <p class="action-line">
       <span class="action" ng-cloak>
-        <b><a ng-href="todo">{{doc['user']['name']}}</a></b>
+        <b><a ng-href="/profiles/{{doc['user']['document_id']}}/{{doc['user']['locales'][0]['lang']}}">{{doc['user']['name']}}</a></b>
         <span x-translate>{{feedCtrl.createActionLine(doc)}}</span>
       </span>
       <br>
