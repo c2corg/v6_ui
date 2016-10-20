@@ -137,6 +137,7 @@ def main(global_config, **settings):
     config.add_route('profiles_view', '/profiles/{id:\d+}/{lang}')
     config.add_route('profiles_view_id', '/profiles/{id:\d+}')
     config.add_route('profiles_data', '/profiles/data/{id:\d+}/{lang}')
+    config.add_route('profiles_preview', '/profiles/preview')
 
     config.add_route('auth', '/auth')
     config.add_route('auth-sso', '/auth-sso')

@@ -34,6 +34,7 @@ app.constants = {
     'routes' : ['title' , 'lang', 'activities', 'waypoints'],
     'outings' : ['title' , 'lang', 'date_start', 'routes', 'activities'],
     'images': ['image_type'],
+    'profiles': [],
     'areas': ['title', 'area_type']
   },
   documentEditing: {

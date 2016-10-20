@@ -164,8 +164,6 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
    */
   this.featureCollection;
 
-  this.featureCollection = this.featureCollection || mapFeatureCollection;
-
   /**
    * @type {ngeo.Location}
    * @private
@@ -287,8 +285,9 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
     app.utils.setupSmartScroll(mouseWheelZoomInteraction);
   }
 
-  if (this.featureCollection) {
-    this.features_ = this.geojsonFormat_.readFeatures(this.featureCollection);
+  if (this.featureCollection || mapFeatureCollection) {
+    this.features_ = this.geojsonFormat_.readFeatures(
+      this.featureCollection || mapFeatureCollection);
   }
 
   // add the features interactions
@@ -620,7 +619,7 @@ app.MapController.prototype.handleEditModelChange_ = function(event, data) {
     this.view_.setCenter(geometry.getCoordinates());
     this.view_.setZoom(this.zoom || app.MapController.DEFAULT_POINT_ZOOM);
   }
-  if (!this.initialFeature_) {
+  if (!this.initialFeature_ && geometry) {
     this.initialFeature_ = new ol.Feature(geometry.clone());
   }
 };
