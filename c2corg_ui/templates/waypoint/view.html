@@ -92,11 +92,10 @@ geometry4326 = geometry
 </header>
 
 <article class="location-static">
-  <span class="pin"></span>
-    ${show_areas(waypoint)}
-    % if waypoint.get('elevation'):
+  ${show_areas(waypoint)}
+  % if waypoint.get('elevation'):
     <p class="text-center"><b>${waypoint['elevation']} m</b></p>
-    % endif
+  % endif
   % if geometry4326:
     <p>${round(geometry4326.x)} °E / ${round(geometry4326.y)} °N</p>
   % endif
