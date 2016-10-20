@@ -389,17 +389,17 @@ app.Api.prototype.updatePreferredLanguage = function(lang) {
 /**
  * @param {undefined | string} token
  * @param {string} lang
- * @param {boolean} isProfile
+ * @param {?number} userId
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
-app.Api.prototype.readFeed = function(token, lang, isProfile) {
+app.Api.prototype.readFeed = function(token, lang, userId) {
   var url;
   var params = {'pl': lang};
   if (token) params['token'] = token;
 
-  if (isProfile) {
-    url = '/user-profile';
-    params['u'] = this.auth_.userData.id;
+  if (userId) {
+    url = '/profile-feed';
+    params['u'] = userId;
   } else if (this.auth_.isAuthenticated()) {
     url = '/personal-feed';
   } else {

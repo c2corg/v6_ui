@@ -15,7 +15,7 @@ app.feedDirective = function() {
     restrict: 'E',
     controller: 'appFeedController as feedCtrl',
     bindToController: {
-      'isProfile' : '=appFeedProfile'
+      'userId' : '=appFeedProfile'
     },
     templateUrl: '/static/partials/feed.html'
   };
@@ -24,8 +24,6 @@ app.module.directive('appFeed', app.feedDirective);
 
 
 /**
- * @param {angular.Scope} $scope Scope.
- * @param {angular.Attributes} $attrs Attributes.
  * @param {app.Authentication} appAuthentication
  * @param {app.Api} appApi Api service.
  * @param {app.Lang} appLang Lang service.
@@ -34,13 +32,7 @@ app.module.directive('appFeed', app.feedDirective);
  * @export
  * @struct
  */
-app.FeedController = function($scope, $attrs, appAuthentication, appApi, appLang) {
-
-  /**
-   * @type {angular.Scope}
-   * @private
-   */
-  this.scope_ = $scope;
+app.FeedController = function(appAuthentication, appApi, appLang) {
 
   /**
    * @type {app.Api}
@@ -85,11 +77,10 @@ app.FeedController = function($scope, $attrs, appAuthentication, appApi, appLang
   this.error = false;
 
   /**
-   * set in the directive's template
-   * @type {boolean}
+   * @type {?number}
    * @export
    */
-  this.isProfile;
+  this.userId;
 
   this.getDocumentsFromFeed();
 };
@@ -102,7 +93,7 @@ app.FeedController = function($scope, $attrs, appAuthentication, appApi, appLang
  */
 app.FeedController.prototype.getDocumentsFromFeed = function() {
   this.busy = true;
-  this.api_.readFeed(this.nextToken_, this.lang_.getLang(), this.isProfile).then(function(response) {
+  this.api_.readFeed(this.nextToken_, this.lang_.getLang(), this.userId).then(function(response) {
     var data = response['data']['feed'];
     var token = response['data']['pagination_token'];
     for (var i = 0; i < data.length; i++) {

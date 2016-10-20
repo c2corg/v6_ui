@@ -349,6 +349,10 @@ app.Authentication.prototype.needAuthorization = function(method, url) {
     return true;
   }
 
+  if (url.indexOf('/profile-feed') !== -1 && this.isAuthenticated()) {
+    return true;
+  }
+
   // Figure write actions out using the HTTP method.
   // Read actions (GET) are generally public.
   return goog.array.contains(['POST', 'PUT', 'DELETE'], method);
