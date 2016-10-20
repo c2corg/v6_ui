@@ -38,4 +38,20 @@ from c2corg_common.attributes import activities
     </div>
   </section>
   <app-feed id="feed"></app-feed>
+
+  <div class="float-buttons" ng-if="userCtrl.auth.isAuthenticated()">
+    <div class="float-button-container">
+      <div class="float-button" ng-click="feedCtrl.toggleFilters()" ng-class="{'personal-feed-on': feedCtrl.isPersonal}">
+        <span class="glyphicon glyphicon-user"></span>
+      </div>
+      <p class="float-button-text" ng-bind="feedCtrl.isPersonal ? ('Personal feed on' | translate) :  ('Personal feed off' | translate)">Personal feed off</p>
+    </div>
+
+    <div class="float-button-container">
+      <div class="float-button button-preferences" protected-url-btn url="/preferences">
+        <span class="glyphicon glyphicon-wrench"></span>
+      </div>
+      <p class="float-button-text" translate>My preferences</p>
+    </div>
+  </div>
 </div>
