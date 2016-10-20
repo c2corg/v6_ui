@@ -229,7 +229,7 @@ app.DocumentEditingController.prototype.successRead = function(response) {
     var geometry = data['geometry'];
     // don't add lonlat for line or polygon geometries
     // (point geometries have no 'geom_detail' attribute)
-    if (!('geom_detail' in geometry) &&
+    if (!('geom_detail' in geometry && geometry['geom_detail']) &&
         'geom' in geometry && geometry['geom']) {
       var coordinates = toCoordinates(geometry['geom']);
       data['lonlat'] = {
@@ -465,13 +465,16 @@ app.DocumentEditingController.prototype.getCoordinatesFromPoint_ = function(
  */
 app.DocumentEditingController.prototype.hasMissingProps = function(doc, showError) {
   var type = doc.type ? app.utils.getDoctype(doc.type) : this.module_;
-  var fields = app.constants.REQUIRED_FIELDS[type];
+  var requiredFields = app.constants.REQUIRED_FIELDS[type] || null;
+  if (!requiredFields) {
+    return false;
+  }
   // understandable structure by alertService
   var missing = {'data': {'errors': []}};
   var hasError;
   var field;
-  for (var i = 0; i < fields.length; i++) {
-    field = fields[i];
+  for (var i = 0; i < requiredFields.length; i++) {
+    field = requiredFields[i];
     hasError = false;
 
     if (field === 'title' || field === 'lang') {

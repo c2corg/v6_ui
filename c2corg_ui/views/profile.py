@@ -99,3 +99,8 @@ class Profile(Document):
             'user_id': id
         })
         return self.template_input
+
+    @view_config(route_name='profiles_preview',
+                 renderer='c2corg_ui:templates/profile/preview.html')
+    def preview(self):
+        return self._preview()

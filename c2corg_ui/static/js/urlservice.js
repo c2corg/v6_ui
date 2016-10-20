@@ -38,6 +38,14 @@ app.Url = function(slug) {
  */
 app.Url.prototype.buildDocumentUrl = function(documentType, documentId, locale, lang) {
   lang = lang || locale['lang'];
+
+  if (documentType === 'profiles') {
+    return '/{type}/{id}/{lang}'
+    .replace('{type}', documentType)
+    .replace('{id}', String(documentId))
+    .replace('{lang}', lang);
+  }
+
   var title = '';
   if (locale && documentType === 'routes' && locale['title_prefix']) {
     title = locale['title_prefix'] + ' ';
