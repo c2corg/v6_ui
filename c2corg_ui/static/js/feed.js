@@ -91,6 +91,13 @@ app.FeedController = function($scope, $attrs, appAuthentication, appApi, appLang
    */
   this.isProfile;
 
+  /**
+   * Used also in the template
+   * @type {boolean}
+   * @export
+   */
+  this.isPersonal = !this.isProfile;
+
   this.getDocumentsFromFeed();
 };
 
@@ -102,21 +109,19 @@ app.FeedController = function($scope, $attrs, appAuthentication, appApi, appLang
  */
 app.FeedController.prototype.getDocumentsFromFeed = function() {
   this.busy = true;
-  this.api_.readFeed(this.nextToken_, this.lang_.getLang(), this.isProfile).then(function(response) {
+  this.api_.readFeed(this.nextToken_, this.lang_.getLang(), this.isProfile, this.isPersonal).then(function(response) {
+    this.error = false;
     var data = response['data']['feed'];
     var token = response['data']['pagination_token'];
     for (var i = 0; i < data.length; i++) {
       this.documents.push(data[i]);
     }
-    this.error = false;
-
     if (token) {
       this.nextToken_ = token;
       this.busy = false;
     } else {  // if no token = reached the end of the feed - disable scroll
       this.busy = true;
     }
-
   }.bind(this), function() { // Error msg is shown in the api service
     this.busy = false;
     this.error = true;
@@ -127,7 +132,7 @@ app.FeedController.prototype.getDocumentsFromFeed = function() {
 /**
  * Creates a HTML with action that user used on the document in the feed.
  * Will be useful for verbs like 'created', 'updated', 'associated xx', 'went hiking with xx'.
- * @return {string | *} line
+ * @return {string} line
  * @export
  */
 app.FeedController.prototype.createActionLine = function(doc) {
@@ -144,6 +149,17 @@ app.FeedController.prototype.createActionLine = function(doc) {
       break;
   }
   return line + this.documentType(doc['document']['type']);
+};
+
+/**
+ * Switches between /personal-feed and /feed
+ */
+app.FeedController.prototype.toggleFilters = function() {
+  this.isPersonal = !this.isPersonal;
+  this.nextToken_ = undefined;
+  this.documents = [];
+  this.getDocumentsFromFeed();
+  window.scrollTo(0, 0);
 };
 
 /**
