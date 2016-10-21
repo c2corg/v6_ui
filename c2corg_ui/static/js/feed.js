@@ -83,6 +83,18 @@ app.FeedController = function(appAuthentication, appApi, appLang) {
   this.end = false;
 
   /**
+   * @type {boolean}
+   * @export
+   */
+  this.noFeed = false;
+
+  /**
+   * @type {boolean}
+   * @export
+   */
+  this.feedEnd = false;
+
+  /**
    * @type {?number}
    * @export
    */
@@ -107,17 +119,19 @@ app.FeedController.prototype.getDocumentsFromFeed = function() {
   this.busy = true;
   this.api_.readFeed(this.nextToken_, this.lang_.getLang(), this.userId, this.isPersonal).then(function(response) {
     this.error = false;
+    this.busy = false;
     var data = response['data']['feed'];
     var token = response['data']['pagination_token'];
     for (var i = 0; i < data.length; i++) {
       this.documents.push(data[i]);
     }
-    this.busy = false;
     if (token) {
       this.nextToken_ = token;
     }
-    if ((token && data.length === 0) || !token) {  // reached the end of the feed - disable scroll
+    if ((token && data.length === 0) || (!token && this.documents.length > 0)) {  // reached the end of the feed - disable scroll
       this.feedEnd = true;
+    } else if (data.length === 0) { // first fetch with no feed returned.
+      this.noFeed = true;
     }
   }.bind(this), function() { // Error msg is shown in the api service
     this.busy = false;

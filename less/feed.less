@@ -32,7 +32,7 @@
       content: '';
       position: absolute;
       left: @margin-desktop;
-      height: calc(~"100% - 200px");
+      height: calc(~"100% - 180px");
       margin-top: 15px;
       width: 4px;
       background-color: #dfdfdf;
@@ -117,8 +117,10 @@
       width: 100%;
       padding-top: 30px;
     }
-    .timeline-bullet, .feed-list:before,   .feed-list-item:before,
-      .feed-title {
+    .feed-title {
+      padding-left: 2% !important;
+    }
+    .timeline-bullet, .feed-list:before,   .feed-list-item:before {
       display: none;
     }
   }

@@ -7,23 +7,27 @@
       <p translate>General</p>
     </div>
     <span class="detail-text accordion">
+    % if profile.get('activities') or profile.get('categories'):
 
-    % if profile.get('activities'):
-      <article class="value activities">
-        <span translate class="value-title">activities</span><br>
-        % for activity in profile.get('activities'):
-          <span class="route-activity icon-${activity}" uib-tooltip="{{mainCtrl.translate('${activity}')}}"></span>
-        % endfor
-      </article>
-    % endif
+      % if profile.get('activities'):
+        <article class="value activities">
+          <span translate class="value-title">activities</span>:<br>
+          % for activity in profile.get('activities'):
+            <span class="route-activity icon-${activity}" uib-tooltip="{{mainCtrl.translate('${activity}')}}"></span>
+          % endfor
+        </article>
+      % endif
 
-    % if profile.get('categories'):
-      <article>
-        <span translate class="value-title">categories</span>
-        % for category in profile.get('categories'):
-          <span class="value" x-translate>${category}</span>${'' if loop.last else ', '}
-        % endfor
-      </article>
+      % if profile.get('categories'):
+        <article>
+          <span translate class="value-title">categories</span>:
+          % for category in profile.get('categories'):
+            <span class="value" x-translate>${category}</span>${'' if loop.last else ', '}
+          % endfor
+        </article>
+      % endif
+    % else:
+    <span translate class="value-title">No information to show.</span>
     % endif
   </div>
 </%def>
