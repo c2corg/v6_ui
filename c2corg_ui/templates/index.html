@@ -10,7 +10,7 @@ from c2corg_common.attributes import activities
 
       <div class="route-activities text-center">
         % for activity in activities:
-        <a href="${request.route_url('outings_index')}#act=${activity}">
+        <a href="${request.route_path('outings_index')}#act=${activity}">
           <span class="activity icon-${activity}" uib-tooltip="{{mainCtrl.translate('${activity}')}}"></span>
         </a>
         % endfor
@@ -19,7 +19,7 @@ from c2corg_common.attributes import activities
       <p class="text-center" translate>Camptocamp.org aims to facilitate information sharing between mountain addicts and contribute to the safety of mountain activities.</p>
 
       <div class="intro-shortcuts">
-        <a href="${request.route_url('routes_index')}">
+        <a href="${request.route_path('routes_index')}">
           <button class="btn green-btn">
             <span class="glyphicon glyphicon-arrow-right"></span>
             <span translate>Topoguide</span><br>

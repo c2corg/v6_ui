@@ -1,10 +1,10 @@
 <%def name="add_doctype_selector()">\
   <select class="form-control select-document" onchange="window.location = this.value;">
-    <option translate value="${request.route_url('routes_index')}" ng-selected="{{mainCtrl.isPath('routes')}}">Routes</option>
-    <option translate value="${request.route_url('waypoints_index')}" ng-selected="{{mainCtrl.isPath('waypoints')}}">Waypoints</option>
-    <option translate value="${request.route_url('outings_index')}" ng-selected="{{mainCtrl.isPath('outings')}}">Outings</option>
-    <option translate value="${request.route_url('images_index')}" ng-selected="{{mainCtrl.isPath('images')}}">Images</option>
-    <option translate value="${request.route_url('areas_index')}" ng-selected="{{mainCtrl.isPath('areas')}}">Areas</option>
+    <option translate value="${request.route_path('routes_index')}" ng-selected="{{mainCtrl.isPath('routes')}}">Routes</option>
+    <option translate value="${request.route_path('waypoints_index')}" ng-selected="{{mainCtrl.isPath('waypoints')}}">Waypoints</option>
+    <option translate value="${request.route_path('outings_index')}" ng-selected="{{mainCtrl.isPath('outings')}}">Outings</option>
+    <option translate value="${request.route_path('images_index')}" ng-selected="{{mainCtrl.isPath('images')}}">Images</option>
+    <option translate value="${request.route_path('areas_index')}" ng-selected="{{mainCtrl.isPath('areas')}}">Areas</option>
   </select>
 </%def>
 
@@ -23,7 +23,7 @@
               first.pop('offset')
           filters_str = '/' + '/'.join(['%s/%s' % (key, first[key]) for key in first])
       %>
-      <li><a class="btn btn-primary" href="${request.route_url(module + '_index', filters=filters_str)}"><span
+      <li><a class="btn btn-primary" href="${request.route_path(module + '_index', filters=filters_str)}"><span
         class="glyphicon glyphicon-step-backward"></span></a></li>
       <%
           prev = params.copy()
@@ -32,7 +32,7 @@
               prev.pop('offset')
           filters_str = '/' + '/'.join(['%s/%s' % (key, prev[key]) for key in prev])
       %>
-      <li><a class="btn btn-primary" href="${request.route_url(module + '_index', filters=filters_str)}"><span
+      <li><a class="btn btn-primary" href="${request.route_path(module + '_index', filters=filters_str)}"><span
         class="glyphicon glyphicon-menu-left" ></span></a></li>
     % endif
     % if offset + params['limit'] < total:
@@ -41,7 +41,7 @@
           next['offset'] = offset + next['limit']
           filters_str = '/' + '/'.join(['%s/%s' % (key, next[key]) for key in next])
       %>
-      <li><a class="btn btn-primary" href="${request.route_url(module + '_index', filters=filters_str)}">
+      <li><a class="btn btn-primary" href="${request.route_path(module + '_index', filters=filters_str)}">
           <span class="glyphicon glyphicon-menu-right"></span></a>
       </li>
       <%
@@ -49,7 +49,7 @@
           last['offset'] = total - last['limit']
           filters_str = '/' + '/'.join(['%s/%s' % (key, last[key]) for key in last])
       %>
-      <li><a class="btn btn-primary" href="${request.route_url(module + '_index', filters=filters_str)}">
+      <li><a class="btn btn-primary" href="${request.route_path(module + '_index', filters=filters_str)}">
           <span class="glyphicon glyphicon-step-forward"></span></a>
       </li>
     % endif

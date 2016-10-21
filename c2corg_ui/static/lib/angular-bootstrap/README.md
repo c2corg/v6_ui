@@ -17,9 +17,9 @@
 
 	not debug :
 
-    `<script src="${request.static_url('c2corg_ui:static/lib/angular-bootstrap/ui-bootstrap-custom-1.3.1.min.js')}"></script>`
-    `<script src="${request.static_url('c2corg_ui:static/lib/angular-bootstrap/ui-bootstrap-custom-tpls-1.3.1.min.js')}"></script>`
+    `<script src="${request.static_path('c2corg_ui:static/lib/angular-bootstrap/ui-bootstrap-custom-1.3.1.min.js')}"></script>`
+    `<script src="${request.static_path('c2corg_ui:static/lib/angular-bootstrap/ui-bootstrap-custom-tpls-1.3.1.min.js')}"></script>`
 
 	debug:
-    `<script src="${request.static_url('c2corg_ui:static/lib/angular-bootstrap/ui-bootstrap-custom-1.3.1.js')}"></script>`
-    `<script src="${request.static_url('c2corg_ui:static/lib/angular-bootstrap/ui-bootstrap-custom-tpls-1.3.1.js')}"></script>`
+    `<script src="${request.static_path('c2corg_ui:static/lib/angular-bootstrap/ui-bootstrap-custom-1.3.1.js')}"></script>`
+    `<script src="${request.static_path('c2corg_ui:static/lib/angular-bootstrap/ui-bootstrap-custom-tpls-1.3.1.js')}"></script>`

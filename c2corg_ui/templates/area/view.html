@@ -108,7 +108,7 @@ area['doctype'] = 'areas'
         <div class="associated-documents">
         % for module in ['waypoints', 'routes', 'outings']:
           <div class="list-item">
-            <a href="${request.route_url(module + '_index')}#a=${area_id}">
+            <a href="${request.route_path(module + '_index')}#a=${area_id}">
               <span class="icon-${'misc' if module == 'waypoints' else module}"></span>
               <span class="list-item-title" x-translate>${module.capitalize()}</span>
             </a>

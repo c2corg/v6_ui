@@ -427,10 +427,10 @@ class Document(object):
 
     def _redirect(self, id, lang, slug=None, is_lang_set=False):
         if slug is None:
-            location = self.request.route_url(
+            location = self.request.route_path(
                 self._API_ROUTE + '_view_id_lang', id=id, lang=lang)
         else:
-            location = self.request.route_url(
+            location = self.request.route_path(
                 self._API_ROUTE + '_view', id=id, lang=lang, slug=slug)
         if is_lang_set:
             raise HTTPMovedPermanently(location=location)
