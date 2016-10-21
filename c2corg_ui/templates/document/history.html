@@ -57,7 +57,7 @@
                     version_url = request.route_path(module + '_archive', id=document_id, lang=lang, version=v['version_id'])
             %>
             <td><a href="${version_url}">{{'${1000 * v['written_at']}' | date: 'dd.MM.yyyy - HH:mm':'-0000' }}</a></td>
-            <td class="text-center"><a href="#TODO profile for ${v['user_id']}">${v['name']}</a></td>
+            <td class="text-center"><a href="${request.route_path('profiles_view_id', id=v['user_id'])}">${v['name']}</a></td>
             <td x-translate>${show_version_comment(v)}</td>
           </tr>
         % endfor

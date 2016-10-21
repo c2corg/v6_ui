@@ -38,6 +38,13 @@
             ng-minlength="3" maxlength="15" ng-pattern="/^(?!.*[^a-zA-Z0-9])/" class="form-control" />
         </div>
 
+        <div id="account-is_profile_public-group" class="form-group">
+          <label>
+            <input type="checkbox" name="is_profile_public" ng-model="account.is_profile_public" class="form-control" />
+            <span translate>Make profile page public</span>
+          </label>
+        </div>
+
         <button type="submit" class="btn btn-primary" ng-disabled="accountForm.$invalid" translate>Save</button>
       </form>
     </div>

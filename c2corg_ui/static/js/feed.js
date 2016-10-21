@@ -15,7 +15,7 @@ app.feedDirective = function() {
     restrict: 'E',
     controller: 'appFeedController as feedCtrl',
     bindToController: {
-      'isProfile' : '=appFeedProfile'
+      'userId' : '=appFeedProfile'
     },
     templateUrl: '/static/partials/feed.html'
   };
@@ -24,8 +24,6 @@ app.module.directive('appFeed', app.feedDirective);
 
 
 /**
- * @param {angular.Scope} $scope Scope.
- * @param {angular.Attributes} $attrs Attributes.
  * @param {app.Authentication} appAuthentication
  * @param {app.Api} appApi Api service.
  * @param {app.Lang} appLang Lang service.
@@ -34,13 +32,7 @@ app.module.directive('appFeed', app.feedDirective);
  * @export
  * @struct
  */
-app.FeedController = function($scope, $attrs, appAuthentication, appApi, appLang) {
-
-  /**
-   * @type {angular.Scope}
-   * @private
-   */
-  this.scope_ = $scope;
+app.FeedController = function(appAuthentication, appApi, appLang) {
 
   /**
    * @type {app.Api}
@@ -85,18 +77,34 @@ app.FeedController = function($scope, $attrs, appAuthentication, appApi, appLang
   this.error = false;
 
   /**
-   * set in the directive's template
    * @type {boolean}
    * @export
    */
-  this.isProfile;
+  this.end = false;
 
   /**
-   * Used also in the template
    * @type {boolean}
    * @export
    */
-  this.isPersonal = !this.isProfile;
+  this.noFeed = false;
+
+  /**
+   * @type {boolean}
+   * @export
+   */
+  this.feedEnd = false;
+
+  /**
+   * @type {?number}
+   * @export
+   */
+  this.userId;
+
+  /**
+   * @type {boolean}
+   * @export
+   */
+  this.isPersonal = !this.userId;
 
   this.getDocumentsFromFeed();
 };
@@ -109,18 +117,20 @@ app.FeedController = function($scope, $attrs, appAuthentication, appApi, appLang
  */
 app.FeedController.prototype.getDocumentsFromFeed = function() {
   this.busy = true;
-  this.api_.readFeed(this.nextToken_, this.lang_.getLang(), this.isProfile, this.isPersonal).then(function(response) {
+  this.api_.readFeed(this.nextToken_, this.lang_.getLang(), this.userId, this.isPersonal).then(function(response) {
     this.error = false;
+    this.busy = false;
     var data = response['data']['feed'];
     var token = response['data']['pagination_token'];
+    this.nextToken_ = token;
+
     for (var i = 0; i < data.length; i++) {
       this.documents.push(data[i]);
     }
-    if (token) {
-      this.nextToken_ = token;
-      this.busy = false;
-    } else {  // if no token = reached the end of the feed - disable scroll
-      this.busy = true;
+    if ((token && data.length === 0) || (!token && this.documents.length > 0)) {  // reached the end of the feed - disable scroll
+      this.feedEnd = true;
+    } else if (data.length === 0) { // first fetch with no feed returned.
+      this.noFeed = true;
     }
   }.bind(this), function() { // Error msg is shown in the api service
     this.busy = false;
@@ -153,6 +163,7 @@ app.FeedController.prototype.createActionLine = function(doc) {
 
 /**
  * Switches between /personal-feed and /feed
+ * @export
  */
 app.FeedController.prototype.toggleFilters = function() {
   this.isPersonal = !this.isPersonal;

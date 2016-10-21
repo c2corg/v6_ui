@@ -1,9 +1,9 @@
-<%namespace file="helpers/detailed_area_attributes.html" import="get_area_general"/>
+<%namespace file="helpers/detailed_profile_attributes.html" import="get_profile_general"/>
 <%namespace file="../helpers/view.html" import="get_document_description"/>
 <%namespace file="../helpers/preview.html" import="show_preview_warning"/>
 
 <%
-area = document
+profile = document
 locale = document['locales'][0]
 %>
 
@@ -11,24 +11,24 @@ ${show_preview_warning()}
 
 <header class="view-details-title">
   <h1>
-    <span>${locale['title']}</span>
-    <label class="badge area">
-      <span class="glyphicon glyphicon-arrow-right"></span>&nbsp;<span translate>area</span>
+    <span>${profile['name']}</span>
+    <label class="badge profile">
+      <span class="glyphicon glyphicon-arrow-right"></span>&nbsp;<span translate>profile</span>
     </label>
   </h1>
 </header>
 
 <section class="view-details-section">
 
-  <div class="view-details-informations col-xs-12 informations">
+  <div class="view-details-informations col-xs-12  informations">
     <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
-      <span translate>Information</span><span class="glyphicon glyphicon-menu-down"></span>
+      <span translate>Informations</span><span class="glyphicon glyphicon-menu-down"></span>
     </h3>
     <section id="document-informations" class="collapse in">
-      ${get_area_general(area)}
+      ${get_profile_general(profile)}
     </section>
   </div>
 
-  ${get_document_description(locale, 'area')}
+  ${get_document_description(locale, 'profile')}
 
 </section>

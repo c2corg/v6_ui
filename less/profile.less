@@ -1,0 +1,39 @@
+#user-profile-data {
+  #feed {
+    float:right;
+    width: 71.5%;
+    margin-top: 5px;
+    padding-top: 0;
+    border: 1px solid #cbcbcb;
+    border-radius: 8px;
+    display: inline-block;
+    .feed-title {
+      padding-left: 10%;
+    }
+    .feed-list {
+      margin-bottom: 50px;
+    }
+    .feed-list:before, .timeline-bullet {
+      left: 11%;
+    }
+    .feed-list-item {
+      width: 65%;
+      margin-left: 20%;
+    }
+    .list-item {
+      width: 100%;
+      margin-left: 0;
+    }
+
+    @media (max-width: 1400px) {
+      width: 100%;
+      margin-left: 0;
+    }
+    @media @phone {
+      .feed-list-item {
+        margin-left: 0;
+        width: 100%;
+      }
+    }
+  }
+}

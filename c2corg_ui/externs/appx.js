@@ -320,9 +320,9 @@ appx.DiscourseEmbedded;
 
 /**
  * @typedef {{
- *   'followed_only': boolean,
- *   'activities': Array.<string>,
- *   'areas': Array.<appx.Area>
+ *   followed_only: boolean,
+ *   activities: Array.<string>,
+ *   areas: Array.<appx.Area>
  * }}
  */
 appx.UserPreferences;

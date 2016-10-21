@@ -1,0 +1,155 @@
+<%!
+from c2corg_common.attributes import activities, user_categories
+%>
+<%inherit file="../base.html"/>
+<%namespace file="../helpers/common.html" import="show_title"/>
+<%namespace file="../helpers/edit.html" import="show_preview_container, show_editing_buttons"/>
+
+<%block name="pagetitle">
+<title ng-bind="mainCtrl.page_title('Editing a profile')">${show_title('Editing a profile')}</title>
+</%block>
+
+<%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
+
+<section class="create-edit-document">
+
+  <h1 class="text-center">
+    <label class="label label-primary" translate>Editing a profile</label>
+  </h1>
+
+  <form app-loading app-document-editing="profiles" app-document-editing-model="profile"
+    app-document-editing-controller-name="appDocumentEditingController"
+    app-document-editing-id="${user_id}" app-document-editing-lang="${profile_lang}"
+    class="document-editing" name="editForm" novalidate ng-submit="editCtrl.submitForm(editForm.$valid)">
+
+    <section class="editing">
+
+      <div class="step step-1">
+
+        <section class="section">
+          <h2 class="heading show-phone" translate>description</h2>
+          <div class="content">
+
+            <div class="form-group half half-group">
+              ## NAME
+              <div>
+                <label translate>name</label>
+                <input disabled class="form-control" ng-model="profile.name">
+              </div>
+
+              <br>
+              
+              ## LANGUAGE
+              <div>
+                <label translate>lang</label>
+                <input disabled class="form-control" value="{{mainCtrl.translate('${profile_lang}')}}">
+              </div>
+            </div>
+
+            ## CATEGORIES
+            <div class="form-group half half-group">
+              <label translate>categories</label>
+              <ul class="types long">
+                <li ng-repeat="category in ${user_categories}" ng-click="editCtrl.pushToArray(profile, 'categories', category, $event)">
+                  <div class="checkbox"><input type="checkbox" ng-checked="profile.categories.indexOf(category) > - 1"><span>{{category | translate}}</span></div>
+                </li>
+              </ul>
+            </div>
+
+            ## SUMMARY
+            <div id="summary-group" class="form-group full">
+              <label translate>summary</label>
+              <textarea name="summary" ng-model="profile.locales[0].summary" class="form-control"></textarea>
+            </div>
+
+            ## DESCRIPTION
+            <div id="description-group" class="form-group full">
+              <label translate>description</label>
+              <textarea name="description" ng-model="profile.locales[0].description" class="form-control description"></textarea>
+            </div>
+
+            ## ACTIVITIES
+            <div class="form-group full" id="outing-activities">
+              <label translate>activities</label>
+              <div class="route-activities">
+                <div ng-repeat="activity in ${activities}" class="activity">
+                  <div>
+                    <div class="icon-{{activity}}" class="icon-" ng-click="editCtrl.pushToArray(profile, 'activities', activity, $event)"
+                         ng-class="{'activity-selected' : profile.activities.indexOf(activity) > -1}">
+                    </div>
+                    <p>{{activity | translate}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section maps-info">
+          <h2 class="heading show-phone"><span translate>geolocation</span></h2>
+          <div class="content" id="edit-maps">
+
+            ## LONGITUDE
+            <div id="longitude-group" class="form-group data third"
+                 ng-class="{ 'has-error': editForm.longitude.$touched && editForm.longitude.$invalid,
+                             'has-success': editForm.longitude.$valid && profile.lonlat.longitude}">
+              <label translate>longitude</label>
+              <div class="input-group">
+                <input type="number" name="longitude" ng-model="profile.lonlat.longitude" ng-change="editCtrl.updateMap()"
+                       class="form-control" min="-90" max="90" />
+                <span class="input-group-addon">°E</span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback"
+                    ng-show="editForm.longitude.$valid && profile.lonlat.longitude"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback"
+                    ng-show="editForm.longitude.$invalid && editForm.longitude.$touched"></span>
+              <div class="help-block" ng-messages="editForm.longitude.$error">
+                <p ng-message="number" class="label label-danger"
+                   style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : ''}}"
+                   translate>This field must be a number.</p>
+                <p ng-message="min" class="label label-danger"
+                   style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : ''}}"
+                   translate>This field must be between -180° and 180°.</p>
+                <p ng-message="max" class="label label-danger"
+                   style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : ''}}"
+                   translate>This field must be between -180° and 180°.</p>
+              </div>
+            </div>
+
+            ## LATITUDE
+            <div id="latitude-group" class="form-group data third"
+                 ng-class="{ 'has-error': editForm.latitude.$touched && editForm.latitude.$invalid,
+                             'has-success': editForm.latitude.$valid && profile.lonlat.latitude}">
+              <label translate>Latitude</label>
+              <div class="input-group">
+                <input type="number" name="latitude" ng-model="profile.lonlat.latitude" ng-change="editCtrl.updateMap()"
+                       class="form-control" min="-90" max="90" />
+                <span class="input-group-addon">°N</span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="profile.lonlat.latitude"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback"
+                    ng-show="editForm.latitude.$invalid && editForm.latitude.$touched"></span>
+              <div class="help-block" ng-messages="editForm.latitude.$error">
+                <p ng-message="number" class="label label-danger"
+                   style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : ''}}"
+                   translate>This field must be a number.</p>
+                <p ng-message="min" class="label label-danger"
+                   style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : ''}}"
+                   translate>This field must be between -90° and 90°.</p>
+                <p ng-message="max" class="label label-danger"
+                   style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : ''}}"
+                   translate>This field must be between -90° and 90°.</p>
+              </div>
+            </div>
+
+            <app-map app-map-edit="true" app-map-draw-type="Point" class="map-edit"></app-map>
+          </div>
+        </section>
+
+      ${show_editing_buttons('profile', True, user_id, profile_lang)}
+
+    </section>
+  </form>
+</section>
+
+${show_preview_container()}
