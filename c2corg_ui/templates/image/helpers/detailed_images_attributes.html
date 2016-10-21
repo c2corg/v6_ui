@@ -48,7 +48,7 @@
         <p><span class="value-title" translate>author</span>: <span class="value">${image['author']}</span></p>
       % elif image.get('creator'):
         <p><span class="value-title" translate>uploaded by</span>:
-          <span class="value"><a href="#${image['creator']['username']}">${image['creator']['name']}</a></span>
+          <span class="value"><a href="${request.route_path('profiles_view_id', id=image['creator']['user_id'])}">${image['creator']['name']}</a></span>
         </p>
       % endif
 
