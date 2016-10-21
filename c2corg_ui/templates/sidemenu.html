@@ -4,19 +4,19 @@
       <span>
       </span>
     </button>
-    <a href="${request.route_url('index')}" title="{{'Back to homepage'|translate}}">
-      <img src="${request.static_url('c2corg_ui:static/img/logo.svg')}" alt="Camptocamp.org" class="logo"/>
+    <a href="${request.route_path('index')}" title="{{'Back to homepage'|translate}}">
+      <img src="${request.static_path('c2corg_ui:static/img/logo.svg')}" alt="Camptocamp.org" class="logo"/>
     </a>
   </div>
   <ul class="nav">
     <li class="main-menu" ng-class="{'menu-selected': mainCtrl.isPath('/') === 'home' }">
-      <a href="${request.route_url('index')}">
+      <a href="${request.route_path('index')}">
         <i class="glyphicon glyphicon-home" tooltip-placement="right" uib-tooltip="{{'Home' | translate}}"></i>
         <span class="menu-text" translate>Home</span>
       </a>
     </li>
     <li class="main-menu" ng-class="{'menu-selected': mainCtrl.isPath('topoguide')}">
-      <a href="${request.route_url('routes_index')}">
+      <a href="${request.route_path('routes_index')}">
         <i class="glyphicon glyphicon-arrow-right" tooltip-placement="right" uib-tooltip="{{'Topoguide' | translate}}"></i>
         <span class="menu-text" translate>Topoguide</span>
       </a>
@@ -34,7 +34,7 @@
       </a>
     </li>
     <li class="main-menu" ng-class="{'menu-selected': mainCtrl.isPath('articles')}">
-      <a href="${request.route_url('articles_index')}">
+      <a href="${request.route_path('articles_index')}">
         <i class="glyphicon glyphicon-info-sign" tooltip-placement="right" uib-tooltip="{{'Articles' | translate}}"></i>
         <span class="menu-text" translate>Articles</span>
       </a>
@@ -49,7 +49,7 @@
 
   <footer>
     <div class="advertisement">
-      <iframe src="${request.static_url('c2corg_ui:static/affiz.html')}" width="160" height="320" frameborder="0" scrolling="no"></iframe>
+      <iframe src="${request.static_path('c2corg_ui:static/affiz.html')}" width="160" height="320" frameborder="0" scrolling="no"></iframe>
     </div>
 
     <ul class="footer-nav">

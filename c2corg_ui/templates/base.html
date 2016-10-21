@@ -15,8 +15,8 @@ closure_library_path = settings.get('closure_library_path')
     ## Mobile attributes
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <link rel="shortcut icon" sizes="196x196"  href="${request.static_url('c2corg_ui:static/img/logo.svg')}">
-    <link rel="icon" href="${request.static_url('c2corg_ui:static/img/icon.png')}">
+    <link rel="shortcut icon" sizes="196x196"  href="${request.static_path('c2corg_ui:static/img/logo.svg')}">
+    <link rel="icon" href="${request.static_path('c2corg_ui:static/img/icon.png')}">
     <meta name="theme-color" content="#F7931D">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Camptocamp.org">
@@ -24,29 +24,29 @@ closure_library_path = settings.get('closure_library_path')
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta http-equiv="X-Frame-Options" content="allow">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="msapplication-TileImage" content="${request.static_url('c2corg_ui:static/img/logo.svg')}">
+    <meta name="msapplication-TileImage" content="${request.static_path('c2corg_ui:static/img/logo.svg')}">
     <meta name="msapplication-TileColor" content="#FF0000">
     <%block name="metarobots"><meta name="robots" content="index,follow"></%block>
 % if debug:
-    <link rel="stylesheet" href="${request.static_url('%s/bootstrap/dist/css/bootstrap.css' % node_modules_path)}">
-    <link rel="stylesheet" href="${request.static_url('%s/bootstrap-slider/dist/css/bootstrap-slider.css' % node_modules_path)}">
-    <link rel="stylesheet"  href="${request.static_url('%s/slick-carousel/slick/slick.css' % node_modules_path)}">
-    <link rel="stylesheet"  href="${request.static_url('%s/photoswipe/dist/photoswipe.css' % node_modules_path)}">
-    <link rel="stylesheet"  href="${request.static_url('%s/photoswipe/dist/default-skin/default-skin.css' % node_modules_path)}">
-    <link rel="stylesheet"  href="${request.static_url('%s/slick-carousel/slick/slick-theme.css' % node_modules_path)}">
-    <link rel="stylesheet" href="${request.static_url('c2corg_ui:static/build/build.css')}">
-    <link rel="stylesheet" href="${request.static_url('c2corg_ui:static/build/build-print.css')}" media="print">
+    <link rel="stylesheet" href="${request.static_path('%s/bootstrap/dist/css/bootstrap.css' % node_modules_path)}">
+    <link rel="stylesheet" href="${request.static_path('%s/bootstrap-slider/dist/css/bootstrap-slider.css' % node_modules_path)}">
+    <link rel="stylesheet"  href="${request.static_path('%s/slick-carousel/slick/slick.css' % node_modules_path)}">
+    <link rel="stylesheet"  href="${request.static_path('%s/photoswipe/dist/photoswipe.css' % node_modules_path)}">
+    <link rel="stylesheet"  href="${request.static_path('%s/photoswipe/dist/default-skin/default-skin.css' % node_modules_path)}">
+    <link rel="stylesheet"  href="${request.static_path('%s/slick-carousel/slick/slick-theme.css' % node_modules_path)}">
+    <link rel="stylesheet" href="${request.static_path('c2corg_ui:static/build/build.css')}">
+    <link rel="stylesheet" href="${request.static_path('c2corg_ui:static/build/build-print.css')}" media="print">
 % else:
-    <link rel="stylesheet" href="${request.static_url('c2corg_ui:static/build/deps.css')}">
-    <link rel="stylesheet" href="${request.static_url('c2corg_ui:static/build/build.min.css')}">
-    <link rel="stylesheet" href="${request.static_url('c2corg_ui:static/build/build-print.min.css')}" media="print">
+    <link rel="stylesheet" href="${request.static_path('c2corg_ui:static/build/deps.css')}">
+    <link rel="stylesheet" href="${request.static_path('c2corg_ui:static/build/build.min.css')}">
+    <link rel="stylesheet" href="${request.static_path('c2corg_ui:static/build/build-print.min.css')}" media="print">
 % endif
   </head>
   <body class="on-load loading">
     <%include file="sidemenu.html"/>
-    <img src="${request.static_url('c2corg_ui:static/img/loading.gif')}" class="loading-gif">
-    <a href="${request.route_url('index')}" title="{{'Back to homepage'|translate}}" class="logo header">
-      <img src="${request.static_url('c2corg_ui:static/img/logo.svg')}" alt="Camptocamp.org"/>
+    <img src="${request.static_path('c2corg_ui:static/img/loading.gif')}" class="loading-gif">
+    <a href="${request.route_path('index')}" title="{{'Back to homepage'|translate}}" class="logo header">
+      <img src="${request.static_path('c2corg_ui:static/img/logo.svg')}" alt="Camptocamp.org"/>
     </a>
     <main class="page-content">
       ${self.body()}
@@ -78,38 +78,38 @@ closure_library_path = settings.get('closure_library_path')
       window.CLOSURE_BASE_PATH = ' ';
       window.CLOSURE_NO_DEPS = true;
     </script>
-    <script src="${request.static_url('%s/jquery/dist/jquery.js' % node_modules_path)}"></script>
-    <script src="${request.static_url('%s/angular/angular.js' % node_modules_path)}"></script>
-    <script src="${request.static_url('%s/bootstrap/dist/js/bootstrap.js' % node_modules_path)}"></script>
-    <script src="${request.static_url('%s/bootstrap-slider/dist/bootstrap-slider.js' % node_modules_path)}"></script>
-    <script src="${request.static_url('c2corg_ui:static/lib/angular-bootstrap/ui-bootstrap-custom-1.3.2.js')}"></script>
-    <script src="${request.static_url('c2corg_ui:static/lib/angular-bootstrap/ui-bootstrap-custom-tpls-1.3.2.js')}"></script>
-    <script src="${request.static_url('%s/angular-gettext/dist/angular-gettext.js' % node_modules_path)}"></script>
-    <script src="${request.static_url('%s/angular-ui-date/dist/date.js' % node_modules_path)}"></script>
-    <script src="${request.static_url('%s/angular-messages/angular-messages.js' % node_modules_path)}"></script>
-    <script src="${request.static_url('%s/angular-cookies/angular-cookies.js' % node_modules_path)}"></script>
-    <script src="${request.static_url('%s/closure/goog/base.js' % closure_library_path)}"></script>
-    <script src="${request.static_url('%s/typeahead.js/dist/typeahead.bundle.js' % node_modules_path)}"></script>
-    <script src="${request.static_url('%s/ng-infinite-scroll/build/ng-infinite-scroll.js' % node_modules_path)}"></script>
-    <script src="${request.static_url('%s/moment/moment.js' % node_modules_path)}"></script>
-    <script src="${request.static_url('%s/angular-moment/angular-moment.js' % node_modules_path)}"></script>
-    <script src="${request.static_url('%s/angular-recaptcha/release/angular-recaptcha.js' % node_modules_path)}"></script>
-    <script src="${request.static_url('%s/ng-file-upload/dist/ng-file-upload.js' % node_modules_path)}"></script>
-    <script src="${request.static_url('%s/blueimp-load-image/js/load-image.js' % node_modules_path)}"></script>
-    <script src="${request.static_url('%s/slick-carousel/slick/slick.js' % node_modules_path)}"></script>
-    <script src="${request.static_url('%s/blueimp-load-image/js/load-image-orientation.js' % node_modules_path)}"></script>
-    <script src="${request.static_url('%s/blueimp-load-image/js/load-image-meta.js' % node_modules_path)}"></script>
-    <script src="${request.static_url('%s/blueimp-load-image/js/load-image-exif.js' % node_modules_path)}"></script>
-    <script src="${request.static_url('%s/blueimp-load-image/js/load-image-exif-map.js' % node_modules_path)}"></script>
-    <script src="${request.static_url('%s/photoswipe/dist/photoswipe.js' % node_modules_path)}"></script>
-    <script src="${request.static_url('%s/photoswipe/dist/photoswipe-ui-default.js' % node_modules_path)}"></script>
-    <script src="${request.static_url('%s/angular-slug/angular-slug.js' % node_modules_path)}"></script>
-    <script src="${request.static_url('%s/slug/slug.js' % node_modules_path)}"></script>
-    <script src="${request.route_url('deps.js')}"></script>
-    <script src="${request.static_url('c2corg_ui:static/js/main.js')}"></script>
+    <script src="${request.static_path('%s/jquery/dist/jquery.js' % node_modules_path)}"></script>
+    <script src="${request.static_path('%s/angular/angular.js' % node_modules_path)}"></script>
+    <script src="${request.static_path('%s/bootstrap/dist/js/bootstrap.js' % node_modules_path)}"></script>
+    <script src="${request.static_path('%s/bootstrap-slider/dist/bootstrap-slider.js' % node_modules_path)}"></script>
+    <script src="${request.static_path('c2corg_ui:static/lib/angular-bootstrap/ui-bootstrap-custom-1.3.2.js')}"></script>
+    <script src="${request.static_path('c2corg_ui:static/lib/angular-bootstrap/ui-bootstrap-custom-tpls-1.3.2.js')}"></script>
+    <script src="${request.static_path('%s/angular-gettext/dist/angular-gettext.js' % node_modules_path)}"></script>
+    <script src="${request.static_path('%s/angular-ui-date/dist/date.js' % node_modules_path)}"></script>
+    <script src="${request.static_path('%s/angular-messages/angular-messages.js' % node_modules_path)}"></script>
+    <script src="${request.static_path('%s/angular-cookies/angular-cookies.js' % node_modules_path)}"></script>
+    <script src="${request.static_path('%s/closure/goog/base.js' % closure_library_path)}"></script>
+    <script src="${request.static_path('%s/typeahead.js/dist/typeahead.bundle.js' % node_modules_path)}"></script>
+    <script src="${request.static_path('%s/ng-infinite-scroll/build/ng-infinite-scroll.js' % node_modules_path)}"></script>
+    <script src="${request.static_path('%s/moment/moment.js' % node_modules_path)}"></script>
+    <script src="${request.static_path('%s/angular-moment/angular-moment.js' % node_modules_path)}"></script>
+    <script src="${request.static_path('%s/angular-recaptcha/release/angular-recaptcha.js' % node_modules_path)}"></script>
+    <script src="${request.static_path('%s/ng-file-upload/dist/ng-file-upload.js' % node_modules_path)}"></script>
+    <script src="${request.static_path('%s/blueimp-load-image/js/load-image.js' % node_modules_path)}"></script>
+    <script src="${request.static_path('%s/slick-carousel/slick/slick.js' % node_modules_path)}"></script>
+    <script src="${request.static_path('%s/blueimp-load-image/js/load-image-orientation.js' % node_modules_path)}"></script>
+    <script src="${request.static_path('%s/blueimp-load-image/js/load-image-meta.js' % node_modules_path)}"></script>
+    <script src="${request.static_path('%s/blueimp-load-image/js/load-image-exif.js' % node_modules_path)}"></script>
+    <script src="${request.static_path('%s/blueimp-load-image/js/load-image-exif-map.js' % node_modules_path)}"></script>
+    <script src="${request.static_path('%s/photoswipe/dist/photoswipe.js' % node_modules_path)}"></script>
+    <script src="${request.static_path('%s/photoswipe/dist/photoswipe-ui-default.js' % node_modules_path)}"></script>
+    <script src="${request.static_path('%s/angular-slug/angular-slug.js' % node_modules_path)}"></script>
+    <script src="${request.static_path('%s/slug/slug.js' % node_modules_path)}"></script>
+    <script src="${request.route_path('deps.js')}"></script>
+    <script src="${request.static_path('c2corg_ui:static/js/main.js')}"></script>
 % else:
-    <script src="${request.static_url('c2corg_ui:static/build/deps.js')}"></script>
-    <script src="${request.static_url('c2corg_ui:static/build/build.js')}"></script>
+    <script src="${request.static_path('c2corg_ui:static/build/deps.js')}"></script>
+    <script src="${request.static_path('c2corg_ui:static/build/build.js')}"></script>
 % endif
 
 
@@ -127,14 +127,14 @@ closure_library_path = settings.get('closure_library_path')
         },false);
 
          var module = angular.module('app');
-         module.constant('langUrlTemplate', '${request.static_url('c2corg_ui:static/build/locale/__lang__/c2corg_ui.json')}');
-         module.constant('langMomentPath', '${request.static_url('c2corg_ui:static/build/locale_moment')}');
-         module.constant('imgPath', '${request.static_url('c2corg_ui:static/img')}');
+         module.constant('langUrlTemplate', '${request.static_path('c2corg_ui:static/build/locale/__lang__/c2corg_ui.json')}');
+         module.constant('langMomentPath', '${request.static_path('c2corg_ui:static/build/locale_moment')}');
+         module.constant('imgPath', '${request.static_path('c2corg_ui:static/img')}');
          module.constant('apiUrl', '${api_url}');
          module.constant('imageBackendUrl', '${image_backend_url}');
          module.constant('imageUrl', '${image_url}');
          module.constant('discourseUrl', '${discourse_url}');
-         module.constant('authUrl', '${request.route_url('auth')}');
+         module.constant('authUrl', '${request.route_path('auth')}');
          module.constant('langs', ['${"','".join(default_langs) |n}']);
          module.constant('mapApiKeys', {
            'ign': '${ign_api_key}',

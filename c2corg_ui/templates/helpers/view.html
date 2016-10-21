@@ -22,7 +22,7 @@
       <p><b translate>Changes</b>: <span x-translate>${show_version_comment(version)}</span></p>
     </div>
     <p class="text-center">
-        <a href="${request.route_url(module + '_view_id_lang', id=document['document_id'], lang=locale['lang'])}">
+        <a href="${request.route_path(module + '_view_id_lang', id=document['document_id'], lang=locale['lang'])}">
           <button class="btn btn-default" translate>See the latest version</button>
         </a>
     </p>
@@ -36,7 +36,7 @@
       <ul>
       % for l in other_langs:
         <li>
-          <a href="${request.route_url(module + '_view_id_lang', id=document['document_id'], lang=l)}" x-translate>${l}</a>
+          <a href="${request.route_path(module + '_view_id_lang', id=document['document_id'], lang=l)}" x-translate>${l}</a>
           <span class="glyphicon glyphicon-chevron-right"></span>
         </li>
       % endfor
@@ -95,7 +95,7 @@
       % for area in areas:
         <%
           locale = area['locales'][0]
-          url = request.route_url('areas_view', id=area['document_id'], lang=locale['lang'], slug=slugify(locale['title']))
+          url = request.route_path('areas_view', id=area['document_id'], lang=locale['lang'], slug=slugify(locale['title']))
         %>
         <li class="${area['area_type']}"><a href="${url}">${locale['title']}</a></li>
       % endfor
@@ -133,7 +133,7 @@
             title += locale['title']
         %>
         <li>
-          <a href="${request.route_url(doctype + '_view', id=doc['document_id'], lang=locale['lang'], slug=slugify(title))}">${title}</a>
+          <a href="${request.route_path(doctype + '_view', id=doc['document_id'], lang=locale['lang'], slug=slugify(title))}">${title}</a>
         </li>
       % endfor
     </ul>
@@ -188,7 +188,7 @@
           <%
               fragment = '{0}={1}'.format(document['type'], document['document_id'])
           %>
-          <div class="list-item vertical-align" onclick="window.location='${request.route_url('routes_index')}#${fragment}';">
+          <div class="list-item vertical-align" onclick="window.location='${request.route_path('routes_index')}#${fragment}';">
             <button class="gray-btn btn show-more" translate>show more</button>
           </div>
         % endif
@@ -257,7 +257,7 @@
           <%
               fragment = '{0}={1}'.format(document['type'], document['document_id'])
           %>
-          <div class="list-item vertical-align" onclick="window.location='${request.route_url('outings_index')}#${fragment}';">
+          <div class="list-item vertical-align" onclick="window.location='${request.route_path('outings_index')}#${fragment}';">
             <button class="gray-btn btn show-more" translate>show more</button>
           </div>
         % endif
@@ -492,7 +492,7 @@
         <p class="float-button-text" translate>More</p>
       </div>
       <ul class="dropdown-menu"  role="menu">
-        <li><a href="${request.route_url(doctype + '_history', id=doc_id, lang=doc_lang)}" translate>History</a></li>
+        <li><a href="${request.route_path(doctype + '_history', id=doc_id, lang=doc_lang)}" translate>History</a></li>
         % if other_langs:
         <li ng-click="detailsCtrl.openModal('#other-langs')"><a translate>View in other lang</a></li>
         % endif
@@ -759,7 +759,7 @@
           fragments.append(('wtyp', document['waypoint_type']))
   %>
   <label class="badge ${type}">
-    <a href="${request.route_url(type + 's_index')}#${'&'.join(['='.join(fragment) for fragment in fragments])}"><span
+    <a href="${request.route_path(type + 's_index')}#${'&'.join(['='.join(fragment) for fragment in fragments])}"><span
        class="glyphicon glyphicon-arrow-right"></span>&nbsp;<span x-translate>${type}</span></a>
   </label>
 </%def>

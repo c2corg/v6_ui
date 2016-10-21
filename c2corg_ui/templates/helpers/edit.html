@@ -64,8 +64,8 @@
       <span class="glyphicon glyphicon-ok"></span>
     </button>
     <%
-    view_url = request.route_url(model + 's_view_id_lang', id=id, lang=lang) if updating_doc else ''
-    index_url = request.route_url(model + 's_index')
+    view_url = request.route_path(model + 's_view_id_lang', id=id, lang=lang) if updating_doc else ''
+    index_url = request.route_path(model + 's_index')
     %>
     <button type="button" class="btn gray-btn btn-lg float-button"
       ng-click="editCtrl.cancel('${view_url}', '${index_url}')"
