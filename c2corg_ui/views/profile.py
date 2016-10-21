@@ -17,6 +17,28 @@ class Profile(Document):
 
     @view_config(route_name='profiles_view')
     def profile(self):
+        """
+        User profiles are a bit special, because users can mark their profile
+        as non-public so that the profile data has to be requested with an
+        authentication header. The request to get a profile page is made by
+        the browser, so that the authentication header can not be set.
+        That's why the profile page is constructed as follows:
+
+        - The browser makes a request `/profiles/123` to the UI server-side
+          (without authentication header).
+        - The UI server sides makes an unauthenticated request to the API to
+          get the available locales of the profile
+          (`api.camptocamp.org/profiles/123/info`)
+        - The UI server-side returns a page containing only the user name.
+        - On the UI client-side a request is made to the UI server-side to get
+          the profile data as rendered HTML (e.g. `/profiles/data/123/fr`).
+          If the user is logged-in, the request is made authenticated.
+        - The UI server-side makes a request to the API to get the profile
+          data (e.g. (`api.camptocamp.org/profiles/123/fr`)). If the request
+          to the UI server-side was authenticated, the request to the API is
+          also made authenticated.
+        - On the UI client-side the rendered HTML is inserted into the page.
+        """
         id, lang = self._validate_id_lang()
 
         def render_page(profile, locales):
@@ -39,14 +61,14 @@ class Profile(Document):
 
         def load_data(old_api_cache_key=None):
             not_modified, api_cache_key, document_and_locale = \
-                self._get_profile(id, lang, old_api_cache_key)
+                self._get_profile_info(id, lang, old_api_cache_key)
             return not_modified, api_cache_key, document_and_locale
 
         return self._get_or_create(
             (id, lang), cache_document_detail, load_data, render_page,
             self._get_cache_key)
 
-    def _get_profile(self, id, lang, old_api_cache_key=None):
+    def _get_profile_info(self, id, lang, old_api_cache_key=None):
         url = '%s/%d/%s/info' % (self._API_ROUTE, id, lang)
         not_modified, api_cache_key, document = self._get_with_etag(
             url, old_api_cache_key)
