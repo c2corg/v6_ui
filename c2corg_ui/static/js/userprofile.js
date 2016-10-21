@@ -55,15 +55,14 @@ app.UserProfileController = function($scope, $http, $compile, appAlerts) {
    */
   this.alerts_ = appAlerts;
 
-  var config = {
-    headers: {
-      'Accept': 'application/json'
-    }
-  };
+  /**
+   * An authenticated request is made to the ui server to get the profile data
+   * as rendered HTML (profiles can be marked as non-public).
+   */
   var url = '/profiles/data/{id}/{lang}'
     .replace('{id}', this.userId.toString())
     .replace('{lang}', this.lang);
-  var promise = $http.get(url, config);
+  var promise = $http.get(url);
   promise.catch(function(response) {
     this.alerts_.addErrorWithMsg(
       this.alerts_.gettext('An error occured while loading this profile'),

@@ -313,7 +313,7 @@
 <%def name="get_document_description(locale, doctype)">\
   % if locale.get('summary') or locale.get('description'):
     <div class="view-details-description col-xs-12  description">
-      % if doctype != 'article' and doctype != 'profile':
+      % if doctype not in ['article', 'profile']:
         <h3 class="heading show-phone">
           % if doctype == 'outing':
             <span translate>personal comments</span>
