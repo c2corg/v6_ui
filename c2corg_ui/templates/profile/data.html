@@ -2,9 +2,8 @@
 from c2corg_ui.templates.utils import get_lang_lists
 from json import dumps
 %>
-<%namespace file="helpers/detailed_profile_attributes.html" import="get_profile_general"/>
-<%namespace file="../helpers/view.html" import="get_image_gallery, get_document_description,
-    show_areas"/>
+<%namespace file="../helpers/view.html" import="get_image_gallery, get_document_description, show_areas"/>
+<%namespace file="helpers/view.html" import="get_profile_general"/>
 
 % if not_authorized:
   <div class="view-details-not-authorised text-center">

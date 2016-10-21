@@ -6,10 +6,6 @@ from json import dumps
 
 <%inherit file="../base.html"/>
 <%namespace file="../helpers/common.html" import="show_title"/>
-<%namespace file="helpers/detailed_waypoint_attributes.html" import="get_waypoint_equipment,
-    get_waypoint_orientation, get_waypoint_contact, get_waypoint_style, get_waypoint_rating,
-    get_waypoint_access, get_waypoint_heights, get_waypoint_location, get_waypoint_general,
-    get_waypoint_maps_info"/>
 <%namespace file="../helpers/view.html" import="get_comments, get_image_gallery,
     photoswipe_gallery, get_document_locale_text,
     show_attr, show_missing_langs_links, show_other_langs_links, show_archive_data,
@@ -17,6 +13,10 @@ from json import dumps
     show_associated_waypoints, show_associated_routes, show_associated_articles, show_associated_outings,
     delete_association_confirmation_modal, associated_waypoints_featurelist,
     show_badge, get_document_description"/>
+<%namespace file="helpers/view.html" import="get_waypoint_equipment,
+    get_waypoint_orientation, get_waypoint_contact, get_waypoint_style, get_waypoint_rating,
+    get_waypoint_access, get_waypoint_heights, get_waypoint_location, get_waypoint_general,
+    get_waypoint_maps_info"/>
 
 <%
 waypoint_id = waypoint['document_id']
