@@ -133,12 +133,11 @@
             <p>
                 % for user in outing['associations']['users']:
                   <%
-                      user_name = user['name'] if 'name' in user else user['username']
                       user_id = user['document_id']
                       user_lang = user['locales'][0]['lang']
                       is_last_participant = loop.last and not outing['locales'][0].get('participants')
                   %>
-                  <a href="${request.route_path('profiles_view', id=user_id, lang=user_lang)}">${user_name}</a>${'' if is_last_participant else ', '}
+                  <a href="${request.route_path('profiles_view', id=user_id, lang=user_lang)}">${user['name']}</a>${'' if is_last_participant else ', '}
                 % endfor
               ${outing['locales'][0].get('participants') or ''}
             </p>

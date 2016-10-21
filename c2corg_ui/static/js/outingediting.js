@@ -80,7 +80,7 @@ app.OutingEditingController = function($scope, $element, $attrs, $http,
   if (this.auth.isAuthenticated()) {
     this.scope[this.modelName]['associations']['users'].push({
       'document_id': this.auth.userData.id,
-      'name': this.auth.userData.username
+      'name': this.auth.userData.name
     });
     this.formatOuting_(this.scope[this.modelName]);
   }
