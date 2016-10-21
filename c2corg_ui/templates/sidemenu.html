@@ -28,7 +28,7 @@
       </a>
     </li>
     <li class="main-menu" ng-class="{'menu-selected': mainCtrl.isPath('accidentdatabase')}">
-      <a>
+      <a href="${request.route_path('articles_view_id', id=697210)}">
         <i class="glyphicon glyphicon-alert" tooltip-placement="right" uib-tooltip="{{'Accident database' | translate}}"></i>
         <span class="menu-text" translate>Accident database</span>
       </a>
@@ -40,7 +40,7 @@
       </a>
     </li>
     <li class="main-menu" ng-class="{'menu-selected': mainCtrl.isPath('Association')}">
-      <a>
+      <a href="${request.route_path('articles_view_id', id=106726)}">
         <i class="glyphicon glyphicon-comment" tooltip-placement="right" uib-tooltip="{{'Association' | translate}}"></i>
         <span class="menu-text" translate>Association</span>
       </a>
@@ -53,15 +53,13 @@
     </div>
 
     <ul class="footer-nav">
-      <li><span translate>contact</span></li>
+      <li><a href="${request.route_path('articles_view_id', id=106727)}" translate>contact</a></li>
       <span class="bullet">&bull; </span>
-      <li><span translate>site map</span></li>
+      <li><a href="${request.route_path('articles_view_id', id=121965)}" translate>credits</a></li>
       <span class="bullet">&bull; </span>
-      <li><span translate>credits</span></li>
+      <li><a href="${request.route_path('articles_view_id', id=106731)}" translate>terms of use</a></li>
       <span class="bullet">&bull; </span>
-      <li><span translate>terms of use</span></li>
-      <span class="bullet">&bull; </span>
-      <li><span translate>content license</span></li>
+      <li><a href="${request.route_path('articles_view_id', id=106728)}" translate>content license</a></li>
     </ul>
 
     <div class="social-networks">
