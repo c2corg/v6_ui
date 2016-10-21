@@ -1,0 +1,17 @@
+<div ng-if="followCtrl.canFollow()">
+
+  <div ng-show="followCtrl.followed" ng-click="followCtrl.toggle()"
+       class="float-button float-followed" tooltip-placement="left"
+       uib-tooltip="{{'Stop following this contributor' | translate}}">
+    <span class="glyphicon glyphicon-star"></span>
+    <p class="float-button-text" translate>Unfollow</p>
+  </div>
+
+  <div ng-hide="followCtrl.followed" ng-click="followCtrl.toggle()"
+       class="float-button float-notfollowed" tooltip-placement="left"
+       uib-tooltip="{{'See the activity of this contributor in your feed' | translate}}">
+    <span class="glyphicon glyphicon-star-empty"></span>
+    <p class="float-button-text" translate>Follow</p>
+  </div>
+
+</div>

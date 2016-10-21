@@ -1,0 +1,67 @@
+<%!
+    from c2corg_common.attributes import activities, image_categories, image_types
+    from c2corg_ui.templates.utils import get_lang_lists
+%>
+<%inherit file="../base.html"/>
+<%namespace file="../helpers/view.html" import="show_badge, show_route_title,
+    photoswipe_gallery, show_missing_langs_links, show_other_langs_links"/>
+<%namespace file="helpers/detailed_profile_attributes.html" import="show_profile_float_buttons"/>
+
+<%block name="pagelang">lang="${lang}"</%block>
+
+<%block name="pagetitle"><title>${show_route_title(locales[0], True)}</title></%block>
+
+<%block name="metarobots">
+  <meta name="robots" content="noindex,follow">
+</%block>
+
+<%
+    user_id = profile['document_id']
+    locale = locales[0]
+    lang_data = {'available_langs': [l['lang'] for l in locales]}
+    other_langs, missing_langs = get_lang_lists(lang_data, lang)
+%>
+
+<%block name="moduleConstantsValues">
+  ## Set in the data request
+  module.value('mapFeatureCollection', null);
+
+  module.value('documentData', {
+    "document_id": ${profile.get('document_id')},
+    "lang": "${lang}",
+    "type": "u",
+    "associations": null
+  });
+</%block>
+
+<header class="view-details-title">
+  <h1>
+    <span>${locale['title']}</span>
+    ${show_badge(profile, 'profile')}
+  </h1>
+</header>
+
+<section class="view-details-section" app-view-details>
+
+  <div app-user-profile="${user_id}" app-user-profile-lang="${lang}">
+    <div id="user-profile-data"></div>
+  </div>
+
+  ${show_other_langs_links('profiles', profile, other_langs)}
+  ${show_missing_langs_links('profiles', profile, missing_langs)}
+  ${show_profile_float_buttons(user_id, lang, other_langs, missing_langs)}
+
+</section>
+
+<div class="ng-hide">
+  <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
+</div>
+
+${photoswipe_gallery()}
+
+<script>
+  window.onload = function() {
+     // init float-buttons tooltips
+     $('[data-toggle=\'tooltip\']').tooltip();
+  };
+</script>

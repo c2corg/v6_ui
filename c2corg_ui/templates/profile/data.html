@@ -1,0 +1,60 @@
+<%!
+from c2corg_ui.templates.utils import get_lang_lists
+from json import dumps
+%>
+<%namespace file="helpers/detailed_profile_attributes.html" import="get_profile_general"/>
+<%namespace file="../helpers/view.html" import="get_image_gallery, get_document_description,
+    show_areas"/>
+
+% if not_authorized:
+  <div class="view-details-description col-xs-12 description">
+    <span class="lead">
+      <div id="document-description" class="collapse in" translate>This profile is only available to authenticated users.</div>
+    </span>
+  </div>
+
+% else:
+
+  % if geometry:
+
+    % if profile.get('areas'):
+      <article class="location-static">
+        ${show_areas(profile)}
+      </article>
+    % endif
+
+    <div ng-init='profileFeature = {
+        "type": "FeatureCollection",
+        "properties": {},
+        "features": [{
+          "type": "Feature",
+          "geometry": {"type": "Point", "coordinates": [${geometry.x}, ${geometry.y}]},
+          "properties": {
+            "title": ${dumps(profile["name"]) | n},
+            "lang": "${locale["lang"]}",
+            "documentId": ${profile['document_id']},
+            "module": "profiles",
+            "highlight": true
+          }
+        }]
+      }'>
+    <app-map class="view-details-map" app-map-feature-collection="profileFeature"></app-map>
+  % endif
+
+
+  ${get_image_gallery()}
+
+  <div class="view-details-informations col-xs-12  informations">
+    <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
+      <span translate>Informations</span><span class="glyphicon glyphicon-menu-down"></span>
+    </h3>
+    <section id="document-informations" class="collapse in">
+      ${get_profile_general(profile)}
+    </section>
+  </div>
+
+  ${get_document_description(locale, 'profile')}
+
+  <app-feed app-feed-profile="${profile['document_id']}" id="feed"></app-feed>
+
+% endif
