@@ -122,11 +122,10 @@ app.FeedController.prototype.getDocumentsFromFeed = function() {
     this.busy = false;
     var data = response['data']['feed'];
     var token = response['data']['pagination_token'];
+    this.nextToken_ = token;
+
     for (var i = 0; i < data.length; i++) {
       this.documents.push(data[i]);
-    }
-    if (token) {
-      this.nextToken_ = token;
     }
     if ((token && data.length === 0) || (!token && this.documents.length > 0)) {  // reached the end of the feed - disable scroll
       this.feedEnd = true;
@@ -164,6 +163,7 @@ app.FeedController.prototype.createActionLine = function(doc) {
 
 /**
  * Switches between /personal-feed and /feed
+ * @export
  */
 app.FeedController.prototype.toggleFilters = function() {
   this.isPersonal = !this.isPersonal;
