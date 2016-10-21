@@ -10,7 +10,7 @@
      infinite-scroll="feedCtrl.getDocumentsFromFeed()"
      infinite-scroll-immediate-check="false"
      infinite-scroll-distance="0.7"
-     infinite-scroll-disabled="feedCtrl.busy || feedCtrl.error">
+     infinite-scroll-disabled="feedCtrl.busy || feedCtrl.error || feedCtrl.feedEnd">
 
   <article class="feed-list-item" protected-url-btn url="/outings/add" ng-if="!feedCtrl.userId">
     <div class="timeline-bullet icon-outings" uib-tooltip="{{'outing'| translate}}" tooltip-placement="left"></div>
@@ -42,4 +42,5 @@
   </article>
   <h4 translate class="text-center text-danger" ng-show="feedCtrl.error">Sorry, there was an error while getting the feed.</h4>
   <h4 class="text-success text-center" translate ng-show="feedCtrl.busy">Loading feed, please wait...</h4>
+  <h4 class="text-success text-center" translate ng-show="feedCtrl.feedEnd">No more feed to load.</h4>
 </div>

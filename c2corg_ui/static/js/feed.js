@@ -77,6 +77,12 @@ app.FeedController = function(appAuthentication, appApi, appLang) {
   this.error = false;
 
   /**
+   * @type {boolean}
+   * @export
+   */
+  this.end = false;
+
+  /**
    * @type {?number}
    * @export
    */
@@ -106,11 +112,12 @@ app.FeedController.prototype.getDocumentsFromFeed = function() {
     for (var i = 0; i < data.length; i++) {
       this.documents.push(data[i]);
     }
+    this.busy = false;
     if (token) {
       this.nextToken_ = token;
-      this.busy = false;
-    } else {  // if no token = reached the end of the feed - disable scroll
-      this.busy = true;
+    }
+    if ((token && data.length === 0) || !token) {  // reached the end of the feed - disable scroll
+      this.feedEnd = true;
     }
   }.bind(this), function() { // Error msg is shown in the api service
     this.busy = false;
