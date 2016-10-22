@@ -3,6 +3,7 @@ import markdown
 import html
 
 from c2corg_ui.format.wikilinks import C2CWikiLinkExtension
+from c2corg_ui.format.img import C2CImageExtension
 from markdown.extensions.nl2br import Nl2BrExtension
 from markdown.extensions.toc import TocExtension
 
@@ -16,6 +17,7 @@ def _get_markdown_parser():
     if not _markdown_parser:
         extensions = [
             C2CWikiLinkExtension(),
+            C2CImageExtension(),
             Nl2BrExtension(),
             TocExtension(marker='[toc]', baselevel=2),
         ]
