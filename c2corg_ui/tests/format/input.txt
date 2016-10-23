@@ -12,3 +12,4 @@ Another list:
 
 - [[routes/56730|Eperon de la Tournette]]
 - [[routes/49571|Versant W - Couloir Saudan]]
+- [[users/123|Some user]]
