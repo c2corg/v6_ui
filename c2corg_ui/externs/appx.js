@@ -134,7 +134,6 @@ appx.Document;
  *   snow_quantity: string,
  *   snow_quality: string,
  *   glacier_rating: string,
- *   duration: number,
  *   avalanche_signs: string,
  *   elevation_access: number,
  *   height_diff_up: number,

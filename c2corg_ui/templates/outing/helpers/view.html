@@ -19,14 +19,6 @@
       </article>
     % endif
 
-    % if outing.get('duration'):
-    <p><span class="value-title" translate>duration</span>: <span class="value">${outing['duration']}</span></p>
-    % endif
-
-    % if outing.get('duration_difficulties'):
-    <p><span class="value-title" translate>duration_difficulties</span>: <span class="value">${outing['duration_difficulties']}&nbsp;min</span></p>
-    % endif
-
     % if outing.get('frequentation'):
     <p><span class="value-title" translate>frequentation</span>: <span class="value" x-translate>${outing['frequentation']}</span></p>
     % endif
