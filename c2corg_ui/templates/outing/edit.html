@@ -57,8 +57,38 @@ updating_doc = outing_id and outing_lang
           <h2 class="heading show-phone" translate>general informations</h2>
           <div class="content collapse in" id="title-edit">
 
+            ## DATE START
+            <div class="date form-group" ng-init="openDateStart = false">
+              <label><span translate>date_start</span> *</label>
+              <div class="input-group" ng-model="outing.date_start" datepicker-options="{maxDate : editCtrl.dateMaxStart}"
+                   uib-datepicker-popup="dd MM yyyy" is-open="openDateStart" ng-change="editCtrl.dateMinEnd = outing.date_start">
+                <input type="text" disabled class="form-control" value="{{outing.date_start | amDateFormat:'Do MMMM YYYY' }}" required/>
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="openDateStart = true"><span class="glyphicon glyphicon-calendar"></span></button>
+                </span>
+              </div>
+            </div>
+
+            ## DATE END
+            <div class="date form-group flex flexend-align" ng-init="openDateEnd = false">
+              <div  ng-show="editCtrl.differentDates">
+                <label><span translate>date_end </span></label>
+                <div class="input-group" ng-model="outing.date_end" datepicker-options="{maxDate : editCtrl.dateMaxEnd, minDate: editCtrl.dateMinEnd}"
+                     uib-datepicker-popup="dd MM yyyy" is-open="openDateEnd" ng-change="editCtrl.dateMaxStart = outing.date_end">
+                  <input disabled type="text" class="form-control" value="{{outing.date_end | amDateFormat:'Do MMMM YYYY' }}"/>
+                  <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="openDateEnd = true"><span class="glyphicon glyphicon-calendar"></span></button>
+                  </span>
+                </div>
+                <span class="glyphicon glyphicon-remove form-control-feedback"  ng-click="editCtrl.differentDates = false; outing.date_end = undefined; editCtrl.dateMaxStart = editCtrl.today;"></span>
+              </div>
+              <div ng-click="editCtrl.differentDates = true" ng-show="!editCtrl.differentDates" class="flex flexend-align">
+                <button class="btn orange-btn" type="button" translate>Several days?</button>
+              </div>
+            </div>
+
             ## ACTIVITIES
-            <div class="form-group  full" id="outing-activities" ng-init="activities = ${activities}"
+            <div class="form-group full" id="outing-activities" ng-init="activities = ${activities}"
                  ng-class="{ 'has-error': editForm.activities.$touched && editForm.activities.$invalid, 'has-success': editForm.activities.$valid }">
               <label><span translate>activities</span> *</label>
               <div class="route-activities">
@@ -78,7 +108,7 @@ updating_doc = outing_id and outing_lang
             <app-map app-map-edit="true" app-map-draw-type="LineString" class="map-edit"></app-map>
 
             ## ROUTE TAKEN
-            <div class=" full" class="form-group">
+            <div class="full" class="form-group">
               <label><span translate>Taken routes</span> *</label>
               <app-simple-search parent-id="outing.document_id"
                 app-select="editCtrl.documentService.pushToAssociations(doc, 'routes', true)" dataset="r"></app-simple-search>
@@ -90,9 +120,15 @@ updating_doc = outing_id and outing_lang
             </section>
 
             ## ROUTE DESCRIPTION
-            <div class=" full form-group" ng-class="{'has-success': outing.locales[0].route_description}">
+            <div class="full form-group" ng-class="{'has-success': outing.locales[0].route_description}">
               <label translate>route_description</label>
               <textarea class="form-control" ng-model="outing.locales[0].route_description" placeholder="{{'describe route_conditions' | translate}}"></textarea>
+            </div>
+
+            ## TIMING
+            <div class="full form-group">
+              <label translate>timing</label>
+              <textarea class="form-control" ng-model="outing.locales[0]['timing']" placeholder="{{'describe timing' | translate}}"></textarea>
             </div>
 
             ## PARTIAL TRIP
@@ -181,60 +217,18 @@ updating_doc = outing_id and outing_lang
       </div>
 
       <div class="step step-2">
-        <section class="section weather">
-          <h2 class="heading show-phone"><span translate>weather</span></h2>
-          <div class="content outing-weather">
-
-            ## DATE START
-            <div class="date form-group" ng-init="openDateStart = false">
-              <label><span translate>date_start</span> *</label>
-              <div class="input-group" ng-model="outing.date_start" datepicker-options="{maxDate : editCtrl.dateMaxStart}"
-                   uib-datepicker-popup="dd MM yyyy" is-open="openDateStart" ng-change="editCtrl.dateMinEnd = outing.date_start">
-                <input type="text" disabled class="form-control" value="{{outing.date_start | amDateFormat:'Do MMMM YYYY' }}" required/>
-                <span class="input-group-btn">
-                  <button type="button" class="btn btn-default" ng-click="openDateStart = true"><span class="glyphicon glyphicon-calendar"></span></button>
-                </span>
-              </div>
-            </div>
-
-            ## DATE END
-            <div class="date form-group flex flexend-align" ng-init="openDateEnd = false">
-              <div  ng-show="editCtrl.differentDates">
-                <label><span translate>date_end </span></label>
-                <div class="input-group" ng-model="outing.date_end" datepicker-options="{maxDate : editCtrl.dateMaxEnd, minDate: editCtrl.dateMinEnd}"
-                     uib-datepicker-popup="dd MM yyyy" is-open="openDateEnd" ng-change="editCtrl.dateMaxStart = outing.date_end">
-                  <input disabled type="text" class="form-control" value="{{outing.date_end | amDateFormat:'Do MMMM YYYY' }}"/>
-                  <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" ng-click="openDateEnd = true"><span class="glyphicon glyphicon-calendar"></span></button>
-                  </span>
-                </div>
-                <span class="glyphicon glyphicon-remove form-control-feedback"  ng-click="editCtrl.differentDates = false; outing.date_end = undefined; editCtrl.dateMaxStart = editCtrl.today;"></span>
-              </div>
-              <div ng-click="editCtrl.differentDates = true" ng-show="!editCtrl.differentDates" class="flex flexend-align">
-                <button class="btn orange-btn" type="button" translate>Several days?</button>
-              </div>
-            </div>
-
-            ## TIMING
-            <div class=" full form-group">
-              <label translate>timing</label>
-              <textarea class="form-control" ng-model="outing.locales[0]['timing']" placeholder="{{'describe timing' | translate}}"></textarea>
-            </div>
+        <section class="section conditions">
+          <h2 class="heading show-phone"><span><span translate>weather</span> & <span translate>conditions</span></span></h2>
+          <div class="content collapse in" id="outing-conditions">
 
             ## WEATHER
-            <div class=" full form-group">
+            <div class="full form-group">
               <label translate>weather</label>
               <textarea class="form-control" ng-model="outing.locales[0]['weather']" placeholder="{{'describe weather' | translate}}"></textarea>
             </div>
 
-        </section>
-
-        <section class="section conditions">
-          <h2 class="heading show-phone"><span translate>conditions</span></h2>
-          <div class="content collapse in" id="outing-conditions">
-
             ## CONDITIONS LEVELS
-            <div class=" full form-group" ng-class="{'has-success': outing.condition_levels}"
+            <div class="full form-group" ng-class="{'has-success': outing.condition_levels}"
                  ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('ice_climbing') > -1 || outing.activities.indexOf('snow_ice_mixed') > -1 ">
               <label translate>condition_levels</label>
               <table class="table table-striped conditions-levels" ng-if="outing.locales[0].conditions_levels[0]">
