@@ -155,6 +155,9 @@ app.FeedController.prototype.createActionLine = function(doc) {
     case 'updated':
       line += 'has updated the ';
       break;
+    case 'added_photos':
+      line += 'has added photos to the ';
+      break;
     default:
       break;
   }
