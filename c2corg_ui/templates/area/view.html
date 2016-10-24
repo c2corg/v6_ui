@@ -11,7 +11,7 @@ from json import dumps
     show_attr, show_missing_langs_links, show_other_langs_links, show_archive_data,
     delete_association_confirmation_modal, show_route_title, show_float_buttons,
     get_document_description"/>
-<%namespace file="helpers/detailed_area_attributes.html" import="get_area_general"/>
+<%namespace file="helpers/view.html" import="get_area_general"/>
 <%
 area_id = area['document_id']
 other_langs, missing_langs = get_lang_lists(area, lang)

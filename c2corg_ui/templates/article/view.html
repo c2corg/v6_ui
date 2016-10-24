@@ -6,12 +6,12 @@ from json import dumps
 
 <%inherit file="../base.html"/>
 <%namespace file="../helpers/common.html" import="show_title, show_fulldate"/>
-<%namespace file="helpers/detailed_article_attributes.html" import="get_article_general"/>
 <%namespace file="../helpers/view.html" import="get_comments, get_image_gallery, photoswipe_gallery,
   get_document_description, get_document_locale_text, show_attr, show_missing_langs_links, show_other_langs_links,
   show_archive_data, get_article_activities, show_areas, show_float_buttons, show_route_title,
   show_associated_waypoints, show_associated_outings, show_associated_routes, show_associated_articles,
   delete_association_confirmation_modal, associated_images_featurelist, show_badge"/>
+<%namespace file="helpers/view.html" import="get_article_general"/>
 
 <%
 article_id = article['document_id']
