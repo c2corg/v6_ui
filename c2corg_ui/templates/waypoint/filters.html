@@ -8,10 +8,10 @@ from c2corg_common.attributes import default_langs, waypoint_types, orientation_
 <%namespace file="../helpers/filters.html" import="add_multiselect"/>
 <%namespace file="../helpers/orientations.svg" import="show_orientations"/>
 
-<form app-search-filters app-search-filters-controller-name="appSearchFiltersController">
-  <div class="filters">
+## Duplicate simple filters into the main filters and into #moreFilters.
+## It is really useful - no need for re-compilation with angular in case of sticky filters.
+<%def name="simple_filters()">
     <div class="row simple-filters">
-
       <div class="filter">
         <label translate>title</label><br>
         <input type="text" class="form-control" ng-model="filtersCtrl.filters.q">
@@ -26,9 +26,14 @@ from c2corg_common.attributes import default_langs, waypoint_types, orientation_
         <label translate>elevation</label><br>
         <app-slider filter="walt" filters-list="filtersCtrl.filters" max="8850"></app-slider>
       </div>
-      
     </div>
+</%def>
+
+<form app-search-filters app-search-filters-controller-name="appSearchFiltersController" app-sticky-filters>
+  <div class="filters">
+    ${simple_filters()}
     <div class="row collapse" id="moreFilters">
+      ${simple_filters()}
 
       ## SUMMITS
       <div class="filter col-xs-12 col-sm-6" ng-show="filtersCtrl.filters.wtyp.length && filtersCtrl.filters.wtyp.indexOf('summit') !== -1">
@@ -125,6 +130,12 @@ from c2corg_common.attributes import default_langs, waypoint_types, orientation_
         </div>
       </div>
 
+      ## WEATHER STATIONS
+      <div class="filter col-xs-12 col-sm-6" ng-show="filtersCtrl.filters.wtyp.length && filtersCtrl.filters.wtyp.indexOf('weather_station') !== -1">
+        <label translate>weather_station_types</label><br>
+        ${add_multiselect('whtyp', weather_station_types)}
+      </div>
+
       ## HUTS
       <div ng-show="filtersCtrl.filters.wtyp.length && filtersCtrl.filters.wtyp.indexOf('hut') !== -1">
         <div class="filter col-xs-12 col-sm-6">
@@ -176,12 +187,6 @@ from c2corg_common.attributes import default_langs, waypoint_types, orientation_
         ${add_multiselect('ftyp', product_types)}
       </div>
 
-      ## WEATHER STATIONS
-      <div class="filter col-xs-12 col-sm-6" ng-show="filtersCtrl.filters.wtyp.length && filtersCtrl.filters.wtyp.indexOf('weather_station') !== -1">
-        <label translate>weather_station_types</label><br>
-        ${add_multiselect('whtyp', weather_station_types)}
-      </div>
-
       <div class="filter col-xs-12 col-sm-6">
         <label translate>document_quality</label><br>
         <app-slider filter="qa" filters-list="filtersCtrl.filters" unit=""
@@ -189,7 +194,7 @@ from c2corg_common.attributes import default_langs, waypoint_types, orientation_
       </div>
 
       <div class="filters-bottom-buttons">
-        <button class="btn search-filters-btn orange-btn" data-toggle="collapse" 
+        <button class="btn search-filters-btn orange-btn" data-toggle="collapse"
                 data-target="#moreFilters" aria-expanded="false">
           <span translate>Show results</span> ({{resCounter}})
         </button>
@@ -197,12 +202,12 @@ from c2corg_common.attributes import default_langs, waypoint_types, orientation_
                 ng-show="filtersCtrl.filtersNb > 0"><span translate>Clear filters</span> ({{filtersCtrl.filtersNb}})</button>
       </div>
     </div>
+  </div>
+
     <div class="more-filters-btn-container">
       <button class="btn orange-btn more-filters-btn" data-toggle="collapse" data-target="#moreFilters"
         aria-expanded="false" aria-controls="moreFilters" translate>All filters</button>
       <button class="btn blue-btn more-filters-btn" ng-click="filtersCtrl.clear()" ng-cloak
               ng-show="filtersCtrl.filtersNb > 0"><span translate>Clear filters</span> ({{filtersCtrl.filtersNb}})</button>
     </div>
-
-  </div>
 </form>
