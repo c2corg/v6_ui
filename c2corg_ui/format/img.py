@@ -21,11 +21,18 @@ from markdown.util import etree
 
 class C2CImageExtension(Extension):
 
+    def __init__(self, *args, **kwargs):
+        self.config = {
+            "api_url": ['', 'Base URL of the API. Defaults to ""']
+        }
+
+        super(C2CImageExtension, self).__init__(*args, **kwargs)
+
     def extendMarkdown(self, md, md_globals):  # noqa
         self.md = md
 
-        img_re = r'\[img=(\d+) /\]'
-        pattern = C2CImage(img_re)
+        IMG_RE = r'\[img=(\d+) /\]'
+        pattern = C2CImage(IMG_RE, self.getConfigs())
         pattern.md = md
         # append to end of inline patterns
         md.inlinePatterns.add('c2cimg', pattern, "<not_strong")
@@ -33,9 +40,15 @@ class C2CImageExtension(Extension):
 
 class C2CImage(Pattern):
 
+    def __init__(self, pattern, config):
+        super(C2CImage, self).__init__(pattern)
+        self.config = config
+
     def handleMatch(self, m):  # noqa
         img = etree.Element('img')
-        img.set('src', '/images/proxy/' + m.group(2).strip())
+        img_url = '%s/images/proxy/%s' % (
+            self.config['api_url'],  m.group(2).strip())
+        img.set('src', img_url)
         return img
 
 

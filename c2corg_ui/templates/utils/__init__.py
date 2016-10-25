@@ -1,5 +1,5 @@
 from c2corg_common.attributes import default_langs
-from c2corg_ui.templates.utils.format import parse_code, sanitize
+from c2corg_ui.format import parse_code, sanitize
 
 
 def get_lang_lists(document, lang):
