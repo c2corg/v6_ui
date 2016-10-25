@@ -102,36 +102,6 @@ updating_doc = outing_id and outing_lang
               <span ng-click="editCtrl.pushToArray(outing, 'partial_trip', !outing.partial_trip, $event)"></span>
             </div>
 
-            ## DURATION
-            <div class="form-group half" ng-class="{'has-success': outing.duration, 'has-error': editForm.duration.$touched && editForm.duration.$invalid}">
-              <label translate>duration</label>
-              <div class="input-group">
-                <input type="number" min="1" minlength="1" name="duration" ng-model="outing.duration" class="form-control" />
-                <span class="input-group-addon">min</span>
-              </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.duration.$valid && outing.duration"></span>
-              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.duration.$invalid && outing.duration"></span>
-              <div class="help-block" ng-messages="editForm.duration.$error">
-                <p ng-message="number" class="label label-danger" style="{{ (editForm.duration.$invalid && editForm.duration.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
-              </div>
-            </div>
-
-            ## DURATION DIFFICULTIES
-            <div class="form-group half" ng-class="{'has-success': outing.duration_difficulties, 'has-error': editForm.duration_difficulties.$touched && editForm.duration_difficulties.$invalid}"
-                 ng-if="outing.activities.indexOf('snow_ice_mixed') > -1 || outing.activities.indexOf('mountain_climbing') > -1 ||
-                           outing.activities.indexOf('rock_climbing') > -1 || outing.activities.indexOf('ice_climbing') > -1 || outing.activities.indexOf('via_ferrata') > -1">
-              <label translate>duration_difficulties</label>
-              <div class="input-group">
-                <input type="number" min="1" minlength="1" name="duration_difficulties" ng-model="outing.duration_difficulties" class="form-control" />
-                <span class="input-group-addon">min</span>
-              </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.duration_difficulties.$valid && outing.duration_difficulties"></span>
-              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.duration_difficulties.$invalid && outing.duration_difficulties"></span>
-              <div class="help-block" ng-messages="editForm.duration_difficulties.$error">
-                <p ng-message="number" class="label label-danger" style="{{ (editForm.duration_difficulties.$invalid && editForm.duration_difficulties.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
-              </div>
-            </div>
-
             ## LENGTH TOTAL
             <div id="length_total-group" class="half form-group" ng-class="{ 'has-error': editForm.length_total.$touched && editForm.length_total.$invalid,'has-success': outing.length_total }">
               <label translate>length_total</label>

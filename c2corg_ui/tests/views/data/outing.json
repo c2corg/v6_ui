@@ -35,7 +35,6 @@
 		"area_type": "admin_limits"
 	}],
 	"protected": false,
-	"duration": null,
 	"date_end": "2016-03-20",
 	"available_langs": ["fr"],
 	"geometry": {

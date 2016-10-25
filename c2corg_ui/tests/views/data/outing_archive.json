@@ -25,7 +25,6 @@
 		"date_start": "2016-03-20",
 		"partial_trip": true,
 		"protected": false,
-		"duration": null,
 		"date_end": "2016-03-20",
 		"access_condition": null,
 		"geometry": {
