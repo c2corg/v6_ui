@@ -40,7 +40,7 @@ goog.require('app.sidemenu');
 goog.require('app.simpleSearchDirective');
 goog.require('app.slideInfoDirective');
 goog.require('app.sliderDirective');
-goog.require('app.stickyFilters');
+goog.require('app.stickyFiltersDirective');
 goog.require('app.suggestionDirective');
 goog.require('app.userDirective');
 goog.require('app.userProfileDirective');
