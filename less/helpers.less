@@ -1,4 +1,5 @@
 @import 'variables.less';
+
 .text-center-vertical {
   .flex() !important;
   -ms-flex-align: center;
@@ -6,6 +7,23 @@
   -webkit-box-align: center;
   align-items: center;
   justify-content: center;
+}
+.hide-only-mobile {
+  display: block;
+  @media @phone {
+   display: none;
+  }
+}
+.show-only-mobile {
+  display: none;
+  @media @phone {
+   display: block !important;
+  }
+}
+.show {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: all !important;
 }
 
 .upload-file {
@@ -117,19 +135,6 @@ input[type=checkbox]:checked + * {
 
 .green-text {
   color: @bright-green;
-}
-
-.mobile-bg {
-  display: none;
-  @media @phone {
-    border-bottom: 1px solid #D7D7D7;
-    background-color: #FBFAF7;
-    height: 50px;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    display: block;
-  }
 }
 
 .rotate-arrow-down {

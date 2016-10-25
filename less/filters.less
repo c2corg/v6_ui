@@ -1,31 +1,55 @@
 @import "variables.less";
 
-.filters-phone {
-  overflow-y: scroll;
-  height: 40vh;
+form[app-search-filters] {
+  background-color: white;
+
+  @media @phone {
+    display: none;
+  }
+  .more-filters-btn {
+    position: relative;
+    margin-bottom: 10px;
+    margin-left: 5px;
+
+    @media @phone {
+      margin-top: 5px;
+      margin-bottom: 5px;
+      padding: 4px;
+      left: -5px;
+    }
+  }
 }
 
 .filters {
   text-align: center;
   position: relative;
-  background-color: white;
   transition: 0.2s;
 
-  @media @phone {
-    display: none;
+  /*too little filters in areas - do not show more-filters-bnt*/
+  &.areas  {
+    .more-filters-btn-container {
+      display: none;
+    }
+    .sticky-filters-btn-container {
+      .flex();
+    }
   }
-
+  /*there are 2 of them: one in .filters and one in #moreFilters*/
   .simple-filters {
-    position: relative;
-    z-index: 23;
     justify-content: space-between;
     flex-flow: wrap row;
     .flex();
     .filter {
       width:  33%;
+      @media @phone {
+        width: 100%;
+      }
     }
   }
-
+  .dropdown-menu {
+    left: 10px;
+    top: initial;
+  }
   label {
     margin-bottom: 0;
     @media @phone {
@@ -44,35 +68,36 @@
         margin-top: -12px;
       }
     }
-    }
-
-    .more-filters-btn {
-    position: relative;
-    margin-bottom: 10px;
-
-    @media @phone {
-      margin-top: 5px;
-      margin-bottom: 5px;
-      padding: 4px;
-      left: -5px;
-    }
   }
 
   #moreFilters {
     background-color: white;
     position: absolute;
-    width: 100%;
-    z-index: 5;
+    z-index: 30;
     padding-bottom: 20px;
-    padding-top: 10px;
-    top: 60px;
+    margin-top: 19px;
+    top: @page-header-height - 1;
+    width: 100%;
+    overflow-x: visible;
     box-shadow: 0 14px 14px -14px #332;
     -webkit-box-shadow: 0 14px 14px -14px #332;
     -moz-box-shadow:  0 14px 14px -14px #332;
-    height: -moz-calc(~"100vh - 105px");
-    height: -webkit-calc(~"100vh - 105px");
-    height: -o-calc(~"100vh - 105px");
-    height: calc(~"100vh - 105px");
+    max-height: 400vh;
+
+    &.images .collapse.in {
+      overflow-y: visible;
+      @media @phone {
+        overflow-y: auto;
+      }
+    }
+
+    /*show simple-filters only when #moreFilters has .sticky-filters-moreFilters*/
+    &:not(.sticky-filters-moreFilters) .simple-filters {
+      display: none;
+    }
+    @media @phone {
+      top: 165px;
+    }
 
     .filters-bottom-buttons {
       width: 100%;
@@ -81,22 +106,24 @@
       position: relative;
 
       @media @phone {
-        padding-top: 20px;
         padding-bottom: 1%;
         position: static;
         top: 25px;
+        flex-flow: wrap row;
+
+        button {
+          margin-top: 5px;
+        }
       }
       @media (max-height: 580px){
         position: relative !important;
         margin-bottom: 10px !important;
         bottom: -10px !important;
       }
-      @media @tablet {
-        @media (max-height: @screen-sm-max){
+      @media (max-height: @screen-sm-max){
         position: relative !important;
         margin-bottom: 10px !important;
         bottom: -10px !important;
-      }
       }
       button {
         font-variant: small-caps;
@@ -105,7 +132,6 @@
 
         @media (max-width:@screen-md-min) {
           font-size: 1em;
-          width: 45%;
         }
       }
     }
@@ -121,7 +147,6 @@
       }
       .activity {
         width: 33.33%;
-
         @media (max-width: 900px) and (min-width: @phone-max) {
           width: 50%;
         }
@@ -236,12 +261,11 @@
   margin-left: 1%;
 
   @media @phone {
-   -webkit-columns: inherit;
-   -moz-columns: inherit;
+    -webkit-columns: inherit;
+    -moz-columns: inherit;
     overflow-x: hidden;
     overflow-y: scroll;
     max-height : 250px;
-    margin-left: -5%;
   }
 
   @media @tablet {
@@ -266,3 +290,10 @@
     transition: 0.3s;
   }
 } /* multi-selectbox */
+
+.more-filters-btn-container {
+  transition: .2s;
+  .flex();
+  justify-content: center;
+  padding-top: 5px;
+}
