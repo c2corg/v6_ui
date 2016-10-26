@@ -42,10 +42,10 @@ def _get_bbcode_parser():
 
 
 def parse_code(text, md=True, bb=True):
-    if md:
-        text = _get_markdown_parser().convert(text)
     if bb:
         text = _get_bbcode_parser().format(text)
+    if md:
+        text = _get_markdown_parser().convert(text)
     return text
 
 
