@@ -81,7 +81,6 @@ from c2corg_common.attributes import default_langs, quality_types, activities, a
             <div class="form-group half half-group">
 
               <div ng-class="{ 'has-success': article.article_type}">
-                {{article.article_type}}
                 <label><span translate>article_type</span> *</label>
                 % if updating_doc:
                   <select ng-if="userCtrl.auth.isModerator()" class="form-control" ng-model="article.article_type"
