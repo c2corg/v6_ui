@@ -26,7 +26,8 @@ closure_library_path = settings.get('closure_library_path')
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="msapplication-TileImage" content="${request.static_path('c2corg_ui:static/img/logo.svg')}">
     <meta name="msapplication-TileColor" content="#FF0000">
-    <%block name="metarobots"><meta name="robots" content="index,follow"></%block>
+    ## FIXME: set back to "index,follow" before going to prod
+    <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
 % if debug:
     <link rel="stylesheet" href="${request.static_path('%s/bootstrap/dist/css/bootstrap.css' % node_modules_path)}">
     <link rel="stylesheet" href="${request.static_path('%s/bootstrap-slider/dist/css/bootstrap-slider.css' % node_modules_path)}">
