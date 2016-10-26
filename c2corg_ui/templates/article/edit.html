@@ -99,12 +99,14 @@ from c2corg_common.attributes import default_langs, quality_types, activities, a
                   <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="article.article_type"></span>
               </div>
 
+
               ## ARTICLE CATEGORIES
-              <div ng-class="{'has-success': article.article_categories}" ng-init="articleCategories = ${article_categories}">
-                <label><span translate>article_categories</span> *</label>
-                <select ng-options="type as mainCtrl.translate(type) for type in articleCategories" ng-model="article.article_categories" class="form-control"><option value=""></option></select>
-                <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="article.article_categories"></span>
-              </div>
+              <label><span translate>article_categories</span> *</label>
+              <ul class="types">
+                <li ng-repeat="category in ${article_categories}" ng-click="editCtrl.pushToArray(article, 'categories', category, $event)">
+                  <div class="checkbox"><input type="checkbox" ng-checked="article.categories.indexOf(category) > -1"><span>{{category | translate}}</span></div>
+                </li>
+              </ul>
 
             </div>
           </div>
