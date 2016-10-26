@@ -729,8 +729,8 @@
     </h3>
     <section id="discourse-comments" class="collapse in" ng-init="detailsCtrl.getComments()">
       <div ng-if="detailsCtrl.documentService.document.topic_id == null" class="no-thread">
-        <p class="text-center">No thread yet?</p>
-        <p class="text-center"
+        <p class="text-center" translate>No thread yet?</p>
+        <p class="text-center" translate
             ng-if="!userCtrl.auth.isAuthenticated()">Log in to post the first comment</p>
         <button class="btn gray-btn"
             ng-if="userCtrl.auth.isAuthenticated()"
