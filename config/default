@@ -21,10 +21,10 @@ export ign_api_key = 9qxhimhvm24i40p8j86n7de3
 export bing_api_key = AudizIfCd3NAdt91ubJMGkMI-swfHxe1R-_U7KiLxCHqepDy70txQ-_-89_eevxc
 
 export ganalytics_key = FIXME
+export recaptcha_site_key = 6LdWkR4TAAAAAJEW4VaASKHU55wP42yYNy7Mbgdb
 
 export logging_level = WARNING
 export skip_captcha_validation = False
-
 
 # version used for the cache
 export version = $(shell git rev-parse --short HEAD 2>/dev/null || echo "0")
