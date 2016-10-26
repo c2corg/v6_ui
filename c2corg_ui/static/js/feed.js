@@ -27,12 +27,13 @@ app.module.directive('appFeed', app.feedDirective);
  * @param {app.Authentication} appAuthentication
  * @param {app.Api} appApi Api service.
  * @param {app.Lang} appLang Lang service.
+ * @param {!string} imageUrl URL to the image backend.
  * @constructor
  * @ngInject
  * @export
  * @struct
  */
-app.FeedController = function(appAuthentication, appApi, appLang) {
+app.FeedController = function(appAuthentication, appApi, appLang, imageUrl) {
 
   /**
    * @type {app.Api}
@@ -51,6 +52,12 @@ app.FeedController = function(appAuthentication, appApi, appLang) {
    * @private
    */
   this.lang_ = appLang;
+
+  /**
+   * @type {string}
+   * @private
+   */
+  this.imageUrl_ = imageUrl;
 
   /**
    * @type {Array<Object>}
@@ -156,13 +163,14 @@ app.FeedController.prototype.createActionLine = function(doc) {
       line += 'has updated the ';
       break;
     case 'added_photos':
-      line += 'has added photos to the ';
+      line += 'has added images to ';
       break;
     default:
       break;
   }
   return line + this.documentType(doc['document']['type']);
 };
+
 
 /**
  * Switches between /personal-feed and /feed
@@ -175,6 +183,18 @@ app.FeedController.prototype.toggleFilters = function() {
   this.getDocumentsFromFeed();
   window.scrollTo(0, 0);
 };
+
+
+/**
+ * @param {string} filename
+ * @param {string} suffix
+ * @return {string}
+ * @export
+ */
+app.FeedController.prototype.createImageUrl = function(filename, suffix) {
+  return this.imageUrl_ + app.utils.createImageUrl(filename, suffix);
+};
+
 
 /**
  * document type without 's' (singular form)

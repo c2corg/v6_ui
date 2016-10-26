@@ -37,6 +37,21 @@
       </span>
     </p>
 
+    <div ng-if="doc.change_type == 'added_photos'" class="images">
+      <a class="big-image thumbnail flex" ng-href="/images/{{doc.image1.document_id}}/{{doc.image1.locales[0].lang}}"
+         ng-style="(!doc.image2 && !doc.image3) && {'width': '100%'}">
+        <span class="image" style="background-image: url({{feedCtrl.createImageUrl(doc.image1.filename, 'MI')}})"></span>
+      </a>
+      <a class="small-image thumbnail flex" ng-href="/images/{{doc.image2.document_id}}/{{doc.image2.locales[0].lang}}"
+       ng-if="doc.image2">
+        <span class="image" style="background-image: url({{feedCtrl.createImageUrl(doc.image2.filename, 'MI')}})"></span>
+      </a>
+      <a class="small-image thumbnail flex" ng-href="/images/{{doc.image3.document_id}}/{{doc.image3.locales[0].lang}}"
+        ng-if="doc.image3">
+        <span class="image" style="background-image: url({{feedCtrl.createImageUrl(doc.image3.filename, 'MI')}})"></span>
+      </a>
+    </div>
+
     <div class="list-item {{type}}s">
       <app-card app-card-doc="doc['document']"></app-card>
     </div>
