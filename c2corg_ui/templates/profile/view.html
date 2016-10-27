@@ -30,8 +30,7 @@
   module.value('documentData', {
     "document_id": ${profile.get('document_id')},
     "lang": "${lang}",
-    "type": "u",
-    "associations": null
+    "type": "u"
   });
 </%block>
 <header class="view-details-title">
@@ -41,7 +40,7 @@
   </h1>
 </header>
 
-<section class="view-details-section" app-view-details>
+<section class="view-details-section">
 
   <div app-user-profile="${user_id}" app-user-profile-lang="${lang}">
     <div id="user-profile-data"></div>
