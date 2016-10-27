@@ -57,7 +57,7 @@ app.FollowController = function(appAuthentication, appApi) {
    */
   this.followed = false;
 
-  if (this.auth_.isAuthenticated()) {
+  if (this.canFollow()) {
     this.api_.isFollowing(this.docId).then(function(response) {
       this.followed = response['data']['is_following'];
     }.bind(this));
