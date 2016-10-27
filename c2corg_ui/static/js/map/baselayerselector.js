@@ -123,11 +123,11 @@ app.BaselayerSelectorController = function($http, ngeoBackgroundLayerMgr,
  * @type {Array.<Object>}
  */
 app.BaselayerSelectorController.BG_LAYER_SPECS = [{
+  'name': 'esri'
+}, {
   'name': 'osm'
 }, {
   'name': 'bing'
-}, {
-  'name': 'esri'
 }, {
   'name': 'ign maps'
 }, {
