@@ -55,6 +55,12 @@ other_langs, missing_langs = get_lang_lists(article, lang)
     ${show_archive_data('articles', article, locale, version)}
   % endif
 
+
+  ## IMAGES
+  % if not version:
+    ${get_image_gallery()}
+  % endif
+
   <div class="view-details-informations col-xs-12  informations">
     <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
       <span translate>Informations</span><span class="glyphicon glyphicon-menu-down"></span>
