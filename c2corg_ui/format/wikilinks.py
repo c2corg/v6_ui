@@ -13,14 +13,15 @@ from markdown.extensions import Extension
 from markdown.inlinepatterns import Pattern
 from markdown.util import etree
 
+WIKILINK_RE = r'\[\[([^|]+)\|([^\]]+)\]\]'
+
 
 class C2CWikiLinkExtension(Extension):
 
     def extendMarkdown(self, md, md_globals):  # noqa
         self.md = md
 
-        wikilink_re = r'\[\[([^|]+)\|([^\]]+)\]\]'
-        pattern = C2CWikiLinks(wikilink_re)
+        pattern = C2CWikiLinks(WIKILINK_RE)
         pattern.md = md
         # append to end of inline patterns
         md.inlinePatterns.add('c2cwikilink', pattern, "<not_strong")

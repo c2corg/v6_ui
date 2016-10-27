@@ -8,6 +8,7 @@ from pyramid_mako import add_mako_renderer
 
 from c2corg_ui.caching import configure_caches
 from c2corg_ui.caching.cacheversion import version_cache_buster, CACHE_PATH
+from c2corg_ui.format import configure_parsers
 
 
 def main(global_config, **settings):
@@ -19,6 +20,9 @@ def main(global_config, **settings):
 
     # set up redis cache
     configure_caches(settings)
+
+    # set up document text attributes parsers
+    configure_parsers(settings)
 
     # configure connection pool for http requests
     max_connections = int(settings.get('http_request_connection_pool_size'))
