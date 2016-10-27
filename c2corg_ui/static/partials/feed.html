@@ -37,7 +37,7 @@
     <p class="action-line">
       <span class="action" ng-cloak>
         <b><a ng-href="/profiles/{{doc['user']['document_id']}}/{{doc['user']['locales'][0]['lang']}}">{{doc['user']['name']}}</a></b>
-        <span x-translate>{{feedCtrl.createActionLine(doc)}}</span>
+        {{feedCtrl.createActionLine(doc) | translate}}
       </span>
       <br>
       <span class="action date">
