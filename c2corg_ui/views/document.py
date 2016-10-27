@@ -1,9 +1,6 @@
-import re
-
 from dogpile.cache.api import NO_VALUE
 from pyramid.renderers import render
 
-from c2corg_ui import http_requests
 from c2corg_ui.caching import cache_document_detail, CachedPage, \
     cache_document_archive, CACHE_VERSION, cache_document_history, \
     cache_document_diff
@@ -22,11 +19,10 @@ from pyramid.httpexceptions import (
     HTTPBadRequest, HTTPNotFound, HTTPInternalServerError,
     HTTPMovedPermanently, HTTPFound)
 
-from c2corg_ui.views import etag_cache, get_response, get_or_create_page
+from c2corg_ui.views import etag_cache, get_response, get_or_create_page, \
+    call_api, get_with_etag
 
 log = logging.getLogger(__name__)
-
-IF_NONE_MATCH = re.compile('(?:W/)?(?:"([^"]*)",?\s*)')
 
 
 class Document(object):
@@ -137,31 +133,6 @@ class Document(object):
 
             return self._get_response(page_html)
 
-    def _call_api(self, url, headers=None):
-        settings = self.settings
-        if 'api_url_internal' in settings and settings['api_url_internal']:
-            api_url = settings['api_url_internal']
-            if 'api_url_host' in settings and settings['api_url_host']:
-                headers = {} if headers is None else headers
-                headers['Host'] = settings['api_url_host']
-        else:
-            api_url = settings['api_url']
-        url = '%s/%s' % (api_url, url)
-        if log.isEnabledFor(logging.DEBUG):
-            log.debug('API: %s %s', 'GET', url)
-        resp = None
-        try:
-            resp = http_requests.session.get(url, headers=headers)
-        except:
-            log.error('Request failed: {0}'.format(url), exc_info=1)
-            raise
-
-        if resp.status_code == 304:
-            # no content for 'not modified'
-            return resp, {}
-        else:
-            return resp, resp.json()
-
     def _validate_id_lang(self):
         if 'id' not in self.request.matchdict:
             # eg. creating a new document
@@ -188,8 +159,8 @@ class Document(object):
         url = '%s/%d' % (self._API_ROUTE, id)
         if lang:
             url += '?l=%s' % lang
-        not_modified, api_cache_key, document = self._get_with_etag(
-            url, old_api_cache_key)
+        not_modified, api_cache_key, document = get_with_etag(
+            self.settings, url, old_api_cache_key)
 
         if not_modified:
             return not_modified, api_cache_key, None
@@ -216,8 +187,8 @@ class Document(object):
     def _get_archived_document(
             self, id, lang, version_id, old_api_cache_key=None):
         url = '%s/%d/%s/%d' % (self._API_ROUTE, id, lang, version_id)
-        not_modified, api_cache_key, content = self._get_with_etag(
-            url, old_api_cache_key)
+        not_modified, api_cache_key, content = get_with_etag(
+            self.settings, url, old_api_cache_key)
 
         if not_modified:
             return not_modified, api_cache_key, None
@@ -227,31 +198,6 @@ class Document(object):
         locale = document['locales'][0]
 
         return False, api_cache_key, (document, locale, version)
-
-    def _get_with_etag(self, url, old_api_cache_key=None):
-        headers = None
-        if old_api_cache_key:
-            headers = {'If-None-Match': 'W/"{0}"'.format(old_api_cache_key)}
-
-        resp, document = self._call_api(url, headers)
-
-        api_cache_key = None
-        if resp.headers.get('ETag'):
-            api_cache_key = self._get_api_cache_key_from_etag(
-                resp.headers.get('ETag'))
-
-        if resp.status_code in [200, 304] and not api_cache_key:
-            log.warn('no etag found for {0}'.format(url))
-
-        if resp.status_code == 404:
-            raise HTTPNotFound()
-        elif resp.status_code == 304:
-            return True, api_cache_key, None
-        elif resp.status_code != 200:
-            raise HTTPInternalServerError(
-                "An error occurred while loading the document")
-
-        return False, api_cache_key, document
 
     def _get_documents(self):
         params = []
@@ -264,7 +210,7 @@ class Document(object):
         # (eg. ?offset=50&limit=20&elevation=>2000).
         query_string = '?' + urlencode(params) if params else ''
         url = '%s%s' % (self._API_ROUTE, query_string)
-        resp, content = self._call_api(url)
+        resp, content = call_api(self.settings, url)
 
         if resp.status_code == 200:
             documents = content['documents']
@@ -281,8 +227,8 @@ class Document(object):
 
         def load_data(old_api_cache_key=None):
             url = 'document/%d/history/%s' % (id, lang)
-            not_modified, api_cache_key, content = self._get_with_etag(
-                url, old_api_cache_key)
+            not_modified, api_cache_key, content = get_with_etag(
+                self.settings, url, old_api_cache_key)
 
             if not_modified:
                 return not_modified, api_cache_key, None
@@ -326,12 +272,12 @@ class Document(object):
                 old_api_cache_key2 = None
 
             url1 = '%s/%d/%s/%d' % (self._API_ROUTE, id, lang, v1)
-            not_modified1, api_cache_key1, content1 = self._get_with_etag(
-                url1, old_api_cache_key1)
+            not_modified1, api_cache_key1, content1 = get_with_etag(
+                self.settings, url1, old_api_cache_key1)
 
             url2 = '%s/%d/%s/%d' % (self._API_ROUTE, id, lang, v2)
-            not_modified2, api_cache_key2, content2 = self._get_with_etag(
-                url2, old_api_cache_key2)
+            not_modified2, api_cache_key2, content2 = get_with_etag(
+                self.settings, url2, old_api_cache_key2)
 
             if not_modified1 and not_modified2:
                 return True, (api_cache_key1, api_cache_key2), None
@@ -340,11 +286,11 @@ class Document(object):
             # a 2nd request has to be made to get the content for that
             # version again, so that the page can be rendered
             if not_modified1 and not content1:
-                _, api_cache_key1, content1 = self._get_with_etag(
+                _, api_cache_key1, content1 = get_with_etag(
                     url1, old_api_cache_key=None)
             if not_modified2 and not content2:
-                _, api_cache_key2, content2 = self._get_with_etag(
-                    url2, old_api_cache_key=None)
+                _, api_cache_key2, content2 = get_with_etag(
+                    self.settings, url2, old_api_cache_key=None)
 
             return False, (api_cache_key1, api_cache_key2), (content1, content2)  # noqa
 
@@ -416,12 +362,6 @@ class Document(object):
         (key_v1, key_v2) = api_cache_key
         return '{0}-{1}-{2}'.format(key_v1, key_v2, CACHE_VERSION)
 
-    def _get_api_cache_key_from_etag(self, etag):
-        if_none_matches = IF_NONE_MATCH.findall(etag)
-
-        if if_none_matches:
-            return if_none_matches[0]
-
     def _get_response(self, page_html):
         return get_response(self.request, page_html)
 
@@ -450,7 +390,7 @@ class Document(object):
         url = '%s/%d/%s/info' % (self._API_ROUTE, id, lang)
         if log.isEnabledFor(logging.DEBUG):
             log.debug('API: %s %s', 'GET', url)
-        resp, data = self._call_api(url)
+        resp, data = call_api(self.settings, url)
 
         if resp.status_code == 404:
             raise HTTPNotFound()

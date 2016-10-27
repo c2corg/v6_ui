@@ -1,5 +1,6 @@
 import logging
 
+from c2corg_ui.views import call_api
 from pyramid.renderers import render
 from pyramid.view import view_config
 from pyramid.httpexceptions import (
@@ -92,7 +93,7 @@ class Profile(Document):
                 'Authorization': self.request.headers.get('Authorization')
             }
         url = '%s/%d?l=%s' % (self._API_ROUTE, id, lang)
-        resp, data = self._call_api(url, headers)
+        resp, data = call_api(self.settings, url, headers)
 
         if resp.status_code != 200:
             raise HTTPInternalServerError(

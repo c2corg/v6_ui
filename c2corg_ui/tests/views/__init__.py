@@ -1,3 +1,4 @@
+from c2corg_ui.views import call_api
 from httmock import HTTMock
 
 from c2corg_ui.caching import CACHE_VERSION
@@ -34,7 +35,7 @@ class BaseTestUi(BaseTestCase):
         response = self.app.get(route, status=404)
 
     def _test_api_call(self):
-        resp, content = self.view._call_api(self._prefix)
+        resp, content = call_api(self.view.settings, self._prefix)
         self.assertEqual(resp.status_code, 200)
         self.assertTrue('total' in content)
         self.assertTrue('documents' in content)
