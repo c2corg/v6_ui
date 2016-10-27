@@ -101,7 +101,7 @@ from c2corg_common.attributes import default_langs, quality_types, activities, a
 
 
               ## ARTICLE CATEGORIES
-              <label><span translate>article_categories</span> *</label>
+              <label><span translate>categories</span> *</label>
               <ul class="types">
                 <li ng-repeat="category in ${article_categories}" ng-click="editCtrl.pushToArray(article, 'categories', category, $event)">
                   <div class="checkbox"><input type="checkbox" ng-checked="article.categories.indexOf(category) > -1"><span>{{category | translate}}</span></div>
