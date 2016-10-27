@@ -11,6 +11,8 @@ from markdown.extensions import Extension
 from markdown.inlinepatterns import Pattern
 from markdown.util import etree
 
+IMG_RE = r'\[img=(\d+)([a-z_ ]*)(/\]|\](.*?)\[/img\])'
+
 
 class C2CImageExtension(Extension):
 
@@ -24,7 +26,6 @@ class C2CImageExtension(Extension):
     def extendMarkdown(self, md, md_globals):  # noqa
         self.md = md
 
-        IMG_RE = r'\[img=(\d+)([a-z_ ]*)(/\]|\](.*?)\[/img\])'  # noqa
         pattern = C2CImage(IMG_RE, self.getConfigs())
         pattern.md = md
         # append to end of inline patterns
