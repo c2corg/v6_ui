@@ -18,6 +18,42 @@
       margin-top: 0;
     }
   }
+  .images {
+    height: 150px;
+    margin-bottom: 10px;
+    padding: 5px;
+
+    .thumbnail {
+      overflow: hidden;
+    }
+
+    .image {
+      width: 100%;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      -moz-transition: all .3s;
+      -webkit-transition: all .3s;
+      transition: all .3s;
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+    .big-image {
+      float: left;
+      height: 150px;
+      width: 60%;
+    }
+    .small-image {
+      float: left;
+      width: 38%;
+      height: 73px;
+      margin-left: 5px;
+      &:last-of-type {
+        margin-top: -5px;
+      }
+    }
+  }
   .list-item {
     margin-top: 0;
   }
