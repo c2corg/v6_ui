@@ -261,10 +261,10 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## CONDITION RATING
-            <div class="form-group half" ng-class="{'has-success': outing.condition_rating}">
+            <div class="form-group half" ng-class="{'has-success': outing.condition_rating}" ng-init="condition_ratings = ${condition_ratings}">
               <label translate>condition_rating</label>
               <div class="input-group">
-                <select class="form-control" ng-model="outing.condition_rating" ng-options="rat as mainCtrl.translate(rat) for rat in ${condition_ratings}"><option value=""></option></select>
+                <select class="form-control" ng-model="outing.condition_rating" ng-options="rat as mainCtrl.translate(rat) for rat in condition_ratings"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.condition_rating"></span>
@@ -333,7 +333,7 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## AVALANCHE SIGNS
-            <div class="form-group half" ng-init="signs = ${avalanche_signs}; outing.avalanche_signs = outing.avalanche_signs || [];"
+            <div class="form-group full" ng-init="signs = ${avalanche_signs}; outing.avalanche_signs = outing.avalanche_signs || [];"
                   ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('ice_climbing') > -1 || outing.activities.indexOf('snow_ice_mixed') > -1">
               <label translate>avalanche_signs</label>
               <ul class="types">
@@ -342,7 +342,7 @@ updating_doc = outing_id and outing_lang
                 </li>
                 ## don't show other options if 'no' is selected
                 <li ng-repeat="type in signs" ng-click="editCtrl.pushToArray(outing, 'avalanche_signs', type, $event)" ng-if="$index > 0 && outing.avalanche_signs.indexOf('no') == -1">
-                  <div class="checkbox"><input type="checkbox" ng-checked="outing.avalanche_signs.indexOf(type) > -1"><span x-translate>{{type}}</span></div>
+                  <div class="checkbox"><input type="checkbox" ng-checked="outing.avalanche_signs.indexOf(type) > -1"><span>{{type | translate}}</span></div>
                 </li>
               </ul>
             </div>
@@ -372,17 +372,17 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## FREQUENTATION
-            <div class="form-group half" ng-class="{'has-success': outing.frequentation}">
+            <div class="form-group half" ng-class="{'has-success': outing.frequentation}" ng-init="frequentation_types = ${frequentation_types}">
               <label translate>frequentation</label>
-              <select class="form-control" ng-model="outing.frequentation" ng-options="rat as mainCtrl.translate(rat) for rat in ${frequentation_types}"><option value=""></option></select>
+              <select class="form-control" ng-model="outing.frequentation" ng-options="rat as mainCtrl.translate(rat) for rat in frequentation_types"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.frequentation"></span>
             </div>
 
             ## LIFT STATUS
-            <div class="form-group half" ng-class="{'has-success': outing.lift_status}">
+            <div class="form-group half" ng-class="{'has-success': outing.lift_status}" ng-init="lift_status = ${lift_status}">
               <label translate>lift_status</label>
               <div class="input-group">
-                <select class="form-control" ng-model="outing.lift_status" ng-options="rat as mainCtrl.translate(rat) for rat in ${lift_status}"><option value=""></option></select>
+                <select class="form-control" ng-model="outing.lift_status" ng-options="rat as mainCtrl.translate(rat) for rat in lift_status"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-resize-vertical"></span></span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.lift_status"></span>
@@ -395,10 +395,10 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## HUT STATUS
-            <div class="form-group half" ng-class="{'has-success': outing.hut_status}">
+            <div class="form-group half" ng-class="{'has-success': outing.hut_status}" ng-init="hut_status = ${hut_status}">
               <label translate>hut_status</label>
               <div class="input-group">
-                <select class="form-control" ng-model="outing.hut_status" ng-options="rat as mainCtrl.translate(rat) for rat in ${hut_status}"><option value=""></option></select>
+                <select class="form-control" ng-model="outing.hut_status" ng-options="rat as mainCtrl.translate(rat) for rat in hut_status"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.hut_status"></span>
@@ -419,10 +419,10 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## ACCESS CONDITION
-            <div class="form-group half"  ng-class="{'has-success': outing.access_condition}">
+            <div class="form-group half"  ng-class="{'has-success': outing.access_condition}" ng-init="access_conditions = ${access_conditions}">
               <label translate>access_condition</label>
               <div class="input-group">
-                <select class="form-control" ng-model="outing.access_condition" ng-options="rat as mainCtrl.translate(rat) for rat in ${access_conditions}"><option value=""></option></select>
+                <select class="form-control" ng-model="outing.access_condition" ng-options="rat as mainCtrl.translate(rat) for rat in access_conditions"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-road"></span></span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.access_condition"></span>

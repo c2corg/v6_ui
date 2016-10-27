@@ -4,7 +4,7 @@
   <br>
   <div class="list-item-info flex baseline-align">
     <div class="quality" ng-if="doc['quality']" ng-class="doc['quality']"
-         uib-tooltip="{{'quality'| translate}} : {{doc['quality'] | translate}}" tooltip-placement="left"></div>
-    <span x-translate>{{doc['area_type']}}</span>
+         uib-tooltip="{{'quality' | translate}} : {{doc['quality'] | translate}}" tooltip-placement="left"></div>
+    {{doc['area_type'] | translate}}
   </div>
 </a>
