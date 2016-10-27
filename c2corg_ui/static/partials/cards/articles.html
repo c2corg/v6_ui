@@ -6,7 +6,7 @@
     <div class="value">{{doc['article_type'] | translate }}</div>
 
     <div class="article-categories">
-      <span ng-repeat="category in doc.categories" class="value">{{category | translate }}</span>
+      <span ng-repeat="category in doc.categories" class="value">{{category | translate }}{{$last ? '' : ', '}}</span>
     </div>
 
     <div class="article-activities">
