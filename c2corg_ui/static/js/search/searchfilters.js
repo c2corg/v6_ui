@@ -28,11 +28,7 @@ app.searchFiltersDirective = function() {
       // that this menu is inside, it will not be shown entirely...
       // If someone can fix it using CSS only, you're da real MVP !
       element.on('click', '.dropdown-toggle', function() {
-        $(this).next().css({
-          position: 'fixed',
-          top: $(this).offset().top + 30,
-          left: $(this).offset().left - 10
-        });
+        app.utils.repositionMenu({'menu': this, 'boxBoundEl': '.filters .simple-filters'});
       });
 
       // This prevents to 'jump' or 'stutter' on phone - before, if you first

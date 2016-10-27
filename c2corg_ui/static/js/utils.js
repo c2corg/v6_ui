@@ -240,3 +240,31 @@ app.utils.convertDMSToDecimal = function(degrees, minutes, seconds, direction) {
   }
   return decimal;
 };
+
+
+/**
+ *  dropdown-menus can overlap the modal and it's impossible
+ *  to fix it with overflow-y: srcoll + overflow-x: visible.
+ * @param {Object} els elements needed to reposition
+ * els: {  menu: the dropdown,
+ *            boxBoundEl: the container,
+ *            checkBottom: if true - scroll down if the menu overflows the bottom
+ *         }
+ */
+app.utils.repositionMenu = function(els) {
+  var boxBoundEl = $(els['boxBoundEl']);
+  var menu = $(els['menu']).next();
+  menu.css('opacity', 0); // prevent from jumping on the screen
+
+  setTimeout(function() { // because at the moment of the click the menu is hidden and result would give 0.
+    var boxBounds = boxBoundEl[0].getBoundingClientRect();
+    var menuBounds = menu[0].getBoundingClientRect();
+    if (menuBounds.right > boxBounds.right) {
+      menu.css('left', -Math.abs(menuBounds.right - boxBounds.right + 10));
+    }
+    if (els['checkBottom'] && menuBounds.bottom > boxBounds.bottom) {
+      boxBoundEl.animate({scrollTop: boxBoundEl.height()}, 'slow');
+    }
+    menu.css('opacity', 1);
+  }, 50);
+};
