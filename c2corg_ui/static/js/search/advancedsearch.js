@@ -95,6 +95,12 @@ app.AdvancedSearchController = function($scope, appApi, ngeoLocation,
   this.documents = [];
 
   /**
+   * @type {boolean}
+   * @export
+   */
+  this.noResults = false;
+
+  /**
    * @type {?number}
    * @export
    */
@@ -152,6 +158,7 @@ app.AdvancedSearchController.prototype.successList_ = function(response) {
   var data = /** @type {appx.SearchDocumentResponse} */ (response['data']);
   this.documents = data.documents;
   this.total = data.total;
+  this.noResults = this.documents.length === 0;
   this.scope_.$root['resCounter'] = this.total;
   // TODO: disable map interaction for document types with no geometry
   // "total" is needed for pagination though

@@ -4,3 +4,5 @@
               ng-mouseleave="searchCtrl.onMouseLeave(doc.document_id)"></app-card>
   </div>
 </div>
+<p translate class="text-warning text-center no-results" ng-class="{'show': searchCtrl.noResults}">No results</p>
+

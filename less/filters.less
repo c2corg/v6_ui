@@ -2,9 +2,14 @@
 
 form[app-search-filters] {
   background-color: white;
+  width: 100%;
 
   @media @phone {
     display: none;
+  }
+  .dropdown-menu {
+    left: 10px;
+    top: initial;
   }
   .more-filters-btn {
     position: relative;
@@ -46,10 +51,7 @@ form[app-search-filters] {
       }
     }
   }
-  .dropdown-menu {
-    left: 10px;
-    top: initial;
-  }
+
   label {
     margin-bottom: 0;
     @media @phone {
@@ -78,7 +80,7 @@ form[app-search-filters] {
     margin-top: 19px;
     top: @page-header-height - 1;
     width: 100%;
-    overflow-x: visible;
+    overflow: auto;
     box-shadow: 0 14px 14px -14px #332;
     -webkit-box-shadow: 0 14px 14px -14px #332;
     -moz-box-shadow:  0 14px 14px -14px #332;
