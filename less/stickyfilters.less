@@ -37,13 +37,12 @@
   position: fixed !important;
   top: @page-header-height - 1 !important;
   margin-top: 0 !important;
-  max-height: -moz-calc(~"100vh -"  @page-header-height) !important;
-  max-height: -webkit-calc(~"100vh -"  @page-header-height) !important;
-  max-height: -o-calc(~"100vh -"  @page-header-height) !important;
-  max-height: calc(~"100vh -"  @page-header-height) !important;
+  .calc(max-height, "100vh -  @{page-header-height}") !important;
 
   @media @phone {
     top: 90px;
+    overflow: auto !important;
+    .calc(max-height, "100vh -  100px") !important;
   }
 }
 

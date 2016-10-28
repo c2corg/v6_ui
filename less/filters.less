@@ -3,6 +3,7 @@
 form[app-search-filters] {
   background-color: white;
   width: 100%;
+  padding-bottom: 10px;
 
   @media @phone {
     display: none;
@@ -76,29 +77,28 @@ form[app-search-filters] {
     background-color: white;
     position: absolute;
     z-index: 30;
-    padding-bottom: 20px;
+    padding: 0 10px  20px 10px;
     margin-top: 19px;
-    top: @page-header-height - 1;
     width: 100%;
+    top: @page-header-height - 1;
     overflow: auto;
     box-shadow: 0 14px 14px -14px #332;
     -webkit-box-shadow: 0 14px 14px -14px #332;
     -moz-box-shadow:  0 14px 14px -14px #332;
     max-height: 400vh;
 
+    @media @phone {
+      top: 165px;
+      overflow: hidden;
+      width: 100% !important;
+      padding: 0 0 20px 0;
+    }
     &.images .collapse.in {
       overflow-y: visible;
-      @media @phone {
-        overflow-y: auto;
-      }
     }
-
     /*show simple-filters only when #moreFilters has .sticky-filters-moreFilters*/
     &:not(.sticky-filters-moreFilters) .simple-filters {
       display: none;
-    }
-    @media @phone {
-      top: 165px;
     }
 
     .filters-bottom-buttons {

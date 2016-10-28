@@ -234,8 +234,10 @@ main {
 }
 /*articles and areas have no .toggle-map*/
 app-pagination.areas, app-pagination.articles{
-  #pagination {
-    width: 100%;
+  @media @phone {
+    #pagination {
+      width: 100%;
+    }
   }
 }
 #pagination {
@@ -592,11 +594,7 @@ app-pagination.areas, app-pagination.articles{
   }
 }
 .documents-list-section, .map-right .map, .not-found-section {
-  height: calc(~"100vh -" @page-header-height - 8);
-  height: -moz-calc(~"100vh -" @page-header-height - 8);
-  height: -webkit-calc(~"100vh -" @page-header-height - 8);
-  height: -o-calc(~"100vh -" @page-header-height - 8);
-  height: calc(~"100vh -" @page-header-height - 8);
+  .calc(height, "100vh - @{page-header-height} + 4px");
 }
 
 .documents-list-section, .not-found-section {
@@ -612,7 +610,7 @@ app-pagination.areas, app-pagination.articles{
     float:none;
     margin-top: 0;
     padding-top: 0;
-    .calc(height, "100% - 78px");
+    .calc(height, "100vh - 128px");
   }
   .show-documents-filters-phone {
     display: none;
@@ -822,10 +820,7 @@ app-simple-search {
         width: 150px;
       }
       @media @phone {
-        width: -moz-calc(~"100vw - 45px");
-        width: -webkit-calc(~"100vw - 45px");
-        width: -o-calc(~"100vw - 45px");
-        width: calc(~"100vw - 45px");
+        .calc(width, "100vw - 45px");
       }
     }
     @media @phone {
@@ -884,7 +879,6 @@ app-simple-search {
 }
 
 .page-content {
-  height: 100%;
   margin-left: @menu-width;
 
   @media @tablet {
@@ -892,7 +886,6 @@ app-simple-search {
     margin-top:  -41px;
   }
   @media @phone {
-    height: calc(~"100% - 50px");
     margin-left: 0;
     margin-top: @page-header-height;
   }
