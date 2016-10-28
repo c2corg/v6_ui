@@ -1,5 +1,5 @@
 <%!
-    from slugify import slugify
+    from c2corg_ui.views.document import get_slug_for_title
 
     def title_escape(title):
         return title.replace("'", "\\'")
@@ -52,7 +52,8 @@
             % endif
             <%
                 if loop.first:
-                    version_url = request.route_path(module + '_view', id=document_id, lang=lang, slug=slugify(title))
+                    slug = get_slug_for_title(title)
+                    version_url = request.route_path(module + '_view', id=document_id, lang=lang, slug=slug)
                 else:
                     version_url = request.route_path(module + '_archive', id=document_id, lang=lang, version=v['version_id'])
             %>

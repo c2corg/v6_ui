@@ -55,7 +55,7 @@ app.Url.prototype.buildDocumentUrl = function(documentType, documentId, locale, 
     .replace('{type}', documentType)
     .replace('{id}', String(documentId))
     .replace('{lang}', lang)
-    .replace('{slug}', this.slug_(title));
+    .replace('{slug}', this.slug_(title) || '-');
 };
 
 

@@ -3,7 +3,7 @@
     from json import dumps, loads
     from shapely.geometry import asShape
     from math import floor
-    from slugify import slugify
+    from c2corg_ui.views.document import get_slug
 %>
 
 <%def name="show_attr(obj, key, parse=True)">\
@@ -95,7 +95,8 @@
       % for area in areas:
         <%
           locale = area['locales'][0]
-          url = request.route_path('areas_view', id=area['document_id'], lang=locale['lang'], slug=slugify(locale['title']))
+          slug = get_slug(locale, is_route=False)
+          url = request.route_path('areas_view', id=area['document_id'], lang=locale['lang'], slug=slug)
         %>
         <li class="${area['area_type']}"><a href="${url}">${locale['title']}</a></li>
       % endfor
@@ -131,9 +132,10 @@
             locale = doc['locales'][0]
             title = locale['title_prefix'] + ' : ' if doctype == 'routes' and locale['title_prefix'] is not None else ''
             title += locale['title']
+            slug = get_slug(locale, is_route=doctype == 'routes')
         %>
         <li>
-          <a href="${request.route_path(doctype + '_view', id=doc['document_id'], lang=locale['lang'], slug=slugify(title))}">${title}</a>
+          <a href="${request.route_path(doctype + '_view', id=doc['document_id'], lang=locale['lang'], slug=slug)}">${title}</a>
         </li>
       % endfor
     </ul>
