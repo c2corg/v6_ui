@@ -1,12 +1,13 @@
+from c2corg_common.document_types import IMAGE_TYPE
 from pyramid.renderers import render
 from pyramid.view import view_config
 
-from c2corg_ui.views.document import Document
+from c2corg_ui.views.document import Document, ROUTE_NAMES
 
 
 class Image(Document):
 
-    _API_ROUTE = 'images'
+    _API_ROUTE = ROUTE_NAMES[IMAGE_TYPE]
 
     @view_config(route_name='images_index')
     def index(self):

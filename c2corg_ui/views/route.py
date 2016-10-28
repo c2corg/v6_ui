@@ -1,13 +1,14 @@
+from c2corg_common.document_types import ROUTE_TYPE
 from pyramid.renderers import render
 from pyramid.view import view_config
 
-from c2corg_ui.views.document import Document
+from c2corg_ui.views.document import Document, ROUTE_NAMES
 from c2corg_common.attributes import activities, route_types
 
 
 class Route(Document):
 
-    _API_ROUTE = 'routes'
+    _API_ROUTE = ROUTE_NAMES[ROUTE_TYPE]
 
     @view_config(route_name='routes_index')
     def index(self):

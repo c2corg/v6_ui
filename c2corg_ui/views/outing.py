@@ -1,12 +1,13 @@
+from c2corg_common.document_types import OUTING_TYPE
 from pyramid.renderers import render
 from pyramid.view import view_config
 
-from c2corg_ui.views.document import Document
+from c2corg_ui.views.document import Document, ROUTE_NAMES
 
 
 class Outing(Document):
 
-    _API_ROUTE = 'outings'
+    _API_ROUTE = ROUTE_NAMES[OUTING_TYPE]
 
     @view_config(route_name='outings_index')
     def index(self):

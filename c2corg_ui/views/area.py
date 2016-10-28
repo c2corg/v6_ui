@@ -1,16 +1,17 @@
 import logging
 
+from c2corg_common.document_types import AREA_TYPE
 from pyramid.renderers import render
 from pyramid.view import view_config
 
-from c2corg_ui.views.document import Document
+from c2corg_ui.views.document import Document, ROUTE_NAMES
 
 log = logging.getLogger(__name__)
 
 
 class Area(Document):
 
-    _API_ROUTE = 'areas'
+    _API_ROUTE = ROUTE_NAMES[AREA_TYPE]
 
     @view_config(route_name='areas_index')
     def index(self):

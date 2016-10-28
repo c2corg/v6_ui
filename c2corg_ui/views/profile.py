@@ -1,12 +1,13 @@
 import logging
 
+from c2corg_common.document_types import USERPROFILE_TYPE
 from c2corg_ui.views import call_api
 from pyramid.renderers import render
 from pyramid.view import view_config
 from pyramid.httpexceptions import (
     HTTPNotFound, HTTPInternalServerError)
 
-from c2corg_ui.views.document import Document
+from c2corg_ui.views.document import Document, ROUTE_NAMES
 from c2corg_ui.caching import cache_document_detail
 
 log = logging.getLogger(__name__)
@@ -14,7 +15,7 @@ log = logging.getLogger(__name__)
 
 class Profile(Document):
 
-    _API_ROUTE = 'profiles'
+    _API_ROUTE = ROUTE_NAMES[USERPROFILE_TYPE]
 
     @view_config(route_name='profiles_view')
     def profile(self):

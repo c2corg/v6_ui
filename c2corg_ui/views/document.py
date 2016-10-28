@@ -1,3 +1,5 @@
+from c2corg_common.document_types import AREA_TYPE, ARTICLE_TYPE, IMAGE_TYPE, \
+    OUTING_TYPE, USERPROFILE_TYPE, ROUTE_TYPE, WAYPOINT_TYPE
 from dogpile.cache.api import NO_VALUE
 from pyramid.renderers import render
 
@@ -23,6 +25,16 @@ from c2corg_ui.views import etag_cache, get_response, get_or_create_page, \
     call_api, get_with_etag
 
 log = logging.getLogger(__name__)
+
+ROUTE_NAMES = {
+    AREA_TYPE: 'areas',
+    ARTICLE_TYPE: 'articles',
+    IMAGE_TYPE: 'images',
+    OUTING_TYPE: 'outings',
+    USERPROFILE_TYPE: 'profiles',
+    ROUTE_TYPE: 'routes',
+    WAYPOINT_TYPE: 'waypoints'
+}
 
 
 class Document(object):
