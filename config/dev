@@ -1,4 +1,10 @@
+instanceid = dev
+
 include Makefile
+
+export base_url = /${instanceid}
+
+export api_url = http://localhost:6543
 
 # Key valid for http://c2corgv6-demo.gis.internal/
 #export ign_api_key = d2ezzb6cot60zoskmm2ormt9
