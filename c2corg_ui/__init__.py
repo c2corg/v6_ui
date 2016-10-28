@@ -149,6 +149,9 @@ def main(global_config, **settings):
     config.add_route('account', '/account')
     config.add_route('preferences', '/preferences')
 
+    config.add_route('sitemap_index', '/sitemap.xml')
+    config.add_route('sitemap', '/sitemaps/{doc_type:[a-z]{1}}/{i:\d+}.xml')
+
     config.scan(ignore='c2corg_ui.tests')
     return config.make_wsgi_app()
 
