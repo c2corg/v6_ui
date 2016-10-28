@@ -466,12 +466,9 @@ class Document(object):
             self._redirect(data['redirects_to'], lang, None, is_lang_set)
         else:
             locale = data['locales'][0]
-            title = ''
-            if self._API_ROUTE == 'routes' and locale['title_prefix']:
-                title += locale['title_prefix'] + ' '
-            title += locale['title']
+            slug = get_slug(locale, is_route=self._API_ROUTE == 'routes')
             self._redirect(data['document_id'], locale['lang'],
-                           slugify(title) or '-', is_lang_set)
+                           slug, is_lang_set)
 
     def _get_interface_lang(self):
         return self.request.cookies.get('interface_lang', self._DEFAULT_LANG)
@@ -490,3 +487,18 @@ class Document(object):
             'document': document
         })
         return self.template_input
+
+
+def get_slug(locale, is_route):
+    title = ''
+    if is_route and locale['title_prefix']:
+        title += locale['title_prefix'] + ' '
+    title += locale['title']
+    return get_slug_for_title(title)
+
+
+def get_slug_for_title(title):
+    slug = slugify(title)
+    if not slug:
+        slug = '-'
+    return slug
