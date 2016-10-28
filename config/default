@@ -17,7 +17,7 @@ export ign_api_key = 9qxhimhvm24i40p8j86n7de3
 export bing_api_key = AudizIfCd3NAdt91ubJMGkMI-swfHxe1R-_U7KiLxCHqepDy70txQ-_-89_eevxc
 
 export ganalytics_key = FIXME
-export recaptcha_site_key = 6LdWkR4TAAAAAJEW4VaASKHU55wP42yYNy7Mbgdb
+export recaptcha_site_key = 6LfWUwoUAAAAAAxud1qqok6wOJJlCUsYXxHizRhc
 
 export logging_level = WARNING
 export skip_captcha_validation = False
