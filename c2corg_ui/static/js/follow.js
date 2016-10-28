@@ -66,11 +66,13 @@ app.FollowController = function(appAuthentication, appApi) {
 
 
 /**
+ * Figure out if the visitor can follow this page:
+ * - only auth users may follow
+ * - users may not follow themselves
+ *
  * @export
  */
 app.FollowController.prototype.canFollow = function() {
-  // - only auth users may follow
-  // - users may not follow themselves
   return this.auth_.isAuthenticated() && this.auth_.userData.id !== this.docId;
 };
 
