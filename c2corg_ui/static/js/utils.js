@@ -198,7 +198,7 @@ app.utils.getTemplate = function(path, $templateCache) {
  */
 app.utils.detectDocumentIdFilter = function(ngeoLocation) {
   // see app.utils.getDoctype() for types definitions
-  var associatedDocTypes = ['w', 'r', 'a'];
+  var associatedDocTypes = ['w', 'r', 'a', 'u'];
   for (var i = 0, n = associatedDocTypes.length; i < n; i++) {
     if (ngeoLocation.hasFragmentParam(associatedDocTypes[i])) {
       return true;

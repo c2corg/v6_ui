@@ -14,46 +14,48 @@ from json import dumps
 
 % else:
 
-  % if geometry:
+  <div app-view-details>
+    % if geometry:
 
-    % if profile.get('areas'):
-      <article class="location-static">
-        ${show_areas(profile)}
-      </article>
+      % if profile.get('areas'):
+        <article class="location-static">
+          ${show_areas(profile)}
+        </article>
+      % endif
+
+      <div ng-init='profileFeature = {
+          "type": "FeatureCollection",
+          "properties": {},
+          "features": [{
+            "type": "Feature",
+            "geometry": {"type": "Point", "coordinates": [${geometry.x}, ${geometry.y}]},
+            "properties": {
+              "title": ${dumps(profile["name"]) | n},
+              "lang": "${locale["lang"]}",
+              "documentId": ${profile['document_id']},
+              "module": "profiles",
+              "highlight": true
+            }
+          }]
+        };
+        detailsCtrl.documentService.setAssociations(${profile['associations']});'>
+      <app-map class="view-details-map" app-map-feature-collection="profileFeature"></app-map>
     % endif
 
-    <div ng-init='profileFeature = {
-        "type": "FeatureCollection",
-        "properties": {},
-        "features": [{
-          "type": "Feature",
-          "geometry": {"type": "Point", "coordinates": [${geometry.x}, ${geometry.y}]},
-          "properties": {
-            "title": ${dumps(profile["name"]) | n},
-            "lang": "${locale["lang"]}",
-            "documentId": ${profile['document_id']},
-            "module": "profiles",
-            "highlight": true
-          }
-        }]
-      }'>
-    <app-map class="view-details-map" app-map-feature-collection="profileFeature"></app-map>
-  % endif
+    ${get_image_gallery()}
 
+    <div class="view-details-informations col-xs-12  informations">
+      <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
+        <span translate>Informations</span><span class="glyphicon glyphicon-menu-down"></span>
+      </h3>
+      <section id="document-informations" class="collapse in">
+        ${get_profile_general(profile)}
+      </section>
+    </div>
 
-  ${get_image_gallery()}
+    ${get_document_description(locale, 'profile')}
 
-  <div class="view-details-informations col-xs-12  informations">
-    <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
-      <span translate>Informations</span><span class="glyphicon glyphicon-menu-down"></span>
-    </h3>
-    <section id="document-informations" class="collapse in">
-      ${get_profile_general(profile)}
-    </section>
+    <app-feed app-feed-profile="${profile['document_id']}" id="feed"></app-feed>
+
   </div>
-
-  ${get_document_description(locale, 'profile')}
-
-  <app-feed app-feed-profile="${profile['document_id']}" id="feed"></app-feed>
-
 % endif

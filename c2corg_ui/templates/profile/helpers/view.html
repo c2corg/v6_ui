@@ -7,7 +7,7 @@
       <p translate>General</p>
     </div>
     <span class="detail-text accordion">
-    % if profile.get('activities') or profile.get('categories'):
+      <p><span translate class="value-title">Forum username</span>: <span class="value">${profile['forum_username']}</span></p>
 
       % if profile.get('activities'):
         <article class="value activities">
@@ -26,9 +26,7 @@
           % endfor
         </article>
       % endif
-    % else:
-    <span translate class="value-title">No information to show.</span>
-    % endif
+    </span>
   </div>
 </%def>
 

@@ -57,7 +57,7 @@ app.FollowController = function(appAuthentication, appApi) {
    */
   this.followed = false;
 
-  if (this.auth_.isAuthenticated()) {
+  if (this.canFollow()) {
     this.api_.isFollowing(this.docId).then(function(response) {
       this.followed = response['data']['is_following'];
     }.bind(this));
@@ -66,11 +66,13 @@ app.FollowController = function(appAuthentication, appApi) {
 
 
 /**
+ * Figure out if the visitor can follow this page:
+ * - only auth users may follow
+ * - users may not follow themselves
+ *
  * @export
  */
 app.FollowController.prototype.canFollow = function() {
-  // - only auth users may follow
-  // - users may not follow themselves
   return this.auth_.isAuthenticated() && this.auth_.userData.id !== this.docId;
 };
 
