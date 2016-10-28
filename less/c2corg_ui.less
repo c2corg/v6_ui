@@ -232,7 +232,12 @@ main {
     }
   }
 }
-
+/*articles and areas have no .toggle-map*/
+app-pagination.areas, app-pagination.articles{
+  #pagination {
+    width: 100%;
+  }
+}
 #pagination {
   color: lightslategrey;
   position: absolute;
@@ -607,7 +612,7 @@ main {
     float:none;
     margin-top: 0;
     padding-top: 0;
-    height: calc(~"100% - 45px");
+    .calc(height, "100% - 78px");
   }
   .show-documents-filters-phone {
     display: none;
