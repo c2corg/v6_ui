@@ -3,11 +3,12 @@
 .sticky-filters-btn-container {
   position: fixed !important;
   font-size: 20px;
-  z-index: 1;
-  top: @page-header-height;
+  z-index: 29;
+  top: @page-header-height - 1;
   height: 40px;
   left: @menu-width;
   padding-left: 10px;
+  padding-top: 2px !important;
   background-color: #DDDDDD;
   text-align: left;
 
@@ -19,24 +20,29 @@
     left: 0;
     padding-top: 0;
     width: 100%;
-    top: 50px;
     height: 40px;
+
+    .more-filters-btn {
+      margin: 6px !important;
+    }
   }
   .more-filters-btn {
+    height: 30px;
+    padding: 0 10px;
     margin: 3px !important;
   }
 }
+
 .sticky-filters-moreFilters {
   position: fixed !important;
-  top: @page-header-height !important;
-  overflow-y: scroll;
-  height: -moz-calc(~"100vh -"  @page-header-height) !important;
-  height: -webkit-calc(~"100vh -"  @page-header-height) !important;
-  height: -o-calc(~"100vh -"  @page-header-height) !important;
-  height: calc(~"100vh -"  @page-header-height) !important;
+  top: @page-header-height - 1 !important;
+  margin-top: 0 !important;
+  .calc(max-height, "100vh -  @{page-header-height}") !important;
 
   @media @phone {
     top: 90px;
+    overflow: auto !important;
+    .calc(max-height, "100vh -  100px") !important;
   }
 }
 

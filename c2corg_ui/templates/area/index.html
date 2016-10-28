@@ -10,22 +10,23 @@
   });
 </%block>
 
+## for 'click' of .toggle-map, .page-main-title button and .show-documents-filters-phone
+## see js/style/stickyFilters.js
+
 <header class="page-main-title">
   <h3><span translate>Areas</span>
     <span class="badge" ng-cloak>{{resCounter}}</span>
   </h3>
 </header>
+
 <section class="documents-list-section">
   <%include file="filters.html" />
   <div class="documents-nav-buttons text-center">
-    <button class="btn btn-default show-documents-filters-phone" translate>Filters</button>
+    <button class="btn btn-default orange-btn show-documents-filters-phone" translate>Filters</button>
     ${add_doctype_selector()}
-    <app-pagination></app-pagination>
+
+    <app-pagination class="areas"></app-pagination>
   </div>
+
   <app-advanced-search document-type="areas" use-map="false"></app-advanced-search>
 </section>
-<script>
-window.onload = function(){
-  app.stickyFilters();
-}
-</script>

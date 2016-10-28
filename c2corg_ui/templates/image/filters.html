@@ -3,28 +3,32 @@ from c2corg_common.attributes import default_langs, activities, image_categories
 %>
 <%namespace file="../helpers/filters.html" import="add_multiselect"/>
 
-<form app-search-filters app-search-filters-controller-name="appSearchFiltersController">
+## Duplicate simple filters into the main filters and into #moreFilters.
+## It is really useful - no need for re-compilation with angular in case of sticky filters.
+<%def name="simple_filters()">
+<div class="row simple-filters">
+  <div class="filter">
+    <label translate>categories</label><br>
+    ${add_multiselect('cat', image_categories)}
+  </div>
+
+  <div class="filter">
+    <label translate>activities</label><br>
+    ${add_multiselect('act', activities)}
+  </div>
+
+  <div class="col-xs-12 col-sm-6 filter">
+    <label translate>title</label>
+    <input type="text" class="form-control" ng-model="filtersCtrl.filters.q">
+  </div>
+</div>
+</%def>
+
+<form app-search-filters app-search-filters-controller-name="appSearchFiltersController" app-sticky-filters>
   <div class="filters">
-    <div class="row simple-filters">
-
-      <div class="filter">
-        <label translate>categories</label><br>
-        ${add_multiselect('cat', image_categories)}
-      </div>
-
-      <div class="filter">
-        <label translate>activities</label><br>
-        ${add_multiselect('act', activities)}
-      </div>
-
-      <div class="col-xs-12 col-sm-6 filter">
-        <label translate>title</label>
-        <input type="text" class="form-control" ng-model="filtersCtrl.filters.q">
-      </div>
-
-    </div>
-
-    <div class="row collapse" id="moreFilters">
+    ${simple_filters()}
+    <div class="row collapse images" id="moreFilters">
+      ${simple_filters()}
 
       <div class="col-xs-12 col-sm-6 filter">
         <label translate>type</label><br>
@@ -35,7 +39,7 @@ from c2corg_common.attributes import default_langs, activities, image_categories
         <label translate>date</label><br>
         <div class="input-group" ng-model="filtersCtrl.dates[0]" datepicker-options="{maxDate: filtersCtrl.dateMaxStart}"
              uib-datepicker-popup="dd MM yyyy" is-open="openDateStart" ng-change="filtersCtrl.setDate('date')">
-          <input type="text" disabled class="form-control" value="{{filtersCtrl.dates[0] | amDateFormat:'Do MMMM YYYY'}}"/>
+          <input type="text" disabled class="form-control" value="{{filtersCtrl.dates[0]| amDateFormat:'Do MMMM YYYY'}}"/>
           <span class="input-group-btn">
             <button type="button" class="btn btn-default" ng-click="openDateStart = true"><span class="glyphicon glyphicon-calendar"></span></button>
           </span>
@@ -51,13 +55,12 @@ from c2corg_common.attributes import default_langs, activities, image_categories
                 ng-show="filtersCtrl.filtersNb > 0"><span translate>Clear filters</span> ({{filtersCtrl.filtersNb}})</button>
       </div>
     </div>
+  </div>
 
-    <div class="more-filters-btn-container">
-      <button class="btn orange-btn more-filters-btn" data-toggle="collapse" data-target="#moreFilters"
-        aria-expanded="false" aria-controls="moreFilters" translate>All filters</button>
-      <button class="btn blue-btn more-filters-btn" ng-click="filtersCtrl.clear()" ng-cloak
-              ng-show="filtersCtrl.filtersNb > 0"><span translate>Clear filters</span> ({{filtersCtrl.filtersNb}})</button>
-    </div>
-
+  <div class="more-filters-btn-container">
+    <button class="btn orange-btn more-filters-btn" data-toggle="collapse" data-target="#moreFilters"
+            aria-expanded="false" aria-controls="moreFilters" translate>All filters</button>
+    <button class="btn blue-btn more-filters-btn" ng-click="filtersCtrl.clear()" ng-cloak
+            ng-show="filtersCtrl.filtersNb > 0"><span translate>Clear filters</span> ({{filtersCtrl.filtersNb}})</button>
   </div>
 </form>

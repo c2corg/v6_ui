@@ -21,9 +21,8 @@ app.imageUploaderDirective = function() {
     },
     templateUrl: '/static/partials/imageuploader.html',
     link: function(scope, el, attrs, ctrl) {
-      // dropdown-menus can overlap the modal and it's impossible to fix it with overflow-y: srcoll + overflow-x: visible.
       el.on('click', '.dropdown-toggle', function() {
-        ctrl.repositionMenu_(this);
+        app.utils.repositionMenu({'menu': this, 'boxBoundEl': '.images-container', 'checkBottom': true});
       });
     }
   };
@@ -419,24 +418,6 @@ app.ImageUploaderController.prototype.openModal = function() {
     controller: 'AppImageUploaderModalController as imageModalCtrl',
     size: 'xl'
   });
-};
-
-
-/**
- * @param {HTMLElement} el
- * @private
- */
-app.ImageUploaderController.prototype.repositionMenu_ = function(el) {
-  var menu = $(el).next();
-  menu.css('opacity', 0); // prevent from jumping on the screen
-  setTimeout(function() { // because at the moment of the click the menu is hidden and result would give 0.
-    var boxBounds = $('#image-uploader')[0].getBoundingClientRect();
-    var menuBounds = menu[0].getBoundingClientRect();
-    if (menuBounds.right > boxBounds.right) {
-      menu.css('left', -Math.abs(menuBounds.right - boxBounds.right + 20));
-    }
-    menu.css('opacity', 1);
-  }, 50);
 };
 
 

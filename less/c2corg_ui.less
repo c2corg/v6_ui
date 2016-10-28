@@ -28,6 +28,7 @@ html, body{
   padding: 0;
   margin: 0;
   width: 100%;
+  height: 100%;
   overflow-x: hidden;
   background-color: @body-color;
 }
@@ -63,28 +64,40 @@ html, body{
 }
 
 .page-main-title {
-  top: @page-header-height - 8;
+  top: @page-header-height - 1;
   color: white;
   height: 40px;
   position: relative;
   z-index: 1;
   margin-left: @list-width;
   text-align: center;
-  padding-top: 5px;
-  padding-bottom: 2px;
+  padding-top: 6px;
   background-color: rgba(104, 159, 179, 0.64);
 
+  /*the filters button shown on mobile*/
+  button {
+    display: none;
+    height: 24px;
+    padding: 0 10px;
+  }
+
+  @media @tablet {
+    top: 43px;
+  }
   @media @phone {
-    border-bottom: 1px solid #ccc;
-    font-size: 1.5em;
+    .flex();
+    justify-content: space-around;
+    align-items: center;
     padding: 0;
     position: initial;
     margin-left: 0;
     height: 35px;
-
+    button {
+      display: none;
+    }
     h3 {
       margin: 0;
-      padding: 0.7%;
+      padding: 1%;
     }
   }
 
@@ -219,7 +232,14 @@ main {
     }
   }
 }
-
+/*articles and areas have no .toggle-map*/
+app-pagination.areas, app-pagination.articles{
+  @media @phone {
+    #pagination {
+      width: 100%;
+    }
+  }
+}
 #pagination {
   color: lightslategrey;
   position: absolute;
@@ -229,9 +249,10 @@ main {
     position: fixed;
     align-items: baseline;
     .flex();
+    justify-content: space-around;
     bottom: 0;
-    z-index: 2;
-    width: 100%;
+    z-index: 5;
+    width: calc(~"100% - 50px"); /* 50px = .toggle-map btn width*/
     height: 45px;
     padding: 5px;
     left: 0;
@@ -244,7 +265,7 @@ main {
       height: 100%;
     }
     .page-numbers  {
-      width: 100%;
+      width: 110px;
       display: block !important;
     }
   }
@@ -259,6 +280,7 @@ main {
     display:inline-block;
     margin-bottom: 0;
     padding-left: 5px;
+    width: 152px;
 
     li {
       display:inline-block;
@@ -276,6 +298,31 @@ main {
         color:white;
       }
     }
+  }
+}
+
+.toggle-map {
+  display: none;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  width: 100%;
+  background-color: @lightgrey;
+  height: 45px;
+  padding-top: 3px;
+  button {
+    float: right;
+    margin-right: 10px;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    font-size: 1.3em;
+    padding-left: 9px;
+    padding-top: 8px;
+  }
+  @media @phone {
+    display: block;
   }
 }
 
@@ -315,6 +362,9 @@ main {
     -o-column-break-inside:avoid;
     -ms-column-break-inside:avoid;
     column-break-inside:avoid;
+  }
+  & + .no-results {
+    display: none;
   }
 }
 
@@ -530,7 +580,7 @@ main {
       box-shadow: 0px 0px 36px -10px rgba(0,0,0,0.56);
       height: 250px;
       margin-top: 0;
-      height: 42vh !important;
+      height: 80vh !important;
     }
   }
 
@@ -538,15 +588,13 @@ main {
     margin-left: 0;
     bottom: 40px;
     position: fixed;
+    opacity: 0;
+    pointer-events: none;
     width: 100%;
   }
 }
 .documents-list-section, .map-right .map, .not-found-section {
-  height: calc(~"100vh -" @page-header-height);
-  height: -moz-calc(~"100vh -" @page-header-height);
-  height: -webkit-calc(~"100vh -" @page-header-height);
-  height: -o-calc(~"100vh -" @page-header-height);
-  height: calc(~"100vh -" @page-header-height);
+  .calc(height, "100vh - @{page-header-height} + 4px");
 }
 
 .documents-list-section, .not-found-section {
@@ -554,14 +602,15 @@ main {
   position: relative;
   width: @list-width;
   float: left;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: auto;
+  padding-top: 5px;
 
   @media @phone {
     width: 100%;
     float:none;
     margin-top: 0;
-    height: 45vh;
+    padding-top: 0;
+    .calc(height, "100vh - 128px");
   }
   .show-documents-filters-phone {
     display: none;
@@ -719,12 +768,12 @@ app-simple-search {
   top: 0;
   margin-bottom: 0;
   border: 0;
-  padding-bottom: 5px;
+  padding-bottom: 6px;
   padding-top: 5px;
+  z-index: 33;
 
   @media @phone {
     position: fixed;
-    margin-top: 6px;
   }
   #add-my-outing {
     margin-left: 10px;
@@ -771,10 +820,7 @@ app-simple-search {
         width: 150px;
       }
       @media @phone {
-        width: -moz-calc(~"100vw - 45px");
-        width: -webkit-calc(~"100vw - 45px");
-        width: -o-calc(~"100vw - 45px");
-        width: calc(~"100vw - 45px");
+        .calc(width, "100vw - 45px");
       }
     }
     @media @phone {
@@ -817,7 +863,7 @@ app-simple-search {
   display: none;
   margin-left: 60px;
   margin-bottom: 6px;
-  z-index: 2;
+  z-index: 34;
   width: 80px;
 
   @media (max-width: 1099px){
@@ -834,7 +880,6 @@ app-simple-search {
 
 .page-content {
   margin-left: @menu-width;
-  margin-top:  8px;
 
   @media @tablet {
     margin-left: @menu-width-tablet;
@@ -842,7 +887,7 @@ app-simple-search {
   }
   @media @phone {
     margin-left: 0;
-    margin-top: 50px;
+    margin-top: @page-header-height;
   }
 
   .archive-data {
