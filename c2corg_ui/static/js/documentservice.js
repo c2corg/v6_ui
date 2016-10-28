@@ -39,6 +39,7 @@ app.Document = function(appAuthentication, $rootScope) {
       'all_routes': {'total': 0, 'documents': []},
       'users': [],
       'recent_outings': {'total': 0, 'documents': []},
+      'outings': [],
       'articles': [],
       'images': [],
       'areas': []
@@ -56,12 +57,14 @@ app.Document = function(appAuthentication, $rootScope) {
    *  users: Array<number>,
    *  images: Array<number>,
    *  areas: Array<number>,
+   *  outings: Array<number>,
    *  articles: Array<number>
    * }}
    * @private
    */
   this.associationsIds_ = {
-    'routes': [], 'waypoints': [], 'images': [], 'users': [], 'areas': [], 'articles': []
+    'routes': [], 'waypoints': [], 'images': [], 'users': [], 'areas': [],
+    'articles': [], 'outings': []
   };
 };
 
@@ -149,9 +152,7 @@ app.Document.prototype.pushToAssociations = function(doc, doctype,
  * @export
  */
 app.Document.prototype.removeAssociation = function(id, type, event) {
-  var associations = type === 'outings' ?
-          this.document.associations.recent_outings.documents :
-          this.document.associations[type];
+  var associations = this.document.associations[type];
 
   event.currentTarget.closest('.list-item').className += ' remove-item';
   // you need settimeout because if you splice the array immediatly, the animation

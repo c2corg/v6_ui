@@ -303,13 +303,28 @@
 <%def name="show_associated_outings(document)">\
   <%
       associations = document['associations']
+      if 'recent_outings' in associations:
+          isRecentOutings = True
+          outings = associations['recent_outings']['documents']
+          total = associations['recent_outings']['total']
+      elif 'outings' in associations:
+          isRecentOutings = False
+          outings = associations['outings']
+          total = len(outings)
+      else:
+          total = 0
   %>
-  % if 'recent_outings' in associations and associations['recent_outings']['total'] > 0:
-    ${add_seo_association_links(associations['recent_outings']['documents'], 'outings')}
+  % if total > 0:
+    ${add_seo_association_links(outings, 'outings')}
     <article>
       <h3 class="heading show-phone outings" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-outings">
         <span class="glyphicon glyphicon-map-marker"></span>
-        <span translate>Last outings</span><span class="glyphicon glyphicon-menu-down"></span>
+        % if isRecentOutings:
+          <span translate>Last outings</span>
+        % else:
+          <span translate>Associated outings</span>
+        % endif
+        <span class="glyphicon glyphicon-menu-down"></span>
       </h3>
       <div class="associated-documents collapse in" id="associated-outings">
         % if document['doctype'] == 'routes':
@@ -320,10 +335,17 @@
             </a>
           </div>
         % endif
-        <div class="list-item outings" ng-repeat="doc in detailsCtrl.documentService.document.associations.recent_outings.documents">
+        <div class="list-item outings" ng-repeat="doc in detailsCtrl.documentService.document.associations.${'recent_outings.documents' if isRecentOutings else 'outings'}">
           <app-card app-card-doc="doc"></app-card>
+          % if not isRecentOutings and document['doctype'] == 'images':
+            <%
+                options = {"imageType": document["image_type"], "imageCreator": document["creator"]["user_id"]}
+            %>
+            <app-delete-association child-doctype="o" parent-id="${document['document_id']}" child-id="doc.document_id"
+              ng-if="userCtrl.hasEditRights('images', ${options})"></app-delete-association>
+          % endif
         </div>
-        % if associations['recent_outings']['total'] > len(associations['recent_outings']['documents']) :
+        % if isRecentOutings and total > len(outings) :
           <%
               fragment = '{0}={1}'.format(document['type'], document['document_id'])
           %>
