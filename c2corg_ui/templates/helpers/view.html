@@ -468,7 +468,7 @@
 
     % if doctype != 'images':
       <div class="float-button float-favorites" tooltip-placement="left" uib-tooltip="{{'Add images' | translate}}"
-           ng-click="uplCtrl.openModal()" ng-if="userCtrl.auth.isAuthenticated() && detailsCtrl.documentService.isCollaborative('${doctype}')">
+           ng-click="uplCtrl.openModal()" ng-if="userCtrl.hasEditRights('${doctype}', ${options})">
         <span class="glyphicon glyphicon-picture"></span>
         <p class="float-button-text" translate>Add images</p>
       </div>
