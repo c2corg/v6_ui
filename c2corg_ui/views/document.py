@@ -471,7 +471,7 @@ class Document(object):
                 title += locale['title_prefix'] + ' '
             title += locale['title']
             self._redirect(data['document_id'], locale['lang'],
-                           slugify(title), is_lang_set)
+                           slugify(title) or '-', is_lang_set)
 
     def _get_interface_lang(self):
         return self.request.cookies.get('interface_lang', self._DEFAULT_LANG)

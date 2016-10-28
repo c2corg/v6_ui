@@ -131,9 +131,10 @@
             locale = doc['locales'][0]
             title = locale['title_prefix'] + ' : ' if doctype == 'routes' and locale['title_prefix'] is not None else ''
             title += locale['title']
+            slug = slugify(title) or '-'
         %>
         <li>
-          <a href="${request.route_path(doctype + '_view', id=doc['document_id'], lang=locale['lang'], slug=slugify(title))}">${title}</a>
+          <a href="${request.route_path(doctype + '_view', id=doc['document_id'], lang=locale['lang'], slug=slug)}">${title}</a>
         </li>
       % endfor
     </ul>
