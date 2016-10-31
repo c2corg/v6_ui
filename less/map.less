@@ -14,47 +14,46 @@
   }
 
   .map-filter-switch {
-    position: absolute;
-    right: 10px;
-    z-index: 2;
     background-color: rgba(255, 255, 255, 0.7);
     border: 1px solid #ccc;
     border-radius: 2px;
     padding: 4px;
-    .glyphicon {
-      display: none;
-      font-size: 17px;
-      color: @C2C-orange !important;
-    }
+    display: table;
+    min-height: 34px;
+    margin-right: 10px;
 
-    input[type=checkbox] + * {
+    label {
+      margin-bottom: 0;
+    }
+    .text {
+      display: block;
       font-weight: normal;
       font-size: 14px;
     }
   }
-  @media (max-width: @screen-sm-min) {
-    .text {
-      display: none;
-    }
-    .glyphicon {
-      display: block !important;
-    }
-  }
+}
+/*containing app-base-selector and map filter*/
+.map-upper-controls {
+  .flex();
+  flex-flow: wrap row;
+  position: absolute;
+  z-index: 2;
+  margin-left: 45px;
+  margin-top: 10px;
 }
 
+
 app-baselayer-selector {
+  margin-left: 10px;
   position: absolute;
   bottom: 10px;
-  left: 10px;
   z-index: 2;
 }
 
 .map-recenter-tools {
   .flex();
-  position: absolute;
-  left: 50px;
-  z-index: 1;
-
+  margin-right: 10px;
+  margin-bottom: 5px;
 
   @media @phone {
     button {
@@ -112,6 +111,6 @@ app-map-search {
   }
 }
 
-.ol-zoom, .map-recenter-tools, .map-filter-switch {
+.ol-zoom {
   top: 10px;
 }

@@ -557,9 +557,6 @@ app-pagination.areas, app-pagination.articles {
     width: 100%;
   }
   .map {
-    @media (max-height: 300px) {
-      height: 70vh;
-    }
     @media @phone {
       -webkit-box-shadow: 0px 0px 36px -10px rgba(0,0,0,0.56);
       -moz-box-shadow: 0px 0px 36px -10px rgba(0,0,0,0.56);
@@ -567,6 +564,9 @@ app-pagination.areas, app-pagination.articles {
       height: 250px;
       margin-top: 0;
       height: 80vh !important;
+    }
+    @media screen and (max-height: 330px) {
+      height: 73vh !important;
     }
   }
 }

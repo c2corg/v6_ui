@@ -1,18 +1,19 @@
 <div class="map" ngeo-map="::mapCtrl.map">
-  <app-baselayer-selector app-baselayer-selector-map="::mapCtrl.map"></app-baselayer-selector>
-  <div class="map-recenter-tools" ng-show="::mapCtrl.showRecenterTools">
-    <app-geolocation app-geolocation-map="::mapCtrl.map"></app-geolocation>
-    <app-map-search app-map-search-map="::mapCtrl.map"></app-map-search>
+
+  <div class="map-upper-controls">
+    <div class="map-recenter-tools" ng-show="::mapCtrl.showRecenterTools">
+      <app-geolocation app-geolocation-map="::mapCtrl.map"></app-geolocation>
+      <app-map-search app-map-search-map="::mapCtrl.map"></app-map-search>
+    </div>
+    <div class="map-filter-switch" ng-show="::mapCtrl.advancedSearch">
+      <label>
+        <input type="checkbox" ng-model="mapCtrl.enableMapFilter">
+        <p translate class="text">Filter on map extent</p>
+      </label>
+    </div>
   </div>
+
   <button type="button" ng-show="mapCtrl.edit" ng-click="mapCtrl.resetFeature()"
-    class="btn btn-primary map-reset-feature" translate>Reset feature</button>
-  <div class="map-filter-switch" ng-show="::mapCtrl.advancedSearch">
-    <label>
-      <input type="checkbox" ng-model="mapCtrl.enableMapFilter">
-      <div>
-        <span translate class="text">Filter on map extent</span>
-        <span class="glyphicon glyphicon-globe"></span>
-      </div>
-    </label>
-  </div>
+          class="btn btn-primary map-reset-feature" translate>Reset feature</button>
+  <app-baselayer-selector app-baselayer-selector-map="::mapCtrl.map"></app-baselayer-selector>
 </div>
