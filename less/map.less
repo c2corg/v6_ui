@@ -50,13 +50,21 @@ app-baselayer-selector {
 }
 
 .map-recenter-tools {
+  .flex();
   position: absolute;
   left: 50px;
   z-index: 1;
+
+
+  @media @phone {
+    button {
+      height: 33px;
+    }
+  }
 }
 
 app-map-search {
-  background-color: white;
+  margin-left: 5px;
 
   .tt-menu {
     min-width: 14vw !important;
