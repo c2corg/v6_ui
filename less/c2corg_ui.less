@@ -33,9 +33,6 @@ html, body{
   background-color: @body-color;
 }
 
-.ol-zoom {
-  top: 44px;
-}
 .modal-dialog {
   margin-top: 30vh;
 
@@ -45,13 +42,15 @@ html, body{
 }
 
 .documents-nav-buttons {
-  .flex();
-  flex-flow: wrap row;
-  padding: 10px 10px 0 10px;
+  display: inline-block;
+  width: 100%;
+  padding: 10px 2% 0 2%;
 
   button[protected-url-btn] {
     padding: 0 5px;
     font-size: 20px;
+    float: left;
+    height: 34px;
     span {
       top: 3px;
       font-size: 20px;
@@ -64,33 +63,21 @@ html, body{
 }
 
 .page-main-title {
-  top: @page-header-height - 1;
   color: white;
-  height: 40px;
-  position: relative;
-  z-index: 1;
-  margin-left: @list-width;
+  height: @page-main-title-height;
+  position: absolute;
+  .calc(width, "100% - @{menu-width}");
+  z-index: 31;
   text-align: center;
-  padding-top: 6px;
-  background-color: rgba(104, 159, 179, 0.64);
-
-  /*the filters button shown on mobile*/
-  button {
-    display: none;
-    height: 24px;
-    padding: 0 10px;
-  }
+  padding-top: 2px;
+  background-color: rgb(152, 181, 205);
 
   @media @tablet {
-    top: 43px;
+    .calc(width, "100% - @{menu-width-tablet}");
   }
   @media @phone {
-    .flex();
-    justify-content: space-around;
-    align-items: center;
     padding: 0;
-    position: initial;
-    margin-left: 0;
+    width: 100%;
     height: 35px;
     button {
       display: none;
@@ -100,6 +87,12 @@ html, body{
       padding: 1%;
     }
   }
+  /*the filters button shown on mobile*/
+  button {
+    display: none;
+    height: 24px;
+    padding: 0 10px;
+  }
 
   .badge {
     background-color: @C2C-orange;
@@ -108,20 +101,6 @@ html, body{
 
 h1 {
   font-size: 3em;
-}
-
-#waypoints, #routes {
-  padding-right: 2%;
-  margin-bottom: 2%;
-  margin-left: 2%;
-  width:98%;
-  min-height:100px;
-  height: 69vh;
-  overflow-y: auto;
-
-  @media @phone {
-    height: 45vh;
-  }
 }
 
 #missing-langs, #other-langs {
@@ -233,7 +212,7 @@ main {
   }
 }
 /*articles and areas have no .toggle-map*/
-app-pagination.areas, app-pagination.articles{
+app-pagination.areas, app-pagination.articles {
   @media @phone {
     #pagination {
       width: 100%;
@@ -242,8 +221,7 @@ app-pagination.areas, app-pagination.articles{
 }
 #pagination {
   color: lightslategrey;
-  position: absolute;
-  right: 10px;
+  float: right;
 
   @media @phone {
     position: fixed;
@@ -567,9 +545,18 @@ app-pagination.areas, app-pagination.articles{
 }
 
 .map-right {
+  float: left;
   position: relative;
-  margin-left: @list-width;
+  width: 40%;
 
+  @media @phone {
+    margin-left: 0;
+    bottom: 40px;
+    position: fixed;
+    opacity: 0;
+    pointer-events: none;
+    width: 100%;
+  }
   .map {
     @media (max-height: 300px) {
       height: 70vh;
@@ -583,39 +570,37 @@ app-pagination.areas, app-pagination.articles{
       height: 80vh !important;
     }
   }
+}
 
-  @media @phone {
-    margin-left: 0;
-    bottom: 40px;
-    position: fixed;
-    opacity: 0;
-    pointer-events: none;
+.documents-list-section-container {
+  position: relative;
+  &.no-map .documents-list-section, &.no-map .page-main-title {
     width: 100%;
   }
 }
-.documents-list-section, .map-right .map, .not-found-section {
-  .calc(height, "100vh - @{page-header-height} + 4px");
+.documents-list-section, .not-found-section, .map-right .map {
+  margin-top: @page-main-title-height;
+  .calc(height, "100vh - @{page-header-height} - @{page-main-title-height}");
 }
 
 .documents-list-section, .not-found-section {
+  float: left;
   background-color: @lightgrey;
   position: relative;
   width: @list-width;
-  float: left;
   overflow: auto;
-  padding-top: 5px;
 
   @media @phone {
     width: 100%;
     float:none;
-    margin-top: 0;
-    padding-top: 0;
-    .calc(height, "100vh - 128px");
+    padding-top: 35px;
+    .calc(height, "100vh - 92px");
   }
   .show-documents-filters-phone {
     display: none;
     height: 33px;
     margin-right: 5px;
+    float: right;
 
     @media @phone {
       display: block;
@@ -879,11 +864,12 @@ app-simple-search {
 }
 
 .page-content {
+  margin-top: @page-header-height;
   margin-left: @menu-width;
 
   @media @tablet {
     margin-left: @menu-width-tablet;
-    margin-top:  -41px;
+    margin-top:  9px;
   }
   @media @phone {
     margin-left: 0;
@@ -919,8 +905,8 @@ app-simple-search {
 }
 
 @keyframes fadein {
-    from { opacity: 0; }
-    to   { opacity: 1; }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 app-alerts {
@@ -1145,6 +1131,7 @@ ul {
 .select-document {
   width: 170px;
   margin-right: 10px;
+  float: left;
 }
 
 .section.associations, .view-details-section {
