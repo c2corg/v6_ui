@@ -18,7 +18,10 @@
   <article class="archive-data">
     <h2><span class="glyphicon glyphicon-warning-sign"></span>&nbsp;<span translate>You are viewing an archived version of this document.</span></h2>
     <div class="text-left">
-      <p><b translate>Date</b>: {{'${1000 * version['written_at']}' | date:'medium'}} &nbsp;<span translate>by</span>&nbsp; <a href="#TODO">${version['name']}</a></p>
+      <p>
+        <b translate>Date</b>: {{'${1000 * version['written_at']}' | date:'medium'}} &nbsp;<span translate>by</span>
+        <a href="${request.route_path('profiles_view_id', id=version['user_id'])}">${version['name']}</a>
+      </p>
       <p><b translate>Changes</b>: <span x-translate>${show_version_comment(version)}</span></p>
     </div>
     <p class="text-center">
