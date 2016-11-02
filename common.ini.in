@@ -19,6 +19,7 @@ redis.cache_pool = 20
 ign_api_key = {ign_api_key}
 bing_api_key = {bing_api_key}
 ganalytics_key = {ganalytics_key}
+recaptcha_site_key = {recaptcha_site_key}
 
 pyramid.default_locale_name = fr
 
@@ -37,5 +38,4 @@ pyramid_closure.roots_with_prefix =
 # used for the "node_modules" and "closure" static views
 node_modules_path = %(here)s/node_modules/
 closure_library_path = __CLOSURE_LIBRARY_PATH__
-recaptcha_site_key = 6LdWkR4TAAAAAJEW4VaASKHU55wP42yYNy7Mbgdb
 skip.captcha.validation = {skip_captcha_validation}

@@ -1,13 +1,9 @@
-export instanceid = main
-export base_url = /
-
-export debug_port = 6553
+export instanceid ?= main
+export base_url ?= /
+export debug_port ?= 6553
 
 # the size of the connection pool for http requests (to the API)
 export http_request_connection_pool_size = 200
-
-host = c2corgv6.demo-camptocamp.com
-url = http://$(host)
 
 export api_url = http://c2corgv6-api.demo-camptocamp.com
 export image_backend_url = http://c2corgv6-images.demo-camptocamp.com
@@ -21,10 +17,10 @@ export ign_api_key = 9qxhimhvm24i40p8j86n7de3
 export bing_api_key = AudizIfCd3NAdt91ubJMGkMI-swfHxe1R-_U7KiLxCHqepDy70txQ-_-89_eevxc
 
 export ganalytics_key = FIXME
+export recaptcha_site_key = 6LfWUwoUAAAAAAxud1qqok6wOJJlCUsYXxHizRhc
 
 export logging_level = WARNING
 export skip_captcha_validation = False
-
 
 # version used for the cache
 export version = $(shell git rev-parse --short HEAD 2>/dev/null || echo "0")
