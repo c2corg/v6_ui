@@ -380,48 +380,7 @@
           % endif
 
           % if conditions_levels_exist:
-            <div class="table-responsive">
-              <table class="table table-striped conditions-levels">
-                <thead>
-                  <tr>
-                    <th class="location"><span translate>location</span> |
-                      <span translate>altitude</span> |
-                      <span translate>orientations</span>
-                    </th>
-                    <th class="soft-snow" translate>soft snow</th>
-                    <th class="total-snow" translate>total snow</th>
-                    <th class="comment" translate>comment</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  % for condition in cond:
-                  <tr>
-                    ## print empty td for alignement
-                    % if 'level_place' and condition.get('level_place'):
-                      <td>${condition['level_place']}</td>
-                    % else:
-                      <td></td>
-                    % endif
-                    % if 'level_snow_height_soft' in condition and condition['level_snow_height_soft'] != '' and condition['level_snow_height_soft'] is not None:
-                      <td>${condition['level_snow_height_soft']} cm</td>
-                    % else:
-                    <td></td>
-                    % endif
-                    % if 'level_snow_height_total' in condition and condition['level_snow_height_total'] != '' and condition['level_snow_height_total']:
-                      <td>${condition['level_snow_height_total']} cm</td>
-                    % else:
-                    <td></td>
-                    % endif
-                    % if 'level_comment' and condition.get('level_comment'):
-                      <td >${condition['level_comment']}</td>
-                    % else:
-                      <td></td>
-                    % endif
-                  </tr>
-                  % endfor
-                </tbody>
-              </table>
-            </div>
+            ${create_conditions_levels_tables(cond)}
           % endif
         </div>
       </section>
@@ -450,6 +409,101 @@
       </div>
     % endif
   % endif
+</%def>
+
+
+<%def name="create_conditions_levels_tables(cond)">\
+
+  <label translate>conditions_levels</label>
+  <div class="show-only-mobile conditions-levels">
+      % for condition in cond:
+       <%
+       level = 'level_place' and condition.get('level_place')
+       comment = 'level_comment' and condition.get('level_comment')
+       total_snow = 'level_snow_height_total' in condition and condition['level_snow_height_total'] != '' and condition['level_snow_height_total']
+       soft_snow = 'level_snow_height_soft' in condition and condition['level_snow_height_soft'] != '' and condition['level_snow_height_soft'] is not None
+       %>
+       <div class="condition">
+         % if level:
+          <p class="key">
+            <span translate>location</span> |
+          <span translate>altitude</span> |
+          <span translate>orientations</span>
+          </p>
+          <p class="val">${condition['level_place']}</p>
+         % endif
+          <div class="snow">
+            <p class="key" translate>soft snow</p>
+            % if soft_snow:
+              <p class="val">${condition['level_snow_height_soft']} cm<p>
+              % else:
+              <p  class="val" translate>no info</p>
+            % endif
+          </div>
+            <div class="snow">
+              <p class="key" translate>total snow</b></p>
+              % if total_snow:
+                <p  class="val">${condition['level_snow_height_total']} cm}</p>
+              % else:
+                <p  class="val" translate>no info</p>
+              % endif
+            </div>
+         % if comment:
+          <p class="key" translate>comment</p>
+          <p class="val">${condition['level_comment']}</p>
+         % endif
+       </div>
+      % endfor
+  </div>
+
+  <table class="table table-striped conditions-levels">
+    <thead>
+      <tr>
+        <th class="location">
+          <span translate>location</span> |
+          <span translate>altitude</span> |
+          <span translate>orientations</span>
+        </th>
+        <th class="soft-snow" translate>soft snow</th>
+        <th class="total-snow" translate>total snow</th>
+        <th class="comment" translate>comment</th>
+      </tr>
+    </thead>
+    <tbody>
+      % for condition in cond:
+      <%
+      level = 'level_place' and condition.get('level_place')
+      comment = 'level_comment' and condition.get('level_comment')
+      total_snow = 'level_snow_height_total' in condition and condition['level_snow_height_total'] != '' and condition['level_snow_height_total']
+      soft_snow = 'level_snow_height_soft' in condition and condition['level_snow_height_soft'] != '' and condition['level_snow_height_soft'] is not None
+      %>
+      <tr>
+        ## print empty td for alignement
+        % if level:
+          <td>${condition['level_place']}</td>
+        % else:
+          <td></td>
+        % endif
+        % if soft_snow:
+          <td>${condition['level_snow_height_soft']} cm</td>
+        % else:
+          <td></td>
+        % endif
+        % if total_snow:
+          <td>${condition['level_snow_height_total']} cm</td>
+        % else:
+          <td></td>
+        % endif
+        % if comment:
+          <td >${condition['level_comment']}</td>
+        % else:
+          <td></td>
+        % endif
+      </tr>
+      % endfor
+    </tbody>
+  </table>
+
 </%def>
 
 ## Float buttons
