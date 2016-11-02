@@ -34,28 +34,29 @@
     <span class="badge" ng-cloak>{{resCounter}}</span>
   </h3>
 </header>
+<div class="documents-list-section-container">
+  <section class="documents-list-section">
+    <%include file="filters.html" />
 
-<section class="documents-list-section">
-  <%include file="filters.html" />
+    <div class="documents-nav-buttons text-center">
+      <button class="btn btn-default orange-btn show-documents-filters-phone" translate>Filters</button>
+      ${add_doctype_selector()}
 
-  <div class="documents-nav-buttons text-center">
-    <button class="btn btn-default orange-btn show-documents-filters-phone" translate>Filters</button>
-    ${add_doctype_selector()}
+      <button class="btn btn-default orange-btn" protected-url-btn url="${request.route_path('routes_add')}"
+              uib-tooltip="{{'Create a new route' | translate }}" tooltip-placement="right">
+        <span class="glyphicon glyphicon-plus-sign"></span>
+      </button>
 
-    <button class="btn btn-default orange-btn" protected-url-btn url="${request.route_path('routes_add')}"
-            uib-tooltip="{{'Create a new route' | translate }}" tooltip-placement="right">
-      <span class="glyphicon glyphicon-plus-sign"></span>
-    </button>
-
-    <app-pagination></app-pagination>
-    <div class="toggle-map">
-      <button class="btn btn-default"><span class="glyphicon glyphicon-globe"></span></button>
+      <app-pagination></app-pagination>
+      <div class="toggle-map">
+        <button class="btn btn-default"><span class="glyphicon glyphicon-globe"></span></button>
+      </div>
     </div>
+
+    <app-advanced-search document-type="routes" use-map="true"></app-advanced-search>
+  </section>
+
+  <div class="map-right">
+    <app-map app-map-advanced-search="true" app-map-show-recenter-tools="true" app-map-default-map-filter="true"></app-map>
   </div>
-
-  <app-advanced-search document-type="routes" use-map="true"></app-advanced-search>
-</section>
-
-<div class="map-right">
-  <app-map app-map-advanced-search="true" app-map-show-recenter-tools="true" app-map-default-map-filter="true"></app-map>
 </div>

@@ -18,15 +18,16 @@
     <span class="badge" ng-cloak>{{resCounter}}</span>
   </h3>
 </header>
+<div class="documents-list-section-container no-map">
+  <section class="documents-list-section">
+    <%include file="filters.html" />
 
-<section class="documents-list-section">
-  <%include file="filters.html" />
-  <div class="documents-nav-buttons text-center">
-    <button class="btn btn-default orange-btn show-documents-filters-phone" translate>Filters</button>
-    ${add_doctype_selector()}
+    <div class="documents-nav-buttons text-center">
+      <button class="btn btn-default orange-btn show-documents-filters-phone" translate>Filters</button>
+      ${add_doctype_selector()}
+      <app-pagination class="areas"></app-pagination>
+    </div>
 
-    <app-pagination class="areas"></app-pagination>
-  </div>
-
-  <app-advanced-search document-type="areas" use-map="false"></app-advanced-search>
-</section>
+    <app-advanced-search document-type="areas" use-map="false"></app-advanced-search>
+  </section>
+</div>

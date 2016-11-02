@@ -19,20 +19,18 @@
     <span class="badge" ng-cloak>{{resCounter}}</span>
   </h3>
 </header>
-<section class="documents-list-section">
-  <%include file="filters.html" />
-  <div class="documents-nav-buttons text-center">
-    <button class="btn btn-default orange-btn show-documents-filters-phone" translate>Filters</button>
-    <button class="btn btn-default orange-btn" protected-url-btn url="${request.route_path('articles_add')}"
-            uib-tooltip="{{'Create a new article' | translate }}" tooltip-placement="right">
-      <span class="glyphicon glyphicon-plus-sign"></span>
-    </button>
-    <app-pagination class="articles"></app-pagination>
-  </div>
-  <app-advanced-search document-type="articles" use-map="false"></app-advanced-search>
-</section>
-<script>
-window.onload = function(){
-  app.stickyFilters();
-}
-</script>
+<div class="documents-list-section-container no-map">
+  <section class="documents-list-section">
+    <%include file="filters.html" />
+    <div class="documents-nav-buttons text-center">
+      <button class="btn btn-default orange-btn show-documents-filters-phone" translate>Filters</button>
+      <button class="btn btn-default orange-btn" protected-url-btn url="${request.route_path('articles_add')}"
+              uib-tooltip="{{'Create a new article' | translate }}" tooltip-placement="right">
+        <span class="glyphicon glyphicon-plus-sign"></span>
+      </button>
+      <app-pagination class="articles"></app-pagination>
+    </div>
+
+    <app-advanced-search document-type="articles" use-map="false"></app-advanced-search>
+  </section>
+</div>
