@@ -454,7 +454,7 @@ app.MapController.prototype.createPointStyle_ = function(feature, resolution) {
       break;
     case 'profiles':
       imgSize = highlight ? 32 : 16;
-      path = '/social/user.svg';
+      path = '/documents/profile.svg';
       break;
     default:
       imgSize = highlight ? 32 : 16;
