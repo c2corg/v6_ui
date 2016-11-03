@@ -49,6 +49,7 @@
 				"activities": ["hiking"]
 			}]
 		},
+		"books": [],
 		"articles": [{
 			"type": "c",
 			"categories": [],
