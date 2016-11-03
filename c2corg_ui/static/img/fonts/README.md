@@ -9,7 +9,7 @@ You can use an online tool such as Icomoon - https://icomoon.io/app/#/select
 5) click download
 6) the zipped file will contain the style.css file as well as fonts folder
 7) put the contents of fonts folder into static/img/fonts and give them a special name (for example "heavy_metal")
-8) copty style.css to the less folder and update it renaming 
+8) copy style.css to the less folder and update it renaming 
 
   ```src:  url('fonts/icomoon.eot?56tqll');
   src:  url('fonts/icomoon.eot?56tqll#iefix') format('embedded-opentype'),

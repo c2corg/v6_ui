@@ -133,7 +133,6 @@
   margin-left: 3%;
   width: 91%;
   padding-bottom: 200px;
-  overflow: hidden;
 
   @media @phone {
     padding-top: 10px;
@@ -382,6 +381,31 @@
         font-size: 1em;
       }
     }
+    .glyphicon-duplicate {
+      color: @bright-green;
+      @media @desktop {
+        margin-left: 10px;
+      }
+      @media @phone {
+        font-size: 2em;
+      }
+      /*red strike through*/
+      &:after {
+        content: "";
+        border-top: 3px solid #ea3636;
+        position: absolute;
+        left: -25%;
+        top: 50%;
+        width: 150%;
+      }
+    }
+    a.creative-commons {
+      font-size: 1em;
+      &:hover, &:focus {
+        text-decoration: none;
+      }
+    }
+
     .icon-glacier {
       font-size: 3.3em;
       color: @C2C-orange;
@@ -651,8 +675,7 @@ app-add-association {
 }
 
 .scroll-top-btn {
-  margin-top: 50px;
-  margin-bottom: 25px;
+  margin: 100px calc(~"50% - 40px");
 }
 .view-details-wrapper {
   width:  100%;

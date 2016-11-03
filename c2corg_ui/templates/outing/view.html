@@ -12,7 +12,7 @@ from json import dumps
     show_archive_data, show_route_title, get_route_activities, show_areas, show_float_buttons,
     show_associated_waypoints, show_associated_routes, show_associated_articles,
     delete_association_confirmation_modal, associated_images_featurelist,
-    show_badge, get_document_description"/>
+    show_badge, get_document_description, get_licence"/>
 <%namespace file="helpers/view.html" import="get_outing_snow, get_outing_access,
     get_outing_participants, get_outing_general, get_outing_heights"/>
 
@@ -107,6 +107,7 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
       ${get_outing_heights(outing)}
       ${get_outing_access(outing)}
       ${get_outing_snow(outing)}
+      ${get_licence(outing)}
     </section>
   </div>
 

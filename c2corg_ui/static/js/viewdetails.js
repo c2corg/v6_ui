@@ -46,12 +46,13 @@ app.module.directive('appViewDetails', app.viewDetailsDirective);
  * @param {string} imageUrl URL to the image backend.
  * @param {string} discourseUrl URL to discourse.
  * @param {app.Url} appUrl
+ * @param {app.Lang} appLang Lang service.
  * @constructor
  * @export
  * @ngInject
  */
 app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
-    appDocument, documentData, imageUrl, discourseUrl, appUrl) {
+    appDocument, documentData, imageUrl, discourseUrl, appUrl, appLang) {
 
   /**
    * @type {app.Document}
@@ -90,6 +91,11 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
    */
   this.imageUrl_ = imageUrl;
 
+  /**
+   * @type {app.Lang}
+   * @export
+   */
+  this.lang = appLang;
 
   /**
    * @type {string}
