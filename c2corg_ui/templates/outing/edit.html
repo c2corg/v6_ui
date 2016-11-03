@@ -368,7 +368,7 @@ updating_doc = outing_id and outing_lang
             <div class="form-group half" ng-class="{'has-success': outing.public_transport != undefined}">
               <label translate>public_transport</label>
               <input type="checkbox" ng-model="outing.public_transport" ng-checked="outing.public_transport == true">
-              <span></span>
+              <span ng-click="editCtrl.pushToArray(outing, 'public_transport', !outing.public_transport, $event)"></span>
             </div>
 
             ## FREQUENTATION
