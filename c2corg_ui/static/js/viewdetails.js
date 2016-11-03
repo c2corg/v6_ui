@@ -154,34 +154,27 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
     var parseThumbnailElements = function(el) {
       var thumbElements = el.childNodes;
       var items = [];
-      var figureEl;
-      var linkEl;
-      var item;
-      var id;
-      var info;
 
       for (var i = 0; i < thumbElements.length; i++) {
-        figureEl = thumbElements[i]; // <figure> element
-        linkEl = figureEl.children[0]; // <a> element
+        var figureEl = thumbElements[i]; // <figure> element small image
+        var linkEl = figureEl.children[0]; // <a> element big image
         // get the data-info-id and clone into the slide that's being opened
-        id = linkEl.getAttribute('data-info-id');
-        info = $(document.getElementById(id));
-        var image = new Image();
-        image['src'] = linkEl.getAttribute('href');
+        var id = linkEl.getAttribute('data-info-id');
+        var info = $(document.getElementById(id));
         var imgHtml = '<img src="' + linkEl.getAttribute('href') + '">';
+        var image = new Image();
+        image['src'] = linkEl.children[0].getAttribute('href');
 
-        item = { // create slide object
-          html: '<div class="photoswipe-image-container">' +
-                      info.html() + imgHtml +
-                    '</div>'
-         // TODO: for zoom in animation -> add this when WIDTH & HEIGHT will be returned by API in image properties
-         // w: image.naturalWidth,
-         // h: image.naturalHeight
+        // to change : multiplying coefficient
+        var dimensions = {
+          'height': $(linkEl.children[0]).prop('naturalHeight') * 6,
+          'width': $(linkEl.children[0]).prop('naturalWidth') * 6
         };
+        var item = this.createGalleryItem_(dimensions, info, imgHtml);
 
         // <img> thumbnail element, retrieving thumbnail url (small img)
         if (linkEl.children.length > 0) {
-         // ADD  item.src = linkEl.getAttribute('href'); when WIDHT & HEIGHT will be returned
+          item.src = linkEl.getAttribute('href'),
           item.msrc = linkEl.children[0].getAttribute('src');
         }
         item.el = figureEl; // save link to element for getThumbBoundsFn
@@ -358,6 +351,23 @@ app.ViewDetailsController.prototype.loadImages_ = function(initGalleries) {
     this.compile_($('#' + id).contents())(scope);
   }
   initGalleries();
+};
+
+
+/** create slide object
+ * @param {Object} dimensions
+ * @param {Element} info
+ * @param {String} imgHtml
+ * @private
+ */
+app.ViewDetailsController.prototype.createGalleryItem_ = function (dimensions, info, imgHtml) {
+  return {
+    html: '<div class="photoswipe-image-container">' +
+            info.html() + imgHtml +
+            '</div>',
+    w: dimensions.width,
+    h: dimensions.height
+  };
 };
 
 
