@@ -41,6 +41,7 @@ app.Document = function(appAuthentication, $rootScope) {
       'recent_outings': {'total': 0, 'documents': []},
       'outings': [],
       'articles': [],
+      'books': [],
       'images': [],
       'areas': []
     },
@@ -58,13 +59,14 @@ app.Document = function(appAuthentication, $rootScope) {
    *  images: Array<number>,
    *  areas: Array<number>,
    *  outings: Array<number>,
+   *  books: Array<number>,
    *  articles: Array<number>
    * }}
    * @private
    */
   this.associationsIds_ = {
     'routes': [], 'waypoints': [], 'images': [], 'users': [], 'areas': [],
-    'articles': [], 'outings': []
+    'articles': [], 'outings': [], 'books': []
   };
 };
 
