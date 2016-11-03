@@ -181,7 +181,6 @@
   % endif
 </%def>
 
-
 ## Links generated only for the search engines, hidden.
 <%def name="add_seo_association_links(documents, doctype, hide=True)">\
   % if len(documents):
@@ -217,6 +216,30 @@
           <app-card app-card-doc="doc"></app-card>
           % if type == 'articles':
             <app-delete-association child-doctype="articles" parent-id="${document['document_id']}" child-id="doc.document_id"
+              ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
+          % endif
+        </div>
+      </div>
+    </section>
+</%def>
+
+
+<%def name="show_associated_books(document, type='books')">\
+  <%
+    books = document['associations']['books']
+    associations = 'detailsCtrl.documentService.document.associations.' + type
+  %>
+   ${add_seo_association_links(books, 'books')}
+    <section ng-show="${associations}.length > 0">
+      <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-books">
+        <span class="glyphicon glyphicon-map-marker"></span>
+        <span translate>Associated books</span><span class="glyphicon glyphicon-menu-down"></span>
+      </h3>
+      <div class="associated-documents collapse in" id="associated-books">
+        <div class="list-item" ng-repeat="doc in ${associations}" ng-class="{'new-item': doc['new']}">
+          <app-card app-card-doc="doc"></app-card>
+          % if type == 'books':
+            <app-delete-association child-doctype="books" parent-id="${document['document_id']}" child-id="doc.document_id"
               ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
           % endif
         </div>
