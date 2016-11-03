@@ -8,7 +8,8 @@ from json import dumps
 <%namespace file="../helpers/view.html" import="get_comments, get_image_gallery, photoswipe_gallery,
   get_document_description, get_document_locale_text, show_missing_langs_links, show_other_langs_links,
   show_archive_data, show_areas, show_float_buttons, show_locale_title,
-  show_associated_waypoints, show_associated_outings, show_associated_routes, show_associated_articles,
+  show_associated_waypoints, show_associated_outings, show_associated_routes,
+  show_associated_articles, show_associated_books,
   delete_association_confirmation_modal, associated_images_featurelist, show_badge, get_licence"/>
 <%namespace file="helpers/view.html" import="get_article_general"/>
 
@@ -80,12 +81,13 @@ other_langs, missing_langs = get_lang_lists(article, lang)
       <span class="lead">
         <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
           <label translate>Add association</label>
-          <app-add-association parent-doctype="articles" parent-id="${article_id}" dataset="wroc"></app-add-association>
+          <app-add-association parent-doctype="articles" parent-id="${article_id}" dataset="wrocb"></app-add-association>
         </div>
         <section>
           ${show_associated_waypoints(article)}
           ${show_associated_routes(article)}
           ${show_associated_articles(article)}
+          ${show_associated_books(article)}
           ${show_associated_outings(article)}
         </section>
       </span>
