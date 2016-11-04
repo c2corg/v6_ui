@@ -90,6 +90,7 @@ app.Lang.prototype.getAvailableLangs = function() {
 
 
 /**
+ * @export
  * @return {string}
  */
 app.Lang.prototype.getLang = function() {

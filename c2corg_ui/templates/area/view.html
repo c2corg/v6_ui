@@ -10,7 +10,7 @@ from json import dumps
     photoswipe_gallery, get_document_locale_text, show_badge,
     show_attr, show_missing_langs_links, show_other_langs_links, show_archive_data,
     delete_association_confirmation_modal, show_route_title, show_float_buttons,
-    get_document_description"/>
+    get_document_description, get_licence"/>
 <%namespace file="helpers/view.html" import="get_area_general"/>
 <%
 area_id = area['document_id']
@@ -89,6 +89,7 @@ area['doctype'] = 'areas'
     </h3>
     <section id="document-informations" class="collapse in">
       ${get_area_general(area)}
+      ${get_licence(area)}
     </section>
   </div>
 

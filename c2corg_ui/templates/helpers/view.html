@@ -6,6 +6,71 @@
     from c2corg_ui.views.document import get_slug
 %>
 
+<%def name="get_licence(doc)">\
+  <%
+      doctype = doc['type']
+      collaborative = False
+      personal = False
+      copyright = False
+
+      if doctype == 'o' or doctype == 'u' or doctype == 'x':
+          personal = True
+      elif doctype == 'w' or doctype == 'r' or doctype == 'b' or doctype == 'a':
+          collaborative = True
+
+      elif doctype == 'c':
+          if doc['article_type'] == 'personal':
+              personal = True
+          else:
+              collaborative = True
+
+      elif doctype == 'i':
+          if doc['image_type'] == 'personal':
+              personal = True
+          elif doc['image_type'] == 'copyright':
+              copyright = True
+          else:
+              collaborative = True
+  %>
+
+  <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
+    <h4><span translate>Licence</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+    <div class="name-icon">
+       % if personal or collaborative:
+        <span class="creative-commons icon-CC"></span>
+      % else:
+        <span class="glyphicon glyphicon-copyright-mark"></span>
+      % endif
+      <p translate>Licence</p>
+    </div>
+    <span class="detail-text accordion">
+      <article class="value">
+        % if personal:
+          <a class="creative-commons" ng-href="https://creativecommons.org/licenses/by-nc-nd/3.0/deed.{{detailsCtrl.lang.getLang()}}">
+            <span class="creative-commons icon-BY green-text"
+                uib-tooltip="{{'Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made.' | translate}}"></span>
+            <span class="creative-commons icon-ND green-text" tooltip-placement=''
+                uib-tooltip="{{'NoDerivatives — If you remix, transform, or build upon the material, you may not distribute the modified material.' | translate}}"></span>
+            <span class="creative-commons icon-NC green-text"
+                  uib-tooltip="{{'NonCommercial — You may not use the material for commercial purposes.' | translate}}"></span>
+          </a>
+        % elif collaborative:
+          <a class="creative-commons" ng-href="https://creativecommons.org/licenses/by-sa/3.0/deed.{{detailsCtrl.lang.getLang()}}">
+            <span class="creative-commons icon-BY green-text"
+                  uib-tooltip="{{'Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made.' | translate}}"></span>
+            <span class="creative-commons icon-SA green-text"
+                  uib-tooltip="{{'ShareAlike — If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.' | translate}}"></span>
+          </a>
+        % else:
+          <span class="glyphicon glyphicon-duplicate green-text"
+                uib-tooltip="{{'This picture depicts a book cover. It is the property of its editor and/or author. It is presented here only for illustration purposes.' | translate}}"></span>
+        % endif
+      </article>
+    </span>
+  </div>
+</%def>
+
+
 <%def name="show_attr(obj, key, parse=True)">\
   <%
       attr = get_attr(obj, key, md=parse, bb=parse)

@@ -2,7 +2,7 @@
 from c2corg_ui.templates.utils import get_lang_lists
 from json import dumps
 %>
-<%namespace file="../helpers/view.html" import="get_image_gallery, get_document_description, show_areas"/>
+<%namespace file="../helpers/view.html" import="get_image_gallery, get_document_description, show_areas, get_licence"/>
 <%namespace file="helpers/view.html" import="get_profile_general"/>
 
 % if not_authorized:
@@ -50,6 +50,7 @@ from json import dumps
       </h3>
       <section id="document-informations" class="collapse in">
         ${get_profile_general(profile)}
+        ${get_licence(profile)}
       </section>
     </div>
 

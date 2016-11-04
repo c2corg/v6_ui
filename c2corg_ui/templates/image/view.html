@@ -10,7 +10,7 @@ from json import dumps
     show_attr, show_missing_langs_links, show_other_langs_links, show_badge,
     show_archive_data, show_route_title, get_route_activities, show_areas, show_float_buttons,
     show_associated_waypoints, show_associated_routes, show_associated_articles, delete_association_confirmation_modal,
-    get_document_description, get_comments"/>
+    get_document_description, get_comments, get_licence"/>
 <%namespace file="helpers/view.html" import="get_image_general, get_image_camera_settings, create_image_link"/>
 
 <%
@@ -89,6 +89,7 @@ from json import dumps
       <section id="document-informations" class="collapse in">
         ${get_image_general(image)}
         ${get_image_camera_settings(image)}
+        ${get_licence(image)}
       </section>
     </div>
 

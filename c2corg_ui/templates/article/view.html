@@ -10,7 +10,7 @@ from json import dumps
   get_document_description, get_document_locale_text, show_attr, show_missing_langs_links, show_other_langs_links,
   show_archive_data, get_article_activities, show_areas, show_float_buttons, show_route_title,
   show_associated_waypoints, show_associated_outings, show_associated_routes, show_associated_articles,
-  delete_association_confirmation_modal, associated_images_featurelist, show_badge"/>
+  delete_association_confirmation_modal, associated_images_featurelist, show_badge, get_licence"/>
 <%namespace file="helpers/view.html" import="get_article_general"/>
 
 <%
@@ -67,6 +67,7 @@ other_langs, missing_langs = get_lang_lists(article, lang)
     </h3>
     <section id="document-informations" class="collapse in">
       ${get_article_general(article)}
+      ${get_licence(article)}
     </section>
   </div>
 
