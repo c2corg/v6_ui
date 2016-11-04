@@ -2,8 +2,11 @@ import datetime
 import logging
 
 from c2corg_common.document_types import ROUTE_TYPE
+from c2corg_ui import caching
+from c2corg_ui.caching import cache_sitemap
 from c2corg_ui.views import get_with_etag
-from c2corg_ui.views.document import get_slug, ROUTE_NAMES
+from c2corg_ui.views.document import get_slug, ROUTE_NAMES, get_or_create, \
+    get_etag_key_default
 from pyramid.view import view_config
 
 log = logging.getLogger(__name__)
@@ -20,30 +23,45 @@ class Sitemap(object):
 
     @view_config(route_name='sitemap_index')
     def index(self):
-        old_api_cache_key = None
+        """ Returns a sitemap index.
+        See http://www.sitemaps.org/protocol.html#index
+        """
+        def load_data(old_api_cache_key=None):
+            not_modified, api_cache_key, body = get_with_etag(
+                self.settings, Sitemap._API_ROUTE, old_api_cache_key)
+            return not_modified, api_cache_key, (body, )
 
-        not_modified, api_cache_key, body = get_with_etag(
-            self.settings, Sitemap._API_ROUTE, old_api_cache_key)
+        def render_page(sitemap_data):
+            base_url = self.request.route_url(
+                'sitemap', doc_type='-DOC_TYPE-', i='-I-')
+            lastmod = datetime.datetime.utcnow().isoformat()
+            return generate_sitemap_index(sitemap_data, base_url, lastmod)
 
-        base_url = self.request.route_url(
-            'sitemap', doc_type='-DOC_TYPE-', i='-I-')
-        lastmod = datetime.datetime.utcnow().isoformat()
-
-        return self._return_xml(
-            generate_sitemap_index(body, base_url, lastmod))
+        return get_or_create(
+            (None, ), cache_sitemap, load_data, render_page, get_cache_key,
+            get_etag_key_default, self._return_xml, debug=False,
+            request=self.request)
 
     @view_config(route_name='sitemap')
     def sitemap(self):
+        """ Returns a sitemap for the given document type (paginated).
+        """
         doc_type = self.request.matchdict['doc_type']
         i = self.request.matchdict['i']
 
-        old_api_cache_key = None
+        def load_data(old_api_cache_key=None):
+            url = '{}/{}/{}'.format(Sitemap._API_ROUTE, doc_type, i)
+            not_modified, api_cache_key, body = get_with_etag(
+                self.settings, url, old_api_cache_key)
+            return not_modified, api_cache_key, (body, )
 
-        url = '{}/{}/{}'.format(Sitemap._API_ROUTE, doc_type, i)
-        not_modified, api_cache_key, body = get_with_etag(
-            self.settings, url, old_api_cache_key)
+        def render_page(sitemap_data):
+            return generate_sitemap(sitemap_data, doc_type, self.request)
 
-        return self._return_xml(generate_sitemap(body, doc_type, self.request))
+        return get_or_create(
+            (doc_type, i), cache_sitemap, load_data, render_page,
+            get_cache_key, get_etag_key_default, self._return_xml, debug=False,
+            request=self.request)
 
     def _return_xml(self, content):
         response = self.request.response
@@ -111,3 +129,13 @@ def generate_sitemap(sitemap_data, doc_type, request, pretty_print=False):
         return '\n'.join(lines)
     else:
         return ''.join(lines)
+
+
+def get_cache_key(doc_type=None, i=None):
+    if doc_type:
+        return '{}-{}-{}-{}'.format(
+            doc_type, i, datetime.date.today().isoformat(),
+            caching.CACHE_VERSION)
+    else:
+        return '{}-{}'.format(
+            datetime.date.today().isoformat(), caching.CACHE_VERSION)

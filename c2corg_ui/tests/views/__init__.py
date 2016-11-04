@@ -1,7 +1,7 @@
 from c2corg_ui.views import call_api
 from httmock import HTTMock
 
-from c2corg_ui.caching import CACHE_VERSION
+from c2corg_ui import caching
 from c2corg_ui.tests import BaseTestCase, settings, read_file
 from pyramid import testing
 
@@ -60,7 +60,7 @@ class BaseTestUi(BaseTestCase):
             self.assertIsNotNone(etag)
             self.assertEqual(
                 etag,
-                'W/"{0}-{1}"'.format(cache_key, CACHE_VERSION))
+                'W/"{0}-{1}"'.format(cache_key, caching.CACHE_VERSION))
 
             # then request the page again with the etag
             headers = {

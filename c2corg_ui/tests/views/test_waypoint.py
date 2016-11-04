@@ -3,7 +3,8 @@ import os
 from dogpile.cache.api import NO_VALUE
 from httmock import HTTMock, all_requests
 
-from c2corg_ui.caching import cache_document_detail, CachedPage, CACHE_VERSION
+from c2corg_ui.caching import cache_document_detail, CachedPage
+from c2corg_ui import caching
 from c2corg_ui.tests.views import BaseTestUi, handle_mock_request
 from c2corg_ui.views.waypoint import Waypoint
 from shapely.geometry import Point
@@ -59,7 +60,7 @@ class TestWaypointUi(BaseTestUi):
             self.assertIsNotNone(etag)
             self.assertEqual(
                 etag,
-                'W/"117982-fr-1-{0}"'.format(CACHE_VERSION))
+                'W/"117982-fr-1-{0}"'.format(caching.CACHE_VERSION))
 
             # then request the page again with the etag
             headers = {
