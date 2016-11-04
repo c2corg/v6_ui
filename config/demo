@@ -2,12 +2,12 @@ include Makefile
 
 export instanceid = ui
 export base_url = /
-export api_url = http://api.demov6.camptocamp.org
+export api_url = https://api.demov6.camptocamp.org
 export api_url_internal = http://api
 export api_url_host = api
 
-export discourse_url = http://forum.demov6.camptocamp.org
-export image_backend_url = http://images.demov6.camptocamp.org
+export discourse_url = https://forum.demov6.camptocamp.org
+export image_backend_url = https://images.demov6.camptocamp.org
 export image_url = $(image_backend_url)/active/
 
 # Key for www.demov6.camptocamp.org
