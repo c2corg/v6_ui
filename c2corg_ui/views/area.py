@@ -17,20 +17,6 @@ class Area(Document):
     def index(self):
         return self._index('c2corg_ui:templates/area/index.html')
 
-    @view_config(route_name='areas_sitemap',
-                 renderer='c2corg_ui:templates/area/sitemap.html')
-    @view_config(route_name='areas_sitemap_default',
-                 renderer='c2corg_ui:templates/area/sitemap.html')
-    def sitemap(self):
-        areas, total, filter_params, lang = self._get_documents()
-        self.template_input.update({
-            'areas': areas,
-            'total': total,
-            'filter_params': filter_params,
-            'lang': lang
-        })
-        return self.template_input
-
     @view_config(route_name='areas_view_id')
     @view_config(route_name='areas_view_id_lang')
     def redirect_to_full_url(self):

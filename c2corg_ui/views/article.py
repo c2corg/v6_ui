@@ -13,20 +13,6 @@ class Article(Document):
     def index(self):
         return self._index('c2corg_ui:templates/article/index.html')
 
-    @view_config(route_name='articles_sitemap',
-                 renderer='c2corg_ui:templates/article/sitemap.html')
-    @view_config(route_name='articles_sitemap_default',
-                 renderer='c2corg_ui:templates/article/sitemap.html')
-    def sitemap(self):
-        articles, total, filter_params, lang = self._get_documents()
-        self.template_input.update({
-            'articles': articles,
-            'filter_params': filter_params,
-            'total': total,
-            'lang': lang
-        })
-        return self.template_input
-
     @view_config(route_name='articles_view_id')
     @view_config(route_name='articles_view_id_lang')
     def redirect_to_full_url(self):

@@ -51,8 +51,6 @@ def main(global_config, **settings):
     config.add_route('index', '/')
 
     config.add_route('waypoints_index', '/waypoints')
-    config.add_route('waypoints_sitemap_default', '/waypoints/sitemap')
-    config.add_route('waypoints_sitemap', '/waypoints/sitemap*filters')
     config.add_route('waypoints_add', '/waypoints/add')
     config.add_route('waypoints_edit', '/waypoints/edit/{id:\d+}/{lang}')
     config.add_route('waypoints_history', '/waypoints/history/{id:\d+}/{lang}')
@@ -66,8 +64,6 @@ def main(global_config, **settings):
     config.add_route('waypoints_preview', '/waypoints/preview')
 
     config.add_route('routes_index', '/routes')
-    config.add_route('routes_sitemap_default', '/routes/sitemap')
-    config.add_route('routes_sitemap', '/routes/sitemap*filters')
     config.add_route('routes_add', '/routes/add')
     config.add_route('routes_edit', '/routes/edit/{id:\d+}/{lang}')
     config.add_route('routes_history', '/routes/history/{id:\d+}/{lang}')
@@ -80,8 +76,6 @@ def main(global_config, **settings):
     config.add_route('routes_preview', '/routes/preview')
 
     config.add_route('outings_index', '/outings')
-    config.add_route('outings_sitemap_default', '/outings/sitemap')
-    config.add_route('outings_sitemap', '/outings/sitemap*filters')
     config.add_route('outings_add', '/outings/add')
     config.add_route('outings_edit', '/outings/edit/{id:\d+}/{lang}')
     config.add_route('outings_history', '/outings/history/{id:\d+}/{lang}')
@@ -95,8 +89,6 @@ def main(global_config, **settings):
     config.add_route('outings_preview', '/outings/preview')
 
     config.add_route('articles_index', '/articles')
-    config.add_route('articles_sitemap_default', '/articles/sitemap')
-    config.add_route('articles_sitemap', '/articles/sitemap*filters')
     config.add_route('articles_add', '/articles/add')
     config.add_route('articles_edit', '/articles/edit/{id:\d+}/{lang}')
     config.add_route('articles_history', '/articles/history/{id:\d+}/{lang}')
@@ -110,8 +102,6 @@ def main(global_config, **settings):
     config.add_route('articles_preview', '/articles/preview')
 
     config.add_route('images_index', '/images')
-    config.add_route('images_sitemap_default', '/images/sitemap')
-    config.add_route('images_sitemap', '/images/sitemap*filters')
     config.add_route('images_edit', '/images/edit/{id:\d+}/{lang}')
     config.add_route('images_history', '/images/history/{id:\d+}/{lang}')
     config.add_route('images_archive',
@@ -124,8 +114,6 @@ def main(global_config, **settings):
     config.add_route('images_preview', '/images/preview')
 
     config.add_route('areas_index', '/areas')
-    config.add_route('areas_sitemap_default', '/areas/sitemap')
-    config.add_route('areas_sitemap', '/areas/sitemap*filters')
     config.add_route('areas_edit', '/areas/edit/{id:\d+}/{lang}')
     config.add_route('areas_history', '/areas/history/{id:\d+}/{lang}')
     config.add_route('areas_archive',

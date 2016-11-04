@@ -18,20 +18,6 @@ class Waypoint(Document):
     def index(self):
         return self._index('c2corg_ui:templates/waypoint/index.html')
 
-    @view_config(route_name='waypoints_sitemap',
-                 renderer='c2corg_ui:templates/waypoint/sitemap.html')
-    @view_config(route_name='waypoints_sitemap_default',
-                 renderer='c2corg_ui:templates/waypoint/sitemap.html')
-    def sitemap(self):
-        waypoints, total, filter_params, lang = self._get_documents()
-        self.template_input.update({
-            'waypoints': waypoints,
-            'total': total,
-            'filter_params': filter_params,
-            'lang': lang
-        })
-        return self.template_input
-
     @view_config(route_name='waypoints_view_id')
     @view_config(route_name='waypoints_view_id_lang')
     def redirect_to_full_url(self):

@@ -14,20 +14,6 @@ class Route(Document):
     def index(self):
         return self._index('c2corg_ui:templates/route/index.html')
 
-    @view_config(route_name='routes_sitemap',
-                 renderer='c2corg_ui:templates/route/sitemap.html')
-    @view_config(route_name='routes_sitemap_default',
-                 renderer='c2corg_ui:templates/route/sitemap.html')
-    def sitemap(self):
-        routes, total, filter_params, lang = self._get_documents()
-        self.template_input.update({
-            'routes': routes,
-            'total': total,
-            'filter_params': filter_params,
-            'lang': lang
-        })
-        return self.template_input
-
     @view_config(route_name='routes_view_id')
     @view_config(route_name='routes_view_id_lang')
     def redirect_to_full_url(self):
