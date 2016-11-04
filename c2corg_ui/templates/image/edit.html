@@ -1,5 +1,5 @@
 <%!
-from c2corg_common.attributes import default_langs, activities, quality_types, image_types, image_categories
+from c2corg_common.attributes import default_langs, activities, image_types, image_categories
 %>
 <%inherit file="../base.html"/>
 <%
@@ -8,7 +8,7 @@ from c2corg_common.attributes import default_langs, activities, quality_types, i
 <%namespace file="../helpers/common.html" import="show_title"/>
 
 <%namespace file="../helpers/edit.html" import="show_editing_associated_waypoints,
-    show_editing_associated_routes, show_preview_container,
+    show_editing_associated_routes, show_preview_container, show_save_confirmation_modal,
     show_editing_buttons"/>
 
 <%block name="pagetitle">
@@ -30,7 +30,7 @@ from c2corg_common.attributes import default_langs, activities, quality_types, i
   % if updating_doc:
     app-document-editing-id="${image_id}" app-document-editing-lang="${image_lang}"
   % endif
-    class="document-editing" name="editForm" novalidate ng-submit="editCtrl.submitForm(editForm.$valid)">
+    class="document-editing" name="editForm" novalidate ng-submit="editCtrl.confirmSave(editForm.$valid)">
 
     ## PROGRESS BAR
     <app-progress-bar ng-init="progressBarCtrl.maxSteps = 2">
@@ -265,16 +265,6 @@ from c2corg_common.attributes import default_langs, activities, quality_types, i
               <label translate>author</label>
               <input type="text" class="form-control" ng-model="image.author">
             </div>
-
-            ## QUALITY
-            <div class="half" ng-class="{'has-success': image.quality}" ng-init="qualityTypes = ${quality_types}">
-              ## I tried with ng-init, ng-selected..so hacking
-              <div class="ng-hide">{{image.quality = image.quality || qualityTypes[1]}}</div>
-              <label translate>quality</label>
-              <select ng-options="type as mainCtrl.translate(type) for type in qualityTypes" ng-model="image.quality" class="form-control"><option value=""></option></select>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="image.quality"></span>
-            </div>
-          </div>
         </section>
 
         <section class="section associations">
@@ -291,6 +281,6 @@ from c2corg_common.attributes import default_langs, activities, quality_types, i
 
     </section>
   </form>
+  ${show_preview_container()}
+  ${show_save_confirmation_modal(updating_doc)}
 </section>
-
-${show_preview_container()}

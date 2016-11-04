@@ -1,12 +1,13 @@
 <%!
-from c2corg_common.attributes import default_langs, quality_types, area_types
+from c2corg_common.attributes import default_langs, area_types
 %>
 <%inherit file="../base.html"/>
 <%
   updating_doc = area_id and area_lang
 %>
 <%namespace file="../helpers/common.html" import="show_title"/>
-<%namespace file="../helpers/edit.html" import="show_preview_container, show_editing_buttons"/>
+<%namespace file="../helpers/edit.html" import="show_preview_container, show_editing_buttons,
+    show_save_confirmation_modal"/>
 
 <%block name="pagetitle">
 <title ng-init="id = ${area_id if area_id else 0}" ng-bind="id ?
@@ -27,7 +28,7 @@ from c2corg_common.attributes import default_langs, quality_types, area_types
   % if updating_doc:
     app-document-editing-id="${area_id}" app-document-editing-lang="${area_lang}"
   % endif
-    class="document-editing" name="editForm" novalidate ng-submit="editCtrl.submitForm(editForm.$valid)">
+    class="document-editing" name="editForm" novalidate ng-submit="editCtrl.confirmSave(editForm.$valid)">
 
     <section class="editing">
 
@@ -99,14 +100,6 @@ from c2corg_common.attributes import default_langs, quality_types, area_types
               <textarea name="description" ng-model="area.locales[0].description" class="form-control description"></textarea>
             </div>
 
-            ## QUALITY
-            <div class="half" ng-class="{'has-success': area.quality}" ng-init="qualityTypes = ${quality_types}">
-              ## I tried with ng-init, ng-selected..so hacking
-              <div class="ng-hide">{{area.quality = area.quality || qualityTypes[1]}}</div>
-              <label translate>quality</label>
-              <select ng-options="type as mainCtrl.translate(type) for type in qualityTypes" ng-model="area.quality" class="form-control"><option value=""></option></select>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="area.quality"></span>
-            </div>
           </div>
         </section>
 
@@ -114,6 +107,7 @@ from c2corg_common.attributes import default_langs, quality_types, area_types
 
     </section>
   </form>
+  ${show_save_confirmation_modal(updating_doc)}
+  ${show_preview_container()}
 </section>
 
-${show_preview_container()}

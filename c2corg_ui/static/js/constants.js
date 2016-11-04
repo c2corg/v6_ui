@@ -16,17 +16,17 @@ app.constants = {
     DEKTOP : 1400
   },
   STEPS: {
-    'climbing_outdoor' : 4,
-    'climbing_indoor' :  4,
-    'hut' : 4,
-    'gite' : 4,
-    'shelter' : 4,
-    'access' : 4,
-    'camp_site' : 4,
-    'local_product' : 4,
-    'paragliding_takeoff' : 4,
-    'paragliding_landing' : 4,
-    'webcam': 4
+    'climbing_outdoor' : 3,
+    'climbing_indoor' :  3,
+    'hut' : 3,
+    'gite' : 3,
+    'shelter' : 3,
+    'access' : 3,
+    'camp_site' : 3,
+    'local_product' : 3,
+    'paragliding_takeoff' : 3,
+    'paragliding_landing' : 3,
+    'webcam': 3
   },
   REQUIRED_FIELDS: {
     'waypoints': ['title' , 'lang', 'waypoint_type', 'elevation', 'longitude', 'latitude'],
