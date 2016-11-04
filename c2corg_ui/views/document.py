@@ -4,8 +4,9 @@ from dogpile.cache.api import NO_VALUE
 from pyramid.renderers import render
 
 from c2corg_ui.caching import cache_document_detail, CachedPage, \
-    cache_document_archive, CACHE_VERSION, cache_document_history, \
+    cache_document_archive, cache_document_history, \
     cache_document_diff
+from c2corg_ui import caching
 from c2corg_ui.diff.differ import diff_documents
 from shapely.geometry import asShape
 from shapely.ops import transform
@@ -109,41 +110,16 @@ class Document(object):
     def _get_or_create(
             self, request_data, cache, load_data, render_page, get_cache_key,
             get_etag_key=None):
-        if self.debug:
-            # do not cache when in debug mode
-            _, _, loaded_data = load_data()
-            return self._get_response(render_page(*loaded_data))
 
-        cache_key = get_cache_key(*request_data)
+        def get_response_html(page_html):
+            return get_response(self.request, page_html)
 
-        # try to get a rendered page from the cache
-        cached_page = cache.get(cache_key, ignore_expiration=True)
+        if not get_etag_key:
+            get_etag_key = get_etag_key_default
 
-        old_api_cache_key = cached_page.api_cache_key \
-            if cached_page != NO_VALUE else None
-
-        # request the document from the api. if there was an entry in the
-        # cache, set the `If-None-Match` header with the last ETag. if the
-        # document version on the api has not changed, `not modified` will
-        # be returned.
-        not_modified, api_cache_key, loaded_data = load_data(old_api_cache_key)
-
-        ui_etag_key = get_etag_key(api_cache_key) if get_etag_key else \
-            self._get_etag_key(api_cache_key)
-        if not_modified:
-            # the cached page is still valid
-            log.debug('Serving from cache {0}'.format(cache_key))
-            etag_cache(self.request, ui_etag_key)
-            return self._get_response(cached_page.page_html)
-        else:
-            # there is a new version from the api, render the page
-            page_html = render_page(*loaded_data)
-
-            cache.set(cache_key, CachedPage(api_cache_key, page_html))
-
-            etag_cache(self.request, ui_etag_key)
-
-            return self._get_response(page_html)
+        return get_or_create(
+            request_data, cache, load_data, render_page, get_cache_key,
+            get_etag_key, get_response_html, self.debug, self.request)
 
     def _validate_id_lang(self):
         if 'id' not in self.request.matchdict:
@@ -359,23 +335,21 @@ class Document(object):
         return transform(project, geometry)
 
     def _get_cache_key(self, id, lang):
-        return '{0}-{1}-{2}'.format(id, lang, CACHE_VERSION)
+        return '{0}-{1}-{2}'.format(
+            id, lang, caching.CACHE_VERSION)
 
     def _get_cache_key_archive(self, id, lang, version_id):
-        return '{0}-{1}-{2}-{3}'.format(id, lang, version_id, CACHE_VERSION)
+        return '{0}-{1}-{2}-{3}'.format(
+            id, lang, version_id, caching.CACHE_VERSION)
 
     def _get_cache_key_diff(self, id, lang, v1, v2):
-        return '{0}-{1}-{2}-{3}-{4}'.format(id, lang, v1, v2, CACHE_VERSION)
-
-    def _get_etag_key(self, api_cache_key):
-        return '{0}-{1}'.format(api_cache_key, CACHE_VERSION)
+        return '{0}-{1}-{2}-{3}-{4}'.format(
+            id, lang, v1, v2, caching.CACHE_VERSION)
 
     def _get_etag_key_diff(self, api_cache_key):
         (key_v1, key_v2) = api_cache_key
-        return '{0}-{1}-{2}'.format(key_v1, key_v2, CACHE_VERSION)
-
-    def _get_response(self, page_html):
-        return get_response(self.request, page_html)
+        return '{0}-{1}-{2}'.format(
+            key_v1, key_v2, caching.CACHE_VERSION)
 
     def _redirect(self, id, lang, slug=None, is_lang_set=False):
         if slug is None:
@@ -454,3 +428,49 @@ def get_slug_for_title(title):
     if not slug:
         slug = '-'
     return slug
+
+
+def get_etag_key_default(api_cache_key):
+    return '{0}-{1}'.format(api_cache_key, caching.CACHE_VERSION)
+
+
+def get_or_create(
+        request_data, cache, load_data, render_page, get_cache_key,
+        get_etag_key, get_response, debug, request):
+    """ Returns an archived version of a document.
+     The response is cached and ETags are handled.
+    """
+    if debug:
+        # do not cache when in debug mode
+        _, _, loaded_data = load_data()
+        return get_response(render_page(*loaded_data))
+
+    cache_key = get_cache_key(*request_data)
+
+    # try to get a rendered page from the cache
+    cached_page = cache.get(cache_key, ignore_expiration=True)
+
+    old_api_cache_key = cached_page.api_cache_key \
+        if cached_page != NO_VALUE else None
+
+    # request the document from the api. if there was an entry in the
+    # cache, set the `If-None-Match` header with the last ETag. if the
+    # document version on the api has not changed, `not modified` will
+    # be returned.
+    not_modified, api_cache_key, loaded_data = load_data(old_api_cache_key)
+
+    ui_etag_key = get_etag_key(api_cache_key)
+    if not_modified:
+        # the cached page is still valid
+        log.debug('Serving from cache {0}'.format(cache_key))
+        etag_cache(request, ui_etag_key)
+        return get_response(cached_page.page_html)
+    else:
+        # there is a new version from the api, render the page
+        page_html = render_page(*loaded_data)
+
+        cache.set(cache_key, CachedPage(api_cache_key, page_html))
+
+        etag_cache(request, ui_etag_key)
+
+        return get_response(page_html)
