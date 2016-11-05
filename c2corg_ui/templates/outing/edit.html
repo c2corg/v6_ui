@@ -546,7 +546,7 @@ updating_doc = outing_id and outing_lang
             <div class="form-group half" ng-class="{'has-success': outing.quality}" ng-init="qualityTypes = ${quality_types}">
               ## I tried with ng-init, ng-selected..so hacking
               <div class="ng-hide">{{outing.quality = outing.quality || qualityTypes[1]}}</div>
-              <label translate>document_quality</label>
+              <label translate>quality</label>
               <select ng-options="type as mainCtrl.translate(type) for type in qualityTypes" ng-model="outing.quality" class="form-control"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.quality"></span>
             </div>

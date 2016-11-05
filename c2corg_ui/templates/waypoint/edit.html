@@ -772,7 +772,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
             <div class="half" ng-class="{'has-success': waypoint.quality}" ng-init="qualityTypes = ${quality_types}">
               ## I tried with ng-init, ng-selected..so hacking
               <div class="ng-hide">{{waypoint.quality = waypoint.quality || qualityTypes[1]}}</div>
-              <label translate>document_quality</label>
+              <label translate>quality</label>
               <select ng-options="type as mainCtrl.translate(type) for type in qualityTypes" ng-model="waypoint.quality" class="form-control"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.quality"></span>
             </div>
