@@ -14,3 +14,23 @@
     </li>
   </ul>
 </%def>
+
+<%def name="show_results_buttons()">\
+  <div class="filters-bottom-buttons">
+    <button class="btn search-filters-btn orange-btn" data-toggle="collapse"
+            data-target="#moreFilters" aria-expanded="false">
+      <span translate>Show results</span> ({{resCounter}})
+    </button>
+    <button class="btn blue-btn search-filters-btn" ng-click="filtersCtrl.clear()"
+            ng-show="filtersCtrl.filtersNb > 0"><span translate>Clear filters</span> ({{filtersCtrl.filtersNb}})</button>
+  </div>
+</%def>
+
+<%def name="show_filters_buttons()">\
+  <div class="more-filters-btn-container">
+    <button class="btn orange-btn more-filters-btn" data-toggle="collapse" data-target="#moreFilters"
+      aria-expanded="false" aria-controls="moreFilters" translate>All filters</button>
+    <button class="btn blue-btn more-filters-btn" ng-click="filtersCtrl.clear()" ng-cloak
+            ng-show="filtersCtrl.filtersNb > 0"><span translate>Clear filters</span> ({{filtersCtrl.filtersNb}})</button>
+  </div>
+</%def>
