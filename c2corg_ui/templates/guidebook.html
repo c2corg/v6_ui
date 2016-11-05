@@ -1,0 +1,25 @@
+<%!
+from c2corg_common.attributes import activities
+%>
+<%inherit file="base.html"/>
+<%namespace file="helpers/common.html" import="show_title"/>
+<%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Topoguide')">${show_title('Topoguide')}</title></%block>
+
+<div class="guidebook-home">
+
+  <section>
+    <h1 translate class="text-center">Topoguide</h1>
+    <p translate class="text-center">Some intro to the guidebook</p>
+  </section>
+
+  <section>
+    % for module in ['routes', 'waypoints', 'outings', 'images', 'areas']:
+      <div class="list-item">
+        <a href="${request.route_path(module + '_index')}">
+          <span class="icon-${'misc' if module == 'waypoints' else module}"></span>
+          <span class="list-item-title" translate>${module.capitalize()}</span>
+        </a>
+      </div>
+    % endfor
+  </section>
+</div>
