@@ -763,8 +763,7 @@ app-add-association {
   .embedded_inline {
     margin: 5px 25px 10px 10px;
   }
-  .important_message {
-    border: 2px solid #f93;
+  .important_message, .warning_message {
     clear: both;
     display: inline-block;
     border-radius: 8px;
@@ -774,7 +773,21 @@ app-add-association {
     text-align: justify;
     vertical-align: middle;
     border-collapse: collapse;
-    padding: 8px 20px;
+    padding: 10px;
+
+    span.glyphicon {
+      margin-right: 10px;
+    }
+  }
+  .important_message {
+    border: 2px solid #f93;
+  }
+  .warning_message {
+    background-color: #fcc9c8;
+
+    span.glyphicon {
+      color: white;
+    }
   }
 }
 .show-phone.elevation {
