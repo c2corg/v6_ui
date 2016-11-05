@@ -8,7 +8,7 @@ from json import dumps
 <%namespace file="../helpers/common.html" import="show_title, show_fulldate"/>
 <%namespace file="../helpers/view.html" import="get_comments, get_image_gallery, photoswipe_gallery,
   get_document_description, get_document_locale_text, show_attr, show_missing_langs_links, show_other_langs_links,
-  show_archive_data, get_article_activities, show_areas, show_float_buttons, show_route_title,
+  show_archive_data, show_areas, show_float_buttons, show_route_title,
   show_associated_waypoints, show_associated_outings, show_associated_routes, show_associated_articles,
   delete_association_confirmation_modal, associated_images_featurelist, show_badge, get_licence"/>
 <%namespace file="helpers/view.html" import="get_article_general"/>
@@ -63,7 +63,7 @@ other_langs, missing_langs = get_lang_lists(article, lang)
 
   <div class="view-details-informations col-xs-12  informations">
     <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
-      <span translate>Informations</span><span class="glyphicon glyphicon-menu-down"></span>
+      <span translate>Information</span><span class="glyphicon glyphicon-menu-down"></span>
     </h3>
     <section id="document-informations" class="collapse in">
       ${get_article_general(article)}
@@ -77,7 +77,7 @@ other_langs, missing_langs = get_lang_lists(article, lang)
 
   ## ASSOCIATIONS
   % if not version:
-    <div class="view-details-associations col-xs-12  associations">
+    <div class="view-details-associations col-xs-12 associations">
       <span class="lead">
         <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
           <label translate>Add association</label>

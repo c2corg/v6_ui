@@ -9,7 +9,7 @@ from json import dumps
     photoswipe_gallery, get_document_locale_text,
     get_document_locale_text, show_attr, show_missing_langs_links,
     show_other_langs_links, show_archive_data, show_route_title,
-    show_areas, show_float_buttons, show_maps, get_route_activities,
+    show_areas, show_float_buttons, show_maps, get_activities,
     show_associated_waypoints, show_associated_routes, show_associated_outings, show_associated_articles,
     delete_association_confirmation_modal, associated_waypoints_featurelist,
     show_badge, get_document_description, get_licence" />
@@ -84,7 +84,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
 
 <header class="view-details-title">
   <h1 class="routes">
-    <div class="icons-header routes">${get_route_activities(route, 'top')}</div>
+    <div class="icons-header routes">${get_activities(route, 'top')}</div>
     <span class="title">${show_route_title(locale)}</span>
     ${show_badge(route, 'route')}
   </h1>
