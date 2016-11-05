@@ -64,12 +64,16 @@ class C2CImage(Pattern):
             img_url += '?size=' + img_size
         img.set('src', img_url)
         img.set('alt', caption or img_id)
-        # TODO: open slideshow when the image is clicked
+
+        img_container = etree.Element('a')
+        img_container.set('href', '/images/%s' % img_id)
+        # TODO: open slideshow instead when the image is clicked
+        img_container.append(img)
 
         if caption:
             fig = etree.Element('figure')
             fig.set('class', 'embedded_' + position)
-            fig.append(img)
+            fig.append(img_container)
 
             img_link = etree.Element('a')
             img_link.set('href', '/images/%s' % img_id)
@@ -82,8 +86,8 @@ class C2CImage(Pattern):
             return fig
 
         else:
-            img.set('class', 'embedded_' + position)
-            return img
+            img_container.set('class', 'embedded_' + position)
+            return img_container
 
 
 def makeExtension(*args, **kwargs):  # noqa
