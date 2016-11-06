@@ -3,13 +3,13 @@
     from c2corg_ui.templates.utils import get_lang_lists
 %>
 <%inherit file="../base.html"/>
-<%namespace file="../helpers/view.html" import="show_badge, show_route_title,
+<%namespace file="../helpers/view.html" import="show_badge, show_locale_title,
     photoswipe_gallery, show_missing_langs_links, show_other_langs_links"/>
 <%namespace file="helpers/view.html" import="show_profile_float_buttons"/>
 
 <%block name="pagelang">lang="${lang}"</%block>
 
-<%block name="pagetitle"><title>${show_route_title(locales[0], True)}</title></%block>
+<%block name="pagetitle"><title>${show_locale_title(locales[0], True)}</title></%block>
 
 <%block name="metarobots">
   ## FIXME: set back to "noindex,follow" before going to prod

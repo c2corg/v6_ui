@@ -5,10 +5,9 @@ from json import dumps
 %>
 
 <%inherit file="../base.html"/>
-<%namespace file="../helpers/common.html" import="show_title"/>
 <%namespace file="../helpers/view.html" import="get_image_gallery, photoswipe_gallery,
-    show_attr, show_missing_langs_links, show_other_langs_links, show_badge,
-    show_archive_data, show_route_title, get_activities, show_areas, show_float_buttons,
+    show_missing_langs_links, show_other_langs_links, show_badge,
+    show_archive_data, show_locale_title, get_activities, show_areas, show_float_buttons,
     show_associated_waypoints, show_associated_routes, show_associated_articles,
     show_associated_outings, delete_association_confirmation_modal,
     get_document_description, get_comments, get_licence"/>
@@ -21,7 +20,7 @@ from json import dumps
 %>
 
 <%block name="pagelang">lang="${lang}"</%block>
-<%block name="pagetitle"><title>${show_route_title(locale, True)}</title></%block>
+<%block name="pagetitle"><title>${show_locale_title(locale, True)}</title></%block>
 <%block name="metarobots">
   % if version:
     <meta name="robots" content="noindex,follow">
@@ -69,7 +68,7 @@ from json import dumps
     % if image.get('activities'):
       <div class="icons-header">${get_activities(image, 'top')}</div>
     % endif
-    <span class="title">${show_route_title(locale)}</span><br>
+    <span class="title">${locale['title']}</span><br>
     ${show_badge(image, 'image')}
   </h1>
 </header>
