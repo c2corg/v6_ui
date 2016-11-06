@@ -65,9 +65,9 @@ from c2corg_common.attributes import default_langs, quality_types, area_types
 
             <div class="form-group half half-group">
 
-              <div ng-class="{ 'has-success': area.area_type}">
+              <div ng-class="{ 'has-success': area.area_type}" ng-init="area_types = ${area_types}">
                 <label><span translate>area_type</span> *</label>
-                <select class="form-control" ng-model="area.area_type" ng-options="rat as mainCtrl.translate(rat) for rat in ${area_types}"><option value=""></option></select>
+                <select class="form-control" ng-model="area.area_type" ng-options="type as mainCtrl.translate(type) for type in area_types"><option value=""></option></select>
                 <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="area.area_type"></span>
               </div>
 
