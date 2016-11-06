@@ -58,28 +58,23 @@ from c2corg_common.attributes import default_langs, quality_types, activities, a
               </div>
             </div>
 
-            <section class="section">
-
-              ## ACTIVITIES
-              <div class="form-group data full" id="route-activities" ng-init="activities = ${activities}"
-                   ng-class="{ 'has-error': editForm.activities.$touched && editForm.activities.$invalid, 'has-success': editForm.activities.$valid }">
-                <label><span translate>activities</span> *</label>
-                <div class="route-activities">
-                  <div ng-repeat="activity in activities" class="activity">
-                    <div>
-                      <div class="icon-{{activity}}" class="icon-" ng-click="editCtrl.pushToArray(article, 'activities', activity, $event)"
-                           ng-class="{'activity-selected' : article.activities.indexOf(activity) > -1}">
-                      </div>
-                      <p>{{activity | translate}}</p>
+            ## ACTIVITIES
+            <div class="form-group data full" id="route-activities" ng-init="activities = ${activities}"
+                 ng-class="{ 'has-error': editForm.activities.$touched && editForm.activities.$invalid, 'has-success': editForm.activities.$valid }">
+              <label><span translate>activities</span> *</label>
+              <div class="route-activities">
+                <div ng-repeat="activity in activities" class="activity">
+                  <div>
+                    <div class="icon-{{activity}}" class="icon-" ng-click="editCtrl.pushToArray(article, 'activities', activity, $event)"
+                         ng-class="{'activity-selected' : article.activities.indexOf(activity) > -1}">
                     </div>
+                    <p>{{activity | translate}}</p>
                   </div>
                 </div>
               </div>
-
-            </section>
+            </div>
 
             <div class="form-group half half-group">
-
               <div ng-class="{ 'has-success': article.article_type}">
                 <label><span translate>article_type</span> *</label>
                 % if updating_doc:
@@ -98,17 +93,18 @@ from c2corg_common.attributes import default_langs, quality_types, activities, a
                 % endif
                   <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="article.article_type"></span>
               </div>
+            </div>
 
 
-              ## ARTICLE CATEGORIES
+            <div class="form-group half half-group">
               <label><span translate>categories</span> *</label>
               <ul class="types">
                 <li ng-repeat="category in ${article_categories}" ng-click="editCtrl.pushToArray(article, 'categories', category, $event)">
                   <div class="checkbox"><input type="checkbox" ng-checked="article.categories.indexOf(category) > -1"><span>{{category | translate}}</span></div>
                 </li>
               </ul>
-
             </div>
+
           </div>
         </section>
 
