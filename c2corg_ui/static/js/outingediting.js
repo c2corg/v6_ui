@@ -82,7 +82,6 @@ app.OutingEditingController = function($scope, $element, $attrs, $http,
       'document_id': this.auth.userData.id,
       'name': this.auth.userData.name
     });
-    this.formatOuting_(this.scope[this.modelName]);
   }
 };
 goog.inherits(app.OutingEditingController, app.DocumentEditingController);
@@ -159,11 +158,16 @@ app.DocumentEditingController.prototype.formatOuting_ = function(outing) {
     // convert existing date from string to a date object
     if (outing.date_end && typeof outing.date_end === 'string') {
       outing.date_end = window.moment(outing.date_end).toDate();
-      this.dateMaxStart = outing.date_end;
     }
     if (outing.date_start && typeof outing.date_start === 'string') {
       outing.date_start = window.moment(outing.date_start).toDate();
+    }
+    // if only date_start -> date_start = date_end
+    if (outing.date_start.toDateString() === outing.date_end.toDateString()) {
+      this.dateMaxStart = new Date();
+    } else {
       this.dateMinEnd = outing.date_start;
+      this.dateMaxStart = outing.date_end;
     }
 
     var conditions = outing.locales[0]['conditions_levels'];
