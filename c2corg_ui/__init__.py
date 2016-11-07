@@ -49,6 +49,7 @@ def main(global_config, **settings):
 
     # page views
     config.add_route('index', '/')
+    config.add_route('guidebook', '/guidebook')
 
     config.add_route('waypoints_index', '/waypoints')
     config.add_route('waypoints_add', '/waypoints/add')

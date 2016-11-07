@@ -24,6 +24,11 @@ class Pages(object):
     def index(self):
         return self._get_page('index', 'c2corg_ui:templates/index.html')
 
+    @view_config(route_name='guidebook')
+    def guidebook(self):
+        return self._get_page(
+            'guidebook', 'c2corg_ui:templates/guidebook.html')
+
     @view_config(route_name='auth')
     def auth(self):
         return self._get_page('auth', 'c2corg_ui:templates/auth.html')
