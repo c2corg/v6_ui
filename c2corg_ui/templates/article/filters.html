@@ -3,28 +3,31 @@ from c2corg_common.attributes import default_langs, quality_types, \
 activities, article_categories, article_types
 %>
 <%namespace file="../helpers/filters.html" import="add_multiselect, show_results_buttons, show_filters_buttons"/>
-<form app-search-filters app-search-filters-controller-name="appSearchFiltersController">
-  <div class="filters">
-    <div class="row simple-filters">
 
+## Duplicate simple filters into the main filters and into #moreFilters.
+## It is really useful - no need for re-compilation with angular in case of sticky filters.
+<%def name="simple_filters()">
+    <div class="row simple-filters">
       <div class="filter">
         <label translate>title</label>
         <input type="text" class="form-control" ng-model="filtersCtrl.filters.q">
       </div>
-
       <div class="filter">
         <label translate>activities</label><br>
         ${add_multiselect('act', activities)}
       </div>
-
       <div class="filter">
         <label translate>categories</label><br>
         ${add_multiselect('acat', article_categories)}
       </div>
-
     </div>
+</%def>
 
+<form app-search-filters app-search-filters-controller-name="appSearchFiltersController" app-sticky-filters>
+  <div class="filters">
+    ${simple_filters()}
     <div class="row collapse" id="moreFilters">
+      ${simple_filters()}
 
       <div class="col-xs-12 col-sm-6 filter">
         <label translate>article_type</label><br>
