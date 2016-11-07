@@ -638,7 +638,7 @@ app.MapController.prototype.handleFeaturesUpload_ = function(event, features) {
 
 
 /**
- * @param {ol.interaction.DrawEvent} event
+ * @param {ol.interaction.Draw.Event} event
  * @private
  */
 app.MapController.prototype.handleDrawStart_ = function(event) {
@@ -655,7 +655,7 @@ app.MapController.prototype.handleDrawStart_ = function(event) {
 
 
 /**
- * @param {ol.interaction.DrawEvent} event
+ * @param {ol.interaction.Draw.Event} event
  * @private
  */
 app.MapController.prototype.handleDrawEnd_ = function(event) {
@@ -665,7 +665,7 @@ app.MapController.prototype.handleDrawEnd_ = function(event) {
 
 
 /**
- * @param {ol.interaction.ModifyEvent} event
+ * @param {ol.interaction.Modify.Event} event
  * @private
  */
 app.MapController.prototype.handleModify_ = function(event) {
