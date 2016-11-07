@@ -32,7 +32,8 @@ logging.level = {logging_level}
 pyramid_closure.roots_with_prefix =
     __CLOSURE_LIBRARY_PATH__/closure/goog __CLOSURE_LIBRARY_PATH__/closure/goog
     c2corg_ui:static/js %(here)s/c2corg_ui/static/js
-    %(here)s/node_modules/openlayers %(here)s/node_modules/openlayers
+    %(here)s/node_modules/openlayers/src %(here)s/node_modules/openlayers/src
+    %(here)s/node_modules/openlayers/build/ol.ext %(here)s/node_modules/openlayers/build/ol.ext
     %(here)s/node_modules/ngeo %(here)s/node_modules/ngeo
 
 # used for the "node_modules" and "closure" static views

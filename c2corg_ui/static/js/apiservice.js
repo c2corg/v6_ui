@@ -79,13 +79,13 @@ app.Api.prototype.postJson_ = function(url, json) {
  * @private
  */
 app.Api.prototype.deleteJson_ = function(url, json) {
-  var config = {
+  var config = /** @type{angular.$http.Config} */ ({
     data: json,
     headers: {
       'Content-Type': 'application/json; charset=UTF-8',
       'Accept': 'application/json'
     }
-  };
+  });
   return this.http_.delete(this.apiUrl_ + url, config);
 };
 

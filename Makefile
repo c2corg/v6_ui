@@ -45,7 +45,9 @@ LIBS_JS_FILES += \
     node_modules/photoswipe/dist/photoswipe-ui-default.min.js \
     node_modules/angular-slug/angular-slug.js \
     node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js \
-    node_modules/slug/slug.js
+    node_modules/slug/slug.js \
+    node_modules/floatthead/dist/jquery.floatThead.min.js \
+    node_modules/angular-float-thead/angular-floatThead.js
 
 # CSS files of dependencies that are concatenated into a single file
 LIBS_CSS_FILES += \

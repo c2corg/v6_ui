@@ -190,8 +190,8 @@ app.AuthController.prototype.loginToDiscourse_ = function(url) {
  */
 app.AuthController.prototype.redirect_ = function(opt_location) {
   if (!opt_location) {
-    var relativeUrl = this.ngeoLocation_.hasFragmentParam('to') ?
-        decodeURIComponent(this.ngeoLocation_.getFragmentParam('to')) : '/';
+    var relativeUrl = this.ngeoLocation_.getFragmentParam('to');
+    relativeUrl = relativeUrl ? decodeURIComponent(relativeUrl) : '/';
     opt_location = window.location.protocol + '//' + window.location.host + relativeUrl;
   }
   window.location.href = opt_location;
