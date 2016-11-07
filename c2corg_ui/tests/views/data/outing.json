@@ -93,10 +93,12 @@
 		}],
 		"users": [{
 			"name": "Sakapof-Kakaka",
-			"document_id": 501630
+			"document_id": 501630,
+			"locales":[{"lang": "en"}]
 		}, {
 			"name": "Doudouchien",
-			"document_id": 426684
+			"document_id": 426684,
+			"locales":[{"lang": "en"}]
 		}],
 		"routes": [{
 			"protected": false,

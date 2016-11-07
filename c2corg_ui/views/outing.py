@@ -1,30 +1,17 @@
+from c2corg_common.document_types import OUTING_TYPE
 from pyramid.renderers import render
 from pyramid.view import view_config
 
-from c2corg_ui.views.document import Document
+from c2corg_ui.views.document import Document, ROUTE_NAMES
 
 
 class Outing(Document):
 
-    _API_ROUTE = 'outings'
+    _API_ROUTE = ROUTE_NAMES[OUTING_TYPE]
 
     @view_config(route_name='outings_index')
     def index(self):
         return self._index('c2corg_ui:templates/outing/index.html')
-
-    @view_config(route_name='outings_sitemap',
-                 renderer='c2corg_ui:templates/outing/sitemap.html')
-    @view_config(route_name='outings_sitemap_default',
-                 renderer='c2corg_ui:templates/outing/sitemap.html')
-    def sitemap(self):
-        outings, total, filter_params, lang = self._get_documents()
-        self.template_input.update({
-            'outings': outings,
-            'filter_params': filter_params,
-            'total': total,
-            'lang': lang
-        })
-        return self.template_input
 
     @view_config(route_name='outings_view_id')
     @view_config(route_name='outings_view_id_lang')

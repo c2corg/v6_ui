@@ -25,13 +25,15 @@ cache_document_archive = create_region('archive')
 cache_document_history = create_region('history')
 cache_document_diff = create_region('diff')
 cache_static_pages = create_region('pages')
+cache_sitemap = create_region('sitemap')
 
 caches = [
     cache_document_detail,
     cache_document_archive,
     cache_document_history,
     cache_document_diff,
-    cache_static_pages
+    cache_static_pages,
+    cache_sitemap
 ]
 
 

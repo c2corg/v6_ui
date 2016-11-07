@@ -1,30 +1,17 @@
+from c2corg_common.document_types import ARTICLE_TYPE
 from pyramid.renderers import render
 from pyramid.view import view_config
 
-from c2corg_ui.views.document import Document
+from c2corg_ui.views.document import Document, ROUTE_NAMES
 
 
 class Article(Document):
 
-    _API_ROUTE = 'articles'
+    _API_ROUTE = ROUTE_NAMES[ARTICLE_TYPE]
 
     @view_config(route_name='articles_index')
     def index(self):
         return self._index('c2corg_ui:templates/article/index.html')
-
-    @view_config(route_name='articles_sitemap',
-                 renderer='c2corg_ui:templates/article/sitemap.html')
-    @view_config(route_name='articles_sitemap_default',
-                 renderer='c2corg_ui:templates/article/sitemap.html')
-    def sitemap(self):
-        articles, total, filter_params, lang = self._get_documents()
-        self.template_input.update({
-            'articles': articles,
-            'filter_params': filter_params,
-            'total': total,
-            'lang': lang
-        })
-        return self.template_input
 
     @view_config(route_name='articles_view_id')
     @view_config(route_name='articles_view_id_lang')

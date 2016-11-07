@@ -1,9 +1,10 @@
 import logging
 
+from c2corg_common.document_types import WAYPOINT_TYPE
 from pyramid.renderers import render
 from pyramid.view import view_config
 
-from c2corg_ui.views.document import Document
+from c2corg_ui.views.document import Document, ROUTE_NAMES
 from c2corg_common.attributes import waypoint_types
 
 log = logging.getLogger(__name__)
@@ -11,25 +12,11 @@ log = logging.getLogger(__name__)
 
 class Waypoint(Document):
 
-    _API_ROUTE = 'waypoints'
+    _API_ROUTE = ROUTE_NAMES[WAYPOINT_TYPE]
 
     @view_config(route_name='waypoints_index')
     def index(self):
         return self._index('c2corg_ui:templates/waypoint/index.html')
-
-    @view_config(route_name='waypoints_sitemap',
-                 renderer='c2corg_ui:templates/waypoint/sitemap.html')
-    @view_config(route_name='waypoints_sitemap_default',
-                 renderer='c2corg_ui:templates/waypoint/sitemap.html')
-    def sitemap(self):
-        waypoints, total, filter_params, lang = self._get_documents()
-        self.template_input.update({
-            'waypoints': waypoints,
-            'total': total,
-            'filter_params': filter_params,
-            'lang': lang
-        })
-        return self.template_input
 
     @view_config(route_name='waypoints_view_id')
     @view_config(route_name='waypoints_view_id_lang')

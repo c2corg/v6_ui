@@ -1,34 +1,21 @@
 import logging
 
+from c2corg_common.document_types import AREA_TYPE
 from pyramid.renderers import render
 from pyramid.view import view_config
 
-from c2corg_ui.views.document import Document
+from c2corg_ui.views.document import Document, ROUTE_NAMES
 
 log = logging.getLogger(__name__)
 
 
 class Area(Document):
 
-    _API_ROUTE = 'areas'
+    _API_ROUTE = ROUTE_NAMES[AREA_TYPE]
 
     @view_config(route_name='areas_index')
     def index(self):
         return self._index('c2corg_ui:templates/area/index.html')
-
-    @view_config(route_name='areas_sitemap',
-                 renderer='c2corg_ui:templates/area/sitemap.html')
-    @view_config(route_name='areas_sitemap_default',
-                 renderer='c2corg_ui:templates/area/sitemap.html')
-    def sitemap(self):
-        areas, total, filter_params, lang = self._get_documents()
-        self.template_input.update({
-            'areas': areas,
-            'total': total,
-            'filter_params': filter_params,
-            'lang': lang
-        })
-        return self.template_input
 
     @view_config(route_name='areas_view_id')
     @view_config(route_name='areas_view_id_lang')
