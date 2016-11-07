@@ -230,7 +230,7 @@ updating_doc = outing_id and outing_lang
             ## CONDITIONS LEVELS
             <div class="full form-group" ng-class="{'has-success': outing.condition_levels}"
                  ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('ice_climbing') > -1 || outing.activities.indexOf('snow_ice_mixed') > -1 ">
-              <label translate>condition_levels</label>
+              <label translate>conditions_levels</label>
               <table class="table table-striped conditions-levels" ng-if="outing.locales[0].conditions_levels[0]">
                 <thead>
                   <tr>
@@ -350,7 +350,7 @@ updating_doc = outing_id and outing_lang
             ## AVALANCHES
             <div class="form-group  full"  ng-if="(outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1
                       || outing.activities.indexOf('ice_climbing') > -1 || outing.activities.indexOf('snow_ice_mixed') > -1) && (outing.avalanche_signs != 'no' && outing.avalanche_signs != null) ">
-              <label translate>avalanches_info</label>
+              <label translate>avalanches</label>
               <textarea class="form-control" ng-model="outing.locales[0]['avalanches']"></textarea>
             </div>
 
@@ -546,7 +546,7 @@ updating_doc = outing_id and outing_lang
             <div class="form-group half" ng-class="{'has-success': outing.quality}" ng-init="qualityTypes = ${quality_types}">
               ## I tried with ng-init, ng-selected..so hacking
               <div class="ng-hide">{{outing.quality = outing.quality || qualityTypes[1]}}</div>
-              <label translate>document_quality</label>
+              <label translate>quality</label>
               <select ng-options="type as mainCtrl.translate(type) for type in qualityTypes" ng-model="outing.quality" class="form-control"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.quality"></span>
             </div>
