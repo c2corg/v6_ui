@@ -1,6 +1,6 @@
 <%!
 from c2corg_common.attributes import default_langs, activities, condition_ratings, \
-    quality_types, hut_status, lift_status, frequentation_types, avalanche_signs, \
+    hut_status, lift_status, frequentation_types, avalanche_signs, \
     route_duration_types, access_conditions, glacier_ratings
 %>
 
@@ -12,7 +12,7 @@ updating_doc = outing_id and outing_lang
 
 <%namespace file="../helpers/common.html" import="show_title"/>
 <%namespace file="../helpers/edit.html" import="show_editing_associated_waypoints,
-    show_editing_associated_routes,show_preview_container,
+    show_editing_associated_routes,show_preview_container, show_save_confirmation_modal,
     show_editing_buttons"/>
 
 <%block name="pagetitle"><title ng-init="id=${outing_id if outing_id else 0}" ng-bind="id ? mainCtrl.page_title('Editing an outing') : mainCtrl.page_title('Creating an outing')">${show_title('Create/edit outing')}</title></%block>
@@ -29,18 +29,17 @@ updating_doc = outing_id and outing_lang
   % if updating_doc:
     app-document-editing-id="${outing_id}" app-document-editing-lang="${outing_lang}"
   % endif
-    name="editForm" novalidate ng-submit="editCtrl.submitForm(editForm.$valid)" class="document-editing">
+    name="editForm" novalidate ng-submit="editCtrl.confirmSave(editForm.$valid)" class="document-editing">
 
     <app-progress-bar>
       ## It won't work with ng-init
-      <span class="ng-hide">{{progressBarCtrl.maxSteps = 4}}</span>
+      <span class="ng-hide">{{progressBarCtrl.maxSteps = 3}}</span>
 
       ## PROGRESS BAR
       <ul class="progress-bar-edit">
         <li class="nav-step-1" ng-click="progressBarCtrl.step(1, 'outing',  'backwards')" ng-class="{'nav-step-selected': progressBarCtrl.currentStep == 1 }"><span class="nav-text"><span translate>track</span></span><span class="bullet-container"><span class="bullet"></span></span></li>
         <li class="nav-step-2" ng-click="progressBarCtrl.step(2, 'outing', progressBarCtrl.previousStep >= 2 ? 'backwards' : 'forwards')"><span class="nav-text"><span translate>weather</span> & <span translate>conditions</span></span><span class="bullet-container"><span class="bullet"></span></span></li>
         <li class="nav-step-3" ng-click="progressBarCtrl.step(3, 'outing', progressBarCtrl.previousStep >= 3 ? 'backwards' : 'forwards')"><span class="nav-text"><span translate>personal informations</span></span><span class="bullet-container"><span class="bullet"></span></span></li>
-        <li class="nav-step-4" ng-click="progressBarCtrl.step(4, 'outing',  'forwards')"><span translate class="nav-text">review</span><span class="bullet-container"><span class="bullet"></span></span></li>
       </ul>
 
       ## NAV BUTTONS
@@ -526,38 +525,11 @@ updating_doc = outing_id and outing_lang
 
           </div>
         </section>
-
       </div>
-
-      <div class="step step-4">
-        <section class="section summary">
-          <h2 class="heading show-phone"><span translate>summary</span></h2>
-
-          <div class="content collapse in">
-            % if updating_doc:
-            <div id="message-group" class="form-group">
-              <label translate>Comment about the changes</label>
-              <input type="text" name="message" ng-model="outing.message" class="form-control" placeholder="{{'Short description of the applied changes' | translate}}" />
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.message"></span>
-            </div>
-            % endif
-
-            ## QUALITY
-            <div class="form-group half" ng-class="{'has-success': outing.quality}" ng-init="qualityTypes = ${quality_types}">
-              ## I tried with ng-init, ng-selected..so hacking
-              <div class="ng-hide">{{outing.quality = outing.quality || qualityTypes[1]}}</div>
-              <label translate>quality</label>
-              <select ng-options="type as mainCtrl.translate(type) for type in qualityTypes" ng-model="outing.quality" class="form-control"><option value=""></option></select>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.quality"></span>
-            </div>
-          </div>
-        </section>
-      </div>
-
       ${show_editing_buttons('outing', updating_doc, outing_id, outing_lang)}
 
     </section>
   </form>
+  ${show_preview_container()}
+  ${show_save_confirmation_modal(updating_doc)}
 </section>
-
-${show_preview_container()}

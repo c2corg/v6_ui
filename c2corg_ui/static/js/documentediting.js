@@ -1,6 +1,7 @@
 goog.provide('app.DocumentEditingController');
 goog.provide('app.PreviewModalController');
 goog.provide('app.documentEditingDirective');
+goog.provide('app.ConfirmSaveController');
 
 goog.require('app');
 goog.require('app.Alerts');
@@ -571,7 +572,68 @@ app.DocumentEditingController.prototype.preview = function() {
 };
 
 
+/**
+ * @export
+ */
+app.DocumentEditingController.prototype.confirmSave = function(isValid) {
+  var template = angular.element('#save-confirmation-modal').clone();
+  var modalInstance = this.modal_.open({
+    animation: true,
+    template: this.compile_(template)(this.scope),
+    controller: 'appConfirmSaveModalController as saveCtrl'
+  });
+
+  modalInstance.result.then(function(res) {
+    if (res) {
+      this.scope[this.modelName]['message'] = res.message;
+      this.scope[this.modelName]['quality'] = res.quality;
+      this.submitForm(isValid);
+    }
+  }.bind(this));
+};
+
+
 app.module.controller('appDocumentEditingController', app.DocumentEditingController);
+
+
+/**
+ * We have to use a secondary controller for the modal so that we can inject
+ * uibModalInstance which is not available from the first level controller.
+ * @param {Object} $uibModalInstance modal from angular bootstrap
+ * @constructor
+ * @ngInject
+ */
+app.ConfirmSaveController = function($uibModalInstance, appDocument) {
+
+  /**
+   * @type {Object} $uibModalInstance angular bootstrap
+   * @private
+   */
+  this.modalInstance_ = $uibModalInstance;
+
+  /**
+   * @type {string}
+   * @export
+   */
+  this.message = appDocument.document.message;
+
+  /**
+   * @type {string}
+   * @export
+   */
+  this.quality = appDocument.document.quality;
+};
+
+
+/**
+ * @export
+ */
+app.ConfirmSaveController.prototype.close = function(action) {
+  this.modalInstance_.close(action);
+};
+
+
+app.module.controller('appConfirmSaveModalController', app.ConfirmSaveController);
 
 
 /**

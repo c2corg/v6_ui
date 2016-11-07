@@ -1,6 +1,5 @@
 @import: 'variables.less';
 
-
 .create-edit-document {
   margin-top: @page-header-height;
 
@@ -21,12 +20,13 @@
       margin-left: 2px;
     }
   }
+  #save-confirmation-modal {
+    display: none;
+  }
   .nav-buttons {
-
     @media @phone {
       display: none;
     }
-
     .prev, .next {
       position: fixed;
       top: 50vh;
@@ -474,7 +474,7 @@
       color: @brand-success;
     }
   }
-  label, .months, .types, #route-activities, h2, #message-group  {
+  label, .months, .types, #route-activities, h2 {
     width: 100%;
   }
 }
@@ -635,5 +635,19 @@ ul.uib-datepicker {
     float: right;
     margin-top: 10px;
     margin-left: 5px;
+  }
+}
+
+
+#save-confirmation-modal {
+   .comment {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  .heading {
+    margin-top: 0
+  }
+  .content {
+    padding: 20px;
   }
 }

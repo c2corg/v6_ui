@@ -109,14 +109,6 @@ app.ProgressBarController.prototype.step = function(step, document, direction) {
       this.nextStep = 5;
       break;
 
-    case 5:
-      $(el).animate({left: '-457%'});
-      this.animateBar_(step, direction);
-      this.previousStep = 4;
-      this.currentStep = 5;
-      this.nextStep = 6;
-      break;
-
     default:
       break;
   }
@@ -195,7 +187,7 @@ app.ProgressBarController.prototype.animateBar_ = function(step, direction) {
  * @export
  */
 app.ProgressBarController.prototype.updateMaxSteps = function(waypointType) {
-  this.maxSteps = app.constants.STEPS[waypointType] || 3;
+  this.maxSteps = app.constants.STEPS[waypointType] || 2;
 };
 
 app.module.controller('appProgressBarController', app.ProgressBarController);
