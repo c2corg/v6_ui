@@ -128,7 +128,7 @@
   % endif
 </%def>
 
-<%def name="show_route_title(locale, is_tab_title=False)">\
+<%def name="show_locale_title(locale, is_tab_title=False)">\
   <%
       title = ''
       if 'title_prefix' in locale and locale['title_prefix']:
@@ -173,18 +173,9 @@
 </%def>
 
 
-<%def name="get_route_activities(route, tooltipPosition)">\
-  % if 'activities' in route and route.get('activities'):
-    % for activity in route['activities'] :
-      <span class="route-activity icon-${activity}" uib-tooltip="{{mainCtrl.translate('${activity}') }}" tooltip-placement="${tooltipPosition}"></span>
-    % endfor
-  % endif
-</%def>
-
-
-<%def name="get_article_activities(article, tooltipPosition)">\
-  % if 'activities' in article and article.get('activities'):
-    % for activity in article['activities'] :
+<%def name="get_activities(document, tooltipPosition)">\
+  % if 'activities' in document and document.get('activities'):
+    % for activity in document['activities'] :
       <span class="route-activity icon-${activity}" uib-tooltip="{{mainCtrl.translate('${activity}') }}" tooltip-placement="${tooltipPosition}"></span>
     % endfor
   % endif

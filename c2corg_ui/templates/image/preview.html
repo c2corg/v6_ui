@@ -1,5 +1,4 @@
-<%namespace file="../helpers/view.html" import="show_attr, show_route_title,
-    get_route_activities, get_document_description"/>
+<%namespace file="../helpers/view.html" import="get_activities, get_document_description"/>
 <%namespace file="../helpers/preview.html" import="show_preview_warning"/>
 <%namespace file="helpers/view.html" import="get_image_general, get_image_camera_settings"/>
 
@@ -12,8 +11,8 @@ ${show_preview_warning()}
 
 <header class="view-details-title">
   <h1 class="routes">
-    <div class="icons-header">${get_route_activities(image, 'top')}</div>
-    <span class="title">${show_route_title(locale)}</span><br>
+    <div class="icons-header">${get_activities(image, 'top')}</div>
+    <span class="title">${locale['title']}</span><br>
     <label class="badge image">
       <span class="glyphicon glyphicon-arrow-right"></span>&nbsp;<span translate>image</span>
     </label>
@@ -24,7 +23,7 @@ ${show_preview_warning()}
 
   <div class="view-details-wrapper">
 
-    <div class="view-details-informations col-xs-12  informations">
+    <div class="view-details-informations col-xs-12 informations">
       <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)"
           data-toggle="collapse" data-target="#document-informations">
         <span translate>Information</span><span class="glyphicon glyphicon-menu-down"></span>
@@ -38,7 +37,7 @@ ${show_preview_warning()}
 
     ${get_document_description(locale, 'image')}
 
-    <div class="view-details-description col-xs-12  description">
+    <div class="view-details-description col-xs-12 description">
       <span class="lead text-center">
         <img class="image" src="${image_url}/${image['filename']}" alt="${locale['title']}">
       </span>

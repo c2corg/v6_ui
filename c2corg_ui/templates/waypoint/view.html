@@ -5,11 +5,10 @@ from json import dumps
 %>
 
 <%inherit file="../base.html"/>
-<%namespace file="../helpers/common.html" import="show_title"/>
 <%namespace file="../helpers/view.html" import="get_comments, get_image_gallery,
     photoswipe_gallery, get_document_locale_text,
-    show_attr, show_missing_langs_links, show_other_langs_links, show_archive_data,
-    show_route_title, show_areas, show_maps, show_float_buttons,
+    show_missing_langs_links, show_other_langs_links, show_archive_data,
+    show_locale_title, show_areas, show_maps, show_float_buttons,
     show_associated_waypoints, show_associated_routes, show_associated_articles, show_associated_outings,
     delete_association_confirmation_modal, associated_waypoints_featurelist,
     show_badge, get_document_description, get_licence"/>
@@ -30,7 +29,7 @@ geometry4326 = geometry
 
 <%block name="pagelang">lang="${lang}"</%block>
 
-<%block name="pagetitle"><title>${show_route_title(locale, True)}</title></%block>
+<%block name="pagetitle"><title>${show_locale_title(locale, True)}</title></%block>
 
 <%block name="metarobots">
   % if version:

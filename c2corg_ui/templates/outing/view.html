@@ -5,16 +5,16 @@ from json import dumps
 %>
 
 <%inherit file="../base.html"/>
-<%namespace file="../helpers/common.html" import="show_title, show_fulldate"/>
 <%namespace file="../helpers/view.html" import="get_comments, get_image_gallery,
     photoswipe_gallery, get_document_min_max,
-    get_document_locale_text, show_attr, show_missing_langs_links, show_other_langs_links,
-    show_archive_data, show_route_title, get_route_activities, show_areas, show_float_buttons,
+    get_document_locale_text, show_missing_langs_links, show_other_langs_links,
+    show_archive_data, show_locale_title, get_activities, show_areas, show_float_buttons,
     show_associated_waypoints, show_associated_routes, show_associated_articles,
     delete_association_confirmation_modal, associated_images_featurelist,
     show_badge, get_document_description, get_licence"/>
 <%namespace file="helpers/view.html" import="get_outing_snow, get_outing_access,
-    get_outing_participants, get_outing_general, get_outing_heights"/>
+    get_outing_participants, get_outing_general, get_outing_heights,
+    show_fulldate"/>
 
 <%
 outing_id = outing['document_id']
@@ -23,7 +23,7 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
 %>
 
 <%block name="pagelang">lang="${lang}"</%block>
-<%block name="pagetitle"><title>${show_route_title(locale, True)}</title></%block>
+<%block name="pagetitle"><title>${show_locale_title(locale, True)}</title></%block>
 <%block name="metarobots">
   % if version:
     <meta name="robots" content="noindex,follow">
@@ -70,8 +70,8 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
 
 <header class="view-details-title">
   <h1 class="routes">
-    <div class="icons-header routes">${get_route_activities(outing, 'top')}</div>
-    <span class="title">${show_route_title(locale)}</span><br>
+    <div class="icons-header routes">${get_activities(outing, 'top')}</div>
+    <span class="title">${locale['title']}</span><br>
     ${show_badge(outing, 'outing')}
   </h1>
   <div class="outing-date" class="ng-cloak">${show_fulldate(outing['date_start'], outing['date_end'])}</div>

@@ -1,6 +1,30 @@
-<%namespace file="../../helpers/view.html" import="show_areas, show_attr, get_document_up_down, get_document_min_max"/>
+<%! import datetime %>
+<%namespace file="../../helpers/view.html" import="get_document_up_down, get_document_min_max"/>
 
-## GENERAL
+<%def name="show_fulldate(dateStart, dateEnd)">\
+  % if dateStart == dateEnd:
+    <span class="date-locale">{{ '${dateStart}' | amDateFormat:"dddd Do MMMM YYYY" }}</span>
+  % else:
+    <%
+      date1 = datetime.datetime.strptime(dateStart, '%Y-%m-%d').date()
+      date2 = datetime.datetime.strptime(dateEnd, '%Y-%m-%d').date()
+      sameYear = date1.year == date2.year
+      sameMonth = date1.month == date2.month
+    %>
+    % if sameYear:
+      % if sameMonth:
+        <span>${date1.day} - <span class="date-locale">{{ '${dateEnd}' | amDateFormat:"Do MMMM YYYY" }}</span></span>
+      % else:
+        <span class="date-locale">{{ '${dateStart}' | amDateFormat:"Do MMMM" }}</span> -
+        <span class="date-locale">{{ '${dateEnd}'  | amDateFormat:"Do MMMM YYYY" }}</span>
+      % endif
+    % else:
+      <span class="date-locale">{{ '${dateStart}' | amDateFormat:"Do MMMM YYYY" }}</span> -
+      <span class="date-locale">{{ '${dateEnd}' | amDateFormat:"Do MMMM YYYY" }}</span>
+    % endif
+  % endif
+</%def>
+
 <%def name="get_outing_general(outing)">\
 <div class="name-icon-value general" ng-click="detailsCtrl.openTab($event)">
   <h4><span translate>General</span><span class="glyphicon glyphicon-menu-right"></span></h4>
@@ -38,7 +62,6 @@
 </div>
 </%def>
 
-## SNOW
 <%def name="get_outing_snow(outing)">\
   % if outing.get('elevation_up_snow') or outing.get('snow_quantity') \
         or outing.get('snow_quality') or outing.get('glacier_rating') \
@@ -84,8 +107,6 @@
   % endif
 </%def>
 
-
-## ACCESS
 <%def name="get_outing_access(outing)">\
   % if outing.get('public_transport') or outing.get('access_condition') or outing.get('lift_status') or outing.get('hut_status') :
     <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
@@ -115,41 +136,38 @@
   % endif
 </%def>
 
-## PARTICIPANTS
 <%def name="get_outing_participants(outing)">\
-    % if outing.get('participant_count') or outing['locales'][0].get('participants') or outing['associations']['users']:
-      <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
-        <h4><span translate>participants</span><span class="glyphicon glyphicon-menu-right"></span></h4>
-        <div class="name-icon">
-          <span class="icon-user"></span>
-          <p translate>participants</p>
-        </div>
-        <span class="detail-text accordion">
-          % if outing.get('participant_count') :
-          <p><span translate>participant_count</span>: <b>${outing['participant_count']}</b></p>
-          % endif
-
-          % if outing.get('associations').get('users'):
-            <p>
-                % for user in outing['associations']['users']:
-                  <%
-                      user_id = user['document_id']
-                      user_lang = user['locales'][0]['lang']
-                      is_last_participant = loop.last and not outing['locales'][0].get('participants')
-                  %>
-                  <a href="${request.route_path('profiles_view', id=user_id, lang=user_lang)}">${user['name']}</a>${'' if is_last_participant else ', '}
-                % endfor
-              ${outing['locales'][0].get('participants') or ''}
-            </p>
-          % endif
-
-        </span>
+  % if outing.get('participant_count') or outing['locales'][0].get('participants') or outing['associations']['users']:
+    <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
+      <h4><span translate>participants</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+      <div class="name-icon">
+        <span class="icon-user"></span>
+        <p translate>participants</p>
       </div>
-    % endif
+      <span class="detail-text accordion">
+        % if outing.get('participant_count') :
+          <p><span translate>participant_count</span>: <b>${outing['participant_count']}</b></p>
+        % endif
+
+        % if outing.get('associations').get('users'):
+          <p>
+            % for user in outing['associations']['users']:
+              <%
+                  user_id = user['document_id']
+                  user_lang = user['locales'][0]['lang']
+                  is_last_participant = loop.last and not outing['locales'][0].get('participants')
+              %>
+              <a href="${request.route_path('profiles_view', id=user_id, lang=user_lang)}">${user['name']}</a>${'' if is_last_participant else ', '}
+            % endfor
+            ${outing['locales'][0].get('participants') or ''}
+          </p>
+        % endif
+
+      </span>
+    </div>
+  % endif
 </%def>
 
-
-## HEIGHTS
 <%def name="get_outing_heights(outing)">\
   % if outing.get('elevation_min') or outing.get('elevation_max') or outing.get('elevation_access') or outing.get('height_diff_up') \
   or outing.get('height_diff_down') or outing.get('length_total'):
