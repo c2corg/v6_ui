@@ -600,10 +600,17 @@ app.module.controller('appDocumentEditingController', app.DocumentEditingControl
  * We have to use a secondary controller for the modal so that we can inject
  * uibModalInstance which is not available from the first level controller.
  * @param {Object} $uibModalInstance modal from angular bootstrap
+ * @param {app.Lang} appLang Lang service.
  * @constructor
  * @ngInject
  */
-app.ConfirmSaveController = function($uibModalInstance, appDocument) {
+app.ConfirmSaveController = function($uibModalInstance, appDocument, appLang) {
+
+  /**
+   * @export
+   * @type {app.Lang}
+   */
+  this.langService = appLang;
 
   /**
    * @type {Object} $uibModalInstance angular bootstrap
@@ -622,6 +629,7 @@ app.ConfirmSaveController = function($uibModalInstance, appDocument) {
    * @export
    */
   this.quality = appDocument.document.quality;
+
 };
 
 
