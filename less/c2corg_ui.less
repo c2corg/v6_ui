@@ -931,7 +931,6 @@ app-alerts {
     -ms-animation: fadein .3s;
     -o-animation: fadein .3s;
     animation: fadein .3s;
-    text-align: left;
   }
   .alert {
     display: block !important;
@@ -1032,7 +1031,6 @@ input[type=checkbox]{
 input[type=checkbox] + * {
   padding-left:21px;
   height:16px;
-  display:inline-block;
   line-height: 20px;
   background-repeat:no-repeat;
   background-position: 0 1px;
@@ -1044,7 +1042,7 @@ input[type=checkbox] + * {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  display: inline;
+  display: inline; /* display:inline-block; */
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
