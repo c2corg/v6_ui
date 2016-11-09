@@ -133,6 +133,35 @@ app.utils.createImageSlide = function(file, imageUrl) {
   return '<figure id="' + file['image_id'] + '">' + ahref + img +  '<app-slide-info></app-slide-info></figure>';
 };
 
+
+/**
+ * based on partials/slideinfo.html
+ * @param {string} imgUrl
+ * @param {jQuery | string} imgCaption
+ * @param {number} imgId
+ * @param {string} lang
+ * @export
+ */
+app.utils.createSimpleImageSlide = function(imgUrl, imgCaption, imgId, lang) {
+  return '<div class="photoswipe-image-container">' +
+               '<img src="' + imgUrl + '" >' +
+               '<h2 class="image-title ng-binding">' + imgCaption + '</h2>' +
+               '<div class="image-infos-buttons">' +
+                 '<button>' +
+                   '<a href="/images/' + imgId + '">' +
+                     '<span class="glyphicon glyphicon-eye-open"></span>' +
+                   '</a>' +
+                 '</button>' +
+                 '<button>' +
+                   '<a href="/images/edit/' + imgId + '/'  + lang + '">' +
+                     '<span class="glyphicon glyphicon-edit"></span>' +
+                   '</a>' +
+                 '</button>' +
+               '</div>' +
+             '</div>';
+};
+
+
 /**
  * @param {string} url
  * @param {string} suffix

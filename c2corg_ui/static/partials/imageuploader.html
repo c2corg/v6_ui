@@ -27,7 +27,6 @@
           </p>
           <p ng-if="file.metadata.geo"><span class="glyphicon glyphicon-map-marker"></span><b>{{file.metadata.geo.label}}</b></p>
         </div>
-        <span class="glyphicon glyphicon-remove-circle remove-image-btn" type="button" ng-click="uplCtrl.deleteImage($index)" ng-show="file['processed']"></span>
       </div>
 
       <div class="img-data">
@@ -78,6 +77,13 @@
                 </div>
               </li>
             </ul>
+          </div>
+          <!-- REMOVE IMAGE-->
+          <div class="btn-group">
+            <button class="btn btn-default dropdown-toggle remove-image-btn" ng-click="uplCtrl.deleteImage($index)"
+                    type="button" class="btn btn-danger">
+              <span class="glyphicon glyphicon-trash"></span>
+            </button>
           </div>
 
         </div>

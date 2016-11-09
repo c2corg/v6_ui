@@ -1,11 +1,12 @@
-<div id="{{image_id}}-slide" class="ng-hide">
+<!--if you modify this template, please update utils.js createSimpleImageSlide()-->
+<div id="{{image_id}}-slide">
   <h2 class="image-title">{{locales[0].title}}</h2>
 
   <div class="image-infos">
-    <h2 translate>Infos</h2>
+    <h3 translate>Infos</h3>
 
     <p ng-show="date_time" class="date"><span class="glyphicon glyphicon-calendar"></span>{{date_time | amDateFormat:'Do MMMM YYYY'}}</p>
-    <p class="title"><span class="glyphicon glyphicon-tag"></span>{{locales[0].title}}</p>
+    <p ng-show="locales[0].title" class="title"><span class="glyphicon glyphicon-tag"></span>{{locales[0].title}}</p>
     <p ng-show="locales[0].description" class="description">{{locales[0].description}}</p>
     <p ng-show="image_type" class="image-type"><span class="glyphicon glyphicon-copyright-mark"></span><label x-translate>{{image_type}}</label></p>
 
@@ -34,18 +35,18 @@
         <li ng-show="width && height" uib-tooltip="{{'resolution' | translate}}">{{height}} x {{width}} <span translate>pixels</span></li>
       </ul>
     </div>
-
-    <div class="image-infos-buttons">
-      <button class="btn btn-default" uib-tooltip="{{'View details' | translate}}">
-        <a href="#" ng-href="{{view_url}}">
-          <span class="glyphicon glyphicon-eye-open"></span>
-        </a>
-      </button>
-      <button class="btn btn-default" protected-url-btn url="{{edit_url}}" uib-tooltip="{{'Edit' | translate}}">
-        <span class="glyphicon glyphicon-edit"></span>
-      </button>
-    </div>
-
   </div>
 
+  <div class="image-infos-buttons">
+    <button>
+      <a href="#" ng-href="{{view_url}}">
+        <span class="glyphicon glyphicon-eye-open"></span>
+      </a>
+    </button>
+    <button protected-url-btn url="{{edit_url}}">
+      <span class="glyphicon glyphicon-edit"></span>
+    </button>
+    <button class="pswp__button info glyphicon glyphicon-info-sign" img-id="{{image_id}}"></button>
+  </div>
 </div>
+

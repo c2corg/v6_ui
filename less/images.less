@@ -4,7 +4,7 @@
   height: 100%;
   width: 100%;
   text-align: center;
-  padding-top: 25px;
+  padding: 25px;
 }
 .dragover {
   border: 5px dashed red;
@@ -86,6 +86,12 @@
       color: #333;
       white-space: nowrap;
     }
+    .remove-image-btn {
+      font-size: 12px;
+      .glyphicon-trash {
+        margin: 6px -3px auto auto;
+      }
+    }
   }
   .img-container {
     width:100%;
@@ -95,6 +101,7 @@
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
+    position: relative;
 
     &:hover {
       background-color: black;
@@ -116,14 +123,6 @@
   }
   .glyphicon {
     margin-right: 10px;
-  }
-  .remove-image-btn {
-    opacity: 0;
-    float: right;
-    margin-right: 10px;
-    top: -50px;
-    cursor: pointer;
-    font-size: 1.5em;
   }
 }
 .exif {
@@ -164,12 +163,18 @@
   height: 100%;
   display: flex;
   align-items: center;
+
+  @media @phone {
+    .calc(height, "100% - 45px");
+    margin-top: 45px;
+  }
   &:hover {
     .image-title {
       opacity: 1;
       transition: 0.3s;
     }
   }
+
   img {
     max-width: 100%;
     max-height: 100%;
@@ -209,8 +214,8 @@
       transition: 0.3s;
       background-color: #1D1D1D;
       @media @phone {
-        width: 50%;
-        padding: 30px;
+        width: 60%;
+        padding: 40px 10px 0 30px;
       }
     }
     .activities, .categories, .image-type, .image-infos-buttons, .settings,
@@ -221,18 +226,6 @@
       margin-right: 5px;
       color: gray;
     }
-    .image-infos-buttons button {
-      margin: 10px 10px 0 0;
-      float: left;
-      padding: 9px 5px 5px 5px;
-      width: 40px;
-      border-radius: 50%;
-      height: 40px;
-      font-size: 1.3em;
-      .glyphicon-edit, .glyphicon-eye-open {
-        margin-right: 0;
-      }
-    }
     .glyphicon-ok {
       color: white !important;
     }
@@ -241,14 +234,66 @@
     }
   }
 }
+
 .pswp__button.info {
   background: none !important;
   font-size: 19px;
-  margin-top: 2px;
+  color: #c3c7d0;
+  margin-top: -1px;
+  margin-left: 3px;
+  @media @phone {
+    margin-top: -3px;
+  }
+}
+
+.pswp__caption, .pswp__counter {
+  display: none;
+}
+
+.pswp__top-bar {
+  background-color: transparent;
+  pointer-events: none;
+}
+
+.pswp__button {
+  pointer-events: all;
+}
+
+.pswp__button, .image-infos-buttons button {
   .glyphicon {
     color: #CAD0D9;
   }
 }
-.pswp__caption, .pswp__counter {
-  display: none;
+
+.view-details-btn {
+  top: 1px;
+  position: relative;
+}
+.image-infos-buttons {
+  position: absolute;
+  .calc(right, "35px * 3");
+  top: -2px;
+
+  @media @phone {
+    top: 0;
+  }
+
+  button {
+    opacity: .8;
+    background-color: transparent;
+    border-color: transparent;
+    padding: 9px 5px 5px 5px;
+    width: 44px;
+    height: 44px;
+    font-size: 1.25em;
+    transition: .3s;
+
+    &:hover {
+      opacity: 1;
+      cursor: pointer;
+    }
+    .glyphicon-edit, .glyphicon-eye-open {
+      margin-right: 0 !important;
+    }
+  }
 }

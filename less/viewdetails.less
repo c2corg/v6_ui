@@ -169,6 +169,9 @@
         margin-left: 5px;
         margin-right: 5px;
       }
+      app-slide-info {
+        display: none;
+      }
     }
     .slick-prev, .slick-next {
       width: 40px;
@@ -747,9 +750,56 @@ app-add-association {
   h2 {
     margin-top: 10px;
   }
+
+  [class^='embedded_'] {
+    border: 1px solid #eee;
+    border-radius: 3px;
+    padding: 15px;
+    background-color: rgba(234, 234, 234, 0.37);
+    box-shadow: 0 3px 6px rgba(0,0,0,.25);
+    cursor: pointer;
+
+    @media @phone {
+      margin: 5px auto !important;
+      max-width: 285px;
+      float: none !important;
+
+      figcaption {
+        text-align: center;
+        margin-left: 0;
+        margin-top: 5px;
+      }
+      img {
+        margin: auto !important;
+      }
+    }
+    /*Big Image*/
+    &.BI  {
+      display: table-cell;
+      max-width: none;
+      margin-left: 10px;
+
+      figcaption, img {
+        max-width: 100% !important;
+      }
+    }
+    app-slide-info {
+      display: none;
+    }
+    figcaption {
+      max-width: 240px;
+      margin: 5px 10px -5px 10px;
+      color: dimgray;
+      font-size: 14px;
+    }
+    img {
+     margin: auto auto 0 auto;
+    }
+  }
+
   .embedded_center {
     margin: 10px auto;
-    display: block;
+    display: table;
   }
   .embedded_left {
     float: left;
@@ -759,11 +809,13 @@ app-add-association {
   .embedded_right {
     float: right;
     clear: right;
-    margin: 5px 0 10px 25px;
+    margin: 5px 0 10px 20px;
   }
   .embedded_inline {
-    margin: 5px 25px 10px 10px;
+    display: table;
+    margin: 5px 20px 10px 10px;
   }
+
   .important_message, .warning_message {
     clear: both;
     display: inline-block;

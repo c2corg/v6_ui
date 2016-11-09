@@ -21,13 +21,14 @@ app.viewDetailsDirective = function() {
       }
       ctrl.loadImages_(initGalleries);
 
-      $('.pswp__button.info').on('touchend click', function() {
+      $('.pswp').on('click', '.image-infos-buttons', function (e) {
         $('.photoswipe-image-container .image-infos, .photoswipe-image-container img').toggleClass('showing-info');
       });
 
       $('.pswp__button--arrow--left, .pswp__button--arrow--right').click(function() {
         $('.showing-info').removeClass('showing-info');
-        ctrl.compile_($('.image-infos-buttons').contents())(ctrl.scope_); // recompile the protected-url-btn on each slide change
+        console.log('qwe')
+         // recompile the protected-url-btn on each slide change
       });
     }
   };
@@ -240,6 +241,7 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
       gallery = new window.PhotoSwipe(pswpElement, window.PhotoSwipeUI_Default, items, options);
       gallery.init();
       this.compile_($('.image-infos-buttons').contents())(this.scope_);  // recompile the protected-url-btn on gallery open
+      $('.pswp__button.info').show();
 
     }.bind(this);
 
@@ -364,6 +366,41 @@ app.ViewDetailsController.prototype.loadImages_ = function(initGalleries) {
     this.compile_($('#' + id).contents())(scope);
   }
   initGalleries();
+};
+
+
+/**
+ * @param {string} imgUrl
+ * @param {number} imgId
+ * @export
+ */
+app.ViewDetailsController.prototype.openEmbeddedImage = function(imgUrl, imgId) {
+  // Replace 'MI' and get the BigImage
+  imgUrl = imgUrl.slice(0, -2) + 'BI';
+  var lang = this.lang.getLang();
+  var embeddedImages = $('.embedded-image');
+  var pswpElement = document.querySelectorAll('.pswp')[0];
+  var items = [];
+  var index;
+
+  for (var i = 0; i <  embeddedImages.length;  i++) {
+    var src = embeddedImages[i].src.slice(0, -2) + 'BI';
+    var caption = $(embeddedImages[i]).next().text();
+    var id = parseInt($(embeddedImages[i]).attr('img-id'), 10);
+
+    // add all the other images that are not the one you clicked on
+    if (src !== imgUrl) {
+      var item = {html: app.utils.createSimpleImageSlide(src, caption, id, lang)};
+      items.push(item);
+    } else {
+      var clickedImg = {html: app.utils.createSimpleImageSlide(imgUrl, caption, imgId, lang)};
+      items.push(clickedImg);
+      index = i;
+    }
+  }
+                                                                                                                                                              // start slide at index
+  var gallery = new window.PhotoSwipe(pswpElement, window.PhotoSwipeUI_Default, items, {index: index});
+  gallery.init();
 };
 
 
