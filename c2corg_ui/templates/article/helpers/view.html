@@ -19,7 +19,8 @@
     % endif
 
     % if article.get('categories'):
-      <p><span class="value-title" translate>categories</span>:
+      <article>
+        <span class="value-title" translate>categories</span>:
         % for type in article.get('categories') :
           <span x-translate class="value">${type}</span>${'' if loop.last else ', '}
         % endfor
