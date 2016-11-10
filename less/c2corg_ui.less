@@ -268,7 +268,7 @@ app-pagination.areas, app-pagination.articles {
         background-color: @bright-green;
       }
       .glyphicon {
-        top: 0px;
+        top: 0;
         margin-left: -5px;
       }
       a,  .glyphicon {
@@ -562,9 +562,9 @@ app-pagination.areas, app-pagination.articles {
   }
   .map {
     @media @phone {
-      -webkit-box-shadow: 0px 0px 36px -10px rgba(0,0,0,0.56);
-      -moz-box-shadow: 0px 0px 36px -10px rgba(0,0,0,0.56);
-      box-shadow: 0px 0px 36px -10px rgba(0,0,0,0.56);
+      -webkit-box-shadow: 0 0 36px -10px rgba(0,0,0,0.56);
+      -moz-box-shadow: 0 0 36px -10px rgba(0,0,0,0.56);
+      box-shadow: 0 0 36px -10px rgba(0,0,0,0.56);
       height: 250px;
       margin-top: 0;
       height: 80vh !important;
@@ -786,7 +786,7 @@ app-simple-search {
     input {
       @media @phone {
         visibility: hidden;
-        width: 0px;
+        width: 0;
       }
     }
   }
@@ -811,7 +811,7 @@ app-simple-search {
       }
     }
     @media @phone {
-      width: 0px;
+      width: 0;
       margin-left: -3px;
     }
   }
@@ -931,7 +931,6 @@ app-alerts {
     -ms-animation: fadein .3s;
     -o-animation: fadein .3s;
     animation: fadein .3s;
-    text-align: left;
   }
   .alert {
     display: block !important;
@@ -1025,14 +1024,13 @@ button:focus {
 }
 
 input[type=checkbox]{
-  width: 0px;
+  width: 0;
   display: none;
 }
 
 input[type=checkbox] + * {
   padding-left:21px;
   height:16px;
-  display:inline-block;
   line-height: 20px;
   background-repeat:no-repeat;
   background-position: 0 1px;
@@ -1044,7 +1042,7 @@ input[type=checkbox] + * {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  display: inline;
+  display: inline; /* display:inline-block; */
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
