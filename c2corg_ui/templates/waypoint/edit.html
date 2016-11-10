@@ -223,7 +223,6 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
 
       <div class="step step-2" ng-if="['paragliding_takeoff', 'paragliding_landing', 'climbing_outdoor', 'climbing_indoor',  'local_product', 'webcam', 'weather_station', 'gite',  'camp_site', 'hut',  'bivouac', 'shelter', 'access'].indexOf(type) > -1">
 
-         ## TYPES & STYLES
         <section class="section " ng-if="['paragliding_takeoff', 'paragliding_landing', 'climbing_outdoor', 'local_product', 'weather_station', 'climbing_indoor'].indexOf(type) > -1">
           <h2 class="heading show-phone" >
             <span translate ng-hide="type == 'paragliding_takeoff' || type == 'paragliding_landing'">Types and styles</span>
@@ -333,6 +332,16 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <label><span translate>orientations</span></label>
               ${show_orientations('editCtrl', 'waypoint')}
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.orientations.$valid"></span>
+            </div>
+
+            ## GROUND TYPES
+            <div class="form-group" ng-if="type == 'paragliding_landing' || type == 'paragliding_takeoff' ">
+              <label translate>ground_types</label>
+              <ul class="types">
+                <li ng-repeat="type in ${ground_types}" ng-click="editCtrl.pushToArray(waypoint, 'ground_types', type, $event)">
+                  <div class="checkbox"><input type="checkbox" ng-checked="waypoint.ground_types.indexOf(type) > - 1"><span>{{type | translate}}</span></div>
+                </li>
+              </ul>
             </div>
 
           </div>
@@ -455,7 +464,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
             </div>
 
             ## CAPACITY STAFFED
-            <div class="form-group data half" ng-if="['gite', 'camp_site', 'hut', 'shelter'].indexOf(type) > -1"
+            <div class="form-group data half" ng-if="['gite', 'camp_site', 'hut'].indexOf(type) > -1"
                  ng-class="{ 'has-error': editForm.capacity_staffed.$touched && editForm.capacity_staffed.$invalid, 'has-success': editForm.capacity_staffed.$valid && waypoint.capacity_staffed }">
               <label translate>capacity_staffed</label>
               <div class="input-group">
