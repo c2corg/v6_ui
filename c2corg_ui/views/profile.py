@@ -1,7 +1,7 @@
 import logging
 
 from c2corg_common.document_types import USERPROFILE_TYPE
-from c2corg_ui.views import call_api
+from c2corg_ui.views import call_api, get_with_etag
 from pyramid.renderers import render
 from pyramid.view import view_config
 from pyramid.httpexceptions import (
@@ -72,8 +72,8 @@ class Profile(Document):
 
     def _get_profile_info(self, id, lang, old_api_cache_key=None):
         url = '%s/%d/%s/info' % (self._API_ROUTE, id, lang)
-        not_modified, api_cache_key, document = self._get_with_etag(
-            url, old_api_cache_key)
+        not_modified, api_cache_key, document = get_with_etag(
+            self.settings, url, old_api_cache_key)
 
         if not_modified:
             return not_modified, api_cache_key, None
