@@ -1,3 +1,6 @@
+<%
+version = request.registry.settings.get('cache_version')
+%>\
 <aside id="sidemenu">
   <div class="page-menu">
     <button class="btn btn-default menu-open-close menu">
@@ -61,6 +64,12 @@
       <span class="bullet">&bull; </span>
       <li><a href="${request.route_path('articles_view_id', id=106728)}" translate>content license</a></li>
     </ul>
+
+    <div class="version">
+      <a href="https://github.com/c2corg/v6_ui/commit/${version}">
+        <span translate>Version:</span> ${version}
+      </a>
+    </div>
 
     <div class="social-networks">
       <div class="icons">
