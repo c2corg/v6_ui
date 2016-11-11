@@ -1,5 +1,8 @@
-<%! import datetime %>
-<%namespace file="../../helpers/view.html" import="get_document_up_down, get_document_min_max"/>
+<%!
+    import datetime
+    from json import loads
+%>
+<%namespace file="../../helpers/view.html" import="get_document_up_down, get_document_min_max, show_attr"/>
 
 <%def name="show_fulldate(dateStart, dateEnd)">\
   % if dateStart == dateEnd:
@@ -194,4 +197,138 @@
       </span>
     </div>
   %endif
+</%def>
+
+<%def name="get_conditions(locale, open_tab=False)">\
+  <%
+      if type(locale['conditions_levels']) is str:
+          cond = loads(locale['conditions_levels'])
+          conditions_levels_exist = (cond is not Null and len(cond)) and \
+              ( ('level_snow_height_total' in cond[0] and cond[0].get('level_snow_height_total') != '' and cond[0].get('level_snow_height_total') is not None) or \
+              ('level_snow_height_soft' in cond[0] and  cond[0]['level_snow_height_soft'] != '' and cond[0].get('level_snow_height_soft') is not None) or \
+              ('level_place' in cond[0] and cond[0].get('level_place')  != '') or \
+              ('level_comment' in cond[0] and cond[0].get('level_comment') != '') )
+      else:
+          conditions_levels_exist = False
+  %>
+  % if locale.get('weather') or locale.get('conditions') or conditions_levels_exist:
+    <div class="view-details-info col-xs-12">
+      <h3 class="heading ${'' if open_tab else 'closed '}show-phone"
+          ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#weather-conditions">
+        <span translate>weather and conditions</span><span class="glyphicon glyphicon-menu-${'down' if open_tab else 'right'}"></span>
+      </h3>
+      <section class="collapse${' in' if open_tab else ''}" id="weather-conditions">
+        <div class="lead">
+          % if locale.get('weather'):
+            <div class="document-weather">
+              <label translate>weather</label><br>
+              ${show_attr(locale, 'weather')}
+            </div>
+          % endif
+
+          % if locale.get('conditions'):
+            <div class="document-conditions">
+              <label translate>conditions</label><br>
+              ${show_attr(locale, 'conditions')}
+            </div>
+          % endif
+
+          % if conditions_levels_exist:
+            ${create_conditions_levels_tables(cond)}
+          % endif
+        </div>
+      </section>
+    </div>
+  % endif
+</%def>
+
+<%def name="create_conditions_levels_tables(conditions)">\
+  <label translate>conditions_levels</label>
+  <div class="show-only-mobile conditions-levels">
+    % for condition in conditions:
+      <%
+          level = 'level_place' and condition.get('level_place')
+          comment = 'level_comment' and condition.get('level_comment')
+          total_snow = 'level_snow_height_total' in condition and condition['level_snow_height_total'] != '' and condition['level_snow_height_total']
+          soft_snow = 'level_snow_height_soft' in condition and condition['level_snow_height_soft'] != '' and condition['level_snow_height_soft'] is not None
+      %>
+      <div class="condition">
+        % if level:
+          <p class="key">
+            <span translate>location</span> |
+            <span translate>altitude</span> |
+            <span translate>orientations</span>
+          </p>
+          <p class="val">${condition['level_place']}</p>
+        % endif
+        <div class="snow">
+          <p class="key" translate>soft snow</p>
+          % if soft_snow:
+            <p class="val">${condition['level_snow_height_soft']} cm<p>
+          % else:
+            <p  class="val" translate>no info</p>
+          % endif
+        </div>
+        <div class="snow">
+          <p class="key" translate>total snow</b></p>
+          % if total_snow:
+            <p  class="val">${condition['level_snow_height_total']} cm}</p>
+          % else:
+            <p  class="val" translate>no info</p>
+          % endif
+        </div>
+        % if comment:
+          <p class="key" translate>comment</p>
+          <p class="val">${condition['level_comment']}</p>
+        % endif
+      </div>
+    % endfor
+  </div>
+  <table class="table table-striped conditions-levels">
+    <thead>
+      <tr>
+        <th class="location">
+          <span translate>location</span> |
+          <span translate>altitude</span> |
+          <span translate>orientations</span>
+        </th>
+        <th class="soft-snow" translate>soft snow</th>
+        <th class="total-snow" translate>total snow</th>
+        <th class="comment" translate>comment</th>
+      </tr>
+    </thead>
+    <tbody>
+      % for condition in conditions:
+      <%
+          level = 'level_place' and condition.get('level_place')
+          comment = 'level_comment' and condition.get('level_comment')
+          total_snow = 'level_snow_height_total' in condition and condition['level_snow_height_total'] != '' and condition['level_snow_height_total']
+          soft_snow = 'level_snow_height_soft' in condition and condition['level_snow_height_soft'] != '' and condition['level_snow_height_soft'] is not None
+      %>
+      <tr>
+        ## print empty td for alignement
+        % if level:
+          <td>${condition['level_place']}</td>
+        % else:
+          <td></td>
+        % endif
+        % if soft_snow:
+          <td>${condition['level_snow_height_soft']} cm</td>
+        % else:
+          <td></td>
+        % endif
+        % if total_snow:
+          <td>${condition['level_snow_height_total']} cm</td>
+        % else:
+          <td></td>
+        % endif
+        % if comment:
+          <td >${condition['level_comment']}</td>
+        % else:
+          <td></td>
+        % endif
+      </tr>
+      % endfor
+    </tbody>
+  </table>
 </%def>
