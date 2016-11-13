@@ -14,10 +14,7 @@
     <li><a translate ng-href="/profiles/{{userCtrl.auth.userData.id}}">My profile</a></li>
     <li><a translate href="/account">My account</a></li>
     <li><a translate href="/preferences">My preferences</a></li>
-    <li ng-click="userCtrl.logout()">
-      <a href="#">
-        <span translate>Logout</span>
-      </a>
-    </li>
+    <li><a translate href="/mailinglists">My mailing lists</a></li>
+    <li><a translate ng-click="userCtrl.logout()" class="logout">Logout</a></li>
   </ul>
 </div>

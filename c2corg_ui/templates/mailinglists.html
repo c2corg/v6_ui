@@ -1,0 +1,21 @@
+<%!
+from c2corg_common.attributes import mailinglists
+%>
+<%inherit file="base.html"/>
+<%namespace file="helpers/common.html" import="show_title"/>
+<%block name="pagetitle"><title ng-bind="mainCtrl.page_title('My mailing lists')">${show_title('My mailing lists')}</title></%block>
+<%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
+
+<div class="mailinglists">
+  <section app-mailinglists>
+    <h3 class="green-text" translate>My mailing lists</h3>
+    <p translate>Here you may change your subscriptions to snow forecast mailing lists.</p>
+    % for ml in mailinglists:
+      <div class="mailinglists-switch">
+        <label>
+          <input type="checkbox" ng-checked="mlCtrl.mailinglists['${ml}']" ng-click="mlCtrl.toggle('${ml}')"><span x-translate>${ml} list</span>
+        </label>
+      </div>
+    % endfor
+  </section>
+</div>
