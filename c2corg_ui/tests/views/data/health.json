@@ -1,0 +1,9 @@
+{
+  "redis": "ok",
+  "es_indexed_docs": 0,
+  "redis_keys": 13025,
+  "last_es_syncer_run": "2016-11-11T12:27:52.023859+01:00",
+  "es": "ok",
+  "pg": "ok",
+  "version": "ffa9e7a"
+}

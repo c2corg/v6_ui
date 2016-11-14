@@ -66,6 +66,15 @@ Captcha configuration is done through https://www.google.com/recaptcha/admin .
 The public key is used in the UI. The corresponding secret key is used in the API.
 
 
+Health service
+--------------
+
+To get information about a running UI instance, e.g. its version and the
+status of its components, the health service `/health` can be used:
+
+    GET http://localhost:6543/health
+
+
 Developer Tips
 --------------
 

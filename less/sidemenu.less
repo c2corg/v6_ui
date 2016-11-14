@@ -96,7 +96,7 @@
   @media @tablet {
     width: @menu-width-tablet;
     will-change: width;
-    .menu-text, .logo, .advertisement, .footer-nav {
+    .menu-text, .logo, .advertisement, .footer-nav, .version {
       display: none;
     }
     .logo {
@@ -306,6 +306,16 @@ footer {
       }
     }
   }
+
+  .version {
+    width: 100%;
+    text-align: center;
+    a {
+      font-size: 0.8em;
+      color: fade(#337ab7, 40%);
+    }
+  }
+
   .advertisement {
     @media @phone {
       display: none !important;
