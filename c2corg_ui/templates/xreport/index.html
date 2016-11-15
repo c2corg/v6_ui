@@ -1,0 +1,50 @@
+<%inherit file="../base.html"/>
+<%namespace file="../helpers/common.html" import="show_title"/>
+<%namespace file="../helpers/list.html" import="add_doctype_selector"/>
+
+<%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Reports')">${show_title('Reports')}</title></%block>
+
+<%block name="moduleConstantsValues">
+  module.value('mapFeatureCollection', null);
+  module.value('advancedSearchFilters', {
+    'act': {'type': 'list'},
+    'l': {'type': 'list'},
+    'xtyp': {'type': 'list'},
+    'xdate': {'type': 'date'},
+    'xalt': {'type': 'range'},
+    'xpar': {'type': 'range'},
+    'ximp': {'type': 'range'},
+    'xalt': {'type': 'range'},
+    'xsev': {'type': 'range'},
+    'xavlev': {'type': 'range'},
+    'xavslo': {'type': 'range'},
+  });
+</%block>
+
+<header class="page-main-title">
+  <h3><span translate>Reports</span>
+    <span class="badge" ng-cloak>{{resCounter}}</span>
+  </h3>
+</header>
+<div class="documents-list-section-container">
+  <section class="documents-list-section">
+    <%include file="filters.html" />
+    <div class="documents-nav-buttons text-center">
+      <button class="btn btn-default orange-btn show-documents-filters-phone" translate>Filters</button>
+      <button class="btn btn-default orange-btn" protected-url-btn url="${request.route_path('xreports_add')}"
+              uib-tooltip="{{'Create a new report' | translate }}" tooltip-placement="right">
+        <span class="glyphicon glyphicon-plus-sign"></span>
+      </button>
+      <app-pagination class="xreports"></app-pagination>
+      <div class="toggle-map">
+        <button class="btn btn-default"><span class="glyphicon glyphicon-globe"></span></button>
+      </div>
+    </div>
+
+    <app-advanced-search document-type="xreports" use-map="true"></app-advanced-search>
+  </section>
+
+  <div class="map-right">
+    <app-map app-map-advanced-search="true" app-map-show-recenter-tools="true" app-map-default-map-filter="true"></app-map>
+  </div>
+</div>
