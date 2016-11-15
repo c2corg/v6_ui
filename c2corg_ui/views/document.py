@@ -1,5 +1,6 @@
 from c2corg_common.document_types import AREA_TYPE, ARTICLE_TYPE, IMAGE_TYPE, \
-    OUTING_TYPE, USERPROFILE_TYPE, ROUTE_TYPE, WAYPOINT_TYPE, BOOK_TYPE
+    OUTING_TYPE, USERPROFILE_TYPE, ROUTE_TYPE, WAYPOINT_TYPE, BOOK_TYPE, \
+    XREPORT_TYPE
 from dogpile.cache.api import NO_VALUE
 from pyramid.renderers import render
 
@@ -31,6 +32,7 @@ ROUTE_NAMES = {
     IMAGE_TYPE: 'images',
     OUTING_TYPE: 'outings',
     USERPROFILE_TYPE: 'profiles',
+    XREPORT_TYPE: 'xreports',
     ROUTE_TYPE: 'routes',
     WAYPOINT_TYPE: 'waypoints'
 }
