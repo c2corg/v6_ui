@@ -243,6 +243,29 @@
     </section>
 </%def>
 
+<%def name="show_associated_xreports(document)">\
+  <%
+    xreports = document['associations']['xreports']
+    associations = 'detailsCtrl.documentService.document.associations.' + type
+  %>
+   ${add_seo_association_links(xreports, 'xreports')}
+    <section ng-show="${associations}.length > 0">
+      <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-xreports">
+        <span class="glyphicon glyphicon-map-marker"></span>
+        <span translate>Associated xreports</span><span class="glyphicon glyphicon-menu-down"></span>
+      </h3>
+      <div class="associated-documents collapse in" id="associated-xreports">
+        <div class="list-item" ng-repeat="doc in ${associations}" ng-class="{'new-item': doc['new']}">
+          <app-card app-card-doc="doc"></app-card>
+          % if type == 'xreports':
+            <app-delete-association child-doctype="xreports" parent-id="${document['document_id']}" child-id="doc.document_id"
+              ng-if="userCtrl.auth.isModerator()"></app-delete-association>
+          % endif
+        </div>
+      </div>
+    </section>
+</%def>
+
 <%def name="show_associated_routes(document, type='routes')">\
   ## Possible values for type: routes, all_routes
   <%
