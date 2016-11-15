@@ -78,7 +78,7 @@ app.MainController.prototype.isPath = function(path) {
   // path = '/'
   if (path === location) {
     return 'home';
-  // if topoguide, it can be all kinds of documents. Articles have their own line in the sidemenu.
+  // if topoguide, it can be all kinds of documents. Articles/xreports have their own line in the sidemenu.
   } else if (path === 'topoguide') {
     return location.indexOf('outings') > -1 || location.indexOf('waypoints') > -1 || location.indexOf('routes') > -1
             || location.indexOf('images') > -1 || location.indexOf('areas') > -1 || location.indexOf('books') > -1;

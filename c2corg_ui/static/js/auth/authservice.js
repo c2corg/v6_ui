@@ -91,8 +91,12 @@ app.Authentication.prototype.isAuthenticated = function() {
  * @export
  */
 app.Authentication.prototype.isModerator = function() {
-  var roles = this.userData.roles;
-  return roles.indexOf('moderator') > -1;
+  if (this.userData) {
+    var roles = this.userData.roles;
+    return roles.indexOf('moderator') > -1;
+  } else {
+    return false;
+  }
 };
 
 

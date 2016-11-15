@@ -92,7 +92,9 @@ app.AddAssociationController.prototype.associate = function(doc) {
       (parentType === 'articles' && (doc['type'] === 'w' ||
        doc['type'] === 'o' || doc['type'] === 'r' || doc['type'] === 'b')) ||
       (parentType === 'routes' && doc['type'] === 'b') ||
-      (parentType === 'waypoints' && doc['type'] === 'b')) {
+      (parentType === 'waypoints' && doc['type'] === 'b') ||
+      (parentType === 'xreports' && (doc['type'] === 'r' || doc['type'] === 'o' || doc['type'] === 'w')) ||
+      (parentType === 'articles' && (doc['type'] === 'w' || doc['type'] === 'c' || doc['type'] === 'b'))) {
     childId = this.parentId;
     parentId = doc['document_id'];
   } else {

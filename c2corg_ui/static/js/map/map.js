@@ -411,6 +411,7 @@ app.MapController.prototype.createStyleFunction_ = function() {
           case 'waypoints':
           case 'images':
           case 'profiles':
+          case 'xreports':
             return this.createPointStyle_(feature, resolution);
           case 'routes':
           case 'outings':
@@ -456,6 +457,10 @@ app.MapController.prototype.createPointStyle_ = function(feature, resolution) {
     case 'profiles':
       imgSize = highlight ? 32 : 16;
       path = '/documents/profile.svg';
+      break;
+    case 'xreports':
+      imgSize = highlight ? 40 : 24;
+      path = '/documents/xreports.svg';
       break;
     default:
       imgSize = highlight ? 32 : 16;

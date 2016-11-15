@@ -42,6 +42,7 @@ app.Document = function(appAuthentication, $rootScope) {
       'outings': [],
       'articles': [],
       'books': [],
+      'xreports': [],
       'images': [],
       'areas': []
     },
@@ -60,13 +61,14 @@ app.Document = function(appAuthentication, $rootScope) {
    *  areas: Array<number>,
    *  outings: Array<number>,
    *  books: Array<number>,
+   *  xreports: Array<number>,
    *  articles: Array<number>
    * }}
    * @private
    */
   this.associationsIds_ = {
     'routes': [], 'waypoints': [], 'images': [], 'users': [], 'areas': [],
-    'articles': [], 'outings': [], 'books': []
+    'articles': [], 'outings': [], 'books': [], 'xreports': []
   };
 };
 

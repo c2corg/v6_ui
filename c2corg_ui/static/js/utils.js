@@ -24,6 +24,8 @@ app.utils.getDoctype = function(type) {
       return 'areas';
     case 'b':
       return 'books';
+    case 'x':
+      return 'xreports';
     default:
       goog.asserts.fail('Unrecognized type: ' + type);
       return '';
