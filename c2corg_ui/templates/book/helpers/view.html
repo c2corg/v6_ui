@@ -21,7 +21,7 @@
     % endif
 
     % if book.get('book_types'):
-      <article class="value activities">
+      <article class="value-title">
           <span translate class="value-title">book_types</span><br>
         % for book_type in book.get('book_types') :
           <span x-translate class="value">${book_type}</span>${'' if loop.last else ', '}
@@ -30,28 +30,28 @@
     % endif
 
     % if book.get('author'):
-      <p><span class="value-title" translate>author</span>: ${book['author']}</p>
+      <p><span class="value-title" translate>author</span>: <span class="value">${book['author']}</span></p>
     % endif
 
     % if book.get('editor'):
-      <p><span class="value-title" translate>editor</span>: ${book['editor']}</p>
+      <p><span class="value-title" translate>editor</span>: <span class="value">${book['editor']}</span></p>
     % endif
 
     % if book.get('publication_date'):
-      <p><span class="value-title" translate>publication_date</span>: ${book['publication_date']}</p>
+      <p><span class="value-title" translate>publication_date</span>: <span class="value">${book['publication_date']}</span></p>
     % endif
 
     % if book.get('nb_pages'):
-      <p><span class="value-title" translate>nb_pages</span>: ${book['nb_pages']}</p>
+      <p><span class="value-title" translate>nb_pages</span>: <span class="value">${book['nb_pages']}</span></p>
     % endif
 
     % if book.get('isbn'):
-      <p><span class="value-title" translate>isbn</span>: ${book['isbn']}</p>
+      <p><span class="value-title" translate>isbn</span>: <span class="value">${book['isbn']}</span></p>
     % endif
 
-    % if book.get('available_langs'):
-      <p><span class="value-title" translate>available_langs</span>:
-      % for lang in book.get('available_langs'):
+    % if book.get('langs'):
+      <p><span class="value-title" translate>langs</span>:
+      % for lang in book.get('langs'):
         <span x-translate class="value">${lang}</span>${'' if loop.last else ', '}
       % endfor
       </p>
@@ -62,7 +62,7 @@
     % endif
 
     % if book.get('quality'):
-      <p><span class="value-title" translate>document_quality</span>: <span class="value" x-translate>${book['quality']}</span></p>
+      <p><span class="value-title" translate>quality</span>: <span class="value" x-translate>${book['quality']}</span></p>
     % endif
 
     </span>

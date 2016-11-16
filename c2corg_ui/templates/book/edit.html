@@ -87,10 +87,10 @@ from c2corg_common.attributes import default_langs, quality_types, activities, b
 
             ## available_langs
             <div class="form-group half half-group">
-              <label><span translate>available_langs</span></label>
+              <label><span translate>langs</span></label>
               <ul class="types">
-                <li ng-repeat="lang in ${default_langs}" ng-click="editCtrl.pushToArray(book, 'default_langs', lang, $event)">
-                  <div class="checkbox"><input type="checkbox" ng-checked="book.available_langs.indexOf(lang) > -1"><span>{{lang | translate}}</span></div>
+                <li ng-repeat="lang in ${default_langs}" ng-click="editCtrl.pushToArray(book, 'langs', lang, $event)">
+                  <div class="checkbox"><input type="checkbox" ng-checked="book.langs.indexOf(lang) > -1"><span>{{lang | translate}}</span></div>
                 </li>
               </ul>
             </div>

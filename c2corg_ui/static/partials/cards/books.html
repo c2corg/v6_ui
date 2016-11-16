@@ -3,15 +3,11 @@
 
     <span class="list-item-title">{{locale.title}}</span>
     <span class="list-item-lang" ng-if="cardCtrl.lang != locale.lang">({{locale.lang}})</span>
+    <span ng-if="doc['author']" class="value">{{doc['author']}}</span>
 
     <div class="article-categories">
       <span ng-repeat="book_type in doc['book_types']" class="value">{{book_type | translate }}{{$last ? '' : ', '}}</span>
     </div>
-
-    <div ng-if="doc['author']" class="value"><span x-translate>author</span>: {{doc['author']}}</div>
-    <div ng-if="doc['editor']" class="value"><span x-translate>editor</span>: {{doc['editor']}}</div>
-    <div ng-if="doc['isbn']" class="value">ISBN: {{doc['isbn']}}</div>
-    <div ng-if="doc['publication_date']" class="value"><span x-translate>publication_date</span>: {{doc['publication_date']}}</div>
 
     <div class="book-activities">
       <span ng-repeat="activity in doc.activities" class="route-activity icon-{{activity}}"
