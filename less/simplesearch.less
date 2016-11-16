@@ -69,11 +69,11 @@ app-simple-search span.twitter-typeahead {
       float: right;
       color: @C2C-orange;
       font-size: 1.5em;
-      margin-left: 10px;
+      margin-left: 5px;
     }
     .icon-container {
-      margin-top: auto;
-      margin-bottom: auto;
+      margin-left: 0;
+      min-width: 85px;
     }
     @media @phone {
       white-space : normal;
@@ -88,6 +88,10 @@ app-simple-search span.twitter-typeahead {
       .suggestion-title {
         color: white;
       }
+    }
+    .suggestion-info {
+      font-size: .9em;
+      color: gray;
     }
     .suggestion-title {
       white-space: normal !important;
