@@ -209,6 +209,9 @@ app.SimpleSearchController = function(appDocument, $scope, $compile, $attrs, api
       case 'c':
         this.datasets.push(this.createDataset_('articles'));
         break;
+      case 'b':
+        this.datasets.push(this.createDataset_('books'));
+        break;
       default:
         break;
     }

@@ -55,6 +55,7 @@
     }
   ],
   "associations": {
+    "books": [],
     "routes": [],
     "waypoints": [],
     "articles": [

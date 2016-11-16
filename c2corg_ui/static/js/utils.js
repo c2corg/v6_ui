@@ -22,6 +22,8 @@ app.utils.getDoctype = function(type) {
       return 'images';
     case 'a':
       return 'areas';
+    case 'b':
+      return 'books';
     default:
       goog.asserts.fail('Unrecognized type: ' + type);
       return '';

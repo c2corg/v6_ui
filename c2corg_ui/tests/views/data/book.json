@@ -1,0 +1,65 @@
+{
+  "editor": "Editions \u00e0 la carte",
+  "publication_date": "2016",
+  "author": "Marcel Maurice Demont",
+  "book_types": [
+    "historical"
+  ],
+  "available_langs": [
+    "fr"
+  ],
+  "langs": [
+    "fr"
+  ],
+  "isbn": "978-2-88924-275-7",
+  "version": 2,
+  "associations": {
+    "waypoints": [],
+    "routes": [],
+    "articles": [],
+    "images": [
+      {
+        "protected": false,
+        "geometry": {
+          "geom": null,
+          "version": 1
+        },
+        "document_id": 795288,
+        "locales": [
+          {
+            "lang": "fr",
+            "version": 1,
+            "title": "Au fil du temps 1\u00e8re de couverture"
+          }
+        ],
+        "type": "i",
+        "available_langs": [
+          "fr"
+        ],
+        "filename": "1472404474_605674214.jpg",
+        "author": null,
+        "areas": [],
+        "version": 1
+      }
+    ]
+  },
+  "type": "b",
+  "protected": null,
+  "activities": [
+    "snow_ice_mixed"
+  ],
+  "locales": [
+    {
+      "lang": "fr",
+      "summary": null,
+      "title": "Au fil du temps",
+      "topic_id": null,
+      "description": "Au fil du temps\r\n\r\nLa soci\u00e9t\u00e9 \u00e9volue ; le lieu de travail du guide s\u2019\u00e9tend \u00e0 la Terre enti\u00e8re ; du mat\u00e9riel performant et l\u00e9ger inonde le march\u00e9 ; des techniques innovantes apparaissent, ainsi que des nouveaux sports de montagne ; les glaciers, eux, reculent.\r\nQu\u2019y a-t-il de commun entre les paysans de montagne du 19\u00e8me si\u00e8cle qui conduisaient les voyageurs sur les sommets dominant leur village afin de se procurer un peu d\u2019argent et les guides d\u2019aujourd\u2019hui ?\r\nQuel est le lien entre ces hommes rudes qui s\u2019en allaient \u00e0 l\u2019assaut des cimes neigeuses ou rocheuses, v\u00eatus de leurs vieux habits de laine rapi\u00e9c\u00e9s lim\u00e9s au frottement de la roche et les professionnels des temps modernes ?\r\nQu\u2019est-ce qui unit les pionniers qui proposaient leurs services pour conduire des casse-cou soucieux de d\u00e9couvrir les beaut\u00e9s de l\u2019Alpe et les guides du 21\u00e8me si\u00e8cle ?\r\nL\u2019amour de la montagne ?\r\nLa passion du m\u00e9tier ?\r\nSans aucun doute. Mais aussi, les traditions de notre coin de pays, les valeurs morales transmises de g\u00e9n\u00e9ration de guides en g\u00e9n\u00e9ration de guides au sein de notre association.\r\n \u2018Au fil du temps\u2019 n\u2019a d\u2019autre ambition que de vous en offrir un aper\u00e7u.\r\n\r\n\r\nApostille\r\n\r\nEn 2010, les accompagnateurs de randonn\u00e9e et les professeurs d\u2019escalade ont rejoint l\u2019AVGM, devenue ARGM en 2011, ajoutant ainsi une nouvelle page \u00e0 sa d\u00e9j\u00e0 longue et belle histoire.\r\n\r\n",
+      "version": 1
+    }
+  ],
+  "nb_pages": 178,
+  "quality": "draft",
+  "url": null,
+  "document_id": 795286
+}

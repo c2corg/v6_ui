@@ -1,0 +1,183 @@
+<%!
+from c2corg_common.attributes import default_langs, quality_types, activities, book_types
+%>
+<%inherit file="../base.html"/>
+<%
+  updating_doc = book_id and book_lang
+%>
+<%namespace file="../helpers/common.html" import="show_title"/>
+<%namespace file="../helpers/edit.html" import="show_save_confirmation_modal, show_preview_container, show_editing_buttons"/>
+
+<%block name="pagetitle"><title ng-init="id = ${book_id if book_id else 0}" ng-bind="id ? mainCtrl.page_title('Editing a book') : mainCtrl.page_title('Creating a book')">${show_title('Create/edit book')}</title></%block>
+<%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
+
+<section class="create-edit-document">
+
+  <h1 ng-init="id = ${book_id if book_id else 0}" class="text-center">
+    <label class="label label-primary" ng-bind="id ? ('Editing a book' | translate) : ('Creating a book' | translate)"></label>
+  </h1>
+
+  <form app-loading app-document-editing="books" app-document-editing-model="book"
+    app-document-editing-controller-name="appDocumentEditingController"
+  % if updating_doc:
+    app-document-editing-id="${book_id}" app-document-editing-lang="${book_lang}"
+  % endif
+    class="document-editing" name="editForm" novalidate ng-submit="editCtrl.submitForm(editForm.$valid)">
+
+    <section class="editing">
+
+      <div class="step step-1">
+
+        <section class="section">
+          <h2 class="heading show-phone" translate>general informations</h2>
+          <div class="content">
+
+            ## TITLE
+            <div id="title-group" class="form-group" ng-class="{ 'has-error': editForm.title.$touched && editForm.title.$invalid, 'has-success': editForm.title.$valid }">
+              <label><span translate>title</span> *</label>
+              <input type="text" name="title" ng-model="book.locales[0].title" ng-minlength="3" class="form-control" required />
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.title.$valid"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.title.$invalid && editForm.title.$touched"></span>
+              <div class="help-block" ng-messages="editForm.title.$error">
+                <p ng-message="required" class="label label-danger" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : '' }}" translate>This field is required.</p>
+                <p ng-message="minlength" class="label label-danger" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : '' }}" translate>Title must have at least 3 characters.</p>
+              </div>
+            </div>
+
+            ## LANGUAGE
+            <div id="lang-group" class="form-group" ng-class="{ 'has-error': editForm.lang.$touched && editForm.lang.$invalid, 'has-success': editForm.lang.$valid}">
+              <label><span translate>lang</span> *</label>
+              % if book_lang:
+                <input disabled class="form-control" value="{{mainCtrl.translate('${book_lang}')}}">
+              % else:
+              <select name="lang" ng-options="lang as mainCtrl.translate(lang) for lang in ['${"','".join(default_langs) |n}'] | translate" ng-model="book.locales[0].lang" class="form-control" required><option value=""></option></select>
+              % endif
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="book.locales[0].lang"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.lang.$touched && editForm.lang.$invalid"></span>
+              <div class="help-block" ng-messages="editForm.lang.$error">
+                <p ng-message="required" class="label label-danger" style="{{ (editForm.lang.$invalid && editForm.lang.$touched) ? 'display:inline' : '' }}" translate>This field is required.</p>
+              </div>
+            </div>
+
+            ## ACTIVITIES
+            <div class="form-group data full" id="route-activities" ng-init="activities = ${activities}"
+                 ng-class="{ 'has-error': editForm.activities.$touched && editForm.activities.$invalid, 'has-success': editForm.activities.$valid }">
+              <label><span translate>activities</span> *</label>
+              <div class="route-activities">
+                <div ng-repeat="activity in activities" class="activity">
+                  <div>
+                    <div class="icon-{{activity}}" class="icon-" ng-click="editCtrl.pushToArray(book, 'activities', activity, $event)"
+                         ng-class="{'activity-selected' : book.activities.indexOf(activity) > -1}">
+                    </div>
+                    <p>{{activity | translate}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            ## book_type
+            <div class="form-group half half-group">
+              <label><span translate>book_types</span> *</label>
+              <ul class="types">
+                <li ng-repeat="book_type in ${book_types}" ng-click="editCtrl.pushToArray(book, 'book_types', book_type, $event)">
+                  <div class="checkbox"><input type="checkbox" ng-checked="book.book_types.indexOf(book_type) > -1"><span>{{book_type | translate}}</span></div>
+                </li>
+              </ul>
+            </div>
+
+            ## available_langs
+            <div class="form-group half half-group">
+              <label><span translate>langs</span></label>
+              <ul class="types">
+                <li ng-repeat="lang in ${default_langs}" ng-click="editCtrl.pushToArray(book, 'langs', lang, $event)">
+                  <div class="checkbox"><input type="checkbox" ng-checked="book.langs.indexOf(lang) > -1"><span>{{lang | translate}}</span></div>
+                </li>
+              </ul>
+            </div>
+
+            ## author
+            <div class="form-group half half-group">
+              <label translate>author</label>
+              <input type="text" name="author" ng-minlength="2" ng-model="book.author" class="form-control" />
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="book.author"></span>
+            </div>
+
+            ## editor
+            <div class="form-group half half-group">
+              <label translate>editor</label>
+              <input type="text" name="editor" ng-minlength="2" ng-model="book.editor" class="form-control" />
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="book.editor"></span>
+            </div>
+
+            ## publication_date
+            <div class="form-group half half-group">
+              <label translate>publication_date</label>
+              <input type="text" name="publication_date" minlength="0" ng-model="book.publication_date" class="form-control" />
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="book.publication_date"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.publication_date.$invalid && editForm.publication_date.$touched"></span>
+            </div>
+
+            ## nb_pages
+            <div class="data half half-group form-group" ng-class="{ 'has-error': editForm.nb_pages.$touched && editForm.nb_pages.$invalid,'has-success': book.nb_pages }">
+              <label translate>nb_pages</label>
+              <div class="input-group">
+                <input type="number" min="0" name="height_diff_access" ng-model="book.nb_pages" class="form-control" />
+                <span class="input-group-addon">#</span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="book.nb_pages"></span>
+            </div>
+
+            ## isbn
+            <div class="form-group half half-group">
+              <label translate>isbn</label>
+              <input type="text" ng-minlength="9" ng-maxlength="13" name="isbn" ng-model="book.isbn" class="form-control" />
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="book.isbn"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.isbn.$invalid && editForm.isbn.$touched"></span>
+              <div class="help-block" ng-messages="editForm.isbn.$error">
+                <p ng-message="text" class="label label-danger" style="{{ (editForm.isbn.$invalid && editForm.isbn.$touched) ? 'display:inline' : '' }}" translate>This field must be a valid number.</p>
+              </div>
+            </div>
+
+            ## url
+            <div class="form-group half half-group">
+              <label translate>url</label>
+              <input type="url" name="url" ng-model="book.url" ng-minlength="6" class="form-control" />
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="book.url"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.url.$invalid && editForm.url.$touched"></span>
+              <div class="help-block" ng-messages="editForm.isbn.$error">
+                <p ng-message="text" class="label label-danger" style="{{ (editForm.url.$invalid && editForm.url.$touched) ? 'display:inline' : '' }}" translate>This field must be a valid url.</p>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <section class="section">
+          <h2 class="heading show-phone" translate>description</h2>
+          <div class="content">
+
+            ## SUMMARY
+            <div id="summary-group" class="form-group full">
+              <label translate>summary</label>
+              <textarea name="summary" ng-model="book.locales[0].summary" class="form-control"></textarea>
+            </div>
+
+            ## DESCRIPTION
+            <div id="description-group" class="form-group full">
+              <label translate>description</label>
+              <textarea name="description" ng-model="book.locales[0].description" class="form-control description"></textarea>
+            </div>
+
+          </div>
+        </section>
+
+      </div>
+
+      ${show_editing_buttons('book', updating_doc, book_id, book_lang)}
+
+    </section>
+  </form>
+
+  ${show_preview_container()}
+  ${show_save_confirmation_modal(updating_doc)}
+</section>

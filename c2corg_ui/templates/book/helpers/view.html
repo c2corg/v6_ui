@@ -1,0 +1,70 @@
+<%namespace file="../../helpers/view.html" import="show_attr"/>
+
+<%def name="get_book_general(book)">\
+<div class="name-icon-value general" ng-click="detailsCtrl.openTab($event)">
+  <h4>
+    <span translate>General</span><span class="glyphicon glyphicon-menu-right"></span>
+  </h4>
+  <div class="name-icon">
+    <span class="glyphicon glyphicon-info-sign"></span>
+    <p translate>General</p>
+  </div>
+  <span class="detail-text accordion">
+
+    % if book.get('activities'):
+      <article class="value activities">
+          <span translate class="value-title">activities</span><br>
+        % for activity in book.get('activities') :
+          <span class="route-activity icon-${activity}" uib-tooltip="{{mainCtrl.translate('${activity}')}}"></span>
+        % endfor
+        </article>
+    % endif
+
+    % if book.get('book_types'):
+      <article class="value-title">
+          <span translate class="value-title">book_types</span><br>
+        % for book_type in book.get('book_types') :
+          <span x-translate class="value">${book_type}</span>${'' if loop.last else ', '}
+        % endfor
+        </article>
+    % endif
+
+    % if book.get('author'):
+      <p><span class="value-title" translate>author</span>: <span class="value">${book['author']}</span></p>
+    % endif
+
+    % if book.get('editor'):
+      <p><span class="value-title" translate>editor</span>: <span class="value">${book['editor']}</span></p>
+    % endif
+
+    % if book.get('publication_date'):
+      <p><span class="value-title" translate>publication_date</span>: <span class="value">${book['publication_date']}</span></p>
+    % endif
+
+    % if book.get('nb_pages'):
+      <p><span class="value-title" translate>nb_pages</span>: <span class="value">${book['nb_pages']}</span></p>
+    % endif
+
+    % if book.get('isbn'):
+      <p><span class="value-title" translate>isbn</span>: <span class="value">${book['isbn']}</span></p>
+    % endif
+
+    % if book.get('langs'):
+      <p><span class="value-title" translate>langs</span>:
+      % for lang in book.get('langs'):
+        <span x-translate class="value">${lang}</span>${'' if loop.last else ', '}
+      % endfor
+      </p>
+    % endif
+
+    % if book.get('url'):
+      <p><span class="value-title" translate>url</span>: <a href=${book['url']}>${book['url']}</a></p>
+    % endif
+
+    % if book.get('quality'):
+      <p><span class="value-title" translate>quality</span>: <span class="value" x-translate>${book['quality']}</span></p>
+    % endif
+
+    </span>
+</div>
+</%def>

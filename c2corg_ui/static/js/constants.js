@@ -31,6 +31,7 @@ app.constants = {
   REQUIRED_FIELDS: {
     'waypoints': ['title' , 'lang', 'waypoint_type', 'elevation', 'longitude', 'latitude'],
     'articles': ['title', 'activities', 'categories', 'article_type'],
+    'books': ['title', 'activities', 'book_types'],
     'routes' : ['title' , 'lang', 'activities', 'waypoints'],
     'outings' : ['title' , 'lang', 'date_start', 'routes', 'activities'],
     'images': ['image_type'],

@@ -9,7 +9,7 @@ from json import dumps
     show_missing_langs_links, show_other_langs_links, show_badge,
     show_archive_data, show_locale_title, get_activities, show_areas, show_float_buttons,
     show_associated_waypoints, show_associated_routes, show_associated_articles,
-    show_associated_outings, delete_association_confirmation_modal,
+    show_associated_outings, show_associated_books, delete_association_confirmation_modal,
     get_document_description, get_comments, get_licence"/>
 <%namespace file="helpers/view.html" import="get_image_general, get_image_camera_settings, create_image_link"/>
 
@@ -117,13 +117,14 @@ from json import dumps
     <span class="lead">
       <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
         <label translate>Add association</label>
-        <app-add-association parent-doctype="images" parent-id="${image_id}" dataset="wrc"></app-add-association>
+        <app-add-association parent-doctype="images" parent-id="${image_id}" dataset="wrcb"></app-add-association>
       </div>
       <section>
         ${show_associated_outings(image)}
         ${show_associated_routes(image)}
         ${show_associated_waypoints(image)}
         ${show_associated_articles(image)}
+        ${show_associated_books(image)}
       </section>
     </span>
   </div>

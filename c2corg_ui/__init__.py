@@ -101,6 +101,19 @@ def main(global_config, **settings):
         'articles_diff', '/articles/diff/{id:\d+}/{lang}/{v1}/{v2}')
     config.add_route('articles_preview', '/articles/preview')
 
+    config.add_route('books_index', '/books')
+    config.add_route('books_add', '/books/add')
+    config.add_route('books_edit', '/books/edit/{id:\d+}/{lang}')
+    config.add_route('books_history', '/books/history/{id:\d+}/{lang}')
+    config.add_route('books_archive',
+                     '/books/{id:\d+}/{lang}/{version:\d+}')
+    config.add_route('books_view', '/books/{id:\d+}/{lang}/{slug}')
+    config.add_route('books_view_id_lang', '/books/{id:\d+}/{lang}')
+    config.add_route('books_view_id', '/books/{id:\d+}')
+    config.add_route(
+        'books_diff', '/books/diff/{id:\d+}/{lang}/{v1}/{v2}')
+    config.add_route('books_preview', '/books/preview')
+
     config.add_route('images_index', '/images')
     config.add_route('images_edit', '/images/edit/{id:\d+}/{lang}')
     config.add_route('images_history', '/images/history/{id:\d+}/{lang}')
