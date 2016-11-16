@@ -65,7 +65,6 @@ class C2CImage(Pattern):
         img.set('src', img_url)
         img.set('class', 'thumbnail embedded-image ')
         img.set('alt', caption or img_id)
-        img.set('caption', caption)
         img.set('img-id', img_id)
 
         fig = etree.Element('figure')
