@@ -299,24 +299,23 @@ app.ImageUploaderController.prototype.save = function() {
 
   this.api_.createImages(this.files, this.documentService.document)
   .then(function(data) {
-    var id;
     var images = data['config']['data']['images'];
     var imageIds = data['data']['images']; // newly created document_id
 
     $('.img-container').each(function(i) {
-      id = 'image-' + (+new Date());
-      images[i]['image_id'] = id;
-
+      var id = imageIds[i]['document_id'];
+      images[i]['image_id'] = 'image-' + id;
       var element = app.utils.createImageSlide(images[i], this.imageUrl_);
       $('.photos').slick('slickAdd', element, true);
 
       var scope = this.scope_.$new(true);
       scope['photo'] = images[i];
-      scope['photo']['image_id'] = id;
-      scope['photo']['edit_url'] = '/images/edit/' + imageIds[i]['document_id'] + '/' + images[i]['locales'][0]['lang'];
-      scope['photo']['view_url'] = this.url_.buildDocumentUrl('images', imageIds[i]['document_id'], images[i]['locales'][0], images[i]['locales'][0]['lang']);
+      scope['photo']['image_id'] = 'image-' + id;
+      scope['photo']['edit_url'] = '/images/edit/' + id + '/' + images[i]['locales'][0]['lang'];
+      scope['photo']['view_url'] = this.url_.buildDocumentUrl('images', id, images[i]['locales'][0]);
       this.documentService.document.associations['images'].push(scope['photo']);
-      this.compile_($('#' + id).contents())(scope);
+      this.compile_($('#image-' + id).contents())(scope); // compile the figure thumbnail with <app-slide-info>c
+
     }.bind(this));
 
     defer.resolve();

@@ -63,31 +63,22 @@ class C2CImage(Pattern):
         if img_size:
             img_url += '?size=' + img_size
         img.set('src', img_url)
+        img.set('class', 'thumbnail embedded-image ')
         img.set('alt', caption or img_id)
+        img.set('img-id', img_id)
 
-        img_container = etree.Element('a')
-        img_container.set('href', '/images/%s' % img_id)
-        # TODO: open slideshow instead when the image is clicked
-        img_container.append(img)
+        fig = etree.Element('figure')
+        fig.set('ng-click', 'detailsCtrl.openEmbeddedImage("' + img_url + '", \
+           "' + img_id + '")')
+        fig.append(img)
+        fig.set('class', 'embedded_' + position + ' ' + img_size)
 
         if caption:
-            fig = etree.Element('figure')
-            fig.set('class', 'embedded_' + position)
-            fig.append(img_container)
-
-            img_link = etree.Element('a')
-            img_link.set('href', '/images/%s' % img_id)
-            img_link.text = caption
-
             img_caption = etree.Element('figcaption')
-            img_caption.append(img_link)
-
+            img_caption.text = caption
             fig.append(img_caption)
-            return fig
 
-        else:
-            img_container.set('class', 'embedded_' + position)
-            return img_container
+        return fig
 
 
 def makeExtension(*args, **kwargs):  # noqa

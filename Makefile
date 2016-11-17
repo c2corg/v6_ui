@@ -288,6 +288,7 @@ c2corg_ui/static/build/locale_moment: .build/node_modules.timestamp
 # copy skins of photoswipe.js
 photoswipe-skins: .build/node_modules.timestamp
 	cp node_modules/photoswipe/dist/default-skin/default-skin.png c2corg_ui/static/build/default-skin.png
+	cp node_modules/photoswipe/dist/default-skin/default-skin.svg c2corg_ui/static/build/default-skin.svg
 
 # copy files used by "slick-carousel" (?!)
 slick-assets: .build/node_modules.timestamp

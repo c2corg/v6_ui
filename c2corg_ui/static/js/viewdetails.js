@@ -20,9 +20,12 @@ app.viewDetailsDirective = function() {
         ctrl.initPhotoswipe_();
       }
       ctrl.loadImages_(initGalleries);
+      ctrl.watchPswpContainer_();
 
-      $('.pswp__button.info').on('touchend click', function() {
-        $('.photoswipe-image-container .image-infos, .photoswipe-image-container img').toggleClass('showing-info');
+      // clicking on 'info' btn will open slide from the right and get the infos
+      $('.pswp').on('click touchend', '.pswp__button.info', function(e) {
+        $('.image-infos, .photoswipe-image-container img').toggleClass('showing-info');
+        ctrl.getImageInfo_($(e.target).attr('img-id').split('-')[1]);
       });
 
       $('.pswp__button--arrow--left, .pswp__button--arrow--right').click(function() {
@@ -164,22 +167,17 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
       var linkEl;
       var item;
       var id;
-      var info;
 
       for (var i = 0; i < thumbElements.length; i++) {
         figureEl = thumbElements[i]; // <figure> element
         linkEl = figureEl.children[0]; // <a> element
         // get the data-info-id and clone into the slide that's being opened
         id = linkEl.getAttribute('data-info-id');
-        info = $(document.getElementById(id));
         var image = new Image();
         image['src'] = linkEl.getAttribute('href');
-        var imgHtml = '<img src="' + linkEl.getAttribute('href') + '">';
 
         item = { // create slide object
-          html: '<div class="photoswipe-image-container">' +
-                      info.html() + imgHtml +
-                    '</div>'
+          html: app.utils.createPhotoswipeSlideHTML(image['src'], id.split('-')[1], '#image-')
          // TODO: for zoom in animation -> add this when WIDTH & HEIGHT will be returned by API in image properties
          // w: image.naturalWidth,
          // h: image.naturalHeight
@@ -240,6 +238,7 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
       gallery = new window.PhotoSwipe(pswpElement, window.PhotoSwipeUI_Default, items, options);
       gallery.init();
       this.compile_($('.image-infos-buttons').contents())(this.scope_);  // recompile the protected-url-btn on gallery open
+      $('.showing-info').removeClass('showing-info');
 
     }.bind(this);
 
@@ -344,11 +343,11 @@ app.ViewDetailsController.prototype.createTopic = function() {
 
 
 /**
- * Loads images and appends them to .photos gallery
  * @param {Function} initGalleries callback
  * @private
  */
 app.ViewDetailsController.prototype.loadImages_ = function(initGalleries) {
+  // prepare document images for slideshow
   var photos = this.documentService.document['associations']['images'];
   for (var i in photos) {
     var scope = this.scope_.$new(true);
@@ -359,11 +358,87 @@ app.ViewDetailsController.prototype.loadImages_ = function(initGalleries) {
     scope['photo'] = photos[i];
 
     var element = app.utils.createImageSlide(photos[i], this.imageUrl_);
-    $('.photos').prepend(element);
-
+    $('.photos').append(element);
     this.compile_($('#' + id).contents())(scope);
   }
+
+  // prepare the embedded images for slideshow
+  $('[class^="embedded_"').each(function(i, el) {
+    $(el).append('<app-slide-info></app-slide-info>');
+    var img = $(el).find('img')[0];
+    var id = img.getAttribute('img-id');
+    var caption = $(el).find('figcaption')[0] ? $(el).find('figcaption')[0].textContent : '';
+
+    var scope = this.scope_.$new(true);
+    scope['edit_url'] = '/images/edit/' + id + '/' + this.lang.getLang();
+    scope['view_url'] = '/images/' + id + '/' + this.lang.getLang();
+    scope['image_id'] = 'embedded-' + id;
+    scope['locales'] = [{'title': caption}];
+
+    this.compile_($(el).contents())(scope);
+  }.bind(this));
+
   initGalleries();
+};
+
+
+/**
+ * @param {string} imgUrl
+ * @param {number} imgId
+ * @export
+ */
+app.ViewDetailsController.prototype.openEmbeddedImage = function(imgUrl, imgId) {
+  $('.showing-info').removeClass('showing-info');
+
+  // Replace 'MI' and get the BigImage
+  imgUrl = imgUrl.slice(0, -2) + 'BI';
+  var embeddedImages = $('.embedded-image');
+  var pswpElement = document.querySelectorAll('.pswp')[0];
+  var items = [];
+  var index;
+
+  for (var i = 0; i <  embeddedImages.length;  i++) {
+    var src = embeddedImages[i].src.slice(0, -2) + 'BI';
+    var id = parseInt($(embeddedImages[i]).attr('img-id'), 10);
+
+    // add all the other images that are not the one you clicked on
+    if (src !== imgUrl) {
+      var item = {html: app.utils.createPhotoswipeSlideHTML(src, id, '#embedded-')};
+      items.push(item);
+    } else {
+      var clickedImg = {html: app.utils.createPhotoswipeSlideHTML(imgUrl, imgId, '#embedded-')};
+      items.push(clickedImg);
+      index = i;
+    }
+  }
+
+  var gallery = new window.PhotoSwipe(pswpElement, window.PhotoSwipeUI_Default, items, {index: index});
+  gallery.init();
+  this.compile_($('.image-infos-buttons').contents())(this.scope_);
+};
+
+
+/**
+ * get the clicked image detailed infos
+ * and compile them into the slide
+ * @param {number} id
+ * @private
+ */
+app.ViewDetailsController.prototype.getImageInfo_ = function(id) {
+  if ($('.showing-info').length > 0) {
+    $('.loading-infos').show();
+    $('.images-infos-container').hide();
+
+    this.api_.readDocument('images', id, this.lang.getLang()).then(function(res) {
+      var imgData = res.data;
+      var scope = this.scope_.$new(true);
+      angular.extend(scope, imgData);
+      this.compile_($('.image-infos'))(scope);
+      $('.loading-infos').hide();
+      $('.images-infos-container').show();
+
+    }.bind(this));
+  }
 };
 
 
@@ -377,5 +452,18 @@ app.ViewDetailsController.prototype.toggleOrientation = function(orientation, do
   // Do nothing
 };
 
+
+/**
+ * remove .showing-info if the container detects swipe/drag
+ * @private
+ */
+app.ViewDetailsController.prototype.watchPswpContainer_ = function() {
+  var observer = new MutationObserver(function() {
+    $('.showing-info').removeClass('showing-info');
+    this.compile_($('.image-infos-buttons').contents())(this.scope_);
+  }.bind(this));
+  var target = $('.pswp__container')[0];
+  observer.observe(target, {attributes: true, attributeFilter: ['style']});
+};
 
 app.module.controller('AppViewDetailsController', app.ViewDetailsController);

@@ -133,6 +133,22 @@ app.utils.createImageSlide = function(file, imageUrl) {
   return '<figure id="' + file['image_id'] + '">' + ahref + img +  '<app-slide-info></app-slide-info></figure>';
 };
 
+
+/**
+ * based on partials/slideinfo.html
+ * @param {string} imgUrl
+ * @param {number} imgId
+ * @param {string} selector
+ * @export
+ */
+app.utils.createPhotoswipeSlideHTML = function(imgUrl, imgId, selector) {
+  var slide = $(selector + imgId + '-slide');
+  return '<div class="photoswipe-image-container">' +
+               '<img src="' + imgUrl + '" >' + slide.html() +
+             '</div>';
+};
+
+
 /**
  * @param {string} url
  * @param {string} suffix
