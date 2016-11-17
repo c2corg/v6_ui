@@ -99,6 +99,16 @@ app.Lang.prototype.getLang = function() {
 
 
 /**
+ * @export
+ * @param {string} str
+ * @return {string}
+ */
+app.Lang.prototype.translate = function(str) {
+  return this.gettextCatalog_.getString(str);
+};
+
+
+/**
  * @param {string} lang
  * @param {boolean=} opt_syncWithApi
  */
