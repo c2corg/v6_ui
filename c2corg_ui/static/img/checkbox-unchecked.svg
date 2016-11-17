@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="17"
+   height="17"
+   viewBox="0 0 17 17"
+   version="1.1"
+   id="svg2"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="checkbox-unchecked.svg">
+  <metadata
+     id="metadata26">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>81AF3E15-7EBD-46D5-851D-D07CEA9F2C44</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1855"
+     inkscape:window-height="1056"
+     id="namedview24"
+     showgrid="false"
+     inkscape:zoom="22.250293"
+     inkscape:cx="4.562097"
+     inkscape:cy="5.9629679"
+     inkscape:window-x="65"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
+  <!-- Generator: sketchtool 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
+  <title
+     id="title4">81AF3E15-7EBD-46D5-851D-D07CEA9F2C44</title>
+  <desc
+     id="desc6">Created with sketchtool.</desc>
+  <defs
+     id="defs8">
+    <rect
+       id="path-1"
+       x="0"
+       y="0"
+       width="15"
+       height="15"
+       rx="3" />
+    <mask
+       id="mask-2"
+       maskContentUnits="userSpaceOnUse"
+       maskUnits="objectBoundingBox"
+       x="0"
+       y="0"
+       width="15"
+       height="15"
+       fill="white">
+      <use
+         xlink:href="#path-1"
+         id="use12"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+    </mask>
+  </defs>
+  <g
+     id="Homepage"
+     style="fill:none;fill-rule:evenodd;stroke:none;stroke-width:1"
+     transform="matrix(1.1295422,0,0,1.1295422,0.12954224,-0.07267591)">
+    <g
+       id="Mobile-Nav-2b"
+       transform="translate(-54,-433)"
+       style="fill:#ffffff;stroke:#e1e1e1">
+      <g
+         id="Nav-left"
+         transform="translate(0,35)">
+        <g
+           id="Accès"
+           transform="translate(20,280)">
+          <g
+             id="Parkings"
+             transform="translate(1,105)">
+            <g
+               id="Parkings-publics">
+              <g
+                 id="Checkbox-Unchecked"
+                 transform="translate(33,13)">
+                <g
+                   id="Rectangle-65">
+                  <use
+                     mask="url(#mask-2)"
+                     xlink:href="#path-1"
+                     id="use22"
+                     style="stroke-width:2"
+                     x="0"
+                     y="0"
+                     width="100%"
+                     height="100%" />
+                </g>
+              </g>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
