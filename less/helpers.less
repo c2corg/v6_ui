@@ -99,20 +99,20 @@
 
 input[type=checkbox]{
   width: 0;
-    display: none;
+  display: none;
 }
 
 input[type=checkbox] + * {
-  padding-left:21px;
-  height:16px;
-  display:inline-block;
-  line-height:16px;
+  padding-left: 25px;
+  display:inline;
+  line-height: 23x;
   background-repeat:no-repeat;
-  background-position: 0 0;
+  background-position: 0 1px;
+  padding-bottom: 2px;
   font-size:16px;
-  vertical-align:middle;
+  color: #333;
   cursor:pointer;
-  background-image:url(../img/checkbox-bg.svg);
+  background-image:url(../img/checkbox-unchecked.svg);
   transition: 0.2s ease-in-out;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -120,11 +120,12 @@ input[type=checkbox] + * {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  transition: 0.2s;
 }
 
 input[type=checkbox]:checked + * {
-  background-position: 0 -16px;
-  transition: 0.2s ease-in-out;
+  background-image:url(../img/checkbox-checked.svg);
+  transition: 0.2s;
 }
 
 .no-opacity {
