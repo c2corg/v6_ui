@@ -16,7 +16,7 @@ from json import dumps
 <%namespace file="helpers/view.html" import="get_waypoint_equipment,
     get_waypoint_orientations, get_waypoint_contact, get_waypoint_style, get_waypoint_rating,
     get_waypoint_access, get_waypoint_heights, get_waypoint_location, get_waypoint_general,
-    get_waypoint_maps_info"/>
+    get_waypoint_maps_info, get_waypoint_access_period"/>
 
 <%
 waypoint_id = waypoint['document_id']
@@ -137,7 +137,7 @@ geometry4326 = geometry
 
   <div class="description ">
     ${get_document_locale_text(locale, 'access')}
-    ${get_document_locale_text(locale, 'access_period')}
+    ${get_waypoint_access_period(locale, waypoint['waypoint_type'])}
   </div>
 
   ## ASSOCIATIONS
