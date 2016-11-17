@@ -2,12 +2,16 @@
   "name": "c2corg_ui",
   "version": "0.0.1",
   "description": "Camptocamp.org UI",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/c2corg/v6_ui.git"
+  },
   "scripts": {
     "snyk-protect": "snyk protect",
     "prepublish": "npm run snyk-protect",
     "test": "snyk test"
   },
-  "license": "BSD",
+  "license": "AGPL-3.0",
   "dependencies": {
     "angular-moment": "^1.0.0-beta.4",
     "angular-recaptcha": "git://github.com/VividCortex/angular-recaptcha#3.0.1",
