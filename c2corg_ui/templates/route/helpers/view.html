@@ -4,17 +4,31 @@
 
 ## LOCATION
 <%def name="get_route_location(route)">\
-  % if route.get('areas') or route.get('orientations'):
-  <div class="name-icon-value location  ${'ng-hide' if route.get('areas') and not route.get('orientations') else ''} "
-       ng-click="detailsCtrl.openTab($event)">
+  % if route.get('areas'):
+    <div class="name-icon-value location" ng-click="detailsCtrl.openTab($event)">
       <h4><span translate>Location</span><span class="glyphicon glyphicon-menu-right"></span></h4>
       <div class="name-icon">
         <span class="glyphicon glyphicon-map-marker"></span>
         <p translate>Location</p>
       </div>
-      <span class="detail-text accordion" id="detail-orientation">
+      <span class="detail-text accordion">
         <span class="areas">${show_areas(route)}</span>
+      </span>
+    </div>
+  % endif
+</%def>
 
+
+## ORIENTATION
+<%def name="get_route_orientations(route)">\
+  % if route.get('orientations'):
+    <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
+      <h4><span translate>orientations</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+      <div class="name-icon">
+        <span class="glyphicon glyphicon-move"></span>
+        <p translate>orientations</p>
+      </div>
+      <span class="detail-text accordion">
         % if route.get('orientations'):
           ${show_orientations('detailsCtrl', 'detailsCtrl.documentService.document')}
         % endif
@@ -22,6 +36,7 @@
     </div>
   % endif
 </%def>
+
 
 ## GENERAL
 <%def name="get_route_general(route,locale)">\

@@ -23,7 +23,7 @@ app.langDirective = function() {
         '    <span class="selected-lang">{{langCtrl.lang}}</span>' +
         '    <span class="glyphicon glyphicon-option-vertical"></span>' +
         '  </button>' +
-        '  <ul class="dropdown-menu">' +
+        '  <ul class="dropdown-menu dropdown-menu-right">' +
         '    <li ng-repeat="lang in langCtrl.langs" ng-click="langCtrl.updateLang(lang)"><a>{{lang | translate}}</a></li>' +
         '  </ul>' +
         '</div>'
