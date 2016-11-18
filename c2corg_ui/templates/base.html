@@ -8,7 +8,7 @@ closure_library_path = settings.get('closure_library_path')
 %>\
 <%namespace file="helpers/common.html" import="show_title"/>\
 <!DOCTYPE html>
-<html <%block name="pagelang"></%block> ng-app="app" ng-controller="MainController as mainCtrl">
+<html ng-cloak <%block name="pagelang"></%block> ng-app="app" ng-controller="MainController as mainCtrl">
   <head>
     <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Home')">${show_title('Home')}</title></%block>
     <meta charset="utf-8">
