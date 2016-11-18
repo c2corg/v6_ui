@@ -503,9 +503,17 @@
       }
     }
 
+    #orientation-svg {
+      height: 110px;
+      width: auto;
+      margin-left: 10%;
+    }
+
     .accordion {
       padding: 5px;
-
+      @media (min-width: @phone-max) {
+        display: block !important;
+      }
       @media @phone {
         padding-top: 1%;
       }
@@ -846,19 +854,5 @@ app-add-association {
   display: none;
   @media @phone {
      display: block;
-  }
-}
-#detail-orientation {
-  .flex();
-  justify-content: center;
-
-  @media @phone {
-    justify-content: flex-start;
-    display: none;
-  }
-
-  #orientation-svg{
-    height: 110px;
-    width: auto;
   }
 }

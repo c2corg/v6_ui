@@ -382,17 +382,18 @@
 </%def>
 
 ## ORIENTATION
-<%def name="get_waypoint_orientation(waypoint)">\
-  % if waypoint.get('orientations') :
-    <div class="name-icon-value orientation" ng-click="detailsCtrl.openTab($event)">
+<%def name="get_waypoint_orientations(waypoint)">\
+  % if waypoint.get('orientations'):
+    <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
       <h4><span translate>orientations</span><span class="glyphicon glyphicon-menu-right"></span></h4>
       <div class="name-icon">
         <span class="glyphicon glyphicon-move"></span>
         <p translate>orientations</p>
       </div>
-      <span class="detail-text accordion" id="detail-orientation">
-        ${show_orientations('detailsCtrl', 'detailsCtrl.documentService.document')}
-        <p id="orientation-list">${', '.join(waypoint['orientations'])}</p>
+      <span class="detail-text accordion">
+        % if waypoint.get('orientations'):
+          ${show_orientations('detailsCtrl', 'detailsCtrl.documentService.document')}
+        % endif
       </span>
     </div>
   % endif
