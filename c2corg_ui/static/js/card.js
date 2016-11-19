@@ -26,7 +26,7 @@ app.cardDirective = function($compile, $templateCache) {
     controllerAs: 'cardCtrl',
     bindToController: true,
     scope: {
-      'doc': '=appCardDoc'
+      'doc': '<appCardDoc'
     },
     link: function(scope, element, attrs, ctrl) {
       element.html(template(ctrl.type));
