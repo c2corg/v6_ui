@@ -15,9 +15,19 @@ goog.require('app.Url');
  * @ngInject
  */
 app.cardDirective = function($compile, $templateCache) {
-  var template = function(doctype) {
+  var cardElementCache = {};
+
+  var getCardElement = function(doctype) {
+    if (cardElementCache[doctype] !== undefined) {
+      return cardElementCache[doctype];
+    }
     var path = '/static/partials/cards/' + doctype + '.html';
-    return app.utils.getTemplate(path, $templateCache);
+    var template = app.utils.getTemplate(path, $templateCache);
+
+    var element = angular.element(template);
+    cardElementCache[doctype] = $compile(element);
+
+    return cardElementCache[doctype];
   };
 
   return {
@@ -29,8 +39,10 @@ app.cardDirective = function($compile, $templateCache) {
       'doc': '=appCardDoc'
     },
     link: function(scope, element, attrs, ctrl) {
-      element.html(template(ctrl.type));
-      $compile(element.contents())(scope);
+      var cardElementFn = getCardElement(ctrl.type);
+      cardElementFn(scope, function(clone) {
+        element.append(clone);
+      });
     }
   };
 };

@@ -32,6 +32,7 @@ LIBS_JS_FILES += \
     c2corg_ui/static/lib/angular-bootstrap/ui-bootstrap-custom-tpls-1.3.2.min.js \
     node_modules/angular-gettext/dist/angular-gettext.min.js \
     node_modules/angular-ui-date/dist/date.js \
+    node_modules/angular-debounce/angular-debounce.js \
     node_modules/angular-messages/angular-messages.min.js \
     node_modules/angular-cookies/angular-cookies.min.js \
     node_modules/typeahead.js/dist/typeahead.bundle.min.js \

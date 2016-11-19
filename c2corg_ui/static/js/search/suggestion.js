@@ -11,9 +11,19 @@ goog.require('app.utils');
  * @ngInject
  */
 app.suggestionDirective = function($compile, $sce, $templateCache) {
-  var template = function(doctype) {
+  var cardElementCache = {};
+
+  var getCardElement = function(doctype) {
+    if (cardElementCache[doctype] !== undefined) {
+      return cardElementCache[doctype];
+    }
     var path = '/static/partials/suggestions/' + doctype + '.html';
-    return app.utils.getTemplate(path, $templateCache);
+    var template = app.utils.getTemplate(path, $templateCache);
+
+    var element = angular.element(template);
+    cardElementCache[doctype] = $compile(element);
+
+    return cardElementCache[doctype];
   };
 
   return {
@@ -41,8 +51,10 @@ app.suggestionDirective = function($compile, $sce, $templateCache) {
         scope.$parent['activitiesHtml'] = $sce.trustAsHtml(activitiesHtml);
       }
 
-      element.html(template(document['documentType']));
-      $compile(element.contents())(scope);
+      var cardElementFn = getCardElement(document['documentType']);
+      cardElementFn(scope, function(clone) {
+        element.append(clone);
+      });
       scope.$apply();
     }
   };

@@ -31,6 +31,7 @@
   "devDependencies": {
     "angular": "1.5.8",
     "angular-cookies": "1.5.8",
+    "angular-debounce": "git://github.com/shahata/angular-debounce#0c67aca",
     "angular-float-thead": "0.1.2",
     "angular-gettext": "2.3.4",
     "angular-gettext-tools": "2.2.3",
