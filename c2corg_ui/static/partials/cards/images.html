@@ -1,15 +1,15 @@
 <a ng-href="{{cardCtrl.createURL()}}" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;">
-  <img ng-src="{{cardCtrl.createImg()}}" alt="{{locale['title']}}">
+  <img ng-src="{{cardCtrl.createImg()}}" alt="{{::locale['title']}}">
   <div class="list-item-info">
-    <div class="outing-date">{{ doc['date_time'] | date: 'dd/MM/yyyy'}}</div>
-    <div ng-if="doc['author']"><span class="value-title" translate>author</span>: <span class="value">{{doc['author']}}</span></div>
+    <div class="outing-date">{{ ::doc['date_time'] | date: 'dd/MM/yyyy'}}</div>
+    <div ng-if="doc['author']"><span class="value-title" translate>author</span>: <span class="value">{{::doc['author']}}</span></div>
 
-    <span class="list-item-title">{{locale.title}}</span>
-    <span class="list-item-lang" ng-if="cardCtrl.lang != locale.lang">({{locale.lang}})</span>
+    <span class="list-item-title">{{::locale.title}}</span>
+    <span class="list-item-lang" ng-if="cardCtrl.lang != locale.lang">({{::locale.lang}})</span>
     <br>
 
     <div class="route-activities">
-      <span ng-repeat="activity in doc.activities" class="route-activity icon-{{activity}}"
+      <span ng-repeat="activity in ::doc.activities" class="route-activity icon-{{::activity}}"
             uib-tooltip="{{ cardCtrl.translate(activity)}}" tooltip-placement="top"></span>
     </div>
   </div>

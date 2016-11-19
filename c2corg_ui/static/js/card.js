@@ -36,7 +36,7 @@ app.cardDirective = function($compile, $templateCache) {
     controllerAs: 'cardCtrl',
     bindToController: true,
     scope: {
-      'doc': '=appCardDoc'
+      'doc': '<appCardDoc'
     },
     link: function(scope, element, attrs, ctrl) {
       var cardElementFn = getCardElement(ctrl.type);

@@ -1,10 +1,10 @@
   <span class="suggestion-text"> 
     <span class="suggestion-title"> 
       <span ng-bind-html="highlight(label, _query)"></span> 
-      <span ng-if="date_end">&nbsp;({{::date_end}})</span> 
+      <span ng-if="::date_end">&nbsp;({{::date_end}})</span>
     </span><br> 
     <span class="suggestion-info"> 
-      <span ng-if="elevation_max">{{::elevation_max}}m</span> 
+      <span ng-if="::elevation_max">{{::elevation_max}}m</span>
     </span> 
   </span> 
   <span class="icon-container" ng-bind-html="::activitiesHtml"></span>

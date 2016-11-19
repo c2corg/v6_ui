@@ -1,25 +1,25 @@
 <a ng-href="{{cardCtrl.createURL()}}" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;">
   <div class="outing-author text-center">
-    <div class="outing-date">{{ doc['date_end'] | date: 'dd/MM/yyyy'}}</div>
+    <div class="outing-date">{{ ::doc['date_end'] | date: 'dd/MM/yyyy'}}</div>
     <span class="icon-user"></span><br>
-    <b class="author-name">{{doc['author']['name']}}</b>
+    <b class="author-name">{{::doc['author']['name']}}</b>
   </div>
   <div class="list-item-info">
 
-    <span class="list-item-title">{{locale.title}}</span>
-    <span class="list-item-lang" ng-if="cardCtrl.lang != locale.lang">({{locale.lang}})</span>
+    <span class="list-item-title">{{::locale.title}}</span>
+    <span class="list-item-lang" ng-if="cardCtrl.lang != locale.lang">({{::locale.lang}})</span>
     <br>
-    <div class="quality" ng-if="doc['quality']" ng-class="doc['quality']"
-         uib-tooltip="{{'quality'| translate}} : {{doc['quality'] | translate}}" tooltip-placement="left"></div>
+    <div class="quality" ng-if="::doc['quality']" ng-class="::doc['quality']"
+         uib-tooltip="{{'quality'| translate}} : {{::doc['quality'] | translate}}" tooltip-placement="left"></div>
 
-    <span class="elevation-max" ng-if="doc['elevation_max']" uib-tooltip="{{'elevation_max' | translate}}">
+    <span class="elevation-max" ng-if="::doc['elevation_max']" uib-tooltip="{{'elevation_max' | translate}}">
       <span translate class="value-title glyphicon glyphicon-sort-by-attributes"></span>
-      <span class="value">{{doc['elevation_max']}}&nbsp;m</span>
+      <span class="value">{{::doc['elevation_max']}}&nbsp;m</span>
     </span>
 
     <div class="route-activities">
-      <span ng-repeat="activity in doc.activities" class="route-activity icon-{{activity}}"
-            uib-tooltip="{{ cardCtrl.translate(activity) }}"></span>
+      <span ng-repeat="activity in ::doc.activities" class="route-activity icon-{{::activity}}"
+            uib-tooltip="{{ ::cardCtrl.translate(activity) }}"></span>
     </div>
   </div>
 </a>
