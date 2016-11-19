@@ -7,6 +7,11 @@ goog.provide('app');
 goog.require('ngeo');
 
 
+// create fake modules for dependencies of ngeo that are not used
+// see https://github.com/camptocamp/ngeo/issues/2004
+angular.module('ui.date', []);
+angular.module('floatThead', []);
+
 /**
  * @const
  * @type {!angular.Module}
