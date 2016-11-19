@@ -31,7 +31,6 @@ LIBS_JS_FILES += \
     c2corg_ui/static/lib/angular-bootstrap/ui-bootstrap-custom-1.3.2.min.js \
     c2corg_ui/static/lib/angular-bootstrap/ui-bootstrap-custom-tpls-1.3.2.min.js \
     node_modules/angular-gettext/dist/angular-gettext.min.js \
-    node_modules/angular-ui-date/dist/date.js \
     node_modules/angular-debounce/angular-debounce.js \
     node_modules/angular-messages/angular-messages.min.js \
     node_modules/angular-cookies/angular-cookies.min.js \
@@ -46,9 +45,7 @@ LIBS_JS_FILES += \
     node_modules/photoswipe/dist/photoswipe-ui-default.min.js \
     node_modules/angular-slug/angular-slug.js \
     node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js \
-    node_modules/slug/slug.js \
-    node_modules/floatthead/dist/jquery.floatThead.min.js \
-    node_modules/angular-float-thead/angular-floatThead.js
+    node_modules/slug/slug.js
 
 # CSS files of dependencies that are concatenated into a single file
 LIBS_CSS_FILES += \
