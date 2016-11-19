@@ -42,6 +42,11 @@ class Pages(object):
         return self._get_page(
             'preferences', 'c2corg_ui:templates/preferences.html')
 
+    @view_config(route_name='mailinglists')
+    def mailinglists(self):
+        return self._get_page(
+            'mailinglists', 'c2corg_ui:templates/mailinglists.html')
+
     def _get_page(self, page_key, template, no_etag=False):
         return get_or_create_page(
             page_key,

@@ -841,6 +841,9 @@ app-simple-search {
         display: none;
       }
     }
+    a.logout {
+      cursor: pointer;
+    }
   }
 }/* page-header */
 
@@ -941,7 +944,7 @@ app-alerts {
   }
 }
 
-.auth-form, .preferences {
+.auth-form, .preferences, .mailinglists {
   padding: 0 10% 0 10%;
   margin-top: 100px;
   margin-bottom: 20px;
@@ -1192,11 +1195,13 @@ ul {
   }
 }
 
-.preferences {
-
+.preferences, .mailinglists {
   h3 {
     margin: 15px 0;
   }
+}
+
+.preferences {
   .followed-only {
     margin-top: 15px;
     span {

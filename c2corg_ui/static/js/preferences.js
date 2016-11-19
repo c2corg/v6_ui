@@ -2,7 +2,6 @@ goog.provide('app.PreferencesController');
 goog.provide('app.preferencesDirective');
 
 goog.require('app');
-goog.require('app.Alerts');
 goog.require('app.Api');
 goog.require('app.Authentication');
 goog.require('app.utils');
@@ -27,27 +26,20 @@ app.module.directive('appPreferences', app.preferencesDirective);
 /**
  * @param {angular.Scope} $scope Scope.
  * @param {app.Authentication} appAuthentication
- * @param {app.Alerts} appAlerts
  * @param {app.Api} appApi Api service.
  * @param {string} authUrl Base URL of the authentication page.
  * @constructor
  * @ngInject
  * @export
  */
-app.PreferencesController = function($scope, appAuthentication, appAlerts,
-    appApi, authUrl) {
+app.PreferencesController = function($scope, appAuthentication, appApi,
+    authUrl) {
 
   /**
    * @type {angular.Scope}
    * @private
    */
   this.scope_ = $scope;
-
-  /**
-   * @type {app.Alerts}
-   * @private
-   */
-  this.alerts_ = appAlerts;
 
   /**
    * @type {app.Api}

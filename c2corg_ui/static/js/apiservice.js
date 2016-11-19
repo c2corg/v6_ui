@@ -482,6 +482,33 @@ app.Api.prototype.updatePreferences = function(data) {
 
 
 /**
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.readMailinglists = function() {
+  var promise = this.getJson_('/users/mailinglists');
+  promise.catch(function(response) {
+    var msg = this.alerts_.gettext('Getting mailing lists failed:');
+    this.alerts_.addErrorWithMsg(msg, response);
+  }.bind(this));
+  return promise;
+};
+
+
+/**
+ * @param {Object} data
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.updateMailinglists = function(data) {
+  var promise = this.postJson_('/users/mailinglists', data);
+  promise.catch(function(response) {
+    var msg = this.alerts_.gettext('Updating mailing lists failed:');
+    this.alerts_.addErrorWithMsg(msg, response);
+  }.bind(this));
+  return promise;
+};
+
+
+/**
  * @param {File} file
  * @param {!angular.$q.Promise} canceller
  * @param {function(ProgressEvent)} progress
