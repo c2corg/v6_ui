@@ -109,15 +109,22 @@ app.Api.prototype.putJson_ = function(url, json) {
 
 /**
  * @param {string} url Url suffix
+ * @param {!angular.$q.Promise=} cancelerPromise Promise to cancel the request
  * @return {!angular.$http.HttpPromise}
  * @private
  */
-app.Api.prototype.getJson_ = function(url) {
+app.Api.prototype.getJson_ = function(url, cancelerPromise) {
+  /** @type{angular.$http.Config} */
   var config = {
     headers: {
       'Accept': 'application/json'
     }
   };
+
+  if (cancelerPromise) {
+    config.timeout = cancelerPromise;
+  }
+
   return this.http_.get(this.apiUrl_ + url, config);
 };
 
@@ -232,17 +239,21 @@ app.Api.prototype.updateDocument = function(module, id, json) {
 /**
  * @param {string} module Module.
  * @param {string} qstr Filtering and paginating parameters.
+ * @param {!angular.$q.Promise} cancelerPromise Promise to cancel the request
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
-app.Api.prototype.listDocuments = function(module, qstr) {
+app.Api.prototype.listDocuments = function(module, qstr, cancelerPromise) {
   var url = '/{module}{qmark}{qstr}'
     .replace('{module}', module)
     .replace('{qmark}', qstr ? '?' : '')
     .replace('{qstr}', qstr);
   var alerts = this.alerts_;
-  var promise = this.getJson_(url);
+  var promise = this.getJson_(url, cancelerPromise);
   promise.catch(function(response) {
-    alerts.addError(response);
+    if (response.status !== -1) {
+      // ignore errors when request was canceled
+      alerts.addError(response);
+    }
   });
   return promise;
 };

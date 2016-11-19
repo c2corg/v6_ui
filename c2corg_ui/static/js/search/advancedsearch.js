@@ -38,19 +38,26 @@ app.module.directive('appAdvancedSearch', app.advancedSearchDirective);
  * @param {app.Api} appApi Api service.
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
+ * @param {angular.$q} $q Angular promises/deferred service.
  * @constructor
  * @struct
  * @export
  * @ngInject
  */
 app.AdvancedSearchController = function($scope, appApi, ngeoLocation,
-    gettextCatalog) {
+    gettextCatalog, $q) {
 
   /**
    * @type {angular.Scope}
    * @private
    */
   this.scope_ = $scope;
+
+  /**
+   * @type {angular.$q}
+   * @private
+   */
+  this.$q_ = $q;
 
   /**
    * @type {string}
@@ -107,6 +114,13 @@ app.AdvancedSearchController = function($scope, appApi, ngeoLocation,
   this.highlightId = null;
 
   /**
+   * Promise to cancel the current XHR request.
+   * @type {angular.$q.Deferred}
+   * @private
+   */
+  this.canceler_ = null;
+
+  /**
    * @type {boolean}
    * @private
    *
@@ -138,12 +152,21 @@ app.AdvancedSearchController = function($scope, appApi, ngeoLocation,
  * @private
  */
 app.AdvancedSearchController.prototype.getResults_ = function() {
+  if (this.canceler_ !== null) {
+    // cancel previous requests
+    this.canceler_.resolve();
+  }
+
   var url = this.location_.getUriString();
   var qstr = goog.uri.utils.getFragment(url) || '';
   qstr += '&pl=' + this.gettextCatalog_.currentLanguage;
-  this.api_.listDocuments(this.doctype, qstr).then(
-    this.successList_.bind(this)
-  );
+
+  this.canceler_ = this.$q_.defer();
+  this.api_.listDocuments(this.doctype, qstr, this.canceler_.promise).
+    then(function(resp) {
+      this.canceler_ = null;
+      this.successList_(resp);
+    }.bind(this));
 };
 
 
