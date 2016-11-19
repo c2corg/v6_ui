@@ -114,3 +114,11 @@ app-map-search {
 .ol-zoom {
   top: 10px;
 }
+
+.ol-control button {
+  background-color: @btn-primary-bg;
+
+  &:hover, &:focus {
+    background-color: fadeout(@btn-primary-bg, 10%);
+  }
+}
