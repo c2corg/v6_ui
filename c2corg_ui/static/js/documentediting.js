@@ -488,6 +488,9 @@ app.DocumentEditingController.prototype.hasMissingProps = function(doc, showErro
       hasError = (!doc['lonlat'] || (doc['lonlat'][field] === null || doc['lonlat'][field] === undefined));
     } else if (field === 'date_start') {
       hasError = (doc['date_start'] === null || doc['date_start']  === undefined);
+    } else if (field === 'elevation' && doc['waypoint_type'] === 'climbing_indoor') {
+      // waypoint climbing indoor is the only one that does not require 'elevation'
+      continue;
     } else {
       hasError = (!doc[field] || doc[field] === null || doc[field] === undefined);
     }
