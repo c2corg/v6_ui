@@ -110,9 +110,9 @@ app.DocumentEditingController = function($scope, $element, $attrs, $http,
 
   /**
    * @type {number}
-   * @private
+   * @public
    */
-  this.id_ = $attrs['appDocumentEditingId'];
+  this.id = $attrs['appDocumentEditingId'];
 
   /**
    * @type {string}
@@ -189,14 +189,14 @@ app.DocumentEditingController = function($scope, $element, $attrs, $http,
   this.scope[this.modelName] = this.documentService.document;
 
   if (this.auth.isAuthenticated()) {
-    if (this.id_ && this.lang_) {
+    if (this.id && this.lang_) {
      // Get document attributes from the API to feed the model:
-      goog.asserts.assert(!goog.isNull(this.id_));
+      goog.asserts.assert(!goog.isNull(this.id));
       goog.asserts.assert(!goog.isNull(this.lang_));
-      this.api_.readDocument(this.module_, this.id_, this.lang_, true).then(
+      this.api_.readDocument(this.module_, this.id, this.lang_, true).then(
           this.successRead.bind(this)
       );
-    } else if (!this.id_) {
+    } else if (!this.id) {
       // new doc lang = user interface lang
       this.scope[this.modelName]['locales'][0]['lang'] = appLang.getLang();
     }
@@ -242,16 +242,13 @@ app.DocumentEditingController.prototype.successRead = function(response) {
   }
   if (!data['locales'].length) {
     // locales attributes are missing when creating a new lang version
-    data['locales'].push({
-      'lang': this.lang_
-    });
+    data['locales'].push({'lang': this.lang_});
     this.isNewLang_ = true;
   }
   // image's date has to be converted to Date object because uib-datepicker will treat it as invalid -> invalid form.
   if (this.modelName === 'image') {
     data['date_time'] = new Date(data['date_time']);
   }
-
   this.scope[this.modelName] = this.scope['document'] = this.documentService.document = data;
   this.scope.$root.$emit('documentDataChange', data);
 };
@@ -308,7 +305,7 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
 
   this.submit = true;
 
-  if (this.id_) {
+  if (this.id) {
     // updating an existing document
     if (!this.hasGeomChanged_) {
       // no need to push the unchanged geometry back
@@ -327,9 +324,9 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
       'message': message,
       'document': data
     };
-    this.api_.updateDocument(this.module_, this.id_, data).then(function() {
+    this.api_.updateDocument(this.module_, this.id, data).then(function() {
       window.location.href = this.url_.buildDocumentUrl(
-        this.module_, this.id_, this.documentService.document['locales'][0]);
+        this.module_, this.id, this.documentService.document['locales'][0]);
     }.bind(this)
     );
   } else {
@@ -337,9 +334,9 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
     this.lang_ = data['locales'][0]['lang'];
     data = this.prepareData(data);
     this.api_.createDocument(this.module_, data).then(function(response) {
-      this.id_ = response['data']['document_id'];
+      this.id = response['data']['document_id'];
       window.location.href = this.url_.buildDocumentUrl(
-        this.module_, this.id_, data['locales'][0]);
+        this.module_, this.id, data['locales'][0]);
     }.bind(this));
   }
 };

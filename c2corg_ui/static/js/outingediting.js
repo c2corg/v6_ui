@@ -82,6 +82,9 @@ app.OutingEditingController = function($scope, $element, $attrs, $http,
       'document_id': this.auth.userData.id,
       'name': this.auth.userData.name
     });
+    if (!this.id) {
+      this.initConditionsLevels_();
+    }
   }
 };
 goog.inherits(app.OutingEditingController, app.DocumentEditingController);
@@ -176,13 +179,7 @@ app.DocumentEditingController.prototype.formatOuting_ = function(outing) {
       conditions = JSON.parse(conditions);
       this.scope[this.modelName]['locales'][0]['conditions_levels'] = conditions;
     } else {
-      // init empty conditions_levels for ng-repeat
-      outing['locales'][0]['conditions_levels'] = [{
-        'level_snow_height_soft': '',
-        'level_snow_height_total': '',
-        'level_comment': '',
-        'level_place': ''
-      }];
+      this.initConditionsLevels_();
     }
   }
 
@@ -190,5 +187,18 @@ app.DocumentEditingController.prototype.formatOuting_ = function(outing) {
   return outing;
 };
 
+
+/**
+ * init empty conditions levels for ng-repeat
+ * @private
+ */
+app.DocumentEditingController.prototype.initConditionsLevels_ = function() {
+  this.scope['outing']['locales'][0]['conditions_levels'] = [{
+    'level_snow_height_soft': '',
+    'level_snow_height_total': '',
+    'level_comment': '',
+    'level_place': ''
+  }];
+};
 
 app.module.controller('appOutingEditingController', app.OutingEditingController);
