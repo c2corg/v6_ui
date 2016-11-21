@@ -3,7 +3,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
     custodianship_types, climbing_indoor_types, product_types, ground_types, weather_station_types, \
     rain_proof_types, public_transportation_ratings, children_proof_types, snow_clearance_ratings, \
     exposition_ratings, rock_types, orientation_types, months, parking_fee_types, climbing_styles, \
-    access_times, climbing_ratings, equipment_ratings, map_editors
+    access_times, climbing_ratings, equipment_ratings, map_editors, paragliding_ratings
 %>
 <%inherit file="../base.html"/>
 <%
@@ -484,7 +484,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
             <div class="form-group data half rating" ng-if="type == 'paragliding_takeoff' || type == 'paragliding_landing'"
                  ng-class="{'has-success': waypoint.paragliding_rating }">
               <label><span translate>paragliding_rating</span></label><br>
-              <select class="form-control" ng-options="rat as rat for rat in [1, 2, 3, 4, 5]" ng-model="waypoint.paragliding_rating"><option value=""></option></select>
+              <select class="form-control" ng-options="rat as rat for rat in ${paragliding_ratings}" ng-model="waypoint.paragliding_rating"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.paragliding_rating"></span>
             </div>
 
