@@ -8,7 +8,7 @@ closure_library_path = settings.get('closure_library_path')
 %>\
 <%namespace file="helpers/common.html" import="show_title"/>\
 <!DOCTYPE html>
-<html <%block name="pagelang"></%block> ng-app="app" ng-controller="MainController as mainCtrl">
+<html ng-cloak <%block name="pagelang"></%block> ng-app="app" ng-controller="MainController as mainCtrl">
   <head>
     <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Home')">${show_title('Home')}</title></%block>
     <meta charset="utf-8">
@@ -38,6 +38,11 @@ closure_library_path = settings.get('closure_library_path')
     <link rel="stylesheet" href="${request.static_path('c2corg_ui:static/build/build.css')}">
     <link rel="stylesheet" href="${request.static_path('c2corg_ui:static/build/build-print.css')}" media="print">
 % else:
+    <style>
+      [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+        display: none !important;
+      };
+    </style>
     <link rel="stylesheet" href="${request.static_path('c2corg_ui:static/build/deps.css')}">
     <link rel="stylesheet" href="${request.static_path('c2corg_ui:static/build/build.min.css')}">
     <link rel="stylesheet" href="${request.static_path('c2corg_ui:static/build/build-print.min.css')}" media="print">
