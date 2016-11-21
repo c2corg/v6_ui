@@ -40,19 +40,14 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
 
     ## PROGRESS BAR
     <app-progress-bar>
-      ## It won't work with ng-init
-      <span class="ng-hide">
-        {{progressBarCtrl.updateMaxSteps(waypoint.waypoint_type)}}
-        {{progressBarCtrl.waypointType = waypoint.waypoint_type}}
-      </span>
 
       <ul class="progress-bar-edit">
-        <li class="nav-step-1"ng-click="progressBarCtrl.step(1, 'waypoint',  'backwards')" ng-class="{'nav-step-selected': progressBarCtrl.currentStep == 1 }"><span class="nav-text"><span translate>waypoint</span></span><span class="bullet-container"><span class="bullet"></span></span></li>
+        <li class="nav-step-1"ng-click="progressBarCtrl.step(1, 'waypoint',  'backwards')"><span class="nav-text"><span translate>waypoint</span></span><span class="bullet-container"><span class="bullet"></span></span></li>
         <li class="nav-step-2" ng-click="progressBarCtrl.step(2, 'waypoint', progressBarCtrl.previousStep >= 2 ? 'backwards' : 'forwards')"
             ng-if="['paragliding_takeoff', 'paragliding_landing', 'climbing_outdoor', 'climbing_indoor',  'local_product', 'weather_station', 'gite',  'camp_site', 'hut',  'bivouac', 'shelter', 'access'].indexOf(type) > -1">
           <span class="nav-text"><span translate>figures</span></span><span class="bullet-container"><span class="bullet"></span></span>
         </li>
-        <li class="nav-step-{{progressBarCtrl.maxSteps -1}}" ng-click="progressBarCtrl.step((progressBarCtrl.maxSteps == 4 ? 3 : 2), 'waypoint',  progressBarCtrl.previousStep >= ((progressBarCtrl.maxSteps == 4) ? 3 : 2) ? 'backwards' : 'forwards')" >
+        <li class="nav-step-{{progressBarCtrl.maxSteps}}" ng-click="progressBarCtrl.step((progressBarCtrl.maxSteps == 3 ? 3 : 2), 'waypoint',  progressBarCtrl.previousStep >= ((progressBarCtrl.maxSteps == 3) ? 2 :1) ? 'backwards' : 'forwards')" >
           <span class="nav-text"><span ng-if="type != 'climbing_indoor' "><span translate>associations</span> & </span><span translate>description</span></span></span><span class="bullet-container"><span class="bullet"></span></span>
         </li>
       </ul>
@@ -62,6 +57,13 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
         <button class="btn btn-primary prev" type="button" ng-if="progressBarCtrl.previousStep !== 0" ng-click="progressBarCtrl.step(progressBarCtrl.previousStep, 'waypoint', 'backwards')"><span class="glyphicon glyphicon-triangle-left"></span></button>
         <button class="btn btn-primary next" type="button" ng-if="progressBarCtrl.nextStep <= progressBarCtrl.maxSteps" ng-click="progressBarCtrl.step(progressBarCtrl.nextStep, 'waypoint', 'forwards')"><span class="glyphicon glyphicon-triangle-right"></span></button>
       </div>
+
+      ## It won't work with ng-init
+      <span class="ng-hide">
+        {{progressBarCtrl.updateMaxSteps(waypoint.waypoint_type)}}
+        {{progressBarCtrl.waypointType = waypoint.waypoint_type}}
+      </span>
+
     </app-progress-bar>
 
     <section class="editing">
@@ -701,13 +703,13 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
       <div class="step step-{{progressBarCtrl.maxSteps - 1}}" >
         <section class="section associations" ng-if="type != 'climbing_indoor' ">
           <h2 class="heading show-phone" translate>associations</h2>
+            <h5 translate ng-show="editCtrl.documentService.document.associations.waypoint_children.length == 0" class="full">
+              You can add associated waypoints by searching in the field.
+            </h5>
           <div class="content">
             ## w = waypoints
             <app-simple-search parent-id="waypoint.document_id" app-select="editCtrl.documentService.pushToAssociations(doc, 'waypoint_children')" dataset="w">
             </app-simple-search>
-            <h5 translate ng-show="editCtrl.documentService.document.associations.waypoint_children.length == 0">
-              You can add associated waypoints by searching in the field.
-            </h5>
             ${show_editing_associated_waypoints('waypoint', type='waypoint_children')}
           </div>
         </section>

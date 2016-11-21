@@ -109,12 +109,12 @@ updating_doc = outing_id and outing_lang
             ## ROUTE TAKEN
             <div class="full" class="form-group">
               <label><span translate>Taken routes</span> *</label>
+              <h5 translate ng-show="outing.associations.routes.length == 0">Choose at least one route taken during the outing.</h5>
               <app-simple-search parent-id="outing.document_id"
                 app-select="editCtrl.documentService.pushToAssociations(doc, 'routes', true)" dataset="r"></app-simple-search>
             </div>
 
             <section class="section associations full route-associations">
-              <h5 translate ng-show="outing.associations.routes.length == 0">Choose at least one route taken during the outing.</h5>
               ${show_editing_associated_routes('outing', True)}
             </section>
 
