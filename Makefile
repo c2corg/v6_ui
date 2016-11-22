@@ -28,6 +28,8 @@ LIBS_JS_FILES += \
     node_modules/jquery/dist/jquery.min.js \
     node_modules/bootstrap-slider/dist/bootstrap-slider.min.js \
     node_modules/angular/angular.min.js \
+    node_modules/angular-loading-bar/build/loading-bar.js \
+    node_modules/angular-animate/angular-animate.min.js \
     node_modules/bootstrap/dist/js/bootstrap.min.js \
     c2corg_ui/static/lib/angular-bootstrap/ui-bootstrap-custom-1.3.2.min.js \
     c2corg_ui/static/lib/angular-bootstrap/ui-bootstrap-custom-tpls-1.3.2.min.js \
