@@ -26,3 +26,59 @@ def get_attr(obj, key, md=True, bb=True):
         attr = sanitize(attr)
         attr = parse_code(attr, md, bb) if md or bb else attr
     return attr
+
+
+def is_collaborative(doc):
+    type = doc['type']
+
+    if type == 'r' or type == 'w' or type == 'a' or type == 'b':
+        return True
+    elif type == 'c':
+        return doc['article_type'] == 'collab'
+    elif type == 'i':
+        return doc['image_type'] == 'collaborative'
+
+    return False
+
+
+def is_personal(doc):
+    doctype = doc['type']
+
+    if doctype == 'o' or doctype == 'u' or doctype == 'x':
+        return True
+    elif doctype == 'c':
+        return doc['article_type'] == 'personal'
+    elif doctype == 'i':
+        return doc['image_type'] == 'personal'
+
+    return False
+
+
+def get_doc_type(type):
+    if type == 'w':
+        return 'waypoints'
+    if type == 'r':
+        return 'routes'
+    if type == 'o':
+        return 'outings'
+    if type == 'u':
+        return 'users'
+    if type == 'c':
+        return 'articles'
+    if type == 'i':
+        return 'images'
+    if type == 'a':
+        return 'areas'
+    if type == 'b':
+        return 'books'
+    if type == 'x':
+        return 'xreports'
+
+
+def check_if_any_associations(doc):
+    a = doc['associations']
+
+    if a.get('xreports') or a.get('books') or a.get('routes') or \
+       a.get('all_routes') or a.get('waypoints') or a.get('recent_outings') \
+       or a.get('outings') or a.get('articles') or a.get('waypoints_children'):
+            return True

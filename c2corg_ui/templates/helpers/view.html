@@ -3,7 +3,7 @@
     from json import dumps, loads
     from shapely.geometry import asShape
     from math import floor
-    from c2corg_ui.views.document import get_slug
+    from c2corg_ui.views.document import get_slug, is_collaborative
 %>
 
 <%def name="get_licence(doc)">\
@@ -70,6 +70,13 @@
   </div>
 </%def>
 
+<%def name="show_attr(obj, key, parse=True)">\
+  <%
+      attr = get_attr(obj, key, md=parse, bb=parse)
+      attr = attr if attr else ''
+  %>
+  ${attr | n}\
+</%def>
 
 <%def name="show_attr(obj, key, parse=True)">\
   <%
@@ -204,6 +211,7 @@
   <%
     articles = document['associations']['articles']
     associations = 'detailsCtrl.documentService.document.associations.' + type
+    isCollaborative = is_collaborative(document)
   %>
    ${add_seo_association_links(articles, 'articles')}
     <section ng-show="${associations}.length > 0">
@@ -216,7 +224,11 @@
           <app-card app-card-doc="doc"></app-card>
           % if type == 'articles':
             <app-delete-association child-doctype="articles" parent-id="${document['document_id']}" child-id="doc.document_id"
-              ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
+              ng-if="userCtrl.auth.isAuthenticated()
+              % if isCollaborative:
+                && userCtrl.auth.isModerator()
+              % endif
+              "></app-delete-association>
           % endif
         </div>
       </div>
@@ -228,6 +240,7 @@
   <%
     books = document['associations']['books']
     associations = 'detailsCtrl.documentService.document.associations.' + type
+    isCollaborative = is_collaborative(document)
   %>
    ${add_seo_association_links(books, 'books')}
     <section ng-show="${associations}.length > 0">
@@ -242,6 +255,9 @@
             <app-delete-association child-doctype="books" parent-id="${document['document_id']}" child-id="doc.document_id"
               ng-if="userCtrl.auth.isAuthenticated()"></app-delete-association>
           % endif
+          % if isCollaborative:
+            && userCtrl.auth.isModerator()
+          % endif
         </div>
       </div>
     </section>
@@ -253,6 +269,7 @@
     routes = document['associations']['all_routes']['documents'] if type == 'all_routes' else document['associations']['routes']
     associations = 'detailsCtrl.documentService.document.associations.'
     associations += 'all_routes.documents' if type == 'all_routes' else 'routes'
+    isCollaborative = is_collaborative(document)
   %>
     ${add_seo_association_links(routes, 'routes')}
     <section ng-show="${associations}.length > 0">
@@ -269,6 +286,9 @@
               % if document['type'] == 'o':
                 && userCtrl.hasEditRights('outings', ${ {"users": dumps(document['associations']['users']) }})
                 && ${associations}.length > 1
+              % endif
+              % if isCollaborative:
+                && userCtrl.auth.isModerator()
               % endif
               "></app-delete-association>
           % endif
@@ -288,6 +308,7 @@
 <%def name="show_associated_waypoints(document, type='waypoints', showDelete=True)">\
   ## Possible values for type: waypoints, waypoint_children
   <%
+      isCollaborative = is_collaborative(document)
       associations = 'detailsCtrl.documentService.document.associations.' + type
   %>
   ${add_seo_association_links(document['associations'][type], 'waypoints')}
@@ -311,6 +332,9 @@
           ng-if="userCtrl.auth.isAuthenticated()
           % if document['doctype'] == 'routes':
               && ${associations}.length > 1
+          % endif
+          % if isCollaborative:
+            && userCtrl.auth.isModerator()
           % endif
         "></app-delete-association>
         % endif
@@ -361,7 +385,7 @@
                 options = {"imageType": document["image_type"], "imageCreator": document["creator"]["user_id"]}
             %>
             <app-delete-association child-doctype="o" parent-id="${document['document_id']}" child-id="doc.document_id"
-              ng-if="userCtrl.hasEditRights('images', ${options})"></app-delete-association>
+              ng-if="userCtrl.hasEditRights('outings', ${options})"></app-delete-association>
           % endif
         </div>
         % if isRecentOutings and total > len(outings) :
