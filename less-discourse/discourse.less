@@ -1,1 +1,32 @@
 @import "../less/sidemenu.less";
+@import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css");
+
+body {
+    overflow-x: hidden;
+}
+
+// override the default Discourse hamburger icon with a vertical ellipsis
+.fa.fa-bars::before {
+    content: "\f142" !important;
+}
+
+#main {
+    header .title {
+        display: none;
+    }
+    margin-left: 260px;
+    @media (max-width: 1100px) {
+        margin-left: 50px;
+        header .title {
+            display: block;
+                margin-left: 60px;
+        }
+        
+    }
+    @media (max-width: 620px) {
+        margin-left: initial;
+        header .title {
+            margin-left: initial;
+        }
+    }
+}
