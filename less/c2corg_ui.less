@@ -401,11 +401,8 @@ app-pagination.areas, app-pagination.articles app-pagination.books {
         margin-right: 3px;
       }
     }
-    .elevation-max .glyphicon {
-      transform: rotateX(180deg);
-    }
     .elevation-max, .height-diff, .height-diff-difficulties, .orientations {
-      margin-right: 5px;
+      margin-right: 8px;
     }
     .icon-rating {
       font-size: 1.4em;
@@ -447,7 +444,6 @@ app-pagination.areas, app-pagination.articles app-pagination.books {
     }
     .glyphicon, [class*="icon-"]:not(.route-activity):not(.waypoint-type) {
       color: @bright-green;
-      margin-right: 5px;
     }
   }/*list-item-info*/
 
@@ -477,6 +473,12 @@ app-pagination.areas, app-pagination.articles app-pagination.books {
   }
   &.outings {
     min-height: 80px;
+    .quality {
+      display: block;
+    }
+    .elevation-max {
+      display: block !important;
+    }
     a {
       .flex() !important;
       height: 100%;

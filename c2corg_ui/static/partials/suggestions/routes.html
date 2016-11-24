@@ -1,9 +1,19 @@
-  <span class="suggestion-text"> 
-    <span class="suggestion-title"> 
-      <span ng-bind-html="highlight(label, _query)"></span> 
-    </span><br> 
-    <span class="suggestion-info"> 
-      <span ng-if="::elevation_max">{{::elevation_max}}m</span>
-    </span> 
-  </span> 
+  <span class="suggestion-text">
+    <span class="suggestion-title">
+      <span ng-bind-html="highlight(label, _query)"></span>
+    </span><br>
+    <div class="suggestion-info flex">
+
+      <div uib-tooltip="{{'elevation_max' | translate}}"  ng-if="::elevation_max" class="elevation_max">
+        <span class="glyphicon glyphicon-sort-by-attributes rotate-180"></span>
+        <span>{{::elevation_max}}&nbsp;m</span>
+      </div>
+
+      <span ng-if="::height_diff_up" uib-tooltip="{{'height_diff_up'| translate}}">
+        <span class="icon-height_diff"></span>
+        <span>{{::height_diff_up}}&nbsp;m</span>
+      </span>
+
+    </div>
+  </span>
   <span class="icon-container" ng-bind-html="::activitiesHtml"></span>

@@ -1,11 +1,16 @@
-  <span class="suggestion-text"> 
-    <span class="suggestion-title"> 
-      <span ng-bind-html="highlight(label, _query)"></span> 
-    </span><br> 
-    <span class="suggestion-info"> 
-      <span ng-if="::elevation">{{::elevation}}m</span>
-    </span> 
-  </span> 
-  <span class="icon-container"> 
-    <span class="icon-{{::waypoint_type}}"></span> 
+  <span class="suggestion-text">
+    <span class="suggestion-title">
+      <span ng-bind-html="highlight(label, _query)"></span>
+    </span><br>
+
+    <div class="suggestion-info flex" ng-if="::elevation">
+      <div uib-tooltip="{{'elevation' | translate}}">
+        <span class="glyphicon glyphicon-sort-by-attributes rotate-180"></span>
+        <span>{{::elevation}}m</span>
+      </div>
+    </div>
+
+  </span>
+  <span class="icon-container">
+    <span class="icon-{{::waypoint_type}}"></span>
   </span>

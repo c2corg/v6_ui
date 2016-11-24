@@ -5,20 +5,20 @@
   <div class="list-item-info">
     <div class="flex wrap-row">
       <span class="elevation-max" ng-if="::doc['elevation_max']" uib-tooltip="{{'elevation_max'| translate}}">
-        <span translate class="value-title glyphicon glyphicon-sort-by-attributes"></span>
+        <span class="value-title glyphicon glyphicon-sort-by-attributes rotate-180"></span>
         <span class="value">{{::doc['elevation_max']}}&nbsp;m</span>
       </span>
 
       <div class="quality" ng-if="::doc['quality']" ng-class="::doc['quality']"
            uib-tooltip="{{'quality'| translate}} : {{::doc['quality'] | translate}}" tooltip-placement="left"></div>
 
-      <span class="height-diff" ng-if="::doc['height_diff']">
-        <span translate class="value-title">height_diff</span> :
-        <span class="value">{{::doc['height_diff']}}&n&nbsp;m</span>
+      <span class="height-diff" ng-if="::doc['height_diff_up']" uib-tooltip="{{'height_diff_up'| translate}}">
+        <span class="icon-height_diff"></span>
+        <span class="value">{{::doc['height_diff_up']}}&nbsp;m</span>
       </span>
 
       <span class="height-diff-difficulties" ng-if="::doc['height_diff_difficulties']" uib-tooltip="{{'height_diff_difficulties'| translate}}">
-        <span translate class="value-title icon-height_diff"></span>
+        <span class="value-title glyphicon glyphicon-resize-vertical"></span>
         <span class="value">{{::doc['height_diff_difficulties']}}&nbsp;m</span>
       </span>
 

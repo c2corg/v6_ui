@@ -85,13 +85,24 @@ app-simple-search span.twitter-typeahead {
     &:hover, &:focus {
       &:extend(.dropdown-menu > .active > a);
       cursor: pointer;
-      .suggestion-title {
+      .suggestion-title, .suggestion-info{
         color: white;
       }
     }
     .suggestion-info {
       font-size: .9em;
       color: gray;
+
+      .glyphicon,  [class^="icon-"] {
+        color: @bright-green;
+        float: left;
+        margin-right: 5px;
+        margin-left: 0;
+      }
+
+      .elevation_max {
+        margin-right: 10px;
+      }
     }
     .suggestion-title {
       white-space: normal !important;
