@@ -56,7 +56,8 @@ from json import dumps
   module.value('documentData', {
     "document_id": ${image.get('document_id')},
     "lang": "${lang}",
-    "type": "i"
+    "type": "i",
+    "topic_id": ${dumps(locale.get('topic_id'))}
     % if not version:
        , "associations": ${dumps(image.get('associations')) | n}
     % endif
