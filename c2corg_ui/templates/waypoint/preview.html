@@ -1,7 +1,7 @@
 <%namespace file="../helpers/view.html" import="get_document_locale_text, get_document_description"/>
 <%namespace file="../helpers/preview.html" import="show_preview_warning"/>
 <%namespace file="helpers/view.html" import="get_waypoint_equipment,
-    get_waypoint_orientation, get_waypoint_contact, get_waypoint_style, get_waypoint_rating,
+    get_waypoint_orientations, get_waypoint_contact, get_waypoint_style, get_waypoint_rating,
     get_waypoint_access, get_waypoint_heights, get_waypoint_location, get_waypoint_general,
     get_waypoint_maps_info"/>
 
@@ -30,7 +30,7 @@ ${show_preview_warning()}
     </h3>
     <section id="document-informations" class="collapse in">
       ${get_waypoint_general(waypoint)}
-      ${get_waypoint_orientation(waypoint)}
+      ${get_waypoint_orientations(waypoint)}
       ${get_waypoint_location(waypoint, geometry4326) if geometry4326 else ''}
       ${get_waypoint_contact(waypoint)}
       ${get_waypoint_maps_info(waypoint)}
