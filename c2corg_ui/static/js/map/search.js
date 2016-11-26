@@ -101,8 +101,9 @@ app.MapSearchController = function($rootScope, $compile, gettextCatalog) {
         return '<p>' + feature.get('name') + '</p>';
       },
       notFound: function() {
-        return this.gettextCatalog_.getString('No result');
-      }.bind(this)
+        return '<p class="no-result">' + this.gettextCatalog_.getString('No result') + '</p>';
+      }.bind(this),
+      pending: '<p class="results-loading"></p>'
     }
   }];
 
