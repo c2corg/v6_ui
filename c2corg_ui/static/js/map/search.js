@@ -9,7 +9,8 @@ goog.require('app.constants');
 /** @suppress {extraRequire} */
 goog.require('ngeo.searchDirective');
 goog.require('ol.Feature');
-goog.require('ol.geom.Point');
+goog.require('ol.format.GeoJSON');
+goog.require('ol.proj');
 
 
 /**
@@ -68,6 +69,10 @@ app.MapSearchController = function($rootScope, $compile, gettextCatalog) {
   /** @type {Bloodhound} */
   var bloodhoundEngine = this.createAndInitBloodhound_();
 
+  this.geoJsonFormat_ = new ol.format.GeoJSON({
+    featureProjection: app.constants.documentEditing.DATA_PROJ
+  });
+
   /**
    * @type {TypeaheadOptions}
    * @export
@@ -89,15 +94,16 @@ app.MapSearchController = function($rootScope, $compile, gettextCatalog) {
     },
     limit: Infinity,
     identify: function(feature) {
-      return feature.getId();
+      return feature.get('osm_id');
     },
     templates: {
       suggestion: function(feature) {
         return '<p>' + feature.get('name') + '</p>';
       },
       notFound: function() {
-        return this.gettextCatalog_.getString('No result');
-      }.bind(this)
+        return '<p class="no-result">' + this.gettextCatalog_.getString('No result') + '</p>';
+      }.bind(this),
+      pending: '<p class="results-loading"></p>'
     }
   }];
 
@@ -116,7 +122,7 @@ app.MapSearchController = function($rootScope, $compile, gettextCatalog) {
  * @type {string}
  * @const
  */
-app.MapSearchController.SEARCH_URL = '//api.geonames.org/searchJSON?maxRows=10&featureClass=P&featureClass=T&username=c2corg';
+app.MapSearchController.SEARCH_URL = 'https://photon.komoot.de/api/';
 
 
 /**
@@ -125,7 +131,7 @@ app.MapSearchController.SEARCH_URL = '//api.geonames.org/searchJSON?maxRows=10&f
  */
 app.MapSearchController.prototype.createAndInitBloodhound_ = function() {
   var url = app.MapSearchController.SEARCH_URL;
-  url += '&name_startsWith=%QUERY';
+  url += '?q=%QUERY';
 
   var bloodhound = new Bloodhound(/** @type {BloodhoundOptions} */({
     limit: 10,
@@ -137,29 +143,39 @@ app.MapSearchController.prototype.createAndInitBloodhound_ = function() {
       rateLimitWait: 50,
       prepare: (function(query, settings) {
         var url = settings['url'] + '&lang=' + this.gettextCatalog_.currentLanguage;
+
+        var center = this.map.getView().getCenter();
+        if (center !== undefined) {
+          // give priority to nearby results
+          var centerWgs84 = ol.proj.toLonLat(center);
+          url += '&lon=' + centerWgs84[0] + '&lat=' + centerWgs84[1];
+        }
+
         settings['url'] = url.replace('%QUERY', encodeURIComponent(query));
         return settings;
       }).bind(this),
 
       filter: function(resp) {
-        if (resp['geonames'].length === 0) {
-          return null;
-        }
-        var features = [];
-        resp['geonames'].forEach(function(res) {
-          var geometry = new ol.geom.Point([
-            parseFloat(res['lng']),
-            parseFloat(res['lat'])
-          ]);
-          geometry.transform(app.constants.documentEditing.FORM_PROJ,
-                             app.constants.documentEditing.DATA_PROJ);
-          features.push(new ol.Feature({
-            geometry: geometry,
-            name: res['name'] + ' (' + res['countryName'] + ')'
-          }));
+        var features = this.geoJsonFormat_.readFeatures(resp);
+        features.forEach(function(feature) {
+          var addressInfo = [];
+          if (feature.get('city')) {
+            addressInfo.push(feature.get('city'));
+          }
+          if (feature.get('state')) {
+            addressInfo.push(feature.get('state'));
+          }
+          if (feature.get('country')) {
+            addressInfo.push(feature.get('country'));
+          }
+
+          if (addressInfo.length > 0) {
+            var name = feature.get('name') + ' (' + addressInfo.join(', ') + ')';
+            feature.set('name', name);
+          }
         });
         return features;
-      }
+      }.bind(this)
     }
   }));
 
@@ -178,10 +194,18 @@ app.MapSearchController.prototype.createAndInitBloodhound_ = function() {
 app.MapSearchController.select_ = function(event, suggestion, dataset) {
   var map = /** @type {ol.Map} */ (this.map);
   var feature = /** @type {ol.Feature} */ (suggestion);
-  var featureGeometry = /** @type {ol.geom.SimpleGeometry} */
+
+  var geomOrExtent;
+  if (feature.get('extent')) {
+    var extent = /** @type{ol.Extent} */ (feature.get('extent'));
+    geomOrExtent = ol.proj.transformExtent(extent, 'EPSG:4326', 'EPSG:3857');
+  } else {
+    geomOrExtent = /** @type {ol.geom.SimpleGeometry} */
       (feature.getGeometry());
+  }
+
   var mapSize = /** @type {ol.Size} */ (map.getSize());
-  map.getView().fit(featureGeometry, mapSize,
+  map.getView().fit(geomOrExtent, mapSize,
       /** @type {olx.view.FitOptions} */ ({maxZoom: 12}));
 };
 
