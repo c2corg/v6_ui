@@ -27,6 +27,14 @@
     @media @phone {
       display: none;
     }
+    button {
+      box-shadow: 0 0 3px gray;
+
+      &:hover {
+        box-shadow: 0 0 8px lightslategray;
+        transition: 0.2s ease-in-out;
+      }
+    }
     .prev, .next {
       position: fixed;
       top: 50vh;
@@ -42,16 +50,13 @@
       }
     }
     .prev {
-      left: @menu-width + 20;
+      left: @menu-width + 15;
       @media @tablet {
         left: @menu-width-tablet + 10;
       }
     }
     .next {
-      right: 20px;
-      @media @tablet {
-        right: 15px;
-      }
+      right: 15px;
     }
   }
   .editing {
