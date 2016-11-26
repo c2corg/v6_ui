@@ -194,10 +194,18 @@ app.MapSearchController.prototype.createAndInitBloodhound_ = function() {
 app.MapSearchController.select_ = function(event, suggestion, dataset) {
   var map = /** @type {ol.Map} */ (this.map);
   var feature = /** @type {ol.Feature} */ (suggestion);
-  var featureGeometry = /** @type {ol.geom.SimpleGeometry} */
+
+  var geomOrExtent;
+  if (feature.get('extent')) {
+    var extent = /** @type{ol.Extent} */ (feature.get('extent'));
+    geomOrExtent = ol.proj.transformExtent(extent, 'EPSG:4326', 'EPSG:3857');
+  } else {
+    geomOrExtent = /** @type {ol.geom.SimpleGeometry} */
       (feature.getGeometry());
+  }
+
   var mapSize = /** @type {ol.Size} */ (map.getSize());
-  map.getView().fit(featureGeometry, mapSize,
+  map.getView().fit(geomOrExtent, mapSize,
       /** @type {olx.view.FitOptions} */ ({maxZoom: 12}));
 };
 
