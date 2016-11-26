@@ -824,8 +824,6 @@ app-simple-search {
   }
 
   #user-menu {
-    height: 33px;
-
     .icon-user {
       display: none;
 
@@ -845,6 +843,12 @@ app-simple-search {
     }
     a.logout {
       cursor: pointer;
+    }
+    @media @phone {
+      .dropdown-menu { /* right-aligned user menu on mobile */
+        left: auto;
+        right: 0;
+      }
     }
   }
 }/* page-header */
