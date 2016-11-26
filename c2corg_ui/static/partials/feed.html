@@ -42,7 +42,7 @@
       <br>
       <span class="action date">
         <span class=" glyphicon glyphicon-time"></span>
-        <span am-time-ago="::doc.time"></span>
+        <span>{{::doc.time | amUtc | amLocal | amTimeAgo }}</span>
       </span>
     </p>
 

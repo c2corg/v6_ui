@@ -102,7 +102,7 @@ app.FeedController = function(appAuthentication, appApi, appLang, imageUrl) {
   this.feedEnd = false;
 
   /**
-   * @type {?number}
+   * @type {number}
    * @export
    */
   this.userId;
