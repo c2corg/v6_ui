@@ -123,7 +123,7 @@ app.ProgressBarController.prototype.step = function(step, document, direction) {
  */
 app.ProgressBarController.prototype.animateBar_ = function(step, direction) {
   var percent = 100 / this.maxSteps;
-  var green = '#7EFF1F'; // completed color
+  var green = '#A9D361'; // completed color
   var gray = '#B4B4B4'; // left color
   var willBe;
   var nextPosition;

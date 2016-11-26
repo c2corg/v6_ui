@@ -352,11 +352,11 @@
     width: 102%;
     margin: 40px 20px 20px 0;
     height: 4px;
-    background-image: -moz-linear-gradient(left, #7EFF1F 0,#7EFF1F  15%,#B4B4B4 20%,#B4B4B4 0%);  /*green to gray*/
-    background-image: -o-linear-gradient(left, #7EFF1F 0,#7EFF1F  15%,#B4B4B4 20%,#B4B4B4 0%);  /*green to gray*/
-    background-image: -ms-linear-gradient(left, #7EFF1F 0,#7EFF1F  15%,#B4B4B4 20%,#B4B4B4 0%);  /*green to gray*/
-    background-image: linear-gradient(left, #7EFF1F 0,#7EFF1F  15%,#B4B4B4 0%,#B4B4B4 20%);  /*green to gray*/
-    background-image: -webkit-linear-gradient(left, #7EFF1F 0,#7EFF1F  15%,#B4B4B4 20%,#B4B4B4 0%);  /*green to gray*/
+    background-image: -moz-linear-gradient(left, @bright-green 0,@bright-green  15%,@gray 20@gray 0%);  /*green to gray*/
+    background-image: -o-linear-gradient(left, @bright-green 0,@bright-green  15%,@gray 20%,@gray 0%);  /*green to gray*/
+    background-image: -ms-linear-gradient(left, @bright-green 0,@bright-green  15%,@gray 20%,@gray 0%);  /*green to gray*/
+    background-image: linear-gradient(left, @bright-green 0,@bright-green  15%,@gray 0%,@gray 20%);  /*green to gray*/
+    background-image: -webkit-linear-gradient(left, @bright-green 0,@bright-green  15%,@gray 20%,@gray 0%);  /*green to gray*/
     background-size: 100%;
 
     @media @phone {
@@ -383,7 +383,7 @@
       width: 0;
       height: 0;
       border-radius: 10px;
-      border: 10px solid #7EFF1F;
+      border: 10px solid @bright-green;
     }
     &::before {
       left: -5px;
@@ -392,7 +392,7 @@
       right: -10px;
       border: 10px solid transparent;
       border-right: 0;
-      border-left: 20px solid #7EFF1F;
+      border-left: 20px solid @bright-green;
       border-radius: 3px;
     }
 
