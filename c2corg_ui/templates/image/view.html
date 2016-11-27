@@ -11,7 +11,7 @@ from json import dumps
     show_associated_waypoints, show_associated_routes, show_associated_articles,
     show_associated_outings, show_associated_books, delete_association_confirmation_modal,
     get_document_description, get_comments, get_licence"/>
-<%namespace file="helpers/view.html" import="get_image_general, get_image_camera_settings, create_image_link"/>
+<%namespace file="helpers/view.html" import="get_image_general, get_image_camera_settings, show_image"/>
 
 <%
   image_id = image['document_id']
@@ -98,7 +98,7 @@ from json import dumps
 
     <div class="view-details-description col-xs-12 description">
       <span class="lead text-center">
-        ${create_image_link(image_url + image['filename'], 'BI', locale['title'])}
+        ${show_image(image, locale, 'BI', link=True)}
       </span>
     </div>
   </div>

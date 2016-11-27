@@ -158,7 +158,10 @@ app.utils.createPhotoswipeSlideHTML = function(imgUrl, imgId, selector) {
 app.utils.createImageUrl = function(url, suffix) {
   if (url) {
     var i = url.lastIndexOf('.');
-    return url.slice(0, i) + suffix + url.slice(i);
+    var base = url.slice(0, i);
+    var ext = url.slice(i);
+    ext = suffix && ext == '.svg' ? '.jpg' : ext;
+    return base + suffix + ext;
   }
 };
 
