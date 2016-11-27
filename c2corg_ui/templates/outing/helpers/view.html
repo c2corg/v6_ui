@@ -139,7 +139,7 @@
   % endif
 </%def>
 
-<%def name="get_outing_participants(outing)">\
+<%def name="get_outing_participants(outing, preview=False)">\
   % if outing.get('participant_count') or outing['locales'][0].get('participants') or outing['associations']['users']:
     <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
       <h4><span translate>participants</span><span class="glyphicon glyphicon-menu-right"></span></h4>
@@ -156,11 +156,17 @@
           <p>
             % for user in outing['associations']['users']:
               <%
-                  user_id = user['document_id']
-                  user_lang = user['locales'][0]['lang']
                   is_last_participant = loop.last and not outing['locales'][0].get('participants')
               %>
-              <a href="${request.route_path('profiles_view', id=user_id, lang=user_lang)}">${user['name']}</a>${'' if is_last_participant else ', '}
+              % if preview:
+                <a>${user['name']}</a>${'' if is_last_participant else ', '}
+              % else:
+                <%
+                    user_id = user['document_id']
+                    user_lang = user['locales'][0]['lang']
+                %>
+                <a href="${request.route_path('profiles_view', id=user_id, lang=user_lang)}">${user['name']}</a>${'' if is_last_participant else ', '}
+              % endif
             % endfor
             ${outing['locales'][0].get('participants') or ''}
           </p>
