@@ -74,11 +74,11 @@ from pyramid.settings import asbool
         <div id="register-forum_username-group" class="form-group" ng-class="{ 'has-error': registerForm.forum_username.$touched && registerForm.forum_username.$invalid }">
           <label translate>Forum username</label>
           ## http://stackoverflow.com/questions/1538512/how-can-i-invert-a-regular-expression-in-javascript: opposite test of /[^a-zA-Z0-9]/
-          <input type="text" name="forum_username" ng-minlength="3" maxlength="15" ng-pattern="/^(?!.*[^a-zA-Z0-9])/" ng-model="register.forum_username" class="form-control" required />
+          <input type="text" name="forum_username" ng-minlength="3" maxlength="25" ng-pattern="/^[\w.-]+$/" ng-model="register.forum_username" class="form-control" required />
           <div class="help-block" ng-messages="registerForm.forum_username.$error" ng-if="registerForm.forum_username.$touched">
             <p ng-message="required" translate>This field is required.</p>
-            <p ng-message="pattern" translate>Only letters and numbers are allowed.</p>
-            <p ng-message="minlength" translate>This fielt must be at least 3 characters.</p>
+            <p ng-message="pattern" translate>Only letters, numbers and characters ".-_" are allowed.</p>
+            <p ng-message="minlength" translate>This field must be at least 3 characters.</p>
           </div>
         </div>
         <div id="register-password-group" class="form-group" ng-class="{ 'has-error': registerForm.password.$touched && registerForm.password.$invalid }">

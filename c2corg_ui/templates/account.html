@@ -35,7 +35,7 @@
         <div id="account-forum_username-group" class="form-group" ng-class="{ 'has-error': accountForm.forum_username.$touched && accountForm.forum_username.$invalid }">
           <label translate>Forum username</label>
           <input type="text" name="forum_username" ng-model="account.forum_username"
-            ng-minlength="3" maxlength="15" ng-pattern="/^(?!.*[^a-zA-Z0-9])/" class="form-control" />
+            ng-minlength="3" maxlength="25" ng-pattern="/^[\w.-]+$/" class="form-control" />
         </div>
 
         <div id="account-is_profile_public-group" class="form-group">
