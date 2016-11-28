@@ -29,6 +29,7 @@ goog.require('ol.style.Icon');
 goog.require('ol.style.Stroke');
 goog.require('ol.style.Style');
 goog.require('ol.style.Text');
+goog.require('app.map.simplify');
 
 
 /**
@@ -841,9 +842,7 @@ app.MapController.prototype.addTrackImporter_ = function() {
   dragAndDropInteraction.on('addfeatures', function(event) {
     var features = event.features;
     if (features.length) {
-      features.forEach(this.simplifyFeature_);
-      this.showFeatures_(features, true);
-      this.scope_.$root.$emit('mapFeaturesChange', features);
+      this.handleFeaturesUpload_(null, features);
     }
   }.bind(this));
   this.map.addInteraction(dragAndDropInteraction);
@@ -857,8 +856,9 @@ app.MapController.prototype.addTrackImporter_ = function() {
  */
 app.MapController.prototype.simplifyFeature_ = function(feature) {
   var geometry = feature.getGeometry();
+  goog.asserts.assert(geometry !== undefined);
   // simplify geometry with a tolerance of 20 meters
-  geometry = geometry.simplify(20);
+  geometry = app.map.simplify.simplify(geometry, 20);
   feature.setGeometry(geometry);
   return feature;
 };
