@@ -363,7 +363,7 @@ app.ViewDetailsController.prototype.loadImages_ = function(initGalleries) {
   }
 
   // prepare the embedded images for slideshow
-  $('[class^="embedded_"').each(function(i, el) {
+  $('[class^="embedded_"]').each(function(i, el) {
     $(el).append('<app-slide-info></app-slide-info>');
     var img = $(el).find('img')[0];
     var id = img.getAttribute('img-id');
