@@ -19,7 +19,7 @@
       <td>
         <a href="${request.route_path(
               module + '_archive', id=document_id, lang=lang,
-              version=version1['version_id'])}"><span translate>Revision as of</span> {{'${1000 * version1['written_at']}' | date:'medium'}}</a><br/>
+              version=version1['version_id'])}"><span translate>Revision as of</span> {{'${version1['written_at']}' | amUtc | amLocal | amDateFormat:'L LTS'}}</a><br/>
         <span translate>by</span> <a href="${request.route_path('profiles_view_id', id=version1['user_id'])}">${version1['name']}</a>
         % if version1['comment']:
           <br/><span class="revision-comment" x-translate>${show_version_comment(version1)}</span>
@@ -37,7 +37,7 @@
             else:
                 route_path = request.route_path(module + '_view_id_lang', id=document_id, lang=lang)
         %>
-        <a href="${route_path}"><span translate>Revision as of</span> {{'${1000 * version2['written_at']}' | date:'medium'}}</a><br/>
+        <a href="${route_path}"><span translate>Revision as of</span> {{'${version2['written_at']}' | amUtc | amLocal | amDateFormat:'L LTS'}}</a><br/>
         <span translate>by</span> <a href="${request.route_path('profiles_view_id', id=version2['user_id'])}">${version2['name']}</a>
         % if version2['comment']:
           <br/><span class="revision-comment" x-translate>${show_version_comment(version2)}</span>
