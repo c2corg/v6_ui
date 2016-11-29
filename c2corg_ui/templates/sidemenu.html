@@ -7,7 +7,7 @@ version = request.registry.settings.get('cache_version')
       <span>
       </span>
     </button>
-    <a href="${request.route_path('index')}" title="{{'Back to homepage'|translate}}">
+    <a class="homepage" href="${request.route_path('index')}" title="{{'Back to homepage'|translate}}">
       <img src="${request.static_path('c2corg_ui:static/img/logo.svg')}" alt="Camptocamp.org" class="logo"/>
     </a>
   </div>
@@ -26,13 +26,13 @@ version = request.registry.settings.get('cache_version')
     </li>
     <li class="main-menu" ng-class="{'menu-selected': mainCtrl.isPath('forum')}">
       <a href="${discourse_url}">
-        <i class="glyphicon glyphicon-th-list" tooltip-placement="right" uib-tooltip="{{'Forum' | translate}}"></i>
+        <i class="glyphicon glyphicon-comment" tooltip-placement="right" uib-tooltip="{{'Forum' | translate}}"></i>
         <span class="menu-text" translate>Forum</span>
       </a>
     </li>
     <li class="main-menu" ng-class="{'menu-selected': mainCtrl.isPath('accidentdatabase')}">
       <a href="${request.route_path('articles_view_id', id=697210)}">
-        <i class="glyphicon glyphicon-alert" tooltip-placement="right" uib-tooltip="{{'Accident database' | translate}}"></i>
+        <i class="glyphicon glyphicon-warning-sign" tooltip-placement="right" uib-tooltip="{{'Accident database' | translate}}"></i>
         <span class="menu-text" translate>Accident database</span>
       </a>
     </li>
@@ -44,7 +44,7 @@ version = request.registry.settings.get('cache_version')
     </li>
     <li class="main-menu" ng-class="{'menu-selected': mainCtrl.isPath('Association')}">
       <a href="${request.route_path('articles_view_id', id=106726)}">
-        <i class="glyphicon glyphicon-comment" tooltip-placement="right" uib-tooltip="{{'Association' | translate}}"></i>
+        <i class="glyphicon glyphicon-user" tooltip-placement="right" uib-tooltip="{{'Association' | translate}}"></i>
         <span class="menu-text" translate>Association</span>
       </a>
     </li>
