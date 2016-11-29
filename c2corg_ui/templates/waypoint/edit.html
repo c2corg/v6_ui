@@ -747,7 +747,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
             </div>
 
             ## ACCESS PERIOD
-            <div id="access-period" class="form-group data full" ng-if="['access', 'local_product', 'hut', 'gite', 'camp_site', 'climbing_outdoor'].indexOf(type) > -1">
+            <div id="access-period" class="form-group data full" ng-if="['access', 'local_product', 'hut', 'gite', 'camp_site'].indexOf(type) > -1">
               <label translate ng-if="type == 'access'">access_period</label>
               <label translate ng-if="type == 'hut' || type == 'gite' || type == 'camp_site'">opening_periods</label>
               <label translate ng-if="type == 'local_product'">opening_hours</label>
