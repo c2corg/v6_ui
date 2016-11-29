@@ -29,13 +29,13 @@ port = 6553
 ###
 
 [loggers]
-keys = root, c2corg_ui
+keys = root, c2corg_ui, gunicorn.error, gunicorn.access
 
 [handlers]
 keys = console
 
 [formatters]
-keys = generic
+keys = generic,json
 
 [logger_root]
 level = WARN
@@ -46,11 +46,25 @@ level = WARN
 handlers =
 qualname = c2corg_ui
 
+[logger_gunicorn.access]
+level = INFO
+handlers =
+qualname=gunicorn.access
+
+[logger_gunicorn.error]
+level = INFO
+handlers =
+qualname=gunicorn.error
+
 [handler_console]
 class = StreamHandler
 args = (sys.stderr,)
 level = NOTSET
-formatter = generic
+formatter = json
 
 [formatter_generic]
 format = %(asctime)s %(levelname)-5.5s [%(name)s][%(threadName)s] %(message)s
+
+[formatter_json]
+class = pythonjsonlogger.jsonlogger.JsonFormatter
+format = %(message)%(levelname)%(name)%(asctime)%(funcName)%(lineno)%(pathname)%(stack_info)%(module)%(created)%(threadName)%(processName)%(getMessage)
