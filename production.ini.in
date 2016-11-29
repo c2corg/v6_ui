@@ -29,7 +29,7 @@ port = 6553
 ###
 
 [loggers]
-keys = root, c2corg_ui
+keys = root, c2corg_ui, gunicorn.error, gunicorn.access
 
 [handlers]
 keys = console
@@ -45,6 +45,16 @@ handlers = console
 level = WARN
 handlers =
 qualname = c2corg_ui
+
+[logger_gunicorn.access]
+level = INFO
+handlers =
+qualname=gunicorn.access
+
+[logger_gunicorn.error]
+level = INFO
+handlers =
+qualname=gunicorn.error
 
 [handler_console]
 class = StreamHandler
