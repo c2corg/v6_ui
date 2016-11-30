@@ -22,7 +22,7 @@
 
     % if book.get('book_types'):
       <article class="value-title">
-          <span translate class="value-title">book_types</span><br>
+          <span translate class="value-title">book_types</span>: 
         % for book_type in book.get('book_types') :
           <span x-translate class="value">${book_type}</span>${'' if loop.last else ', '}
         % endfor

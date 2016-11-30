@@ -500,7 +500,7 @@ app-pagination.areas, app-pagination.articles app-pagination.books {
       }
     }
     .glyphicon-trash {
-      top: 65% !important;
+      .calc(top, "100% - 60px");
     }
   }
   .set-main-waypoint {
@@ -1139,7 +1139,7 @@ ul {
 .glyphicon-trash:not(app-delete-association) {
   position: absolute;
   color: red;
-  font-size: 1.3em;
+  font-size: 1.2em;
   right: 10px;
   top: calc(~"100% - 30px");
 }
