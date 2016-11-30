@@ -1,14 +1,25 @@
-<%def name="create_image_link(url, suffix, title)">\
+<%!
+    import os
+%>
+
+<%def name="show_image(image, locale, size='', link=False)">\
   <%
-    i = url.rfind('.')
-    imageUrl = url[:i] + suffix + url[i:]
+      base, ext = os.path.splitext(image['filename'])
+      ext = '.jpg' if size and ext == '.svg' else ext
   %>
-  <a href="${url}">
-    <img class="image" src="${imageUrl}" alt="${title}">
-  </a>
+  % if link:
+    <a href="${image_url + image['filename']}">
+  % endif
+      <img class="image" src="${image_url + base + size + ext}" alt="${locale['title']}">
+  % if link:
+    </a>
+  % endif
 </%def>
 
 <%def name="get_image_general(image)">\
+  <%
+      base, ext = os.path.splitext(image['filename'])
+  %>
   <div class="name-icon-value general" ng-click="detailsCtrl.openTab($event)">
     <h4><span translate>General</span><span class="glyphicon glyphicon-menu-right"></span></h4>
     <div class="name-icon">
@@ -49,6 +60,10 @@
 
       % if image.get('elevation'):
         <p><span class="value-title" translate>elevation</span>: <span class="value">${image['elevation']}&nbsp;m</span></p>
+      % endif
+
+      % if ext == '.svg':
+        <p><span class="value-title" translate>Source file</span>: <a href="${image_url + image['filename']}" class="value" translate>SVG file</a></p>
       % endif
 
       % if image.get('quality'):

@@ -1,6 +1,6 @@
 <%namespace file="../helpers/view.html" import="get_activities, get_document_description"/>
 <%namespace file="../helpers/preview.html" import="show_preview_warning"/>
-<%namespace file="helpers/view.html" import="get_image_general, get_image_camera_settings"/>
+<%namespace file="helpers/view.html" import="get_image_general, get_image_camera_settings, show_image"/>
 
 <%
 image = document
@@ -39,7 +39,7 @@ ${show_preview_warning()}
 
     <div class="view-details-description col-xs-12 description">
       <span class="lead text-center">
-        <img class="image" src="${image_url}${image['filename']}" alt="${locale['title']}">
+        ${show_image(image, locale, 'BI')}
       </span>
     </div>
 
