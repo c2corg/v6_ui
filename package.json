@@ -46,7 +46,7 @@
     "ngeo": "git://github.com/camptocamp/ngeo#1db20a5",
     "nomnom": "1.8.1",
     "openlayers": "3.19.1",
-    "typeahead.js": "git://github.com/corejavascript/typeahead.js#v0.11.1"
+    "corejs-typeahead": "1.0.1"
   },
   "snyk": true
 }
