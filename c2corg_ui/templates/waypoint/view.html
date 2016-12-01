@@ -142,7 +142,7 @@ geometry4326 = geometry
 
   ## ASSOCIATIONS
   % if not version:
-    <div class="view-details-associations col-xs-12  associations">
+    <div class="view-details-associations col-xs-12 associations">
       <span class="lead">
         <section>
           <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
@@ -154,7 +154,7 @@ geometry4326 = geometry
         </section>
       </span>
     </div>
-    <div class="view-details-associations col-xs-12  associations" ng-if="detailsCtrl.documentService.document.associations.all_routes.total > 0">
+    <div class="view-details-associations col-xs-12 associations">
       <span class="lead">
         <section>
           ${show_associated_routes(waypoint, 'all_routes')}

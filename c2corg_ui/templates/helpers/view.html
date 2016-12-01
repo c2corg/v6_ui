@@ -251,7 +251,11 @@
     associations += 'all_routes.documents' if type == 'all_routes' else 'routes'
   %>
     ${add_seo_association_links(routes, 'routes')}
-    <section ng-show="${associations}.length > 0">
+    <section
+      % if document['doctype'] != 'waypoints':
+        ng-show="${associations}.length > 0"
+      % endif
+    >
       <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-routes">
         <span class="glyphicon glyphicon-map-marker"></span>
         <span translate>Associated routes</span><span class="glyphicon glyphicon-menu-down"></span>
@@ -274,6 +278,14 @@
           %>
           <div class="list-item vertical-align" onclick="window.location='${request.route_path('routes_index')}#${fragment}';">
             <button class="gray-btn btn show-more" translate>show more</button>
+          </div>
+        % endif
+        % if document['doctype'] == 'waypoints':
+          <div class="list-item vertical-align" protected-url-btn
+               url="${request.route_path('routes_add') + '#w=' + str(document['document_id'])}">
+            <a>
+              <button class="btn orange-btn" translate>add a new route to this waypoint</button>
+            </a>
           </div>
         % endif
       </div>
