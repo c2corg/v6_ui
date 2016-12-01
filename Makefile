@@ -35,7 +35,7 @@ LIBS_JS_FILES += \
     node_modules/angular-debounce/angular-debounce.js \
     node_modules/angular-messages/angular-messages.min.js \
     node_modules/angular-cookies/angular-cookies.min.js \
-    node_modules/typeahead.js/dist/typeahead.bundle.min.js \
+    node_modules/corejs-typeahead/dist/typeahead.bundle.min.js \
     node_modules/moment/min/moment.min.js \
     node_modules/moment-timezone/builds/moment-timezone-with-data.min.js \
     node_modules/angular-moment/angular-moment.min.js \
