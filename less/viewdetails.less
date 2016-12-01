@@ -57,13 +57,15 @@
       .title {
         max-width: 70%;
         margin-right: 10px;
+        @media @phone {
+          max-width: none;
+        }
       }
       .icons-header {
         font-size: 1.5em;
         margin-right: 10px;
         @media @phone {
           margin-right: 5px;
-          width: 150px;
         }
       }
     }
