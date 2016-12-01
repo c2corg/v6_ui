@@ -353,6 +353,34 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
           <h2 class="heading show-phone" translate>description</h2>
           <div class="content">
 
+##             ## ASSOCIATED PARTICIPANTS
+##             ## TODO better to show all users in one row, will have to convert users in controller.
+##             <div id="participants-group" class="form-group  full" ng-class="{'has-success': xreport.locales[0]['participants']}">
+##               <label translate>associated_participants</label>
+##
+##               <section class="section associations" ng-show="xreport.associations.users.length > 0">
+##                 <app-simple-search parent-id="report.document_id"
+##                                    app-select="editCtrl.documentService.pushToAssociations(doc, 'users')" dataset="u"></app-simple-search>
+##                 <section class="associated-section flex wrap-row">
+##                   <h5 translate ng-show="xreport.associations.users.length == 0">You can look up for users that were with you during the accident.</h5>
+##                   <div class="list-item outings new-item" ng-repeat="user in xreport.associations.users">
+##                     <a>
+##                       <div class="outing-author text-center">
+##                         <span class="icon-user"></span><br>
+##                       </div>
+##                       <div class="list-item-info">
+##                         <span class="list-item-title outing">{{user.name}}</span>
+##                       </div>
+##                     </a>
+##                     <span class="glyphicon glyphicon-trash"
+##                           ng-click="editCtrl.documentService.removeAssociation(user.document_id, 'users', $event)"
+##                           ng-show="xreport.associations.users.length > 1"></span>
+##                   </div>
+##                 </section>
+##
+##               </section>
+##             </div>
+
             ## SUMMARY
             <div id="summary-group" class="form-group full">
               <label translate>summary</label>
