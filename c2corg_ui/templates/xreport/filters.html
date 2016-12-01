@@ -23,7 +23,7 @@ activities, event_types, severities, avalanche_levels, avalanche_slopes
     </div>
 </%def>
 
-<form app-search-filters app-search-filters-controller-name="appSearchFiltersController" app-sticky-filters>
+<form app-search-filters app-search-filters-controller-name="appXreportFiltersController" app-sticky-filters>
   <div class="filters">
     ${simple_filters()}
     <div class="row collapse" id="moreFilters">
@@ -42,22 +42,33 @@ activities, event_types, severities, avalanche_levels, avalanche_slopes
 
       <div class="col-xs-12 col-sm-12 filter">
 
-        <div class="col-xs-6 col-sm-6 filter">
+##         <div class="col-xs-12 col-sm-6 filter">
+##           <label translate>date</label><br>
+##           <div class="input-group" ng-model="filtersCtrl.dates[0]" datepicker-options="{maxDate: filtersCtrl.dateMaxStart}"
+##                uib-datepicker-popup="dd MM yyyy" is-open="openDateStart" ng-change="filtersCtrl.setDate('date')">
+##             <input type="text" disabled class="form-control" value="{{filtersCtrl.dates[0]| amDateFormat:'Do MMMM YYYY'}}"/>
+##             <span class="input-group-btn">
+##               <button type="button" class="btn btn-default" ng-click="openDateStart = true"><span class="glyphicon glyphicon-calendar"></span></button>
+##             </span>
+##           </div>
+##         </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
           <label translate>date_start</label><br>
           <div class="input-group" ng-model="filtersCtrl.dates[0]" datepicker-options="{maxDate: filtersCtrl.dateMaxStart}"
                uib-datepicker-popup="dd MM yyyy" is-open="openDateStart" ng-change="filtersCtrl.setDate('date')">
-            <input type="text" disabled class="form-control" value="{{filtersCtrl.dates[0] | amDateFormat:'Do MMMM YYYY' }}" required/>
+            <input type="text" disabled class="form-control" value="{{filtersCtrl.dates[0] | amDateFormat:'Do MMMM YYYY'}}" required/>
             <span class="input-group-btn">
               <button type="button" class="btn btn-default" ng-click="openDateStart = true"><span class="glyphicon glyphicon-calendar"></span></button>
             </span>
           </div>
         </div>
 
-        <div class="col-xs-6 col-sm-6 filter">
+        <div class="col-xs-12 col-sm-6 filter">
           <label translate>date_end</label><br>
           <div class="input-group" ng-model="filtersCtrl.dates[1]" datepicker-options="{maxDate: filtersCtrl.dateMaxEnd, minDate: filtersCtrl.dateMinEnd}"
                uib-datepicker-popup="dd MM yyyy" is-open="openDateEnd" ng-change="filtersCtrl.setDate('date')">
-            <input type="text" disabled class="form-control" value="{{filtersCtrl.dates[1] | amDateFormat:'Do MMMM YYYY' }}" required/>
+            <input type="text" disabled class="form-control" value="{{filtersCtrl.dates[1] | amDateFormat:'Do MMMM YYYY'}}" required/>
             <span class="input-group-btn">
               <button type="button" class="btn btn-default" ng-click="openDateEnd = true"><span class="glyphicon glyphicon-calendar"></span></button>
             </span>

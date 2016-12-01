@@ -183,16 +183,28 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
           <h2 class="heading show-phone" translate>xreport general</h2>
           <div class="content collapse in">
 
-            ## DATE
-            <div class="date form-group" ng-init="openDateStart = false; xreport.date_start = xreport.date " ng-class="{ 'has-error': editForm.date.$touched && editForm.date.$invalid,'has-success': xreport.date }">
-              <label><span translate>date_start</span> *</label>
-              <div class="input-group" ng-model="xreport.date" uib-datepicker-popup="dd MM yyyy" is-open="openDateStart" ng-change="xreport.date_start = xreport.date">
-                <input type="text" disabled class="form-control" value="{{xreport.date | amDateFormat:'Do MMMM YYYY' }}" required/>
+            ## DATE same as image
+            <div class="col-xs-12 col-sm-6 filter">
+              <label translate>date</label><br>
+              <div class="input-group" ng-model="filtersCtrl.dates[0]" datepicker-options="{maxDate: filtersCtrl.dateMaxStart}"
+                   uib-datepicker-popup="dd MM yyyy" is-open="openDateStart" ng-change="filtersCtrl.setDate('date')">
+                <input type="text" disabled class="form-control" value="{{filtersCtrl.dates[0]| amDateFormat:'Do MMMM YYYY'}}"/>
                 <span class="input-group-btn">
                   <button type="button" class="btn btn-default" ng-click="openDateStart = true"><span class="glyphicon glyphicon-calendar"></span></button>
                 </span>
               </div>
             </div>
+
+##             ## DATE
+##             <div class="date form-group" ng-init="openDateStart = false; xreport.date_start = xreport.date " ng-class="{ 'has-error': editForm.date.$touched && editForm.date.$invalid,'has-success': xreport.date }">
+##               <label><span translate>date_start</span> *</label>
+##               <div class="input-group" ng-model="xreport.date" uib-datepicker-popup="dd MM yyyy" is-open="openDateStart" ng-change="xreport.date_start = xreport.date">
+##                 <input type="text" disabled class="form-control" value="{{xreport.date | amDateFormat:'Do MMMM YYYY' }}" required/>
+##                 <span class="input-group-btn">
+##                   <button type="button" class="btn btn-default" ng-click="openDateStart = true"><span class="glyphicon glyphicon-calendar"></span></button>
+##                 </span>
+##               </div>
+##             </div>
 
             <div class="form-group half half-group">
               <label><span translate>event_type</span> *</label>
