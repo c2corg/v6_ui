@@ -7,6 +7,11 @@ from c2corg_common.attributes import default_langs, activities, image_categories
 ## It is really useful - no need for re-compilation with angular in case of sticky filters.
 <%def name="simple_filters()">
 <div class="row simple-filters">
+  <div class="col-xs-12 col-sm-6 filter">
+    <label translate>title</label>
+    <input type="text" class="form-control" ng-model="filtersCtrl.filters.q">
+  </div>
+
   <div class="filter">
     <label translate>categories</label><br>
     ${add_multiselect('cat', image_categories)}
@@ -15,11 +20,6 @@ from c2corg_common.attributes import default_langs, activities, image_categories
   <div class="filter">
     <label translate>activities</label><br>
     ${add_multiselect('act', activities)}
-  </div>
-
-  <div class="col-xs-12 col-sm-6 filter">
-    <label translate>title</label>
-    <input type="text" class="form-control" ng-model="filtersCtrl.filters.q">
   </div>
 </div>
 </%def>
