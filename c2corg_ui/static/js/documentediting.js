@@ -230,7 +230,7 @@ app.DocumentEditingController.prototype.successRead = function(response) {
     var geometry = data['geometry'];
     // don't add lonlat for line or polygon geometries
     // (point geometries have no 'geom_detail' attribute)
-    if (!('geom_detail' in geometry && geometry['geom_detail']) &&
+    if (this.isPointType_() && !('geom_detail' in geometry && geometry['geom_detail']) &&
         'geom' in geometry && geometry['geom']) {
       var coordinates = toCoordinates(geometry['geom']);
       data['lonlat'] = {
@@ -251,6 +251,15 @@ app.DocumentEditingController.prototype.successRead = function(response) {
   }
   this.scope[this.modelName] = this.scope['document'] = this.documentService.document = data;
   this.scope.$root.$emit('documentDataChange', data);
+};
+
+
+/**
+ * @private
+ */
+app.DocumentEditingController.prototype.isPointType_ = function() {
+  var nonPointModels = ['outing', 'route', 'area'];
+  return $.inArray(this.modelName, nonPointModels) === -1;
 };
 
 
