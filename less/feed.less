@@ -54,9 +54,6 @@
       }
     }
   }
-  .list-item {
-    margin: 0 10px;
-  }
   .feed-list {
     height: 100%;
     margin-bottom: 200px;
@@ -75,14 +72,16 @@
     }
   }
   .feed-list-item {
+    padding: 10px;
     margin: 10px auto;
     background-color: #fbfbfb;
     border-radius: 10px;
     width: 40%;
-    padding-top: 13px;
-    padding-bottom: 13px;
     transition: .3s;
 
+    &:first-of-type .list-item {
+      margin-top: 13px;
+    }
     /*left triangle*/
     &:before {
       border-width: 8px 25px 9px 10px;
@@ -122,13 +121,30 @@
       &.icon-waypoints {
         padding-top: 6px;
       }
+      &.icon-articles {
+        padding-top: 7px;
+        &:before {
+          margin-left: -0.5px;
+          font-family: 'Glyphicons Halflings';
+          content: "\e086"; // info-sign
+        }
+      }
+      &.icon-xreports {
+        padding-top: 6px;
+        &:before {
+          font-family: 'Glyphicons Halflings';
+          content: "\e107"; // warning-sign
+          font-size: 21px;
+          margin-left: 1px;
+        }
+      }
     }
     .glyphicon-time {
       color: #A9D361;
     }
     .action-line {
-      margin: -30px 0 0 0;
-      padding: 5px 10px;
+      padding-top: 7px;
+      margin-bottom: -4px;
     }
     .action {
       color: slategray;
@@ -152,7 +168,13 @@
     padding-right: 10px;
     .feed-list-item {
       width: 100%;
-      padding-top: 30px;
+      &:first-of-type .list-item {
+        margin-top: 0;
+      }
+    }
+    .action-line {
+      padding: 0 !important;
+      margin: -5px 0 !important;
     }
     .feed-title {
       padding-left: 2% !important;
