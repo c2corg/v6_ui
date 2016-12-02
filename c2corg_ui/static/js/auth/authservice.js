@@ -112,17 +112,16 @@ app.Authentication.prototype.hasEditRights = function(doctype, options) {
   if (this.isModerator()) {
     return true;
   }
-
   if (doctype === 'outings') {
     return this.hasEditRightsOuting_(options['users']);
-  }
-
-  if (doctype === 'images') {
+  } else if (doctype === 'images') {
     return this.hasEditRightsImage_(options['imageType'], options['imageCreator']);
-  }
-
-  if (doctype === 'profiles') {
+  } else if (doctype === 'profiles') {
     return this.userData.id === options['user_id'];
+  } else if (doctype === 'articles') {
+    return this.hasEditRightsArticle_(options['articleType'], options['authorId']);
+  } else if (doctype === 'xreports') {
+    return false;
   }
 
   return true;
@@ -131,20 +130,16 @@ app.Authentication.prototype.hasEditRights = function(doctype, options) {
 
 /**
  * Checks if the current user has rights to access/edit the outing.
- * @param {!Array<string> | !string} users
+ * @param {string | Array<string>} users
  * @return {boolean}
  * @private
  */
 app.Authentication.prototype.hasEditRightsOuting_ = function(users) {
-  var userid = this.userData.id;
-  var u;
+  var u = typeof users === 'string' ? JSON.parse(users) : users;
 
-  if (typeof users === 'string') {
-    u = JSON.parse(users);
-  }
   if (u) {
     for (var i = 0; i < u.length; i++) {
-      if (userid === u[i].document_id) {
+      if (this.userData.id === u[i].document_id) {
         return true;
       }
     }
@@ -164,6 +159,22 @@ app.Authentication.prototype.hasEditRightsImage_ = function(imageType, creator) 
     return true;
   } else {
     return this.userData.id === creator;
+  }
+};
+
+
+/**
+ * Checks if the current user has rights to access/edit the article.
+ * @param {string} articleType
+ * @param {string} authorId
+ * @return {boolean}
+ * @private
+ */
+app.Authentication.prototype.hasEditRightsArticle_ = function(articleType, authorId) {
+  if (articleType === 'collab') {
+    return true;
+  } else {
+    return this.userData.id === parseInt(authorId, 10);
   }
 };
 

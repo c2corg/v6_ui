@@ -1,6 +1,6 @@
 <%!
 from c2corg_common.attributes import activities, image_categories, image_types
-from c2corg_ui.templates.utils import get_lang_lists
+from c2corg_ui.templates.utils import get_lang_lists, has_associations
 from json import dumps
 %>
 
@@ -55,7 +55,6 @@ other_langs, missing_langs = get_lang_lists(article, lang)
     ${show_archive_data('articles', article, locale, version)}
   % endif
 
-
   ## IMAGES
   % if not version:
     ${get_image_gallery()}
@@ -77,9 +76,17 @@ other_langs, missing_langs = get_lang_lists(article, lang)
 
   ## ASSOCIATIONS
   % if not version:
-    <div class="view-details-associations col-xs-12 associations">
+    <div class="view-details-associations col-xs-12 associations"
+      % if not has_associations(article):
+         ng-show="userCtrl.hasEditRights('articles', {'articleType': '${article['article_type']}', 'authorId': ${article['author']['user_id']}})"
+      % endif
+    >
       <span class="lead">
-        <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
+        <div class="add-association" ng-show="userCtrl.auth.isAuthenticated()
+          % if article['article_type'] == 'personal':
+            && userCtrl.hasEditRights('articles', {'articleType': '${article['article_type']}', 'authorId': ${article['author']['user_id']}})
+          % endif
+        ">
           <label translate>Add association</label>
           <app-add-association parent-doctype="articles" parent-id="${article_id}" dataset="wrocb"></app-add-association>
         </div>
@@ -100,7 +107,7 @@ other_langs, missing_langs = get_lang_lists(article, lang)
   % if not version:
     ${show_other_langs_links('articles', article, other_langs)}
     ${show_missing_langs_links('articles', article, missing_langs)}
-    ${show_float_buttons(article['associations']['users'], 'articles', article_id, lang, other_langs, missing_langs)}
+    ${show_float_buttons(article, lang, other_langs, missing_langs)}
   % endif
 </section>
 

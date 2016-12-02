@@ -458,12 +458,14 @@ app.ViewDetailsController.prototype.toggleOrientation = function(orientation, do
  * @private
  */
 app.ViewDetailsController.prototype.watchPswpContainer_ = function() {
-  var observer = new MutationObserver(function() {
-    $('.showing-info').removeClass('showing-info');
-    this.compile_($('.image-infos-buttons').contents())(this.scope_);
-  }.bind(this));
   var target = $('.pswp__container')[0];
-  observer.observe(target, {attributes: true, attributeFilter: ['style']});
+  if (target) {
+    var observer = new MutationObserver(function() {
+      $('.showing-info').removeClass('showing-info');
+      this.compile_($('.image-infos-buttons').contents())(this.scope_);
+    }.bind(this));
+    observer.observe(target, {attributes: true, attributeFilter: ['style']});
+  }
 };
 
 app.module.controller('AppViewDetailsController', app.ViewDetailsController);
