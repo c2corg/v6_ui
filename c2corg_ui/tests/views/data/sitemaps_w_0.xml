@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>http://example.com/waypoints/37191/fr/patraflon</loc><lastmod>2016-10-28T11:07:39.540612</lastmod><changefreq>weekly</changefreq></url>
-<url><loc>http://example.com/waypoints/37192/fr/pointe-de-tosse</loc><lastmod>2016-10-28T11:07:39.540612</lastmod><changefreq>weekly</changefreq></url>
-<url><loc>http://example.com/waypoints/37196/de/tete-de-bossetan-tete-de-bostan</loc><lastmod>2016-10-28T11:07:39.540612</lastmod><changefreq>weekly</changefreq></url>
-<url><loc>http://example.com/waypoints/37196/fr/tete-de-bossetan-bostan</loc><lastmod>2016-10-28T11:07:39.540612</lastmod><changefreq>weekly</changefreq></url>
+<url><loc>https://example.com/waypoints/37191/fr/patraflon</loc><lastmod>2016-10-28T11:07:39.540612</lastmod><changefreq>weekly</changefreq></url>
+<url><loc>https://example.com/waypoints/37192/fr/pointe-de-tosse</loc><lastmod>2016-10-28T11:07:39.540612</lastmod><changefreq>weekly</changefreq></url>
+<url><loc>https://example.com/waypoints/37196/de/tete-de-bossetan-tete-de-bostan</loc><lastmod>2016-10-28T11:07:39.540612</lastmod><changefreq>weekly</changefreq></url>
+<url><loc>https://example.com/waypoints/37196/fr/tete-de-bossetan-bostan</loc><lastmod>2016-10-28T11:07:39.540612</lastmod><changefreq>weekly</changefreq></url>
 </urlset>
