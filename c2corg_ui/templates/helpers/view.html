@@ -179,8 +179,7 @@
 
 <%def name="test_association_rights(document)">\
   % if is_collaborative(document):
-    userCtrl.auth.isAuthenticated()
-    && userCtrl.auth.isModerator()
+    userCtrl.auth.isAuthenticated() && userCtrl.auth.isModerator()
   % elif is_personal(document):
     userCtrl.hasEditRights(
         '${get_doc_type(document['type'])}',

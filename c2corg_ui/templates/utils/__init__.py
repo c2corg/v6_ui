@@ -75,10 +75,10 @@ def get_doc_type(type):
         return 'xreports'
 
 
-def check_if_any_associations(doc):
+def has_associations(doc):
     a = doc['associations']
 
-    if a.get('xreports') or a.get('books') or a.get('routes') or \
-       a.get('all_routes') or a.get('waypoints') or a.get('recent_outings') \
-       or a.get('outings') or a.get('articles') or a.get('waypoints_children'):
-            return True
+    return a.get('waypoints') or a.get('waypoints_children') or \
+        a.get('all_routes') or a.get('routes') or \
+        a.get('recent_outings') or a.get('outings') or \
+        a.get('articles') or a.get('xreports') or a.get('books')

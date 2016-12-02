@@ -1,6 +1,6 @@
 <%!
 from c2corg_common.attributes import activities, image_categories, image_types
-from c2corg_ui.templates.utils import get_lang_lists, check_if_any_associations
+from c2corg_ui.templates.utils import get_lang_lists, has_associations
 from json import dumps
 %>
 
@@ -115,14 +115,14 @@ from json import dumps
   ## ASSOCIATIONS
   % if not version:
   <div class="view-details-associations col-xs-12 associations"
-       % if not check_if_any_associations(image):
-          ng-if="userCtrl.hasEditRights( 'images', { 'imageType': '${image['image_type']}', 'imageCreator': ${image['creator']['user_id']} })"
-       % endif
-    >
+    % if not has_associations(image):
+       ng-if="userCtrl.hasEditRights('images', {'imageType': '${image['image_type']}', 'imageCreator': ${image['creator']['user_id']}})"
+    % endif
+  >
     <span class="lead">
       <div class="add-association" ng-show="userCtrl.auth.isAuthenticated()
         % if image['image_type'] == 'personal':
-            && userCtrl.hasEditRights('images', {'imageType': 'personal', 'imageCreator': ${image['creator']['user_id']} })
+          && userCtrl.hasEditRights('images', {'imageType': 'personal', 'imageCreator': ${image['creator']['user_id']}})
         % endif
       ">
         <label translate>Add association</label>
