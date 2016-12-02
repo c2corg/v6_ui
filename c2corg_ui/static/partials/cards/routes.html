@@ -1,10 +1,13 @@
 <a ng-href="{{cardCtrl.createURL()}}" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;">
-  <span class="list-item-title"><span ng-if="::locale.title_prefix">{{::locale.title_prefix}}&nbsp;: </span>{{::locale.title}}</span>
-  <span class="list-item-lang" ng-if="cardCtrl.lang != locale.lang">({{::locale.lang}})</span>
-  <br>
   <div class="list-item-info">
+
+    <div class="list-item-title-lang">
+      <span class="list-item-title"><p><span ng-if="::locale.title_prefix">{{::locale.title_prefix}}&nbsp;: </span>{{::locale.title}}</p></span>
+      <span class="list-item-lang" ng-if="cardCtrl.lang != locale.lang">({{::locale.lang}})</span>
+    </div>
+
     <div class="flex wrap-row">
-      <span class="elevation-max" ng-if="::doc['elevation_max']" uib-tooltip="{{'elevation_max'| translate}}">
+      <span class="elevation-max margin-r-sm" ng-if="::doc['elevation_max']" uib-tooltip="{{'elevation_max'| translate}}">
         <span class="value-title glyphicon glyphicon-sort-by-attributes rotate-180"></span>
         <span class="value">{{::doc['elevation_max']}}&nbsp;m</span>
       </span>
@@ -28,22 +31,23 @@
       </div>
     </div>
 
-    <div class="global-rating flex flexend-align" ng-init="globalRatings = cardCtrl.getGlobalRatings()" ng-show="::globalRatings">
+    <div class="global-rating flex flexend-align margin-b-sm" ng-init="globalRatings = cardCtrl.getGlobalRatings()" ng-show="::globalRatings">
       <span class="icon-rating"></span>
       <div ng-repeat="(attr, val) in ::globalRatings" class="rating" uib-tooltip="{{::attr | translate}}" ng-if="::val">
         <span class="value">{{::val}}</span>
       </div>
     </div>
 
-    <div class="full-rating flex" ng-init="fullRatings = cardCtrl.getFullRatings()">
+    <div class="full-rating flex" ng-init="fullRatings = cardCtrl.getFullRatings()" ng-if="fullRatings">
       <span class="icon-rating"></span>
       <div ng-repeat="(attr, val) in ::fullRatings" uib-tooltip="{{::attr | translate}}" class="rating">
         <span class="value">{{::val}}</span>
       </div>
     </div>
 
-    <div class="route-activities">
-      <span ng-repeat="activity in ::doc.activities" class="route-activity icon-{{::activity}}" uib-tooltip="{{ ::cardCtrl.translate(activity)}}"></span>
+    <div class="activities">
+      <span ng-repeat="activity in ::doc.activities" class="activity icon-{{::activity}}" uib-tooltip="{{ ::cardCtrl.translate(activity)}}"></span>
     </div>
+
   </div>
 </a>

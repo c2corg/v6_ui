@@ -6,12 +6,12 @@
   <section ng-show="${model}.associations.${type}.length > 0" class="associated-section">
     <label translate>Associated waypoints</label>
     <article class="associated-documents">
-      <div class="list-item"
+      <div class="list-item waypoints ${'to-route' if model == 'route' else ''}"
            ng-repeat="wp in ${model}.associations.${type} | orderBy: 'waypoint_type'"
            ng-class="{'main-waypoint': ${model}.main_waypoint_id === wp.document_id, 'new-item': wp['new']}">
         <app-card app-card-doc="wp" app-card-disable-click="true"></app-card>
         % if model == 'route':
-          <div class="set-main-waypoint" ng-if="${model}.main_waypoint_id === wp.document_id" ng-init="${model}.main_waypoint_title = wp.locales[0].title" translate>main waypoint</div>
+          <b class="set-main-waypoint green-text" ng-if="${model}.main_waypoint_id === wp.document_id" ng-init="${model}.main_waypoint_title = wp.locales[0].title" translate>main waypoint</b>
           <button class="btn btn-sm btn-default set-main-waypoint" translate
                   ng-click="${model}.main_waypoint_id = wp.document_id; ${model}.main_waypoint_title = wp.locales[0].title"
                   ng-if="${model}.main_waypoint_id != wp.document_id">

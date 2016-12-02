@@ -1,21 +1,35 @@
 <a ng-href="{{cardCtrl.createURL()}}" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;">
   <div class="list-item-info">
 
-    <span class="list-item-title">{{::locale.title}}</span>
-    <span class="list-item-lang" ng-if="cardCtrl.lang != locale.lang">({{::locale.lang}})</span>
-    <div class="value">{{::doc['article_type'] | translate }}</div>
+    <div class="list-item-title-lang">
+      <span class="list-item-title">{{::locale.title}}</span>
+      <span class="list-item-lang" ng-if="cardCtrl.lang != locale.lang">({{::locale.lang}})</span>
+    </div>
+
+    <b class="article-type margin-t-sm margin-b-sm"><span class="green-text glyphicon glyphicon-tag margin-r-sm"></span>{{::doc['article_type']| translate }}</b>
 
     <div class="article-categories">
-      <span ng-repeat="category in ::doc.categories" class="value">{{::category | translate }}{{$last ? '' : ', '}}</span>
+      <b ng-repeat="category in ::doc.categories" class="value">{{::category | translate }}{{$last ? '' : ', '}}</b>
     </div>
 
-    <div class="article-activities">
-      <span ng-repeat="activity in ::doc.activities" class="route-activity icon-{{::activity}}"
-            uib-tooltip="{{ cardCtrl.translate(activity) }}"></span>
+    <div class="activities flex wrap-row margin-t-sm">
+      <span ng-repeat="activity in ::doc.activities | limitTo: 4"  class="activity icon-{{::activity}}"
+            uib-tooltip="{{ cardCtrl.translate(activity)}}"></span>
+
+      <span class="flex flexend-align show-more-activities"
+            ng-if="doc.activities.length > 4 && !cardCtrl.remainingActivities"
+            ng-click="$event.preventDefault(); cardCtrl.remainingActivities = true">
+        ...(+ {{::doc.activities.length - 4}})
+      </span>
+
+      <span ng-if="cardCtrl.remainingActivities" ng-repeat="activity in ::doc.activities | limitTo: (4 - doc.activities.length)"
+            class="activity icon-{{::activity}}" uib-tooltip="{{ cardCtrl.translate(activity)}}">
+      </span>
     </div>
 
-    <br>
     <div class="quality" ng-if="::doc['quality']" ng-class="::doc['quality']"
-         uib-tooltip="{{'quality'| translate}} : {{::doc['quality'] | translate}}" tooltip-placement="left"></div>
+         uib-tooltip="{{'quality'| translate}} : {{::doc['quality'] | translate}}" tooltip-placement="left">
+    </div>
+
   </div>
 </a>

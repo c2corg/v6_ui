@@ -1,26 +1,36 @@
-<a ng-href="{{cardCtrl.createURL()}}" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;">
-  <div class="outing-author text-center">
-    <div class="outing-date">{{ ::doc['date_end'] | date: 'dd/MM/yyyy'}}</div>
-    <span class="icon-user"></span><br>
-    <b class="author-name">{{::doc['author']['name']}}</b>
-  </div>
+<a ng-href="{{cardCtrl.createURL()}}" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;" class="flex">
+
   <div class="list-item-info">
-
-    <span class="list-item-title">{{::locale.title}}</span>
-    <span class="list-item-lang" ng-if="cardCtrl.lang != locale.lang">({{::locale.lang}})</span>
-    <br>
-    <div class="quality" ng-if="::doc['quality']" ng-class="::doc['quality']"
-         uib-tooltip="{{'quality'| translate}} : {{::doc['quality'] | translate}}" tooltip-placement="left">
+    <div class="list-item-title-lang margin-b-sm">
+      <span class="list-item-title"><p>{{::locale.title}}</p></span>
+      <span class="list-item-lang" ng-if="cardCtrl.lang != locale.lang">({{::locale.lang}})</span>
     </div>
 
-    <span class="elevation-max"  uib-tooltip="{{'elevation_max' | translate}}">
-      <span class="value-title glyphicon glyphicon-sort-by-attributes rotate-180"></span>
-      <span class="value">{{::doc['elevation_max']}}&nbsp;m</span>
-    </span>
+    <div class="flex wrap-row">
+      <span class="elevation" ng-if="::doc.elevation_max" uib-tooltip="{{'elevation_max' | translate}}">
+        <span class="value-title glyphicon glyphicon-sort-by-attributes rotate-180"></span>
+        <span class="value">{{::doc['elevation_max']}}&nbsp;m</span>
+      </span>
 
-    <div class="route-activities">
-      <span ng-repeat="activity in ::doc.activities" class="route-activity icon-{{::activity}}"
-            uib-tooltip="{{ ::cardCtrl.translate(activity) }}"></span>
+      <span class="date">
+        <span class="value-title glyphicon glyphicon-time"></span>
+        <span class="value">{{ ::doc['date_end'] | date: 'dd/MM/yyyy'}}</span>
+      </span>
+    </div>
+
+    <div class="activities">
+      <span ng-repeat="activity in ::doc.activities" class="activity icon-{{::activity}}"
+            uib-tooltip="{{ ::cardCtrl.translate(activity)}}"></span>
+    </div>
+
+    <div class="outing-author flex baseline-align" ng-if="!feed">
+      <span class="glyphicon glyphicon-user"></span>
+      <span class="author-name">{{::doc['author']['name']}}</span>
+    </div>
+
+    <div class="quality" ng-if="::doc['quality']" ng-class="::doc['quality']"
+         uib-tooltip="{{'quality' | translate}} : {{::doc['quality'] | translate}}" tooltip-placement="left">
     </div>
   </div>
+
 </a>

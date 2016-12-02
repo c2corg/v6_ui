@@ -93,6 +93,12 @@ app.CardController = function(gettextCatalog, appUrl, imageUrl) {
   this.doc;
 
   /**
+   * @type {boolean}
+   * @export
+   */
+  this.remainingActivities = false;
+
+  /**
    * @type {string}
    * @public
    */
@@ -131,7 +137,7 @@ app.CardController.prototype.translate = function(str) {
 app.CardController.prototype.createURL = function() {
   var loc = window.location.pathname;
   // Don't create links on edit and add pages.
-  if (loc.indexOf('edit') === -1 && loc.indexOf('add') === -1) {
+  if (loc.indexOf('/edit/') === -1 && loc.indexOf('/add/') === -1) {
     return this.url_.buildDocumentUrl(
       this.type, this.doc['document_id'], this.doc['locales'][0]);
   }

@@ -476,15 +476,8 @@ updating_doc = outing_id and outing_lang
                                    app-select="editCtrl.documentService.pushToAssociations(doc, 'users')" dataset="u"></app-simple-search>
                 <section class="associated-section flex wrap-row">
                   <h5 translate ng-show="outing.associations.users.length == 0">You can look up for users that were with you during the outing.</h5>
-                  <div class="list-item outings new-item" ng-repeat="user in outing.associations.users">
-                    <a>
-                      <div class="outing-author text-center">
-                        <span class="icon-user"></span><br>
-                      </div>
-                      <div class="list-item-info">
-                        <span class="list-item-title outing">{{user.name}}</span>
-                      </div>
-                    </a>
+                  <div class="list-item users new-item" ng-repeat="user in outing.associations.users track by user.name">
+                    <app-card app-card-doc="{'name': user['name'], 'type': 'u', 'locales': [] }"></app-card>
                     <span class="glyphicon glyphicon-trash"
                           ng-click="editCtrl.documentService.removeAssociation(user.document_id, 'users', $event)"
                           ng-show="outing.associations.users.length > 1"></span>
