@@ -7,6 +7,12 @@
     <div ng-controller="appAccountController as accountCtrl">
       <h1 translate>Change account parameters</h1>
       <form name="accountForm" novalidate ng-submit="accountCtrl.save()">
+
+        <div class="form-group">
+          <label translate>Username</label>
+          <input type="text" ng-value="userCtrl.auth.userData.username" class="form-control" disabled />
+        </div>
+
         <div id="account-currentpassword-group" class="form-group" ng-class="{ 'has-error': accountForm.currentpassword.$invalid }">
           <label translate>Current password</label>
           <input type="password" minlength="3" name="currentpassword" ng-model="account.currentpassword" class="form-control" required />
