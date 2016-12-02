@@ -629,8 +629,10 @@ updating_doc = route_id and route_lang
 
             ## GLACIER GEAR
             <div class="form-group data half" ng-class="{ 'has-success': route.glacier_gear }"
-                 ng-if="route.activities.indexOf('skitouring') > -1 || route.activities.indexOf('snow_ice_mixed') > -1 || route.activities.indexOf('mountain_climbing') > -1 || route.activities.indexOf('rock_climbing') > -1
-                || route.activities.indexOf('ice_climbing') > -1  || route.activities.indexOf('snowshoeing') > -1">
+                 ng-if="route.activities.indexOf('skitouring') > -1 || route.activities.indexOf('snow_ice_mixed') > -1
+                || route.activities.indexOf('mountain_climbing') > -1 || route.activities.indexOf('rock_climbing') > -1
+                || route.activities.indexOf('ice_climbing') > -1  || route.activities.indexOf('snowshoeing') > -1
+                || route.activities.indexOf('hiking') > -1">
               <label translate>glacier_gear</label>
               <select class="form-control" ng-model="route.glacier_gear" ng-options="rat as mainCtrl.translate(rat) for rat in ${glacier_gear_types}"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.glacier_gear"></span>
