@@ -5,7 +5,7 @@ from pyramid.settings import asbool
 <%namespace file="helpers/common.html" import="show_title"/>
 <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Authentication')">${show_title('Authentication')}</title></%block>
 
-<div app-auth class="auth-form">
+<div app-auth class="auth-form" app-loading>
 
   <section>
     <div ng-show="authCtrl.uiStates.showLoginForm">
