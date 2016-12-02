@@ -315,6 +315,29 @@
     </section>
 </%def>
 
+<%def name="show_associated_users(document)">\
+  <%
+    users = document['associations']['users']
+    associations = 'detailsCtrl.documentService.document.associations.outings'
+  %>
+    ## TODO? seo links
+    <section ng-show="${associations}.length > 0">
+      <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-users">
+        <span class="glyphicon glyphicon-map-marker"></span>
+        <span translate>Associated users</span><span class="glyphicon glyphicon-menu-down"></span>
+      </h3>
+      <div class="associated-documents collapse in" id="associated-users">
+        <div class="list-item" ng-repeat="doc in ${associations}" ng-class="{'new-item': doc['new']}">
+          <app-card app-card-doc="doc"></app-card>
+          % if type == 'users':
+            <app-delete-association child-doctype="outings" parent-id="${document['document_id']}" child-id="doc.document_id"
+              ng-if="userCtrl.auth.isAuthenticated() ; "></app-delete-association>
+          % endif
+        </div>
+      </div>
+    </section>
+</%def>
+
 <%def name="show_associated_waypoints(document, type='waypoints', showDelete=True)">\
   ## Possible values for type: waypoints, waypoint_children
   <%
