@@ -387,6 +387,23 @@ app.ImageUploaderController.prototype.selectOption = function(object, property, 
 };
 
 
+/**
+ * @param {Object} file
+ * @param {number} width Width of uploaded image.
+ * @param {number} height Height of uploaded image.
+ * @return {boolean}
+ * @export
+ */
+app.ImageUploaderController.prototype.resizeIf = function(
+    file, width, height) {
+  if (file.type === 'image/jpeg' || file.type === 'image/png') {
+    return file.size > 2 * 1024 * 1024 /** 2 MB */ ||
+      width > 4096 || height > 2048;
+  }
+  return false;
+};
+
+
 app.module.controller('AppImageUploaderController', app.ImageUploaderController);
 
 
