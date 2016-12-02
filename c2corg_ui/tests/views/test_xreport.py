@@ -21,9 +21,9 @@ class TestXreportUi(BaseTestUi):
         self.assertEqual(response.content_type, 'text/html')
 
         # creation page for xreports
-        route = '/%s/add' % self._prefix
-        response = self.app.get(route, status=200)
-        self.assertEqual(response.content_type, 'text/html')
+        # route = '/%s/add' % self._prefix
+        # response = self.app.get(route, status=200)
+        # self.assertEqual(response.content_type, 'text/html')
 
         # ask for a non existing lang foo
         route = '/%s/1/foo/bar' % self._prefix
