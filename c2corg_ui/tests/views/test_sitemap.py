@@ -42,7 +42,8 @@ class TestSitemapUi(BaseTestUi):
             resp = self.app.get(url, status=200)
             body = str(resp.body)
 
-            self.assertIn('<loc>http://localhost/sitemaps/w/0.xml</loc>', body)
+            self.assertIn(
+                '<loc>https://localhost/sitemaps/w/0.xml</loc>', body)
 
     def test_sitemap_index_etag(self):
         """ An ETag header is set, using the ETag of the API response.
@@ -102,6 +103,7 @@ class TestSitemapUi(BaseTestUi):
 
         # set the registry so that the routes can be generated
         self.request.registry = self.app.app.registry
+        self.request.environ['HTTP_HOST'] = 'example.com'
 
         sitemap = generate_sitemap(
             sitemap_data,
@@ -119,6 +121,7 @@ class TestSitemapUi(BaseTestUi):
 
         # set the registry so that the routes can be generated
         self.request.registry = self.app.app.registry
+        self.request.environ['HTTP_HOST'] = 'example.com'
 
         sitemap = generate_sitemap(
             sitemap_data,
@@ -136,6 +139,7 @@ class TestSitemapUi(BaseTestUi):
 
         # set the registry so that the routes can be generated
         self.request.registry = self.app.app.registry
+        self.request.environ['HTTP_HOST'] = 'example.com'
 
         sitemap = generate_sitemap(
             sitemap_data,
@@ -152,7 +156,7 @@ class TestSitemapUi(BaseTestUi):
             body = str(resp.body)
 
             self.assertIn(
-                '<loc>http://localhost/waypoints/37191/fr/patraflon</loc>',
+                '<loc>https://localhost/waypoints/37191/fr/patraflon</loc>',
                 body)
 
     def test_sitemap_waypoints_etag(self):

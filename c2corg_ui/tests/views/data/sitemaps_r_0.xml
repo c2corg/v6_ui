@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>http://example.com/routes/45130/fr/pointe-de-tosse-depuis-im-fang</loc><lastmod>2016-10-28T11:07:39.540612</lastmod><changefreq>weekly</changefreq></url>
-<url><loc>http://example.com/routes/45131/fr/tete-pelouse-par-la-combe-de-grand-cret</loc><lastmod>2016-10-28T11:07:39.540612</lastmod><changefreq>weekly</changefreq></url>
-<url><loc>http://example.com/routes/45132/fr/la-berte-berthe-par-les-mines-d-or</loc><lastmod>2016-10-28T11:07:39.540612</lastmod><changefreq>weekly</changefreq></url>
+<url><loc>https://example.com/routes/45130/fr/pointe-de-tosse-depuis-im-fang</loc><lastmod>2016-10-28T11:07:39.540612</lastmod><changefreq>weekly</changefreq></url>
+<url><loc>https://example.com/routes/45131/fr/tete-pelouse-par-la-combe-de-grand-cret</loc><lastmod>2016-10-28T11:07:39.540612</lastmod><changefreq>weekly</changefreq></url>
+<url><loc>https://example.com/routes/45132/fr/la-berte-berthe-par-les-mines-d-or</loc><lastmod>2016-10-28T11:07:39.540612</lastmod><changefreq>weekly</changefreq></url>
 </urlset>

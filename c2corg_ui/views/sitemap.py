@@ -33,7 +33,8 @@ class Sitemap(object):
 
         def render_page(sitemap_data):
             base_url = self.request.route_url(
-                'sitemap', doc_type='-DOC_TYPE-', i='-I-')
+                'sitemap', doc_type='-DOC_TYPE-', i='-I-',
+                _scheme='https')
             lastmod = datetime.datetime.utcnow().isoformat()
             return generate_sitemap_index(sitemap_data, base_url, lastmod)
 
@@ -111,7 +112,8 @@ def generate_sitemap(sitemap_data, doc_type, request, pretty_print=False):
             route_name + '_view',
             id=page['document_id'],
             lang=page['lang'],
-            slug=get_slug(page, is_route))
+            slug=get_slug(page, is_route),
+            _scheme='https')
 
         lines.append(
             '<url>'
