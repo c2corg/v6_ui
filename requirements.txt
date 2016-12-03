@@ -6,7 +6,6 @@ pyramid-mako==1.0.2
 waitress==0.8.10
 requests==2.1.0
 Shapely==1.5.13
-pyproj==1.9.5.1
 htmlmin==0.1.10
 bbcode==1.0.21
 Markdown==2.6.5

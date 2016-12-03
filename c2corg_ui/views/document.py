@@ -9,11 +9,8 @@ from c2corg_ui.caching import cache_document_detail, CachedPage, \
 from c2corg_ui import caching
 from c2corg_ui.diff.differ import diff_documents
 from shapely.geometry import asShape
-from shapely.ops import transform
-from functools import partial
 from urllib.parse import urlencode
 from slugify import slugify
-import pyproj
 import json
 import logging
 from c2corg_common.attributes import default_langs, langs_priority
@@ -328,12 +325,6 @@ class Document(object):
 
     def _get_geometry(self, data):
         return asShape(json.loads(data)) if data else None
-
-    def _transform(self, geometry, source_epsg, dest_epsg):
-        source_proj = pyproj.Proj(init=source_epsg)
-        dest_proj = pyproj.Proj(init=dest_epsg)
-        project = partial(pyproj.transform, source_proj, dest_proj)
-        return transform(project, geometry)
 
     def _get_cache_key(self, id, lang):
         return '{0}-{1}-{2}'.format(
