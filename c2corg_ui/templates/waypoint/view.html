@@ -22,10 +22,6 @@ from json import dumps
 waypoint_id = waypoint['document_id']
 other_langs, missing_langs = get_lang_lists(waypoint, lang)
 waypoint['doctype'] = 'waypoints'
-
-## FIXME: transform() makes server crash in apache mode. Reprojection is then temporarly deactivated.
-##geometry4326 = transform(geometry, 'epsg:3857', 'epsg:4326')
-geometry4326 = geometry
 %>
 
 <%block name="pagelang">lang="${lang}"</%block>
@@ -97,8 +93,8 @@ geometry4326 = geometry
   % if waypoint.get('elevation'):
     <p class="text-center"><b>${waypoint['elevation']} m</b></p>
   % endif
-  % if geometry4326:
-    <p>${round(geometry4326.x)} °E / ${round(geometry4326.y)} °N</p>
+  % if geometry:
+    <p ng-bind="'${round(geometry.x)}/${round(geometry.y)}' | coordinate"></p>
   % endif
 </article>
 <app-map class="view-details-map"></app-map>
