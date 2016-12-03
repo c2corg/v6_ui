@@ -1,7 +1,10 @@
 goog.provide('app.capitalize');
 goog.provide('app.trustAsHtmlFilter');
+goog.provide('app.coordinate');
 
 goog.require('app');
+goog.require('ol.coordinate');
+goog.require('ol.proj');
 
 
 /**
@@ -31,3 +34,23 @@ app.capitalize = function() {
 
 app.module.filter('capitalize', app.capitalize);
 
+
+/**
+ * @export
+ * @return {function(string):string}
+ */
+app.coordinate = function() {
+  return function(coordinateRaw) {
+    if (coordinateRaw) {
+      var coordinatesRaw = coordinateRaw.split('/');
+      var coordinates = [
+        parseInt(coordinatesRaw[0], 10),
+        parseInt(coordinatesRaw[1], 10)
+      ];
+      return ol.coordinate.toStringHDMS(ol.proj.toLonLat(coordinates));
+    }
+    return '';
+  };
+};
+
+app.module.filter('coordinate', app.coordinate);

@@ -33,7 +33,6 @@ class Waypoint(Document):
                 'waypoint': waypoint,
                 'locale': locale,
                 'geometry': self._get_geometry(waypoint['geometry']['geom']),
-                'transform': self._transform,
                 'version': None
             })
 
@@ -56,7 +55,6 @@ class Waypoint(Document):
                 'waypoint': waypoint,
                 'locale': locale,
                 'geometry': self._get_geometry(waypoint['geometry']['geom']),
-                'transform': self._transform,
                 'version': version
             })
 
