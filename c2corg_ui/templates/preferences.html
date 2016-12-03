@@ -6,7 +6,7 @@ from c2corg_common.attributes import activities
 <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Filter preferences')">${show_title('Filter preferences')}</title></%block>
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
 
-<div class="preferences">
+<div class="preferences" app-loading>
   <section app-preferences>
     <div class="preferences-filter">
       <h3 class="green-text" translate>Filter preferences</h3>
