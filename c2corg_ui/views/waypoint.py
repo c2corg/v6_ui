@@ -94,6 +94,19 @@ class Waypoint(Document):
         })
         return self.template_input
 
+    @view_config(route_name='waypoints_edit_archive',
+                 renderer='c2corg_ui:templates/waypoint/edit.html')
+    def edit_archive(self):
+        id, lang = self._validate_id_lang()
+        version = int(self.request.matchdict['version'])
+        self.template_input.update({
+            'waypoint_types': waypoint_types,
+            'waypoint_lang': lang,
+            'waypoint_id': id,
+            'version': version
+        })
+        return self.template_input
+
     @view_config(route_name='waypoints_preview',
                  renderer='c2corg_ui:templates/waypoint/preview.html')
     def preview(self):

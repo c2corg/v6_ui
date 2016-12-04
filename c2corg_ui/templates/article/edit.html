@@ -8,7 +8,8 @@ from c2corg_common.attributes import default_langs, activities, article_categori
 <%namespace file="../helpers/common.html" import="show_title"/>
 <%namespace file="../helpers/edit.html" import="show_save_confirmation_modal, show_preview_container, show_editing_buttons,
   show_editing_associated_waypoints, show_editing_associated_routes, show_editing_associated_outings,
-  show_editing_associated_articles, show_editing_associated_books, show_protected_warning"/>
+  show_editing_associated_articles, show_editing_associated_books, show_protected_warning,
+  show_archive_editing_warning"/>
 
 <%block name="pagetitle"><title ng-init="id = ${article_id if article_id else 0}" ng-bind="id ? mainCtrl.page_title('Editing an article') : mainCtrl.page_title('Creating an article')">${show_title('Create/edit article')}</title></%block>
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
@@ -24,9 +25,15 @@ from c2corg_common.attributes import default_langs, activities, article_categori
   % if updating_doc:
     app-document-editing-id="${article_id}" app-document-editing-lang="${article_lang}"
   % endif
+  % if version:
+    app-document-editing-version="${version}"
+  % endif
     class="document-editing" name="editForm" novalidate ng-submit="editCtrl.confirmSave(editForm.$valid)">
 
     ${show_protected_warning('article')}
+    % if version:
+      ${show_archive_editing_warning()}
+    % endif
 
     <section class="editing">
 

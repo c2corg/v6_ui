@@ -12,7 +12,8 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
 <%namespace file="../helpers/common.html" import="show_title"/>
 <%namespace file="../helpers/edit.html" import="show_editing_associated_waypoints,
     show_editing_associated_routes, show_preview_container,
-    show_editing_buttons, show_save_confirmation_modal, show_protected_warning"/>
+    show_editing_buttons, show_save_confirmation_modal, show_protected_warning,
+    show_archive_editing_warning"/>
 <%namespace file="../helpers/orientations.svg" import="show_orientations"/>
 
 <%block name="pagetitle">
@@ -34,7 +35,14 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
   % if updating_doc:
     app-document-editing-id="${waypoint_id}" app-document-editing-lang="${waypoint_lang}"
   % endif
+  % if version:
+    app-document-editing-version="${version}"
+  % endif
     class="document-editing" name="editForm" novalidate ng-submit="editCtrl.confirmSave(editForm.$valid)">
+
+    % if version:
+      ${show_archive_editing_warning()}
+    % endif
 
     <div class="ng-hide">{{type = waypoint.waypoint_type}}</div>
 

@@ -85,6 +85,18 @@ class Article(Document):
         })
         return self.template_input
 
+    @view_config(route_name='articles_edit_archive',
+                 renderer='c2corg_ui:templates/article/edit.html')
+    def edit_archive(self):
+        id, lang = self._validate_id_lang()
+        version = int(self.request.matchdict['version'])
+        self.template_input.update({
+            'article_lang': lang,
+            'article_id': id,
+            'version': version
+        })
+        return self.template_input
+
     @view_config(route_name='articles_preview',
                  renderer='c2corg_ui:templates/article/preview.html')
     def preview(self):

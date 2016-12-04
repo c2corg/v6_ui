@@ -200,16 +200,27 @@ app.Api.prototype.createDocument = function(module, json) {
  * @param {number} id Document id.
  * @param {string} lang Language.
  * @param {boolean=} editing True if in editing mode (default: false).
+ * @param {number=} version Version number of archive (default: null).
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
-app.Api.prototype.readDocument = function(module, id, lang, editing) {
+app.Api.prototype.readDocument = function(module, id, lang, editing, version) {
   var alerts = this.alerts_;
-  editing = typeof editing === 'undefined' ? false : editing;
-  var url = '/{module}/{id}?l={lang}{editing}'
-    .replace('{module}', module)
-    .replace('{id}', String(id))
-    .replace('{lang}', lang)
-    .replace('{editing}', editing ? '&e=1' : '');
+  var url;
+
+  if (version) {
+    url = '/{module}/{id}/{lang}/{version}'
+      .replace('{module}', module)
+      .replace('{id}', String(id))
+      .replace('{lang}', lang)
+      .replace('{version}', String(version));
+  } else {
+    editing = typeof editing === 'undefined' ? false : editing;
+    url = '/{module}/{id}?l={lang}{editing}'
+      .replace('{module}', module)
+      .replace('{id}', String(id))
+      .replace('{lang}', lang)
+      .replace('{editing}', editing ? '&e=1' : '');
+  }
 
   var promise = this.getJson_(url);
   promise.catch(function(response) {

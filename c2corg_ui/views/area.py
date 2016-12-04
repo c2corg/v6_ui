@@ -81,6 +81,18 @@ class Area(Document):
         })
         return self.template_input
 
+    @view_config(route_name='areas_edit_archive',
+                 renderer='c2corg_ui:templates/area/edit.html')
+    def edit_archive(self):
+        id, lang = self._validate_id_lang()
+        version = int(self.request.matchdict['version'])
+        self.template_input.update({
+            'area_lang': lang,
+            'area_id': id,
+            'version': version
+        })
+        return self.template_input
+
     @view_config(route_name='areas_preview',
                  renderer='c2corg_ui:templates/area/preview.html')
     def preview(self):
