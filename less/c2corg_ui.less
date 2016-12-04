@@ -447,7 +447,6 @@ app-pagination.areas, app-pagination.articles app-pagination.books {
     }
   }/*list-item-info*/
 
-
   .waypoint-type {
     font-size: 1.5em;
     color: @C2C-orange;
@@ -539,6 +538,23 @@ app-pagination.areas, app-pagination.articles app-pagination.books {
   &.highlight a .list-item-title {
     color: teal;
     transition: 0.1s ease-in-out;
+  }
+  &.users {
+    margin-left: 3px;
+    margin-right: 3px;
+    @media @big {
+      width: 24%;
+    }
+    @media @desktop {
+      width: 32%;
+    }
+    @media @tablet {
+      width: 49%;
+    }
+    button {
+      float: right;
+      margin: 5px;
+    }
   }
 } /* list-item*/
 
@@ -934,7 +950,7 @@ app-alerts {
   }
 }
 
-.auth-form, .preferences, .mailinglists {
+.auth-form, .preferences, .mailinglists, .following {
   padding: 0 10% 0 10%;
   margin-top: 100px;
   margin-bottom: 20px;
@@ -1185,9 +1201,28 @@ ul {
   }
 }
 
-.preferences, .mailinglists {
+.preferences, .mailinglists, .following {
   h3 {
     margin: 15px 0;
+  }
+}
+
+.preferences, .following {
+  app-simple-search {
+    width: 50%;
+    margin-bottom: 10px;
+
+    .search {
+      width: 100% !important;
+    }
+  }
+  @media @phone {
+    app-simple-search {
+      width: 100%;
+    }
+    .list-item {
+      flex-basis: 100% !important;
+    }
   }
 }
 
@@ -1214,21 +1249,7 @@ ul {
     flex-basis: 33%;
     margin-right: 10px;
   }
-  app-simple-search {
-    width: 50%;
-    margin-bottom: 10px;
-
-    .search {
-      width: 100% !important;
-    }
-  }
   @media @phone {
-    app-simple-search {
-      width: 100%;
-    }
-    .list-item {
-      flex-basis: 100% !important;
-    }
     .route-activity {
       font-size: 4em;
     }
