@@ -165,7 +165,11 @@
       % for doc in documents:
         <%
             locale = doc['locales'][0]
-            title = locale['title_prefix'] + ' : ' if doctype == 'routes' and locale['title_prefix'] is not None else ''
+            if 'title' in locale:
+                title = locale['title_prefix'] + ' : ' if doctype == 'routes' and locale['title_prefix'] is not None else ''
+            else:
+                locale['title_prefix'] = ''
+                locale['title'] = ''
             title += locale['title']
             slug = get_slug(locale, is_route=doctype == 'routes')
         %>
