@@ -47,6 +47,11 @@ class Pages(object):
         return self._get_page(
             'mailinglists', 'c2corg_ui:templates/mailinglists.html')
 
+    @view_config(route_name='following')
+    def following(self):
+        return self._get_page(
+            'following', 'c2corg_ui:templates/following.html')
+
     def _get_page(self, page_key, template, no_etag=False):
         return get_or_create_page(
             page_key,

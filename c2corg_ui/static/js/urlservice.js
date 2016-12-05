@@ -39,9 +39,8 @@ app.Url = function(slug) {
 app.Url.prototype.buildDocumentUrl = function(documentType, documentId, locale, lang) {
   lang = lang || locale['lang'];
 
-  if (documentType === 'profiles') {
-    return '/{type}/{id}/{lang}'
-    .replace('{type}', documentType)
+  if (documentType === 'profiles' || documentType === 'users') {
+    return '/profiles/{id}/{lang}'
     .replace('{id}', String(documentId))
     .replace('{lang}', lang);
   }

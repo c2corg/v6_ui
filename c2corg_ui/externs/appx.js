@@ -85,12 +85,10 @@ appx.AlertMessage;
 appx.auth.RequestChangePassword;
 
 
-// TODO: extern for users + add it to associations
-
 /**
  * @typedef {{
  *   images: Array.<appx.Image>,
- *   users: ?Array.<Object>,
+ *   users: ?Array.<appx.User>,
  *   routes: ?Array.<appx.Route>,
  *   waypoints: ?Array.<appx.Waypoint>,
  *   waypoint_children: ?Array.<appx.Waypoint>,
@@ -105,7 +103,7 @@ appx.DocumentAssociations;
  * @typedef {{
  *   associations: appx.DocumentAssociations,
  *   locales: Array.<Object>,
- *   type : string,
+ *   type: string,
  *   quality: string,
  *   document_id: number
  * }}
@@ -117,7 +115,7 @@ appx.Document;
  * @typedef {{
  *   associations: appx.DocumentAssociations,
  *   locales: Array.<Object>,
- *   type : string,
+ *   type: string,
  *   quality: string,
  *   document_id: number,
  *
@@ -154,7 +152,7 @@ appx.Outing;
  * @typedef {{
  *   associations: appx.DocumentAssociations,
  *   locales: Array.<Object>,
- *   type : string,
+ *   type: string,
  *   quality: string,
  *   document_id: number,
  *
@@ -209,7 +207,7 @@ appx.Route;
  * @typedef {{
  *   associations: appx.DocumentAssociations,
  *   locales: Array.<Object>,
- *   type : string,
+ *   type: string,
  *   quality: string,
  *   document_id: number,
  *
@@ -265,8 +263,8 @@ appx.Waypoint;
  * @typedef {{
  *   associations: appx.DocumentAssociations,
  *   locales: Array.<Object>,
- *   type : string,
- *   document_id:number
+ *   type: string,
+ *   document_id: number
  * }}
  */
 appx.Image;
@@ -275,13 +273,29 @@ appx.Image;
 /**
  * @typedef {{
  *   locales: Array.<Object>,
- *   type : string,
+ *   type: string,
  *   area_type: string,
  *   quality: string,
- *   document_id:number
+ *   document_id: number
  * }}
  */
 appx.Area;
+
+
+/**
+ * @typedef {{
+ *   document_id: number,
+ *   type: string,
+ *   locales: Array.<Object>,
+ *   name: string,
+ *   forum_username: string,
+ *   areas: Array.<appx.Area>,
+ *   activities: Array.<string>,
+ *   categories: Array.<string>,
+ *   available_langs: Array.<string>
+ * }}
+ */
+appx.User;
 
 
 /**
