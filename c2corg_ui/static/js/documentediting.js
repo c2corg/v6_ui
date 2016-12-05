@@ -78,12 +78,6 @@ app.DocumentEditingController = function($scope, $element, $attrs, $http,
   this.documentService = appDocument;
 
   /**
-   * @type {ngeo.Location}
-   * @private
-   */
-  this.ngeoLocation_ = ngeoLocation;
-
-  /**
    * @type {string}
    * @private
    */

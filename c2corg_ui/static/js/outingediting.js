@@ -69,15 +69,15 @@ app.OutingEditingController = function($scope, $element, $attrs, $http,
    */
   this.differentDates;
 
-  // allow association only for a new outing to existing route
-  if (ngeoLocation.hasFragmentParam('r')) {
-    var routeId = parseInt(ngeoLocation.getFragmentParam('r'), 10);
-    appApi.getDocumentByIdAndDoctype(routeId, 'r', appLang.getLang()).then(function(doc) {
-      this.documentService.pushToAssociations(doc.data['routes'].documents[0], 'routes', true);
-    }.bind(this));
-  }
-
   if (this.auth.isAuthenticated()) {
+    // allow association only for a new outing to existing route
+    if (ngeoLocation.hasFragmentParam('r')) {
+      var routeId = parseInt(ngeoLocation.getFragmentParam('r'), 10);
+      appApi.getDocumentByIdAndDoctype(routeId, 'r', appLang.getLang()).then(function(doc) {
+        this.documentService.pushToAssociations(doc.data['routes'].documents[0], 'routes', true);
+      }.bind(this));
+    }
+
     this.scope[this.modelName]['associations']['users'].push({
       'document_id': this.auth.userData.id,
       'name': this.auth.userData.name
