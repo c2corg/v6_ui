@@ -210,7 +210,7 @@
       <div class="associated-documents collapse in" id="associated-articles">
         <div class="list-item" ng-repeat="doc in ${associations}" ng-class="{'new-item': doc['new']}">
           <app-card app-card-doc="doc"></app-card>
-          % if type == 'articles':
+          % if type == 'articles' and document['doctype'] != 'xreports':
               <app-delete-association child-doctype="articles" parent-id="${document['document_id']}" child-id="doc.document_id"
                 ng-if="${test_association_rights(document)}"></app-delete-association>
           % endif
@@ -234,9 +234,32 @@
       <div class="associated-documents collapse in" id="associated-books">
         <div class="list-item" ng-repeat="doc in ${associations}" ng-class="{'new-item': doc['new']}">
           <app-card app-card-doc="doc"></app-card>
-          % if type == 'books':
-              <app-delete-association child-doctype="books" parent-id="${document['document_id']}" child-id="doc.document_id"
-                ng-if="${test_association_rights(document)}"></app-delete-association>
+          % if type == 'books' and document['doctype'] != 'xreports':
+            <app-delete-association child-doctype="books" parent-id="${document['document_id']}" child-id="doc.document_id"
+              ng-if="${test_association_rights(document)}"></app-delete-association>
+          % endif
+        </div>
+      </div>
+    </section>
+</%def>
+
+<%def name="show_associated_xreports(document)">\
+  <%
+    xreports = document['associations']['xreports']
+    associations = 'detailsCtrl.documentService.document.associations.' + type
+  %>
+   ${add_seo_association_links(xreports, 'xreports')}
+    <section ng-show="${associations}.length > 0">
+      <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-xreports">
+        <span class="glyphicon glyphicon-map-marker"></span>
+        <span translate>Associated xreports</span><span class="glyphicon glyphicon-menu-down"></span>
+      </h3>
+      <div class="associated-documents collapse in" id="associated-xreports">
+        <div class="list-item" ng-repeat="doc in ${associations}" ng-class="{'new-item': doc['new']}">
+          <app-card app-card-doc="doc"></app-card>
+          % if type == 'xreports' and document['doctype'] != 'xreports':
+            <app-delete-association child-doctype="xreports" parent-id="${document['document_id']}" child-id="doc.document_id"
+              ng-if="userCtrl.auth.isModerator()"></app-delete-association>
           % endif
         </div>
       </div>
@@ -263,7 +286,7 @@
       <div class="associated-documents collapse in" id="associated-routes">
         <div class="list-item" ng-repeat="doc in ${associations}" ng-class="{'new-item': doc['new']}">
           <app-card app-card-doc="doc"></app-card>
-          % if type == 'routes':
+          % if type == 'routes' and document['doctype'] != 'xreports':
             <app-delete-association child-doctype="routes" parent-id="${document['document_id']}" child-id="doc.document_id"
               ng-if="${test_association_rights(document)}
               % if document['type'] == 'o':
@@ -313,7 +336,7 @@
            % endif
            ng-repeat="doc in ${associations} | orderBy: 'waypoint_type'">
            <app-card app-card-doc="doc"></app-card>
-        % if showDelete:
+        % if showDelete and document['doctype'] != 'xreports':
             <app-delete-association child-doctype="${type}" parent-id="${document['document_id']}" child-id="doc.document_id"
               ng-if="${test_association_rights(document)}
               % if document['doctype'] == 'routes':

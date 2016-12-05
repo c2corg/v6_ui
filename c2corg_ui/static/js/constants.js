@@ -36,6 +36,7 @@ app.constants = {
     'outings' : ['title' , 'lang', 'date_start', 'routes', 'activities'],
     'images': ['image_type'],
     'profiles': [],
+    'xreports': ['title', 'lang', 'activities', 'event_type', 'longitude', 'latitude'],
     'areas': ['title', 'area_type']
   },
   documentEditing: {

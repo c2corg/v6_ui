@@ -114,6 +114,19 @@ def main(global_config, **settings):
         'books_diff', '/books/diff/{id:\d+}/{lang}/{v1}/{v2}')
     config.add_route('books_preview', '/books/preview')
 
+    config.add_route('xreports_index', '/xreports')
+    # config.add_route('xreports_add', '/xreports/add')
+    # config.add_route('xreports_edit', '/xreports/edit/{id:\d+}/{lang}')
+    config.add_route('xreports_history', '/xreports/history/{id:\d+}/{lang}')
+    config.add_route('xreports_archive',
+                     '/xreports/{id:\d+}/{lang}/{version:\d+}')
+    config.add_route('xreports_view', '/xreports/{id:\d+}/{lang}/{slug}')
+    config.add_route('xreports_view_id_lang', '/xreports/{id:\d+}/{lang}')
+    config.add_route('xreports_view_id', '/xreports/{id:\d+}')
+    config.add_route(
+        'xreports_diff', '/xreports/diff/{id:\d+}/{lang}/{v1}/{v2}')
+    config.add_route('xreports_preview', '/xreports/preview')
+
     config.add_route('images_index', '/images')
     config.add_route('images_edit', '/images/edit/{id:\d+}/{lang}')
     config.add_route('images_history', '/images/history/{id:\d+}/{lang}')

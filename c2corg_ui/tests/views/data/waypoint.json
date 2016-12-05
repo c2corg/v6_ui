@@ -54,6 +54,7 @@
 		}],
 		"images": [],
 		"books": [],
+		"xreports": [],
 		"all_routes": {
 			"total": 0,
 			"documents": []
