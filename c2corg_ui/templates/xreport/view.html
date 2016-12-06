@@ -165,7 +165,7 @@ other_langs, missing_langs = get_lang_lists(xreport, lang)
   % if not version:
     ${show_other_langs_links('xreports', xreport, other_langs)}
     ${show_missing_langs_links('xreports', xreport, missing_langs)}
-    ${show_float_buttons(None, 'xreports', xreport_id, lang, other_langs, missing_langs)}
+    ${show_float_buttons(xreport, lang, other_langs, missing_langs)}
   % endif
 
 </section>
