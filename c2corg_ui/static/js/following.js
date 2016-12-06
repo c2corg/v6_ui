@@ -57,6 +57,12 @@ app.FollowingController = function(appAuthentication, appApi, authUrl) {
    */
   this.followingIds = [];
 
+  /**
+   * @type {Array.<number>}
+   * @private
+   */
+  this.pausedIds_ = [];
+
   if (this.auth_.isAuthenticated()) {
     this.api_.getFollowing().then(function(response) {
       this.following = response['data']['following'];
@@ -75,15 +81,21 @@ app.FollowingController = function(appAuthentication, appApi, authUrl) {
  * @export
  */
 app.FollowingController.prototype.toggle = function(id) {
-  if (this.followingIds.indexOf(id) > -1) {
+  var index = this.followingIds.indexOf(id);
+  if (index > -1) {
+    // user was already followed => unfollow/paused them
     this.api_.unfollow(id).then(function(response) {
-      this.followingIds = this.followingIds.filter(function(i) {
-        return i != id;
-      });
+      this.followingIds.splice(index, 1);
+      this.pausedIds_.push(id);
     }.bind(this));
   } else {
+    // user was paused/not followed => follow/unpause them
     this.api_.follow(id).then(function(response) {
       this.followingIds.push(id);
+      var pIndex = this.pausedIds_.indexOf(id);
+      if (pIndex > -1) {
+        this.pausedIds_.splice(pIndex, 1);
+      }
     }.bind(this));
   }
 };
@@ -95,12 +107,21 @@ app.FollowingController.prototype.toggle = function(id) {
  */
 app.FollowingController.prototype.addUser = function(user) {
   var id = user.document_id;
-  if (this.auth_.userData.id !== id) {
-    this.api_.follow(id).then(function(response) {
-      this.followingIds.push(id);
-      this.following.push(user);
-    }.bind(this));
+  if (this.followingIds.indexOf(id) > -1 || this.auth_.userData.id === id) {
+    // do nothing if user to add is already followed or is the current user
+    return;
   }
+
+  this.api_.follow(id).then(function(response) {
+    this.followingIds.push(id);
+    var pIndex = this.pausedIds_.indexOf(id);
+    if (pIndex > -1) {
+      // user is paused => no need to add them to the list, only unpause them
+      this.pausedIds_.splice(pIndex, 1);
+    } else {
+      this.following.push(user);
+    }
+  }.bind(this));
 };
 
 
