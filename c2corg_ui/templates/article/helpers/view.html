@@ -31,6 +31,15 @@
       <p><span class="value-title" translate>article_type</span>: <span class="value" x-translate>${article['article_type']}</span></p>
     % endif
 
+    % if article.get('author'):
+      <%
+          user_id = article['author']['user_id']
+          user_lang = article['locales'][0]['lang']
+      %>
+      <p><span class="value-title" translate>author</span>:
+        <a class="value" href="${request.route_path('profiles_view', id=user_id, lang=user_lang)}" >${article['author']['name']}</a>
+    % endif
+
     % if article.get('quality'):
       <p><span class="value-title" translate>quality</span>: <span class="value" x-translate>${article['quality']}</span></p>
     % endif
