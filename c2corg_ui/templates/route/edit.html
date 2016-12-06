@@ -97,7 +97,7 @@ updating_doc = route_id and route_lang
           <h5 class="full" translate ng-show="editCtrl.documentService.document.associations.routes.length == 0 && editCtrl.documentService.document.associations.waypoints.length == 0">
             You can add associated routes and waypoints by searching in the field.
           </h5>
-          <div class="content route-associations">
+          <div class="content">
             ## wr = waypoints, routes
             <app-simple-search parent-id="route.document_id"
               app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="wr"></app-simple-search>
