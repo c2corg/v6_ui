@@ -70,6 +70,14 @@
       <p><span class="value-title" translate>severity</span>: <span class="value" x-translate>${xreport['severity']}</span></p>
     % endif
 
+    % if xreport.get('author'):
+      <%
+          user_id = xreport['author']['user_id']
+          user_lang = xreport['locales'][0]['lang']
+      %>
+      <span class="value-title" translate>author</span>: <a class="value" href="${request.route_path('profiles_view', id=user_id, lang=user_lang)}" >${xreport['author']['name']}</a>
+    % endif
+
     % if xreport.get('quality'):
       <p><span class="value-title" translate>quality</span>: <span class="value" x-translate>${xreport['quality']}</span></p>
     % endif
