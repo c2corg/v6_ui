@@ -252,7 +252,8 @@ app.SimpleSearchController.prototype.createDataset_ = function(type) {
     templates: {
       header: (function() {
         var typeUpperCase = type.charAt(0).toUpperCase() + type.substr(1);
-        return '<div class="header" dataset="' + type + '">' +  this.gettextCatalog_.getString(typeUpperCase) + '</div>';
+        return '<div class="header" dataset="' + type + '">' +
+          this.gettextCatalog_.getString(typeUpperCase) + '</div>';
       }).bind(this),
       footer: function(doc) {
         if (!this.associationContext_) {
@@ -267,14 +268,20 @@ app.SimpleSearchController.prototype.createDataset_ = function(type) {
       suggestion: function(doc) {
         if (doc) {
           this.scope_['doc'] = doc;
-          return this.compile_('<app-suggestion class="tt-suggestion"></app-suggestion>')(this.scope_);
+          return this.compile_(
+            '<app-suggestion class="tt-suggestion"></app-suggestion>'
+          )(this.scope_);
         } else {
           return '<div class="ng-hide"></div>';
         }
       }.bind(this),
       empty: function(res) {
         if ($('.header.empty').length === 0) {
-          return this.compile_(this.templatecache_.get('/static/partials/suggestions/empty.html'))(this.scope_);
+          var partialFile = this.associationContext_ ? 'empty' : 'create';
+          return this.compile_(
+            this.templatecache_.get(
+              '/static/partials/suggestions/' + partialFile + '.html')
+          )(this.scope_);
         }
       }.bind(this)
     }
