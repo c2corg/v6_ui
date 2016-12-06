@@ -140,10 +140,10 @@ other_langs, missing_langs = get_lang_lists(xreport, lang)
     <div class="view-details-associations col-xs-12 associations" ng-init="a = detailsCtrl.documentService.document.associations"
          ng-show="a.waypoints.length || a.routes.length || a.articles.length || a.outings.length">
       <span class="lead">
-##         <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
-##           <label translate>Add association</label>
-##           <app-add-association parent-doctype="xreports" parent-id="${xreport_id}" dataset="wrc"></app-add-association>
-##         </div>
+        <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
+          <label translate>Add association</label>
+          <app-add-association parent-doctype="xreports" parent-id="${xreport_id}" dataset="wrc"></app-add-association>
+        </div>
         <section>
           ${show_associated_waypoints(xreport)}
           ${show_associated_routes(xreport)}
@@ -159,8 +159,8 @@ other_langs, missing_langs = get_lang_lists(xreport, lang)
   ## OTHER BUTTON contents
   % if not version:
     ${show_other_langs_links('xreports', xreport, other_langs)}
-##     ${show_missing_langs_links('xreports', xreport, missing_langs)}
-##     ${show_float_buttons(None, 'xreports', xreport_id, lang, other_langs, missing_langs)}
+    ${show_missing_langs_links('xreports', xreport, missing_langs)}
+    ${show_float_buttons(None, 'xreports', xreport_id, lang, other_langs, missing_langs)}
   % endif
 
 </section>

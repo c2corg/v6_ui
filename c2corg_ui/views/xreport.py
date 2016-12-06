@@ -69,23 +69,23 @@ class Xreport(Document):
     def diff(self):
         return self._diff()
 
-    # @view_config(route_name='xreports_add')
-    # def add(self):
-    #     self.template_input.update({
-    #         'report_lang': None,
-    #         'report_id': None
-    #     })
-    #     return self._add('c2corg_ui:templates/xreport/edit.html')
+    @view_config(route_name='xreports_add')
+    def add(self):
+        self.template_input.update({
+            'report_lang': None,
+            'report_id': None
+        })
+        return self._add('c2corg_ui:templates/xreport/edit.html')
 
-    # @view_config(route_name='xreports_edit',
-    #              renderer='c2corg_ui:templates/xreport/edit.html')
-    # def edit(self):
-    #     id, lang = self._validate_id_lang()
-    #     self.template_input.update({
-    #         'report_lang': lang,
-    #         'report_id': id
-    #     })
-    #     return self.template_input
+    @view_config(route_name='xreports_edit',
+                 renderer='c2corg_ui:templates/xreport/edit.html')
+    def edit(self):
+        id, lang = self._validate_id_lang()
+        self.template_input.update({
+            'report_lang': lang,
+            'report_id': id
+        })
+        return self.template_input
 
     @view_config(route_name='xreports_preview',
                  renderer='c2corg_ui:templates/xreport/preview.html')
