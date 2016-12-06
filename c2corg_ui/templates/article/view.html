@@ -11,7 +11,7 @@ from json import dumps
   show_associated_waypoints, show_associated_outings, show_associated_routes,
   show_associated_articles, show_associated_books,
   delete_association_confirmation_modal, associated_images_featurelist, show_badge, get_licence"/>
-<%namespace file="helpers/view.html" import="get_article_general"/>
+<%namespace file="helpers/view.html" import="get_article_general, get_article_participants"/>
 
 <%
 article_id = article['document_id']
@@ -66,6 +66,7 @@ other_langs, missing_langs = get_lang_lists(article, lang)
     </h3>
     <section id="document-informations" class="collapse in">
       ${get_article_general(article)}
+      ${get_article_participants(article)}
       ${get_licence(article)}
     </section>
   </div>

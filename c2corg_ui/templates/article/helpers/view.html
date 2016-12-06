@@ -47,3 +47,31 @@
     </span>
 </div>
 </%def>
+
+<%def name="get_article_participants(article)">\
+  % if article.get('participant_count') or article['locales'][0].get('participants') or article['associations']['users']:
+    <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
+      <h4><span translate>participants</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+      <div class="name-icon">
+        <span class="icon-user"></span>
+        <p translate>participants</p>
+      </div>
+      <span class="detail-text accordion">
+        % if article.get('associations').get('users'):
+          <p>
+            % for user in article['associations']['users']:
+              <%
+                  user_id = user['document_id']
+                  user_lang = user['locales'][0]['lang']
+                  is_last_participant = loop.last and not article['locales'][0].get('participants')
+              %>
+              <a href="${request.route_path('profiles_view', id=user_id, lang=user_lang)}">${user['name']}</a>${'' if is_last_participant else ', '}
+            % endfor
+            ${article['locales'][0].get('participants') or ''}
+          </p>
+        % endif
+
+      </span>
+    </div>
+  % endif
+</%def>
