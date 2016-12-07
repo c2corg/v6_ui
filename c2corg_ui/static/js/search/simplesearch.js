@@ -295,10 +295,11 @@ app.SimpleSearchController.prototype.createDataset_ = function(type) {
  * @private
  */
 app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
+  var limit = 7;
   var url = this.apiUrl_ + '/search?q=%QUERY';
 
   var bloodhound = new Bloodhound(/** @type {BloodhoundOptions} */({
-    limit: 7,
+    limit: limit,
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('label'),
     remote: {
@@ -308,6 +309,7 @@ app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
       prepare: (function(query, settings) {
 
         var url = settings['url'] + '&pl=' + this.gettextCatalog_.currentLanguage;
+        url += '&limit=' + limit;
 
         if (this.datasetLimit_) {
           // add the Auth header if searching for users
