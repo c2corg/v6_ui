@@ -125,7 +125,7 @@ app.Authentication.prototype.hasEditRights = function(doctype, options) {
   } else if (doctype === 'articles') {
     return this.hasEditRightsArticle_(options['articleType'], options['authorId']);
   } else if (doctype === 'xreports') {
-    return false;
+    return this.hasEditRightsXreport_(options['authorId']);
   }
 
   return true;
@@ -180,6 +180,17 @@ app.Authentication.prototype.hasEditRightsArticle_ = function(articleType, autho
   } else {
     return this.userData.id === parseInt(authorId, 10);
   }
+};
+
+
+/**
+ * Checks if the current user has rights to access/edit the xreport.
+ * @param {string} authorId
+ * @return {boolean}
+ * @private
+ */
+app.Authentication.prototype.hasEditRightsXreport_ = function(authorId) {
+  return this.userData.id === parseInt(authorId, 10);
 };
 
 

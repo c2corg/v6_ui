@@ -190,6 +190,8 @@
       % elif document['type'] == 'i':
         'imageType': '${document['image_type']}',
         'imageCreator': '${document['creator']['user_id']}',
+      % elif document['type'] == 'x':
+        'authorId': '${document['author']['user_id']}'
       % endif
     })
   % endif
@@ -260,7 +262,7 @@
           <app-card app-card-doc="doc"></app-card>
           % if type == 'xreports':
             <app-delete-association child-doctype="xreports" parent-id="${document['document_id']}" child-id="doc.document_id"
-              ng-if="userCtrl.auth.isModerator()"></app-delete-association>
+              ng-if="${test_association_rights(document)}"></app-delete-association>
           % endif
         </div>
       </div>
@@ -507,6 +509,8 @@
           options = {"imageType": image["image_type"], "imageCreator": image["creator"]["user_id"]}
       elif doctype == 'articles':
           options = {"articleType": doc['article_type'], "authorId": doc['author']['user_id']}
+      elif doctype == 'xreports':
+          options = {"authorId": doc["author"]["user_id"]}
       else:
           options = {"users": users}
   %>
