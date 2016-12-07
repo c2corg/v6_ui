@@ -228,7 +228,8 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
           var pageYScroll = window.pageYOffset || document.documentElement.scrollTop;
           var rect = thumbnail.getBoundingClientRect();
           return {x: rect.left, y: rect.top + pageYScroll, w: rect.width};
-        }
+        },
+        history: false
       };
       // exit if index not found
       if (isNaN(options.index)) {
