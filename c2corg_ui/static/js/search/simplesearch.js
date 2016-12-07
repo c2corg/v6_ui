@@ -2,6 +2,7 @@ goog.provide('app.SimpleSearchController');
 goog.provide('app.simpleSearchDirective');
 
 goog.require('app');
+goog.require('app.utils');
 goog.require('app.Document');
 goog.require('app.Url');
 /** @suppress {extraRequire} */
@@ -252,7 +253,8 @@ app.SimpleSearchController.prototype.createDataset_ = function(type) {
     templates: {
       header: (function() {
         var typeUpperCase = type.charAt(0).toUpperCase() + type.substr(1);
-        return '<div class="header" dataset="' + type + '">' +  this.gettextCatalog_.getString(typeUpperCase) + '</div>';
+        return '<div class="header" dataset="' + type + '">' +
+          this.gettextCatalog_.getString(typeUpperCase) + '</div>';
       }).bind(this),
       footer: function(doc) {
         if (!this.associationContext_) {
@@ -267,14 +269,20 @@ app.SimpleSearchController.prototype.createDataset_ = function(type) {
       suggestion: function(doc) {
         if (doc) {
           this.scope_['doc'] = doc;
-          return this.compile_('<app-suggestion class="tt-suggestion"></app-suggestion>')(this.scope_);
+          return this.compile_(
+            '<app-suggestion class="tt-suggestion"></app-suggestion>'
+          )(this.scope_);
         } else {
           return '<div class="ng-hide"></div>';
         }
       }.bind(this),
       empty: function(res) {
         if ($('.header.empty').length === 0) {
-          return this.compile_(this.templatecache_.get('/static/partials/suggestions/empty.html'))(this.scope_);
+          var partialFile = this.associationContext_ ? 'empty' : 'create';
+          var template = app.utils.getTemplate(
+              '/static/partials/suggestions/' + partialFile + '.html',
+              this.templatecache_);
+          return this.compile_(template)(this.scope_);
         }
       }.bind(this)
     }
@@ -287,10 +295,11 @@ app.SimpleSearchController.prototype.createDataset_ = function(type) {
  * @private
  */
 app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
+  var limit = 7;
   var url = this.apiUrl_ + '/search?q=%QUERY';
 
   var bloodhound = new Bloodhound(/** @type {BloodhoundOptions} */({
-    limit: 7,
+    limit: limit,
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('label'),
     remote: {
@@ -300,6 +309,7 @@ app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
       prepare: (function(query, settings) {
 
         var url = settings['url'] + '&pl=' + this.gettextCatalog_.currentLanguage;
+        url += '&limit=' + limit;
 
         if (this.datasetLimit_) {
           // add the Auth header if searching for users
