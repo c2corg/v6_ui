@@ -81,7 +81,6 @@ app.UserController = function(appAuthentication, ngeoLocation,
   if (this.ngeoLocation_.hasParam('logout')) {
     // Logout from API by removing User data
     this.auth.removeUserData();
-    window.location.href = document.referrer;
   }
 };
 
