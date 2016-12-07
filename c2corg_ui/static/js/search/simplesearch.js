@@ -2,6 +2,7 @@ goog.provide('app.SimpleSearchController');
 goog.provide('app.simpleSearchDirective');
 
 goog.require('app');
+goog.require('app.utils');
 goog.require('app.Document');
 goog.require('app.Url');
 /** @suppress {extraRequire} */
@@ -278,10 +279,10 @@ app.SimpleSearchController.prototype.createDataset_ = function(type) {
       empty: function(res) {
         if ($('.header.empty').length === 0) {
           var partialFile = this.associationContext_ ? 'empty' : 'create';
-          return this.compile_(
-            this.templatecache_.get(
-              '/static/partials/suggestions/' + partialFile + '.html')
-          )(this.scope_);
+          var template = app.utils.getTemplate(
+              '/static/partials/suggestions/' + partialFile + '.html',
+              this.templatecache_);
+          return this.compile_(template)(this.scope_);
         }
       }.bind(this)
     }
