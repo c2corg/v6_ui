@@ -304,7 +304,7 @@
           </div>
         % endif
         % if document['doctype'] == 'waypoints':
-          <div class="list-item vertical-align" protected-url-btn
+          <div class="list-item vertical-align new-route" protected-url-btn
                url="${request.route_path('routes_add') + '#w=' + str(document['document_id'])}">
             <a>
               <button class="btn orange-btn" translate>add a new route to this waypoint</button>
@@ -377,7 +377,7 @@
       </h3>
       <div class="associated-documents collapse in" id="associated-outings">
         % if document['doctype'] == 'routes':
-          <div class="list-item vertical-align" protected-url-btn
+          <div class="list-item vertical-align new-outing" protected-url-btn
                url="${request.route_path('outings_add') + '#r=' + str(document['document_id'])}">
             <a>
               <button class="btn orange-btn" translate>add a new outing to this document</button>

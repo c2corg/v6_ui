@@ -1,23 +1,36 @@
 <a ng-href="{{cardCtrl.createURL()}}" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;">
   <div class="list-item-info">
 
-    <span class="list-item-title">{{::locale.title}}</span>
-    <span class="list-item-lang" ng-if="cardCtrl.lang != locale.lang">({{::locale.lang}})</span>
-
-    <div class="categories">
-      <span class="value" ng-repeat="type in doc['event_type']">{{type | translate }}{{$last ? '' : ', '}}</span>
+    <div class="list-item-title-lang">
+      <span class="list-item-title">{{::locale.title}}</span>
+      <span class="list-item-lang" ng-if="cardCtrl.lang != locale.lang">({{::locale.lang}})</span>
     </div>
 
-    <div class="value" ng-if="::doc['date']">{{::doc['date'] | amDateFormat:'Do MMMM YYYY' }}</div>
-    <div class="value" ng-if="::doc['elevation']">{{::doc['elevation']}} m</div>
+    <div class="categories margin-t-sm margin-b-sm">
+      <span class="glyphicon glyphicon-warning-sign"></span>
+      <b class="value" ng-repeat="type in doc['event_type']">{{type | translate}}{{$last ? '' : ', '}}</b>
+    </div>
+
+    <div class="flex wrap-row">
+      <span class="elevation">
+        <span class="value-title glyphicon glyphicon-sort-by-attributes rotate-180"></span>
+        <span class="value" ng-if="::doc['elevation']">{{::doc['elevation']}}&nbsp;m</span>
+      </span>
+
+      <span class="date">
+        <span class="value-title glyphicon glyphicon-time"></span>
+        <span class="value" ng-if="::doc['date']">{{::doc['date'] | date: 'dd/MM/yyyy'}}</span>
+      </span>
+    </div>
 
     <div class="activities">
-      <span ng-repeat="activity in doc.activities" class="route-activity icon-{{activity}}"
+      <span ng-repeat="activity in doc.activities" class="activity icon-{{activity}}"
             uib-tooltip="{{ ::cardCtrl.translate(activity) }}"></span>
     </div>
 
-    <br>
     <div class="quality" ng-if="::doc['quality']" ng-class="::doc['quality']"
-         uib-tooltip="{{'quality'| translate}} : {{::doc['quality'] | translate}}" tooltip-placement="left"></div>
+         uib-tooltip="{{'quality'| translate}} : {{::doc['quality'] | translate}}" tooltip-placement="left">
+    </div>
+
   </div>
 </a>

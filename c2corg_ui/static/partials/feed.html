@@ -39,7 +39,6 @@
         <b><a ng-href="/profiles/{{::doc['user']['document_id']}}/{{::doc['user']['locales'][0]['lang']}}">{{::doc['user']['name']}}</a></b>
         {{feedCtrl.createActionLine(doc) | translate}}
       </span>
-      <br>
       <span class="action date">
         <span class=" glyphicon glyphicon-time"></span>
         <span>{{::doc.time | amUtc | amLocal | amTimeAgo }}</span>
@@ -61,7 +60,7 @@
       </a>
     </div>
 
-    <div class="list-item {{::type}}s">
+    <div class="list-item {{::type}}s" ng-init="feed = true">
       <app-card app-card-doc="::doc['document']"></app-card>
     </div>
   </article>
