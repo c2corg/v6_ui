@@ -72,8 +72,8 @@ class Xreport(Document):
     @view_config(route_name='xreports_add')
     def add(self):
         self.template_input.update({
-            'report_lang': None,
-            'report_id': None
+            'xreport_lang': None,
+            'xreport_id': None
         })
         return self._add('c2corg_ui:templates/xreport/edit.html')
 
@@ -82,8 +82,8 @@ class Xreport(Document):
     def edit(self):
         id, lang = self._validate_id_lang()
         self.template_input.update({
-            'report_lang': lang,
-            'report_id': id
+            'xreport_lang': lang,
+            'xreport_id': id
         })
         return self.template_input
 

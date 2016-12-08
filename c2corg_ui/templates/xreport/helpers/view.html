@@ -87,7 +87,7 @@
 </%def>
 
 <%def name="get_xreport_participants(xreport)">\
-  % if xreport.get('participant_count') or xreport['locales'][0].get('participants') or xreport['associations']['users']:
+  % if 'users' in xreport['associations'] and xreport['associations']['users']:
     <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
       <h4><span translate>participants</span><span class="glyphicon glyphicon-menu-right"></span></h4>
       <div class="name-icon">
