@@ -7,14 +7,14 @@
     </div>
 
     <div class="flex wrap-row">
+      <span class="date margin-r-sm">
+        <span class="value-title glyphicon glyphicon-time"></span>
+        <span class="value">{{ ::doc['date_end'] | date: 'dd/MM/yyyy'}}</span>
+      </span>
+
       <span class="elevation" ng-if="::doc.elevation_max" uib-tooltip="{{'elevation_max' | translate}}">
         <span class="value-title glyphicon glyphicon-sort-by-attributes rotate-180"></span>
         <span class="value">{{::doc['elevation_max']}}&nbsp;m</span>
-      </span>
-
-      <span class="date">
-        <span class="value-title glyphicon glyphicon-time"></span>
-        <span class="value">{{ ::doc['date_end'] | date: 'dd/MM/yyyy'}}</span>
       </span>
     </div>
 
@@ -24,7 +24,7 @@
     </div>
 
     <div class="outing-author flex baseline-align" ng-if="!feed">
-      <span class="glyphicon glyphicon-user"></span>
+      <span class="icon-user"></span>
       <span class="author-name">{{::doc['author']['name']}}</span>
     </div>
 

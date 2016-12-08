@@ -84,7 +84,7 @@
     }
     /*left triangle*/
     &:before {
-      border-width: 8px 25px 9px 10px;
+      border-width: 13px 31px 11px 23px;
       border-color: transparent #fbfbfb transparent transparent;
       content: '';
       position: relative;
@@ -143,15 +143,20 @@
       color: #A9D361;
     }
     .action-line {
-      padding-top: 7px;
-      margin-bottom: -4px;
+      padding: 7px 5px 0 5px;
+      margin-bottom: -8px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
     }
     .action {
-      margin-bottom: 5px;
       display: block;
       color: slategray;
       a {
         color: slategray;
+      }
+      b:hover {
+        cursor: pointer;
       }
     }
   }
