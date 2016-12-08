@@ -4,8 +4,6 @@ WSGIDaemonProcess c2corg_ui-{instanceid} python-path={site_packages}
 WSGIScriptAlias {base_url} {base_dir}/apache/app-c2corg_ui.wsgi
 WSGIPassAuthorization On
 
-Alias /robots.txt {base_dir}/c2corg_ui/static/robots.txt
-
 <Location {base_url}>
   WSGIProcessGroup c2corg_ui-{instanceid}
   WSGIApplicationGroup %{{GLOBAL}}
