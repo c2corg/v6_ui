@@ -8,6 +8,8 @@
        ngf-keep="'distinct'"
        ngf-fix-orientation="true"
        ngf-allow-dir="true"
+       ngf-resize-if="uplCtrl.resizeIf($file, $width, $height)"
+       ngf-resize="{width: 4096, height: 2048, quality: 1.0}"
        accept="image/*"
        ngf-pattern="'image/*'">
     <span translate>Drop images here or click to upload</span>

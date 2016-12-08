@@ -153,52 +153,6 @@ app.ImageUploaderController = function($scope, $uibModal, $compile, $q, appAlert
 
 
 /**
- * We have to use a secondary controller for the modal so that we can inject
- * uibModalInstance which is not available from the first level controller.
- * @param {Object} $uibModalInstance modal from angular bootstrap
- * @constructor
- * @ngInject
- * @returns {app.ImageUploaderModalController}
- */
-app.ImageUploaderModalController = function($scope, $uibModalInstance) {
-
-  /**
-   * @type {!angular.Scope}
-   * @private
-   */
-  this.scope_ = $scope;
-
-  /**
-   * @type {Object} $uibModalInstance angular bootstrap
-   * @private
-   */
-  this.modalInstance_ = $uibModalInstance;
-
-  $scope.$on('modal.closing', function(event, reason, closed) {
-    this.scope_['uplCtrl'].abortAllUploads();
-  }.bind(this));
-};
-
-
-/**
- * @export
- */
-app.ImageUploaderModalController.prototype.close = function() {
-  this.modalInstance_.close();
-};
-
-
-/**
- * @export
- */
-app.ImageUploaderModalController.prototype.save = function() {
-  this.scope_['uplCtrl'].save().then(function() {
-    this.modalInstance_.close();
-  }.bind(this));
-};
-
-
-/**
  * @private
  */
 app.ImageUploaderController.prototype.upload_ = function() {
@@ -433,5 +387,70 @@ app.ImageUploaderController.prototype.selectOption = function(object, property, 
 };
 
 
+/**
+ * @param {Object} file
+ * @param {number} width Width of uploaded image.
+ * @param {number} height Height of uploaded image.
+ * @return {boolean}
+ * @export
+ */
+app.ImageUploaderController.prototype.resizeIf = function(
+    file, width, height) {
+  if (file.type === 'image/jpeg' || file.type === 'image/png') {
+    return file.size > 2 * 1024 * 1024 /** 2 MB */ ||
+      width > 4096 || height > 2048;
+  }
+  return false;
+};
+
+
 app.module.controller('AppImageUploaderController', app.ImageUploaderController);
+
+
+/**
+ * We have to use a secondary controller for the modal so that we can inject
+ * uibModalInstance which is not available from the first level controller.
+ * @param {Object} $uibModalInstance modal from angular bootstrap
+ * @constructor
+ * @ngInject
+ * @returns {app.ImageUploaderModalController}
+ */
+app.ImageUploaderModalController = function($scope, $uibModalInstance) {
+
+  /**
+   * @type {!angular.Scope}
+   * @private
+   */
+  this.scope_ = $scope;
+
+  /**
+   * @type {Object} $uibModalInstance angular bootstrap
+   * @private
+   */
+  this.modalInstance_ = $uibModalInstance;
+
+  $scope.$on('modal.closing', function(event, reason, closed) {
+    this.scope_['uplCtrl'].abortAllUploads();
+  }.bind(this));
+};
+
+
+/**
+ * @export
+ */
+app.ImageUploaderModalController.prototype.close = function() {
+  this.modalInstance_.close();
+};
+
+
+/**
+ * @export
+ */
+app.ImageUploaderModalController.prototype.save = function() {
+  this.scope_['uplCtrl'].save().then(function() {
+    this.modalInstance_.close();
+  }.bind(this));
+};
+
+
 app.module.controller('AppImageUploaderModalController', app.ImageUploaderModalController);
