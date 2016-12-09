@@ -215,9 +215,7 @@ app.CardController.prototype.getGlobalRatings = function() {
       ratings['biking_rating'] = this.slashSeparatedRating_(doc.mtb_down_rating, doc.hiking_mtb_exposition);
     }
   }.bind(this));
-
-  ratings = Object.keys(ratings)[0] ? ratings : null;
-  return ratings;
+  return ratings[Object.keys(ratings)[0]] ? ratings : null;
 };
 
 
@@ -268,7 +266,7 @@ app.CardController.prototype.getFullRatings = function() {
       fullRatings[rating] = ratings[rating];
     }
   });
-  return fullRatings;
+  return fullRatings[Object.keys(fullRatings)[0]] ? fullRatings : null;
 };
 
 /**

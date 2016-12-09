@@ -12,6 +12,9 @@
   & + .no-results {
     display: none;
   }
+  .list-item.waypoints .waypoint-infos{
+    .flex() !important;
+  }
 }
 
 .list-item {
@@ -21,7 +24,7 @@
   margin-top: 10px;
   outline: none;
   border-radius: 7px;
-  min-height: 90px;
+  min-height: 80px;
   -moz-border-radius: 7px;
   -webkit-border-radius: 7px;
   transition: .2s ease-in-out;
@@ -80,7 +83,9 @@
     white-space: nowrap;
     font-weight: normal;
   }
-
+  .activities {
+    margin-top: 5px;
+  }
   .list-item-title {
     font-weight: bold;
     color: graytext;
@@ -100,8 +105,9 @@
   .list-item-title-lang {
     .flex();
     align-items: center;
+    margin-bottom: 5px;
   }
-  .elevation {
+  .elevation, .waypoint-elevation {
     align-items: flex-start;
     .flex();
   }
@@ -118,7 +124,7 @@
     -webkit-flex-direction: column;
     justify-content: space-between;
 
-    .quality, .orientations, .date,  .height-diff, .height-diff-difficulties, .elevation {
+    .quality, .orientations, .date,  .height-diff, .height-diff-difficulties, .elevation, .waypoint-elevation {
       white-space: nowrap;
       .glyphicon {
         margin-right: 3px;
@@ -129,6 +135,7 @@
     }
     .icon-rating {
       font-size: 1.4em;
+      margin-bottom: 5px;
     }
     .orientations, .height-diff, .height-diff-difficulties, .elevation {
       @media (max-width: @phone-max) {
@@ -141,8 +148,6 @@
       }
     }
     .full-rating {
-      margin-bottom: 5px;
-      margin-top: 5px;
       flex-wrap: wrap;
       .glyphicon {
         font-size: 1.3em;
@@ -176,7 +181,11 @@
   .set-main-waypoint {
     margin: 0 0 10px 10px;
   }
+<<<<<<< 13af3643315a7bb972ad972728171f052a7c70f0
   .article-activities {
+=======
+  .outing-author, .activities {
+>>>>>>> route card rating fix
     .calc(width, "100% - 40px");
   }
   // .list-item.waypoints
@@ -195,13 +204,20 @@
     .waypoint-infos {
       .calc(width, "100% - 20px");
       display: block;
-      align-items: baseline;
+      align-items: flex-end;
       flex-wrap: wrap;
     }
   }
   // .list-item.routes
-  &.routes .activities {
-    margin-bottom: -5px;
+  &.routes {
+    .route-infos{
+      @media @phone {
+        display: none;
+      }
+    }
+    .activities {
+      margin-bottom: -5px;
+    }
   }
   // .list-item.books
   &.books {
