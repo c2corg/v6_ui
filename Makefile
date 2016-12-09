@@ -51,7 +51,6 @@ LIBS_JS_FILES += \
 
 # CSS files of dependencies that are concatenated into a single file
 LIBS_CSS_FILES += \
-    node_modules/bootstrap/dist/css/bootstrap.min.css \
     node_modules/bootstrap-slider/dist/css/bootstrap-slider.css \
     node_modules/slick-carousel/slick/slick.css \
     node_modules/photoswipe/dist/photoswipe.css \
