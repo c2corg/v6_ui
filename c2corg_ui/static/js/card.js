@@ -130,6 +130,34 @@ app.CardController.prototype.translate = function(str) {
 
 
 /**
+ * Show only one of the area types, the first that is available:
+ * 1) range 2) admin limits 3) country
+ * @param {?Array<Object>} areas
+ * @return {string | null}
+ * @export
+ */
+app.CardController.prototype.showArea = function(areas) {
+  if (!app.utils.isTopoguide(window.location.pathname.substring(1)) && areas) {
+    // the areas often come in different orders within 3 area objects
+    var orderedAreas = {};
+
+    for (var i = 0; i < areas.length; i++) {
+      orderedAreas[ areas[i]['area_type']] = areas[i]['locales'][0]['title'];
+    }
+
+    if (orderedAreas.hasOwnProperty('range')) {
+      return orderedAreas['range'];
+    } else if (orderedAreas.hasOwnProperty('admin_limits')) {
+      return orderedAreas['admin_limits'];
+    } else {
+      return orderedAreas['country'];
+    }
+  }
+  return null;
+};
+
+
+/**
  * Creates a link to the document view-page
  * @export
  * @return {string | undefined}

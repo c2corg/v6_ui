@@ -6,7 +6,7 @@
       <span class="list-item-lang" ng-if="cardCtrl.lang != locale.lang">({{::locale.lang}})</span>
     </div>
 
-    <div class="flex wrap-row">
+    <div class="flex wrap-row margin-t-sm center-items-align">
       <span class="date margin-r-sm">
         <span class="value-title glyphicon glyphicon-time"></span>
         <span class="value">{{ ::doc['date_end'] | date: 'dd/MM/yyyy'}}</span>
@@ -16,12 +16,27 @@
         <span class="value-title glyphicon glyphicon-sort-by-attributes rotate-180"></span>
         <span class="value">{{::doc['elevation_max']}}&nbsp;m</span>
       </span>
+
+      <span class="location" ng-if="::doc['areas']">
+        <span class="glyphicon glyphicon-map-marker"></span>
+        <span class="value">{{::cardCtrl.showArea(doc['areas'])}}</span>
+      </span>
     </div>
 
     <div class="activity-author">
-      <div class="activities">
-        <span ng-repeat="activity in ::doc.activities" class="activity icon-{{::activity}}"
-              uib-tooltip="{{ ::cardCtrl.translate(activity)}}"></span>
+      <div class="activities flex wrap-row margin-t-sm">
+        <span ng-repeat="activity in ::doc.activities | limitTo: 4"  class="activity icon-{{::activity}}"
+              uib-tooltip="{{ cardCtrl.translate(activity)}}"></span>
+
+        <span class="flex flexend-align show-more-activities"
+              ng-if="doc.activities.length > 4 && !cardCtrl.remainingActivities"
+              ng-click="$event.preventDefault(); cardCtrl.remainingActivities = true">
+          ...(+ {{::doc.activities.length - 4}})
+        </span>
+
+        <span ng-if="cardCtrl.remainingActivities" ng-repeat="activity in ::doc.activities | limitTo: (4 - doc.activities.length)"
+              class="activity icon-{{::activity}}" uib-tooltip="{{ cardCtrl.translate(activity)}}">
+        </span>
       </div>
 
       <div class="outing-author flex baseline-align" ng-if="!feed">

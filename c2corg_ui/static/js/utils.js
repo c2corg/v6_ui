@@ -169,6 +169,16 @@ app.utils.createImageUrl = function(url, suffix) {
 
 
 /**
+ * @param {string} location
+ * @return {boolean}
+ * @export
+ */
+app.utils.isTopoguide = function(location) {
+  return location.indexOf('outings') > -1 || location.indexOf('waypoints') > -1 || location.indexOf('routes') > -1
+  || location.indexOf('images') > -1 || location.indexOf('areas') > -1 || location.indexOf('books') > -1;
+};
+
+/**
  * http://openlayers.org/en/latest/examples/vector-labels.html
  * http://stackoverflow.com/questions/14484787/wrap-text-in-javascript
  * @param {string} str String to divide.

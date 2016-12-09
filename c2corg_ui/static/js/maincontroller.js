@@ -1,6 +1,7 @@
 goog.provide('app.MainController');
 
 goog.require('app');
+goog.require('app.utils');
 /** @suppress {extraRequire} */
 goog.require('app.HttpAuthenticationInterceptor');
 /** @suppress {extraRequire} */
@@ -79,11 +80,9 @@ app.MainController.prototype.isPath = function(path) {
     // path = '/'
     return 'home';
   } else if (path === 'topoguide') {
-    // if topoguide, it can be all kinds of documents.
-    // Articles, xreports and outings have their own line in the sidemenu.
-    return location.indexOf('waypoints') > -1 || location.indexOf('routes') > -1 ||
-           location.indexOf('images') > -1 || location.indexOf('areas') > -1 ||
-           location.indexOf('books') > -1;
+    return app.utils.isTopoguide(location.substring(1));
+  } else {
+    return location.indexOf(path) > -1;
   }
   return location.indexOf(path) > -1;
 };

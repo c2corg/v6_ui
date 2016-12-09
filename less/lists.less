@@ -92,11 +92,19 @@
     }
   }
 
+  .location {
+    line-height: normal;
+    margin-right: 5px;
+  }
+
   .list-item-title-lang {
     .flex();
     align-items: center;
   }
-
+  .elevation {
+    align-items: flex-start;
+    .flex();
+  }
   .list-item-info {
     margin: auto;
     height: 100%;
@@ -116,15 +124,11 @@
         margin-right: 3px;
       }
     }
-    .elevation, .height-diff, .height-diff-difficulties, .orientations {
-      margin-right: 8px;
+    .elevation, .height-diff, .height-diff-difficulties, .orientations, .icon-rating, .rating {
+      margin-right: 5px;
     }
     .icon-rating {
       font-size: 1.4em;
-      margin-left: -2px;
-    }
-    .rating {
-      margin-right: 8px;
     }
     .orientations, .height-diff, .height-diff-difficulties, .elevation {
       @media (max-width: @phone-max) {
@@ -177,17 +181,22 @@
   }
   // .list-item.waypoints
   &.waypoints {
-    max-height : 100px;
 
     .waypoint-type {
-      font-size: 2em;
+      font-size: 3em;
       color: @C2C-orange;
       margin-right: 10px;
+      float: left;
+      @media @phone {
+        font-size: 2.5em;
+      }
     }
 
-    .waypoint-type-elevation {
-      display: inherit;
-      align-items: flex-end;
+    .waypoint-infos {
+      .calc(width, "100% - 20px");
+      display: block;
+      align-items: baseline;
+      flex-wrap: wrap;
     }
   }
   // .list-item.routes
