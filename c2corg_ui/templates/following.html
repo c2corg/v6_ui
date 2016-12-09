@@ -13,13 +13,14 @@ from c2corg_common.attributes import mailinglists
     <app-simple-search app-select="flCtrl.addUser(doc)" dataset="u"></app-simple-search>
     <div class="flex wrap-row areas" ng-show="flCtrl.following.length > 0">
       <div class="list-item users" ng-repeat="user in flCtrl.following">
-        <app-card app-card-doc="user"></app-card>
-        <button class="btn orange-btn" ng-click="flCtrl.toggle(user.document_id)"
-                ng-show="flCtrl.followingIds.indexOf(user.document_id) > -1"
-                translate>Unfollow</button>
-        <button class="btn btn-success" ng-click="flCtrl.toggle(user.document_id)"
-                ng-hide="flCtrl.followingIds.indexOf(user.document_id) > -1"
-                translate>Follow</button>
+        <app-card app-card-doc="user">
+          <button class="btn orange-btn" ng-click="flCtrl.toggle(user.document_id)"
+                  ng-show="flCtrl.followingIds.indexOf(user.document_id) > -1"
+                  translate>Unfollow</button>
+          <button class="btn btn-success" ng-click="flCtrl.toggle(user.document_id)"
+                  ng-hide="flCtrl.followingIds.indexOf(user.document_id) > -1"
+                  translate>Follow</button>
+        </app-card>
       </div>
     </div>
   </section>
