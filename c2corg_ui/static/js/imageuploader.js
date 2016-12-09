@@ -397,8 +397,7 @@ app.ImageUploaderController.prototype.selectOption = function(object, property, 
 app.ImageUploaderController.prototype.resizeIf = function(
     file, width, height) {
   if (file.type === 'image/jpeg' || file.type === 'image/png') {
-    return file.size > 2 * 1024 * 1024 /** 2 MB */ ||
-      width > 4096 || height > 2048;
+    return file.size > 2 * 1024 * 1024; /** 2 MB */
   }
   return false;
 };
