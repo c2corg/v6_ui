@@ -10,9 +10,19 @@
       <span ng-repeat="book_type in ::doc['book_types']" class="value book-type">{{::book_type | translate }}{{$last ? '' : ', '}}</span>
     </div>
 
-    <div class="activities">
-      <span ng-repeat="activity in ::doc.activities" class="activity icon-{{::activity}}"
+    <div class="activities flex wrap-row margin-t-sm">
+      <span ng-repeat="activity in ::doc.activities | limitTo: 4"  class="activity icon-{{::activity}}"
             uib-tooltip="{{ cardCtrl.translate(activity)}}"></span>
+
+      <span class="flex flexend-align show-more-activities"
+            ng-if="doc.activities.length > 4 && !cardCtrl.remainingActivities"
+            ng-click="$event.preventDefault(); cardCtrl.remainingActivities = true">
+        ...(+ {{::doc.activities.length - 4}})
+      </span>
+
+      <span ng-if="cardCtrl.remainingActivities" ng-repeat="activity in ::doc.activities | limitTo: (4 - doc.activities.length)"
+            class="activity icon-{{::activity}}" uib-tooltip="{{ cardCtrl.translate(activity)}}">
+      </span>
     </div>
 
     <div class="quality" ng-if="::doc['quality']" ng-class="::doc['quality']"
