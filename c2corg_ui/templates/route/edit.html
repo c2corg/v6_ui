@@ -115,21 +115,23 @@ updating_doc = route_id and route_lang
           </div>
         </section>
 
-        <section class="section associations">
-          <h2 class="heading show-phone"><span translate>associations</span></h2>
-          <h5 class="full" translate ng-show="editCtrl.documentService.document.associations.routes.length == 0 && editCtrl.documentService.document.associations.waypoints.length == 0">
-            You can add associated routes and waypoints by searching in the field.
-          </h5>
-          <div class="content">
-            ## wr = waypoints, routes
-            <app-simple-search parent-id="route.document_id"
-              app-select="editCtrl.documentService.pushToAssociations(doc, null, false, true)" dataset="wrcb"></app-simple-search>
-            ${show_editing_associated_waypoints('route')}
-            ${show_editing_associated_routes('route')}
-            ${show_editing_associated_articles('route')}
-            ${show_editing_associated_books('route')}
-          </div>
-        </section>
+        % if not version:
+          <section class="section associations">
+            <h2 class="heading show-phone"><span translate>associations</span></h2>
+            <h5 class="full" translate ng-show="editCtrl.documentService.document.associations.routes.length == 0 && editCtrl.documentService.document.associations.waypoints.length == 0">
+              You can add associated routes and waypoints by searching in the field.
+            </h5>
+            <div class="content">
+              ## wr = waypoints, routes
+              <app-simple-search parent-id="route.document_id"
+                app-select="editCtrl.documentService.pushToAssociations(doc, null, false, true)" dataset="wrcb"></app-simple-search>
+              ${show_editing_associated_waypoints('route')}
+              ${show_editing_associated_routes('route')}
+              ${show_editing_associated_articles('route')}
+              ${show_editing_associated_books('route')}
+            </div>
+          </section>
+        % endif
 
       </div>
 
@@ -768,7 +770,7 @@ updating_doc = route_id and route_lang
         </section>
       </div>
 
-      ${show_editing_buttons('route', updating_doc, route_id, route_lang)}
+      ${show_editing_buttons('route', updating_doc, route_id, route_lang, isArchive=version is not None)}
 
     </section>
   </form>

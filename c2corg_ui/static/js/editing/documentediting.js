@@ -519,7 +519,7 @@ app.DocumentEditingController.prototype.getCoordinatesFromPoint_ = function(
  * @export
  * @return {boolean | undefined}
  */
-app.DocumentEditingController.prototype.hasMissingProps = function(doc, showError) {
+app.DocumentEditingController.prototype.hasMissingProps = function(doc, showError, isArchive) {
   var type = doc.type ? app.utils.getDoctype(doc.type) : this.module_;
   var requiredFields = app.constants.REQUIRED_FIELDS[type] || null;
   if (!requiredFields) {
@@ -536,7 +536,7 @@ app.DocumentEditingController.prototype.hasMissingProps = function(doc, showErro
       hasError = (!doc['locales'] || !doc['locales'][0][field]);
     } else if (field === 'activities') {
       hasError = (!doc['activities'] || doc['activities'].length === 0);
-    } else if (field === 'routes' || field === 'waypoints') {
+    } else if (!isArchive && (field === 'routes' || field === 'waypoints')) {
       hasError = (!doc['associations'] || doc['associations'][field].length === 0);
     } else if (field === 'latitude' || field === 'longitude') {
       hasError = (!doc['lonlat'] || (doc['lonlat'][field] === null || doc['lonlat'][field] === undefined));

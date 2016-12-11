@@ -72,7 +72,7 @@
           <button class="btn btn-default" translate>See the latest version</button>
         </a>
         <a href="${request.route_path(module + '_edit_archive', id=document['document_id'], lang=locale['lang'], version=version['version_id'])}"
-           ng-if="userCtrl.auth.isAuthenticated()">
+           ng-if="userCtrl.auth.isAuthenticated() && userCtrl.auth.isModerator()">
           <button class="btn btn-default" translate>Restore this version</button>
         </a>
     </p>

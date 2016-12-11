@@ -121,24 +121,27 @@
   </div>
 </%def>
 
-<%def name="show_editing_buttons(model, updating_doc, id, lang)">\
+<%def name="show_editing_buttons(model, updating_doc, id, lang, isArchive=False)">\
+  <%
+      isArchive = 'true' if isArchive else 'false'
+  %>
   <div class="action-buttons float-buttons">
     <button type="button" class="btn blue-btn btn-lg float-button"
-      ng-if="!editForm.$invalid && !editCtrl.hasMissingProps(${model}, false)"
+      ng-if="!editForm.$invalid && !editCtrl.hasMissingProps(${model}, false, ${isArchive})"
       ng-click="editCtrl.preview()"
       tooltip-placement="left" uib-tooltip="{{'Preview' | translate}}">
       <span class="glyphicon glyphicon-eye-open"></span>
     </button>
     <button type="submit" class="btn orange-btn btn-lg float-button"
-      ng-if="!editForm.$invalid && !editCtrl.hasMissingProps(${model}, false)"
+      ng-if="!editForm.$invalid && !editCtrl.hasMissingProps(${model}, false, ${isArchive})"
       tooltip-placement="left" uib-tooltip="{{'Save' | translate}}">
       <span class="glyphicon glyphicon-ok"></span>
     </button>
     <button type="button" class="btn orange-btn btn-lg float-button"
-      ng-style="(editForm.$invalid || editCtrl.hasMissingProps(${model}, false)) && {'opacity': 0.5}"
+      ng-style="(editForm.$invalid || editCtrl.hasMissingProps(${model}, false, ${isArchive})) && {'opacity': 0.5}"
       tooltip-placement="left" uib-tooltip="{{'What is missing?' | translate}}"
-      ng-if="editForm.$invalid || editCtrl.hasMissingProps(${model}, false)"
-      ng-click="editCtrl.hasMissingProps(${model}, true)">
+      ng-if="editForm.$invalid || editCtrl.hasMissingProps(${model}, false, ${isArchive})"
+      ng-click="editCtrl.hasMissingProps(${model}, true, ${isArchive})">
       <span class="glyphicon glyphicon-ok"></span>
     </button>
     <%
