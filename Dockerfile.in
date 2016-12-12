@@ -11,7 +11,8 @@ WORKDIR /var/www/
 
 RUN tar -xvf /tmp/project.tar && chown -R root:root /var/www
 
-RUN apt-get update \
+RUN set -x \
+ && apt-get update \
  && apt-get -y upgrade \
  && apt-get -y install \
     python3 \
