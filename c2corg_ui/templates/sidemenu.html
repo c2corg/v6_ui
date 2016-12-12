@@ -24,6 +24,12 @@ version = request.registry.settings.get('cache_version')
         <span class="menu-text" translate>Topoguide</span>
       </a>
     </li>
+    <li class="main-menu" ng-class="{'menu-selected': mainCtrl.isPath('outings')}">
+      <a href="${request.route_path('outings_index')}">
+        <i class="glyphicon glyphicon-time" tooltip-placement="right" uib-tooltip="{{'Outings' | translate}}"></i>
+        <span class="menu-text" translate>Outings</span>
+      </a>
+    </li>
     <li class="main-menu" ng-class="{'menu-selected': mainCtrl.isPath('forum')}">
       <a href="${discourse_url}">
         <i class="glyphicon glyphicon-comment" tooltip-placement="right" uib-tooltip="{{'Forum' | translate}}"></i>
@@ -42,12 +48,6 @@ version = request.registry.settings.get('cache_version')
         <span class="menu-text" translate>Articles</span>
       </a>
     </li>
-    <li class="main-menu" ng-class="{'menu-selected': mainCtrl.isPath('Association')}">
-      <a href="${request.route_path('articles_view_id', id=106726)}">
-        <i class="glyphicon glyphicon-user" tooltip-placement="right" uib-tooltip="{{'Association' | translate}}"></i>
-        <span class="menu-text" translate>Association</span>
-      </a>
-    </li>
   </ul>
 
   <footer>
@@ -63,6 +63,8 @@ version = request.registry.settings.get('cache_version')
       <li><a href="${request.route_path('articles_view_id', id=106731)}" translate>terms of use</a></li>
       <span class="bullet">&bull; </span>
       <li><a href="${request.route_path('articles_view_id', id=106728)}" translate>content license</a></li>
+      <span class="bullet">&bull; </span>
+      <li><a href="${request.route_path('articles_view_id', id=106726)}" translate>Association</a></li>
     </ul>
 
     <div class="version">
