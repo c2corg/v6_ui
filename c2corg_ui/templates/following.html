@@ -14,12 +14,10 @@ from c2corg_common.attributes import mailinglists
     <div class="flex wrap-row areas" ng-show="flCtrl.following.length > 0">
       <div class="list-item users" ng-repeat="user in flCtrl.following">
         <app-card app-card-doc="user"></app-card>
-        <button class="btn orange-btn" ng-click="flCtrl.toggle(user.document_id)"
-                ng-show="flCtrl.followingIds.indexOf(user.document_id) > -1"
-                translate>Unfollow</button>
-        <button class="btn btn-success" ng-click="flCtrl.toggle(user.document_id)"
-                ng-hide="flCtrl.followingIds.indexOf(user.document_id) > -1"
-                translate>Follow</button>
+        <span class="glyphicon glyphicon-minus-sign follow-btn" ng-click="flCtrl.toggle(user.document_id)"
+              ng-show="flCtrl.followingIds.indexOf(user.document_id) > -1" uib-tooltip="{{'Unfollow' | translate}}" tooltip-append-to-body="true"></span>
+        <span class="glyphicon glyphicon-plus-sign follow-btn" ng-click="flCtrl.toggle(user.document_id)"
+              ng-hide="flCtrl.followingIds.indexOf(user.document_id) > -1" uib-tooltip="{{'Follow' | translate}}" tooltip-append-to-body="true"></span>
       </div>
     </div>
   </section>
