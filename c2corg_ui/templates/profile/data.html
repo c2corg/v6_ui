@@ -37,10 +37,10 @@ from json import dumps
               "highlight": true
             }
           }]
-        };
-        detailsCtrl.documentService.setAssociations(${profile['associations']});'>
+        };'></div>
       <app-map class="view-details-map" app-map-feature-collection="profileFeature"></app-map>
     % endif
+    <div ng-init="detailsCtrl.documentService.setAssociations(${profile['associations']});"></div>
 
     ${get_image_gallery()}
 
