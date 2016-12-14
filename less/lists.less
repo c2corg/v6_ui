@@ -8,15 +8,7 @@
   @media (max-width: @screen-sm-min) {
     padding-bottom: 50px;
   }
-  .list-item {
-    flex-basis: 32%;
-    @media (max-width: 1200px){
-      flex-basis: 48%;
-    }
-    @media (max-width: 730px) {
-      flex-basis: 100%;
-    }
-  }
+
   & + .no-results {
     display: none;
   }
@@ -55,7 +47,6 @@
   }
   @media @phone {
     border-width: 1px;
-    font-size: 1.2em;
   }
 
   a {
@@ -68,7 +59,7 @@
     padding: 10px;
 
     @media @phone {
-      font-size: .8em;
+      font-size: 1.1em;
       padding: 7px;
     }
 
@@ -93,7 +84,6 @@
   .list-item-title {
     font-weight: bold;
     color: graytext;
-    font-size: 14px;
     margin-right: 5px;
     p {
       line-height: normal;
@@ -111,6 +101,7 @@
     margin: auto;
     height: 100%;
     width: 100%;
+    font-size: 90%;
     text-decoration: none;
     color: #919191;
     font-weight: normal;
@@ -181,7 +172,7 @@
   .set-main-waypoint {
     margin: 0 0 10px 10px;
   }
-  .outing-author, .article-activities {
+  .article-activities {
     .calc(width, "100% - 40px");
   }
   // .list-item.waypoints
@@ -250,8 +241,13 @@
       color: #b2bcc4 !important;
     }
     .activities {
-      margin-top: 5px;
-      margin-bottom: 5px;
+      margin-right: 5px;
+    }
+    .activity-author {
+      .calc(width, "100% - 25px");
+      .flex();
+      justify-content: space-between;
+      flex-wrap: wrap;
     }
     .author-name {
       font-weight: bold;
@@ -271,29 +267,6 @@
       .calc(top, "100% - 60px");
     }
 
-    @media @phone {
-
-      .list-item-info {
-        padding-left: 25%;
-      }
-      .outing-author {
-        top: 35%;
-        left: 10px;
-        width: 20%;
-        text-align: center;
-        display: initial;
-        position: absolute;
-
-        .icon-user {
-          float: none;
-          width: 100%;
-        }
-      }
-      .activities {
-        margin-bottom: 0;
-        margin-top: 3px;
-      }
-    }
   } // end outing cards
 
   // .list-item.highlight
@@ -365,17 +338,34 @@
   }
 }
 
-.section.associations .list-item, .view-details-section .list-item {
-  margin-right: .5%;
-  margin-left: .5%;
-  width: 49%;
+.section.associations, .view-details-associations, .list {
+  .list-item {
+    flex-basis: 48%;
+    @media (min-width: @large-width){
+      flex-basis: 32%;
+    }
+    @media (min-width: 2100px) {
+      flex-basis: 24%;
+    }
+    @media (max-width: 900px) {
+      flex-basis: 100% !important;
+    }
+  }
+}
 
-  @media @big {
-    width: 32%;
+// + 1 more card per row than usual, max 4
+.documents-list-section-container, .section.associations, .view-details-associations {
+  &.no-map .list-item, .list-item.waypoints {
+    @media (min-width: 1200px) and (max-width: @large-width) {
+      flex-basis: 32%;
+    }
+    @media (min-width: @large-width) {
+      flex-basis: 24%;
+    }
   }
-  @media @phone {
-    width: 100%;
-  }
+}
+
+.section.associations .list-item, .view-details-section .list-item {
 
   &.new-outing a, &.new-route a {
     .flex();

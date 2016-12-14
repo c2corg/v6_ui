@@ -18,14 +18,16 @@
       </span>
     </div>
 
-    <div class="activities">
-      <span ng-repeat="activity in ::doc.activities" class="activity icon-{{::activity}}"
-            uib-tooltip="{{ ::cardCtrl.translate(activity)}}"></span>
-    </div>
+    <div class="activity-author">
+      <div class="activities">
+        <span ng-repeat="activity in ::doc.activities" class="activity icon-{{::activity}}"
+              uib-tooltip="{{ ::cardCtrl.translate(activity)}}"></span>
+      </div>
 
-    <div class="outing-author flex baseline-align" ng-if="!feed">
-      <span class="icon-user"></span>
-      <span class="author-name">{{::doc['author']['name']}}</span>
+      <div class="outing-author flex baseline-align" ng-if="!feed">
+        <span class="icon-user"></span>
+        <span class="author-name">{{::doc['author']['name']}}</span>
+      </div>
     </div>
 
     <div class="quality" ng-if="::doc['quality']" ng-class="::doc['quality']"
