@@ -1,5 +1,5 @@
 .view-details-associations, .view-details-comments, .view-details-photos,
-.scroll-top-btn, .view-details-map, .location-static, .badge, .icons-header {
+.scroll-top-btn, .view-details-map, .badge, .icons-header {
   display: none !important;
 }
 
@@ -11,7 +11,7 @@
 }
 
 .description , .view-details-info {
-	display: inline-block !important;
+	display: block !important;
 }
 
 .view-details-section {
@@ -37,8 +37,9 @@
 	margin: 0;
 }
 
-.view-details-description, .view-details-informations , .view-details-info {
+.view-details-title, .view-details-description, .view-details-informations , .view-details-info {
 	border: none !important;
+	display: block;
 }
 
 #orientation-svg {
@@ -50,6 +51,7 @@
 	border-bottom: none !important;
 	min-height: 10px !important;
 	max-width: 50%;
+	display: inline;
 }
 
 .heading {
@@ -63,3 +65,17 @@
 .heading .glyphicon{
 	display: none;
 }
+
+.location-static {
+	position: static;
+	float: none;
+	transform: none;
+	max-width: none;
+	min-height: 0;
+	padding: 5px;
+	margin-bottom: 0;
+	top: 0;
+ }
+ .location-static li {
+	display: inline;
+ }
