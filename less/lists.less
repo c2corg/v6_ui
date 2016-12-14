@@ -8,6 +8,9 @@
   @media (max-width: @screen-sm-min) {
     padding-bottom: 50px;
   }
+  .list-item {
+    min-height: initial;
+  }
 
   & + .no-results {
     display: none;
@@ -21,7 +24,7 @@
   margin-top: 10px;
   outline: none;
   border-radius: 7px;
-  min-height: 90px;
+  min-height: 80px;
   -moz-border-radius: 7px;
   -webkit-border-radius: 7px;
   transition: .2s ease-in-out;
@@ -80,7 +83,9 @@
     white-space: nowrap;
     font-weight: normal;
   }
-
+  .activities {
+    margin-top: 5px;
+  }
   .list-item-title {
     font-weight: bold;
     color: graytext;
@@ -92,11 +97,19 @@
     }
   }
 
+  .location {
+    line-height: normal;
+    margin-right: 5px;
+  }
+
   .list-item-title-lang {
     .flex();
     align-items: center;
+    margin-bottom: 5px;
   }
-
+  .elevation, .waypoint-elevation .glyphicon {
+    margin-top: -1px;
+  }
   .list-item-info {
     margin: auto;
     height: 100%;
@@ -110,21 +123,18 @@
     -webkit-flex-direction: column;
     justify-content: space-between;
 
-    .quality, .orientations, .date,  .height-diff, .height-diff-difficulties, .elevation {
+    .quality, .orientations, .date,  .height-diff, .height-diff-difficulties, .elevation, .waypoint-elevation {
       white-space: nowrap;
       .glyphicon {
         margin-right: 3px;
       }
     }
-    .elevation, .height-diff, .height-diff-difficulties, .orientations {
-      margin-right: 8px;
+    .elevation, .height-diff, .height-diff-difficulties, .orientations, .icon-rating, .rating {
+      margin-right: 5px;
     }
     .icon-rating {
       font-size: 1.4em;
-      margin-left: -2px;
-    }
-    .rating {
-      margin-right: 8px;
+      margin-bottom: 5px;
     }
     .orientations, .height-diff, .height-diff-difficulties, .elevation {
       @media (max-width: @phone-max) {
@@ -137,8 +147,6 @@
       }
     }
     .full-rating {
-      margin-bottom: 5px;
-      margin-top: 5px;
       flex-wrap: wrap;
       .glyphicon {
         font-size: 1.3em;
@@ -172,27 +180,35 @@
   .set-main-waypoint {
     margin: 0 0 10px 10px;
   }
-  .article-activities {
-    .calc(width, "100% - 40px");
-  }
+
   // .list-item.waypoints
   &.waypoints {
-    max-height : 100px;
 
     .waypoint-type {
-      font-size: 2em;
+      font-size: 3em;
       color: @C2C-orange;
-      margin-right: 10px;
+      margin-right: 0;
+      @media @phone {
+        font-size: 2.5em;
+        margin-left: 10px;
+      }
     }
+    .list-item-info {
+      flex-basis: 75%;
 
-    .waypoint-type-elevation {
-      display: inherit;
-      align-items: flex-end;
+    }
+    .waypoint-infos {
+      .calc(width, "100% - 20px");
+      .flex();
+      align-items: baseline;
+      flex-wrap: wrap;
     }
   }
   // .list-item.routes
-  &.routes .activities {
-    margin-bottom: -5px;
+  &.routes {
+    .activities {
+      margin-bottom: -5px;
+    }
   }
   // .list-item.books
   &.books {
@@ -355,7 +371,7 @@
 
 // + 1 more card per row than usual, max 4
 .documents-list-section-container, .section.associations, .view-details-associations {
-  &.no-map .list-item, .list-item.waypoints {
+  &.no-map .list-item{
     @media (min-width: 1200px) and (max-width: @large-width) {
       flex-basis: 32%;
     }
@@ -384,6 +400,12 @@
 #feed .list-item {
   .list-item-info {
     min-height: 60px;
+  }
+  &.waypoints .waypoint-type {
+    flex-basis: 25%;
+    @media @phone {
+      flex-basis: 0;
+    }
   }
   &.outings {
     .list-item-info {

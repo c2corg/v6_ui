@@ -6,14 +6,11 @@
       <span class="list-item-lang" ng-if="cardCtrl.lang != locale.lang">({{::locale.lang}})</span>
     </div>
 
-    <div class="flex wrap-row">
-      <span class="elevation-max margin-r-sm" ng-if="::doc['elevation_max']" uib-tooltip="{{'elevation_max'| translate}}">
+    <div class="flex wrap-row center-items-align margin-b-sm route-infos">
+      <span class="elevation margin-r-sm" ng-if="::doc['elevation_max']" uib-tooltip="{{'elevation_max'| translate}}">
         <span class="value-title glyphicon glyphicon-sort-by-attributes rotate-180"></span>
         <span class="value">{{::doc['elevation_max']}}&nbsp;m</span>
       </span>
-
-      <div class="quality" ng-if="::doc['quality']" ng-class="::doc['quality']"
-           uib-tooltip="{{'quality'| translate}} : {{::doc['quality'] | translate}}" tooltip-placement="left"></div>
 
       <span class="height-diff" ng-if="::doc['height_diff_up']" uib-tooltip="{{'height_diff_up'| translate}}">
         <span class="icon-height_diff"></span>
@@ -29,18 +26,27 @@
         <span class="glyphicon glyphicon-fullscreen"></span>
         <span ng-repeat="o in ::doc['orientations']">{{o}}{{$last ? '' : ', '}}</span>
       </div>
+
+      <span class="location" ng-if="::doc['areas']">
+        <span class="glyphicon glyphicon-map-marker"></span>
+        <span class="value">{{::cardCtrl.showArea(doc['areas'])}}</span>
+      </span>
     </div>
 
-    <div class="global-rating flex flexend-align margin-b-sm" ng-init="globalRatings = cardCtrl.getGlobalRatings()" ng-show="::globalRatings">
-      <span class="icon-rating"></span>
-      <div ng-repeat="(attr, val) in ::globalRatings" class="rating" uib-tooltip="{{::attr | translate}}" ng-if="::val">
+
+    <div class="quality" ng-if="::doc['quality']" ng-class="::doc['quality']"
+         uib-tooltip="{{'quality'| translate}} : {{::doc['quality']| translate}}" tooltip-placement="left"></div>
+
+    <div class="global-rating flex" ng-init="globalRatings = cardCtrl.getGlobalRatings()">
+      <span class="icon-rating" ng-if="::globalRatings"></span>
+      <div ng-repeat="(attr, val) in ::globalRatings" class="rating" uib-tooltip="{{::attr| translate}}" ng-if="::val">
         <span class="value">{{::val}}</span>
       </div>
     </div>
 
-    <div class="full-rating flex" ng-init="fullRatings = cardCtrl.getFullRatings()" ng-if="fullRatings">
-      <span class="icon-rating"></span>
-      <div ng-repeat="(attr, val) in ::fullRatings" uib-tooltip="{{::attr | translate}}" class="rating">
+    <div class="full-rating flex" ng-init="fullRatings = cardCtrl.getFullRatings()">
+      <span class="icon-rating" ng-if="::fullRatings"></span>
+      <div ng-repeat="(attr, val) in ::fullRatings" uib-tooltip="{{::attr| translate}}" class="rating">
         <span class="value">{{::val}}</span>
       </div>
     </div>

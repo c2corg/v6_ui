@@ -130,6 +130,33 @@ app.CardController.prototype.translate = function(str) {
 
 
 /**
+ * Show only one of the area types, the first that is available:
+ * 1) range 2) admin limits 3) country
+ * @param {?Array<Object>} areas
+ * @return {Object | null}
+ * @export
+ */
+app.CardController.prototype.showArea = function(areas) {
+  if (areas) {
+    // the areas often come in different orders within 3 area objects.
+    var orderedAreas = {'range': [], 'admin_limits': [], 'country': []};
+    var type;
+
+    for (var i = 0; i < areas.length; i++) {
+      type = areas[i]['area_type'];
+      orderedAreas[type].push(areas[i]['locales'][0]['title']);
+    }
+    for (var t in orderedAreas) {
+      if (orderedAreas[t].length) {
+        return orderedAreas[t].join(' - ');
+      }
+    }
+  }
+  return null;
+};
+
+
+/**
  * Creates a link to the document view-page
  * @export
  * @return {string | undefined}
@@ -187,9 +214,7 @@ app.CardController.prototype.getGlobalRatings = function() {
       ratings['biking_rating'] = this.slashSeparatedRating_(doc.mtb_down_rating, doc.hiking_mtb_exposition);
     }
   }.bind(this));
-
-  ratings = Object.keys(ratings)[0] ? ratings : null;
-  return ratings;
+  return ratings[Object.keys(ratings)[0]] ? ratings : null;
 };
 
 
@@ -240,7 +265,7 @@ app.CardController.prototype.getFullRatings = function() {
       fullRatings[rating] = ratings[rating];
     }
   });
-  return fullRatings;
+  return fullRatings[Object.keys(fullRatings)[0]] ? fullRatings : null;
 };
 
 /**
