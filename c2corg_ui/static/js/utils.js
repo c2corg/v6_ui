@@ -174,7 +174,7 @@ app.utils.createImageUrl = function(url, suffix) {
  * @export
  */
 app.utils.isTopoguide = function(location) {
-  return location.indexOf('outings') > -1 || location.indexOf('waypoints') > -1 || location.indexOf('routes') > -1
+  return location.indexOf('waypoints') > -1 || location.indexOf('routes') > -1
   || location.indexOf('images') > -1 || location.indexOf('areas') > -1 || location.indexOf('books') > -1;
 };
 

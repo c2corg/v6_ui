@@ -81,8 +81,6 @@ app.MainController.prototype.isPath = function(path) {
     return 'home';
   } else if (path === 'topoguide') {
     return app.utils.isTopoguide(location.substring(1));
-  } else {
-    return location.indexOf(path) > -1;
   }
   return location.indexOf(path) > -1;
 };

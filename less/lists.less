@@ -8,12 +8,12 @@
   @media (max-width: @screen-sm-min) {
     padding-bottom: 50px;
   }
+  .list-item {
+    min-height: initial;
+  }
 
   & + .no-results {
     display: none;
-  }
-  .list-item.waypoints .waypoint-infos{
-    .flex() !important;
   }
 }
 
@@ -107,9 +107,8 @@
     align-items: center;
     margin-bottom: 5px;
   }
-  .elevation, .waypoint-elevation {
-    align-items: flex-start;
-    .flex();
+  .elevation, .waypoint-elevation .glyphicon {
+    margin-top: -1px;
   }
   .list-item-info {
     margin: auto;
@@ -181,40 +180,32 @@
   .set-main-waypoint {
     margin: 0 0 10px 10px;
   }
-<<<<<<< 13af3643315a7bb972ad972728171f052a7c70f0
-  .article-activities {
-=======
-  .outing-author, .activities {
->>>>>>> route card rating fix
-    .calc(width, "100% - 40px");
-  }
+
   // .list-item.waypoints
   &.waypoints {
 
     .waypoint-type {
       font-size: 3em;
       color: @C2C-orange;
-      margin-right: 10px;
-      float: left;
+      margin-right: 0;
       @media @phone {
         font-size: 2.5em;
+        margin-left: 10px;
       }
     }
+    .list-item-info {
+      flex-basis: 75%;
 
+    }
     .waypoint-infos {
       .calc(width, "100% - 20px");
-      display: block;
-      align-items: flex-end;
+      .flex();
+      align-items: baseline;
       flex-wrap: wrap;
     }
   }
   // .list-item.routes
   &.routes {
-    .route-infos{
-      @media @phone {
-        display: none;
-      }
-    }
     .activities {
       margin-bottom: -5px;
     }
@@ -380,7 +371,7 @@
 
 // + 1 more card per row than usual, max 4
 .documents-list-section-container, .section.associations, .view-details-associations {
-  &.no-map .list-item, .list-item.waypoints {
+  &.no-map .list-item{
     @media (min-width: 1200px) and (max-width: @large-width) {
       flex-basis: 32%;
     }
@@ -409,6 +400,12 @@
 #feed .list-item {
   .list-item-info {
     min-height: 60px;
+  }
+  &.waypoints .waypoint-type {
+    flex-basis: 25%;
+    @media @phone {
+      flex-basis: 0;
+    }
   }
   &.outings {
     .list-item-info {

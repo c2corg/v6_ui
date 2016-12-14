@@ -27,7 +27,7 @@
         <span ng-repeat="o in ::doc['orientations']">{{o}}{{$last ? '' : ', '}}</span>
       </div>
 
-      <span class="location margin-t-sm" ng-if="::cardCtrl.showArea(doc['areas'])">
+      <span class="location" ng-if="::doc['areas']">
         <span class="glyphicon glyphicon-map-marker"></span>
         <span class="value">{{::cardCtrl.showArea(doc['areas'])}}</span>
       </span>

@@ -1,27 +1,27 @@
 <a ng-href="{{cardCtrl.createURL()}}" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;">
-  <div class="list-item-info">
-    <div class="list-item-title-lang">
-      <span class="list-item-title"><p>{{::locale.title}}</p></span>
-      <span class="list-item-lang" ng-if="cardCtrl.lang != locale.lang">({{::locale.lang}})</span>
+  <div class="flex wrap-row center-items-align">
+    <span class="{{'icon-' + doc['waypoint_type']}} waypoint-type" uib-tooltip="{{ ::cardCtrl.translate(doc['waypoint_type'])}}"></span>
+
+    <div class="list-item-info">
+      <div class="list-item-title-lang">
+        <span class="list-item-title"><p>{{::locale.title}}</p></span>
+        <span class="list-item-lang" ng-if="cardCtrl.lang != locale.lang">({{::locale.lang}})</span>
+      </div>
+
+      <div class="waypoint-infos">
+        <span class="waypoint-elevation margin-r-sm margin-b-sm" ng-if="::doc['elevation']" uib-tooltip="{{'elevation_max'| translate}}">
+          <span class="value-title glyphicon glyphicon-sort-by-attributes rotate-180"></span>
+          <span class="value">{{::doc['elevation']}}&nbsp;m</span>
+        </span>
+
+        <span class="location" ng-if="::doc['areas']">
+          <span class="glyphicon glyphicon-map-marker"></span>
+          <span class="value">{{::cardCtrl.showArea(doc['areas'])}}</span>
+        </span>
+      </div>
+
+      <div class="quality" ng-if="::doc['quality']" ng-class="::doc['quality']"
+           uib-tooltip="{{'quality'| translate}} : {{::doc['quality']| translate}}" tooltip-placement="left"></div>
     </div>
-
-    <div class="quality" ng-if="::doc['quality']" ng-class="::doc['quality']"
-         uib-tooltip="{{'quality'| translate}} : {{::doc['quality']| translate}}" tooltip-placement="left"></div>
-
-    <div class="waypoint-infos">
-      <span class="{{'icon-' + doc['waypoint_type']}} waypoint-type" uib-tooltip="{{ ::cardCtrl.translate(doc['waypoint_type'])}}"></span>
-
-      <span class="location" ng-if="::cardCtrl.showArea(doc['areas'])">
-        <span class="glyphicon glyphicon-map-marker"></span>
-        <span class="value">{{::cardCtrl.showArea(doc['areas'])}}</span>
-      </span>
-      <br>
-
-      <span class="waypoint-elevation" ng-if="::doc['elevation']" uib-tooltip="{{'elevation_max'| translate}}">
-        <span class="value-title glyphicon glyphicon-sort-by-attributes rotate-180"></span>
-        <span class="value">{{::doc['elevation']}}&nbsp;m</span>
-      </span>
-    </div>
-
   </div>
 </a>
