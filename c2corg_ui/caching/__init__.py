@@ -2,6 +2,7 @@ import logging
 
 import time
 from dogpile.cache import make_region
+from dogpile.cache.api import NO_VALUE
 from redis.connection import BlockingConnectionPool
 
 log = logging.getLogger(__name__)
@@ -76,3 +77,35 @@ class CachedPage(object):
     def __init__(self, api_cache_key, page_html):
         self.api_cache_key = api_cache_key
         self.page_html = page_html
+
+
+def get_or_create(cache, key, creator):
+    """ Try to get the value for the given key from the cache. In case of
+    errors fallback to the creator function (e.g. load from the database).
+    """
+    try:
+        return cache.get_or_create(key, creator, expiration_time=-1)
+    except:
+        log.error('Getting value from cache failed', exc_info=True)
+        return creator()
+
+
+def get(cache, key):
+    """ Try to get the value for the given key from the cache. In case of
+    errors, return NO_VALUE.
+    """
+    try:
+        return cache.get(key, ignore_expiration=True)
+    except:
+        log.error('Getting value from cache failed', exc_info=True)
+        return NO_VALUE
+
+
+def set(cache, key, value):
+    """ Try to set the value with the given key in the cache. In case of
+    errors, log the error and continue.
+    """
+    try:
+        cache.set(key, value)
+    except:
+        log.error('Setting value in cache failed', exc_info=True)
