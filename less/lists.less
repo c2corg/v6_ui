@@ -178,7 +178,10 @@
     }
   }
   .set-main-waypoint {
-    margin: 0 0 10px 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    padding: 3px 10px;
+    max-height: 26px;
   }
 
   // .list-item.waypoints
@@ -390,6 +393,11 @@
   &.waypoints  {
     &.to-route {
       min-height: 115px;
+      flex-wrap: wrap;
+      .flex();
+      app-card {
+        flex-basis: 100%;
+      }
     }
     a {
       height: auto;

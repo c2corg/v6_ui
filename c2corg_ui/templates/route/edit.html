@@ -100,7 +100,7 @@ updating_doc = route_id and route_lang
           <div class="content">
             ## wr = waypoints, routes
             <app-simple-search parent-id="route.document_id"
-              app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="wr"></app-simple-search>
+              app-select="editCtrl.documentService.pushToAssociations(doc, null, false, true)" dataset="wr"></app-simple-search>
             ${show_editing_associated_waypoints('route')}
             ${show_editing_associated_routes('route')}
           </div>
