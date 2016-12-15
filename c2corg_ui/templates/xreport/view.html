@@ -137,7 +137,8 @@ other_langs, missing_langs = get_lang_lists(xreport, lang)
 
   ## ASSOCIATIONS
   % if not version:
-    <div class="view-details-associations col-xs-12 associations">
+    <div class="view-details-associations col-xs-12 associations" ng-init="a = detailsCtrl.documentService.document.associations"
+         ng-show="a.waypoints.length || a.routes.length || a.articles.length || a.outings.length">
       <span class="lead">
 ##         <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
 ##           <label translate>Add association</label>
