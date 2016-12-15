@@ -116,6 +116,12 @@ app.ImageUploaderController = function($scope, $uibModal, $compile, $q, appAlert
 
   /**
    * @type {Array.<string>}
+   * @private
+   */
+  this.defaultActivities_ = this.documentService.document.activities || [];
+
+  /**
+   * @type {Array.<string>}
    * @export
    */
   this.types;
@@ -185,7 +191,7 @@ app.ImageUploaderController.prototype.uploadFile_ = function(file) {
     'processed': false,
     'metadata': {
       'id': file['name'] + '-' + new Date().toISOString(),
-      'activities': [],
+      'activities': angular.copy(this.defaultActivities_),
       'categories': [],
       'image_type': this.image_type_,
       'elevation': null,

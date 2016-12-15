@@ -48,6 +48,7 @@ app.Document = function(appAuthentication, $rootScope) {
     },
     'locales': [{'title': '', 'lang': ''}],
     'type': '',
+    'activities': [],
     'document_id': 0,
     'quality': ''
   });
