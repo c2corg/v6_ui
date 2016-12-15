@@ -4,14 +4,13 @@
 }
 
 .view-details-title {
-	display: block;
 	font-size: .75em !important;
 	margin-top: 0px;
 	margin-bottom: 10px;
 }
 
-.description , .view-details-info {
-	display: block !important;
+.view-details-info , .view-details-section .view-details-description {
+	float: none;
 }
 
 .view-details-section {
@@ -42,7 +41,6 @@
 
 .view-details-title, .view-details-description, .view-details-informations , .view-details-info {
 	border: none !important;
-	display: block;
 	width: 100%;
 }
 
@@ -62,16 +60,11 @@
 	text-decoration: underline;
 }
 
-.heading.closed {
+.heading.closed, .heading .glyphicon {
  	display: none;
 }
 
-.heading .glyphicon {
-	display: none;
-}
-
 .location-static {
-	position: static;
 	float: none;
 	transform: none;
 	max-width: none;
