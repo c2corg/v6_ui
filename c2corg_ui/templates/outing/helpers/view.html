@@ -55,7 +55,7 @@
     % endif
 
     % if outing.get('partial_trip'):
-    <p><span class="value-title" translate>partial_trip</span>: <span class="value" x-translate>${outing['partial_trip']}</span></p>
+    <p><span class="value-title" translate>partial_trip</span>: <span class="value" translate>yes</span></p>
     % endif
 
     % if outing.get('quality'):
@@ -120,7 +120,10 @@
       </div>
       <span class="detail-text accordion">
         % if outing.get('public_transport'):
-        <p><span class="value-title" translate>public_transport</span>: <span class="value" x-translate>${outing['public_transport']}</span></p>
+        <p>
+          <span class="value-title" translate>public_transport</span>:
+          <span class="value" x-translate>${'no info' if outing.get('public_transport') is None else 'yes' if outing.get('public_transport') else 'no'}</span>
+        </p>
         % endif
 
         % if outing.get('access_condition'):
