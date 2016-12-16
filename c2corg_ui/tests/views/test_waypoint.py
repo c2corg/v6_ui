@@ -1,4 +1,5 @@
 import os
+from unittest.mock import patch
 
 from dogpile.cache.api import NO_VALUE
 from httmock import HTTMock, all_requests
@@ -20,6 +21,14 @@ class TestWaypointUi(BaseTestUi):
 
     def test_pages(self):
         self._test_pages()
+
+    def test_index_cache_down(self):
+        page_cache_mock = patch(
+            'c2corg_ui.views.cache_static_pages.get_or_create',
+            side_effect=Exception('Redis down'))
+
+        with page_cache_mock:
+            self.app.get('/{}'.format(self._prefix), status=200)
 
     def test_api_call(self):
         self._test_api_call()
@@ -113,6 +122,37 @@ class TestWaypointUi(BaseTestUi):
             cache_value = cache_document_detail.get(cache_key)
             self.assertEqual(cache_value, NO_VALUE)
             self.assertIsNone(response.headers.get('ETag'))
+
+    def test_detail_redis_down(self):
+        """ Check that the request does not fail even if Redis errors.
+        """
+        url = '/{0}/117982/fr/foo'.format(self._prefix)
+
+        document_cache_mock = patch(
+            'c2corg_ui.views.document.cache_document_detail',
+            **{'get.side_effect': Exception('Redis down'),
+               'set.side_effect': Exception('Redis down')})
+
+        with document_cache_mock, HTTMock(waypoint_detail_mock):
+            self.app.get(url, status=200)
+
+    def test_get_cache_down_known(self):
+        """ Check that no request to the cache is made if a request to the
+        cache failed in the last 30 seconds.
+        """
+        url = '/{0}/117982/fr/foo'.format(self._prefix)
+
+        document_cache_mock = patch(
+            'c2corg_ui.views.document.cache_document_detail',
+            **{'get.side_effect': Exception('Redis down'),
+               'set.side_effect': Exception('Redis down')})
+
+        with document_cache_mock as mock, HTTMock(waypoint_detail_mock):
+            caching.cache_status.request_failure()
+
+            self.app.get(url, status=200)
+            self.assertFalse(mock.get.called)
+            self.assertFalse(mock.set.called)
 
     def test_archive(self):
         url = '/{0}/117982/fr/131565'.format(self._prefix)

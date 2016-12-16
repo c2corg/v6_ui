@@ -6,7 +6,7 @@ from pyramid.renderers import render
 
 from c2corg_ui.caching import cache_document_detail, CachedPage, \
     cache_document_archive, cache_document_history, \
-    cache_document_diff
+    cache_document_diff, get as cache_get, set as cache_set
 from c2corg_ui import caching
 from c2corg_ui.diff.differ import diff_documents
 from shapely.geometry import asShape
@@ -445,7 +445,7 @@ def get_or_create(
     cache_key = get_cache_key(*request_data)
 
     # try to get a rendered page from the cache
-    cached_page = cache.get(cache_key, ignore_expiration=True)
+    cached_page = cache_get(cache, cache_key)
 
     old_api_cache_key = cached_page.api_cache_key \
         if cached_page != NO_VALUE else None
@@ -466,7 +466,7 @@ def get_or_create(
         # there is a new version from the api, render the page
         page_html = render_page(*loaded_data)
 
-        cache.set(cache_key, CachedPage(api_cache_key, page_html))
+        cache_set(cache, cache_key, CachedPage(api_cache_key, page_html))
 
         etag_cache(request, ui_etag_key)
 

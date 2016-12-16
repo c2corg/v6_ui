@@ -5,7 +5,7 @@ from pyramid.httpexceptions import HTTPNotModified, HTTPNotFound, \
     HTTPInternalServerError
 from pyramid.renderers import render
 
-from c2corg_ui.caching import CACHE_VERSION, cache_static_pages
+from c2corg_ui.caching import CACHE_VERSION, cache_static_pages, get_or_create
 from c2corg_ui import http_requests
 
 log = logging.getLogger(__name__)
@@ -67,8 +67,7 @@ def get_or_create_page(
 
     return get_response(
         request,
-        cache_static_pages.get_or_create(
-            cache_key, render_page, expiration_time=-1))
+        get_or_create(cache_static_pages, cache_key, render_page))
 
 
 def get_page_cache_key(page_key):
