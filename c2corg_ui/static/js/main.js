@@ -7,6 +7,7 @@
  */
 goog.provide('app.main');
 
+goog.require('app.autoHeightDirective');
 goog.require('app.MainController');
 goog.require('app.AccountController');
 goog.require('app.ImageEditingController');
