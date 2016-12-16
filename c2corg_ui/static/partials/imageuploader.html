@@ -32,6 +32,8 @@
       </div>
 
       <div class="img-data">
+
+
         <!-- TITLE-->
         <input type="text" class="form-control" ng-model="file.metadata.title" placeholder="{{'title' | translate}}" ng-change="uplCtrl.rename(file, file.metadata.title)">
 
@@ -45,7 +47,7 @@
             <ul class="dropdown-menu multiselect-box type">
               <li ng-repeat="activity in activities">
                 <a ng-click="uplCtrl.selectOption(file.metadata, 'activities', activity, $event)">
-                  <input type="checkbox">
+                  <input type="checkbox" ng-checked="file.metadata.activities.indexOf(activity) > -1">
                   <span class="activity">{{activity| translate}}</span>
                 </a>
               </li>

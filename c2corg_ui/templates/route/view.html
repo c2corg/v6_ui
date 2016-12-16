@@ -74,6 +74,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
     "document_id": ${route.get('document_id')},
     "lang": "${lang}",
     "type": "r",
+    "activities": ${dumps(route.get('activities')) | n},
     "topic_id": ${dumps(locale.get('topic_id'))},
     % if route.get('orientations'):
       "orientations": [${'"' + '","'.join(route['orientations']) + '"' if len(route['orientations']) else '' | n}],
