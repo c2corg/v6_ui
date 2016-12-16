@@ -4,7 +4,7 @@ from pyramid import testing
 import unittest
 from webtest import TestApp
 
-from c2corg_ui import main
+from c2corg_ui import main, caching
 
 
 curdir = os.path.dirname(os.path.abspath(__file__))
@@ -21,6 +21,7 @@ class BaseTestCase(unittest.TestCase):
     def setUp(self):  # noqa
         self.app = TestApp(self.app)
         self.config = testing.setUp()
+        caching.cache_status = caching.CacheStatus()
 
     def tearDown(self):  # noqa
         testing.tearDown()

@@ -14,6 +14,9 @@ KEY_PREFIX = 'c2corg_ui'
 # the git revision and a timestamp).
 CACHE_VERSION = None
 
+# the current status (up/down) of the cache
+cache_status = None
+
 
 def create_region(name):
     return make_region(
@@ -41,6 +44,7 @@ caches = [
 def configure_caches(settings):
     global KEY_PREFIX
     global CACHE_VERSION
+    global cache_status
     KEY_PREFIX = settings['redis.cache_key_prefix']
 
     # append a timestamp to the cache key when running in dev. mode
@@ -72,6 +76,12 @@ def configure_caches(settings):
             replace_existing_backend=True
         )
 
+    if settings.get('redis.cache_status_refresh_period'):
+        refresh_period = int(settings['redis.cache_status_refresh_period'])
+    else:
+        refresh_period = 30
+    cache_status = CacheStatus(refresh_period)
+
 
 class CachedPage(object):
     def __init__(self, api_cache_key, page_html):
@@ -81,12 +91,19 @@ class CachedPage(object):
 
 def get_or_create(cache, key, creator):
     """ Try to get the value for the given key from the cache. In case of
-    errors fallback to the creator function (e.g. load from the database).
+    errors fallback to the creator function (e.g. get the data from the API).
     """
+    if cache_status.is_down():
+        log.warn('Not getting value from cache because it seems to be down')
+        return creator()
+
     try:
-        return cache.get_or_create(key, creator, expiration_time=-1)
+        value = cache.get_or_create(key, creator, expiration_time=-1)
+        cache_status.request_success()
+        return value
     except:
         log.error('Getting value from cache failed', exc_info=True)
+        cache_status.request_failure()
         return creator()
 
 
@@ -94,10 +111,17 @@ def get(cache, key):
     """ Try to get the value for the given key from the cache. In case of
     errors, return NO_VALUE.
     """
+    if cache_status.is_down():
+        log.warn('Not getting value from cache because it seems to be down')
+        return NO_VALUE
+
     try:
-        return cache.get(key, ignore_expiration=True)
+        value = cache.get(key, ignore_expiration=True)
+        cache_status.request_success()
+        return value
     except:
         log.error('Getting value from cache failed', exc_info=True)
+        cache_status.request_failure()
         return NO_VALUE
 
 
@@ -105,7 +129,43 @@ def set(cache, key, value):
     """ Try to set the value with the given key in the cache. In case of
     errors, log the error and continue.
     """
+    if cache_status.is_down():
+        log.warn('Not setting value in cache because it seems to be down')
+        return
+
     try:
         cache.set(key, value)
+        cache_status.request_success()
     except:
         log.error('Setting value in cache failed', exc_info=True)
+        cache_status.request_failure()
+
+
+class CacheStatus(object):
+    """ To avoid that requests are made to the cache if it is down, the status
+    of the last requests is stored. If a request in the 30 seconds failed,
+    no new request will be made.
+    """
+
+    def __init__(self, refresh_period=30):
+        self.up = True
+        self.status_time = time.time()
+        self.refresh_period = refresh_period
+
+    def is_down(self):
+        if self.up:
+            return False
+
+        # no request is made to the cache if it is down. but if the cache
+        # status should be refreshed, a request is made even though it was
+        # down before.
+        should_refresh = time.time() - self.status_time > self.refresh_period
+        return not should_refresh
+
+    def request_failure(self):
+        self.up = False
+        self.status_time = time.time()
+
+    def request_success(self):
+        self.up = True
+        self.status_time = time.time()

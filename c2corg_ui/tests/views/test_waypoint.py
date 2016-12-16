@@ -136,6 +136,24 @@ class TestWaypointUi(BaseTestUi):
         with document_cache_mock, HTTMock(waypoint_detail_mock):
             self.app.get(url, status=200)
 
+    def test_get_cache_down_known(self):
+        """ Check that no request to the cache is made if a request to the
+        cache failed in the last 30 seconds.
+        """
+        url = '/{0}/117982/fr/foo'.format(self._prefix)
+
+        document_cache_mock = patch(
+            'c2corg_ui.views.document.cache_document_detail',
+            **{'get.side_effect': Exception('Redis down'),
+               'set.side_effect': Exception('Redis down')})
+
+        with document_cache_mock as mock, HTTMock(waypoint_detail_mock):
+            caching.cache_status.request_failure()
+
+            self.app.get(url, status=200)
+            self.assertFalse(mock.get.called)
+            self.assertFalse(mock.set.called)
+
     def test_archive(self):
         url = '/{0}/117982/fr/131565'.format(self._prefix)
         self._test_page(url, waypoint_archive_mock, '117982-fr-1-131565')

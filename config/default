@@ -28,3 +28,4 @@ export version = $(shell git rev-parse --short HEAD 2>/dev/null || echo "0")
 export redis_url = redis://localhost:6379/
 export redis_db = 2
 export redis_cache_key_prefix = c2corg_ui_$(instanceid)
+export redis_cache_status_refresh_period = 30

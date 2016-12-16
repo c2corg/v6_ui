@@ -15,6 +15,9 @@ http_request_connection_pool_size = {http_request_connection_pool_size}
 redis.url = {redis_url}?db={redis_db}
 redis.cache_key_prefix = {redis_cache_key_prefix}
 redis.cache_pool = 20
+# status refresh period (in seconds): if a request to Redis failed in the last
+# x seconds, no new request will be made.
+redis.cache_status_refresh_period = {redis_cache_status_refresh_period}
 
 ign_api_key = {ign_api_key}
 bing_api_key = {bing_api_key}
