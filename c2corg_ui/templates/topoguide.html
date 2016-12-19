@@ -1,0 +1,93 @@
+<%!
+from c2corg_common.attributes import activities, waypoint_types, area_types
+%>
+
+<%namespace file="helpers/common.html" import="show_cards_types"/>
+
+<%inherit file="base.html"/>
+
+<section id="topoguide">
+  <header>
+    <h1 class="text-center" translate>Let's go into the mountains!</h1>
+    <!--<h3 class="text-center" translate>Select the desired type of document you want to browse.</h3>-->
+    <ul class="topoguide-nav">
+      <a class="topoguide-entry text-center" href="${request.route_path('outings_index')}"><span translate>Outings</span><span class="icon-outings"></span></a>
+      <a class="topoguide-entry text-center" href="${request.route_path('waypoints_index')}"><span translate>Waypoints</span><span class="glyphicon glyphicon-map-marker"></span></a>
+      <a class="topoguide-entry text-center" href="${request.route_path('routes_index')}"><span translate>Routes</span><span class="glyphicon glyphicon-road"></span></a>
+      <a class="topoguide-entry text-center" href="${request.route_path('articles_index')}"><span translate>Articles</span><span class="glyphicon glyphicon-info-sign"></span></a>
+    </ul>
+
+    <ul class="topoguide-nav">
+      <a class="topoguide-entry text-center" href="${request.route_path('books_index')}"><span translate>Books</span><span class="glyphicon glyphicon-book"></span></a>
+      <a class="topoguide-entry text-center" href="${request.route_path('xreports_index')}"><span translate>Reports</span><span class="glyphicon glyphicon-alert"></span></a>
+      <a class="topoguide-entry text-center" href="${request.route_path('images_index')}"><span translate>Images</span><span class="glyphicon glyphicon-picture"></span></a>
+      <a class="topoguide-entry text-center" href="${request.route_path('areas_index')}"><span translate>Areas</span><span class="glyphicon glyphicon-globe"></span></a>
+    </ul>
+
+  </header>
+
+  <div class="topoguide-types flex wrap-row">
+
+
+
+
+    <div class="col-left">
+      <div class="outings doctype">
+        <h3 class="heading show-phone" data-toggle="collapse" data-target="#outings">
+          <span translate>Outings</span><span class="glyphicon glyphicon-menu-right"></span>
+        </h3>
+        <p class="text-muted doctype-info" translate>See where your friends went out recently.</p>
+        ${show_cards_types('activity', activities, 'outings')}
+      </div>
+
+      <div class="routes doctype">
+        <h3 class="heading show-phone" data-toggle="collapse" data-target="#routes">
+          <span translate>Routes</span><span class="glyphicon glyphicon-menu-right"></span>
+        </h3>
+        <p class="text-muted doctype-info" translate>What activity should the route be?</p>
+        ${show_cards_types('activity', activities, 'routes')}
+      </div>
+
+      <div class="areas doctype">
+        <h3 class="heading show-phone" data-toggle="collapse" data-target="#areas">
+          <span translate>Areas</span><span class="glyphicon glyphicon-menu-right"></span>
+        </h3>
+        <p class="text-muted doctype-info" translate>See what you can find in a whole area</p>
+        ${show_cards_types('area', area_types, 'areas')}
+      </div>
+
+    </div>
+
+
+    <div class="col-right">
+      <div class="articles doctype">
+        <h3 class="heading show-phone" data-toggle="collapse" data-target="#articles">
+          <span translate>Articles</span><span class="glyphicon glyphicon-menu-right"></span>
+        </h3>
+        <p class="text-muted doctype-info" translate>Read articles about...</p>
+        ${show_cards_types('activity', activities, 'articles')}
+      </div>
+
+      <div class="books doctype">
+        <h3 class="heading show-phone" data-toggle="collapse" data-target="#books">
+          <span translate>Books</span><span class="glyphicon glyphicon-menu-right"></span>
+        </h3>
+        <p class="text-muted doctype-info doctype-info" translate>Read books about...</p>
+
+        ${show_cards_types('activity', activities, 'books')}
+      </div>
+      <div class="waypoints doctype">
+        <h3 class="heading show-phone" data-toggle="collapse" data-target="#waypoints">
+          <span translate>Waypoints</span><span class="glyphicon glyphicon-menu-right"></span>
+        </h3>
+        <p class="text-muted doctype-info" translate>What type of waypoint are you interested in?</p>
+        ${show_cards_types('waypoint-type', waypoint_types, 'waypoints')}
+      </div>
+    </div>
+
+
+
+  </div>
+</section>
+
+

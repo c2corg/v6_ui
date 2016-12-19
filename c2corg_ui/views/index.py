@@ -37,6 +37,11 @@ class Pages(object):
     def account(self):
         return self._get_page('account', 'c2corg_ui:templates/account.html')
 
+    @view_config(route_name='topoguide')
+    def topoguide(self):
+        return self._get_page(
+            'topoguide', 'c2corg_ui:templates/topoguide.html')
+
     @view_config(route_name='preferences')
     def preferences(self):
         return self._get_page(

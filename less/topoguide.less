@@ -1,0 +1,165 @@
+@bg-color: rgba(229, 229, 229, 0.3);
+
+#topoguide {
+  .calc(min-height, "100vh - 50px");
+  background-color: @bg-color;
+
+  @media @tablet {
+    margin-top: -12px;
+  }
+  .topoguide-nav {
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    &:last-of-type {
+      padding-bottom: 20px;
+    }
+  }
+  header {
+    color: white;
+    background-image:url(../img/home/mont-joly.png);
+    background-size: cover;
+    height: auto;
+  }
+  h1 {
+    padding-top: 10px;
+  }
+  a {
+    outline: none;
+    text-decoration: none;
+  }
+  .doctype-info {
+    margin-top: 5px;
+    margin-left: 10px;
+  }
+  .topoguide-entry {
+    height: 130px;
+    width: 130px;
+    flex-basis: initial;
+    border-radius: 50%;
+    border: 2px solid white;
+    color: white;
+    transition: .2s;
+    background-color: rgba(117, 117, 117, 0.44);
+    margin-bottom: 15px;
+    &:hover {
+      cursor: pointer;
+      background-color: rgba(66, 66, 66, 0.52);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    @media (max-width: 900px) {
+      height: 110px;
+      width: 110px;
+    }
+    @media (max-width: @phone-max) {
+      height: 95px;
+      width: 95px;
+    }
+    @media (min-width: @phone-max) {
+      &:hover {
+        transform: scale3d(1.1, 1.1, 1);
+        backface-visibility: hidden;
+      }
+    }
+    span {
+      word-break: break-all;
+    }
+  }
+  .col-left {
+    padding-left: 4%;
+    padding-right: 2%;
+  }
+  .col-right {
+    padding-left: 2%;
+    padding-right: 4%;
+  }
+  .col-left, .col-right {
+    width: 50%;
+  }
+  .waypoint-type, .activity {
+    width: 100%;
+    font-size: 3em;
+    color: @C2C-orange;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  .activity {
+    width: 100%;
+  }
+  .icon-div {
+    margin-top: 0;
+    margin-bottom: 10px;
+    padding-right: 5px;
+    padding-left: 5px;
+    min-height: 90px;
+    text-align: center;
+    flex-basis: 31%;
+    margin-right: 1%;
+    margin-left: 1%;
+    .flex();
+    flex-direction: column;
+    justify-content: space-around;
+    @media (max-width:1000px){
+      flex-basis: 48% !important;
+    }
+  }
+  .see-more {
+    margin-left: 10px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  .value {
+    font-family: sans-serif;
+  }
+  .doctype {
+    padding: 0 2%;
+    width: 100%;
+    display: inline-block;
+    border-radius: 5px;
+    margin-bottom: 20px;
+  }
+  .wrapper {
+    padding: 0 10px 10px;
+    .flex();
+    flex-flow: wrap row;
+    justify-content: center;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+
+  // #topoguide
+  @media @phone {
+    margin-top: -10px;
+    h1 {
+      padding: 20px 10px 0 10px;
+      font-size: 2.5em;
+    }
+    .topoguide-entry {
+      font-size: 0.9em;
+    }
+    .icon-div {
+      height: 80px;
+    }
+    .collapse.in, .collapsing {
+      margin: 0;
+    }
+    .topoguide-nav {
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .doctype {
+      padding-left: 2%;
+      padding-right: 2%;
+    }
+    .wrapper {
+      padding: 0;
+    }
+    .col-left, .col-right {
+      width: 100%;
+      float: none;
+    }
+  }
+}

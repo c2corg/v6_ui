@@ -1,3 +1,26 @@
 <%def name="show_title(title)">\
-  ${title + ' - ' if title else ''}Camptocamp.org\
+${title + ' - ' if title else ''}Camptocamp.org\
+</%def>
+
+<%def name="show_cards_types(className, types, doctype)">\
+  <div class="collapse in" id="${doctype}" ng-init="show_${doctype} = false">
+    <div class="wrapper">
+      % for type in types[:4]:
+      <a class="icon-div list-item" href="${request.route_path(doctype + '_index')}#?act=${type}">
+        <span class="${className} icon-${type}"></span>
+        <p translate class="text-center value">${type}</p>
+      </a>
+      % endfor
+      % for type in types[4:]:
+      <a class="icon-div list-item" ng-show="show_${doctype}" href="${request.route_path(doctype + '_index')}#?act=${type}">
+         <span class="${className} icon-${type}"></span>
+        <p translate class="text-center value">${type}</p>
+      </a>
+      % endfor
+    </div>
+    <b class="text-primary see-more" ng-click="show_${doctype} = !show_${doctype}">
+      <span translate ng-show="!show_${doctype}">see more</span>
+      <span translate ng-show="show_${doctype}">see less</span>
+    </b>
+  </div>
 </%def>

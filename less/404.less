@@ -16,29 +16,7 @@
   h3 {
     font-weight: bold
   }
-  .not-found-pages {
-    list-style: none;
-    .glyphicon {
-      font-size: 2em;
-      margin-top: 10px;
-      margin-bottom: 10px;
-    }
-    .flex();
-    flex-flow: wrap row;
-    a {
-      color: graytext;
-      font-weight: bold;
 
-      &:hover{
-        text-decoration: none;
-      }
-      flex-basis: 31%;
-      margin-right: 1.5%;
-      @media @phone {
-        font-size: 1em;
-      }
-    }
-  }
   .circles {
     margin-top: 100px;
     margin-left: 13%;
@@ -87,5 +65,38 @@
   }
   100% {
     transform: rotate(0deg);
+  }
+}
+
+.not-found-pages, .topoguide-nav {
+  list-style: none;
+
+  .icon-outings {
+    font-size: 2.5em;
+    color: @C2C-orange;
+  }
+  .glyphicon {
+    font-size: 2em;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
+  .flex();
+  flex-flow: wrap row;
+  a {
+    color: graytext;
+    .flex();
+    flex-direction: column-reverse;
+    justify-content: center;
+    font-weight: bold;
+
+    &:hover{
+      text-decoration: none;
+    }
+    flex-basis: 31%;
+    margin-right: 1.5%;
+    @media @phone {
+      font-size: 1em;
+    }
   }
 }
