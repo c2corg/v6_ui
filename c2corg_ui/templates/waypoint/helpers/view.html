@@ -264,7 +264,12 @@
         % endif
 
         % if waypoint.get('equipment_ratings'):
-        <p><span translate class="value-title">equipment_rating</span>: <span class="value">${waypoint['equipment_ratings']}</span></p>
+          <article>
+            <span translate class="value-title">equipment_ratings</span>:
+            % for type in waypoint.get('equipment_ratings') :
+              <span class="value">${type}</span>${'' if loop.last else ', '}
+            % endfor
+          </article>
         % endif
 
         % if waypoint.get('paragliding_rating'):
