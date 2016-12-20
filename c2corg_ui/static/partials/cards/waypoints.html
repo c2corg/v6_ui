@@ -1,6 +1,8 @@
 <a ng-href="{{cardCtrl.createURL()}}" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;">
   <div class="flex wrap-row center-items-align">
-    <span class="{{'icon-' + doc['waypoint_type']}} waypoint-type" uib-tooltip="{{ ::cardCtrl.translate(doc['waypoint_type'])}}"></span>
+    <span class="{{'icon-' + doc['waypoint_type']}} waypoint-type"
+      uib-tooltip="{{doc['waypoint_type'] | translate}}" tooltip-append-to-body="true">
+    </span>
 
     <div class="list-item-info">
       <div class="list-item-title-lang">
@@ -9,7 +11,8 @@
       </div>
 
       <div class="waypoint-infos">
-        <span class="waypoint-elevation margin-r-sm margin-b-sm" ng-if="::doc['elevation']" uib-tooltip="{{'elevation_max'| translate}}">
+        <span class="waypoint-elevation margin-r-sm margin-b-sm" ng-if="::doc['elevation']"
+              uib-tooltip="{{'elevation_max'| translate}}" tooltip-append-to-body="true">
           <span class="value-title glyphicon glyphicon-sort-by-attributes rotate-180"></span>
           <span class="value">{{::doc['elevation']}}&nbsp;m</span>
         </span>
@@ -21,7 +24,7 @@
       </div>
 
       <div class="quality" ng-if="::doc['quality']" ng-class="::doc['quality']"
-           uib-tooltip="{{'quality'| translate}} : {{::doc['quality']| translate}}" tooltip-placement="left"></div>
+           uib-tooltip="{{'quality'| translate}} : {{doc['quality']| translate}}" tooltip-append-to-body="true"></div>
     </div>
   </div>
 </a>

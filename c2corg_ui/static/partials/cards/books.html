@@ -7,12 +7,12 @@
     </div>
 
     <div class="article-categories">
-      <span ng-repeat="book_type in ::doc['book_types']" class="value book-type">{{::book_type | translate }}{{$last ? '' : ', '}}</span>
+      <span ng-repeat="book_type in ::doc['book_types']" class="value book-type">{{book_type | translate}}{{$last ? '' : ', '}}</span>
     </div>
 
     <div class="activities flex wrap-row margin-t-sm">
       <span ng-repeat="activity in ::doc.activities | limitTo: 4"  class="activity icon-{{::activity}}"
-            uib-tooltip="{{ cardCtrl.translate(activity)}}"></span>
+            uib-tooltip="{{cardCtrl.translate(activity)}}" tooltip-append-to-body="true"></span>
 
       <span class="flex flexend-align show-more-activities"
             ng-if="doc.activities.length > 4 && !cardCtrl.remainingActivities"
@@ -21,12 +21,12 @@
       </span>
 
       <span ng-if="cardCtrl.remainingActivities" ng-repeat="activity in ::doc.activities | limitTo: (4 - doc.activities.length)"
-            class="activity icon-{{::activity}}" uib-tooltip="{{ cardCtrl.translate(activity)}}">
+            class="activity icon-{{::activity}}" uib-tooltip="{{cardCtrl.translate(activity)}}" tooltip-append-to-body="true">
       </span>
     </div>
 
     <div class="quality" ng-if="::doc['quality']" ng-class="::doc['quality']"
-         uib-tooltip="{{'quality'| translate}} : {{::doc['quality'] | translate}}" tooltip-placement="left"></div>
+         uib-tooltip="{{'quality'| translate}} : {{doc['quality'] | translate}}" tooltip-append-to-body="true"></div>
 
     <div class="author margin-t-sm" ng-if="::doc['author']">
       <span class="glyphicon glyphicon-pencil"></span>
