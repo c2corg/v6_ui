@@ -3,6 +3,7 @@ import logging
 from c2corg_ui.caching import cache_document_detail
 from c2corg_ui.views import call_api
 from pyramid.view import view_config
+from os.path import isfile
 
 log = logging.getLogger(__name__)
 
@@ -21,6 +22,7 @@ class Health(object):
             - API status
             - Redis status
             - Number of keys in Redis
+            - Maintenance mode status
 
         """
         status = {
@@ -29,6 +31,7 @@ class Health(object):
 
         self._add_redis_status(status)
         self._add_api_status(status)
+        self._add_maintenance_mode_status(status)
 
         return status
 
@@ -63,3 +66,16 @@ class Health(object):
 
         status['api'] = 'ok' if success else 'error'
         status['api_status'] = api_status
+
+    def _add_maintenance_mode_status(self, status):
+        maintenance_mode = False
+        maintenance_file = 'maintenance_mode.txt'
+
+        if isfile(maintenance_file):
+            maintenance_mode = True
+            log.warn(
+              'service is in maintenance mode, remove %s to reenable.' %
+              maintenance_file)
+            self.request.response.status_code = 404
+
+        status['maintenance_mode'] = maintenance_mode
