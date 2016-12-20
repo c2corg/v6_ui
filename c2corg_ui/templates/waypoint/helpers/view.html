@@ -329,9 +329,7 @@
         % endif
 
         % if waypoint.get('custodianship'):
-        <span x-translate class="value-title">custodianship</span> : <span translate class="value">yes</span><br>
-        % elif waypoint.get('custodianship') is not None :
-        <span x-translate class="value-title">custodianship</span> : <span translate class="value">no</span><br>
+          <span x-translate class="value-title">custodianship</span> : <span x-translate class="value">${waypoint['custodianship']}</span><br>
         % endif
 
         % if waypoint.get('phone_custodian'):
