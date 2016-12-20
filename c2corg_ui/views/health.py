@@ -22,6 +22,7 @@ class Health(object):
             - API status
             - Redis status
             - Number of keys in Redis
+            - Maintenance mode status
 
         """
         status = {
