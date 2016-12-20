@@ -125,16 +125,22 @@ app.Document.prototype.hasAssociation = function(type, id) {
  * @param {appx.SimpleSearchDocument} doc
  * @param {string=} doctype Optional doctype
  * @param {boolean=} setOutingTitle
+ * @param {?boolean} editing
  * @export
  */
 app.Document.prototype.pushToAssociations = function(doc, doctype,
-    setOutingTitle) {
+    setOutingTitle, editing) {
   var associations = this.document.associations;
   doctype = doctype || app.utils.getDoctype(doc['type']);
   setOutingTitle = typeof setOutingTitle !== 'undefined' ?
     setOutingTitle : false;
   doc['new'] = true;
   associations[doctype].push(doc);
+
+  // when creating/editing a route, make the first associated wp a main one
+  if (editing && associations.waypoints.length === 1) {
+    this.document['main_waypoint_id'] = doc['document_id'];
+  }
 
   // When creating an outing, the outing title defaults to the title
   // of the first associated route.
@@ -154,9 +160,10 @@ app.Document.prototype.pushToAssociations = function(doc, doctype,
  * @param {number} id Id of document to unassociate
  * @param {string} type Type of document to unassociate
  * @param {goog.events.Event | jQuery.Event} [event]
+ * @param {?boolean} editing
  * @export
  */
-app.Document.prototype.removeAssociation = function(id, type, event) {
+app.Document.prototype.removeAssociation = function(id, type, event, editing) {
   var associations = this.document.associations[type];
 
   event.currentTarget.closest('.list-item').className += ' remove-item';
@@ -166,6 +173,12 @@ app.Document.prototype.removeAssociation = function(id, type, event) {
     for (var i = 0; i < associations.length; i++) {
       if (associations[i]['document_id'] === id) {
         associations.splice(i, 1);
+
+        // when deleting a wp in route editing - make the first associated wp a main one
+        if (editing && type === 'waypoints' && associations.length === 1) {
+          this.document['main_waypoint_id'] = associations[0]['document_id'];
+        }
+
         this.rootScope_.$apply();
         break;
       }
