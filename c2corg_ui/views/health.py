@@ -75,6 +75,6 @@ class Health(object):
             maintenance_mode = True
             log.warn('service is in maintenance mode, remove %s to reenable.' %
                     maintenance_file)
-            self.request.response.status_code = 503
+            self.request.response.status_code = 404
 
         status['maintenance_mode'] = maintenance_mode
