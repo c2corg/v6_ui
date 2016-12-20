@@ -141,7 +141,7 @@ waypoint['doctype'] = 'waypoints'
          ng-show="userCtrl.auth.isAuthenticated() || a.waypoint_children.length || a.waypoints.length">
       <span class="lead">
         <section>
-          <div class="add-association" ng-show="userCtrl.auth.isAuthenticated()">
+          <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
             <label translate>Add association</label>
             <app-add-association parent-id="${waypoint_id}" parent-doctype="waypoints" dataset="wcb"></app-add-association>
           </div>
@@ -158,8 +158,7 @@ waypoint['doctype'] = 'waypoints'
       </span>
     </div>
 
-    <div class="view-details-associations col-xs-12 associations"
-         ng-show="associations.recent_outings.total > 0 || associations.articles.length || associations.books.length">
+    <div class="view-details-associations col-xs-12 associations" ng-show="a.recent_outings.total > 0 || a.articles.length || a.books.length">
       <span class="lead">
         <section>
           ${show_associated_articles(waypoint)}

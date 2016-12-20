@@ -116,6 +116,27 @@
 			"elevation_min": 441,
 			"activities": ["hiking"]
 		}],
+		"xreports": [{
+			"type": "x",
+			"available_langs": [ "fr"],
+			"date": "2016-08-19",
+			"version": 1,
+			"event_type": [
+			  "stone_fall"
+			],
+			"nb_participants": 5,
+			"avalanche_slope": null,
+			"locales": [{
+			    "version": 1,
+			    "lang": "fr",
+			    "title": "Aiguille du Grand Laus : Le bonheur est dans le pré - chute de pierre et secours"
+			}],
+			"protected": false,
+			"activities": ["mountain_climbing"],
+			"avalanche_level": null,
+			"elevation": 2400,
+			"document_id": 792147
+		}],
 		"images": [{
 			"protected": false,
 			"locales": [{

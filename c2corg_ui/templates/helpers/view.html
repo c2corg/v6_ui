@@ -245,6 +245,7 @@
 
 <%def name="show_associated_xreports(document)">\
   <%
+    type='xreports'
     xreports = document['associations']['xreports']
     associations = 'detailsCtrl.documentService.document.associations.' + type
   %>

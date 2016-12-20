@@ -6,7 +6,7 @@ from json import dumps
 
 <%inherit file="../base.html"/>
 <%namespace file="../helpers/view.html" import="get_comments, get_image_gallery,
-    photoswipe_gallery, get_document_min_max,
+    photoswipe_gallery, get_document_min_max, show_associated_xreports,
     get_document_locale_text, show_missing_langs_links, show_other_langs_links,
     show_archive_data, show_locale_title, get_activities, show_areas, show_float_buttons,
     show_associated_waypoints, show_associated_routes, show_associated_articles,
@@ -138,6 +138,7 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
       <section>
         ${show_associated_routes(outing)}
         ${show_associated_articles(outing)}
+        ${show_associated_xreports(outing)}
       </section>
     </span>
   </div>
