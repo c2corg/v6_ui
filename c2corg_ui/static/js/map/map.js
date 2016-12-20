@@ -12,6 +12,7 @@ goog.require('ol.Collection');
 goog.require('ol.Feature');
 goog.require('ol.Map');
 goog.require('ol.View');
+goog.require('ol.control.ScaleLine');
 goog.require('ol.format.GeoJSON');
 goog.require('ol.format.GPX');
 goog.require('ol.geom.Point');
@@ -225,6 +226,7 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
    */
   this.map = new ol.Map({
     interactions: ol.interaction.defaults({mouseWheelZoom: false}),
+    controls: ol.control.defaults().extend([new ol.control.ScaleLine()]),
     view: new ol.View({
       center: ol.extent.getCenter(app.MapController.DEFAULT_EXTENT),
       zoom: app.MapController.DEFAULT_ZOOM
