@@ -73,8 +73,9 @@ class Health(object):
 
         if isfile(maintenance_file):
             maintenance_mode = True
-            log.warn('service is in maintenance mode, remove %s to reenable.' %
-                    maintenance_file)
+            log.warn(
+              'service is in maintenance mode, remove %s to reenable.' %
+              maintenance_file)
             self.request.response.status_code = 404
 
         status['maintenance_mode'] = maintenance_mode
