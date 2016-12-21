@@ -7,8 +7,8 @@
     </div>
 
     <div class="quality" ng-if="::doc['quality']" ng-class="::doc['quality']"
-         uib-tooltip="{{'quality' | translate}} : {{::doc['quality'] | translate}}" tooltip-placement="left"></div>
-    <span class="area-type">{{::doc['area_type'] | translate}}</span>
+         uib-tooltip="{{'quality' | translate}} : {{doc['quality'] | translate}}" tooltip-append-to-body="true"></div>
+    <span class="area-type">{{doc['area_type'] | translate}}</span>
 
   </div>
 </a>

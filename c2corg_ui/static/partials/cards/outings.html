@@ -26,7 +26,7 @@
     <div class="activity-author">
       <div class="activities flex wrap-row margin-t-sm">
         <span ng-repeat="activity in ::doc.activities | limitTo: 4"  class="activity icon-{{::activity}}"
-              uib-tooltip="{{ cardCtrl.translate(activity)}}"></span>
+              uib-tooltip="{{cardCtrl.translate(activity)}}" tooltip-append-to-body="true"></span>
 
         <span class="flex flexend-align show-more-activities"
               ng-if="doc.activities.length > 4 && !cardCtrl.remainingActivities"
@@ -35,7 +35,7 @@
         </span>
 
         <span ng-if="cardCtrl.remainingActivities" ng-repeat="activity in ::doc.activities | limitTo: (4 - doc.activities.length)"
-              class="activity icon-{{::activity}}" uib-tooltip="{{ cardCtrl.translate(activity)}}">
+              class="activity icon-{{::activity}}" uib-tooltip="{{cardCtrl.translate(activity)}}" tooltip-append-to-body="true">
         </span>
       </div>
 
@@ -46,7 +46,7 @@
     </div>
 
     <div class="quality" ng-if="::doc['quality']" ng-class="::doc['quality']"
-         uib-tooltip="{{'quality' | translate}} : {{::doc['quality'] | translate}}" tooltip-placement="left">
+         uib-tooltip="{{'quality' | translate}} : {{doc['quality'] | translate}}" tooltip-append-to-body="true">
     </div>
   </div>
 

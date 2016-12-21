@@ -137,7 +137,8 @@ waypoint['doctype'] = 'waypoints'
 
   ## ASSOCIATIONS
   % if not version:
-    <div class="view-details-associations col-xs-12 associations">
+    <div class="view-details-associations col-xs-12 associations" ng-init="a = detailsCtrl.documentService.document.associations"
+         ng-show="userCtrl.auth.isAuthenticated() || a.waypoint_children.length || a.waypoints.length">
       <span class="lead">
         <section>
           <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
@@ -149,7 +150,7 @@ waypoint['doctype'] = 'waypoints'
         </section>
       </span>
     </div>
-    <div class="view-details-associations col-xs-12 associations">
+    <div class="view-details-associations col-xs-12 associations" ng-show="a.all_routes.total > 0">
       <span class="lead">
         <section>
           ${show_associated_routes(waypoint, 'all_routes')}
@@ -157,9 +158,7 @@ waypoint['doctype'] = 'waypoints'
       </span>
     </div>
 
-    <div class="view-details-associations col-xs-12 associations"
-         ng-init="associations = detailsCtrl.documentService.document.associations"
-         ng-show="associations.recent_outings.total || associations.articles.length || associations.books.length">
+    <div class="view-details-associations col-xs-12 associations" ng-show="a.recent_outings.total > 0 || a.articles.length || a.books.length">
       <span class="lead">
         <section>
           ${show_associated_articles(waypoint)}
