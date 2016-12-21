@@ -477,7 +477,6 @@ app.DocumentEditingController.prototype.hasMissingProps = function(doc, showErro
   for (var i = 0; i < requiredFields.length; i++) {
     field = requiredFields[i];
     hasError = false;
-
     if (field === 'title' || field === 'lang') {
       hasError = (!doc['locales'] || !doc['locales'][0][field]);
     } else if (field === 'activities') {
@@ -491,6 +490,13 @@ app.DocumentEditingController.prototype.hasMissingProps = function(doc, showErro
     } else if (field === 'elevation' && doc['waypoint_type'] === 'climbing_indoor') {
       // waypoint climbing indoor is the only one that does not require 'elevation'
       continue;
+    } else if (field === 'url') {
+      // weather station and webcam require URL
+      if (doc['waypoint_type'] === 'weather_station' || doc['waypoint_type'] === 'webcam') {
+        hasError = !doc['url'];
+      } else {
+        continue;
+      }
     } else {
       hasError = (!doc[field] || doc[field] === null || doc[field] === undefined);
     }

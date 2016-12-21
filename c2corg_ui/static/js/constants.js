@@ -26,10 +26,11 @@ app.constants = {
     'local_product' : 3,
     'paragliding_takeoff' : 3,
     'paragliding_landing' : 3,
+    'weather_station' : 3,
     'webcam': 3
   },
   REQUIRED_FIELDS: {
-    'waypoints': ['title' , 'lang', 'waypoint_type', 'elevation', 'longitude', 'latitude'],
+    'waypoints': ['title' , 'lang', 'waypoint_type', 'elevation', 'longitude', 'latitude', 'url'],
     'articles': ['title', 'activities', 'categories', 'article_type'],
     'books': ['title', 'activities', 'book_types'],
     'routes' : ['title' , 'lang', 'activities', 'waypoints'],
