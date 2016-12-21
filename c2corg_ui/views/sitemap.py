@@ -80,9 +80,13 @@ def generate_sitemap_index(
     lines.append('<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')  # noqa
 
     for sitemap in sitemap_index_data['sitemaps']:
+        if sitemap['doc_type'] not in ROUTE_NAMES:
+            # skip if there is no route for the doc type
+            continue
+
         loc = base_url. \
-                  replace('-DOC_TYPE-', sitemap['doc_type']). \
-                  replace('-I-', str(sitemap['i']))
+            replace('-DOC_TYPE-', sitemap['doc_type']). \
+            replace('-I-', str(sitemap['i']))
         lines.append(
             '<sitemap><loc>{}</loc><lastmod>{}</lastmod></sitemap>'.format(
                 loc, lastmod))
@@ -104,7 +108,8 @@ def generate_sitemap(sitemap_data, doc_type, request, pretty_print=False):
     if not route_name:
         log.warn('Sitemap requested for document type without route: {}'.
                  format(doc_type))
-        return None
+        # create an empty sitemap in that case
+        sitemap_data['pages'] = []
     is_route = doc_type == ROUTE_TYPE
 
     for page in sitemap_data['pages']:
