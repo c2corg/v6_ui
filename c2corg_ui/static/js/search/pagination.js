@@ -54,6 +54,12 @@ app.PaginationController = function($scope, ngeoLocation) {
   this.total = 0;
 
   /**
+   * @type {boolean}
+   * @export
+   */
+  this.showGoToLastPage = true;
+
+  /**
    * @type {number}
    * @export
    */
@@ -81,6 +87,11 @@ app.PaginationController.prototype.handleSearchChange_ = function(event,
     features, total, recenter) {
   this.total = total;
   this.offset = this.location_.getFragmentParamAsInt('offset') || 0;
+  // don't show the "Go to last page" button when doing a full-text-search
+  // (the full result set has to be iterated in ElasticSearch when doing
+  // requests with large offsets)
+  this.showGoToLastPage = !(this.location_.hasFragmentParam('q') &&
+    this.location_.getFragmentParam('q') !== '');
 };
 
 
