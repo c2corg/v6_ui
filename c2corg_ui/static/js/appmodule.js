@@ -27,5 +27,11 @@ app.module = angular.module('app', [
   'slug',
   'vcRecaptcha',
   'infinite-scroll',
-  'debounce'
+  'debounce',
+  'tmh.dynamicLocale'
 ]);
+
+// override the default path (angular/i18n/angular-locale_{{locale}}.js)
+app.module.config(function(tmhDynamicLocaleProvider, angularLocalePath) {
+  tmhDynamicLocaleProvider.localeLocationPattern(angularLocalePath + '/angular-locale_{{locale}}.js');
+});
