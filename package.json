@@ -13,6 +13,7 @@
   },
   "license": "AGPL-3.0",
   "dependencies": {
+    "angular-i18n": "1.6.0",
     "angular-moment": "1.0.0",
     "angular-recaptcha": "git://github.com/VividCortex/angular-recaptcha#3.0.1",
     "angular-ui-bootstrap": "1.3.3",

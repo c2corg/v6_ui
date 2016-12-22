@@ -17,6 +17,7 @@
       "c2corg_ui/externs/slug.js",
       "c2corg_ui/externs/photoswipe.js",
       "c2corg_ui/externs/moment.js",
+      "c2corg_ui/externs/dynamic-locale.js",
       "c2corg_ui/externs/loadImage.js",
       "c2corg_ui/externs/ui-bootstrap.js",
       "c2corg_ui/externs/angular-1.5.js",

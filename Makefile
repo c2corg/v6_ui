@@ -40,6 +40,7 @@ LIBS_JS_FILES += \
     node_modules/moment-timezone/builds/moment-timezone-with-data.min.js \
     node_modules/angular-moment/angular-moment.min.js \
     node_modules/slick-carousel/slick/slick.min.js \
+    node_modules/angular-dynamic-locale/tmhDynamicLocale.min.js \
     node_modules/angular-recaptcha/release/angular-recaptcha.min.js \
     node_modules/ng-file-upload/dist/ng-file-upload.min.js \
     node_modules/blueimp-load-image/js/load-image.all.min.js \
@@ -286,13 +287,17 @@ publish: template
 deps: c2corg_ui/static/build/deps.js c2corg_ui/static/build/deps.css
 
 # concatenate all JS dependencies into one file
-c2corg_ui/static/build/deps.js: $(LIBS_JS_FILES) c2corg_ui/static/build/locale_moment slick-assets
+c2corg_ui/static/build/deps.js: $(LIBS_JS_FILES) c2corg_ui/static/build/locale_moment slick-assets c2corg_ui/static/build/locale_angular
 	@echo "Creating deps.js"
 	awk 'FNR==1{print ";\n"}1' $(LIBS_JS_FILES) > $@
 
 # copy locales of moment.js
 c2corg_ui/static/build/locale_moment: .build/node_modules.timestamp
 	cp -r node_modules/moment/locale/ c2corg_ui/static/build/locale_moment
+
+# copy locales of angular-i18n
+c2corg_ui/static/build/locale_angular: .build/node_modules.timestamp
+	cp -r node_modules/angular-i18n/ c2corg_ui/static/build/angular-i18n
 
 # copy skins of photoswipe.js
 photoswipe-skins: .build/node_modules.timestamp

@@ -10,17 +10,19 @@ goog.require('ngeo.GetBrowserLanguage');
  * @param {ngeo.GetBrowserLanguage} ngeoGetBrowserLanguage
  *        GetBrowserLanguage Service.
  * @param {Array.<string>} langs List of available langs.
+ * @param {tmhDynamicLocale} tmhDynamicLocale
  * @param {amMoment} amMoment angular moment directive.
  * @param {app.Api} appApi Api service.
  * @param {app.Authentication} appAuthentication Authentication service.
  * @param {string} langUrlTemplate Language URL template.
  * @param {string} langMomentPath Path to the moment.js language files.
+ * @param {string} angularLocalePath Path to the angular-i18n language files.
  * @constructor
  * @ngInject
  * @struct
  */
-app.Lang = function($cookies, gettextCatalog, ngeoGetBrowserLanguage, langs,
-  amMoment, appApi, appAuthentication, langUrlTemplate, langMomentPath) {
+app.Lang = function($cookies, gettextCatalog, ngeoGetBrowserLanguage, langs, tmhDynamicLocale,
+  amMoment, appApi, appAuthentication, langUrlTemplate, langMomentPath, angularLocalePath) {
 
   /**
    * @type {angular.$cookies}
@@ -47,14 +49,28 @@ app.Lang = function($cookies, gettextCatalog, ngeoGetBrowserLanguage, langs,
   this.langs_ = langs;
 
   /**
+   * @type {tmhDynamicLocale}
+   * @private
+   */
+  this.dynamicLocale_ = tmhDynamicLocale;
+
+  /**
+   * @private
    * @type {amMoment}
    */
   this.amMoment_ = amMoment;
 
   /**
+   * @private
    * @type {string}
    */
   this.langMomentPath_ = langMomentPath;
+
+  /**
+   * @private
+   * @type {string}
+   */
+  this.angularLocalePath_ = angularLocalePath;
 
   /**
    * @type {app.Api}
@@ -136,7 +152,9 @@ app.Lang.prototype.updateLang = function(lang, opt_syncWithApi) {
   // This will retrieve then _evaluate_ the content of the file.
   $.get(this.langMomentPath_ + '/' + lang + '.js', function() {
     this.amMoment_.changeLocale(lang);
+    this.dynamicLocale_.set(lang);
   }.bind(this));
+
 };
 
 
