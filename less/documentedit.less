@@ -171,6 +171,14 @@
     .date {
       width: 45%;
       flex-basis: 45%;
+      &:nth-of-type(2) {
+        > div {
+          width: 100%;
+        }
+        @media @phone {
+          flex-basis: 90% !important;
+        }
+      }
     }
     .third {
       width: 29.3%;
@@ -207,7 +215,7 @@
       height: 300px !important;
     }
     .route-activities {
-     @media @phone {
+      @media @phone {
         justify-content: space-between;
       }
       .activity {
@@ -220,7 +228,7 @@
           text-align: center;
         }
       }
-     [class^="icon-"] {
+      [class^="icon-"] {
         font-size: 8em;
 
         @media (max-width: @screen-sm-min) {
@@ -327,7 +335,9 @@
     pointer-events: all;
 
     @media @phone {
-      display: none;
+      &:not(.glyphicon-remove) {
+        display: none;
+      }
     }
   }
 
@@ -638,7 +648,7 @@ ul.uib-datepicker {
 
 
 #save-confirmation-modal {
-   .comment {
+  .comment {
     margin-top: 10px;
     margin-bottom: 10px;
   }
