@@ -546,13 +546,13 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
         </section>
 
         ## TRANSPORTS
-        <section class="section transports" ng-if="type == 'access' || type == 'local_product'">
+        <section class="section transports" ng-if="type == 'access'">
           <h2 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#edit-transports">
             <span><span translate>transport</span> & <span translate>access</span></span></h2>
           <div class="content" id="edit-transports">
 
             ## SNOW CLEARANCE RATINGS
-            <div class="form-group data half" ng-if="type == 'access'" ng-class="{'has-success': waypoint.snow_clearance_rating}">
+            <div class="form-group data half" ng-class="{'has-success': waypoint.snow_clearance_rating}">
               <label translate>snow_clearance_ratings</label>
               <div class="input-group">
                 <select class="form-control" ng-options="rat as mainCtrl.translate(rat) for rat in ${snow_clearance_ratings}" ng-model="waypoint.snow_clearance_rating"><option value=""></option></select>
@@ -562,7 +562,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
             </div>
 
             ## LIFT ACCESS
-            <div class="form-group data half" ng-if="type == 'access'" ng-class="{'has-success': waypoint.lift_access}">
+            <div class="form-group data half" ng-class="{'has-success': waypoint.lift_access}">
               <label translate>lift_access</label>
               <div class="input-group">
                 <select class="form-control" ng-model="waypoint.lift_access">
@@ -575,8 +575,18 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.lift_access"></span>
             </div>
 
+            ## PUBLIC TRANSPORT RATINGS
+            <div class="form-group data half" ng-class="{'has-success': waypoint.public_transportation_rating}">
+              <label translate>public_transportation_rating</label>
+              <div class="input-group">
+                <select class="form-control" ng-options="rat as mainCtrl.translate(rat) for rat in ${public_transportation_ratings}" ng-model="waypoint.public_transportation_rating"><option value=""></option></select>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.public_transportation_rating"></span>
+            </div>
+
             ## PUBLIC TRANSPORT TYPES
-            <div class="form-group data half" ng-if="type == 'access' ">
+            <div class="form-group data half" ng-if="waypoint.public_transportation_rating != null && waypoint.public_transportation_rating != 'no service'">
               <label translate>public_transportation_types</label>
               <ul class="types">
                 <li ng-repeat="type in ${public_transportation_types}" ng-click="editCtrl.pushToArray(waypoint, 'public_transportation_types', type, $event)">
@@ -587,18 +597,8 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               </ul>
             </div>
 
-            ## PUBLIC TRANSPORT RATINGS
-            <div class="form-group data half" ng-if="type == 'access' " ng-class="{'has-success': waypoint.public_transportation_rating}">
-              <label translate>public_transportation_rating</label>
-              <div class="input-group">
-                <select class="form-control" ng-options="rat as mainCtrl.translate(rat) for rat in ${public_transportation_ratings}" ng-model="waypoint.public_transportation_rating"><option value=""></option></select>
-                <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
-              </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.public_transportation_rating"></span>
-            </div>
-
             ## PARKING FEE TYPES
-            <div class="form-group data half" ng-if="type == 'access'" ng-class="{'has-success': waypoint.parking_fee}">
+            <div class="form-group data half" ng-class="{'has-success': waypoint.parking_fee}">
               <label translate>parking_fee_types</label>
               <select ng-options="type as mainCtrl.translate(type) for type in ${parking_fee_types}" ng-model="waypoint.parking_fee" class="form-control"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.parking_fee"></span>
