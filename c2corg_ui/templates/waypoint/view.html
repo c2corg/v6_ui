@@ -131,8 +131,8 @@ waypoint['doctype'] = 'waypoints'
   ${get_document_description(locale, 'waypoint')}
 
   <div class="description ">
-    ${get_document_locale_text(locale, 'access')}
-    ${get_waypoint_access_period(locale, waypoint['waypoint_type'])}
+    ${get_document_locale_text(locale, 'access', True)}
+    ${get_waypoint_access_period(locale, waypoint['waypoint_type'], True)}
   </div>
 
   ## ASSOCIATIONS

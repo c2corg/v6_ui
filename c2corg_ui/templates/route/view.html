@@ -128,10 +128,10 @@ other_langs, missing_langs = get_lang_lists(route, lang)
   ${get_document_description(locale, 'route')}
 
   <div class="description ">
-    ${get_document_locale_text(locale, 'remarks')}
-    ${get_document_locale_text(locale, 'gear')}
-    ${get_document_locale_text(locale, 'route_history')}
-    ${get_document_locale_text(locale, 'external_resources')}
+    ${get_document_locale_text(locale, 'remarks', True)}
+    ${get_document_locale_text(locale, 'gear', True)}
+    ${get_document_locale_text(locale, 'route_history', True)}
+    ${get_document_locale_text(locale, 'external_resources', True)}
   </div>
 
   ## ASSOCIATIONS
