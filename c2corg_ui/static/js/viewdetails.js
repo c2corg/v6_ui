@@ -139,7 +139,7 @@ app.ViewDetailsController.prototype.scrollToComments = function() {
  * @param {Event} tab the clicked tab
  * @export
  */
-app.ViewDetailsController.prototype.openTab = function(tab) {
+app.ViewDetailsController.prototype.toggleTab = function(tab) {
   var s = app.constants.SCREEN;
   // only for smartphones
   if (window.innerWidth < s.SMARTPHONE) {

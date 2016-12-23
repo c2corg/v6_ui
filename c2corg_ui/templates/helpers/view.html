@@ -11,8 +11,8 @@
       personal = is_personal(doc)
       collaborative = is_collaborative(doc) if not personal else False
   %>
-  <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
-    <h4><span translate>Licence</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+  <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
+    <h4><span translate>Licence</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
     <div class="name-icon">
        % if personal or collaborative:
         <span class="creative-commons icon-CC"></span>
