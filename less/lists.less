@@ -17,6 +17,43 @@
   }
 }
 
+.list-item.list-style {
+  display: inline-block;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  background: none;
+  border: none;
+  flex-basis: 100% !important;
+  &:nth-child(odd) {
+    background-color: white;
+  }
+  a {
+    display: inline-block;
+    padding: 5px;
+  }
+  .central-infos {
+    margin-bottom: 0;
+  }
+  .quality {
+    position: relative;
+    display: table-row;
+    margin-left: 5px;
+  }
+  .list-item-info {
+    flex-direction: row;
+  }
+  .list-item-title-lang {
+    display: inherit;
+    margin-bottom: 0;
+  }
+  .activity {
+    font-size: 2em;
+  }
+  .activities {
+    margin-top: 0;
+  }
+}
+
 .list-item {
   position: relative;
   cursor: pointer;

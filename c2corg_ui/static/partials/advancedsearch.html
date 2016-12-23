@@ -1,5 +1,5 @@
 <div class="list" app-loading>
-  <div id="card{{doc.document_id}}" class="list-item" ng-class="[searchCtrl.doctype, {'highlight': doc.document_id === searchCtrl.highlightId}]"
+  <div id="card{{doc.document_id}}" class="list-item list-style" ng-class="[searchCtrl.doctype, {'highlight': doc.document_id === searchCtrl.highlightId}]"
        ng-repeat="doc in searchCtrl.documents track by doc.document_id">
     <app-card app-card-doc="::doc" ng-mouseenter="searchCtrl.onMouseEnter(doc.document_id)"
               ng-mouseleave="searchCtrl.onMouseLeave(doc.document_id)"></app-card>
