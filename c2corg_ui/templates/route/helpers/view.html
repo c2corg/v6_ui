@@ -5,8 +5,8 @@
 ## LOCATION
 <%def name="get_route_location(route)">\
   % if route.get('areas'):
-    <div class="name-icon-value location" ng-click="detailsCtrl.openTab($event)">
-      <h4><span translate>Location</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+    <div class="name-icon-value location" ng-click="detailsCtrl.toggleTab($event)">
+      <h4><span translate>Location</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
       <div class="name-icon">
         <span class="glyphicon glyphicon-map-marker"></span>
         <p translate>Location</p>
@@ -22,8 +22,8 @@
 ## ORIENTATION
 <%def name="get_route_orientations(route)">\
   % if route.get('orientations'):
-    <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
-      <h4><span translate>orientations</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+    <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
+      <h4><span translate>orientations</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
       <div class="name-icon">
         <span class="glyphicon glyphicon-move"></span>
         <p translate>orientations</p>
@@ -40,8 +40,8 @@
 
 ## GENERAL
 <%def name="get_route_general(route,locale)">\
-  <div class="name-icon-value general" ng-click="detailsCtrl.openTab($event)">
-    <h4><span translate>General</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+  <div class="name-icon-value general" ng-click="detailsCtrl.toggleTab($event)">
+    <h4><span translate>General</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
     <div class="name-icon">
       <span class="glyphicon glyphicon-info-sign"></span>
       <p translate>General</p>
@@ -114,8 +114,8 @@
   or route.get('hiking_mtb_exposition') or route.get('ice_rating') or route.get('mixed_rating') or route.get('snowshoe_rating')  \
   or route.get('mtb_down_rating') or route.get('mtb_up_rating') or route.get('via_ferrata_rating') or route.get('equipment_rating') \
   or route.get('ski_rating') or route.get('labande_ski_rating') or route.get('labande_global_rating') or route.get('ski_exposition') :
-  <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
-    <h4><span translate>Rating</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+  <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
+    <h4><span translate>Rating</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
     <div class="name-icon">
       <span class="glyphicon glyphicon-sort-by-attributes"></span>
       <p translate>Rating</p>
@@ -151,8 +151,8 @@
         or route.get('mtb_length_asphalt') or route.get('mtb_length_trail') \
         or locale.get('slope') or route.get('elevation_max') or route.get('elevation_min') \
         or route.get('height_diff_max') or route.get('height_diff_min'):
-    <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
-      <h4><span translate>heights</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+    <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
+      <h4><span translate>heights</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
       <div class="name-icon">
         <span class="glyphicon glyphicon-stats"></span>
         <p translate>heights</p>
@@ -199,8 +199,8 @@
 ## ACCESS
 <%def name="get_route_access(route)">\
   % if route.get('lift_access') is not None or route.get('height_diff_access'):
-    <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
-      <h4><span translate>Access</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+    <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
+      <h4><span translate>Access</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
       <div class="name-icon">
         <span class="glyphicon glyphicon-road"></span>
         <p translate>Access</p>
@@ -223,8 +223,8 @@
 ## MAPS
 <%def name="get_route_associated_maps(route)">\
   % if route.get('maps'):
-  <div class="name-icon-value maps" ng-click="detailsCtrl.openTab($event)">
-    <h4><span translate>Maps</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+  <div class="name-icon-value maps" ng-click="detailsCtrl.toggleTab($event)">
+    <h4><span translate>Maps</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
     <div class="name-icon">
       <span class="glyphicon glyphicon-globe"></span>
       <p translate>Maps</p>
@@ -239,8 +239,8 @@
 ## GLACIER GEAR
 <%def name="get_route_glacier_gear(route)">\
   % if route.get('glacier_gear'):
-    <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
-      <h4><span translate>gear</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+    <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
+      <h4><span translate>gear</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
       <div class="name-icon">
         <span class="icon-glacier"></span>
         <p translate>gear</p>

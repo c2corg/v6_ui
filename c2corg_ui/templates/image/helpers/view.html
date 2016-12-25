@@ -20,8 +20,8 @@
   <%
       base, ext = os.path.splitext(image['filename'])
   %>
-  <div class="name-icon-value general" ng-click="detailsCtrl.openTab($event)">
-    <h4><span translate>General</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+  <div class="name-icon-value general" ng-click="detailsCtrl.toggleTab($event)">
+    <h4><span translate>General</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
     <div class="name-icon">
       <span class="glyphicon glyphicon-info-sign"></span>
       <p translate>General</p>
@@ -82,8 +82,8 @@
 
   % if image.get('camera_name') or image.get('fnumber') or image.get('exposure_time') or image.get('iso_speed') or \
    image.get('width') or image.get('height') or image.get('focal_length'):
-    <div class="name-icon-value general" ng-click="detailsCtrl.openTab($event)">
-      <h4><span translate>camera</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+    <div class="name-icon-value general" ng-click="detailsCtrl.toggleTab($event)">
+      <h4><span translate>camera</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
       <div class="name-icon">
         <span class="glyphicon glyphicon-camera"></span>
         <p translate>camera</p>

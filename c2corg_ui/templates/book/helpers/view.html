@@ -1,9 +1,9 @@
 <%namespace file="../../helpers/view.html" import="show_attr"/>
 
 <%def name="get_book_general(book)">\
-<div class="name-icon-value general" ng-click="detailsCtrl.openTab($event)">
+<div class="name-icon-value general" ng-click="detailsCtrl.toggleTab($event)">
   <h4>
-    <span translate>General</span><span class="glyphicon glyphicon-menu-right"></span>
+    <span translate>General</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span>
   </h4>
   <div class="name-icon">
     <span class="glyphicon glyphicon-info-sign"></span>
@@ -22,7 +22,7 @@
 
     % if book.get('book_types'):
       <article class="value-title">
-          <span translate class="value-title">book_types</span>: 
+          <span translate class="value-title">book_types</span>:
         % for book_type in book.get('book_types') :
           <span x-translate class="value">${book_type}</span>${'' if loop.last else ', '}
         % endfor

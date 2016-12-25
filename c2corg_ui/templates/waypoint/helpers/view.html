@@ -4,8 +4,8 @@
 ## MAPSINFO
 <%def name="get_waypoint_maps_info(waypoint)">\
   % if waypoint.get('maps_info') or waypoint.get('maps'):
-    <div class="name-icon-value maps" ng-click="detailsCtrl.openTab($event)">
-      <h4><span translate>maps_info</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+    <div class="name-icon-value maps" ng-click="detailsCtrl.toggleTab($event)">
+      <h4><span translate>maps_info</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
       <div class="name-icon">
         <span class="glyphicon glyphicon-globe"></span>
         <p translate>maps_info</p>
@@ -23,8 +23,8 @@
 
 ## GENERAL
 <%def name="get_waypoint_general(waypoint)">\
-<div class="name-icon-value general" ng-click="detailsCtrl.openTab($event)">
-  <h4><span translate>General</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+<div class="name-icon-value general" ng-click="detailsCtrl.toggleTab($event)">
+  <h4><span translate>General</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
   <div class="name-icon">
     <span class="glyphicon glyphicon-info-sign"></span>
     <p translate>General</p>
@@ -122,8 +122,8 @@
 
 ## LOCATION
 <%def name="get_waypoint_location(waypoint, geometry4326)">\
-<div class="name-icon-value location" ng-click="detailsCtrl.openTab($event)">
-  <h4><span translate>Location</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+<div class="name-icon-value location" ng-click="detailsCtrl.toggleTab($event)">
+  <h4><span translate>Location</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
   <div class="name-icon">
     <span class="glyphicon glyphicon-map-marker"></span>
     <p translate>Location</p>
@@ -144,8 +144,8 @@
     or waypoint.get('height_min')  or waypoint.get('height_max') \
     or waypoint.get('prominence')  or waypoint.get('height_median') ):
 
-    <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
-      <h4><span translate>heights</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+    <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
+      <h4><span translate>heights</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
       <div class="name-icon">
         <span class="glyphicon glyphicon-map-marker"></span>
         <p translate>heights</p>
@@ -181,8 +181,8 @@
    waypoint.get('best_periods') or  waypoint.get('public_transportation_types') or  waypoint.get('public_transportation_rating') or \
    waypoint.get('parking_fee') or waypoint.get('snow_clearance_rating') or waypoint.get('lift_access') is not None or waypoint.get('routes_quantity') :
 
-  <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
-    <h4><span translate>Access</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+  <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
+    <h4><span translate>Access</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
     <div class="name-icon">
       <span class="glyphicon glyphicon-road"></span>
       <p translate>Access</p>
@@ -239,8 +239,8 @@
 ## RATING
 <%def name="get_waypoint_rating(waypoint)">\
   % if waypoint.get('climbing_rating_max') or waypoint.get('risk_rating') or waypoint.get('climbing_rating_median') or waypoint.get('equipment_ratings') or  waypoint.get('paragliding_rating') or waypoint.get('exposition_rating') :
-    <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
-      <h4><span translate>Rating</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+    <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
+      <h4><span translate>Rating</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
       <div class="name-icon">
         <span class="glyphicon glyphicon-sort-by-attributes"></span>
         <p translate>Rating</p>
@@ -287,8 +287,8 @@
 ## STYLE
 <%def name="get_waypoint_style(waypoint)">\
   % if waypoint.get('climbing_styles'):
-    <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
-      <h4><span translate>Style</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+    <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
+      <h4><span translate>Style</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
       <div class="name-icon">
         <span class="glyphicon glyphicon-sunglasses"></span>
         <p translate>Style</p>
@@ -312,8 +312,8 @@
 ## CONTACT
 <%def name="get_waypoint_contact(waypoint)">\
   % if waypoint.get('url') or waypoint.get('phone') or waypoint.get('phone_custodian') or waypoint.get('custodianship') is not None:
-    <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
-      <h4><span translate>Contact</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+    <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
+      <h4><span translate>Contact</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
       <div class="name-icon">
         <span class="glyphicon glyphicon-phone-alt"></span>
         <p translate>Contact</p>
@@ -345,8 +345,8 @@
 <%def name="get_waypoint_equipment(waypoint)">\
   % if waypoint.get('matress_unstaffed') is not None or  waypoint.get('gas_unstaffed') is not None or \
   waypoint.get('heating_unstaffed') is not None or waypoint.get('blanket_unstaffed') is not None:
-    <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
-      <h4><span translate>Equipment</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+    <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
+      <h4><span translate>Equipment</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
       <div class="name-icon">
         <span class="glyphicon glyphicon-cutlery"></span>
         <p translate>Equipment</p>
@@ -385,8 +385,8 @@
 ## ORIENTATION
 <%def name="get_waypoint_orientations(waypoint)">\
   % if waypoint.get('orientations'):
-    <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
-      <h4><span translate>orientations</span><span class="glyphicon glyphicon-menu-right"></span></h4>
+    <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
+      <h4><span translate>orientations</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
       <div class="name-icon">
         <span class="glyphicon glyphicon-move"></span>
         <p translate>orientations</p>
