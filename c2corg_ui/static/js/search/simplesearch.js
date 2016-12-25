@@ -224,7 +224,20 @@ app.SimpleSearchController = function(appDocument, $scope, $compile, $attrs, api
   this.listeners = /** @type {ngeox.SearchDirectiveListeners} */ ({
     select: app.SimpleSearchController.select_.bind(this)
   });
+
+  /**
+   * @type {Object}
+   * @private
+   */
+  this.nbResults_ = {};
 };
+
+
+/**
+ * @type {number}
+ * @const
+ */
+app.SimpleSearchController.MAX_RESULTS_NB = 7;
 
 
 /**
@@ -250,11 +263,17 @@ app.SimpleSearchController.prototype.createDataset_ = function(type) {
           this.gettextCatalog_.getString(typeUpperCase) + '</div>';
       }).bind(this),
       footer: function(doc) {
+        var template;
         if (this.isStandardSearch) {
-          var moreLink = '<p class="suggestion-more"><a href="/' + type +
+          template = '<p class="suggestion-more"><a href="/' + type +
             '#q=' + encodeURI(doc['query']) + '" class="green-text" translate>' +
             this.gettextCatalog_.getString('see more results') + '</a></p>';
-          return this.compile_(moreLink)(this.scope_);
+          return this.compile_(template)(this.scope_);
+        } else if (this.nbResults_[type] > app.SimpleSearchController.MAX_RESULTS_NB) {
+          template = app.utils.getTemplate(
+            '/static/partials/suggestions/toomany.html',
+            this.templatecache_);
+          return this.compile_(template)(this.scope_);
         }
         return '';
       }.bind(this),
@@ -287,11 +306,10 @@ app.SimpleSearchController.prototype.createDataset_ = function(type) {
  * @private
  */
 app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
-  var limit = 7;
   var url = this.apiUrl_ + '/search?q=%QUERY';
 
   var bloodhound = new Bloodhound(/** @type {BloodhoundOptions} */({
-    limit: limit,
+    limit: app.SimpleSearchController.MAX_RESULTS_NB,
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('label'),
     remote: {
@@ -300,8 +318,11 @@ app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
       rateLimitWait: 300,
       prepare: (function(query, settings) {
 
+        // reset results numbers
+        this.nbResults_ = {};
+
         var url = settings['url'] + '&pl=' + this.gettextCatalog_.currentLanguage;
-        url += '&limit=' + limit;
+        url += '&limit=' + app.SimpleSearchController.MAX_RESULTS_NB;
 
         if (this.datasetLimit_) {
           // add the Auth header if searching for users
@@ -320,6 +341,7 @@ app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
         var documentResponse =
                 /** @type {appx.SimpleSearchDocumentResponse} */ (resp[type]);
         if (documentResponse) {
+          this.nbResults_[type] = documentResponse.total;
           var documents = documentResponse.documents;
           return documents.map(function(/** appx.SimpleSearchDocument */ doc) {
             doc.label = this.createDocLabel_(doc, this.gettextCatalog_.currentLanguage);
