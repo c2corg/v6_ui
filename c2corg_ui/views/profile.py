@@ -111,6 +111,7 @@ class Profile(Document):
                 'profile': data,
                 'locale': locales[0],
                 'geometry': self._get_geometry(data['geometry']['geom'])
+                if data['geometry'] else None
             })
         return self.template_input
 
