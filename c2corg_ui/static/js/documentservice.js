@@ -199,8 +199,7 @@ app.Document.prototype.removeAssociation = function(id, type, event, editing) {
 app.Document.prototype.isCollaborative = function(type) {
   if (type === 'waypoints' || type === 'routes' || type === 'books') {
     return true;
-  } else if (type === 'xreports') {
-    // personal -> check if user == owner
+  } else if (type === 'users' || type === 'xreports') {
     return false;
   } else if (type === 'outings' || type === 'articles') {
     // check if user == owner or participant of the outing/article
