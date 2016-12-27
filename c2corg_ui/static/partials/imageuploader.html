@@ -75,7 +75,7 @@
               <span class="glyphicon glyphicon-menu-down"></span>
             </button>
             <ul class="dropdown-menu">
-              <li ng-repeat="type in types">
+              <li ng-repeat="type in uplCtrl.filterImageTypes(types)">
                 <div class="radio">
                   <label><input type="radio" ng-model="file.metadata.image_type" ng-value="type">{{type | translate}}</label>
                 </div>

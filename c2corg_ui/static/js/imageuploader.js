@@ -42,11 +42,13 @@ app.module.directive('appImageUploader', app.imageUploaderDirective);
  * @param {app.Document} appDocument service
  * @param {String} imageUrl URL to the image backend.
  * @param {app.Url} appUrl
+ * @param {app.Authentication} appAuthentication
  * @constructor
  * @struct
  * @ngInject
  */
-app.ImageUploaderController = function($scope, $uibModal, $compile, $q, appAlerts, appApi, appDocument, imageUrl, appUrl) {
+app.ImageUploaderController = function($scope, $uibModal, $compile, $q,
+    appAlerts, appApi, appDocument, imageUrl, appUrl, appAuthentication) {
 
   /**
    * @type {app.Document}
@@ -65,6 +67,12 @@ app.ImageUploaderController = function($scope, $uibModal, $compile, $q, appAlert
    * @private
    */
   this.api_ = appApi;
+
+  /**
+   * @type {app.Authentication}
+   * @private
+   */
+  this.auth_ = appAuthentication;
 
   /**
    * @type {app.Url}
@@ -406,6 +414,23 @@ app.ImageUploaderController.prototype.resizeIf = function(
     return file.size > 2 * 1024 * 1024; /** 2 MB */
   }
   return false;
+};
+
+
+/**
+ * @param {Array.<string>} imageTypes
+ * @return {Array.<string>}
+ * @export
+ */
+app.ImageUploaderController.prototype.filterImageTypes = function(imageTypes) {
+  if (this.auth_.isModerator()) {
+    // moderators have access to all image types
+    return imageTypes;
+  }
+  var removeCopyright = function(val) {
+    return val !== 'copyright';
+  };
+  return imageTypes.filter(removeCopyright);
 };
 
 
