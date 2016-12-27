@@ -146,6 +146,12 @@ app.ImageUploaderController = function($scope, $uibModal, $compile, $q,
    */
   this.image_type_ = this.setImageType_();
 
+  /**
+   * @type {Object}
+   * @export
+   */
+  this.resizeOptions = {'width': 2048, 'height': 2048, 'quality': 0.9};
+
   this.scope_['activities'] = this.activities;
   this.scope_['types'] = this.types;
   this.scope_['categories'] = this.categories;
