@@ -152,6 +152,12 @@ app.ImageUploaderController = function($scope, $uibModal, $compile, $q,
    */
   this.resizeOptions = {'width': 2048, 'height': 2048, 'quality': 0.9};
 
+  /**
+   * @type {boolean}
+   * @export
+   */
+  this.saving = false;
+
   this.scope_['activities'] = this.activities;
   this.scope_['types'] = this.types;
   this.scope_['categories'] = this.categories;
@@ -475,7 +481,9 @@ app.ImageUploaderModalController = function($scope, $uibModalInstance) {
  * @export
  */
 app.ImageUploaderModalController.prototype.close = function() {
-  this.modalInstance_.close();
+  if (!this.scope_['uplCtrl'].saving) {
+    this.modalInstance_.close();
+  }
 };
 
 
@@ -483,7 +491,14 @@ app.ImageUploaderModalController.prototype.close = function() {
  * @export
  */
 app.ImageUploaderModalController.prototype.save = function() {
-  this.scope_['uplCtrl'].save().then(function() {
+  var uplCtrl = this.scope_['uplCtrl'];
+  if (uplCtrl.saving) {
+    // saving is already in progress
+    return;
+  }
+  uplCtrl.saving = true;
+  uplCtrl.save().then(function() {
+    uplCtrl.saving = false;
     this.modalInstance_.close();
   }.bind(this));
 };

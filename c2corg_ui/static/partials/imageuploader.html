@@ -120,5 +120,8 @@
       <button class="orange-btn btn" type="button" translate>Add images</button>
     </div>
   </div>
-  <button class="btn btn-warning" type="button" ng-click="imageModalCtrl.close()" translate>Close</button>
-  <button class="btn btn-primary" type="button" ng-click="imageModalCtrl.save()" ng-show="uplCtrl.areAllUploaded" translate>Save</button>
+  <button class="btn btn-warning" type="button" ng-click="imageModalCtrl.close()"
+          ng-class="{disabled: uplCtrl.saving}" translate>Close</button>
+  <button class="btn btn-primary" type="button" ng-click="imageModalCtrl.save()"
+          ng-class="{disabled: uplCtrl.saving}"
+          ng-show="uplCtrl.areAllUploaded" translate>Save</button>
