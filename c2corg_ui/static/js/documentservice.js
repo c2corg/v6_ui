@@ -125,7 +125,7 @@ app.Document.prototype.hasAssociation = function(type, id) {
  * @param {appx.SimpleSearchDocument} doc
  * @param {string=} doctype Optional doctype
  * @param {boolean=} setOutingTitle
- * @param {?boolean} editing
+ * @param {boolean=} editing
  * @export
  */
 app.Document.prototype.pushToAssociations = function(doc, doctype,
@@ -160,7 +160,7 @@ app.Document.prototype.pushToAssociations = function(doc, doctype,
  * @param {number} id Id of document to unassociate
  * @param {string} type Type of document to unassociate
  * @param {goog.events.Event | jQuery.Event} [event]
- * @param {?boolean} editing
+ * @param {boolean=} editing
  * @export
  */
 app.Document.prototype.removeAssociation = function(id, type, event, editing) {
