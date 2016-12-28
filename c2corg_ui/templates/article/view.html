@@ -34,6 +34,7 @@ other_langs, missing_langs = get_lang_lists(article, lang)
     "document_id": ${article.get('document_id')},
     "lang": "${lang}",
     "type": "c",
+    "article_type": "${article.get('article_type')}",
     "topic_id": ${dumps(locale.get('topic_id'))}
     % if not version:
        , "associations": ${dumps(article.get('associations')) | n}

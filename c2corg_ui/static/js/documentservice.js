@@ -188,28 +188,27 @@ app.Document.prototype.removeAssociation = function(id, type, event, editing) {
 
 
 /**
- * - waypoints, routes and books are collaborative
- * - outings and books are personal and we have to check if the current user
- *   has editing rights
- * - images can be both and we have to check the image_type property
  * @param {string} type
  * @return boolean
  * @export
  */
 app.Document.prototype.isCollaborative = function(type) {
-  if (type === 'waypoints' || type === 'routes' || type === 'books') {
-    return true;
-  } else if (type === 'users' || type === 'xreports') {
-    return false;
-  } else if (type === 'outings' || type === 'articles') {
-    // check if user == owner or participant of the outing/article
-    return this.auth_.hasEditRights(type, this.document.associations['users']);
-  } else if (type === 'images') {
-    return this.document['image_type'] === 'collaborative';
-  } else if (type === 'articles') {
-    return this.document['article_type'] === 'collaborative';
+  switch (type) {
+    case 'waypoints':
+    case 'routes':
+    case 'books':
+      return true;
+    case 'outings':
+    case 'users':
+    case 'xreports':
+      return false;
+    case 'images':
+      return this.document['image_type'] === 'collaborative';
+    case 'articles':
+      return this.document['article_type'] === 'collab';
+    default:
+      return false;
   }
-  return true;
 };
 
 app.module.service('appDocument', app.Document);
