@@ -16,6 +16,7 @@ def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
     config = Configurator(settings=settings)
+    config.include("pyramid_assetviews")
     add_mako_renderer(config, '.html')
 
     # set up redis cache
@@ -40,6 +41,23 @@ def main(global_config, **settings):
 
     # view for assets with cache buster
     _add_static_view(config, 'static', 'c2corg_ui:static')
+
+    # favicon stuff
+    filenames = [
+        "android-chrome-192x192.png",
+        "android-chrome-384x384.png",
+        "apple-touch-icon.png",
+        "browserconfig.xml",
+        "favicon-16x16.png",
+        "favicon-32x32.png",
+        "favicon.ico",
+        "manifest.json",
+        "mstile-150x150.png",
+        "safari-pinned-tab.svg"
+    ]
+    config.add_asset_views('c2corg_ui:static/favicons',
+                           filenames=filenames,
+                           http_cache=60*60*24*7)
 
     # static views only used in debug mode
     config.add_static_view('node_modules', settings.get('node_modules_path'),
