@@ -88,7 +88,8 @@ app.AddAssociationController.prototype.associate = function(doc) {
   // if the parent doc is a route and the child doc is a waypoint OR
   // if the parent doc is an outing, inverse the IDs.
   if ((parentType === 'routes' && doc['type'] === 'w') ||
-      parentType === 'outings' || parentType === 'images' ||
+      (parentType === 'outings' && (doc['type'] === 'r' || doc['type'] === 'u')) ||
+      parentType === 'images' ||
       (parentType === 'articles' && (doc['type'] === 'w' ||
        doc['type'] === 'o' || doc['type'] === 'r' || doc['type'] === 'b')) ||
       (parentType === 'routes' && doc['type'] === 'b') ||

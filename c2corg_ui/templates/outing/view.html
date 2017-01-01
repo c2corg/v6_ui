@@ -134,7 +134,7 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
     <span class="lead">
       <div ng-show="userCtrl.auth.isAuthenticated() && userCtrl.hasEditRights('outings', {'users': ${dumps(outing['associations']['users'])}})">
         <label translate>Add association</label>
-        <app-add-association parent-doctype="outings" parent-id="${outing_id}" dataset="r"></app-add-association>
+        <app-add-association parent-doctype="outings" parent-id="${outing_id}" dataset="rc"></app-add-association>
       </div>
       <section>
         ${show_associated_routes(outing)}
