@@ -15,8 +15,8 @@ goog.require('app.simpleSearchDirective');
 app.addAssociationDirective = function($compile) {
 
   var template = function(dataset) {
-    return '<app-simple-search app-select="addCtrl.associate(doc)" dataset="' +
-      dataset + '"></app-simple-search>';
+    return '<app-simple-search app-select="addCtrl.associate(doc)" ' +
+      'dataset="' + dataset + '"></app-simple-search>';
   };
 
   return {

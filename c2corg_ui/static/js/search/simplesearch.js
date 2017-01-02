@@ -18,7 +18,8 @@ app.simpleSearchDirective = function() {
     restrict: 'E',
     controller: 'AppSimpleSearchController',
     bindToController: {
-      selectHandler: '&appSelect'
+      'selectHandler': '&appSelect',
+      'isStandardSearch': '=appSimpleSearchStandard'
     },
     controllerAs: 'searchCtrl',
     templateUrl: '/static/partials/simplesearch.html',
@@ -30,18 +31,13 @@ app.simpleSearchDirective = function() {
         function($scope, element, attrs, ctrl) {
 
           var phoneScreen = app.constants.SCREEN.SMARTPHONE;
-          // don't show "show more" button for this cases.
-          if ($(element).closest('app-add-association, #participants-group, section.associations').length
-            || element.parent().next().hasClass('section associations')) {
-            ctrl.associationContext_ = true;
-          }
 
           // Empty the search field on focus and blur.
           $('.page-header').find('input').on('focus blur', function() {
             $(this).typeahead('val', '');
           });
 
-          //Remove the class 'show-search' when screen width > @phone (defined in LESS)
+          // Remove the class 'show-search' when screen width > @phone (defined in LESS)
           $(window).resize(function resize() {
             if ($(window).width() > phoneScreen) {
               $('.show-search').removeClass('show-search');
@@ -50,22 +46,21 @@ app.simpleSearchDirective = function() {
           });
           element.on('click', function(e) {
 
-            // collapse suggestions
+            // Collapse suggestions
             if ($('app-simple-search .header').is(e.target)) {
               $(e.target).siblings('.tt-suggestion').slideToggle();
             }
 
             // Trigger focus on search-icon click for .search
-            if (window.innerWidth < phoneScreen) {
-              if ($('.page-header .search-icon').is(e.target)) {
-                $('.page-header').find('.quick-search').toggleClass('show-search');
-                $('.page-header').find('.search').focus();
-                $('.logo.header, .menu-open-close.header').toggleClass('no-opacity');
-              }
+            if (window.innerWidth < phoneScreen &&
+              $('.page-header .search-icon').is(e.target)) {
+              $('.page-header').find('.quick-search').toggleClass('show-search');
+              $('.page-header').find('.search').focus();
+              $('.logo.header, .menu-open-close.header').toggleClass('no-opacity');
             }
           });
 
-          // hide the menu when click outside (smartphone)
+          // Hide the menu when click outside (smartphone)
           $('main').click(function(e) {
             if (window.innerWidth < phoneScreen) {
               $('.show-search').removeClass('show-search');
@@ -73,16 +68,14 @@ app.simpleSearchDirective = function() {
             }
           });
 
-          //show spinning gif while waiting for the results
+          // Show spinning gif while waiting for the results
           element.on('typeahead:asyncrequest', function() {
             element.find('input').addClass('loading-gif-typehead');
           });
           element.on('typeahead:asynccancel typeahead:asyncreceive', function() {
             element.find('input').removeClass('loading-gif-typehead');
           });
-
         }
-
   };
 };
 
@@ -220,9 +213,9 @@ app.SimpleSearchController = function(appDocument, $scope, $compile, $attrs, api
 
   /**
    * @type {boolean}
-   * @private
+   * @export
    */
-  this.associationContext_ = false;
+  this.isStandardSearch;
 
   /**
    * @type {ngeox.SearchDirectiveListeners}
@@ -231,7 +224,20 @@ app.SimpleSearchController = function(appDocument, $scope, $compile, $attrs, api
   this.listeners = /** @type {ngeox.SearchDirectiveListeners} */ ({
     select: app.SimpleSearchController.select_.bind(this)
   });
+
+  /**
+   * @type {Object}
+   * @private
+   */
+  this.nbResults_ = {};
 };
+
+
+/**
+ * @type {number}
+ * @const
+ */
+app.SimpleSearchController.MAX_RESULTS_NB = 7;
 
 
 /**
@@ -257,12 +263,17 @@ app.SimpleSearchController.prototype.createDataset_ = function(type) {
           this.gettextCatalog_.getString(typeUpperCase) + '</div>';
       }).bind(this),
       footer: function(doc) {
-        if (!this.associationContext_) {
-          // don't add this if you're typing in an add-association-tool
-          var moreLink = '<p class="suggestion-more"><a href="/' + type +
+        var template;
+        if (this.isStandardSearch) {
+          template = '<p class="suggestion-more"><a href="/' + type +
             '#q=' + encodeURI(doc['query']) + '" class="green-text" translate>' +
             this.gettextCatalog_.getString('see more results') + '</a></p>';
-          return this.compile_(moreLink)(this.scope_);
+          return this.compile_(template)(this.scope_);
+        } else if (this.nbResults_[type] > app.SimpleSearchController.MAX_RESULTS_NB) {
+          template = app.utils.getTemplate(
+            '/static/partials/suggestions/toomany.html',
+            this.templatecache_);
+          return this.compile_(template)(this.scope_);
         }
         return '';
       }.bind(this),
@@ -278,7 +289,7 @@ app.SimpleSearchController.prototype.createDataset_ = function(type) {
       }.bind(this),
       empty: function(res) {
         if ($('.header.empty').length === 0) {
-          var partialFile = this.associationContext_ ? 'empty' : 'create';
+          var partialFile = this.isStandardSearch ? 'create' : 'empty';
           var template = app.utils.getTemplate(
               '/static/partials/suggestions/' + partialFile + '.html',
               this.templatecache_);
@@ -295,11 +306,10 @@ app.SimpleSearchController.prototype.createDataset_ = function(type) {
  * @private
  */
 app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
-  var limit = 7;
   var url = this.apiUrl_ + '/search?q=%QUERY';
 
   var bloodhound = new Bloodhound(/** @type {BloodhoundOptions} */({
-    limit: limit,
+    limit: app.SimpleSearchController.MAX_RESULTS_NB,
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('label'),
     remote: {
@@ -308,8 +318,11 @@ app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
       rateLimitWait: 300,
       prepare: (function(query, settings) {
 
+        // reset results numbers
+        this.nbResults_ = {};
+
         var url = settings['url'] + '&pl=' + this.gettextCatalog_.currentLanguage;
-        url += '&limit=' + limit;
+        url += '&limit=' + app.SimpleSearchController.MAX_RESULTS_NB;
 
         if (this.datasetLimit_) {
           // add the Auth header if searching for users
@@ -328,19 +341,19 @@ app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
         var documentResponse =
                 /** @type {appx.SimpleSearchDocumentResponse} */ (resp[type]);
         if (documentResponse) {
+          this.nbResults_[type] = documentResponse.total;
           var documents = documentResponse.documents;
-          var hasAssociation;
-
           return documents.map(function(/** appx.SimpleSearchDocument */ doc) {
-            hasAssociation = this.documentService_.hasAssociation(type,  doc.document_id);
             doc.label = this.createDocLabel_(doc, this.gettextCatalog_.currentLanguage);
             doc.documentType = type;
-
-            // don't show already associated docs in the results, but only in the app-add-association
-            // -> everything should be shown in the main simple-search.
-            if (!this.associationContext_ || (this.associationContext_ && !hasAssociation)) {
+            // Show result if:
+            // - in the frame of a standard simple-search
+            // - if not already associated for other simple-searches
+            if (this.isStandardSearch ||
+                !this.documentService_.hasAssociation(type,  doc.document_id)) {
               return doc;
             }
+            return null;
           }.bind(this));
         }
       }).bind(this)
