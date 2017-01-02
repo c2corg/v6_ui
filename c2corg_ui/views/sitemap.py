@@ -35,7 +35,9 @@ class Sitemap(object):
             base_url = self.request.route_url(
                 'sitemap', doc_type='-DOC_TYPE-', i='-I-',
                 _scheme='https')
-            lastmod = datetime.datetime.utcnow().isoformat()
+            now = datetime.datetime.utcnow().replace(
+                tzinfo=datetime.timezone.utc)
+            lastmod = now.isoformat()
             return generate_sitemap_index(sitemap_data, base_url, lastmod)
 
         return get_or_create(
