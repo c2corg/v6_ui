@@ -175,7 +175,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
                                       'has-success': editForm.longitude.$valid && waypoint.lonlat.longitude}">
               <label><span translate>longitude</span> *</label>
               <div class="input-group">
-                <input type="number" name="longitude" ng-model="waypoint.lonlat.longitude" ng-change="editCtrl.updateMap()" class="form-control" required min="-90" max="90" />
+                <input type="number" name="longitude" ng-model="waypoint.lonlat.longitude" ng-change="editCtrl.updateMap()" class="form-control" required min="-180" max="180" />
                 <span class="input-group-addon">°E</span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.longitude.$valid && waypoint.lonlat.longitude"></span>

@@ -96,7 +96,7 @@ from c2corg_common.attributes import activities, user_categories
               <label translate>longitude</label>
               <div class="input-group">
                 <input type="number" name="longitude" ng-model="profile.lonlat.longitude" ng-change="editCtrl.updateMap()"
-                       class="form-control" min="-90" max="90" />
+                       class="form-control" min="-180" max="180" />
                 <span class="input-group-addon">°E</span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback"
@@ -142,7 +142,7 @@ from c2corg_common.attributes import activities, user_categories
               </div>
             </div>
 
-            <app-map app-map-edit="true" app-map-draw-type="Point" class="map-edit"></app-map>
+            <app-map app-map-edit="true" app-map-show-recenter-tools="true" app-map-draw-type="Point" class="map-edit"></app-map>
           </div>
         </section>
 
