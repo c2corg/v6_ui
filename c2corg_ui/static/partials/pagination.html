@@ -1,4 +1,4 @@
-<div ng-if="pageCtrl.total > pageCtrl.limit" id="pagination">
+<div ng-if="pageCtrl.total > pageCtrl.limit" class="pagination-block">
   <span class="page-numbers">{{pageCtrl.offset + 1}} -
      {{(pageCtrl.offset + pageCtrl.limit < pageCtrl.total) ? pageCtrl.offset + pageCtrl.limit : pageCtrl.total}}/{{pageCtrl.total}}</span>
   <ul>
