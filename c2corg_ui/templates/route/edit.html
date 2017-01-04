@@ -297,11 +297,11 @@ updating_doc = route_id and route_lang
             ## ROUTE LENGTH
             <div id="route_length-group" class="data half form-group" ng-class="{ 'has-error': editForm.route_length.$touched && editForm.route_length.$invalid,'has-success': route.route_length }"
                  ng-if="route.activities.indexOf('skitouring') > -1 || route.activities.indexOf('snow_ice_mixed') > -1 || route.activities.indexOf('hiking') > -1 || route.activities.indexOf('snowshoeing') > -1
-                           || route.activities.indexOf('via_ferrata') > -1 || route.activities.indexOf('mountain_biking') > -1 || route.activities.indexOf('rock_climbing') > -1">
+                           || route.activities.indexOf('via_ferrata') > -1 || route.activities.indexOf('mountain_biking') > -1 || route.activities.indexOf('mountain_climbing') > -1">
               <label translate>route_length</label>
               <div class="input-group">
                 <input type="number" min="0" minlength="1" name="route_length" ng-model="route.route_length" class="form-control" />
-                <span class="input-group-addon">m</span>
+                <span class="input-group-addon">km</span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.route_length"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.route_length.$invalid && editForm.route_length.$touched"></span>
@@ -316,7 +316,7 @@ updating_doc = route_id and route_lang
               <label translate>mtb_length_asphalt</label>
               <div class="input-group">
                 <input type="number" min="0" minlength="1" name="mtb_length_asphalt" ng-model="route.mtb_length_asphalt" class="form-control" />
-                <span class="input-group-addon">m</span>
+                <span class="input-group-addon">km</span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.mtb_length_asphalt"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.mtb_length_asphalt.$invalid && editForm.mtb_length_asphalt.$touched"></span>
@@ -331,7 +331,7 @@ updating_doc = route_id and route_lang
               <label translate>mtb_length_trail</label>
               <div class="input-group">
                 <input type="number" min="0" minlength="1" name="mtb_length_trail" ng-model="route.mtb_length_trail" class="form-control" />
-                <span class="input-group-addon">m</span>
+                <span class="input-group-addon">km</span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.mtb_length_trail"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.mtb_length_trail.$invalid && editForm.mtb_length_trail.$touched"></span>
