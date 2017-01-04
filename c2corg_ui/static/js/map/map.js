@@ -250,6 +250,8 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
 
   // advanced search mode
   if (this.advancedSearch) {
+    this.scope_.$root.$on('resizeMap', ngeoDebounce(this.resizeMap_.bind(this), 300, true));
+
     if (this.location_.hasFragmentParam('bbox')) {
       this.enableMapFilter = true;
       var bbox = this.location_.getFragmentParam('bbox');
@@ -887,6 +889,15 @@ app.MapController.prototype.resetFeature = function() {
     features.push(feature);
   }
   this.scope_.$root.$emit('mapFeaturesChange', features, true /* isReset */);
+};
+
+
+/**
+ * @private
+ */
+app.MapController.prototype.resizeMap_ = function() {
+  this.map.renderSync();
+  this.map.updateSize();
 };
 
 

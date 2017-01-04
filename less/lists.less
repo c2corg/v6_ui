@@ -1,13 +1,10 @@
 .list {
   width:100%;
-  padding: 1% 2% 2% 2%;
+  padding: 1% 2% 50px 2%;
   .flex();
   justify-content: space-around;
   flex-flow: wrap row;
 
-  @media (max-width: @screen-sm-min) {
-    padding-bottom: 50px;
-  }
   .list-item {
     min-height: initial;
   }
@@ -322,9 +319,36 @@
 
 
 .documents-list-section-container {
-  position: relative;
-  &.no-map .documents-list-section, &.no-map .page-main-title {
-    width: 100%;
+  .flex();
+
+  &.no-map {
+    .page-main-title, .documents-list-section {
+      flex-basis: 100%;
+    }
+    .list-item {
+      flex-basis: 24%;
+      @media (max-width: 1200px){
+        flex-basis:  32%;
+      }
+      @media (max-width: 730px) {
+        flex-basis: 48%;
+      }
+    }
+  }
+  &.no-list  .documents-list-section {
+    flex-basis: 0;
+  }
+  .no-list-btn {
+    padding: 7px 5px 6px 5px;
+  }
+  .no-map-btn {
+    position: absolute;
+    .calc(top, "100% - 80px");
+    z-index: 2;
+    margin-left: 10px;
+    .glyphicon {
+      color: white;
+    }
   }
 }
 .documents-list-section, .not-found-section, .map-right .map {
@@ -333,15 +357,13 @@
 }
 
 .documents-list-section, .not-found-section {
-  float: left;
   background-color: @lightgrey;
-  position: relative;
-  width: @list-width;
   overflow: auto;
+  flex-basis: @list-width;
+  transition: .3s;
 
   @media @phone {
-    width: 100%;
-    float:none;
+    flex-basis: 100%;
     padding-top: 35px;
     .calc(height, "100vh - 92px");
   }
@@ -376,10 +398,16 @@
 .documents-list-section-container, .section.associations, .view-details-associations {
   &.no-map .list-item{
     @media (min-width: 1200px) and (max-width: @large-width) {
-      flex-basis: 32%;
+      flex-basis: 32% !important;
     }
     @media (min-width: @large-width) {
-      flex-basis: 24%;
+      flex-basis: 24% !important;
+    }
+    @media (max-width: 900px) {
+      flex-basis: 48% !important;
+    }
+    @media (max-width: 620px) {
+      flex-basis: 100% !important;
     }
   }
 }

@@ -17,7 +17,13 @@ goog.require('app.coordinate');
  * @export
  * @ngInject
  */
-app.MainController = function(gettextCatalog, appApi, appAuthentication, authUrl) {
+app.MainController = function($scope, gettextCatalog, appApi, appAuthentication, authUrl) {
+
+  /**
+   * @type {angular.Scope}
+   * @private
+   */
+  this.scope_ = $scope;
 
   /**
    * @type {angularGettext.Catalog}
@@ -30,7 +36,6 @@ app.MainController = function(gettextCatalog, appApi, appAuthentication, authUrl
    * @export
    */
   this.appApi = appApi;
-
 
   /**
    * @type {app.Authentication}
@@ -91,4 +96,12 @@ app.MainController.prototype.isPath = function(path) {
  */
 app.MainController.prototype.animateHeaderIcon = function(e) {
   app.utils.animateHeaderIcon(e);
+};
+
+
+/**
+ * @export
+ */
+app.MainController.prototype.resizeMap = function() {
+  this.scope_.$root.$emit('resizeMap');
 };

@@ -1,6 +1,6 @@
 <%inherit file="../base.html"/>
 <%namespace file="../helpers/common.html" import="show_title"/>
-<%namespace file="../helpers/list.html" import="add_doctype_selector"/>
+<%namespace file="../helpers/list.html" import="add_doctype_selector, toggle_map_btns, toggle_list_btns"/>
 
 <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Reports')">${show_title('Reports')}</title></%block>
 
@@ -26,7 +26,7 @@
     <span class="badge" ng-cloak>{{resCounter}}</span>
   </h3>
 </header>
-<div class="documents-list-section-container">
+<div class="documents-list-section-container" ng-class="{'no-map': noMap, 'no-list': noList}">
   <section class="documents-list-section">
     <%include file="filters.html" />
     <div class="documents-nav-buttons text-center">
@@ -35,6 +35,7 @@
 ##               uib-tooltip="{{'Create a new report' | translate }}" tooltip-placement="right">
 ##         <span class="glyphicon glyphicon-plus-sign"></span>
       </button>
+      ${toggle_list_btns()}
       <app-pagination class="xreports"></app-pagination>
       <div class="toggle-map">
         <button class="btn btn-default"><span class="glyphicon glyphicon-globe"></span></button>
@@ -49,6 +50,7 @@
   </section>
 
   <div class="map-right">
+    ${toggle_map_btns()}
     <app-map app-map-advanced-search="true" app-map-show-recenter-tools="true" app-map-default-map-filter="true"></app-map>
   </div>
 </div>
