@@ -70,7 +70,7 @@ updating_doc = outing_id and outing_lang
 
             ## DATE END
             <div class="date form-group flex flexend-align" ng-init="openDateEnd = false">
-              <div  ng-show="editCtrl.differentDates">
+              <div ng-show="editCtrl.differentDates">
                 <label><span translate>date_end </span></label>
                 <div class="input-group" ng-model="outing.date_end" datepicker-options="{maxDate : editCtrl.dateMaxEnd, minDate: editCtrl.dateMinEnd}"
                      uib-datepicker-popup="dd MM yyyy" is-open="openDateEnd" ng-change="editCtrl.dateMaxStart = outing.date_end">
