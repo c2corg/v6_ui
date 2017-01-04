@@ -338,7 +338,7 @@ app.ViewDetailsController.prototype.createTopic = function() {
     this.documentService.document.topic_id = topic_id;
     this.getComments();
     var url = this.discourseUrl_ + 't/' + document_id + '_' + lang + '/' + topic_id;
-    window.open(url);
+    window.location = url;
   }.bind(this));
 };
 
