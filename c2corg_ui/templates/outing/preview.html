@@ -3,7 +3,7 @@
 <%namespace file="../helpers/preview.html" import="show_preview_warning"/>
 <%namespace file="helpers/view.html" import="get_outing_snow, get_outing_access,
     get_outing_participants, get_outing_general, get_outing_heights,
-    show_fulldate"/>
+    show_fulldate, get_conditions"/>
 
 <%
 outing = document
@@ -48,7 +48,7 @@ ${show_preview_warning()}
     ${get_document_locale_text(locale, 'avalanches', True)}
     ${get_document_locale_text(locale, 'access', True)}
     ${get_document_locale_text(locale, 'timing', True)}
-    ${get_document_locale_text(locale, 'weather', True)}
+    ${get_conditions(locale, True)}
   </div>
 
 </section>
