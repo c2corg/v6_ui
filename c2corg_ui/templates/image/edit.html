@@ -54,11 +54,9 @@ from c2corg_common.attributes import default_langs, activities, image_types, ima
           <div class="content">
 
             ## TITLE
-            <div id="title-group" class="form-group" ng-class="{ 'has-error': editForm.title.$touched && editForm.title.$invalid, 'has-success': editForm.title.$valid }">
-              <label><span translate>title</span> *</label>
+            <div id="title-group" class="form-group">
+              <label translate>title</label>
               <input type="text" name="title" ng-model="image.locales[0].title" class="form-control" />
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.title.$valid"></span>
-              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.title.$invalid && editForm.title.$touched"></span>
             </div>
 
             ## LANGUAGE
