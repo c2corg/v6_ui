@@ -54,15 +54,9 @@ from c2corg_common.attributes import default_langs, activities, image_types, ima
           <div class="content">
 
             ## TITLE
-            <div id="title-group" class="form-group" ng-class="{ 'has-error': editForm.title.$touched && editForm.title.$invalid, 'has-success': editForm.title.$valid }">
-              <label><span translate>title</span> *</label>
-              <input type="text" name="title" ng-model="image.locales[0].title" ng-minlength="3"class="form-control" required />
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.title.$valid"></span>
-              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.title.$invalid && editForm.title.$touched"></span>
-              <div class="help-block" ng-messages="editForm.title.$error">
-                <p ng-message="required" class="label label-danger" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : '' }}" translate>This field is required.</p>
-                <p ng-message="minlength" class="label label-danger" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : '' }}" translate>Title must have at least 3 characters.</p>
-              </div>
+            <div id="title-group" class="form-group">
+              <label translate>title</label>
+              <input type="text" name="title" ng-model="image.locales[0].title" class="form-control" />
             </div>
 
             ## LANGUAGE
