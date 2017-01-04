@@ -42,11 +42,13 @@ app.module.directive('appImageUploader', app.imageUploaderDirective);
  * @param {app.Document} appDocument service
  * @param {String} imageUrl URL to the image backend.
  * @param {app.Url} appUrl
+ * @param {app.Authentication} appAuthentication
  * @constructor
  * @struct
  * @ngInject
  */
-app.ImageUploaderController = function($scope, $uibModal, $compile, $q, appAlerts, appApi, appDocument, imageUrl, appUrl) {
+app.ImageUploaderController = function($scope, $uibModal, $compile, $q,
+    appAlerts, appApi, appDocument, imageUrl, appUrl, appAuthentication) {
 
   /**
    * @type {app.Document}
@@ -65,6 +67,12 @@ app.ImageUploaderController = function($scope, $uibModal, $compile, $q, appAlert
    * @private
    */
   this.api_ = appApi;
+
+  /**
+   * @type {app.Authentication}
+   * @private
+   */
+  this.auth_ = appAuthentication;
 
   /**
    * @type {app.Url}
@@ -137,6 +145,18 @@ app.ImageUploaderController = function($scope, $uibModal, $compile, $q, appAlert
    * @private
    */
   this.image_type_ = this.setImageType_();
+
+  /**
+   * @type {Object}
+   * @export
+   */
+  this.resizeOptions = {'width': 2048, 'height': 2048, 'quality': 0.9};
+
+  /**
+   * @type {boolean}
+   * @export
+   */
+  this.saving = false;
 
   this.scope_['activities'] = this.activities;
   this.scope_['types'] = this.types;
@@ -409,6 +429,23 @@ app.ImageUploaderController.prototype.resizeIf = function(
 };
 
 
+/**
+ * @param {Array.<string>} imageTypes
+ * @return {Array.<string>}
+ * @export
+ */
+app.ImageUploaderController.prototype.filterImageTypes = function(imageTypes) {
+  if (this.auth_.isModerator()) {
+    // moderators have access to all image types
+    return imageTypes;
+  }
+  var removeCopyright = function(val) {
+    return val !== 'copyright';
+  };
+  return imageTypes.filter(removeCopyright);
+};
+
+
 app.module.controller('AppImageUploaderController', app.ImageUploaderController);
 
 
@@ -444,7 +481,9 @@ app.ImageUploaderModalController = function($scope, $uibModalInstance) {
  * @export
  */
 app.ImageUploaderModalController.prototype.close = function() {
-  this.modalInstance_.close();
+  if (!this.scope_['uplCtrl'].saving) {
+    this.modalInstance_.close();
+  }
 };
 
 
@@ -452,7 +491,14 @@ app.ImageUploaderModalController.prototype.close = function() {
  * @export
  */
 app.ImageUploaderModalController.prototype.save = function() {
-  this.scope_['uplCtrl'].save().then(function() {
+  var uplCtrl = this.scope_['uplCtrl'];
+  if (uplCtrl.saving) {
+    // saving is already in progress
+    return;
+  }
+  uplCtrl.saving = true;
+  uplCtrl.save().then(function() {
+    uplCtrl.saving = false;
     this.modalInstance_.close();
   }.bind(this));
 };

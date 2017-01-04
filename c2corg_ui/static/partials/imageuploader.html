@@ -9,7 +9,7 @@
        ngf-fix-orientation="true"
        ngf-allow-dir="true"
        ngf-resize-if="uplCtrl.resizeIf($file, $width, $height)"
-       ngf-resize="{width: 2048, height: 2048, quality: 0.9}"
+       ngf-resize="uplCtrl.resizeOptions"
        accept="image/*"
        ngf-pattern="'image/*'">
     <span translate>Drop images here or click to upload</span>
@@ -75,7 +75,7 @@
               <span class="glyphicon glyphicon-menu-down"></span>
             </button>
             <ul class="dropdown-menu">
-              <li ng-repeat="type in types">
+              <li ng-repeat="type in uplCtrl.filterImageTypes(types)">
                 <div class="radio">
                   <label><input type="radio" ng-model="file.metadata.image_type" ng-value="type">{{type | translate}}</label>
                 </div>
@@ -113,10 +113,15 @@
          ngf-keep="'distinct'"
          ngf-fix-orientation="true"
          ngf-allow-dir="true"
+         ngf-resize-if="uplCtrl.resizeIf($file, $width, $height)"
+         ngf-resize="uplCtrl.resizeOptions"
          accept="image/*"
          ngf-pattern="'image/*'">
       <button class="orange-btn btn" type="button" translate>Add images</button>
     </div>
   </div>
-  <button class="btn btn-warning" type="button" ng-click="imageModalCtrl.close()" translate>Close</button>
-  <button class="btn btn-primary" type="button" ng-click="imageModalCtrl.save()" ng-show="uplCtrl.areAllUploaded" translate>Save</button>
+  <button class="btn btn-warning" type="button" ng-click="imageModalCtrl.close()"
+          ng-class="{disabled: uplCtrl.saving}" translate>Close</button>
+  <button class="btn btn-primary" type="button" ng-click="imageModalCtrl.save()"
+          ng-class="{disabled: uplCtrl.saving}"
+          ng-show="uplCtrl.areAllUploaded" translate>Save</button>
