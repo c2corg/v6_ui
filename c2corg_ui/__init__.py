@@ -59,6 +59,9 @@ def main(global_config, **settings):
                            filenames=filenames,
                            http_cache=60*60*24*7)
 
+    # robots.txt
+    config.add_asset_views('c2corg_ui:static', 'robots.txt')
+
     # static views only used in debug mode
     config.add_static_view('node_modules', settings.get('node_modules_path'),
                            cache_max_age=3600)
@@ -183,7 +186,6 @@ def main(global_config, **settings):
     config.add_route('mailinglists', '/mailinglists')
     config.add_route('following', '/following')
 
-    config.add_route('robots.txt', '/robots.txt')
     config.add_route('sitemap_index', '/sitemap.xml')
     config.add_route('sitemap', '/sitemaps/{doc_type:[a-z]{1}}/{i:\d+}.xml')
 
