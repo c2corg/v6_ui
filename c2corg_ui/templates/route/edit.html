@@ -86,8 +86,14 @@ updating_doc = route_id and route_lang
             </div>
 
             ## MAP + upload
-            <app-gpx-upload></app-gpx-upload>
-            <app-map app-map-edit="true" app-map-show-recenter-tools="true" app-map-draw-type="LineString" class="map-edit"></app-map>
+            <div class="full form-group">
+              <label translate>Track</label>
+              <div class="track">
+                <app-gpx-upload></app-gpx-upload>
+                <div class="track-tip" translate>You may also drag, draw or edit the track on the map.</div>
+              </div>
+              <app-map app-map-edit="true" app-map-show-recenter-tools="true" app-map-draw-type="LineString" class="map-edit"></app-map>
+            </div>
 
           </div>
         </section>

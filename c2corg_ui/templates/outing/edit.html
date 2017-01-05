@@ -103,11 +103,17 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## MAP
-            <app-gpx-upload></app-gpx-upload>
-            <app-map app-map-edit="true" app-map-show-recenter-tools="true" app-map-draw-type="LineString" class="map-edit"></app-map>
+            <div class="full form-group">
+              <label translate>Track</label>
+              <div class="track">
+                <app-gpx-upload></app-gpx-upload>
+                <div class="track-tip" translate>You may also drag, draw or edit the track on the map.</div>
+              </div>
+              <app-map app-map-edit="true" app-map-show-recenter-tools="true" app-map-draw-type="LineString" class="map-edit"></app-map>
+            </div>
 
             ## ROUTE TAKEN
-            <div class="full" class="form-group">
+            <div class="full form-group">
               <label><span translate>Taken routes</span> *</label>
               <h5 translate ng-show="outing.associations.routes.length == 0">Choose at least one route taken during the outing.</h5>
               <app-simple-search parent-id="outing.document_id"
