@@ -13,6 +13,7 @@ pyramid.debug_routematch = false
 pyramid.includes =
     pyramid_closure
     pyramid_mako
+    pyramid_assetviews
 
 ###
 # wsgi server configuration

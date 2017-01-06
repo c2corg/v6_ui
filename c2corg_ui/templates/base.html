@@ -15,16 +15,17 @@ closure_library_path = settings.get('closure_library_path')
     ## Mobile attributes
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <link rel="shortcut icon" sizes="196x196"  href="${request.static_path('c2corg_ui:static/img/logo.svg')}">
-    <link rel="icon" href="${request.static_path('c2corg_ui:static/img/icon.png')}">
     <meta name="theme-color" content="#F7931D">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Camptocamp.org">
     <meta name="application-name" content="Camptocamp.org">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="msapplication-TileImage" content="${request.static_path('c2corg_ui:static/img/logo.svg')}">
-    <meta name="msapplication-TileColor" content="#FF0000">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
     <%block name="metarobots"><meta name="robots" content="index,follow"></%block>
 % if debug:
     <link rel="stylesheet" href="${request.static_path('%s/bootstrap/dist/css/bootstrap.css' % node_modules_path)}">

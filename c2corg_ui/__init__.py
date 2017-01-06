@@ -16,6 +16,7 @@ def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
     config = Configurator(settings=settings)
+    config.include("pyramid_assetviews")
     add_mako_renderer(config, '.html')
 
     # set up redis cache
@@ -40,6 +41,26 @@ def main(global_config, **settings):
 
     # view for assets with cache buster
     _add_static_view(config, 'static', 'c2corg_ui:static')
+
+    # favicon stuff
+    filenames = [
+        "android-chrome-192x192.png",
+        "android-chrome-384x384.png",
+        "apple-touch-icon.png",
+        "browserconfig.xml",
+        "favicon-16x16.png",
+        "favicon-32x32.png",
+        "favicon.ico",
+        "manifest.json",
+        "mstile-150x150.png",
+        "safari-pinned-tab.svg"
+    ]
+    config.add_asset_views('c2corg_ui:static/favicons',
+                           filenames=filenames,
+                           http_cache=60*60*24*7)
+
+    # robots.txt
+    config.add_asset_views('c2corg_ui:static', 'robots.txt')
 
     # static views only used in debug mode
     config.add_static_view('node_modules', settings.get('node_modules_path'),
@@ -165,7 +186,6 @@ def main(global_config, **settings):
     config.add_route('mailinglists', '/mailinglists')
     config.add_route('following', '/following')
 
-    config.add_route('robots.txt', '/robots.txt')
     config.add_route('sitemap_index', '/sitemap.xml')
     config.add_route('sitemap', '/sitemaps/{doc_type:[a-z]{1}}/{i:\d+}.xml')
 
