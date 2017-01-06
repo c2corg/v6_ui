@@ -1,4 +1,4 @@
--e git+https://github.com/camptocamp/pyramid_closure#egg=pyramid_closure
+-e git+https://github.com/camptocamp/pyramid_closure@1.0.0#egg=pyramid_closure
 
 pyramid==1.7
 pyramid-debugtoolbar==2.4.2
