@@ -15,9 +15,12 @@
       padding-bottom: 20px;
     }
   }
+  .topoguide-types {
+    margin-top: 10px;
+  }
   header {
     color: white;
-    background-image:url(../img/home/mont-joly.png);
+    background-image:url(../img/home/laurentf-sajama.jpg);
     background-size: cover;
     height: auto;
   }
@@ -27,10 +30,6 @@
   a {
     outline: none;
     text-decoration: none;
-  }
-  .doctype-info {
-    margin-top: 5px;
-    margin-left: 10px;
   }
   .topoguide-entry {
     height: 130px;
@@ -66,17 +65,6 @@
       word-break: break-all;
     }
   }
-  .col-left {
-    padding-left: 4%;
-    padding-right: 2%;
-  }
-  .col-right {
-    padding-left: 2%;
-    padding-right: 4%;
-  }
-  .col-left, .col-right {
-    width: 50%;
-  }
   .waypoint-type, .activity {
     width: 100%;
     font-size: 3em;
@@ -95,20 +83,41 @@
     padding-left: 5px;
     min-height: 90px;
     text-align: center;
-    flex-basis: 31%;
     margin-right: 1%;
     margin-left: 1%;
     .flex();
     flex-direction: column;
     justify-content: space-around;
-    @media (max-width:1000px){
-      flex-basis: 48% !important;
+  }
+  .outings {
+    padding-left: 4%;
+    padding-right: 2%;
+  }
+  .routes {
+    padding-left: 2%;
+    padding-right: 4%;
+  }
+  .outings, .routes {
+    width: 50%;
+    .icon-div {
+      flex-basis: 20%;
+      @media @desktop {
+        flex-basis: 25%;
+      }
+      @media @tablet {
+        flex-basis: 31%;
+      }
     }
   }
-  .see-more {
-    margin-left: 10px;
-    &:hover {
-      cursor: pointer;
+  .waypoints {
+    .icon-div {
+      flex-basis: 12%;
+      @media @desktop {
+        flex-basis: 15%;
+      }
+      @media @tablet {
+        flex-basis: 20%;
+      }
     }
   }
   .value {
@@ -116,13 +125,12 @@
   }
   .doctype {
     padding: 0 2%;
-    width: 100%;
     display: inline-block;
     border-radius: 5px;
     margin-bottom: 20px;
   }
   .wrapper {
-    padding: 0 10px 10px;
+    padding: 10px;
     .flex();
     flex-flow: wrap row;
     justify-content: center;
@@ -142,6 +150,7 @@
     }
     .icon-div {
       height: 80px;
+      flex-basis: 31%;
     }
     .collapse.in, .collapsing {
       margin: 0;
@@ -157,7 +166,7 @@
     .wrapper {
       padding: 0;
     }
-    .col-left, .col-right {
+    .outings, .routes {
       width: 100%;
       float: none;
     }
