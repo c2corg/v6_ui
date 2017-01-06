@@ -210,15 +210,12 @@
 
 <%def name="get_conditions(locale, open_tab=False)">\
   <%
-      if type(locale['conditions_levels']) is str:
-          cond = loads(locale['conditions_levels'])
-          conditions_levels_exist = (cond is not Null and len(cond)) and \
-              ( ('level_snow_height_total' in cond[0] and cond[0].get('level_snow_height_total') != '' and cond[0].get('level_snow_height_total') is not None) or \
-              ('level_snow_height_soft' in cond[0] and  cond[0]['level_snow_height_soft'] != '' and cond[0].get('level_snow_height_soft') is not None) or \
-              ('level_place' in cond[0] and cond[0].get('level_place')  != '') or \
-              ('level_comment' in cond[0] and cond[0].get('level_comment') != '') )
-      else:
-          conditions_levels_exist = False
+      cond = loads(locale['conditions_levels']) if type(locale['conditions_levels']) is str else locale['conditions_levels']
+      conditions_levels_exist = (cond is not None and len(cond)) and \
+          ( ('level_snow_height_total' in cond[0] and cond[0].get('level_snow_height_total') != '' and cond[0].get('level_snow_height_total') is not None) or \
+          ('level_snow_height_soft' in cond[0] and  cond[0]['level_snow_height_soft'] != '' and cond[0].get('level_snow_height_soft') is not None) or \
+          ('level_place' in cond[0] and cond[0].get('level_place')  != '') or \
+          ('level_comment' in cond[0] and cond[0].get('level_comment') != '') )
   %>
   % if locale.get('weather') or locale.get('conditions') or conditions_levels_exist:
     <div class="view-details-info col-xs-12">
