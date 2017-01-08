@@ -394,7 +394,7 @@
   }
 }
 
-// + 1 more card per row than usual, max 7
+// card up to 7 column
 .documents-list-section-container, .section.associations, .view-details-associations {
   &.no-map .list-item{
     @media (min-width: 2400px) {
@@ -406,16 +406,16 @@
     @media (max-width: 2100px) {
       flex-basis: 19% !important;
     }
-    @media (max-width: 1800px) {
+    @media (max-width: @large-width) {
       flex-basis: 24% !important;
     }
-    @media (max-width: 1200px) {
+    @media (max-width: @tablet-max) {
       flex-basis: 32% !important;
     }
     @media (max-width: 900px) {
       flex-basis: 48% !important;
     }
-    @media (max-width: 620px) {
+    @media (max-width: @phone-max) {
       flex-basis: 100% !important;
     }
   }
