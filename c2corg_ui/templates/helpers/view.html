@@ -394,8 +394,10 @@
           <%
               fragment = '{0}={1}'.format(document['type'], document['document_id'])
           %>
-          <div class="list-item vertical-align" onclick="window.location='${request.route_path('outings_index')}#${fragment}';">
-            <button class="gray-btn btn show-more" translate>show more</button>
+          <div class="list-item">
+            <a class="vertical-align" ng-href="${request.route_path('outings_index')}#${fragment}">
+              <button class="gray-btn btn show-more" translate>show more</button>
+            </a>
           </div>
         % endif
       </div>
