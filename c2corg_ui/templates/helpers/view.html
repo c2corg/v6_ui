@@ -462,16 +462,18 @@
       <span class="lead">
         <div id="document-description" class="collapse in">
           % if locale.get('summary'):
-            <summary class="document-summary">
-              <label translate>summary</label><br>
+            % if locale.get('description'):
+              <summary class="document-summary">
+                <label translate>summary</label><br>
+                ${show_attr(locale, 'summary')}
+              </summary>
+            % else:
               ${show_attr(locale, 'summary')}
-            </summary>
+            % endif
           % endif
 
           % if locale.get('description'):
             ${show_attr(locale, 'description')}
-          % else:
-            <h3 class="text-center" translate>No description available</h3>
           % endif
         </div>
       </span>
