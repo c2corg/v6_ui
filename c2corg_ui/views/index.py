@@ -1,5 +1,3 @@
-import os
-from pyramid.response import Response
 from pyramid.view import view_config
 
 from c2corg_ui.views import get_or_create_page
@@ -63,10 +61,3 @@ class Pages(object):
             self.debug,
             no_etag
         )
-
-    @view_config(route_name='robots.txt')
-    def robotstxt(self):
-        here = os.path.dirname(__file__)
-        robots = open(os.path.join(
-                      here, '..', 'static', 'robots.txt')).read()
-        return Response(content_type='text/plain', body=robots)

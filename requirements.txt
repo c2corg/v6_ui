@@ -1,8 +1,9 @@
--e git+https://github.com/camptocamp/pyramid_closure#egg=pyramid_closure
+-e git+https://github.com/camptocamp/pyramid_closure@1.0.0#egg=pyramid_closure
 
 pyramid==1.7
 pyramid-debugtoolbar==2.4.2
 pyramid-mako==1.0.2
+pyramid_assetviews==1.0a3
 waitress==0.8.10
 requests==2.1.0
 Shapely==1.5.13
