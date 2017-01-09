@@ -479,12 +479,12 @@
   % endif
 </%def>
 
-<%def name="get_document_locale_text(locale, text, open_tab=False)">\
+<%def name="get_document_locale_text(locale, text, open_tab=False, title=None)">\
   % if text in locale and locale[text]:
     <div class="view-details-info col-xs-12">
       <h3 class="heading ${'' if open_tab else 'closed '}show-phone"
           ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#${text}">
-        <span x-translate>${text}</span><span class="glyphicon glyphicon-menu-${'down' if open_tab else 'right'}"></span>
+        <span x-translate>${title if title else text}</span><span class="glyphicon glyphicon-menu-${'down' if open_tab else 'right'}"></span>
       </h3>
       <section class="collapse${' in' if open_tab else ''}" id="${text}" aria-expanded="true">
         <div class="lead">

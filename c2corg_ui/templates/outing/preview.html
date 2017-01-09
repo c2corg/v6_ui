@@ -1,5 +1,5 @@
 <%namespace file="../helpers/view.html" import="get_document_min_max,
-    get_document_locale_text, get_activities, get_document_description"/>
+    get_document_locale_text, get_activities"/>
 <%namespace file="../helpers/preview.html" import="show_preview_warning"/>
 <%namespace file="helpers/view.html" import="get_outing_snow, get_outing_access,
     get_outing_participants, get_outing_general, get_outing_heights,
@@ -39,16 +39,15 @@ ${show_preview_warning()}
     </section>
   </div>
 
-  ${get_document_description(locale, 'outing')}
-
   <div class="description">
     ${get_document_locale_text(locale, 'route_description', True)}
-    ${get_document_locale_text(locale, 'hut_comment', True)}
-    ${get_document_locale_text(locale, 'access_comment', True)}
-    ${get_document_locale_text(locale, 'avalanches', True)}
-    ${get_document_locale_text(locale, 'access', True)}
-    ${get_document_locale_text(locale, 'timing', True)}
     ${get_conditions(locale, True)}
+    ${get_document_locale_text(locale, 'avalanches', True)}
+    ${get_document_locale_text(locale, 'timing', True)}
+    ${get_document_locale_text(locale, 'access', True)}
+    ${get_document_locale_text(locale, 'access_comment', True)}
+    ${get_document_locale_text(locale, 'hut_comment', True)}
+    ${get_document_locale_text(locale, 'description', True, 'personal comments')}
   </div>
 
 </section>
