@@ -141,10 +141,19 @@ app-map-search {
   top: 10px;
 }
 
-.ol-control button {
-  background-color: @btn-primary-bg;
+.ol-control {
+  background-color: initial;
 
-  &:hover, &:focus {
-    background-color: fadeout(@btn-primary-bg, 10%);
+  &:hover {
+    background-color: initial;
+  }
+
+  button {
+    background-color: @btn-primary-bg;
+
+    &:hover, &:focus {
+      background-color: darken(@btn-primary-bg, 10%);
+      border-color: darken(@btn-primary-border, 25%);
+    }
   }
 }
