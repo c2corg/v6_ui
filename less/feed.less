@@ -39,18 +39,20 @@
         transform: scale(1.1);
       }
     }
-    .big-image {
+    
+    a {
       float: left;
-      height: 150px;
-      width: 60%;
-    }
-    .small-image {
-      float: left;
-      width: 38%;
-      height: 73px;
-      margin-left: 5px;
-      &:last-of-type {
-        margin-top: -5px;
+      &:nth-child(2) {
+        margin-bottom: 5px;
+      }
+      &.big-image {
+        height: 150px;
+        width: 60%;
+      }
+      &.small-image {
+        width: 38%;
+        height: 73px;
+        margin-left: 5px;
       }
     }
   }
