@@ -587,9 +587,14 @@ input[type="radio"] {
   }
 
   #ori-n, #ori-s, #ori-w, #ori-e, #ori-se, #ori-ne, #ori-sw, #ori-nw {
-    cursor: pointer;
-    transition: 0.3s ease-in-out;
     fill: gray;
+    transition: 0.3s ease-in-out;
+
+    &.orientation-selected {
+      transition: 0.3s ease-in-out;
+      fill: @C2C-orange !important;
+    }
+
   }
 
   text {
@@ -597,9 +602,11 @@ input[type="radio"] {
   }
 }
 
-.orientation-selected {
-  transition: 0.3s ease-in-out;
-  fill: @C2C-orange !important;
+.form-group,
+.filter.orientation {
+  #ori-n, #ori-s, #ori-w, #ori-e, #ori-se, #ori-ne, #ori-sw, #ori-nw {
+    cursor: pointer;
+  }
 }
 
 .nav-step-selected {
