@@ -641,6 +641,7 @@ app.MapController.prototype.handleEditModelChange_ = function(event, data) {
  * @private
  */
 app.MapController.prototype.handleFeaturesUpload_ = function(event, features) {
+  features = features.filter(app.utils.isLineFeature);
   features.forEach(this.simplifyFeature_);
   this.showFeatures_(features, true);
   this.scope_.$root.$emit('mapFeaturesChange', features);
