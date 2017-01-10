@@ -586,28 +586,20 @@ input[type="radio"] {
     width: 90%;
   }
 
-  #circle-N, #circle-S, #circle-W, #circle-E,
-  #circle-SE, #circle-NE, #circle-SW, #circle-NW, #text-N, #text-E, #text-W,
-  #text-S, #text-SE, #text-SW, #text-NW, #text-NE{
+  #ori-n, #ori-s, #ori-w, #ori-e, #ori-se, #ori-ne, #ori-sw, #ori-nw {
     cursor: pointer;
     transition: 0.3s ease-in-out;
+    fill: gray;
+  }
+
+  text {
+    fill:#fff;
   }
 }
 
-.circle-selected {
+.orientation-selected {
   transition: 0.3s ease-in-out;
-  fill: @bright-green;
-}
-
-.half-circle-selected {
-  transition: 0.3s ease-in-out;
-  stroke: #2F8D20 !important;
-}
-
-.orientation-text-selected {
-  font-weight: bold !important;
-  transition: 0.3s ease-in-out;
-  text-decoration: underline;
+  fill: @C2C-orange !important;
 }
 
 .nav-step-selected {
