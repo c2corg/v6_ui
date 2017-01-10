@@ -31,7 +31,7 @@
       <p><span class="value-title" translate>article_type</span>: <span class="value" x-translate>${article['article_type']}</span></p>
     % endif
 
-    % if article.get('author') and article['article_type'] != 'collab':
+    % if article.get('author') and article['article_type'] != 'collab' and article['author']['user_id'] != article['associations']['users'][0]['document_id']:
       <%
           user_id = article['author']['user_id']
           user_lang = article['locales'][0]['lang']
@@ -48,8 +48,8 @@
 </div>
 </%def>
 
-<%def name="get_article_participants(article)">\
-  % if article.get('participant_count') or article['locales'][0].get('participants') or article['associations']['users']:
+<%def name="get_article_associated_users(article)">\
+  % if article['associations']['users']:
     % if len(article['associations']['users']) > 1 or not article['associations']['users'][0]['document_id'] == article['author']['user_id']:
       <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
         <h4><span translate>associated users</span><span class="glyphicon glyphicon-menu-right"></span></h4>
@@ -64,11 +64,10 @@
                 <%
                     user_id = user['document_id']
                     user_lang = user['locales'][0]['lang']
-                    is_last_participant = loop.last and not article['locales'][0].get('participants')
+                    is_last_associated_user = loop.last
                 %>
-                <a href="${request.route_path('profiles_view', id=user_id, lang=user_lang)}">${user['name']}</a>${'' if is_last_participant else ', '}
+                <a href="${request.route_path('profiles_view', id=user_id, lang=user_lang)}">${user['name']}</a>${'' if is_last_associated_user else ', '}
               % endfor
-              ${article['locales'][0].get('participants') or ''}
             </p>
           % endif
 
