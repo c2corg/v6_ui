@@ -24,7 +24,6 @@ app.module.directive('appProgressBar', app.progressBarDirective);
  * @param {angular.$interval} $interval service
  * @constructor
  * @ngInject
- * @export
  */
 app.ProgressBarController = function($interval) {
 

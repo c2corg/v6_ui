@@ -51,7 +51,6 @@ app.module.directive('appViewDetails', app.viewDetailsDirective);
  * @param {app.Url} appUrl
  * @param {app.Lang} appLang Lang service.
  * @constructor
- * @export
  * @ngInject
  */
 app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,

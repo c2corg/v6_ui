@@ -22,7 +22,6 @@ app.slideInfoDirective = function($compile) {
   };
 };
 
-
 app.module.directive('appSlideInfo', app.slideInfoDirective);
 
 
@@ -30,7 +29,6 @@ app.module.directive('appSlideInfo', app.slideInfoDirective);
  * @param {app.Api} appApi Api service.
  * @param {!angular.Scope} $scope Scope.
  * @constructor
- * @export
  * @ngInject
  */
 app.SlideInfoController = function(appApi, $scope) {

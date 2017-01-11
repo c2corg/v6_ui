@@ -29,7 +29,6 @@ app.module.directive('protectedUrlBtn', app.protectedUrlBtnDirective);
  * @param {app.Authentication} appAuthentication
  * @param {string} authUrl Base URL of the authentication page.
  * @constructor
- * @export
  * @ngInject
  */
 app.ProtectedUrlBtnController = function(appAuthentication, authUrl) {

@@ -29,13 +29,11 @@ app.geolocationDirective = function() {
   };
 };
 
-
 app.module.directive('appGeolocation', app.geolocationDirective);
 
 
 /**
  * @constructor
- * @export
  * @struct
  * @ngInject
  */

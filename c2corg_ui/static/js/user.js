@@ -36,7 +36,6 @@ app.module.directive('appUser', app.userDirective);
  * @param {function(string):string} gettext Marker function provided
  *   by angular-gettext.
  * @constructor
- * @export
  * @ngInject
  */
 app.UserController = function(appAuthentication, ngeoLocation,

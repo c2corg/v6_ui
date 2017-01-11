@@ -29,7 +29,6 @@ app.advancedSearchDirective = function() {
   };
 };
 
-
 app.module.directive('appAdvancedSearch', app.advancedSearchDirective);
 
 
@@ -42,7 +41,6 @@ app.module.directive('appAdvancedSearch', app.advancedSearchDirective);
  * @param {debounce} debounce debounce.
  * @constructor
  * @struct
- * @export
  * @ngInject
  */
 app.AdvancedSearchController = function($scope, appApi, ngeoLocation,

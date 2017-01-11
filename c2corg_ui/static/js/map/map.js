@@ -58,7 +58,6 @@ app.mapDirective = function() {
   };
 };
 
-
 app.module.directive('appMap', app.mapDirective);
 
 
@@ -72,7 +71,6 @@ app.module.directive('appMap', app.mapDirective);
  * @param {string} imgPath Path to the image directory.
  * @constructor
  * @struct
- * @export
  * @ngInject
  */
 app.MapController = function($scope, mapFeatureCollection, ngeoLocation,

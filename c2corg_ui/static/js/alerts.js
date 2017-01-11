@@ -34,7 +34,6 @@ app.module.directive('appAlerts', app.alertsDirective);
 /**
  * @constructor
  * @param {app.Alerts} appAlerts Alert service.
- * @export
  * @ngInject
  */
 app.AlertsController = function(appAlerts) {

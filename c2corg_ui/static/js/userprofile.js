@@ -22,7 +22,6 @@ app.userProfileDirective = function() {
   };
 };
 
-
 app.module.directive('appUserProfile', app.userProfileDirective);
 
 /**
@@ -32,7 +31,6 @@ app.module.directive('appUserProfile', app.userProfileDirective);
  * @param {app.Alerts} appAlerts
  * @constructor
  * @struct
- * @export
  * @ngInject
  */
 app.UserProfileController = function($scope, $http, $compile, appAlerts) {
@@ -74,6 +72,5 @@ app.UserProfileController = function($scope, $http, $compile, appAlerts) {
     $compile(element.contents())($scope.$parent);
   }.bind(this));
 };
-
 
 app.module.controller('appUserProfileController', app.UserProfileController);

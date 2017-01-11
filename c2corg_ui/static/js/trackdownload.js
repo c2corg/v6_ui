@@ -24,7 +24,6 @@ app.trackDownloadDirective = function() {
   };
 };
 
-
 app.module.directive('appTrackDownload', app.trackDownloadDirective);
 
 
@@ -33,7 +32,6 @@ app.module.directive('appTrackDownload', app.trackDownloadDirective);
  * @param {?GeoJSONFeatureCollection} mapFeatureCollection FeatureCollection of
  *    features shown on the map.
  * @constructor
- * @export
  * @ngInject
  */
 app.TrackDownloadController = function(ngeoDownload, mapFeatureCollection) {

@@ -24,7 +24,6 @@ app.authDirective = function() {
   };
 };
 
-
 app.module.directive('appAuth', app.authDirective);
 
 
@@ -39,7 +38,6 @@ app.module.directive('appAuth', app.authDirective);
  * @param {app.Lang} appLang Lang service.
  * @param {VCRecaptcha} vcRecaptchaService The recatpcha service from VC.
  * @constructor
- * @export
  * @ngInject
  */
 app.AuthController = function($scope, appApi, appAuthentication,

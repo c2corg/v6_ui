@@ -12,7 +12,6 @@ goog.require('app.Alerts');
  * @param {string} authUrl Base URL of the authentication page.
  * @constructor
  * @ngInject
- * @export
  */
 app.AccountController = function($scope, appAuthentication, appAlerts,
     appApi, authUrl) {

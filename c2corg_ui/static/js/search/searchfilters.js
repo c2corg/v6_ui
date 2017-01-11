@@ -43,7 +43,6 @@ app.searchFiltersDirective = function() {
   };
 };
 
-
 app.module.directive('appSearchFilters', app.searchFiltersDirective);
 
 
@@ -54,7 +53,6 @@ app.module.directive('appSearchFilters', app.searchFiltersDirective);
  * @param {Object} advancedSearchFilters Config of the filters.
  * @constructor
  * @ngInject
- * @export
  */
 app.SearchFiltersController = function($scope, ngeoLocation, ngeoDebounce,
     advancedSearchFilters) {

@@ -24,14 +24,12 @@ app.versionsDirective = function() {
   };
 };
 
-
 app.module.directive('appVersions', app.versionsDirective);
 
 
 /**
  * @param {angular.Scope} $scope Scope.
  * @constructor
- * @export
  * @ngInject
  */
 app.VersionsController = function($scope) {

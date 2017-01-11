@@ -29,7 +29,6 @@ app.module.directive('appMailinglists', app.mailinglistsDirective);
  * @param {string} authUrl Base URL of the authentication page.
  * @constructor
  * @ngInject
- * @export
  */
 app.MailinglistsController = function(appAuthentication, appApi, authUrl) {
 

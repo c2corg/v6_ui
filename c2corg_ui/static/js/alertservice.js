@@ -1,13 +1,11 @@
 goog.provide('app.Alerts');
 
-
 goog.require('app');
 
 
 /**
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @constructor
- * @export
  */
 app.Alerts = function(gettextCatalog) {
 

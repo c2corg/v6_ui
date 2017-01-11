@@ -30,7 +30,6 @@ app.module.directive('appGpxUpload', app.gpxUploadDirective);
 /**
  * @param {angular.Scope} $scope Scope.
  * @constructor
- * @export
  * @ngInject
  */
 app.GpxUploadController = function($scope) {

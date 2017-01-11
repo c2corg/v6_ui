@@ -56,7 +56,6 @@ app.module.directive('appStickyFilters', app.stickyFiltersDirective);
 /**
  * @constructor
  * @struct
- * @export
  */
 app.StickyFiltersController = function() {};
 

@@ -30,7 +30,6 @@ app.module.directive('appFeed', app.feedDirective);
  * @param {!string} imageUrl URL to the image backend.
  * @constructor
  * @ngInject
- * @export
  * @struct
  */
 app.FeedController = function(appAuthentication, appApi, appLang, imageUrl) {

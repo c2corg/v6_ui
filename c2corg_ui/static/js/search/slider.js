@@ -49,7 +49,6 @@ app.module.directive('appSlider', app.sliderDirective);
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @constructor
  * @struct
- * @export
  * @ngInject
  */
 app.SliderController = function($scope, $element, $attrs, ngeoLocation) {
