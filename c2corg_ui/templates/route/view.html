@@ -127,7 +127,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
 
   ${get_document_description(locale, 'route')}
 
-  <div class="description ">
+  <div class="description">
     ${get_document_locale_text(locale, 'remarks', True)}
     ${get_document_locale_text(locale, 'gear', True)}
     ${get_document_locale_text(locale, 'route_history', True)}
@@ -137,7 +137,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
   ## ASSOCIATIONS
   ## route has always at least 1 associated waypoint so this div will always be displayed
   % if not version:
-    <div class="view-details-associations col-xs-12  associations">
+    <div class="view-details-associations col-xs-12 associations">
       <span class="lead">
         <section>
           <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">

@@ -2,7 +2,8 @@
     import datetime
     from json import loads
 %>
-<%namespace file="../../helpers/view.html" import="get_document_up_down, get_document_min_max, show_attr"/>
+<%namespace file="../../helpers/view.html" import="get_document_up_down, get_document_min_max,
+    show_attr, show_track_download"/>
 
 <%def name="show_fulldate(dateStart, dateEnd)">\
   % if dateStart == dateEnd:
@@ -61,6 +62,9 @@
     % if outing.get('quality'):
     <p><span class="value-title" translate>quality</span>: <span class="value" x-translate>${outing['quality']}</span></p>
     % endif
+
+    ${show_track_download(outing)}
+
   </span>
 </div>
 </%def>
