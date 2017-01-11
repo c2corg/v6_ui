@@ -39,7 +39,7 @@
 
 
 ## GENERAL
-<%def name="get_route_general(route,locale)">\
+<%def name="get_route_general(route, locale, isPreview=False)">\
   <div class="name-icon-value general" ng-click="detailsCtrl.toggleTab($event)">
     <h4><span translate>General</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
     <div class="name-icon">
@@ -102,7 +102,9 @@
         <p><span class="value-title" translate>quality</span>: <span class="value" x-translate>${route['quality']}</span></p>
       % endif
 
-      ${show_track_download(route)}
+      % if not isPreview:
+        ${show_track_download(route)}
+      % endif
 
     </span>
   </div>
