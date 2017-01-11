@@ -1,3 +1,16 @@
 <%def name="show_title(title)">\
-  ${title + ' - ' if title else ''}Camptocamp.org\
+${title + ' - ' if title else ''}Camptocamp.org\
+</%def>
+
+<%def name="show_cards_types(className, types, doctype, filter)">\
+  <div class="collapse in" id="${doctype}">
+    <div class="wrapper">
+      % for type in types:
+        <a class="icon-div list-item" href="${request.route_path(doctype + '_index')}#${filter}=${type}">
+          <span class="${className} icon-${type}"></span>
+          <p x-translate class="text-center value">${type}</p>
+        </a>
+      % endfor
+    </div>
+  </div>
 </%def>

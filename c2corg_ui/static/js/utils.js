@@ -6,7 +6,6 @@ goog.provide('app.utils');
  * @return {string} Full document type name.
  */
 app.utils.getDoctype = function(type) {
-  // TODO add other types
   switch (type) {
     case 'w':
       return 'waypoints';
@@ -174,8 +173,10 @@ app.utils.createImageUrl = function(url, suffix) {
  * @export
  */
 app.utils.isTopoguide = function(location) {
-  return location.indexOf('waypoints') > -1 || location.indexOf('routes') > -1
-  || location.indexOf('images') > -1 || location.indexOf('areas') > -1 || location.indexOf('books') > -1;
+  return location.indexOf('topoguide') > -1 ||
+    location.indexOf('waypoints') > -1 || location.indexOf('routes') > -1 ||
+    location.indexOf('images') > -1 || location.indexOf('areas') > -1 ||
+    location.indexOf('books') > -1;
 };
 
 /**
