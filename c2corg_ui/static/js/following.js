@@ -29,7 +29,6 @@ app.module.directive('appFollowing', app.followingDirective);
  * @param {string} authUrl Base URL of the authentication page.
  * @constructor
  * @ngInject
- * @export
  */
 app.FollowingController = function(appAuthentication, appApi, authUrl) {
 

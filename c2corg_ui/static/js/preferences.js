@@ -20,7 +20,6 @@ app.preferencesDirective = function() {
   };
 };
 
-
 app.module.directive('appPreferences', app.preferencesDirective);
 
 /**
@@ -30,7 +29,6 @@ app.module.directive('appPreferences', app.preferencesDirective);
  * @param {string} authUrl Base URL of the authentication page.
  * @constructor
  * @ngInject
- * @export
  */
 app.PreferencesController = function($scope, appAuthentication, appApi,
     authUrl) {

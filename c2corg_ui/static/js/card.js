@@ -57,7 +57,6 @@ app.module.directive('appCard', app.cardDirective);
  * @param {!string} imageUrl URL to the image backend.
  * @constructor
  * @struct
- * @export
  * @ngInject
  */
 app.CardController = function(gettextCatalog, appUrl, imageUrl) {

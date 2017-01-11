@@ -12,7 +12,6 @@ goog.require('app.SearchFiltersController');
  * @constructor
  * @extends {app.SearchFiltersController}
  * @ngInject
- * @export
  */
 app.OutingFiltersController = function($scope, ngeoLocation, ngeoDebounce,
     advancedSearchFilters) {

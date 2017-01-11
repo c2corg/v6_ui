@@ -28,7 +28,6 @@ app.module.directive('appFollow', app.followDirective);
  * @param {app.Api} appApi Api service.
  * @constructor
  * @ngInject
- * @export
  * @struct
  */
 app.FollowController = function(appAuthentication, appApi) {

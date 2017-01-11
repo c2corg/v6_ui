@@ -26,7 +26,6 @@ goog.require('app.Lang');
  * @constructor
  * @extends {app.DocumentEditingController}
  * @ngInject
- * @export
  */
 app.OutingEditingController = function($scope, $element, $attrs, $http,
     $uibModal, $compile, appLang, appAuthentication, ngeoLocation, appAlerts,

@@ -22,7 +22,6 @@ app.paginationDirective = function() {
   };
 };
 
-
 app.module.directive('appPagination', app.paginationDirective);
 
 
@@ -30,7 +29,6 @@ app.module.directive('appPagination', app.paginationDirective);
  * @param {angular.Scope} $scope Directive scope.
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @constructor
- * @export
  * @ngInject
  */
 app.PaginationController = function($scope, ngeoLocation) {

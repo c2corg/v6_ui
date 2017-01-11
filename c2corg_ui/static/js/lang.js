@@ -37,7 +37,6 @@ app.module.directive('appLang', app.langDirective);
 /**
  * @param {app.Lang} appLang Lang service.
  * @constructor
- * @export
  * @ngInject
  */
 app.LangController = function(appLang) {

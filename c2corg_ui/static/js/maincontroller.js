@@ -14,7 +14,6 @@ goog.require('app.coordinate');
  * @param {app.Authentication} appAuthentication
  * @param {string} authUrl Base URL of the authentication page.
  * @constructor
- * @export
  * @ngInject
  */
 app.MainController = function($scope, gettextCatalog, appApi, appAuthentication, authUrl) {

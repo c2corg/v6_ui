@@ -31,7 +31,6 @@ app.baselayerSelectorDirective = function() {
   };
 };
 
-
 app.module.directive('appBaselayerSelector', app.baselayerSelectorDirective);
 
 
@@ -43,7 +42,6 @@ app.module.directive('appBaselayerSelector', app.baselayerSelectorDirective);
  * @param {app.Alerts} appAlerts
  * @param {app.Authentication} appAuthentication
  * @constructor
- * @export
  * @struct
  * @ngInject
  */

@@ -9,7 +9,6 @@ goog.require('ol.proj');
 
 /**
  * @param {angular.$sce} $sce Angular sce service.
- * @export
  * @ngInject
  * @return {function(angular.$sce):string}
  */
@@ -23,7 +22,6 @@ app.module.filter('appTrustAsHtml', app.trustAsHtmlFilter);
 
 
 /**
- * @export
  * @return {function(string):string}
  */
 app.capitalize = function() {
@@ -36,7 +34,6 @@ app.module.filter('capitalize', app.capitalize);
 
 
 /**
- * @export
  * @return {function(string):string}
  */
 app.coordinate = function() {

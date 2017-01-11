@@ -24,7 +24,6 @@ goog.require('app.Document');
  * @constructor
  * @extends {app.DocumentEditingController}
  * @ngInject
- * @export
  */
 app.ImageEditingController = function($scope, $element, $attrs, $http,
         $uibModal, $compile, appLang, appAuthentication, ngeoLocation,

@@ -12,7 +12,6 @@ goog.require('app.SearchFiltersController');
  * @constructor
  * @extends {app.SearchFiltersController}
  * @ngInject
- * @export
  */
 app.XreportFiltersController = function($scope, ngeoLocation, ngeoDebounce,
     advancedSearchFilters) {
@@ -135,6 +134,5 @@ app.XreportFiltersController.prototype.resetDates_ = function() {
   this.dateMaxEnd = new Date();
   this.dateMinEnd = null;
 };
-
 
 app.module.controller('appXreportFiltersController', app.XreportFiltersController);

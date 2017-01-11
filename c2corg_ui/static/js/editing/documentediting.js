@@ -65,7 +65,6 @@ app.module.directive('appDocumentEditing', app.documentEditingDirective);
  * @param {!string} imageUrl URL to the image backend.
  * @constructor
  * @ngInject
- * @export
  */
 app.DocumentEditingController = function($scope, $element, $attrs, $http,
     $uibModal, $compile, appLang, appAuthentication, ngeoLocation, appAlerts,

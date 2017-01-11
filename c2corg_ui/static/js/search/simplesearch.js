@@ -8,6 +8,7 @@ goog.require('app.Url');
 /** @suppress {extraRequire} */
 goog.require('ngeo.searchDirective');
 
+
 /**
  * The directive for the auto-complete search field shown in the header
  * of every page.
