@@ -588,11 +588,9 @@ input[type="radio"] {
 
   #ori-n, #ori-s, #ori-w, #ori-e, #ori-se, #ori-ne, #ori-sw, #ori-nw {
     fill: gray;
-    transition: 0.3s ease-in-out;
 
     &.orientation-selected {
-      transition: 0.3s ease-in-out;
-      fill: @C2C-orange !important;
+      fill: @bright-green;
     }
 
   }
@@ -606,6 +604,12 @@ input[type="radio"] {
 .filter.orientation {
   #ori-n, #ori-s, #ori-w, #ori-e, #ori-se, #ori-ne, #ori-sw, #ori-nw {
     cursor: pointer;
+    transition: 0.3s ease-in-out;
+
+    &.orientation-selected {
+      transition: 0.3s ease-in-out;
+      fill: @C2C-orange !important;
+    }
   }
 }
 
