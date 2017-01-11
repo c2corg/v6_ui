@@ -302,3 +302,12 @@ app.utils.repositionMenu = function(els) {
     menu.css('opacity', 1);
   }, 50);
 };
+
+/**
+ * @param {ol.Feature} feature
+ * @return {boolean}
+ */
+app.utils.isLineFeature = function(feature) {
+  return feature.getGeometry() instanceof ol.geom.LineString ||
+    feature.getGeometry() instanceof ol.geom.MultiLineString;
+};

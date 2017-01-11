@@ -2,6 +2,7 @@ goog.provide('app.TrackDownloadController');
 goog.provide('app.trackDownloadDirective');
 
 goog.require('app');
+goog.require('app.utils');
 goog.require('ngeo.Download');
 goog.require('ol.format.GeoJSON');
 goog.require('ol.format.GPX');
@@ -52,17 +53,6 @@ app.TrackDownloadController = function(ngeoDownload, mapFeatureCollection) {
 
 
 /**
- * @param {ol.Feature} feature
- * @return {boolean}
- * @private
- */
-app.TrackDownloadController.prototype.isLineFeature_ = function(feature) {
-  return feature.getGeometry() instanceof ol.geom.LineString ||
-    feature.getGeometry() instanceof ol.geom.MultiLineString;
-};
-
-
-/**
  * @param {ol.format.XMLFeature} format
  * @param {string} extension
  * @param {string} mimetype
@@ -72,7 +62,7 @@ app.TrackDownloadController.prototype.downloadFeatures_ = function(
   format, extension, mimetype) {
   var geojson = new ol.format.GeoJSON();
   var features = geojson.readFeatures(this.featureCollection_);
-  features = features.filter(this.isLineFeature_);
+  features = features.filter(app.utils.isLineFeature);
   if (features.length) {
     var filename = features[0].get('documentId') + extension;
     var content = format.writeFeatures(features, {
