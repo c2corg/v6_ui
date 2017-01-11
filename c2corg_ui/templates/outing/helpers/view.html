@@ -29,7 +29,7 @@
   % endif
 </%def>
 
-<%def name="get_outing_general(outing)">\
+<%def name="get_outing_general(outing, isPreview=False)">\
 <div class="name-icon-value general" ng-click="detailsCtrl.toggleTab($event)">
   <h4><span translate>General</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
   <div class="name-icon">
@@ -63,7 +63,9 @@
     <p><span class="value-title" translate>quality</span>: <span class="value" x-translate>${outing['quality']}</span></p>
     % endif
 
-    ${show_track_download(outing)}
+    % if not isPreview:
+      ${show_track_download(outing)}
+    % endif
 
   </span>
 </div>
