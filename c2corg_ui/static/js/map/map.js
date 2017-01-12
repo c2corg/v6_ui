@@ -451,7 +451,7 @@ app.MapController.prototype.createPointStyle_ = function(feature, resolution) {
 
   switch (module) {
     case 'waypoints':
-      imgSize = highlight ? 40 : 24;
+      imgSize = 14;
       path = '/documents/waypoints/' + type + '.svg';
       break;
     case 'images':
@@ -467,7 +467,7 @@ app.MapController.prototype.createPointStyle_ = function(feature, resolution) {
       path = '/documents/xreports.svg';
       break;
     default:
-      imgSize = highlight ? 32 : 16;
+      imgSize = 8;
       path = '/documents/' + type + '.svg';
       break;
   }
