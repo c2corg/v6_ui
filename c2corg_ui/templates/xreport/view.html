@@ -111,6 +111,11 @@ other_langs, missing_langs = get_lang_lists(xreport, lang)
       ${get_xreport_general(xreport)}
       % if not version:
         ${get_xreport_participants(xreport)}
+
+        <div app-xreport="${xreport_id}" app-xreport-lang="${lang}">
+          <div id="xreport-data"></div>
+        </div>
+
 ##         ${get_xreport_personal(xreport)}
       % endif
       ${get_licence(xreport)}
@@ -152,8 +157,10 @@ other_langs, missing_langs = get_lang_lists(xreport, lang)
           ${show_associated_articles(xreport)}
           ${show_associated_outings(xreport)}
 
-          <div id="xreports-data">
-            <p>there should be personal data if you have access</p>
+
+
+          <div ng-show="userCtrl.hasEditRights('xreports', {'authorId': ${xreport['author']['user_id']}})">
+            TEST to check if I have rights to edit -> YES (ng-show)
           </div>
 
         </section>

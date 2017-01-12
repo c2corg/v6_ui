@@ -361,6 +361,11 @@ app.Authentication.prototype.needAuthorization = function(method, url) {
       return true;
     }
 
+    if (url.indexOf('/xreports/data') !== -1 && this.isAuthenticated()) {
+      // forward auth header if user is authenticated
+      return true;
+    }
+
     // External URLs do not need auth.
     return false;
   }
@@ -375,6 +380,15 @@ app.Authentication.prototype.needAuthorization = function(method, url) {
       url.indexOf('/users/following') !== -1 ||
       url.indexOf('/profiles') !== -1 ||
       url.indexOf('/personal-feed') !== -1) {
+    return true;
+  }
+
+// TODO delete console.log(url + this.apiUrl_ + '...' + this.isAuthenticated());
+// authservice.js:335 WARNING: added auth header to unsecure request to
+// http://localhost:6548/xreports/826205?l=en&e=1
+
+  if (url.indexOf('/xreports') !== -1 && this.isAuthenticated()) {
+    // forward auth header if user is authenticated
     return true;
   }
 

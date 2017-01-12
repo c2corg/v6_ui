@@ -147,6 +147,7 @@ def main(global_config, **settings):
     config.add_route(
         'xreports_diff', '/xreports/diff/{id:\d+}/{lang}/{v1}/{v2}')
     config.add_route('xreports_preview', '/xreports/preview')
+    config.add_route('xreports_data', '/xreports/data/{id:\d+}/{lang}')
 
     config.add_route('images_index', '/images')
     config.add_route('images_edit', '/images/edit/{id:\d+}/{lang}')

@@ -12,6 +12,8 @@ goog.require('app.AccountController');
 goog.require('app.ImageEditingController');
 goog.require('app.OutingEditingController');
 goog.require('app.XreportEditingController');
+goog.require('app.xreportDirective');
+goog.require('app.XreportController');
 goog.require('app.OutingFiltersController');
 goog.require('app.RouteEditingController');
 goog.require('app.XreportFiltersController');
