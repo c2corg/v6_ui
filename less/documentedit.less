@@ -602,14 +602,16 @@ input[type="radio"] {
 
 .form-group,
 .filter.orientation {
-  #ori-n, #ori-s, #ori-w, #ori-e, #ori-se, #ori-ne, #ori-sw, #ori-nw {
-    cursor: pointer;
+  path {
     transition: 0.3s ease-in-out;
 
     &.orientation-selected {
       transition: 0.3s ease-in-out;
       fill: @C2C-orange !important;
     }
+  }
+  path, text {
+    cursor: pointer;
   }
 }
 

@@ -24,9 +24,9 @@
     <path id="ori-ne" d="m369.46 166.83-141.65 59.371 59.368-141.65 0.002-0.002 100.34-18.058z"
       ng-click="${ctrl}.toggleOrientation('NE', ${model}, $event, '${filterName}')"
       ng-class="{ 'orientation-selected': ${model}.orientations.indexOf('NE') > -1 }"/>
-    <text id="text-n" y="99.007141" x="212.0424" font-size="40">N</text>
-    <text id="text-s" y="385.00714" x="214.10295" font-size="40">S</text>
-    <text id="text-w" y="241.58344" x="64" font-size="40">W</text>
-    <text id="text-e" y="241.58344" x="358" font-size="40">E</text>
+    <text id="text-n" y="100.007141" x="205.0424" font-size="60">N</text>
+    <text id="text-s" y="390.00714" x="206.10295" font-size="60">S</text>
+    <text id="text-w" y="247.58344" x="56" font-size="60">W</text>
+    <text id="text-e" y="247.58344" x="350" font-size="60">E</text>
   </svg>
 </%def>
