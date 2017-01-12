@@ -23,22 +23,25 @@ from c2corg_common.attributes import activities, waypoint_types, area_types
 
   <div class="topoguide-types flex wrap-row">
     <div class="outings doctype">
-      <h3 class="heading show-phone" data-toggle="collapse" data-target="#outings">
-        <span translate>Outings</span><span class="glyphicon glyphicon-menu-right"></span>
+      <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)"
+          data-toggle="collapse" data-target="#outings">
+        <span translate>Outings</span><span class="glyphicon glyphicon-menu-down"></span>
       </h3>
       ${show_cards_types('activity', activities, 'outings', 'act')}
     </div>
 
     <div class="routes doctype">
-      <h3 class="heading show-phone" data-toggle="collapse" data-target="#routes">
-        <span translate>Routes</span><span class="glyphicon glyphicon-menu-right"></span>
+      <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)"
+          data-toggle="collapse" data-target="#routes">
+        <span translate>Routes</span><span class="glyphicon glyphicon-menu-down"></span>
       </h3>
       ${show_cards_types('activity', activities, 'routes', 'act')}
     </div>
 
     <div class="waypoints doctype">
-      <h3 class="heading show-phone" data-toggle="collapse" data-target="#waypoints">
-        <span translate>Waypoints</span><span class="glyphicon glyphicon-menu-right"></span>
+      <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)"
+          data-toggle="collapse" data-target="#waypoints">
+        <span translate>Waypoints</span><span class="glyphicon glyphicon-menu-down"></span>
       </h3>
       ${show_cards_types('waypoint-type', waypoint_types, 'waypoints', 'wtyp')}
     </div>
