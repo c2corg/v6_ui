@@ -3,7 +3,7 @@
 <%namespace file="../helpers/preview.html" import="show_preview_warning"/>
 <%namespace file="helpers/view.html" import="get_route_location,
     get_route_glacier_gear, get_route_rating, get_route_general, get_route_heights,
-    get_route_access, get_route_associated_maps"/>
+    get_route_access, get_route_associated_maps, get_route_orientations"/>
 
 <%
 route = document
@@ -35,6 +35,7 @@ ${show_preview_warning()}
       ${get_route_rating(route)}
       ${get_route_glacier_gear(route)}
       ${get_route_access(route)}
+      ${get_route_orientations(route)}
       ${get_route_associated_maps(route)}
     </section>
   </div>
