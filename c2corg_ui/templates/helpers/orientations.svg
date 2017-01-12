@@ -1,32 +1,36 @@
 <%def name="show_orientations(ctrl, model, filterName='')">\
-  <svg id="orientation-svg" xmlns="http://www.w3.org/2000/svg" width="150" height="150" version="1.1" viewBox="0 0 454.00715 454.00714">
-    <path id="ori-e" d="m370.28 168.82-142.14 58.18 142.14 58.185h0.005l83.722-58.185z"
-      ng-click="${ctrl}.toggleOrientation('E', ${model}, $event, '${filterName}')"
-      ng-class="{ 'orientation-selected': ${model}.orientations.indexOf('E') > -1 }"/>
-    <path id="ori-w" d="m83.727 168.82 142.14 58.18-142.14 58.185h-0.0046l-83.725-58.18z"
-      ng-click="${ctrl}.toggleOrientation('W', ${model}, $event, '${filterName}')"
-      ng-class="{ 'orientation-selected': ${model}.orientations.indexOf('W') > -1 }"/>
-    <path id="ori-s" d="m285.19 370.28-58.18-142.14-58.185 142.14v0.005l58.185 83.722z"
-      ng-click="${ctrl}.toggleOrientation('S', ${model}, $event, '${filterName}')"
-      ng-class="{ 'orientation-selected': ${model}.orientations.indexOf('S') > -1 }"/>
-    <path id="ori-n" d="m285.19 83.727-58.18 142.14-58.19-142.14v-0.005l58.19-83.725z"
-      ng-click="${ctrl}.toggleOrientation('N', ${model}, $event, '${filterName}')"
-      ng-class="{ 'orientation-selected': ${model}.orientations.indexOf('N') > -1 }"/>
-    <path id="ori-se" d="m369.46 287.17-141.65-59.371 59.368 141.65 0.002 0.002 100.34 18.058z"
+  <svg class="orientation-svg" xmlns="http://www.w3.org/2000/svg" width="150" height="150" version="1.1" viewBox="0 0 454.00715 454.00714">
+    <g ng-click="${ctrl}.toggleOrientation('E', ${model}, $event, '${filterName}')">
+      <path class="ori-e" d="m370.28 168.82-142.14 58.18 142.14 58.185h0.005l83.722-58.185z"
+        ng-class="{ 'orientation-selected': ${model}.orientations.indexOf('E') > -1 }"/>
+      <text class="text-e" y="241.58344" x="358" font-size="40">E</text>
+    </g>
+    <g ng-click="${ctrl}.toggleOrientation('W', ${model}, $event, '${filterName}')">
+      <path class="ori-w" d="m83.727 168.82 142.14 58.18-142.14 58.185h-0.0046l-83.725-58.18z"
+        ng-class="{ 'orientation-selected': ${model}.orientations.indexOf('W') > -1 }"/>
+      <text class="text-w" y="241.58344" x="64" font-size="40">W</text>
+    </g>
+    <g ng-click="${ctrl}.toggleOrientation('S', ${model}, $event, '${filterName}')">
+      <path class="ori-s" d="m285.19 370.28-58.18-142.14-58.185 142.14v0.005l58.185 83.722z"
+        ng-class="{ 'orientation-selected': ${model}.orientations.indexOf('S') > -1 }"/>
+      <text class="text-s" y="385.00714" x="214.10295" font-size="40">S</text>
+    </g>
+    <g ng-click="${ctrl}.toggleOrientation('N', ${model}, $event, '${filterName}')">
+      <path class="ori-n" d="m285.19 83.727-58.18 142.14-58.19-142.14v-0.005l58.19-83.725z"
+        ng-class="{ 'orientation-selected': ${model}.orientations.indexOf('N') > -1 }"/>
+      <text class="text-n" y="99.007141" x="212.0424" font-size="40">N</text>
+    </g>
+    <path class="ori-se" d="m369.46 287.17-141.65-59.371 59.368 141.65 0.002 0.002 100.34 18.058z"
       ng-click="${ctrl}.toggleOrientation('SE', ${model}, $event, '${filterName}')"
       ng-class="{ 'orientation-selected': ${model}.orientations.indexOf('SE') > -1 }"/>
-    <path id="ori-nw" d="m166.83 84.55 59.371 141.65-141.65-59.368-0.0032-0.002l-18.058-100.34z"
+    <path class="ori-nw" d="m166.83 84.55 59.371 141.65-141.65-59.368-0.0032-0.002l-18.058-100.34z"
       ng-click="${ctrl}.toggleOrientation('NW', ${model}, $event, '${filterName}')"
       ng-class="{ 'orientation-selected': ${model}.orientations.indexOf('NW') > -1 }"/>
-    <path id="ori-sw" d="m166.83 369.46 59.371-141.65-141.65 59.368-0.0032 0.002-18.058 100.34z"
+    <path class="ori-sw" d="m166.83 369.46 59.371-141.65-141.65 59.368-0.0032 0.002-18.058 100.34z"
       ng-click="${ctrl}.toggleOrientation('SW', ${model}, $event, '${filterName}')"
       ng-class="{ 'orientation-selected': ${model}.orientations.indexOf('SW') > -1 }"/>
-    <path id="ori-ne" d="m369.46 166.83-141.65 59.371 59.368-141.65 0.002-0.002 100.34-18.058z"
+    <path class="ori-ne" d="m369.46 166.83-141.65 59.371 59.368-141.65 0.002-0.002 100.34-18.058z"
       ng-click="${ctrl}.toggleOrientation('NE', ${model}, $event, '${filterName}')"
       ng-class="{ 'orientation-selected': ${model}.orientations.indexOf('NE') > -1 }"/>
-    <text id="text-n" y="99.007141" x="212.0424" font-size="40">N</text>
-    <text id="text-s" y="385.00714" x="214.10295" font-size="40">S</text>
-    <text id="text-w" y="241.58344" x="64" font-size="40">W</text>
-    <text id="text-e" y="241.58344" x="358" font-size="40">E</text>
   </svg>
 </%def>
