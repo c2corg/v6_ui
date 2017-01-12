@@ -72,18 +72,22 @@ app.TrackDownloadController.prototype.downloadFeatures_ = function(
 
 
 /**
+ * @param {goog.events.Event | jQuery.Event} event
  * @export
  */
-app.TrackDownloadController.prototype.downloadGpx = function() {
+app.TrackDownloadController.prototype.downloadGpx = function(event) {
+  event.stopPropagation();
   this.downloadFeatures_(
     new ol.format.GPX(), '.gpx', 'application/gpx+xml');
 };
 
 
 /**
+ * @param {goog.events.Event | jQuery.Event} event
  * @export
  */
-app.TrackDownloadController.prototype.downloadKml = function() {
+app.TrackDownloadController.prototype.downloadKml = function(event) {
+  event.stopPropagation();
   this.downloadFeatures_(
     new ol.format.KML(), '.kml', 'application/vnd.google-earth.kml+xml');
 };
