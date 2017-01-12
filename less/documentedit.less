@@ -580,14 +580,14 @@ input[type="radio"] {
   }
 }
 
-#orientation-svg {
+.orientation-svg {
   width: 100%;
   @media @tablet {
     width: 90%;
   }
 
-  #ori-n, #ori-s, #ori-w, #ori-e, #ori-se, #ori-ne, #ori-sw, #ori-nw {
-    fill: gray;
+  path {
+    fill: darkgray;
 
     &.orientation-selected {
       fill: @bright-green;
@@ -600,9 +600,13 @@ input[type="radio"] {
   }
 }
 
-.form-group,
-.filter.orientation {
-  #ori-n, #ori-s, #ori-w, #ori-e, #ori-se, #ori-ne, #ori-sw, #ori-nw {
+.form-group .orientation-svg,
+.filter.orientation .orientation-svg {
+  path {
+    fill: gray;
+  }
+
+  path, text, g {
     cursor: pointer;
     transition: 0.3s ease-in-out;
 
