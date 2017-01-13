@@ -1,6 +1,4 @@
 from c2corg_common.document_types import XREPORT_TYPE
-# from c2corg_ui.caching import cache_document_detail
-from c2corg_ui.caching import cache_document_detail
 from c2corg_ui.views import call_api, get_with_etag
 from pyramid.httpexceptions import HTTPInternalServerError
 from pyramid.renderers import render
@@ -64,18 +62,8 @@ class Xreport(Document):
                 self.request
             )
 
-        # def load_data(old_api_cache_key=None):
-        #     not_modified, api_cache_key, document_and_locale = \
-        #         self._get_xreport_info(id, lang, old_api_cache_key)
-        #     return not_modified, api_cache_key, document_and_locale
-
-        # render page vytvari stranku pomoci xreportu BEZ privatnich dat
-        # return self._get_or_create(
-        #     (id, lang), cache_document_detail, load_data, render_page,
-        #     self._get_cache_key)
         return self._get_or_create_detail(id, lang, render_page)
 
-    # /%s/info .. , lang
     def _get_xreport_info(self, id, lang, old_api_cache_key=None):
         url = '%s/%d' % (self._API_ROUTE, id)
         not_modified, api_cache_key, document = get_with_etag(

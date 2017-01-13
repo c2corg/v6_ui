@@ -187,7 +187,7 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
             <div class="date form-group" ng-init="openDateStart = false; xreport.date_start = xreport.date " ng-class="{ 'has-error': editForm.date.$touched && editForm.date.$invalid,'has-success': xreport.date }">
               <label><span translate>date_start</span> *</label>
               <div class="input-group" ng-model="xreport.date" uib-datepicker-popup="dd MM yyyy" is-open="openDateStart" ng-change="xreport.date_start = xreport.date">
-                <input type="text" disabled class="form-control" value="{{xreport.date | amDateFormat:'Do MMMM YYYY' }}" required/>
+                <input type="text" disabled class="form-control" value="{{xreport.date | amDateFormat:'Do MMMM YYYY' }}"/>
                 <span class="input-group-btn">
                   <button type="button" class="btn btn-default" ng-click="openDateStart = true"><span class="glyphicon glyphicon-calendar"></span></button>
                 </span>
@@ -353,8 +353,6 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
               <textarea name="description" ng-model="xreport.locales[0].description" class="form-control description"></textarea>
             </div>
 
-            <p>TEST</p>
-
             ## ASSOCIATED PARTICIPANTS
             ## TODO better to show all users in one row, will have to convert users in controller.
             <div id="participants-group" class="form-group  full" ng-class="{'has-success': xreport.locales[0]['participants']}">
@@ -394,91 +392,91 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
             ## place
             <div id="place-group" class="form-group full">
               <label translate>place</label>
-              <textarea name="description" min="10" ng-minlength="10" ng-model="xreport.locales[0].place" class="form-control"></textarea>
+              <textarea name="description" ng-model="xreport.locales[0].place" class="form-control"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].place"></span>
             </div>
 
             ## route_study
             <div id="route_study-group" class="form-group full">
               <label translate>route_study</label>
-              <textarea name="route_study" min="10" ng-minlength="10" ng-model="xreport.locales[0].route_study" class="form-control"></textarea>
+              <textarea name="route_study" ng-model="xreport.locales[0].route_study" class="form-control"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].route_study"></span>
             </div>
 
             ## conditions
             <div id="conditions-group" class="form-group full">
               <label translate>conditions</label>
-              <textarea name="conditions" min="10" ng-minlength="10" ng-model="xreport.locales[0].conditions" class="form-control"></textarea>
+              <textarea name="conditions" ng-model="xreport.locales[0].conditions" class="form-control"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].conditions"></span>
             </div>
 
             ## training
             <div id="training-group" class="form-group full">
               <label translate>training</label>
-              <textarea name="training" min="10" ng-minlength="10" ng-model="xreport.locales[0].training" class="form-control"></textarea>
+              <textarea name="training" ng-model="xreport.locales[0].training" class="form-control"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].training"></span>
             </div>
 
             ## motivations
             <div id="motivations-group" class="form-group full">
               <label translate>motivations</label>
-              <textarea name="motivations" min="10" ng-minlength="10" ng-model="xreport.locales[0].motivations" class="form-control"></textarea>
+              <textarea name="motivations" ng-model="xreport.locales[0].motivations" class="form-control"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].motivations"></span>
             </div>
 
             ## group_management
             <div id="group_management-group" class="form-group full">
               <label translate>group_management</label>
-              <textarea name="group_management" min="10" ng-minlength="10" ng-model="xreport.locales[0].group_management" class="form-control"></textarea>
+              <textarea name="group_management" ng-model="xreport.locales[0].group_management" class="form-control"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].group_management"></span>
             </div>
 
             ## risk
             <div id="risk-group" class="form-group full">
               <label translate>risk</label>
-              <textarea name="risk" min="10" ng-minlength="10" ng-model="xreport.locales[0].risk" class="form-control"></textarea>
+              <textarea name="risk" ng-model="xreport.locales[0].risk" class="form-control"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].risk"></span>
             </div>
 
             ## time_management
             <div id="time_management-group" class="form-group full">
               <label translate>time_management</label>
-              <textarea name="time_management" min="10" ng-minlength="10" ng-model="xreport.locales[0].time_management" class="form-control"></textarea>
+              <textarea name="time_management" ng-model="xreport.locales[0].time_management" class="form-control"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].time_management"></span>
             </div>
 
             ## safety
             <div id="safety-group" class="form-group full">
               <label translate>safety</label>
-              <textarea name="safety" min="10" ng-minlength="10" ng-model="xreport.locales[0].safety" class="form-control"></textarea>
+              <textarea name="safety" ng-model="xreport.locales[0].safety" class="form-control"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].safety"></span>
             </div>
 
             ## reduce_impact
             <div id="reduce_impact-group" class="form-group full">
               <label translate>reduce_impact</label>
-              <textarea name="reduce_impact" min="10" ng-minlength="10" ng-model="xreport.locales[0].reduce_impact" class="form-control"></textarea>
+              <textarea name="reduce_impact" ng-model="xreport.locales[0].reduce_impact" class="form-control"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].reduce_impact"></span>
             </div>
 
             ## increase_impact
             <div id="increase_impact-group" class="form-group full">
               <label translate>increase_impact</label>
-              <textarea name="increase_impact" min="10" ng-minlength="10" ng-model="xreport.locales[0].increase_impact" class="form-control"></textarea>
+              <textarea name="increase_impact" ng-model="xreport.locales[0].increase_impact" class="form-control"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].increase_impact"></span>
             </div>
 
             ## modifications
             <div id="modifications-group" class="form-group full">
               <label translate>modifications</label>
-              <textarea name="modifications" min="10" ng-minlength="10" ng-model="xreport.locales[0].modifications" class="form-control"></textarea>
+              <textarea name="modifications" ng-model="xreport.locales[0].modifications" class="form-control"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].modifications"></span>
             </div>
 
             ## other_comments
             <div id="other_comments-group" class="form-group full">
               <label translate>other_comments</label>
-              <textarea name="other_comments" min="10" ng-minlength="10" ng-model="xreport.locales[0].other_comments" class="form-control"></textarea>
+              <textarea name="other_comments" ng-model="xreport.locales[0].other_comments" class="form-control"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].other_comments"></span>
             </div>
 

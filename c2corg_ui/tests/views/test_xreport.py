@@ -50,19 +50,3 @@ def xreport_detail_mock(url, request):
         request,
         os.path.join(base_path, 'data', 'xreport.json'),
         'W/"735574-fr-1"')
-
-#
-# @all_requests
-# def xreport_info_mock(url, request):
-#     return handle_mock_request(
-#         request,
-#         os.path.join(base_path, 'data', 'xreport_private.json'),
-#         'W/"123-fr-2"')
-#
-#
-# @all_requests
-# def xreport_info_new_mock(url, request):
-#     return handle_mock_request(
-#         request,
-#         os.path.join(base_path, 'data', 'xreport_private.json'),
-#         'W/"123-fr-3"')

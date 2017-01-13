@@ -383,10 +383,6 @@ app.Authentication.prototype.needAuthorization = function(method, url) {
     return true;
   }
 
-// TODO delete console.log(url + this.apiUrl_ + '...' + this.isAuthenticated());
-// authservice.js:335 WARNING: added auth header to unsecure request to
-// http://localhost:6548/xreports/826205?l=en&e=1
-
   if (url.indexOf('/xreports') !== -1 && this.isAuthenticated()) {
     // forward auth header if user is authenticated
     return true;
