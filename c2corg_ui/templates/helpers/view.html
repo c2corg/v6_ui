@@ -817,7 +817,7 @@
 
 <%def name="show_track_download(document)">\
   % if document.get('geometry') and document.get('geometry').get('geom_detail'):
-    <p>
+    <p class="hidden-print">
       <span translate class="value-title">Download track as</span><br>
       <app-track-download></app-track-download>
     </p>
