@@ -381,12 +381,20 @@
 
 .section.associations, .view-details-associations, .list {
   .list-item {
-    flex-basis: 48%;
-    @media (min-width: @large-width){
-      flex-basis: 32%;
+    @media (min-width: 2400px) {
+      flex-basis: 16% !important;
     }
-    @media (min-width: 2100px) {
-      flex-basis: 24%;
+    @media (max-width: 2400px) {
+      flex-basis: 19% !important;
+    }
+    @media (max-width: 2100px) {
+      flex-basis: 24% !important;
+    }
+    @media (max-width: @large-width) {
+      flex-basis: 32% !important;
+    }
+    @media (max-width: @tablet-max) {
+      flex-basis: 48% !important;
     }
     @media (max-width: 900px) {
       flex-basis: 100% !important;
