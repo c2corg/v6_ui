@@ -130,7 +130,7 @@ from c2corg_common.attributes import default_langs, quality_types, activities, b
             ## isbn
             <div class="form-group half half-group">
               <label translate>isbn</label>
-              <input type="text" ng-minlength="9" ng-maxlength="13" name="isbn" ng-model="book.isbn" class="form-control" />
+              <input type="text" ng-minlength="9" ng-maxlength="17" name="isbn" ng-model="book.isbn" class="form-control" />
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="book.isbn"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.isbn.$invalid && editForm.isbn.$touched"></span>
               <div class="help-block" ng-messages="editForm.isbn.$error">
