@@ -241,7 +241,7 @@
 
 ## GLACIER GEAR
 <%def name="get_route_glacier_gear(route)">\
-  % if route.get('glacier_gear'):
+  % if route.get('glacier_gear') and route.get('glacier_gear') != 'no':
     <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
       <h4><span translate>gear</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
       <div class="name-icon">
