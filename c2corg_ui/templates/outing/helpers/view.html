@@ -256,46 +256,6 @@
 
 <%def name="create_conditions_levels_tables(conditions)">\
   <label translate>conditions_levels</label>
-  <div class="show-only-mobile conditions-levels">
-    % for condition in conditions:
-      <%
-          level = 'level_place' and condition.get('level_place')
-          comment = 'level_comment' and condition.get('level_comment')
-          total_snow = 'level_snow_height_total' in condition and condition['level_snow_height_total'] != '' and condition['level_snow_height_total']
-          soft_snow = 'level_snow_height_soft' in condition and condition['level_snow_height_soft'] != '' and condition['level_snow_height_soft'] is not None
-      %>
-      <div class="condition">
-        % if level:
-          <p class="key">
-            <span translate>location</span> |
-            <span translate>altitude</span> |
-            <span translate>orientations</span>
-          </p>
-          <p class="val">${condition['level_place']}</p>
-        % endif
-        <div class="snow">
-          <p class="key" translate>soft snow</p>
-          % if soft_snow:
-            <p class="val">${condition['level_snow_height_soft']} cm<p>
-          % else:
-            <p  class="val" translate>no info</p>
-          % endif
-        </div>
-        <div class="snow">
-          <p class="key" translate>total snow</b></p>
-          % if total_snow:
-            <p  class="val">${condition['level_snow_height_total']} cm}</p>
-          % else:
-            <p  class="val" translate>no info</p>
-          % endif
-        </div>
-        % if comment:
-          <p class="key" translate>comment</p>
-          <p class="val">${condition['level_comment']}</p>
-        % endif
-      </div>
-    % endfor
-  </div>
   <table class="table table-striped conditions-levels">
     <thead>
       <tr>
@@ -320,22 +280,22 @@
       <tr>
         ## print empty td for alignement
         % if level:
-          <td>${condition['level_place']}</td>
+          <td ng-attr-data-title="{{ ('location' | translate) + ' | ' + ('altitude' | translate) + ' | ' + ('orientations' | translate) }}">${condition['level_place']}</td>
         % else:
           <td></td>
         % endif
         % if soft_snow:
-          <td>${condition['level_snow_height_soft']} cm</td>
+          <td ng-attr-data-title="{{ 'soft snow' | translate}}">${condition['level_snow_height_soft']} cm</td>
         % else:
           <td></td>
         % endif
         % if total_snow:
-          <td>${condition['level_snow_height_total']} cm</td>
+          <td ng-attr-data-title="{{ 'total snow' | translate}}">${condition['level_snow_height_total']} cm</td>
         % else:
           <td></td>
         % endif
         % if comment:
-          <td >${condition['level_comment']}</td>
+          <td ng-attr-data-title="{{ 'comment' | translate}}">${condition['level_comment']}</td>
         % else:
           <td></td>
         % endif
