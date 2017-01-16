@@ -144,14 +144,6 @@ other_langs, missing_langs = get_lang_lists(route, lang)
             <label translate>Add association</label>
             <app-add-association parent-id="${route_id}" parent-doctype="routes" dataset="wrcb"></app-add-association>
           </div>
-          % if len(route['associations']['recent_outings']['documents']) == 0:
-            <div class="add-outing">
-              <p class="text-center"><strong translate>no outings yet?</strong><p>
-                <button type="button" class="btn gray-btn" protected-url-btn
-                        url="${request.route_path('outings_add')}#r=${route_id}"
-                        translate>add a new one to this document</button>
-            </div>
-          % endif
           ${show_associated_waypoints(route)}
           ${show_associated_routes(route)}
           ${show_associated_articles(route)}
@@ -160,15 +152,13 @@ other_langs, missing_langs = get_lang_lists(route, lang)
       </span>
     </div>
 
-    % if 'recent_outings' in route['associations'] and route['associations']['recent_outings']['total'] > 0:
-      <div class="view-details-associations col-xs-12  associations">
-        <span class="lead">
-          <section>
-            ${show_associated_outings(route)}
-          </section>
-        </span>
-      </div>
-    % endif
+    <div class="view-details-associations col-xs-12  associations">
+      <span class="lead">
+        <section>
+          ${show_associated_outings(route)}
+        </section>
+      </span>
+    </div>
 
   ${get_comments()}
 
