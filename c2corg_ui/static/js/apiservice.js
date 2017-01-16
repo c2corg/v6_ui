@@ -582,8 +582,10 @@ app.Api.prototype.createTopic = function(document_id, lang) {
     'document_id': document_id,
     'lang': lang
   });
-  promise.catch(this.errorSaveDocument_.bind(this));
-  return promise;
+  return promise.catch(function(response) {
+    this.errorSaveDocument_(response);
+    return this.q_.reject(response);
+  }.bind(this));
 };
 
 
