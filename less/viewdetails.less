@@ -235,33 +235,44 @@
     }
     .conditions-levels {
       font-size: .9em;
-      @media @phone {
-        display: none;
-      }
-      .condition {
-        overflow: hidden;
-        background-color: #f8f8f8;
-        margin-bottom: 30px;
-        border-radius: 5px;
-        border: 1px solid #acacac;
-
-        .key {
-          background-color: #7a979b;
-          color: white !important;
-          padding: 3px 10px;
-        }
-        .val {
-          padding-left: 10px;
-        }
-        .snow:first-of-type {
-          width: 50%;
-          float: left;
-        }
-      }
-      th, .key {
+      th {
         line-height: 16px;
         color: #8D8D8D;
         font-variant: small-caps;
+      }
+
+      @media @phone {
+        thead {
+          display: none;
+        }
+        tbody,
+        tr,
+        th,
+        td {
+          display: block;
+          padding: 0;
+          text-align: left;
+          white-space: normal;
+        }
+        tr {
+          overflow: hidden;
+          margin-bottom: 30px;
+          border-radius: 5px;
+          border: 1px solid #acacac;
+        }
+        td {
+          border-top: 0;
+          padding-left: 10px;
+        }
+        td[data-title]:before {
+          content: attr(data-title);
+          display: block;
+          background-color: #7a979b;
+          color: white;
+          padding: 3px 10px;
+          margin-left: -10px;
+          font-variant: small-caps;
+        }
       }
     }
   }
