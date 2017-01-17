@@ -38,6 +38,14 @@ app.XreportEditingController = function($scope, $element, $attrs, $http,
    */
   this.today = new Date();
 
+  if (this.auth.isAuthenticated()) {
+
+    this.scope[this.modelName]['associations']['users'].push({
+      'document_id': this.auth.userData.id,
+      'name': this.auth.userData.name
+    });
+  }
+
 };
 
 goog.inherits(app.XreportEditingController, app.DocumentEditingController);

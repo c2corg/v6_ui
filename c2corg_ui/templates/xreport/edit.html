@@ -22,7 +22,7 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
   </h1>
 
   <form app-loading app-document-editing="xreports" app-document-editing-model="xreport"
-    app-document-editing-controller-name="appDocumentEditingController"
+    app-document-editing-controller-name="appXreportEditingController"
   % if updating_doc:
     app-document-editing-id="${xreport_id}" app-document-editing-lang="${xreport_lang}"
   % endif
@@ -160,21 +160,20 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
             </div>
 ##             </section>
 
+          </div>
+        </section>
 
-##             ASSOCIATIONS
-            <section class="section associations">
-##               <h2 class="heading show-phone"><span translate>associations</span></h2>
-              <h5 class="full" translate ng-show="editCtrl.documentService.document.associations.xreport.length == 0 && editCtrl.documentService.document.associations.xreport.length == 0">
-                You can add associated documents by searching in the field.
-              </h5>
-              <div class="content route-associations">
-                <app-simple-search parent-id="route.document_id"
-                  app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="wr"></app-simple-search>
-                ${show_editing_associated_waypoints('xreport')}
-                ${show_editing_associated_routes('xreport')}
-              </div>
-            </section>
-
+        ## ASSOCIATIONS
+        <section class="section associations">
+          <h2 class="heading show-phone"><span translate>associations</span></h2>
+          <h5 class="full" translate ng-show="editCtrl.documentService.document.associations.routes.length == 0 && editCtrl.documentService.document.associations.waypoints.length == 0">
+            You can add associated documents by searching in the field.
+          </h5>
+          <div class="content route-associations">
+            <app-simple-search parent-id="xreport.document_id"
+              app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="wr"></app-simple-search>
+            ${show_editing_associated_waypoints('xreport')}
+            ${show_editing_associated_routes('xreport')}
           </div>
         </section>
 
@@ -354,24 +353,20 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
             </div>
 
             ## ASSOCIATED PARTICIPANTS
-            ## TODO better to show all users in one row, will have to convert users in controller.
-            <div id="participants-group" class="form-group  full" ng-class="{'has-success': xreport.locales[0]['participants']}">
+            ## TODO better to show all users in one row, will have to convert users in controller.  ng-class="{'has-success': xreport.locales[0]['participants']}"
+            <div id="participants-group" class="form-group  full">
               <label translate>associated_participants</label>
 
-              <section class="section associations" ng-show="xreport.associations.users.length > 0">
-                <app-simple-search parent-id="report.document_id"
+              <section class="section associations">
+                <app-simple-search parent-id="xreport.document_id"
                                    app-select="editCtrl.documentService.pushToAssociations(doc, 'users')" dataset="u"></app-simple-search>
                 <section class="associated-section flex wrap-row">
                   <h5 translate ng-show="xreport.associations.users.length == 0">You can look up for users that were with you during the accident.</h5>
-                  <div class="list-item outings new-item" ng-repeat="user in xreport.associations.users">
-                    <a>
-                      <div class="outing-author text-center">
-                        <span class="icon-user"></span><br>
-                      </div>
-                      <div class="list-item-info">
-                        <span class="list-item-title outing">{{user.name}}</span>
-                      </div>
-                    </a>
+                    <div class="list-item users new-item" ng-repeat="user in xreport.associations.users track by user.name">
+                      <app-card app-card-doc="{'name': user['name'], 'type': 'u', 'locales': [] }"></app-card>
+                      <span class="glyphicon glyphicon-trash"
+                            ng-click="editCtrl.documentService.removeAssociation(user.document_id, 'users', $event)"
+                            ng-show="xreport.associations.users.length > 1"></span>
                     <span class="glyphicon glyphicon-trash"
                           ng-click="editCtrl.documentService.removeAssociation(user.document_id, 'users', $event)"
                           ng-show="xreport.associations.users.length > 1"></span>
