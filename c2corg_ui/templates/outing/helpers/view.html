@@ -204,10 +204,10 @@
         <p><b class="value-title" translate>elevation_access</b>:  <span class="value">${outing['elevation_access']}&nbsp;m</span></p>
         % endif
 
-       ${get_document_up_down(outing, 'height_diff')}
+        ${get_document_up_down(outing, 'height_diff')}
 
         % if outing.get('length_total'):
-        <p><span class="value-title" translate>length_total</span>: <span class="value">${outing['length_total']}&nbsp;m</span></p>
+        <p><span class="value-title" translate>length_total</span>: <span class="value">${outing['length_total']/1000}&nbsp;km</span></p>
         % endif
       </span>
     </div>

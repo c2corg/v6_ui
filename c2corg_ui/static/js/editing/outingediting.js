@@ -105,6 +105,8 @@ app.OutingEditingController.prototype.successRead = function(response) {
     if (!this.differentDates) {
       outing['date_end'] = undefined;
     }
+    // Length attributes are stored in meters but shown in kilometers:
+    outing['length_total'] /= 1000;
   } else {
     this.alerts.addError('You have no rights to edit this document.');
     setTimeout(function() { // redirect to the details-view page
@@ -122,7 +124,10 @@ app.OutingEditingController.prototype.successRead = function(response) {
  */
 app.OutingEditingController.prototype.prepareData = function(data) {
   // adapt the Object for what's expected on the API side + format the outing
+  this.submit = true;
   this.formatOuting_(/** @type appx.Outing */ (data));
+  // Length attributes are stored in meters but shown in kilometers:
+  data['length_total'] *= 1000;
   return data;
 };
 
