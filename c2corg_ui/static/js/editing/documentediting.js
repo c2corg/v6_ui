@@ -206,6 +206,17 @@ app.DocumentEditingController = function($scope, $element, $attrs, $http,
 
 
 /**
+ * @param {appx.Document} data
+ * @return {appx.Document}
+ * @public
+ */
+app.DocumentEditingController.prototype.filterData = function(data) {
+  // To be overridden in child classes
+  return data;
+};
+
+
+/**
  * @param {Object} response Response from the API server.
  * @public
  */
@@ -218,6 +229,8 @@ app.DocumentEditingController.prototype.successRead = function(response) {
   }).bind(this);
 
   this.documentService.setAssociations(data['associations']);
+
+  data = this.filterData(data);
 
   if ('geometry' in data && data['geometry']) {
     var geometry = data['geometry'];
@@ -238,10 +251,7 @@ app.DocumentEditingController.prototype.successRead = function(response) {
     data['locales'].push({'lang': this.lang_});
     this.isNewLang_ = true;
   }
-  // image's date has to be converted to Date object because uib-datepicker will treat it as invalid -> invalid form.
-  if (this.modelName === 'image') {
-    data['date_time'] = new Date(data['date_time']);
-  }
+
   this.scope[this.modelName] = this.scope['document'] = this.documentService.document = data;
   this.scope.$root.$emit('documentDataChange', data);
 };
@@ -557,11 +567,11 @@ app.DocumentEditingController.prototype.preview = function() {
     }
   };
   var url = '/' + this.module_ + '/preview';
-  var payload = {
-    'document': angular.copy(this.scope[this.modelName])
+  var data = angular.copy(this.scope[this.modelName]);
+  data = {
+    'document': this.prepareData(data)
   };
-  // TODO: loading indicator?
-  this.http_.post(url, payload, config).
+  this.http_.post(url, data, config).
     catch(function(response) {
       this.alerts.addError('A server error prevented creating the preview');
     }.bind(this)).

@@ -56,6 +56,20 @@ goog.inherits(app.ImageEditingController, app.DocumentEditingController);
 
 
 /**
+ * @param {appx.Document} data
+ * @return {appx.Document}
+ * @override
+ * @public
+ */
+app.ImageEditingController.prototype.filterData = function(data) {
+  // Image's date has to be converted to Date object because uib-datepicker
+  // will treat it as invalid -> invalid form.
+  data['date_time'] = new Date(data['date_time']);
+  return data;
+};
+
+
+/**
  * @param {number} value
  * @export
  */
