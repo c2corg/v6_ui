@@ -6,7 +6,8 @@ from pyramid.renderers import render
 
 from c2corg_ui.caching import cache_document_detail, CachedPage, \
     cache_document_archive, cache_document_history, \
-    cache_document_diff, get as cache_get, set as cache_set
+    cache_document_diff
+from c2corg_common.utils.caching import get as cache_get, set as cache_set
 from c2corg_ui import caching
 from c2corg_ui.diff.differ import diff_documents
 from shapely.geometry import asShape

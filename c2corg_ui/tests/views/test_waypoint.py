@@ -6,6 +6,7 @@ from httmock import HTTMock, all_requests
 
 from c2corg_ui.caching import cache_document_detail, CachedPage
 from c2corg_ui import caching
+from c2corg_common.utils import caching as caching_common
 from c2corg_ui.tests.views import BaseTestUi, handle_mock_request
 from c2corg_ui.views.waypoint import Waypoint
 
@@ -148,7 +149,7 @@ class TestWaypointUi(BaseTestUi):
                'set.side_effect': Exception('Redis down')})
 
         with document_cache_mock as mock, HTTMock(waypoint_detail_mock):
-            caching.cache_status.request_failure()
+            caching_common.cache_status.request_failure()
 
             self.app.get(url, status=200)
             self.assertFalse(mock.get.called)
