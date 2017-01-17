@@ -60,7 +60,6 @@
     padding: 10px;
 
     @media @phone {
-      font-size: 0.9em;
       padding: 7px;
     }
 
@@ -77,7 +76,7 @@
 
   .list-item-lang {
     opacity: 0.9;
-    color: graytext;
+    color: @darkgray;
     white-space: nowrap;
     font-weight: normal;
   }
@@ -86,7 +85,7 @@
   }
   .list-item-title {
     font-weight: bold;
-    color: graytext;
+    color: @darkgray;
     margin-right: 5px;
     p {
       line-height: normal;
@@ -111,8 +110,7 @@
   .list-item-info {
     margin: auto;
     height: 100%;
-    width: 100%;
-    font-size: 0.9em;
+    width: 100;
     text-decoration: none;
     color: #919191;
     font-weight: normal;
@@ -171,9 +169,6 @@
   .activities .activity {
     font-size: 2.5em;
     color: @C2C-orange;
-    @media @phone {
-      font-size: 2.5em;
-    }
   }
   .set-main-waypoint {
     margin-left: 10px;
@@ -186,11 +181,10 @@
   &.waypoints {
 
     .waypoint-type {
-      font-size: 3em;
+      font-size: 2.5em;
       color: @C2C-orange;
       margin-right: 0;
       @media @phone {
-        font-size: 2.5em;
         margin-left: 10px;
       }
     }
@@ -215,11 +209,10 @@
   &.books {
     .author {
       line-height: normal;
-      font-size: 13px;
       .calc(width, "100% - 30px");
     }
     .glyphicon-pencil {
-      color: #a9a9a9 !important;
+      color: @lightgray !important;
     }
     .book-type {
       color: @bright-green;
@@ -254,8 +247,8 @@
       font-size: 3em;
       padding-right: 5px;
       float: left;
-      font-size: 25px;
-      color: #b2bcc4 !important;
+      font-size: 1.8em;
+      color: @gray !important;
     }
     .activities {
       margin-right: 5px;
@@ -269,14 +262,11 @@
     .author-name {
       font-weight: bold;
     }
-    .glyphicon-time {
-      font-size: 14px;
-    }
     .list-item-info {
       margin: inherit;
     }
     .outing-author {
-      color: gray;
+      color: @gray;
       align-items: flex-end;
       .flex();
     }
@@ -298,7 +288,7 @@
     }
     .icon-user {
       font-size: 2.5em;
-      color: gray !important;
+      color: @gray !important;
     }
     button {
       float: right;
@@ -338,7 +328,7 @@
 }
 
 .documents-list-section, .not-found-section {
-  background-color: @lightgrey;
+  background-color: @lightgray;
   overflow: auto;
   flex-basis: @list-width;
   transition: .3s;
@@ -381,7 +371,7 @@
 }
 
 .section.associations .list-item, .view-details-section .list-item {
-
+  font-size: 0.9em;
   &.new-outing a, &.new-route a {
     .flex();
     align-items: center;
@@ -404,7 +394,7 @@
 #feed .list-item {
   margin-left: 0;
   margin-top: 10px;
-
+  font-size: 0.9em;
   .list-item-info {
     min-height: 60px;
   }
@@ -424,7 +414,7 @@
     .icon-user {
       margin-bottom: 5px;
       width: 100%;
-      font-size: 30px;
+      font-size: 1.4em;
       text-align: center;
     }
     .outing-author, .date {
@@ -459,4 +449,5 @@
   padding-left: 10px;
   padding-right: 10px;
   margin: 0;
+  font-size: 0.9em;
 }
