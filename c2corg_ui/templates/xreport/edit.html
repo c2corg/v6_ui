@@ -183,9 +183,9 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
           <div class="content collapse in">
 
             ## DATE
-            <div class="date form-group" ng-init="openDateStart = false; xreport.date_start = xreport.date " ng-class="{ 'has-error': editForm.date.$touched && editForm.date.$invalid,'has-success': xreport.date }">
-              <label><span translate>date_start</span> *</label>
-              <div class="input-group" ng-model="xreport.date" uib-datepicker-popup="dd MM yyyy" is-open="openDateStart" ng-change="xreport.date_start = xreport.date">
+            <div class="date form-group" ng-init="openDateStart = false" ng-class="{ 'has-error': editForm.date.$touched && editForm.date.$invalid,'has-success': xreport.date }">
+              <label><span translate>date</span> *</label>
+              <div class="input-group" ng-model="xreport.date" uib-datepicker-popup="dd MM yyyy" is-open="openDateStart">
                 <input type="text" disabled class="form-control" value="{{xreport.date | amDateFormat:'Do MMMM YYYY' }}"/>
                 <span class="input-group-btn">
                   <button type="button" class="btn btn-default" ng-click="openDateStart = true"><span class="glyphicon glyphicon-calendar"></span></button>

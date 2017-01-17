@@ -32,6 +32,13 @@ app.XreportEditingController = function($scope, $element, $attrs, $http,
           appLang, appAuthentication, ngeoLocation, appAlerts, appApi,
           authUrl, appDocument, appUrl, imageUrl);
 
+    /**
+   * Start cannot be after today nor end_date.
+   * @type {Date}
+   * @export
+   */
+  this.dateMaxStart = new Date();
+
   /**
    * @type {Date}
    * @export
