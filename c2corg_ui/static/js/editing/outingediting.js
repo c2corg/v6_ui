@@ -123,9 +123,7 @@ app.OutingEditingController.prototype.successRead = function(response) {
  * @public
  */
 app.OutingEditingController.prototype.prepareData = function(data) {
-  // adapt the Object for what's expected on the API side + format the outing
-  this.submit = true;
-  this.formatOuting_(/** @type appx.Outing */ (data));
+  this.formatOuting_(/** @type appx.Outing */ (data), true);
   // Length attributes are stored in meters but shown in kilometers:
   data['length_total'] *= 1000;
   return data;
@@ -133,15 +131,17 @@ app.OutingEditingController.prototype.prepareData = function(data) {
 
 
 /**
- * @param {Object} outing
+ * @param {appx.Outing} outing
+ * @param {boolean=} submit
  * better edit-form checking before saving
  * @private
  */
-app.DocumentEditingController.prototype.formatOuting_ = function(outing) {
-  if (this.submit) {
+app.OutingEditingController.prototype.formatOuting_ = function(outing, submit) {
+  if (submit) {
     // transform condition_levels to a string
     if (typeof outing.locales[0]['conditions_levels'] !== 'string') {
-      outing.locales[0]['conditions_levels'] = JSON.stringify(outing['locales'][0]['conditions_levels']);
+      outing.locales[0]['conditions_levels'] =
+        JSON.stringify(outing['locales'][0]['conditions_levels']);
     }
     if (outing.date_start instanceof Date) {
       outing.date_start = window.moment(outing.date_start).format('YYYY-MM-DD');
@@ -187,7 +187,6 @@ app.DocumentEditingController.prototype.formatOuting_ = function(outing) {
     }
   }
 
-  this.submit = false;
   return outing;
 };
 

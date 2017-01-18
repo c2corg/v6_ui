@@ -144,12 +144,6 @@ app.DocumentEditingController = function($scope, $element, $attrs, $http,
   this.alerts = appAlerts;
 
   /**
-   * @type {boolean}
-   * @public
-   */
-  this.submit = false;
-
-  /**
    * @type {app.Api}
    * @private
    */
@@ -314,8 +308,6 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
     delete data['lonlat'];
     delete data['read_lonlat'];
   }
-
-  this.submit = true;
 
   if (this.id) {
     // updating an existing document
