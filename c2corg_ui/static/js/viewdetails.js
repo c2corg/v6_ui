@@ -334,10 +334,16 @@ app.ViewDetailsController.prototype.createTopic = function() {
   var lang = document.lang;
   this.api_.createTopic(document_id, lang).then(function(resp) {
     var topic_id = resp['data']['topic_id'];
-    this.documentService.document.topic_id = topic_id;
-    this.getComments();
     var url = this.discourseUrl_ + 't/' + document_id + '_' + lang + '/' + topic_id;
     window.location = url;
+  }.bind(this), function(resp) {
+    if (resp.status == 400) {
+      var topic_id = resp['data']['errors'][0]['topic_id'];
+      if (topic_id != undefined) {
+        this.documentService.document.topic_id = topic_id;
+        this.getComments();
+      }
+    }
   }.bind(this));
 };
 
