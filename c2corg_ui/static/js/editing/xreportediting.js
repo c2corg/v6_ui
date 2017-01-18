@@ -49,12 +49,29 @@ app.XreportEditingController = function($scope, $element, $attrs, $http,
 
     this.scope[this.modelName]['associations']['users'].push({
       'document_id': this.auth.userData.id,
-      'name': this.auth.userData.name
+      'name': this.auth.userData.name,
+      'locales': [
+        {
+          'lang': this.auth.userData.lang
+        }
+      ]
     });
   }
 
 };
 
 goog.inherits(app.XreportEditingController, app.DocumentEditingController);
+
+
+/**
+* @param {appx.Document} data
+* @return {appx.Document}
+* @override
+* @public
+*/
+app.XreportEditingController.prototype.filterData = function(data) {
+  data['date'] = new Date(data['date']);
+  return data;
+};
 
 app.module.controller('appXreportEditingController', app.XreportEditingController);

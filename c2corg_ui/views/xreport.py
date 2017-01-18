@@ -1,4 +1,5 @@
 from c2corg_common.document_types import XREPORT_TYPE
+from c2corg_ui.caching import cache_document_detail
 from c2corg_ui.views import call_api, get_with_etag
 from pyramid.httpexceptions import HTTPInternalServerError
 from pyramid.renderers import render
@@ -47,11 +48,13 @@ class Xreport(Document):
         """
         id, lang = self._validate_id_lang()
 
-        def render_page(xreport, locale):
+        def render_page(xreport, locales):
+            locale = list(filter(lambda l: l['lang'] == lang, locales))
             self.template_input.update({
                 'lang': lang,
                 'xreport': xreport,
-                'locale': locale,
+                'locale': locale[0],
+                'locales': locales,
                 'geometry': self._get_geometry(xreport['geometry']['geom']),
                 'version': None
             })
@@ -62,10 +65,17 @@ class Xreport(Document):
                 self.request
             )
 
-        return self._get_or_create_detail(id, lang, render_page)
+        def load_data(old_api_cache_key=None):
+            not_modified, api_cache_key, document_and_locale = \
+                self._get_xreport_info(id, lang, old_api_cache_key)
+            return not_modified, api_cache_key, document_and_locale
+
+        return self._get_or_create(
+            (id, lang), cache_document_detail, load_data, render_page,
+            self._get_cache_key)
 
     def _get_xreport_info(self, id, lang, old_api_cache_key=None):
-        url = '%s/%d' % (self._API_ROUTE, id)
+        url = '%s/%d?%s' % (self._API_ROUTE, id, lang)
         not_modified, api_cache_key, document = get_with_etag(
             self.settings, url, old_api_cache_key)
 
