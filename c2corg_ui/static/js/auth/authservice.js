@@ -353,15 +353,10 @@ app.Authentication.prototype.addAuthorizationToHeaders = function(url,
  * @export
  */
 app.Authentication.prototype.needAuthorization = function(method, url) {
-
   if (url.indexOf(this.apiUrl_) === -1) {
-    // UI user data service
-    if (url.indexOf('/profiles/data') !== -1 && this.isAuthenticated()) {
-      // forward auth header if user is authenticated
-      return true;
-    }
-
-    if (url.indexOf('/xreports/data') !== -1 && this.isAuthenticated()) {
+    // UI user and xreport data service
+    if ((url.indexOf('/profiles/data') !== -1 ||
+        url.indexOf('/xreports/data') !== -1) && this.isAuthenticated()) {
       // forward auth header if user is authenticated
       return true;
     }
@@ -379,12 +374,8 @@ app.Authentication.prototype.needAuthorization = function(method, url) {
       url.indexOf('/users/mailinglists') !== -1 ||
       url.indexOf('/users/following') !== -1 ||
       url.indexOf('/profiles') !== -1 ||
-      url.indexOf('/personal-feed') !== -1) {
-    return true;
-  }
-
-  if (url.indexOf('/xreports') !== -1 && this.isAuthenticated()) {
-    // forward auth header if user is authenticated
+      url.indexOf('/personal-feed') !== -1 ||
+      url.indexOf('/xreports/') !== -1) {
     return true;
   }
 
