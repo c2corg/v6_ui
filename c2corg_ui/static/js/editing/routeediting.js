@@ -48,4 +48,33 @@ app.RouteEditingController = function($scope, $element, $attrs, $http,
 goog.inherits(app.RouteEditingController, app.DocumentEditingController);
 
 
+/**
+ * @param {appx.Document} data
+ * @return {appx.Document}
+ * @override
+ * @public
+ */
+app.RouteEditingController.prototype.filterData = function(data) {
+  // Length attributes are stored in meters but shown in kilometers:
+  data['route_length'] /= 1000;
+  data['mtb_length_asphalt'] /= 1000;
+  data['mtb_length_trail'] /= 1000;
+  return data;
+};
+
+
+/**
+ * @param {appx.Document} data Document attributes.
+ * @return {appx.Document}
+ * @override
+ * @public
+ */
+app.RouteEditingController.prototype.prepareData = function(data) {
+  // Length attributes are stored in meters but shown in kilometers:
+  data['route_length'] *= 1000;
+  data['mtb_length_asphalt'] *= 1000;
+  data['mtb_length_trail'] *= 1000;
+  return data;
+};
+
 app.module.controller('appRouteEditingController', app.RouteEditingController);
