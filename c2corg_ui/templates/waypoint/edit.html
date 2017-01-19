@@ -741,7 +741,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
 
             ## ACCESS
             <div class="form-group data full" ng-if="['access', 'local_product', 'climbing_outdoor'].indexOf(type) > -1">
-              <label translate>access</label>
+              <label translate>road access</label>
               <textarea name="access" ng-model="waypoint.locales[0].access" class="form-control" placeholder="{{'Describe access' | translate}}"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.locales[0].access"></span>
             </div>
