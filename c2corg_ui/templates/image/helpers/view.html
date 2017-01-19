@@ -47,7 +47,7 @@
       % endif
 
       % if image.get('date_time'):
-        <p><span class="value-title" translate>date_taken</span>: <span class="value">{{'${image['date_time']}' | amDateFormat:"Do MMMM YYYY"}}</span></p>
+        <p><span class="value-title" translate>date_taken</span>: <span class="value">{{'${image['date_time']}' | amUtc | amLocal | amDateFormat:'L LTS'}}</span></p>
       % endif
 
       % if image.get('author'):

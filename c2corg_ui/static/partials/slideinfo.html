@@ -6,7 +6,10 @@
     <p class="loading-infos loading-gif-typehead"></p>
     <div class="images-infos-container">
 
-      <p ng-show="date_time" class="date"><span class="glyphicon glyphicon-calendar"></span><span ng-bind="date_time | amDateFormat:'Do MMMM YYYY'"></span></p>
+      <p ng-show="date_time" class="date">
+        <span class="glyphicon glyphicon-calendar"></span>
+        <span ng-bind="date_time | amUtc | amLocal | amDateFormat:'L LTS'"></span>
+      </p>
       <p ng-show="locales[0].title" class="title"><span class="glyphicon glyphicon-tag"></span><span ng-bind="locales[0].title"></span></p>
       <p ng-show="locales[0].description" class="description" ng-bind="locales[0].description"></p>
       <p ng-show="image_type" class="image-type"><span class="glyphicon glyphicon-copyright-mark"></span><label x-translate ng-bind="image_type"></label></p>
