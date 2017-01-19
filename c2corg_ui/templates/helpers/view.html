@@ -414,7 +414,8 @@
   % for wp_category in ['waypoints', 'waypoint_children']:
     % if document.get('associations').get(wp_category):
       % for wp in document.get('associations').get(wp_category):
-        % if wp.get('geometry'):
+        % if wp.get('geometry') and \
+            not (document['doctype'] == 'routes' and wp['waypoint_type'] == 'virtual'):
           ,
           {
             "type": "Feature",
