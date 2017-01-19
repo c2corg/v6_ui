@@ -27,7 +27,9 @@ class Image(Document):
                 'lang': lang,
                 'image': image,
                 'locale': locale,
-                'geometry': self._get_geometry(image['geometry']['geom']),
+                'geometry':
+                    self._get_geometry(image['geometry']['geom']) if
+                    image.get('geometry') else None,
                 'version': None
             })
 
@@ -49,7 +51,9 @@ class Image(Document):
                 'lang': lang,
                 'image': image,
                 'locale': locale,
-                'geometry': self._get_geometry(image['geometry']['geom']),
+                'geometry':
+                    self._get_geometry(image['geometry']['geom']) if
+                    image.get('geometry') else None,
                 'version': version
             })
 
