@@ -23,8 +23,9 @@
         </span>
       </div>
 
-      <div class="quality" ng-if="::doc['quality']" ng-class="::doc['quality']"
-           uib-tooltip="{{'quality'| translate}} : {{doc['quality']| translate}}" tooltip-append-to-body="true"></div>
+      <div class="quality" ng-if="::doc['quality']" ng-class="'icon-'+::doc['quality']"
+           uib-tooltip="{{'quality' | translate}} : {{doc['quality'] | translate}}" tooltip-append-to-body="true">
+    </div>
     </div>
   </div>
 </a>
