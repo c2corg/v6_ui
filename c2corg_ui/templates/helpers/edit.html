@@ -43,6 +43,20 @@
   </section>
 </%def>
 
+<%def name="show_editing_associated_articles(model, hide_title = False)">\
+  <section ng-show="${model}.associations.articles.length > 0" class="associated-section">
+    % if not hide_title:
+      <label translate>Associated articles</label>
+    % endif
+    <article class="associated-documents">
+      <div class="list-item" ng-repeat="art in ${model}.associations.articles" ng-class="{'new-item': art['new']}">
+        <app-card app-card-doc="art" app-card-disable-click="true"></app-card>
+        <span class="glyphicon glyphicon-trash" ng-click="editCtrl.documentService.removeAssociation(art.document_id, 'routes', $event)"></span>
+      </div>
+    </article>
+  </section>
+</%def>
+
 <%def name="show_save_confirmation_modal(updating_doc)">\
   <section id="save-confirmation-modal">
     <h3 class="heading show-phone" translate>summary</h3>

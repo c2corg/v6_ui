@@ -78,6 +78,7 @@
 		}],
 		"routes": [],
 		"images": [],
+		"xreports": [],
 		"waypoints": [{
 			"elevation": 1275,
 			"protected": false,

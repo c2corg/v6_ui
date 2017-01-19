@@ -149,10 +149,9 @@ other_langs, missing_langs = get_lang_lists(xreport, lang)
         <div class="add-association"ng-show="userCtrl.auth.isAuthenticated()
           && userCtrl.hasEditRights('xreports', {'authorId': ${xreport['author']['user_id']}})">
           <label translate>Add association</label>
-          <app-add-association parent-doctype="xreports" parent-id="${xreport_id}" dataset="wrc"></app-add-association>
+          <app-add-association parent-doctype="xreports" parent-id="${xreport_id}" dataset="roc"></app-add-association>
         </div>
         <section>
-          ${show_associated_waypoints(xreport)}
           ${show_associated_routes(xreport)}
           ${show_associated_articles(xreport)}
           ${show_associated_outings(xreport)}
