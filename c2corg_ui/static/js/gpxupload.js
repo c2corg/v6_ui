@@ -7,7 +7,6 @@ goog.require('ngeo.filereaderDirective');
 goog.require('ol.format.GPX');
 goog.require('ol.Feature');
 goog.require('ol.geom.MultiLineString');
-goog.require('ol.geom.LineString');
 
 /**
  * This directive is used to display a GPX file upload button.
@@ -68,24 +67,10 @@ app.GpxUploadController = function($scope) {
  */
 app.GpxUploadController.prototype.validatedFeatures_ = function(features) {
   for (var i = 0; i < features.length; i++) {
-    /**
-     *
-     * @type {ol.geom.Geometry}
-     */
     var geom = /**@type{ol.geom.Geometry}*/ (features[i].getGeometry());
 
-    /**
-     *
-     * @type {ol.geom.GeometryType}
-     */
-    var geomType = geom.getType();
-
-    if (geomType === 'MultiLineString') {
+    if (geom instanceof ol.geom.MultiLineString) {
       var multiLineString = /**@type{ol.geom.MultiLineString}*/ (geom);
-      /**
-       *
-       * @type {Array.<ol.geom.LineString>}
-       */
       var lineStrings = multiLineString.getLineStrings();
 
       for (var j = 0; j < lineStrings.length; j++) {
@@ -97,10 +82,6 @@ app.GpxUploadController.prototype.validatedFeatures_ = function(features) {
         return n != undefined;
       });
 
-      /**
-       *
-       * @type {ol.geom.MultiLineString}
-       */
       var newMs = new ol.geom.MultiLineString([]);
       newMs.setLineStrings(lineStrings);
       features[i].setGeometry(newMs);
@@ -123,10 +104,6 @@ app.GpxUploadController.prototype.importGpx_ = function(gpx) {
     features = this.validatedFeatures_(features);
     if (features) {
       this.scope_.$root.$emit('featuresUpload', features);
-    } else {
-      if (goog.DEBUG) {
-        console.error('Fatal : failed to validate geometry');
-      }
     }
   }
 };
