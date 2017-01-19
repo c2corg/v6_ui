@@ -379,14 +379,27 @@ app.ImageUploaderController.prototype.setExifData_ = function(file) {
   var exif = file['exif'];
   var metadata = file['metadata'];
 
-  var date = exif['DateTime'] ? exif['DateTime'].substring(0, 10).split(':') : null; // convert "2015:12:31 20:56:09"
-  metadata['date_time'] = date ? date[0] + '-' + date[1] + '-' + date[2] : window.moment(new Date()).format('YYYY-MM-DD');
-
+  metadata['date_time'] = this.parseExifDate_(exif);
   metadata['exposure_time'] = exif['ExposureTime'];
   metadata['iso_speed'] = exif['PhotographicSensitivity'];
   metadata['focal_length'] = exif['FocalLengthIn35mmFilm'];
   metadata['fnumber'] = exif['FNumber'];
   metadata['camera_name'] = (exif['Make'] && exif['Model']) ? (exif['Make'] + ' ' + exif['Model']) : null;
+};
+
+
+/**
+ * @param {Object} exifData Exif data
+ * @return {String} Parsed date in ISO format.
+ * @private
+ */
+app.ImageUploaderController.prototype.parseExifDate_ = function(exifData) {
+  if (!exifData['DateTime']) {
+    return null;
+  }
+  var exifDate = exifData['DateTime'];
+  var date = window.moment(exifDate, 'YYYY:MM:DD HH:mm:ss');
+  return date.isValid() ? date.format() : null;
 };
 
 

@@ -21,7 +21,10 @@
       <div class="img-container" style="background-image: url({{file.src}})">
         <!-- EXIF INFO-->
         <div class="exif">
-          <p ng-if="file.metadata.date_time"><span class="glyphicon glyphicon-calendar"></span><span>{{file.metadata.date_time}}</span></p>
+          <p ng-if="file.metadata.date_time">
+            <span class="glyphicon glyphicon-calendar"></span>
+            <span>{{file.metadata.date_time | amUtc | amLocal | amDateFormat:'L LTS'}}</span>
+          </p>
           <p><span class="glyphicon glyphicon-certificate"></span><span>f/{{file.metadata.fnumber}}</span>&nbsp;
             <span ng-if="file.metadata.exposure_time">1/{{1/file.metadata.exposure_time}}&nbsp;s</span> &nbsp;
             <span ng-if="file.metadata.focal_length">{{file.metadata.focal_length}}&nbsp;mm</span> &nbsp;
