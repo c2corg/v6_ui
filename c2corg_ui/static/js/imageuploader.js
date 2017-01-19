@@ -3,6 +3,7 @@ goog.provide('app.imageUploaderDirective');
 goog.provide('app.ImageUploaderModalController');
 
 goog.require('app');
+goog.require('ol.coordinate');
 
 
 /**
@@ -359,11 +360,12 @@ app.ImageUploaderController.prototype.getImageMetadata_ = function(file) {
   window.loadImage.parseMetaData(file, function(data) {
     var exif = data.exif;
     if (exif) {
-      angular.extend(file['metadata'], exif.getAll());
-      if (file['metadata']['GPSLatitude']) {
-        this.getGeolocation_(file);
+      file['exif'] = exif.getAll();
+
+      this.setExifData_(file);
+      if (file['exif']['GPSLatitude']) {
+        this.setGeolocation_(file);
       }
-      return;
     }
   }.bind(this));
 };
@@ -373,19 +375,39 @@ app.ImageUploaderController.prototype.getImageMetadata_ = function(file) {
  * @param {File} file
  * @private
  */
-app.ImageUploaderController.prototype.getGeolocation_ = function(file) {
-  var lat = file['metadata']['GPSLatitude'].split(',');
-  var lon = file['metadata']['GPSLongitude'].split(',');
-  lat = app.utils.convertDMSToDecimal(lat[0], lat[1], lat[2], file['metadata']['GPSLatitudeRef']);
-  lon = app.utils.convertDMSToDecimal(lon[0], lon[1], lon[2], file['metadata']['GPSLongitudeRef']);
+app.ImageUploaderController.prototype.setExifData_ = function(file) {
+  var exif = file['exif'];
+  var metadata = file['metadata'];
+
+  var date = exif['DateTime'] ? exif['DateTime'].substring(0, 10).split(':') : null; // convert "2015:12:31 20:56:09"
+  metadata['date_time'] = date ? date[0] + '-' + date[1] + '-' + date[2] : window.moment(new Date()).format('YYYY-MM-DD');
+
+  metadata['exposure_time'] = exif['ExposureTime'];
+  metadata['iso_speed'] = exif['PhotographicSensitivity'];
+  metadata['focal_length'] = exif['FocalLengthIn35mmFilm'];
+  metadata['fnumber'] = exif['FNumber'];
+  metadata['camera_name'] = (exif['Make'] && exif['Model']) ? (exif['Make'] + ' ' + exif['Model']) : null;
+};
+
+
+/**
+ * @param {File} file
+ * @private
+ */
+app.ImageUploaderController.prototype.setGeolocation_ = function(file) {
+  var lat = file['exif']['GPSLatitude'].split(',');
+  var lon = file['exif']['GPSLongitude'].split(',');
+  lat = app.utils.convertDMSToDecimal(lat[0], lat[1], lat[2], file['exif']['GPSLatitudeRef']);
+  lon = app.utils.convertDMSToDecimal(lon[0], lon[1], lon[2], file['exif']['GPSLongitudeRef']);
   if (!isNaN(lat) && !isNaN(lon)) {
-    var lonLat = ol.proj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857');
-    var geom = {'coordinates': lonLat, 'type': 'Point'};
+    var location = ol.proj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857');
+    var geom = {'coordinates': location, 'type': 'Point'};
 
     file['metadata']['geometry'] = {'geom': JSON.stringify(geom)};
+    file['exif']['geo_label'] = ol.coordinate.toStringHDMS([lon, lat]);
   }
 
-  var elevation = parseFloat(file['metadata']['GPSAltitude']);
+  var elevation = parseFloat(file['exif']['GPSAltitude']);
   if (!isNaN(elevation)) {
     file['metadata']['elevation'] = elevation;
   }
