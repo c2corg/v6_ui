@@ -412,7 +412,9 @@ app.ImageUploaderController.prototype.setGeolocation_ = function(file) {
   var lon = file['exif']['GPSLongitude'].split(',');
   lat = app.utils.convertDMSToDecimal(lat[0], lat[1], lat[2], file['exif']['GPSLatitudeRef']);
   lon = app.utils.convertDMSToDecimal(lon[0], lon[1], lon[2], file['exif']['GPSLongitudeRef']);
-  if (!isNaN(lat) && !isNaN(lon)) {
+  var worldExtent = ol.proj.get('EPSG:4326').getExtent();
+
+  if (!isNaN(lat) && !isNaN(lon) && ol.extent.containsXY(worldExtent, lon, lat)) {
     var location = ol.proj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857');
     var geom = {'coordinates': location, 'type': 'Point'};
 
