@@ -133,7 +133,11 @@ from c2corg_common.attributes import default_langs, activities, image_types, ima
                 </span>
               </div>
 
-              <br>
+              ## TIME
+              <div class="input-group" uib-timepicker ng-model="image.date_time" hour-step="1" minute-step="1" second-step="1"
+                   show-seconds="1" show-spinners="1" show-meridian="ismeridian">
+              </div>
+
               <div ng-class="{ 'has-success': image.image_type}">
                 <label><span translate>image_type</span> *</label>
                 <div class="input-group">
@@ -143,7 +147,6 @@ from c2corg_common.attributes import default_langs, activities, image_types, ima
                 <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="image.image_type"></span>
               </div>
 
-              <br>
               ## ELEVATION
               <div ng-class="{ 'has-success': image.elevation}">
                 <label translate>elevation</label>
