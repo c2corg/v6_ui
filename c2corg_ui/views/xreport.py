@@ -1,4 +1,7 @@
 from c2corg_common.document_types import XREPORT_TYPE
+from c2corg_ui.caching import cache_document_detail
+from c2corg_ui.views import call_api, get_with_etag
+from pyramid.httpexceptions import HTTPInternalServerError
 from pyramid.renderers import render
 from pyramid.view import view_config
 
@@ -20,13 +23,38 @@ class Xreport(Document):
 
     @view_config(route_name='xreports_view')
     def detail(self):
+        """
+        Xreports are a bit special (similar to user profiles), because users
+        share non-public data inside the report so that the part of xreport
+        data has to be requested with an authentication header.
+        The request to get a profile page is made by
+        the browser, so that the authentication header can not be set.
+        That's why the profile page is constructed as follows:
+
+        - The browser makes a request `/xreports/123` to the UI server-side
+          (without authentication header).
+        - The UI server sides makes an unauthenticated request to the API to
+          get the available locales of the xreport
+          (`api.camptocamp.org/xreports/123/info`)
+        - The UI server-side returns a page containing only the public data.
+        - On the UI client-side a request is made to the UI server-side to get
+          the private data as rendered HTML (e.g. `/xreports/data/123/fr`).
+          If the user is logged-in, the request is made authenticated.
+        - The UI server-side makes a request to the API to get the private
+          data (e.g. (`api.camptocamp.org/xreports/123/fr`)). If the request
+          to the UI server-side was authenticated, the request to the API is
+          also made authenticated.
+        - On the UI client-side the rendered HTML is inserted into the page.
+        """
         id, lang = self._validate_id_lang()
 
-        def render_page(xreport, locale):
+        def render_page(xreport, locales):
+            locale = list(filter(lambda l: l['lang'] == lang, locales))
             self.template_input.update({
                 'lang': lang,
                 'xreport': xreport,
-                'locale': locale,
+                'locale': locale[0],
+                'locales': locales,
                 'geometry': self._get_geometry(xreport['geometry']['geom']),
                 'version': None
             })
@@ -37,7 +65,55 @@ class Xreport(Document):
                 self.request
             )
 
-        return self._get_or_create_detail(id, lang, render_page)
+        def load_data(old_api_cache_key=None):
+            not_modified, api_cache_key, document_and_locale = \
+                self._get_xreport_info(id, lang, old_api_cache_key)
+            return not_modified, api_cache_key, document_and_locale
+
+        return self._get_or_create(
+            (id, lang), cache_document_detail, load_data, render_page,
+            self._get_cache_key)
+
+    def _get_xreport_info(self, id, lang, old_api_cache_key=None):
+        url = '%s/%d?%s' % (self._API_ROUTE, id, lang)
+        not_modified, api_cache_key, document = get_with_etag(
+            self.settings, url, old_api_cache_key)
+
+        if not_modified:
+            return not_modified, api_cache_key, None
+
+        return False, api_cache_key, (document, document['locales'])
+
+    @view_config(route_name='xreports_data',
+                 renderer='c2corg_ui:templates/xreport/data.html')
+    def data(self):
+        id, lang = self._validate_id_lang()
+        headers = None
+        if 'Authorization' in self.request.headers:
+            headers = {
+                'Authorization': self.request.headers.get('Authorization')
+            }
+        url = '%s/%d?l=%s' % (self._API_ROUTE, id, lang)
+        resp, data = call_api(self.settings, url, headers)
+
+        if resp.status_code != 200:
+            raise HTTPInternalServerError(
+                "An error occurred while loading the document")
+
+        if data.get('not_authorized', False):
+            self.template_input.update({
+                'not_authorized': True
+            })
+        else:
+            locales = data['locales']
+            self.template_input.update({
+                'lang': locales[0]['lang'],
+                'locale': locales[0],
+                'xreport': data,
+                'geometry': self._get_geometry(data['geometry']['geom'])
+                if data['geometry'] else None
+            })
+        return self.template_input
 
     @view_config(route_name='xreports_archive')
     def archive(self):
@@ -69,23 +145,23 @@ class Xreport(Document):
     def diff(self):
         return self._diff()
 
-    # @view_config(route_name='xreports_add')
-    # def add(self):
-    #     self.template_input.update({
-    #         'report_lang': None,
-    #         'report_id': None
-    #     })
-    #     return self._add('c2corg_ui:templates/xreport/edit.html')
+    @view_config(route_name='xreports_add')
+    def add(self):
+        self.template_input.update({
+            'xreport_lang': None,
+            'xreport_id': None
+        })
+        return self._add('c2corg_ui:templates/xreport/edit.html')
 
-    # @view_config(route_name='xreports_edit',
-    #              renderer='c2corg_ui:templates/xreport/edit.html')
-    # def edit(self):
-    #     id, lang = self._validate_id_lang()
-    #     self.template_input.update({
-    #         'report_lang': lang,
-    #         'report_id': id
-    #     })
-    #     return self.template_input
+    @view_config(route_name='xreports_edit',
+                 renderer='c2corg_ui:templates/xreport/edit.html')
+    def edit(self):
+        id, lang = self._validate_id_lang()
+        self.template_input.update({
+            'xreport_lang': lang,
+            'xreport_id': id
+        })
+        return self.template_input
 
     @view_config(route_name='xreports_preview',
                  renderer='c2corg_ui:templates/xreport/preview.html')

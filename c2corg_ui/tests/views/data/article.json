@@ -60,6 +60,7 @@
   ],
   "associations": {
     "books": [],
+    "xreports": [],
     "routes": [],
     "waypoints": [],
     "articles": [

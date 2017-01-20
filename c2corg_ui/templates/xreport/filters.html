@@ -29,87 +29,80 @@ activities, event_types, severities, avalanche_levels, avalanche_slopes
     <div class="row collapse" id="moreFilters">
       ${simple_filters()}
 
-      <div class="col-xs-12 col-sm-6 filter">
-        <label translate>elevation</label><br>
-          <app-slider filter="xalt" filters-list="filtersCtrl.filters" max="8850"></app-slider>
-      </div>
+      <div>
 
-      <div class="col-xs-12 col-sm-6 filter">
-        <label translate>severity</label><br>
-        <app-slider filter="xsev" filters-list="filtersCtrl.filters" unit=""
-          values-list="['${"','".join(severities) |n}']"></app-slider>
-      </div>
-
-##       <div class="col-xs-12 col-sm-12 filter">
-##
-## ##         <div class="col-xs-12 col-sm-6 filter">
-## ##           <label translate>date</label><br>
-## ##           <div class="input-group" ng-model="filtersCtrl.dates[0]" datepicker-options="{maxDate: filtersCtrl.dateMaxStart}"
-## ##                uib-datepicker-popup="dd MM yyyy" is-open="openDateStart" ng-change="filtersCtrl.setDate('date')">
-## ##             <input type="text" disabled class="form-control" value="{{filtersCtrl.dates[0]| amDateFormat:'Do MMMM YYYY'}}"/>
-## ##             <span class="input-group-btn">
-## ##               <button type="button" class="btn btn-default" ng-click="openDateStart = true"><span class="glyphicon glyphicon-calendar"></span></button>
-## ##             </span>
-## ##           </div>
-## ##         </div>
-##
-##         <div class="col-xs-12 col-sm-6 filter">
-##           <label translate>date_start</label><br>
-##           <div class="input-group" ng-model="filtersCtrl.dates[0]" datepicker-options="{maxDate: filtersCtrl.dateMaxStart}"
-##                uib-datepicker-popup="dd MM yyyy" is-open="openDateStart" ng-change="filtersCtrl.setDate('date')">
-##             <input type="text" disabled class="form-control" value="{{filtersCtrl.dates[0] | amDateFormat:'Do MMMM YYYY'}}" required/>
-##             <span class="input-group-btn">
-##               <button type="button" class="btn btn-default" ng-click="openDateStart = true"><span class="glyphicon glyphicon-calendar"></span></button>
-##             </span>
-##           </div>
-##         </div>
-##
-##         <div class="col-xs-12 col-sm-6 filter">
-##           <label translate>date_end</label><br>
-##           <div class="input-group" ng-model="filtersCtrl.dates[1]" datepicker-options="{maxDate: filtersCtrl.dateMaxEnd, minDate: filtersCtrl.dateMinEnd}"
-##                uib-datepicker-popup="dd MM yyyy" is-open="openDateEnd" ng-change="filtersCtrl.setDate('date')">
-##             <input type="text" disabled class="form-control" value="{{filtersCtrl.dates[1] | amDateFormat:'Do MMMM YYYY'}}" required/>
-##             <span class="input-group-btn">
-##               <button type="button" class="btn btn-default" ng-click="openDateEnd = true"><span class="glyphicon glyphicon-calendar"></span></button>
-##             </span>
-##           </div>
-##         </div>
-##
-##       </div>
-
-      <div class="col-xs-12 col-sm-6 filter">
-        <label translate>nb_participants</label><br>
-          <app-slider filter="xpar" filters-list="filtersCtrl.filters" step="1" unit="" min="0" max="25"></app-slider>
-      </div>
-
-      <div class="col-xs-12 col-sm-6 filter">
-        <label translate>nb_impacted</label><br>
-          <app-slider filter="ximp" filters-list="filtersCtrl.filters" step="1" unit="" min="0" max="25"></app-slider>
-      </div>
-
-      <div ng-show="filtersCtrl.filters.xtyp.length && filtersCtrl.filters.xtyp.indexOf('avalanche') !== -1">
         <div class="col-xs-12 col-sm-6 filter">
-          <label translate>avalanche_level</label><br>
-          <app-slider filter="xavlev" filters-list="filtersCtrl.filters" unit=""
-            values-list="['${"','".join(avalanche_levels) |n}']"></app-slider>
+          <label translate>elevation</label><br>
+            <app-slider filter="xalt" filters-list="filtersCtrl.filters" max="8850"></app-slider>
         </div>
 
         <div class="col-xs-12 col-sm-6 filter">
-          <label translate>avalanche_slope</label><br>
-          <app-slider filter="xavslo" filters-list="filtersCtrl.filters" unit=""
-            values-list="['${"','".join(avalanche_slopes) |n}']"></app-slider>
+          <label translate>severity</label><br>
+          <app-slider filter="xsev" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(severities) |n}']"></app-slider>
         </div>
-      </div>
 
-      <div class="col-xs-12 col-sm-6 filter">
-        <label translate>quality</label><br>
-        <app-slider filter="qa" filters-list="filtersCtrl.filters" unit=""
-          values-list="['${"','".join(quality_types) |n}']"></app-slider>
-      </div>
+        <div class="col-xs-12 col-sm-12 filter">
 
-      <div class="col-xs-12 col-sm-6 filter">
-        <label translate>lang</label><br>
-        ${add_multiselect('l', default_langs)}
+          <div class="col-xs-12 col-sm-6 filter">
+            <label translate>date_start</label><br>
+            <div class="input-group" ng-model="filtersCtrl.dates[0]" datepicker-options="{maxDate: filtersCtrl.dateMaxStart}"
+                 uib-datepicker-popup="dd MM yyyy" is-open="openDateStart" ng-change="filtersCtrl.setDate('date')">
+              <input type="text" disabled class="form-control" value="{{filtersCtrl.dates[0] | amDateFormat:'Do MMMM YYYY'}}" required/>
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="openDateStart = true"><span class="glyphicon glyphicon-calendar"></span></button>
+              </span>
+            </div>
+          </div>
+
+          <div class="col-xs-12 col-sm-6 filter">
+            <label translate>date_end</label><br>
+            <div class="input-group" ng-model="filtersCtrl.dates[1]" datepicker-options="{maxDate: filtersCtrl.dateMaxEnd, minDate: filtersCtrl.dateMinEnd}"
+                 uib-datepicker-popup="dd MM yyyy" is-open="openDateEnd" ng-change="filtersCtrl.setDate('date')">
+              <input type="text" disabled class="form-control" value="{{filtersCtrl.dates[1] | amDateFormat:'Do MMMM YYYY'}}" required/>
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="openDateEnd = true"><span class="glyphicon glyphicon-calendar"></span></button>
+              </span>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>nb_participants</label><br>
+            <app-slider filter="xpar" filters-list="filtersCtrl.filters" step="1" unit="" min="0" max="25"></app-slider>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>nb_impacted</label><br>
+            <app-slider filter="ximp" filters-list="filtersCtrl.filters" step="1" unit="" min="0" max="25"></app-slider>
+        </div>
+
+        <div ng-show="filtersCtrl.filters.xtyp.length && filtersCtrl.filters.xtyp.indexOf('avalanche') !== -1">
+          <div class="col-xs-12 col-sm-6 filter">
+            <label translate>avalanche_level</label><br>
+            <app-slider filter="xavlev" filters-list="filtersCtrl.filters" unit=""
+              values-list="['${"','".join(avalanche_levels) |n}']"></app-slider>
+          </div>
+
+          <div class="col-xs-12 col-sm-6 filter">
+            <label translate>avalanche_slope</label><br>
+            <app-slider filter="xavslo" filters-list="filtersCtrl.filters" unit=""
+              values-list="['${"','".join(avalanche_slopes) |n}']"></app-slider>
+          </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>quality</label><br>
+          <app-slider filter="qa" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(quality_types) |n}']"></app-slider>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>lang</label><br>
+          ${add_multiselect('l', default_langs)}
+        </div>
+
       </div>
 
       ${show_results_buttons()}

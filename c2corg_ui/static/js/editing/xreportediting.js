@@ -32,14 +32,46 @@ app.XreportEditingController = function($scope, $element, $attrs, $http,
           appLang, appAuthentication, ngeoLocation, appAlerts, appApi,
           authUrl, appDocument, appUrl, imageUrl);
 
+    /**
+   * Start cannot be after today nor end_date.
+   * @type {Date}
+   * @export
+   */
+  this.dateMaxStart = new Date();
+
   /**
    * @type {Date}
    * @export
    */
   this.today = new Date();
 
+  if (this.auth.isAuthenticated()) {
+
+    this.scope[this.modelName]['associations']['users'].push({
+      'document_id': this.auth.userData.id,
+      'name': this.auth.userData.name,
+      'locales': [
+        {
+          'lang': this.auth.userData.lang
+        }
+      ]
+    });
+  }
+
 };
 
 goog.inherits(app.XreportEditingController, app.DocumentEditingController);
+
+
+/**
+* @param {appx.Document} data
+* @return {appx.Document}
+* @override
+* @public
+*/
+app.XreportEditingController.prototype.filterData = function(data) {
+  data['date'] = new Date(data['date']);
+  return data;
+};
 
 app.module.controller('appXreportEditingController', app.XreportEditingController);

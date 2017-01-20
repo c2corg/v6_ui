@@ -111,6 +111,11 @@ other_langs, missing_langs = get_lang_lists(xreport, lang)
       ${get_xreport_general(xreport)}
       % if not version:
         ${get_xreport_participants(xreport)}
+
+        <div app-xreport="${xreport_id}" app-xreport-lang="${lang}">
+          <div id="xreport-data"></div>
+        </div>
+
 ##         ${get_xreport_personal(xreport)}
       % endif
       ${get_licence(xreport)}
@@ -137,15 +142,16 @@ other_langs, missing_langs = get_lang_lists(xreport, lang)
 
   ## ASSOCIATIONS
   % if not version:
-    <div class="view-details-associations col-xs-12 associations" ng-init="a = detailsCtrl.documentService.document.associations"
+    <div class="view-details-associations col-xs-12 associations"
+         ng-init="a = detailsCtrl.documentService.document.associations"
          ng-show="a.waypoints.length || a.routes.length || a.articles.length || a.outings.length">
       <span class="lead">
-##         <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
-##           <label translate>Add association</label>
-##           <app-add-association parent-doctype="xreports" parent-id="${xreport_id}" dataset="wrc"></app-add-association>
-##         </div>
+        <div class="add-association"ng-show="userCtrl.auth.isAuthenticated()
+          && userCtrl.hasEditRights('xreports', {'authorId': ${xreport['author']['user_id']}})">
+          <label translate>Add association</label>
+          <app-add-association parent-doctype="xreports" parent-id="${xreport_id}" dataset="roc"></app-add-association>
+        </div>
         <section>
-          ${show_associated_waypoints(xreport)}
           ${show_associated_routes(xreport)}
           ${show_associated_articles(xreport)}
           ${show_associated_outings(xreport)}
@@ -159,8 +165,8 @@ other_langs, missing_langs = get_lang_lists(xreport, lang)
   ## OTHER BUTTON contents
   % if not version:
     ${show_other_langs_links('xreports', xreport, other_langs)}
-##     ${show_missing_langs_links('xreports', xreport, missing_langs)}
-##     ${show_float_buttons(None, 'xreports', xreport_id, lang, other_langs, missing_langs)}
+    ${show_missing_langs_links('xreports', xreport, missing_langs)}
+    ${show_float_buttons(xreport, lang, other_langs, missing_langs)}
   % endif
 
 </section>

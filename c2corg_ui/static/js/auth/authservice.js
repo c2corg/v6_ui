@@ -125,7 +125,7 @@ app.Authentication.prototype.hasEditRights = function(doctype, options) {
   } else if (doctype === 'articles') {
     return this.hasEditRightsArticle_(options['articleType'], options['authorId']);
   } else if (doctype === 'xreports') {
-    return false;
+    return this.hasEditRightsXreport_(options['authorId']);
   }
 
   return true;
@@ -180,6 +180,17 @@ app.Authentication.prototype.hasEditRightsArticle_ = function(articleType, autho
   } else {
     return this.userData.id === parseInt(authorId, 10);
   }
+};
+
+
+/**
+ * Checks if the current user has rights to access/edit the xreport.
+ * @param {string} authorId
+ * @return {boolean}
+ * @private
+ */
+app.Authentication.prototype.hasEditRightsXreport_ = function(authorId) {
+  return this.userData.id === parseInt(authorId, 10);
 };
 
 
@@ -342,10 +353,10 @@ app.Authentication.prototype.addAuthorizationToHeaders = function(url,
  * @export
  */
 app.Authentication.prototype.needAuthorization = function(method, url) {
-
   if (url.indexOf(this.apiUrl_) === -1) {
-    // UI user data service
-    if (url.indexOf('/profiles/data') !== -1 && this.isAuthenticated()) {
+    // UI user and xreport data service
+    if ((url.indexOf('/profiles/data') !== -1 ||
+        url.indexOf('/xreports/data') !== -1) && this.isAuthenticated()) {
       // forward auth header if user is authenticated
       return true;
     }
@@ -363,7 +374,8 @@ app.Authentication.prototype.needAuthorization = function(method, url) {
       url.indexOf('/users/mailinglists') !== -1 ||
       url.indexOf('/users/following') !== -1 ||
       url.indexOf('/profiles') !== -1 ||
-      url.indexOf('/personal-feed') !== -1) {
+      url.indexOf('/personal-feed') !== -1 ||
+      url.indexOf('/xreports/') !== -1) {
     return true;
   }
 
