@@ -18,6 +18,7 @@ angular.module('floatThead', []);
  */
 app.module = angular.module('app', [
   ngeo.module.name,
+  'ngProgress',
   'gettext',
   'ngMessages',
   'ngCookies',

@@ -6,6 +6,7 @@ goog.require('app.utils');
 goog.require('app.HttpAuthenticationInterceptor');
 /** @suppress {extraRequire} */
 goog.require('app.coordinate');
+// goog.require('ngprogress');
 
 
 /**
@@ -13,11 +14,11 @@ goog.require('app.coordinate');
  * @param {app.Api} appApi The API service
  * @param {app.Authentication} appAuthentication
  * @param {string} authUrl Base URL of the authentication page.
+ * @suppress {checkTypes}
  * @constructor
  * @ngInject
  */
-app.MainController = function($scope, gettextCatalog, appApi, appAuthentication, authUrl) {
-
+app.MainController = function($scope, $timeout, gettextCatalog, appApi, appAuthentication, authUrl, ngProgressFactory) {
   /**
    * @type {angular.Scope}
    * @private
@@ -47,8 +48,17 @@ app.MainController = function($scope, gettextCatalog, appApi, appAuthentication,
    * @private
    */
   this.authUrl_ = authUrl;
-};
 
+  /**
+   *
+   * https://github.com/VictorBjelkholm/ngProgress
+   */
+  $scope.progressbar = ngProgressFactory.createInstance();
+  // ngProgress.setHeight('10px');
+  // ngProgress.setColor('#fff');
+  $scope.progressbar.start();
+  $timeout($scope.progressbar.complete(), 1000);
+};
 
 /**
  * @param {string} str String to translate.

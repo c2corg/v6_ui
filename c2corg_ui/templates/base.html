@@ -8,7 +8,7 @@ closure_library_path = settings.get('closure_library_path')
 %>\
 <%namespace file="helpers/common.html" import="show_title"/>\
 <!DOCTYPE html>
-<html ng-cloak <%block name="pagelang"></%block> ng-app="app" ng-controller="MainController as mainCtrl">
+<html <%block name="pagelang"></%block> ng-app="app" ng-controller="MainController as mainCtrl">
   <head>
     <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Home')">${show_title('Home')}</title></%block>
     <meta charset="utf-8">
@@ -28,6 +28,7 @@ closure_library_path = settings.get('closure_library_path')
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
     <%block name="metarobots"><meta name="robots" content="index,follow"></%block>
 % if debug:
+    <link rel="stylesheet" href="${request.static_path('%s/ngprogress/ngProgress.css' % node_modules_path)}">
     <link rel="stylesheet" href="${request.static_path('%s/bootstrap/dist/css/bootstrap.css' % node_modules_path)}">
     <link rel="stylesheet" href="${request.static_path('%s/bootstrap-slider/dist/css/bootstrap-slider.css' % node_modules_path)}">
     <link rel="stylesheet"  href="${request.static_path('%s/slick-carousel/slick/slick.css' % node_modules_path)}">
@@ -92,6 +93,8 @@ closure_library_path = settings.get('closure_library_path')
     <script src="${request.static_path('%s/angular-messages/angular-messages.js' % node_modules_path)}"></script>
     <script src="${request.static_path('%s/angular-cookies/angular-cookies.js' % node_modules_path)}"></script>
     <script src="${request.static_path('%s/closure/goog/base.js' % closure_library_path)}"></script>
+    <script src="${request.static_path('%s/ngprogress/build/ngProgress.js' % node_modules_path)}"></script>
+    <script src="${request.static_path('%s/ngprogress/build/ngProgress.min.js' % node_modules_path)}"></script>
     <script src="${request.static_path('%s/corejs-typeahead/dist/typeahead.bundle.js' % node_modules_path)}"></script>
     <script src="${request.static_path('%s/ng-infinite-scroll/build/ng-infinite-scroll.js' % node_modules_path)}"></script>
     <script src="${request.static_path('%s/moment/moment.js' % node_modules_path)}"></script>
@@ -122,6 +125,9 @@ closure_library_path = settings.get('closure_library_path')
 
     <script>
       (function() {
+        window.addEventListener("DOMContentLoaded", function(e) {
+          console.log("DOM fully loaded and parsed");
+        });
         // prevent loading a file from accidental image drag-drop outside the drop-box
         window.addEventListener("dragover",function(e){
           e = e || event;
