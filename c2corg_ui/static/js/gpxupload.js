@@ -5,7 +5,8 @@ goog.require('app');
 /** @suppress {extraRequire} */
 goog.require('ngeo.filereaderDirective');
 goog.require('ol.format.GPX');
-
+goog.require('ol.Feature');
+goog.require('ol.geom.MultiLineString');
 
 /**
  * This directive is used to display a GPX file upload button.
@@ -59,6 +60,38 @@ app.GpxUploadController = function($scope) {
 
 
 /**
+ *
+ * @param {Array.<ol.Feature>} features - invalid features that have to be checked
+ * @returns {Array.<ol.Feature>} features - this geometry is valid
+ * @private
+ */
+app.GpxUploadController.prototype.validatedFeatures_ = function(features) {
+  for (var i = 0; i < features.length; i++) {
+    var geom = /**@type{ol.geom.Geometry}*/ (features[i].getGeometry());
+
+    if (geom instanceof ol.geom.MultiLineString) {
+      var multiLineString = /**@type{ol.geom.MultiLineString}*/ (geom);
+      var lineStrings = multiLineString.getLineStrings();
+
+      for (var j = 0; j < lineStrings.length; j++) {
+        if (lineStrings[j].getCoordinates().length === 1) {
+          delete lineStrings[j];
+        }
+      }
+      lineStrings = lineStrings.filter(function(n) {
+        return n != undefined;
+      });
+
+      var newMs = new ol.geom.MultiLineString([]);
+      newMs.setLineStrings(lineStrings);
+      features[i].setGeometry(newMs);
+    }
+  }
+  return features;
+};
+
+
+/**
  * @param {string} gpx GPX document.
  * @private
  */
@@ -68,7 +101,10 @@ app.GpxUploadController.prototype.importGpx_ = function(gpx) {
     featureProjection: 'EPSG:3857'
   });
   if (features.length > 0) {
-    this.scope_.$root.$emit('featuresUpload', features);
+    features = this.validatedFeatures_(features);
+    if (features) {
+      this.scope_.$root.$emit('featuresUpload', features);
+    }
   }
 };
 
