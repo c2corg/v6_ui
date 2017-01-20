@@ -65,22 +65,19 @@ app.GpxUploadController = function($scope) {
  * @returns {Array.<ol.Feature>} features - this geometry is valid
  * @private
  */
-app.GpxUploadController.prototype.validatedFeatures_ = function(features) {
+app.GpxUploadController.prototype.validateFeatures_ = function(features) {
   for (var i = 0; i < features.length; i++) {
-    var geom = /**@type{ol.geom.Geometry}*/ (features[i].getGeometry());
+    var geom = /** @type{ol.geom.Geometry} */ (features[i].getGeometry());
 
     if (geom instanceof ol.geom.MultiLineString) {
-      var multiLineString = /**@type{ol.geom.MultiLineString}*/ (geom);
+      var multiLineString = /** @type{ol.geom.MultiLineString} */ (geom);
       var lineStrings = multiLineString.getLineStrings();
 
       for (var j = 0; j < lineStrings.length; j++) {
         if (lineStrings[j].getCoordinates().length === 1) {
-          delete lineStrings[j];
+          lineStrings.splice(j, 1);
         }
       }
-      lineStrings = lineStrings.filter(function(n) {
-        return n != undefined;
-      });
 
       var newMs = new ol.geom.MultiLineString([]);
       newMs.setLineStrings(lineStrings);
@@ -100,11 +97,9 @@ app.GpxUploadController.prototype.importGpx_ = function(gpx) {
   var features = gpxFormat.readFeatures(gpx, {
     featureProjection: 'EPSG:3857'
   });
+  features = this.validateFeatures_(features);
   if (features.length > 0) {
-    features = this.validatedFeatures_(features);
-    if (features) {
-      this.scope_.$root.$emit('featuresUpload', features);
-    }
+    this.scope_.$root.$emit('featuresUpload', features);
   }
 };
 
