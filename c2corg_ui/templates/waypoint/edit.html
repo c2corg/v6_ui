@@ -735,14 +735,22 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
 
             ## DESCRIPTION
             <div id="description-group" class="form-group data full">
-              <label translate>description</label>
-              <textarea name="description" ng-model="waypoint.locales[0].description" class="form-control description" placeholder="{{'Describe here the waypoint' | translate}}"></textarea>
+              <label translate ng-if="type == 'access'">road access</label>
+              <label translate ng-if="type != 'access'">description</label>
+              <textarea name="description" ng-model="waypoint.locales[0].description" class="form-control description"
+                placeholder="{{ type =='access' ? mainCtrl.translate('Describe here the waypoint') : mainCtrl.translate('Describe road access') | translate}}"></textarea>
             </div>
 
             ## ACCESS
-            <div class="form-group data full" ng-if="['access', 'local_product', 'climbing_outdoor'].indexOf(type) > -1">
-              <label translate>road access</label>
-              <textarea name="access" ng-model="waypoint.locales[0].access" class="form-control" placeholder="{{'Describe access' | translate}}"></textarea>
+            <div class="form-group data full" ng-if="['access', 'local_product', 'climbing_outdoor', 'climbing_indoor', 'hut'].indexOf(type) > -1">
+              <label translate ng-if="type == 'access'">public transportation access</label>
+              <label translate ng-if="type == 'hut' || type == 'climbing_indoor' || type == 'climbing_outdoor'">pedestrian access</label>
+              <label translate ng-if="type == 'local_product'">road or pedestrian access</label>
+              <textarea name="access" ng-model="waypoint.locales[0].access" class="form-control"
+                placeholder="{{ type == 'access' ? mainCtrl.translate('Describe pt access') :
+                  ( (type == 'hut' || type == 'climbing_indoor' || type == 'climbing_outdoor') ?
+                    mainCtrl.translate('Describe pedestrian access') :
+                    mainCtrl.describe('Describe access') ) | translate}}"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.locales[0].access"></span>
             </div>
 

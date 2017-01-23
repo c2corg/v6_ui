@@ -402,22 +402,44 @@
 
 <%def name="get_waypoint_access_period(locale, waypoint_type, open_tab=False)">\
   % if locale.get('access_period'):
-    <%
-        if waypoint_type in ['hut', 'gite', 'camp_site']:
-            attribute_name = 'opening_periods'
-        elif waypoint_type == 'local_product':
-            attribute_name = 'opening_hours'
-        else:
-            attribute_name = 'access_period'
-    %>
     <div class="view-details-info col-xs-12">
       <h3 class="heading ${'' if open_tab else 'closed '}show-phone"
           ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#access_period">
-        <span x-translate>${attribute_name}</span><span class="glyphicon glyphicon-menu-${'down' if open_tab else 'right'}"></span>
+        % if waypoint_type in ['hut', 'gite', 'camp_site']:
+          <span translate>opening_periods</span>
+        % elif waypoint_type == 'local_product':
+          <span translate>opening_hours</span>
+        % else:
+          <span translate>access_period</span>
+        % endif
+        <span class="glyphicon glyphicon-menu-${'down' if open_tab else 'right'}"></span>
       </h3>
       <section class="collapse${' in' if open_tab else ''}" id="access_period" aria-expanded="true">
         <div class="lead">
           ${show_attr(locale, 'access_period')}
+        </div>
+      </section>
+    </div>
+  % endif
+</%def>
+
+<%def name="get_waypoint_access_field(locale, waypoint_type, open_tab=False)">\
+  % if locale.get('access'):
+    <div class="view-details-info col-xs-12">
+      <h3 class="heading ${'' if open_tab else 'closed '}show-phone"
+          ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#access_period">
+          % if waypoint_type == 'access':
+            <span translate>public transportation access</span>
+          % elif waypoint_type in ['hut', 'climbing_indoor', 'climbing_outdoor']:
+            <span translate>pedestrian access</span>
+          % else:
+            <span translate>road or pedestrian access</span>
+          % endif
+          <span class="glyphicon glyphicon-menu-${'down' if open_tab else 'right'}"></span>
+      </h3>
+      <section class="collapse${' in' if open_tab else ''}" id="access" aria-expanded="true">
+        <div class="lead">
+          ${show_attr(locale, 'access')}
         </div>
       </section>
     </div>
