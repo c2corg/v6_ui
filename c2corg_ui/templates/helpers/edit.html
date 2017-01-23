@@ -51,7 +51,7 @@
     <article class="associated-documents">
       <div class="list-item" ng-repeat="art in ${model}.associations.articles" ng-class="{'new-item': art['new']}">
         <app-card app-card-doc="art" app-card-disable-click="true"></app-card>
-        <span class="glyphicon glyphicon-trash" ng-click="editCtrl.documentService.removeAssociation(art.document_id, 'routes', $event)"></span>
+        <span class="glyphicon glyphicon-trash" ng-click="editCtrl.documentService.removeAssociation(art.document_id, 'articles', $event)"></span>
       </div>
     </article>
   </section>
