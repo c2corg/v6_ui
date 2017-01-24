@@ -12,7 +12,9 @@ updating_doc = route_id and route_lang
 %>
 <%namespace file="../helpers/common.html" import="show_title"/>
 <%namespace file="../helpers/edit.html" import="show_editing_associated_waypoints,
-    show_editing_associated_routes, show_preview_container, show_editing_buttons, show_save_confirmation_modal"/>
+    show_editing_associated_routes, show_editing_associated_articles,
+    show_editing_associated_books, show_preview_container, show_editing_buttons,
+    show_save_confirmation_modal"/>
 <%namespace file="../helpers/orientations.svg" import="show_orientations"/>
 
 <%block name="pagetitle"><title ng-init="id=${route_id if route_id else 0}" ng-bind="id ? mainCtrl.page_title('Editing a route') : mainCtrl.page_title('Creating a route')">${show_title('Create/edit route')}</title></%block>
@@ -106,9 +108,11 @@ updating_doc = route_id and route_lang
           <div class="content">
             ## wr = waypoints, routes
             <app-simple-search parent-id="route.document_id"
-              app-select="editCtrl.documentService.pushToAssociations(doc, null, false, true)" dataset="wr"></app-simple-search>
+              app-select="editCtrl.documentService.pushToAssociations(doc, null, false, true)" dataset="wrcb"></app-simple-search>
             ${show_editing_associated_waypoints('route')}
             ${show_editing_associated_routes('route')}
+            ${show_editing_associated_articles('route')}
+            ${show_editing_associated_books('route')}
           </div>
         </section>
 

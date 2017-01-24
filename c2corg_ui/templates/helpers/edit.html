@@ -43,6 +43,20 @@
   </section>
 </%def>
 
+<%def name="show_editing_associated_books(model, hide_title = False)">\
+  <section ng-show="${model}.associations.books.length > 0" class="associated-section">
+    % if not hide_title:
+      <label translate>Associated books</label>
+    % endif
+    <article class="associated-documents">
+      <div class="list-item" ng-repeat="bk in ${model}.associations.books" ng-class="{'new-item': bk['new']}">
+        <app-card app-card-doc="bk" app-card-disable-click="true"></app-card>
+        <span class="glyphicon glyphicon-trash" ng-click="editCtrl.documentService.removeAssociation(bk.document_id, 'books', $event)"></span>
+      </div>
+    </article>
+  </section>
+</%def>
+
 <%def name="show_editing_associated_articles(model, hide_title = False)">\
   <section ng-show="${model}.associations.articles.length > 0" class="associated-section">
     % if not hide_title:
