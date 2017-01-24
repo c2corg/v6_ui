@@ -82,3 +82,31 @@ def has_associations(doc):
         a.get('all_routes') or a.get('routes') or \
         a.get('recent_outings') or a.get('outings') or \
         a.get('articles') or a.get('xreports') or a.get('books')
+
+
+def get_route_gear_articles(route):
+    articles = []
+    activities = route.get('activities')
+    if activities:
+        if 'snowshoeing' in activities or 'skitouring' in activities:
+            articles.append(('183333', 'skitouring gear'))
+        if 'snow_ice_mixed' in activities and \
+                route.get('global_rating') in ['F', 'F+', 'PD', 'PD+']:
+            articles.append(('185750', 'easy snow ice mixed gear'))
+        if 'mountain_climbing' in activities and \
+                route.get('global_rating') in ['F', 'F+', 'PD', 'PD+', 'AD']:
+            articles.append(('185384', 'easy rock climbing gear'))
+        if 'rock_climbing' in activities and \
+                route.get('equipment_rating') in ['P1', 'P1+']:
+            articles.append(('185384', 'easy rock climbing gear'))
+        if 'ice_climbing' in activities:
+            articles.append(('194479', 'ice and dry climbing gear'))
+        if any(activity in activities for activity in [
+                'skitouring',
+                'snow_ice_mixed',
+                'snowshoeing'
+                ]) and \
+                route.get('glacier_gear') and \
+                route.get('glacier_gear') != 'no':
+            articles.append(('185750', 'easy snow ice mixed gear'))
+    return dict(articles)
