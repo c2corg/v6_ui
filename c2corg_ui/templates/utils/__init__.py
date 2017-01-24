@@ -91,22 +91,52 @@ def get_route_gear_articles(route):
         if 'snowshoeing' in activities or 'skitouring' in activities:
             articles.append(('183333', 'skitouring gear'))
         if 'snow_ice_mixed' in activities and \
-                route.get('global_rating') in ['F', 'F+', 'PD', 'PD+']:
+                route.get('global_rating') in ['F', 'F+', 'PD-', 'PD', 'PD+']:
             articles.append(('185750', 'easy snow ice mixed gear'))
         if 'mountain_climbing' in activities and \
-                route.get('global_rating') in ['F', 'F+', 'PD', 'PD+', 'AD']:
-            articles.append(('185384', 'easy rock climbing gear'))
-        if 'rock_climbing' in activities and \
-                route.get('equipment_rating') in ['P1', 'P1+']:
-            articles.append(('185384', 'easy rock climbing gear'))
+                route.get('global_rating') in [
+                    'F',
+                    'F+',
+                    'PD-',
+                    'PD',
+                    'PD+',
+                    'AD-',
+                    'AD'
+                ]:
+            articles.append(('185384', 'easy mountain climbing gear'))
+        if 'rock_climbing' in activities:
+            if route.get('equipment_rating') in ['P1', 'P1+']:
+                articles.append(('183332', 'bolted rock climbing gear'))
+            elif 'mountain_climbing' not in activities and \
+                    route.get('global_rating') in [
+                        'F',
+                        'F+',
+                        'PD-',
+                        'PD',
+                        'PD+',
+                        'AD-',
+                        'AD'
+                    ] and \
+                    route.get('equipment_rating') in [
+                        'P2',
+                        'P2+',
+                        'P3',
+                        'P3+',
+                        'P4'
+                    ]:
+                articles.append('185384', 'easy mountain climbing gear')
         if 'ice_climbing' in activities:
             articles.append(('194479', 'ice and dry climbing gear'))
+        if 'hiking' in activities:
+            articles.append(('185207', 'hiking gear'))
         if any(activity in activities for activity in [
+                'mountain_climbing',
                 'skitouring',
                 'snow_ice_mixed',
                 'snowshoeing'
                 ]) and \
                 route.get('glacier_gear') and \
                 route.get('glacier_gear') != 'no':
+            # we should use an anchor for glacier gear, but it's not possible
             articles.append(('185750', 'easy snow ice mixed gear'))
     return dict(articles)
