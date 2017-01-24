@@ -99,66 +99,67 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
               </div>
             </div>
 
-            ## MAPS
-##             <section class="section maps-info">
-##               <h2 class="heading show-phone"><span translate>geolocation</span></h2>
-            <div class="content" id="edit-maps">
+          </div>
+        </section>
 
-              ## ELEVATION
-              <div id="elevation-group" class="form-group data third" ng-if="type != 'climbing_indoor' " ng-class="{ 'has-error': editForm.elevation.$touched && editForm.elevation.$invalid, 'has-success': editForm.elevation.$valid && xreport.elevation }">
-                <label><span translate>elevation</span> *</label>
-                <div class="input-group">
-                  <input type="number" name="elevation" min="0" ng-model="xreport.elevation" class="form-control" max="9999"/>
-                  <span class="input-group-addon">m</span>
-                </div>
-                <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.elevation.$valid && xreport.elevation"></span>
-                <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.elevation.$invalid && editForm.elevation.$touched"></span>
-                <div class="help-block" ng-messages="editForm.elevation.$error">
-                  <p ng-message="required" class="label label-danger" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : ''}}" translate>This field is required.</p>
-                  <p ng-message="max" class="label label-danger" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : ''}}" translate>This field must be lower than 9999 m.</p>
-                  <p ng-message="number" class="label label-danger" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
-                </div>
+        ## MAPS
+        <section class="section maps-info">
+          <h2 class="heading show-phone"><span translate>geolocation</span></h2>
+          <div class="content" id="edit-maps">
+
+            ## ELEVATION
+            <div id="elevation-group" class="form-group data third" ng-if="type != 'climbing_indoor' " ng-class="{ 'has-error': editForm.elevation.$touched && editForm.elevation.$invalid, 'has-success': editForm.elevation.$valid && xreport.elevation }">
+              <label><span translate>elevation</span> *</label>
+              <div class="input-group">
+                <input type="number" name="elevation" min="0" ng-model="xreport.elevation" class="form-control" max="9999"/>
+                <span class="input-group-addon">m</span>
               </div>
-
-              ## LONGITUDE
-              <div id="lon-group" class="form-group data third" ng-class="{ 'has-error': editForm.lon.$touched && editForm.lon.$invalid,
-                                        'has-success': editForm.longitude.$valid && xreport.lonlat.longitude}">
-                <label><span translate>Longitude</span> *</label>
-                <div class="input-group">
-                  <input type="number" name="longitude" ng-model="xreport.lonlat.longitude" ng-change="editCtrl.updateMap()" class="form-control" required min="-180" max="180" />
-                  <span class="input-group-addon">°E</span>
-                </div>
-                <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.longitude.$valid && xreport.lonlat.longitude"></span>
-                <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.longitude.$invalid && editForm.longitude.$touched"></span>
-                <div class="help-block" ng-messages="editForm.longitude.$error">
-                  <p ng-message="required" class="label label-danger" style="{{ (editForm.lon.$invalid && editForm.lon.$touched) ? 'display:inline' : ''}}" translate>This field is required.</p>
-                  <p ng-message="number" class="label label-danger" style="{{ (editForm.lon.$invalid && editForm.lon.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
-                  <p ng-message="min" class="label label-danger" style="{{ (editForm.lon.$invalid && editForm.lon.$touched) ? 'display:inline' : ''}}" translate>This field must be between -180° and 180°.</p>
-                  <p ng-message="max" class="label label-danger" style="{{ (editForm.lon.$invalid && editForm.lon.$touched) ? 'display:inline' : ''}}" translate>This field must be between -180° and 180°.</p>
-                </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.elevation.$valid && xreport.elevation"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.elevation.$invalid && editForm.elevation.$touched"></span>
+              <div class="help-block" ng-messages="editForm.elevation.$error">
+                <p ng-message="required" class="label label-danger" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : ''}}" translate>This field is required.</p>
+                <p ng-message="max" class="label label-danger" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : ''}}" translate>This field must be lower than 9999 m.</p>
+                <p ng-message="number" class="label label-danger" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
               </div>
-
-              ## LATITUDE
-              <div id="lat-group" class="form-group data third" ng-class="{ 'has-error': editForm.latitude.$touched && editForm.latitude.$invalid,
-                                        'has-success': editForm.latitude.$valid && xreport.lonlat.latitude}">
-                <label><span translate>Latitude</span> *</label>
-                <div class="input-group">
-                  <input type="number" name="latitude" ng-model="xreport.lonlat.latitude" ng-change="editCtrl.updateMap()" class="form-control" required min="-90" max="90" />
-                  <span class="input-group-addon">°N</span>
-                </div>
-                <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.longitude.$valid && xreport.lonlat.latitude"></span>
-                <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.latitude.$invalid && editForm.latitude.$touched"></span>
-                <div class="help-block" ng-messages="editForm.latitude.$error">
-                  <p ng-message="required" class="label label-danger" style="{{ (editForm.lat.$invalid && editForm.lat.$touched) ? 'display:inline' : ''}}" translate>This field is required.</p>
-                  <p ng-message="number" class="label label-danger" style="{{ (editForm.lat.$invalid && editForm.lat.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
-                  <p ng-message="min" class="label label-danger" style="{{ (editForm.lat.$invalid && editForm.lat.$touched) ? 'display:inline' : ''}}" translate>This field must be between -90° and 90°.</p>
-                  <p ng-message="max" class="label label-danger" style="{{ (editForm.lat.$invalid && editForm.lat.$touched) ? 'display:inline' : ''}}" translate>This field must be between -90° and 90°.</p>
-                </div>
-              </div>
-
-              <app-map app-map-edit="true" app-map-show-recenter-tools="true" app-map-draw-type="Point" class="map-edit"></app-map>
             </div>
-##             </section>
+
+            ## LONGITUDE
+            <div id="lon-group" class="form-group data third" ng-class="{ 'has-error': editForm.lon.$touched && editForm.lon.$invalid,
+                                      'has-success': editForm.longitude.$valid && xreport.lonlat.longitude}">
+              <label><span translate>Longitude</span> *</label>
+              <div class="input-group">
+                <input type="number" name="longitude" ng-model="xreport.lonlat.longitude" ng-change="editCtrl.updateMap()" class="form-control" required min="-180" max="180" />
+                <span class="input-group-addon">°E</span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.longitude.$valid && xreport.lonlat.longitude"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.longitude.$invalid && editForm.longitude.$touched"></span>
+              <div class="help-block" ng-messages="editForm.longitude.$error">
+                <p ng-message="required" class="label label-danger" style="{{ (editForm.lon.$invalid && editForm.lon.$touched) ? 'display:inline' : ''}}" translate>This field is required.</p>
+                <p ng-message="number" class="label label-danger" style="{{ (editForm.lon.$invalid && editForm.lon.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
+                <p ng-message="min" class="label label-danger" style="{{ (editForm.lon.$invalid && editForm.lon.$touched) ? 'display:inline' : ''}}" translate>This field must be between -180° and 180°.</p>
+                <p ng-message="max" class="label label-danger" style="{{ (editForm.lon.$invalid && editForm.lon.$touched) ? 'display:inline' : ''}}" translate>This field must be between -180° and 180°.</p>
+              </div>
+            </div>
+
+            ## LATITUDE
+            <div id="lat-group" class="form-group data third" ng-class="{ 'has-error': editForm.latitude.$touched && editForm.latitude.$invalid,
+                                      'has-success': editForm.latitude.$valid && xreport.lonlat.latitude}">
+              <label><span translate>Latitude</span> *</label>
+              <div class="input-group">
+                <input type="number" name="latitude" ng-model="xreport.lonlat.latitude" ng-change="editCtrl.updateMap()" class="form-control" required min="-90" max="90" />
+                <span class="input-group-addon">°N</span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.longitude.$valid && xreport.lonlat.latitude"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.latitude.$invalid && editForm.latitude.$touched"></span>
+              <div class="help-block" ng-messages="editForm.latitude.$error">
+                <p ng-message="required" class="label label-danger" style="{{ (editForm.lat.$invalid && editForm.lat.$touched) ? 'display:inline' : ''}}" translate>This field is required.</p>
+                <p ng-message="number" class="label label-danger" style="{{ (editForm.lat.$invalid && editForm.lat.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
+                <p ng-message="min" class="label label-danger" style="{{ (editForm.lat.$invalid && editForm.lat.$touched) ? 'display:inline' : ''}}" translate>This field must be between -90° and 90°.</p>
+                <p ng-message="max" class="label label-danger" style="{{ (editForm.lat.$invalid && editForm.lat.$touched) ? 'display:inline' : ''}}" translate>This field must be between -90° and 90°.</p>
+              </div>
+            </div>
+
+            <app-map app-map-edit="true" app-map-show-recenter-tools="true" app-map-draw-type="Point" class="map-edit"></app-map>
 
           </div>
         </section>
