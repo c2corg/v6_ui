@@ -18,7 +18,7 @@
   position: relative;
   cursor: pointer;
   background-color: white;
-  margin-top: 10px;
+  margin-top: 4px;
   outline: none;
   border-radius: 7px;
   min-height: 80px;
@@ -59,7 +59,7 @@
     padding: 10px;
 
     @media @phone {
-      font-size: 1.1em;
+      font-size: 0.9em;
       padding: 7px;
     }
 
@@ -168,7 +168,7 @@
     color: teal;
   }
   .activities .activity {
-    font-size: 3em;
+    font-size: 2.5em;
     color: @C2C-orange;
     @media @phone {
       font-size: 2.5em;
@@ -294,15 +294,8 @@
   &.users {
     margin-left: 3px;
     margin-right: 3px;
-    @media @big {
-      flex-basis: 24%;
-    }
-    @media @desktop {
-      flex-basis: 32%;
-    }
-    @media @tablet {
-      flex-basis: 49%;
-    }
+    flex-basis: 300px;	
+    max-width: 350px;
     .list-item-info {
       justify-content: center;
     }
@@ -326,13 +319,11 @@
       flex-basis: 100%;
     }
     .list-item {
-      flex-basis: 24%;
-      @media (max-width: 1200px){
-        flex-basis:  32%;
-      }
-      @media (max-width: 730px) {
-        flex-basis: 48%;
-      }
+      flex-basis: 300px;
+      flex-grow: 1;
+      margin-right: 2px;
+      margin-left: 2px;	
+      max-width: 350px;
     }
   }
   &.no-list  .documents-list-section {
@@ -381,51 +372,20 @@
 
 .section.associations, .view-details-associations, .list {
   .list-item {
-    @media (min-width: 2400px) {
-      flex-basis: 16%;
-    }
-    @media (max-width: 2400px) {
-      flex-basis: 19%;
-    }
-    @media (max-width: 2100px) {
-      flex-basis: 24%;
-    }
-    @media (max-width: @large-width) {
-      flex-basis: 32%;
-    }
-    @media (max-width: @tablet-max) {
-      flex-basis: 48%;
-    }
-    @media (max-width: @phone-max) {
-      flex-basis: 100%;
-    }
+    flex-basis: 300px;
+    flex-grow: 1;
+    margin-right: 2px;
+    margin-left: 2px;
+    max-width: 350px;	
   }
 }
 
-// card up to 7 column
 .documents-list-section-container, .section.associations, .view-details-associations {
   &.no-map .list-item{
-    @media (min-width: 2400px) {
-      flex-basis: 14%;
-    }
-    @media (max-width: 2400px) {
-      flex-basis: 16%;
-    }
-    @media (max-width: 2100px) {
-      flex-basis: 19%;
-    }
-    @media (max-width: @large-width) {
-      flex-basis: 24%;
-    }
-    @media (max-width: @tablet-max) {
-      flex-basis: 32%;
-    }
-    @media (max-width: 900px) {
-      flex-basis: 48%;
-    }
-    @media (max-width: @phone-max) {
-      flex-basis: 100%;
-    }
+    flex-basis: 300px;
+    flex-grow: 1;
+    margin-right: 2px;
+    margin-left: 2px;	
   }
 }
 
