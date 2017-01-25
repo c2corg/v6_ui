@@ -1,9 +1,10 @@
 .list {
   width:100%;
-  padding: 1% 2% 50px 2%;
+  padding: 2px 2px 50px 2px;
   .flex();
-  justify-content: space-around;
-  flex-flow: wrap row;
+  flex-flow: wrap;
+  margin-left: -4px;
+  margin-top: -4px;
 
   .list-item {
     min-height: initial;
@@ -292,10 +293,6 @@
   }
   // .list-item.users
   &.users {
-    margin-left: 3px;
-    margin-right: 3px;
-    flex-basis: 300px;	
-    max-width: 350px;
     .list-item-info {
       justify-content: center;
     }
@@ -317,13 +314,6 @@
   &.no-map {
     .page-main-title, .documents-list-section {
       flex-basis: 100%;
-    }
-    .list-item {
-      flex-basis: 300px;
-      flex-grow: 1;
-      margin-right: 2px;
-      margin-left: 2px;	
-      max-width: 350px;
     }
   }
   &.no-list  .documents-list-section {
@@ -370,22 +360,23 @@
   }
 }
 
-.section.associations, .view-details-associations, .list {
-  .list-item {
-    flex-basis: 300px;
-    flex-grow: 1;
-    margin-right: 2px;
-    margin-left: 2px;
-    max-width: 350px;	
+.list-item {
+  flex: 1 0 300px;
+  margin-top: 4px;
+  margin-left: 4px;
+
+  // http://stackoverflow.com/a/22018710
+  &:empty {
+    min-height: 0;
+    height: 0;
+    border: none;
   }
 }
 
-.documents-list-section-container, .section.associations, .view-details-associations {
-  &.no-map .list-item{
-    flex-basis: 300px;
-    flex-grow: 1;
-    margin-right: 2px;
-    margin-left: 2px;	
+.list.users,
+.list.areas {
+  .list-item {
+    flex: 1 0 200px;
   }
 }
 
@@ -411,6 +402,9 @@
 }
 
 #feed .list-item {
+  margin-left: 0;
+  margin-top: 10px;
+
   .list-item-info {
     min-height: 60px;
   }
@@ -459,4 +453,10 @@
       }
     }
   }
+}
+
+.list.advanced-search {
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: 0;
 }

@@ -2,7 +2,7 @@
 from c2corg_common.attributes import mailinglists
 %>
 <%inherit file="base.html"/>
-<%namespace file="helpers/common.html" import="show_title"/>
+<%namespace file="helpers/common.html" import="show_title, generate_empty_list_items"/>
 <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Followed users')">${show_title('Followed users')}</title></%block>
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
 
@@ -11,7 +11,7 @@ from c2corg_common.attributes import mailinglists
     <h3 class="green-text" translate>Followed users</h3>
     <p translate>Here is the list of users you are following and whose activity you will see in your personal feed.</p>
     <app-simple-search app-select="flCtrl.addUser(doc)" dataset="u"></app-simple-search>
-    <div class="flex wrap-row areas" ng-show="flCtrl.following.length > 0">
+    <div class="list users" ng-show="flCtrl.following.length > 0">
       <div class="list-item users" ng-repeat="user in flCtrl.following">
         <app-card app-card-doc="user"></app-card>
         <span class="glyphicon glyphicon-minus-sign follow-btn" ng-click="flCtrl.toggle(user.document_id)"
@@ -19,6 +19,7 @@ from c2corg_common.attributes import mailinglists
         <span class="glyphicon glyphicon-plus-sign follow-btn" ng-click="flCtrl.toggle(user.document_id)"
               ng-hide="flCtrl.followingIds.indexOf(user.document_id) > -1" uib-tooltip="{{'Follow' | translate}}" tooltip-append-to-body="true"></span>
       </div>
+      ${generate_empty_list_items(5)}
     </div>
   </section>
 </div>
