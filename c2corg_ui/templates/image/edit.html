@@ -176,13 +176,12 @@ from c2corg_common.attributes import default_langs, activities, image_types, ima
                                       'has-success': editForm.longitude.$valid && image.lonlat.longitude}">
               <label><span translate>longitude</span></label>
               <div class="input-group">
-                <input type="number" name="longitude" ng-model="image.lonlat.longitude" ng-change="editCtrl.updateMap()" class="form-control" required min="-180" max="180" />
+                <input type="number" name="longitude" ng-model="image.lonlat.longitude" ng-change="editCtrl.updateMap()" class="form-control" min="-180" max="180" />
                 <span class="input-group-addon">°E</span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.longitude.$valid && image.lonlat.longitude"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.longitude.$invalid && editForm.longitude.$touched"></span>
               <div class="help-block" ng-messages="editForm.longitude.$error">
-                <p ng-message="required" class="label label-danger" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : ''}}" translate>This field is required.</p>
                 <p ng-message="number" class="label label-danger" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
                 <p ng-message="min" class="label label-danger" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : ''}}" translate>This field must be between -180° and 180°.</p>
                 <p ng-message="max" class="label label-danger" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : ''}}" translate>This field must be between -180° and 180°.</p>
@@ -194,13 +193,12 @@ from c2corg_common.attributes import default_langs, activities, image_types, ima
                                       'has-success': editForm.latitude.$valid && image.lonlat.latitude}">
               <label><span translate>Latitude</span></label>
               <div class="input-group">
-                <input type="number" name="latitude" ng-model="image.lonlat.latitude" ng-change="editCtrl.updateMap()" class="form-control" required min="-90" max="90" />
+                <input type="number" name="latitude" ng-model="image.lonlat.latitude" ng-change="editCtrl.updateMap()" class="form-control" min="-90" max="90" />
                 <span class="input-group-addon">°N</span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="image.lonlat.latitude"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.latitude.$invalid && editForm.latitude.$touched"></span>
               <div class="help-block" ng-messages="editForm.latitude.$error">
-                <p ng-message="required" class="label label-danger" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : ''}}" translate>This field is required.</p>
                 <p ng-message="number" class="label label-danger" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
                 <p ng-message="min" class="label label-danger" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : ''}}" translate>This field must be between -90° and 90°.</p>
                 <p ng-message="max" class="label label-danger" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : ''}}" translate>This field must be between -90° and 90°.</p>
