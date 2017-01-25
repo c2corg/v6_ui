@@ -16,6 +16,7 @@ goog.require('ol.control.ScaleLine');
 goog.require('ol.format.GeoJSON');
 goog.require('ol.format.GPX');
 goog.require('ol.geom.Point');
+goog.require('ol.geom.MultiLineString');
 goog.require('ol.interaction.DragAndDrop');
 goog.require('ol.interaction.Draw');
 goog.require('ol.interaction.Modify');
@@ -640,9 +641,39 @@ app.MapController.prototype.handleEditModelChange_ = function(event, data) {
  */
 app.MapController.prototype.handleFeaturesUpload_ = function(event, features) {
   features = features.filter(app.utils.isLineFeature);
+  features = this.validateFeatures_(features);
   features.forEach(this.simplifyFeature_);
   this.showFeatures_(features, true);
   this.scope_.$root.$emit('mapFeaturesChange', features);
+};
+
+
+/**
+ *
+ * @param {Array.<ol.Feature>} features - invalid features that have to be checked
+ * @returns {Array.<ol.Feature>} features - this geometry is valid
+ * @private
+ */
+app.MapController.prototype.validateFeatures_ = function(features) {
+  for (var i = 0; i < features.length; i++) {
+    var geom = /** @type{ol.geom.Geometry} */ (features[i].getGeometry());
+
+    if (geom instanceof ol.geom.MultiLineString) {
+      var multiLineString = /** @type{ol.geom.MultiLineString} */ (geom);
+      var lineStrings = multiLineString.getLineStrings();
+
+      for (var j = 0; j < lineStrings.length; j++) {
+        if (lineStrings[j].getCoordinates().length === 1) {
+          lineStrings.splice(j, 1);
+        }
+      }
+
+      var newMs = new ol.geom.MultiLineString([]);
+      newMs.setLineStrings(lineStrings);
+      features[i].setGeometry(newMs);
+    }
+  }
+  return features;
 };
 
 
