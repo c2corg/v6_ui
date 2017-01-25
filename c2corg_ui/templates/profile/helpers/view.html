@@ -69,6 +69,7 @@
         % if missing_langs:
           <li ng-click="detailsCtrl.openModal('#missing-langs')"><a translate>Translate into an other lang</a></li>
         % endif
+        <li ng-if="userCtrl.isModerator()" app-block-account app-user-id="${doc_id}"></li>
       </ul>
     </div>
 
