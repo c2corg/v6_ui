@@ -635,4 +635,48 @@ app.Api.prototype.getFollowing = function() {
 };
 
 
+/**
+ * @param {number} userId
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.isAccountBlocked = function(userId) {
+  var promise = this.getJson_('/users/blocked/' + userId);
+  promise.catch(function(response) {
+    var msg = this.alerts_.gettext('Checking if user is blocked failed:');
+    this.alerts_.addErrorWithMsg(msg, response);
+  }.bind(this));
+  return promise;
+};
+
+
+/**
+ * @param {number} userId
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.blockAccount = function(userId) {
+  var data = {'user_id': userId};
+  var promise = this.postJson_('/users/block', data);
+  promise.catch(function(response) {
+    var msg = this.alerts_.gettext('Blocking user failed:');
+    this.alerts_.addErrorWithMsg(msg, response);
+  }.bind(this));
+  return promise;
+};
+
+
+/**
+ * @param {number} userId
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.unblockAccount = function(userId) {
+  var data = {'user_id': userId};
+  var promise = this.postJson_('/users/unblock', data);
+  promise.catch(function(response) {
+    var msg = this.alerts_.gettext('Unblocking user failed:');
+    this.alerts_.addErrorWithMsg(msg, response);
+  }.bind(this));
+  return promise;
+};
+
+
 app.module.service('appApi', app.Api);

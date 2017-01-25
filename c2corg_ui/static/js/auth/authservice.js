@@ -373,6 +373,8 @@ app.Authentication.prototype.needAuthorization = function(method, url) {
       url.indexOf('/users/preferences') !== -1 ||
       url.indexOf('/users/mailinglists') !== -1 ||
       url.indexOf('/users/following') !== -1 ||
+      url.indexOf('/users/block') !== -1 ||
+      url.indexOf('/users/unblock') !== -1 ||
       url.indexOf('/profiles') !== -1 ||
       url.indexOf('/personal-feed') !== -1 ||
       url.indexOf('/xreports/') !== -1) {

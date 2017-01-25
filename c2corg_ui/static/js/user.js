@@ -120,4 +120,13 @@ app.UserController.prototype.hasEditRights = function(doctype, options) {
   return this.auth.hasEditRights(doctype, options);
 };
 
+
+/**
+ * @return {boolean}
+ * @export
+ */
+app.UserController.prototype.isModerator = function() {
+  return this.auth.isModerator();
+};
+
 app.module.controller('AppUserController', app.UserController);
