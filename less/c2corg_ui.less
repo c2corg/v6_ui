@@ -340,7 +340,7 @@ app-pagination.areas, app-pagination.articles app-pagination.books {
   transition: .3s;
 
   @media @phone {
-    margin-left: 0;
+    left: 0;
     bottom: 40px;
     position: fixed;
     opacity: 0;
@@ -352,12 +352,8 @@ app-pagination.areas, app-pagination.articles app-pagination.books {
       -webkit-box-shadow: 0 0 36px -10px rgba(0,0,0,0.56);
       -moz-box-shadow: 0 0 36px -10px rgba(0,0,0,0.56);
       box-shadow: 0 0 36px -10px rgba(0,0,0,0.56);
-      height: 250px;
       margin-top: 0;
-      height: 80vh !important;
-    }
-    @media screen and (max-height: 330px) {
-      height: 73vh !important;
+      height: calc(~"100vh - 120px") !important;
     }
   }
 }
