@@ -40,7 +40,7 @@ app.RouteEditingController = function($scope, $element, $attrs, $http,
     if (ngeoLocation.hasFragmentParam('w')) {
       var waypointId = parseInt(ngeoLocation.getFragmentParam('w'), 10);
       appApi.getDocumentByIdAndDoctype(waypointId, 'w', appLang.getLang()).then(function(doc) {
-        this.documentService.pushToAssociations(doc.data['waypoints'].documents[0], 'waypoints', true);
+        this.documentService.pushToAssociations(doc.data['waypoints'].documents[0], 'waypoints', false, true);
       }.bind(this));
     }
   }
