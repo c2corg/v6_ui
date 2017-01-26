@@ -72,67 +72,7 @@ activities = [activity for activity in activities if activity != 'paragliding']
           ${add_multiselect('crtyp', climbing_outdoor_types)}
         </div>
       </div>
-        
-      ## SNOW, ICE, ROCK AND ALPINE CLIMBING
-      <div ng-show="filtersCtrl.filters.act.length && (filtersCtrl.filters.act.indexOf('snow_ice_mixed') !== -1 ||
-                    filtersCtrl.filters.act.indexOf('rock_climbing') !== -1 ||
-                    filtersCtrl.filters.act.indexOf('mountain_climbing') !== -1 ||
-                    filtersCtrl.filters.act.indexOf('ice_climbing') !== -1)">
-        <div class="col-xs-12 col-sm-6 filter">
-          <label translate>difficulties_height</label><br>
-          <app-slider filter="ralt" filters-list="filtersCtrl.filters" max="6000"></app-slider>
-        </div>
 
-        <div class="col-xs-12 col-sm-6 filter">
-          <label translate>height_diff_access</label><br>
-          <app-slider filter="rappr" filters-list="filtersCtrl.filters" max="3000"></app-slider>
-        </div>
-
-        <div class="col-xs-12 col-sm-6 filter">
-          <label translate>height_diff_difficulties</label><br>
-          <app-slider filter="dhei" filters-list="filtersCtrl.filters" max="3000"></app-slider>
-        </div>
-
-        <div class="col-xs-12 col-sm-6 filter">
-          <label translate>global_rating</label><br>
-          <app-slider filter="grat" filters-list="filtersCtrl.filters" unit=""
-            values-list="['${"','".join(global_ratings) |n}']"></app-slider>
-        </div>
-
-        <div class="col-xs-12 col-sm-6 filter">
-          <label translate>engagement_rating</label><br>
-          <app-slider filter="erat" filters-list="filtersCtrl.filters" unit=""
-            values-list="['${"','".join(engagement_ratings) |n}']"></app-slider>
-        </div>
-
-        <div class="col-xs-12 col-sm-6 filter">
-          <label translate>risk_rating</label><br>
-          <app-slider filter="orrat" filters-list="filtersCtrl.filters" unit=""
-            values-list="['${"','".join(risk_ratings) |n}']"></app-slider>
-        </div>
-
-        <div class="col-xs-12 col-sm-6 filter">
-          <label translate>equipment_rating</label><br>
-          <app-slider filter="prat" filters-list="filtersCtrl.filters" unit=""
-            values-list="['${"','".join(equipment_ratings) |n}']"></app-slider>
-        </div>
-      </div>
-        
-       ## ICE AND SNOW_ICE_MIXED
-      <div ng-show="filtersCtrl.filters.act.length && (filtersCtrl.filters.act.indexOf('snow_ice_mixed') !== -1 ||
-                    filtersCtrl.filters.act.indexOf('ice_climbing') !== -1)">
-        <div class="col-xs-12 col-sm-6 filter">
-          <label translate>ice_rating</label><br>
-          <app-slider filter="irat" filters-list="filtersCtrl.filters" unit=""
-            values-list="['${"','".join(ice_ratings) |n}']"></app-slider>
-        </div>
-
-        <div class="col-xs-12 col-sm-6 filter">
-          <label translate>mixed_rating</label><br>
-          <app-slider filter="mrat" filters-list="filtersCtrl.filters" unit=""
-            values-list="['${"','".join(mixed_ratings) |n}']"></app-slider>
-        </div>
-      </div>
 
       ## ROCK AND ALPINE CLIMBING
       <div ng-show="filtersCtrl.filters.act.length && (filtersCtrl.filters.act.indexOf('rock_climbing') !== -1 ||
@@ -159,6 +99,72 @@ activities = [activity for activity in activities if activity != 'paragliding']
           <label translate>aid_rating</label><br>
           <app-slider filter="arat" filters-list="filtersCtrl.filters" unit=""
             values-list="['${"','".join(aid_ratings) |n}']"></app-slider>
+        </div>
+      </div>
+     
+   
+      ## SNOW, ICE, ROCK AND ALPINE CLIMBING
+      <div ng-show="filtersCtrl.filters.act.length && (filtersCtrl.filters.act.indexOf('snow_ice_mixed') !== -1 ||
+                    filtersCtrl.filters.act.indexOf('rock_climbing') !== -1 ||
+                    filtersCtrl.filters.act.indexOf('mountain_climbing') !== -1 ||
+                    filtersCtrl.filters.act.indexOf('ice_climbing') !== -1)">
+       
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>global_rating</label><br>
+          <app-slider filter="grat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(global_ratings) |n}']"></app-slider>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>engagement_rating</label><br>
+          <app-slider filter="erat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(engagement_ratings) |n}']"></app-slider>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>risk_rating</label><br>
+          <app-slider filter="orrat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(risk_ratings) |n}']"></app-slider>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>equipment_rating</label><br>
+          <app-slider filter="prat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(equipment_ratings) |n}']"></app-slider>
+        </div>
+
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>difficulties_height</label><br>
+          <app-slider filter="ralt" filters-list="filtersCtrl.filters" max="6000"></app-slider>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>height_diff_access</label><br>
+          <app-slider filter="rappr" filters-list="filtersCtrl.filters" max="3000"></app-slider>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>height_diff_difficulties</label><br>
+          <app-slider filter="dhei" filters-list="filtersCtrl.filters" max="3000"></app-slider>
+        </div>
+
+      </div>
+        
+       ## ICE AND SNOW_ICE_MIXED
+      <div ng-show="filtersCtrl.filters.act.length && (filtersCtrl.filters.act.indexOf('snow_ice_mixed') !== -1 ||
+                    filtersCtrl.filters.act.indexOf('ice_climbing') !== -1)">
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>ice_rating</label><br>
+          <app-slider filter="irat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(ice_ratings) |n}']"></app-slider>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>mixed_rating</label><br>
+          <app-slider filter="mrat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(mixed_ratings) |n}']"></app-slider>
         </div>
       </div>
 
