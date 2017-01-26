@@ -64,8 +64,16 @@ activities = [activity for activity in activities if activity != 'paragliding']
             values-list="['${"','".join(labande_ski_ratings) |n}']"></app-slider>
         </div>
       </div>
+      
+        ## ROCK CLIMBING
+      <div ng-show="filtersCtrl.filters.act.length && filtersCtrl.filters.act.indexOf('rock_climbing') !== -1">
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>climbing_outdoor_type</label><br>
+          ${add_multiselect('crtyp', climbing_outdoor_types)}
+        </div>
+      </div>
         
-        ## SNOW, ICE, ROCK AND ALPINE CLIMBING
+      ## SNOW, ICE, ROCK AND ALPINE CLIMBING
       <div ng-show="filtersCtrl.filters.act.length && (filtersCtrl.filters.act.indexOf('snow_ice_mixed') !== -1 ||
                     filtersCtrl.filters.act.indexOf('rock_climbing') !== -1 ||
                     filtersCtrl.filters.act.indexOf('mountain_climbing') !== -1 ||
@@ -284,14 +292,6 @@ activities = [activity for activity in activities if activity != 'paragliding']
         <div class="col-xs-12 col-sm-6 filter">
           <label translate>route_length</label><br>
           <app-slider filter="rlen" filters-list="filtersCtrl.filters" max="100000" step="500" unit="m"></app-slider>
-        </div>
-      </div>
-
-      ## ROCK CLIMBING
-      <div ng-show="filtersCtrl.filters.act.length && filtersCtrl.filters.act.indexOf('rock_climbing') !== -1">
-        <div class="col-xs-12 col-sm-6 filter">
-          <label translate>climbing_outdoor_type</label><br>
-          ${add_multiselect('crtyp', climbing_outdoor_types)}
         </div>
       </div>
 
