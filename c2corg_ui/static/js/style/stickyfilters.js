@@ -18,7 +18,7 @@ app.stickyFiltersDirective = function() {
         $('.map-right').removeClass('show');
       });
       // hide/show map on mobile
-      $('.toggle-map').click(function() {
+      $('.toggle-map').on('click touch', function() {
         $('.map-right').toggleClass('show');
       });
       // on mobile, clicking on the 'all filters' btn will scroll up to the top
