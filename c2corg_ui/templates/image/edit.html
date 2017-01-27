@@ -8,7 +8,7 @@ from c2corg_common.attributes import default_langs, activities, image_types, ima
 <%namespace file="../helpers/common.html" import="show_title"/>
 
 <%namespace file="../helpers/edit.html" import="show_editing_associated_waypoints,
-    show_editing_associated_routes, show_preview_container, show_save_confirmation_modal,
+    show_editing_associated_routes, show_editing_associated_outings, show_preview_container, show_save_confirmation_modal,
     show_editing_buttons"/>
 
 <%block name="pagetitle">
@@ -321,6 +321,7 @@ from c2corg_common.attributes import default_langs, activities, image_types, ima
             <app-simple-search parent-id="image.document_id" app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="wro"></app-simple-search>
             ${show_editing_associated_routes('image')}
             ${show_editing_associated_waypoints('image')}
+            ${show_editing_associated_outings('image')}
           </div>
         </section>
       </div>
