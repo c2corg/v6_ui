@@ -6,7 +6,8 @@ from c2corg_common.attributes import default_langs, activities, article_categori
   updating_doc = article_id and article_lang
 %>
 <%namespace file="../helpers/common.html" import="show_title"/>
-<%namespace file="../helpers/edit.html" import="show_save_confirmation_modal, show_preview_container, show_editing_buttons"/>
+<%namespace file="../helpers/edit.html" import="show_save_confirmation_modal, show_preview_container, show_editing_buttons,
+  show_editing_associated_waypoints, show_editing_associated_routes, show_editing_associated_articles, show_editing_associated_books"/>
 
 <%block name="pagetitle"><title ng-init="id = ${article_id if article_id else 0}" ng-bind="id ? mainCtrl.page_title('Editing an article') : mainCtrl.page_title('Creating an article')">${show_title('Create/edit article')}</title></%block>
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
@@ -106,6 +107,23 @@ from c2corg_common.attributes import default_langs, activities, article_categori
               </ul>
             </div>
 
+          </div>
+        </section>
+
+        ## ASSOCIATIONS
+        <section class="section associations">
+          <h2 class="heading show-phone"><span translate>associations</span></h2>
+          <h5 class="full" translate ng-show="editCtrl.documentService.document.associations.waypoints.length == 0 &&
+                                              editCtrl.documentService.document.associations.routes.length == 0">
+            You can add associated documents by searching in the field.
+          </h5>
+          <div class="content route-associations">
+            <app-simple-search parent-id="article.document_id"
+              app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="wrcb"></app-simple-search>
+            ${show_editing_associated_waypoints('article')}
+            ${show_editing_associated_routes('article')}
+            ${show_editing_associated_articles('article')}
+            ${show_editing_associated_books('article')}
           </div>
         </section>
 
