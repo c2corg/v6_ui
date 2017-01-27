@@ -95,6 +95,7 @@ closure_library_path = settings.get('closure_library_path')
     <script src="${request.static_path('%s/corejs-typeahead/dist/typeahead.bundle.js' % node_modules_path)}"></script>
     <script src="${request.static_path('%s/ng-infinite-scroll/build/ng-infinite-scroll.js' % node_modules_path)}"></script>
     <script src="${request.static_path('%s/moment/moment.js' % node_modules_path)}"></script>
+    <script src="${request.static_path('%s/angular-dynamic-locale/src/tmhDynamicLocale.js' % node_modules_path)}"></script>
     <script src="${request.static_path('%s/moment-timezone/builds/moment-timezone-with-data.js' % node_modules_path)}"></script>
     <script src="${request.static_path('%s/angular-moment/angular-moment.js' % node_modules_path)}"></script>
     <script src="${request.static_path('%s/angular-recaptcha/release/angular-recaptcha.js' % node_modules_path)}"></script>
@@ -135,6 +136,7 @@ closure_library_path = settings.get('closure_library_path')
          var module = angular.module('app');
          module.constant('langUrlTemplate', '${request.static_path('c2corg_ui:static/build/locale/__lang__/c2corg_ui.json')}');
          module.constant('langMomentPath', '${request.static_path('c2corg_ui:static/build/locale_moment')}');
+         module.constant('angularLocalePath', '${request.static_path('c2corg_ui:static/build/angular-i18n')}');
          module.constant('imgPath', '${request.static_path('c2corg_ui:static/img')}');
          module.constant('apiUrl', '${api_url}');
          module.constant('imageBackendUrl', '${image_backend_url}');
