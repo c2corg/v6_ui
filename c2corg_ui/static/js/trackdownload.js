@@ -66,6 +66,15 @@ app.TrackDownloadController.prototype.downloadFeatures_ = function(
     var content = format.writeFeatures(features, {
       featureProjection: 'EPSG:3857'
     });
+
+    // Safari does not properly work with FileSaver. Using the the type 'text/plain'
+    // makes it a least possible to show the file content so that users can
+    // do a manual download with "Save as".
+    // https://github.com/eligrey/FileSaver.js/issues/12
+    // TODO delete after Safari will be fixed
+    if (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1) {
+      mimetype = 'text/plain';
+    }
     this.download_(content, filename, mimetype + ';charset=utf-8');
   }
 };
