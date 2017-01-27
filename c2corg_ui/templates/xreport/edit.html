@@ -10,7 +10,7 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
 %>
 <%namespace file="../helpers/common.html" import="show_title"/>
 <%namespace file="../helpers/edit.html" import="show_save_confirmation_modal, show_preview_container, show_editing_buttons,
-  show_editing_associated_waypoints, show_editing_associated_routes, show_editing_associated_articles"/>
+  show_editing_associated_waypoints, show_editing_associated_routes, show_editing_associated_outings, show_editing_associated_articles"/>
 
 <%block name="pagetitle"><title ng-init="id = ${xreport_id if xreport_id else 0}" ng-bind="id ? mainCtrl.page_title('Editing a report') : mainCtrl.page_title('Creating a report')">${show_title('Create/edit report')}</title></%block>
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
@@ -172,8 +172,9 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
           </h5>
           <div class="content route-associations">
             <app-simple-search parent-id="xreport.document_id"
-              app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="rc"></app-simple-search>
+              app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="roc"></app-simple-search>
             ${show_editing_associated_routes('xreport')}
+            ${show_editing_associated_outings('xreport')}
             ${show_editing_associated_articles('xreport')}
           </div>
         </section>
