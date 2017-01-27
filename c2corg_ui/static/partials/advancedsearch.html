@@ -1,8 +1,13 @@
-<div class="list" app-loading>
+<div class="list advanced-search" app-loading>
   <div id="card{{doc.document_id}}" class="list-item" ng-class="[searchCtrl.doctype, {'highlight': doc.document_id === searchCtrl.highlightId}]"
        ng-repeat="doc in searchCtrl.documents track by doc.document_id">
     <app-card app-card-doc="::doc" ng-mouseenter="searchCtrl.onMouseEnter(doc.document_id)"
               ng-mouseleave="searchCtrl.onMouseLeave(doc.document_id)"></app-card>
   </div>
+  <!--
+    add 5 empty items to fix last row item width
+    see http://stackoverflow.com/a/22018710
+  !-->
+  <div class="list-item" ng-repeat="n in [].constructor(5) track by $index"></div>
 </div>
 <p translate class="text-warning text-center no-results" ng-class="{'show': searchCtrl.noResults}">No results</p>

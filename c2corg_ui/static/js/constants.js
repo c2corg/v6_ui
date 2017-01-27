@@ -11,7 +11,7 @@ app.module.constant('constants', app.constants);
 
 app.constants = {
   SCREEN: {
-    SMARTPHONE : 620,
+    SMARTPHONE : 768,
     TABLET : 1099,
     DEKTOP : 1400
   },

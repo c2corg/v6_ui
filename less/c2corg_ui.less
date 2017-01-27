@@ -840,19 +840,9 @@ ul {
   float: left;
 }
 
-.section.associations, .view-details-section {
+.section.associations,
+.view-details-section {
   .list-item {
-    margin-right: .5%;
-    margin-left: .5%;
-    width: 49%;
-
-    @media @big {
-      width: 32%;
-    }
-    @media @phone {
-      width: 100%;
-    }
-
     &.new-outing a, &.new-route a {
       .flex();
       align-items: center;
@@ -923,9 +913,6 @@ ul {
       }
       [class^="icon-"] {
         font-size: 4em;
-        @media @big {
-          font-size: 4em;
-        }
         @media (max-width: @screen-sm-min) {
           font-size: 3.5em;
         }
@@ -959,9 +946,6 @@ ul {
     app-simple-search {
       width: 100%;
     }
-    .list-item {
-      flex-basis: 100% !important;
-    }
   }
 }
 
@@ -983,10 +967,6 @@ ul {
   .preferences-activities, .preferences-areas {
     border-top: 1px solid rgba(221, 221, 221, 0.5);
     margin-top: 30px;
-  }
-  .areas .list-item {
-    flex-basis: 33%;
-    margin-right: 10px;
   }
   @media @phone {
     .route-activity {

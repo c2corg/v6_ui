@@ -14,3 +14,9 @@ ${title + ' - ' if title else ''}Camptocamp.org\
     </div>
   </div>
 </%def>
+
+<%def name="generate_empty_list_items(count)">\
+  ## add 5 empty items to fix last row item width (works with up to 6 items in a row)
+  ## see http://stackoverflow.com/a/22018710
+  <div class="list-item" ng-repeat="n in [].constructor(${count}) track by $index"></div>
+</%def>
