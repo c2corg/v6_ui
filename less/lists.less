@@ -5,11 +5,6 @@
   flex-flow: wrap;
   margin-left: -4px;
   margin-top: -4px;
-
-  .list-item {
-    min-height: initial;
-  }
-
   & + .no-results {
     display: none;
   }
@@ -22,11 +17,10 @@
   margin-top: 4px;
   outline: none;
   border-radius: 7px;
-  min-height: 80px;
   -moz-border-radius: 7px;
   -webkit-border-radius: 7px;
   transition: .2s ease-in-out;
-  border: 2px solid rgba(88, 150, 165, 0.2);
+  border: 2px solid #0004;
 
 
   &:active {
@@ -57,10 +51,11 @@
     height: 100%;
     word-wrap: break-word;
     color: #767676;
-    padding: 10px;
+    padding: 5px;
 
     @media @phone {
       padding: 7px;
+      font-size: 0.9em;
     }
 
     &:hover .list-item-title {
@@ -80,13 +75,12 @@
     white-space: nowrap;
     font-weight: normal;
   }
-  .activities {
-    margin-top: 5px;
-  }
   .list-item-title {
     font-weight: bold;
     color: @darkgray;
     margin-right: 5px;
+    font-size: 1.1em;
+    color: #333;
     p {
       line-height: normal;
       display: block;
@@ -100,12 +94,16 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    .value {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
   .list-item-title-lang {
     .flex();
     align-items: center;
-    margin-bottom: 5px;
+    margin-bottom: 2px;
   }
   .elevation, .waypoint-elevation .glyphicon {
     margin-top: -1px;
@@ -113,7 +111,8 @@
   .list-item-info {
     margin: auto;
     height: 100%;
-    width: 100;
+    width: 100%;
+    font-size: 0.9em;
     text-decoration: none;
     color: #919191;
     font-weight: normal;
@@ -129,7 +128,7 @@
       }
     }
     .elevation, .height-diff, .height-diff-difficulties, .orientations, .icon-rating, .rating {
-      margin-right: 5px;
+      margin-right: 3px;
     }
     .icon-rating {
       font-size: 1.4em;
@@ -147,6 +146,7 @@
     }
     .full-rating {
       flex-wrap: wrap;
+      align-items: baseline;
       .glyphicon {
         font-size: 1.3em;
         margin-left: -3px;
@@ -170,8 +170,11 @@
     color: teal;
   }
   .activities .activity {
-    font-size: 2.5em;
+    font-size: 2em;
     color: @C2C-orange;
+    @media @phone {
+      font-size: 2em;
+    }
   }
   .set-main-waypoint {
     margin-left: 10px;
@@ -184,28 +187,22 @@
   &.waypoints {
 
     .waypoint-type {
-      font-size: 2.5em;
+      font-size: 2em;
       color: @C2C-orange;
-      margin-right: 0;
+      margin: 5px;
       @media @phone {
+        font-size: 2em;
         margin-left: 10px;
       }
     }
     .list-item-info {
-      flex-basis: 75%;
-
+      flex: 1;
     }
     .waypoint-infos {
       .calc(width, "100% - 20px");
       .flex();
       align-items: baseline;
       flex-wrap: wrap;
-    }
-  }
-  // .list-item.routes
-  &.routes {
-    .activities {
-      margin-bottom: -5px;
     }
   }
   // .list-item.books
@@ -245,7 +242,6 @@
   // .list-item.outings
   &.outings {
     max-height: inherit !important;
-
     .icon-user {
       font-size: 3em;
       padding-right: 5px;
@@ -257,7 +253,7 @@
       margin-right: 5px;
     }
     .activity-author {
-      .calc(width, "100% - 25px");
+      .calc(width, "100% - 20px");
       .flex();
       justify-content: space-between;
       flex-wrap: wrap;
@@ -267,17 +263,36 @@
     }
     .list-item-info {
       margin: inherit;
+      justify-content: start;
+      .calc(width, "100% - 40px");
     }
     .outing-author {
       color: @gray;
+      font-size: 0.9em;
       align-items: flex-end;
       .flex();
     }
     .glyphicon-trash {
       .calc(top, "100% - 60px");
     }
+    .date-location {
+      justify-content: space-between;
+    }
 
   } // end outing cards
+
+&.routes {
+    
+    .list-item-info {
+      .location {
+        width: 100%
+      }
+    }
+    .quality {
+        font-size: 1.2em;
+        }
+
+  } // end routes card
 
   // .list-item.highlight
   &.highlight a .list-item-title {
@@ -331,7 +346,7 @@
 }
 
 .documents-list-section, .not-found-section {
-  background-color: @lightgray;
+  background-color: #0002;
   overflow: auto;
   flex-basis: @list-width;
   transition: .3s;
@@ -355,6 +370,7 @@
 
 .list-item {
   flex: 1 0 300px;
+  min-width: 0;
   margin-top: 4px;
   margin-left: 4px;
 
@@ -370,6 +386,7 @@
 .list.areas {
   .list-item {
     flex: 1 0 200px;
+    min-width: 0;
   }
 }
 
@@ -404,15 +421,13 @@
     min-height: 60px;
   }
   &.waypoints .waypoint-type {
-    flex-basis: 25%;
+    flex-basis: 10%;
     @media @phone {
       flex-basis: 0;
     }
   }
   &.outings {
-    .list-item-info {
-      padding-left: 30%;
-    }
+    border-color: @C2C-orange;
     .activities {
       margin-bottom: 0;
     }
@@ -429,23 +444,12 @@
       justify-content: center;
       .flex();
     }
+
     .outing-author {
-      top: 33%;
-      flex-flow: wrap;
-      align-content: flex-start;
-      justify-content: center;
+      display: none;
     }
-    .author-name {
-      line-height: normal;
-      word-break: break-all;
-      word-break: break-word; // non-standard for webkit
-      text-align: center;
-    }
-    .date {
-      top: 13%;
-      .glyphicon {
-        display: none;
-      }
+    .icon-date {
+      margin: 10px; 
     }
   }
 }
