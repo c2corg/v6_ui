@@ -257,8 +257,7 @@
         tr {
           overflow: hidden;
           margin-bottom: 30px;
-          border-radius: 5px;
-          border: 1px solid #acacac;
+          background-color: inherit;
         }
         td {
           border-top: 0;
@@ -267,11 +266,12 @@
         td[data-title]:before {
           content: attr(data-title);
           display: block;
-          background-color: #7a979b;
-          color: white;
+          color: #8D8D8D;
           padding: 3px 10px;
           margin-left: -10px;
           font-variant: small-caps;
+          font-weight: bold;
+          border-bottom: 1px solid #ddd;
         }
       }
     }
