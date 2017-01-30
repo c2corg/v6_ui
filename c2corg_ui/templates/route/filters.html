@@ -260,12 +260,6 @@ activities = [activity for activity in activities if activity != 'paragliding']
         <app-slider filter="time" filters-list="filtersCtrl.filters" unit="days"
           values-list="['${"','".join(route_duration_types) |n}']"></app-slider>
       </div>
-      
-      <div class="col-xs-12 col-sm-6 filter">
-        <label translate>quality</label><br>
-        <app-slider filter="qa" filters-list="filtersCtrl.filters" unit=""
-          values-list="['${"','".join(quality_types) |n}']"></app-slider>
-      </div>
         
       <div class="col-xs-12 col-sm-6 filter">
         <label translate>route_types</label><br>
@@ -275,11 +269,6 @@ activities = [activity for activity in activities if activity != 'paragliding']
       <div class="col-xs-12 col-sm-6 filter">
         <label translate>configuration</label><br>
         ${add_multiselect('conf', route_configuration_types)}
-      </div>
-
-      <div class="col-xs-12 col-sm-6 filter">
-        <label translate>lang</label><br>
-        ${add_multiselect('l', default_langs)}
       </div>
         
       ## ALL EXCEPT MOUNTAIN BIKING
@@ -311,6 +300,17 @@ activities = [activity for activity in activities if activity != 'paragliding']
         </div>
       </div>
 
+      <div class="col-xs-12 col-sm-6 filter">
+        <label translate>lang</label><br>
+        ${add_multiselect('l', default_langs)}
+      </div>
+      
+      <div class="col-xs-12 col-sm-6 filter">
+        <label translate>quality</label><br>
+        <app-slider filter="qa" filters-list="filtersCtrl.filters" unit=""
+          values-list="['${"','".join(quality_types) |n}']"></app-slider>
+      </div>
+        
       ${show_results_buttons()}
 
     </div>
