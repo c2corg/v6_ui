@@ -461,12 +461,16 @@
   % endif
 </%def>
 
-<%def name="get_document_description(locale, doctype)">\
+<%def name="get_document_description(locale, doctype, title=None)">\
   % if locale.get('summary') or locale.get('description'):
     <div class="view-details-description col-xs-12  description">
       % if doctype not in ['article', 'profile']:
         <h3 class="heading show-phone">
-          <span translate>description</span>
+          % if title:
+            <span x-translate>${title}</span>
+          % else:
+            <span translate>description</span>
+          % endif
         </h3>
       % endif
       <span class="lead">
