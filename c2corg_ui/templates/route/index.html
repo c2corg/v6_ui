@@ -1,6 +1,6 @@
 <%inherit file="../base.html"/>
 <%namespace file="../helpers/common.html" import="show_title"/>
-<%namespace file="../helpers/list.html" import="add_doctype_selector, toggle_map_btns, toggle_list_btns"/>
+<%namespace file="../helpers/list.html" import="toggle_map_btns, toggle_list_btns"/>
 
 <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Routes')">${show_title('Routes')}</title></%block>
 
@@ -40,7 +40,7 @@
 
     <div class="documents-nav-buttons text-center">
       <button class="btn btn-default orange-btn show-documents-filters-phone" translate>Filters</button>
-      ${add_doctype_selector()}
+      <app-doctype-selector app-doctype="routes"></app-doctype-selector>
 
       <button class="btn btn-default orange-btn" protected-url-btn url="${request.route_path('routes_add')}"
               uib-tooltip="{{'Create a new route' | translate }}" tooltip-placement="right">

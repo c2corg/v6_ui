@@ -1,0 +1,4 @@
+<select class="form-control select-document"
+   ng-model="doctypeCtrl.selected"
+   ng-options="type as mainCtrl.translate(type.name) for type in doctypeCtrl.doctypes track by type.id"
+   ng-change="doctypeCtrl.redirect()"></select>

@@ -1,6 +1,6 @@
 <%inherit file="../base.html"/>
 <%namespace file="../helpers/common.html" import="show_title"/>
-<%namespace file="../helpers/list.html" import="add_doctype_selector, toggle_map_btns, toggle_list_btns"/>
+<%namespace file="../helpers/list.html" import="toggle_map_btns, toggle_list_btns"/>
 
 <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Images')">${show_title('Images')}</title></%block>
 
@@ -24,7 +24,7 @@
 
     <div class="documents-nav-buttons text-center">
       <button class="btn btn-default orange-btn show-documents-filters-phone" translate>Filters</button>
-      ${add_doctype_selector()}
+      <app-doctype-selector app-doctype="images"></app-doctype-selector>
       <app-pagination></app-pagination>
       <div class="toggle-map">
         <button class="btn btn-default"><span class="glyphicon glyphicon-globe"></span></button>
