@@ -228,7 +228,7 @@
       % endif
 
       % if waypoint.get('lift_access'):
-        <span x-translate class="value-title">lift_access</span>: <span translate class="value">yes</span>
+        <span translate class="value-title">lift_access</span>: <span translate class="value">yes</span>
       % endif
 
     </span>
@@ -329,7 +329,7 @@
         % endif
 
         % if waypoint.get('custodianship'):
-          <span x-translate class="value-title">custodianship</span> : <span x-translate class="value">${waypoint['custodianship']}</span><br>
+          <span translate class="value-title">custodianship</span> : <span x-translate class="value">${waypoint['custodianship']}</span><br>
         % endif
 
         % if waypoint.get('phone_custodian'):
@@ -354,27 +354,27 @@
       <span class="detail-text accordion">
 
         % if waypoint.get('matress_unstaffed'):
-        <p><span x-translate class="value-title">matress_unstaffed</span> : <span translate class="value">yes</span></p>
+        <p><span translate class="value-title">matress_unstaffed</span> : <span translate class="value">yes</span></p>
         % elif waypoint.get('matress_unstaffed') is not None :
-        <p><span x-translate class="value-title">matress_unstaffed</span> : <span translate class="value">no</span></p>
+        <p><span translate class="value-title">matress_unstaffed</span> : <span translate class="value">no</span></p>
         % endif
 
         % if waypoint.get('blanket_unstaffed'):
-        <p><span x-translate class="value-title">blanket_unstaffed</span> : <span translate class="value">yes</span></p>
+        <p><span translate class="value-title">blanket_unstaffed</span> : <span translate class="value">yes</span></p>
         % elif waypoint.get('blanket_unstaffed') is not None:
-        <p><span x-translate class="value-title">blanket_unstaffed</span> : <span translate class="value">no</span></p>
+        <p><span translate class="value-title">blanket_unstaffed</span> : <span translate class="value">no</span></p>
         % endif
 
         % if waypoint.get('heating_unstaffed'):
-        <p><span x-translate class="value-title">heating_unstaffed</span> : <span translate class="value">yes</span></p>
+        <p><span translate class="value-title">heating_unstaffed</span> : <span translate class="value">yes</span></p>
         % elif waypoint.get('heating_unstaffed') is not None:
-        <p><span x-translate class="value-title">heating_unstaffed</span> : <span translate class="value">no</span></p>
+        <p><span translate class="value-title">heating_unstaffed</span> : <span translate class="value">no</span></p>
         % endif
 
         % if waypoint.get('gas_unstaffed'):
-        <p><span x-translate class="value-title">gas_unstaffed</span> : <span translate class="value">yes</span></p>
+        <p><span translate class="value-title">gas_unstaffed</span> : <span translate class="value">yes</span></p>
         % elif waypoint.get('gas_unstaffed') is not None:
-        <p><span x-translate class="value-title">gas_unstaffed</span> : <span translate class="value">no</span></p>
+        <p><span translate class="value-title">gas_unstaffed</span> : <span translate class="value">no</span></p>
         % endif
 
       </span>
