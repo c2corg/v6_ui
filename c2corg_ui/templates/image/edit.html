@@ -141,8 +141,8 @@ from c2corg_common.attributes import default_langs, activities, image_types, ima
 
               <div ng-class="{ 'has-success': image.image_type}">
                 <label><span translate>image_type</span> *</label>
-                <div class="input-group">
-                  <select class="form-control" ng-model="image.image_type" ng-options="rat as mainCtrl.translate(rat) for rat in ${image_types}"><option value=""></option></select>
+                <div class="input-group" ng-init="image_types = ${image_types}">
+                  <select class="form-control" ng-model="image.image_type" ng-options="type as mainCtrl.translate(type) for type in image_types"><option value=""></option></select>
                   <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
                 </div>
                 <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="image.image_type"></span>
