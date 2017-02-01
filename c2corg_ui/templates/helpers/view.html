@@ -831,11 +831,15 @@
   </label>
 </%def>
 
-<%def name="show_track_download(document)">\
-  % if document.get('geometry') and document.get('geometry').get('geom_detail'):
+<%def name="show_geom_download(document)">\
+  % if document.get('geometry'):
     <p class="hidden-print">
-      <span translate class="value-title">Download track as</span>
-      <app-track-download></app-track-download>
+      % if document.get('geometry').get('geom_detail'):
+        <span translate class="value-title">Download track as</span>
+      % elif document.get('geometry').get('geom'):
+        <span translate class="value-title">Download waypoint as</span>
+      % endif
+      <app-geom-download></app-geom-download>
     </p>
   % endif
 </%def>

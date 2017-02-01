@@ -1,8 +1,7 @@
-goog.provide('app.TrackDownloadController');
-goog.provide('app.trackDownloadDirective');
+goog.provide('app.GeomDownloadController');
+goog.provide('app.geomDownloadDirective');
 
 goog.require('app');
-goog.require('app.utils');
 goog.require('ngeo.Download');
 goog.require('ol.format.GeoJSON');
 goog.require('ol.format.GPX');
@@ -15,16 +14,16 @@ goog.require('ol.format.KML');
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-app.trackDownloadDirective = function() {
+app.geomDownloadDirective = function() {
   return {
     restrict: 'E',
-    controller: 'AppTrackDownloadController',
-    controllerAs: 'trackCtrl',
-    templateUrl: '/static/partials/trackdownload.html'
+    controller: 'AppGeomDownloadController',
+    controllerAs: 'dlCtrl',
+    templateUrl: '/static/partials/geomdownload.html'
   };
 };
 
-app.module.directive('appTrackDownload', app.trackDownloadDirective);
+app.module.directive('appGeomDownload', app.geomDownloadDirective);
 
 
 /**
@@ -32,9 +31,10 @@ app.module.directive('appTrackDownload', app.trackDownloadDirective);
  * @param {?GeoJSONFeatureCollection} mapFeatureCollection FeatureCollection of
  *    features shown on the map.
  * @constructor
+ * @struct
  * @ngInject
  */
-app.TrackDownloadController = function(ngeoDownload, mapFeatureCollection) {
+app.GeomDownloadController = function(ngeoDownload, mapFeatureCollection) {
 
   /**
    * @type {ngeo.Download}
@@ -56,14 +56,19 @@ app.TrackDownloadController = function(ngeoDownload, mapFeatureCollection) {
  * @param {string} mimetype
  * @private
  */
-app.TrackDownloadController.prototype.downloadFeatures_ = function(
+app.GeomDownloadController.prototype.downloadFeatures_ = function(
   format, extension, mimetype) {
   var geojson = new ol.format.GeoJSON();
   var features = geojson.readFeatures(this.featureCollection_);
-  features = features.filter(app.utils.isLineFeature);
   if (features.length) {
-    var filename = features[0].get('documentId') + extension;
-    var content = format.writeFeatures(features, {
+    // Export only the current document geometry, not the associated features
+    var feature = features[0];
+    var properties = feature.getProperties();
+    if ('title' in properties && properties['title']) {
+      feature.set('name', properties['title']);
+    }
+    var filename = feature.get('documentId') + extension;
+    var content = format.writeFeatures([feature], {
       featureProjection: 'EPSG:3857'
     });
     this.download_(content, filename, mimetype + ';charset=utf-8');
@@ -75,7 +80,7 @@ app.TrackDownloadController.prototype.downloadFeatures_ = function(
  * @param {goog.events.Event | jQuery.Event} event
  * @export
  */
-app.TrackDownloadController.prototype.downloadGpx = function(event) {
+app.GeomDownloadController.prototype.downloadGpx = function(event) {
   event.stopPropagation();
   this.downloadFeatures_(
     new ol.format.GPX(), '.gpx', 'application/gpx+xml');
@@ -86,7 +91,7 @@ app.TrackDownloadController.prototype.downloadGpx = function(event) {
  * @param {goog.events.Event | jQuery.Event} event
  * @export
  */
-app.TrackDownloadController.prototype.downloadKml = function(event) {
+app.GeomDownloadController.prototype.downloadKml = function(event) {
   event.stopPropagation();
   this.downloadFeatures_(
     new ol.format.KML(), '.kml', 'application/vnd.google-earth.kml+xml');
@@ -94,4 +99,4 @@ app.TrackDownloadController.prototype.downloadKml = function(event) {
 
 
 app.module.controller(
-  'AppTrackDownloadController', app.TrackDownloadController);
+  'AppGeomDownloadController', app.GeomDownloadController);
