@@ -1,4 +1,4 @@
-<%namespace file="../../helpers/view.html" import="get_document_min_max, show_areas, show_maps, show_attr"/>
+<%namespace file="../../helpers/view.html" import="get_document_min_max, show_areas, show_maps, show_attr, show_geom_download"/>
 <%namespace file="../../helpers/orientations.svg" import="show_orientations"/>
 
 ## MAPSINFO
@@ -22,7 +22,7 @@
 </%def>
 
 ## GENERAL
-<%def name="get_waypoint_general(waypoint)">\
+<%def name="get_waypoint_general(waypoint, isPreview=False)">\
 <div class="name-icon-value general" ng-click="detailsCtrl.toggleTab($event)">
   <h4><span translate>General</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
   <div class="name-icon">
@@ -116,6 +116,9 @@
       <p><span translate class="value-title">quality</span>: <span x-translate class="value">${waypoint['quality']}</span></p>
     % endif
 
+    % if not isPreview:
+      ${show_geom_download(waypoint)}
+    % endif
   </span>
 </div>
 </%def>

@@ -3,7 +3,7 @@
     from json import loads
 %>
 <%namespace file="../../helpers/view.html" import="get_document_up_down, get_document_min_max,
-    show_attr, show_track_download"/>
+    show_attr, show_geom_download"/>
 
 <%def name="show_fulldate(dateStart, dateEnd)">\
   % if dateStart == dateEnd:
@@ -64,7 +64,7 @@
     % endif
 
     % if not isPreview:
-      ${show_track_download(outing)}
+      ${show_geom_download(outing)}
     % endif
 
   </span>
