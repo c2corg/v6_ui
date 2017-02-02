@@ -51,6 +51,11 @@ app.ImageEditingController = function($scope, $element, $attrs, $http,
    */
   this.exposureError = false;
 
+  /**
+   * @type {?string}
+   * @export
+   */
+  this.initialImageType = null;
 };
 goog.inherits(app.ImageEditingController, app.DocumentEditingController);
 
@@ -65,6 +70,7 @@ app.ImageEditingController.prototype.filterData = function(data) {
   // Image's date has to be converted to Date object because uib-datepicker
   // will treat it as invalid -> invalid form.
   data['date_time'] = new Date(data['date_time']);
+  this.initialImageType = data['image_type'];
   return data;
 };
 
@@ -99,6 +105,19 @@ app.ImageEditingController.prototype.convertExposureTime = function(value) {
  */
 app.ImageEditingController.prototype.createImgUrl = function(filename) {
   return this.imageUrl_ + app.utils.createImageUrl(filename, 'BI');
+};
+
+
+/**
+ * @param {Array.<string>} imageTypes
+ * @return {Array.<string>}
+ * @export
+ */
+app.ImageEditingController.prototype.filterImageTypes = function(imageTypes) {
+  var removeCopyright = function(val) {
+    return val !== 'copyright';
+  };
+  return imageTypes.filter(removeCopyright);
 };
 
 app.module.controller('appImageEditingController', app.ImageEditingController);
