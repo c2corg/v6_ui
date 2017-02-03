@@ -124,7 +124,7 @@ def get_route_gear_articles(route):
                         'P3+',
                         'P4'
                     ]:
-                articles.append('185384', 'easy mountain climbing gear')
+                articles.append(('185384', 'easy mountain climbing gear'))
         if 'ice_climbing' in activities:
             articles.append(('194479', 'ice and dry climbing gear'))
         if 'hiking' in activities:
