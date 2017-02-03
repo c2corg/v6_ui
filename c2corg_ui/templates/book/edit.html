@@ -6,7 +6,8 @@ from c2corg_common.attributes import default_langs, quality_types, activities, b
   updating_doc = book_id and book_lang
 %>
 <%namespace file="../helpers/common.html" import="show_title"/>
-<%namespace file="../helpers/edit.html" import="show_save_confirmation_modal, show_preview_container, show_editing_buttons"/>
+<%namespace file="../helpers/edit.html" import="show_save_confirmation_modal, show_preview_container, show_editing_buttons,
+    show_editing_associated_waypoints, show_editing_associated_routes, show_editing_associated_articles"/>
 
 <%block name="pagetitle"><title ng-init="id = ${book_id if book_id else 0}" ng-bind="id ? mainCtrl.page_title('Editing a book') : mainCtrl.page_title('Creating a book')">${show_title('Create/edit book')}</title></%block>
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
@@ -149,6 +150,21 @@ from c2corg_common.attributes import default_langs, quality_types, activities, b
               </div>
             </div>
 
+          </div>
+        </section>
+
+        ## ASSOCIATIONS
+        <section class="section associations">
+          <h2 class="heading show-phone"><span translate>associations</span></h2>
+          <h5 class="full" translate ng-show="editCtrl.documentService.document.associations.routes.length == 0 && editCtrl.documentService.document.associations.waypoints.length == 0">
+            You can add associated documents by searching in the field.
+          </h5>
+          <div class="content route-associations">
+            <app-simple-search parent-id="book.document_id"
+              app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="wrc"></app-simple-search>
+            ${show_editing_associated_waypoints('book')}
+            ${show_editing_associated_routes('book')}
+            ${show_editing_associated_articles('book')}
           </div>
         </section>
 

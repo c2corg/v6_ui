@@ -94,16 +94,6 @@ other_langs, missing_langs = get_lang_lists(book, lang)
     </div>
   % endif
 
-  % if 'recent_outings' in book['associations'] and book['associations']['recent_outings']['total'] > 0:
-    <div class="view-details-associations col-xs-12  associations">
-      <span class="lead">
-        <section>
-          ${show_associated_outings(book)}
-        </section>
-      </span>
-    </div>
-  % endif
-
   ${get_comments()}
 
   ## OTHER BUTTON contents
