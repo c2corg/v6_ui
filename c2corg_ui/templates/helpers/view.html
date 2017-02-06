@@ -831,15 +831,18 @@
   </label>
 </%def>
 
-<%def name="show_geom_download(document)">\
+<%def name="show_geom_download(document, isLine=False)">\
   % if document.get('geometry'):
-    <p class="hidden-print">
-      % if document.get('geometry').get('geom_detail'):
+    % if isLine and document.get('geometry').get('geom_detail'):
+      <p class="hidden-print">
         <span translate class="value-title">Download track as</span>
-      % elif document.get('geometry').get('geom'):
+        <app-geom-download></app-geom-download>
+      </p>
+    % elif not isLine and document.get('geometry').get('geom'):
+      <p class="hidden-print">
         <span translate class="value-title">Download waypoint as</span>
-      % endif
-      <app-geom-download></app-geom-download>
-    </p>
+        <app-geom-download></app-geom-download>
+      </p>
+    % endif
   % endif
 </%def>
