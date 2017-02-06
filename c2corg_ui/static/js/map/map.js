@@ -446,27 +446,24 @@ app.MapController.prototype.createPointStyle_ = function(feature, resolution) {
   }
   var id = /** @type {number} */ (feature.get('documentId'));
   var highlight = /** @type {boolean} */ (!!feature.get('highlight'));
-  var scale = highlight ? 1 : 0.5;
+  var scale = highlight ? 0.55 : 0.4;
 
+  imgSize = highlight ? 22 : 16;
   switch (module) {
     case 'waypoints':
-      imgSize = highlight ? 40 : 24;
       path = '/documents/waypoints/' + type + '.svg';
       break;
     case 'images':
       imgSize = 0; // no circle for images
-      path = '/documents/' + type + '.svg';
+      path = '/documents/images.svg';
       break;
     case 'profiles':
-      imgSize = highlight ? 32 : 16;
       path = '/documents/profile.svg';
       break;
     case 'xreports':
-      imgSize = highlight ? 40 : 24;
       path = '/documents/xreports.svg';
       break;
     default:
-      imgSize = highlight ? 32 : 16;
       path = '/documents/' + type + '.svg';
       break;
   }
