@@ -40,7 +40,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
 
 <%block name="moduleConstantsValues">
   <%
-      if route['geometry']:
+      if 'geometry' in route and route['geometry']:
           geometry = route['geometry']['geom_detail'] \
               if route['geometry']['geom_detail'] else route['geometry']['geom']
       else:
