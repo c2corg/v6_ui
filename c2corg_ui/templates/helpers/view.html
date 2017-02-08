@@ -522,7 +522,7 @@
       elif doctype == 'articles':
           options = {"articleType": doc['article_type'], "authorId": doc['author']['user_id']}
       elif doctype == 'xreports':
-          options = {"authorId": doc["author"]["user_id"]}
+          options = {"authorId": doc["author"]["user_id"], "users": users}
       else:
           options = {"users": users}
   %>
