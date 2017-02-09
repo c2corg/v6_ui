@@ -428,6 +428,25 @@ app.Api.prototype.readFeed = function(token, lang, userId, isPersonal) {
 
 
 /**
+ * @param {undefined | string} token
+ * @param {?number} userId
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.readWhatsnewFeed = function(token, userId) {
+  var params = {};
+  if (token) params['token'] = token;
+  if (userId) params['u'] = userId;
+
+  var promise = this.getJson_('/documents/changes?' + $.param(params));
+  promise.catch(function(response) {
+    var msg = this.alerts_.gettext('Getting feed data failed:');
+    this.alerts_.addErrorWithMsg(msg, response);
+  }.bind(this));
+  return promise;
+};
+
+
+/**
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.readAccount = function() {

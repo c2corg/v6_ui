@@ -113,6 +113,19 @@ appx.Document;
 
 /**
  * @typedef {{
+ *   version_id: number,
+ *   document: appx.Document,
+ *   written_at: (string | Date),
+ *   user: Object,
+ *   lang: string,
+ *   comment: string,
+ * }}
+ */
+appx.DocumentChange;
+
+
+/**
+ * @typedef {{
  *   associations: appx.DocumentAssociations,
  *   locales: Array.<Object>,
  *   type: string,

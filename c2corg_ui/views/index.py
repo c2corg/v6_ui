@@ -57,6 +57,11 @@ class Pages(object):
         return self._get_page(
             'following', 'c2corg_ui:templates/following.html')
 
+    @view_config(route_name='whatsnew')
+    def whatsnew(self):
+        return self._get_page(
+            'whatsnew', 'c2corg_ui:templates/whatsnew.html')
+
     def _get_page(self, page_key, template, no_etag=False):
         return get_or_create_page(
             page_key,
