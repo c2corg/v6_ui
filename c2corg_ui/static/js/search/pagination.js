@@ -99,6 +99,7 @@ app.PaginationController.prototype.handleSearchChange_ = function(event,
 app.PaginationController.prototype.goToFirst = function() {
   this.location_.deleteFragmentParam('offset');
   this.scope_.$root.$emit('searchFilterChange');
+  this.scrollToTop_();
 };
 
 
@@ -113,6 +114,7 @@ app.PaginationController.prototype.goToPrev = function() {
     this.location_.deleteFragmentParam('offset');
   }
   this.scope_.$root.$emit('searchFilterChange');
+  this.scrollToTop_();
 };
 
 
@@ -123,6 +125,7 @@ app.PaginationController.prototype.goToNext = function() {
   var nextOffset = this.offset + this.limit;
   this.location_.updateFragmentParams({'offset': nextOffset});
   this.scope_.$root.$emit('searchFilterChange');
+  this.scrollToTop_();
 };
 
 
@@ -133,6 +136,14 @@ app.PaginationController.prototype.goToLast = function() {
   var nextOffset = this.total - (this.total % this.limit);
   this.location_.updateFragmentParams({'offset': nextOffset});
   this.scope_.$root.$emit('searchFilterChange');
+  this.scrollToTop_();
+};
+
+/**
+ * @private
+ */
+app.PaginationController.prototype.scrollToTop_ = function() {
+  document.querySelector('.documents-list-section').scrollTop = 0;
 };
 
 
