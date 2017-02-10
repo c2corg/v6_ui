@@ -42,26 +42,30 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
       else:
           geometry = None
   %>
-  module.value('mapFeatureCollection', {
-    "type": "FeatureCollection",
-    "properties": {},
-    "features": [{
-      "type": "Feature",
-      % if geometry:
-        "geometry": ${geometry | n},
-      % endif
-      "properties": {
-        "title": ${dumps(locale['title']) | n},
-        "lang": "${locale['lang']}",
-        "documentId": ${outing['document_id']},
-        "module": "outings"
-      }
-    }
-    % if not version:
-      ${associated_images_featurelist(outing)}
+  module.value('mapFeatureCollection',
+    % if geometry:
+      {
+        "type": "FeatureCollection",
+        "properties": {},
+        "features": [
+        {
+          "type": "Feature",
+          "geometry": ${geometry | n},
+          "properties": {
+            "title": ${dumps(locale['title']) | n},
+            "lang": "${locale['lang']}",
+            "documentId": ${outing['document_id']},
+            "module": "outings"
+          }
+        }
+        % if not version:
+          ${associated_images_featurelist(outing)}
+        % endif
+      ]}
+    % else:
+      null
     % endif
-    ]
-  });
+  );
 
   module.value('documentData', {
     "document_id": ${outing.get('document_id')},
