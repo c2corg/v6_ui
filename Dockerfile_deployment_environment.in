@@ -5,11 +5,9 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN echo 'APT::Install-Recommends "0";' > /etc/apt/apt.conf.d/50no-install-recommends
 RUN echo 'APT::Install-Suggests "0";' > /etc/apt/apt.conf.d/50no-install-suggests
 
-COPY project.tar /tmp
+ADD project.tar /var/www
 
 WORKDIR /var/www/
-
-RUN tar -xvf /tmp/project.tar && chown -R root:root /var/www
 
 RUN set -x \
  && apt-get update \

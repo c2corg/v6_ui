@@ -9,8 +9,6 @@ ADD project.tar /var/www
 
 WORKDIR /var/www/
 
-#RUN chown -R root:root /var/www
-
 RUN set -x \
  && apt-get update \
  && apt-get -y upgrade \
