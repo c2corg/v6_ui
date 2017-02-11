@@ -10,7 +10,7 @@ fi
 build_image() {
   local DOCKER_TAG DOCKER_FILE
   DOCKER_TAG="$1"
-  DOCKER_FILE="$3"
+  DOCKER_FILE="$2"
 
   echo "Building docker image '${DOCKER_TAG}'"
   docker build -f "${DOCKER_FILE}" -t "${DOCKER_TAG}" .
