@@ -21,12 +21,12 @@ build_image() {
 git archive --format=tar --output project.tar "$TRAVIS_COMMIT"
 
 if [ "$TRAVIS_BRANCH" = "master" ]; then
-  build_image "${REPO}:latest" Dockerfile
+  build_image "${REPO}:latest" Dockerfile_deployment_environment
   build_image "${REPO}:dev_environment" Dockerfile_dev_environment
 elif [ ! -z "$TRAVIS_TAG" ]; then
-  build_image "${REPO}:${TRAVIS_TAG}" Dockerfile
+  build_image "${REPO}:${TRAVIS_TAG}" Dockerfile_deployment_environment
 elif [ ! -z "$TRAVIS_BRANCH" ]; then
-  build_image "${REPO}:${TRAVIS_BRANCH}" Dockerfile
+  build_image "${REPO}:${TRAVIS_BRANCH}" Dockerfile_deployment_environment
 else
   echo "Don't know how to build image"
   exit 1
