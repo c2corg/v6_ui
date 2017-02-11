@@ -1,5 +1,5 @@
 .build/
 .git/
 .gitignore
-Dockerfile
+Dockerfile*
 .travis.yml
