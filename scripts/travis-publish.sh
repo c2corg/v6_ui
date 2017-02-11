@@ -7,17 +7,24 @@ if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
   exit 0
 fi
 
+publish_image() {
+  local DOCKER_IMAGE
+  DOCKER_IMAGE="$1"
+
+  echo "Pushing image '${DOCKER_IMAGE}' to docker hub"
+  docker push "${DOCKER_IMAGE}"
+}
+
 docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
 
 if [ "$TRAVIS_BRANCH" = "master" ]; then
-  DOCKER_IMAGE="${REPO}:latest"
+  publish_image "${REPO}:latest"
+  publish_image "${REPO}:dev_environment"
 elif [ ! -z "$TRAVIS_TAG" ]; then
-  DOCKER_IMAGE="${REPO}:${TRAVIS_TAG}"
+  publish_image "${REPO}:${TRAVIS_TAG}"
 elif [ ! -z "$TRAVIS_BRANCH" ]; then
-  DOCKER_IMAGE="${REPO}:${TRAVIS_BRANCH}"
+  publish_image "${REPO}:${TRAVIS_BRANCH}"
 else
   echo "Not pushing any image"
 fi
 
-echo "Pushing image '${DOCKER_IMAGE}' to docker hub"
-docker push "${DOCKER_IMAGE}"
