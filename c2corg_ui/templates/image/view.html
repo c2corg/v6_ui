@@ -1,6 +1,6 @@
 <%!
 from c2corg_common.attributes import activities, image_categories, image_types
-from c2corg_ui.templates.utils import get_lang_lists, has_associations
+from c2corg_ui.templates.utils import get_lang_lists, has_associations, get_title
 from json import dumps
 %>
 
@@ -10,7 +10,7 @@ from json import dumps
     show_archive_data, show_locale_title, get_activities, show_areas, show_float_buttons,
     show_associated_waypoints, show_associated_routes, show_associated_articles,
     show_associated_outings, show_associated_books, delete_association_confirmation_modal,
-    get_document_description, get_comments, get_licence"/>
+    get_document_description, get_comments, get_licence, show_merge_documents_dialog"/>
 <%namespace file="helpers/view.html" import="get_image_general, get_image_camera_settings, show_image"/>
 
 <%
@@ -57,7 +57,8 @@ from json import dumps
     "lang": "${lang}",
     "type": "i",
     "image_type": "${image.get('image_type')}",
-    "topic_id": ${dumps(locale.get('topic_id'))}
+    "topic_id": ${dumps(locale.get('topic_id'))},
+    "title": ${dumps(get_title(locale)) | n}
     % if not version:
        , "associations": ${dumps(image.get('associations')) | n}
     % endif
@@ -143,6 +144,7 @@ from json import dumps
   ## OTHER BUTTON contents
     ${show_other_langs_links('images', image, other_langs)}
     ${show_missing_langs_links('images', image, missing_langs)}
+    ${show_merge_documents_dialog('images')}
     ${show_float_buttons(image, lang, other_langs, missing_langs)}
   % endif
 </section>
