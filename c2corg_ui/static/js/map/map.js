@@ -312,18 +312,21 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
     this.draw_.on('drawend', this.handleDrawEnd_.bind(this));
     this.map.addInteraction(this.draw_);
 
-    var modify = new ol.interaction.Modify({
-      features: vectorSource.getFeaturesCollection(),
-      // the SHIFT key must be pressed to delete vertices, so
-      // that new vertices can be drawn at the same position
-      // of existing vertices
-      deleteCondition: function(event) {
-        return ol.events.condition.shiftKeyOnly(event) &&
-            ol.events.condition.singleClick(event);
-      }
-    });
-    modify.on('modifyend', this.handleModify_.bind(this));
-    this.map.addInteraction(modify);
+    this.map.once('postrender', function() {
+      // add modify interaction after the map has been initialized
+      var modify = new ol.interaction.Modify({
+        features: vectorSource.getFeaturesCollection(),
+        // the SHIFT key must be pressed to delete vertices, so
+        // that new vertices can be drawn at the same position
+        // of existing vertices
+        deleteCondition: function(event) {
+          return ol.events.condition.shiftKeyOnly(event) &&
+              ol.events.condition.singleClick(event);
+        }
+      });
+      modify.on('modifyend', this.handleModify_.bind(this));
+      this.map.addInteraction(modify);
+    }.bind(this));
   }
 
   // When the map is rendered:
