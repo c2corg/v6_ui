@@ -20,7 +20,8 @@ app.simpleSearchDirective = function() {
     controller: 'AppSimpleSearchController',
     bindToController: {
       'selectHandler': '&appSelect',
-      'isStandardSearch': '=appSimpleSearchStandard',
+      'isStandardSearch': '<appSimpleSearchStandard',
+      'ignoreDocumentId': '<',
       'dataset': '@'
     },
     controllerAs: 'searchCtrl',
@@ -226,6 +227,12 @@ app.SimpleSearchController = function(appDocument, $scope, $compile, $attrs, api
   this.isStandardSearch;
 
   /**
+   * @type {number}
+   * @export
+   */
+  this.ignoreDocumentId;
+
+  /**
    * @type {ngeox.SearchDirectiveListeners}
    * @export
    */
@@ -351,7 +358,11 @@ app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
         if (documentResponse) {
           this.nbResults_[type] = documentResponse.total;
           var documents = documentResponse.documents;
-          return documents.map(function(/** appx.SimpleSearchDocument */ doc) {
+          documents = documents.map(function(/** appx.SimpleSearchDocument */ doc) {
+            if (this.ignoreDocumentId !== undefined && this.ignoreDocumentId === doc.document_id) {
+              return null;
+            }
+
             doc.label = this.createDocLabel_(doc, this.gettextCatalog_.currentLanguage);
             doc.documentType = type;
             // Show result if:
@@ -363,6 +374,10 @@ app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
             }
             return null;
           }.bind(this));
+
+          return documents.filter(function(doc) {
+            return doc !== null;
+          });
         }
       }).bind(this)
     }

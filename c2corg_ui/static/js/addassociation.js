@@ -16,6 +16,7 @@ app.addAssociationDirective = function($compile) {
 
   var template = function(dataset) {
     return '<app-simple-search app-select="addCtrl.associate(doc)" ' +
+      'ignore-document-id="addCtrl.parentId" ' +
       'dataset="' + dataset + '"></app-simple-search>';
   };
 

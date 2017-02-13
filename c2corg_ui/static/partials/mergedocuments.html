@@ -22,7 +22,10 @@ redirection from the source to the target document.</p>
           target="_blank">{{ mergeCtrl.targetDocument.document_id }}</a>)
     </span>
   </p>
-  <app-simple-search app-select="mergeCtrl.selectTargetDocument(doc)" dataset="{{ mergeCtrl.sourceDocument.type }}"></app-simple-search>
+  <app-simple-search app-select="mergeCtrl.selectTargetDocument(doc)"
+                     app-simple-search-standard="true"
+                     ignore-document-id="mergeCtrl.sourceDocument.document_id"
+                     dataset="{{ mergeCtrl.sourceDocument.type }}"></app-simple-search>
 </div>
 
 <p class="text-center">
