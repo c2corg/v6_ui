@@ -208,6 +208,12 @@ app.SimpleSearchController = function(appDocument, $scope, $compile, $attrs, api
       case 'b':
         this.datasets.push(this.createDataset_('books'));
         break;
+      case 'x':
+        this.datasets.push(this.createDataset_('xreports'));
+        break;
+      case 'i':
+        this.datasets.push(this.createDataset_('images'));
+        break;
       default:
         break;
     }
