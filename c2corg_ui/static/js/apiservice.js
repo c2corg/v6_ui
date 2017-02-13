@@ -679,4 +679,22 @@ app.Api.prototype.unblockAccount = function(userId) {
 };
 
 
+/**
+ * @param {number} sourceDocumentId
+ * @param {number} targetDocumentId
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.mergeDocuments = function(sourceDocumentId, targetDocumentId) {
+  var data = {
+    'source_document_id': sourceDocumentId,
+    'target_document_id': targetDocumentId};
+  var promise = this.postJson_('/document/merge', data);
+  promise.catch(function(response) {
+    var msg = this.alerts_.gettext('Merging documents failed:');
+    this.alerts_.addErrorWithMsg(msg, response);
+  }.bind(this));
+  return promise;
+};
+
+
 app.module.service('appApi', app.Api);
