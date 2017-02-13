@@ -20,7 +20,8 @@ app.simpleSearchDirective = function() {
     controller: 'AppSimpleSearchController',
     bindToController: {
       'selectHandler': '&appSelect',
-      'isStandardSearch': '=appSimpleSearchStandard'
+      'isStandardSearch': '=appSimpleSearchStandard',
+      'dataset': '@'
     },
     controllerAs: 'searchCtrl',
     templateUrl: '/static/partials/simplesearch.html',
@@ -179,13 +180,13 @@ app.SimpleSearchController = function(appDocument, $scope, $compile, $attrs, api
 
   /**
    * @type {string}
-   * @private
+   * @export
    */
-  this.datasetLimit_ = $attrs['dataset'];
+  this.dataset;
 
   // create only given datasets
-  for (var i = 0; i < this.datasetLimit_.length; i++) {
-    switch (this.datasetLimit_[i]) {
+  for (var i = 0; i < this.dataset.length; i++) {
+    switch (this.dataset[i]) {
       case 'u':
         this.datasets.push(this.createDataset_('users'));
         break;
@@ -325,14 +326,14 @@ app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
         var url = settings['url'] + '&pl=' + this.gettextCatalog_.currentLanguage;
         url += '&limit=' + app.SimpleSearchController.MAX_RESULTS_NB;
 
-        if (this.datasetLimit_) {
+        if (this.dataset) {
           // add the Auth header if searching for users
-          if (this.datasetLimit_.indexOf('u') > -1 && this.auth_.isAuthenticated()) {
+          if (this.dataset.indexOf('u') > -1 && this.auth_.isAuthenticated()) {
             settings['headers'] = {
               'Authorization': 'JWT token="' + this.auth_.userData.token + '"'
             };
           }
-          url = url + '&t=' + this.datasetLimit_.split('').join(',');
+          url = url + '&t=' + this.dataset.split('').join(',');
         }
         settings['url'] = url.replace('%QUERY', encodeURIComponent(query));
         return settings;
