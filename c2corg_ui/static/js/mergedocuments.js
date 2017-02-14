@@ -101,7 +101,7 @@ app.MergeDocumentsController.prototype.mergeDocuments = function() {
     this.appApi_.mergeDocuments(
         this.sourceDocument.document_id, this.targetDocument.document_id).then(
           function(response) {
-            this.$uibModalStack_.dismissAll();
+            this.closeDialog();
             this.appAlerts_.addSuccess(this.gettextCatalog_.getString(
                 'Documents successfully merged'
             ));
@@ -109,6 +109,15 @@ app.MergeDocumentsController.prototype.mergeDocuments = function() {
     );
   }
 };
+
+
+/**
+ * @export
+ */
+app.MergeDocumentsController.prototype.closeDialog = function() {
+  this.$uibModalStack_.dismissAll();
+};
+
 
 /**
  * @export

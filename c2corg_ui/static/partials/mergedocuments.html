@@ -10,6 +10,9 @@ redirection from the source to the target document.</p>
 <div class="document-to-merge">
   <p>
     <label>Source:</label> {{ mergeCtrl.sourceDocument.title }}
+    <span ng-if="mergeCtrl.module === 'outings' && mergeCtrl.sourceDocument.date_end">
+      {{::mergeCtrl.sourceDocument.date_end | date: 'dd/MM/yyyy'}}
+    </span>
     (<a ng-href="/{{ mergeCtrl.module }}/{{ mergeCtrl.sourceDocument.document_id }}"
         target="_blank">{{ mergeCtrl.sourceDocument.document_id }}</a>)
   </p>
@@ -18,12 +21,16 @@ redirection from the source to the target document.</p>
     <span ng-if="!mergeCtrl.targetDocument" class="merge-hint" translate>Search for a target document (document id or title).</span>
     <span ng-if="mergeCtrl.targetDocument">
       {{ mergeCtrl.getTargetTitle() }}
+      <span ng-if="mergeCtrl.module === 'outings' && mergeCtrl.targetDocument.date_end">
+        {{::mergeCtrl.targetDocument.date_end | date: 'dd/MM/yyyy'}}
+      </span>
       (<a ng-href="/{{ mergeCtrl.module }}/{{ mergeCtrl.targetDocument.document_id }}"
           target="_blank">{{ mergeCtrl.targetDocument.document_id }}</a>)
     </span>
   </p>
   <app-simple-search app-select="mergeCtrl.selectTargetDocument(doc)"
-                     app-simple-search-standard="true"
+                     app-simple-search-standard="false"
+                     skip-association-filter="true"
                      ignore-document-id="mergeCtrl.sourceDocument.document_id"
                      dataset="{{ mergeCtrl.sourceDocument.type }}"></app-simple-search>
 </div>
@@ -31,4 +38,6 @@ redirection from the source to the target document.</p>
 <p class="text-center">
   <button type="button" ng-disabled="!mergeCtrl.targetDocument" ng-click="mergeCtrl.mergeDocuments()"
         class="btn btn-primary" translate>Merge documents</button>
+  <button type="button" ng-click="mergeCtrl.closeDialog()"
+        class="btn btn-secondary" translate>Cancel</button>
 </p>

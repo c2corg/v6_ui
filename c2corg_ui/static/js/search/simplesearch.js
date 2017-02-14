@@ -21,6 +21,7 @@ app.simpleSearchDirective = function() {
     bindToController: {
       'selectHandler': '&appSelect',
       'isStandardSearch': '<appSimpleSearchStandard',
+      'skipAssociationFilter': '<',
       'ignoreDocumentId': '<',
       'dataset': '@'
     },
@@ -227,6 +228,12 @@ app.SimpleSearchController = function(appDocument, $scope, $compile, $attrs, api
   this.isStandardSearch;
 
   /**
+   * @type {boolean}
+   * @export
+   */
+  this.skipAssociationFilter;
+
+  /**
    * @type {number}
    * @export
    */
@@ -367,8 +374,9 @@ app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
             doc.documentType = type;
             // Show result if:
             // - in the frame of a standard simple-search
+            // - explicitly skipping the association check
             // - if not already associated for other simple-searches
-            if (this.isStandardSearch ||
+            if (this.isStandardSearch || this.skipAssociationFilter ||
                 !this.documentService_.hasAssociation(type,  doc.document_id)) {
               return doc;
             }

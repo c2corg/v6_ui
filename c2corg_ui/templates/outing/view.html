@@ -64,7 +64,8 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
     "type": "o",
     "activities": ${dumps(outing.get('activities')) | n},
     "topic_id": ${dumps(locale.get('topic_id'))},
-    "title": ${dumps(get_title(locale)) | n}
+    "title": ${dumps(get_title(locale)) | n},
+    "date_end": ${dumps(outing.get('date_end')) | n}
     % if not version:
        , "associations": ${dumps(outing.get('associations')) | n}
     % endif
