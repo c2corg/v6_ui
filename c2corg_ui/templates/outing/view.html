@@ -1,6 +1,6 @@
 <%!
 from c2corg_common.attributes import activities, image_categories, image_types
-from c2corg_ui.templates.utils import get_lang_lists, has_associations
+from c2corg_ui.templates.utils import get_lang_lists, has_associations, get_title
 from json import dumps
 %>
 
@@ -12,7 +12,7 @@ from json import dumps
     show_associated_waypoints, show_associated_routes, show_associated_articles,
     show_associated_xreports,
     delete_association_confirmation_modal, associated_images_featurelist,
-    show_badge, get_licence"/>
+    show_badge, get_licence, show_merge_documents_dialog"/>
 <%namespace file="helpers/view.html" import="get_outing_snow, get_outing_access,
     get_outing_participants, get_outing_general, get_outing_heights,
     show_fulldate, get_conditions"/>
@@ -72,7 +72,9 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
     "lang": "${lang}",
     "type": "o",
     "activities": ${dumps(outing.get('activities')) | n},
-    "topic_id": ${dumps(locale.get('topic_id'))}
+    "topic_id": ${dumps(locale.get('topic_id'))},
+    "title": ${dumps(get_title(locale)) | n},
+    "date_end": ${dumps(outing.get('date_end')) | n}
     % if not version:
        , "associations": ${dumps(outing.get('associations')) | n}
     % endif
@@ -161,6 +163,7 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
   ## OTHER BUTTON contents
     ${show_other_langs_links('outings', outing, other_langs)}
     ${show_missing_langs_links('outings', outing, missing_langs)}
+    ${show_merge_documents_dialog('outings')}
     ${show_float_buttons(outing, lang, other_langs, missing_langs)}
   % endif
 </section>

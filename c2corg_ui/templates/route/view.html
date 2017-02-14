@@ -1,6 +1,6 @@
 <%!
 from c2corg_common.attributes import activities, image_categories, image_types
-from c2corg_ui.templates.utils import get_lang_lists
+from c2corg_ui.templates.utils import get_lang_lists, get_title
 from json import dumps
 %>
 
@@ -13,7 +13,7 @@ from json import dumps
     show_associated_waypoints, show_associated_routes, show_associated_outings,
     show_associated_articles, show_associated_books, show_associated_xreports,
     delete_association_confirmation_modal, associated_waypoints_featurelist,
-    show_badge, get_document_description, get_licence" />
+    show_badge, get_document_description, get_licence, show_merge_documents_dialog" />
 
 <%namespace file="helpers/view.html" import="get_route_location,
     get_route_glacier_gear, get_route_rating, get_route_general, get_route_heights,
@@ -75,6 +75,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
     "document_id": ${route.get('document_id')},
     "lang": "${lang}",
     "type": "r",
+    "title": ${dumps(get_title(locale)) | n},
     "activities": ${dumps(route.get('activities')) | n},
     "topic_id": ${dumps(locale.get('topic_id'))},
     % if route.get('orientations'):
@@ -167,6 +168,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
   ## OTHER BUTTON contents
     ${show_other_langs_links('routes', route, other_langs)}
     ${show_missing_langs_links('routes', route, missing_langs)}
+    ${show_merge_documents_dialog('routes')}
     ${show_float_buttons(route, lang, other_langs, missing_langs)}
   % endif
 

@@ -1,6 +1,6 @@
 <%!
 from c2corg_common.attributes import activities, image_categories, image_types
-from c2corg_ui.templates.utils import get_lang_lists
+from c2corg_ui.templates.utils import get_lang_lists, get_title
 from json import dumps
 %>
 
@@ -9,7 +9,7 @@ from json import dumps
     photoswipe_gallery, get_document_locale_text, show_badge,
     show_missing_langs_links, show_other_langs_links, show_archive_data,
     delete_association_confirmation_modal, show_locale_title, show_float_buttons,
-    get_document_description, get_licence"/>
+    get_document_description, get_licence, show_merge_documents_dialog"/>
 <%namespace file="helpers/view.html" import="get_area_general"/>
 <%
 area_id = area['document_id']
@@ -57,7 +57,8 @@ area['doctype'] = 'areas'
     "document_id": ${area.get('document_id')},
     "lang": "${lang}",
     "type": "a",
-    "topic_id": ${dumps(locale.get('topic_id'))}
+    "topic_id": ${dumps(locale.get('topic_id'))},
+    "title": ${dumps(get_title(locale)) | n}
   });
 </%block>
 
@@ -124,6 +125,7 @@ area['doctype'] = 'areas'
   % if not version:
     ${show_other_langs_links('areas', area, other_langs)}
     ${show_missing_langs_links('areas', area, missing_langs)}
+    ${show_merge_documents_dialog('areas')}
     ${show_float_buttons(area, lang, other_langs, missing_langs)}
   % endif
 </section>

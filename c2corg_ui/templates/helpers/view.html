@@ -1,5 +1,5 @@
 <%!
-    from c2corg_ui.templates.utils import get_attr, is_collaborative, is_personal, get_doc_type
+    from c2corg_ui.templates.utils import get_attr, is_collaborative, is_personal, get_doc_type, get_title
     from json import dumps, loads
     from shapely.geometry import asShape
     from math import floor
@@ -106,12 +106,23 @@
   % endif
 </%def>
 
+<%def name="show_merge_documents_dialog(module)">\
+  <%
+      # get the module without the 's' at the end ('routes' -> 'route')
+      # to reuse existing translation strings
+      document_type = module[:-1]
+  %>\
+  <div id="merge-documents-dialog">
+    <div class="modal-header">
+      <h3 class="text-center"><span translate>Merge documents</span> (<span translate>${document_type}</span>)</h3>
+    </div>
+    <app-merge-documents module="'${module}'"></app-merge-documents>
+  </div>
+</%def>
+
 <%def name="show_locale_title(locale, is_tab_title=False)">\
   <%
-      title = ''
-      if 'title_prefix' in locale and locale['title_prefix']:
-          title = locale['title_prefix'] + ' : '
-      title += locale['title']
+      title = get_title(locale)
   %>\
   ${title}${' - Camptocamp.org' if is_tab_title else ''}\
 </%def>
@@ -563,6 +574,8 @@
         <li ng-if="userCtrl.hasEditRights('${doctype}', ${options})"
             ng-click="detailsCtrl.openModal('#missing-langs')"><a translate>Translate into an other lang</a></li>
         % endif
+        <li ng-if="userCtrl.isModerator()"
+            ng-click="detailsCtrl.openModal('#merge-documents-dialog')"><a translate>Merge with other document</a></li>
       </ul>
     </div>
 

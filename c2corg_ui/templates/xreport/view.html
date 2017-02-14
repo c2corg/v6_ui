@@ -1,6 +1,6 @@
 <%!
 from c2corg_common.attributes import activities, image_categories, image_types
-from c2corg_ui.templates.utils import get_lang_lists
+from c2corg_ui.templates.utils import get_lang_lists, get_title
 from json import dumps
 %>
 
@@ -11,7 +11,7 @@ from json import dumps
   show_associated_waypoints, show_associated_outings, show_associated_routes, show_associated_xreports,
   show_associated_articles, show_float_buttons,
   delete_association_confirmation_modal, associated_waypoints_featurelist,
-  associated_images_featurelist, show_badge, get_licence"/>
+  associated_images_featurelist, show_badge, get_licence, show_merge_documents_dialog"/>
 <%namespace file="helpers/view.html" import="show_fulldate, get_xreport_general, get_xreport_participants, get_xreport_personal"/>
 
 <%
@@ -63,7 +63,8 @@ other_langs, missing_langs = get_lang_lists(xreport, lang)
     "document_id": ${xreport.get('document_id')},
     "lang": "${lang}",
     "type": "x",
-    "topic_id": ${dumps(locale.get('topic_id'))}
+    "topic_id": ${dumps(locale.get('topic_id'))},
+    "title": ${dumps(get_title(locale)) | n}
     % if not version:
        , "associations": ${dumps(xreport.get('associations')) | n}
     % endif
@@ -166,6 +167,7 @@ other_langs, missing_langs = get_lang_lists(xreport, lang)
   % if not version:
     ${show_other_langs_links('xreports', xreport, other_langs)}
     ${show_missing_langs_links('xreports', xreport, missing_langs)}
+    ${show_merge_documents_dialog('xreports')}
     ${show_float_buttons(xreport, lang, other_langs, missing_langs)}
   % endif
 

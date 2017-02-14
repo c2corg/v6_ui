@@ -154,8 +154,30 @@ h1 {
 }
 
 main {
-  #missing-langs, #other-langs {
+  #missing-langs, #other-langs, #merge-documents-dialog {
     display: none;
+  }
+}
+
+#merge-documents-dialog {
+  padding: 10px;
+
+  .merge-hint {
+    font-style: italic;
+  }
+
+  .document-to-merge {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+
+  app-simple-search {
+    @media @phone {
+      width: 100%;
+    }
+    .search {
+      width: 100%;
+    }
   }
 }
 
