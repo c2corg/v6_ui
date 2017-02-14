@@ -111,7 +111,8 @@
       title = ''
       if 'title_prefix' in locale and locale['title_prefix']:
           title = locale['title_prefix'] + ' : '
-      title += locale['title']
+      if 'title' in locale and locale['title']:
+          title += locale['title']
   %>\
   ${title}${' - Camptocamp.org' if is_tab_title else ''}\
 </%def>
