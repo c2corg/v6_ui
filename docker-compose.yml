@@ -1,5 +1,5 @@
 ui:
-  image: c2corg/v6_ui:devel
+  image: c2corg/v6_ui:dev_environment
   ports:
     - 6553:6553
   environment:
