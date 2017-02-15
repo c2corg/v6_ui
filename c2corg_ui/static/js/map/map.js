@@ -190,6 +190,14 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
   this.initialFeature_ = null;
 
   /**
+   * Remember the initial geometry so that the changes can be reset.
+   * @type {?Object|undefined}
+   * @private
+   */
+  this.initialGeometry_ = undefined;
+
+
+  /**
    * @type {ol.interaction.Draw}
    * @private
    */
@@ -610,6 +618,10 @@ app.MapController.prototype.showFeatures_ = function(features, recenter) {
  * @private
  */
 app.MapController.prototype.handleEditModelChange_ = function(event, data) {
+  if (this.initialGeometry_ === undefined) {
+    this.initialGeometry_ = data['geometry'] ? angular.copy(data['geometry']) : null;
+  }
+
   if (!('geometry' in data && data['geometry'])) {
     return;
   }
@@ -627,9 +639,6 @@ app.MapController.prototype.handleEditModelChange_ = function(event, data) {
     geometry = /** @type {ol.geom.Point} */ (this.geojsonFormat_.readGeometry(geomstr));
     this.view_.setCenter(geometry.getCoordinates());
     this.view_.setZoom(this.zoom || app.MapController.DEFAULT_POINT_ZOOM);
-  }
-  if (!this.initialFeature_ && geometry) {
-    this.initialFeature_ = new ol.Feature(geometry.clone());
   }
 };
 
@@ -701,6 +710,7 @@ app.MapController.prototype.handleDrawStart_ = function(event) {
 app.MapController.prototype.handleDrawEnd_ = function(event) {
   this.isDrawing_ = false;
   this.scope_.$root.$emit('mapFeaturesChange', [event.feature]);
+  this.scope_.$applyAsync();
 };
 
 
@@ -906,19 +916,44 @@ app.MapController.prototype.simplifyFeature_ = function(feature) {
 /**
  * @export
  */
+app.MapController.prototype.canReset = function() {
+  return this.edit;
+};
+
+
+/**
+ * @export
+ */
 app.MapController.prototype.resetFeature = function() {
   if (this.isDrawing_) {
     this.draw_.finishDrawing();
   }
   var source = this.getVectorLayer_().getSource();
   source.clear();
-  var features = [];
-  if (this.initialFeature_) {
-    var feature = this.initialFeature_.clone();
-    source.addFeature(feature);
-    features.push(feature);
+
+  this.scope_.$root.$emit('mapFeaturesReset', angular.copy(this.initialGeometry_));
+};
+
+
+/**
+ * @export
+ */
+app.MapController.prototype.canDelete = function() {
+  return this.edit && this.getVectorLayer_().getSource().getFeatures().length > 0
+      && this.initialGeometry_ && this.initialGeometry_['geom'];
+};
+
+
+/**
+ * @export
+ */
+app.MapController.prototype.deleteFeature = function() {
+  if (this.isDrawing_) {
+    this.draw_.finishDrawing();
   }
-  this.scope_.$root.$emit('mapFeaturesChange', features, true /* isReset */);
+  var source = this.getVectorLayer_().getSource();
+  source.clear();
+  this.scope_.$root.$emit('mapFeaturesChange', []);
 };
 
 
