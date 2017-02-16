@@ -98,14 +98,19 @@
         </div>
       </div>
       <!-- PROGRESS BAR-->
-      <div class="progress" ng-show="!file['processed']">
+      <div class="progress" ng-show="!file['processed'] && !file['failed']">
         <div class="progress-bar progress-bar-striped active" role="progressbar" style="width:{{file.progress}}%;">
           <span ng-show="file.progress < 100">{{file.progress | number : 0}}%</span>
           <span ng-show="file.progress >= 100" translate>Processing</span>
         </div>
       </div>
-      <!-- ABORT BUTTON-->
-      <button class="btn btn-danger" type="button" ng-click="uplCtrl.abortFileUpload(file)" ng-show="!file['processed']" translate>Abort</button>
+      <div class="text-danger" ng-show="file['failed']">
+        <span translate>Error while uploading the image:</span> {{file['failed']}}</span>
+      </div>
+      <!-- ABORT / RETRY BUTTONS-->
+      <button class="btn btn-danger" type="button" ng-click="uplCtrl.abortFileUpload(file)" ng-show="!file['processed'] && !file['failed']" translate>Abort</button>
+      <button class="btn btn-primary" type="button" ng-click="uplCtrl.retryFileUpload(file)" ng-show="file['failed']" translate>Retry</button>
+      <button class="btn btn-danger" type="button" ng-click="uplCtrl.abortFileUpload(file)" ng-show="file['failed']" translate>Cancel</button>
     </div>
     <div class="upload-file uploaded-image drop-box"
          ngf-drop

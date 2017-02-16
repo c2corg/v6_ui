@@ -191,6 +191,7 @@ app.ImageUploaderController.prototype.processFiles_ = function() {
     if (!file['metadata']) {
       angular.extend(file, {
         'src': app.utils.getImageFileBase64Source(file),
+        'queued': true,
         'progress': 0,
         'processed': false,
         'metadata': {
@@ -219,11 +220,11 @@ app.ImageUploaderController.prototype.upload_ = function() {
     file = this.files[i];
 
     // avoid uploading multiple files at the same time
-    if (file['uploading'] && !file['processed']) {
+    if (!file['queued'] && !file['processed'] && !file['failed']) {
       return;
     }
 
-    if (!file['uploading']) {
+    if (file['queued']) {
       this.uploadFile_(file).then(function() {
         this.upload_();
       }.bind(this));
@@ -231,7 +232,7 @@ app.ImageUploaderController.prototype.upload_ = function() {
     }
   }
 
-  this.areAllUploaded = this.files.length > 0;
+  this.areAllUploadedCheck_();
 };
 
 
@@ -245,6 +246,7 @@ app.ImageUploaderController.prototype.uploadFile_ = function(file) {
     file['progress'] = 100 * progress;
   }.bind(this, file));
 
+  file['queued'] = false;
   file['uploading'] = promise;
   file['canceller'] = canceller;
 
@@ -256,15 +258,33 @@ app.ImageUploaderController.prototype.uploadFile_ = function(file) {
     file['processed'] = true;
 
   }.bind(this), function(resp) {
-    if (resp.status === -1) {
-      if (!file['manuallyAborted']) {
-        this.alerts_.addError(this.alerts_.gettext('Error while uploading the image:') + ' Timeout');
-      }
-    } else {
-      this.alerts_.addError(this.alerts_.gettext('Error while uploading the image:') + ' ' + resp.statusText);
+    if (file['manuallyAborted']) {
+      return;
     }
-    this.deleteImage(this.files.indexOf(file));
+    if (resp.status === -1) {
+      file['failed'] = 'Timeout';
+    } else {
+      file['failed'] = resp.statusText;
+    }
+    file['progress'] = 0;
   }.bind(this));
+};
+
+
+/**
+ * Lets showing the 'save' button when all images have been uploaded.
+ * @private
+ */
+app.ImageUploaderController.prototype.areAllUploadedCheck_ = function() {
+  var file;
+  for (var i = 0; i < this.files.length; i++) {
+    file = this.files[i];
+    if (!file['processed']) {
+      this.areAllUploaded = false;
+      return;
+    }
+  }
+  this.areAllUploaded = this.files.length > 0;
 };
 
 
@@ -321,13 +341,24 @@ app.ImageUploaderController.prototype.setImageType_ = function() {
  * @param {File} file
  * @export
  */
+app.ImageUploaderController.prototype.retryFileUpload = function(file) {
+  file['failed'] = false;
+  file['queued'] = true;
+  this.upload_();
+};
+
+
+/**
+ * @param {File} file
+ * @export
+ */
 app.ImageUploaderController.prototype.abortFileUpload = function(file) {
-  if (file['canceller'] === undefined) {
-    this.deleteImage(this.files.indexOf(file));
-  } else {
+  if (!file['queued'] && !file['failed']) {
     file['manuallyAborted'] = true;
     file['canceller'].resolve();
   }
+  this.deleteImage(this.files.indexOf(file));
+  this.areAllUploadedCheck_();
 };
 
 
