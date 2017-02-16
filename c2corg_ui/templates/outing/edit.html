@@ -87,8 +87,7 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## ACTIVITIES
-            <div class="form-group full" id="outing-activities" ng-init="activities = ${activities}"
-                 ng-class="{ 'has-error': editForm.activities.$touched && editForm.activities.$invalid, 'has-success': editForm.activities.$valid }">
+            <div class="form-group full" id="outing-activities" ng-init="activities = ${activities}">
               <label><span translate>activities</span> *</label>
               <div class="route-activities">
                 <div ng-repeat="activity in activities" class="activity">
@@ -125,7 +124,7 @@ updating_doc = outing_id and outing_lang
             </section>
 
             ## ROUTE DESCRIPTION
-            <div class="full form-group" ng-class="{'has-success': outing.locales[0].route_description}">
+            <div class="full form-group">
               <label translate>route_description</label>
               <textarea class="form-control" ng-model="outing.locales[0].route_description" placeholder="{{'describe route_conditions' | translate}}"></textarea>
             </div>
@@ -137,79 +136,96 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## PARTIAL TRIP
-            <div class="form-group half" ng-class="{'has-success': outing.partial_trip != undefined}">
+            <div class="form-group half">
               <label translate>partial_trip</label>
               <input type="checkbox" ng-model="outing.partial_trip" ng-checked="outing.partial_trip == true">
               <span ng-click="editCtrl.pushToArray(outing, 'partial_trip', !outing.partial_trip, $event)"></span>
             </div>
 
             ## LENGTH TOTAL
-            <div id="length_total-group" class="half form-group" ng-class="{ 'has-error': editForm.length_total.$touched && editForm.length_total.$invalid,'has-success': outing.length_total }">
-              <label translate>length_total</label>
+            <div id="length_total-group" class="half form-group"
+                 ng-class="{ 'has-feedback': editForm.length_total.$touched,
+                             'has-error': editForm.length_total.$touched && editForm.length_total.$invalid,
+                             'has-success': outing.length_total }">
+              <label ng-class="{ 'control-label': editForm.length_total.$touched && editForm.length_total.$invalid }" translate>length_total</label>
               <div class="input-group">
-                <input type="number" min="0" minlength="1" name="length_total" ng-model="outing.length_total" class="form-control" />
+                <input type="number" min="0" minlength="1" step="any" name="length_total" ng-model="outing.length_total" class="form-control" />
                 <span class="input-group-addon">km</span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.length_total.$valid && outing.length_total"></span>
-              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.length_total.$invalid && outing.length_total"></span>
-              <div class="help-block" ng-messages="editForm.length_total.$error">
-                <p ng-message="number" class="label label-danger" style="{{ (editForm.length_total.$invalid && editForm.length_total.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.length_total.$touched && editForm.length_total.$invalid"></span>
+              <div class="help-block" ng-messages="editForm.length_total.$error" ng-if="editForm.length_total.$touched && editForm.length_total.$invalid">
+                <p ng-message="number" translate>This field must be a number.</p>
               </div>
             </div>
 
             ## ELEVATION MIN
-            <div id="elevation_min-group" class="half remain form-group" ng-class="{ 'has-error': editForm.elevation_min.$touched && editForm.elevation_min.$invalid,'has-success': outing.elevation_min }">
-              <label translate>elevation_min</label>
+            <div id="elevation_min-group" class="half remain form-group"
+                 ng-class="{ 'has-feedback': editForm.elevation_min.$touched,
+                             'has-error': editForm.elevation_min.$touched && editForm.elevation_min.$invalid,
+                             'has-success': outing.elevation_min }">
+              <label ng-class="{ 'control-label': editForm.elevation_min.$touched && editForm.elevation_min.$invalid }" translate>elevation_min</label>
               <div class="input-group">
-                <input type="number" min="0" minlength="1" name="elevation_min" ng-model="outing.elevation_min" class="form-control" />
+                <input type="number" min="0" max="9999" minlength="1" name="elevation_min" ng-model="outing.elevation_min" class="form-control" />
                 <span class="input-group-addon">m</span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.elevation_min.$valid && outing.elevation_min"></span>
-              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.elevation_min.$invalid && outing.elevation_min"></span>
-              <div class="help-block" ng-messages="editForm.elevation_min.$error">
-                <p ng-message="number" class="label label-danger" style="{{ (editForm.elevation_min.$invalid && editForm.elevation_min.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.elevation_min.$touched && editForm.elevation_min.$invalid"></span>
+              <div class="help-block" ng-messages="editForm.elevation_min.$error" ng-if="editForm.elevation_min.$touched && editForm.elevation_min.$invalid">
+                <p ng-message="max" translate>This field must be lower than 9999 m.</p>
+                <p ng-message="number" translate>This field must be a number.</p>
               </div>
             </div>
 
             ## ELEVATION MAX
-            <div id="elevation_max-group" class="half remain form-group" ng-class="{ 'has-error': editForm.elevation_max.$touched && editForm.elevation_max.$invalid,'has-success': outing.elevation_max }">
-              <label translate>elevation_max</label>
+            <div id="elevation_max-group" class="half remain form-group"
+                 ng-class="{ 'has-feedback': editForm.elevation_max.$touched,
+                             'has-error': editForm.elevation_max.$touched && editForm.elevation_max.$invalid,
+                             'has-success': outing.elevation_max }">
+              <label ng-class="{ 'control-label': editForm.elevation_max.$touched && editForm.elevation_max.$invalid }" translate>elevation_max</label>
               <div class="input-group">
-                <input type="number" min="0" minlength="1" name="elevation_max" ng-model="outing.elevation_max" class="form-control" />
+                <input type="number" min="0" max="9999" minlength="1" name="elevation_max" ng-model="outing.elevation_max" class="form-control" />
                 <span class="input-group-addon">m</span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.elevation_max.$valid && outing.elevation_max"></span>
-              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.elevation_max.$invalid && outing.elevation_max"></span>
-              <div class="help-block" ng-messages="editForm.elevation_max.$error">
-                <p ng-message="number" class="label label-danger" style="{{ (editForm.elevation_max.$invalid && editForm.elevation_max.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.elevation_max.$touched && editForm.elevation_max.$invalid"></span>
+              <div class="help-block" ng-messages="editForm.elevation_max.$error" ng-if="editForm.elevation_max.$touched && editForm.elevation_max.$invalid">
+                <p ng-message="max" translate>This field must be lower than 9999 m.</p>
+                <p ng-message="number" translate>This field must be a number.</p>
               </div>
             </div>
 
             ## HEIGHT DIFF UP
-            <div id="height_diff_up-group" class="half remain form-group" ng-class="{ 'has-error': editForm.height_diff_up.$touched && editForm.height_diff_up.$invalid,'has-success': outing.height_diff_up }">
-              <label translate>height_diff_up</label>
+            <div id="height_diff_up-group" class="half remain form-group"
+                 ng-class="{ 'has-feedback': editForm.height_diff_up.$touched,
+                             'has-error': editForm.height_diff_up.$touched && editForm.height_diff_up.$invalid,
+                             'has-success': outing.height_diff_up }">
+              <label ng-class="{ 'control-label': editForm.height_diff_up.$touched && editForm.height_diff_up.$invalid }" translate>height_diff_up</label>
               <div class="input-group">
                 <input type="number" min="0" minlength="1" name="height_diff_up" ng-model="outing.height_diff_up" class="form-control" />
                 <span class="input-group-addon">m</span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.height_diff_up.$valid && outing.height_diff_up"></span>
-              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.height_diff_up.$invalid && outing.height_diff_up"></span>
-              <div class="help-block" ng-messages="editForm.height_diff_up.$error">
-                <p ng-message="number" class="label label-danger" style="{{ (editForm.height_diff_up.$invalid && editForm.height_diff_up.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.height_diff_up.$touched && editForm.height_diff_up.$invalid"></span>
+              <div class="help-block" ng-messages="editForm.height_diff_up.$error" ng-if="editForm.height_diff_up.$touched && editForm.height_diff_up.$invalid">
+                <p ng-message="number" translate>This field must be a number.</p>
               </div>
             </div>
 
             ## HEIGHT DIFF DOWN
-            <div id="height_diff_down-group" class="half remain form-group" ng-class="{ 'has-error': editForm.height_diff_down.$touched && editForm.height_diff_down.$invalid,'has-success': outing.height_diff_down }">
-              <label translate>height_diff_down</label>
-              <div class="input-group">
+            <div id="height_diff_down-group" class="half remain form-group"
+                 ng-class="{ 'has-feedback': editForm.height_diff_down.$touched,
+                             'has-error': editForm.height_diff_down.$touched && editForm.height_diff_down.$invalid,
+                             'has-success': outing.height_diff_down }">
+              <label ng-class="{ 'control-label': editForm.height_diff_down.$touched && editForm.height_diff_down.$invalid }" translate>height_diff_down</label>
+              <div ng-class="{ 'control-label': editForm.height_diff_down.$touched && editForm.height_diff_down.$invalid }" class="input-group">
                 <input type="number" min="0" minlength="1" name="height_diff_down" ng-model="outing.height_diff_down" class="form-control" />
                 <span class="input-group-addon">m</span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.height_diff_down.$valid && outing.height_diff_down"></span>
-              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.height_diff_down.$invalid && outing.height_diff_down"></span>
-              <div class="help-block" ng-messages="editForm.height_diff_down.$error">
-                <p ng-message="number" class="label label-danger" style="{{ (editForm.height_diff_down.$invalid && editForm.height_diff_down.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.height_diff_down.$touched && editForm.height_diff_down.$invalid"></span>
+              <div class="help-block" ng-messages="editForm.height_diff_down.$error" ng-if="editForm.height_diff_down.$touched && editForm.height_diff_down.$invalid">
+                <p ng-message="number" translate>This field must be a number.</p>
               </div>
             </div>
             <section class="section associations" ng-if="outing.associations.waypoints.length > 0">
@@ -233,7 +249,7 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## CONDITIONS LEVELS
-            <div class="full form-group" ng-class="{'has-success': outing.condition_levels}"
+            <div class="full form-group"
                  ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('ice_climbing') > -1 || outing.activities.indexOf('snow_ice_mixed') > -1 ">
               <label translate>conditions_levels</label>
               <table class="table table-striped conditions-levels" ng-if="outing.locales[0].conditions_levels[0]">
@@ -276,32 +292,40 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## ELEVATION UP SNOW
-            <div id="elevation_up_snow-group" class="half form-group" ng-class="{ 'has-error': editForm.elevation_up_snow.$touched && editForm.elevation_up_snow.$invalid,'has-success': outing.elevation_up_snow }"
+            <div id="elevation_up_snow-group" class="half form-group"
+                 ng-class="{ 'has-feedback': editForm.elevation_up_snow.$touched,
+                             'has-error': editForm.elevation_up_snow.$touched && editForm.elevation_up_snow.$invalid,
+                             'has-success': outing.elevation_up_snow }"
                  ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('ice_climbing') > -1  || outing.activities.indexOf('mountain_climbing') > -1  || outing.activities.indexOf('snow_ice_mixed') > -1">
-              <label translate>elevation_up_snow</label>
+              <label ng-class="{ 'control-label': editForm.elevation_up_snow.$touched && editForm.elevation_up_snow.$invalid }" translate>elevation_up_snow</label>
               <div class="input-group">
-                <input type="number" min="0" minlength="1" name="elevation_up_snow" ng-model="outing.elevation_up_snow" class="form-control" />
+                <input type="number" min="0" max="9999" minlength="1" name="elevation_up_snow" ng-model="outing.elevation_up_snow" class="form-control" />
                 <span class="input-group-addon">m</span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.elevation_up_snow.$valid && outing.elevation_up_snow"></span>
-              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.elevation_up_snow.$invalid && outing.elevation_up_snow"></span>
-              <div class="help-block" ng-messages="editForm.elevation_up_snow.$error">
-                <p ng-message="number" class="label label-danger" style="{{ (editForm.elevation_up_snow.$invalid && editForm.elevation_up_snow.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.elevation_up_snow.$touched && editForm.elevation_up_snow.$invalid"></span>
+              <div class="help-block" ng-messages="editForm.elevation_up_snow.$error" ng-if="editForm.elevation_up_snow.$touched && editForm.elevation_up_snow.$invalid">
+                <p ng-message="max" translate>This field must be lower than 9999 m.</p>
+                <p ng-message="number" translate>This field must be a number.</p>
               </div>
             </div>
 
             ## ELEVATION DOWN SNOW
-            <div id="elevation_down_snow-group" class="half form-group" ng-class="{ 'has-error': editForm.elevation_down_snow.$touched && editForm.elevation_down_snow.$invalid,'has-success': outing.elevation_down_snow }"
+            <div id="elevation_down_snow-group" class="half form-group"
+                 ng-class="{ 'has-feedback': editForm.elevation_down_snow.$touched,
+                             'has-error': editForm.elevation_down_snow.$touched && editForm.elevation_down_snow.$invalid,
+                             'has-success': outing.elevation_down_snow }"
                  ng-if="outing.activities.indexOf('snow_ice_mixed') > -1 || outing.activities.indexOf('mountain_climbing') > -1 || outing.activities.indexOf('ice_climbing') > -1  || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('skitouring') > -1">
-              <label translate>elevation_down_snow</label>
+              <label ng-class="{ 'control-label': editForm.elevation_down_snow.$touched && editForm.elevation_down_snow.$invalid }" translate>elevation_down_snow</label>
               <div class="input-group">
-                <input type="number" min="0" minlength="1" name="elevation_down_snow" ng-model="outing.elevation_down_snow" class="form-control" />
+                <input type="number" min="0" max="9999" minlength="1" name="elevation_down_snow" ng-model="outing.elevation_down_snow" class="form-control" />
                 <span class="input-group-addon">m</span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.elevation_down_snow.$valid && outing.elevation_down_snow"></span>
-              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.elevation_down_snow.$invalid && outing.elevation_down_snow"></span>
-              <div class="help-block" ng-messages="editForm.elevation_down_snow.$error">
-                <p ng-message="number" class="label label-danger" style="{{ (editForm.elevation_down_snow.$invalid && editForm.elevation_down_snow.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.elevation_down_snow.$touched && editForm.elevation_down_snow.$invalid"></span>
+              <div class="help-block" ng-messages="editForm.elevation_down_snow.$error" ng-if="editForm.elevation_down_snow.$touched && editForm.elevation_down_snow.$invalid">
+                <p ng-message="max" translate>This field must be lower than 9999m.</p>
+                <p ng-message="number" translate>This field must be a number.</p>
               </div>
             </div>
 
@@ -311,9 +335,6 @@ updating_doc = outing_id and outing_lang
               <label translate>snow_quantity</label>
               <select class="form-control" ng-model="outing.snow_quantity" ng-options="rat as mainCtrl.translate(rat) for rat in ${condition_ratings}"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.snow_quantity"></span>
-              <div class="help-block" ng-messages="editForm.snow_quantity.$error">
-                <p ng-message="number" class="label label-danger" style="{{ (editForm.snow_quantity.$invalid && editForm.snow_quantity.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
-              </div>
             </div>
 
             ## SNOW QUALITY
@@ -322,9 +343,6 @@ updating_doc = outing_id and outing_lang
               <label translate>snow_quality</label>
               <select class="form-control" ng-model="outing.snow_quality" ng-options="rat as mainCtrl.translate(rat) for rat in ${condition_ratings}"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.snow_quality"></span>
-              <div class="help-block" ng-messages="editForm.snow_quality.$error">
-                <p ng-message="number" class="label label-danger" style="{{ (editForm.snow_quality.$invalid && editForm.snow_quality.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
-              </div>
             </div>
 
             ## GLACIER RATING
@@ -410,16 +428,19 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## ELEVATION ACCESS
-            <div id="elevation_access-group" class="half form-group" ng-class="{ 'has-error': editForm.elevation_access.$touched && editForm.elevation_access.$invalid,'has-success': outing.elevation_access }">
-              <label translate>elevation_access</label>
+            <div id="elevation_access-group" class="half form-group"
+                 ng-class="{ 'has-feedback': editForm.elevation_access.$touched,
+                             'has-error': editForm.elevation_access.$touched && editForm.elevation_access.$invalid,'has-success': outing.elevation_access }">
+              <label ng-class="{ 'control-label': editForm.elevation_access.$touched && editForm.elevation_access.$invalid }" translate>elevation_access</label>
               <div class="input-group">
-                <input type="number" min="0" minlength="1" name="elevation_access" ng-model="outing.elevation_access" class="form-control" />
+                <input type="number" min="0" max="9999" minlength="1" name="elevation_access" ng-model="outing.elevation_access" class="form-control" />
                 <span class="input-group-addon">m</span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.elevation_access.$valid && outing.elevation_access"></span>
-              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.elevation_access.$invalid && outing.elevation_access"></span>
-              <div class="help-block" ng-messages="editForm.elevation_access.$error">
-                <p ng-message="number" class="label label-danger" style="{{ (editForm.elevation_access.$invalid && editForm.elevation_access.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.elevation_access.$touched && editForm.elevation_access.$invalid"></span>
+              <div class="help-block" ng-messages="editForm.elevation_access.$error" ng-if="editForm.elevation_access.$touched && editForm.elevation_access.$invalid">
+                <p ng-message="max" translate>This field must be lower than 9999 m.</p>
+                <p ng-message="number" translate>This field must be a number.</p>
               </div>
             </div>
 
@@ -450,25 +471,35 @@ updating_doc = outing_id and outing_lang
           <div class="content collapse in">
 
             ## TITLE
-            <div class="form-group" id="title-group" ng-class="{ 'has-error': editForm.title.$touched && editForm.title.$invalid, 'has-success': editForm.title.$valid }">
-              <label><span translate>outing title</span> *</label>
-              <input type="text" name="title" ng-model="outing.locales[0].title" ng-minlength="3"class="form-control" required/>
-              <div class="help-block" ng-messages="editForm.title.$error">
-                <p ng-message="required" class="label label-danger" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : '' }}" translate>This field is required.</p>
-                <p ng-message="minlength" class="label label-danger" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : '' }}" translate>Title must have at least 3 characters.</p>
+            <div class="form-group" id="title-group"
+                 ng-class="{ 'has-feedback': editForm.title.$touched,
+                             'has-error': editForm.title.$touched && editForm.title.$invalid,
+                             'has-success': editForm.title.$valid }">
+              <label ng-class="{ 'control-label': editForm.title.$touched && editForm.title.$invalid }"><span translate>outing title</span> *</label>
+              <input type="text" name="title" ng-model="outing.locales[0].title" ng-minlength="3" class="form-control" required/>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.title.$valid && outing.title"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.title.$touched && editForm.title.$invalid"></span>
+              <div class="help-block" ng-messages="editForm.title.$error" ng-if="editForm.title.$touched && editForm.title.$invalid">
+                <p ng-message="required" translate>This field is required.</p>
+                <p ng-message="minlength" translate>Title must have at least 3 characters.</p>
               </div>
             </div>
 
             ## LANGUAGE
-            <div id="lang-group" class="form-group" ng-class="{ 'has-error': editForm.lang.$touched && editForm.lang.$invalid, 'has-success': editForm.lang.$valid}">
-              <label><span translate>lang</span> *</label>
+            <div id="lang-group" class="form-group"
+                 ng-class="{ 'has-feedback': editForm.lang.$touched,
+                             'has-error': editForm.lang.$touched && editForm.lang.$invalid,
+                             'has-success': editForm.lang.$valid}">
+              <label ng-class="{ 'control-label': editForm.lang.$touched && editForm.lang.$invalid }"><span translate>lang</span> *</label>
               % if outing_lang:
                 <input disabled class="form-control" value="{{mainCtrl.translate('${outing_lang}')}}">
+                <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.lang.$valid && outing.lang"></span>
+                <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.lang.$invalid && outing.lang"></span>
               % else:
                 <select name="lang" ng-options="lang as mainCtrl.translate(lang) for lang in ['${"','".join(default_langs) |n}'] | translate" ng-model="outing.locales[0].lang" class="form-control" required><option value=""></option></select>
               % endif
-              <div class="help-block" ng-messages="editForm.lang.$error">
-                <p ng-message="required" class="label label-danger" style="{{ (editForm.lang.$invalid && editForm.lang.$touched) ? 'display:inline' : '' }}" translate>This field is required.</p>
+              <div class="help-block" ng-messages="editForm.lang.$error" ng-if="editForm.lang.$touched && editForm.lang.$invalid">
+                <p ng-message="required" translate>This field is required.</p>
               </div>
             </div>
 
@@ -503,16 +534,20 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## NUMBER OF PARTICIPANTS
-            <div id="participants-group" class="form-group half" ng-class="{'has-success': outing.participant_count, 'has-error': editForm.participant_count.$touched && editForm.participant_count.$invalid }">
-              <label translate>participant_count</label>
+            <div id="participants-group" class="form-group half"
+                 ng-class="{ 'has-feedback': editForm.participant_count.$touched,
+                             'has-success': outing.participant_count,
+                             'has-error': editForm.participant_count.$touched && editForm.participant_count.$invalid }">
+              <label ng-class="{ 'control-label': editForm.participant_count.$touched && editForm.particpant_count.$invalid }" translate>participant_count</label>
               <div class="input-group">
-                <input type="number" min="1" name="participant_count" ng-model="outing.participant_count" class="form-control" />
+                <input type="number" min="1" max="9999" name="participant_count" ng-model="outing.participant_count" class="form-control" />
                 <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.participant_count"></span>
-              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.participant_count.$invalid"></span>
-              <div class="help-block" ng-messages="editForm.participant_count.$error">
-                <p ng-message="number" class="label label-danger" style="{{ (editForm.participant_count.$invalid && editForm.participant_count.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.participant_count.$valid && outing.participant_count"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.participant_count.$touched && editForm.participant_count.$invalid"></span>
+              <div class="help-block" ng-messages="editForm.participant_count.$error" ng-if="editForm.participant_count.$touched && editForm.participant_count.$invalid">
+                <p ng-message="max" translate>This field must be lower than 9999.</p>
+                <p ng-message="number" translate>This field must be a number.</p>
               </div>
             </div>
 
