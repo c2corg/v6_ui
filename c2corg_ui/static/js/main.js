@@ -27,6 +27,7 @@ goog.require('app.blockAccountDirective');
 goog.require('app.cardDirective');
 goog.require('app.constants');
 goog.require('app.deleteAssociationDirective');
+goog.require('app.deleteDocumentDirective');
 goog.require('app.diffMapDirective');
 goog.require('app.doctypeSelectorDirective');
 goog.require('app.documentEditingDirective');
