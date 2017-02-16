@@ -193,8 +193,12 @@ app.DocumentEditingController = function($scope, $element, $attrs, $http,
     return;
   }
 
-  this.scope.$root.$on('mapFeaturesChange', function(event, features, isReset) {
-    this.handleMapFeaturesChange_(features, isReset || false);
+  this.scope.$root.$on('mapFeaturesChange', function(event, features) {
+    this.handleMapFeaturesChange_(features);
+  }.bind(this));
+
+  this.scope.$root.$on('mapFeaturesReset', function(event, initialGeometry) {
+    this.handleMapFeaturesReset_(initialGeometry);
   }.bind(this));
 };
 
@@ -216,30 +220,11 @@ app.DocumentEditingController.prototype.filterData = function(data) {
  */
 app.DocumentEditingController.prototype.successRead = function(response) {
   var data = response['data'];
-  var toCoordinates = (function(str) {
-    var point = /** @type {ol.geom.Point} */
-        (this.geojsonFormat_.readGeometry(str));
-    return this.getCoordinatesFromPoint_(point);
-  }).bind(this);
-
   this.documentService.setAssociations(data['associations']);
 
   data = this.filterData(data);
+  this.updateGeometry_(data);
 
-  if ('geometry' in data && data['geometry']) {
-    var geometry = data['geometry'];
-    // don't add lonlat for line or polygon geometries
-    // (point geometries have no 'geom_detail' attribute)
-    if (this.isPointType_() && !('geom_detail' in geometry && geometry['geom_detail']) &&
-        'geom' in geometry && geometry['geom']) {
-      var coordinates = toCoordinates(geometry['geom']);
-      data['lonlat'] = {
-        'longitude': coordinates[0],
-        'latitude': coordinates[1]
-      };
-      data['read_lonlat'] = angular.copy(data['lonlat']);
-    }
-  }
   if (!data['locales'].length) {
     // locales attributes are missing when creating a new lang version
     data['locales'].push({'lang': this.lang_});
@@ -248,6 +233,39 @@ app.DocumentEditingController.prototype.successRead = function(response) {
 
   this.scope[this.modelName] = this.scope['document'] = this.documentService.document = data;
   this.scope.$root.$emit('documentDataChange', data);
+};
+
+
+/**
+ * @param {string} str
+ * @private
+ */
+app.DocumentEditingController.prototype.toCoordinates_ = function(str) {
+  var point = /** @type {ol.geom.Point} */
+      (this.geojsonFormat_.readGeometry(str));
+  return this.getCoordinatesFromPoint_(point);
+};
+
+
+/**
+ * @param {Object} data
+ * @private
+ */
+app.DocumentEditingController.prototype.updateGeometry_ = function(data) {
+  if ('geometry' in data && data['geometry']) {
+    var geometry = data['geometry'];
+    // don't add lonlat for line or polygon geometries
+    // (point geometries have no 'geom_detail' attribute)
+    if (this.isPointType_() && !('geom_detail' in geometry && geometry['geom_detail']) &&
+        'geom' in geometry && geometry['geom']) {
+      var coordinates = this.toCoordinates_(geometry['geom']);
+      data['lonlat'] = {
+        'longitude': coordinates[0],
+        'latitude': coordinates[1]
+      };
+      data['read_lonlat'] = angular.copy(data['lonlat']);
+    }
+  }
 };
 
 
@@ -392,54 +410,64 @@ app.DocumentEditingController.prototype.updateMap = function() {
 
 /**
  * @param {Array.<ol.Feature>} features
- * @param {boolean} isReset True if feature has been reset to its inital value
  * @private
  */
-app.DocumentEditingController.prototype.handleMapFeaturesChange_ = function(
-    features, isReset) {
+app.DocumentEditingController.prototype.handleMapFeaturesChange_ = function(features) {
   var data = this.scope[this.modelName];
-  if (isReset && !features.length) {
-    // geometry has been reset
-    delete data['geometry'];
-    if (this.module_ === 'waypoints') {
-      data['lonlat'] = {'longitude': '', 'latitude': ''};
-    }
-    this.hasGeomChanged_ = false;
-    return;
-  }
 
-  var feature = features[0];
-  var geometry = feature.getGeometry();
-  goog.asserts.assert(geometry);
-  var isPoint = geometry instanceof ol.geom.Point;
   // If creating a new document, the model has no geometry attribute yet:
   data['geometry'] = data['geometry'] || {};
-  if (isPoint) {
-    data['geometry']['geom'] = this.geojsonFormat_.writeGeometry(geometry);
-    var coords = this.getCoordinatesFromPoint_(
-        /** @type {ol.geom.Point} */ (geometry.clone()));
-    data['lonlat'] = {
-      'longitude': coords[0],
-      'latitude': coords[1]
-    };
-    if (!isReset) {
-      this.scope.$apply();
+
+  if (features.length == 0) {
+    data['geometry']['geom'] = null;
+    data['geometry']['geom_detail'] = null;
+    if (this.isPointType_()) {
+      data['lonlat'] = null;
     }
   } else {
-    var center;
-    // For lines, use the middle point as point geometry:
-    if (geometry instanceof ol.geom.LineString) {
-      center = geometry.getCoordinateAt(0.5);
-    } else if (geometry instanceof ol.geom.MultiLineString) {
-      center = geometry.getLineString(0).getCoordinateAt(0.5);
+    var feature = features[0];
+    var geometry = feature.getGeometry();
+    goog.asserts.assert(geometry);
+    var isPoint = geometry instanceof ol.geom.Point;
+    if (isPoint) {
+      data['geometry']['geom'] = this.geojsonFormat_.writeGeometry(geometry);
+      var coords = this.getCoordinatesFromPoint_(
+          /** @type {ol.geom.Point} */ (geometry.clone()));
+      data['lonlat'] = {
+        'longitude': coords[0],
+        'latitude': coords[1]
+      };
+      this.scope.$apply();
     } else {
-      center = ol.extent.getCenter(geometry.getExtent());
+      var center;
+      // For lines, use the middle point as point geometry:
+      if (geometry instanceof ol.geom.LineString) {
+        center = geometry.getCoordinateAt(0.5);
+      } else if (geometry instanceof ol.geom.MultiLineString) {
+        center = geometry.getLineString(0).getCoordinateAt(0.5);
+      } else {
+        center = ol.extent.getCenter(geometry.getExtent());
+      }
+      var centerPoint = new ol.geom.Point(center);
+      data['geometry']['geom'] = this.geojsonFormat_.writeGeometry(centerPoint);
+      data['geometry']['geom_detail'] = this.geojsonFormat_.writeGeometry(geometry);
     }
-    var centerPoint = new ol.geom.Point(center);
-    data['geometry']['geom'] = this.geojsonFormat_.writeGeometry(centerPoint);
-    data['geometry']['geom_detail'] = this.geojsonFormat_.writeGeometry(geometry);
   }
-  this.hasGeomChanged_ = !isReset; // geom has changed unless it has been reset
+
+  this.hasGeomChanged_ = true;
+};
+
+
+/**
+ * @param {Object} initialGeometry
+ * @private
+ */
+app.DocumentEditingController.prototype.handleMapFeaturesReset_ = function(initialGeometry) {
+  var data = this.scope[this.modelName];
+  data['geometry'] = initialGeometry;
+  this.hasGeomChanged_ = false;
+  this.updateGeometry_(data);
+  this.scope.$root.$emit('documentDataChange', data);
 };
 
 
