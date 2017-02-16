@@ -12,7 +12,8 @@ from json import dumps
     show_associated_waypoints, show_associated_routes, show_associated_articles,
     show_associated_books, show_associated_outings, show_associated_xreports,
     delete_association_confirmation_modal, associated_waypoints_featurelist,
-    show_badge, get_document_description, get_licence, show_merge_documents_dialog"/>
+    show_badge, get_document_description, get_licence, show_merge_documents_dialog,
+    show_delete_document_dialog"/>
 <%namespace file="helpers/view.html" import="get_waypoint_equipment,
     get_waypoint_orientations, get_waypoint_contact, get_waypoint_style, get_waypoint_rating,
     get_waypoint_access, get_waypoint_heights, get_waypoint_location, get_waypoint_general,
@@ -136,7 +137,6 @@ waypoint['doctype'] = 'waypoints'
     ${get_waypoint_access_period(locale, waypoint['waypoint_type'], True)}
   </div>
 
-  ## ASSOCIATIONS
   % if not version:
     <div class="view-details-associations col-xs-12 associations" ng-init="a = detailsCtrl.documentService.document.associations"
          ng-show="userCtrl.auth.isAuthenticated() || a.waypoint_children.length || a.waypoints.length">
@@ -169,34 +169,33 @@ waypoint['doctype'] = 'waypoints'
         </section>
       </span>
     </div>
-  % endif
 
-  ${get_comments()}
+    ${get_comments()}
 
-  ## OTHER BUTTON contents
-  % if not version:
-    ${show_other_langs_links('waypoints', waypoint, other_langs)}
-    ${show_missing_langs_links('waypoints', waypoint, missing_langs)}
-    ${show_merge_documents_dialog('waypoints')}
     ${show_float_buttons(waypoint, lang, other_langs, missing_langs)}
   % endif
 </section>
-
 
 <div class="text-center">
   <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);">&nbsp;<span class="glyphicon glyphicon-menu-up"></span></button>
 </div>
 
-<div class="ng-hide">
-  <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
-  ${delete_association_confirmation_modal()}
-</div>
+% if not version:
+  <div class="ng-hide">
+    <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
+    ${delete_association_confirmation_modal()}
+    ${show_other_langs_links('waypoints', waypoint, other_langs)}
+    ${show_missing_langs_links('waypoints', waypoint, missing_langs)}
+    ${show_merge_documents_dialog('waypoints')}
+    ${show_delete_document_dialog()}
+  </div>
 
-${photoswipe_gallery()}
+  ${photoswipe_gallery()}
 
-<script>
-  window.onload = function() {
-     // init float-buttons tooltips
-     $('[data-toggle=\'tooltip\']').tooltip();
-  };
-</script>
+  <script>
+    window.onload = function() {
+      ## init float-buttons tooltips
+      $('[data-toggle=\'tooltip\']').tooltip();
+    };
+  </script>
+% endif
