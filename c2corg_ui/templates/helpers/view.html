@@ -112,7 +112,7 @@
       # to reuse existing translation strings
       document_type = module[:-1]
   %>\
-  <div id="merge-documents-dialog">
+  <div id="merge-documents-dialog" app-loading>
     <div class="modal-header">
       <h3 class="text-center"><span translate>Merge documents</span> (<span x-translate>${document_type}</span>)</h3>
     </div>
@@ -126,7 +126,7 @@
       # to reuse existing translation strings
       document_type = module[:-1]
   %>\
-  <div id="delete-document-dialog">
+  <div id="delete-document-dialog" app-loading>
     <div class="modal-header">
       <h3 class="text-center"><span translate>Delete this document</span> (<span x-translate>${document_type}</span>)</h3>
     </div>
