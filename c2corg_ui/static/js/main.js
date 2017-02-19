@@ -31,6 +31,7 @@ goog.require('app.diffMapDirective');
 goog.require('app.doctypeSelectorDirective');
 goog.require('app.documentEditingDirective');
 goog.require('app.feedDirective');
+goog.require('app.whatsnewFeedDirective');
 goog.require('app.followDirective');
 goog.require('app.followingDirective');
 goog.require('app.geolocationDirective');

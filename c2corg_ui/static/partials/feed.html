@@ -30,7 +30,7 @@
   </article>
 
   <article class="feed-list-item" ng-repeat="doc in feedCtrl.documents track by doc.id"
-           ng-init="type = feedCtrl.documentType(doc.document.type);">
+           ng-init="type = feedCtrl.getDocumentType(doc.document.type);">
 
     <div class="timeline-bullet icon-{{::type}}s" uib-tooltip="{{::type | translate}}" tooltip-placement="left"></div>
 
