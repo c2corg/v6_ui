@@ -357,6 +357,14 @@ app-pagination.areas, app-pagination.articles app-pagination.books {
   margin: 3% 0 3% 0;
 }
 
+//Safari 9+ fix
+_::-webkit-:not(:root:root), .map-right {
+  top: @page-header-height + @page-main-title-height;
+  .map {
+    .calc(height, "100vh - 120px - @{page-header-height} - @{page-main-title-height}") !important;
+  }
+}
+
 .map-right {
   flex: 1;
   transition: .3s;
@@ -375,7 +383,7 @@ app-pagination.areas, app-pagination.articles app-pagination.books {
       -moz-box-shadow: 0 0 36px -10px rgba(0,0,0,0.56);
       box-shadow: 0 0 36px -10px rgba(0,0,0,0.56);
       margin-top: 0;
-      height: calc(~"100vh - 120px") !important;
+      height: calc(~"100vh - 120px");
     }
   }
 }
