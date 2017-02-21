@@ -9,9 +9,9 @@ from json import dumps
   get_document_description, get_document_locale_text, show_missing_langs_links, show_other_langs_links,
   show_archive_data, show_areas, show_locale_title, get_activities, show_maps,
   show_associated_waypoints, show_associated_outings, show_associated_routes, show_associated_xreports,
-  show_associated_articles, show_float_buttons,
-  delete_association_confirmation_modal, associated_waypoints_featurelist,
-  associated_images_featurelist, show_badge, get_licence, show_merge_documents_dialog"/>
+  show_associated_articles, show_float_buttons, delete_association_confirmation_modal,
+  associated_waypoints_featurelist, associated_images_featurelist, show_badge, get_licence,
+  show_merge_documents_dialog, show_delete_document_dialog"/>
 <%namespace file="helpers/view.html" import="show_fulldate, get_xreport_general, get_xreport_participants, get_xreport_personal"/>
 
 <%
@@ -141,7 +141,6 @@ other_langs, missing_langs = get_lang_lists(xreport, lang)
     ${get_document_locale_text(locale, 'other_comments', True)}
   </div>
 
-  ## ASSOCIATIONS
   % if not version:
     <div class="view-details-associations col-xs-12 associations"
          ng-init="a = detailsCtrl.documentService.document.associations"
@@ -159,34 +158,33 @@ other_langs, missing_langs = get_lang_lists(xreport, lang)
         </section>
       </span>
     </div>
-  % endif
 
-  ${get_comments()}
+    ${get_comments()}
 
-  ## OTHER BUTTON contents
-  % if not version:
-    ${show_other_langs_links('xreports', xreport, other_langs)}
-    ${show_missing_langs_links('xreports', xreport, missing_langs)}
-    ${show_merge_documents_dialog('xreports')}
     ${show_float_buttons(xreport, lang, other_langs, missing_langs)}
   % endif
-
 </section>
 
 <div class="text-center">
   <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);">&nbsp;<span class="glyphicon glyphicon-menu-up"></span></button>
 </div>
 
-<div class="ng-hide">
-  <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
-  ${delete_association_confirmation_modal()}
-</div>
+% if not version:
+  <div class="ng-hide">
+    <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
+    ${delete_association_confirmation_modal()}
+    ${show_other_langs_links('xreports', xreport, other_langs)}
+    ${show_missing_langs_links('xreports', xreport, missing_langs)}
+    ${show_merge_documents_dialog('xreports')}
+    ${show_delete_document_dialog('xreports')}
+  </div>
 
-${photoswipe_gallery()}
+  ${photoswipe_gallery()}
 
-<script>
-  window.onload = function() {
-     // init float-buttons tooltips
-     $('[data-toggle=\'tooltip\']').tooltip();
-  };
-</script>
+  <script>
+    window.onload = function() {
+      ## init float-buttons tooltips
+      $('[data-toggle=\'tooltip\']').tooltip();
+    };
+  </script>
+% endif

@@ -716,4 +716,18 @@ app.Api.prototype.mergeDocuments = function(sourceDocumentId, targetDocumentId) 
 };
 
 
+/**
+ * @param {number} documentId
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.deleteDocument = function(documentId) {
+  var promise = this.deleteJson_('/documents/delete/' + String(documentId), {});
+  promise.catch(function(response) {
+    var msg = this.alerts_.gettext('Deleting document failed:');
+    this.alerts_.addErrorWithMsg(msg, response);
+  }.bind(this));
+  return promise;
+};
+
+
 app.module.service('appApi', app.Api);

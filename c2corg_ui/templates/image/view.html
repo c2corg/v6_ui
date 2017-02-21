@@ -10,7 +10,8 @@ from json import dumps
     show_archive_data, show_locale_title, get_activities, show_areas, show_float_buttons,
     show_associated_waypoints, show_associated_routes, show_associated_articles,
     show_associated_outings, show_associated_books, delete_association_confirmation_modal,
-    get_document_description, get_comments, get_licence, show_merge_documents_dialog"/>
+    get_document_description, get_comments, get_licence, show_merge_documents_dialog,
+    show_delete_document_dialog"/>
 <%namespace file="helpers/view.html" import="get_image_general, get_image_camera_settings, show_image"/>
 
 <%
@@ -113,56 +114,55 @@ from json import dumps
     <app-map class="view-details-map"></app-map>
   % endif
 
-  ## ASSOCIATIONS
   % if not version:
-  <div class="view-details-associations col-xs-12 associations"
-    % if not has_associations(image):
-       ng-if="userCtrl.hasEditRights('images', {'imageType': '${image['image_type']}', 'imageCreator': ${image['creator']['user_id']}})"
-    % endif
-  >
-    <span class="lead">
-      <div class="add-association" ng-show="userCtrl.auth.isAuthenticated()
-        % if image['image_type'] == 'personal':
-          && userCtrl.hasEditRights('images', {'imageType': 'personal', 'imageCreator': ${image['creator']['user_id']}})
-        % endif
-      ">
-        <label translate>Add association</label>
-        <app-add-association parent-doctype="images" parent-id="${image_id}" dataset="wrcb"></app-add-association>
-      </div>
-      <section>
-        ${show_associated_outings(image)}
-        ${show_associated_routes(image)}
-        ${show_associated_waypoints(image)}
-        ${show_associated_articles(image)}
-        ${show_associated_books(image)}
-      </section>
-    </span>
-  </div>
+    <div class="view-details-associations col-xs-12 associations"
+      % if not has_associations(image):
+         ng-if="userCtrl.hasEditRights('images', {'imageType': '${image['image_type']}', 'imageCreator': ${image['creator']['user_id']}})"
+      % endif
+    >
+      <span class="lead">
+        <div class="add-association" ng-show="userCtrl.auth.isAuthenticated()
+          % if image['image_type'] == 'personal':
+            && userCtrl.hasEditRights('images', {'imageType': 'personal', 'imageCreator': ${image['creator']['user_id']}})
+          % endif
+        ">
+          <label translate>Add association</label>
+          <app-add-association parent-doctype="images" parent-id="${image_id}" dataset="wrcb"></app-add-association>
+        </div>
+        <section>
+          ${show_associated_outings(image)}
+          ${show_associated_routes(image)}
+          ${show_associated_waypoints(image)}
+          ${show_associated_articles(image)}
+          ${show_associated_books(image)}
+        </section>
+      </span>
+    </div>
 
-  ${get_comments()}
+    ${get_comments()}
 
-  ## OTHER BUTTON contents
-    ${show_other_langs_links('images', image, other_langs)}
-    ${show_missing_langs_links('images', image, missing_langs)}
-    ${show_merge_documents_dialog('images')}
     ${show_float_buttons(image, lang, other_langs, missing_langs)}
   % endif
 </section>
-
 
 <div class="text-center">
   <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);">&nbsp;<span class="glyphicon glyphicon-menu-up"></span></button>
 </div>
 
-<div class="ng-hide">
-  <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
-  ${delete_association_confirmation_modal()}
-</div>
+% if not version:
+  <div class="ng-hide">
+    <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
+    ${delete_association_confirmation_modal()}
+    ${show_other_langs_links('images', image, other_langs)}
+    ${show_missing_langs_links('images', image, missing_langs)}
+    ${show_merge_documents_dialog('images')}
+    ${show_delete_document_dialog('images')}
+  </div>
 
-
-<script>
-  window.onload = function() {
-     // init float-buttons tooltips
-     $('[data-toggle=\'tooltip\']').tooltip();
-  };
-</script>
+  <script>
+    window.onload = function() {
+      ## init float-buttons tooltips
+      $('[data-toggle=\'tooltip\']').tooltip();
+    };
+  </script>
+% endif

@@ -112,11 +112,25 @@
       # to reuse existing translation strings
       document_type = module[:-1]
   %>\
-  <div id="merge-documents-dialog">
+  <div id="merge-documents-dialog" app-loading>
     <div class="modal-header">
-      <h3 class="text-center"><span translate>Merge documents</span> (<span translate>${document_type}</span>)</h3>
+      <h3 class="text-center"><span translate>Merge documents</span> (<span x-translate>${document_type}</span>)</h3>
     </div>
     <app-merge-documents module="'${module}'"></app-merge-documents>
+  </div>
+</%def>
+
+<%def name="show_delete_document_dialog(module)">\
+  <%
+      # get the module without the 's' at the end ('routes' -> 'route')
+      # to reuse existing translation strings
+      document_type = module[:-1]
+  %>\
+  <div id="delete-document-dialog" app-loading>
+    <div class="modal-header">
+      <h3 class="text-center"><span translate>Delete this document</span> (<span x-translate>${document_type}</span>)</h3>
+    </div>
+    <app-delete-document module="'${module}'"></app-delete-document>
   </div>
 </%def>
 
@@ -576,6 +590,10 @@
         % endif
         <li ng-if="userCtrl.isModerator()"
             ng-click="detailsCtrl.openModal('#merge-documents-dialog')"><a translate>Merge with other document</a></li>
+        % if doctype != 'areas':
+          <li ng-if="userCtrl.isModerator()"
+              ng-click="detailsCtrl.openModal('#delete-document-dialog')"><a translate>Delete this document</a></li>
+        % endif
       </ul>
     </div>
 
