@@ -64,6 +64,12 @@ app.SearchFiltersController = function($scope, ngeoLocation, ngeoDebounce,
   this.scope_ = $scope;
 
   /**
+   * @type {Array.<Date>}
+   * @export
+   */
+  this.dates = [];
+
+  /**
    * @type {ngeo.Location}
    * @public
    */
