@@ -707,7 +707,7 @@ app.Api.prototype.mergeDocuments = function(sourceDocumentId, targetDocumentId) 
   var data = {
     'source_document_id': sourceDocumentId,
     'target_document_id': targetDocumentId};
-  var promise = this.postJson_('/document/merge', data);
+  var promise = this.postJson_('/documents/merge', data);
   promise.catch(function(response) {
     var msg = this.alerts_.gettext('Merging documents failed:');
     this.alerts_.addErrorWithMsg(msg, response);
