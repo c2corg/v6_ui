@@ -29,6 +29,14 @@
     </div>
   </article>
 
+  <article class="feed-list-item" ng-if="userCtrl.auth.isAuthenticated() && !feedCtrl.userId">
+    <div class="timeline-bullet icon-outings" uib-tooltip="{{'outing'| translate}}" tooltip-placement="left"></div>
+    <div class="list-item vertical-align">
+      <button class="green-btn btn" app-loading app-load-preferences="outings" app-load-preferences-url="/outings"
+              translate>See outings according to my preferences</button>
+    </div>
+  </article>
+
   <article class="feed-list-item" ng-repeat="doc in feedCtrl.documents track by doc.id"
            ng-init="type = feedCtrl.getDocumentType(doc.document.type);">
 
