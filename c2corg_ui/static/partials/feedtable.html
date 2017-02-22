@@ -36,7 +36,7 @@
           </label>
         </td>
 
-        <td data-original-title="999" data-container="body" tooltip-append-to-body="true" tooltip-placement="top" uib-tooltip="{{::doc['written_at']}}">
+        <td>
           {{::doc['written_at'] | amUtc | amLocal | amDateFormat:'L LTS'}}
         </td>
 
