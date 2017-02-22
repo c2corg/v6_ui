@@ -432,12 +432,12 @@ app.Api.prototype.readFeed = function(token, lang, userId, isPersonal) {
  * @param {?number} userId
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
-app.Api.prototype.readWhatsnewFeed = function(token, userId, docTypes) {
+app.Api.prototype.readWhatsnewFeed = function(token, userId, docTypes, lang) {
   var params = {};
   if (token) params['token'] = token;
   if (userId) params['u'] = userId;
   if (docTypes) params['t'] = docTypes;
-
+  if (lang) params['l'] = lang;
   var promise = this.getJson_('/documents/changes?' + $.param(params));
   promise.catch(function(response) {
     var msg = this.alerts_.gettext('Getting feed data failed:');

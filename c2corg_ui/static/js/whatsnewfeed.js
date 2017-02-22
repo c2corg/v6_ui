@@ -45,6 +45,12 @@ app.WhatsnewFeedController = function($scope, appAuthentication, appApi, appLang
   this.docTypes;
 
   /**
+   * @type {string|undefined}
+   * @export
+   */
+  this.lang;
+
+  /**
    * @type {string}
    * @export
    */
@@ -66,7 +72,10 @@ app.WhatsnewFeedController.prototype.getDocumentsFromFeed = function() {
   if (this.ngeoLocation.hasFragmentParam('t')) {
     this.docTypes = this.ngeoLocation.getFragmentParam('t');
   }
-  this.api.readWhatsnewFeed(this.nextToken, this.userId, this.docTypes).then(function(response) {
+  if (this.ngeoLocation.hasFragmentParam('l')) {
+    this.lang = this.ngeoLocation.getFragmentParam('l');
+  }
+  this.api.readWhatsnewFeed(this.nextToken, this.userId, this.docTypes, this.lang).then(function(response) {
     this.handleFeed(response);
   }.bind(this), function() { // Error msg is shown in the api service
     this.busy = false;
