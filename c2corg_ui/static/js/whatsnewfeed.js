@@ -19,6 +19,7 @@ app.module.directive('appWhatsnewFeed', app.whatsnewFeedDirective);
 
 /**
  * @param {!angular.Scope} $scope Scope.
+ * @param {angular.$cookies} $cookies Cookies service.
  * @param {app.Authentication} appAuthentication
  * @param {app.Api} appApi Api service.
  * @param {app.Lang} appLang Lang service.
@@ -28,9 +29,9 @@ app.module.directive('appWhatsnewFeed', app.whatsnewFeedDirective);
  * @extends {app.FeedController}
  * @ngInject
  */
-app.WhatsnewFeedController = function($scope, appAuthentication, appApi, appLang, imageUrl, ngeoLocation) {
+app.WhatsnewFeedController = function($scope, $cookies, appAuthentication, appApi, appLang, imageUrl, ngeoLocation) {
 
-  goog.base(this, appAuthentication, appApi, appLang, imageUrl, ngeoLocation);
+  goog.base(this, $cookies, appAuthentication, appApi, appLang, imageUrl, ngeoLocation);
 
   /**
    * @type {number}

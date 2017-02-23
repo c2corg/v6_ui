@@ -1,5 +1,5 @@
 <%!
-from c2corg_common.attributes import activities
+from c2corg_common.attributes import activities, default_langs
 %>
 <%inherit file="base.html"/>
 <%namespace file="helpers/common.html" import="show_title, generate_empty_list_items"/>
@@ -26,7 +26,7 @@ from c2corg_common.attributes import activities
       <div class="preferences-areas">
         <h3 translate class="green-text">Areas</h3>
         <app-simple-search app-select="prefCtrl.addArea(doc)" dataset="a"></app-simple-search>
-        <p translate ng-show="prefCtrl.areas.length == 0">Select the region of your interest by typing in the fied.</p>
+        <p translate ng-show="prefCtrl.areas.length == 0">Select the region of your interest by typing in the field.</p>
         <div class="list areas" ng-show="prefCtrl.areas.length > 0">
           <div class="list-item areas new-item"
                ng-repeat="area in prefCtrl.areas">
@@ -36,6 +36,22 @@ from c2corg_common.attributes import activities
           ${generate_empty_list_items(5)}
         </div>
       </div>
+
+      <div class="preferences-langs">
+        <h3 translate class="green-text">langs</h3>
+        <p translate ng-show="prefCtrl.lang_preferences.length == 0">Filter the document languages of your interest by selecting them.</p>
+        <div class="form-group full full-group">
+          <ul class="types">
+            <li ng-repeat="lang in ${default_langs}" ng-click="prefCtrl.updateLanguages(lang)">
+              <div class="checkbox">
+                <input type="checkbox" ng-model="prefCtrl.lang_preferences" ng-checked="prefCtrl.lang_preferences.indexOf(lang) > -1">
+                <span>{{lang | translate}} {{lang}}</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
 
       <div class="preferences-activities section associations ">
         <h3 class="green-text text-left" translate>activities</h3>
