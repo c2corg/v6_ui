@@ -4,6 +4,7 @@ import html
 
 from c2corg_ui.format.wikilinks import C2CWikiLinkExtension
 from c2corg_ui.format.img import C2CImageExtension
+from c2corg_ui.format.video import C2CVideoExtension
 from c2corg_ui.format.important import C2CImportantExtension
 from c2corg_ui.format.warning import C2CWarningExtension
 from markdown.extensions.nl2br import Nl2BrExtension
@@ -28,6 +29,7 @@ def _get_markdown_parser():
         extensions = [
             C2CWikiLinkExtension(),
             C2CImageExtension(api_url=_parsers_settings['api_url']),
+            C2CVideoExtension(),
             C2CImportantExtension(),
             C2CWarningExtension(),
             Nl2BrExtension(),
