@@ -46,6 +46,7 @@ closure_library_path = settings.get('closure_library_path')
     <link rel="stylesheet" href="${request.static_path('c2corg_ui:static/build/deps.css')}">
     <link rel="stylesheet" href="${request.static_path('c2corg_ui:static/build/build.min.css')}">
     <link rel="stylesheet" href="${request.static_path('c2corg_ui:static/build/build-print.min.css')}" media="print">
+    <%block name="share"></%block>
 % endif
   </head>
   <body class="on-load loading">

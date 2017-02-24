@@ -151,7 +151,7 @@
     </div>
   % endif
 </%def>
-  
+
 <%def name="show_locale_title(locale, is_tab_title=False)">\
   <%
       title = get_title(locale)
@@ -606,6 +606,11 @@
       <p class="float-button-text" translate>Comments</p>
     </div>
 
+    <div class="float-button float-share addthis_button" addthis:ui_click="true" addthis:ui_offset_top="40" addthis:ui_offset_left="-50" tooltip-placement="left" uib-tooltip="{{'Share' | translate}}">
+      <span class="glyphicon glyphicon-share"></span>
+      <p class="float-button-text" translate>Share</p>
+    </div>
+
     <div class="dropdown">
       <div class="btn-group float-more float-button dropdown-toggle" type="button" data-toggle="dropdown"
            tooltip-placement="left" uib-tooltip="{{'More' | translate}}">
@@ -615,6 +620,7 @@
       <ul class="dropdown-menu dm-icon" role="menu">
         <li><a ng-click="detailsCtrl.printPage()"><span class="glyphicon glyphicon-print"></span> <translate>Print page</translate></a></li>
         <li><a ng-click="detailsCtrl.openModal('#cotometer-dialog','md')"><span class="glyphicon glyphicon-sort-by-attributes"></span> <translate>Cotometer</translate></a></li>
+        <li class="show-only-mobile"><a class="addthis_button_compact" addthis:ui_click="true" addthis:ui_disable="true" translate>Share</a></li>
         <li><a href="${request.route_path(doctype + '_history', id=doc_id, lang=doc_lang)}"><span class="glyphicon glyphicon-hourglass"></span> <translate>History</translate></a></li>
         % if other_langs:
         <li ng-click="detailsCtrl.openModal('#other-langs')"><a><span class="glyphicon glyphicon-globe"></span> <translate>View in other lang</translate></a></li>
@@ -920,5 +926,26 @@
         <app-geom-download></app-geom-download>
       </p>
     % endif
+  % endif
+</%def>
+
+<%def name="generate_share_metadata(document, document_type)">\
+  ## metadata specific to google and facebook for sharing
+  % if not version:
+    % if document_type != 'images' and document.get('associations').get('images'):
+      % for image in document.get('associations').get('images'):
+        <meta property="og:image" content="${image_url + image['filename']}">
+        <meta itemprop="image" content="${image_url + image['filename']}" />
+      % endfor
+    % endif
+    % if document_type == 'images':
+      <meta property="og:image" content="${image_url + document.get('filename')}">
+    % endif
+    <meta property="og:title" content="${show_locale_title(locale, True)}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="${request.application_url + '/' + document_type + '/' + str(document.get('document_id'))}" />
+    <meta property="og:site_name" content="camptocamp.org" />
+
+    <meta itemprop="name" content="${show_locale_title(locale, True)}" />
   % endif
 </%def>

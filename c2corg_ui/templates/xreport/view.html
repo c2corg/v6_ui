@@ -9,8 +9,9 @@ from json import dumps
   get_document_description, get_document_locale_text, show_missing_langs_links, show_other_langs_links,
   show_archive_data, show_areas, show_locale_title, get_activities, show_maps,
   show_associated_waypoints, show_associated_outings, show_associated_routes, show_associated_xreports,
-  show_associated_articles, show_float_buttons, delete_association_confirmation_modal,
-  associated_waypoints_featurelist, associated_images_featurelist, show_badge, get_licence,
+  show_associated_articles, show_float_buttons, generate_share_metadata,
+  delete_association_confirmation_modal, associated_waypoints_featurelist,
+  associated_images_featurelist, show_badge, get_licence,
   show_merge_documents_dialog, show_delete_document_dialog"/>
 <%namespace file="helpers/view.html" import="show_fulldate, get_xreport_general, get_xreport_participants, get_xreport_personal"/>
 
@@ -70,6 +71,10 @@ other_langs, missing_langs = get_lang_lists(xreport, lang)
        , "associations": ${dumps(xreport.get('associations')) | n}
     % endif
   });
+</%block>
+
+<%block name="share">
+  ${generate_share_metadata(xreport, 'xreports')}
 </%block>
 
 <header class="view-details-title">
