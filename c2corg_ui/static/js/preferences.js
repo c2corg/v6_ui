@@ -54,7 +54,7 @@ app.PreferencesController = function($scope, $cookies, appAuthentication, appApi
 
   /**
    * @type {Array.<string>}
-   * @public
+   * @export
    */
   this.lang_preferences = [];
 
@@ -84,7 +84,7 @@ app.PreferencesController = function($scope, $cookies, appAuthentication, appApi
       this.followed_only = data.followed_only;
       this.lang_preferences = data.lang_preferences;
 
-      console.log('data jsou po otevr. stranky ...', data);
+      console.log('data after page load ...', data);
 
       this.scope_.$watch(function() {
         return this.followed_only;
@@ -137,19 +137,10 @@ app.PreferencesController.prototype.updateLanguages = function(language) {
     'expires': d
   });
 
-  console.log('aktualni preference v Cookie a ulozeni', this.lang_preferences);
+  console.log('preferences now saved to cookie', this.lang_preferences);
 
   this.save_();
 };
-
-//
-// /**
-//  * @return {string}
-//  * @public
-//  */
-// app.PreferencesController.prototype.getLanguagePreference = function() {
-//   return this.lang_preferences || 'es';
-// };
 
 
 /**
@@ -184,7 +175,7 @@ app.PreferencesController.prototype.removeArea = function(id) {
  * @private
  */
 app.PreferencesController.prototype.save_ = function() {
-  console.log('...saving lang. preference ...' , this.lang_preferences);
+  console.log('...saving language preference ...' , this.lang_preferences);
   var data = {
     'lang_preferences': this.lang_preferences,
     'activities': this.activities,

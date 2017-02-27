@@ -44,7 +44,7 @@ from c2corg_common.attributes import activities, default_langs
           <ul class="types">
             <li ng-repeat="lang in ${default_langs}" ng-click="prefCtrl.updateLanguages(lang)">
               <div class="checkbox">
-                <input type="checkbox" ng-model="prefCtrl.lang_preferences" ng-checked="prefCtrl.lang_preferences.indexOf(lang) > -1">
+                <input type="checkbox" ng-checked="prefCtrl.lang_preferences.indexOf(lang) > -1">
                 <span>{{lang | translate}} {{lang}}</span>
               </div>
             </li>
