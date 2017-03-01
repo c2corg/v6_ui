@@ -22,7 +22,6 @@
       "c2corg_ui/externs/angular-1.5.js",
       "c2corg_ui/externs/angular-1.5-q_templated.js",
       "c2corg_ui/externs/angular-1.5-http-promise_templated.js",
-      "c2corg_ui/externs/debounce.js",
       "node_modules/openlayers/externs/bingmaps.js",
       "node_modules/openlayers/externs/closure-compiler.js",
       "node_modules/openlayers/externs/esrijson.js",

@@ -38,13 +38,12 @@ app.module.directive('appAdvancedSearch', app.advancedSearchDirective);
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @param {angular.$q} $q Angular promises/deferred service.
- * @param {debounce} debounce debounce.
  * @constructor
  * @struct
  * @ngInject
  */
 app.AdvancedSearchController = function($scope, appApi, ngeoLocation,
-    gettextCatalog, $q, debounce) {
+    gettextCatalog, $q) {
 
   /**
    * @type {angular.Scope}
@@ -130,8 +129,10 @@ app.AdvancedSearchController = function($scope, appApi, ngeoLocation,
     app.utils.detectDocumentIdFilter(this.location_);
 
   // Refresh the results when pagination or criterias have changed:
-  this.scope_.$root.$on(
-      'searchFilterChange', debounce(this.getResults_.bind(this), 700));
+  this.scope_.$root.$on('searchFilterChange', function(event, loadPrefs) {
+    this.recenter_ = loadPrefs || this.recenter_;
+    this.getResults_();
+  }.bind(this));
 
   // Get the initial results when loading the page unless a map is used.
   // In that case wait to get the map extent before triggering the request.

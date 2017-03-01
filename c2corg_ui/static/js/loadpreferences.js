@@ -113,7 +113,7 @@ app.LoadPreferencesController.prototype.loadPreferences_ = function() {
       this.location_.deleteFragmentParam('bbox');
     }
     this.location_.updateFragmentParams(params);
-    this.scope_.$root.$emit('searchFilterChange');
+    this.scope_.$root.$emit('searchFilterChange', true);
   }
 };
 
