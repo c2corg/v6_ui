@@ -79,7 +79,7 @@ app.SearchFiltersController = function($scope, ngeoLocation, ngeoDebounce,
    * @type {Object}
    * @export
    */
-  this.filters = {};
+  this.filters;
 
   /**
    * @type {number}
@@ -99,13 +99,14 @@ app.SearchFiltersController = function($scope, ngeoLocation, ngeoDebounce,
    */
   this.loading_ = true;
 
+  /**
+   * @type {Object}
+   * @private
+   */
+  this.checkboxes_ = {};
+
   // Fill the filters according to the loaded URL parameters
-  var keys = this.location.getFragmentParamKeys().filter(function(x) {
-    return app.SearchFiltersController.IGNORED_FILTERS.indexOf(x) === -1;
-  });
-  for (var i = 0, n = keys.length; i < n; i++) {
-    this.getFilterFromPermalink(keys[i]);
-  }
+  this.setFilters_();
 
   // Deep watch is used here because we need to watch the list filters as well
   // which a simple $watch or $watchCollection does not. Might cause
@@ -117,6 +118,20 @@ app.SearchFiltersController = function($scope, ngeoLocation, ngeoDebounce,
       500, /* invokeApply */ true),
     /* deep watch */ true
   );
+  this.scope_.$watch(function() {
+    return this.checkboxes_;
+  }.bind(this), ngeoDebounce(
+      this.handleCheckboxesChange_.bind(this),
+      700, /* invokeApply */ true),
+    /* deep watch */ true
+  );
+
+  this.scope_.$root.$on('searchFilterChange', function(event, loadPrefs) {
+    if (loadPrefs) {
+      this.loading_ = true;
+      this.setFilters_();
+    }
+  }.bind(this));
 };
 
 
@@ -128,10 +143,24 @@ app.SearchFiltersController.IGNORED_FILTERS = ['bbox', 'offset', 'limit'];
 
 
 /**
+ * @private
+ */
+app.SearchFiltersController.prototype.setFilters_ = function() {
+  this.filters = {};
+  var keys = this.location.getFragmentParamKeys().filter(function(x) {
+    return app.SearchFiltersController.IGNORED_FILTERS.indexOf(x) === -1;
+  });
+  for (var i = 0, n = keys.length; i < n; i++) {
+    this.setFilterFromPermalink(keys[i]);
+  }
+};
+
+
+/**
  * @param {string} key Filter key.
  * @public
  */
-app.SearchFiltersController.prototype.getFilterFromPermalink = function(key) {
+app.SearchFiltersController.prototype.setFilterFromPermalink = function(key) {
   var val = this.location.getFragmentParam(key);
   if (val === '') {
     return;
@@ -176,8 +205,30 @@ app.SearchFiltersController.prototype.handleFiltersChange_ = function() {
   } else {
     this.loading_ = false;
   }
+  for (var key in this.filters) {
+    if (key in this.config && this.config[key]['type'] === 'list') {
+      // make sure the checkboxes buffer is up to date
+      this.checkboxes_[key] = this.filters[key];
+    }
+  }
   goog.asserts.assert(this.filters);
   this.filtersNb = Object.keys(this.filters).length;
+};
+
+
+/**
+ * @private
+ */
+app.SearchFiltersController.prototype.handleCheckboxesChange_ = function() {
+  // Synchronize filters with checkboxes
+  for (var prop in this.checkboxes_) {
+    if (this.checkboxes_[prop].length) {
+      this.filters[prop] = this.checkboxes_[prop];
+    } else {
+      delete this.filters[prop];
+      this.location.deleteFragmentParam(prop);
+    }
+  }
 };
 
 
@@ -190,11 +241,7 @@ app.SearchFiltersController.prototype.handleFiltersChange_ = function() {
 app.SearchFiltersController.prototype.selectOption = function(prop, val, event) {
   // Don't close the menu after selecting an option
   event.stopPropagation();
-  var checked = app.utils.pushToArray(this.filters, prop, val, event);
-  if (!checked && this.filters[prop].length === 0) {
-    delete this.filters[prop];
-    this.location.deleteFragmentParam(prop);
-  }
+  app.utils.pushToArray(this.checkboxes_, prop, val, event);
 };
 
 
@@ -206,6 +253,7 @@ app.SearchFiltersController.prototype.clear = function() {
     this.location.deleteFragmentParam(key);
   }
   this.filters = {};
+  this.checkboxes_ = {};
   this.orientations = [];
   this.scope_.$root.$emit('searchFilterClear');
 };
