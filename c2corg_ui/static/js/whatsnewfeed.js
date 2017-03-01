@@ -11,7 +11,7 @@ app.whatsnewFeedDirective = function() {
   return {
     restrict: 'E',
     controller: 'appWhatsnewFeedController as wfeedCtrl',
-    templateUrl: '/static/partials/feedtable.html'
+    templateUrl: '/static/partials/whatsnew.html'
   };
 };
 app.module.directive('appWhatsnewFeed', app.whatsnewFeedDirective);
