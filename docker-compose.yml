@@ -1,0 +1,21 @@
+ui:
+  image: c2corg/v6_ui:dev_environment
+  ports:
+    - 6553:6553
+  environment:
+    api_url: 'http://api.demov6.camptocamp.org'
+    version: ''
+    redis_url: 'redis://redis:6379/'
+  volumes:
+    - ./c2corg_ui:/var/www/c2corg_ui
+    - ./less:/var/www/less
+    - ./less-discourse:/var/www/less-discourse
+    - ./less-print:/var/www/less-print
+  #command: make -f config/docker serve
+  #links:
+  #  - redis
+
+#redis:
+#  image: 'docker.io/redis:3.2'
+#  ports:
+#    - 6379:6379

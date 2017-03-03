@@ -1,6 +1,6 @@
 <%!
 from c2corg_common.attributes import activities, image_categories, image_types
-from c2corg_ui.templates.utils import get_lang_lists
+from c2corg_ui.templates.utils import get_lang_lists, get_title
 from json import dumps
 %>
 
@@ -8,8 +8,8 @@ from json import dumps
 <%namespace file="../helpers/view.html" import="get_comments, get_image_gallery,
     photoswipe_gallery, get_document_locale_text, show_badge,
     show_missing_langs_links, show_other_langs_links, show_archive_data,
-    delete_association_confirmation_modal, show_locale_title, show_float_buttons,
-    get_document_description, get_licence"/>
+    show_locale_title, show_float_buttons, get_document_description,
+    get_licence, show_merge_documents_dialog"/>
 <%namespace file="helpers/view.html" import="get_area_general"/>
 <%
 area_id = area['document_id']
@@ -57,7 +57,8 @@ area['doctype'] = 'areas'
     "document_id": ${area.get('document_id')},
     "lang": "${lang}",
     "type": "a",
-    "topic_id": ${dumps(locale.get('topic_id'))}
+    "topic_id": ${dumps(locale.get('topic_id'))},
+    "title": ${dumps(get_title(locale)) | n}
   });
 </%block>
 
@@ -93,7 +94,6 @@ area['doctype'] = 'areas'
 
   ${get_document_description(locale, 'area')}
 
-  ## ASSOCIATIONS
   % if not version:
     <div class="view-details-comments col-xs-12 associations">
       <h3 class="heading associations"
@@ -116,14 +116,9 @@ area['doctype'] = 'areas'
         </div>
       </section>
     </div>
-  % endif
 
-  ${get_comments()}
+    ${get_comments()}
 
-  ## OTHER BUTTON contents
-  % if not version:
-    ${show_other_langs_links('areas', area, other_langs)}
-    ${show_missing_langs_links('areas', area, missing_langs)}
     ${show_float_buttons(area, lang, other_langs, missing_langs)}
   % endif
 </section>
@@ -133,15 +128,20 @@ area['doctype'] = 'areas'
   <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);">&nbsp;<span class="glyphicon glyphicon-menu-up"></span></button>
 </div>
 
-<div class="ng-hide">
-  <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
-</div>
+% if not version:
+  <div class="ng-hide">
+    <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
+    ${show_other_langs_links('areas', area, other_langs)}
+    ${show_missing_langs_links('areas', area, missing_langs)}
+    ${show_merge_documents_dialog('areas')}
+  </div>
 
-${photoswipe_gallery()}
+  ${photoswipe_gallery()}
 
-<script>
-  window.onload = function() {
-     // init float-buttons tooltips
-     $('[data-toggle=\'tooltip\']').tooltip();
-  };
-</script>
+  <script>
+    window.onload = function() {
+      ## init float-buttons tooltips
+      $('[data-toggle=\'tooltip\']').tooltip();
+    };
+  </script>
+% endif

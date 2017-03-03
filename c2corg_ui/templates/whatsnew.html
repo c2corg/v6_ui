@@ -1,0 +1,17 @@
+<%inherit file="base.html"/>
+<%namespace file="helpers/common.html" import="show_title"/>
+<%namespace file="helpers/view.html" import="show_badge"/>
+
+<%block name="pagetitle"><title>${show_title('Latest changes')}</title></%block>
+
+<section class="whatsnew">
+
+  <header>
+    <h1 class="text-center" translate>Latest changes</h1>
+  </header>
+
+  <div>
+    <app-whatsnew-feed app-loading></app-whatsnew-feed>
+  </div>
+
+</section>

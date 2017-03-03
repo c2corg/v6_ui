@@ -16,6 +16,14 @@ def get_lang_lists(document, lang):
     return other_langs, missing_langs
 
 
+def get_title(locale):
+    title = ''
+    if 'title_prefix' in locale and locale['title_prefix']:
+        title = locale['title_prefix'] + ' : '
+    title += locale['title']
+    return title
+
+
 def get_attr(obj, key, md=True, bb=True):
     """Get attribute from passed object if exists.
     md and bb are optional params that may be used to finetune
@@ -124,7 +132,7 @@ def get_route_gear_articles(route):
                         'P3+',
                         'P4'
                     ]:
-                articles.append('185384', 'easy mountain climbing gear')
+                articles.append(('185384', 'easy mountain climbing gear'))
         if 'ice_climbing' in activities:
             articles.append(('194479', 'ice and dry climbing gear'))
         if 'hiking' in activities:

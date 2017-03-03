@@ -1,0 +1,47 @@
+<div class="modal-body">
+  <div class="alert alert-warning">
+    <p class="text-center"><strong translate>Warning: This action cannot be undone!</strong></p>
+  </div>
+
+  <p translate>Merging a source document with a target document transfers all
+  associations of the source document to the target document, and sets up a
+  redirection from the source to the target document.</p>
+  <p><strong translate>Note that comments have to be transferred manually in Discourse before merging.</strong></p>
+
+  <div class="document-to-merge">
+    <p>
+      <label translate>Source:</label> {{ mergeCtrl.sourceDocument.title }}
+      <span ng-if="mergeCtrl.module === 'outings' && mergeCtrl.sourceDocument.date_end">
+        {{::mergeCtrl.sourceDocument.date_end | date: 'dd/MM/yyyy'}}
+      </span>
+      (<a ng-href="/{{ mergeCtrl.module }}/{{ mergeCtrl.sourceDocument.document_id }}"
+          target="_blank">{{ mergeCtrl.sourceDocument.document_id }}</a>)
+    </p>
+    <p>
+      <label translate>Target:</label>
+      <span ng-if="!mergeCtrl.targetDocument" class="merge-hint" translate>Search for a target document (document id or title).</span>
+      <span ng-if="mergeCtrl.targetDocument">
+        {{ mergeCtrl.getTargetTitle() }}
+        <span ng-if="mergeCtrl.module === 'outings' && mergeCtrl.targetDocument.date_end">
+          {{::mergeCtrl.targetDocument.date_end | date: 'dd/MM/yyyy'}}
+        </span>
+        (<a ng-href="/{{ mergeCtrl.module }}/{{ mergeCtrl.targetDocument.document_id }}"
+            target="_blank">{{ mergeCtrl.targetDocument.document_id }}</a>)
+      </span>
+    </p>
+    <app-simple-search app-select="mergeCtrl.selectTargetDocument(doc)"
+                       app-simple-search-standard="false"
+                       skip-association-filter="true"
+                       ignore-document-id="mergeCtrl.sourceDocument.document_id"
+                       dataset="{{ mergeCtrl.sourceDocument.type }}"></app-simple-search>
+  </div>
+</div>
+
+<div class="modal-footer">
+  <p>
+    <button type="button" ng-disabled="!mergeCtrl.targetDocument" ng-click="mergeCtrl.mergeDocuments()"
+          class="btn btn-warning" translate>Merge documents</button>
+    <button type="button" ng-click="mergeCtrl.closeDialog()"
+          class="btn btn-default" translate>Cancel</button>
+  </p>
+</div>

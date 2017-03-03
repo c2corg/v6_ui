@@ -125,7 +125,7 @@ app.Authentication.prototype.hasEditRights = function(doctype, options) {
   } else if (doctype === 'articles') {
     return this.hasEditRightsArticle_(options['articleType'], options['authorId']);
   } else if (doctype === 'xreports') {
-    return this.hasEditRightsXreport_(options['authorId']);
+    return this.hasEditRightsXreport_(options['authorId'], options['users']);
   }
 
   return true;
@@ -139,8 +139,30 @@ app.Authentication.prototype.hasEditRights = function(doctype, options) {
  * @private
  */
 app.Authentication.prototype.hasEditRightsOuting_ = function(users) {
-  var u = typeof users === 'string' ? JSON.parse(users) : users;
+  return this.isAssociatedUser(users);
+};
 
+
+/**
+ * Checks if the current user has rights to access/edit the xreport.
+ * @param {string} authorId
+ * @param {string | Array<string>} users
+ * @return {boolean}
+ * @private
+ */
+app.Authentication.prototype.hasEditRightsXreport_ = function(authorId, users) {
+  if (this.userData.id === parseInt(authorId, 10)) {
+    return true;
+  }
+  return this.isAssociatedUser(users);
+};
+
+
+/**
+ * @param {string | Array<string>} users
+ */
+app.Authentication.prototype.isAssociatedUser = function(users) {
+  var u = typeof users === 'string' ? JSON.parse(users) : users;
   if (u) {
     for (var i = 0; i < u.length; i++) {
       if (this.userData.id === u[i].document_id) {
@@ -180,17 +202,6 @@ app.Authentication.prototype.hasEditRightsArticle_ = function(articleType, autho
   } else {
     return this.userData.id === parseInt(authorId, 10);
   }
-};
-
-
-/**
- * Checks if the current user has rights to access/edit the xreport.
- * @param {string} authorId
- * @return {boolean}
- * @private
- */
-app.Authentication.prototype.hasEditRightsXreport_ = function(authorId) {
-  return this.userData.id === parseInt(authorId, 10);
 };
 
 

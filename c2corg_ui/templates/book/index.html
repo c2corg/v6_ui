@@ -1,6 +1,5 @@
 <%inherit file="../base.html"/>
 <%namespace file="../helpers/common.html" import="show_title"/>
-<%namespace file="../helpers/list.html" import="add_doctype_selector"/>
 
 <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Books')">${show_title('Books')}</title></%block>
 
@@ -27,7 +26,7 @@
 
     <div class="documents-nav-buttons text-center">
       <button class="btn btn-default show-documents-filters-phone" translate>Filters</button>
-      ${add_doctype_selector()}
+      <app-doctype-selector app-doctype="books"></app-doctype-selector>
 
       <button class="btn btn-default orange-btn" protected-url-btn url="${request.route_path('books_add')}"
               uib-tooltip="{{'Create a new book' | translate }}" tooltip-placement="right">

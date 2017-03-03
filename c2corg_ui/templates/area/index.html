@@ -1,6 +1,5 @@
 <%inherit file="../base.html"/>
 <%namespace file="../helpers/common.html" import="show_title"/>
-<%namespace file="../helpers/list.html" import="add_doctype_selector"/>
 
 <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Areas')">${show_title('Areas')}</title></%block>
 
@@ -24,7 +23,7 @@
 
     <div class="documents-nav-buttons text-center">
       <button class="btn btn-default orange-btn show-documents-filters-phone" translate>Filters</button>
-      ${add_doctype_selector()}
+      <app-doctype-selector app-doctype="areas"></app-doctype-selector>
       <app-pagination class="areas"></app-pagination>
     </div>
 

@@ -20,7 +20,10 @@ app.simpleSearchDirective = function() {
     controller: 'AppSimpleSearchController',
     bindToController: {
       'selectHandler': '&appSelect',
-      'isStandardSearch': '=appSimpleSearchStandard'
+      'isStandardSearch': '<appSimpleSearchStandard',
+      'skipAssociationFilter': '<',
+      'ignoreDocumentId': '<',
+      'dataset': '@'
     },
     controllerAs: 'searchCtrl',
     templateUrl: '/static/partials/simplesearch.html',
@@ -179,13 +182,13 @@ app.SimpleSearchController = function(appDocument, $scope, $compile, $attrs, api
 
   /**
    * @type {string}
-   * @private
+   * @export
    */
-  this.datasetLimit_ = $attrs['dataset'];
+  this.dataset;
 
   // create only given datasets
-  for (var i = 0; i < this.datasetLimit_.length; i++) {
-    switch (this.datasetLimit_[i]) {
+  for (var i = 0; i < this.dataset.length; i++) {
+    switch (this.dataset[i]) {
       case 'u':
         this.datasets.push(this.createDataset_('users'));
         break;
@@ -207,6 +210,12 @@ app.SimpleSearchController = function(appDocument, $scope, $compile, $attrs, api
       case 'b':
         this.datasets.push(this.createDataset_('books'));
         break;
+      case 'x':
+        this.datasets.push(this.createDataset_('xreports'));
+        break;
+      case 'i':
+        this.datasets.push(this.createDataset_('images'));
+        break;
       default:
         break;
     }
@@ -217,6 +226,18 @@ app.SimpleSearchController = function(appDocument, $scope, $compile, $attrs, api
    * @export
    */
   this.isStandardSearch;
+
+  /**
+   * @type {boolean}
+   * @export
+   */
+  this.skipAssociationFilter;
+
+  /**
+   * @type {number}
+   * @export
+   */
+  this.ignoreDocumentId;
 
   /**
    * @type {ngeox.SearchDirectiveListeners}
@@ -325,14 +346,14 @@ app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
         var url = settings['url'] + '&pl=' + this.gettextCatalog_.currentLanguage;
         url += '&limit=' + app.SimpleSearchController.MAX_RESULTS_NB;
 
-        if (this.datasetLimit_) {
+        if (this.dataset) {
           // add the Auth header if searching for users
-          if (this.datasetLimit_.indexOf('u') > -1 && this.auth_.isAuthenticated()) {
+          if (this.dataset.indexOf('u') > -1 && this.auth_.isAuthenticated()) {
             settings['headers'] = {
               'Authorization': 'JWT token="' + this.auth_.userData.token + '"'
             };
           }
-          url = url + '&t=' + this.datasetLimit_.split('').join(',');
+          url = url + '&t=' + this.dataset.split('').join(',');
         }
         settings['url'] = url.replace('%QUERY', encodeURIComponent(query));
         return settings;
@@ -344,18 +365,27 @@ app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
         if (documentResponse) {
           this.nbResults_[type] = documentResponse.total;
           var documents = documentResponse.documents;
-          return documents.map(function(/** appx.SimpleSearchDocument */ doc) {
+          documents = documents.map(function(/** appx.SimpleSearchDocument */ doc) {
+            if (this.ignoreDocumentId !== undefined && this.ignoreDocumentId === doc.document_id) {
+              return null;
+            }
+
             doc.label = this.createDocLabel_(doc, this.gettextCatalog_.currentLanguage);
             doc.documentType = type;
             // Show result if:
             // - in the frame of a standard simple-search
+            // - explicitly skipping the association check
             // - if not already associated for other simple-searches
-            if (this.isStandardSearch ||
+            if (this.isStandardSearch || this.skipAssociationFilter ||
                 !this.documentService_.hasAssociation(type,  doc.document_id)) {
               return doc;
             }
             return null;
           }.bind(this));
+
+          return documents.filter(function(doc) {
+            return doc !== null;
+          });
         }
       }).bind(this)
     }

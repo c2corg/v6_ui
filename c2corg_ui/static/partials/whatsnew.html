@@ -1,0 +1,63 @@
+<div ng-show="wfeedCtrl.documents.length > 0"
+  infinite-scroll="wfeedCtrl.getDocumentsFromFeed()"
+  infinite-scroll-immediate-check="false"
+  infinite-scroll-distance="0.7"
+  infinite-scroll-disabled="wfeedCtrl.busy || wfeedCtrl.error || wfeedCtrl.feedEnd || wfeedCtrl.noFeed">
+
+  <p class="text-success text-center" ng-if="wfeedCtrl.userId">
+    <span translate>Feed for user:</span> {{::wfeedCtrl.userId}}
+  </p>
+
+  <div class="table-responsive">
+    <table class="text-center feedtable table table-condensed table-striped table-hover">
+      <tr>
+        <th class="text-center" translate>title</th>
+        <th class="text-center" translate>type</th>
+        <th class="text-center" translate>written_at</th>
+        <th class="text-center" translate>quality</th>
+        <th class="text-center" translate>author</th>
+        <th class="text-center" translate>comment</th>
+      </tr>
+
+      <tr class="feed-list" ng-repeat="doc in wfeedCtrl.documents track by doc.version_id"
+          ng-init="type = wfeedCtrl.getDocumentType(doc.document.type);">
+
+        <td class="text-left">
+          <a ng-href="{{wfeedCtrl.getVersionUrl(doc)}}">
+            <span ng-if="doc['document']['title']">{{::doc['document']['title']}}</span>
+            <span ng-if="!doc['document']['title']" translate>Untitled</span>
+          </a>
+          <span ng-if="doc['lang'] != wfeedCtrl.currentLang">({{::doc['lang']}})</span>
+        </td>
+
+        <td>
+          <label class="badge {{type}}">
+            <span class="glyphicon glyphicon-arrow-right"></span>&nbsp<span>{{type | translate}}</span>
+          </label>
+        </td>
+
+        <td>
+          {{::doc['written_at'] | amUtc | amLocal | amDateFormat:'L LTS'}}
+        </td>
+
+        <td ng-if="::doc['document']['quality']" class="quality-{{::doc['document']['quality']}}" tooltip-append-to-body="true"
+            uib-tooltip="{{'quality'| translate}} : {{::doc['document']['quality'] | translate}}">
+        </td>
+
+        <td data-container="body" tooltip-append-to-body="true" tooltip-placement="top">
+          <a ng-href="/profiles/{{::doc['user']['user_id']}}/{{::doc['user']['lang']}}">{{::doc['user']['name']}}</a>
+        </td>
+
+        <td>{{::doc['comment']}}</td>
+
+      </tr>
+
+    </table>
+  </div>
+</div>
+
+  <h4 class="text-center text-danger" translate ng-show="wfeedCtrl.error">Sorry, there was an error while getting the feed.</h4>
+  <h4 class="text-success text-center" translate ng-show="wfeedCtrl.busy">Loading feed, please wait...</h4>
+  <h4 class="text-success text-center" translate ng-show="wfeedCtrl.feedEnd">No more feed to load.</h4>
+
+</div>

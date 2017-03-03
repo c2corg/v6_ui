@@ -8,7 +8,7 @@ from c2corg_common.attributes import default_langs, activities, image_types, ima
 <%namespace file="../helpers/common.html" import="show_title"/>
 
 <%namespace file="../helpers/edit.html" import="show_editing_associated_waypoints,
-    show_editing_associated_routes, show_preview_container, show_save_confirmation_modal,
+    show_editing_associated_routes, show_editing_associated_outings, show_preview_container, show_save_confirmation_modal,
     show_editing_buttons"/>
 
 <%block name="pagetitle">
@@ -60,8 +60,11 @@ from c2corg_common.attributes import default_langs, activities, image_types, ima
             </div>
 
             ## LANGUAGE
-            <div id="lang-group" class="form-group" ng-class="{ 'has-error': editForm.lang.$touched && editForm.lang.$invalid, 'has-success': editForm.lang.$valid}">
-              <label><span translate>lang</span> *</label>
+            <div id="lang-group" class="form-group"
+                 ng-class="{ 'has-feedback': editForm.lang.$touched,
+                             'has-error': editForm.lang.$touched && editForm.lang.$invalid,
+                             'has-success': editForm.lang.$valid}">
+              <label ng-class="{ 'control-label': editForm.lang.$touched && editForm.lang.$invalid }"><span translate>lang</span> *</label>
               % if image_lang:
               <input disabled class="form-control" value="{{mainCtrl.translate('${image_lang}')}}">
               % else:
@@ -69,8 +72,8 @@ from c2corg_common.attributes import default_langs, activities, image_types, ima
               % endif
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="image.locales[0].lang"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.lang.$touched && editForm.lang.$invalid"></span>
-              <div class="help-block" ng-messages="editForm.lang.$error">
-                <p ng-message="required" class="label label-danger" style="{{ (editForm.lang.$invalid && editForm.lang.$touched) ? 'display:inline' : '' }}" translate>This field is required.</p>
+              <div class="help-block" ng-messages="editForm.lang.$error" ng-if="editForm.lang.$touched && editForm.lang.$invalid">
+                <p ng-message="required" translate>This field is required.</p>
               </div>
             </div>
 
@@ -141,8 +144,14 @@ from c2corg_common.attributes import default_langs, activities, image_types, ima
 
               <div ng-class="{ 'has-success': image.image_type}">
                 <label><span translate>image_type</span> *</label>
-                <div class="input-group">
-                  <select class="form-control" ng-model="image.image_type" ng-options="rat as mainCtrl.translate(rat) for rat in ${image_types}"><option value=""></option></select>
+                <div class="input-group" ng-init="image_types = ${image_types}">
+                  <select class="form-control" ng-model="image.image_type" ng-if="userCtrl.isModerator()"
+                    ng-options="type as mainCtrl.translate(type) for type in image_types"></select>
+                  <div ng-if="!userCtrl.isModerator()">
+                    <select class="form-control" ng-model="image.image_type" ng-if="editCtrl.initialImageType == 'personal'"
+                      ng-options="type as mainCtrl.translate(type) for type in editCtrl.filterImageTypes(image_types)"></select>
+                    <input type="text" disabled class="form-control" ng-model="image.image_type" ng-if="editCtrl.initialImageType != 'personal'" />
+                  </div>
                   <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
                 </div>
                 <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="image.image_type"></span>
@@ -159,50 +168,58 @@ from c2corg_common.attributes import default_langs, activities, image_types, ima
           <div class="content" id="edit-maps">
 
             ## ELEVATION
-            <div id="elevation-group" class="form-group data third" ng-class="{ 'has-success': image.elevation}">
-              <label translate>elevation</label>
+            <div id="elevation-group" class="form-group data third"
+                 ng-class="{ 'has-feedback': editForm.elevation.$touched,
+                             'has-error': editForm.elevation.$touched && editForm.elevation.$invalid,
+                             'has-success': editForm.elevation.$valid && image.elevation}">
+              <label ng-class="{ 'control-label': editForm.elevation.$touched && editForm.elevation.$invalid }" translate>elevation</label>
               <div class="input-group">
                 <input type="number" min="0" minlength="1" max="9999" name="elevation" ng-model="image.elevation" class="form-control" />
                 <span class="input-group-addon">m</span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="image.elevation"></span>
-              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.elevation.$invalid && image.elevation"></span>
-              <div class="help-block" ng-messages="editForm.elevation.$error">
-                <p ng-message="number" class="label label-danger" style="{{ (editForm.elevation.$invalid && editForm.elevation.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.elevation.$touched && editForm.elevation.$invalid"></span>
+              <div class="help-block" ng-messages="editForm.elevation.$error" ng-if="editForm.elevation.$touched && editForm.elevation.$invalid">
+                <p ng-message="number" translate>This field must be a number.</p>
+                <p ng-message="max" translate>This field must be lower than 9999 m.</p>
               </div>
             </div>
 
             ## LONGITUDE
-            <div id="longitude-group" class="form-group data third" ng-class="{ 'has-error': editForm.longitude.$touched && editForm.longitude.$invalid,
-                                      'has-success': editForm.longitude.$valid && image.lonlat.longitude}">
-              <label><span translate>longitude</span></label>
+            <div id="longitude-group" class="form-group data third"
+                 ng-class="{ 'has-feedback': editForm.longitude.$touched,
+                             'has-error': editForm.longitude.$touched && editForm.longitude.$invalid,
+                             'has-success': editForm.longitude.$valid && waypoint.lonlat.longitude}">
+              <label ng-class="{ 'control-label': editForm.longitude.$touched && editForm.longitude.$invalid }"><span translate>longitude</span></label>
               <div class="input-group">
                 <input type="number" name="longitude" ng-model="image.lonlat.longitude" ng-change="editCtrl.updateMap()" class="form-control" min="-180" max="180" />
                 <span class="input-group-addon">°E</span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.longitude.$valid && image.lonlat.longitude"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.longitude.$invalid && editForm.longitude.$touched"></span>
-              <div class="help-block" ng-messages="editForm.longitude.$error">
-                <p ng-message="number" class="label label-danger" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
-                <p ng-message="min" class="label label-danger" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : ''}}" translate>This field must be between -180° and 180°.</p>
-                <p ng-message="max" class="label label-danger" style="{{ (editForm.longitude.$invalid && editForm.longitude.$touched) ? 'display:inline' : ''}}" translate>This field must be between -180° and 180°.</p>
+              <div class="help-block" ng-messages="editForm.longitude.$error" ng-if="editForm.longitude.$touched && editForm.longitude.$invalid">
+                <p ng-message="number" translate>This field must be a number.</p>
+                <p ng-message="min" translate>This field must be between -180° and 180°.</p>
+                <p ng-message="max" translate>This field must be between -180° and 180°.</p>
               </div>
             </div>
 
             ## LATITUDE
-            <div id="latitude-group" class="form-group data third" ng-class="{ 'has-error': editForm.latitude.$touched && editForm.latitude.$invalid,
-                                      'has-success': editForm.latitude.$valid && image.lonlat.latitude}">
-              <label><span translate>Latitude</span></label>
+            <div id="latitude-group" class="form-group data third"
+                 ng-class="{ 'has-feedback': editForm.latitude.$touched,
+                             'has-error': editForm.latitude.$touched && editForm.latitude.$invalid,
+                             'has-success': editForm.latitude.$valid && waypoint.lonlat.latitude}">
+              <label ng-class="{ 'control-label': editForm.latitude.$touched && editForm.latitude.$invalid }"><span translate>Latitude</span></label>
               <div class="input-group">
                 <input type="number" name="latitude" ng-model="image.lonlat.latitude" ng-change="editCtrl.updateMap()" class="form-control" min="-90" max="90" />
                 <span class="input-group-addon">°N</span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="image.lonlat.latitude"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.latitude.$invalid && editForm.latitude.$touched"></span>
-              <div class="help-block" ng-messages="editForm.latitude.$error">
-                <p ng-message="number" class="label label-danger" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
-                <p ng-message="min" class="label label-danger" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : ''}}" translate>This field must be between -90° and 90°.</p>
-                <p ng-message="max" class="label label-danger" style="{{ (editForm.latitude.$invalid && editForm.latitude.$touched) ? 'display:inline' : ''}}" translate>This field must be between -90° and 90°.</p>
+              <div class="help-block" ng-messages="editForm.latitude.$error" ng-if="editForm.latitude.$invalid && editForm.latitude.$touched">
+                <p ng-message="number" translate>This field must be a number.</p>
+                <p ng-message="min" translate>This field must be between -90° and 90°.</p>
+                <p ng-message="max" translate>This field must be between -90° and 90°.</p>
               </div>
             </div>
 
@@ -234,49 +251,58 @@ from c2corg_common.attributes import default_langs, activities, image_types, ima
             </div>
 
             ## FOCAL LENGTH
-            <div class="form-group half" ng-class="{ 'has-error': editForm.focal_length.$invalid, 'has-success': editForm.focal_length.$valid && image.focal_length }">
-              <label translate>focal_length</label>
+            <div class="form-group half"
+                 ng-class="{ 'has-feedback': editForm.focal_length.$touched,
+                             'has-error': editForm.focal_length.$invalid,
+                             'has-success': editForm.focal_length.$valid && image.focal_length }">
+              <label ng-class="{ 'control-label': editForm.focal_length.$touched && editForm.focal_length.$invalid }" translate>focal_length</label>
               <div class="input-group">
                 <input type="number" min="1" name="focal_length" ng-model="image.focal_length" class="form-control">
                 <span class="input-group-addon">mm</span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.focal_length.$valid && image.focal_length"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.focal_length.$invalid && editForm.focal_length.$touched"></span>
-              <div class="help-block" ng-messages="editForm.focal_length.$error">
-                <p ng-message="number" class="label label-danger" style="{{ (editForm.focal_length.$invalid && editForm.focal_length.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
+              <div class="help-block" ng-messages="editForm.focal_length.$error" ng-if="editForm.focal_length.$invalid && editForm.focal_length.$touched">
+                <p ng-message="number" translate>This field must be a number.</p>
               </div>
             </div>
 
             ## EXPOSURE TIME
-            <div class="form-group half" ng-class="{ 'has-error': editForm.exposure_time.$invalid || editCtrl.exposureError, 'has-success': editForm.exposure_time.$valid && image.exposure_time}">
-              <label translate>exposure_time</label>
+            <div class="form-group half"
+                 ng-class="{ 'has-feedback': editForm.exposure_time.$touched,
+                             'has-error': editForm.exposure_time.$invalid || editCtrl.exposureError,
+                             'has-success': editForm.exposure_time.$valid && image.exposure_time}">
+              <label ng-class="{ 'control-label': editForm.exposure_time.$touched && editForm.exposure_time.$invalid }" translate>exposure_time</label>
               <span ng-bind-html="editCtrl.convertExposureTime(image.exposure_time)"></span>
               <div class="input-group flex">
-                <input type="number" min="0" max="30" name="exposure_time" ng-model="image.exposure_time" ng-change="editCtrl.convertExposureTime(image.exposure_time)" class="form-control"
+                <input type="number" min="0" max="30" step="any" name="exposure_time" ng-model="image.exposure_time" ng-change="editCtrl.convertExposureTime(image.exposure_time)" class="form-control"
                        uib-tooltip="{{'You can type 0.003125 and it will be converted to 1/320s' | translate}}">
                 <input type="text" disabled class="form-control" value="{{image.exposure_time_converted}}">
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.exposure_time.$valid && image.exposure_time"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.exposure_time.$invalid && editForm.exposure_time.$touched"></span>
-              <div class="help-block" ng-messages="editForm.exposure_time.$error || editCtrl.exposureError">
-                <p ng-message="number" class="label label-danger" style="{{ (editForm.exposure_time.$invalid) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
-                <p class="label label-danger" style="{{editCtrl.exposureError ? 'display:inline' : ''}}"><span translate>This field must be a number</span> > 0 <span translate>and</span> < 30</p>
-                <p ng-message="min" class="label label-danger" style="{{ (editForm.exposure_time.$invalid) ? 'display:inline' : ''}}"><span translate>This field must be a number</span> > 0 <span translate>and</span> < 30</p>
-                <p ng-message="max" class="label label-danger" style="{{ (editForm.exposure_time.$invalid) ? 'display:inline' : ''}}"><span translate>This field must be a number</span> > 0 <span translate>and</span> < 30</p>
+              <div class="help-block" ng-messages="editForm.exposure_time.$error || editCtrl.exposureError" ng-if="editForm.exposure_time.$invalid && editForm.exposure_time.$touched">
+                <p ng-message="number" translate>This field must be a number.</p>
+                <p ng-message="min"><span translate>This field must be a number</span> > 0 <span translate>and</span> < 30</p>
+                <p ng-message="max"><span translate>This field must be a number</span> > 0 <span translate>and</span> < 30</p>
               </div>
             </div>
 
             ## ISO
-            <div class="form-group half" ng-class="{ 'has-error': editForm.iso_speed.$invalid, 'has-success': editForm.iso_speed.$valid && image.iso_speed }">
-              <label translate>iso_speed</label>
+            <div class="form-group half"
+                 ng-class="{ 'has-feedback': editForm.iso_speed.$touched,
+                             'has-error': editForm.iso_speed.$invalid,
+                             'has-success': editForm.iso_speed.$valid && image.iso_speed }">
+              <label ng-class="{ 'control-label': editForm.iso_speed.$touched && editForm.exposure_time.$invalid }" translate>iso_speed</label>
               <div class="input-group">
                 <span class="input-group-addon">ISO</span>
                 <input type="number" min="1" name="iso_speed" ng-model="image.iso_speed" class="form-control">
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.iso_speed.$valid && image.iso_speed"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.iso_speed.$invalid && editForm.iso_speed.$touched"></span>
-              <div class="help-block" ng-messages="editForm.iso_speed.$error">
-                <p ng-message="number" class="label label-danger" style="{{ (editForm.iso_speed.$invalid && editForm.iso_speed.$touched) ? 'display:inline' : ''}}" translate>This field must be a number.</p>
+              <div class="help-block" ng-messages="editForm.iso_speed.$error" ng-if="editForm.iso_speed.$invalid && editForm.iso_speed.$touched">
+                <p ng-message="number" translate>This field must be a number.</p>
+                <p ng-message="min"><span translate>This field must be a number</span> > 0</p>
               </div>
             </div>
 
@@ -315,6 +341,7 @@ from c2corg_common.attributes import default_langs, activities, image_types, ima
             <app-simple-search parent-id="image.document_id" app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="wro"></app-simple-search>
             ${show_editing_associated_routes('image')}
             ${show_editing_associated_waypoints('image')}
+            ${show_editing_associated_outings('image')}
           </div>
         </section>
       </div>

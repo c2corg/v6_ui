@@ -93,8 +93,24 @@
       .glyphicon {
         color: white;
       }
+
+      &.article {
+        background-color: @darkcyan;
+      }
+      &.book {
+        background-color: @plum;
+      }
+      &.image {
+        background-color: @darkolivegreen;
+      }
+      &.outing {
+        background-color: @indigo;
+      }
       &.route {
         background-color: @brand-info;
+      }
+      &.xreport {
+        background-color: @tomato;
       }
       &.waypoint {
         background-color: @bright-green;
@@ -731,7 +747,7 @@ app-add-association {
 
     @media @phone {
       margin: 5px auto !important;
-      max-width: 285px;
+      max-width: 90%;
       float: none !important;
 
       figcaption {
@@ -741,6 +757,8 @@ app-add-association {
       }
       img {
         margin: auto !important;
+        max-width: 100%;
+        height: auto;
       }
     }
     /*Big Image*/
@@ -757,7 +775,6 @@ app-add-association {
       display: none;
     }
     figcaption {
-      max-width: 240px;
       margin: 5px 10px -5px 10px;
       color: @gray;
     }
@@ -810,6 +827,15 @@ app-add-association {
 
     span.glyphicon {
       color: white;
+    }
+  }
+  .embed-responsive-4by3.video {
+    margin-top: 5px;
+    margin-bottom: 5px;
+
+    @media (min-width: @phone-max) {
+      width: 560px;
+      padding-bottom: 420px;
     }
   }
 }

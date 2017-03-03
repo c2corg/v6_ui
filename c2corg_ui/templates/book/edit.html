@@ -6,7 +6,8 @@ from c2corg_common.attributes import default_langs, quality_types, activities, b
   updating_doc = book_id and book_lang
 %>
 <%namespace file="../helpers/common.html" import="show_title"/>
-<%namespace file="../helpers/edit.html" import="show_save_confirmation_modal, show_preview_container, show_editing_buttons"/>
+<%namespace file="../helpers/edit.html" import="show_save_confirmation_modal, show_preview_container, show_editing_buttons,
+    show_editing_associated_waypoints, show_editing_associated_routes, show_editing_associated_articles"/>
 
 <%block name="pagetitle"><title ng-init="id = ${book_id if book_id else 0}" ng-bind="id ? mainCtrl.page_title('Editing a book') : mainCtrl.page_title('Creating a book')">${show_title('Create/edit book')}</title></%block>
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
@@ -33,35 +34,43 @@ from c2corg_common.attributes import default_langs, quality_types, activities, b
           <div class="content">
 
             ## TITLE
-            <div id="title-group" class="form-group" ng-class="{ 'has-error': editForm.title.$touched && editForm.title.$invalid, 'has-success': editForm.title.$valid }">
-              <label><span translate>title</span> *</label>
+            <div id="title-group" class="form-group"
+                 ng-class="{ 'has-feedback': editForm.title.$touched,
+                             'has-error': editForm.title.$touched && editForm.title.$invalid,
+                             'has-success': editForm.title.$valid }">
+              <label ng-class="{ 'control-label': editForm.title.$touched && editForm.title.$invalid }"><span translate>title</span> *</label>
               <input type="text" name="title" ng-model="book.locales[0].title" ng-minlength="3" class="form-control" required />
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.title.$valid"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.title.$invalid && editForm.title.$touched"></span>
-              <div class="help-block" ng-messages="editForm.title.$error">
-                <p ng-message="required" class="label label-danger" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : '' }}" translate>This field is required.</p>
-                <p ng-message="minlength" class="label label-danger" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : '' }}" translate>Title must have at least 3 characters.</p>
+              <div class="help-block" ng-messages="editForm.title.$error" ng-if="editForm.title.$touched && editForm.title.$invalid">
+                <p ng-message="required" translate>This field is required.</p>
+                <p ng-message="minlength" translate>Title must have at least 3 characters.</p>
               </div>
             </div>
 
             ## LANGUAGE
-            <div id="lang-group" class="form-group" ng-class="{ 'has-error': editForm.lang.$touched && editForm.lang.$invalid, 'has-success': editForm.lang.$valid}">
-              <label><span translate>lang</span> *</label>
+            <div id="lang-group" class="form-group"
+                 ng-class="{ 'has-feedback': editForm.lang.$touched,
+                             'has-error': editForm.lang.$touched && editForm.lang.$invalid,
+                             'has-success': editForm.lang.$valid}">
+              <label ng-class="{ 'control-label': editForm.lang.$touched && editForm.lang.$invalid }"><span translate>lang</span> *</label>
               % if book_lang:
                 <input disabled class="form-control" value="{{mainCtrl.translate('${book_lang}')}}">
               % else:
               <select name="lang" ng-options="lang as mainCtrl.translate(lang) for lang in ['${"','".join(default_langs) |n}'] | translate" ng-model="book.locales[0].lang" class="form-control" required><option value=""></option></select>
               % endif
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="book.locales[0].lang"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.lang.$valid"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.lang.$touched && editForm.lang.$invalid"></span>
-              <div class="help-block" ng-messages="editForm.lang.$error">
-                <p ng-message="required" class="label label-danger" style="{{ (editForm.lang.$invalid && editForm.lang.$touched) ? 'display:inline' : '' }}" translate>This field is required.</p>
+              <div class="help-block" ng-messages="editForm.lang.$error" ng-if="editForm.lang.$touched && editForm.lang.$invalid">
+                <p ng-message="required" translate>This field is required.</p>
               </div>
             </div>
 
             ## ACTIVITIES
             <div class="form-group data full" id="route-activities" ng-init="activities = ${activities}"
-                 ng-class="{ 'has-error': editForm.activities.$touched && editForm.activities.$invalid, 'has-success': editForm.activities.$valid }">
+                 ng-class="{ 'has-feedback': editForm.activities.$touched,
+                             'has-error': editForm.activities.$touched && editForm.activities.$invalid,
+                             'has-success': editForm.activities.$valid }">
               <label><span translate>activities</span> *</label>
               <div class="route-activities">
                 <div ng-repeat="activity in activities" class="activity">
@@ -112,43 +121,72 @@ from c2corg_common.attributes import default_langs, quality_types, activities, b
             ## publication_date
             <div class="form-group half half-group">
               <label translate>publication_date</label>
-              <input type="text" name="publication_date" minlength="0" ng-model="book.publication_date" class="form-control" />
+              <input type="text" name="publication_date"ng-model="book.publication_date" class="form-control" />
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="book.publication_date"></span>
-              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.publication_date.$invalid && editForm.publication_date.$touched"></span>
             </div>
 
             ## nb_pages
-            <div class="data half half-group form-group" ng-class="{ 'has-error': editForm.nb_pages.$touched && editForm.nb_pages.$invalid,'has-success': book.nb_pages }">
+            <div class="data half half-group form-group"
+                 ng-class="{ 'has-feedback': editForm.nb_pages.$touched,
+                             'has-error': editForm.nb_pages.$touched && editForm.nb_pages.$invalid,
+                             'has-success': editForm.nb_pages.$valid && book.nb_pages}">
               <label translate>nb_pages</label>
               <div class="input-group">
-                <input type="number" min="0" name="height_diff_access" ng-model="book.nb_pages" class="form-control" />
+                <input type="number" min="0" max="9999" name="nb_pages" ng-model="book.nb_pages" class="form-control" />
                 <span class="input-group-addon">#</span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="book.nb_pages"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.nb_pages.$valid && book.nb_pages"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.nb_pages.$invalid && editForm.nb_pages.$touched"></span>
+              <div class="help-block" ng-messages="editForm.nb_pages.$error" ng-if="editForm.nb_pages.$touched && editForm.nb_pages.$invalid">
+                <p ng-message="max" translate>This field must be lower than 9999.</p>
+                <p ng-message="number" translate>This field must be a number.</p>
+              </div>
             </div>
 
             ## isbn
-            <div class="form-group half half-group">
+            <div class="form-group half half-group"
+                 ng-class="{ 'has-feedback': editForm.isbn.$touched,
+                             'has-error': editForm.isbn.$touched && editForm.isbn.$invalid,
+                             'has-success': editForm.isbn.$valid && book.isbn }">
               <label translate>isbn</label>
               <input type="text" ng-minlength="9" ng-maxlength="17" name="isbn" ng-model="book.isbn" class="form-control" />
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="book.isbn"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.isbn.$valid && book.isbn"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.isbn.$invalid && editForm.isbn.$touched"></span>
-              <div class="help-block" ng-messages="editForm.isbn.$error">
-                <p ng-message="text" class="label label-danger" style="{{ (editForm.isbn.$invalid && editForm.isbn.$touched) ? 'display:inline' : '' }}" translate>This field must be a valid number.</p>
+              <div class="help-block" ng-messages="editForm.isbn.$error" ng-if="editForm.isbn.$touched && editForm.isbn.$invalid">
+                <p ng-message="minlength" translate>This field must be a valid ISBN.</p>
+                <p ng-message="maxlength" translate>This field must be a valid ISBN.</p>
               </div>
             </div>
 
             ## url
-            <div class="form-group half half-group">
+            <div class="form-group half half-group"
+                 ng-class="{ 'has-feedback': editForm.url.$touched,
+                             'has-error': editForm.url.$touched && editForm.url.$invalid,
+                             'has-success': editForm.url.$valid && book.url}">
               <label translate>url</label>
               <input type="url" name="url" ng-model="book.url" ng-minlength="6" class="form-control" />
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="book.url"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.url.$valid && book.url"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.url.$invalid && editForm.url.$touched"></span>
-              <div class="help-block" ng-messages="editForm.isbn.$error">
-                <p ng-message="text" class="label label-danger" style="{{ (editForm.url.$invalid && editForm.url.$touched) ? 'display:inline' : '' }}" translate>This field must be a valid url.</p>
+              <div class="help-block" ng-messages="editForm.url.$error" ng-if="editForm.url.$touched && editForm.url.$invalid">
+                <p ng-message="url" translate>This field must be a valid url.</p>
               </div>
             </div>
 
+          </div>
+        </section>
+
+        ## ASSOCIATIONS
+        <section class="section associations">
+          <h2 class="heading show-phone"><span translate>associations</span></h2>
+          <h5 class="full" translate ng-show="editCtrl.documentService.document.associations.routes.length == 0 && editCtrl.documentService.document.associations.waypoints.length == 0">
+            You can add associated documents by searching in the field.
+          </h5>
+          <div class="content route-associations">
+            <app-simple-search parent-id="book.document_id"
+              app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="wrc"></app-simple-search>
+            ${show_editing_associated_waypoints('book')}
+            ${show_editing_associated_routes('book')}
+            ${show_editing_associated_articles('book')}
           </div>
         </section>
 

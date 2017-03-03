@@ -7,23 +7,28 @@ if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
   exit 0
 fi
 
+build_image() {
+  local DOCKER_TAG DOCKER_FILE
+  DOCKER_TAG="$1"
+  DOCKER_FILE="$2"
+
+  echo "Building docker image '${DOCKER_TAG}'"
+  docker build -f "${DOCKER_FILE}" -t "${DOCKER_TAG}" .
+  docker inspect "${DOCKER_TAG}"
+  docker history "${DOCKER_TAG}"
+}
+
 git archive --format=tar --output project.tar "$TRAVIS_COMMIT"
 
 if [ "$TRAVIS_BRANCH" = "master" ]; then
-  DOCKER_IMAGE="${REPO}:latest"
-  DOCKER_SOURCE="branch '${TRAVIS_BRANCH}'"
+  build_image "${REPO}:latest" Dockerfile_deployment_environment
+  build_image "${REPO}:dev_environment" Dockerfile_dev_environment
 elif [ ! -z "$TRAVIS_TAG" ]; then
-  DOCKER_IMAGE="${REPO}:${TRAVIS_TAG}"
-  DOCKER_SOURCE="tag '${TRAVIS_TAG}'"
+  build_image "${REPO}:${TRAVIS_TAG}" Dockerfile_deployment_environment
 elif [ ! -z "$TRAVIS_BRANCH" ]; then
-  DOCKER_IMAGE="${REPO}:${TRAVIS_BRANCH}"
-  DOCKER_SOURCE="branch '${TRAVIS_BRANCH}'"
+  build_image "${REPO}:${TRAVIS_BRANCH}" Dockerfile_deployment_environment
 else
   echo "Don't know how to build image"
   exit 1
 fi
 
-echo "Building docker image '${DOCKER_IMAGE}' out of ${DOCKER_SOURCE}"
-docker build -t "${DOCKER_IMAGE}" .
-docker inspect "${DOCKER_IMAGE}"
-docker history "${DOCKER_IMAGE}"

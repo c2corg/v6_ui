@@ -1,5 +1,5 @@
 <%!
-    from c2corg_ui.templates.utils import get_attr, is_collaborative, is_personal, get_doc_type
+    from c2corg_ui.templates.utils import get_attr, is_collaborative, is_personal, get_doc_type, get_title
     from json import dumps, loads
     from shapely.geometry import asShape
     from math import floor
@@ -106,12 +106,37 @@
   % endif
 </%def>
 
+<%def name="show_merge_documents_dialog(module)">\
+  <%
+      # get the module without the 's' at the end ('routes' -> 'route')
+      # to reuse existing translation strings
+      document_type = module[:-1]
+  %>\
+  <div id="merge-documents-dialog" app-loading>
+    <div class="modal-header">
+      <h3 class="text-center"><span translate>Merge documents</span> (<span x-translate>${document_type}</span>)</h3>
+    </div>
+    <app-merge-documents module="'${module}'"></app-merge-documents>
+  </div>
+</%def>
+
+<%def name="show_delete_document_dialog(module)">\
+  <%
+      # get the module without the 's' at the end ('routes' -> 'route')
+      # to reuse existing translation strings
+      document_type = module[:-1]
+  %>\
+  <div id="delete-document-dialog" app-loading>
+    <div class="modal-header">
+      <h3 class="text-center"><span translate>Delete this document</span> (<span x-translate>${document_type}</span>)</h3>
+    </div>
+    <app-delete-document module="'${module}'"></app-delete-document>
+  </div>
+</%def>
+
 <%def name="show_locale_title(locale, is_tab_title=False)">\
   <%
-      title = ''
-      if 'title_prefix' in locale and locale['title_prefix']:
-          title = locale['title_prefix'] + ' : '
-      title += locale['title']
+      title = get_title(locale)
   %>\
   ${title}${' - Camptocamp.org' if is_tab_title else ''}\
 </%def>
@@ -461,12 +486,16 @@
   % endif
 </%def>
 
-<%def name="get_document_description(locale, doctype)">\
+<%def name="get_document_description(locale, doctype, title=None)">\
   % if locale.get('summary') or locale.get('description'):
     <div class="view-details-description col-xs-12  description">
       % if doctype not in ['article', 'profile']:
         <h3 class="heading show-phone">
-          <span translate>description</span>
+          % if title:
+            <span x-translate>${title}</span>
+          % else:
+            <span translate>description</span>
+          % endif
         </h3>
       % endif
       <span class="lead">
@@ -518,7 +547,7 @@
       elif doctype == 'articles':
           options = {"articleType": doc['article_type'], "authorId": doc['author']['user_id']}
       elif doctype == 'xreports':
-          options = {"authorId": doc["author"]["user_id"]}
+          options = {"authorId": doc["author"]["user_id"], "users": users}
       else:
           options = {"users": users}
   %>
@@ -558,6 +587,12 @@
         % if missing_langs:
         <li ng-if="userCtrl.hasEditRights('${doctype}', ${options})"
             ng-click="detailsCtrl.openModal('#missing-langs')"><a translate>Translate into an other lang</a></li>
+        % endif
+        <li ng-if="userCtrl.isModerator()"
+            ng-click="detailsCtrl.openModal('#merge-documents-dialog')"><a translate>Merge with other document</a></li>
+        % if doctype != 'areas':
+          <li ng-if="userCtrl.isModerator()"
+              ng-click="detailsCtrl.openModal('#delete-document-dialog')"><a translate>Delete this document</a></li>
         % endif
       </ul>
     </div>
@@ -827,11 +862,18 @@
   </label>
 </%def>
 
-<%def name="show_track_download(document)">\
-  % if document.get('geometry') and document.get('geometry').get('geom_detail'):
-    <p class="hidden-print">
-      <span translate class="value-title">Download track as</span>
-      <app-track-download></app-track-download>
-    </p>
+<%def name="show_geom_download(document, isLine=False)">\
+  % if document.get('geometry'):
+    % if isLine and document.get('geometry').get('geom_detail'):
+      <p class="hidden-print">
+        <span translate class="value-title">Download track as</span>
+        <app-geom-download></app-geom-download>
+      </p>
+    % elif not isLine and document.get('geometry').get('geom'):
+      <p class="hidden-print">
+        <span translate class="value-title">Download waypoint as</span>
+        <app-geom-download></app-geom-download>
+      </p>
+    % endif
   % endif
 </%def>

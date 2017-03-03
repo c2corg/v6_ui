@@ -160,8 +160,30 @@ h1 {
 }
 
 main {
-  #missing-langs, #other-langs {
+  #missing-langs, #other-langs, #merge-documents-dialog {
     display: none;
+  }
+}
+
+#merge-documents-dialog {
+  padding: 10px;
+
+  .merge-hint {
+    font-style: italic;
+  }
+
+  .document-to-merge {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+
+  app-simple-search {
+    @media @phone {
+      width: 100%;
+    }
+    .search {
+      width: 100%;
+    }
   }
 }
 
@@ -320,15 +342,18 @@ app-pagination.areas, app-pagination.articles app-pagination.books {
   }
 }
 
-.help-block {
+div.help-block {
   position: absolute;
-  margin-top: -5px;
-  margin-bottom: 0;
+  margin-top: 0;
+  margin-top: 0;
 
   p {
-    display: none;
-    color: white !important;
+    font-size: 1em;
   }
+}
+
+#register-captcha-group {
+  padding-top: 5px;
 }
 
 .line-separator{

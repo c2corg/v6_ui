@@ -1,5 +1,6 @@
 .build/
 .git/
 .gitignore
-Dockerfile
+Dockerfile*
+docker-compose.yml
 .travis.yml

@@ -1,6 +1,6 @@
 <%!
 from c2corg_common.attributes import activities, book_types, image_categories, image_types
-from c2corg_ui.templates.utils import get_lang_lists
+from c2corg_ui.templates.utils import get_lang_lists, get_title
 from json import dumps
 %>
 
@@ -11,7 +11,8 @@ from json import dumps
   show_archive_data, get_activities, show_areas, show_float_buttons, show_locale_title,
   show_associated_waypoints, show_associated_outings, show_associated_routes, show_associated_articles,
   delete_association_confirmation_modal, associated_images_featurelist,
-  show_badge, get_document_description, get_licence" />
+  show_badge, get_document_description, get_licence, show_merge_documents_dialog,
+  show_delete_document_dialog" />
 <%namespace file="helpers/view.html" import="get_book_general"/>
 
 <%
@@ -37,7 +38,8 @@ other_langs, missing_langs = get_lang_lists(book, lang)
     "document_id": ${book.get('document_id')},
     "lang": "${lang}",
     "type": "b",
-    "topic_id": ${dumps(locale.get('topic_id'))}
+    "topic_id": ${dumps(locale.get('topic_id'))},
+    "title": ${dumps(get_title(locale)) | n}
     % if not version:
        , "associations": ${dumps(book.get('associations')) | n}
     % endif
@@ -77,7 +79,6 @@ other_langs, missing_langs = get_lang_lists(book, lang)
     ${get_document_description(locale, 'book')}
   </div>
 
-  ## ASSOCIATIONS
   % if not version:
     <div class="view-details-associations col-xs-12  associations">
       <span class="lead">
@@ -92,43 +93,33 @@ other_langs, missing_langs = get_lang_lists(book, lang)
           </section>
       </span>
     </div>
-  % endif
 
-  % if 'recent_outings' in book['associations'] and book['associations']['recent_outings']['total'] > 0:
-    <div class="view-details-associations col-xs-12  associations">
-      <span class="lead">
-        <section>
-          ${show_associated_outings(book)}
-        </section>
-      </span>
-    </div>
-  % endif
+    ${get_comments()}
 
-  ${get_comments()}
-
-  ## OTHER BUTTON contents
-  % if not version:
-    ${show_other_langs_links('books', book, other_langs)}
-    ${show_missing_langs_links('books', book, missing_langs)}
     ${show_float_buttons(book, lang, other_langs, missing_langs)}
   % endif
-
 </section>
 
 <div class="text-center">
   <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);">&nbsp;<span class="glyphicon glyphicon-menu-up"></span></button>
 </div>
 
-<div class="ng-hide">
-  <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
-  ${delete_association_confirmation_modal()}
-</div>
+% if not version:
+  <div class="ng-hide">
+    <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
+    ${delete_association_confirmation_modal()}
+    ${show_other_langs_links('books', book, other_langs)}
+    ${show_missing_langs_links('books', book, missing_langs)}
+    ${show_merge_documents_dialog('books')}
+    ${show_delete_document_dialog('books')}
+  </div>
 
-${photoswipe_gallery()}
+  ${photoswipe_gallery()}
 
-<script>
-  window.onload = function() {
-     // init float-buttons tooltips
-     $('[data-toggle=\'tooltip\']').tooltip();
-  };
-</script>
+  <script>
+    window.onload = function() {
+      ## init float-buttons tooltips
+      $('[data-toggle=\'tooltip\']').tooltip();
+    };
+  </script>
+% endif

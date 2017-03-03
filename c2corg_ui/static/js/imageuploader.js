@@ -167,7 +167,7 @@ app.ImageUploaderController = function($scope, $uibModal, $compile, $q,
     return this.files;
   }.bind(this), function() {
     if (this.files.length) {
-      this.upload_();
+      this.processFiles_();
     }
   }.bind(this));
 
@@ -182,23 +182,57 @@ app.ImageUploaderController = function($scope, $uibModal, $compile, $q,
 /**
  * @private
  */
-app.ImageUploaderController.prototype.upload_ = function() {
+app.ImageUploaderController.prototype.processFiles_ = function() {
   this.areAllUploaded = false;
   var file;
 
-  var interval = setInterval(function() {
-    this.scope_.$apply();
-  }.bind(this), 1000);
-
   for (var i = 0; i < this.files.length; i++) {
-
     file = this.files[i];
-
     if (!file['metadata']) {
-      this.uploadFile_(file);
+      angular.extend(file, {
+        'src': app.utils.getImageFileBase64Source(file),
+        'queued': true,
+        'progress': 0,
+        'processed': false,
+        'metadata': {
+          'id': file['name'] + '-' + new Date().toISOString(),
+          'activities': angular.copy(this.defaultActivities_),
+          'categories': [],
+          'image_type': this.image_type_,
+          'elevation': null,
+          'geometry': null
+        }
+      });
+      this.getImageMetadata_(file);
     }
   }
-  this.areAllUploadedCheck_(interval);
+
+  this.upload_();
+};
+
+/**
+ * @private
+ */
+app.ImageUploaderController.prototype.upload_ = function() {
+  var file;
+
+  for (var i = 0; i < this.files.length; i++) {
+    file = this.files[i];
+
+    // avoid uploading multiple files at the same time
+    if (!file['queued'] && !file['processed'] && !file['failed']) {
+      return;
+    }
+
+    if (file['queued']) {
+      this.uploadFile_(file).then(function() {
+        this.upload_();
+      }.bind(this));
+      return;
+    }
+  }
+
+  this.areAllUploadedCheck_();
 };
 
 
@@ -206,31 +240,17 @@ app.ImageUploaderController.prototype.upload_ = function() {
  * @private
  */
 app.ImageUploaderController.prototype.uploadFile_ = function(file) {
-  angular.extend(file, {
-    'src': app.utils.getImageFileBase64Source(file),
-    'progress': 0,
-    'processed': false,
-    'metadata': {
-      'id': file['name'] + '-' + new Date().toISOString(),
-      'activities': angular.copy(this.defaultActivities_),
-      'categories': [],
-      'image_type': this.image_type_,
-      'elevation': null,
-      'geometry': null
-    }
-  });
-  this.getImageMetadata_(file);
-
   var canceller = this.q_.defer();
   var promise = this.api_.uploadImage(file, canceller.promise, function(file, event) {
     var progress = event.loaded / event.total;
     file['progress'] = 100 * progress;
   }.bind(this, file));
 
+  file['queued'] = false;
   file['uploading'] = promise;
   file['canceller'] = canceller;
 
-  promise.then(function(resp) {
+  return promise.then(function(resp) {
     var image = new Image();
     image['src'] = file['src'];
 
@@ -238,36 +258,33 @@ app.ImageUploaderController.prototype.uploadFile_ = function(file) {
     file['processed'] = true;
 
   }.bind(this), function(resp) {
-    if (resp.status === -1) {
-      if (!file['manuallyAborted']) {
-        this.alerts_.addError(this.alerts_.gettext('Error while uploading the image:') + ' Timeout');
-      }
-    } else {
-      this.alerts_.addError(this.alerts_.gettext('Error while uploading the image:') + ' ' + resp.statusText);
+    if (file['manuallyAborted']) {
+      return;
     }
-    this.deleteImage(this.files.indexOf(file));
+    if (resp.status === -1) {
+      file['failed'] = 'Timeout';
+    } else {
+      file['failed'] = resp.statusText;
+    }
+    file['progress'] = 0;
   }.bind(this));
 };
 
 
 /**
  * Lets showing the 'save' button when all images have been uploaded.
- * @param {null | number | null} interval
  * @private
  */
-app.ImageUploaderController.prototype.areAllUploadedCheck_ = function(interval) {
-  var promises = this.files.map(function(file) {
-    return file['uploading'];
-  });
-
-  this.q_.all(promises).then(function(res) {
-    if (this.files.length > 0) {
-      this.areAllUploaded = true;
-      clearInterval(interval);
-    } else {
+app.ImageUploaderController.prototype.areAllUploadedCheck_ = function() {
+  var file;
+  for (var i = 0; i < this.files.length; i++) {
+    file = this.files[i];
+    if (!file['processed']) {
       this.areAllUploaded = false;
+      return;
     }
-  }.bind(this));
+  }
+  this.areAllUploaded = this.files.length > 0;
 };
 
 
@@ -321,12 +338,27 @@ app.ImageUploaderController.prototype.setImageType_ = function() {
 
 
 /**
- * @param {Object} file
+ * @param {File} file
+ * @export
+ */
+app.ImageUploaderController.prototype.retryFileUpload = function(file) {
+  file['failed'] = false;
+  file['queued'] = true;
+  this.upload_();
+};
+
+
+/**
+ * @param {File} file
  * @export
  */
 app.ImageUploaderController.prototype.abortFileUpload = function(file) {
-  file['manuallyAborted'] = true;
-  file['canceller'].resolve();
+  if (!file['queued'] && !file['failed']) {
+    file['manuallyAborted'] = true;
+    file['canceller'].resolve();
+  }
+  this.deleteImage(this.files.indexOf(file));
+  this.areAllUploadedCheck_();
 };
 
 
@@ -379,7 +411,11 @@ app.ImageUploaderController.prototype.setExifData_ = function(file) {
   var exif = file['exif'];
   var metadata = file['metadata'];
 
-  metadata['date_time'] = this.parseExifDate_(exif);
+  var date = this.parseExifDate_(exif, 'DateTimeOriginal');
+  if (date === null) {
+    date = this.parseExifDate_(exif, 'DateTime');
+  }
+  metadata['date_time'] = date;
   metadata['exposure_time'] = exif['ExposureTime'];
   metadata['iso_speed'] = exif['PhotographicSensitivity'];
   metadata['focal_length'] = exif['FocalLengthIn35mmFilm'];
@@ -390,14 +426,15 @@ app.ImageUploaderController.prototype.setExifData_ = function(file) {
 
 /**
  * @param {Object} exifData Exif data
- * @return {String} Parsed date in ISO format.
+ * @param {string} exifTag Exif tag.
+ * @return {?string} Parsed date in ISO format.
  * @private
  */
-app.ImageUploaderController.prototype.parseExifDate_ = function(exifData) {
-  if (!exifData['DateTime']) {
+app.ImageUploaderController.prototype.parseExifDate_ = function(exifData, exifTag) {
+  if (!exifData[exifTag]) {
     return null;
   }
-  var exifDate = exifData['DateTime'];
+  var exifDate = exifData[exifTag];
   var date = window.moment(exifDate, 'YYYY:MM:DD HH:mm:ss');
   return date.isValid() ? date.format() : null;
 };

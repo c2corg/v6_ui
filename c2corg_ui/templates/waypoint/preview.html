@@ -29,7 +29,7 @@ ${show_preview_warning()}
       <span translate>Information</span><span class="glyphicon glyphicon-menu-down"></span>
     </h3>
     <section id="document-informations" class="collapse in">
-      ${get_waypoint_general(waypoint)}
+      ${get_waypoint_general(waypoint, True)}
       ${get_waypoint_orientations(waypoint)}
       ${get_waypoint_location(waypoint, geometry4326) if geometry4326 else ''}
       ${get_waypoint_contact(waypoint)}

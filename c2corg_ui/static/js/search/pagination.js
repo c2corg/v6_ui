@@ -73,6 +73,11 @@ app.PaginationController = function($scope, ngeoLocation) {
     this.handleSearchChange_.bind(this));
 };
 
+/**
+ * @const
+ * @type {number}
+ */
+app.PaginationController.MAX_RESULT_OFFSET = 10000;
 
 /**
  * @param {Object} event
@@ -85,11 +90,10 @@ app.PaginationController.prototype.handleSearchChange_ = function(event,
     features, total, recenter) {
   this.total = total;
   this.offset = this.location_.getFragmentParamAsInt('offset') || 0;
-  // don't show the "Go to last page" button when doing a full-text-search
-  // (the full result set has to be iterated in ElasticSearch when doing
-  // requests with large offsets)
-  this.showGoToLastPage = !(this.location_.hasFragmentParam('q') &&
-    this.location_.getFragmentParam('q') !== '');
+  // don't show the "Go to last page" button if the offset is above
+  // maxResultOffset_, or the API will return an error
+  this.showGoToLastPage =
+    this.total <= app.PaginationController.MAX_RESULT_OFFSET;
 };
 
 
@@ -99,6 +103,7 @@ app.PaginationController.prototype.handleSearchChange_ = function(event,
 app.PaginationController.prototype.goToFirst = function() {
   this.location_.deleteFragmentParam('offset');
   this.scope_.$root.$emit('searchFilterChange');
+  this.scrollToTop_();
 };
 
 
@@ -113,6 +118,7 @@ app.PaginationController.prototype.goToPrev = function() {
     this.location_.deleteFragmentParam('offset');
   }
   this.scope_.$root.$emit('searchFilterChange');
+  this.scrollToTop_();
 };
 
 
@@ -123,6 +129,7 @@ app.PaginationController.prototype.goToNext = function() {
   var nextOffset = this.offset + this.limit;
   this.location_.updateFragmentParams({'offset': nextOffset});
   this.scope_.$root.$emit('searchFilterChange');
+  this.scrollToTop_();
 };
 
 
@@ -133,6 +140,14 @@ app.PaginationController.prototype.goToLast = function() {
   var nextOffset = this.total - (this.total % this.limit);
   this.location_.updateFragmentParams({'offset': nextOffset});
   this.scope_.$root.$emit('searchFilterChange');
+  this.scrollToTop_();
+};
+
+/**
+ * @private
+ */
+app.PaginationController.prototype.scrollToTop_ = function() {
+  document.querySelector('.documents-list-section').scrollTop = 0;
 };
 
 

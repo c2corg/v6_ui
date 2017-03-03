@@ -13,7 +13,12 @@
     </div>
   </div>
 
-  <button type="button" ng-show="mapCtrl.edit" ng-click="mapCtrl.resetFeature()"
-          class="btn btn-primary btn-xs map-reset-feature" translate>Reset feature</button>
+  <button type="button" ng-show="mapCtrl.canReset()" ng-click="mapCtrl.resetFeature()"
+          class="btn btn-primary btn-xs map-reset-feature"
+          title="{{ 'Reset geometry' | translate }}" translate>Reset geometry</button>
+  <button type="button" ng-show="mapCtrl.canDelete()" ng-click="mapCtrl.deleteFeature()"
+          class="btn btn-primary btn-xs map-unset-feature"
+          title="{{ 'Delete geometry' | translate }}" translate>Delete geometry</button>
+
   <app-baselayer-selector app-baselayer-selector-map="::mapCtrl.map"></app-baselayer-selector>
 </div>

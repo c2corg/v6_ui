@@ -28,17 +28,18 @@ app.module.directive('appFeed', app.feedDirective);
  * @param {app.Api} appApi Api service.
  * @param {app.Lang} appLang Lang service.
  * @param {!string} imageUrl URL to the image backend.
+ * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @constructor
  * @ngInject
  * @struct
  */
-app.FeedController = function(appAuthentication, appApi, appLang, imageUrl) {
+app.FeedController = function(appAuthentication, appApi, appLang, imageUrl, ngeoLocation) {
 
   /**
    * @type {app.Api}
-   * @private
+   * @public
    */
-  this.api_ = appApi;
+  this.api = appApi;
 
   /**
    * @type {app.Authentication}
@@ -66,9 +67,9 @@ app.FeedController = function(appAuthentication, appApi, appLang, imageUrl) {
 
   /**
    * @type {string | undefined}
-   * @private
+   * @public
    */
-  this.nextToken_;
+  this.nextToken;
 
   /**
    * @type {boolean}
@@ -112,6 +113,12 @@ app.FeedController = function(appAuthentication, appApi, appLang, imageUrl) {
    */
   this.isPersonal = !this.userId;
 
+  /**
+   * @type {ngeo.Location}
+   * @public
+   */
+  this.ngeoLocation = ngeoLocation;
+
   this.getDocumentsFromFeed();
 };
 
@@ -123,25 +130,35 @@ app.FeedController = function(appAuthentication, appApi, appLang, imageUrl) {
  */
 app.FeedController.prototype.getDocumentsFromFeed = function() {
   this.busy = true;
-  this.api_.readFeed(this.nextToken_, this.lang_.getLang(), this.userId, this.isPersonal).then(function(response) {
-    this.error = false;
-    this.busy = false;
-    var data = response['data']['feed'];
-    var token = response['data']['pagination_token'];
-    this.nextToken_ = token;
-
-    for (var i = 0; i < data.length; i++) {
-      this.documents.push(data[i]);
-    }
-    if ((token && data.length === 0) || (!token && this.documents.length > 0)) {  // reached the end of the feed - disable scroll
-      this.feedEnd = true;
-    } else if (data.length === 0) { // first fetch with no feed returned.
-      this.noFeed = true;
-    }
+  this.api.readFeed(this.nextToken, this.lang_.getLang(), this.userId, this.isPersonal).then(function(response) {
+    this.handleFeed(response);
   }.bind(this), function() { // Error msg is shown in the api service
     this.busy = false;
     this.error = true;
   }.bind(this));
+};
+
+
+/**
+ * Handles feed processing for Feed.js and Whatsnew.js
+ * @param response
+ * @public
+ */
+app.FeedController.prototype.handleFeed = function(response) {
+  this.error = false;
+  this.busy = false;
+  var data = response['data']['feed'];
+  var token = response['data']['pagination_token'];
+  this.nextToken = token;
+  for (var i = 0; i < data.length; i++) {
+    this.documents.push(data[i]);
+  }
+  // reached the end of the feed - disable scroll
+  if ((token && data.length === 0) || (!token && this.documents.length > 0)) {
+    this.feedEnd = true;
+  } else if (data.length === 0) { // first fetch with no feed returned.
+    this.noFeed = true;
+  }
 };
 
 
@@ -167,7 +184,7 @@ app.FeedController.prototype.createActionLine = function(doc) {
     default:
       break;
   }
-  return line + this.documentType(doc['document']['type']);
+  return line + this.getDocumentType(doc['document']['type']);
 };
 
 
@@ -177,7 +194,7 @@ app.FeedController.prototype.createActionLine = function(doc) {
  */
 app.FeedController.prototype.toggleFilters = function() {
   this.isPersonal = !this.isPersonal;
-  this.nextToken_ = undefined;
+  this.nextToken = undefined;
   this.documents = [];
   this.getDocumentsFromFeed();
   window.scrollTo(0, 0);
@@ -200,7 +217,7 @@ app.FeedController.prototype.createImageUrl = function(filename, suffix) {
  * @export
  * @returns {string}
  */
-app.FeedController.prototype.documentType = function(type) {
+app.FeedController.prototype.getDocumentType = function(type) {
   return app.utils.getDoctype(type).slice(0, -1);
 };
 
