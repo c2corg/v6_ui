@@ -35,35 +35,43 @@ from c2corg_common.attributes import default_langs, activities, article_categori
           <div class="content">
 
             ## TITLE
-            <div id="title-group" class="form-group" ng-class="{ 'has-error': editForm.title.$touched && editForm.title.$invalid, 'has-success': editForm.title.$valid }">
-              <label><span translate>title</span> *</label>
+            <div id="title-group" class="form-group"
+                 ng-class="{ 'has-feedback': editForm.title.$touched,
+                             'has-error': editForm.title.$touched && editForm.title.$invalid,
+                             'has-success': editForm.title.$valid }">
+              <label ng-class="{ 'control-label': editForm.title.$touched && editForm.lang.$invalid }"><span translate>title</span> *</label>
               <input type="text" name="title" ng-model="article.locales[0].title" ng-minlength="3" class="form-control" required />
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.title.$valid"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.title.$invalid && editForm.title.$touched"></span>
-              <div class="help-block" ng-messages="editForm.title.$error">
-                <p ng-message="required" class="label label-danger" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : '' }}" translate>This field is required.</p>
-                <p ng-message="minlength" class="label label-danger" style="{{ (editForm.title.$invalid && editForm.title.$touched) ? 'display:inline' : '' }}" translate>Title must have at least 3 characters.</p>
+              <div class="help-block" ng-messages="editForm.title.$error" ng-if="editForm.title.$touched && editForm.title.$invalid">
+                <p ng-message="required" translate>This field is required.</p>
+                <p ng-message="minlength" translate>Title must have at least 3 characters.</p>
               </div>
             </div>
 
             ## LANGUAGE
-            <div id="lang-group" class="form-group" ng-class="{ 'has-error': editForm.lang.$touched && editForm.lang.$invalid, 'has-success': editForm.lang.$valid}">
-              <label><span translate>lang</span> *</label>
+            <div id="lang-group" class="form-group"
+                 ng-class="{ 'has-feedback': editForm.lang.$touched,
+                             'has-error': editForm.lang.$touched && editForm.lang.$invalid,
+                             'has-success': editForm.lang.$valid}">
+              <label ng-class="{ 'control-label': editForm.lang.$touched && editForm.lang.$invalid }"><span translate>lang</span> *</label>
               % if article_lang:
                 <input disabled class="form-control" value="{{mainCtrl.translate('${article_lang}')}}">
               % else:
               <select name="lang" ng-options="lang as mainCtrl.translate(lang) for lang in ['${"','".join(default_langs) |n}'] | translate" ng-model="article.locales[0].lang" class="form-control" required><option value=""></option></select>
               % endif
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="article.locales[0].lang"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.lang.$valid"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.lang.$touched && editForm.lang.$invalid"></span>
-              <div class="help-block" ng-messages="editForm.lang.$error">
-                <p ng-message="required" class="label label-danger" style="{{ (editForm.lang.$invalid && editForm.lang.$touched) ? 'display:inline' : '' }}" translate>This field is required.</p>
+              <div class="help-block" ng-messages="editForm.lang.$error" ng-if="editForm.lang.$touched && editForm.lang.$invalid">
+                <p ng-message="required" translate>This field is required.</p>
               </div>
             </div>
 
             ## ACTIVITIES
             <div class="form-group data full" id="route-activities" ng-init="activities = ${activities}"
-                 ng-class="{ 'has-error': editForm.activities.$touched && editForm.activities.$invalid, 'has-success': editForm.activities.$valid }">
+                 ng-class="{ 'has-feedback': editForm.activites.$touched,
+                             'has-error': editForm.activities.$touched && editForm.activities.$invalid,
+                             'has-success': editForm.activities.$valid }">
               <label><span translate>activities</span> *</label>
               <div class="route-activities">
                 <div ng-repeat="activity in activities" class="activity">
@@ -78,23 +86,31 @@ from c2corg_common.attributes import default_langs, activities, article_categori
             </div>
 
             <div class="form-group half half-group">
-              <div ng-class="{ 'has-success': article.article_type}" ng-init="article_types = ${article_types}">
+              <div ng-class="{ 'has-feedback': editForm.article_type.$touched,
+                               'has-error': editForm.article_type.$touched && editForm.article_type.$invalid,
+                               'has-success': editForm.article_type.$valid}" ng-init="article_types = ${article_types}">
                 <label><span translate>article_type</span> *</label>
                 % if updating_doc:
-                  <select ng-if="userCtrl.auth.isModerator()" class="form-control" ng-model="article.article_type"
-                          ng-options="type as mainCtrl.translate(type) for type in article_types" ><option value=""></option></select>
+                  <select ng-if="userCtrl.auth.isModerator()" class="form-control"
+                          name="article_type" ng-model="article.article_type"
+                          ng-options="type as mainCtrl.translate(type) for type in article_types" required><option value=""></option></select>
                   <select ng-if="userCtrl.auth.isModerator() == false && article.article_type =='collab'"
-                          class="form-control" ng-model="article.article_type"
-                          ng-options="type as mainCtrl.translate(type) for type in article_types | filter: 'collab'" ><option value=""></option>
+                          name="article_type" class="form-control" ng-model="article.article_type"
+                          ng-options="type as mainCtrl.translate(type) for type in article_types | filter: 'collab'" required><option value=""></option>
                   </select>
                   <select ng-if="userCtrl.auth.isModerator() == false && article.article_type =='personal'"
-                          class="form-control" ng-model="article.article_type"
-                          ng-options="type as mainCtrl.translate(type) for type in article_types" ><option value=""></option>
+                          name="article_type" class="form-control" ng-model="article.article_type"
+                          ng-options="type as mainCtrl.translate(type) for type in article_types" required><option value=""></option>
                   </select>
                 % else:
-                  <select class="form-control" ng-model="article.article_type" ng-options="type as mainCtrl.translate(type) for type in article_types" ><option value=""></option></select>
+                  <select class="form-control" ng-model="article.article_type"
+                          name="article_type" ng-options="type as mainCtrl.translate(type) for type in article_types" required><option value=""></option></select>
                 % endif
-                  <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="article.article_type"></span>
+                  <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.article_type.$valid"></span>
+                  <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.article_type.$touched && editForm.article_type.$invalid"></span>
+                  <div class="help-block" ng-messages="editForm.article_type.$error" ng-if="editForm.article_type.$touched && editForm.article_type.$invalid">
+                    <p ng-message="required" translate>This field is required.</p>
+                  </div>
               </div>
             </div>
 

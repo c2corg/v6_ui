@@ -12,17 +12,21 @@ from pyramid.settings import asbool
       <h1 translate>Login</h1>
 
       <form name="loginForm" novalidate ng-submit="authCtrl.login()">
-        <div id="login-username-group" class="form-group" ng-class="{ 'has-error': loginForm.username.$touched && loginForm.username.$invalid }">
-          <label translate>Username</label>
+        <div id="login-username-group" class="form-group"
+             ng-class="{ 'has-feedback has-error': loginForm.username.$touched && loginForm.username.$invalid }">
+          <label ng-class="{ 'control-label': loginForm.username.$touched && loginForm.username.$invalid }" translate>Username</label>
           <input type="text" name="username" ng-model="login.username" class="form-control" required />
-          <div class="help-block" ng-messages="loginForm.username.$error" ng-if="loginForm.username.$touched">
+          <span ng-show="loginForm.username.$touched && loginForm.username.$invalid" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+          <div class="help-block" ng-messages="loginForm.username.$error" ng-if="loginForm.username.$touched && loginForm.username.$invalid">
             <p ng-message="required" translate>This field is required.</p>
           </div>
         </div>
-        <div id="login-password-group" class="form-group" ng-class="{ 'has-error': loginForm.password.$touched && loginForm.password.$invalid }">
-          <label translate>Password</label>
+        <div id="login-password-group" class="form-group"
+             ng-class="{ 'has-feedback has-error': loginForm.password.$touched && loginForm.password.$invalid }">
+          <label ng-class="{ 'control-label': loginForm.password.$touched && loginForm.password.$invalid }" translate>Password</label>
           <input type="password" name="password" ng-model="login.password" class="form-control" required />
-          <div class="help-block" ng-messages="loginForm.password.$error" ng-if="loginForm.password.$touched">
+          <span ng-show="loginForm.password.$touched && loginForm.password.$invalid" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+          <div class="help-block" ng-messages="loginForm.password.$error" ng-if="loginForm.password.$touched && loginForm.password.$invalid">
             <p ng-message="required" translate>This field is required.</p>
           </div>
         </div>
@@ -33,7 +37,7 @@ from pyramid.settings import asbool
         </div>
         <p>
           <button type="submit" class="btn blue-btn" ng-disabled="loginForm.$invalid" translate>Login</button>
-          <button type="button" class="btn gray-btn" 
+          <button type="button" class="btn gray-btn"
                   ng-click="authCtrl.uiStates.showRequestChangePasswordForm = true;
                                      authCtrl.uiStates.showRegisterForm = false;
                                      authCtrl.uiStates.showChangePasswordForm = false;
@@ -43,7 +47,7 @@ from pyramid.settings import asbool
       </form>
 
       <p ng-hide="authCtrl.uiStates.showRegisterForm">
-        <button type="button" class="btn orange-btn" 
+        <button type="button" class="btn orange-btn"
                 ng-click="authCtrl.uiStates.showRegisterForm = true;
                                    authCtrl.uiStates.showLoginForm = false;
                                    authCtrl.uiStates.showChangePasswordForm = false;
@@ -57,41 +61,67 @@ from pyramid.settings import asbool
       <h1 translate>Register</h1>
 
       <form name="registerForm" novalidate ng-submit="authCtrl.register()">
-        <div id="register-name-group" class="form-group" ng-class="{ 'has-error': registerForm.name.$touched && registerForm.name.$invalid }">
-          <label translate>Fullname</label>
+        <div id="register-name-group" class="form-group"
+             ng-class="{ 'has-feedback': registerForm.name.$touched,
+                         'has-error': registerForm.name.$touched && registerForm.name.$invalid,
+                         'has-success': registerForm.name.$valid }">
+          <label ng-class="{ 'control-label': registerForm.name.$touched && registerForm.name.$invalid }" translate>Fullname</label>
           <input type="text" name="name" ng-model="register.name" class="form-control" required />
-          <div class="help-block" ng-messages="registerForm.name.$error" ng-if="registerForm.name.$touched">
+          <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="registerForm.name.$valid"></span>
+          <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="registerForm.name.$touched && registerForm.name.$invalid"></span>
+          <div class="help-block" ng-messages="registerForm.name.$error" ng-if="registerForm.name.$touched && registerForm.name.$invalid">
             <p ng-message="required" translate>This field is required.</p>
           </div>
         </div>
-        <div id="register-username-group" class="form-group" ng-class="{ 'has-error': registerForm.username.$touched && registerForm.username.$invalid }">
-          <label translate>Username</label>
+        <div id="register-username-group" class="form-group"
+             ng-class="{ 'has-feedback': registerForm.username.$touched,
+                         'has-error': registerForm.username.$touched && registerForm.username.$invalid,
+                         'has-success': registerForm.username.$valid }">
+          <label ng-class="{ 'control-label': registerForm.username.$touched && registerForm.username.$invalid }" translate>Username</label>
           <input type="text" name="username" ng-model="register.username" class="form-control" required />
-          <div class="help-block" ng-messages="registerForm.username.$error" ng-if="registerForm.username.$touched">
+          <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="registerForm.username.$valid"></span>
+          <span ng-show="registerForm.username.$touched && registerForm.username.$invalid" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+          <div class="help-block" ng-messages="registerForm.username.$error" ng-if="registerForm.username.$touched && registerForm.username.$invalid">
             <p ng-message="required" translate>This field is required.</p>
           </div>
         </div>
-        <div id="register-forum_username-group" class="form-group" ng-class="{ 'has-error': registerForm.forum_username.$touched && registerForm.forum_username.$invalid }">
-          <label translate>Forum username</label>
+        <div id="register-forum_username-group" class="form-group"
+             ng-class="{ 'has-feedback': registerForm.forum_username.$touched,
+                         'has-error': registerForm.forum_username.$touched && registerForm.forum_username.$invalid,
+                         'has-success': registerForm.forum_username.$valid }">
+          <label ng-class="{ 'control-label': registerForm.forum_username.$touched && registerForm.forum_username.$invalid }" translate>Forum username</label>
           ## http://stackoverflow.com/questions/1538512/how-can-i-invert-a-regular-expression-in-javascript: opposite test of /[^a-zA-Z0-9]/
-          <input type="text" name="forum_username" ng-minlength="3" maxlength="25" ng-pattern="/^[\w.-]+$/" ng-model="register.forum_username" class="form-control" required />
-          <div class="help-block" ng-messages="registerForm.forum_username.$error" ng-if="registerForm.forum_username.$touched">
+          <input type="text" name="forum_username" ng-minlength="3" ng-maxlength="25" ng-pattern="/^[\w.-]+$/" ng-model="register.forum_username" class="form-control" required />
+          <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="registerForm.forum_username.$valid"></span>
+          <span ng-show="registerForm.forum_username.$touched && registerForm.forum_username.$invalid" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+          <div class="help-block" ng-messages="registerForm.forum_username.$error" ng-if="registerForm.forum_username.$touched && registerForm.forum_username.$invalid">
             <p ng-message="required" translate>This field is required.</p>
             <p ng-message="pattern" translate>Only letters, numbers and characters ".-_" are allowed.</p>
             <p ng-message="minlength" translate>This field must be at least 3 characters.</p>
+            <p ng-message="maxlength" translate>This field must be shorter than 25 characters.</p>
           </div>
         </div>
-        <div id="register-password-group" class="form-group" ng-class="{ 'has-error': registerForm.password.$touched && registerForm.password.$invalid }">
-          <label translate>Password</label>
+        <div id="register-password-group" class="form-group"
+             ng-class="{ 'has-feedback': registerForm.password.$touched,
+                         'has-error': registerForm.password.$touched && registerForm.password.$invalid,
+                         'has-success': registerForm.password.$valid }">
+          <label ng-class="{ 'control-label': registerForm.password.$touched && registerForm.title.$invalid }" translate>Password</label>
           <input type="password" name="password" ng-model="register.password" class="form-control" required />
-          <div class="help-block" ng-messages="registerForm.password.$error" ng-if="registerForm.password.$touched">
+          <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="registerForm.password.$valid"></span>
+          <span ng-show="registerForm.password.$touched && registerForm.password.$invalid" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+          <div class="help-block" ng-messages="registerForm.password.$error" ng-if="registerForm.password.$touched && registerForm.password.$invalid">
             <p ng-message="required" translate>This field is required.</p>
           </div>
         </div>
-        <div id="register-email-group" class="form-group" ng-class="{ 'has-error': registerForm.email.$touched && registerForm.email.$invalid }">
-          <label translate>Email</label>
+        <div id="register-email-group" class="form-group"
+             ng-class="{ 'has-feedback': registerForm.email.$touched,
+                         'has-error': registerForm.email.$touched && registerForm.email.$invalid,
+                         'has-success': registerForm.email.$valid }">
+          <label ng-class="{ 'control-label': registerForm.email.$touched && registerForm.email.$invalid }" translate>Email</label>
           <input type="email" name="email" ng-model="register.email" class="form-control" required />
-          <div class="help-block" ng-messages="registerForm.email.$error" ng-if="registerForm.email.$touched">
+          <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="registerForm.email.$valid"></span>
+          <span ng-show="registerForm.email.$touched && registerForm.email.$invalid" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+          <div class="help-block" ng-messages="registerForm.email.$error" ng-if="registerForm.email.$touched && registerForm.email.$invalid">
             <p ng-message="required" translate>This field is required.</p>
           </div>
         </div>
@@ -105,7 +135,7 @@ from pyramid.settings import asbool
         </p>
       </form>
       <p ng-hide="!authCtrl.uiStates.showRegisterForm">
-        <button type="button" class="btn orange-btn" 
+        <button type="button" class="btn orange-btn"
                 ng-click="authCtrl.uiStates.showLoginForm = true;
                                    authCtrl.uiStates.showRegisterForm = false;
                                    authCtrl.uiStates.showChangePasswordForm = false;
@@ -119,10 +149,12 @@ from pyramid.settings import asbool
       <h1 translate>Reset password</h1>
 
       <form name="requestChangePasswordForm" novalidate ng-submit="authCtrl.requestPasswordChange()">
-        <div id="register-password-group" class="form-group" ng-class="{ 'has-error': requestChangePasswordForm.email.$touched && requestChangePasswordForm.email.$invalid }">
-          <label translate>Email</label>
+        <div id="register-password-group" class="form-group"
+             ng-class="{ 'has-feedback has-error': requestChangePasswordForm.email.$touched && requestChangePasswordForm.email.$invalid }">
+          <label ng-class="{ 'control-label': requestChangePasswordForm.email.$touched && requestChangePasswordForm.email.$invalid }" translate>Email</label>
           <input type="email" name="email" ng-model="requestChangePassword.email" class="form-control" required />
-          <div class="help-block" ng-messages="requestChangePasswordForm.email.$error" ng-if="requestChangePasswordForm.email.$touched">
+          <span ng-show="requestChangePasswordForm.email.$touched && requestChangePasswordForm.email.$invalid" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+          <div class="help-block" ng-messages="requestChangePasswordForm.email.$error" ng-if="requestChangePasswordForm.email.$touched && requestChangePasswordForm.email.$invalid">
             <p ng-message="required" translate>This field is required.</p>
           </div>
         </div>
@@ -131,14 +163,14 @@ from pyramid.settings import asbool
         </p>
       </form>
       <p>
-        <button type="button" class="btn orange-btn" 
+        <button type="button" class="btn orange-btn"
                 ng-click="authCtrl.uiStates.showLoginForm = true;
                                    authCtrl.uiStates.showRegisterForm = false;
                                    authCtrl.uiStates.showChangePasswordForm = false;
                                    authCtrl.uiStates.showRequestChangePasswordForm = false;" translate>Have an account?
         </button>
-        
-        <button type="button" class="btn orange-btn" 
+
+        <button type="button" class="btn orange-btn"
                 ng-click="authCtrl.uiStates.showRegisterForm = true;
                                    authCtrl.uiStates.showLoginForm = false;
                                    authCtrl.uiStates.showChangePasswordForm = false;
@@ -152,10 +184,12 @@ from pyramid.settings import asbool
       <h1 translate>Change password</h1>
 
       <form name="resetPasswordForm" novalidate ng-submit="authCtrl.validateNewPassword()">
-        <div id="change-password-group" class="form-group" ng-class="{ 'has-error': changePasswordForm.password.$touched && changePasswordForm.password.$invalid }">
-          <label translate>New password</label>
+        <div id="change-password-group" class="form-group"
+             ng-class="{ 'has-feedback has-error': changePasswordForm.password.$touched && changePasswordForm.password.$invalid }">
+          <label ng-class="{ 'control-label': changePasswordForm.password.$touched && changePasswordForm.password.$invalid }" translate>New password</label>
           <input type="password" name="password" ng-model="changePassword.password" class="form-control" required />
-          <div class="help-block" ng-messages="changePasswordForm.password.$error" ng-if="changePasswordForm.password.$touched">
+          <span ng-show="changePasswordForm.password.$touched && changePasswordForm.password.$invalid" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+          <div class="help-block" ng-messages="changePasswordForm.password.$error" ng-if="changePasswordForm.password.$touched && changePasswordForm.password.$invalid">
             <p ng-message="required" translate>This field is required.</p>
           </div>
         </div>
