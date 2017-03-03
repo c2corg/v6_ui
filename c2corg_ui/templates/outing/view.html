@@ -12,7 +12,7 @@ from json import dumps
     show_associated_waypoints, show_associated_routes, show_associated_articles,
     show_associated_xreports, delete_association_confirmation_modal,
     associated_images_featurelist, show_badge, get_licence, show_merge_documents_dialog,
-    show_delete_document_dialog"/>
+    show_delete_document_dialog, get_document_description"/>
 <%namespace file="helpers/view.html" import="get_outing_snow, get_outing_access,
     get_outing_participants, get_outing_general, get_outing_heights,
     show_fulldate, get_conditions"/>
@@ -135,8 +135,9 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
     ${get_document_locale_text(locale, 'access', True)}
     ${get_document_locale_text(locale, 'access_comment', True)}
     ${get_document_locale_text(locale, 'hut_comment', True)}
-    ${get_document_locale_text(locale, 'description', True, 'personal comments')}
   </div>
+
+  ${get_document_description(locale, 'outing', 'personal comments')}
 
   % if not version:
     <div class="view-details-associations col-xs-12 associations"
