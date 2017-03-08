@@ -132,6 +132,8 @@ other_langs, missing_langs = get_lang_lists(route, lang)
   ${get_document_description(locale, 'route')}
 
   <div class="description">
+    ${get_document_locale_text(locale, 'slackline_anchor1', True)}
+    ${get_document_locale_text(locale, 'slackline_anchor2', True)}
     ${get_document_locale_text(locale, 'remarks', True)}
     ${get_route_gear(route, locale)}
     ${get_document_locale_text(locale, 'route_history', True)}

@@ -148,3 +148,14 @@ def get_route_gear_articles(route):
             # we should use an anchor for glacier gear, but it's not possible
             articles.append(('185750', 'easy snow ice mixed gear'))
     return dict(articles)
+
+
+def format_length(length_in_m):
+    if length_in_m < 1000:
+        length = length_in_m
+        unit = 'm'
+    else:
+        length = length_in_m / 1000
+        unit = 'km'
+
+    return '{}&nbsp;{}'.format(length, unit)

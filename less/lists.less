@@ -145,7 +145,11 @@
     .glyphicon, [class*="icon-"]:not(.activity):not(.waypoint-type) {
       color: @bright-green;
     }
-   
+    .route-infos {
+      > span {
+        margin-right: 2px;
+      }
+    }
   }/*list-item-info*/
   .show-more-activities:hover {
     color: teal;
@@ -284,7 +288,7 @@
   } // end outing cards
 
 &.routes {
-    
+
     .list-item-info {
       .location {
         width: 100%;
@@ -431,11 +435,11 @@
       display: none;
     }
     .date-icon {
-      margin-right: 10px; 
+      margin-right: 10px;
       margin-top: 2px;
       margin-bottom: 2px;
       width: 50px;
-      height: 55px;  
+      height: 55px;
       .month {
         padding-top: 22px;
       }
@@ -467,19 +471,19 @@
   }
   .elevation, .waypoint-elevation, .height-diff, .height-diff-difficulties {
     width: 65px;
-  }      
+  }
   .waypoint-items-infos {
     .list-item-info {
       .list-item-title-lang {
         width: 50%;
         @media @big {
           width: 60%;
-        } 
+        }
         flex-shrink: 0;
-      }  
+      }
       .location {
         width: 30%;
-      }      
+      }
     }
   }
   .article-item-infos {
@@ -488,10 +492,10 @@
         width: 50%;
         @media @big {
           width: 60%;
-        } 
+        }
         flex-shrink: 0;
         margin-left: 2px;
-      }    
+      }
     }
   }
   .date-outing-item-infos {
@@ -509,15 +513,15 @@
           display: inline;
         }
         .day {
-          position: unset; 
-          background-color: unset; 
+          position: unset;
+          background-color: unset;
         }
         .month {
-          position: unset; 
+          position: unset;
         }
         .year {
           position: unset;
-          font-size: 0.9em 
+          font-size: 0.9em
         }
       }
       .list-item-info {
@@ -526,7 +530,7 @@
           width: 80%;
           @media @big {
             width: 70% ;
-          } 
+          }
           flex-shrink: 0;
         }
         .location {
@@ -540,7 +544,7 @@
           }
           flex-shrink: 0;
           align-self: center;
-        } 
+        }
       }
     }
     .activity-author {
@@ -574,7 +578,7 @@
         .calc(width, "80% - 300px");
         @media @big {
           .calc(width, "70% - 400px");
-        } 
+        }
         flex-shrink: 0;
         margin-left: 2px;
       }
@@ -598,7 +602,7 @@
       }
       .full-rating {
         flex-shrink: 0;
-      }             
+      }
     }
     .activities {
       width: 120px;
@@ -607,7 +611,11 @@
     }
   }
 }
-  
+
+.list-item-info .slackline-type {
+  color: @bright-green;
+}
+
 .card-list {
   display: none ;
   @media @desktop {
@@ -619,7 +627,7 @@
 }
 
 .associated-documents {
-  .location { 
+  .location {
     display: none;
   }
 }

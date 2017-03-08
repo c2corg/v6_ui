@@ -56,6 +56,15 @@
       </article>
     % endif
 
+    % if waypoint.get('slackline_types'):
+      <article>
+        <span translate class="value-title">slackline_types</span>:
+        % for type in waypoint.get('slackline_types') :
+        <span x-translate class="value">${type}</span>${'' if loop.last else ', '}
+        % endfor
+      </article>
+    % endif
+
     % if waypoint.get('climbing_outdoor_types') and waypoint['climbing_outdoor_types'][0] != '':
       <article>
         <span translate class="value-title">climbing_outdoor_types</span>:
@@ -111,6 +120,8 @@
     % if waypoint.get('length'):
       <p><span translate class="value-title">length</span>: <span class="value">${waypoint['length']} m</span></p>
     % endif
+
+      ${get_document_min_max(waypoint, 'slackline_length')}
 
     % if waypoint.get('quality'):
       <p><span translate class="value-title">quality</span>: <span x-translate class="value">${waypoint['quality']}</span></p>
