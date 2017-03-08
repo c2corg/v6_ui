@@ -26,28 +26,7 @@
     </rdf:RDF>
   </metadata>
   <defs
-     id="defs4483">
-    <font
-       horiz-adv-x="1024"
-       id="font4883"
-       inkscape:label="font 1">
-      <font-face
-         units-per-em="1024"
-         id="font-face4885"
-         font-family="route-activity" />
-      <missing-glyph
-         d="M0,0h1000v1024h-1000z"
-         id="missing-glyph4887" />
-      <glyph
-         glyph-name="glyph 1"
-         id="glyph4889"
-         unicode="hiking"
-         d="m -3.5084746,1007.0169 c 0,16.141 -13.0850004,29.225 -29.2250004,29.225 -16.141,0 -29.226,-13.084 -29.226,-29.225 0,-16.14095 13.085,-29.22495 29.226,-29.22495 16.14,0 29.2250004,13.084 29.2250004,29.22495" />
-      <glyph
-         glyph-name="glyph 2"
-         id="glyph4909" />
-    </font>
-  </defs>
+     id="defs4483" />
   <sodipodi:namedview
      pagecolor="#ffffff"
      bordercolor="#666666"
