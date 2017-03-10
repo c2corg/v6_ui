@@ -887,6 +887,9 @@ ul {
   .associated-documents {
     width: 100%;
     .flex();
+    &.collapse:not(.in) {
+      display: none;
+    }
     flex-wrap: wrap;
 
     app-delete-association {
