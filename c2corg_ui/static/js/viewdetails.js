@@ -340,7 +340,7 @@ app.ViewDetailsController.prototype.createTopic = function() {
     if (resp.status == 400) {
       var topic_id = resp['data']['errors'][0]['topic_id'];
       if (topic_id != undefined) {
-        this.documentService.document.topic_id = topic_id;
+        this.documentService.document['topic_id'] = topic_id;
         this.getComments();
       }
     }
