@@ -55,6 +55,7 @@ area['doctype'] = 'areas'
 
   module.value('documentData', {
     "document_id": ${area.get('document_id')},
+    "protected": ${'true' if area.get('protected') else 'false'},
     "lang": "${lang}",
     "type": "a",
     "topic_id": ${dumps(locale.get('topic_id'))},

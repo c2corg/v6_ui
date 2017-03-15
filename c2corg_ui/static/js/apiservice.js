@@ -699,6 +699,36 @@ app.Api.prototype.unblockAccount = function(userId) {
 
 
 /**
+ * @param {number} documentId
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.protectDocument = function(documentId) {
+  var data = {'document_id': documentId};
+  var promise = this.postJson_('/documents/protect', data);
+  promise.catch(function(response) {
+    var msg = this.alerts_.gettext('Protecting document failed:');
+    this.alerts_.addErrorWithMsg(msg, response);
+  }.bind(this));
+  return promise;
+};
+
+
+/**
+ * @param {number} documentId
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.unprotectDocument = function(documentId) {
+  var data = {'document_id': documentId};
+  var promise = this.postJson_('/documents/unprotect', data);
+  promise.catch(function(response) {
+    var msg = this.alerts_.gettext('Unprotecting document failed:');
+    this.alerts_.addErrorWithMsg(msg, response);
+  }.bind(this));
+  return promise;
+};
+
+
+/**
  * @param {number} sourceDocumentId
  * @param {number} targetDocumentId
  * @return {!angular.$q.Promise<!angular.$http.Response>}

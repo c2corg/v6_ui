@@ -69,6 +69,7 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
 
   module.value('documentData', {
     "document_id": ${outing.get('document_id')},
+    "protected": ${'true' if outing.get('protected') else 'false'},
     "lang": "${lang}",
     "type": "o",
     "activities": ${dumps(outing.get('activities')) | n},

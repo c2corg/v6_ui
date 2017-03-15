@@ -61,6 +61,7 @@ other_langs, missing_langs = get_lang_lists(xreport, lang)
 
   module.value('documentData', {
     "document_id": ${xreport.get('document_id')},
+    "protected": ${'true' if xreport.get('protected') else 'false'},
     "lang": "${lang}",
     "type": "x",
     "topic_id": ${dumps(locale.get('topic_id'))},

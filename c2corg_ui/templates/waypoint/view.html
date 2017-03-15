@@ -70,6 +70,7 @@ waypoint['doctype'] = 'waypoints'
 
   module.value('documentData', {
     "document_id": ${waypoint.get('document_id')},
+    "protected": ${'true' if waypoint.get('protected') else 'false'},
     "lang": "${lang}",
     "type": "w",
     "topic_id": ${dumps(locale.get('topic_id'))},

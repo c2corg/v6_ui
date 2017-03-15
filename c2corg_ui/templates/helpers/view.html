@@ -541,6 +541,7 @@
       doctype = get_doc_type(doc['type'])
       doc_id = doc['document_id']
       users = dumps(doc['associations']['users']) if 'users' in doc['associations'] else None
+      protected = 'true' if doc.get('protected') else 'false'
 
       if doctype == 'images':
           options = {"imageType": image["image_type"], "imageCreator": image["creator"]["user_id"]}
@@ -552,7 +553,7 @@
           options = {"users": users}
   %>
   <div class="float-buttons">
-      <div ng-if="userCtrl.hasEditRights('${doctype}', ${options})"
+      <div ng-if="userCtrl.hasEditRights('${doctype}', ${options}, ${protected})"
        tooltip-placement="left" uib-tooltip="{{'Edit' | translate}}" class="float-button float-edit"
        protected-url-btn url="${request.route_path(doctype + '_edit', id=doc_id, lang=doc_lang)}">
         <span class="glyphicon glyphicon-edit"></span>
@@ -585,9 +586,10 @@
         <li ng-click="detailsCtrl.openModal('#other-langs')"><a translate>View in other lang</a></li>
         % endif
         % if missing_langs:
-        <li ng-if="userCtrl.hasEditRights('${doctype}', ${options})"
+        <li ng-if="userCtrl.hasEditRights('${doctype}', ${options}, ${protected})"
             ng-click="detailsCtrl.openModal('#missing-langs')"><a translate>Translate into an other lang</a></li>
         % endif
+        <li ng-if="userCtrl.isModerator()" app-protect-document></li>
         <li ng-if="userCtrl.isModerator()"
             ng-click="detailsCtrl.openModal('#merge-documents-dialog')"><a translate>Merge with other document</a></li>
         % if doctype != 'areas':

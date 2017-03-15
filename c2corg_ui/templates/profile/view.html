@@ -28,6 +28,7 @@
 
   module.value('documentData', {
     "document_id": ${profile.get('document_id')},
+    "protected": ${'true' if profile.get('protected') else 'false'},
     "lang": "${lang}",
     "type": "u"
   });

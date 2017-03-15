@@ -49,6 +49,7 @@ goog.require('app.mergeDocumentsDirective');
 goog.require('app.paginationDirective');
 goog.require('app.preferencesDirective');
 goog.require('app.progressBarDirective');
+goog.require('app.protectDocumentDirective');
 goog.require('app.protectedUrlBtnDirective');
 goog.require('app.searchFiltersDirective');
 goog.require('app.sidemenu');
