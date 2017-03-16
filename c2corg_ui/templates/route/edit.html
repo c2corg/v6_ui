@@ -652,31 +652,31 @@ updating_doc = route_id and route_lang
             ## SUMMARY
             <div id="summary-group" class="form-group data full">
               <label translate>summary</label>
-              <textarea name="summary" ng-model="route.locales[0].summary" class="form-control"></textarea>
+              <textarea app-markdown-editor name="summary" ng-model="route.locales[0].summary" class="form-control"></textarea>
             </div>
 
             ## DESCRIPTION
             <div id="description-group" class="form-group data full">
               <label translate>description</label>
-              <textarea name="description" ng-model="route.locales[0].description" class="form-control description"></textarea>
+              <textarea app-markdown-editor name="description" ng-model="route.locales[0].description" class="form-control description"></textarea>
             </div>
 
             ## REMARKS
             <div id="remarks-group" class="form-group data full">
               <label translate>remarks</label>
-              <textarea name="remarks" ng-model="route.locales[0].remarks" class="form-control"></textarea>
+              <textarea app-markdown-editor name="remarks" ng-model="route.locales[0].remarks" class="form-control"></textarea>
             </div>
 
             ## ROUTE HISTORY
             <div class="form-group data full">
               <label translate>route_history</label>
-              <textarea name="route_history" ng-model="route.locales[0].route_history" class="form-control"></textarea>
+              <textarea app-markdown-editor name="route_history" ng-model="route.locales[0].route_history" class="form-control"></textarea>
             </div>
 
             ## GEAR LOCALE
             <div id="gear-group" class="form-group data full">
               <label translate>specific gear</label>
-              <textarea name="gear" ng-model="route.locales[0].gear" class="form-control" placeholder="{{'Describe here the gear needed for this route' | translate}}"></textarea>
+              <textarea app-markdown-editor name="gear" ng-model="route.locales[0].gear" class="form-control" placeholder="{{'Describe here the gear needed for this route' | translate}}"></textarea>
             </div>
 
             ## GLACIER GEAR
@@ -693,7 +693,7 @@ updating_doc = route_id and route_lang
             ## EXTERNAL RESOURCES
             <div class="form-group data full">
               <label translate>external_resources</label>
-              <textarea name="external_resources" ng-model="route.locales[0].external_resources" class="form-control" placeholder="{{'Books and websites not already associated to this route' | translate}}"></textarea>
+              <textarea app-markdown-editor name="external_resources" ng-model="route.locales[0].external_resources" class="form-control" placeholder="{{'Books and websites not already associated to this route' | translate}}"></textarea>
             </div>
 
           </div>

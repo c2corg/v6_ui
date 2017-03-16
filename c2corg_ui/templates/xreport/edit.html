@@ -363,13 +363,13 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
             ## SUMMARY
             <div id="summary-group" class="form-group full">
               <label translate>summary</label>
-              <textarea name="summary" ng-model="xreport.locales[0].summary" class="form-control"></textarea>
+              <textarea app-markdown-editor name="summary" ng-model="xreport.locales[0].summary" class="form-control"></textarea>
             </div>
 
             ## DESCRIPTION
             <div id="description-group" class="form-group full">
               <label translate>description</label>
-              <textarea name="description" ng-model="xreport.locales[0].description" class="form-control description"></textarea>
+              <textarea app-markdown-editor name="description" ng-model="xreport.locales[0].description" class="form-control description"></textarea>
             </div>
 
             ## ASSOCIATED PARTICIPANTS
@@ -407,91 +407,91 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
             ## place
             <div id="place-group" class="form-group full">
               <label translate>place</label>
-              <textarea name="description" ng-model="xreport.locales[0].place" class="form-control"></textarea>
+              <textarea app-markdown-editor name="description" ng-model="xreport.locales[0].place" class="form-control"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].place"></span>
             </div>
 
             ## route_study
             <div id="route_study-group" class="form-group full">
               <label translate>route_study</label>
-              <textarea name="route_study" ng-model="xreport.locales[0].route_study" class="form-control"></textarea>
+              <textarea app-markdown-editor name="route_study" ng-model="xreport.locales[0].route_study" class="form-control"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].route_study"></span>
             </div>
 
             ## conditions
             <div id="conditions-group" class="form-group full">
               <label translate>conditions study</label>
-              <textarea name="conditions" ng-model="xreport.locales[0].conditions" class="form-control"></textarea>
+              <textarea app-markdown-editor name="conditions" ng-model="xreport.locales[0].conditions" class="form-control"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].conditions"></span>
             </div>
 
             ## training
             <div id="training-group" class="form-group full">
               <label translate>training</label>
-              <textarea name="training" ng-model="xreport.locales[0].training" class="form-control"></textarea>
+              <textarea app-markdown-editor name="training" ng-model="xreport.locales[0].training" class="form-control"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].training"></span>
             </div>
 
             ## motivations
             <div id="motivations-group" class="form-group full">
               <label translate>motivations</label>
-              <textarea name="motivations" ng-model="xreport.locales[0].motivations" class="form-control"></textarea>
+              <textarea app-markdown-editor name="motivations" ng-model="xreport.locales[0].motivations" class="form-control"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].motivations"></span>
             </div>
 
             ## group_management
             <div id="group_management-group" class="form-group full">
               <label translate>group_management</label>
-              <textarea name="group_management" ng-model="xreport.locales[0].group_management" class="form-control"></textarea>
+              <textarea app-markdown-editor name="group_management" ng-model="xreport.locales[0].group_management" class="form-control"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].group_management"></span>
             </div>
 
             ## risk
             <div id="risk-group" class="form-group full">
               <label translate>risk</label>
-              <textarea name="risk" ng-model="xreport.locales[0].risk" class="form-control"></textarea>
+              <textarea app-markdown-editor name="risk" ng-model="xreport.locales[0].risk" class="form-control"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].risk"></span>
             </div>
 
             ## time_management
             <div id="time_management-group" class="form-group full">
               <label translate>time_management</label>
-              <textarea name="time_management" ng-model="xreport.locales[0].time_management" class="form-control"></textarea>
+              <textarea app-markdown-editor name="time_management" ng-model="xreport.locales[0].time_management" class="form-control"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].time_management"></span>
             </div>
 
             ## safety
             <div id="safety-group" class="form-group full">
               <label translate>safety</label>
-              <textarea name="safety" ng-model="xreport.locales[0].safety" class="form-control"></textarea>
+              <textarea app-markdown-editor name="safety" ng-model="xreport.locales[0].safety" class="form-control"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].safety"></span>
             </div>
 
             ## reduce_impact
             <div id="reduce_impact-group" class="form-group full">
               <label translate>reduce_impact</label>
-              <textarea name="reduce_impact" ng-model="xreport.locales[0].reduce_impact" class="form-control"></textarea>
+              <textarea app-markdown-editor name="reduce_impact" ng-model="xreport.locales[0].reduce_impact" class="form-control"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].reduce_impact"></span>
             </div>
 
             ## increase_impact
             <div id="increase_impact-group" class="form-group full">
               <label translate>increase_impact</label>
-              <textarea name="increase_impact" ng-model="xreport.locales[0].increase_impact" class="form-control"></textarea>
+              <textarea app-markdown-editor name="increase_impact" ng-model="xreport.locales[0].increase_impact" class="form-control"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].increase_impact"></span>
             </div>
 
             ## modifications
             <div id="modifications-group" class="form-group full">
               <label translate>modifications</label>
-              <textarea name="modifications" ng-model="xreport.locales[0].modifications" class="form-control"></textarea>
+              <textarea app-markdown-editor name="modifications" ng-model="xreport.locales[0].modifications" class="form-control"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].modifications"></span>
             </div>
 
             ## other_comments
             <div id="other_comments-group" class="form-group full">
               <label translate>other_comments</label>
-              <textarea name="other_comments" ng-model="xreport.locales[0].other_comments" class="form-control"></textarea>
+              <textarea app-markdown-editor name="other_comments" ng-model="xreport.locales[0].other_comments" class="form-control"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].other_comments"></span>
             </div>
 
