@@ -430,7 +430,7 @@
   % if locale.get('access'):
     <div class="view-details-info col-xs-12">
       <h3 class="heading ${'' if open_tab else 'closed '}show-phone"
-          ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#access_period">
+          ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#access">
           % if waypoint_type == 'access':
             <span translate>public transportation access</span>
           % elif waypoint_type in ['hut', 'climbing_indoor', 'climbing_outdoor']:
