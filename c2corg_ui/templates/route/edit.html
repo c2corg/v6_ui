@@ -14,7 +14,7 @@ updating_doc = route_id and route_lang
 <%namespace file="../helpers/edit.html" import="show_editing_associated_waypoints,
     show_editing_associated_routes, show_editing_associated_articles,
     show_editing_associated_books, show_preview_container, show_editing_buttons,
-    show_save_confirmation_modal"/>
+    show_save_confirmation_modal, show_protected_warning"/>
 <%namespace file="../helpers/orientations.svg" import="show_orientations"/>
 
 <%block name="pagetitle"><title ng-init="id=${route_id if route_id else 0}" ng-bind="id ? mainCtrl.page_title('Editing a route') : mainCtrl.page_title('Creating a route')">${show_title('Create/edit route')}</title></%block>
@@ -49,6 +49,8 @@ updating_doc = route_id and route_lang
         <button class="btn btn-primary next" type="button" ng-if="progressBarCtrl.nextStep <= progressBarCtrl.maxSteps" ng-click="progressBarCtrl.step(progressBarCtrl.nextStep, 'route', 'forwards')"><span class="glyphicon glyphicon-triangle-right"></span></button>
       </div>
     </app-progress-bar>
+
+    ${show_protected_warning('route')}
 
     <section class="editing route">
 

@@ -580,7 +580,7 @@
         <span class="glyphicon glyphicon-th-list"></span>
         <p class="float-button-text" translate>More</p>
       </div>
-      <ul class="dropdown-menu"  role="menu">
+      <ul class="dropdown-menu" role="menu">
         <li><a href="${request.route_path(doctype + '_history', id=doc_id, lang=doc_lang)}" translate>History</a></li>
         % if other_langs:
         <li ng-click="detailsCtrl.openModal('#other-langs')"><a translate>View in other lang</a></li>

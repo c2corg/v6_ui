@@ -3,7 +3,8 @@ from c2corg_common.attributes import activities, user_categories
 %>
 <%inherit file="../base.html"/>
 <%namespace file="../helpers/common.html" import="show_title"/>
-<%namespace file="../helpers/edit.html" import="show_preview_container, show_editing_buttons"/>
+<%namespace file="../helpers/edit.html" import="show_preview_container, show_editing_buttons,
+    show_protected_warning"/>
 
 <%block name="pagetitle">
 <title ng-bind="mainCtrl.page_title('Editing a profile')">${show_title('Editing a profile')}</title>
@@ -21,6 +22,8 @@ from c2corg_common.attributes import activities, user_categories
     app-document-editing-controller-name="appDocumentEditingController"
     app-document-editing-id="${user_id}" app-document-editing-lang="${profile_lang}"
     class="document-editing" name="editForm" novalidate ng-submit="editCtrl.submitForm(editForm.$valid)">
+
+    ${show_protected_warning('profile')}
 
     <section class="editing">
 
