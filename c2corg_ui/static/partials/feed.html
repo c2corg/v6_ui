@@ -45,7 +45,7 @@
     </p>
 
     <div class="flex wrap-row">
-      <div ng-if="::doc.image1" class="images">
+      <div ng-if="::doc.image1" class="images flex">
         <a class="big-image thumbnail flex" ng-href="/images/{{::doc.image1.document_id}}/{{::doc.image1.locales[0].lang}}"
            ng-style="(!doc.image2 && !doc.image3) && {'width': '100%'}">
           <span class="image" style="background-image: url({{feedCtrl.createImageUrl(doc.image1.filename, 'MI')}})"></span>
