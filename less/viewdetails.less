@@ -3,6 +3,9 @@
 .view-details-associations .section,  .view-details-informations, #document-informations, .name-icon,
 .view-details-associations .associated-documents {
   .flex();
+  &.collapse:not(.in) {
+    display: none;
+  }
   flex-flow: wrap row;
 }
 
