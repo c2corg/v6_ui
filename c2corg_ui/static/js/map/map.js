@@ -274,6 +274,8 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
 
     this.scope_.$root.$on('searchFeaturesChange',
         this.handleSearchChange_.bind(this));
+    this.scope_.$root.$on('searchFilterClear',
+        this.handleSearchClear_.bind(this));
     this.scope_.$root.$on('cardEnter', function(event, id) {
       this.toggleFeatureHighlight_(id, true);
     }.bind(this));
@@ -739,6 +741,24 @@ app.MapController.prototype.handleSearchChange_ = function(event,
   this.ignoreExtentChange_ = recenter;
   recenter = recenter || !this.enableMapFilter;
   this.showFeatures_(features, recenter);
+};
+
+
+/**
+ * @param {Object} event
+ * @private
+ */
+app.MapController.prototype.handleSearchClear_ = function(event) {
+  if (!this.location_.hasFragmentParam('bbox')) {
+    var mapSize = this.map.getSize();
+    if (mapSize) {
+      var extent = this.view_.calculateExtent(mapSize);
+      extent = extent.map(Math.floor);
+      this.location_.updateFragmentParams({
+        'bbox': extent.join(',')
+      });
+    }
+  }
 };
 
 

@@ -193,11 +193,11 @@ from c2corg_common.attributes import default_langs, waypoint_types, orientation_
           values-list="['${"','".join(quality_types) |n}']"></app-slider>
       </div>
 
-      ${show_results_buttons()}
+      ${show_results_buttons('waypoints')}
 
     </div>
 
-    ${show_filters_buttons()}
+    ${show_filters_buttons('waypoints')}
 
   </div>
 </form>

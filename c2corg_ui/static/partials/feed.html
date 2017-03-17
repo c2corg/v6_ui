@@ -13,10 +13,16 @@
      infinite-scroll-distance="0.7"
      infinite-scroll-disabled="feedCtrl.busy || feedCtrl.error || feedCtrl.feedEnd || feedCtrl.noFeed">
 
-  <article class="feed-list-item" protected-url-btn url="/outings/add" ng-if="!feedCtrl.userId">
+  <article class="feed-list-item" ng-if="!feedCtrl.userId">
     <div class="timeline-bullet icon-outings" uib-tooltip="{{'outing'| translate}}" tooltip-placement="left"></div>
     <div class="list-item vertical-align">
-      <button class="orange-btn btn" translate>add an outing</button>
+      <button class="orange-btn btn" protected-url-btn url="/outings/add" translate>add an outing</button>
+      <button class="green-btn btn" ng-if="userCtrl.auth.isAuthenticated()"
+              app-loading app-load-preferences="outings" app-load-preferences-url="/outings"
+              translate>See outings according to my preferences</button>
+      <a href="/outings" ng-if="!userCtrl.auth.isAuthenticated()">
+        <button class="green-btn btn" translate>See outings</button>
+      </a>
     </div>
   </article>
 

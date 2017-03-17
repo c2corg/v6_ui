@@ -41,6 +41,7 @@ goog.require('app.gpxUploadDirective');
 goog.require('app.imageUploaderDirective');
 goog.require('app.langDirective');
 goog.require('app.loadingDirective');
+goog.require('app.loadPreferencesDirective');
 goog.require('app.mailinglistsDirective');
 goog.require('app.mapDirective');
 goog.require('app.mapSearchDirective');

@@ -15,7 +15,7 @@
   </ul>
 </%def>
 
-<%def name="show_results_buttons()">\
+<%def name="show_results_buttons(module=None)">\
   <div class="filters-bottom-buttons">
     <button class="btn search-filters-btn orange-btn" data-toggle="collapse"
             data-target="#moreFilters" aria-expanded="false">
@@ -23,14 +23,22 @@
     </button>
     <button class="btn blue-btn search-filters-btn" ng-click="filtersCtrl.clear()"
             ng-show="filtersCtrl.filtersNb > 0"><span translate>Clear filters</span> ({{filtersCtrl.filtersNb}})</button>
+    % if module:
+      <button class="btn green-btn search-filters-btn" app-loading app-load-preferences="${module}"
+              ng-show="userCtrl.auth.isAuthenticated()" translate>Load my preferences</button>
+    % endif
   </div>
 </%def>
 
-<%def name="show_filters_buttons()">\
+<%def name="show_filters_buttons(module=None)">\
   <div class="more-filters-btn-container">
     <button class="btn orange-btn more-filters-btn" data-toggle="collapse" data-target="#moreFilters"
       aria-expanded="false" aria-controls="moreFilters" translate>All filters</button>
     <button class="btn blue-btn more-filters-btn" ng-click="filtersCtrl.clear()" ng-cloak
             ng-show="filtersCtrl.filtersNb > 0"><span translate>Clear filters</span> ({{filtersCtrl.filtersNb}})</button>
+    % if module:
+      <button class="btn green-btn more-filters-btn" app-loading app-load-preferences="${module}"
+              ng-show="userCtrl.auth.isAuthenticated()" translate>Load my preferences</button>
+    % endif
   </div>
 </%def>

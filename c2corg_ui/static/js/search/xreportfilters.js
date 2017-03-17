@@ -54,7 +54,7 @@ goog.inherits(app.XreportFiltersController, app.SearchFiltersController);
  * @override
  * @public
  */
-app.XreportFiltersController.prototype.getFilterFromPermalink = function(key) {
+app.XreportFiltersController.prototype.setFilterFromPermalink = function(key) {
   if (key in this.config && this.config[key]['type'] === 'date') {
     var val = this.location.getFragmentParam(key);
     if (val === '') {
@@ -67,7 +67,7 @@ app.XreportFiltersController.prototype.getFilterFromPermalink = function(key) {
     this.filters[key] = dates;
     this.updateMinMaxDates_();
   } else {
-    goog.base(this, 'getFilterFromPermalink', key);
+    goog.base(this, 'setFilterFromPermalink', key);
   }
 };
 
