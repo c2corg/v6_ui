@@ -12,7 +12,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
 <%namespace file="../helpers/common.html" import="show_title"/>
 <%namespace file="../helpers/edit.html" import="show_editing_associated_waypoints,
     show_editing_associated_routes, show_preview_container,
-    show_editing_buttons, show_save_confirmation_modal"/>
+    show_editing_buttons, show_save_confirmation_modal, show_protected_warning"/>
 <%namespace file="../helpers/orientations.svg" import="show_orientations"/>
 
 <%block name="pagetitle">
@@ -65,6 +65,8 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
       </span>
 
     </app-progress-bar>
+
+    ${show_protected_warning('waypoint')}
 
     <section class="editing">
       <div class="step step-1">

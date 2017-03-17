@@ -113,10 +113,15 @@ app.UserController.prototype.logout = function() {
 /**
  * @param {string} doctype
  * @param {Object} options
+ * @param {boolean=} opt_protected
  * @return {boolean}
  * @export
  */
-app.UserController.prototype.hasEditRights = function(doctype, options) {
+app.UserController.prototype.hasEditRights = function(doctype, options,
+    opt_protected) {
+  if (opt_protected && !this.isModerator()) {
+    return false;
+  }
   return this.auth.hasEditRights(doctype, options);
 };
 

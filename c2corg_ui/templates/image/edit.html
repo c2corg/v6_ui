@@ -8,8 +8,8 @@ from c2corg_common.attributes import default_langs, activities, image_types, ima
 <%namespace file="../helpers/common.html" import="show_title"/>
 
 <%namespace file="../helpers/edit.html" import="show_editing_associated_waypoints,
-    show_editing_associated_routes, show_editing_associated_outings, show_preview_container, show_save_confirmation_modal,
-    show_editing_buttons"/>
+    show_editing_associated_routes, show_editing_associated_outings, show_preview_container,
+    show_save_confirmation_modal, show_editing_buttons, show_protected_warning"/>
 
 <%block name="pagetitle">
 <title ng-init="id = ${image_id if image_id else 0}" ng-bind="id ?
@@ -45,6 +45,8 @@ from c2corg_common.attributes import default_langs, activities, image_types, ima
         <button class="btn btn-primary next" type="button" ng-if="progressBarCtrl.nextStep <=  progressBarCtrl.maxSteps" ng-click="progressBarCtrl.step(progressBarCtrl.nextStep, 'image', 'forwards')"><span class="glyphicon glyphicon-triangle-right"></span></button>
       </div>
     </app-progress-bar>
+
+    ${show_protected_warning('image')}
 
     <section class="editing">
 

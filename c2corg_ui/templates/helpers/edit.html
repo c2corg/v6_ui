@@ -156,3 +156,9 @@
     </button>
   </div>
 </%def>
+
+<%def name="show_protected_warning(model)">\
+  <article class="protected-warning" ng-show="${model}.protected">
+    <span class="glyphicon glyphicon-warning-sign"></span>&nbsp;<span translate>This document is protected and can be edited by moderators only.</span>
+  </article>
+</%def>
