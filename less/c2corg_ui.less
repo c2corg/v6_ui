@@ -34,6 +34,12 @@ html, body{
   width: 100%;
   overflow-x: hidden;
   background-color: @body-color;
+  @media @phone {
+    font-size: 0.9em;
+  }
+  @media @tablet {
+    font-size: 0.95em;
+  }
 }
 
 .modal-dialog {
@@ -51,12 +57,12 @@ html, body{
 
   button[protected-url-btn] {
     padding: 0 5px;
-    font-size: 20px;
+    font-size: 1.4em;
     float: left;
     height: 34px;
     span {
       top: 3px;
-      font-size: 20px;
+      font-size: 1.4em;
       width: 100%;
     }
   }
@@ -258,7 +264,7 @@ app-pagination.areas, app-pagination.articles app-pagination.books {
     height: 45px;
     padding: 5px;
     left: 0;
-    background-color: @lightgrey;
+    background-color: @lightgray;
 
     ul {
       .flex();
@@ -319,7 +325,7 @@ app-pagination.areas, app-pagination.articles app-pagination.books {
   bottom: 0;
   z-index: 2;
   width: 100%;
-  background-color: @lightgrey;
+  background-color: @lightgray;
   height: 45px;
   padding-top: 3px;
   button {
@@ -328,7 +334,6 @@ app-pagination.areas, app-pagination.articles app-pagination.books {
     border-radius: 50%;
     width: 38px;
     height: 38px;
-    font-size: 1.3em;
     padding-left: 9px;
     padding-top: 8px;
   }
@@ -354,7 +359,7 @@ div.help-block {
 .line-separator{
   height:1px;
   background:#717171;
-  border-bottom:1px solid @lightgrey;
+  border-bottom:1px solid @lightgray;
   opacity: 0.9;
   margin: 3% 0 3% 0;
 }
@@ -447,7 +452,7 @@ app-user{
   -webkit-transition: width .5s ease;
   -moz-transition: width .5s ease;
   transition: width .5s ease;
-
+  color: @darkgray;
   @media @tablet {
     width: 150px;
   }
@@ -460,7 +465,7 @@ app-user{
   .flex();
   width:100%;
   align-items: center;
-  color: graytext;
+  color: @darkgray;
 
   @media @phone {
     width: 46px;
@@ -849,10 +854,10 @@ ul {
   font-weight: bold;
 }
 .value-title {
-  color: darkslategray;
+  color: @darkgray;
 }
 .value {
-  color: darkgray;
+  color: @gray;
   &.space {
     margin-left: 4px;
   }
@@ -890,11 +895,6 @@ ul {
     flex-wrap: wrap;
 
     app-delete-association {
-      font-size: 15px;
-
-      @media @phone {
-        font-size: 14px;
-      }
       .glyphicon {
         color: red;
       }
@@ -977,15 +977,14 @@ ul {
   .followed-only {
     margin-top: 15px;
     span {
-      font-size: 1em;
       font-weight: normal;
     }
   }
   .preferences-activities .route-activity {
-    font-size: 5em;
+    font-size: 4em;
     margin-bottom: 10px;
     @media @big {
-      font-size: 7em;
+      font-size: 6em;
     }
   }
   .preferences-activities, .preferences-areas {
@@ -1009,7 +1008,7 @@ ul {
     height: 30px;
     width: 30px;
     padding: 5px;
-    font-size: 20px;
+    font-size: 1.4em;
 
     &.glyphicon-plus-sign {
       color: @bright-green;

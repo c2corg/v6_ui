@@ -21,12 +21,9 @@
     margin-bottom: 30px;
   }
   .outing-date {
-    font-size: 2.2em;
-    color: darkgray;
+    font-size: 2em;
+    color: @darkgray;
     text-align: center;
-    @media @phone {
-      font-size: 1.5em;
-    }
   }
   >h1 {
     .flex();
@@ -125,12 +122,12 @@
     .flex();
     flex-flow: wrap row;
     justify-content: center;
-    font-size: 4em;
+    font-size: 3.5em;
     .route-activity, .waypoint-type {
       color: @C2C-orange;
     }
     @media @big {
-      font-size: 4.5em;
+      font-size: 4em;
     }
     @media @phone {
       font-size: 2em;
@@ -151,7 +148,6 @@
   margin-left: 3%;
   width: 91%;
   padding-bottom: 200px;
-  font-size: .9em;
 
   @media @phone {
     padding-top: 10px;
@@ -243,14 +239,12 @@
       float: left;
       padding: 15px 20px;
       margin-bottom: 0;
-      font-size: 1.2em;
-
+      font-size: 1em;
       @media (max-width: @screen-xs-max) {
         padding: 10px;
       }
     }
     .conditions-levels {
-      font-size: .9em;
       th {
         line-height: 16px;
         color: #8D8D8D;
@@ -314,7 +308,6 @@
     .heading {
       margin-top: 1%;
       border-color: #eee;
-      font-size: 1.1em;
     }
 
     .associated-documents {
@@ -416,7 +409,6 @@
       margin: auto;
       text-align: left;
       line-height: 17px;
-      font-size: 1.1em;
 
       @media @phone {
         width: 200%;
@@ -512,9 +504,6 @@
       @media @phone {
         padding-top: 1%;
       }
-      @media @tablet {
-        font-size: 14px;
-      }
       ul {
         margin: 0;
       }
@@ -530,7 +519,6 @@
       }
       @media @phone {
         display: block;
-        font-size: 1em;
         margin-left: 10px;
         text-align: left;
       }
@@ -670,7 +658,6 @@ app-add-association {
       /*Using a Bootstrap glyphicon as the bullet point*/
       content: "\e080";
       font-family: 'Glyphicons Halflings';
-      font-size: 12px;
       float: left;
       margin-left: -17px;
       color: @bright-green;
@@ -709,7 +696,6 @@ app-add-association {
 
   @media @tablet {
     right: 30px;
-    font-size: 1em;
     max-width: 200px;
   }
   @media @phone {
@@ -790,8 +776,7 @@ app-add-association {
     }
     figcaption {
       margin: 5px 10px -5px 10px;
-      color: dimgray;
-      font-size: 14px;
+      color: @gray;
     }
     img {
       margin: auto auto 0 auto;

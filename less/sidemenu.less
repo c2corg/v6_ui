@@ -1,7 +1,7 @@
 @import "variables.less";
 
 #sidemenu {
-  color: graytext;
+  color: @darkgray;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
   background-color: white;
   width: @menu-width;
@@ -97,7 +97,7 @@
   }
 
   .glyphicon {
-    color: graytext;
+    color: @darkgray;
   }
   .menu-text {
     margin-left: 10px;
@@ -130,7 +130,7 @@
     a {
       display: inline-block;
       padding: 10px 15px;
-      color: graytext;
+      color: @darkgray;
       .flex();
     }
   }
@@ -178,7 +178,7 @@
   padding: 0;
 
   &:hover {
-    color: gray;
+    color: @gray;
     cursor: pointer;
   }
   @media (max-width: @phone-max) {
@@ -233,7 +233,7 @@
     left: 7px;
     right: 7px;
     height: 4px;
-    background: graytext;
+    background: @darkgray;
     transition: transform 0.3s;
     &::before, &::after {
       position: absolute;
@@ -241,7 +241,7 @@
       left: 0;
       width: 100%;
       height: 4px;
-      background-color: graytext;
+      background-color: @darkgray;
       content: "";
     }
     &::before {
