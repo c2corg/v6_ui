@@ -165,6 +165,28 @@
     .glyphicon, [class*="icon-"]:not(.activity):not(.waypoint-type) {
       color: @bright-green;
     }
+    .condition-rating {
+      width: 16px;
+      height: 16px;
+      -webkit-border-radius: 8px;
+      -moz-border-radius: 8px;
+      border-radius: 8px;
+      &.excellent {
+        background: #008000;
+      }
+      &.good {
+        background: #9ACD32;
+      }
+      &.average {
+        background: #FFFF00;
+      }
+      &.poor {
+        background: #FF0000;
+      }
+      &.awful {
+        background: #8B0000;
+      }
+    }
   }/*list-item-info*/
   .show-more-activities:hover {
     color: teal;
