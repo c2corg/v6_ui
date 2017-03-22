@@ -135,16 +135,6 @@
       font-size: 1.4em;
       margin-bottom: 5px;
     }
-    .orientations, .height-diff, .height-diff-difficulties, .elevation {
-      @media (max-width: @phone-max) {
-        display: none;
-      }
-    }
-    .global-rating {
-      @media (min-width: @phone-max) {
-        display: none;
-      }
-    }
     .full-rating {
       flex-wrap: wrap;
       .glyphicon {
@@ -157,9 +147,6 @@
         &:hover {
           color: gold;
         }
-      }
-      @media (max-width: @phone-max) {
-        display: none;
       }
     }
     .glyphicon, [class*="icon-"]:not(.activity):not(.waypoint-type) {
