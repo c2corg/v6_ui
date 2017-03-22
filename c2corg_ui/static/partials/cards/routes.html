@@ -42,13 +42,6 @@
       <span class="quality-{{::doc['quality']}}"></span>
     </div>
 
-    <div class="global-rating flex" ng-init="globalRatings = cardCtrl.getGlobalRatings()">
-      <span class="icon-rating" ng-if="::globalRatings"></span>
-      <div ng-repeat="(attr, val) in ::globalRatings" class="rating" tooltip-append-to-body="true" uib-tooltip="{{attr | translate}}" ng-if="::val">
-        <span class="value">{{::val}}</span>
-      </div>
-    </div>
-
     <div class="full-rating flex" ng-init="fullRatings = cardCtrl.getFullRatings()">
       <span class="icon-rating" ng-if="::fullRatings"></span>
       <div ng-repeat="(attr, val) in ::fullRatings" uib-tooltip="{{attr | translate}}" class="rating" tooltip-append-to-body="true">
