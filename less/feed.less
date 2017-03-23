@@ -98,7 +98,10 @@
     margin: 10px auto;
     background-color: #fbfbfb;
     border-radius: 10px;
-    width: 55%;
+    width: 80%;
+    @media @big {
+      max-width: 50%;    
+    }
     transition: .3s;
     flex-direction: column;
     &:first-of-type .list-item {
