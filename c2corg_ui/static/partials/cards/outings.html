@@ -1,58 +1,50 @@
 <a ng-href="{{cardCtrl.createURL()}}" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;" class="flex">
-
-  <div class="list-item-info">
-    <div class="list-item-title-lang margin-b-sm">
-      <span class="list-item-title"><p>{{::locale.title}}</p></span>
-      <span class="list-item-lang" ng-if="cardCtrl.lang != locale.lang">({{::locale.lang}})</span>
+<div class="flex column">
+  <div class="flex wrap-row nowrap grow">
+    <div class="date-icon">
+      <span class="year">{{ ::doc['date_end'] | date: 'yyyy'}}</span>
+      <span class="month">{{ ::doc['date_end'] | date: 'MMM' | translate}}</span>
+      <span class="day">{{ ::doc['date_end'] | date: 'dd' }}</span>
     </div>
-
-    <div class="flex wrap-row margin-t-sm center-items-align">
-      <span class="date margin-r-sm">
-        <span class="value-title glyphicon glyphicon-time"></span>
-        <span class="value">{{ ::doc['date_end'] | date: 'dd/MM/yyyy'}}</span>
-      </span>
-
-      <span class="elevation" ng-if="::doc.elevation_max" uib-tooltip="{{'elevation_max' | translate}}">
-        <span class="value-title glyphicon glyphicon-sort-by-attributes rotate-180"></span>
-        <span class="value">{{::doc['elevation_max']}}&nbsp;m</span>
-      </span>
-
-      <span class="location" ng-if="::doc['areas']">
-        <span class="glyphicon glyphicon-map-marker"></span>
-        <span class="value">{{::cardCtrl.showArea(doc['areas'])}}</span>
-      </span>
+    <div class="list-item-info">
+      <div class="list-item-title-lang">
+        <span class="list-item-title"><p>{{::locale.title}}</p></span>
+        <span class="list-item-lang" ng-if="cardCtrl.lang != locale.lang">({{::locale.lang}})</span>
+      </div>
+      <div class="center-items-align location" ng-if="::doc['areas']">
+          <span class="value">{{::cardCtrl.showArea(doc['areas'])}}</span>
+      </div>
+     <div class="flex center-items-align">
+        <span class="elevation" ng-if="::doc.elevation_max" uib-tooltip="{{'elevation_max' | translate}}">
+          <span class="value-title glyphicon glyphicon-sort-by-attributes rotate-180"></span>
+          <span class="value">{{::doc['elevation_max']}}&nbsp;m</span>
+        </span>    
+      </div>
     </div>
-
-    <div class="activity-author">
-      <div class="activities flex wrap-row margin-t-sm">
-        <span ng-repeat="activity in ::doc.activities | limitTo: 4"  class="activity icon-{{::activity}}"
-              uib-tooltip="{{cardCtrl.translate(activity)}}" tooltip-append-to-body="true"></span>
-
-        <span class="flex flexend-align show-more-activities"
+  </div>
+  <div class="activity-author">
+    <div class="activities flex wrap-row">
+      <span ng-repeat="activity in ::doc.activities | limitTo: 4"  class="activity icon-{{::activity}}"
+            uib-tooltip="{{cardCtrl.translate(activity)}}" tooltip-append-to-body="true"></span>
+      <span class="flex flexend-align show-more-activities"
               ng-if="doc.activities.length > 4 && !cardCtrl.remainingActivities"
               ng-click="$event.preventDefault(); cardCtrl.remainingActivities = true">
           ...(+ {{::doc.activities.length - 4}})
-        </span>
-
-        <span ng-if="cardCtrl.remainingActivities" ng-repeat="activity in ::doc.activities | limitTo: (4 - doc.activities.length)"
-              class="activity icon-{{::activity}}" uib-tooltip="{{cardCtrl.translate(activity)}}" tooltip-append-to-body="true">
-        </span>
-      </div>
-
-      <div class="condition-rating" ng-class="::doc['condition_rating']" ng-if="::doc['condition_rating']"
-           uib-tooltip="{{'condition_rating' | translate}} : {{doc['condition_rating'] | translate}}" tooltip-append-to-body="true">
-      </div>
-
-      <div class="outing-author flex baseline-align" ng-if="!feed">
-        <span class="icon-user"></span>
-        <span class="author-name">{{::doc['author']['name']}}</span>
-      </div>
+      </span>
+      <span ng-if="cardCtrl.remainingActivities" ng-repeat="activity in ::doc.activities | limitTo: (4 - doc.activities.length)"
+            class="activity icon-{{::activity}}" uib-tooltip="{{cardCtrl.translate(activity)}}" tooltip-append-to-body="true">
+      </span>
     </div>
-
-    <div class="quality" ng-if="::doc['quality']"
-         uib-tooltip="{{'quality' | translate}} : {{doc['quality'] | translate}}" tooltip-append-to-body="true">
-      <span class="quality-{{::doc['quality']}}"></span>
+    <div class="condition-rating" ng-class="::doc['condition_rating']" ng-if="::doc['condition_rating']"
+         uib-tooltip="{{'condition_rating' | translate}} : {{doc['condition_rating'] | translate}}" tooltip-append-to-body="true">
+    </div>
+    <div class="outing-author flex baseline-align" ng-if="!feed">
+      <span class="author-name">{{::doc['author']['name']}}</span>
     </div>
   </div>
-
+</div>
+<div class="quality" ng-if="::doc['quality']"
+     uib-tooltip="{{'quality' | translate}} : {{doc['quality'] | translate}}" tooltip-append-to-body="true">
+  <span class="quality-{{::doc['quality']}}"></span>
+</div>
 </a>

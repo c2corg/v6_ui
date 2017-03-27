@@ -5,11 +5,6 @@
   flex-flow: wrap;
   margin-left: -4px;
   margin-top: -4px;
-
-  .list-item {
-    min-height: initial;
-  }
-
   & + .no-results {
     display: none;
   }
@@ -22,11 +17,10 @@
   margin-top: 4px;
   outline: none;
   border-radius: 7px;
-  min-height: 80px;
   -moz-border-radius: 7px;
   -webkit-border-radius: 7px;
   transition: .2s ease-in-out;
-  border: 2px solid rgba(88, 150, 165, 0.2);
+  border: 1px solid @lightgray;
 
 
   &:active {
@@ -43,13 +37,6 @@
     cursor: pointer;
   }
 
-  @media @tablet {
-    border-width: 1px;
-  }
-  @media @phone {
-    border-width: 1px;
-  }
-
   a {
     display: block;
     transition: 0.2s;
@@ -57,7 +44,7 @@
     height: 100%;
     word-wrap: break-word;
     color: #767676;
-    padding: 10px;
+    padding: 5px;
 
     @media @phone {
       padding: 7px;
@@ -80,13 +67,13 @@
     white-space: nowrap;
     font-weight: normal;
   }
-  .activities {
-    margin-top: 5px;
-  }
   .list-item-title {
     font-weight: bold;
-    color: @darkgray;
+    color: #333;
+    font-size: 1.1em;
     margin-right: 5px;
+    font-size: 1.1em;
+    color: #333;
     p {
       line-height: normal;
       display: block;
@@ -100,27 +87,31 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+     .value {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
   .list-item-title-lang {
     .flex();
     align-items: center;
-    margin-bottom: 5px;
+    margin-bottom: 2px;
   }
   .elevation, .waypoint-elevation .glyphicon {
     margin-top: -1px;
   }
   .list-item-info {
-    margin: auto;
     height: 100%;
-    width: 100;
+    width: 100%;
     text-decoration: none;
     color: #919191;
     font-weight: normal;
     .flex();
     flex-direction: column;
     -webkit-flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
+    align-self: flex-start;
 
     .quality, .orientations, .date,  .height-diff, .height-diff-difficulties, .elevation, .waypoint-elevation {
       white-space: nowrap;
@@ -129,7 +120,8 @@
       }
     }
     .elevation, .height-diff, .height-diff-difficulties, .orientations, .icon-rating, .rating {
-      margin-right: 5px;
+      margin-right: 3px;
+      align-self: center;
     }
     .icon-rating {
       font-size: 1.4em;
@@ -137,6 +129,7 @@
     }
     .full-rating {
       flex-wrap: wrap;
+      align-items: baseline;
       .glyphicon {
         font-size: 1.3em;
         margin-left: -3px;
@@ -152,34 +145,13 @@
     .glyphicon, [class*="icon-"]:not(.activity):not(.waypoint-type) {
       color: @bright-green;
     }
-    .condition-rating {
-      width: 16px;
-      height: 16px;
-      -webkit-border-radius: 8px;
-      -moz-border-radius: 8px;
-      border-radius: 8px;
-      &.excellent {
-        background: #008000;
-      }
-      &.good {
-        background: #9ACD32;
-      }
-      &.average {
-        background: #FFFF00;
-      }
-      &.poor {
-        background: #FF0000;
-      }
-      &.awful {
-        background: #8B0000;
-      }
-    }
+   
   }/*list-item-info*/
   .show-more-activities:hover {
     color: teal;
   }
   .activities .activity {
-    font-size: 2.5em;
+    font-size: 2.2em;
     color: @C2C-orange;
   }
   .set-main-waypoint {
@@ -193,28 +165,21 @@
   &.waypoints {
 
     .waypoint-type {
-      font-size: 2.5em;
+      font-size: 2em;
       color: @C2C-orange;
-      margin-right: 0;
+      margin: 5px;
       @media @phone {
         margin-left: 10px;
       }
     }
     .list-item-info {
-      flex-basis: 75%;
-
+      flex: 1;
     }
     .waypoint-infos {
       .calc(width, "100% - 20px");
       .flex();
       align-items: baseline;
       flex-wrap: wrap;
-    }
-  }
-  // .list-item.routes
-  &.routes {
-    .activities {
-      margin-bottom: -5px;
     }
   }
   // .list-item.books
@@ -253,40 +218,77 @@
   }
   // .list-item.outings
   &.outings {
-    max-height: inherit !important;
-
-    .icon-user {
-      font-size: 3em;
-      padding-right: 5px;
-      float: left;
-      font-size: 1.8em;
-      color: @gray !important;
-    }
+    max-height: 150px;
     .activities {
       margin-right: 5px;
+      width: 150px;
     }
     .activity-author {
-      .calc(width, "100% - 25px");
+      .calc(width, "100% - 20px");
       .flex();
       justify-content: space-between;
       flex-wrap: wrap;
+      .condition-rating {
+        width: 1.2em;
+        height: 1.2em;
+        align-self: flex-end;
+        margin: 2px;
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        border-radius: 8px;
+        border: 1px solid @lightgray;      
+        &.excellent {
+          background: #008000;
+        }
+        &.good {
+          background: #9ACD32;
+        }
+        &.average {
+          background: #FFFF00;
+        }
+        &.poor {
+          background: #FF0000;
+        }
+        &.awful {
+          background: #8B0000;
+        }
+      }
     }
     .author-name {
       font-weight: bold;
     }
     .list-item-info {
-      margin: inherit;
+      justify-content: flex-start;
+      .calc(width, "100% - 50px");
+      align-self: flex-start;
     }
     .outing-author {
       color: @gray;
       align-items: flex-end;
       .flex();
+      flex-grow: 1;
+      justify-content: flex-end;
     }
     .glyphicon-trash {
       .calc(top, "100% - 60px");
     }
+    .date-location {
+      justify-content: space-between;
+    }
 
   } // end outing cards
+
+&.routes {
+    
+    .list-item-info {
+      .location {
+        width: 100%;
+      }
+    }
+    .quality {
+      font-size:1.2em;
+      }
+  } // end routes card
 
   // .list-item.highlight
   &.highlight a .list-item-title {
@@ -340,7 +342,7 @@
 }
 
 .documents-list-section, .not-found-section {
-  background-color: @lightgray;
+  background-color: white;
   overflow: auto;
   flex-basis: @list-width;
   transition: .3s;
@@ -363,9 +365,10 @@
 }
 
 .list-item {
-  flex: 1 0 300px;
-  margin-top: 4px;
-  margin-left: 4px;
+  flex: 1 1 300px;
+  min-width: 0;
+  margin-top: 6px;
+  margin-left: 6px;
 
   // http://stackoverflow.com/a/22018710
   &:empty {
@@ -379,6 +382,7 @@
 .list.areas {
   .list-item {
     flex: 1 0 200px;
+    min-width: 0;
   }
 }
 
@@ -405,55 +409,30 @@
 
 #feed .list-item {
   margin-left: 0;
-  margin-top: 10px;
-  margin-right: 5px;
-  min-width: 300px;
-  flex: 1;
-  .list-item-info {
-    min-height: 60px;
-  }
+  padding: 7px;
+  max-height: 150px;
   &.waypoints .waypoint-type {
-    flex-basis: 25%;
+    flex-basis: 10%;
     @media @phone {
       flex-basis: 0;
     }
   }
   &.outings {
-    .list-item-info {
-      padding-left: 30%;
-    }
+    border-color: @C2C-orange;
     .activities {
       margin-bottom: 0;
     }
-    .icon-user {
-      margin-bottom: 5px;
-      width: 100%;
-      font-size: 1.4em;
-      text-align: center;
-    }
-    .outing-author, .date {
-      left: 10px;
-      width: 25%;
-      position: absolute;
-      justify-content: center;
-      .flex();
-    }
     .outing-author {
-      top: 33%;
-      flex-flow: wrap;
-      align-content: flex-start;
-      justify-content: center;
+      display: none;
     }
-    .author-name {
-      line-height: normal;
-      word-break: break-all;
-      word-break: break-word; // non-standard for webkit
-      text-align: center;
-    }
-    .date {
-      top: 13%;
-      .glyphicon {
-        display: none;
+    .date-icon {
+      margin-right: 10px; 
+      margin-top: 2px;
+      margin-bottom: 2px;
+      width: 50px;
+      height: 55px;  
+      .month {
+        padding-top: 22px;
       }
     }
   }
