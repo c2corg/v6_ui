@@ -128,13 +128,13 @@ updating_doc = outing_id and outing_lang
             ## ROUTE DESCRIPTION
             <div class="full form-group">
               <label translate>route_description</label>
-              <textarea class="form-control" ng-model="outing.locales[0].route_description" placeholder="{{'describe route_conditions' | translate}}"></textarea>
+              <textarea app-markdown-editor class="form-control" ng-model="outing.locales[0].route_description" placeholder="{{'describe route_conditions' | translate}}"></textarea>
             </div>
 
             ## TIMING
             <div class="full form-group">
               <label translate>timing</label>
-              <textarea class="form-control" ng-model="outing.locales[0]['timing']" placeholder="{{'describe timing' | translate}}"></textarea>
+              <textarea app-markdown-editor class="form-control" ng-model="outing.locales[0]['timing']" placeholder="{{'describe timing' | translate}}"></textarea>
             </div>
 
             ## PARTIAL TRIP
@@ -247,7 +247,7 @@ updating_doc = outing_id and outing_lang
             ## WEATHER
             <div class="full form-group">
               <label translate>weather</label>
-              <textarea class="form-control" ng-model="outing.locales[0]['weather']" placeholder="{{'describe weather' | translate}}"></textarea>
+              <textarea app-markdown-editor class="form-control" ng-model="outing.locales[0]['weather']" placeholder="{{'describe weather' | translate}}"></textarea>
             </div>
 
             ## CONDITIONS LEVELS
@@ -280,7 +280,7 @@ updating_doc = outing_id and outing_lang
             ## CONDITIONS
             <div class=" full form-group">
               <label translate>conditions</label>
-              <textarea class="form-control" ng-model="outing.locales[0]['conditions']" placeholder="{{'describe conditions' | translate}}"></textarea>
+              <textarea app-markdown-editor class="form-control" ng-model="outing.locales[0]['conditions']" placeholder="{{'describe conditions' | translate}}"></textarea>
             </div>
 
             ## CONDITION RATING
@@ -376,7 +376,7 @@ updating_doc = outing_id and outing_lang
             <div class="form-group  full"  ng-if="(outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1
                       || outing.activities.indexOf('ice_climbing') > -1 || outing.activities.indexOf('snow_ice_mixed') > -1) && (outing.avalanche_signs != 'no' && outing.avalanche_signs != null) ">
               <label translate>avalanches</label>
-              <textarea class="form-control" ng-model="outing.locales[0]['avalanches']"></textarea>
+              <textarea app-markdown-editor class="form-control" ng-model="outing.locales[0]['avalanches']"></textarea>
             </div>
 
           </div>
@@ -416,7 +416,7 @@ updating_doc = outing_id and outing_lang
             ## HUT COMMENT
             <div class="form-group  full" ng-class="{'has-success': outing.locales[0].hut_comment}">
               <label translate>hut_comment</label>
-              <textarea class="form-control " ng-model="outing.locales[0].hut_comment"></textarea>
+              <textarea app-markdown-editor class="form-control " ng-model="outing.locales[0].hut_comment"></textarea>
             </div>
 
             ## HUT STATUS
@@ -459,7 +459,7 @@ updating_doc = outing_id and outing_lang
             ## ACCESS COMMENT
             <div class="form-group data full" ng-class="{'has-success': outing.locales[0].access_comment}">
               <label translate>access_comment</label>
-              <textarea class="form-control " ng-model="outing.locales[0].access_comment"></textarea>
+              <textarea app-markdown-editor class="form-control " ng-model="outing.locales[0].access_comment"></textarea>
             </div>
 
           </div>
@@ -556,7 +556,7 @@ updating_doc = outing_id and outing_lang
             ## COMMENT
             <div class=" full form-group">
               <label translate>personal comments</label>
-              <textarea class="form-control description" placeholder="{{'write your comments' | translate}}" ng-model="outing.locales[0]['description']"></textarea>
+              <textarea app-markdown-editor class="form-control description" placeholder="{{'write your comments' | translate}}" ng-model="outing.locales[0]['description']"></textarea>
             </div>
 
           </div>

@@ -230,6 +230,8 @@ app.AdvancedSearchController.prototype.createFeatureProperties_ = function(doc) 
     properties['type'] = doc['waypoint_type'];
   } else if (this.doctype === 'routes') {
     properties['title_prefix'] = locale['title_prefix'];
+  } else if (this.doctype === 'outings') {
+    properties['condition_rating'] = doc['condition_rating'];
   }
   return properties;
 };

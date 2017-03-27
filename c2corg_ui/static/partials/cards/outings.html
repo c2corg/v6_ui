@@ -39,6 +39,10 @@
         </span>
       </div>
 
+      <div class="condition-rating" ng-class="::doc['condition_rating']" ng-if="::doc['condition_rating']"
+           uib-tooltip="{{'condition_rating' | translate}} : {{doc['condition_rating'] | translate}}" tooltip-append-to-body="true">
+      </div>
+
       <div class="outing-author flex baseline-align" ng-if="!feed">
         <span class="icon-user"></span>
         <span class="author-name">{{::doc['author']['name']}}</span>

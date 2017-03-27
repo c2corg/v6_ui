@@ -321,13 +321,13 @@ from c2corg_common.attributes import default_langs, activities, image_types, ima
             ## DESCRIPTION
             <div id="description-group" class="form-group full">
               <label translate>description</label>
-              <textarea name="description" ng-model="image.locales[0].description" class="form-control description"></textarea>
+              <textarea app-markdown-editor name="description" ng-model="image.locales[0].description" class="form-control description"></textarea>
             </div>
 
             ## SUMMARY
             <div id="summary-group" class="form-group full">
               <label translate>summary</label>
-              <textarea name="summary" ng-model="image.locales[0].summary" class="form-control"></textarea>
+              <textarea app-markdown-editor name="summary" ng-model="image.locales[0].summary" class="form-control"></textarea>
             </div>
 
             ## AUTHOR

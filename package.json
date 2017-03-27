@@ -19,6 +19,7 @@
     "async": "1.5.2",
     "blueimp-load-image": "2.6.1",
     "bootstrap": "3.3.6",
+    "bootstrap-markdown": "2.10.0",
     "bootstrap-slider": "7.1.0",
     "closure-util": "1.15.1",
     "moment": "2.15.2",

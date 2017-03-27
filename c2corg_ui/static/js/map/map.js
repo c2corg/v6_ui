@@ -473,9 +473,6 @@ app.MapController.prototype.createPointStyle_ = function(feature, resolution) {
     case 'profiles':
       path = '/documents/profile.svg';
       break;
-    case 'xreports':
-      path = '/documents/xreports.svg';
-      break;
     default:
       path = '/documents/' + type + '.svg';
       break;
@@ -485,10 +482,15 @@ app.MapController.prototype.createPointStyle_ = function(feature, resolution) {
   var styles = this.styleCache[key];
   if (!styles) {
     var iconKey = type + scale;
+    if (type === 'outings') {
+      // outing icon color depends on the condition_rating attribute
+      iconKey += '_' + id;
+    }
     var icon = this.iconCache[iconKey];
     if (!icon) {
       icon = new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
         scale: scale,
+        color: this.getIconColor_(feature),
         src: this.imgPath_ + path
       }));
       this.iconCache[iconKey] = icon;
@@ -552,6 +554,7 @@ app.MapController.prototype.createLineStyle_ = function(feature, resolution) {
  * @param {string} type
  * @param {boolean} highlight
  * @return {ol.style.Text|undefined}
+ * @private
  */
 app.MapController.prototype.createTextStyle_ = function(feature, type, highlight) {
   var text;
@@ -578,6 +581,40 @@ app.MapController.prototype.createTextStyle_ = function(feature, type, highlight
     });
   }
   return text;
+};
+
+
+/**
+ * @param {ol.Feature|ol.render.Feature} feature
+ * @return {string|undefined}
+ * @private
+ */
+app.MapController.prototype.getIconColor_ = function(feature) {
+  var color;
+  if (feature.get('module') === 'outings') {
+    switch (feature.get('condition_rating')) {
+      case 'excellent':
+        color = '#008000';
+        break;
+      case 'good':
+        color = '#9ACD32';
+        break;
+      case 'average':
+        color = '#FFFF00';
+        break;
+      case 'poor':
+        color = '#FF0000';
+        break;
+      case 'awful':
+        color = '#8B0000';
+        break;
+      default:
+        // Usual icon orange
+        color = '#FFAA45';
+        break;
+    }
+  }
+  return color;
 };
 
 

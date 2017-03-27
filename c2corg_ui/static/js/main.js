@@ -45,6 +45,7 @@ goog.require('app.loadPreferencesDirective');
 goog.require('app.mailinglistsDirective');
 goog.require('app.mapDirective');
 goog.require('app.mapSearchDirective');
+goog.require('app.markdownEditorDirective');
 goog.require('app.mergeDocumentsDirective');
 goog.require('app.paginationDirective');
 goog.require('app.preferencesDirective');

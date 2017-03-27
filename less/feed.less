@@ -12,7 +12,7 @@
 
   .feed-title {
     color: lightslategrey;
-    padding-left: @margin-desktop - 1;
+    padding-left: @margin-tablet - 1;
     padding-top: 20px;
     padding-bottom: 20px;
     .icon-news {
@@ -86,7 +86,7 @@
     &:before {
       content: '';
       position: absolute;
-      left: @margin-desktop;
+      left: @margin-tablet;
       height: calc(~"100% - 150px");
       margin-top: 15px;
       width: 4px;
@@ -98,7 +98,10 @@
     margin: 10px auto;
     background-color: #fbfbfb;
     border-radius: 10px;
-    width: 40%;
+    width: 80%;
+    @media @big {
+      width: 60%;    
+    }
     transition: .3s;
     flex-direction: column;
     &:first-of-type .list-item {
@@ -123,7 +126,7 @@
       width: 40px;
       height: 40px;
       margin-top: 2px;
-      left: @margin-desktop;
+      left: @margin-tablet;
       transform: translateX(-45%);
       border-radius: 50%;
       border: 1px solid gainsboro;
@@ -180,15 +183,6 @@
       b:hover {
         cursor: pointer;
       }
-    }
-  }
-
-  @media @tablet {
-    .feed-list-item {
-      width: 55%;
-    }
-    .feed-list:before, .timeline-bullet, .feed-title {
-      left: @margin-tablet !important;
     }
   }
 
