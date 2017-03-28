@@ -4,7 +4,7 @@
   display: block;
   padding-top: 10px;
   height: 100%;
-  background-color: rgba(229, 229, 229, 0.3);
+  background-color: rgba(206, 206, 206, 0.38);
 
   .btn {
     white-space: normal;
@@ -25,15 +25,17 @@
   }
   .images {
     height: 150px;
+    min-width: 300px;
+    max-width: 600px;
     @media @phone {
       height: 100px;
+      min-width: 200px;
     }
-    max-width: 600px;
-    margin-bottom: 20px;
-    padding: 10px 0;
+    margin-bottom: 6px;
+    margin-top: 6px;
     order: 1;
     flex: 1;
-    min-width: 300px;
+    
     .thumbnail {
       overflow: hidden;
       border: 2px solid rgba(88, 150, 165, .2);
@@ -90,7 +92,7 @@
       height: calc(~"100% - 150px");
       margin-top: 15px;
       width: 4px;
-      background-color: #dfdfdf;
+      background-color: #96a0ad;
     }
   }
   .feed-list-item {
@@ -169,7 +171,7 @@
     }
     .action-line {
       padding: 7px 5px 0 5px;
-      margin-bottom: -8px;
+      margin-bottom: -4px;
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
