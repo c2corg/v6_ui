@@ -24,14 +24,14 @@
   </div>
   <div class="activity-author">
     <div class="activities flex wrap-row">
-      <span ng-repeat="activity in ::doc.activities | limitTo: 4"  class="activity icon-{{::activity}}"
+      <span ng-repeat="activity in ::doc.activities | limitTo: 3"  class="activity icon-{{::activity}}"
             uib-tooltip="{{cardCtrl.translate(activity)}}" tooltip-append-to-body="true"></span>
       <span class="flex flexend-align show-more-activities"
-              ng-if="doc.activities.length > 4 && !cardCtrl.remainingActivities"
+              ng-if="doc.activities.length > 3 && !cardCtrl.remainingActivities"
               ng-click="$event.preventDefault(); cardCtrl.remainingActivities = true">
-          ...(+ {{::doc.activities.length - 4}})
+          ...(+ {{::doc.activities.length - 3}})
       </span>
-      <span ng-if="cardCtrl.remainingActivities" ng-repeat="activity in ::doc.activities | limitTo: (4 - doc.activities.length)"
+      <span ng-if="cardCtrl.remainingActivities" ng-repeat="activity in ::doc.activities | limitTo: (3 - doc.activities.length)"
             class="activity icon-{{::activity}}" uib-tooltip="{{cardCtrl.translate(activity)}}" tooltip-append-to-body="true">
       </span>
     </div>
