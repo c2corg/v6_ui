@@ -227,7 +227,7 @@
       .calc(width, "100% - 20px");
       .flex();
       justify-content: space-between;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       .condition-rating {
         width: 1.2em;
         height: 1.2em;
@@ -236,7 +236,8 @@
         -webkit-border-radius: 8px;
         -moz-border-radius: 8px;
         border-radius: 8px;
-        border: 1px solid @lightgray;      
+        border: 1px solid @lightgray;
+        flex-shrink: 0;
         &.excellent {
           background: #008000;
         }
@@ -256,6 +257,9 @@
     }
     .author-name {
       font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .list-item-info {
       justify-content: flex-start;
@@ -268,6 +272,7 @@
       .flex();
       flex-grow: 1;
       justify-content: flex-end;
+      overflow: hidden;
     }
     .glyphicon-trash {
       .calc(top, "100% - 60px");
@@ -421,9 +426,6 @@
     border-color: @C2C-orange;
     .activities {
       margin-bottom: 0;
-    }
-    .outing-author {
-      display: none;
     }
     .date-icon {
       margin-right: 10px; 
