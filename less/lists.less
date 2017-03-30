@@ -449,3 +449,78 @@
   margin: 0;
   font-size: 0.9em;
 }
+
+
+.documents-list-section-container {
+  &.row-list {
+    a {
+      padding: 0px;
+    }
+    flex-direction: row;
+      .list-item {
+      flex-direction: row;
+      flex: 1 1 100%;
+      margin-top: 3px;
+      a {
+        padding: 0px;
+      }
+      .route-item-infos {
+        flex-direction: row;
+        padding-left: 2px;
+        padding-right: 2px;
+        .list-item-info {
+          flex-direction: row;
+          .list-item-title-lang {
+            width: 30%;
+            @media @big {
+              width: 40% ;
+            } 
+            flex-shrink: 0;
+            padding-left: 2px;
+            padding-right: 2px;
+          }
+          .location {
+            width: 20%;
+            @media @big {
+              width: 30% ;
+            }
+            max-width: 250px;
+            @media @big {
+              max-width: 300px;
+            }
+            flex-shrink: 0;
+            align-self: center;
+            padding-left: 2px;
+            padding-right: 2px;
+          }
+          .elevation, .height-diff, .height-diff-difficulties {
+            width: 65px;
+          }   
+          .orientations {
+            width: 70px;
+          }
+          .full-rating {
+            width: 127px;
+            flex-shrink: 0;
+          }             
+        }
+        .activities {
+          width: 120px;
+          flex-shrink: 0;
+          font-size: 0.9em;
+        }
+      }
+    }
+  }
+}
+  
+.card-list {
+  display: none ;
+  @media @desktop {
+    display: inherit ;
+  }
+  @media @big {
+    display: inherit ;
+  }
+}
+
