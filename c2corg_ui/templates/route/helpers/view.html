@@ -73,8 +73,8 @@ from c2corg_ui.templates.utils import get_route_gear_articles
         <article>
           <span translate class="value-title">durations</span>:
           % for duration in route.get('durations') :
-          <span x-translate class="value">${duration}</span>${'' if loop.last else ', '}
-          <span translate class="value">day(s)</span>
+          <span x-translate class="value">${duration}</span>
+          <span translate class="value">day(s)</span>${'' if loop.last else ', '}
           % endfor
         </article>
       % endif
