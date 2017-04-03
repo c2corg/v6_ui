@@ -339,7 +339,7 @@ app.ViewDetailsController.prototype.createTopic = function() {
   }.bind(this), function(resp) {
     if (resp.status == 400) {
       var topic_id = resp['data']['errors'][0]['topic_id'];
-      if (topic_id != undefined) {
+      if (topic_id !== undefined) {
         this.documentService.document['topic_id'] = topic_id;
         this.getComments();
       }
@@ -472,6 +472,13 @@ app.ViewDetailsController.prototype.watchPswpContainer_ = function() {
     }.bind(this));
     observer.observe(target, {attributes: true, attributeFilter: ['style']});
   }
+};
+
+/**
+ * @export
+ */
+app.ViewDetailsController.prototype.printPage = function() {
+  window.print();
 };
 
 app.module.controller('AppViewDetailsController', app.ViewDetailsController);
