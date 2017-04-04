@@ -16,7 +16,8 @@ app.deleteDocumentDirective = function() {
     controllerAs: 'deldocCtrl',
     templateUrl: '/static/partials/deletedocument.html',
     bindToController: {
-      'module': '<'
+      'module': '<',
+      'lang': '@'
     }
   };
 };
@@ -70,6 +71,12 @@ app.DeleteDocumentController = function(documentData, appApi, appAlerts, gettext
    * @type {string}
    */
   this.module;
+
+  /**
+   * @export
+   * @type {string}
+   */
+  this.lang;
 };
 
 
@@ -82,6 +89,21 @@ app.DeleteDocumentController.prototype.deleteDocument = function() {
         this.closeDialog();
         this.appAlerts_.addSuccess(this.gettextCatalog_.getString(
             'Document successfully deleted'
+        ));
+      }.bind(this)
+  );
+};
+
+
+/**
+ * @export
+ */
+app.DeleteDocumentController.prototype.deleteLocale = function() {
+  this.appApi_.deleteLocale(this.documentData.document_id, this.lang).then(
+      function(response) {
+        this.closeDialog();
+        this.appAlerts_.addSuccess(this.gettextCatalog_.getString(
+            'Locale successfully deleted'
         ));
       }.bind(this)
   );

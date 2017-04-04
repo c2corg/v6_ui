@@ -121,7 +121,7 @@ other_langs, missing_langs = get_lang_lists(article, lang)
     ${show_other_langs_links('articles', article, other_langs)}
     ${show_missing_langs_links('articles', article, missing_langs)}
     ${show_merge_documents_dialog('articles')}
-    ${show_delete_document_dialog('articles')}
+    ${show_delete_document_dialog('articles', lang, other_langs)}
   </div>
 
   ${photoswipe_gallery()}

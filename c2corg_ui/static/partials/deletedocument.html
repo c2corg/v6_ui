@@ -2,7 +2,8 @@
   <div class="alert alert-warning">
     <p class="text-center"><strong translate>Warning: This action cannot be undone!</strong></p>
   </div>
-  <p translate class="text-center">Are you sure you want to delete this document?</p>
+  <p ng-if="!deldocCtrl.lang" translate class="text-center">Are you sure you want to delete this document?</p>
+  <p ng-if="deldocCtrl.lang" translate class="text-center">Are you sure you want to delete this locale?</p>
   <p class="text-center">
     <strong>
       {{ deldocCtrl.documentData.title }}
@@ -14,7 +15,8 @@
 </div>
 <div class="modal-footer">
   <p> 
-    <button class="btn btn-warning" type="button" ng-click="deldocCtrl.deleteDocument()" translate>yes</button>
+    <button class="btn btn-warning" type="button" ng-click="deldocCtrl.deleteDocument()" ng-if="!deldocCtrl.lang" translate>yes</button>
+    <button class="btn btn-warning" type="button" ng-click="deldocCtrl.deleteLocale()" ng-if="deldocCtrl.lang" translate>yes</button>
     <button class="btn btn-default" type="button" ng-click="deldocCtrl.closeDialog()" translate>Cancel</button>
   <p> 
 </div>
