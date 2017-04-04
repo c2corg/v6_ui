@@ -59,7 +59,8 @@ area['doctype'] = 'areas'
     "lang": "${lang}",
     "type": "a",
     "topic_id": ${dumps(locale.get('topic_id'))},
-    "title": ${dumps(get_title(locale)) | n}
+    "title": ${dumps(get_title(locale)) | n},
+    "associations": ${dumps(area.get('associations')) | n}
   });
 </%block>
 
