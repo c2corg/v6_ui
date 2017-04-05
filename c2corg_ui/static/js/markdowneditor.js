@@ -16,20 +16,17 @@ app.markdownEditorDirective = function($rootScope, $compile, gettextCatalog, tex
 
   var messages = {
     'Bold': gettext('Bold'),
-    'Italic': gettext('Italic'),
-    'Heading': gettext('Heading'),
-    'URL/Link': gettext('URL/Link'),
-    'Image': gettext('Image'),
-    'List': gettext('List'),
-    'Preview': gettext('Preview'),
     'strong text': gettext('strong text'),
+
+    'Italic': gettext('Italic'),
     'emphasized text': gettext('emphasized text'),
-    'heading text': gettext('heading text'),
-    'enter link description here': gettext('enter link description here'),
+
+    'URL/Link': gettext('URL/Link'),
     'Insert Hyperlink': gettext('Insert Hyperlink'),
-    'enter image description here': gettext('enter image description here'),
-    'Insert Image Hyperlink': gettext('Insert Image Hyperlink'),
-    'enter image title here': gettext('enter image title here'),
+    'enter link description here': gettext('enter link description here'),
+
+    'Ordered List': gettext('Ordered List'),
+    'Unordered List': gettext('Unordered List'),
     'list text here': gettext('list text here')
   };
   angular.forEach(messages, function(value, key) {
@@ -46,7 +43,7 @@ app.markdownEditorDirective = function($rootScope, $compile, gettextCatalog, tex
 
       if (selected.length === 0) {
         // Give extra word
-        chunk = e.__localize('heading text');
+        chunk = e.__localize(gettext('heading text'));
       } else {
         chunk = selected.text + '\n';
       }
@@ -91,8 +88,7 @@ app.markdownEditorDirective = function($rootScope, $compile, gettextCatalog, tex
       name: 'groupFont',
       data: [{
         name: 'cmdH3',
-        title: 'Heading',
-        hotkey: 'Ctrl+H',
+        title: gettext('Heading'),
         icon: 'glyphicon glyphicon-header',
         callback: createHeadingCallback('##')
       }]
@@ -100,7 +96,7 @@ app.markdownEditorDirective = function($rootScope, $compile, gettextCatalog, tex
       name: 'groupHelp',
       data: [{
         name: 'cmdHelp',
-        title: 'Help',
+        title: gettext('Help on text formatting'),
         icon: 'glyphicon glyphicon-question-sign',
         callback: function(e) {
           window.open(textFormatingUrl);
@@ -123,6 +119,8 @@ app.markdownEditorDirective = function($rootScope, $compile, gettextCatalog, tex
         options.hiddenButtons = (options.hiddenButtons || []).concat([
           'cmdHeading',
           'cmdImage',
+          'cmdCode',
+          'cmdQuote',
           'cmdPreview']);
 
         // Setup the markdown WYSIWYG.
