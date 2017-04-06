@@ -42,6 +42,11 @@ class Pages(object):
         return self._get_page(
             'topoguide', 'c2corg_ui:templates/topoguide.html')
 
+    @view_config(route_name='serac')
+    def serac(self):
+        return self._get_page(
+            'serac', 'c2corg_ui:templates/serac.html')
+
     @view_config(route_name='preferences')
     def preferences(self):
         return self._get_page(
