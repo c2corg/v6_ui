@@ -38,7 +38,7 @@ class TestRouteUi(BaseTestUi):
         self._test_page(url, route_detail_mock, '736901-ca-1')
 
     def test_archive(self):
-        url = '/{0}/735553/fr/1162880'.format(self._prefix)
+        url = '/{0}/version/735553/fr/1162880'.format(self._prefix)
         self._test_page(url, route_archive_mock, '735553-fr-1-1162880')
 
     def test_history(self):

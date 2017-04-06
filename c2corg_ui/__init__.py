@@ -76,7 +76,7 @@ def main(global_config, **settings):
     config.add_route('waypoints_edit', '/waypoints/edit/{id:\d+}/{lang}')
     config.add_route('waypoints_history', '/waypoints/history/{id:\d+}/{lang}')
     config.add_route('waypoints_archive',
-                     '/waypoints/{id:\d+}/{lang}/{version:\d+}')
+                     '/waypoints/version/{id:\d+}/{lang}/{version:\d+}')
     config.add_route('waypoints_view', '/waypoints/{id:\d+}/{lang}/{slug}')
     config.add_route('waypoints_view_id_lang', '/waypoints/{id:\d+}/{lang}')
     config.add_route('waypoints_view_id', '/waypoints/{id:\d+}')
@@ -88,7 +88,8 @@ def main(global_config, **settings):
     config.add_route('routes_add', '/routes/add')
     config.add_route('routes_edit', '/routes/edit/{id:\d+}/{lang}')
     config.add_route('routes_history', '/routes/history/{id:\d+}/{lang}')
-    config.add_route('routes_archive', '/routes/{id:\d+}/{lang}/{version:\d+}')
+    config.add_route('routes_archive',
+                     '/routes/version/{id:\d+}/{lang}/{version:\d+}')
     config.add_route('routes_view', '/routes/{id:\d+}/{lang}/{slug}')
     config.add_route('routes_view_id_lang', '/routes/{id:\d+}/{lang}')
     config.add_route('routes_view_id', '/routes/{id:\d+}')
@@ -101,7 +102,7 @@ def main(global_config, **settings):
     config.add_route('outings_edit', '/outings/edit/{id:\d+}/{lang}')
     config.add_route('outings_history', '/outings/history/{id:\d+}/{lang}')
     config.add_route('outings_archive',
-                     '/outings/{id:\d+}/{lang}/{version:\d+}')
+                     '/outings/version/{id:\d+}/{lang}/{version:\d+}')
     config.add_route('outings_view', '/outings/{id:\d+}/{lang}/{slug}')
     config.add_route('outings_view_id_lang', '/outings/{id:\d+}/{lang}')
     config.add_route('outings_view_id', '/outings/{id:\d+}')
@@ -114,7 +115,7 @@ def main(global_config, **settings):
     config.add_route('articles_edit', '/articles/edit/{id:\d+}/{lang}')
     config.add_route('articles_history', '/articles/history/{id:\d+}/{lang}')
     config.add_route('articles_archive',
-                     '/articles/{id:\d+}/{lang}/{version:\d+}')
+                     '/articles/version/{id:\d+}/{lang}/{version:\d+}')
     config.add_route('articles_view', '/articles/{id:\d+}/{lang}/{slug}')
     config.add_route('articles_view_id_lang', '/articles/{id:\d+}/{lang}')
     config.add_route('articles_view_id', '/articles/{id:\d+}')
@@ -127,7 +128,7 @@ def main(global_config, **settings):
     config.add_route('books_edit', '/books/edit/{id:\d+}/{lang}')
     config.add_route('books_history', '/books/history/{id:\d+}/{lang}')
     config.add_route('books_archive',
-                     '/books/{id:\d+}/{lang}/{version:\d+}')
+                     '/books/version/{id:\d+}/{lang}/{version:\d+}')
     config.add_route('books_view', '/books/{id:\d+}/{lang}/{slug}')
     config.add_route('books_view_id_lang', '/books/{id:\d+}/{lang}')
     config.add_route('books_view_id', '/books/{id:\d+}')
@@ -140,7 +141,7 @@ def main(global_config, **settings):
     config.add_route('xreports_edit', '/xreports/edit/{id:\d+}/{lang}')
     config.add_route('xreports_history', '/xreports/history/{id:\d+}/{lang}')
     config.add_route('xreports_archive',
-                     '/xreports/{id:\d+}/{lang}/{version:\d+}')
+                     '/xreports/version/{id:\d+}/{lang}/{version:\d+}')
     config.add_route('xreports_view', '/xreports/{id:\d+}/{lang}/{slug}')
     config.add_route('xreports_view_id_lang', '/xreports/{id:\d+}/{lang}')
     config.add_route('xreports_view_id', '/xreports/{id:\d+}')
@@ -153,7 +154,7 @@ def main(global_config, **settings):
     config.add_route('images_edit', '/images/edit/{id:\d+}/{lang}')
     config.add_route('images_history', '/images/history/{id:\d+}/{lang}')
     config.add_route('images_archive',
-                     '/images/{id:\d+}/{lang}/{version:\d+}')
+                     '/images/version/{id:\d+}/{lang}/{version:\d+}')
     config.add_route('images_view', '/images/{id:\d+}/{lang}/{slug}')
     config.add_route('images_view_id_lang', '/images/{id:\d+}/{lang}')
     config.add_route('images_view_id', '/images/{id:\d+}')
@@ -165,7 +166,7 @@ def main(global_config, **settings):
     config.add_route('areas_edit', '/areas/edit/{id:\d+}/{lang}')
     config.add_route('areas_history', '/areas/history/{id:\d+}/{lang}')
     config.add_route('areas_archive',
-                     '/areas/{id:\d+}/{lang}/{version:\d+}')
+                     '/areas/version/{id:\d+}/{lang}/{version:\d+}')
     config.add_route('areas_view', '/areas/{id:\d+}/{lang}/{slug}')
     config.add_route('areas_view_id_lang', '/areas/{id:\d+}/{lang}')
     config.add_route('areas_view_id', '/areas/{id:\d+}')
