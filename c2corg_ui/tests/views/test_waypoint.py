@@ -156,7 +156,7 @@ class TestWaypointUi(BaseTestUi):
             self.assertFalse(mock.set.called)
 
     def test_archive(self):
-        url = '/{0}/117982/fr/131565'.format(self._prefix)
+        url = '/{0}/version/117982/fr/131565'.format(self._prefix)
         self._test_page(url, waypoint_archive_mock, '117982-fr-1-131565')
 
     def test_history(self):

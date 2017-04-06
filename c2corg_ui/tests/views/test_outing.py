@@ -29,7 +29,7 @@ class TestOutingUi(BaseTestUi):
         self._test_page(url, outing_detail_mock, '735574-fr-1')
 
     def test_archive(self):
-        url = '/{0}/735574/fr/1163060'.format(self._prefix)
+        url = '/{0}/version/735574/fr/1163060'.format(self._prefix)
         self._test_page(url, outing_archive_mock, '735574-fr-1-1163060')
 
     def test_history(self):
