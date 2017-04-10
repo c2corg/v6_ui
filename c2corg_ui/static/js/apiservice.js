@@ -760,4 +760,20 @@ app.Api.prototype.deleteDocument = function(documentId) {
 };
 
 
+/**
+ * @param {number} documentId
+ * @param {string} lang
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.deleteLocale = function(documentId, lang) {
+  var url = '/documents/delete/' + String(documentId) + '/' + lang;
+  var promise = this.deleteJson_(url, {});
+  promise.catch(function(response) {
+    var msg = this.alerts_.gettext('Deleting locale failed:');
+    this.alerts_.addErrorWithMsg(msg, response);
+  }.bind(this));
+  return promise;
+};
+
+
 app.module.service('appApi', app.Api);

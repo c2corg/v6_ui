@@ -120,7 +120,7 @@
   </div>
 </%def>
 
-<%def name="show_delete_document_dialog(module)">\
+<%def name="show_delete_document_dialog(module, lang, other_langs)">\
   <%
       # get the module without the 's' at the end ('routes' -> 'route')
       # to reuse existing translation strings
@@ -132,6 +132,14 @@
     </div>
     <app-delete-document module="'${module}'"></app-delete-document>
   </div>
+  % if other_langs:
+    <div id="delete-locale-dialog" app-loading>
+      <div class="modal-header">
+        <h3 class="text-center"><span translate>Delete this locale</span> (<span x-translate>${lang}</span>)</h3>
+      </div>
+      <app-delete-document module="'${module}'" lang="${lang}"></app-delete-document>
+    </div>
+  % endif
 </%def>
 
 <%def name="show_locale_title(locale, is_tab_title=False)">\
@@ -596,6 +604,10 @@
         % if doctype != 'areas':
           <li ng-if="userCtrl.isModerator()"
               ng-click="detailsCtrl.openModal('#delete-document-dialog')"><a><span class="glyphicon glyphicon-remove"></span> <translate>Delete this document</translate></a></li>
+          % if other_langs:
+            <li ng-if="userCtrl.isModerator()"
+                ng-click="detailsCtrl.openModal('#delete-locale-dialog')"><a><span class="glyphicon glyphicon-remove"></span> <translate>Delete this locale</translate></a></li>
+          % endif
         % endif
       </ul>
     </div>

@@ -176,7 +176,7 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
     ${show_missing_langs_links('outings', outing, missing_langs)}
     ${delete_association_confirmation_modal()}
     ${show_merge_documents_dialog('outings')}
-    ${show_delete_document_dialog('outings')}
+    ${show_delete_document_dialog('outings', lang, other_langs)}
   </div>
 
   ${photoswipe_gallery()}
