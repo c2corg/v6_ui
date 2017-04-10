@@ -1,5 +1,5 @@
 <a ng-href="{{cardCtrl.createURL()}}" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;">
-  <div class="flex column">
+  <div class="flex column route-item-infos">
     <div class="flex wrap-row nowrap center-items-align grow">
       <div class="list-item-info">
         <div class="list-item-title-lang">
@@ -10,28 +10,28 @@
           <span class="value">{{::cardCtrl.showArea(doc['areas'])}}</span>
         </div>
         <div class="flex wrap-row route-infos">
-          <span class="elevation" ng-if="::doc['elevation_max']"
+          <span class="elevation" "
                 uib-tooltip="{{'elevation_max'| translate}}" tooltip-append-to-body="true">
-            <span class="glyphicon glyphicon-sort-by-attributes rotate-180"></span>
-            <span class="value">{{::doc['elevation_max']}}&nbsp;m</span>
+            <span class="glyphicon glyphicon-sort-by-attributes rotate-180" ng-if="::doc['elevation_max']"></span>
+            <span class="value"  ng-if="::doc['elevation_max']">{{::doc['elevation_max']}}&nbsp;m</span>
           </span>
-          <span class="height-diff" ng-if="::doc['height_diff_up']" uib-tooltip="{{'height_diff_up'| translate}}">
-            <span class="icon-height_diff"></span>
-            <span class="value">{{::doc['height_diff_up']}}&nbsp;m</span>
+          <span class="height-diff" uib-tooltip="{{'height_diff_up'| translate}}">
+            <span class="icon-height_diff" ng-if="::doc['height_diff_up']"></span>
+            <span class="value" ng-if="::doc['height_diff_up']">{{::doc['height_diff_up']}}&nbsp;m</span>
           </span>
-          <span class="height-diff-difficulties" ng-if="::doc['height_diff_difficulties']"
-                uib-tooltip="{{'height_diff_difficulties'| translate}}" tooltip-append-to-body="true">
-            <span class="glyphicon glyphicon-resize-vertical"></span>
-            <span class="value">{{::doc['height_diff_difficulties']}}&nbsp;m</span>
+          <span class="height-diff-difficulties" uib-tooltip="{{'height_diff_difficulties'| translate}}" tooltip-append-to-body="true">
+            <span class="glyphicon glyphicon-resize-vertical" ng-if="::doc['height_diff_difficulties']"></span>
+            <span class="value" ng-if="::doc['height_diff_difficulties']">{{::doc['height_diff_difficulties']}}&nbsp;m</span>
           </span>
-          <div ng-if="::doc['orientations']" class="orientations"
+          <div  class="orientations"
                uib-tooltip="{{'orientations'| translate}}" tooltip-append-to-body="true">
-            <span class="glyphicon glyphicon-fullscreen"></span>
-            <span ng-repeat="o in ::doc['orientations']">{{o}}{{$last ? '' : ', '}}</span>
+            <span class="glyphicon glyphicon-fullscreen" ng-if="::doc['orientations']"></span>
+            <span ng-if="::doc['orientations']" ng-repeat="o in ::doc['orientations']">{{o}}{{$last ? '' : ', '}}</span>
           </div>
           <div class="full-rating flex" ng-init="fullRatings = cardCtrl.getFullRatings()">
             <span class="icon-rating" ng-if="::fullRatings"></span>
-            <div ng-repeat="(attr, val) in ::fullRatings" uib-tooltip="{{attr | translate}}" class="rating" tooltip-append-to-body="true">
+            <div  ng-if="::fullRatings" ng-repeat="(attr, val) in ::fullRatings" uib-tooltip="{{attr | translate}}" class="rating" 
+              tooltip-append-to-body="true">
               <span class="value">{{::val}}</span>
             </div>
           </div>
