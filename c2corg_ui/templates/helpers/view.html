@@ -217,15 +217,15 @@
   % elif is_personal(document):
     userCtrl.hasEditRights(
         '${get_doc_type(document['type'])}',
-        {'users': ${dumps(document['associations']['users'])},
+        {'users': ${dumps([user['document_id'] for user in document['associations']['users']])}
       % if document['type'] == 'c':
-        'articleType': '${document['article_type']}',
-        'authorId': '${document['author']['user_id']}'
+        , 'articleType': '${document['article_type']}'
+        , 'authorId': ${document['author']['user_id']}
       % elif document['type'] == 'i':
-        'imageType': '${document['image_type']}',
-        'imageCreator': '${document['creator']['user_id']}',
+        , 'imageType': '${document['image_type']}'
+        , 'imageCreator': ${document['creator']['user_id']}
       % elif document['type'] == 'x':
-        'authorId': '${document['author']['user_id']}'
+        , 'authorId': ${document['author']['user_id']}
       % endif
     })
   % endif
@@ -548,7 +548,7 @@
   <%
       doctype = get_doc_type(doc['type'])
       doc_id = doc['document_id']
-      users = dumps(doc['associations']['users']) if 'users' in doc['associations'] else None
+      users = [user['document_id'] for user in doc['associations']['users']] if 'users' in doc['associations'] else []
       protected = 'true' if doc.get('protected') else 'false'
 
       if doctype == 'images':
