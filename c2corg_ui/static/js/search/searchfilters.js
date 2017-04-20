@@ -199,7 +199,14 @@ app.SearchFiltersController.prototype.setFilterFromPermalink = function(key) {
 app.SearchFiltersController.prototype.handleFiltersChange_ = function() {
   // ignore the initial $watchCollection triggering (at loading time)
   if (!this.loading_) {
-    this.location.updateFragmentParams(this.filters);
+    var filters = {};
+    for (var key in this.filters) {
+      // urlencode filters values before adding them to URL
+      var val = this.filters[key];
+      filters[key] = (val.constructor === Array) ?
+        val.map(encodeURIComponent) : encodeURIComponent(val);
+    }
+    this.location.updateFragmentParams(filters);
     this.location.deleteFragmentParam('offset');
     this.scope_.$root.$emit('searchFilterChange');
   } else {
