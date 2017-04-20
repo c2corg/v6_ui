@@ -30,9 +30,14 @@ class C2CWikiLinkExtension(Extension):
 class C2CWikiLinks(Pattern):
 
     def handleMatch(self, m):  # noqa
-        if m.group(2).strip():
-            url = m.group(2).strip()
+        url = m.group(2).strip()
+        if url:
             url = '/' + url if url[0] != '/' else url
+
+            if url.startswith('/users/'):
+                # '/users' was renamed to '/profiles' (v5 -> v6)
+                url = url.replace('/users/', '/profiles/')
+
             label = m.group(3).strip()
             a = etree.Element('a')
             a.text = label

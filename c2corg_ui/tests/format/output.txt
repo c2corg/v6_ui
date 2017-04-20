@@ -10,4 +10,5 @@
 <ul>
 <li><a href="/routes/56730">Eperon de la Tournette</a></li>
 <li><a href="/routes/49571">Versant W - Couloir Saudan</a></li>
+<li><a href="/profiles/123">Some user</a></li>
 </ul>
