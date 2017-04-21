@@ -27,6 +27,14 @@
     @media @phone {
       display: none;
     }
+    button {
+      box-shadow: 0 0 3px gray;
+
+      &:hover {
+        box-shadow: 0 0 8px lightslategray;
+        transition: 0.2s ease-in-out;
+      }
+    }
     .prev, .next {
       position: fixed;
       top: 50vh;
