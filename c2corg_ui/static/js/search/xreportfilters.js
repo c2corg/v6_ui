@@ -19,12 +19,6 @@ app.XreportFiltersController = function($scope, ngeoLocation, ngeoDebounce,
   goog.base(this, $scope, ngeoLocation, ngeoDebounce, advancedSearchFilters);
 
   /**
-   * @type {Array.<Date>}
-   * @export
-   */
-  this.dates = [];
-
-  /**
    * Start cannot be after today nor end_date.
    * @type {Date}
    * @export
