@@ -1,10 +1,10 @@
 <a ng-href="{{cardCtrl.createURL()}}" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;" class="flex">
-<div class="flex column">
-  <div class="flex wrap-row nowrap grow">
+<div class="flex column date-outing-item-infos">
+  <div class="flex wrap-row nowrap grow outing-item-infos">
     <div class="date-icon">
-      <span class="year">{{ ::doc['date_end'] | date: 'yyyy'}}</span>
-      <span class="month">{{ ::doc['date_end'] | date: 'MMM' | translate}}</span>
       <span class="day">{{ ::doc['date_end'] | date: 'dd' }}</span>
+      <span class="month">{{ ::doc['date_end'] | date: 'MMM' | translate}}</span>
+      <span class="year">{{ ::doc['date_end'] | date: 'yyyy'}}</span>
     </div>
     <div class="list-item-info">
       <div class="list-item-title-lang">
@@ -35,7 +35,7 @@
             class="activity icon-{{::activity}}" uib-tooltip="{{cardCtrl.translate(activity)}}" tooltip-append-to-body="true">
       </span>
     </div>
-    <div class="condition-rating" ng-class="::doc['condition_rating']" ng-if="::doc['condition_rating']"
+    <div class="condition-rating" ng-class="::doc['condition_rating']" 
          uib-tooltip="{{'condition_rating' | translate}} : {{doc['condition_rating'] | translate}}" tooltip-append-to-body="true">
     </div>
     <div class="outing-author flex baseline-align" ng-if="!feed">
