@@ -35,6 +35,7 @@ LIBS_JS_FILES += \
     node_modules/angular-gettext/dist/angular-gettext.min.js \
     node_modules/angular-messages/angular-messages.min.js \
     node_modules/angular-cookies/angular-cookies.min.js \
+    node_modules/angular-sanitize/angular-sanitize.min.js \
     node_modules/corejs-typeahead/dist/typeahead.bundle.min.js \
     node_modules/moment/min/moment.min.js \
     node_modules/moment-timezone/builds/moment-timezone-with-data.min.js \
