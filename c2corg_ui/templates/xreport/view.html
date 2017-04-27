@@ -148,7 +148,7 @@ other_langs, missing_langs = get_lang_lists(xreport, lang)
          ng-show="a.waypoints.length || a.routes.length || a.articles.length || a.outings.length">
       <span class="lead">
         <div class="add-association" ng-show="userCtrl.auth.isAuthenticated()
-          && userCtrl.hasEditRights('xreports', {'authorId': ${xreport['author']['user_id']}, 'users': ${dumps(xreport['associations']['users'])}})">
+          && userCtrl.hasEditRights('xreports', {'authorId': ${xreport['author']['user_id']}, 'users': ${dumps([user['document_id'] for user in xreport['associations']['users']])}})">
           <label translate>Add association</label>
           <app-add-association parent-doctype="xreports" parent-id="${xreport_id}" dataset="roc"></app-add-association>
         </div>

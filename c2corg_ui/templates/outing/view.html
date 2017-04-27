@@ -141,13 +141,16 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
   ${get_document_description(locale, 'outing', 'personal comments')}
 
   % if not version:
+    <%
+        userIds = dumps([user['document_id'] for user in outing['associations']['users']])
+    %>
     <div class="view-details-associations col-xs-12 associations"
        % if not has_associations(outing):
-         ng-if="userCtrl.hasEditRights('outings', {'users': ${dumps(outing['associations']['users'])}})"
+         ng-if="userCtrl.hasEditRights('outings', {'users': ${userIds}})"
        % endif
     >
       <span class="lead">
-        <div ng-show="userCtrl.auth.isAuthenticated() && userCtrl.hasEditRights('outings', {'users': ${dumps(outing['associations']['users'])}})">
+        <div ng-show="userCtrl.auth.isAuthenticated() && userCtrl.hasEditRights('outings', {'users': ${userIds}})">
           <label translate>Add association</label>
           <app-add-association parent-doctype="outings" parent-id="${outing_id}" dataset="rcx"></app-add-association>
         </div>
