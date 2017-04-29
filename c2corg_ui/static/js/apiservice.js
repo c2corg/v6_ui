@@ -612,12 +612,10 @@ app.Api.prototype.getDiscourseLastest = function(cancelerPromise) {
   }
     
     
-    console.log("on get les datas du forum");
+   //only for demo
  return this.http_.get("https://api.webfit.io/forum.php", config);
+    //for prod
  //   return this.http_.get("https://forum.camptocamp.org/latest.json", config);
-
-    
-    
     
 };
 
