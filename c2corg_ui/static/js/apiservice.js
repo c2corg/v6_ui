@@ -107,6 +107,7 @@ app.Api.prototype.putJson_ = function(url, json) {
 };
 
 
+
 /**
  * @param {string} url Url suffix
  * @param {!angular.$q.Promise=} cancelerPromise Promise to cancel the request
@@ -578,6 +579,48 @@ app.Api.prototype.createImages = function(files, document) {
   promise['images'] = images;
   return promise;
 };
+
+/**
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.readForum = function() {
+var alerts = this.alerts_;
+
+  var promise = this.getDiscourseLastest();
+  promise.catch(function(response) {
+    alerts.addError(response);
+  });
+  return promise;
+};
+
+
+/**
+ * @param {!angular.$q.Promise=} cancelerPromise Promise to cancel the request
+ * @return {!angular.$http.HttpPromise}
+ */
+app.Api.prototype.getDiscourseLastest = function(cancelerPromise) {
+    
+      /** @type{angular.$http.Config} */
+  var config = {
+    headers: {
+      'Accept': 'application/json'
+    }
+  };
+    
+    if (cancelerPromise) {
+    config.timeout = cancelerPromise;
+  }
+    
+    
+    console.log("on get les datas du forum");
+ return this.http_.get("https://api.webfit.io/forum.php", config);
+ //   return this.http_.get("https://forum.camptocamp.org/latest.json", config);
+
+    
+    
+    
+};
+
 
 
 /**
