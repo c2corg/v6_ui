@@ -250,13 +250,14 @@ app.FeedController.prototype.createURL = function(doc) {
  * @export
  */
 app.FeedController.prototype.createURLArea = function(area) {
-
-  var loc = window.location.pathname;
-  // Don't create links on edit and add pages.
-  var doc = area[area.length - 1];
-  if (loc.indexOf('/edit/') === -1 && loc.indexOf('/add') === -1) {
-    return this.url_.buildDocumentUrl(
-      app.utils.getDoctype(doc['type']),  doc['document_id'],  doc['locales'][0]);
+  if (area) {
+    var loc = window.location.pathname;
+    // Don't create links on edit and add pages.
+    var doc = area[area.length - 1];
+    if (loc.indexOf('/edit/') === -1 && loc.indexOf('/add') === -1) {
+      return this.url_.buildDocumentUrl(
+        app.utils.getDoctype(doc['type']),  doc['document_id'],  doc['locales'][0]);
+    }
   }
 
 };
@@ -422,14 +423,15 @@ app.FeedController.prototype.showTitle = function(locales) {
 
   for (var i = 0; i < locales.length; i++) {
     if (locales.lang == this.lang_) {
-      if (locales[i].title_prefix === null) {
+      if (!locales[i].title_prefix) {
         return locales[i].title;
       } else {
         return locales[i].title_prefix  + ' : ' + locales[i].title;
       }
     }
   }
-  if (locales[0].title_prefix === null) {
+
+  if (!locales[0].title_prefix) {
     return locales[0].title;
   } else {
     return locales[0].title_prefix  + ' : ' + locales[0].title;

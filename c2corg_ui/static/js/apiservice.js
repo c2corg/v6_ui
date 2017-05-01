@@ -611,7 +611,7 @@ app.Api.prototype.getDiscourseLastest = function(cancelerPromise) {
   }
 
   return this.http_.get('http://forum.demov6.camptocamp.org/latest.json', config);
-
+//return this.http_.get('https://api.webfit.io/forum.php', config);
 };
 
 
