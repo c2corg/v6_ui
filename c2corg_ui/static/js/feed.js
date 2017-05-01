@@ -75,6 +75,18 @@ app.FeedController = function(appAuthentication, appApi, appLang, appUrl,  image
    * @type {Array<Object>}
    * @export
    */
+  this.documentsL = [];
+
+  /**
+   * @type {Array<Object>}
+   * @export
+   */
+  this.documentsR = [];
+
+  /**
+   * @type {Array<Object>}
+   * @export
+   */
   this.forums = [];
   /**
    * @type {string | undefined}
@@ -195,11 +207,18 @@ app.FeedController.prototype.handleFeed = function(response) {
   var data = response['data']['feed'];
   var token = response['data']['pagination_token'];
   this.nextToken = token;
-  for (var i = 0; i < data.length; i++) {
+
+  for (var i = 0; i < data.length / 2; i++) {
+    this.documentsL.push(data[i]);
     this.documents.push(data[i]);
   }
+  for (var j = data.length / 2; j < data.length; j++) {
+    this.documentsR.push(data[j]);
+    this.documents.push(data[j]);
+  }
+
   // reached the end of the feed - disable scroll
-  if ((token && data.length === 0) || (!token && this.documents.length > 0)) {
+  if ((token && data.length === 0) || (!token && this.documentsL.length > 0)) {
     this.feedEnd = true;
   } else if (data.length === 0) { // first fetch with no feed returned.
     this.noFeed = true;
@@ -216,10 +235,29 @@ app.FeedController.prototype.handleForum = function(response) {
   this.errorForum = false;
   this.busyForum = false;
   var data = response['data'];
+  var nbposter = 0;
+  var postersAvatar = {};
 
   for (var i = 0; i < data['topic_list']['topics'].length; i++) {
 
-    data['topic_list']['topics'][i]['avatar_template'] = data['users'][i]['avatar_template'].replace('{size}','24');
+    /* find last poster */
+    if (postersAvatar[data['topic_list']['topics'][i]['last_poster_username']] !== undefined) {
+      data['topic_list']['topics'][i]['avatar_template']  = postersAvatar[data['topic_list']['topics'][i]['last_poster_username']];
+    } else {
+
+      for (var j = 0; j < data['topic_list']['topics'][i]['posters'].length; j++) {
+        if (data['topic_list']['topics'][i]['posters'][j]['extras'] == 'latest') {
+          postersAvatar[data['topic_list']['topics'][i]['last_poster_username']] = data['users'][nbposter]['avatar_template'].replace('{size}','24');
+          data['topic_list']['topics'][i]['avatar_template'] = postersAvatar[data['topic_list']['topics'][i]['last_poster_username']];
+          nbposter = nbposter + data['topic_list']['topics'][i]['posters'].length - j;
+          break;
+        }
+
+        nbposter++;
+      }
+    }
+
+
     this.forums.push(data['topic_list']['topics'][i]);
     if (i == 4) {
       break;
@@ -250,13 +288,14 @@ app.FeedController.prototype.createURL = function(doc) {
  * @export
  */
 app.FeedController.prototype.createURLArea = function(area) {
-
-  var loc = window.location.pathname;
-  // Don't create links on edit and add pages.
-  var doc = area[area.length - 1];
-  if (loc.indexOf('/edit/') === -1 && loc.indexOf('/add') === -1) {
-    return this.url_.buildDocumentUrl(
-      app.utils.getDoctype(doc['type']),  doc['document_id'],  doc['locales'][0]);
+  if (area !== undefined) {
+    var loc = window.location.pathname;
+    // Don't create links on edit and add pages.
+    var doc = area[area.length - 1];
+    if (loc.indexOf('/edit/') === -1 && loc.indexOf('/add') === -1) {
+      return this.url_.buildDocumentUrl(
+        app.utils.getDoctype(doc['type']),  doc['document_id'],  doc['locales'][0]);
+    }
   }
 
 };
@@ -296,6 +335,8 @@ app.FeedController.prototype.toggleFilters = function() {
   this.isPersonal = !this.isPersonal;
   this.nextToken = undefined;
   this.documents = [];
+  this.documentsL = [];
+  this.documentsR = [];
   this.getDocumentsFromFeed();
   window.scrollTo(0, 0);
 };
@@ -422,14 +463,15 @@ app.FeedController.prototype.showTitle = function(locales) {
 
   for (var i = 0; i < locales.length; i++) {
     if (locales.lang == this.lang_) {
-      if (locales[i].title_prefix === null) {
+      if (!locales[i].title_prefix) {
         return locales[i].title;
       } else {
         return locales[i].title_prefix  + ' : ' + locales[i].title;
       }
     }
   }
-  if (locales[0].title_prefix === null) {
+
+  if (!locales[0].title_prefix) {
     return locales[0].title;
   } else {
     return locales[0].title_prefix  + ' : ' + locales[0].title;

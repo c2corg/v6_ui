@@ -21,7 +21,7 @@
         </article>
 
         <div class="in-feed-cl">
-            <article class="post" ng-repeat="doc in feedCtrl.documents track by doc.id" ng-init="type = feedCtrl.getDocumentType(doc.document.type);" ng-if="$index <= feedCtrl.documents.length/2">
+            <article class="post" ng-repeat="doc in feedCtrl.documentsL track by doc.id" ng-init="type = feedCtrl.getDocumentType(doc.document.type);">
                 <div class="infoa">
                     <a class="pportrait"><img class="URgs7" ng-src="https://forum.camptocamp.org/user_avatar/forum.camptocamp.org/{{::doc['user']['forum_username']}}/36/1_1.png" alt="" width="36" height="36"></a>
                     <div class="parent-author">
@@ -76,9 +76,6 @@
                         </div>
                         <div class="grow">
                         </div>
-
-
-
                     </div>
                 </div>
                 <div class="parent-infop parent-infop-first">
@@ -92,8 +89,6 @@
                         <div class="text-bubble">
                             {{::feedCtrl.showArea(doc['document']['areas'])}}
                         </div>
-                        
-              
                         <div class="grow">
                         </div>
                     </div></a>
@@ -140,7 +135,7 @@
             </article>
         </div>
         <div class="in-feed-cr">
-            <article class="post" ng-repeat="doc in feedCtrl.documents track by doc.id" ng-init="type = feedCtrl.getDocumentType(doc.document.type);" ng-if="$index > feedCtrl.documents.length/2">
+            <article class="post" ng-repeat="doc in feedCtrl.documentsR track by doc.id" ng-init="type = feedCtrl.getDocumentType(doc.document.type);">
                 <div class="infoa">
                     <a class="pportrait"><img class="URgs7" ng-src="https://forum.camptocamp.org/user_avatar/forum.camptocamp.org/{{::doc['user']['forum_username']}}/36/1_1.png" alt="" width="36" height="36"></a>
                     <div class="parent-author">
@@ -275,6 +270,5 @@
 
             </div></a>
         </div>
-     
     </div>
 </div>

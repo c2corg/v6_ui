@@ -5,6 +5,7 @@ goog.require('app');
 
 /**
  * Service for accessing the API.
+ * @param {string} discourseUrl URL to the forum API.
  * @param {string} apiUrl URL to the API.
  * @param {string} imageBackendUrl URL to the image backend.
  * @param {angular.$http} $http
@@ -15,7 +16,13 @@ goog.require('app');
  * @struct
  * @ngInject
  */
-app.Api = function(apiUrl, imageBackendUrl, $http, appAlerts, $q, appAuthentication) {
+app.Api = function(discourseUrl, apiUrl, imageBackendUrl, $http, appAlerts, $q, appAuthentication) {
+
+  /**
+   * @type {string}
+   * @private
+   */
+  this.discourseUrl_ = discourseUrl;
 
   /**
    * @type {string}
@@ -585,33 +592,18 @@ app.Api.prototype.createImages = function(files, document) {
 app.Api.prototype.readForum = function() {
   var alerts = this.alerts_;
 
-  var promise = this.getDiscourseLastest();
-  promise.catch(function(response) {
-    alerts.addError(response);
-  });
-  return promise;
-};
-
-
-/**
- * @param {!angular.$q.Promise=} cancelerPromise Promise to cancel the request
- * @return {!angular.$http.HttpPromise}
- */
-app.Api.prototype.getDiscourseLastest = function(cancelerPromise) {
-
-  /** @type{angular.$http.Config} */
   var config = {
     headers: {
       'Accept': 'application/json'
     }
   };
 
-  if (cancelerPromise) {
-    config.timeout = cancelerPromise;
-  }
 
-  return this.http_.get('http://forum.demov6.camptocamp.org/latest.json', config);
-
+  var promise = this.http_.get(this.discourseUrl_ + '/latest.json', config);
+  promise.catch(function(response) {
+    alerts.addError(response);
+  });
+  return promise;
 };
 
 
