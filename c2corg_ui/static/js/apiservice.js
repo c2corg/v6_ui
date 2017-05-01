@@ -107,7 +107,6 @@ app.Api.prototype.putJson_ = function(url, json) {
 };
 
 
-
 /**
  * @param {string} url Url suffix
  * @param {!angular.$q.Promise=} cancelerPromise Promise to cancel the request
@@ -207,10 +206,10 @@ app.Api.prototype.readDocument = function(module, id, lang, editing) {
   var alerts = this.alerts_;
   editing = typeof editing === 'undefined' ? false : editing;
   var url = '/{module}/{id}?l={lang}{editing}'
-    .replace('{module}', module)
-    .replace('{id}', String(id))
-    .replace('{lang}', lang)
-    .replace('{editing}', editing ? '&e=1' : '');
+  .replace('{module}', module)
+  .replace('{id}', String(id))
+  .replace('{lang}', lang)
+  .replace('{editing}', editing ? '&e=1' : '');
 
   var promise = this.getJson_(url);
   promise.catch(function(response) {
@@ -228,8 +227,8 @@ app.Api.prototype.readDocument = function(module, id, lang, editing) {
  */
 app.Api.prototype.updateDocument = function(module, id, json) {
   var url = '/{module}/{id}'
-    .replace('{module}', module)
-    .replace('{id}', String(id));
+  .replace('{module}', module)
+  .replace('{id}', String(id));
 
   var promise = this.putJson_(url, json);
   promise.catch(this.errorSaveDocument_.bind(this));
@@ -245,9 +244,9 @@ app.Api.prototype.updateDocument = function(module, id, json) {
  */
 app.Api.prototype.listDocuments = function(module, qstr, cancelerPromise) {
   var url = '/{module}{qmark}{qstr}'
-    .replace('{module}', module)
-    .replace('{qmark}', qstr ? '?' : '')
-    .replace('{qstr}', qstr);
+  .replace('{module}', module)
+  .replace('{qmark}', qstr ? '?' : '')
+  .replace('{qstr}', qstr);
   var alerts = this.alerts_;
   var promise = this.getJson_(url, cancelerPromise);
   promise.catch(function(response) {
@@ -584,7 +583,7 @@ app.Api.prototype.createImages = function(files, document) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.readForum = function() {
-var alerts = this.alerts_;
+  var alerts = this.alerts_;
 
   var promise = this.getDiscourseLastest();
   promise.catch(function(response) {
@@ -599,26 +598,21 @@ var alerts = this.alerts_;
  * @return {!angular.$http.HttpPromise}
  */
 app.Api.prototype.getDiscourseLastest = function(cancelerPromise) {
-    
-      /** @type{angular.$http.Config} */
+
+  /** @type{angular.$http.Config} */
   var config = {
     headers: {
       'Accept': 'application/json'
     }
   };
-    
-    if (cancelerPromise) {
+
+  if (cancelerPromise) {
     config.timeout = cancelerPromise;
   }
-    
-    
-   //only for demo
- return this.http_.get("https://api.webfit.io/forum.php", config);
-    //for prod
- //   return this.http_.get("https://forum.camptocamp.org/latest.json", config);
-    
-};
 
+  return this.http_.get('http://forum.demov6.camptocamp.org/latest.json', config);
+
+};
 
 
 /**
