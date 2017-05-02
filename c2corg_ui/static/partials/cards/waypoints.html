@@ -1,5 +1,5 @@
 <a ng-href="{{cardCtrl.createURL()}}" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;">
-  <div class="flex wrap-row center-items-align">
+  <div class="waypoint-items-infos flex wrap-row center-items-align">
     <span class="{{'icon-' + doc['waypoint_type']}} waypoint-type"
       uib-tooltip="{{doc['waypoint_type'] | translate}}" tooltip-append-to-body="true">
     </span>
@@ -11,10 +11,10 @@
       </div>
 
       <div class="waypoint-infos">
-        <span class="waypoint-elevation margin-r-sm margin-b-sm" ng-if="::doc['elevation']"
+        <span class="waypoint-elevation margin-r-sm margin-b-sm" 
               uib-tooltip="{{'elevation_max'| translate}}" tooltip-append-to-body="true">
-          <span class="value-title glyphicon glyphicon-sort-by-attributes rotate-180"></span>
-          <span class="value">{{::doc['elevation']}}&nbsp;m</span>
+          <span class="value-title glyphicon glyphicon-sort-by-attributes rotate-180" ng-if="::doc['elevation']"></span>
+          <span class="value" ng-if="::doc['elevation']">{{::doc['elevation']}}&nbsp;m</span>
         </span>
 
         <span class="location" ng-if="::doc['areas']">
