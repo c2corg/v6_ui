@@ -451,172 +451,159 @@
 }
 
 
-.documents-list-section-container {
-  &.row-list {
+.row-list {
+  flex-direction: row;
+  .list-item {
+    flex-direction: row;
+    flex: 1 1 100%;
+    margin-top: 3px;
     a {
       padding: 0px;
     }
+  }
+  .list-item-info {
+     align-self: center;
+     flex-direction: row;
+  }
+  .elevation, .waypoint-elevation, .height-diff, .height-diff-difficulties {
+    width: 65px;
+  }      
+  .waypoint-items-infos {
+    .list-item-info {
+      .list-item-title-lang {
+        width: 50%;
+        @media @big {
+          width: 60%;
+        } 
+        flex-shrink: 0;
+      }  
+      .location {
+        width: 30%;
+      }      
+    }
+  }
+  .article-item-infos {
+    .list-item-info {
+      .list-item-title-lang {
+        width: 50%;
+        @media @big {
+          width: 60%;
+        } 
+        flex-shrink: 0;
+        margin-left: 2px;
+      }    
+    }
+  }
+  .date-outing-item-infos {
     flex-direction: row;
-      .list-item {
-        flex-direction: row;
-        flex: 1 1 100%;
-        margin-top: 3px;
-      a {
-        padding: 0px;
+    .outing-item-infos {
+      flex-direction: row;
+      width: 75%;
+      .date-icon {
+        box-shadow: unset;
+        width: 80px;
+        height: unset;
+        margin: 5px;
+        align-self: center;
+        * {
+          display: inline;
+        }
+        .day {
+          position: unset; 
+          background-color: unset; 
+        }
+        .month {
+          position: unset; 
+        }
+        .year {
+          position: unset;
+          font-size: 0.9em 
+        }
       }
-      
-      .waypoint-items-infos {
-        .list-item-info {
-          flex-direction: row;
-          align-self: center;
-          .list-item-title-lang {
-            width: 50%;
-            @media @big {
-              width: 60%;
-            } 
-            flex-shrink: 0;
-            padding-left: 2px;
-            padding-right: 2px;
+      .list-item-info {
+        .list-item-title-lang {
+          margin-left: 2px;
+          width: 80%;
+          @media @big {
+            width: 70% ;
           } 
-          .waypoint-elevation {
-            width: 65px;
-          } 
-          .location {
-            width: 30%;
-          }      
-        }
-      }
-      .date-outing-item-infos {
-        flex-direction: row;
-        .outing-item-infos {
-          flex-direction: row;
-          width: 75%;
-          .date-icon {
-            box-shadow: unset;
-            width: 80px;
-            height: unset;
-            margin: 5px;
-            align-self: center;
-            * {
-              display: inline;
-            }
-            .day {
-	      position: unset; 
-              background-color: unset; 
-            }
-            .month {
-              position: unset; 
-            }
-            .year {
-              position: unset;
-              font-size: 0.9em 
-            }
-          }
-          .list-item-info {
-            flex-direction: row;
-	    width: 100%;
-            align-self: center;
-            .list-item-title-lang {
-              width: 80%;
-              @media @big {
-                width: 70% ;
-              } 
-              flex-shrink: 0;
-              padding-left: 2px;
-              padding-right: 2px;
-            }
-            .location {
-              .calc(width, "20% - 70px");
-              @media @big {
-                .calc(width, "30% - 70px");
-              }
-              max-width: 250px;
-              @media @big {
-                max-width: 300px;
-              }
-              flex-shrink: 0;
-              align-self: center;
-              padding-left: 2px;
-              padding-right: 2px;
-            }
-            .elevation {
-              width: 65px;
-            }       
-          }
-        }
-	.activity-author {
-          width: 25%;
-          align-self: center;
-	  max-width: 300px;
-          .condition-rating {
-            order: 0;
-	    margin-left: 7%;
-	    margin-right: 7%;
-            align-self: center;
-          }
-          .outing-author {
-            order: 1;
-            margin-right: 20px;
-            justify-content: flex-start;
-            align-self: center;
-          }
-          .activities {
-            order: 1;
-            width: 90px;
-            flex-shrink: 0;
-            font-size: 0.9em;
-          }
-        }
-      }
-      .route-item-infos {
-        flex-direction: row;
-        padding-left: 2px;
-        padding-right: 2px;
-        .list-item-info {
-          align-self: center;
-          flex-direction: row;
-          .list-item-title-lang {
-            .calc(width, "80% - 300px");
-            @media @big {
-              .calc(width, "70% - 400px");
-            } 
-            flex-shrink: 0;
-            padding-left: 2px;
-            padding-right: 2px;
-          }
-          .location {
-            width: 20%;
-            @media @big {
-              width: 30% ;
-            }
-            max-width: 250px;
-            @media @big {
-              max-width: 300px;
-            }
-            flex-shrink: 0;
-            align-self: center;
-            padding-left: 2px;
-            padding-right: 2px;
-          }
-          .elevation, .height-diff, .height-diff-difficulties {
-            width: 65px;
-          }   
-          .orientations {
-            width: 5em;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
-          .full-rating {
-            flex-shrink: 0;
-          }             
-        }
-        .activities {
-          width: 120px;
           flex-shrink: 0;
-          font-size: 0.9em;
         }
+        .location {
+          .calc(width, "20% - 70px");
+          @media @big {
+            .calc(width, "30% - 70px");
+          }
+          max-width: 250px;
+          @media @big {
+            max-width: 300px;
+          }
+          flex-shrink: 0;
+          align-self: center;
+        } 
       }
+    }
+    .activity-author {
+      width: 25%;
+      align-self: center;
+      max-width: 300px;
+      .condition-rating {
+        order: 0;
+	margin-left: 7%;
+	margin-right: 7%;
+        align-self: center;
+      }
+      .outing-author {
+        order: 1;
+        margin-right: 20px;
+        justify-content: flex-start;
+        align-self: center;
+      }
+      .activities {
+        order: 1;
+        width: 90px;
+        flex-shrink: 0;
+        font-size: 0.9em;
+      }
+    }
+  }
+  .route-item-infos {
+    flex-direction: row;
+    .list-item-info {
+      .list-item-title-lang {
+        .calc(width, "80% - 300px");
+        @media @big {
+          .calc(width, "70% - 400px");
+        } 
+        flex-shrink: 0;
+        margin-left: 2px;
+      }
+      .location {
+        width: 20%;
+        @media @big {
+          width: 30% ;
+        }
+        max-width: 250px;
+        @media @big {
+          max-width: 300px;
+        }
+        flex-shrink: 0;
+        align-self: center;
+      }
+      .orientations {
+        width: 5em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .full-rating {
+        flex-shrink: 0;
+      }             
+    }
+    .activities {
+      width: 120px;
+      flex-shrink: 0;
+      font-size: 0.9em;
     }
   }
 }
