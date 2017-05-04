@@ -21,19 +21,19 @@
         </article>
 
         <div class="in-feed-cl">
-            <article class="post" ng-repeat="doc in feedCtrl.documentsL track by doc.id" ng-init="type = feedCtrl.getDocumentType(doc.document.type);">
+            <article class="post feed-list-item" ng-repeat="doc in feedCtrl.documentsL track by doc.id" ng-init="type = feedCtrl.getDocumentType(doc.document.type);" ng-click="feedCtrl.openDoc(doc)">
                 <div class="infoa">
-                    <a class="pportrait"><img class="URgs7" ng-src="https://forum.camptocamp.org/user_avatar/forum.camptocamp.org/{{::doc['user']['forum_username']}}/36/1_1.png" alt="" width="36" height="36"></a>
+                    <a class="pportrait" ng-href="/profiles/{{::doc['user']['document_id']}}/{{::doc['user']['locales'][0]['lang']}}" title="{{::doc['user']['name']}}" ng-click="$event.stopPropagation()"><img class="URgs7" ng-src="https://forum.camptocamp.org/user_avatar/forum.camptocamp.org/{{::doc['user']['forum_username']}}/36/1_1.png" alt="" width="36" height="36"></a>
                     <div class="parent-author">
                         <div class="under-author">
-                            <div class="author"><a ng-href="/profiles/{{::doc['user']['document_id']}}/{{::doc['user']['locales'][0]['lang']}}">{{::doc['user']['name']}}</a> <span>{{feedCtrl.createActionLine(doc) | translate}} </span></div>
+                            <div class="author"><a ng-href="/profiles/{{::doc['user']['document_id']}}/{{::doc['user']['locales'][0]['lang']}}" title="{{::doc['user']['name']}}" ng-click="$event.stopPropagation()">{{::doc['user']['name']}}</a> <span>{{feedCtrl.createActionLine(doc) | translate}} </span></div>
                         </div>
                         <div class="parent-hour">
                             <div class="hour"><span class="d-hour">{{::doc.time | amUtc | amLocal | amTimeAgo}}</span></div>
                         </div>
                     </div>
                 </div>
-                <a ng-href="{{::feedCtrl.createURL(doc)}}">
+                <a ng-href="{{::feedCtrl.createURL(doc)}}" title="{{::feedCtrl.showTitle(doc['document']['locales'])}}" ng-click="$event.stopPropagation()">
                 <div class="parent-text">
                     <div class="text" ng-if="::doc.image1">{{::feedCtrl.showTitle(doc['document']['locales'])}}</div>
                     <div class="text emptyimg" ng-if="::!doc.image1">{{::feedCtrl.showTitle(doc['document']['locales'])}}</div>
@@ -46,7 +46,7 @@
                                 <span class="icon-rating "></span>
                             </div>
                         </div>
-                        <div class="text-bubble" ng-if="::fullRatings">
+                        <div class="text-bubble cotationbox" ng-if="::fullRatings">
                             <div ng-repeat="(attr, val) in ::fullRatings" uib-tooltip="{{attr | translate}}" class="rating ng-scope" tooltip-append-to-body="true"> <span class="value">{{::val}}</span> </div>
                         </div> 
 
@@ -78,8 +78,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="parent-infop parent-infop-first">
-                    <a ng-href="{{::feedCtrl.createURLArea(doc['document']['areas'])}}">
+                <div class="parent-infop parent-infop-first" ng-if="doc['document']['areas'] !== undefined">
+                    <a ng-href="{{::feedCtrl.createURLArea(doc['document']['areas'])}}" title="{{::feedCtrl.showArea(doc['document']['areas'])}}" ng-click="$event.stopPropagation()">
                     <div class="infop-bar">
                         <div class="parent-bubble">
                             <div class="bubble">
@@ -123,31 +123,22 @@
                         </div>
                     </div>
                 </div>
-              <!--  <div class="parent-com" id="b210020a-0ff7-11">
-                    <div class="addcom">
-                        <div class="postboxin">
-                            <a href="" class="portrait"><img src="//lh3.googleusercontent.com/-kEierG3QcJU/AAAAAAAAAAI/AAAAAAAAAkw/3bUPb5IbiE4/s36-p-k-no/photo.jpg" alt="" width="36" height="36"></a>
-                            <div class="area"><textarea rows="1" placeholder="Ajouter un commentaire" class="animated" maxlength="2000" style="overflow-x: hidden; overflow-wrap: break-word; overflow-y: visible;"></textarea></div>
-
-                        </div>
-                    </div>
-                </div> -->
             </article>
         </div>
-        <div class="in-feed-cr">
-            <article class="post" ng-repeat="doc in feedCtrl.documentsR track by doc.id" ng-init="type = feedCtrl.getDocumentType(doc.document.type);">
+      <div class="in-feed-cr">
+            <article class="post feed-list-item" ng-repeat="doc in feedCtrl.documentsR track by doc.id" ng-click="feedCtrl.openDoc(doc)">
                 <div class="infoa">
-                    <a class="pportrait"><img class="URgs7" ng-src="https://forum.camptocamp.org/user_avatar/forum.camptocamp.org/{{::doc['user']['forum_username']}}/36/1_1.png" alt="" width="36" height="36"></a>
+                    <a class="pportrait" ng-href="/profiles/{{::doc['user']['document_id']}}/{{::doc['user']['locales'][0]['lang']}}" title="{{::doc['user']['name']}}" ng-click="$event.stopPropagation()"><img class="URgs7" ng-src="https://forum.camptocamp.org/user_avatar/forum.camptocamp.org/{{::doc['user']['forum_username']}}/36/1_1.png" alt="" width="36" height="36"></a>
                     <div class="parent-author">
                         <div class="under-author">
-                            <div class="author"><a ng-href="/profiles/{{::doc['user']['document_id']}}/{{::doc['user']['locales'][0]['lang']}}">{{::doc['user']['name']}}</a> <span>{{feedCtrl.createActionLine(doc) | translate}} </span></div>
+                            <div class="author"><a ng-href="/profiles/{{::doc['user']['document_id']}}/{{::doc['user']['locales'][0]['lang']}}" title="{{::doc['user']['name']}}" ng-click="$event.stopPropagation()">{{::doc['user']['name']}}</a> <span>{{feedCtrl.createActionLine(doc) | translate}} </span></div>
                         </div>
                         <div class="parent-hour">
                             <div class="hour"><span class="d-hour">{{::doc.time | amUtc | amLocal | amTimeAgo}}</span></div>
                         </div>
                     </div>
                 </div>
-                <a ng-href="{{::feedCtrl.createURL(doc)}}">
+                <a ng-href="{{::feedCtrl.createURL(doc)}}" title="{{::feedCtrl.showTitle(doc['document']['locales'])}}" ng-click="$event.stopPropagation()">
                 <div class="parent-text">
                     <div class="text" ng-if="::doc.image1">{{::feedCtrl.showTitle(doc['document']['locales'])}}</div>
                     <div class="text emptyimg" ng-if="::!doc.image1">{{::feedCtrl.showTitle(doc['document']['locales'])}}</div>
@@ -160,7 +151,7 @@
                                 <span class="icon-rating "></span>
                             </div>
                         </div>
-                        <div class="text-bubble" ng-if="::fullRatings">
+                        <div class="text-bubble cotationbox" ng-if="::fullRatings">
                             <div ng-repeat="(attr, val) in ::fullRatings" uib-tooltip="{{attr | translate}}" class="rating ng-scope" tooltip-append-to-body="true"> <span class="value">{{::val}}</span> </div>
                         </div> 
 
@@ -190,13 +181,10 @@
                         </div>
                         <div class="grow">
                         </div>
-
-
-
                     </div>
                 </div>
-                <div class="parent-infop parent-infop-first">
-                    <a ng-href="{{::feedCtrl.createURLArea(doc['document']['areas'])}}">
+                <div class="parent-infop parent-infop-first" ng-if="doc['document']['areas'] !== undefined">
+                    <a ng-href="{{::feedCtrl.createURLArea(doc['document']['areas'])}}" title="{{::feedCtrl.showArea(doc['document']['areas'])}}" ng-click="$event.stopPropagation()">
                     <div class="infop-bar">
                         <div class="parent-bubble">
                             <div class="bubble">
@@ -206,8 +194,6 @@
                         <div class="text-bubble">
                             {{::feedCtrl.showArea(doc['document']['areas'])}}
                         </div>
-                        
-              
                         <div class="grow">
                         </div>
                     </div></a>
@@ -244,6 +230,7 @@
                 </div>
             </article>
         </div>
+        <div style="clear:both">&nbsp;</div>
 
         <h4 class="text-center text-danger" translate ng-show="feedCtrl.error">Sorry, there was an error while getting the feed.</h4>
         <h4 class="text-success text-center" translate ng-show="feedCtrl.busy">Loading feed, please wait...</h4>

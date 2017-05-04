@@ -170,6 +170,7 @@ app.FeedController = function(appAuthentication, appApi, appLang, appUrl,  image
  * @export
  */
 app.FeedController.prototype.getDocumentsFromFeed = function() {
+  console.log("getdocumentsfromfeed")
   this.busy = true;
   this.api.readFeed(this.nextToken, this.lang_.getLang(), this.userId, this.isPersonal).then(function(response) {
     this.handleFeed(response);
@@ -217,8 +218,12 @@ app.FeedController.prototype.handleFeed = function(response) {
     this.documents.push(data[j]);
   }
 
+  
   // reached the end of the feed - disable scroll
-  if ((token && data.length === 0) || (!token && this.documentsL.length > 0)) {
+  console.log("data.length = "+ data.length);
+  console.log("documentsL = "+ this.documentsL.length);
+  console.log("documentsR = "+ this.documentsR.length);
+  if ((token && data.length === 0) || (!token && this.documentsL.length > 0 && this.documentsR.length > 0)) {
     this.feedEnd = true;
   } else if (data.length === 0) { // first fetch with no feed returned.
     this.noFeed = true;
@@ -259,7 +264,7 @@ app.FeedController.prototype.handleForum = function(response) {
 
 
     this.forums.push(data['topic_list']['topics'][i]);
-    if (i == 4) {
+    if (i == 15) {
       break;
     }
   }
@@ -288,6 +293,7 @@ app.FeedController.prototype.createURL = function(doc) {
  * @export
  */
 app.FeedController.prototype.createURLArea = function(area) {
+  
   if (area !== undefined) {
     var loc = window.location.pathname;
     // Don't create links on edit and add pages.
@@ -300,6 +306,15 @@ app.FeedController.prototype.createURLArea = function(area) {
 
 };
 
+/**
+ * @param {Object} doc
+ * @export
+ */
+app.FeedController.prototype.openDoc = function(doc) {
+
+    window.location = this.createURL(doc);
+
+};
 
 /**
  * Creates a HTML with action that user used on the document in the feed.

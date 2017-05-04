@@ -32,6 +32,8 @@
     width: 100%;
     margin-bottom: 20px;
     outline: none;
+  
+    cursor:pointer;
 }
 .post.rencontre {
     padding: 10px;
@@ -620,9 +622,23 @@ textarea {
     font-weight: bold;
     color: rgba(0,0,0,0.87);
 }
-
+.cotationbox {
+  max-width: 120px;
+overflow: hidden;
+max-height: 36px;
+   word-wrap: break-word;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 .in-feed-cl {float:left; width:50%; padding-right: 20px;}
 .in-feed-cr {float:left; width:50%; padding-right: 20px;}
+.in-feed-cl::after {
+  display:block;
+  clear:both;
+  content: " ";
+  width: 0;
+  height: 0;
+}
 
 @media screen and (min-width: 768px) and (max-width: 1360px){
     .in-feed-cl , .in-feed-cr {float:none; width:100%;width: 100%; padding-right: 20px;}
