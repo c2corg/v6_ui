@@ -7,10 +7,11 @@ goog.require('app');
  * This directive is used to display a contextual help modal dialog.
  * @param {ui.bootstrap.$modal} $uibModal modal from angular bootstrap.
  * @param {angular.$templateCache} $templateCache service.
+ * @param {angular.$compile} $compile Angular compile service.
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-app.contextHelpDirective = function($uibModal, $templateCache) {
+app.contextHelpDirective = function($uibModal, $templateCache, $compile) {
   return {
     restrict: 'A',
     link: function(scope, element, attrs) {
@@ -25,7 +26,9 @@ app.contextHelpDirective = function($uibModal, $templateCache) {
             content: function() {
               var templateUrl = attrs['contextHelpContentUrl'];
               if (templateUrl) {
-                return app.utils.getTemplate(templateUrl, $templateCache);
+                var template = app.utils.getTemplate(templateUrl, $templateCache);
+                var elements = $compile(template)(scope);
+                return angular.element('<div></div>').append(elements).html();
               } else {
                 return attrs['contextHelpContent'];
               }
