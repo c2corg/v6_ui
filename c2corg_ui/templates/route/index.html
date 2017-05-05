@@ -34,21 +34,14 @@
     <span class="badge" ng-cloak>{{resCounter}}</span>
   </h3>
 </header>
-<div class="documents-list-section-container" ng-class="{'no-map': noMap, 'no-list': noList, 'row-list' : rowList}">
+<div class="documents-list-section-container" ng-class="{'no-map': noMap, 'no-list': noList, 'row-list' : switchCtrl.showList}">
   <section class="documents-list-section">
     <%include file="filters.html" />
 
     <div class="documents-nav-buttons text-center">
       <button class="btn btn-default orange-btn show-documents-filters-phone" translate>Filters</button>
       <app-doctype-selector app-doctype="routes"></app-doctype-selector>
-
-	<button class="btn orange-btn btn-default no-list-btn hidden-xs card-list" ng-init="rowList = false" 
-		ng-click="rowList = !rowList" >
-	  <span class="glyphicon glyphicon-globe"></span>
-	  <span translate ng-show="!rowList">List Format</span>
-	  <span translate ng-show="rowList">Card Format</span>
-	</button>
-
+      <app-list-switch></app-list-switch>
       <button class="btn btn-default orange-btn" protected-url-btn url="${request.route_path('routes_add')}"
               uib-tooltip="{{'Create a new route' | translate }}" tooltip-placement="right">
         <span class="glyphicon glyphicon-plus-sign"></span>
