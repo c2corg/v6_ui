@@ -598,9 +598,7 @@ app.Api.prototype.readForum = function() {
     }
   };
 
-
- // var promise = this.http_.get(this.discourseUrl_ + '/latest.json', config);
-  var promise = this.http_.get('https://api.webfit.io/forum.php', config);
+  var promise = this.http_.get(this.discourseUrl_ + '/latest.json', config);
   promise.catch(function(response) {
     alerts.addError(response);
   });

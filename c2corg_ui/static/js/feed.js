@@ -66,6 +66,12 @@ app.FeedController = function(appAuthentication, appApi, appLang, appUrl,  image
   this.imageUrl_ = imageUrl;
 
   /**
+   * @type {number}
+   * @export
+   */
+  this.nbcolumn = 0;
+
+  /**
    * @type {Array<Object>}
    * @export
    */
@@ -76,6 +82,7 @@ app.FeedController = function(appAuthentication, appApi, appLang, appUrl,  image
    * @export
    */
   this.documentsL = [];
+
 
   /**
    * @type {Array<Object>}
@@ -154,13 +161,51 @@ app.FeedController = function(appAuthentication, appApi, appLang, appUrl,  image
 
   this.getDocumentsFromFeed();
   this.getDocumentsFromForum();
-
+  this.feedColumnController();
   /**
    * @type {number}
    * @public
    */
 
+};
 
+
+/**
+* refresh the feed column according the width
+* @export
+*/
+app.FeedController.prototype.feedColumnController = function() {
+
+  var that = this;
+
+  $(window).resize(function() {
+
+    if (window.innerWidth < 1360) {
+      if (that.nbcolumn >= 2) {
+        that.documentsR = Array();
+        that.documentsL = that.documents;
+        that.nbcolumn = 1;
+      }
+
+    } else {
+      if (that.nbcolumn < 2) {
+        that.documentsR = Array();
+        that.documentsL = Array();
+
+        for (var i = 0; i < that.documents.length; i++) {
+          if (Math.floor(i / 5) % 2 == 0) {
+            that.documentsL.push(that.documents[i]);
+          } else {
+            that.documentsR.push(that.documents[i]);
+          }
+        }
+
+        this.nbcolumn = 2;
+      }
+
+    }
+
+  });
 };
 
 
@@ -170,7 +215,7 @@ app.FeedController = function(appAuthentication, appApi, appLang, appUrl,  image
  * @export
  */
 app.FeedController.prototype.getDocumentsFromFeed = function() {
-  console.log("getdocumentsfromfeed")
+
   this.busy = true;
   this.api.readFeed(this.nextToken, this.lang_.getLang(), this.userId, this.isPersonal).then(function(response) {
     this.handleFeed(response);
@@ -203,27 +248,34 @@ app.FeedController.prototype.getDocumentsFromForum = function() {
  * @public
  */
 app.FeedController.prototype.handleFeed = function(response) {
+
   this.error = false;
   this.busy = false;
   var data = response['data']['feed'];
   var token = response['data']['pagination_token'];
   this.nextToken = token;
+  if (window.innerWidth >= 1360) {
+    this.nbcolumn = 2;
 
-  for (var i = 0; i < data.length / 2; i++) {
-    this.documentsL.push(data[i]);
-    this.documents.push(data[i]);
-  }
-  for (var j = data.length / 2; j < data.length; j++) {
-    this.documentsR.push(data[j]);
-    this.documents.push(data[j]);
+    for (var i = 0; i < data.length / 2; i++) {
+      this.documentsL.push(data[i]);
+      this.documents.push(data[i]);
+    }
+    for (var j = data.length / 2; j < data.length; j++) {
+      this.documentsR.push(data[j]);
+      this.documents.push(data[j]);
+    }
+
+  } else {
+
+    this.nbcolumn = 1;
+    for (var k = 0; k < data.length; k++) {
+      this.documentsL.push(data[k]);
+      this.documents.push(data[k]);
+    }
   }
 
-  
-  // reached the end of the feed - disable scroll
-  console.log("data.length = "+ data.length);
-  console.log("documentsL = "+ this.documentsL.length);
-  console.log("documentsR = "+ this.documentsR.length);
-  if ((token && data.length === 0) || (!token && this.documentsL.length > 0 && this.documentsR.length > 0)) {
+  if ((token && data.length === 0) || !token && this.documentsL.length > 0) {
     this.feedEnd = true;
   } else if (data.length === 0) { // first fetch with no feed returned.
     this.noFeed = true;
@@ -240,35 +292,22 @@ app.FeedController.prototype.handleForum = function(response) {
   this.errorForum = false;
   this.busyForum = false;
   var data = response['data'];
-  var nbposter = 0;
   var postersAvatar = {};
+  if (data['users'] !== undefined) {
+    for (var j = 0; j < data['users'].length; j++) {
+      postersAvatar[data['users'][j]['username']] = data['users'][j]['avatar_template'].replace('{size}','24');
+    }
 
-  for (var i = 0; i < data['topic_list']['topics'].length; i++) {
+    for (var i = 0; i < data['topic_list']['topics'].length; i++) {
 
-    /* find last poster */
-    if (postersAvatar[data['topic_list']['topics'][i]['last_poster_username']] !== undefined) {
-      data['topic_list']['topics'][i]['avatar_template']  = postersAvatar[data['topic_list']['topics'][i]['last_poster_username']];
-    } else {
+      data['topic_list']['topics'][i]['avatar_template'] = postersAvatar[data['topic_list']['topics'][i]['last_poster_username']];
 
-      for (var j = 0; j < data['topic_list']['topics'][i]['posters'].length; j++) {
-        if (data['topic_list']['topics'][i]['posters'][j]['extras'] == 'latest') {
-          postersAvatar[data['topic_list']['topics'][i]['last_poster_username']] = data['users'][nbposter]['avatar_template'].replace('{size}','24');
-          data['topic_list']['topics'][i]['avatar_template'] = postersAvatar[data['topic_list']['topics'][i]['last_poster_username']];
-          nbposter = nbposter + data['topic_list']['topics'][i]['posters'].length - j;
-          break;
-        }
-
-        nbposter++;
+      this.forums.push(data['topic_list']['topics'][i]);
+      if (i == 15) {
+        break;
       }
     }
-
-
-    this.forums.push(data['topic_list']['topics'][i]);
-    if (i == 15) {
-      break;
-    }
   }
-
 };
 
 /**
@@ -288,19 +327,20 @@ app.FeedController.prototype.createURL = function(doc) {
 
 };
 /**
- * @param {Object} area
+ * @param {Array} area
  * @return {string | undefined}
  * @export
  */
 app.FeedController.prototype.createURLArea = function(area) {
-  
   if (area !== undefined) {
-    var loc = window.location.pathname;
-    // Don't create links on edit and add pages.
-    var doc = area[area.length - 1];
-    if (loc.indexOf('/edit/') === -1 && loc.indexOf('/add') === -1) {
-      return this.url_.buildDocumentUrl(
-        app.utils.getDoctype(doc['type']),  doc['document_id'],  doc['locales'][0]);
+    if (area.length > 0) {
+      var loc = window.location.pathname;
+      // Don't create links on edit and add pages.
+      var doc = area[area.length - 1];
+      if (loc.indexOf('/edit/') === -1 && loc.indexOf('/add') === -1) {
+        return this.url_.buildDocumentUrl(
+          app.utils.getDoctype(doc['type']),  doc['document_id'],  doc['locales'][0]);
+      }
     }
   }
 
@@ -312,7 +352,7 @@ app.FeedController.prototype.createURLArea = function(area) {
  */
 app.FeedController.prototype.openDoc = function(doc) {
 
-    window.location = this.createURL(doc);
+  window.location = this.createURL(doc);
 
 };
 
@@ -445,7 +485,7 @@ app.FeedController.prototype.getFullRatings = function(data) {
  */
 app.FeedController.prototype.showArea = function(areas) {
 
-  if (areas) {
+  if (areas !== undefined) {
 
     // the areas often come in different orders within 3 area objects.
     var orderedAreas = {'range': [], 'admin_limits': [], 'country': []};

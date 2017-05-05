@@ -21,7 +21,7 @@
         </article>
 
         <div class="in-feed-cl">
-            <article class="post feed-list-item" ng-repeat="doc in feedCtrl.documentsL track by doc.id" ng-init="type = feedCtrl.getDocumentType(doc.document.type);" ng-click="feedCtrl.openDoc(doc)">
+            <article class="post" ng-repeat="doc in feedCtrl.documentsL track by doc.id" ng-click="feedCtrl.openDoc(doc)">
                 <div class="infoa">
                     <a class="pportrait" ng-href="/profiles/{{::doc['user']['document_id']}}/{{::doc['user']['locales'][0]['lang']}}" title="{{::doc['user']['name']}}" ng-click="$event.stopPropagation()"><img class="URgs7" ng-src="https://forum.camptocamp.org/user_avatar/forum.camptocamp.org/{{::doc['user']['forum_username']}}/36/1_1.png" alt="" width="36" height="36"></a>
                     <div class="parent-author">
@@ -78,7 +78,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="parent-infop parent-infop-first" ng-if="doc['document']['areas'] !== undefined">
+                <div class="parent-infop parent-infop-first" ng-if="::doc['document']['areas'] != null">
                     <a ng-href="{{::feedCtrl.createURLArea(doc['document']['areas'])}}" title="{{::feedCtrl.showArea(doc['document']['areas'])}}" ng-click="$event.stopPropagation()">
                     <div class="infop-bar">
                         <div class="parent-bubble">
@@ -125,8 +125,9 @@
                 </div>
             </article>
         </div>
+      
       <div class="in-feed-cr">
-            <article class="post feed-list-item" ng-repeat="doc in feedCtrl.documentsR track by doc.id" ng-click="feedCtrl.openDoc(doc)">
+            <article class="post" ng-repeat="doc in feedCtrl.documentsR track by doc.id" ng-click="feedCtrl.openDoc(doc)">
                 <div class="infoa">
                     <a class="pportrait" ng-href="/profiles/{{::doc['user']['document_id']}}/{{::doc['user']['locales'][0]['lang']}}" title="{{::doc['user']['name']}}" ng-click="$event.stopPropagation()"><img class="URgs7" ng-src="https://forum.camptocamp.org/user_avatar/forum.camptocamp.org/{{::doc['user']['forum_username']}}/36/1_1.png" alt="" width="36" height="36"></a>
                     <div class="parent-author">
@@ -183,7 +184,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="parent-infop parent-infop-first" ng-if="doc['document']['areas'] !== undefined">
+                <div class="parent-infop parent-infop-first" ng-if="::doc['document']['areas'] != null">
                     <a ng-href="{{::feedCtrl.createURLArea(doc['document']['areas'])}}" title="{{::feedCtrl.showArea(doc['document']['areas'])}}" ng-click="$event.stopPropagation()">
                     <div class="infop-bar">
                         <div class="parent-bubble">
@@ -229,7 +230,7 @@
                     </div>
                 </div>
             </article>
-        </div>
+        </div> 
         <div style="clear:both">&nbsp;</div>
 
         <h4 class="text-center text-danger" translate ng-show="feedCtrl.error">Sorry, there was an error while getting the feed.</h4>
@@ -240,14 +241,12 @@
 <div class="feed-cr">
     <div class="info">
         <h3>Échos du forum</h3>
-
-
-        <div class="fpost" ng-repeat="post in feedCtrl.forums track by post.id">
+        <div class="fpost" ng-repeat="post in feedCtrl.forums track by post.id" ng-if="::feedCtrl.forums.length > 0">
             <a href="https://forum.camptocamp.org/t/{{::post['slug']}}/{{::post['id']}}" title="{{::post['title']}}">
             <div class="fpcontent">
                 <div class="fleft">
                     <div class="fportrait">
-                        <img src="https://forum.camptocamp.org/{{::post['avatar_template']}}">
+                        <img ng-src="https://forum.camptocamp.org/{{::post['avatar_template']}}">
                     </div>
                     <div class="ftxt">
                         <div class="fauthor">{{::post['last_poster_username']}}</div>
