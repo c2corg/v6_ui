@@ -464,11 +464,33 @@
       a {
         padding: 0px;
       }
+      
+      .waypoint-items-infos {
+        .list-item-info {
+          flex-direction: row;
+          align-self: center;
+          .list-item-title-lang {
+            width: 50%;
+            @media @big {
+              width: 60%;
+            } 
+            flex-shrink: 0;
+            padding-left: 2px;
+            padding-right: 2px;
+          } 
+          .waypoint-elevation {
+            width: 65px;
+          } 
+          .location {
+            width: 30%;
+          }      
+        }
+      }
       .date-outing-item-infos {
         flex-direction: row;
         .outing-item-infos {
           flex-direction: row;
-          width: 70%;
+          width: 75%;
           .date-icon {
             box-shadow: unset;
             width: 80px;
@@ -492,19 +514,21 @@
           }
           .list-item-info {
             flex-direction: row;
+	    width: 100%;
+            align-self: center;
             .list-item-title-lang {
-              width: 40%;
+              width: 80%;
               @media @big {
-                width: 50% ;
+                width: 70% ;
               } 
               flex-shrink: 0;
               padding-left: 2px;
               padding-right: 2px;
             }
             .location {
-              width: 20%;
+              .calc(width, "20% - 70px");
               @media @big {
-                width: 30% ;
+                .calc(width, "30% - 70px");
               }
               max-width: 250px;
               @media @big {
@@ -521,21 +545,24 @@
           }
         }
 	.activity-author {
-          width: 30%;
-          align-self: center;		
+          width: 25%;
+          align-self: center;
+	  max-width: 300px;
           .condition-rating {
             order: 0;
 	    margin-left: 7%;
 	    margin-right: 7%;
+            align-self: center;
           }
           .outing-author {
             order: 1;
             margin-right: 20px;
             justify-content: flex-start;
+            align-self: center;
           }
           .activities {
             order: 1;
-            width: 70px;
+            width: 90px;
             flex-shrink: 0;
             font-size: 0.9em;
           }
@@ -546,11 +573,12 @@
         padding-left: 2px;
         padding-right: 2px;
         .list-item-info {
+          align-self: center;
           flex-direction: row;
           .list-item-title-lang {
-            width: 30%;
+            .calc(width, "80% - 300px");
             @media @big {
-              width: 40% ;
+              .calc(width, "70% - 400px");
             } 
             flex-shrink: 0;
             padding-left: 2px;
