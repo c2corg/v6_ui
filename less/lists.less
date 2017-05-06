@@ -22,7 +22,6 @@
   transition: .2s ease-in-out;
   border: 1px solid @darkgray;
 
-
   &:active {
     -webkit-box-shadow: inset 1px 1px 8px -3px rgba(0,0,0,.75);
     -moz-box-shadow: inset 1px 1px 8px -3px rgba(0,0,0,.75);
@@ -87,7 +86,7 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-     .value {
+    .value {
       overflow: hidden;
       text-overflow: ellipsis;
     }
@@ -146,7 +145,7 @@
       color: @bright-green;
     }
    
-  }/*list-item-info*/
+  } /*list-item-info*/
   .show-more-activities:hover {
     color: teal;
   }
@@ -163,7 +162,6 @@
 
   // .list-item.waypoints
   &.waypoints {
-
     .waypoint-type {
       font-size: 2em;
       color: @C2C-orange;
@@ -283,8 +281,7 @@
 
   } // end outing cards
 
-&.routes {
-    
+  &.routes {
     .list-item-info {
       .location {
         width: 100%;
@@ -292,7 +289,7 @@
     }
     .quality {
       font-size:1.2em;
-      }
+    }
   } // end routes card
 
   // .list-item.highlight
@@ -315,7 +312,6 @@
     }
   }
 } /* list-item*/
-
 
 .documents-list-section-container {
   .flex();
@@ -450,7 +446,6 @@
   font-size: 0.9em;
 }
 
-
 .documents-list-section-container {
   &.row-list {
     a {
@@ -501,7 +496,7 @@
               display: inline;
             }
             .day {
-	      position: unset; 
+              position: unset;
               background-color: unset; 
             }
             .month {
@@ -514,7 +509,7 @@
           }
           .list-item-info {
             flex-direction: row;
-	    width: 100%;
+            width: 100%;
             align-self: center;
             .list-item-title-lang {
               width: 80%;
@@ -544,14 +539,14 @@
             }       
           }
         }
-	.activity-author {
+        .activity-author {
           width: 25%;
           align-self: center;
-	  max-width: 300px;
+          max-width: 300px;
           .condition-rating {
             order: 0;
-	    margin-left: 7%;
-	    margin-right: 7%;
+            margin-left: 7%;
+            margin-right: 7%;
             align-self: center;
           }
           .outing-author {
