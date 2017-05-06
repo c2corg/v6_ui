@@ -341,13 +341,13 @@
             "></app-delete-association>
           % endif
         </div>
-        % if type == 'all_routes' and document['associations']['all_routes']['total'] > len(routes):
+        % if type == 'all_routes':
           <%
               fragment = '{0}={1}'.format(document['type'], document['document_id'])
           %>
           <div class="list-item">
             <a class="vertical-align" ng-href="${request.route_path('routes_index')}#${fragment}">
-              <button class="gray-btn btn show-more" translate>show more</button>
+              <button class="gray-btn btn show-more" translate>show all</button>
             </a>
           </div>
         % endif
@@ -440,13 +440,13 @@
           <app-delete-association child-doctype="o" parent-id="${document['document_id']}" child-id="doc.document_id"
             ng-if="${test_association_rights(document)}"></app-delete-association>
       </div>
-      % if isRecentOutings and total > len(outings) :
+      % if isRecentOutings:
         <%
             fragment = '{0}={1}'.format(document['type'], document['document_id'])
         %>
         <div class="list-item">
           <a class="vertical-align" ng-href="${request.route_path('outings_index')}#${fragment}">
-            <button class="gray-btn btn show-more" translate>show more</button>
+            <button class="gray-btn btn show-more" translate>show all</button>
           </a>
         </div>
       % endif
