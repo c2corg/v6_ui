@@ -2,7 +2,7 @@ include Makefile
 
 export instanceid = ui
 export base_url = /
-export api_url = https://api.demov6.camptocamp.org
+export api_url = http://api.demov6.camptocamp.org
 export api_url_internal = http://api
 export api_url_host = api
 

@@ -52,7 +52,7 @@ closure_library_path = settings.get('closure_library_path')
     <%include file="sidemenu.html"/>
     <img src="${request.static_path('c2corg_ui:static/img/loading.gif')}" class="loading-gif">
     <a href="${request.route_path('index')}" title="{{'Back to homepage'|translate}}" class="logo header">
-      <img src="${request.static_path('c2corg_ui:static/img/logo.svg')}" alt="Camptocamp.org"/>
+      <img src="${request.static_path('c2corg_ui:static/img/logo2.svg')}" alt="Camptocamp.org"/>
     </a>
     <main class="page-content">
       ${self.body()}
@@ -68,7 +68,6 @@ closure_library_path = settings.get('closure_library_path')
 
       <div class="lang-user">
         <div class="lang-selector">
-          <label translate>Browse site in</label>
           <app-lang></app-lang>
         </div>
       </div>

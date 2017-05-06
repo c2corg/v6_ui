@@ -427,7 +427,7 @@
     .activities {
       margin-bottom: 0;
     }
-    .author-name {
+     .author-name {
       display: none;
     }
     .date-icon {
@@ -457,89 +457,12 @@
       padding: 0px;
     }
     flex-direction: row;
-      .list-item {
-        flex-direction: row;
-        flex: 1 1 100%;
-        margin-top: 3px;
+    .list-item {
+      flex-direction: row;
+      flex: 1 1 100%;
+      margin-top: 3px;
       a {
         padding: 0px;
-      }
-      .date-outing-item-infos {
-        flex-direction: row;
-        .outing-item-infos {
-          flex-direction: row;
-          width: 70%;
-          .date-icon {
-            box-shadow: unset;
-            width: 80px;
-            height: unset;
-            margin: 5px;
-            align-self: center;
-            * {
-              display: inline;
-            }
-            .day {
-	      position: unset; 
-              background-color: unset; 
-            }
-            .month {
-              position: unset; 
-            }
-            .year {
-              position: unset;
-              font-size: 0.9em 
-            }
-          }
-          .list-item-info {
-            flex-direction: row;
-            .list-item-title-lang {
-              width: 40%;
-              @media @big {
-                width: 50% ;
-              } 
-              flex-shrink: 0;
-              padding-left: 2px;
-              padding-right: 2px;
-            }
-            .location {
-              width: 20%;
-              @media @big {
-                width: 30% ;
-              }
-              max-width: 250px;
-              @media @big {
-                max-width: 300px;
-              }
-              flex-shrink: 0;
-              align-self: center;
-              padding-left: 2px;
-              padding-right: 2px;
-            }
-            .elevation {
-              width: 65px;
-            }       
-          }
-        }
-	.activity-author {
-          width: 30%;
-          align-self: center;		
-          .condition-rating {
-            order: 0;
-	    margin-left: 7%;
-	    margin-right: 7%;
-          }
-          .outing-author {
-            order: 1;
-            margin-right: 20px;
-            justify-content: flex-start;
-          }
-          .activities {
-            order: 1;
-            width: 70px;
-            flex-shrink: 0;
-            font-size: 0.9em;
-          }
-        }
       }
       .route-item-infos {
         flex-direction: row;
@@ -574,12 +497,10 @@
             width: 65px;
           }   
           .orientations {
-            width: 5em;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            width: 70px;
           }
           .full-rating {
+            width: 127px;
             flex-shrink: 0;
           }             
         }
@@ -603,8 +524,3 @@
   }
 }
 
-.associated-documents {
-  .location { 
-    display: none;
-  }
-}
