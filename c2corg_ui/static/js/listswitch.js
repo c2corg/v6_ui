@@ -28,7 +28,8 @@ app.ListSwitchController = function() {
    * @type {boolean}
    * @export
    */
-  this.showList = false;
+  this.showList = /** @type {boolean} */ (JSON.parse(
+    window.localStorage.getItem('showList') || 'false'));
 };
 
 
@@ -37,6 +38,7 @@ app.ListSwitchController = function() {
  */
 app.ListSwitchController.prototype.toggle = function() {
   this.showList = !this.showList;
+  window.localStorage.setItem('showList', JSON.stringify(this.showList));
 };
 
 app.module.controller('appListSwitchController', app.ListSwitchController);
