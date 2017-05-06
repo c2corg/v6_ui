@@ -341,7 +341,7 @@
             "></app-delete-association>
           % endif
         </div>
-        % if type == 'all_routes' and document['associations']['all_routes']['total'] > len(routes):
+        % if type == 'all_routes':
           <%
               fragment = '{0}={1}'.format(document['type'], document['document_id'])
           %>
@@ -440,7 +440,7 @@
           <app-delete-association child-doctype="o" parent-id="${document['document_id']}" child-id="doc.document_id"
             ng-if="${test_association_rights(document)}"></app-delete-association>
       </div>
-      % if isRecentOutings and total > len(outings) :
+      % if isRecentOutings:
         <%
             fragment = '{0}={1}'.format(document['type'], document['document_id'])
         %>
