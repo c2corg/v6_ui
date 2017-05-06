@@ -288,7 +288,11 @@ app.FeedController.prototype.createURL = function(doc) {
  * @export
  */
 app.FeedController.prototype.createURLArea = function(area) {
+<<<<<<< HEAD
   if (area !== undefined) {
+=======
+  if (area) {
+>>>>>>> 76c1528306f2f0e021ee25783f25b394e47a8742
     var loc = window.location.pathname;
     // Don't create links on edit and add pages.
     var doc = area[area.length - 1];

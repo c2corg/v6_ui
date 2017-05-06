@@ -598,12 +598,21 @@ app.Api.prototype.readForum = function() {
     }
   };
 
+<<<<<<< HEAD
 
   var promise = this.http_.get(this.discourseUrl_ + '/latest.json', config);
   promise.catch(function(response) {
     alerts.addError(response);
   });
   return promise;
+=======
+  if (cancelerPromise) {
+    config.timeout = cancelerPromise;
+  }
+
+  return this.http_.get('http://forum.demov6.camptocamp.org/latest.json', config);
+//return this.http_.get('https://api.webfit.io/forum.php', config);
+>>>>>>> 76c1528306f2f0e021ee25783f25b394e47a8742
 };
 
 
