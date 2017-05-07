@@ -5,7 +5,6 @@
 @import "lists.less";
 @import "diff.less";
 @import "sidemenu.less";
-@import "feed.less";
 @import "scrollbar.less";
 @import "floatbuttons.less";
 @import "stickyfilters.less";
@@ -29,6 +28,7 @@
 @import "markdowneditor.less";
 @import "icon-date.less";
 @import "context-help.less";
+@import "newfeed.less";
 
 html, body{
   padding: 0;
@@ -508,8 +508,22 @@ app-simple-search {
   border-radius: 6px;
   padding-left: 10px;
   margin-right: 10px;
-  background: @C2C-orange;
+  background: rgba(255,255,255,0.25);
 
+  .form-control {
+        box-shadow: none;
+    }
+
+    .form-control::-moz-placeholder {
+        color: #fff;
+    }
+    .form-control::-ms-placeholder {
+        color: #fff;
+    }
+    .form-control::-webkit-placeholder {
+        color: #fff;
+    }
+  
   .glyphicon {
     color: #F9F9F9;
   }
@@ -522,8 +536,8 @@ app-simple-search {
 
 .page-header {
   .flex();
-  background-color: @body-color;
-  position: absolute;
+  background-color: @C2C-orange;
+  position: fixed;
   width: 100%;
   border-bottom: 2px solid @C2C-orange !important;
   justify-content: flex-end;
@@ -539,9 +553,18 @@ app-simple-search {
     position: fixed;
   }
 
-  label {
-    margin-bottom: 0;
-  }
+   .btn {
+        border: none;
+    }
+
+    .search {
+        background-color: transparent !important;
+    }
+
+
+    label {
+        margin-bottom: 0;
+    }
 
   #add-my-outing {
     margin-left: 10px;
@@ -579,16 +602,23 @@ app-simple-search {
     padding: 5px;
     &:focus, &:hover {
       width: 420px;
+      /*
       -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
       -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
       box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-      outline: none;
       border: 1px solid bisque;
+      */
+      box-shadow: none;
+      outline: none;
+      border: none;
       @media @tablet {
         width: 150px;
       }
       @media @phone {
-        .calc(width, "100vw - 45px");
+                background: rgba(255,255,255,0.25) !important;
+                margin-left:3px;
+                border-radius: 0px;
+                .calc(width, "100vw - 140px");
       }
     }
     @media @phone {
