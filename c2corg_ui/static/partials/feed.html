@@ -8,9 +8,6 @@
        infinite-scroll-immediate-check="false"
        infinite-scroll-distance="0.7"
        infinite-scroll-disabled="feedCtrl.busy || feedCtrl.error || feedCtrl.feedEnd || feedCtrl.noFeed">
-
-
-
     <article class="feed-list-item" ng-if="feedCtrl.userId">
       <div class="timeline-bullet icon-outings" uib-tooltip="{{'outing'| translate}}" tooltip-placement="left"></div>
       <div class="list-item vertical-align">
@@ -19,7 +16,6 @@
         </a>
       </div>
     </article>
-
     <div class="in-feed-cl">
       <article class="post" ng-repeat="doc in feedCtrl.documentsL track by doc.id" ng-click="feedCtrl.openDoc(doc)">
         <div class="infoa">
@@ -99,8 +95,6 @@
         </div>
         <div class="parent-infop">
           <div class="infop-bar">
-
-
             <div class="parent-bubble" ng-repeat="activity in ::doc['document']['activities']">
               <a href="#" class="shcom" uib-tooltip="{{activity | translate}}"> 
                 <div class="bubble">
@@ -108,20 +102,15 @@
                 </div>
               </a>
             </div>
-
             <div class="grow">
             </div>
-
-
             <div class="parent-bubble">
-              <a href="#" class="link share-facebook" ng-if="::doc['document']['condition_rating']" uib-tooltip="{{'condition_rating' | translate}} : {{doc['document']['condition_rating'] | translate}}" tooltip-append-to-body="true">
+              <a href="#" class="link" ng-if="::doc['document']['condition_rating']" uib-tooltip="{{'condition_rating' | translate}} : {{doc['document']['condition_rating'] | translate}}" tooltip-append-to-body="true">
                 <div class="condition-rating" ng-class="::doc['document']['condition_rating']" ></div>
               </a>
             </div>
-
             <div class="parent-bubble"><div class="bubble bquality">
-              <a href="#" class="link share-facebook" uib-tooltip="{{doc['document']['quality'] | translate}}" tooltip-append-to-body="true">
-
+              <a class="link" uib-tooltip="{{doc['document']['quality'] | translate}}" tooltip-append-to-body="true">
                 <span class="quality-{{::doc['document']['quality']}}"></span>
               </a></div>
             </div>
@@ -129,7 +118,6 @@
         </div>
       </article>
     </div>
-
     <div class="in-feed-cr">
       <article class="post" ng-repeat="doc in feedCtrl.documentsR track by doc.id" ng-click="feedCtrl.openDoc(doc)">
         <div class="infoa">
@@ -209,8 +197,6 @@
         </div>
         <div class="parent-infop">
           <div class="infop-bar">
-
-
             <div class="parent-bubble" ng-repeat="activity in ::doc['document']['activities']">
               <a href="#" class="shcom" uib-tooltip="{{activity | translate}}"> 
                 <div class="bubble">
@@ -218,20 +204,15 @@
                 </div>
               </a>
             </div>
-
             <div class="grow">
             </div>
-
-
             <div class="parent-bubble">
-              <a href="#" class="link share-facebook" ng-if="::doc['document']['condition_rating']" uib-tooltip="{{'condition_rating' | translate}} : {{doc['document']['condition_rating'] | translate}}" tooltip-append-to-body="true">
+              <a href="#" class="link" ng-if="::doc['document']['condition_rating']" uib-tooltip="{{'condition_rating' | translate}} : {{doc['document']['condition_rating'] | translate}}" tooltip-append-to-body="true">
                 <div class="condition-rating" ng-class="::doc['document']['condition_rating']" ></div>
               </a>
             </div>
-
             <div class="parent-bubble"><div class="bubble bquality">
-              <a href="#" class="link share-facebook" uib-tooltip="{{doc['document']['quality'] | translate}}" tooltip-append-to-body="true">
-
+              <a href="#" class="link" uib-tooltip="{{doc['document']['quality'] | translate}}" tooltip-append-to-body="true">
                 <span class="quality-{{::doc['document']['quality']}}"></span>
               </a></div>
             </div>
@@ -240,7 +221,6 @@
       </article>
     </div> 
     <div style="clear:both">&nbsp;</div>
-
     <h4 class="text-center text-danger" translate ng-show="feedCtrl.error">Sorry, there was an error while getting the feed.</h4>
     <h4 class="text-success text-center" translate ng-show="feedCtrl.busy">Loading feed, please wait...</h4>
     <h4 class="text-success text-center" translate ng-show="feedCtrl.feedEnd">No more feed to load.</h4>
@@ -248,8 +228,8 @@
 </div>
 <div class="feed-cr">
   <div class="info">
-    <h3>Échos du forum</h3>
-    <h4 class="text-danger"translate ng-show="feedCtrl.errorForum">Sorry, there was an error while getting the forum data.</h4>
+    <h3 translate>Last forum topics</h3>
+    <h4 class="text-danger" translate ng-show="feedCtrl.errorForum">Sorry, there was an error while getting the forum data.</h4>
     <div class="fpost" ng-repeat="post in feedCtrl.forums track by post.id" ng-if="::feedCtrl.forums.length > 0">
       <a href="https://forum.camptocamp.org/t/{{::post['slug']}}/{{::post['id']}}" title="{{::post['title']}}">
         <div class="fpcontent">
@@ -262,7 +242,6 @@
               <div class="ftitle"><span class="title">{{::post['title']}}</span> - {{::post['last_posted_at'] | amUtc | amLocal | amTimeAgo}}</div>
             </div>
           </div>
-
         </div></a>
     </div>
   </div>
