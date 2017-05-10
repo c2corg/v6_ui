@@ -33,7 +33,6 @@
     margin-left: 1%;
     .flex();
     flex-direction: column;
-    flex-grow: 0;
     justify-content: space-around;
     flex-basis: 100px;
     flex-grow: 1;
@@ -65,6 +64,8 @@
     .icon-div {
       height: 80px;
       flex-basis: 90px;
+
+      flex-grow: 1;
     }
     .collapse.in, .collapsing {
       margin: 0;
@@ -208,9 +209,7 @@
     width: 100%;
     .icon-div {
       flex-basis: 100px;
-      @media @desktop {
-        flex-basis: 15%;
-      }
+      flex-grow: 0;
     }
   }
 
@@ -219,10 +218,6 @@
     h1 {
       padding: 20px 10px 0 10px;
       font-size: 2.5em;
-    }
-    .icon-div {
-      height: 80px;
-      flex-basis: 80px;
     }
     .collapse.in, .collapsing {
       margin: 0;
