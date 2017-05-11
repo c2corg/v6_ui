@@ -97,10 +97,31 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
   </article>
 % endif
 
+<div ng-class="{'no-map': noMap, 'full-map': fullMap}">
+
+<button class="btn btn-primary no-map-btn show-list hidden-xs" ng-show="!noMap"
+          ng-click="noMap = true; mainCtrl.resizeMap();">
+    <span  class="glyphicon glyphicon-th-large"></span>
+    <span translate>Hide Map</span>
+</button>
+
+<button class="btn btn-primary no-map-btn hidden-xs" ng-show="noMap"
+          ng-click="noMap = !noMap; noList = false;">
+    <span  class="glyphicon glyphicon-eye-close"></span>
+    <span translate>Show map</span>
+</button>
+<button class="btn btn-primary no-map-btn hidden-xs" ng-show="!noMap"
+          ng-click="noMap = false; fullMap = true;">
+    <span  class="glyphicon glyphicon-eye-close"></span>
+    <span translate>Show Full</span>
+</button>
+
+
 % if outing.get('geometry'):
   <app-map class="view-details-map"></app-map>
 % endif
 
+</div>
 <section class="view-details-section" app-view-details ng-class="{'row-list' : switchCtrl.showList}">
 
   % if version:

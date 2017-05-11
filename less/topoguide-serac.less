@@ -33,8 +33,9 @@
     margin-left: 1%;
     .flex();
     flex-direction: column;
-    flex-grow: 0;
     justify-content: space-around;
+    flex-basis: 100px;
+    flex-grow: 1;
   }
   .value {
     font-family: sans-serif;
@@ -62,7 +63,9 @@
     }
     .icon-div {
       height: 80px;
-      flex-basis: 31%;
+      flex-basis: 90px;
+
+      flex-grow: 1;
     }
     .collapse.in, .collapsing {
       margin: 0;
@@ -145,27 +148,9 @@
   }
   .outings, .routes {
     width: 50%;
-    .icon-div {
-      flex-basis: 20%;
-      @media @desktop {
-        flex-basis: 25%;
-      }
-      @media @tablet {
-        flex-basis: 31%;
-      }
-    }
   }
   .waypoints {
     width: 100%;
-    .icon-div {
-      flex-basis: 12%;
-      @media @desktop {
-        flex-basis: 15%;
-      }
-      @media @tablet {
-        flex-basis: 20%;
-      }
-    }
   }
 
   @media @phone {
@@ -223,10 +208,8 @@
   .xreports {
     width: 100%;
     .icon-div {
-      flex-basis: 20%;
-      @media @desktop {
-        flex-basis: 15%;
-      }
+      flex-basis: 100px;
+      flex-grow: 0;
     }
   }
 
@@ -235,10 +218,6 @@
     h1 {
       padding: 20px 10px 0 10px;
       font-size: 2.5em;
-    }
-    .icon-div {
-      height: 80px;
-      flex-basis: 31%;
     }
     .collapse.in, .collapsing {
       margin: 0;
