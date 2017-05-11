@@ -24,6 +24,7 @@ export skip_captcha_validation = False
 
 # version used for the cache
 export version = $(shell git rev-parse --short HEAD 2>/dev/null || echo "0")
+export release = $(shell git describe --tags `git rev-parse HEAD` 2>/dev/null || echo "0")
 
 export redis_url = redis://localhost:6379/
 export redis_db = 2
