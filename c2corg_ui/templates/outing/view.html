@@ -110,7 +110,7 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
     <span translate>Show map</span>
 </button>
 
-<button class="btn btn-primary map-btn-full hidden-xs" ng-show="!fullMap || !noMap"
+<button class="btn btn-primary map-btn-full hidden-xs" ng-show="!fullMap && !noMap"
           ng-click="noMap = false; fullMap = true;  mapCtrl.resizeMap();">
     <span  class="glyphicon glyphicon-th-large"></span>
     <span translate>Enlarge Map</span>
