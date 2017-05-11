@@ -20,7 +20,7 @@ from c2corg_common.attributes import default_langs, activities, article_categori
   </h1>
 
   <form app-loading app-document-editing="articles" app-document-editing-model="article"
-    app-document-editing-controller-name="appDocumentEditingController"
+    app-document-editing-controller-name="appArticleEditingController"
   % if updating_doc:
     app-document-editing-id="${article_id}" app-document-editing-lang="${article_lang}"
   % endif
@@ -93,17 +93,16 @@ from c2corg_common.attributes import default_langs, activities, article_categori
                                'has-success': editForm.article_type.$valid}" ng-init="article_types = ${article_types}">
                 <label><span translate>article_type</span> *</label>
                 % if updating_doc:
-                  <select ng-if="userCtrl.auth.isModerator()" class="form-control"
-                          name="article_type" ng-model="article.article_type"
-                          ng-options="type as mainCtrl.translate(type) for type in article_types" required><option value=""></option></select>
-                  <select ng-if="userCtrl.auth.isModerator() == false && article.article_type =='collab'"
-                          name="article_type" class="form-control" ng-model="article.article_type"
-                          ng-options="type as mainCtrl.translate(type) for type in article_types | filter: 'collab'" required><option value=""></option>
-                  </select>
-                  <select ng-if="userCtrl.auth.isModerator() == false && article.article_type =='personal'"
-                          name="article_type" class="form-control" ng-model="article.article_type"
-                          ng-options="type as mainCtrl.translate(type) for type in article_types" required><option value=""></option>
-                  </select>
+                  <select ng-if="userCtrl.isModerator()" class="form-control" name="article_type" ng-model="article.article_type"
+                          ng-options="type as mainCtrl.translate(type) for type in article_types" required></select>
+                  <div ng-if="!userCtrl.isModerator()">
+                    <select class="form-control" ng-model="article.article_type" ng-if="editCtrl.initialArticleType != 'collab'"
+                      ng-options="type as mainCtrl.translate(type) for type in article_types"></select>
+                    <div ng-if="editCtrl.initialArticleType == 'collab'">
+                      <input type="text" disabled class="form-control" value="{{'collab' | translate}}" />
+                      <input type="hidden" ng-model="article.article_type" />
+                    </div>
+                  </div>
                 % else:
                   <select class="form-control" ng-model="article.article_type"
                           name="article_type" ng-options="type as mainCtrl.translate(type) for type in article_types" required><option value=""></option></select>
