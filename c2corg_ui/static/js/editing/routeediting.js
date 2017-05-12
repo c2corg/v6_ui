@@ -5,6 +5,9 @@ goog.require('app.DocumentEditingController');
 goog.require('app.Alerts');
 goog.require('app.Document');
 goog.require('app.Lang');
+goog.require('app.utils');
+/** @suppress {extraRequire} */
+goog.require('app.lengthConverterDirective');
 
 
 /**
@@ -49,32 +52,29 @@ goog.inherits(app.RouteEditingController, app.DocumentEditingController);
 
 
 /**
- * @param {appx.Document} data
- * @return {appx.Document}
- * @override
- * @public
+ * @param {Array.<string>} activities
+ * @return {boolean}
+ * @export
  */
-app.RouteEditingController.prototype.filterData = function(data) {
-  // Length attributes are stored in meters but shown in kilometers:
-  data['route_length'] /= 1000;
-  data['mtb_length_asphalt'] /= 1000;
-  data['mtb_length_trail'] /= 1000;
-  return data;
+app.RouteEditingController.prototype.hasActivity = function(activities) {
+  return app.utils.hasActivity(this.scope['route'], activities);
 };
 
 
 /**
- * @param {appx.Document} data Document attributes.
- * @return {appx.Document}
- * @override
- * @public
+ * @return {boolean}
+ * @export
  */
-app.RouteEditingController.prototype.prepareData = function(data) {
-  // Length attributes are stored in meters but shown in kilometers:
-  data['route_length'] *= 1000;
-  data['mtb_length_asphalt'] *= 1000;
-  data['mtb_length_trail'] *= 1000;
-  return data;
+app.RouteEditingController.prototype.showRatings = function() {
+  var activities = this.scope['route'].activities;
+  if (activities.length === 0) {
+    return false;
+  } else if (activities.length > 1) {
+    return true;
+  } else {
+    // no rating for slacklining
+    return activities[0] !== 'slacklining';
+  }
 };
 
 app.module.controller('appRouteEditingController', app.RouteEditingController);

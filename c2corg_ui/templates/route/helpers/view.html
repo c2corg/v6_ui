@@ -1,5 +1,5 @@
 <%!
-from c2corg_ui.templates.utils import get_route_gear_articles
+from c2corg_ui.templates.utils import get_route_gear_articles, format_length
 %>
 <%namespace file="../../helpers/view.html" import="get_global_rating, get_hiking_mtb_rating, get_skitouring_rating,
     get_document_min_max, get_document_up_down, show_areas, show_maps, show_geom_download, show_attr"/>
@@ -101,6 +101,10 @@ from c2corg_ui.templates.utils import get_route_gear_articles
         </article>
       % endif
 
+      % if route.get('slackline_type'):
+        <p><span translate class="value-title">Type</span>: <b x-translate class="value">${route['slackline_type']}</b></p>
+      % endif
+
       % if route.get('quality'):
         <p><span class="value-title" translate>quality</span>: <span class="value" x-translate>${route['quality']}</span></p>
       % endif
@@ -108,7 +112,6 @@ from c2corg_ui.templates.utils import get_route_gear_articles
       % if not isPreview:
         ${show_geom_download(route, True)}
       % endif
-
     </span>
   </div>
 </%def>
@@ -157,7 +160,7 @@ from c2corg_ui.templates.utils import get_route_gear_articles
         or route.get('height_diff_difficulties') or route.get('difficulties_height') \
         or route.get('mtb_length_asphalt') or route.get('mtb_length_trail') \
         or locale.get('slope') or route.get('elevation_max') or route.get('elevation_min') \
-        or route.get('height_diff_max') or route.get('height_diff_min'):
+        or route.get('height_diff_max') or route.get('height_diff_min') or route.get('slackline_height'):
     <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
       <h4><span translate>heights</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
       <div class="name-icon">
@@ -170,7 +173,11 @@ from c2corg_ui.templates.utils import get_route_gear_articles
        ${get_document_up_down(route, 'height_diff')}
 
         % if route.get('route_length'):
-        <p><span translate class="value-title">route_length</span>: <b class="value">${route['route_length']/1000}&nbsp;km</b></p>
+        <p><span translate class="value-title">route_length</span>: <b class="value">${format_length(route['route_length']) | n}</b></p>
+        % endif
+
+        % if route.get('slackline_height'):
+        <p><span translate class="value-title">Height</span>: <b class="value">${route['slackline_height']} m</b></p>
         % endif
 
         % if route.get('mtb_height_diff_portages'):
@@ -186,11 +193,11 @@ from c2corg_ui.templates.utils import get_route_gear_articles
         % endif
 
         % if route.get('mtb_length_asphalt'):
-        <p><span translate class="value-title">mtb_length_asphalt</span>: <b class="value">${route['mtb_length_asphalt']/1000}&nbsp;km</b></p>
+        <p><span translate class="value-title">mtb_length_asphalt</span>: <b class="value">${format_length(route['mtb_length_asphalt']) | n}</b></p>
         % endif
 
         % if route.get('mtb_length_trail'):
-        <p><span translate class="value-title">mtb_length_trail</span>: <b class="value">${route['mtb_length_trail']/1000}&nbsp;km</b></p>
+        <p><span translate class="value-title">mtb_length_trail</span>: <b class="value">${format_length(route['mtb_length_trail']) | n}</b></p>
         % endif
 
         % if locale.get('slope'):

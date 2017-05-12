@@ -27,7 +27,8 @@ app.constants = {
     'paragliding_takeoff' : 3,
     'paragliding_landing' : 3,
     'weather_station' : 3,
-    'webcam': 3
+    'webcam': 3,
+    'slackline_spot': 3
   },
   REQUIRED_FIELDS: {
     'waypoints': ['title' , 'lang', 'waypoint_type', 'elevation', 'longitude', 'latitude', 'url'],
