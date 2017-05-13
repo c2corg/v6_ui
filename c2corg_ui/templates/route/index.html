@@ -35,7 +35,7 @@
     <span class="badge" ng-cloak>{{resCounter}}</span>
   </h3>
 </header>
-<div class="documents-list-section-container" ng-class="{'no-map': noMap, 'no-list': noList, 'row-list' : switchCtrl.showList}">
+<div class="documents-list-section-container" ng-class="{'no-map': MapswitchCtrl.hideMap, 'no-list': noList, 'row-list' : switchCtrl.showList}">
   <section class="documents-list-section">
     <%include file="filters.html" />
 
@@ -43,6 +43,7 @@
       <button class="btn btn-default orange-btn show-documents-filters-phone" translate>Filters</button>
       <app-doctype-selector app-doctype="routes"></app-doctype-selector>
       <app-list-switch></app-list-switch>
+      <app-map-switch></app-map-switch>
       <button class="btn btn-default orange-btn" protected-url-btn url="${request.route_path('routes_add')}"
               uib-tooltip="{{'Create a new route' | translate }}" tooltip-placement="right">
         <span class="glyphicon glyphicon-plus-sign"></span>
@@ -63,7 +64,6 @@
   </section>
 
   <div class="map-right">
-    ${toggle_map_btns()}
     <app-map app-map-advanced-search="true" app-map-show-recenter-tools="true" app-map-default-map-filter="true"></app-map>
   </div>
 </div>

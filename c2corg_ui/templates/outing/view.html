@@ -98,7 +98,11 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
 % endif
 
 % if outing.get('geometry'):
-  <app-map class="view-details-map"></app-map>
+  <div class="map-block" ng-class="{'no-map': MapswitchCtrl.hideMap}"> 
+    <app-map class="view-details-map"></app-map> 
+    <app-map-switch></app-map-switch>
+  </div>
+
 % endif
 
 <section class="view-details-section" app-view-details ng-class="{'row-list' : switchCtrl.showList}">

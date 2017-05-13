@@ -99,7 +99,10 @@ waypoint['doctype'] = 'waypoints'
     <p ng-bind="'${round(geometry.x)}/${round(geometry.y)}' | coordinate"></p>
   % endif
 </article>
-<app-map class="view-details-map"></app-map>
+<div class="map-block" ng-class="{'no-map': MapswitchCtrl.hideMap}"> 
+  <app-map class="view-details-map"></app-map> 
+  <app-map-switch></app-map-switch>
+</div>
 
 <section class="view-details-section" app-view-details  ng-class="{'row-list' : switchCtrl.showList}">
 

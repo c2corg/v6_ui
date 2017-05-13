@@ -25,6 +25,7 @@
     <div class="documents-nav-buttons text-center">
       <button class="btn btn-default orange-btn show-documents-filters-phone" translate>Filters</button>
       <app-doctype-selector app-doctype="images"></app-doctype-selector>
+      <app-map-switch></app-map-switch>
       <app-pagination></app-pagination>
       <div class="toggle-map">
         <button class="btn btn-default"><span class="glyphicon glyphicon-globe"></span></button>
@@ -40,7 +41,6 @@
   </section>
 
   <div class="map-right">
-    ${toggle_map_btns()}
     <app-map app-map-advanced-search="true" app-map-show-recenter-tools="true"></app-map>
   </div>
 </div>
