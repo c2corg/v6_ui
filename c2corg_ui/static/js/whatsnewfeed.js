@@ -3,6 +3,7 @@ goog.provide('app.whatsnewFeedDirective');
 
 goog.require('app');
 goog.require('app.utils');
+goog.require('app.Url');
 
 /**
  * @return {angular.Directive} The directive specs.
@@ -22,15 +23,16 @@ app.module.directive('appWhatsnewFeed', app.whatsnewFeedDirective);
  * @param {app.Authentication} appAuthentication
  * @param {app.Api} appApi Api service.
  * @param {app.Lang} appLang Lang service.
+ * @param {app.Url} appUrl URL service.
  * @param {!string} imageUrl URL to the image backend.
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @constructor
  * @extends {app.FeedController}
  * @ngInject
  */
-app.WhatsnewFeedController = function($scope, appAuthentication, appApi, appLang, imageUrl, ngeoLocation) {
+app.WhatsnewFeedController = function($scope, appAuthentication, appApi, appLang, appUrl, imageUrl, ngeoLocation) {
 
-  goog.base(this, appAuthentication, appApi, appLang, imageUrl, ngeoLocation);
+  goog.base(this, appAuthentication, appApi, appLang,appUrl, imageUrl, ngeoLocation);
 
   /**
    * @type {number}
