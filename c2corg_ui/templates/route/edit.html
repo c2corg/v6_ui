@@ -157,12 +157,12 @@ updating_doc = route_id and route_lang
         </section>
 
         <section class="section slacklining" ng-if="editCtrl.hasActivity(['slacklining'])">
-          <h2 class="heading show-phone"><span translate>Slacklining</span></h2>
+          <h2 class="heading show-phone"><span translate>slacklining</span></h2>
           <div class="content" id="numbers-edit">
 
             ## LENGTH
             <div id="route_length-group" class="data half form-group" ng-class="{ 'has-error': editForm.route_length.$touched && editForm.route_length.$invalid,'has-success': route.route_length }">
-              <label translate>Length</label>
+              <label translate>length</label>
               <div class="input-group">
                 <input type="number" min="0" minlength="1" name="route_length" ng-model="route.route_length" class="form-control" />
                 <span class="input-group-addon">m</span>
@@ -176,7 +176,7 @@ updating_doc = route_id and route_lang
 
             ## HEIGHT
             <div id="route_slackline_height-group" class="data half form-group" ng-class="{ 'has-error': editForm.slackline_height.$touched && editForm.slackline_height.$invalid,'has-success': route.slackline_height }">
-              <label translate>Height</label>
+              <label translate>height</label>
               <div class="input-group">
                 <input type="number" min="0" minlength="1" name="slackline_height" ng-model="route.slackline_height" class="form-control" />
                 <span class="input-group-addon">m</span>
