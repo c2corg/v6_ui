@@ -43,6 +43,9 @@ def _get_markdown_parser():
 def _get_bbcode_parser():
     global _bbcode_parser
     if not _bbcode_parser:
+        # prevent that BBCode parser escapes again (the Markdown parser does
+        # this already)
+        bbcode.Parser.REPLACE_ESCAPE = ()
         _bbcode_parser = bbcode.Parser(escape_html=False, newline='\n')
     return _bbcode_parser
 
