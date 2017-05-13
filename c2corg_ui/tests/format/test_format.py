@@ -1,9 +1,9 @@
 import os
 import unittest
-import bbcode
 import markdown
 import json
 
+from c2corg_ui.format import _get_bbcode_parser
 from c2corg_ui.format.wikilinks import C2CWikiLinkExtension
 from c2corg_ui.tests import read_file
 
@@ -17,7 +17,7 @@ class TestFormat(unittest.TestCase):
         ]
         self.markdown_parser = markdown.Markdown(output_format='xhtml5',
                                                  extensions=extensions)
-        self.bbcode_parser = bbcode.Parser(escape_html=False, newline='\n')
+        self.bbcode_parser = _get_bbcode_parser()
 
     def test_all(self):
         def do_test(id, markdown, expected):
