@@ -24,12 +24,12 @@
             <span class="value" ng-if="::doc['height_diff_difficulties']">{{::doc['height_diff_difficulties']}}&nbsp;m</span>
           </span>
           <span class="slackline-length" ng-if="::doc['route_length'] && cardCtrl.hasActivity(['slacklining'])"
-            uib-tooltip="{{'Length'| translate}}" tooltip-append-to-body="true">
+            uib-tooltip="{{'length'| translate}}" tooltip-append-to-body="true">
             <span class="glyphicon glyphicon-resize-horizontal"></span>
             <span class="value">{{::doc['route_length']}}&nbsp;m</span>
           </span>
           <span class="slackline-height" ng-if="::doc['slackline_height']"
-                uib-tooltip="{{'Height'| translate}}" tooltip-append-to-body="true">
+                uib-tooltip="{{'height'| translate}}" tooltip-append-to-body="true">
             <span class="glyphicon glyphicon-resize-vertical"></span>
             <span class="value">{{::doc['slackline_height']}}&nbsp;m</span>
           </span>
