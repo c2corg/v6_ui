@@ -1,0 +1,31 @@
+<div class="modal-body">
+  <div class="content cotometer">
+    <div class="full">
+      <label translate>Skiability</label>
+      <select ng-model="cotmetCtrl.skiability" class="form-control">
+        <option value="0">Large et régulier</option>
+        <option value="0.1">1 ou 2 complications (ressauts, étroitures...)</option>
+        <option value="0.2">Très tourmenté : ressauts, étroitures,  arêtes...</option></select>
+    </div>
+    <div id="average-slope" class="full">
+      <label translate>Average slope</label>
+      <input ng-model="cotmetCtrl.slope" class="form-control " placeholder="Average slope in degree" type="number">
+    </div>
+    <div id="elevation" class="full">
+      <label translate>Elevation (meters)</label>
+      <input name="message" ng-model="cotmetCtrl.elevation" class="form-control" type="number">
+    </div>
+    <div class="text-center result" ng-if="cotmetCtrl.rating != undefined">
+      <span translate>Cotation proposée</span>
+      {{ cotmetCtrl.rating }}
+    </div>
+    <div class="text-center">
+      <button ng-click="cotmetCtrl.cotometreTechnicalGrade()" class="btn btn-primary" translate>Calculate the technical rating</button>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <p> 
+    <button class="btn btn-default" type="button" ng-click="cotmetCtrl.closeDialog()" translate>Cancel</button>
+  <p> 
+</div>
