@@ -2,6 +2,7 @@ import bbcode
 import markdown
 import html
 
+from c2corg_ui.format.autolink import AutoLinkExtension
 from c2corg_ui.format.wikilinks import C2CWikiLinkExtension
 from c2corg_ui.format.img import C2CImageExtension
 from c2corg_ui.format.video import C2CVideoExtension
@@ -34,6 +35,7 @@ def _get_markdown_parser():
             C2CWarningExtension(),
             Nl2BrExtension(),
             TocExtension(marker='[toc]', baselevel=2),
+            AutoLinkExtension()
         ]
         _markdown_parser = markdown.Markdown(output_format='xhtml5',
                                              extensions=extensions)
@@ -46,7 +48,8 @@ def _get_bbcode_parser():
         # prevent that BBCode parser escapes again (the Markdown parser does
         # this already)
         bbcode.Parser.REPLACE_ESCAPE = ()
-        _bbcode_parser = bbcode.Parser(escape_html=False, newline='\n')
+        _bbcode_parser = bbcode.Parser(
+            escape_html=False, newline='\n', replace_links=False)
     return _bbcode_parser
 
 

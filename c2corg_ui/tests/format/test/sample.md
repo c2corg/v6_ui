@@ -7,6 +7,9 @@ Here is a 'list':
 
 * a [url=http://example.com]standard link[/url]
 * another [url=https://httpbin.org/get?value1=1&value2=2]link[/url]
+* and a [markdown link](https://example.com)
+* <http://www.example.com>
+* and also a link without tag: https://example.com
 * some [i]italic âccentuated content[/i]
 
 Another list:

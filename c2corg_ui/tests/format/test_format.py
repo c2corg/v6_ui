@@ -4,6 +4,7 @@ import markdown
 import json
 
 from c2corg_ui.format import _get_bbcode_parser
+from c2corg_ui.format.autolink import AutoLinkExtension
 from c2corg_ui.format.wikilinks import C2CWikiLinkExtension
 from c2corg_ui.tests import read_file
 
@@ -13,7 +14,8 @@ base_path = os.path.dirname(os.path.abspath(__file__))
 class TestFormat(unittest.TestCase):
     def setUp(self):  # noqa
         extensions = [
-            C2CWikiLinkExtension(),
+            AutoLinkExtension(),
+            C2CWikiLinkExtension()
         ]
         self.markdown_parser = markdown.Markdown(output_format='xhtml5',
                                                  extensions=extensions)
