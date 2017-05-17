@@ -2,10 +2,7 @@
   <div class="content cotometer">
     <div class="full">
       <label translate>Skiability</label>
-      <select ng-model="cotmetCtrl.skiability" ng-options="val as mainCtrl.translate(val) for val in ['Large et régulier', '1 ou 2 complications (ressauts, étroitures...)', 'Très tourmenté : ressauts, étroitures,  arêtes...<]" class="form-control">
-        <option value="0">Large et régulier</option>
-        <option value="0.1">1 ou 2 complications (ressauts, étroitures...)</option>
-        <option value="0.2">Très tourmenté : ressauts, étroitures,  arêtes...</option></select>
+      <select ng-model="cotmetCtrl.skiability" ng-options="val.label for val in [{label:'Large et régulier',value:0}, {label:'1 ou 2 complications (ressauts, étroitures...)',value:0.1}, {label:'Très tourmenté : ressauts, étroitures,  arêtes...',value:0.2}]" class="form-control"><option value="">-- skiabilité --</option></select>
     </div>
     <div id="average-slope" class="full">
       <label translate>Average slope</label>

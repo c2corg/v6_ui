@@ -14,7 +14,7 @@ updating_doc = route_id and route_lang
 <%namespace file="../helpers/edit.html" import="show_editing_associated_waypoints,
     show_editing_associated_routes, show_editing_associated_articles,
     show_editing_associated_books, show_preview_container, show_editing_buttons,
-    show_save_confirmation_modal, show_protected_warning"/>
+    show_save_confirmation_modal, show_protected_warning, show_cotometer_dialog"/>
 <%namespace file="../helpers/orientations.svg" import="show_orientations"/>
 
 <%block name="pagetitle"><title ng-init="id=${route_id if route_id else 0}" ng-bind="id ? mainCtrl.page_title('Editing a route') : mainCtrl.page_title('Creating a route')">${show_title('Create/edit route')}</title></%block>
@@ -40,7 +40,7 @@ updating_doc = route_id and route_lang
       <ul class="progress-bar-edit">
         <li class="nav-step-1" ng-click="progressBarCtrl.step(1, 'route',  'backwards')" ng-class="{'nav-step-selected': progressBarCtrl.currentStep == 1 }"><span class="nav-text"><span translate>route</span> & <span translate>associations</span></span><span class="bullet-container"><span class="bullet"></span></span></li>
         <li class="nav-step-2" ng-click="progressBarCtrl.step(2, 'route', progressBarCtrl.previousStep >= 2 ? 'backwards' : 'forwards')"><span class="nav-text"><span translate>figures</span></span><span class="bullet-container"><span class="bullet"></span></span></li>
-        <li class="nav-step-3" ng-click="progressBarCtrl.step(3, 'route', progressBarCtrl.previousStep >= 3 ? 'backwards' : 'forwards')"><span class="nav-text"><span translate>Comments</span></span></span><span class="bullet-container"><span class="bullet"></span></span></li>
+        <li class="nav-step-3" ng-click="progressBarCtrl.step(3, 'route', progressBarCtrl.previousStep >= 3 ? 'backwards' : 'forwards')"><span class="nav-text"><span translate>Comments</span></span><span class="bullet-container"><span class="bullet"></span></span></li>
       </ul>
 
       ## NAV BUTTONS
@@ -66,7 +66,7 @@ updating_doc = route_id and route_lang
                            'has-error': editForm.title.$touched && editForm.title.$invalid,
                            'has-success': editForm.title.$touched && editForm.title.$valid }">
             <label ng-class="{ 'control-label': editForm.title.$touched && editForm.title.$invalid }"><span translate>title</span> *</label>
-            <span uib-tooltip="{{mainCtrl.translate('main waypoint title')}}"/><input type="text" name="main_waypoint_title"
+            <span uib-tooltip="{{mainCtrl.translate('main waypoint title')}}"><input type="text" name="main_waypoint_title"
               ng-model="route.main_waypoint_title" ng-show="route.main_waypoint_title" class="form-control" disabled></span>
             <input type="text" name="title" ng-model="route.locales[0].title" ng-minlength="3" class="form-control" required />
             <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.title.$valid"></span>
@@ -452,7 +452,7 @@ updating_doc = route_id and route_lang
 
             ## DURATIONS
             <div class="form-group data half" ng-class="{ 'has-success': route.durations}">
-              <label><span translate>durations</span> (<span translate>days</span>)</span></label>
+              <label><span translate>durations</span> (<span translate>days</span>)</label>
               <ul class="types">
                 <li ng-repeat="type in ${route_duration_types}" ng-click="editCtrl.pushToArray(route, 'durations', type, $event)">
                   <div class="checkbox"><input type="checkbox" ng-checked="route.durations.indexOf(type) > -1"><span>{{type | translate}}</span></div>
@@ -488,8 +488,10 @@ updating_doc = route_id and route_lang
               <div class="input-group">
                 <select class="form-control" ng-model="route.ski_rating" ng-options="rat as rat for rat in ${ski_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
+                <span class="input-group-addon" ng-click="editCtrl.openModal('#cotometer-dialog')"><span class="glyphicon glyphicon-sort-by-attributes"></span></span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.ski_rating"></span>
+      
             </div>
 
             ## LABANDE SKI RATING
@@ -768,4 +770,5 @@ updating_doc = route_id and route_lang
 
   ${show_preview_container()}
   ${show_save_confirmation_modal(updating_doc)}
+  ${show_cotometer_dialog('routes', lang, other_langs)}
 </section>

@@ -34,6 +34,18 @@ app.RouteEditingController = function($scope, $element, $attrs, $http,
     $uibModal, $compile, appLang, appAuthentication, ngeoLocation, appAlerts,
     appApi, authUrl, appDocument, appUrl, imageUrl) {
 
+  /**
+   * @type {Object}
+   * @private
+   */
+  this.modal__ = $uibModal;
+
+  /**
+   * @type {angular.$compile}
+   * @private
+   */
+  this.compile__ = $compile;
+
   goog.base(this, $scope, $element, $attrs, $http, $uibModal, $compile,
     appLang, appAuthentication, ngeoLocation, appAlerts, appApi, authUrl,
     appDocument, appUrl, imageUrl);
@@ -58,6 +70,16 @@ goog.inherits(app.RouteEditingController, app.DocumentEditingController);
  */
 app.RouteEditingController.prototype.hasActivity = function(activities) {
   return app.utils.hasActivity(this.scope['route'], activities);
+};
+
+
+/**
+ * @param {string} selector
+ * @export
+ */
+app.RouteEditingController.prototype.openModal = function(selector) {
+  var template = $(selector).clone();
+  this.modal__.open({animation: true, size: 'lg', template: this.compile__(template)(this.scope)});
 };
 
 
