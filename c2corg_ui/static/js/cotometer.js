@@ -26,7 +26,9 @@ app.module.directive('appCotometer', app.CotometerDirective);
 
 
 /**
+ * @param {appx.Document} documentData Data set as module value in the HTML.
  * @param {app.Api} appApi appApi.
+ * @param {app.Alerts} appAlerts
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @param {ui.bootstrap.$modalStack} $uibModalStack $uibModalStack.
  * @constructor
