@@ -1,0 +1,39 @@
+<div class="modal-body">
+  <div class="content cotometer">
+    <div class="full">
+      <label translate>Skiability</label>
+<<<<<<< HEAD
+      <select ng-model="cotmetCtrl.skiability" ng-options="val.label for val in [{label:'Large et régulier',value:0}, {label:'1 ou 2 complications (ressauts, étroitures...)',value:0.1}, {label:'Très tourmenté : ressauts, étroitures,  arêtes...',value:0.2}]" class="form-control"><option value="">-- skiabilité --</option></select>
+    </div>
+    <div id="average-slope" class="full">
+      <label translate>Average slope</label>
+      <input ng-model="cotmetCtrl.slope" class="form-control " placeholder="{{'Average slope in degree' | translate}}" type="number">
+=======
+      <select ng-model="cotmetCtrl.skiability" class="form-control">
+        <option value="0">Large et régulier</option>
+        <option value="0.1">1 ou 2 complications (ressauts, étroitures...)</option>
+        <option value="0.2">Très tourmenté : ressauts, étroitures,  arêtes...</option></select>
+    </div>
+    <div id="average-slope" class="full">
+      <label translate>Average slope</label>
+      <input ng-model="cotmetCtrl.slope" class="form-control " placeholder="Average slope in degree" type="number">
+>>>>>>> e7d18c0c11f599ff5d62ce53b1edab512a2d44b6
+    </div>
+    <div id="elevation" class="full">
+      <label translate>Elevation (meters)</label>
+      <input name="message" ng-model="cotmetCtrl.elevation" class="form-control" type="number">
+    </div>
+    <div class="text-center result" ng-if="cotmetCtrl.rating != undefined">
+      <span translate>Cotation proposée</span>
+      {{ cotmetCtrl.rating }}
+    </div>
+    <div class="text-center">
+      <button ng-click="cotmetCtrl.cotometerTechnicalGrade()" class="btn btn-primary" translate>Calculate the technical rating</button>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <p> 
+    <button class="btn btn-default" type="button" ng-click="cotmetCtrl.closeDialog()" translate>Cancel</button>
+  <p> 
+</div>

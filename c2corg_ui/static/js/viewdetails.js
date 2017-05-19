@@ -116,11 +116,14 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
 
 /**
  * @param {string} selector
+ * @param {string} sizem
  * @export
  */
-app.ViewDetailsController.prototype.openModal = function(selector) {
+app.ViewDetailsController.prototype.openModal = function(selector,sizem) {
   var template = $(selector).clone();
-  this.modal_.open({animation: true, size: 'lg', template: this.compile_(template)(this.scope_)});
+  if (sizem === null)
+    sizem = 'lg';
+  this.modal_.open({animation: true, size: sizem, template: this.compile_(template)(this.scope_)});
 };
 
 

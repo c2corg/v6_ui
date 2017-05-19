@@ -488,7 +488,7 @@ updating_doc = route_id and route_lang
               <div class="input-group">
                 <select class="form-control" ng-model="route.ski_rating" ng-options="rat as rat for rat in ${ski_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
-                <span class="input-group-addon" ng-click="editCtrl.openModal('#cotometer-dialog')"><span class="glyphicon glyphicon-sort-by-attributes"></span></span>
+                <span class="input-group-addon" ng-click="editCtrl.openModal('#cotometer-dialog','md')"><span class="glyphicon glyphicon-sort-by-attributes"></span></span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.ski_rating"></span>
       

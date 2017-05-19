@@ -117,12 +117,12 @@
       # to reuse existing translation strings
       document_type = module[:-1]
   %>\
-  <div id="cotometer-dialog" app-loading>
+  <section id="cotometer-dialog" app-loading>
     <div class="modal-header">
       <h3 class="text-center"><span translate>Cotometer</span> (<span x-translate>${document_type}</span>)</h3>
     </div>
     <app-cotometer module="'${module}'"></app-cotometer>
-  </div>
+  </section>
 </%def>
 <%def name="show_preview_container()">\
   <div class="ng-hide">

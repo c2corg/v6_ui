@@ -5,7 +5,7 @@ goog.require('app');
 
 /**
  * This directive is used to manage the dialog of cotometer
- * cotometerRating function was developed and made available with the support of BLMS
+ *
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
@@ -26,12 +26,29 @@ app.module.directive('appCotometer', app.CotometerDirective);
 
 
 /**
+<<<<<<< HEAD
+ * @param {app.Api} appApi appApi.
+=======
+ * @param {appx.Document} documentData Data set as module value in the HTML.
+ * @param {app.Api} appApi appApi.
+ * @param {app.Alerts} appAlerts
+>>>>>>> e7d18c0c11f599ff5d62ce53b1edab512a2d44b6
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @param {ui.bootstrap.$modalStack} $uibModalStack $uibModalStack.
  * @constructor
  * @ngInject
  */
-app.CotometerController = function(gettextCatalog, $uibModalStack) {
+<<<<<<< HEAD
+app.CotometerController = function(appApi, gettextCatalog, $uibModalStack) {
+=======
+app.CotometerController = function(documentData, appApi, gettextCatalog, $uibModalStack) {
+
+  /**
+   * @type {appx.Document}
+   * @export
+   */
+  this.documentData = documentData;
+>>>>>>> e7d18c0c11f599ff5d62ce53b1edab512a2d44b6
 
   /**
    * @type {string}
@@ -52,22 +69,16 @@ app.CotometerController = function(gettextCatalog, $uibModalStack) {
   this.slope;
 
   /**
-   * @type {boolean}
-   * @export
-   */
-  this.errorSlope;
-
-  /**
    * @type {number}
    * @export
    */
   this.elevation;
 
   /**
-   * @type {boolean}
-   * @export
+   * @type {app.Api}
+   * @private
    */
-  this.errorElevation;
+  this.appApi_ = appApi;
 
   /**
    * @type {angularGettext.Catalog}
@@ -101,8 +112,8 @@ app.CotometerController = function(gettextCatalog, $uibModalStack) {
 app.CotometerController.prototype.cotometerRating = function() {
 
   var inter = Math.tan(Math.PI * this.slope / 180) + 0.1 * Math.log(this.elevation);
-  inter += this.skiability * (inter - 1);
-
+<<<<<<< HEAD
+  inter += this.skiability.value * (inter - 1);
   if (inter < 1.32) this.rating = '≤3.3';
   else if (inter >= 1.32 & inter < 1.42) this.rating = '4.1';
   else if (inter >= 1.42 & inter < 1.5) this.rating = '4.2';
@@ -115,6 +126,21 @@ app.CotometerController.prototype.cotometerRating = function() {
   else if (inter >= 2.09 & inter < 2.25) this.rating = '5.6';
   else if (inter >= 2.25 & inter < 2.4) this.rating = '5.7';
   else this.rating = '5.8';
+=======
+  inter += this.skiability * (inter - 1);
+  if (inter < 1.32) this.rating = '≤3.3';
+  if (inter >= 1.32 & inter < 1.42) this.rating = '4.1';
+  if (inter >= 1.42 & inter < 1.5) this.rating = '4.2';
+  if (inter >= 1.5 & inter < 1.575) this.rating = '4.3';
+  if (inter >= 1.575 & inter < 1.67) this.rating = '5.1';
+  if (inter >= 1.67 & inter < 1.745) this.rating = '5.2';
+  if (inter >= 1.745 & inter < 1.81) this.rating = '5.3';
+  if (inter >= 1.81 & inter < 1.95) this.rating = '5.4';
+  if (inter >= 1.95 & inter < 2.09) this.rating = '5.5';
+  if (inter >= 2.09 & inter < 2.25) this.rating = '5.6';
+  if (inter >= 2.25 & inter < 2.4) this.rating = '5.7';
+  this.rating = '5.8';
+>>>>>>> e7d18c0c11f599ff5d62ce53b1edab512a2d44b6
 };
 
 
@@ -123,29 +149,26 @@ app.CotometerController.prototype.cotometerRating = function() {
  */
 app.CotometerController.prototype.cotometerTechnicalGrade = function() {
 
+<<<<<<< HEAD
+  if (isNaN(this.skiability.value)) {
+=======
+  if (isNaN(this.skiability)) {
+>>>>>>> e7d18c0c11f599ff5d62ce53b1edab512a2d44b6
+    alert('Vous devez choisir une skiabilité');
+    return false;
+  }
+
   if (isNaN(this.slope) || this.slope < 20.0 || this.slope > 80.0) {
-    this.errorSlope = true;
-  } else {
-    this.errorSlope = false;
+    alert('La pente doit être comprise entre 20° et 80°');
+    return false;
   }
 
   if (isNaN(this.elevation) || this.elevation < 50.0 || this.elevation > 3000.0) {
-    this.errorElevation = true;
-  } else {
-    this.errorElevation = false;
+    alert('Le dénivelé doit être compris entre 50m et 3000m');
+    return false;
   }
 
-  if (this.errorSlope || this.errorElevation)
-    return false;
-
   this.cotometerRating();
-};
-
-/**
- * @export
- */
-app.CotometerController.prototype.setResult = function() {
-  this.$uibModalStack_.dismissAll();
 };
 
 

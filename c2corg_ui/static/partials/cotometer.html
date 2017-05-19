@@ -1,28 +1,37 @@
 <div class="modal-body">
   <div class="content cotometer">
+    <div class="text" translate>
+      This tool estimates the technical difficulty of a ski route (quotation toponeige). It is currently restricted to steep trails that are graded at least 4.1.
+    </div>
     <div class="full">
       <label translate>Skiability</label>
-      <select ng-model="cotmetCtrl.skiability" ng-options="val.label for val in [{label:'Large et régulier',value:0}, {label:'1 ou 2 complications (ressauts, étroitures...)',value:0.1}, {label:'Très tourmenté : ressauts, étroitures,  arêtes...',value:0.2}]" class="form-control"><option value="">-- skiabilité --</option></select>
+      <div class="checkbox"><label><input type="radio" ng-model="cotmetCtrl.skiability" ng-value="0" ng-change="cotmetCtrl.cotometerTechnicalGrade()" /> <span translate>Wide and constant</span></label></div>
+      <div class="checkbox"><label><input type="radio" ng-model="cotmetCtrl.skiability" ng-value="0.1" ng-change="cotmetCtrl.cotometerTechnicalGrade()" /> <span translate>1 or 2 complications (steeper or narrow section...)</span></label></div>
+      <div class="checkbox"><label><input type="radio" ng-model="cotmetCtrl.skiability" ng-value="0.2" ng-change="cotmetCtrl.cotometerTechnicalGrade()" /> <span translate>Very complex (steps, narrow sections, ridges...)</span></label></div>
     </div>
     <div id="average-slope" class="full">
-      <label translate>Average slope</label>
-      <input ng-model="cotmetCtrl.slope" class="form-control " placeholder="{{'Average slope in degree' | translate}}" type="number">
+      <label translate>Average slope (degrees)</label>
+      <input ng-model="cotmetCtrl.slope" class="form-control" placeholder="{{'Average slope in degree' | translate}}" type="number" ng-change="cotmetCtrl.cotometerTechnicalGrade()">
     </div>
+      <div class="alert alert-danger" ng-if="cotmetCtrl.errorSlope" translate>The slope must be between 20 and 80°</div>
     <div id="elevation" class="full">
-      <label translate>Elevation (meters)</label>
-      <input name="message" ng-model="cotmetCtrl.elevation" class="form-control" type="number">
+      <label translate>Elevation gain (meters)</label>
+      <input name="message" ng-model="cotmetCtrl.elevation" class="form-control" type="number" ng-change="cotmetCtrl.cotometerTechnicalGrade()">
     </div>
+    <div class="alert alert-danger" ng-if="cotmetCtrl.errorElevation" translate> The slope must be between 50 and 3000m high</div>
     <div class="text-center result" ng-if="cotmetCtrl.rating != undefined">
-      <span translate>Cotation proposée</span>
+      <span translate>Suggested grade</span>
       {{ cotmetCtrl.rating }}
     </div>
+    <!--
     <div class="text-center">
       <button ng-click="cotmetCtrl.cotometerTechnicalGrade()" class="btn btn-primary" translate>Calculate the technical rating</button>
     </div>
+-->
   </div>
 </div>
 <div class="modal-footer">
   <p> 
-    <button class="btn btn-default" type="button" ng-click="cotmetCtrl.closeDialog()" translate>Cancel</button>
+    <button class="btn btn-success" type="button" ng-click="cotmetCtrl.setResult()" translate>Ok</button> <button class="btn btn-default" type="button" ng-click="cotmetCtrl.closeDialog()" translate>Cancel</button>
   <p> 
 </div>
