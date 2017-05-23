@@ -68,6 +68,9 @@
       <p><b translate>Changes</b>: <span x-translate>${show_version_comment(version)}</span></p>
     </div>
     <p class="text-center">
+        <a href="${request.route_path(module + '_history', id=document['document_id'], lang=locale['lang'])}">
+          <button class="btn btn-default" translate>History</button>
+        </a>
         <a href="${request.route_path(module + '_view_id_lang', id=document['document_id'], lang=locale['lang'])}">
           <button class="btn btn-default" translate>See the latest version</button>
         </a>
