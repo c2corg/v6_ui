@@ -149,6 +149,8 @@ def main(global_config, **settings):
     config.add_route('xreports_index', '/xreports')
     config.add_route('xreports_add', '/xreports/add')
     config.add_route('xreports_edit', '/xreports/edit/{id:\d+}/{lang}')
+    config.add_route('xreports_edit_archive',
+                     '/xreports/edit/{id:\d+}/{lang}/{version:\d+}')
     config.add_route('xreports_history', '/xreports/history/{id:\d+}/{lang}')
     config.add_route('xreports_archive',
                      '/xreports/version/{id:\d+}/{lang}/{version:\d+}')
