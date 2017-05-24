@@ -58,6 +58,23 @@
 </%def>
 
 <%def name="show_archive_data(module, document, locale, version)">\
+  <%
+      doc_id = document['document_id']
+      lang = locale['lang']
+      protected = 'true' if document.get('protected') else 'false'
+
+      # Inspired by helper show_float_buttons()
+      # FIXME: some info required to check the editing rights (eg. author id, associated users)
+      # are not provided in the archive data
+      if module == 'images':
+          options = {"imageType": document["image_type"], "imageCreator": -1}
+      elif module == 'articles':
+          options = {"articleType": document['article_type'], "authorId": -1}
+      elif module == 'xreports':
+          options = {"authorId": -1, "users": []}
+      else:
+          options = {"users": []}
+  %>
   <article class="archive-data">
     <h2><span class="glyphicon glyphicon-warning-sign"></span>&nbsp;<span translate>You are viewing an archived version of this document.</span></h2>
     <div class="text-left">
@@ -68,14 +85,14 @@
       <p><b translate>Changes</b>: <span x-translate>${show_version_comment(version)}</span></p>
     </div>
     <p class="text-center">
-        <a href="${request.route_path(module + '_history', id=document['document_id'], lang=locale['lang'])}">
+        <a href="${request.route_path(module + '_history', id=doc_id, lang=lang)}">
           <button class="btn btn-default" translate>History</button>
         </a>
-        <a href="${request.route_path(module + '_view_id_lang', id=document['document_id'], lang=locale['lang'])}">
+        <a href="${request.route_path(module + '_view_id_lang', id=doc_id, lang=lang)}">
           <button class="btn btn-default" translate>See the latest version</button>
         </a>
-        <a href="${request.route_path(module + '_edit_archive', id=document['document_id'], lang=locale['lang'], version=version['version_id'])}"
-           ng-if="userCtrl.auth.isAuthenticated() && userCtrl.auth.isModerator()">
+        <a href="${request.route_path(module + '_edit_archive', id=doc_id, lang=lang, version=version['version_id'])}"
+           ng-if="userCtrl.hasEditRights('${module}', ${options}, ${protected})">
           <button class="btn btn-default" translate>Restore this version</button>
         </a>
     </p>
@@ -565,7 +582,7 @@
       protected = 'true' if doc.get('protected') else 'false'
 
       if doctype == 'images':
-          options = {"imageType": image["image_type"], "imageCreator": image["creator"]["user_id"]}
+          options = {"imageType": doc["image_type"], "imageCreator": doc["creator"]["user_id"]}
       elif doctype == 'articles':
           options = {"articleType": doc['article_type'], "authorId": doc['author']['user_id']}
       elif doctype == 'xreports':
