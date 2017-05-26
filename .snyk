@@ -1,5 +1,7 @@
-version: v1.5.2
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.7.1
 ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
 patch:
   'npm:ws:20160624':
     - closure-util > socket.io > engine.io > ws:
@@ -15,3 +17,22 @@ patch:
   'npm:tar:20151103':
     - closure-util > get-down > tar:
         patched: '2016-07-27T15:41:05.870Z'
+  'npm:ms:20170412':
+    - closure-util > send > ms:
+        patched: '2017-05-26T01:35:05.261Z'
+    - closure-util > socket.io > debug > ms:
+        patched: '2017-05-26T01:35:05.261Z'
+    - closure-util > socket.io > engine.io > debug > ms:
+        patched: '2017-05-26T01:35:05.261Z'
+    - closure-util > socket.io > socket.io-parser > debug > ms:
+        patched: '2017-05-26T01:35:05.261Z'
+    - closure-util > socket.io > socket.io-client > socket.io-parser > debug > ms:
+        patched: '2017-05-26T01:35:05.261Z'
+    - closure-util > socket.io > socket.io-client > debug > ms:
+        patched: '2017-05-26T01:35:05.261Z'
+    - closure-util > socket.io > socket.io-client > engine.io-client > debug > ms:
+        patched: '2017-05-26T01:35:05.261Z'
+    - closure-util > socket.io > socket.io-adapter > debug > ms:
+        patched: '2017-05-26T01:35:05.261Z'
+    - closure-util > send > debug > ms:
+        patched: '2017-05-26T01:35:05.261Z'
