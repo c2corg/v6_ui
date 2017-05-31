@@ -18,3 +18,8 @@ Another list:
 - [[routes/49571|Versant W - Couloir Saudan]]
 
 "Slope": > 30° and < 35°
+
+Some pitches definition
+
+L# | 5b | Nice slab with a slightly harder move
+L# | 5a | Lightly protected, carrying a cam or two could help

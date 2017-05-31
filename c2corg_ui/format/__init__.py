@@ -8,9 +8,9 @@ from c2corg_ui.format.img import C2CImageExtension
 from c2corg_ui.format.video import C2CVideoExtension
 from c2corg_ui.format.important import C2CImportantExtension
 from c2corg_ui.format.warning import C2CWarningExtension
+from c2corg_ui.format.ltag import C2CLTagExtension
 from markdown.extensions.nl2br import Nl2BrExtension
 from markdown.extensions.toc import TocExtension
-
 
 _markdown_parser = None
 _bbcode_parser = None
@@ -35,7 +35,8 @@ def _get_markdown_parser():
             C2CWarningExtension(),
             Nl2BrExtension(),
             TocExtension(marker='[toc]', baselevel=2),
-            AutoLinkExtension()
+            AutoLinkExtension(),
+            C2CLTagExtension(),
         ]
         _markdown_parser = markdown.Markdown(output_format='xhtml5',
                                              extensions=extensions)
