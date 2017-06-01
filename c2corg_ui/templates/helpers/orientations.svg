@@ -34,3 +34,37 @@
       ng-class="{ 'orientation-selected': ${model}.orientations.indexOf('NE') > -1 }"/>
   </svg>
 </%def>
+
+## Same compass graphic than above but with fixed orientations (no interaction)
+<%def name="show_orientations_static(orientations)">\
+  <svg class="orientation-svg" xmlns="http://www.w3.org/2000/svg" width="150" height="150" version="1.1" viewBox="0 0 454.00715 454.00714">
+    <g>
+      <path class="ori-e ${'orientation-selected' if 'E' in orientations else ''}"
+        d="m370.28 168.82-142.14 58.18 142.14 58.185h0.005l83.722-58.185z"/>
+      <text class="text-e" y="247.58344" x="350" font-size="60">E</text>
+    </g>
+    <g>
+      <path class="ori-w ${'orientation-selected' if 'W' in orientations else ''}"
+        d="m83.727 168.82 142.14 58.18-142.14 58.185h-0.0046l-83.725-58.18z"/>
+      <text class="text-w" y="247.58344" x="56" font-size="60">W</text>
+    </g>
+    <g>
+      <path class="ori-s ${'orientation-selected' if 'S' in orientations else ''}"
+        d="m285.19 370.28-58.18-142.14-58.185 142.14v0.005l58.185 83.722z"/>
+      <text class="text-s" y="390.00714" x="206.10295" font-size="60">S</text>
+    </g>
+    <g>
+      <path class="ori-n ${'orientation-selected' if 'N' in orientations else ''}"
+        d="m285.19 83.727-58.18 142.14-58.19-142.14v-0.005l58.19-83.725z"/>
+      <text class="text-n" y="105.007141" x="205.0424" font-size="60">N</text>
+    </g>
+    <path class="ori-se ${'orientation-selected' if 'SE' in orientations else ''}"
+      d="m369.46 287.17-141.65-59.371 59.368 141.65 0.002 0.002 100.34 18.058z"/>
+    <path class="ori-nw ${'orientation-selected' if 'NW' in orientations else ''}"
+      d="m166.83 84.55 59.371 141.65-141.65-59.368-0.0032-0.002l-18.058-100.34z"/>
+    <path class="ori-sw ${'orientation-selected' if 'SW' in orientations else ''}"
+      d="m166.83 369.46 59.371-141.65-141.65 59.368-0.0032 0.002-18.058 100.34z"/>
+    <path class="ori-ne ${'orientation-selected' if 'NE' in orientations else ''}"
+      d="m369.46 166.83-141.65 59.371 59.368-141.65 0.002-0.002 100.34-18.058z"/>
+  </svg>
+</%def>
