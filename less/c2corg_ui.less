@@ -959,34 +959,45 @@ ul {
   }
 }
 
-.create-edit-document, .preferences {
-  .section {
-    .route-activities {
+.create-edit-document, .preferences, .activity-filter {
+  .route-activities {
+    @media @phone {
+      justify-content: space-between;
+    }
+    .activity {
+      width: 20%;
+      text-align: center;
+      cursor: pointer;
+      @media (max-width: @screen-md-min) {
+        width: 33%;
+      }
+    }
+    [class^="icon-"] {
+      font-size: 4em;
+      @media (max-width: @screen-sm-min) {
+        font-size: 3.5em;
+      }
+      @media (max-width: @screen-sm-max) {
+        font-size: 3.5em;
+      }
       @media @phone {
-        justify-content: space-between;
-      }
-      .activity {
-        width: 20%;
-        text-align: center;
-        cursor: pointer;
-        @media (max-width: @screen-md-min) {
-          width: 33%;
-        }
-      }
-      [class^="icon-"] {
-        font-size: 4em;
-        @media (max-width: @screen-sm-min) {
-          font-size: 3.5em;
-        }
-        @media (max-width: @screen-sm-max) {
-          font-size: 3.5em;
-        }
-        @media @phone {
-          font-size: 3em;
-        }
+        font-size: 3em;
       }
     }
   }
+}
+.activity-filter {
+  margin: 10px;
+  .route-activities {
+    .activity {
+      width: auto;
+    }
+  }
+}
+
+.activity-selected {
+  color: @C2C-orange !important;
+  transition: 0.2s ease-in-out;
 }
 
 .preferences, .mailinglists, .following {
