@@ -58,6 +58,11 @@
 </%def>
 
 <%def name="show_archive_data(module, document, locale, version)">\
+  <%
+      document_id = document['document_id']
+      lang = locale['lang']
+      version_id = version['version_id']
+  %>
   <article class="archive-data">
     <h2><span class="glyphicon glyphicon-warning-sign"></span>&nbsp;<span translate>You are viewing an archived version of this document.</span></h2>
     <div class="text-left">
@@ -68,9 +73,14 @@
       <p><b translate>Changes</b>: <span x-translate>${show_version_comment(version)}</span></p>
     </div>
     <p class="text-center">
-        <a href="${request.route_path(module + '_view_id_lang', id=document['document_id'], lang=locale['lang'])}">
-          <button class="btn btn-default" translate>See the latest version</button>
-        </a>
+      <a href="${request.route_path(module + '_history', id=document_id, lang=lang)}">
+        <button class="btn btn-default" translate>History</button>
+      </a>
+      <a href="${request.route_path(module + '_view_id_lang', id=document_id, lang=lang)}">
+        <button class="btn btn-default" translate>See the latest version</button>
+      </a>
+      <button class="btn btn-default" ng-if="userCtrl.isModerator()" app-revert-document app-loading
+        ng-click="revertCtrl.revert(${document_id}, '${lang}', ${version_id})" translate>Restore this version</button>
     </p>
   </article>
 </%def>

@@ -736,7 +736,8 @@ app.Api.prototype.unprotectDocument = function(documentId) {
 app.Api.prototype.mergeDocuments = function(sourceDocumentId, targetDocumentId) {
   var data = {
     'source_document_id': sourceDocumentId,
-    'target_document_id': targetDocumentId};
+    'target_document_id': targetDocumentId
+  };
   var promise = this.postJson_('/documents/merge', data);
   promise.catch(function(response) {
     var msg = this.alerts_.gettext('Merging documents failed:');
@@ -770,6 +771,27 @@ app.Api.prototype.deleteLocale = function(documentId, lang) {
   var promise = this.deleteJson_(url, {});
   promise.catch(function(response) {
     var msg = this.alerts_.gettext('Deleting locale failed:');
+    this.alerts_.addErrorWithMsg(msg, response);
+  }.bind(this));
+  return promise;
+};
+
+
+/**
+ * @param {number} documentId
+ * @param {string} lang
+ * @param {number} versionId
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.revertDocument = function(documentId, lang, versionId) {
+  var data = {
+    'document_id': documentId,
+    'lang': lang,
+    'version_id': versionId
+  };
+  var promise = this.postJson_('/documents/revert', data);
+  promise.catch(function(response) {
+    var msg = this.alerts_.gettext('Reverting document failed:');
     this.alerts_.addErrorWithMsg(msg, response);
   }.bind(this));
   return promise;
