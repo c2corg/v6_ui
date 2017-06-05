@@ -4,23 +4,12 @@
     <span  class="glyphicon glyphicon-th-large"></span>
     <span translate>Show list</span>
   </button>
-  <button class="btn btn-primary no-map-btn hidden-xs" ng-show="!noList"
-          ng-click="MapswitchCtrl.toggle(); noList = false;">
-    <span  class="glyphicon glyphicon-eye-close"></span>
-    <span translate>Hide map</span>
-  </button>
 </%def>
-
 
 <%def name="toggle_list_btns()">\
 <button class="btn orange-btn btn-default no-list-btn hidden-xs"
         ng-show="!noMap" ng-click="noList = !noList; noMap = false; mainCtrl.resizeMap();">
   <span class="glyphicon glyphicon-eye-close"></span>
   <span translate>Hide list</span>
-</button>
-<button class="btn orange-btn btn-default no-list-btn hidden-xs"
-        ng-show="noMap" ng-click="noList = false; noMap = false; mainCtrl.resizeMap();">
-  <span class="glyphicon glyphicon-globe"></span>
-  <span translate>Show map</span>
 </button>
 </%def>
