@@ -100,13 +100,9 @@ other_langs, missing_langs = get_lang_lists(route, lang)
     ${show_areas(route)}
   </article>
 % endif
+<app-map class="view-details-map"></app-map>
 
-<div class="map-block" ng-class="{'no-map': MapswitchCtrl.hideMap}"> 
-  <app-map class="view-details-map"></app-map> 
-  <app-map-switch></app-map-switch>
-</div>
-
-<section class="view-details-section" app-view-details>
+<section class="view-details-section" app-view-details ng-class="{'row-list' : switchCtrl.showList}">
   % if version:
     ${show_archive_data('routes', route, locale, version)}
   % endif
