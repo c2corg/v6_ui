@@ -30,6 +30,7 @@
 @import "icon-date.less";
 @import "context-help.less";
 
+
 html, body{
   padding: 0;
   margin: 0;
@@ -508,7 +509,22 @@ app-simple-search {
   border-radius: 6px;
   padding-left: 10px;
   margin-right: 10px;
-  background: @C2C-orange;
+  background: rgba(255,255,255,0.25);
+
+  .form-control {
+    box-shadow: none;
+  }
+
+  .form-control::-moz-placeholder {
+    color: #fff;
+  }
+  .form-control::-ms-placeholder {
+    color: #fff;
+  }
+
+  .form-control::-webkit-input-placeholder {
+    color: #fff;
+  }
 
   .glyphicon {
     color: #F9F9F9;
@@ -522,8 +538,8 @@ app-simple-search {
 
 .page-header {
   .flex();
-  background-color: @body-color;
-  position: absolute;
+  background-color: @C2C-orange;
+  position: fixed;
   width: 100%;
   border-bottom: 2px solid @C2C-orange !important;
   justify-content: flex-end;
@@ -538,6 +554,15 @@ app-simple-search {
   @media @phone {
     position: fixed;
   }
+
+  .btn {
+    border: none;
+  }
+
+  .search {
+    background-color: transparent !important;
+  }
+
 
   label {
     margin-bottom: 0;
@@ -557,6 +582,12 @@ app-simple-search {
     width: 100% !important;
     padding: 0 !important;
     transition: 0.3s ease-in-out;
+    app-simple-search {
+      @media @phone {
+        border-radius: 0px;
+      }
+    }
+    
   }
 
   .quick-search {
@@ -579,16 +610,17 @@ app-simple-search {
     padding: 5px;
     &:focus, &:hover {
       width: 420px;
-      -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-      -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-      box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+      box-shadow: none;
       outline: none;
-      border: 1px solid bisque;
+      border: none;
       @media @tablet {
         width: 150px;
       }
       @media @phone {
-        .calc(width, "100vw - 45px");
+        background: rgba(255,255,255,0.25) !important;
+        margin-left:3px;
+        border-radius: 0px;
+        .calc(width, "100vw - 140px");
       }
     }
     @media @phone {
@@ -927,34 +959,45 @@ ul {
   }
 }
 
-.create-edit-document, .preferences {
-  .section {
-    .route-activities {
+.create-edit-document, .preferences, .activity-filter {
+  .route-activities {
+    @media @phone {
+      justify-content: space-between;
+    }
+    .activity {
+      width: 20%;
+      text-align: center;
+      cursor: pointer;
+      @media (max-width: @screen-md-min) {
+        width: 33%;
+      }
+    }
+    [class^="icon-"] {
+      font-size: 4em;
+      @media (max-width: @screen-sm-min) {
+        font-size: 3.5em;
+      }
+      @media (max-width: @screen-sm-max) {
+        font-size: 3.5em;
+      }
       @media @phone {
-        justify-content: space-between;
-      }
-      .activity {
-        width: 20%;
-        text-align: center;
-        cursor: pointer;
-        @media (max-width: @screen-md-min) {
-          width: 33%;
-        }
-      }
-      [class^="icon-"] {
-        font-size: 4em;
-        @media (max-width: @screen-sm-min) {
-          font-size: 3.5em;
-        }
-        @media (max-width: @screen-sm-max) {
-          font-size: 3.5em;
-        }
-        @media @phone {
-          font-size: 3em;
-        }
+        font-size: 3em;
       }
     }
   }
+}
+.activity-filter {
+  margin: 10px;
+  .route-activities {
+    .activity {
+      width: auto;
+    }
+  }
+}
+
+.activity-selected {
+  color: @C2C-orange !important;
+  transition: 0.2s ease-in-out;
 }
 
 .preferences, .mailinglists, .following {

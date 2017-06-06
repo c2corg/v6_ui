@@ -4,7 +4,8 @@ from c2corg_common.attributes import default_langs, quality_types, route_types, 
     labande_ski_ratings, global_ratings, engagement_ratings, risk_ratings, equipment_ratings, \
     ice_ratings, mixed_ratings, climbing_ratings, exposition_rock_ratings, aid_ratings, \
     via_ferrata_ratings, hiking_ratings, snowshoe_ratings, mtb_up_ratings, mtb_down_ratings, \
-    route_configuration_types, climbing_outdoor_types, rock_types, glacier_gear_types
+    route_configuration_types, climbing_outdoor_types, rock_types, glacier_gear_types, \
+    slackline_types
 
 activities = [activity for activity in activities if activity != 'paragliding']
 %>
@@ -36,6 +37,18 @@ activities = [activity for activity in activities if activity != 'paragliding']
     ${simple_filters()}
     <div class="row collapse" id="moreFilters">
       ${simple_filters()}
+
+      ## Slacklining
+      <div ng-show="filtersCtrl.filters.act.length && filtersCtrl.filters.act.indexOf('slacklining') !== -1">
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>slackline_type</label><br>
+          ${add_multiselect('sltyp', slackline_types)}
+        </div>
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>length</label><br>
+          <app-slider filter="rlen" filters-list="filtersCtrl.filters" max="2000" step="10" unit="m"></app-slider>
+        </div>
+      </div>
 
         
       ## SKITOURING

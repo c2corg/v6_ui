@@ -9,6 +9,7 @@ goog.provide('app.main');
 
 goog.require('app.MainController');
 goog.require('app.AccountController');
+goog.require('app.ArticleEditingController');
 goog.require('app.ImageEditingController');
 goog.require('app.OutingEditingController');
 goog.require('app.XreportEditingController');
@@ -18,6 +19,7 @@ goog.require('app.OutingFiltersController');
 goog.require('app.RouteEditingController');
 goog.require('app.XreportFiltersController');
 goog.require('app.MapController');
+goog.require('app.activityFilterDirective');
 goog.require('app.addAssociationDirective');
 goog.require('app.advancedSearchDirective');
 goog.require('app.alertsDirective');

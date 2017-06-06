@@ -3,7 +3,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
     custodianship_types, climbing_indoor_types, product_types, ground_types, weather_station_types, \
     rain_proof_types, public_transportation_ratings, children_proof_types, snow_clearance_ratings, \
     exposition_ratings, rock_types, orientation_types, months, parking_fee_types, climbing_styles, \
-    access_times, climbing_ratings, equipment_ratings, map_editors, paragliding_ratings
+    access_times, climbing_ratings, equipment_ratings, map_editors, paragliding_ratings, slackline_types
 %>
 <%inherit file="../base.html"/>
 <%
@@ -42,9 +42,9 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
     <app-progress-bar>
 
       <ul class="progress-bar-edit">
-        <li class="nav-step-1"ng-click="progressBarCtrl.step(1, 'waypoint',  'backwards')"><span class="nav-text"><span translate>waypoint</span></span><span class="bullet-container"><span class="bullet"></span></span></li>
+        <li class="nav-step-1" ng-click="progressBarCtrl.step(1, 'waypoint',  'backwards')"><span class="nav-text"><span translate>waypoint</span></span><span class="bullet-container"><span class="bullet"></span></span></li>
         <li class="nav-step-2" ng-click="progressBarCtrl.step(2, 'waypoint', progressBarCtrl.previousStep >= 2 ? 'backwards' : 'forwards')"
-            ng-if="['paragliding_takeoff', 'paragliding_landing', 'climbing_outdoor', 'climbing_indoor',  'local_product', 'weather_station', 'gite',  'camp_site', 'hut',  'bivouac', 'shelter', 'access'].indexOf(type) > -1">
+            ng-if="['paragliding_takeoff', 'paragliding_landing', 'climbing_outdoor', 'climbing_indoor',  'local_product', 'weather_station', 'gite',  'camp_site', 'hut',  'bivouac', 'shelter', 'access', 'slackline_spot'].indexOf(type) > -1">
           <span class="nav-text"><span translate>figures</span></span><span class="bullet-container"><span class="bullet"></span></span>
         </li>
         <li class="nav-step-{{progressBarCtrl.maxSteps}}" ng-click="progressBarCtrl.step((progressBarCtrl.maxSteps == 3 ? 3 : 2), 'waypoint',  progressBarCtrl.previousStep >= ((progressBarCtrl.maxSteps == 3) ? 2 :1) ? 'backwards' : 'forwards')" >
@@ -248,9 +248,9 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
         </section>
       </div>
 
-      <div class="step step-2" ng-if="['paragliding_takeoff', 'paragliding_landing', 'climbing_outdoor', 'climbing_indoor',  'local_product', 'webcam', 'weather_station', 'gite',  'camp_site', 'hut',  'bivouac', 'shelter', 'access'].indexOf(type) > -1">
+      <div class="step step-2" ng-if="['paragliding_takeoff', 'paragliding_landing', 'climbing_outdoor', 'climbing_indoor',  'local_product', 'webcam', 'weather_station', 'gite',  'camp_site', 'hut',  'bivouac', 'shelter', 'access', 'slackline_spot'].indexOf(type) > -1">
 
-        <section class="section " ng-if="['paragliding_takeoff', 'paragliding_landing', 'climbing_outdoor', 'local_product', 'weather_station', 'climbing_indoor'].indexOf(type) > -1">
+        <section class="section " ng-if="['paragliding_takeoff', 'paragliding_landing', 'climbing_outdoor', 'local_product', 'weather_station', 'climbing_indoor', 'slackline_spot'].indexOf(type) > -1">
           <h2 class="heading show-phone" >
             <span translate ng-hide="type == 'paragliding_takeoff' || type == 'paragliding_landing'">Types and styles</span>
             <span translate ng-if="type == 'paragliding_takeoff' || type == 'paragliding_landing'">configuration</span>
@@ -267,7 +267,17 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               </ul>
             </div>
 
-            <div class="data half" ng-if="type == 'climbing_outdoor' || type == 'climbing_indoor'">
+            ## SLACKLINE TYPES
+            <div id="slackline_types-group" class="form-group" ng-if="type == 'slackline_spot'">
+              <label translate>slackline_types</label>
+              <ul class="types long">
+                <li ng-repeat="type in ${slackline_types}" ng-click="editCtrl.pushToArray(waypoint, 'slackline_types', type, $event)">
+                  <div class="checkbox"><input type="checkbox" ng-checked="waypoint.slackline_types.indexOf(type) > - 1"><span>{{type | translate}}</span></div>
+                </li>
+              </ul>
+            </div>
+
+            <div class="data half" ng-if="['climbing_outdoor', 'climbing_indoor', 'slackline_spot'].indexOf(type) > -1">
 
               ## CLIMBING OUT TYPES
               <div class="form-group" ng-if="type == 'climbing_outdoor'">
@@ -292,7 +302,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
             </div>
 
             ## BEST PERIODS
-            <div class="form-group data half" ng-if="type == 'climbing_outdoor'">
+            <div class="form-group data half" ng-if="type == 'climbing_outdoor' || type == 'slackline_spot'">
               <label translate>best_periods</label>
               <ul class="types">
                 <li ng-click="editCtrl.pushToArray(waypoint, 'best_periods', month, $event)" ng-repeat="month in ${months}">
@@ -302,7 +312,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
             </div>
 
             ## ACCESS TIME
-            <div class="form-group data half" ng-if="type == 'climbing_outdoor'" ng-class="{'has-success': waypoint.access_time}">
+            <div class="form-group data half" ng-if="type == 'climbing_outdoor' || type == 'slackline_spot'" ng-class="{'has-success': waypoint.access_time}">
               <label translate>access_time</label>
               <select class="form-control" ng-model="waypoint.access_time" ng-options="time as time for time in ${access_times}"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.access_time"></span>
@@ -347,14 +357,14 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <label><span translate>product_types</span><span ng-if="type == 'local_product'"> *</span></label>
               <ul class="types" required>
                 <li ng-repeat="type in ${product_types}" ng-click="editCtrl.pushToArray(waypoint, 'product_types', type, $event)">
-                  <div class="checkbox"><input type="checkbox"><span>{{type | translate}}</span></div>
+                  <div class="checkbox"><input type="checkbox" ng-checked="waypoint.product_types.indexOf(type) > - 1"><span>{{type | translate}}</span></div>
                 </li>
               </ul>
             </div>
 
             ## ORIENTATION
             <div class="form-group data half"
-                 ng-if="['paragliding_takeoff', 'paragliding_landing', 'climbing_outdoor'].indexOf(type) > -1">
+                 ng-if="['paragliding_takeoff', 'paragliding_landing', 'climbing_outdoor', 'slackline_spot'].indexOf(type) > -1">
               <label><span translate>orientations</span></label>
               ${show_orientations('editCtrl', 'waypoint')}
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.orientations.$valid"></span>
@@ -374,7 +384,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
         </section>
 
         ## NUMBERS
-        <section class="section numbers" ng-if="['paragliding_takeoff', 'paragliding_landing', 'climbing_outdoor', 'climbing_indoor', 'gite', 'camp_site', 'hut', 'shelter'].indexOf(type) > -1 ">
+        <section class="section numbers" ng-if="['paragliding_takeoff', 'paragliding_landing', 'climbing_outdoor', 'climbing_indoor', 'gite', 'camp_site', 'hut', 'shelter', 'slackline_spot'].indexOf(type) > -1 ">
           <h2 class="heading show-phone" ><span translate>Numbers</span></h2>
           <div class="content" id="edit-numbers">
 
@@ -542,6 +552,46 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
                 <p ng-message="number" translate>This field must be a number.</p>
               </div>
            </div>
+
+
+            ## SLACKLINE LENGTH MIN
+            <div class="form-group data half"
+                 ng-if="type == 'slackline_spot'"
+                 ng-class="{ 'has-feedback': editForm.slackline_length_min.$touched,
+                             'has-error': editForm.slackline_length_min.$touched && editForm.slackline_length_min.$invalid,
+                             'has-success': editForm.slackline_length_min.$valid && waypoint.slackline_length_min}">
+              <label ng-class="{ 'control-label': editForm.slackline_length_min.$touched && editForm.slackline_length_min.$invalid }"><span translate>slackline_length_min</span></label>
+              <div class="input-group">
+                <input type="number" name="slackline_length_min" min="0" ng-model="waypoint.slackline_length_min" class="form-control" max="9999"/>
+                <span class="input-group-addon">m</span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.slackline_length_min.$valid && waypoint.slackline_length_min"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.slackline_length_min.$invalid && editForm.slackline_length_min.$touched"></span>
+              <div class="help-block" ng-messages="editForm.slackline_length_min.$error" ng-if="editForm.slackline_length_min.$invalid && editForm.slackline_length_min.$touched">
+                <p ng-message="max" translate>This field must be lower than 9999 m.</p>
+                <p ng-message="number" translate>This field must be a number.</p>
+              </div>
+            </div>
+
+
+            ## SLACKLINE LENGTH MAX
+            <div class="form-group data half"
+                 ng-if="type == 'slackline_spot'"
+                 ng-class="{ 'has-feedback': editForm.slackline_length_max.$touched,
+                             'has-error': editForm.slackline_length_max.$touched && editForm.slackline_length_max.$invalid,
+                             'has-success': editForm.slackline_length_max.$valid && waypoint.slackline_length_max}">
+              <label ng-class="{ 'control-label': editForm.slackline_length_max.$touched && editForm.slackline_length_max.$invalid }"><span translate>slackline_length_max</span></label>
+              <div class="input-group">
+                <input type="number" name="slackline_length_max" min="0" ng-model="waypoint.slackline_length_max" class="form-control" max="9999"/>
+                <span class="input-group-addon">m</span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.slackline_length_max.$valid && waypoint.slackline_length_max"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.slackline_length_max.$invalid && editForm.slackline_length_max.$touched"></span>
+              <div class="help-block" ng-messages="editForm.slackline_length_max.$error" ng-if="editForm.slackline_length_max.$invalid && editForm.slackline_length_max.$touched">
+                <p ng-message="max" translate>This field must be lower than 9999 m.</p>
+                <p ng-message="number" translate>This field must be a number.</p>
+              </div>
+            </div>
 
           </div>
         </section>
@@ -812,9 +862,9 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
             </div>
 
             ## ACCESS
-            <div class="form-group data full" ng-if="['access', 'local_product', 'climbing_outdoor', 'climbing_indoor', 'hut'].indexOf(type) > -1">
+            <div class="form-group data full" ng-if="['access', 'local_product', 'climbing_outdoor', 'climbing_indoor', 'hut', 'slackline_spot'].indexOf(type) > -1">
               <label translate ng-if="type == 'access'">public transportation access</label>
-              <label translate ng-if="type == 'hut' || type == 'climbing_indoor' || type == 'climbing_outdoor'">pedestrian access</label>
+              <label translate ng-if="type == 'hut' || type == 'climbing_indoor' || type == 'climbing_outdoor' || type == 'slackline_spot'">pedestrian access</label>
               <label translate ng-if="type == 'local_product'">road or pedestrian access</label>
               <textarea app-markdown-editor name="access" ng-model="waypoint.locales[0].access" class="form-control"
                 placeholder="{{ type == 'access' ? mainCtrl.translate('Describe pt access') :

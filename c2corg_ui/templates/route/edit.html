@@ -4,7 +4,7 @@ from c2corg_common.attributes import via_ferrata_ratings, default_langs, activit
     ski_ratings, labande_ski_ratings, global_ratings, engagement_ratings, risk_ratings, ice_ratings, \
     mixed_ratings, aid_ratings, exposition_ratings, equipment_ratings, rock_types, hiking_ratings, \
     exposition_rock_ratings, climbing_outdoor_types, snowshoe_ratings,mtb_up_ratings, mtb_down_ratings, \
-    climbing_ratings
+    climbing_ratings, slackline_types
 %>
 <%inherit file="../base.html"/>
 <%
@@ -151,6 +151,48 @@ updating_doc = route_id and route_lang
               <label translate>climbing_outdoor_type</label>
               <select class="form-control" ng-model="route.climbing_outdoor_type" ng-options="type as mainCtrl.translate(type) for type in ${climbing_outdoor_types}"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.climbing_outdoor_type"></span>
+            </div>
+
+          </div>
+        </section>
+
+        <section class="section slacklining" ng-if="editCtrl.hasActivity(['slacklining'])">
+          <h2 class="heading show-phone"><span translate>slacklining</span></h2>
+          <div class="content" id="numbers-edit">
+
+            ## LENGTH
+            <div id="route_length-group" class="data half form-group" ng-class="{ 'has-error': editForm.route_length.$touched && editForm.route_length.$invalid,'has-success': route.route_length }">
+              <label translate>length</label>
+              <div class="input-group">
+                <input type="number" min="0" minlength="1" name="route_length" ng-model="route.route_length" class="form-control" />
+                <span class="input-group-addon">m</span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.route_length"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.route_length.$invalid && editForm.route_length.$touched"></span>
+              <div class="help-block" ng-messages="editForm.route_length.$error">
+                <p ng-message="number" class="label label-danger" style="{{ (editForm.route_length.$invalid && editForm.route_length.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
+              </div>
+            </div>
+
+            ## HEIGHT
+            <div id="route_slackline_height-group" class="data half form-group" ng-class="{ 'has-error': editForm.slackline_height.$touched && editForm.slackline_height.$invalid,'has-success': route.slackline_height }">
+              <label translate>height</label>
+              <div class="input-group">
+                <input type="number" min="0" minlength="1" name="slackline_height" ng-model="route.slackline_height" class="form-control" />
+                <span class="input-group-addon">m</span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.slackline_height"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.slackline_height.$invalid && editForm.slackline_height.$touched"></span>
+              <div class="help-block" ng-messages="editForm.slackline_height.$error">
+                <p ng-message="number" class="label label-danger" style="{{ (editForm.route_length.$invalid && editForm.route_length.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
+              </div>
+            </div>
+
+            ## SLACKLINING TYPE
+            <div class="form-group data half" ng-class="{ 'has-success': route.slackline_type}">
+              <label translate>Type</label>
+              <select class="form-control" ng-model="route.slackline_type" ng-options="type as mainCtrl.translate(type) for type in ${slackline_types}"><option value=""></option></select>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.slackline_type"></span>
             </div>
 
           </div>
@@ -335,11 +377,12 @@ updating_doc = route_id and route_lang
                  ng-class="{ 'has-feedback': editForm.route_length.$touched,
                              'has-error': editForm.route_length.$touched && editForm.route_length.$invalid,
                              'has-success': route.route_length }"
-                 ng-if="route.activities.indexOf('skitouring') > -1 || route.activities.indexOf('snow_ice_mixed') > -1 || route.activities.indexOf('hiking') > -1 || route.activities.indexOf('snowshoeing') > -1
-                           || route.activities.indexOf('via_ferrata') > -1 || route.activities.indexOf('mountain_biking') > -1 || route.activities.indexOf('mountain_climbing') > -1">
+                 ng-if="editCtrl.hasActivity(['skitouring', 'snow_ice_mixed', 'hiking', 'snowshoeing', 'via_ferrata', 'mountain_biking', 'mountain_climbing', 'slacklining'])">
               <label ng-class="{ 'control-label': editForm.route_length.$touched && editForm.route_length.$invalid }" translate>route_length</label>
               <div class="input-group">
-                <input type="number" min="0" minlength="1" name="route_length" ng-model="route.route_length" class="form-control" />
+                <input type="number" min="0" minlength="1" name="route_length"
+                       ng-model="route.route_length" app-length-converter
+                       class="form-control" />
                 <span class="input-group-addon">km</span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.route_length"></span>
@@ -357,7 +400,9 @@ updating_doc = route_id and route_lang
                  ng-if="route.activities.indexOf('mountain_biking') > -1">
               <label ng-class="{ 'control-label': editForm.mtb_length_asphalt.$touched && editForm.mtb_length_asphalt.$invalid }" translate>mtb_length_asphalt</label>
               <div class="input-group">
-                <input type="number" min="0" minlength="1" name="mtb_length_asphalt" ng-model="route.mtb_length_asphalt" class="form-control" />
+                <input type="number" min="0" minlength="1" name="mtb_length_asphalt"
+                       ng-model="route.mtb_length_asphalt" app-length-converter
+                       class="form-control" />
                 <span class="input-group-addon">km</span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.mtb_length_asphalt"></span>
@@ -375,7 +420,9 @@ updating_doc = route_id and route_lang
                  ng-if="route.activities.indexOf('mountain_biking') > -1">
               <label ng-class="{ 'control-label': editForm.mtb_length_trail.$touched && editForm.mtb_length_trail.$invalid }" translate>mtb_length_trail</label>
               <div class="input-group">
-                <input type="number" min="0" minlength="1" name="mtb_length_trail" ng-model="route.mtb_length_trail" class="form-control" />
+                <input type="number" min="0" minlength="1" name="mtb_length_trail"
+                       ng-model="route.mtb_length_trail" app-length-converter
+                       class="form-control" />
                 <span class="input-group-addon">km</span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.mtb_length_trail"></span>
@@ -431,7 +478,7 @@ updating_doc = route_id and route_lang
           </div>
         </section>
 
-        <section class="section ratings" ng-if="route.activities.length > 0">
+        <section class="section ratings" ng-if="editCtrl.showRatings()">
           <h2 class="heading show-phone" translate>ratings</h2>
           <div class="content" id="rating-edit">
 
@@ -661,6 +708,18 @@ updating_doc = route_id and route_lang
             <div id="description-group" class="form-group data full">
               <label translate>description</label>
               <textarea app-markdown-editor name="description" ng-model="route.locales[0].description" class="form-control description"></textarea>
+            </div>
+
+            ## Slackline Anchor 1
+            <div id="slackline_anchor1-group" class="form-group data full" ng-if="editCtrl.hasActivity(['slacklining'])">
+              <label translate>slackline_anchor1</label>
+              <textarea app-markdown-editor name="slackline_anchor1" ng-model="route.locales[0].slackline_anchor1" class="form-control"></textarea>
+            </div>
+
+            ## Slackline Anchor 2
+            <div id="slackline_anchor1-group" class="form-group data full" ng-if="editCtrl.hasActivity(['slacklining'])">
+              <label translate>slackline_anchor2</label>
+              <textarea app-markdown-editor name="slackline_anchor2" ng-model="route.locales[0].slackline_anchor2" class="form-control"></textarea>
             </div>
 
             ## REMARKS

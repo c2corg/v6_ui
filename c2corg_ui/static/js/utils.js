@@ -303,6 +303,7 @@ app.utils.repositionMenu = function(els) {
   }, 50);
 };
 
+
 /**
  * @param {ol.Feature} feature
  * @return {boolean}
@@ -310,4 +311,20 @@ app.utils.repositionMenu = function(els) {
 app.utils.isLineFeature = function(feature) {
   return feature.getGeometry() instanceof ol.geom.LineString ||
     feature.getGeometry() instanceof ol.geom.MultiLineString;
+};
+
+
+/**
+ *
+ * @param {appx.Route} route
+ * @param {Array.<string>} activities
+ * @returns {boolean}
+ */
+app.utils.hasActivity = function(route, activities) {
+  if (route !== undefined) {
+    return activities.some(function(activity) {
+      return $.inArray(activity, route.activities) > -1;
+    });
+  }
+  return false;
 };

@@ -1,6 +1,3 @@
-<%
-version = request.registry.settings.get('cache_version')
-%>\
 <aside id="sidemenu">
   <div class="page-menu">
     <button class="btn btn-default menu-open-close menu">
@@ -68,8 +65,8 @@ version = request.registry.settings.get('cache_version')
     </ul>
 
     <div class="version">
-      <a href="https://github.com/c2corg/v6_ui/commit/${version}">
-        <span translate>Version:</span> ${version}
+      <a href="https://github.com/c2corg/v6_ui">
+        <span translate>Version:</span> ${request.registry.settings.get('release')}
       </a>
     </div>
 

@@ -280,4 +280,13 @@ app.CardController.prototype.slashSeparatedRating_ = function(rating1, rating2) 
   return rating;
 };
 
+
+/**
+ * @export
+ */
+app.CardController.prototype.hasActivity = function(activities) {
+  return (this.type === 'routes') ?
+      app.utils.hasActivity(/** @type{appx.Route}*/ (this.doc), activities) : false;
+};
+
 app.module.controller('AppCardController', app.CardController);

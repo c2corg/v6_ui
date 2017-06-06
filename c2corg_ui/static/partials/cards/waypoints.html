@@ -22,6 +22,12 @@
         </span>
       </div>
 
+      <div class="flex" ng-if="::doc['slackline_types']">
+        <span class="value slackline-type" ng-repeat="type in ::doc.slackline_types">
+          {{::type | translate}}{{$last ? '' : ',&nbsp;'}}
+        </span>
+      </div>
+
       <div class="quality" ng-if="::doc['quality']"
            uib-tooltip="{{'quality'| translate}} : {{doc['quality']| translate}}" tooltip-append-to-body="true">
         <span class="quality-{{::doc['quality']}}"></span>
