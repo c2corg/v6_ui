@@ -277,6 +277,15 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               </ul>
             </div>
 
+            ## SLACKLINE HELP
+            <div class="form-group" ng-if="type == 'slackline_spot'">
+              <label>
+                  <span class="glyphicon glyphicon-question-sign need-help-icon"></span>
+                  <span translate>Need help?</span>
+              </label>
+              <a href="/articles/890427" target="_blank" translate>How does this work?</a>
+            </div>
+
             <div class="data half" ng-if="['climbing_outdoor', 'climbing_indoor', 'slackline_spot'].indexOf(type) > -1">
 
               ## CLIMBING OUT TYPES
