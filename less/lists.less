@@ -456,6 +456,12 @@
 
 
 .row-list {
+  .margin-t-sm {
+    margin-top: 0px;
+  }
+  .margin-b-sm {
+    margin-bottom: 0px;
+  }
   flex-direction: row;
   .list-item {
     flex-direction: row;
@@ -472,6 +478,33 @@
   .elevation, .waypoint-elevation, .height-diff, .height-diff-difficulties {
     width: 65px;
   }
+  .activities {
+    flex-shrink: 0;
+    font-size: 0.9em; 
+    width: 150px;
+  }
+  .list-item-title-lang {
+    width: 30%;
+    @media @big {
+    width: 40%;
+  }
+    flex-shrink: 0;
+    margin-left: 2px;
+  }
+  .article-type {
+    width: 100px;
+    align-self: center;
+  }
+  .article-categories, .book-types {
+    .calc(width, "60% - 250px");
+    align-self: center;
+  }
+  .author {
+    margin-right: 20px;
+    justify-content: flex-start;
+    align-self: center;
+    width: 200px;
+  }
   .waypoint-items-infos {
     .list-item-info {
       .list-item-title-lang {
@@ -486,18 +519,7 @@
       }
     }
   }
-  .article-item-infos {
-    .list-item-info {
-      .list-item-title-lang {
-        width: 50%;
-        @media @big {
-          width: 60%;
-        }
-        flex-shrink: 0;
-        margin-left: 2px;
-      }
-    }
-  }
+   
   .date-outing-item-infos {
     flex-direction: row;
     .outing-item-infos {
@@ -566,8 +588,6 @@
       .activities {
         order: 1;
         width: 90px;
-        flex-shrink: 0;
-        font-size: 0.9em;
       }
     }
   }
@@ -606,8 +626,6 @@
     }
     .activities {
       width: 120px;
-      flex-shrink: 0;
-      font-size: 0.9em;
     }
   }
 }
