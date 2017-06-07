@@ -3,7 +3,7 @@
   <div class="flex wrap-row nowrap grow outing-item-infos">
     <div class="date-icon">
       <span class="day">{{ ::doc['date_end'] | date: 'dd' }}</span>
-      <span class="month">{{ ::doc['date_end'] | date: 'MMM' | lowercase | translate | limitTo: 3}}</span>
+      <span class="month">{{ ::doc['date_end'] | amDateFormat: 'MMM' }}</span>
       <span class="year">{{ ::doc['date_end'] | date: 'yyyy'}}</span>
     </div>
     <div class="list-item-info">
