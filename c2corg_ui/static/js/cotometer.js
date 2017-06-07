@@ -102,19 +102,38 @@ app.CotometerController.prototype.cotometerRating = function() {
 
   var inter = Math.tan(Math.PI * this.slope / 180) + 0.1 * Math.log(this.elevation);
   inter += this.skiability * (inter - 1);
+  var diff = (1 + this.skiability) * this.elevation;
 
-  if (inter < 1.32) this.rating = '≤3.3';
-  else if (inter >= 1.32 & inter < 1.42) this.rating = '4.1';
-  else if (inter >= 1.42 & inter < 1.5) this.rating = '4.2';
-  else if (inter >= 1.5 & inter < 1.575) this.rating = '4.3';
-  else if (inter >= 1.575 & inter < 1.67) this.rating = '5.1';
-  else if (inter >= 1.67 & inter < 1.745) this.rating = '5.2';
-  else if (inter >= 1.745 & inter < 1.81) this.rating = '5.3';
-  else if (inter >= 1.81 & inter < 1.95) this.rating = '5.4';
-  else if (inter >= 1.95 & inter < 2.09) this.rating = '5.5';
-  else if (inter >= 2.09 & inter < 2.25) this.rating = '5.6';
-  else if (inter >= 2.25 & inter < 2.4) this.rating = '5.7';
+  if (this.slope <= 17 && diff < 400) this.rating = '1.1';
+  else if (this.slope <= 23 && diff < 650) this.rating = '1.2';
+  else if (this.slope < 30 && diff < 800) this.rating = '1.3';
+  else if ((this.slope < 35 && diff < 800) || (this.slope < 23 &&  diff > 800)) this.rating = '2.1';
+  else if (this.slope < 35 && diff <= 950) this.rating = '2.2';
+  else if (this.slope < 35 && diff > 950) this.rating = '2.3';
+  else if (this.slope >= 35 && this.slope <= 40 && diff < 650) this.rating = '3.1';
+  else if (this.slope >= 35 && this.slope <= 40 && diff <= 900) this.rating = '3.2';
+  else if (this.slope >= 35 && this.slope <= 40 && diff > 900) this.rating = '3.3';
+  else if (inter < 0.98) this.rating = '1.1';
+  else if (inter >= 0.98 && inter < 1.02) this.rating = '1.2';
+  else if (inter >= 1.03 && inter < 1.09) this.rating = '+1.3';
+  else if (inter >= 1.09 && inter < 1.18) this.rating = '+2.1';
+  else if (inter >= 1.18 && inter < 1.24) this.rating = '2.2';
+  else if (inter >= 1.24 && inter < 1.30) this.rating = '2.3';
+  else if (inter >= 1.30 && inter < 1.34) this.rating = '3.1';
+  else if (inter >= 1.34 && inter < 1.39) this.rating = '3.2';
+  else if (inter >= 1.39 && inter < 1.42) this.rating = '3.3';
+  else if (inter >= 1.42 && inter < 1.46) this.rating = '4.1';
+  else if (inter >= 1.46 && inter < 1.52) this.rating = '4.2';
+  else if (inter >= 1.52 && inter < 1.575) this.rating = '4.3';
+  else if (inter >= 1.575 && inter < 1.67) this.rating = '5.1';
+  else if (inter >= 1.67 && inter < 1.745) this.rating = '5.2';
+  else if (inter >= 1.745 && inter < 1.81) this.rating = '5.3';
+  else if (inter >= 1.81 && inter < 1.95) this.rating = '5.4';
+  else if (inter >= 1.95 && inter < 2.09) this.rating = '5.5';
+  else if (inter >= 2.09 && inter < 2.25) this.rating = '5.6';
+  else if (inter >= 2.25 && inter < 2.4) this.rating = '5.7';
   else this.rating = '5.8';
+
 };
 
 
@@ -123,7 +142,7 @@ app.CotometerController.prototype.cotometerRating = function() {
  */
 app.CotometerController.prototype.cotometerTechnicalGrade = function() {
 
-  if (isNaN(this.slope) || this.slope < 20.0 || this.slope > 80.0) {
+  if (isNaN(this.slope) || this.slope < 0 || this.slope > 80.0) {
     this.errorSlope = true;
   } else {
     this.errorSlope = false;
