@@ -19,6 +19,7 @@ goog.require('app.OutingFiltersController');
 goog.require('app.RouteEditingController');
 goog.require('app.XreportFiltersController');
 goog.require('app.MapController');
+goog.require('app.activityFilterDirective');
 goog.require('app.addAssociationDirective');
 goog.require('app.advancedSearchDirective');
 goog.require('app.alertsDirective');

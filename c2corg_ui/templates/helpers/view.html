@@ -330,6 +330,11 @@
     routes = document['associations']['all_routes']['documents'] if type == 'all_routes' else document['associations']['routes']
     associations = 'detailsCtrl.documentService.document.associations.'
     associations += 'all_routes.documents' if type == 'all_routes' else 'routes'
+    activities = []
+    for route in routes:
+        for activity in route['activities']:
+            if activity not in activities:
+                activities.append(activity)
   %>
     ${add_seo_association_links(routes, 'routes')}
     <section
@@ -341,37 +346,40 @@
         <span class="glyphicon glyphicon-map-marker"></span>
         <span translate>Associated routes</span><span class="glyphicon glyphicon-menu-down"></span>
       </h3>
-      <div class="associated-documents collapse in" id="associated-routes">
-        <div class="list-item" ng-repeat="doc in ${associations}" ng-class="{'new-item': doc['new']}">
-          <app-card app-card-doc="doc"></app-card>
-          % if type == 'routes':
-            <app-delete-association child-doctype="routes" parent-id="${document['document_id']}" child-id="doc.document_id"
-              ng-if="${test_association_rights(document)}
-              % if document['type'] == 'o':
-                  && ${associations}.length > 1
-              % endif
-            "></app-delete-association>
+      <div class="collapse in" id="associated-routes">
+        <app-activity-filter activities="${activities}" documents="${associations}"></app-activity-filter>
+        <div class="associated-documents">
+          <div class="list-item" ng-repeat="doc in afilterCtrl.filter(${associations})" ng-class="{'new-item': doc['new']}">
+            <app-card app-card-doc="doc"></app-card>
+            % if type == 'routes':
+              <app-delete-association child-doctype="routes" parent-id="${document['document_id']}" child-id="doc.document_id"
+                ng-if="${test_association_rights(document)}
+                % if document['type'] == 'o':
+                    && ${associations}.length > 1
+                % endif
+              "></app-delete-association>
+            % endif
+          </div>
+          % if type == 'all_routes':
+            <%
+                fragment = '{0}={1}'.format(document['type'], document['document_id'])
+            %>
+            <div class="list-item">
+              <a class="vertical-align" ng-href="${request.route_path('routes_index')}#${fragment}">
+                <button class="gray-btn btn show-more" translate>show all</button>
+              </a>
+            </div>
           % endif
+          % if document['doctype'] == 'waypoints':
+            <div class="list-item vertical-align new-route" protected-url-btn
+                 url="${request.route_path('routes_add') + '#w=' + str(document['document_id'])}">
+              <a>
+                <button class="btn orange-btn" translate>add a new route to this waypoint</button>
+              </a>
+            </div>
+          % endif
+          ${generate_empty_list_items(5)}
         </div>
-        % if type == 'all_routes':
-          <%
-              fragment = '{0}={1}'.format(document['type'], document['document_id'])
-          %>
-          <div class="list-item">
-            <a class="vertical-align" ng-href="${request.route_path('routes_index')}#${fragment}">
-              <button class="gray-btn btn show-more" translate>show all</button>
-            </a>
-          </div>
-        % endif
-        % if document['doctype'] == 'waypoints':
-          <div class="list-item vertical-align new-route" protected-url-btn
-               url="${request.route_path('routes_add') + '#w=' + str(document['document_id'])}">
-            <a>
-              <button class="btn orange-btn" translate>add a new route to this waypoint</button>
-            </a>
-          </div>
-        % endif
-        ${generate_empty_list_items(5)}
       </div>
     </section>
 </%def>

@@ -1,0 +1,13 @@
+<div class="activity-filter" ng-if="afilterCtrl.activities.length > 1 && afilterCtrl.documents.length > 3">
+  <span translate>You may filter the list by selecting activities:</span>
+  <div class="route-activities flex wrap-row">
+    <div ng-repeat="activity in afilterCtrl.activities" class="activity">
+      <div>
+        <div class="icon-{{activity}}" class="icon-" ng-click="afilterCtrl.toggle(activity)"
+             uib-tooltip="{{activity | translate}}" tooltip-append-to-body="true"
+             ng-class="{'activity-selected' : afilterCtrl.selectedActivities.indexOf(activity) > -1}">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -452,17 +452,6 @@ app.ViewDetailsController.prototype.getImageInfo_ = function(id) {
 
 
 /**
- * @param {string} orientation
- * @param {appx.Document} document
- * @param {goog.events.Event | jQuery.Event} e
- * @export
- */
-app.ViewDetailsController.prototype.toggleOrientation = function(orientation, document, e) {
-  // Do nothing
-};
-
-
-/**
  * remove .showing-info if the container detects swipe/drag
  * @private
  */

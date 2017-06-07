@@ -1,10 +1,8 @@
 import os
 import unittest
-import markdown
 import json
 
-from c2corg_ui.format import _get_bbcode_parser
-from c2corg_ui.format.wikilinks import C2CWikiLinkExtension
+from c2corg_ui.format import parse_code, configure_parsers
 from c2corg_ui.tests import read_file
 
 base_path = os.path.dirname(os.path.abspath(__file__))
@@ -12,17 +10,11 @@ base_path = os.path.dirname(os.path.abspath(__file__))
 
 class TestFormat(unittest.TestCase):
     def setUp(self):  # noqa
-        extensions = [
-            C2CWikiLinkExtension(),
-        ]
-        self.markdown_parser = markdown.Markdown(output_format='xhtml5',
-                                                 extensions=extensions)
-        self.bbcode_parser = _get_bbcode_parser()
+        configure_parsers({'api_url': 'https://api.camptocamp.org/'})
 
     def test_all(self):
-        def do_test(id, markdown, expected):
-            result = self.markdown_parser.convert(markdown)
-            result = self.bbcode_parser.format(result)
+        def do_test(id, text, expected):
+            result = parse_code(text)
             self.assertEqual(result, expected, id)
 
         test_path = os.path.join(base_path, 'test')
@@ -31,9 +23,9 @@ class TestFormat(unittest.TestCase):
             file_path = os.path.join(test_path, file)
             if os.path.isfile(file_path):
                 if file.endswith(".md"):
-                    markdown = read_file(file_path)
+                    text = read_file(file_path)
                     expected = read_file(file_path.replace(".md", ".html"))
-                    do_test(file, markdown, expected)
+                    do_test(file, text, expected)
 
                 elif file.endswith(".json"):
                     tests = json.loads(read_file(file_path))

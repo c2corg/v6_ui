@@ -18,7 +18,7 @@
             Set as main waypoint
           </button>
           <button class="btn btn-sm orange-btn set-main-waypoint" translate
-                  ng-click="${model}.main_waypoint_id = null;"
+                  ng-click="${model}.main_waypoint_id = null; ${model}.main_waypoint_title = ''"
                   ng-if="${model}.main_waypoint_id == wp.document_id">
             Unset main waypoint
           </button>
