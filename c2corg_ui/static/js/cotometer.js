@@ -160,6 +160,7 @@ app.CotometerController.prototype.cotometerTechnicalGrade = function() {
   this.cotometerRating();
 };
 
+
 /**
  * @export
  */
