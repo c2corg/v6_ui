@@ -176,4 +176,3 @@ app.CotometerController.prototype.closeDialog = function() {
 };
 
 app.module.controller('AppCotometerController', app.CotometerController);
-
