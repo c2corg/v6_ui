@@ -585,21 +585,35 @@
 } /*.view-details-section*/
 
 .view-details-map {
-  height: 230px!important;
+  height: 230px;
   margin-bottom: 15px;
   display: block;
   background-color: rgba(164, 164, 166, 0.24);
-
-  @media @tablet {
-    height: 200px !important;
-  }
-  @media @phone {
-    height: 150px !important;
-    margin-bottom: 0;
-  }
   .map {
     height: 100%;
   }
+}
+
+.full-map {
+  .view-details-map {
+    height: 70vh;
+  }
+}
+
+.no-map {
+  .view-details-map {
+    display: none;
+  }
+}
+.map-btn-full {
+  position: absolute;
+  right: 10px;
+ z-index: 2;
+}
+.map-btn-hide {
+  position: absolute;
+  right: 140px;
+  z-index: 2;
 }
 
 .view-details-other {
