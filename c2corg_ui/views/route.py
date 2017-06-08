@@ -91,6 +91,20 @@ class Route(Document):
         })
         return self.template_input
 
+    @view_config(route_name='routes_edit_archive',
+                 renderer='c2corg_ui:templates/route/edit.html')
+    def edit_archive(self):
+        id, lang = self._validate_id_lang()
+        version = int(self.request.matchdict['version'])
+        self.template_input.update({
+            'activities': activities,
+            'route_types': route_types,
+            'route_lang': lang,
+            'route_id': id,
+            'version': version
+        })
+        return self.template_input
+
     @view_config(route_name='routes_preview',
                  renderer='c2corg_ui:templates/route/preview.html')
     def preview(self):

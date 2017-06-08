@@ -163,6 +163,18 @@ class Xreport(Document):
         })
         return self.template_input
 
+    @view_config(route_name='xreports_edit_archive',
+                 renderer='c2corg_ui:templates/xreport/edit.html')
+    def edit_archive(self):
+        id, lang = self._validate_id_lang()
+        version = int(self.request.matchdict['version'])
+        self.template_input.update({
+            'xreport_lang': lang,
+            'xreport_id': id,
+            'version': version
+        })
+        return self.template_input
+
     @view_config(route_name='xreports_preview',
                  renderer='c2corg_ui:templates/xreport/preview.html')
     def preview(self):

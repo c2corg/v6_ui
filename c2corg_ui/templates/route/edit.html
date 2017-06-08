@@ -14,7 +14,7 @@ updating_doc = route_id and route_lang
 <%namespace file="../helpers/edit.html" import="show_editing_associated_waypoints,
     show_editing_associated_routes, show_editing_associated_articles,
     show_editing_associated_books, show_preview_container, show_editing_buttons,
-    show_save_confirmation_modal, show_protected_warning"/>
+    show_save_confirmation_modal, show_protected_warning, show_archive_editing_warning"/>
 <%namespace file="../helpers/orientations.svg" import="show_orientations"/>
 
 <%block name="pagetitle"><title ng-init="id=${route_id if route_id else 0}" ng-bind="id ? mainCtrl.page_title('Editing a route') : mainCtrl.page_title('Creating a route')">${show_title('Create/edit route')}</title></%block>
@@ -30,7 +30,14 @@ updating_doc = route_id and route_lang
   % if updating_doc:
     app-document-editing-id="${route_id}" app-document-editing-lang="${route_lang}"
   % endif
+  % if version:
+    app-document-editing-version="${version}"
+  % endif
      name="editForm" novalidate ng-submit="editCtrl.confirmSave(editForm.$valid)" class="document-editing">
+
+    % if version:
+      ${show_archive_editing_warning()}
+    % endif
 
     <app-progress-bar>
       ## It won't work with ng-init
@@ -108,21 +115,23 @@ updating_doc = route_id and route_lang
           </div>
         </section>
 
-        <section class="section associations">
-          <h2 class="heading show-phone"><span translate>associations</span></h2>
-          <h5 class="full" translate ng-show="editCtrl.documentService.document.associations.routes.length == 0 && editCtrl.documentService.document.associations.waypoints.length == 0">
-            You can add associated routes and waypoints by searching in the field.
-          </h5>
-          <div class="content">
-            ## wr = waypoints, routes
-            <app-simple-search parent-id="route.document_id"
-              app-select="editCtrl.documentService.pushToAssociations(doc, null, false, true)" dataset="wrcb"></app-simple-search>
-            ${show_editing_associated_waypoints('route')}
-            ${show_editing_associated_routes('route')}
-            ${show_editing_associated_articles('route')}
-            ${show_editing_associated_books('route')}
-          </div>
-        </section>
+        % if not version:
+          <section class="section associations">
+            <h2 class="heading show-phone"><span translate>associations</span></h2>
+            <h5 class="full" translate ng-show="editCtrl.documentService.document.associations.routes.length == 0 && editCtrl.documentService.document.associations.waypoints.length == 0">
+              You can add associated routes and waypoints by searching in the field.
+            </h5>
+            <div class="content">
+              ## wr = waypoints, routes
+              <app-simple-search parent-id="route.document_id"
+                app-select="editCtrl.documentService.pushToAssociations(doc, null, false, true)" dataset="wrcb"></app-simple-search>
+              ${show_editing_associated_waypoints('route')}
+              ${show_editing_associated_routes('route')}
+              ${show_editing_associated_articles('route')}
+              ${show_editing_associated_books('route')}
+            </div>
+          </section>
+        % endif
 
       </div>
 

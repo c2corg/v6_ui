@@ -9,7 +9,7 @@ from c2corg_common.attributes import default_langs, quality_types, activities, b
 <%namespace file="../helpers/edit.html" import="show_save_confirmation_modal,
     show_preview_container, show_editing_buttons, show_editing_associated_waypoints,
     show_editing_associated_routes, show_editing_associated_articles,
-    show_protected_warning"/>
+    show_protected_warning, show_archive_editing_warning"/>
 
 <%block name="pagetitle"><title ng-init="id = ${book_id if book_id else 0}" ng-bind="id ? mainCtrl.page_title('Editing a book') : mainCtrl.page_title('Creating a book')">${show_title('Create/edit book')}</title></%block>
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
@@ -25,9 +25,15 @@ from c2corg_common.attributes import default_langs, quality_types, activities, b
   % if updating_doc:
     app-document-editing-id="${book_id}" app-document-editing-lang="${book_lang}"
   % endif
+  % if version:
+    app-document-editing-version="${version}"
+  % endif
     class="document-editing" name="editForm" novalidate ng-submit="editCtrl.confirmSave(editForm.$valid)">
 
     ${show_protected_warning('book')}
+    % if version:
+      ${show_archive_editing_warning()}
+    % endif
 
     <section class="editing">
 

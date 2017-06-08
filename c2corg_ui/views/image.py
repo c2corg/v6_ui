@@ -84,6 +84,19 @@ class Image(Document):
         })
         return self.template_input
 
+    @view_config(route_name='images_edit_archive',
+                 renderer='c2corg_ui:templates/image/edit.html')
+    def edit_archive(self):
+        id, lang = self._validate_id_lang()
+        version = int(self.request.matchdict['version'])
+        self.template_input.update({
+            'image_lang': lang,
+            'image_id': id,
+            'image_backend': self.settings.image_backend_url,
+            'version': version
+        })
+        return self.template_input
+
     @view_config(route_name='images_preview',
                  renderer='c2corg_ui:templates/image/preview.html')
     def preview(self):

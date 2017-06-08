@@ -114,6 +114,13 @@ app.DocumentEditingController = function($scope, $element, $attrs, $http,
   this.lang_ = $attrs['appDocumentEditingLang'];
 
   /**
+   * @type {?number}
+   * @private
+   */
+  this.version_ = $attrs['appDocumentEditingVersion'] ?
+    parseInt($attrs['appDocumentEditingVersion'], 10) : null;
+
+  /**
    * @type {!angular.Scope}
    * @export
    */
@@ -180,9 +187,17 @@ app.DocumentEditingController = function($scope, $element, $attrs, $http,
      // Get document attributes from the API to feed the model:
       goog.asserts.assert(!goog.isNull(this.id));
       goog.asserts.assert(!goog.isNull(this.lang_));
-      this.api_.readDocument(this.module_, this.id, this.lang_, true).then(
-          this.successRead.bind(this)
-      );
+      if (this.version_) {
+        // get an archived version of the document
+        this.api_.readDocument(
+          this.module_, this.id, this.lang_, true, this.version_).then(
+            this.successReadArchive_.bind(this)
+        );
+      } else {
+        this.api_.readDocument(this.module_, this.id, this.lang_, true).then(
+            this.successRead.bind(this)
+        );
+      }
     } else if (!this.id) {
       // new doc lang = user interface lang
       this.scope[this.modelName]['locales'][0]['lang'] = appLang.getLang();
@@ -266,6 +281,17 @@ app.DocumentEditingController.prototype.updateGeometry_ = function(data) {
       data['read_lonlat'] = angular.copy(data['lonlat']);
     }
   }
+};
+
+
+/**
+ * @param {Object} response Response from the API server.
+ * @private
+ */
+app.DocumentEditingController.prototype.successReadArchive_ = function(response) {
+  this.successRead({
+    'data': response['data']['document']
+  });
 };
 
 
@@ -511,7 +537,11 @@ app.DocumentEditingController.prototype.hasMissingProps = function(doc, showErro
     } else if (field === 'activities') {
       hasError = (!doc['activities'] || doc['activities'].length === 0);
     } else if (field === 'routes' || field === 'waypoints') {
-      hasError = (!doc['associations'] || doc['associations'][field].length === 0);
+      // Mandatory associations for routes and waypoints are not checked
+      // when editing an archive (revert)
+      if (!this.version_) {
+        hasError = (!doc['associations'] || doc['associations'][field].length === 0);
+      }
     } else if (field === 'latitude' || field === 'longitude') {
       hasError = (!doc['lonlat'] || (doc['lonlat'][field] === null || doc['lonlat'][field] === undefined));
     } else if (field === 'date_start') {

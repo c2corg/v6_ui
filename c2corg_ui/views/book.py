@@ -85,6 +85,18 @@ class Book(Document):
         })
         return self.template_input
 
+    @view_config(route_name='books_edit_archive',
+                 renderer='c2corg_ui:templates/book/edit.html')
+    def edit_archive(self):
+        id, lang = self._validate_id_lang()
+        version = int(self.request.matchdict['version'])
+        self.template_input.update({
+            'book_lang': lang,
+            'book_id': id,
+            'version': version
+        })
+        return self.template_input
+
     @view_config(route_name='books_preview',
                  renderer='c2corg_ui:templates/book/preview.html')
     def preview(self):
