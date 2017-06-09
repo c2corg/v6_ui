@@ -509,22 +509,7 @@ app-simple-search {
   border-radius: 6px;
   padding-left: 10px;
   margin-right: 10px;
-  background: rgba(255,255,255,0.25);
-
-  .form-control {
-    box-shadow: none;
-  }
-
-  .form-control::-moz-placeholder {
-    color: #fff;
-  }
-  .form-control::-ms-placeholder {
-    color: #fff;
-  }
-
-  .form-control::-webkit-input-placeholder {
-    color: #fff;
-  }
+  background: @C2C-orange;
 
   .glyphicon {
     color: #F9F9F9;
@@ -591,7 +576,6 @@ app-simple-search {
   }
 
   .quick-search {
-    rigth: 0;
     position: relative;
     transition: 0.3s ease-in-out;
 
@@ -599,6 +583,22 @@ app-simple-search {
       @media @phone {
         visibility: hidden;
         width: 0;
+      }
+    }
+
+    app-simple-search {
+      background: rgba(255,255,255,0.25);
+      .form-control {
+        box-shadow: none;
+      }
+      .form-control::-moz-placeholder {
+        color: #fff;
+      }
+      .form-control::-ms-placeholder {
+        color: #fff;
+      }
+      .form-control::-webkit-input-placeholder {
+        color: #fff;
       }
     }
   }
