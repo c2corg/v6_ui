@@ -397,6 +397,7 @@ updating_doc = outing_id and outing_lang
               <label translate>public_transport</label>
               <input type="checkbox" ng-model="outing.public_transport" ng-checked="outing.public_transport == true">
               <span ng-click="editCtrl.pushToArray(outing, 'public_transport', !outing.public_transport, $event)"></span>
+              <a href="http://changerdapproche.org/le-concours/presentation.html" target="_blank" ng-if="outing.public_transport" translate>Participate to MW contest</a>
             </div>
 
             ## FREQUENTATION
