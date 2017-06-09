@@ -335,15 +335,6 @@
   .no-list-btn {
     padding: 7px 5px 6px 5px;
   }
-  .no-map-btn {
-    position: absolute;
-    .calc(top, "100% - 80px");
-    z-index: 2;
-    margin-left: 10px;
-    .glyphicon {
-      color: white;
-    }
-  }
 }
 .documents-list-section, .not-found-section, .map-right .map {
   margin-top: @page-main-title-height;
@@ -655,3 +646,14 @@
 .view-details-section.images .location {
   display: inherit ; 	
 }
+
+.no-map-btn {
+    position: absolute;
+    .calc(top, "100% - 80px");
+    right: 10px;
+    z-index: 2;
+    margin-left: 10px;
+    .glyphicon {
+      color: white;
+    }
+  }
