@@ -1,15 +1,15 @@
-goog.provide('app.CotometerDirective');
+goog.provide('app.cotometerDirective');
 goog.provide('app.CotometerController');
 
 goog.require('app');
 
 /**
  * This directive is used to manage the dialog of cotometer
- * cotometerRating function was developed and made available with the support of BLMS
+ * cotometerRating function was developed and made available with the support of BLMS http://paleo.blms.free.fr
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-app.CotometerDirective = function() {
+app.cotometerDirective = function() {
   return {
     restrict: 'E',
     controller: 'AppCotometerController',
@@ -22,7 +22,7 @@ app.CotometerDirective = function() {
   };
 };
 
-app.module.directive('appCotometer', app.CotometerDirective);
+app.module.directive('appCotometer', app.cotometerDirective);
 
 
 /**
@@ -98,7 +98,7 @@ app.CotometerController = function(gettextCatalog, $uibModalStack) {
 /**
  * @private
  */
-app.CotometerController.prototype.cotometerRating = function() {
+app.CotometerController.prototype.cotometerRating_ = function() {
 
   var inter = Math.tan(Math.PI * this.slope / 180) + 0.1 * Math.log(this.elevation);
   inter += this.skiability * (inter - 1);
@@ -133,7 +133,6 @@ app.CotometerController.prototype.cotometerRating = function() {
   else if (inter >= 2.09 && inter < 2.25) this.rating = '5.6';
   else if (inter >= 2.25 && inter < 2.4) this.rating = '5.7';
   else this.rating = '5.8';
-
 };
 
 
@@ -141,23 +140,14 @@ app.CotometerController.prototype.cotometerRating = function() {
  * @export
  */
 app.CotometerController.prototype.cotometerTechnicalGrade = function() {
+  this.errorSlope = (isNaN(this.slope) || this.slope < 0 || this.slope > 80.0);
+  this.errorElevation = (isNaN(this.elevation) || this.elevation < 50.0 || this.elevation > 3000.0);
 
-  if (isNaN(this.slope) || this.slope < 0 || this.slope > 80.0) {
-    this.errorSlope = true;
-  } else {
-    this.errorSlope = false;
-  }
-
-  if (isNaN(this.elevation) || this.elevation < 50.0 || this.elevation > 3000.0) {
-    this.errorElevation = true;
-  } else {
-    this.errorElevation = false;
-  }
-
-  if (this.errorSlope || this.errorElevation)
+  if (this.errorSlope || this.errorElevation) {
     return false;
+  }
 
-  this.cotometerRating();
+  this.cotometerRating_();
 };
 
 

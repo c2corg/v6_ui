@@ -1,7 +1,7 @@
 <div class="modal-body">
   <div class="content cotometer">
     <div class="text" translate>
-      This tool estimates the technical difficulty of a ski route (quotation toponeige). It is currently restricted to steep trails that are graded at least 4.1.
+      This tool estimates the technical difficulty of a ski route (ski rating).
     </div>
     <div class="full">
       <label translate>Skiability</label>
@@ -15,19 +15,14 @@
     </div>
       <div class="alert alert-danger" ng-if="cotmetCtrl.errorSlope" translate>The slope must be between 0 and 80°</div>
     <div id="elevation" class="full">
-      <label translate>Elevation gain (meters)</label>
+      <label translate>height_diff</label>
       <input name="message" ng-model="cotmetCtrl.elevation" class="form-control" type="number" ng-change="cotmetCtrl.cotometerTechnicalGrade()">
     </div>
-    <div class="alert alert-danger" ng-if="cotmetCtrl.errorElevation" translate> The slope must be between 50 and 3000m high</div>
+    <div class="alert alert-danger" ng-if="cotmetCtrl.errorElevation" translate>The slope must be between 50 and 3000m high</div>
     <div class="text-center result" ng-if="cotmetCtrl.rating != undefined">
-      <span translate>Suggested grade</span>
+      <span translate>Suggested rating</span>
       {{ cotmetCtrl.rating }}
     </div>
-    <!--
-    <div class="text-center">
-      <button ng-click="cotmetCtrl.cotometerTechnicalGrade()" class="btn btn-primary" translate>Calculate the technical rating</button>
-    </div>
--->
   </div>
 </div>
 <div class="modal-footer">

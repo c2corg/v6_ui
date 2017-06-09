@@ -163,9 +163,9 @@ app.DocumentEditingController = function($scope, $element, $attrs, $http,
 
   /**
    * @type {Object} angular bootstrap modal
-   * @private
+   * @public
    */
-  this.modal_ = $uibModal;
+  this.modal = $uibModal;
 
   /**
    * @type {angular.$compile}
@@ -599,7 +599,7 @@ app.DocumentEditingController.prototype.preview = function() {
       var template = angular.element('#preview-container').clone();
       template.find('#preview-container-content').append(response['data']);
 
-      this.modal_.open({
+      this.modal.open({
         animation: true,
         template: this.compile_(template)(this.scope),
         controller: 'appPreviewModalController',
@@ -615,7 +615,7 @@ app.DocumentEditingController.prototype.preview = function() {
  */
 app.DocumentEditingController.prototype.confirmSave = function(isValid) {
   var template = angular.element('#save-confirmation-modal').clone();
-  var modalInstance = this.modal_.open({
+  var modalInstance = this.modal.open({
     animation: true,
     template: this.compile_(template)(this.scope),
     controller: 'appConfirmSaveModalController as saveCtrl'
