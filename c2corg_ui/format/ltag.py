@@ -26,8 +26,8 @@ class LTagPreprocessor(Preprocessor):
         return self.RE_LTAG_UNSUPPORTED.search(text) is not None
 
     def run(self, lines):
-        # Reset ltag counter
-        self.processor.reset_row_count()
+        # Reset ltag processor
+        self.processor.reset_for_new_document()
         new_lines = []
         is_ltag_block = False
         nb_lines = len(lines)
@@ -80,9 +80,10 @@ class LTagProcessor(BlockProcessor):
     def set_skip(self, skip):
         self.skip = skip
 
-    def reset_row_count(self):
+    def reset_for_new_document(self):
         self.pitch_count = 1
         self.abseil_count = 1
+        self.skip = False
 
     def increment_row_count(self, row):
         if self.RE_RTAG_ROW_DISTINCTION.search(row) is not None:
