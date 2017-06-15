@@ -133,10 +133,7 @@ updating_doc = route_id and route_lang
 
             ## ACTIVITIES
             <div class="form-group data full" id="route-activities" ng-init="activities = ${activities}">
-              <label app-context-help
-                context-help-title="{{'activities' | translate}}"
-                context-help-content-url="/static/partials/contexthelp/activities.html"
-                ><span translate>activities</span> *</label>
+              <label app-context-help context-help-title="{{'activities' | translate}}" context-help-content-url="/static/partials/contexthelp/activities.html"><span translate>activities</span> *</label>
               <div class="route-activities">
                 <div ng-repeat="activity in activities" class="activity" ng-if="activity !== 'paragliding' ">
                   <div>
@@ -548,10 +545,7 @@ updating_doc = route_id and route_lang
 
             ## EQUIPMENT  RATING
             <div class="form-group data half" ng-class="{ 'has-success': route.equipment_rating}" ng-if="route.activities.indexOf('snow_ice_mixed') > -1 || route.activities.indexOf('mountain_climbing') > -1 || route.activities.indexOf('rock_climbing') > -1 || route.activities.indexOf('ice_climbing') > -1 || route.activities.indexOf('via_ferrata') > -1">
-              <label app-context-help 
-				context-help-title="{{'equipment_rating' | translate}}" 
-				context-help-content-url="/static/partials/contexthelp/route-equipment_rating.html"
-				translate>equipment_rating</label>
+              <label app-context-help context-help-title="{{'equipment_rating' | translate}}" context-help-content-url="/static/partials/contexthelp/route-equipment_rating.html" translate>equipment_rating</label>
               <div class="input-group">
                 <select class="form-control" ng-model="route.equipment_rating" ng-options="rat as rat for rat in ${equipment_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
