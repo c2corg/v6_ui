@@ -107,7 +107,17 @@ class LTagProcessor(BlockProcessor):
         is_ltag = self.is_ltag(block)
         rows = block.split('\n')
 
-        log.debug("This block " + ("has ltags " + ("but will be skiped" if self.skip else "and will be processed") if is_ltag else "has no ltags") + " and is starting with \"" + rows[0] + "\"")
+        log_message = "This block "
+        if is_ltag:
+            log_message += "has ltags "
+            if self.skip:
+                log_message += "but will be skiped"
+            else
+                log_message += "and will be processed"
+        else
+            log_message += "has no ltags"
+
+        log_message += " and is starting with \"" + rows[0] + "\""
 
         return not self.skip and is_ltag
 
