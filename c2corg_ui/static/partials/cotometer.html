@@ -3,7 +3,7 @@
     <div class="text" translate>
       This tool estimates the technical difficulty of a ski route (ski rating).
     </div>
-    <div class="full">
+    <div class="full" ng-init="cotmetCtrl.skiability = 0">
       <label translate>Skiability</label>
       <div class="checkbox"><label><input type="radio" ng-model="cotmetCtrl.skiability" ng-value="0" ng-change="cotmetCtrl.cotometerTechnicalGrade()" /> <span translate>Wide and constant</span></label></div>
       <div class="checkbox"><label><input type="radio" ng-model="cotmetCtrl.skiability" ng-value="0.1" ng-change="cotmetCtrl.cotometerTechnicalGrade()" /> <span translate>1 or 2 complications (steeper or narrow section...)</span></label></div>

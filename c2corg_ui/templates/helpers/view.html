@@ -141,19 +141,7 @@
     </div>
   % endif
 </%def>
-<%def name="show_cotometer_dialog(module, lang, other_langs)">\
-  <%
-      # get the module without the 's' at the end ('routes' -> 'route')
-      # to reuse existing translation strings
-      document_type = module[:-1]
-  %>\
-  <div id="cotometer-dialog" app-loading>
-    <div class="modal-header">
-      <h3 class="text-center"><span translate>Ski cotometer</span></h3>
-    </div>
-    <app-cotometer module="'${module}'"></app-cotometer>
-  </div>
-</%def>
+  
 <%def name="show_locale_title(locale, is_tab_title=False)">\
   <%
       title = get_title(locale)
