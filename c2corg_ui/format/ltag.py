@@ -11,6 +11,8 @@ from markdown.preprocessors import Preprocessor
 from markdown.blockprocessors import BlockProcessor
 from markdown.util import etree
 import re
+import logging
+log = logging.getLogger(__name__)
 
 
 class LTagPreprocessor(Preprocessor):
@@ -35,6 +37,7 @@ class LTagPreprocessor(Preprocessor):
 
             # If there is an unsupported tag, skip the entire block
             if self.is_ltag_supported(line):
+                log.debug("There is unsupported LTags in this block => skip it")
                 self.processor.set_skip(True)
 
             is_ltag_line = self.processor.is_ltag(line)
@@ -101,7 +104,12 @@ class LTagProcessor(BlockProcessor):
         return self.RE_LTAG_BLOCK.search(text) is not None
 
     def test(self, parent, block):
-        return not self.skip and self.is_ltag(block)
+        is_ltag = self.is_ltag(block)
+        rows = block.split('\n')
+
+        log.debug("This block " + ("has ltags " + ("but will be skiped" if self.skip else "and will be processed") if is_ltag else "has no ltags") + " and is starting with \"" + rows[0] + "\"")
+
+        return not self.skip and is_ltag
 
     def run(self, parent, blocks):
         block = blocks.pop(0)
