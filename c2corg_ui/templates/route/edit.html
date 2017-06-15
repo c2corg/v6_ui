@@ -635,10 +635,7 @@ updating_doc = route_id and route_lang
 
             ## ROCK EXPOSITION RATING
             <div class="form-group data half" ng-class="{ 'has-success': route.exposition_rock_rating}" ng-if="route.activities.indexOf('rock_climbing') > -1 || route.activities.indexOf('mountain_climbing') > -1">
-              <label app-context-help 
-				context-help-title="{{'exposition_rock_rating' | translate}}" 
-				context-help-content-url="/static/partials/contexthelp/route-exposition_rock_rating.html"
-				translate>exposition_rock_rating</label>
+              <label app-context-help context-help-title="{{'exposition_rock_rating' | translate}}" context-help-content-url="/static/partials/contexthelp/route-exposition_rock_rating.html" translate>exposition_rock_rating</label>
               <div class="input-group">
                 <select class="form-control" ng-model="route.exposition_rock_rating" ng-options="rat as rat for rat in ${exposition_rock_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
