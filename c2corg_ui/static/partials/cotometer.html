@@ -13,7 +13,7 @@
       <label translate>Average slope (degrees)</label>
       <input ng-model="cotmetCtrl.slope" class="form-control" placeholder="{{'Average slope in degree' | translate}}" type="number" ng-change="cotmetCtrl.cotometerTechnicalGrade()">
     </div>
-      <div class="alert alert-danger" ng-if="cotmetCtrl.errorSlope" translate>The slope must be between 0 and 80°</div>
+      <div class="alert alert-danger" ng-if="cotmetCtrl.errorSlope" translate>The slope must be between 0 and 80 deg</div>
     <div id="elevation" class="full">
       <label translate>height_diff</label>
       <input name="message" ng-model="cotmetCtrl.elevation" class="form-control" type="number" ng-change="cotmetCtrl.cotometerTechnicalGrade()">
