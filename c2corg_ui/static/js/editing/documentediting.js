@@ -169,9 +169,9 @@ app.DocumentEditingController = function($scope, $element, $attrs, $http,
 
   /**
    * @type {angular.$compile}
-   * @private
+   * @public
    */
-  this.compile_ = $compile;
+  this.compile = $compile;
 
   this.scope[this.modelName] = this.documentService.document;
 
@@ -601,7 +601,7 @@ app.DocumentEditingController.prototype.preview = function() {
 
       this.modal.open({
         animation: true,
-        template: this.compile_(template)(this.scope),
+        template: this.compile(template)(this.scope),
         controller: 'appPreviewModalController',
         controllerAs: 'previewModalCtrl',
         size: 'xl'
@@ -617,7 +617,7 @@ app.DocumentEditingController.prototype.confirmSave = function(isValid) {
   var template = angular.element('#save-confirmation-modal').clone();
   var modalInstance = this.modal.open({
     animation: true,
-    template: this.compile_(template)(this.scope),
+    template: this.compile(template)(this.scope),
     controller: 'appConfirmSaveModalController as saveCtrl'
   });
 

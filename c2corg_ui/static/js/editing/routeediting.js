@@ -34,13 +34,6 @@ app.RouteEditingController = function($scope, $element, $attrs, $http,
     $uibModal, $compile, appLang, appAuthentication, ngeoLocation, appAlerts,
     appApi, authUrl, appDocument, appUrl, imageUrl) {
 
-
-  /**
-   * @type {angular.$compile}
-   * @private
-   */
-  this.compile__ = $compile;
-
   goog.base(this, $scope, $element, $attrs, $http, $uibModal, $compile,
     appLang, appAuthentication, ngeoLocation, appAlerts, appApi, authUrl,
     appDocument, appUrl, imageUrl);
@@ -79,7 +72,7 @@ app.RouteEditingController.prototype.openModal = function(selector,sizem) {
   if (sizem === null) {
     sizem = 'lg';
   }
-  this.modal.open({animation: true, size: sizem, template: this.compile__(template)(this.scope)});
+  this.modal.open({animation: true, size: sizem, template: this.compile(template)(this.scope)});
 };
 
 
