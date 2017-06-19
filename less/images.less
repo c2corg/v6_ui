@@ -29,7 +29,7 @@
   margin: 0;
 }
 .images-container {
-  .flex();
+  display: flex;
   flex-flow: wrap row;
   width: 100%;
   height: 100%;
@@ -55,7 +55,7 @@
   }
   .image-attributes {
     align-content: strech;
-    .flex();
+    display: flex;
     .btn-group {
       flex-grow: 1;
       @media @phone {
@@ -170,7 +170,7 @@
   flex-direction: column;
 
   @media @phone {
-    .calc(height, "100% - 45px");
+    height: ~"calc(100% - 45px)";
     margin-top: 45px;
   }
   &:hover {
@@ -281,7 +281,7 @@
 }
 .image-infos-buttons {
   position: absolute;
-  .calc(right, "35px * 3");
+  right: ~"calc(35px * 3)";
   top: -2px;
 
   @media @phone {

@@ -79,14 +79,14 @@ html, body{
   color: white;
   height: @page-main-title-height;
   position: absolute;
-  .calc(width, "100% - @{menu-width}");
+  width: ~"calc(100% - @{menu-width})";
   z-index: 31;
   text-align: center;
   padding-top: 2px;
   background-color: rgb(152, 181, 205);
 
   @media @tablet {
-    .calc(width, "100% - @{menu-width-tablet}");
+    width: ~"calc(100% - @{menu-width-tablet})";
   }
   @media @phone {
     padding: 0;
@@ -133,7 +133,7 @@ h1 {
     flex-flow: wrap row;
     flex-direction: column;
     align-items: stretch;
-    .flex();
+    display: flex;
     list-style: none;
     font-size: 1.2em;
     width: 16%;
@@ -260,18 +260,18 @@ app-pagination.areas, app-pagination.articles app-pagination.books {
   @media @phone {
     position: fixed;
     align-items: baseline;
-    .flex();
+    display: flex;
     justify-content: space-around;
     bottom: 0;
     z-index: 5;
-    width: calc(~"100% - 50px"); /* 50px = .toggle-map btn width*/
+    width: ~"calc(100% - 50px)"; /* 50px = .toggle-map btn width*/
     height: 45px;
     padding: 5px;
     left: 0;
     background-color: @lightgray;
 
     ul {
-      .flex();
+      display: flex;
       justify-content: space-between;
       width: 100%;
       height: 100%;
@@ -386,7 +386,7 @@ div.help-block {
       -moz-box-shadow: 0 0 36px -10px rgba(0,0,0,0.56);
       box-shadow: 0 0 36px -10px rgba(0,0,0,0.56);
       margin-top: 0;
-      height: calc(~"100vh - 120px") !important;
+      height: ~"calc(100vh - 120px)" !important;
     }
   }
 }
@@ -466,7 +466,7 @@ app-user{
 }
 
 .lang-selector {
-  .flex();
+  display: flex;
   width:100%;
   align-items: center;
   color: @darkgray;
@@ -506,7 +506,7 @@ app-lang{
 }
 
 app-simple-search {
-  .flex();
+  display: flex;
   border-radius: 6px;
   padding-left: 10px;
   margin-right: 10px;
@@ -523,7 +523,7 @@ app-simple-search {
 }
 
 .page-header {
-  .flex();
+  display: flex;
   background-color: @C2C-orange;
   position: fixed;
   width: 100%;
@@ -620,7 +620,7 @@ app-simple-search {
         background: rgba(255,255,255,0.25) !important;
         margin-left:3px;
         border-radius: 0px;
-        .calc(width, "100vw - 160px");
+        width: ~"calc(100vw - 160px)";
       }
     }
     @media @phone {
@@ -629,7 +629,7 @@ app-simple-search {
     }
   }
   .lang-user {
-    .flex();
+    display: flex;
     font-weight: bold;
     margin-left: 10px;
     margin-right: 10px;
@@ -908,7 +908,7 @@ ul {
 .view-details-section {
   .list-item {
     &.new-outing a, &.new-route a {
-      .flex();
+      display: flex;
       align-items: center;
     }
     &.waypoints  {
@@ -926,7 +926,7 @@ ul {
   }
   .associated-documents {
     width: 100%;
-    .flex();
+    display: flex;
     &.collapse:not(.in) {
       display: none;
     }
@@ -948,12 +948,12 @@ ul {
   color: red;
   font-size: 1.2em;
   right: 10px;
-  top: calc(~"100% - 30px");
+  top: ~"calc(100% - 30px)";
 }
 
 #route-activities, #outing-activities, #image-activities {
   .route-activities {
-    .flex();
+    display: flex;
     flex-flow: wrap;
     justify-content: center;
   }
