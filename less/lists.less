@@ -278,9 +278,6 @@
       justify-content: flex-end;
       overflow: hidden;
     }
-    .glyphicon-trash {
-      .calc(top, "100% - 60px");
-    }
     .date-location {
       justify-content: space-between;
     }
@@ -471,14 +468,14 @@
   }
   .activities {
     flex-shrink: 0;
-    font-size: 0.9em; 
+    font-size: 0.9em;
     width: 150px;
   }
   .list-item-title-lang {
     width: 30%;
     @media @big {
-    width: 40%;
-  }
+      width: 40%;
+    }
     flex-shrink: 0;
     margin-left: 2px;
   }
@@ -510,7 +507,7 @@
       }
     }
   }
-   
+
   .date-outing-item-infos {
     flex-direction: row;
     .outing-item-infos {
@@ -566,8 +563,8 @@
       max-width: 300px;
       .condition-rating {
         order: 0;
-	margin-left: 7%;
-	margin-right: 7%;
+        margin-left: 7%;
+        margin-right: 7%;
         align-self: center;
       }
       .outing-author {
@@ -619,6 +616,10 @@
       width: 120px;
     }
   }
+  .glyphicon-trash {
+    bottom: auto;
+    top: 5px;
+  }
 }
 
 .list-item-info .slackline-type {
@@ -628,13 +629,13 @@
 .card-list {
   display: none ;
   @media @tablet {
-    display: inherit ;
+    display: inherit;
   }
   @media @desktop {
-    display: inherit ;
+    display: inherit;
   }
   @media @big {
-    display: inherit ;
+    display: inherit;
   }
 }
 
@@ -644,7 +645,7 @@
   }
 }
 .view-details-section.images .location {
-  display: inherit ; 	
+  display: inherit;
 }
 
 .no-map-btn {
