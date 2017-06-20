@@ -624,7 +624,7 @@
   padding: 5px 15px 5px 15px;
   background-color: rgba(168, 168, 168, 0.07);
   margin: 10px 0 10px 0;
-  .shadow(0, 0, 2px, rgba(0,0,0,0.2));
+  box-shadow: 0 0 2px rgba(0,0,0,0.2);
   font-style: italic;
 
   label {
@@ -686,7 +686,7 @@ app-add-association {
   background: #CECECE;
 }
 .scroll-top-btn {
-  margin: 0 calc(~"50% - 40px") 100px calc(~"50% - 40px");
+  margin: 0 ~"calc(50% - 40px)" 100px ~"calc(50% - 40px)";
 }
 .view-details-wrapper {
   width:  100%;
@@ -708,7 +708,7 @@ app-add-association {
   -o-transform: rotate(4deg);
   -ms-transform: rotate(4deg);
   transform: rotate(4deg);
-  .shadow(2px, 2px, 10px, rgba(33,33,33,0.4) );
+  box-shadow: 2px 2px 10px rgba(33,33,33,0.4);
 
   @media @tablet {
     right: 30px;

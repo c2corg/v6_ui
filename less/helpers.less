@@ -1,10 +1,7 @@
 @import 'variables.less';
 
 .text-center-vertical {
-  .flex() !important;
-  -ms-flex-align: center;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
+  display: flex !important;
   align-items: center;
   justify-content: center;
 }
@@ -185,7 +182,7 @@ input[type=checkbox]:checked + * {
 }
 
 .heading {
-  .flex();
+  display: flex;
   width: 100%;
   padding: 5px 10px;
   justify-content: space-between;
@@ -258,7 +255,7 @@ p {
 }
 
 .vertical-align {
-  .flex() !important;
+  display: flex !important;
   align-items: center;
   justify-content: space-around;
 }
@@ -329,7 +326,7 @@ p {
 
 
 .flex {
-  .flex();
+  display: flex;
 }
 
 .margin-r-sm {
