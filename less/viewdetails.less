@@ -1,12 +1,17 @@
 @import "variables.less";
 
-.view-details-associations .section,  .view-details-informations, #document-informations, .name-icon,
+.view-details-associations .section,  .view-details-informations, #document-informations,
 .view-details-associations .associated-documents {
   .flex();
   &.collapse:not(.in) {
     display: none;
   }
   flex-flow: wrap row;
+}
+
+.name-icon {
+  display: flex;
+  flex-flow: wrap column;
 }
 
 .view-details-title {
