@@ -2,4 +2,24 @@
   "id":"wikilinks",
   "text":"Some text and a [[waypoints/12345/fr/some-slug|wiki link]] before [[/whatever|another one]] that follows.",
   "expected":"<p>Some text and a <a href=\"/waypoints/12345/fr/some-slug\">wiki link</a> before <a href=\"/whatever\">another one</a> that follows.</p>"
+},{
+  "id":"autolink1",
+  "text":"A raw URL http://www.example.com in some text",
+  "expected":"<p>A raw URL <a href=\"http://www.example.com\">http://www.example.com</a> in some text</p>"
+},{
+  "id":"autolink2",
+  "text":"A raw URL https://www.example.com in some text",
+  "expected":"<p>A raw URL <a href=\"https://www.example.com\">https://www.example.com</a> in some text</p>"
+},{
+  "id":"autolink3",
+  "text":"A raw URL www.example.com in some text",
+  "expected":"<p>A raw URL <a href=\"http://www.example.com\">www.example.com</a> in some text</p>"
+},{
+  "id":"autolink4",
+  "text":"Already converted links such as <a href=\"http://www.example.com\">a link</a> are not impacted.",
+  "expected":"<p>Already converted links such as <a href=\"http://www.example.com\">a link</a> are not impacted.</p>"
+},{
+  "id":"autolink5",
+  "text":"Even that one <a href=\"http://www.example.com\">www.example.com</a> is not impacted.",
+  "expected":"<p>Even that one <a href=\"http://www.example.com\">www.example.com</a> is not impacted.</p>"
 }]
