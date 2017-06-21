@@ -1,11 +1,10 @@
-<button class="btn btn-primary no-map-btn hidden-xs" ng-click="MapswitchCtrl.toggle()" ng-show="!noList && !MapswitchCtrl.hideMap" >
+<button class="btn btn-primary no-map-btn hidden-xs" ng-click="MapswitchCtrl.toggle()" ng-if="!noList && !MapswitchCtrl.hideMap">
   <span class="glyphicon glyphicon-globe"></span>
   <span translate >Hide map</span>
 </button>
 
 <button class="btn orange-btn btn-default no-list-btn hidden-xs"
-        ng-show="MapswitchCtrl.hideMap" ng-click="noList = false; mainCtrl.resizeMap(); MapswitchCtrl.toggle();">
+        ng-if="MapswitchCtrl.hideMap" ng-click="noList = false; mainCtrl.resizeMap(); MapswitchCtrl.toggle();">
   <span class="glyphicon glyphicon-globe"></span>
   <span translate>Show map</span>
 </button>
-

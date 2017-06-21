@@ -16,7 +16,7 @@ from json import dumps
 <%namespace file="helpers/view.html" import="get_outing_snow, get_outing_access,
     get_outing_participants, get_outing_general, get_outing_heights,
     show_fulldate, get_conditions"/>
-  
+
 <%namespace file="../helpers/cotometer.html" import="show_cotometer_dialog"/>
 <%
 outing_id = outing['document_id']
@@ -102,7 +102,7 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
   <app-map class="view-details-map"></app-map>
 % endif
 
-<section class="view-details-section" app-view-details ng-class="{'row-list' : switchCtrl.showList}">
+<section class="view-details-section" app-view-details ng-class="{'row-list' : switchActionCtrl.showList}">
 
   % if version:
     ${show_archive_data('outings', outing, locale, version)}
@@ -150,7 +150,11 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
          ng-if="userCtrl.hasEditRights('outings', {'users': ${userIds}})"
        % endif
     >
-      <app-list-switch></app-list-switch>
+      <ul class="actions">
+        <li>
+          <app-list-switch-action></app-list-switch-action>
+        </li>
+      </ul>
       <span class="lead">
         <div ng-show="userCtrl.auth.isAuthenticated() && userCtrl.hasEditRights('outings', {'users': ${userIds}})">
           <label translate>Add association</label>
