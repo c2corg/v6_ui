@@ -151,7 +151,7 @@
     </div>
   % endif
 </%def>
-  
+
 <%def name="show_locale_title(locale, is_tab_title=False)">\
   <%
       title = get_title(locale)
@@ -857,7 +857,7 @@
 
 <%def name="get_image_gallery()">\
   <div class="view-details-photos col-xs-12 tab description" ng-show="detailsCtrl.documentService.document.associations.images.length > 0">
-    <div class="photos" data-slick='{"variableWidth": true, "infinite": false, "focusOnSelect": false, "lazyLoad": "progressive"}'></div>
+    <div class="photos" data-slick='{"slidesToScroll": 2, "variableWidth": true, "infinite": false, "focusOnSelect": false, "lazyLoad": "progressive"}'></div>
   </div>
 </%def>
 

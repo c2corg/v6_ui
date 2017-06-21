@@ -300,7 +300,7 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
  * @private
  */
 app.ViewDetailsController.prototype.initSlickGallery_ = function() {
-  $('.photos').slick({slidesToScroll: 3, dots: false});
+  $('.photos').slick({});
 };
 
 
