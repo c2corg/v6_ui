@@ -145,8 +145,8 @@ app.utils.createImageSlide = function(file, imageUrl) {
 app.utils.createPhotoswipeSlideHTML = function(imgUrl, imgId, selector) {
   var slide = $(selector + imgId + '-slide');
   return '<div class="photoswipe-image-container">' +
-               '<img src="' + imgUrl + '" >' + slide.html() +
-             '</div>';
+           '<img src="' + imgUrl + '">' + slide.html() +
+         '</div>';
 };
 
 

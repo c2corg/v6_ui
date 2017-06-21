@@ -228,7 +228,7 @@
       width: 20px;
       margin: 20px auto;
     }
-    .activities, .categories, .image-type, .image-infos-buttons, .settings,
+    .activities, .categories, .image-type, .settings,
     .title, .date, .description {
       margin-top: 10px;
     }
@@ -245,7 +245,9 @@
   }
 }
 
-.pswp__button.info {
+.pswp__button--info,
+.pswp__button--open,
+.pswp__button--edit {
   background: none !important;
   font-size: 19px;
   color: #c3c7d0;
@@ -253,6 +255,11 @@
   margin-left: 3px;
   @media @phone {
     margin-top: -3px;
+  }
+
+  span {
+    top: 12px;
+    left: 12px;
   }
 }
 
@@ -269,41 +276,8 @@
   pointer-events: all;
 }
 
-.pswp__button, .image-infos-buttons button {
-  .glyphicon {
-    color: #CAD0D9;
-  }
-}
-
-.view-details-btn {
-  top: 1px;
-  position: relative;
-}
-.image-infos-buttons {
-  position: absolute;
-  right: ~"calc(35px * 3)";
-  top: -2px;
-
-  @media @phone {
-    top: 0;
-  }
-
-  button {
-    opacity: .8;
-    background-color: transparent;
-    border-color: transparent;
-    padding: 9px 5px 5px 5px;
-    width: 44px;
-    height: 44px;
-    font-size: 1.25em;
-    transition: .3s;
-
-    &:hover {
-      opacity: 1;
-      cursor: pointer;
-    }
-    .glyphicon-edit, .glyphicon-eye-open {
-      margin-right: 0 !important;
-    }
+.pswp__button {
+  &.glyphicon, .glyphicon {
+    color: #fff;
   }
 }

@@ -23,14 +23,13 @@ app.viewDetailsDirective = function() {
       ctrl.watchPswpContainer_();
 
       // clicking on 'info' btn will open slide from the right and get the infos
-      $('.pswp').on('click touchend', '.pswp__button.info', function(e) {
+      $('.pswp').on('click touchend', '.pswp__button--info', function(e) {
         $('.image-infos, .photoswipe-image-container img').toggleClass('showing-info');
-        ctrl.getImageInfo_($(e.target).attr('img-id').split('-')[1]);
+        ctrl.getImageInfo_($(e.target).attr('data-img-id'));
       });
 
       $('.pswp__button--arrow--left, .pswp__button--arrow--right').click(function() {
         $('.showing-info').removeClass('showing-info');
-        ctrl.compile_($('.image-infos-buttons').contents())(ctrl.scope_); // recompile the protected-url-btn on each slide change
       });
     }
   };
@@ -110,7 +109,6 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
    * @private
    */
   this.scope_ = $scope;
-
 };
 
 
@@ -159,7 +157,7 @@ app.ViewDetailsController.prototype.toggleTab = function(tab) {
  * @private
  */
 app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
-  //Photoswipe configuration for product page zoom
+  // Photoswipe configuration for product page zoom
   var initPhotoSwipeFromDOM = function(gallerySelector) {
     // parse slide data (url, title, size ...) from DOM elements
     // (children of gallerySelector)
@@ -180,7 +178,8 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
         image['src'] = linkEl.getAttribute('href');
 
         item = { // create slide object
-          html: app.utils.createPhotoswipeSlideHTML(image['src'], id.split('-')[1], '#image-')
+          html: app.utils.createPhotoswipeSlideHTML(image['src'], id.split('-')[1], '#image-'),
+          id: id.split('-')[1]
          // TODO: for zoom in animation -> add this when WIDTH & HEIGHT will be returned by API in image properties
          // w: image.naturalWidth,
          // h: image.naturalHeight
@@ -188,7 +187,7 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
 
         // <img> thumbnail element, retrieving thumbnail url (small img)
         if (linkEl.children.length > 0) {
-         // ADD  item.src = linkEl.getAttribute('href'); when WIDHT & HEIGHT will be returned
+         // ADD  item.src = linkEl.getAttribute('href'); when WIDTH & HEIGHT will be returned
           item.msrc = linkEl.children[0].getAttribute('src');
         }
         item.el = figureEl; // save link to element for getThumbBoundsFn
@@ -204,7 +203,6 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
 
     var openPhotoSwipe = function(index, clickedGallery) {
       var pswpElement = document.querySelectorAll('.pswp')[0];
-      var gallery;
       var options;
       var items = parseThumbnailElements(clickedGallery);
 
@@ -239,11 +237,16 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
         return;
       }
       // Pass data to PhotoSwipe and initialize it
-      gallery = new window.PhotoSwipe(pswpElement, window.PhotoSwipeUI_Default, items, options);
-      gallery.init();
-      this.compile_($('.image-infos-buttons').contents())(this.scope_);  // recompile the protected-url-btn on gallery open
+      var pswp = new window.PhotoSwipe(pswpElement, window.PhotoSwipeUI_Default, items, options);
+      var lang = this.lang.getLang();
+      pswp.listen('beforeChange', function() {
+        var id = pswp['currItem']['id'];
+        $('.pswp__button--info').attr('data-img-id', id);
+        $('.pswp__button--open').attr('href', '/images/' + id + '/' + lang);
+        $('.pswp__button--edit').attr('href', '/images/edit/' + id + '/' + lang);
+      });
+      pswp.init();
       $('.showing-info').removeClass('showing-info');
-
     }.bind(this);
 
     // triggers when user clicks on thumbnail
@@ -362,8 +365,6 @@ app.ViewDetailsController.prototype.loadImages_ = function(initGalleries) {
   for (var i in photos) {
     var scope = this.scope_.$new(true);
     var id = 'image-' + photos[i]['document_id'];
-    photos[i]['edit_url'] = '/images/edit/' + photos[i]['document_id'] + '/' + photos[i]['locales'][0]['lang'];
-    photos[i]['view_url'] = this.url_.buildDocumentUrl('images', photos[i]['document_id'], photos[i]['locales'][0], photos[i]['locales'][0]['lang']);
     photos[i]['image_id'] = id;
     scope['photo'] = photos[i];
 
@@ -380,8 +381,6 @@ app.ViewDetailsController.prototype.loadImages_ = function(initGalleries) {
     var caption = $(el).find('figcaption')[0] ? $(el).find('figcaption')[0].textContent : '';
 
     var scope = this.scope_.$new(true);
-    scope['edit_url'] = '/images/edit/' + id + '/' + this.lang.getLang();
-    scope['view_url'] = '/images/' + id + '/' + this.lang.getLang();
     scope['image_id'] = 'embedded-' + id;
     scope['locales'] = [{'title': caption}];
 
@@ -413,18 +412,30 @@ app.ViewDetailsController.prototype.openEmbeddedImage = function(imgUrl, imgId) 
 
     // add all the other images that are not the one you clicked on
     if (src !== imgUrl) {
-      var item = {html: app.utils.createPhotoswipeSlideHTML(src, id, '#embedded-')};
+      var item = {
+        html: app.utils.createPhotoswipeSlideHTML(src, id, '#embedded-'),
+        id: id
+      };
       items.push(item);
     } else {
-      var clickedImg = {html: app.utils.createPhotoswipeSlideHTML(imgUrl, imgId, '#embedded-')};
+      var clickedImg = {
+        html: app.utils.createPhotoswipeSlideHTML(imgUrl, imgId, '#embedded-'),
+        id: imgId
+      };
       items.push(clickedImg);
       index = i;
     }
   }
 
-  var gallery = new window.PhotoSwipe(pswpElement, window.PhotoSwipeUI_Default, items, {index: index});
-  gallery.init();
-  this.compile_($('.image-infos-buttons').contents())(this.scope_);
+  var pswp = new window.PhotoSwipe(pswpElement, window.PhotoSwipeUI_Default, items, {index: index});
+  var lang = this.lang.getLang();
+  pswp.listen('beforeChange', function() {
+    var id = pswp['currItem']['id'];
+    $('.pswp__button--info').attr('data-img-id', id);
+    $('.pswp__button--open').attr('href', '/images/' + id + '/' + lang);
+    $('.pswp__button--edit').attr('href', '/images/edit/' + id + '/' + lang);
+  });
+  pswp.init();
 };
 
 
@@ -461,7 +472,6 @@ app.ViewDetailsController.prototype.watchPswpContainer_ = function() {
   if (target) {
     var observer = new MutationObserver(function() {
       $('.showing-info').removeClass('showing-info');
-      this.compile_($('.image-infos-buttons').contents())(this.scope_);
     }.bind(this));
     observer.observe(target, {attributes: true, attributeFilter: ['style']});
   }

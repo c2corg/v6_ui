@@ -151,7 +151,7 @@
     </div>
   % endif
 </%def>
-  
+
 <%def name="show_locale_title(locale, is_tab_title=False)">\
   <%
       title = get_title(locale)
@@ -809,6 +809,13 @@
 
           <button class="pswp__button pswp__button--close" title="{{'Close (Esc)' | translate}}"></button>
           <button class="pswp__button pswp__button--fs" title="{{'Toggle fullscreen' | translate}}"></button>
+          <button class="pswp__button pswp__button--info glyphicon glyphicon-info-sign"></button>
+          <a href="#" class="pswp__button pswp__button--edit">
+            <span class="glyphicon glyphicon-edit"></span>
+          </a>
+          <a href="#" class="pswp__button pswp__button--open">
+            <span class="glyphicon glyphicon-eye-open"></span>
+          </a>
 
           ## Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR
           ## element will get class pswp__preloader--active when preloader is running
@@ -821,10 +828,6 @@
           </div>
         </div>
 
-        <div class="pswp__caption">
-          <div class="pswp__caption__center"></div>
-        </div>
-
         <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
           <div class="pswp__share-tooltip"></div>
         </div>
@@ -835,6 +838,9 @@
         <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
         </button>
 
+        <div class="pswp__caption">
+          <div class="pswp__caption__center"></div>
+        </div>
       </div>
     </div>
   </div>
