@@ -932,7 +932,7 @@
 <%def name="generate_share_metadata(document, document_type)">\
   ## metadata specific to google and facebook for sharing
   % if not version:
-    % if document_type != 'images' and document.get('associations').get('images'):
+    % if document_type not in ['images', 'profiles'] and document.get('associations').get('images'):
       % for image in document.get('associations').get('images'):
         <meta property="og:image" content="${image_url + image['filename']}">
         <meta itemprop="image" content="${image_url + image['filename']}" />
