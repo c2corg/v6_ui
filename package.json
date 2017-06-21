@@ -13,6 +13,8 @@
   },
   "license": "AGPL-3.0",
   "dependencies": {
+    "angular-animate": "1.5.8",
+    "angular-loading-bar": "0.9.0",
     "angular-moment": "1.0.0",
     "angular-recaptcha": "4.0.3",
     "angular-sanitize": "1.5.8",
