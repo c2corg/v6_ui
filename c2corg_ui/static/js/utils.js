@@ -128,10 +128,10 @@ app.utils.getImageFileBase64Source = function(file) {
 app.utils.createImageSlide = function(file, imageUrl) {
   var smallImage = app.utils.createImageUrl(file.filename, 'SI');
   var bigImage = app.utils.createImageUrl(file.filename, 'BI');
-  var ahref = '<a href="' + imageUrl + bigImage + '" data-info-id="' + file['image_id'] + '-slide">';
+  var ahref = '<a href="' + imageUrl + bigImage + '" data-info-id="' + file['image_id'] + '-slide" title="' + file['locales'][0]['title'] + '">';
   var img = '<img src="' + imageUrl + smallImage + '"></a>';
 
-  return '<figure id="' + file['image_id'] + '">' + ahref + img +  '<app-slide-info></app-slide-info></figure>';
+  return '<figure id="' + file['image_id'] + '">' + ahref + img + '<app-slide-info></app-slide-info></figure>';
 };
 
 

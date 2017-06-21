@@ -168,18 +168,21 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
       var linkEl;
       var item;
       var id;
+      var title;
 
       for (var i = 0; i < thumbElements.length; i++) {
         figureEl = thumbElements[i]; // <figure> element
         linkEl = figureEl.children[0]; // <a> element
         // get the data-info-id and clone into the slide that's being opened
         id = linkEl.getAttribute('data-info-id');
+        title = linkEl.getAttribute('title');
         var image = new Image();
         image['src'] = linkEl.getAttribute('href');
 
         item = { // create slide object
           html: app.utils.createPhotoswipeSlideHTML(image['src'], id.split('-')[1], '#image-'),
-          id: id.split('-')[1]
+          id: id.split('-')[1],
+          title: title
          // TODO: for zoom in animation -> add this when WIDTH & HEIGHT will be returned by API in image properties
          // w: image.naturalWidth,
          // h: image.naturalHeight
@@ -409,18 +412,25 @@ app.ViewDetailsController.prototype.openEmbeddedImage = function(imgUrl, imgId) 
   for (var i = 0; i <  embeddedImages.length;  i++) {
     var src = embeddedImages[i].src.slice(0, -2) + 'BI';
     var id = parseInt($(embeddedImages[i]).attr('img-id'), 10);
+    var title = undefined;
+    var putativeFigCaption = embeddedImages[i].nextSibling;
+    if (putativeFigCaption.tagName === 'FIGCAPTION') {
+      title = putativeFigCaption.textContent;
+    }
 
     // add all the other images that are not the one you clicked on
     if (src !== imgUrl) {
       var item = {
         html: app.utils.createPhotoswipeSlideHTML(src, id, '#embedded-'),
-        id: id
+        id: id,
+        title: title
       };
       items.push(item);
     } else {
       var clickedImg = {
         html: app.utils.createPhotoswipeSlideHTML(imgUrl, imgId, '#embedded-'),
-        id: imgId
+        id: imgId,
+        title: title
       };
       items.push(clickedImg);
       index = i;
