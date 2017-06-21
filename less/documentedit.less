@@ -118,7 +118,7 @@
   }
 
   .section {
-    .flex();
+    display: flex;
     flex-flow: wrap row;
     justify-content: space-between;
     border: 2px solid #eee;
@@ -247,7 +247,7 @@
     .content {
       padding: 10px 20px;
       width: 100%;
-      .flex();
+      display: flex;
       flex-flow: wrap row;
       justify-content: space-between;
 
@@ -327,10 +327,7 @@
   .form-control-feedback {
     position: relative;
     top: -34px !important;
-    left: -moz-calc(~"100% + 5px");
-    left: -webkit-calc(~"100% + 5px");
-    left: -o-calc(~"100% + 5px");
-    left: calc(~"100% + 5px");
+    left: ~"calc(100% + 5px)";
     width: 14px;
     height: 0;
     z-index: 0 !important;
@@ -357,7 +354,7 @@
 
   .progress-bar-edit {
     position: relative;
-    .flex();
+    display: flex;
     justify-content: space-around;
     width: 102%;
     margin: 40px 20px 20px 0;

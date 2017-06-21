@@ -1,0 +1,13 @@
+<%def name="show_cotometer_dialog(module, lang, other_langs)">\
+  <%
+      # get the module without the 's' at the end ('routes' -> 'route')
+      # to reuse existing translation strings
+      document_type = module[:-1]
+  %>\
+  <section id="cotometer-dialog" app-loading>
+    <div class="modal-header">
+      <h3 class="text-center"><span translate>Cotometer</span> (<span x-translate>${document_type}</span>)</h3>
+    </div>
+    <app-cotometer module="'${module}'"></app-cotometer>
+  </section>
+</%def>

@@ -229,13 +229,12 @@ app.CardController.prototype.getFullRatings = function() {
 
   for (var p in doc) {
     // every property that has 'rating' in it but with some exceptions.
-    if (doc.hasOwnProperty(p) &&
-      (p.indexOf('rating') > -1 && p !== 'rock_free_rating' && p !== 'rock_required_rating' && p !== 'ski_rating'
-        && p !== 'hiking_mtb_exposition' && p !== 'labande_global_rating' && p !== 'labande_ski_rating'
-        && p !== 'mtb_up_rating' && p !== 'mtb_down_rating')) {
+    if (doc.hasOwnProperty(p) && p.indexOf('rating') > -1 &&
+        p !== 'rock_free_rating' && p !== 'rock_required_rating' && p !== 'ski_rating' &&
+        p !== 'labande_global_rating' && p !== 'labande_ski_rating') {
       ratings[p] = doc[p];
     } else {
-      if (doc.hiking_mtb_exposition) {
+      if (p === 'hiking_mtb_exposition') {
         ratings['hiking_mtb_exposition'] = doc.hiking_mtb_exposition;
 
       } else if (p === 'ski_rating' || p === 'ski_exposition') {
@@ -243,9 +242,6 @@ app.CardController.prototype.getFullRatings = function() {
 
       } else if (p === 'labande_global_rating' || p === 'labande_ski_rating') {
         ratings['labande_rating'] = this.slashSeparatedRating_(doc.labande_global_rating, doc.labande_ski_rating);
-
-      } else if (p === 'mtb_up_rating' || p === 'mtb_down_rating') {
-        ratings['mtb_rating'] = this.slashSeparatedRating_(doc.mtb_down_rating, doc.hiking_mtb_exposition);
 
       } else if (p === 'rock_required_rating' || p === 'rock_free_rating') {
         ratings['rock_rating'] = doc.rock_free_rating;
@@ -273,10 +269,9 @@ app.CardController.prototype.getFullRatings = function() {
  * @return {string} rating
  */
 app.CardController.prototype.slashSeparatedRating_ = function(rating1, rating2) {
-  var rating = rating1 ? rating1 + '' : '';
+  var rating = rating1 || '';
   rating += (rating1 && rating2) ? '/' : '';
-  rating += rating2 ? rating2 + '' : '';
-
+  rating += rating2 || '';
   return rating;
 };
 

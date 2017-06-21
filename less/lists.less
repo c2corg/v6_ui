@@ -1,7 +1,7 @@
 .list {
   width:100%;
   padding: 2px 2px 50px 2px;
-  .flex();
+  display: flex;
   flex-flow: wrap;
   margin-left: -4px;
   margin-top: -4px;
@@ -94,7 +94,7 @@
   }
 
   .list-item-title-lang {
-    .flex();
+    display: flex;
     align-items: center;
     margin-bottom: 2px;
   }
@@ -107,7 +107,7 @@
     text-decoration: none;
     color: #919191;
     font-weight: normal;
-    .flex();
+    display: flex;
     flex-direction: column;
     -webkit-flex-direction: column;
     justify-content: flex-start;
@@ -180,8 +180,8 @@
       flex: 1;
     }
     .waypoint-infos {
-      .calc(width, "100% - 20px");
-      .flex();
+      width: ~"calc(100% - 20px)";
+      display: flex;
       align-items: baseline;
       flex-wrap: wrap;
     }
@@ -190,7 +190,7 @@
   &.books {
     .author {
       line-height: normal;
-      .calc(width, "100% - 30px");
+      width: ~"calc(100% - 30px)";
     }
     .glyphicon-pencil {
       color: @lightgray !important;
@@ -207,7 +207,7 @@
   &.images  {
     min-height: 170px;
     a {
-      .flex();
+      display: flex;
       flex-flow: wrap;
     }
     .list-item-info {
@@ -228,8 +228,8 @@
       width: 120px;
     }
     .activity-author {
-      .calc(width, "100% - 20px");
-      .flex();
+      width: ~"calc(100% - 20px)";
+      display: flex;
       justify-content: space-between;
       flex-wrap: nowrap;
       .condition-rating {
@@ -267,13 +267,13 @@
     }
     .list-item-info {
       justify-content: flex-start;
-      .calc(width, "100% - 50px");
+      width: ~"calc(100% - 50px)";
       align-self: flex-start;
     }
     .outing-author {
       color: @gray;
       align-items: flex-end;
-      .flex();
+      display: flex;
       flex-grow: 1;
       justify-content: flex-end;
       overflow: hidden;
@@ -319,7 +319,7 @@
 
 
 .documents-list-section-container {
-  .flex();
+  display: flex;
 
   &.no-map {
     .page-main-title, .documents-list-section {
@@ -335,7 +335,7 @@
 }
 .documents-list-section, .not-found-section, .map-right .map {
   margin-top: @page-main-title-height;
-  .calc(height, "100vh - @{page-header-height} - @{page-main-title-height}");
+  height: ~"calc(100vh - @{page-header-height} - @{page-main-title-height})";
 }
 
 .documents-list-section, .not-found-section {
@@ -347,7 +347,7 @@
   @media @phone {
     flex-basis: 100%;
     padding-top: 35px;
-    .calc(height, "100vh - 92px");
+    height: ~"calc(100vh - 92px)";
   }
   .show-documents-filters-phone {
     display: none;
@@ -386,14 +386,14 @@
 .section.associations .list-item, .view-details-section .list-item {
   font-size: 0.9em;
   &.new-outing a, &.new-route a {
-    .flex();
+    display: flex;
     align-items: center;
   }
   &.waypoints  {
     &.to-route {
       min-height: 115px;
       flex-wrap: wrap;
-      .flex();
+      display: flex;
       app-card {
         flex-basis: 100%;
       }
@@ -484,7 +484,7 @@
     align-self: center;
   }
   .article-categories, .book-types {
-    .calc(width, "60% - 250px");
+    width: ~"calc(60% - 250px)";
     align-self: center;
   }
   .author {
@@ -544,9 +544,9 @@
           flex-shrink: 0;
         }
         .location {
-          .calc(width, "20% - 70px");
+          width: ~"calc(20% - 70px)";
           @media @big {
-            .calc(width, "30% - 70px");
+            width: ~"calc(30% - 70px)";
           }
           max-width: 250px;
           @media @big {
@@ -583,9 +583,9 @@
     flex-direction: row;
     .list-item-info {
       .list-item-title-lang {
-        .calc(width, "80% - 300px");
+        width: ~"calc(80% - 300px)";
         @media @big {
-          .calc(width, "70% - 400px");
+          width: ~"calc(70% - 400px)";
         }
         flex-shrink: 0;
         margin-left: 2px;
@@ -650,7 +650,7 @@
 
 .no-map-btn {
     position: absolute;
-    .calc(top, "100% - 80px");
+    top: ~"calc(100% - 80px)";
     right: 10px;
     z-index: 2;
     margin-left: 10px;

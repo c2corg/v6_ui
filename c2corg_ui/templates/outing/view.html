@@ -16,7 +16,8 @@ from json import dumps
 <%namespace file="helpers/view.html" import="get_outing_snow, get_outing_access,
     get_outing_participants, get_outing_general, get_outing_heights,
     show_fulldate, get_conditions"/>
-
+  
+<%namespace file="../helpers/cotometer.html" import="show_cotometer_dialog"/>
 <%
 outing_id = outing['document_id']
 outing['doctype'] = 'outings'
@@ -181,6 +182,7 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
     ${delete_association_confirmation_modal()}
     ${show_merge_documents_dialog('outings')}
     ${show_delete_document_dialog('outings', lang, other_langs)}
+    ${show_cotometer_dialog('outings', lang, other_langs)}
   </div>
 
   ${photoswipe_gallery()}

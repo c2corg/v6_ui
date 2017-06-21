@@ -16,6 +16,7 @@ updating_doc = route_id and route_lang
     show_editing_associated_books, show_preview_container, show_editing_buttons,
     show_save_confirmation_modal, show_protected_warning"/>
 <%namespace file="../helpers/orientations.svg" import="show_orientations"/>
+<%namespace file="../helpers/cotometer.html" import="show_cotometer_dialog"/>
 
 <%block name="pagetitle"><title ng-init="id=${route_id if route_id else 0}" ng-bind="id ? mainCtrl.page_title('Editing a route') : mainCtrl.page_title('Creating a route')">${show_title('Create/edit route')}</title></%block>
 
@@ -40,7 +41,7 @@ updating_doc = route_id and route_lang
       <ul class="progress-bar-edit">
         <li class="nav-step-1" ng-click="progressBarCtrl.step(1, 'route',  'backwards')" ng-class="{'nav-step-selected': progressBarCtrl.currentStep == 1 }"><span class="nav-text"><span translate>route</span> & <span translate>associations</span></span><span class="bullet-container"><span class="bullet"></span></span></li>
         <li class="nav-step-2" ng-click="progressBarCtrl.step(2, 'route', progressBarCtrl.previousStep >= 2 ? 'backwards' : 'forwards')"><span class="nav-text"><span translate>figures</span></span><span class="bullet-container"><span class="bullet"></span></span></li>
-        <li class="nav-step-3" ng-click="progressBarCtrl.step(3, 'route', progressBarCtrl.previousStep >= 3 ? 'backwards' : 'forwards')"><span class="nav-text"><span translate>Comments</span></span></span><span class="bullet-container"><span class="bullet"></span></span></li>
+        <li class="nav-step-3" ng-click="progressBarCtrl.step(3, 'route', progressBarCtrl.previousStep >= 3 ? 'backwards' : 'forwards')"><span class="nav-text"><span translate>Comments</span></span><span class="bullet-container"><span class="bullet"></span></span></li>
       </ul>
 
       ## NAV BUTTONS
@@ -66,7 +67,7 @@ updating_doc = route_id and route_lang
                            'has-error': editForm.title.$touched && editForm.title.$invalid,
                            'has-success': editForm.title.$touched && editForm.title.$valid }">
             <label ng-class="{ 'control-label': editForm.title.$touched && editForm.title.$invalid }"><span translate>title</span> *</label>
-            <span uib-tooltip="{{mainCtrl.translate('main waypoint title')}}"/><input type="text" name="main_waypoint_title"
+            <span uib-tooltip="{{mainCtrl.translate('main waypoint title')}}"><input type="text" name="main_waypoint_title"
               ng-model="route.main_waypoint_title" ng-show="route.main_waypoint_title" class="form-control" disabled></span>
             <input type="text" name="title" ng-model="route.locales[0].title" ng-minlength="3" class="form-control" required />
             <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.title.$valid"></span>
@@ -133,7 +134,7 @@ updating_doc = route_id and route_lang
 
             ## ACTIVITIES
             <div class="form-group data full" id="route-activities" ng-init="activities = ${activities}">
-              <label><span translate>activities</span> *</label>
+              <label app-context-help context-help-title="{{'activities' | translate}}" context-help-content-url="/static/partials/contexthelp/activities.html"><span translate>activities</span> *</label>
               <div class="route-activities">
                 <div ng-repeat="activity in activities" class="activity" ng-if="activity !== 'paragliding' ">
                   <div>
@@ -461,7 +462,7 @@ updating_doc = route_id and route_lang
 
             ## DURATIONS
             <div class="form-group data half" ng-class="{ 'has-success': route.durations}">
-              <label><span translate>durations</span> (<span translate>days</span>)</span></label>
+              <label><span translate>durations</span> (<span translate>days</span>)</label>
               <ul class="types">
                 <li ng-repeat="type in ${route_duration_types}" ng-click="editCtrl.pushToArray(route, 'durations', type, $event)">
                   <div class="checkbox"><input type="checkbox" ng-checked="route.durations.indexOf(type) > -1"><span>{{type | translate}}</span></div>
@@ -497,8 +498,10 @@ updating_doc = route_id and route_lang
               <div class="input-group">
                 <select class="form-control" ng-model="route.ski_rating" ng-options="rat as rat for rat in ${ski_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
+                <span class="input-group-addon" ng-click="editCtrl.openModal('#cotometer-dialog','md')"><span class="glyphicon glyphicon-sort-by-attributes"></span></span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.ski_rating"></span>
+      
             </div>
 
             ## LABANDE SKI RATING
@@ -554,7 +557,7 @@ updating_doc = route_id and route_lang
 
             ## EQUIPMENT  RATING
             <div class="form-group data half" ng-class="{ 'has-success': route.equipment_rating}" ng-if="route.activities.indexOf('snow_ice_mixed') > -1 || route.activities.indexOf('mountain_climbing') > -1 || route.activities.indexOf('rock_climbing') > -1 || route.activities.indexOf('ice_climbing') > -1 || route.activities.indexOf('via_ferrata') > -1">
-              <label translate>equipment_rating</label>
+              <label app-context-help context-help-title="{{'equipment_rating' | translate}}" context-help-content-url="/static/partials/contexthelp/route-equipment_rating.html" translate>equipment_rating</label>
               <div class="input-group">
                 <select class="form-control" ng-model="route.equipment_rating" ng-options="rat as rat for rat in ${equipment_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
@@ -644,7 +647,7 @@ updating_doc = route_id and route_lang
 
             ## ROCK EXPOSITION RATING
             <div class="form-group data half" ng-class="{ 'has-success': route.exposition_rock_rating}" ng-if="route.activities.indexOf('rock_climbing') > -1 || route.activities.indexOf('mountain_climbing') > -1">
-              <label translate>exposition_rock_rating</label>
+              <label app-context-help context-help-title="{{'exposition_rock_rating' | translate}}" context-help-content-url="/static/partials/contexthelp/route-exposition_rock_rating.html" translate>exposition_rock_rating</label>
               <div class="input-group">
                 <select class="form-control" ng-model="route.exposition_rock_rating" ng-options="rat as rat for rat in ${exposition_rock_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
@@ -740,7 +743,7 @@ updating_doc = route_id and route_lang
             ## ROUTE HISTORY
             <div class="form-group data full">
               <label translate>route_history</label>
-              <textarea app-markdown-editor name="route_history" ng-model="route.locales[0].route_history" class="form-control"></textarea>
+              <textarea app-markdown-editor name="route_history" ng-model="route.locales[0].route_history" class="form-control" placeholder="{{'Describes here historical information about the route (date, names..) ' | translate}}"></textarea>
             </div>
 
             ## GEAR LOCALE
@@ -777,4 +780,5 @@ updating_doc = route_id and route_lang
 
   ${show_preview_container()}
   ${show_save_confirmation_modal(updating_doc)}
+  ${show_cotometer_dialog('routes', lang, other_langs)}
 </section>

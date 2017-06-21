@@ -10,10 +10,9 @@
           <span class="value">{{::cardCtrl.showArea(doc['areas'])}}</span>
         </div>
         <div class="flex wrap-row route-infos">
-          <span class="elevation" "
-                uib-tooltip="{{'elevation_max'| translate}}" tooltip-append-to-body="true">
+          <span class="elevation" uib-tooltip="{{'elevation_max'| translate}}" tooltip-append-to-body="true">
             <span class="glyphicon glyphicon-sort-by-attributes rotate-180" ng-if="::doc['elevation_max']"></span>
-            <span class="value"  ng-if="::doc['elevation_max']">{{::doc['elevation_max']}}&nbsp;m</span>
+            <span class="value" ng-if="::doc['elevation_max']">{{::doc['elevation_max']}}&nbsp;m</span>
           </span>
           <span class="height-diff" uib-tooltip="{{'height_diff_up'| translate}}">
             <span class="icon-height_diff" ng-if="::doc['height_diff_up']"></span>
@@ -40,8 +39,8 @@
           </div>
           <div class="full-rating flex" ng-init="fullRatings = cardCtrl.getFullRatings()">
             <span class="icon-rating" ng-if="::fullRatings"></span>
-            <div  ng-if="::fullRatings" ng-repeat="(attr, val) in ::fullRatings" uib-tooltip="{{attr | translate}}" class="rating" 
-              tooltip-append-to-body="true">
+            <div ng-if="::fullRatings" ng-repeat="(attr, val) in ::fullRatings" class="rating"
+                 uib-tooltip="{{attr | translate}}" tooltip-append-to-body="true">
               <span class="value">{{::val}}</span>
             </div>
           </div>

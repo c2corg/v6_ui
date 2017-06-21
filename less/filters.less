@@ -34,14 +34,14 @@ form[app-search-filters] {
       display: none;
     }
     .sticky-filters-btn-container {
-      .flex();
+      display: flex;
     }
   }
   /*there are 2 of them: one in .filters and one in #moreFilters*/
   .simple-filters {
     justify-content: space-between;
     flex-flow: wrap row;
-    .flex();
+    display: flex;
     .filter {
       width:  33%;
       @media @phone {
@@ -99,7 +99,7 @@ form[app-search-filters] {
 
     .filters-bottom-buttons {
       width: 100%;
-      .flex();
+      display: flex;
       justify-content: space-around;
       position: relative;
 
@@ -135,7 +135,7 @@ form[app-search-filters] {
     }
     .activities {
       list-style: none;
-      .flex();
+      display: flex;
       justify-content: center;
       padding: 0;
       flex-flow: wrap row;
@@ -290,7 +290,7 @@ form[app-search-filters] {
 } /* multi-selectbox */
 
 .more-filters-btn-container {
-  .flex();
+  display: flex;
   justify-content: center;
   flex-flow: wrap row;
   padding-top: 5px;
