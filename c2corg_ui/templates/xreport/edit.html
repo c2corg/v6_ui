@@ -491,13 +491,18 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].modifications"></span>
             </div>
 
-			
-			
             ## other_comments
             <div id="other_comments-group" class="form-group full">
               <label translate>other_comments</label>
               <textarea app-markdown-editor name="other_comments" ng-model="xreport.locales[0].other_comments" class="form-control" placeholder="{{'Briefly describe any injuries. Comments that do not fit into any other fields can be entered here.' | translate}}"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].other_comments"></span>
+            </div>
+
+            ## COMMENTS MANAGEMENT
+            <div class="form-group half">
+              <label translate>disable_comments</label>
+              <input type="checkbox" ng-model="xreport.disable_comments">
+              <span ng-click="editCtrl.pushToArray(xreport, 'disable_comments', !xreport.disable_comments, $event)" translate>If checked, comments cannot be posted or read.</span>
             </div>
 
           </div>

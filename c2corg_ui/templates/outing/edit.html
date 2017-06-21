@@ -528,7 +528,7 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## PARTICIPANTS
-            <div id="participants-group" class="form-group  full" ng-class="{'has-success': outing.locales[0]['participants']}">
+            <div id="participants-group" class="form-group full" ng-class="{'has-success': outing.locales[0]['participants']}">
               <label translate>participants</label>
               <div class="input-group">
                 <input type="text"  ng-model="outing.locales[0]['participants']" class="form-control" />
@@ -555,9 +555,16 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## COMMENT
-            <div class=" full form-group">
+            <div class="full form-group">
               <label translate>personal comments</label>
               <textarea app-markdown-editor class="form-control description" placeholder="{{'write your comments' | translate}}" ng-model="outing.locales[0]['description']"></textarea>
+            </div>
+
+            ## COMMENTS MANAGEMENT
+            <div class="form-group half">
+              <label translate>disable_comments</label>
+              <input type="checkbox" ng-model="outing.disable_comments">
+              <span ng-click="editCtrl.pushToArray(outing, 'disable_comments', !outing.disable_comments, $event)" translate>If checked, comments cannot be posted or read.</span>
             </div>
 
           </div>

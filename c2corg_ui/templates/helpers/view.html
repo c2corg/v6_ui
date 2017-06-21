@@ -861,7 +861,7 @@
   </div>
 </%def>
 
-<%def name="get_comments()">\
+<%def name="get_comments(disable=False)">\
   <div class="view-details-comments col-xs-12 comments">
     <h3 class="heading comments"
         data-toggle="collapse" data-target="#discourse-comments"
@@ -870,17 +870,23 @@
       <span translate>Comments</span>
       <span class="glyphicon glyphicon-menu-down"></span>
     </h3>
-    <section id="discourse-comments" class="collapse in" ng-init="detailsCtrl.getComments()">
-      <div ng-if="detailsCtrl.documentService.document.topic_id == null" class="no-thread">
-        <p class="text-center" translate>No thread yet?</p>
-        <p class="text-center" translate
-            ng-if="!userCtrl.auth.isAuthenticated()">Log in to post the first comment</p>
-        <button class="btn gray-btn"
-            ng-if="userCtrl.auth.isAuthenticated()"
-            ng-click="detailsCtrl.createTopic()"
-            translate>Post the first comment</button>
-      </div>
-    </section>
+    % if disable:
+      <section id="discourse-comments" class="collapse in">
+        <p class="text-center" translate>Comments are disabled.</p>
+      </section>
+    % else:
+      <section id="discourse-comments" class="collapse in" ng-init="detailsCtrl.getComments()">
+        <div ng-if="detailsCtrl.documentService.document.topic_id == null" class="no-thread">
+          <p class="text-center" translate>No thread yet?</p>
+          <p class="text-center" translate
+              ng-if="!userCtrl.auth.isAuthenticated()">Log in to post the first comment</p>
+          <button class="btn gray-btn"
+              ng-if="userCtrl.auth.isAuthenticated()"
+              ng-click="detailsCtrl.createTopic()"
+              translate>Post the first comment</button>
+        </div>
+      </section>
+    % endif
   </div>
 </%def>
 
