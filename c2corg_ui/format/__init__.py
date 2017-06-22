@@ -30,12 +30,12 @@ def _get_markdown_parser():
         extensions = [
             C2CWikiLinkExtension(),
             C2CImageExtension(api_url=_parsers_settings['api_url']),
-            C2CVideoExtension(),
             C2CImportantExtension(),
             C2CWarningExtension(),
             Nl2BrExtension(),
             TocExtension(marker='[toc]', baselevel=2),
             AutoLinkExtension(),
+            C2CVideoExtension(),
             C2CLTagExtension(),
         ]
         _markdown_parser = markdown.Markdown(output_format='xhtml5',

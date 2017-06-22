@@ -21,7 +21,7 @@ class C2CVideoExtension(Extension):
         pattern = C2CVideo(VIDEO_RE)
         pattern.md = md
         # append to end of inline patterns
-        md.inlinePatterns.add('c2cvideo', pattern, "<not_strong")
+        md.inlinePatterns.add('c2cvideo', pattern, "<extra_autolink")
 
 
 class C2CVideo(Pattern):
