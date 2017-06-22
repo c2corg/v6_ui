@@ -51,14 +51,14 @@ closure_library_path = settings.get('closure_library_path')
   <body class="on-load loading">
     <%include file="sidemenu.html"/>
     <img src="${request.static_path('c2corg_ui:static/img/loading.gif')}" class="loading-gif">
-    <a href="${request.route_path('index')}" title="{{'Back to homepage'|translate}}" class="logo header">
-      <img src="${request.static_path('c2corg_ui:static/img/logo2.svg')}" alt="Camptocamp.org"/>
-    </a>
     <main class="page-content">
       ${self.body()}
     </main>
     <div class="page-header">
-      <button class="btn btn-default menu-open-close header"><span class="glyphicon glyphicon-align-justify"></span></button>
+      <button class="btn btn-default menu-open-close header"><span class="glyphicon glyphicon-menu-hamburger"></span></button>
+      <a href="${request.route_path('index')}" title="{{'Back to homepage'|translate}}" class="logo header">
+        <img src="${request.static_path('c2corg_ui:static/img/logo2.svg')}" alt="Camptocamp.org"/>
+      </a>
       <div class="quick-search">
         <app-simple-search app-simple-search-standard="true" dataset="wrcb"></app-simple-search>
       </div>

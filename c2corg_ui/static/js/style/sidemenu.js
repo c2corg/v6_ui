@@ -6,17 +6,27 @@ goog.require('app');
  * @export
  */
 app.sidemenu = function() {
-  $('.menu-open-close').click(function() {
-    if ($('#sidemenu').hasClass('menu-open')) {
-      $('#sidemenu').removeClass('menu-open');
-      $('#sidemenu').addClass('menu-closed');
+  /* handle sidebar hiding */
+  var body = $('body');
+  var content = $('.page-content');
+
+  $('.menu-open-close').on('click', function() {
+    body.toggleClass('menu-toggled');
+    if (body.hasClass('menu-toggled')) {
+      content.prepend('<div id="content-toggled">');
     } else {
-      $('#sidemenu').removeClass('menu-closed');
-      $('#sidemenu').addClass('menu-open');
+      $('#content-toggled').remove();
     }
   });
 
-  $('.menu-open-close').click(function() {
-    $('.menu-open-close.menu').toggleClass('is-active');
+  $(window).resize(function() {
+    if (window.innerWidth >= 1100 && body.hasClass('menu-toggled')) {
+      body.toggleClass('menu-toggled', false);
+      $('#content-toggled').remove();
+    }
+  });
+  content.on('click', '#content-toggled', function() {
+    body.toggleClass('menu-toggled', false);
+    $('#content-toggled').remove();
   });
 };

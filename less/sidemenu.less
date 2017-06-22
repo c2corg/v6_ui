@@ -1,49 +1,64 @@
 @import "variables.less";
 
+/* Hide for mobile, show later */
+@menu-width: 200px;
+@menu-translation: @menu-width + 2px; // 2px for safety
+#sidemenu {
+  transition: transform 0.3s;
+  transform: translate3d(-@menu-translation, 0, 0);
+  outline: 1px solid transparent; // fix transition display bug
+
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1002;
+  width: @menu-width;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+/* always shown when greater than grid breakpoint */
+@media (min-width: @tablet-max) {
+  #sidemenu {
+    transform: translate3d(0, 0, 0) !important;
+  }
+}
+
+/* whatever the screen size, sidemenu is shown when body has class .sidemenu-toggled */
+body.menu-toggled #sidemenu {
+  transform: translate3d(0, 0, 0);
+}
+
+#content-toggled {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 1001;
+  cursor: pointer;
+
+  background-color: black;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+body.menu-toggled #content-toggled {
+  opacity: 0.1;
+}
+
+
 #sidemenu {
   color: @darkgray;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
   background-color: white;
-  width: @menu-width;
-  will-change: width;
   margin: 0;
-  position: fixed;
-  top: 0;
   white-space: nowrap;
-  z-index: 1002;
-  height: 100%;
   font-size: 1em;
-  transition: 0.3s;
 
-  @media (max-width: @tablet-max) {
-    width: @menu-width-tablet;
-    will-change: width;
-
-    .menu-text, .logo, .footer-nav, .version {
-      display: none !important;
-    }
-    /*should not be !important*/
-    .advertisement {
-      display: none;
-    }
-    .page-menu {
-      display: inline-block;
-    }
-    .logo {
-      left: -100px;
-      transition: 0.1s;
-    }
-    .menu-open-close {
-      margin: auto;
-    }
-  }
-
-  @media (max-width: @phone-max) {
-    width: @menu-width;
-    left: -@menu-width;
-    .logo {
-      width: 140px;
-    }
+  .page-menu {
+    width: 100%;
   }
 
   @media (max-height: 400px){
@@ -64,6 +79,7 @@
       width: 100px;
     }
   }
+
   @media (max-height: 745px){
     .advertisement {
       display: none !important;
@@ -74,10 +90,6 @@
     .version {
       display: none !important;
     }
-  }
-
-  .page-menu {
-    width: 100%;
   }
 
   .logo {
@@ -141,12 +153,7 @@
     display: block;
   }
 
-   /*#sidemenu.menu-open*/
-  &.menu-open {
-    width: @menu-width !important;
-    will-change: width;
-    left: 0 !important;
-
+  body.menu-toggled #sidemenu {
     .menu-text:not(.hidden-locale), .logo  {
       display: inline !important;
     }
@@ -158,10 +165,6 @@
     }
     .footer-nav {
       display: flex !important;
-    }
-    .menu-open-close {
-      margin: auto;
-      float: right;
     }
   } /* menu-open*/
 }  /*sidemenu*/
@@ -186,6 +189,13 @@
   }
 }
 
+.homepage {
+  margin-left: 45px;
+  @media (max-width: @tablet-max) {
+    margin-left: 0;
+  }
+}
+
 .menu-open-close.menu {
   display: none;
   margin: auto;
@@ -197,33 +207,10 @@
   outline: none;
   border: none;
 
-  @media @tablet {
-    display: block;
-    margin: auto;
-  }
-  @media @phone {
-    display: block;
-    margin: 0;
-    float: right;
-  }
-  &.is-active {
-    span {
-      transform: rotate(180deg);
-      background-color: @C2C-orange;
-      &::before, &::after {
-        width: 50%;
-        background-color: @C2C-orange;
-      }
-      &::before {
-        top: 0;
-        transform: translateX(16px) translateY(2px) rotate(45deg);
-      }
-      &::after {
-        bottom: 0;
-        transform: translateX(16px) translateY(-2px) rotate(-45deg);
-      }
-    }
-
+  @media (max-width: @tablet-max) {
+    display: inline;
+    top: -15px;
+    left: 5px;
   }
 
   span {
@@ -255,19 +242,36 @@
       transition: transform 0.3s, width 0.3s, bottom 0.3s;
     }
   }
-} /* menu-open-close*/
+}
+
+body.menu-toggled .menu-open-close.menu {
+  span {
+    transform: rotate(180deg);
+    background-color: @C2C-orange;
+    &::before, &::after {
+      width: 50%;
+      background-color: @C2C-orange;
+    }
+    &::before {
+      top: 0;
+      transform: translateX(16px) translateY(2px) rotate(45deg);
+    }
+    &::after {
+      bottom: 0;
+      transform: translateX(16px) translateY(-2px) rotate(-45deg);
+    }
+  }
+}
+ /* menu-open-close*/
 
 .menu-open-close.header{
   display: none;
-  top: 5px;
   position: fixed;
-  left: 100px;
+  top: 6px;
+  left: 5px;
   z-index: 31;
-  font-size: 17px;
-  padding-bottom: 2px;
-  padding-top: 7px;
 
-  @media @phone {
+  @media (max-width: @tablet-max) {
     display: block;
   }
 }
@@ -363,22 +367,18 @@ footer {
 /*footer*/
 
 .logo.header {
-  position: relative;
+  position: fixed;
   display: none;
   margin-left: 10px;
   margin-bottom: 6px;
   z-index: 34;
   width: 80px;
 
-  @media @tablet {
-    margin-left: @menu-width-tablet + 10;
-  }
-  @media @phone {
-    position: fixed;
-  }
   @media (max-width: @tablet-max) {
+    margin-left: @menu-width-tablet + 10;
     display: block;
     top: 4px;
+    left: 0;
   }
   img {
     height: 39px;
