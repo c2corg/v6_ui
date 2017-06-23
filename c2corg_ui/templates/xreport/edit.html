@@ -199,9 +199,11 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
           <div class="content collapse in">
 
             ## DATE
-            <div class="date form-group" ng-init="openDateStart = false">
+            <div class="date form-group">
               <label><span translate>date</span> *</label>
-              <div class="input-group" ng-model="xreport.date" uib-datepicker-popup="dd MM yyyy" is-open="openDateStart">
+              <div class="input-group" ng-init="openDateStart = false" ng-model="xreport.date"
+                   uib-datepicker-popup="dd MM yyyy" is-open="openDateStart"
+                   datepicker-options="{maxDate : editCtrl.today}">
                 <input type="text" disabled class="form-control" value="{{xreport.date | amDateFormat:'Do MMMM YYYY' }}"/>
                 <span class="input-group-btn">
                   <button type="button" class="btn btn-default" ng-click="openDateStart = true"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -375,9 +377,17 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
               <textarea app-markdown-editor name="description" ng-model="xreport.locales[0].description" class="form-control description" placeholder="{{'Details of the actual outing and the incident. If you have already written up your outing, you only need to describe the incident, then link it to your outing report (after first uploading it)' | translate}}"></textarea>
             </div>
 
+            ## ANONYMOUS REPORTS
+            % if not updating_doc:
+              <div class="form-group full">
+                <label translate>anonymous</label>
+                <input type="checkbox" ng-model="xreport.anonymous">
+                <span ng-click="editCtrl.pushToArray(xreport, 'anonymous', !xreport.anonymous, $event)" translate>Check to publish the report anonymously</span>
+              </div>
+            % endif
+
             ## ASSOCIATED PARTICIPANTS
-            ## TODO better to show all users in one row, will have to convert users in controller.  ng-class="{'has-success': xreport.locales[0]['participants']}"
-            <div id="participants-group" class="form-group  full">
+            <div id="participants-group" class="form-group full" ng-hide="xreport.anonymous">
               <label translate>associated_participants</label>
 
               <section class="section associations">
@@ -499,7 +509,7 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
             </div>
 
             ## COMMENTS MANAGEMENT
-            <div class="form-group half">
+            <div class="form-group full">
               <label translate>disable_comments</label>
               <input type="checkbox" ng-model="xreport.disable_comments">
               <span ng-click="editCtrl.pushToArray(xreport, 'disable_comments', !xreport.disable_comments, $event)" translate>If checked, comments cannot be posted or read.</span>
