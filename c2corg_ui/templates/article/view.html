@@ -56,7 +56,7 @@ other_langs, missing_langs = get_lang_lists(article, lang)
   </h1>
 </header>
 
-<section class="view-details-section images" app-view-details ng-class="{'row-list' : switchCtrl.showList}">
+<section class="view-details-section images" app-view-details ng-class="{'row-list' : switchActionCtrl.showList}">
 
   % if version:
     ${show_archive_data('articles', article, locale, version)}
@@ -88,7 +88,11 @@ other_langs, missing_langs = get_lang_lists(article, lang)
          ng-show="userCtrl.hasEditRights('articles', {'articleType': '${article['article_type']}', 'authorId': ${article['author']['user_id']}})"
       % endif
     >
-      <app-list-switch></app-list-switch>
+      <ul class="actions">
+        <li>
+          <app-list-switch-action></app-list-switch-action>
+        </li>
+      </ul>
       <span class="lead">
         <div class="add-association" ng-show="userCtrl.auth.isAuthenticated()
           % if article['article_type'] == 'personal':

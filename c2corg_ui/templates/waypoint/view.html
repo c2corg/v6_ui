@@ -105,7 +105,7 @@ waypoint['doctype'] = 'waypoints'
 </article>
 <app-map class="view-details-map"></app-map>
 
-<section class="view-details-section" app-view-details  ng-class="{'row-list' : switchCtrl.showList}">
+<section class="view-details-section" app-view-details  ng-class="{'row-list' : switchActionCtrl.showList}">
 
   % if version:
     ${show_archive_data('waypoints', waypoint, locale, version)}
@@ -145,7 +145,11 @@ waypoint['doctype'] = 'waypoints'
   % if not version:
     <div class="view-details-associations col-xs-12 associations" ng-init="a = detailsCtrl.documentService.document.associations"
          ng-show="userCtrl.auth.isAuthenticated() || a.waypoint_children.length || a.waypoints.length">
-      <app-list-switch></app-list-switch>
+      <ul class="actions">
+        <li>
+          <app-list-switch-action></app-list-switch-action>
+        </li>
+      </ul>
       <span class="lead">
         <section>
           <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">

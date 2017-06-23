@@ -1,0 +1,5 @@
+<button class="btn orange-btn btn-default switch-list-btn hidden-xs card-list" ng-click="switchButtonCtrl.toggle()" >
+  <span ng-class="['glyphicon', {'glyphicon-th-list': !switchButtonCtrl.showList, 'glyphicon-th-large': switchButtonCtrl.showList}]"></span>
+  <span translate ng-if="!switchButtonCtrl.showList">List Format</span>
+  <span translate ng-if="switchButtonCtrl.showList">Card Format</span>
+</button>
