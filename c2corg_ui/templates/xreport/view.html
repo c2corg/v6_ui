@@ -165,7 +165,7 @@ other_langs, missing_langs = get_lang_lists(xreport, lang)
       </span>
     </div>
 
-    ${get_comments()}
+    ${get_comments(xreport.get('disable_comments'))}
 
     ${show_float_buttons(xreport, lang, other_langs, missing_langs)}
   % endif

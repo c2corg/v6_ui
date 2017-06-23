@@ -172,7 +172,7 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
       </span>
     </div>
 
-    ${get_comments()}
+    ${get_comments(outing.get('disable_comments'))}
 
     ${show_float_buttons(outing, lang, other_langs, missing_langs)}
   % endif
