@@ -533,8 +533,8 @@ app-simple-search {
   top: 0;
   margin-bottom: 0;
   border: 0;
-  padding-bottom: 6px;
-  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-top: 6px;
   z-index: 33;
 
   @media @phone {
@@ -543,6 +543,7 @@ app-simple-search {
 
   .btn {
     border: none;
+    min-height: 35px;
   }
 
   .search {
@@ -669,13 +670,8 @@ app-simple-search {
   margin-top: @page-header-height;
   margin-left: @menu-width;
 
-  @media @tablet {
-    margin-left: @menu-width-tablet;
-    margin-top:  9px;
-  }
-  @media @phone {
+  @media (max-width: @tablet-max) {
     margin-left: 0;
-    margin-top: @page-header-height;
   }
 
   .archive-data {
