@@ -1,6 +1,4 @@
 <div id="{{image_id}}-slide">
-  <h2 class="image-title" ng-bind="locales[0].title"></h2>
-
   <div class="image-infos">
     <h3 translate>Infos</h3>
     <p class="loading-infos loading-gif-typehead"></p>
@@ -26,18 +24,5 @@
         </ul>
       </div>
     </div>
-  </div>
-
-  <div class="image-infos-buttons">
-
-    <a href="#" ng-href="{{view_url}}" class="view-details-btn">
-      <button>
-        <span class="glyphicon glyphicon-eye-open"></span>
-      </button>
-    </a>
-    <button protected-url-btn url="{{edit_url}}">
-      <span class="glyphicon glyphicon-edit"></span>
-    </button>
-    <button class="pswp__button info glyphicon glyphicon-info-sign" img-id="{{image_id}}"></button>
   </div>
 </div>
