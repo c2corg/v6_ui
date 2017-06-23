@@ -42,6 +42,7 @@ goog.require('app.geolocationDirective');
 goog.require('app.geomDownloadDirective');
 goog.require('app.gpxUploadDirective');
 goog.require('app.imageUploaderDirective');
+goog.require('app.outingsCsvDownloadDirective');
 goog.require('app.langDirective');
 goog.require('app.listSwitchDirective');
 goog.require('app.mapSwitchDirective');
