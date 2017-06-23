@@ -56,18 +56,24 @@
       <p class="float-button-text" translate>Add images</p>
     </div>
 
+    <div class="float-button float-share-alt addthis_button" addthis:ui_click="true" addthis:ui_offset_top="40" addthis:ui_offset_left="-50" tooltip-placement="left" uib-tooltip="{{'Share' | translate}}">
+      <span class="glyphicon glyphicon-share"></span>
+      <p class="float-button-text" translate>Share</p>
+    </div>
+
     <div class="dropdown" ng-if="userCtrl.hasEditRights('profiles', ${options | n})">
       <div class="btn-group float-more float-button dropdown-toggle" type="button" data-toggle="dropdown"
            tooltip-placement="left" uib-tooltip="{{'More' | translate}}">
-        <span class="glyphicon glyphicon-th-list"></span>
+        <span class="glyphicon glyphicon-wrench"></span>
         <p class="float-button-text" translate>More</p>
       </div>
       <ul class="dropdown-menu" role="menu">
+        <li class="show-only-mobile"><a class="addthis_button_compact" addthis:ui_click="true" addthis:ui_disable="true"><span class="glyphicon glyphicon-share-alt"></span> <translate>Share</translate></a></li>
         % if other_langs:
-          <li ng-click="detailsCtrl.openModal('#other-langs')"><a translate>View in other lang</a></li>
+          <li ng-click="detailsCtrl.openModal('#other-langs')"><a><span class="glyphicon glyphicon-globe"></span> <translate>View in other lang</translate></a></li>
         % endif
         % if missing_langs:
-          <li ng-click="detailsCtrl.openModal('#missing-langs')"><a translate>Translate into an other lang</a></li>
+          <li ng-click="detailsCtrl.openModal('#missing-langs')"><a><span class="glyphicon glyphicon-edit"></span> <translate>Translate into an other lang</translate></a></li>
         % endif
         <li ng-if="userCtrl.isModerator()" app-block-account app-user-id="${doc_id}"></li>
       </ul>
@@ -77,11 +83,11 @@
       <div class="dropdown" ng-if="!userCtrl.hasEditRights('profiles', ${options | n})">
         <div class="btn-group float-more float-button dropdown-toggle" type="button" data-toggle="dropdown"
              tooltip-placement="left" uib-tooltip="{{'More' | translate}}">
-          <span class="glyphicon glyphicon-th-list"></span>
+          <span class="glyphicon glyphicon-wrench"></span>
           <p class="float-button-text" translate>More</p>
         </div>
         <ul class="dropdown-menu" role="menu">
-          <li ng-click="detailsCtrl.openModal('#other-langs')"><a translate>View in other lang</a></li>
+          <li ng-click="detailsCtrl.openModal('#other-langs')"><a><span class="glyphicon glyphicon-globe"></span> <translate>View in other lang</translate></a></li>
         </ul>
       </div>
     % endif

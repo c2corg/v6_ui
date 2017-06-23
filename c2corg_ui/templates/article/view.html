@@ -11,7 +11,7 @@ from json import dumps
   show_associated_waypoints, show_associated_outings, show_associated_routes,
   show_associated_articles, show_associated_books, show_associated_xreports,
   delete_association_confirmation_modal, associated_images_featurelist, show_badge, get_licence,
-  show_merge_documents_dialog, show_delete_document_dialog"/>
+  show_merge_documents_dialog, show_delete_document_dialog, generate_share_metadata"/>
 <%namespace file="helpers/view.html" import="get_article_general, get_article_associated_users"/>
 
 <%
@@ -43,6 +43,10 @@ other_langs, missing_langs = get_lang_lists(article, lang)
        , "associations": ${dumps(article.get('associations')) | n}
     % endif
   });
+</%block>
+
+<%block name="share">
+  ${generate_share_metadata(article, 'articles')}
 </%block>
 
 <header class="view-details-title">
