@@ -154,7 +154,11 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
          ng-if="userCtrl.hasEditRights('outings', {'users': ${userIds}})"
        % endif
     >
-      <app-list-switch></app-list-switch>
+      <ul class="actions">
+        <li>
+          <app-list-switch type="short"></app-list-switch>
+        </li>
+      </ul>
       <span class="lead">
         <div ng-show="userCtrl.auth.isAuthenticated() && userCtrl.hasEditRights('outings', {'users': ${userIds}})">
           <label translate>Add association</label>

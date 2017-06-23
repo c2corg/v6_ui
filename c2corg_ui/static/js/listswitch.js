@@ -12,6 +12,9 @@ app.listSwitchDirective = function() {
     restrict: 'E',
     controller: 'appListSwitchController',
     controllerAs: 'switchCtrl',
+    link: function(scope, element, attrs) {
+      scope.type = attrs.type;
+    },
     templateUrl: '/static/partials/listswitch.html'
   };
 };
