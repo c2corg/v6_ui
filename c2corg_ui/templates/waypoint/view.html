@@ -145,7 +145,11 @@ waypoint['doctype'] = 'waypoints'
   % if not version:
     <div class="view-details-associations col-xs-12 associations" ng-init="a = detailsCtrl.documentService.document.associations"
          ng-show="userCtrl.auth.isAuthenticated() || a.waypoint_children.length || a.waypoints.length">
-      <app-list-switch></app-list-switch>
+      <ul class="actions">
+        <li>
+          <app-list-switch type="short"></app-list-switch>
+        </li>
+      </ul>
       <span class="lead">
         <section>
           <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">

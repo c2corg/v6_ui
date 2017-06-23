@@ -149,7 +149,11 @@ other_langs, missing_langs = get_lang_lists(route, lang)
   % if not version:
     ## route has always at least 1 associated waypoint so this div will always be displayed
     <div class="view-details-associations col-xs-12 associations">
-      <app-list-switch></app-list-switch>
+      <ul class="actions">
+        <li>
+          <app-list-switch type="short"></app-list-switch>
+        </li>
+      </ul>
       <span class="lead">
         <section>
           <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
