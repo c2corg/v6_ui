@@ -109,6 +109,21 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
    * @private
    */
   this.scope_ = $scope;
+
+  this.pswpOptions = {
+    tapToClose: true,
+    tapToToggleControls: true,
+    closeOnScroll: false,
+    closeOnVerticalDrag: false,
+    fullscreenEl: true,
+    escKey: true,
+    arrowKeys: true,
+    preload: [3, 3],
+    zoomEl: false,
+    counterEl: false,
+    shareEl: false,
+    arrowEl: true
+  };
 };
 
 
@@ -210,21 +225,8 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
       var items = parseThumbnailElements(clickedGallery);
 
       // define options (if needed)
-      options = {
+      options = $.extend(this.pswpOptions, {
         index: parseInt(index, 10),
-        bgOpacity: 1,
-        tapToClose: true,
-        tapToToggleControls: true,
-        closeOnScroll: false,
-        closeOnVerticalDrag: false,
-        fullscreenEl: true,
-        escKey: true,
-        arrowKeys: true,
-        preload: [3, 3],
-        zoomEl: false,
-        counterEl: false,
-        shareEl: false,
-        arrowEl: true,
         galleryUID: clickedGallery.getAttribute('data-pswp-uid'),
         getThumbBoundsFn: function(index) {
           // See Options -> getThumbBoundsFn section of documentation for more info
@@ -232,9 +234,8 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
           var pageYScroll = window.pageYOffset || document.documentElement.scrollTop;
           var rect = thumbnail.getBoundingClientRect();
           return {x: rect.left, y: rect.top + pageYScroll, w: rect.width};
-        },
-        history: false
-      };
+        }
+      });
       // exit if index not found
       if (isNaN(options.index)) {
         return;
@@ -437,7 +438,8 @@ app.ViewDetailsController.prototype.openEmbeddedImage = function(imgUrl, imgId) 
     }
   }
 
-  var pswp = new window.PhotoSwipe(pswpElement, window.PhotoSwipeUI_Default, items, {index: index});
+  var pswp = new window.PhotoSwipe(pswpElement, window.PhotoSwipeUI_Default, items,
+    $.extend(this.pswpOptions, {index: index}));
   var lang = this.lang.getLang();
   pswp.listen('beforeChange', function() {
     var id = pswp['currItem']['id'];
