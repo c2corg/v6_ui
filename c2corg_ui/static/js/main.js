@@ -34,6 +34,7 @@ goog.require('app.deleteDocumentDirective');
 goog.require('app.diffMapDirective');
 goog.require('app.doctypeSelectorDirective');
 goog.require('app.documentEditingDirective');
+goog.require('app.elevationProfileDirective');
 goog.require('app.feedDirective');
 goog.require('app.whatsnewFeedDirective');
 goog.require('app.followDirective');

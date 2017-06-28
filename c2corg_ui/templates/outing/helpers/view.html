@@ -304,3 +304,17 @@
     </tbody>
   </table>
 </%def>
+
+<%def name="get_outing_elevation_profile(geometry)">\
+  <div class="view-details-info col-xs-12">
+    <h3 class="heading closed show-phone" ng-click="mainCtrl.animateHeaderIcon($event)"
+        data-toggle="collapse" data-target="#elevation-profile">
+      <span x-translate>Elevation profile</span><span class="glyphicon glyphicon-menu-right"></span>
+    </h3>
+    <section class="collapse" id="elevation-profile" aria-expanded="false">
+      <div class="lead">
+          <app-elevation-profile></app-elevation-profile>
+      </div>
+    </section>
+  </div>
+</%def>
