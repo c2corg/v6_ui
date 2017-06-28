@@ -1,7 +1,35 @@
 [{
   "id":"wikilinks",
   "text":"Some text and a [[waypoints/12345/fr/some-slug|wiki link]] before [[/whatever|another one]] that follows.",
-  "expected":"<p>Some text and a <a href=\"/waypoints/12345/fr/some-slug\">wiki link</a> before <a href=\"/whatever\">another one</a> that follows.</p>"
+  "expected":"<p>Some text and a <a href=\"/waypoints/12345/fr/some-slug\">wiki link</a> before [[/whatever|another one]] that follows.</p>"
+},{
+  "id":"wikilink-simple",
+  "text":"[[articles/1234|mini]]",
+  "expected":"<p><a href=\"/articles/1234\">mini</a></p>"
+},{
+  "id":"wikilink-lang",
+  "text":"[[articles/1234/eu|lang]]",
+  "expected":"<p><a href=\"/articles/1234/eu\">lang</a></p>"
+},{
+  "id":"wikilink-slug",
+  "text":"[[articles/1234/en/sl-ug|slug]]",
+  "expected":"<p><a href=\"/articles/1234/en/sl-ug\">slug</a></p>"
+},{
+  "id":"wikilink-whatever",
+  "text":"[[/whatever|whatever]]",
+  "expected":"<p>[[/whatever|whatever]]</p>"
+},{
+  "id":"wikilink-bad-slug",
+  "text":"[[articles/1234/BAD-Slug|bad slug]]",
+  "expected":"<p>[[articles/1234/BAD-Slug|bad slug]]</p>"
+},{
+  "id":"wikilink-bad-lanf",
+  "text":"[[articles/1234/a23|mini]]",
+  "expected":"<p>[[articles/1234/a23|mini]]</p>"
+},{
+  "id":"wikilink-bad-id",
+  "text":"[[articles/id|bad id]]",
+  "expected":"<p>[[articles/id|bad id]]</p>"
 },{
   "id":"autolink1",
   "text":"A raw URL http://www.example.com in some text",

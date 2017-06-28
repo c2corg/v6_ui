@@ -13,7 +13,8 @@ from markdown.extensions import Extension
 from markdown.inlinepatterns import Pattern
 from markdown.util import etree
 
-WIKILINK_RE = r'\[\[([^|]+)\|([^\]]+)\]\]'
+# document_type/document_id(/lang(/slug))
+WIKILINK_RE = r'\[\[([a-z]+\/[0-9]+(?:\/[a-z]{2}(?:\/[a-z0-9\-]+)?)?)\|([^\]]+)\]\]'
 
 
 class C2CWikiLinkExtension(Extension):
