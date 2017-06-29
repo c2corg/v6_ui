@@ -297,8 +297,8 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
                              'has-success': editForm.age.$valid && xreport.age }">
               <label ng-class="{ 'control-label': xreport.age && editForm.nb_impacted.$invalid }"><span translate>age</span></label>
               <div class="input-group">
-                <input type="number" name="age" min="0" max="99" ng-model="xreport.age" class="form-control"/>
-##                   <span class="input-group-addon">years</span>
+                <input class="form-control" type="number" name="age" min="0" max="99" ng-model="xreport.age"/>
+                <span class="input-group-addon">years</span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.age"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.xreport.age.$touched && editForm.xreport.age.$invalid"></span>
