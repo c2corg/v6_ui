@@ -2,7 +2,7 @@
 
 .view-details-associations .section,  .view-details-informations, #document-informations,
 .view-details-associations .associated-documents {
-  .flex();
+  display: flex;
   &.collapse:not(.in) {
     display: none;
   }
@@ -34,7 +34,7 @@
     text-align: center;
   }
   >h1 {
-    .flex();
+    display: flex;
     align-items: center;
     justify-content: center;
     margin: auto;
@@ -55,7 +55,7 @@
     }
 
     &.routes {
-      .flex();
+      display: flex;
       align-items: center;
       justify-content: center;
       width: 99%;
@@ -127,7 +127,7 @@
   }
   .icons-header {
     margin-right: 30px;
-    .flex();
+    display: flex;
     flex-flow: wrap row;
     justify-content: center;
     font-size: 3.5em;
@@ -168,9 +168,6 @@
   @media @big {
     margin-left: 4%;
     width: 89%;
-  }
-  &.images, &.articles, &.books {
-    margin-top: 0;
   }
 
   .view-details-photos {
@@ -343,7 +340,7 @@
     .rating-block {
       float: left;
       margin-right: 6px;
-      .flex();
+      display: flex;
       label {
         margin: 0;
         color: @bright-green;
@@ -447,7 +444,7 @@
     }
 
     .name-icon-value {
-      .flex();
+      display: flex;
       padding: 0;
       flex-grow: 1;
       min-height: 80px;
@@ -477,15 +474,13 @@
       }
       .activities {
         font-size: 1em;
-      }
-      .icon-user {
         color: @C2C-orange;
       }
 
       &.location {
         display: none;
         @media @phone {
-          .flex();
+          display: flex;
         }
         .areas {
           @media (min-width: @phone-max) {
@@ -561,6 +556,21 @@
       }
     }
   }
+
+  &.images {
+    @media @big {
+      .view-details-informations,
+      .view-details-description {
+        width: 100%;
+      }
+      .name-icon-value {
+        min-height: 80px;
+        min-width: auto;
+      }
+    }
+
+  }
+
   .view-details-comments {
     @media @big {
       width: 100%;
