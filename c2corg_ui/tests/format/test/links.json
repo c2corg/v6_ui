@@ -15,6 +15,10 @@
   "text":"[[articles/1234/en/sl-ug|slug]]",
   "expected":"<p><a href=\"/articles/1234/en/sl-ug\">slug</a></p>"
 },{
+  "id":"wikilink-anchor",
+  "text":"[[articles/1234#anch-or|anchor]]",
+  "expected":"<p><a href=\"/articles/1234#anch-or\">anchor</a></p>"
+},{
   "id":"wikilink-whatever",
   "text":"[[/whatever|whatever]]",
   "expected":"<p>[[/whatever|whatever]]</p>"
@@ -30,6 +34,10 @@
   "id":"wikilink-bad-id",
   "text":"[[articles/id|bad id]]",
   "expected":"<p>[[articles/id|bad id]]</p>"
+},{
+  "id":"wikilink-bad-anchor",
+  "text":"[[articles/1234/fr#AnChor|bad anchor]]",
+  "expected":"<p>[[articles/1234/fr#AnChor|bad anchor]]</p>"
 },{
   "id":"autolink1",
   "text":"A raw URL http://www.example.com in some text",
