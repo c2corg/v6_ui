@@ -66,13 +66,16 @@ app.RouteEditingController.prototype.hasActivity = function(activities) {
  * @param {string} sizem
  * @export
  */
-app.RouteEditingController.prototype.openModal = function(selector,sizem) {
-
+app.RouteEditingController.prototype.openModal = function(selector, sizem) {
   var template = $(selector).clone();
   if (sizem === null) {
     sizem = 'lg';
   }
-  this.modal.open({animation: true, size: sizem, template: this.compile(template)(this.scope)});
+  this.modal.open({
+    animation: true,
+    size: sizem,
+    template: this.compile(template)(this.scope)
+  });
 };
 
 

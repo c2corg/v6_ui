@@ -31,7 +31,7 @@ updating_doc = route_id and route_lang
   % if updating_doc:
     app-document-editing-id="${route_id}" app-document-editing-lang="${route_lang}"
   % endif
-     name="editForm" novalidate ng-submit="editCtrl.confirmSave(editForm.$valid)" class="document-editing">
+     name="editForm" novalidate ng-submit="editCtrl.confirmSave(editForm.$valid && !editCtrl.hasMissingProps('route', false))" class="document-editing">
 
     <app-progress-bar>
       ## It won't work with ng-init
@@ -501,7 +501,7 @@ updating_doc = route_id and route_lang
                 <span class="input-group-addon" ng-click="editCtrl.openModal('#cotometer-dialog','md')"><span class="glyphicon glyphicon-sort-by-attributes"></span></span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.ski_rating"></span>
-      
+
             </div>
 
             ## LABANDE SKI RATING

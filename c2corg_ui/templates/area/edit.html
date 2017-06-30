@@ -28,7 +28,7 @@ from c2corg_common.attributes import default_langs, area_types
   % if updating_doc:
     app-document-editing-id="${area_id}" app-document-editing-lang="${area_lang}"
   % endif
-    class="document-editing" name="editForm" novalidate ng-submit="editCtrl.confirmSave(editForm.$valid)">
+    class="document-editing" name="editForm" novalidate ng-submit="editCtrl.confirmSave(editForm.$valid && !editCtrl.hasMissingProps('area', false))">
 
     ${show_protected_warning('area')}
 
