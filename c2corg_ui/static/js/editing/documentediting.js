@@ -666,7 +666,7 @@ app.ConfirmSaveController = function($uibModalInstance, appDocument, appLang) {
    * @type {string}
    * @export
    */
-  this.quality = appDocument.document.quality;
+  this.quality = appDocument.document.quality || 'draft';
 
 };
 
