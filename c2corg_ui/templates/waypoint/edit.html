@@ -884,14 +884,16 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
             </div>
 
             ## ACCESS PERIOD
-            <div id="access-period" class="form-group data full" ng-if="['access', 'local_product', 'hut', 'gite', 'camp_site'].indexOf(type) > -1">
+            <div id="access-period" class="form-group data full" ng-if="['access', 'local_product', 'climbing_outdoor', 'hut', 'gite', 'camp_site'].indexOf(type) > -1">
               <label translate ng-if="type == 'access'">access_period</label>
               <label translate ng-if="type == 'hut' || type == 'gite' || type == 'camp_site'">opening_periods</label>
               <label translate ng-if="type == 'local_product'">opening_hours</label>
+              <label translate ng-if="type == 'climbing_outdoor'">restricted_access</label>
               <textarea app-markdown-editor name="access_period" ng-model="waypoint.locales[0].access_period" class="form-control"
                 placeholder="{{ (type == 'hut' || type == 'gite' || type == 'camp_site') ?
                   mainCtrl.translate('Describe opening periods') :
-                  (type == 'local_product' ? mainCtrl.translate('Describe opening hours')  : mainCtrl.translate('Describe access period') ) }}">
+                  (type === 'local_product' ? mainCtrl.translate('Describe opening hours') :
+                  (type === 'climbing_outdoor' ? mainCtrl.translate('Describe access restrictions'): mainCtrl.translate('Describe access period') ) ) }}">
               </textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.locales[0].access_period"></span>
             </div>
