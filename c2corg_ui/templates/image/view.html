@@ -100,13 +100,13 @@ from json import dumps
       </section>
     </div>
 
-    ${get_document_description(locale, 'image')}
-
     <div class="view-details-description col-xs-12 description">
       <span class="lead text-center">
         ${show_image(image, locale, 'BI', link=True)}
       </span>
     </div>
+
+    ${get_document_description(locale, 'image')}
   </div>
 
   % if geometry:
