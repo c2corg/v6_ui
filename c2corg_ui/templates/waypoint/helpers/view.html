@@ -121,14 +121,27 @@
       <p><span translate class="value-title">length</span>: <span class="value">${waypoint['length']} m</span></p>
     % endif
 
-      ${get_document_min_max(waypoint, 'slackline_length')}
+    ${get_document_min_max(waypoint, 'slackline_length')}
 
-    % if waypoint.get('quality'):
-      <p><span translate class="value-title">quality</span>: <span x-translate class="value">${waypoint['quality']}</span></p>
+    % if waypoint.get('routes_quantity'):
+      <p><span translate class="value-title">routes_quantity</span>: <span class="value">${waypoint['routes_quantity']}</span></p>
+    % endif
+
+    % if waypoint.get('best_periods'):
+      <article>
+        <span translate class="value-title">best_periods</span>:
+        % for type in waypoint.get('best_periods') :
+        <span x-translate class="value">${type}</span>${'' if loop.last else ', '}
+        % endfor
+      </article>
     % endif
 
     % if not isPreview:
       ${show_geom_download(waypoint)}
+    % endif
+
+    % if waypoint.get('quality'):
+      <p><span translate class="value-title">quality</span>: <span x-translate class="value">${waypoint['quality']}</span></p>
     % endif
   </span>
 </div>
@@ -192,7 +205,7 @@
 ## ACCESS
 <%def name="get_waypoint_access(waypoint, locale)">\
   %if waypoint.get('access_time') or \
-   waypoint.get('best_periods') or  waypoint.get('public_transportation_types') or  waypoint.get('public_transportation_rating') or \
+   waypoint.get('public_transportation_types') or  waypoint.get('public_transportation_rating') or \
    waypoint.get('parking_fee') or waypoint.get('snow_clearance_rating') or waypoint.get('lift_access') is not None or waypoint.get('routes_quantity') :
 
   <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
@@ -203,21 +216,8 @@
     </div>
     <span class="detail-text accordion">
 
-      % if waypoint.get('routes_quantity'):
-        <p><span translate class="value-title">routes_quantity</span>: <span class="value">${waypoint['routes_quantity']}</span></p>
-      % endif
-
       % if waypoint.get('access_time'):
         <p><span translate class="value-title">access_time</span>: <span class="value">${waypoint['access_time']}</span></p>
-      % endif
-
-      % if waypoint.get('best_periods'):
-        <article>
-          <span translate class="value-title">best_periods</span>:
-          % for type in waypoint.get('best_periods') :
-          <span x-translate class="value">${type}</span>${'' if loop.last else ', '}
-          % endfor
-        </article>
       % endif
 
       % if waypoint.get('public_transportation_types'):

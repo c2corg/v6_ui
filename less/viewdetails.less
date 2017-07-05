@@ -488,8 +488,17 @@
           }
         }
       }
-      &.maps {
+      &.license {
         order: 10;
+        @media @big {
+          order: initial;
+        }
+      }
+      &.maps {
+        order: 9;
+        @media @big {
+          order: initial;
+        }
       }
     }
 
