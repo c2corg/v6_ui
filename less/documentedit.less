@@ -640,10 +640,13 @@ ul.uib-datepicker {
 
 #preview-container {
   height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
 
-  #preview-container-content {
-    height: 95%;
-    overflow: auto;
+  .preview-container-content {
+    flex-grow: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
 
     .view-details-title {
       margin-top: 10px;
@@ -655,10 +658,13 @@ ul.uib-datepicker {
     }
   }
 
-  button {
-    float: right;
-    margin-top: 10px;
-    margin-left: 5px;
+  .preview-container-buttons {
+    flex-grow: 0;
+    button {
+      float: right;
+      margin-top: 10px;
+      margin-left: 5px;
+    }
   }
 }
 
