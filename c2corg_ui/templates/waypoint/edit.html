@@ -34,7 +34,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
   % if updating_doc:
     app-document-editing-id="${waypoint_id}" app-document-editing-lang="${waypoint_lang}"
   % endif
-    class="document-editing" name="editForm" novalidate ng-submit="editCtrl.confirmSave(editForm.$valid)">
+    class="document-editing" name="editForm" novalidate ng-submit="editCtrl.confirmSave(editForm.$valid && !editCtrl.hasMissingProps('waypoint', false))">
 
     <div class="ng-hide">{{type = waypoint.waypoint_type}}</div>
 

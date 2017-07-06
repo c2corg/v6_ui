@@ -25,7 +25,7 @@ from c2corg_common.attributes import default_langs, quality_types, activities, b
   % if updating_doc:
     app-document-editing-id="${book_id}" app-document-editing-lang="${book_lang}"
   % endif
-    class="document-editing" name="editForm" novalidate ng-submit="editCtrl.confirmSave(editForm.$valid)">
+    class="document-editing" name="editForm" novalidate ng-submit="editCtrl.confirmSave(editForm.$valid && !editCtrl.hasMissingProps('book', false))">
 
     ${show_protected_warning('book')}
 

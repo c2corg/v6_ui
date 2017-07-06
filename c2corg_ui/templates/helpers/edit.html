@@ -12,12 +12,14 @@
         <app-card app-card-doc="wp" app-card-disable-click="true"></app-card>
         % if model == 'route':
           <b class="set-main-waypoint green-text" ng-if="${model}.main_waypoint_id === wp.document_id" ng-init="${model}.main_waypoint_title = wp.locales[0].title" translate>main waypoint</b>
-          <button class="btn btn-sm orange-btn set-main-waypoint" translate
+          <button class="btn btn-sm orange-btn set-main-waypoint"
+                  type="button" translate
                   ng-click="${model}.main_waypoint_id = wp.document_id; ${model}.main_waypoint_title = wp.locales[0].title"
                   ng-if="${model}.main_waypoint_id != wp.document_id">
             Set as main waypoint
           </button>
-          <button class="btn btn-sm orange-btn set-main-waypoint" translate
+          <button class="btn btn-sm orange-btn set-main-waypoint"
+                  type="button" translate
                   ng-click="${model}.main_waypoint_id = null; ${model}.main_waypoint_title = ''"
                   ng-if="${model}.main_waypoint_id == wp.document_id">
             Unset main waypoint
@@ -105,8 +107,10 @@
       </div>
 
       <div class="text-center">
-        <button ng-click="saveCtrl.close({'message': saveCtrl.message, 'quality': saveCtrl.quality})" class="btn btn-success" translate>Save</button>
-        <button ng-click="saveCtrl.close()" class="btn btn-danger" translate>Cancel</button>
+        <button ng-click="saveCtrl.close({'message': saveCtrl.message, 'quality': saveCtrl.quality})"
+                type="button" class="btn btn-success" translate>Save</button>
+        <button ng-click="saveCtrl.close()" class="btn btn-danger"
+                type="button" translate>Cancel</button>
       </div>
     </div>
   </section>
@@ -132,6 +136,7 @@
     </button>
     <button type="submit" class="btn orange-btn btn-lg float-button"
       ng-if="!editForm.$invalid && !editCtrl.hasMissingProps(${model}, false)"
+      ng-disabled="editForm.$invalid || editCtrl.hasMissingProps(${model}, false)"
       tooltip-placement="left" uib-tooltip="{{'Save' | translate}}">
       <span class="glyphicon glyphicon-ok"></span>
     </button>
