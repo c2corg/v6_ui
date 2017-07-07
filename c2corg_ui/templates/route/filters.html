@@ -39,20 +39,23 @@ activities = [activity for activity in activities if activity != 'paragliding']
       ${simple_filters()}
 
       ## Slacklining
-      <div ng-show="filtersCtrl.filters.act.length && filtersCtrl.filters.act.indexOf('slacklining') !== -1">
-        <div class="col-xs-12 col-sm-6 filter">
-          <label translate>slackline_type</label><br>
-          ${add_multiselect('sltyp', slackline_types)}
-        </div>
-        <div class="col-xs-12 col-sm-6 filter">
-          <label translate>length</label><br>
-          <app-slider filter="rlen" filters-list="filtersCtrl.filters" max="2000" step="10" unit="m"></app-slider>
-        </div>
+      <div class="col-xs-12 col-sm-6 filter"
+           ng-if="filtersCtrl.filters.act.length
+               && filtersCtrl.filters.act.indexOf('slacklining') !== -1">
+        <label translate>slackline_type</label><br>
+        ${add_multiselect('sltyp', slackline_types)}
+      </div>
+      <div class="col-xs-12 col-sm-6 filter"
+           ng-if="filtersCtrl.filters.act.length
+               && filtersCtrl.filters.act.indexOf('slacklining') !== -1">
+        <label translate>length</label><br>
+        <app-slider filter="rlen" filters-list="filtersCtrl.filters" max="2000" step="10" unit="m"></app-slider>
       </div>
 
-        
+
       ## SKITOURING
-      <div ng-show="filtersCtrl.filters.act.length && filtersCtrl.filters.act.indexOf('skitouring') !== -1">
+      <div ng-if="filtersCtrl.filters.act.length
+               && filtersCtrl.filters.act.indexOf('skitouring') !== -1">
         <div class="col-xs-12 col-sm-6 filter">
           <label translate>ski_rating</label><br>
           <app-slider filter="trat" filters-list="filtersCtrl.filters" unit=""
@@ -77,26 +80,33 @@ activities = [activity for activity in activities if activity != 'paragliding']
             values-list="['${"','".join(labande_ski_ratings) |n}']"></app-slider>
         </div>
       </div>
-      
+
       ## ROCK CLIMBING
-      <div ng-show="filtersCtrl.filters.act.length && filtersCtrl.filters.act.indexOf('rock_climbing') !== -1">
-        <div class="col-xs-12 col-sm-6 filter">
-          <label translate>climbing_outdoor_type</label><br>
-          ${add_multiselect('crtyp', climbing_outdoor_types)}
-        </div>
+      <div class="col-xs-12 col-sm-6 filter"
+           ng-if="filtersCtrl.filters.act.length
+               && filtersCtrl.filters.act.indexOf('rock_climbing') !== -1">
+        <label translate>climbing_outdoor_type</label><br>
+        ${add_multiselect('crtyp', climbing_outdoor_types)}
       </div>
 
 
       ## ROCK AND ALPINE CLIMBING
-      <div ng-show="filtersCtrl.filters.act.length && (filtersCtrl.filters.act.indexOf('rock_climbing') !== -1 ||
-                    filtersCtrl.filters.act.indexOf('alpine_climbing') !== -1)">
+      <div ng-if="filtersCtrl.filters.act.length
+               && (filtersCtrl.filters.act.indexOf('rock_climbing') !== -1 ||
+                   filtersCtrl.filters.act.indexOf('alpine_climbing') !== -1)">
         <div class="col-xs-12 col-sm-6 filter">
           <label translate>rock_free_rating</label><br>
           <app-slider filter="frat" filters-list="filtersCtrl.filters" unit=""
             values-list="['${"','".join(climbing_ratings) |n}']"></app-slider>
         </div>
 
-        <div class="col-xs-12 col-sm-6 filter">
+        <div class="col-xs-12 col-sm-6 filter"
+             ng-if="filtersCtrl.filters.act.length
+                 && (filtersCtrl.filters.act.indexOf('rock_climbing') === -1
+                     || filtersCtrl.filters.crtyp.indexOf('multi') !== -1
+                     || filtersCtrl.filters.crtyp.indexOf('single') !== -1
+                     || filtersCtrl.filters.crtyp.length === 0
+                     || filtersCtrl.filters.act.length > 1)">
           <label translate>rock_required_rating</label><br>
           <app-slider filter="rrat" filters-list="filtersCtrl.filters" unit=""
             values-list="['${"','".join(climbing_ratings) |n}']"></app-slider>
@@ -108,28 +118,39 @@ activities = [activity for activity in activities if activity != 'paragliding']
             values-list="['${"','".join(exposition_rock_ratings) |n}']"></app-slider>
         </div>
 
-        <div class="col-xs-12 col-sm-6 filter">
+        <div class="col-xs-12 col-sm-6 filter"
+             ng-if="filtersCtrl.filters.act.length
+                 && (filtersCtrl.filters.act.indexOf('rock_climbing') === -1
+                     || filtersCtrl.filters.crtyp.indexOf('multi') !== -1
+                     || filtersCtrl.filters.crtyp.indexOf('single') !== -1
+                     || filtersCtrl.filters.crtyp.length === 0
+                     || filtersCtrl.filters.act.length > 1)">
           <label translate>aid_rating</label><br>
           <app-slider filter="arat" filters-list="filtersCtrl.filters" unit=""
             values-list="['${"','".join(aid_ratings) |n}']"></app-slider>
         </div>
       </div>
-     
-   
-      ## SNOW, ICE, ROCK AND ALPINE CLIMBING
-      <div ng-show="filtersCtrl.filters.act.length && (filtersCtrl.filters.act.indexOf('snow_ice_mixed') !== -1 ||
-                    filtersCtrl.filters.act.indexOf('rock_climbing') !== -1 ||
-                    filtersCtrl.filters.act.indexOf('mountain_climbing') !== -1 ||
-                    filtersCtrl.filters.act.indexOf('ice_climbing') !== -1)">
-       
 
+
+      ## SNOW, ICE, ROCK AND ALPINE CLIMBING
+      <div ng-if="filtersCtrl.filters.act.length
+               && (filtersCtrl.filters.act.indexOf('snow_ice_mixed') !== -1 ||
+                   filtersCtrl.filters.act.indexOf('rock_climbing') !== -1
+                     && (filtersCtrl.filters.crtyp.indexOf('multi') !== -1
+                         || filtersCtrl.filters.crtyp.length === 0) ||
+                   filtersCtrl.filters.act.indexOf('mountain_climbing') !== -1 ||
+                   filtersCtrl.filters.act.indexOf('ice_climbing') !== -1)">
         <div class="col-xs-12 col-sm-6 filter">
           <label translate>global_rating</label><br>
           <app-slider filter="grat" filters-list="filtersCtrl.filters" unit=""
             values-list="['${"','".join(global_ratings) |n}']"></app-slider>
         </div>
 
-        <div class="col-xs-12 col-sm-6 filter">
+        <div class="col-xs-12 col-sm-6 filter"
+             ng-if="filtersCtrl.filters.act.length
+                 && (filtersCtrl.filters.act.indexOf('rock_climbing') === -1
+                     || filtersCtrl.filters.crtyp.indexOf('multi') !== -1
+                     || filtersCtrl.filters.act.length > 1)">
           <label translate>engagement_rating</label><br>
           <app-slider filter="erat" filters-list="filtersCtrl.filters" unit=""
             values-list="['${"','".join(engagement_ratings) |n}']"></app-slider>
@@ -141,7 +162,13 @@ activities = [activity for activity in activities if activity != 'paragliding']
             values-list="['${"','".join(risk_ratings) |n}']"></app-slider>
         </div>
 
-        <div class="col-xs-12 col-sm-6 filter">
+        <div class="col-xs-12 col-sm-6 filter"
+             ng-if="filtersCtrl.filters.act.length
+                 && (filtersCtrl.filters.act.indexOf('rock_climbing') === -1
+                     || filtersCtrl.filters.crtyp.indexOf('multi') !== -1
+                     || filtersCtrl.filters.crtyp.indexOf('single') !== -1
+                     || filtersCtrl.filters.crtyp.length === 0
+                     || filtersCtrl.filters.act.length > 1)">
           <label translate>equipment_rating</label><br>
           <app-slider filter="prat" filters-list="filtersCtrl.filters" unit=""
             values-list="['${"','".join(equipment_ratings) |n}']"></app-slider>
@@ -164,10 +191,11 @@ activities = [activity for activity in activities if activity != 'paragliding']
         </div>
 
       </div>
-        
+
       ## ICE AND SNOW_ICE_MIXED
-      <div ng-show="filtersCtrl.filters.act.length && (filtersCtrl.filters.act.indexOf('snow_ice_mixed') !== -1 ||
-                    filtersCtrl.filters.act.indexOf('ice_climbing') !== -1)">
+      <div ng-if="filtersCtrl.filters.act.length
+               && (filtersCtrl.filters.act.indexOf('snow_ice_mixed') !== -1 ||
+                   filtersCtrl.filters.act.indexOf('ice_climbing') !== -1)">
         <div class="col-xs-12 col-sm-6 filter">
           <label translate>ice_rating</label><br>
           <app-slider filter="irat" filters-list="filtersCtrl.filters" unit=""
@@ -182,34 +210,35 @@ activities = [activity for activity in activities if activity != 'paragliding']
       </div>
 
       ## VIA FERRATA
-      <div ng-show="filtersCtrl.filters.act.length && filtersCtrl.filters.act.indexOf('via_ferrata') !== -1">
-        <div class="col-xs-12 col-sm-6 filter">
-          <label translate>via_ferrata_rating</label><br>
-          <app-slider filter="krat" filters-list="filtersCtrl.filters" unit=""
-            values-list="['${"','".join(via_ferrata_ratings) |n}']"></app-slider>
-        </div>
+      <div class="col-xs-12 col-sm-6 filter"
+           ng-if="filtersCtrl.filters.act.length
+               && filtersCtrl.filters.act.indexOf('via_ferrata') !== -1">
+        <label translate>via_ferrata_rating</label><br>
+        <app-slider filter="krat" filters-list="filtersCtrl.filters" unit=""
+          values-list="['${"','".join(via_ferrata_ratings) |n}']"></app-slider>
       </div>
 
       ## HIKING
-      <div ng-show="filtersCtrl.filters.act.length && filtersCtrl.filters.act.indexOf('hiking') !== -1">
-        <div class="col-xs-12 col-sm-6 filter">
-          <label translate>hiking_rating</label><br>
-          <app-slider filter="hrat" filters-list="filtersCtrl.filters" unit=""
-            values-list="['${"','".join(hiking_ratings) |n}']"></app-slider>
-        </div>
+      <div class="col-xs-12 col-sm-6 filter"
+           ng-if="filtersCtrl.filters.act.length
+               && filtersCtrl.filters.act.indexOf('hiking') !== -1">
+        <label translate>hiking_rating</label><br>
+        <app-slider filter="hrat" filters-list="filtersCtrl.filters" unit=""
+          values-list="['${"','".join(hiking_ratings) |n}']"></app-slider>
       </div>
 
       ## SNOWSHOEING
-      <div ng-show="filtersCtrl.filters.act.length && filtersCtrl.filters.act.indexOf('snowshoeing') !== -1">
-        <div class="col-xs-12 col-sm-6 filter">
-          <label translate>snowshoe_rating</label><br>
-          <app-slider filter="wrat" filters-list="filtersCtrl.filters" unit=""
-            values-list="['${"','".join(snowshoe_ratings) |n}']"></app-slider>
-        </div>
+      <div class="col-xs-12 col-sm-6 filter"
+           ng-if="filtersCtrl.filters.act.length
+               && filtersCtrl.filters.act.indexOf('snowshoeing') !== -1">
+        <label translate>snowshoe_rating</label><br>
+        <app-slider filter="wrat" filters-list="filtersCtrl.filters" unit=""
+          values-list="['${"','".join(snowshoe_ratings) |n}']"></app-slider>
       </div>
 
       ## MOUNTAIN BIKING
-      <div ng-show="filtersCtrl.filters.act.length && filtersCtrl.filters.act.indexOf('mountain_biking') !== -1">
+      <div ng-if="filtersCtrl.filters.act.length
+               && filtersCtrl.filters.act.indexOf('mountain_biking') !== -1">
         <div class="col-xs-12 col-sm-6 filter">
           <label translate>mtb_up_rating</label><br>
           <app-slider filter="mbur" filters-list="filtersCtrl.filters" unit=""
@@ -239,15 +268,15 @@ activities = [activity for activity in activities if activity != 'paragliding']
       </div>
 
       ## HIKING AND MOUNTAIN BIKING
-      <div ng-show="filtersCtrl.filters.act.length && (filtersCtrl.filters.act.indexOf('mountain_biking') !== -1 ||
-                    filtersCtrl.filters.act.indexOf('hiking') !== -1)">
-        <div class="col-xs-12 col-sm-6 filter">
-          <label translate>hiking_mtb_exposition</label><br>
-          <app-slider filter="hexpo" filters-list="filtersCtrl.filters" unit=""
-            values-list="['${"','".join(exposition_ratings) |n}']"></app-slider>
-        </div>
+      <div class="col-xs-12 col-sm-6 filter"
+           ng-if="filtersCtrl.filters.act.length
+               && (filtersCtrl.filters.act.indexOf('mountain_biking') !== -1 ||
+                   filtersCtrl.filters.act.indexOf('hiking') !== -1)">
+        <label translate>hiking_mtb_exposition</label><br>
+        <app-slider filter="hexpo" filters-list="filtersCtrl.filters" unit=""
+          values-list="['${"','".join(exposition_ratings) |n}']"></app-slider>
       </div>
-        
+
       <div class="col-xs-12 col-sm-6 filter">
         <label translate>elevation_min</label><br>
         <app-slider filter="rmina" filters-list="filtersCtrl.filters" max="6000"></app-slider>
@@ -267,63 +296,73 @@ activities = [activity for activity in activities if activity != 'paragliding']
         <label translate>orientations</label><br>
         ${show_orientations('filtersCtrl', 'filtersCtrl', 'fac')}
       </div>
-      
+
       <div class="col-xs-12 col-sm-6 filter">
         <label translate>durations</label><br>
         <app-slider filter="time" filters-list="filtersCtrl.filters" unit="days"
           values-list="['${"','".join(route_duration_types) |n}']"></app-slider>
       </div>
-        
-      <div class="col-xs-12 col-sm-6 filter">
+
+      <div class="col-xs-12 col-sm-6 filter"
+           ng-if="filtersCtrl.filters.act.length
+               && (filtersCtrl.filters.act.indexOf('rock_climbing') === -1
+                   || filtersCtrl.filters.crtyp.indexOf('multi') !== -1
+                   || filtersCtrl.filters.crtyp.indexOf('single') !== -1
+                   || filtersCtrl.filters.crtyp.length === 0
+                   || filtersCtrl.filters.act.length > 1)">
         <label translate>route_types</label><br>
         ${add_multiselect('rtyp', route_types)}
       </div>
 
-      <div class="col-xs-12 col-sm-6 filter">
+      <div class="col-xs-12 col-sm-6 filter"
+           ng-if="filtersCtrl.filters.act.length
+               && (filtersCtrl.filters.act.indexOf('rock_climbing') === -1
+                   || filtersCtrl.filters.crtyp.indexOf('multi') !== -1
+                   || filtersCtrl.filters.act.length > 1)">
         <label translate>configuration</label><br>
         ${add_multiselect('conf', route_configuration_types)}
       </div>
-        
+
       ## ALL EXCEPT MOUNTAIN BIKING
-      <div ng-show="filtersCtrl.filters.act.length && filtersCtrl.filters.act.indexOf('mountain_biking') === -1">
-        <div class="col-xs-12 col-sm-6 filter">
-          <label translate>glacier_gear</label><br>
-          ${add_multiselect('glac', glacier_gear_types)}
-        </div>
+      <div class="col-xs-12 col-sm-6 filter"
+           ng-if="filtersCtrl.filters.act.length
+               && filtersCtrl.filters.act.indexOf('mountain_biking') === -1">
+        <label translate>glacier_gear</label><br>
+        ${add_multiselect('glac', glacier_gear_types)}
       </div>
 
       ## SKITOURING, SNOWSHOEING, HIKING, MOUNTAIN BIKING
-      <div ng-show="filtersCtrl.filters.act.length && (filtersCtrl.filters.act.indexOf('skitouring') !== -1 ||
-                    filtersCtrl.filters.act.indexOf('snowshoeing') !== -1 ||
-                    filtersCtrl.filters.act.indexOf('hiking') !== -1 ||
-                    filtersCtrl.filters.act.indexOf('mountain_biking') !== -1)">
-        <div class="col-xs-12 col-sm-6 filter">
-          <label translate>route_length</label><br>
-          <app-slider filter="rlen" filters-list="filtersCtrl.filters" max="100000" step="500" unit="m"></app-slider>
-        </div>
+      <div class="col-xs-12 col-sm-6 filter toto"
+           ng-if="filtersCtrl.filters.act.length
+               && (filtersCtrl.filters.act.indexOf('skitouring') !== -1 ||
+                   filtersCtrl.filters.act.indexOf('snowshoeing') !== -1 ||
+                   filtersCtrl.filters.act.indexOf('hiking') !== -1 ||
+                   filtersCtrl.filters.act.indexOf('mountain_biking') !== -1)">
+        <label translate>route_length</label><br>
+        <app-slider filter="rlen" filters-list="filtersCtrl.filters" max="100000" step="500" unit="m"></app-slider>
       </div>
 
       ## SNOW_ICE_MIXED, ROCK AND ALPINE CLIMBING
-      <div ng-show="filtersCtrl.filters.act.length && (filtersCtrl.filters.act.indexOf('snow_ice_mixed') !== -1 ||
-                    filtersCtrl.filters.act.indexOf('rock_climbing') !== -1 ||
-                    filtersCtrl.filters.act.indexOf('mountain_climbing') !== -1)">
-        <div class="col-xs-12 col-sm-6 filter">
-          <label translate>rock_types</label><br>
-          ${add_multiselect('rock', rock_types)}
-        </div>
+      <div class="col-xs-12 col-sm-6 filter"
+           ng-if="filtersCtrl.filters.act.length
+               && (filtersCtrl.filters.act.indexOf('snow_ice_mixed') !== -1 ||
+                   filtersCtrl.filters.act.indexOf('rock_climbing') !== -1 ||
+                   filtersCtrl.filters.act.indexOf('mountain_climbing') !== -1)">
+        <label translate>rock_types</label><br>
+        ${add_multiselect('rock', rock_types)}
       </div>
 
       <div class="col-xs-12 col-sm-6 filter">
         <label translate>lang</label><br>
         ${add_multiselect('l', default_langs)}
       </div>
-      
+
       <div class="col-xs-12 col-sm-6 filter">
         <label translate>quality</label><br>
         <app-slider filter="qa" filters-list="filtersCtrl.filters" unit=""
           values-list="['${"','".join(quality_types) |n}']"></app-slider>
       </div>
-        
+
       ${show_results_buttons('routes')}
 
     </div>
