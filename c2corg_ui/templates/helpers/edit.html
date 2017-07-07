@@ -99,9 +99,7 @@
       ## QUALITY
       <div class="full comment" ng-class="{'has-success': saveCtrl.quality}">
         <label translate>quality</label>
-        <select ng-model="saveCtrl.quality" ng-options="type as saveCtrl.langService.translate(type) for type in ${quality_types}" class="form-control">
-          <option value=""></option>
-        </select>
+        <select ng-model="saveCtrl.quality" ng-options="type as saveCtrl.langService.translate(type) for type in ${quality_types}" class="form-control"></select>
       </div>
 
       <div class="text-center">
