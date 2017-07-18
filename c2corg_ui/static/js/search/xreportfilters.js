@@ -16,8 +16,6 @@ goog.require('app.SearchFiltersController');
 app.XreportFiltersController = function($scope, ngeoLocation, ngeoDebounce,
     advancedSearchFilters) {
 
-  goog.base(this, $scope, ngeoLocation, ngeoDebounce, advancedSearchFilters);
-
   /**
    * @type {Array.<Date>}
    * @export
@@ -45,7 +43,9 @@ app.XreportFiltersController = function($scope, ngeoLocation, ngeoDebounce,
    */
   this.dateMinEnd = null;
 
+  goog.base(this, $scope, ngeoLocation, ngeoDebounce, advancedSearchFilters);
 };
+
 goog.inherits(app.XreportFiltersController, app.SearchFiltersController);
 
 
