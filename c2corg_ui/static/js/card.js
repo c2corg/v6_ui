@@ -154,6 +154,55 @@ app.CardController.prototype.showArea = function(areas) {
   return null;
 };
 
+/**
+ * Convert orientations array into a string
+ * @param {?Array<string>} orientations
+ * @return {string}
+ * @export
+ */
+app.CardController.prototype.showOrientation = function(orientations) {
+  var str = '';
+  for (var i = 0; i < orientations.length; i++) {
+    if (i == 0) {
+      str = str + '' + orientations[i];
+    } else {
+      str = str + ', ' + orientations[i];
+    }
+  }
+  return str;
+};
+
+/**
+ * Show summary with the good language:
+ * 1) range 2) admin limits 3) country
+ * @param {?Array<Object>} locales
+ * @return {string | null}
+ * @export
+ */
+app.CardController.prototype.showSummary = function(locales) {
+
+  for (var i = 0; i < locales.length; i++) {
+    if (locales.lang == this.lang) {
+      if (locales[i].summary) {
+        return locales[i].summary;
+      }
+    }
+  }
+
+  if (locales[0].summary) {
+    return locales[0].summary;
+  }
+
+  return null;
+};
+
+/**
+ * Create redirection to the document page
+ * @export
+ */
+app.CardController.prototype.openDoc = function() {
+  window.location = this.createURL();
+};
 
 /**
  * Creates a link to the document view-page
@@ -167,6 +216,26 @@ app.CardController.prototype.createURL = function() {
     return this.url_.buildDocumentUrl(
       this.type, this.doc['document_id'], this.doc['locales'][0]);
   }
+};
+
+/**
+ * @param {Array} areas
+ * @return {string | undefined}
+ * @export
+ */
+app.CardController.prototype.createURLArea = function(areas) {
+  if (areas !== undefined) {
+    if (areas.length > 0) {
+      var loc = window.location.pathname;
+      // Don't create links on edit and add pages.
+      var doc = areas[areas.length - 1];
+      if (loc.indexOf('/edit/') === -1 && loc.indexOf('/add') === -1) {
+        return this.url_.buildDocumentUrl(
+          app.utils.getDoctype(doc['type']),  doc['document_id'],  doc['locales'][0]);
+      }
+    }
+  }
+
 };
 
 
@@ -230,9 +299,9 @@ app.CardController.prototype.getFullRatings = function() {
   for (var p in doc) {
     // every property that has 'rating' in it but with some exceptions.
     if (doc.hasOwnProperty(p) &&
-      (p.indexOf('rating') > -1 && p !== 'rock_free_rating' && p !== 'rock_required_rating' && p !== 'ski_rating'
-        && p !== 'hiking_mtb_exposition' && p !== 'labande_global_rating' && p !== 'labande_ski_rating'
-        && p !== 'mtb_up_rating' && p !== 'mtb_down_rating')) {
+        (p.indexOf('rating') > -1 && p !== 'rock_free_rating' && p !== 'rock_required_rating' && p !== 'ski_rating'
+         && p !== 'hiking_mtb_exposition' && p !== 'labande_global_rating' && p !== 'labande_ski_rating'
+         && p !== 'mtb_up_rating' && p !== 'mtb_down_rating')) {
       ratings[p] = doc[p];
     } else {
       if (doc.hiking_mtb_exposition) {
@@ -286,7 +355,7 @@ app.CardController.prototype.slashSeparatedRating_ = function(rating1, rating2) 
  */
 app.CardController.prototype.hasActivity = function(activities) {
   return (this.type === 'routes') ?
-      app.utils.hasActivity(/** @type{appx.Route}*/ (this.doc), activities) : false;
+    app.utils.hasActivity(/** @type{appx.Route}*/ (this.doc), activities) : false;
 };
 
 app.module.controller('AppCardController', app.CardController);

@@ -1,47 +1,117 @@
+<!--
 <a ng-href="{{cardCtrl.createURL()}}" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;">
-  <div class="list-item-info">
+<div class="list-item-info">
 
-    <div class="list-item-title-lang">
-      <span class="list-item-title">{{::locale.title}}</span>
-      <span class="list-item-lang" ng-if="cardCtrl.lang != locale.lang">({{::locale.lang}})</span>
-    </div>
+<div class="list-item-title-lang">
+<span class="list-item-title">{{::locale.title}}</span>
+<span class="list-item-lang" ng-if="cardCtrl.lang != locale.lang">({{::locale.lang}})</span>
+</div>
 
-    <div class="categories margin-t-sm margin-b-sm">
-      <span class="glyphicon glyphicon-warning-sign"></span>
-      <b class="value" ng-repeat="type in doc['event_type']">{{type | translate}}{{$last ? '' : ', '}}</b>
-    </div>
+<div class="categories margin-t-sm margin-b-sm">
+<span class="glyphicon glyphicon-warning-sign"></span>
+<b class="value" ng-repeat="type in doc['event_type']">{{type | translate}}{{$last ? '' : ', '}}</b>
+</div>
 
-    <div class="flex wrap-row">
-      <span class="elevation">
-        <span class="value-title glyphicon glyphicon-sort-by-attributes rotate-180"></span>
-        <span class="value" ng-if="::doc['elevation']">{{::doc['elevation']}}&nbsp;m</span>
-      </span>
+<div class="flex wrap-row">
+<span class="elevation">
+<span class="value-title glyphicon glyphicon-sort-by-attributes rotate-180"></span>
+<span class="value" ng-if="::doc['elevation']">{{::doc['elevation']}}&nbsp;m</span>
+</span>
 
-      <span class="date">
-        <span class="value-title glyphicon glyphicon-time"></span>
-        <span class="value" ng-if="::doc['date']">{{::doc['date'] | date: 'dd/MM/yyyy'}}</span>
-      </span>
-    </div>
+<span class="date">
+<span class="value-title glyphicon glyphicon-time"></span>
+<span class="value" ng-if="::doc['date']">{{::doc['date'] | date: 'dd/MM/yyyy'}}</span>
+</span>
+</div>
 
-    <div class="activities flex wrap-row margin-t-sm">
-      <span ng-repeat="activity in ::doc.activities | limitTo: 4"  class="activity icon-{{::activity}}"
-            uib-tooltip="{{ cardCtrl.translate(activity)}}"></span>
+<div class="activities flex wrap-row margin-t-sm">
+<span ng-repeat="activity in ::doc.activities | limitTo: 4"  class="activity icon-{{::activity}}"
+uib-tooltip="{{ cardCtrl.translate(activity)}}"></span>
 
-      <span class="flex flexend-align show-more-activities"
-            ng-if="doc.activities.length > 4 && !cardCtrl.remainingActivities"
-            ng-click="$event.preventDefault(); cardCtrl.remainingActivities = true">
-        ...(+ {{::doc.activities.length - 4}})
-      </span>
+<span class="flex flexend-align show-more-activities"
+ng-if="doc.activities.length > 4 && !cardCtrl.remainingActivities"
+ng-click="$event.preventDefault(); cardCtrl.remainingActivities = true">
+...(+ {{::doc.activities.length - 4}})
+</span>
 
-      <span ng-if="cardCtrl.remainingActivities" ng-repeat="activity in ::doc.activities | limitTo: (4 - doc.activities.length)"
-            class="activity icon-{{::activity}}" uib-tooltip="{{cardCtrl.translate(activity)}}">
-      </span>
-    </div>
+<span ng-if="cardCtrl.remainingActivities" ng-repeat="activity in ::doc.activities | limitTo: (4 - doc.activities.length)"
+class="activity icon-{{::activity}}" uib-tooltip="{{cardCtrl.translate(activity)}}">
+</span>
+</div>
 
-    <div class="quality" ng-if="::doc['quality']"
-         uib-tooltip="{{'quality'| translate}} : {{doc['quality'] | translate}}" tooltip-placement="left">
-      <span class="quality-{{::doc['quality']}}"></span>
-    </div>
+<div class="quality" ng-if="::doc['quality']"
+uib-tooltip="{{'quality'| translate}} : {{doc['quality'] | translate}}" tooltip-placement="left">
+<span class="quality-{{::doc['quality']}}"></span>
+</div>
 
-  </div>
+</div>
 </a>
+-->
+
+
+<article class="post" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;" ng-click="cardCtrl.openDoc(doc)">
+	<a ng-href="{{::feedCtrl.createURL(doc)}}" title="{{::feedCtrl.showTitle(doc['document']['locales'])}}" ng-click="$event.stopPropagation()" class="text-link"> 
+		<div class="parent-text">
+			<div class="text emptyimg">{{::locale.title}}
+				<div class="summary"><span class="value" ng-repeat="type in doc['event_type']">{{type | translate}}{{$last ? '' : ', '}}</span></div>
+			</div>
+		</div></a><div class="parent-img"><div class="img" ng-if="::doc.image1"><a ng-href="/images/{{::doc.image1.document_id}}/{{::doc.image1.locales[0].lang}}"><img class="imgo" ng-src="{{feedCtrl.createImageUrl(doc.image1.filename, 'MI')}}" alt="Photo"></a></div></div><div class="parent-infop">
+	</div>
+	<div class="parent-infop parent-infop-first" ng-if="::doc['areas'] != null">
+		<a ng-href="{{::cardCtrl.createURLArea(doc['areas'])}}" title="{{::cardCtrl.showArea(doc['areas'])}}" ng-click="$event.stopPropagation()">
+			<div class="infop-bar">
+				<div class="parent-bubble">
+					<div class="bubble">
+						<span class="glyphicon glyphicon-map-marker"></span>
+					</div>
+				</div>
+				<div class="text-bubble">
+					{{::cardCtrl.showArea(doc['areas'])}}
+				</div>
+				<div class="grow">
+				</div>
+			</div></a>
+	</div>
+	<div class="parent-infop parent-infop-first">
+		<div class="infop-bar">
+			<div class="parent-bubble" ng-if="::doc['elevation']">
+				<div class="bubble" uib-tooltip="{{'elevation'| translate}}" tooltip-append-to-body="true">
+					<span class="value-title glyphicon glyphicon-sort-by-attributes rotate-180"></span>
+				</div>
+			</div>
+			<div class="text-bubble" ng-if="::doc['elevation']">
+				{{::doc['elevation']}} m
+			</div>
+			<div class="parent-bubble">
+				<div class="bubble" uib-tooltip="{{'date'| translate}}">
+					<span class="value-title glyphicon glyphicon-time"></span>
+				</div>
+			</div>
+			<div class="text-bubble">
+				{{::doc['date_end'] | amUtc | amLocal | amDateFormat: 'DD/MM/YYYY'}}
+			</div>
+			<div class="grow">
+			</div>
+		</div>
+	</div>
+	<div class="parent-infop">
+		<div class="infop-bar">
+			<div class="parent-activity large">
+				<div class="parent-bubble" ng-repeat="activity in ::doc.activities">
+					<a href="#" class="shcom" uib-tooltip="{{activity | translate}}"> 
+						<div class="bubble">
+							<span class="route-activity icon-{{::activity}}"></span>
+						</div>
+					</a>
+				</div>
+			</div>
+			<div class="grow">
+			</div>
+			<div class="parent-bubble"><div class="bubble bquality" ng-if="::doc['quality']">
+				<a class="link" uib-tooltip="{{doc['quality'] | translate}}" tooltip-append-to-body="true">
+					<span class="quality-{{::doc['quality']}}"></span>
+				</a></div>
+			</div>
+		</div>
+	</div>
+</article>

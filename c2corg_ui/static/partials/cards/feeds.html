@@ -1,0 +1,100 @@
+<article class="post" ng-repeat="doc in feedCtrl.documentsL track by doc.id" ng-click="feedCtrl.openDoc(doc)">
+	<div class="infoa">
+		<a class="pportrait" ng-href="/profiles/{{::doc['user']['document_id']}}/{{::doc['user']['locales'][0]['lang']}}" title="{{::doc['user']['name']}}" ng-click="$event.stopPropagation()"><img class="URgs7" ng-src="https://forum.camptocamp.org/user_avatar/forum.camptocamp.org/{{::doc['user']['forum_username']}}/36/1_1.png" alt="" width="36" height="36"></a>
+		<div class="parent-author">
+			<div class="under-author">
+				<div class="author"><a ng-href="/profiles/{{::doc['user']['document_id']}}/{{::doc['user']['locales'][0]['lang']}}" title="{{::doc['user']['name']}}" ng-click="$event.stopPropagation()">{{::doc['user']['name']}}</a> <span>{{feedCtrl.createActionLine(doc) | translate}} </span></div>
+			</div>
+			<div class="parent-hour">
+				<div class="hour"><span class="d-hour">{{::doc.time | amUtc | amLocal | amTimeAgo}}</span></div>
+			</div>
+		</div>
+	</div>
+	<a ng-href="{{::feedCtrl.createURL(doc)}}" title="{{::feedCtrl.showTitle(doc['document']['locales'])}}" ng-click="$event.stopPropagation()">
+		<div class="parent-text">
+			<div class="text" ng-if="::doc.image1">{{::feedCtrl.showTitle(doc['document']['locales'])}}
+				<div class="summary" ng-if="::doc.document.type=='c'">{{::feedCtrl.showSummary(doc['document']['locales'])}}</div>
+			</div>
+			<div class="text emptyimg" ng-if="::!doc.image1">{{::feedCtrl.showTitle(doc['document']['locales'])}}
+				<div class="summary" ng-if="::doc.document.type=='c'">{{::feedCtrl.showSummary(doc['document']['locales'])}}</div>
+			</div>
+		</div></a><div class="parent-img"><div class="img" ng-if="::doc.image1"><a ng-href="/images/{{::doc.image1.document_id}}/{{::doc.image1.locales[0].lang}}"><img class="imgo" ng-src="{{feedCtrl.createImageUrl(doc.image1.filename, 'MI')}}" alt="Photo"></a></div></div><div class="parent-infop">
+	</div>
+	<div class="parent-infop parent-infop-first" ng-init="fullRatings = feedCtrl.getFullRatings(doc['document'])" ng-if="::fullRatings || doc['document']['elevation_max'] || doc['document']['height_diff_up'] || doc['document']['height_diff_difficulties']">
+		<div class="infop-bar">
+			<div class="parent-bubble" ng-if="::fullRatings">
+				<div class="bubble ">
+					<span class="icon-rating "></span>
+				</div>
+			</div>
+			<div class="text-bubble cotationbox" ng-if="::fullRatings">
+				<div ng-repeat="(attr, val) in ::fullRatings" uib-tooltip="{{attr | translate}}" class="rating ng-scope" tooltip-append-to-body="true"> <span class="value">{{::val}}</span> </div>
+			</div> 
+
+			<div class="parent-bubble" ng-if="::doc['document']['elevation_max']">
+				<div class="bubble" uib-tooltip="{{'elevation_max'| translate}}" tooltip-append-to-body="true">
+					<span class="value-title glyphicon glyphicon-sort-by-attributes rotate-180"></span>
+				</div>
+			</div>
+			<div class="text-bubble" ng-if="::doc['document']['elevation_max']">
+				{{::doc['document']['elevation_max']}} m
+			</div>
+			<div class="parent-bubble" ng-if="::doc['document']['height_diff_up']">
+				<div class="bubble" uib-tooltip="{{'height_diff_up'| translate}}">
+					<span class="icon-height_diff"></span>
+				</div>
+			</div>
+			<div class="text-bubble" ng-if="::doc['document']['height_diff_up']">
+				{{::doc['document']['height_diff_up']}} m
+			</div>
+			<div class="parent-bubble" ng-if="::doc['document']['height_diff_difficulties']">
+				<div class="bubble" uib-tooltip="{{'height_diff_difficulties'| translate}}" tooltip-append-to-body="true">
+					<span class="value-title glyphicon glyphicon-resize-vertical"></span>
+				</div>
+			</div>
+			<div class="text-bubble" ng-if="::doc['document']['height_diff_difficulties']">
+				{{::doc['document']['height_diff_difficulties']}} m
+			</div>
+			<div class="grow">
+			</div>
+		</div>
+	</div>
+	<div class="parent-infop parent-infop-first" ng-if="::doc['document']['areas'] != null">
+		<a ng-href="{{::feedCtrl.createURLArea(doc['document']['areas'])}}" title="{{::feedCtrl.showArea(doc['document']['areas'])}}" ng-click="$event.stopPropagation()">
+			<div class="infop-bar">
+				<div class="parent-bubble">
+					<div class="bubble">
+						<span class="glyphicon glyphicon-map-marker"></span>
+					</div>
+				</div>
+				<div class="text-bubble">
+					{{::feedCtrl.showArea(doc['document']['areas'])}}
+				</div>
+				<div class="grow">
+				</div>
+			</div></a>
+	</div>
+	<div class="parent-infop">
+		<div class="infop-bar">
+			<div class="parent-bubble" ng-repeat="activity in ::doc['document']['activities']">
+				<a href="#" class="shcom" uib-tooltip="{{activity | translate}}"> 
+					<div class="bubble">
+						<span class="route-activity icon-{{::activity}}"></span>
+					</div>
+				</a>
+			</div>
+			<div class="grow">
+			</div>
+			<div class="parent-bubble">
+				<a href="#" class="link" ng-if="::doc['document']['condition_rating']" uib-tooltip="{{'condition_rating' | translate}} : {{doc['document']['condition_rating'] | translate}}" tooltip-append-to-body="true">
+					<div class="condition-rating" ng-class="::doc['document']['condition_rating']" ></div>
+				</a>
+			</div>
+			<div class="parent-bubble"><div class="bubble bquality">
+				<a class="link" uib-tooltip="{{doc['document']['quality'] | translate}}" tooltip-append-to-body="true">
+					<span class="quality-{{::doc['document']['quality']}}"></span>
+				</a></div>
+			</div>
+		</div>
+	</div>
+</article>
