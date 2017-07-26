@@ -31,6 +31,7 @@
 .post.route .parent-infop.large {
   /*height: 45px;*/
 }
+
 @media @tablet , @desktop , @big {
 
 
@@ -874,3 +875,20 @@ textarea {
 
 }
 .post .author a {color: #000;}
+
+@media @phone {
+  .list.advanced-search {
+    padding: 0px;
+  }
+  .list-item {
+    margin-left: 0px;
+  }
+  .route {
+    height: auto;
+  }
+  
+  .post .parent-infop .infop-bar {
+    flex-wrap:wrap;
+    flex-flow: row wrap;
+  }
+}
