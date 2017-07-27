@@ -28,7 +28,7 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
   % if updating_doc:
     app-document-editing-id="${xreport_id}" app-document-editing-lang="${xreport_lang}"
   % endif
-    class="document-editing" name="editForm" novalidate ng-submit="editCtrl.confirmSave(editForm.$valid)">
+    class="document-editing" name="editForm" novalidate>
 
     ## PROGRESS BAR
     <app-progress-bar>

@@ -30,7 +30,7 @@ from c2corg_common.attributes import default_langs, activities, image_types, ima
   % if updating_doc:
     app-document-editing-id="${image_id}" app-document-editing-lang="${image_lang}"
   % endif
-    class="document-editing" name="editForm" novalidate ng-submit="editCtrl.confirmSave(editForm.$valid)">
+    class="document-editing" name="editForm" novalidate>
 
     ## PROGRESS BAR
     <app-progress-bar ng-init="progressBarCtrl.maxSteps = 2">
