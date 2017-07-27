@@ -24,7 +24,7 @@ from c2corg_common.attributes import default_langs, activities, article_categori
   % if updating_doc:
     app-document-editing-id="${article_id}" app-document-editing-lang="${article_lang}"
   % endif
-    class="document-editing" name="editForm" novalidate ng-submit="editCtrl.confirmSave(editForm.$valid)">
+    class="document-editing" name="editForm" novalidate>
 
     ${show_protected_warning('article')}
 

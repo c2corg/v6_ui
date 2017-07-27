@@ -31,7 +31,7 @@ updating_doc = route_id and route_lang
   % if updating_doc:
     app-document-editing-id="${route_id}" app-document-editing-lang="${route_lang}"
   % endif
-     name="editForm" novalidate ng-submit="editCtrl.confirmSave(editForm.$valid)" class="document-editing">
+     name="editForm" novalidate class="document-editing">
 
     <app-progress-bar>
       ## It won't work with ng-init
