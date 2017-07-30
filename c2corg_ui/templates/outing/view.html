@@ -138,8 +138,8 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
     ${get_conditions(locale, True)}
     ${get_document_locale_text(locale, 'avalanches', True)}
     ${get_document_locale_text(locale, 'timing', True)}
-    % if outing.get('geometry'):
-      ${get_outing_elevation_profile(outing.get('geometry'))}
+    % if outing.get('geometry').get('geom_detail'):
+      ${get_outing_elevation_profile()}
     % endif
     ${get_document_locale_text(locale, 'access', True)}
     ${get_document_locale_text(locale, 'access_comment', True)}

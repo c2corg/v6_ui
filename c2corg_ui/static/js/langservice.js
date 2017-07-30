@@ -109,6 +109,18 @@ app.Lang.prototype.translate = function(str) {
 
 
 /**
+ * Alias of the translate() function, to be used in JS files
+ * to have passed strings extracted.
+ * @export
+ * @param {string} str
+ * @return {string}
+ */
+app.Lang.prototype.gettext = function(str) {
+  return this.translate(str);
+};
+
+
+/**
  * @param {string} lang
  * @param {boolean=} opt_syncWithApi
  */

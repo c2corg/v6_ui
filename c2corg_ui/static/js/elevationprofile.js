@@ -33,6 +33,7 @@ app.ElevationProfileController = function(
   appLang,
   ngeoDebounce
 ) {
+
   /**
    * @type {angular.Scope}
    * @private
@@ -49,32 +50,49 @@ app.ElevationProfileController = function(
    * @private
    * @type {ngeo.Debounce}
    */
-  this.ngeoDebounce = ngeoDebounce;
+  this.ngeoDebounce_ = ngeoDebounce;
 
   /**
    * @export
    */
   this.mode = 'distance';
 
-  this.i18n = {
-    elevation: appLang.translate('Elevation'),
-    elevation_legend: appLang.translate('Elevation (m)'),
-    meters: appLang.translate('meters'),
-    distance: appLang.translate('Distance'),
-    distance_legend: appLang.translate('Distance (km)'),
-    km: appLang.translate('kilometers'),
-    time: appLang.translate('Time'),
-    duration: appLang.translate('Duration'),
-    duration_legend: appLang.translate('Duration (hrs)')
+  /**
+   * @private
+   */
+  this.i18n_ = {
+    elevation: appLang.gettext('Elevation'),
+    elevation_legend: appLang.gettext('Elevation (m)'),
+    meters: appLang.gettext('meters'),
+    distance: appLang.gettext('Distance'),
+    distance_legend: appLang.gettext('Distance (km)'),
+    km: appLang.gettext('kilometers'),
+    time: appLang.gettext('Time'),
+    duration: appLang.gettext('Duration'),
+    duration_legend: appLang.gettext('Duration (hrs)')
   };
 
-  var coords = mapFeatureCollection.features.filter(function(feature) {
-    return feature.geometry.type === 'LineString';
-  })[0].geometry.coordinates;
+  var lines = mapFeatureCollection.features.filter(function(feature) {
+    return feature.geometry.type === 'LineString' ||
+           feature.geometry.type === 'MultiLineString';
+  });
+  if (!lines) {
+    $('#elevation-profile').closest('.view-details-info').remove();
+    return;
+  }
+
+  var coords = [];
+  if (lines[0].geometry.type === 'MultiLineString') {
+    lines[0].geometry.coordinates.forEach(function(linestring) {
+      coords = coords.concat(linestring);
+    });
+  } else {
+    coords = lines[0].geometry.coordinates;
+  }
 
   // we consider the track contains time if all points have this information
   var timeAvailable = coords.every(function(coord) {
-    return coords.length > 3;
+    return coord.length > 3;
   });
   this.timeAvailable = timeAvailable;
   var startDate = timeAvailable ? new Date(coords[0][3] * 1000) : undefined;
@@ -114,10 +132,13 @@ app.ElevationProfileController = function(
     $('#elevation-profile').closest('.view-details-info').remove();
     return;
   }
-  this.createChart();
+  this.createChart_();
 };
 
-app.ElevationProfileController.prototype.createChart = function() {
+/**
+ * @private
+ */
+app.ElevationProfileController.prototype.createChart_ = function() {
   var wrapper = $('#elevation-profile').closest('.view-details-info');
   var width = wrapper.width();
   var size = {
@@ -209,7 +230,7 @@ app.ElevationProfileController.prototype.createChart = function() {
     .attr('y', 6)
     .attr('dy', '.71em')
     .style('text-anchor', 'end')
-    .text(this.i18n.elevation_legend);
+    .text(this.i18n_.elevation_legend);
 
   this.svg
     .append('g')
@@ -221,7 +242,7 @@ app.ElevationProfileController.prototype.createChart = function() {
     .attr('dy', '-.71em')
     .attr('class', 'x axis legend')
     .style('text-anchor', 'end')
-    .text(this.i18n.distance_legend);
+    .text(this.i18n_.distance_legend);
 
   // data lines
   this.dLine = d3.svg
@@ -326,35 +347,41 @@ app.ElevationProfileController.prototype.createChart = function() {
         this.bubble2.style('display', null);
       }.bind(this)
     )
-    .on('mousemove', this.mousemove.bind(this));
+    .on('mousemove', this.mousemove_.bind(this));
 
   // listen to changes to mode variable to update chart
   this.scope_.$watch(
     function() {
       return this.mode;
     }.bind(this),
-    this.updateChart.bind(this)
+    this.updateChart_.bind(this)
   );
   // listen to width changes to redraw graph
   $(window).on(
     'resize',
-    this.ngeoDebounce(this.resizeChart.bind(this), 300, true)
+    this.ngeoDebounce_(this.resizeChart_.bind(this), 300, true)
   );
 };
 
-app.ElevationProfileController.prototype.updateChart = function() {
+/**
+ * @private
+ */
+app.ElevationProfileController.prototype.updateChart_ = function() {
   var nLine = this.mode === 'distance' ? this.dLine : this.tLine;
   var axis = this.mode === 'distance' ? this.x1Axis : this.x2Axis;
   var legend = this.mode === 'distance'
-    ? this.i18n.distance_legend
-    : this.i18n.duration_legend;
+    ? this.i18n_.distance_legend
+    : this.i18n_.duration_legend;
   this.line.transition().duration(1000).attr('d', nLine);
 
   window.d3.select('.x.axis').call(axis);
   window.d3.select('.x.axis.legend').text(legend);
 };
 
-app.ElevationProfileController.prototype.resizeChart = function() {
+/**
+ * @private
+ */
+app.ElevationProfileController.prototype.resizeChart_ = function() {
   var wrapper = $('#elevation-profile').closest('.view-details-info');
   var width = wrapper.width() - this.margin.left - this.margin.right;
   var div = window.d3.select('#elevation-profile');
@@ -380,7 +407,10 @@ app.ElevationProfileController.prototype.resizeChart = function() {
   this.bubble2.style('display', null);
 };
 
-app.ElevationProfileController.prototype.mousemove = function() {
+/**
+ * @private
+ */
+app.ElevationProfileController.prototype.mousemove_ = function() {
   var d3 = window.d3;
   var bisectDistance = d3.bisector(function(d) {
     return d.d;
@@ -411,24 +441,24 @@ app.ElevationProfileController.prototype.mousemove = function() {
   this.focusv.attr('transform', 'translate(' + dx + ',0)');
 
   this.bubble1.text(
-    this.i18n.elevation +
+    this.i18n_.elevation +
       ' ' +
       d.ele +
-      this.i18n.meters +
+      this.i18n_.meters +
       ' / ' +
-      this.i18n.distance +
+      this.i18n_.distance +
       ' ' +
       formatDistance(d.d) +
-      this.i18n.km
+      this.i18n_.km
   );
   if (this.timeAvailable) {
     var elapsed = d.elapsed / 1000;
     this.bubble2.text(
-      this.i18n.time +
+      this.i18n_.time +
         ' ' +
         formatDate(d.date) +
         ' / ' +
-        this.i18n.duration +
+        this.i18n_.duration +
         ' ' +
         ~~(elapsed / 3600) +
         ':' +
