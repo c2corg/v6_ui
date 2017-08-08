@@ -47,7 +47,7 @@ updating_doc = route_id and route_lang
       ## NAV BUTTONS
       <div class="nav-buttons">
         <button class="btn btn-primary prev" type="button" ng-if="progressBarCtrl.previousStep !== 0" ng-click="progressBarCtrl.step(progressBarCtrl.previousStep, 'route', 'backwards')"><span class="glyphicon glyphicon-triangle-left"></span></button>
-        <button class="btn btn-primary next" type="button" ng-if="progressBarCtrl.nextStep <= progressBarCtrl.maxSteps" ng-click="progressBarCtrl.step(progressBarCtrl.nextStep, 'route', 'forwards')"><span class="glyphicon glyphicon-triangle-right"></span></button>
+        <button class="btn btn-primary next" type="button" ng-if="progressBarCtrl.nextStep <= 2 || (progressBarCtrl.nextStep <= progressBarCtrl.maxSteps && route.activities.length && (route.activities.indexOf('rock_climbing') === -1 || route.climbing_outdoor_types != null))" ng-click="progressBarCtrl.step(progressBarCtrl.nextStep, 'route', 'forwards')"><span class="glyphicon glyphicon-triangle-right"></span></button>
       </div>
     </app-progress-bar>
 
