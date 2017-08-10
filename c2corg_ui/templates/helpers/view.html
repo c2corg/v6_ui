@@ -87,16 +87,14 @@
 
 <%def name="show_other_langs_links(module, document, other_langs)">\
   % if other_langs:
-    <div id="other-langs">
-      <div class="modal-header"><h3 class="text-center" translate>View in other lang</h3></div>
-      <ul>
-        % for l in other_langs:
-          <li>
-            <a href="${request.route_path(module + '_view_id_lang', id=document['document_id'], lang=l)}" x-translate>${l}</a>
-            <span class="glyphicon glyphicon-chevron-right"></span>
-          </li>
-        % endfor
-      </ul>
+    <div class="other-langs"><span translate>View in other lang</span>
+      <%
+          route = 'profiles_view' if module == 'profiles' else (module + '_view_id_lang')
+      %>
+      % for l in other_langs:
+        <a href="${request.route_path(route, id=document['document_id'], lang=l)}" x-translate>${l}</a>
+        ${' - ' if not loop.last else ''}
+      % endfor
     </div>
   % endif
 </%def>
@@ -520,7 +518,7 @@
 
 <%def name="get_document_description(locale, doctype, title=None)">\
   % if locale.get('summary') or locale.get('description'):
-    <div class="view-details-description col-xs-12  description">
+    <div class="view-details-description col-xs-12 description">
       % if doctype not in ['article', 'profile']:
         <h3 class="heading show-phone">
           % if title:
@@ -624,9 +622,6 @@
         <li><a ng-click="detailsCtrl.openModal('#cotometer-dialog','md')"><span class="glyphicon glyphicon-sort-by-attributes"></span> <translate>Cotometer</translate></a></li>
         <li class="show-only-mobile"><a class="addthis_button_compact" addthis:ui_click="true" addthis:ui_disable="true"><span class="glyphicon glyphicon-share-alt"></span> <translate>Share</translate></a></li>
         <li><a href="${request.route_path(doctype + '_history', id=doc_id, lang=doc_lang)}"><span class="glyphicon glyphicon-hourglass"></span> <translate>History</translate></a></li>
-        % if other_langs:
-        <li ng-click="detailsCtrl.openModal('#other-langs')"><a><span class="glyphicon glyphicon-globe"></span> <translate>View in other lang</translate></a></li>
-        % endif
         % if missing_langs:
         <li ng-if="userCtrl.hasEditRights('${doctype}', ${options}, ${protected})"
             ng-click="detailsCtrl.openModal('#missing-langs')"><a><span class="glyphicon glyphicon-edit"></span> <translate>Translate into an other lang</translate></a></li>

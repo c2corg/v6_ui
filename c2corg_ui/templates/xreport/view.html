@@ -103,11 +103,9 @@ other_langs, missing_langs = get_lang_lists(xreport, lang)
 <section class="view-details-section" app-view-details>
   % if version:
     ${show_archive_data('xreports', xreport, locale, version)}
-  % endif
-
-  ## IMAGES
-  % if not version:
+  % else:
     ${get_image_gallery()}
+    ${show_other_langs_links('xreports', xreport, other_langs)}
   % endif
 
   <div class="view-details-informations col-xs-12 informations">
@@ -177,7 +175,6 @@ other_langs, missing_langs = get_lang_lists(xreport, lang)
   <div class="ng-hide">
     <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
     ${delete_association_confirmation_modal()}
-    ${show_other_langs_links('xreports', xreport, other_langs)}
     ${show_missing_langs_links('xreports', xreport, missing_langs)}
     ${show_merge_documents_dialog('xreports')}
     ${show_delete_document_dialog('xreports', lang, other_langs)}

@@ -111,11 +111,9 @@ other_langs, missing_langs = get_lang_lists(route, lang)
 <section class="view-details-section" app-view-details ng-class="{'row-list' : switchCtrl.showList}">
   % if version:
     ${show_archive_data('routes', route, locale, version)}
-  % endif
-
-  ## IMAGES
-  % if not version:
+  % else:
     ${get_image_gallery()}
+    ${show_other_langs_links('routes', route, other_langs)}
   % endif
 
   <div class="thumbnail view-details-informations col-sm-12 informations">
@@ -191,7 +189,6 @@ other_langs, missing_langs = get_lang_lists(route, lang)
   <div class="ng-hide">
     <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
     ${delete_association_confirmation_modal()}
-    ${show_other_langs_links('routes', route, other_langs)}
     ${show_missing_langs_links('routes', route, missing_langs)}
     ${show_merge_documents_dialog('routes')}
     ${show_delete_document_dialog('routes', lang, other_langs)}
