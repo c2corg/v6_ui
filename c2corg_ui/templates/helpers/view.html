@@ -621,7 +621,6 @@
       </div>
       <ul class="dropdown-menu dm-icon" role="menu">
         <li><a ng-click="detailsCtrl.printPage()"><span class="glyphicon glyphicon-print"></span> <translate>Print page</translate></a></li>
-        <li><a ng-click="detailsCtrl.openModal('#cotometer-dialog','md')"><span class="glyphicon glyphicon-sort-by-attributes"></span> <translate>Cotometer</translate></a></li>
         <li class="show-only-mobile"><a class="addthis_button_compact" addthis:ui_click="true" addthis:ui_disable="true"><span class="glyphicon glyphicon-share-alt"></span> <translate>Share</translate></a></li>
         <li><a href="${request.route_path(doctype + '_history', id=doc_id, lang=doc_lang)}"><span class="glyphicon glyphicon-hourglass"></span> <translate>History</translate></a></li>
         % if other_langs:
