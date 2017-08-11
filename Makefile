@@ -29,6 +29,7 @@ LIBS_JS_FILES += \
     node_modules/bootstrap-slider/dist/bootstrap-slider.min.js \
     node_modules/bootstrap-markdown/js/bootstrap-markdown.js \
     node_modules/angular/angular.min.js \
+    node_modules/angular-loading-bar/build/loading-bar.js \
     node_modules/bootstrap/dist/js/bootstrap.min.js \
     c2corg_ui/static/lib/angular-bootstrap/ui-bootstrap-custom-1.3.2.min.js \
     c2corg_ui/static/lib/angular-bootstrap/ui-bootstrap-custom-tpls-1.3.2.min.js \
@@ -53,6 +54,7 @@ LIBS_JS_FILES += \
 
 # CSS files of dependencies that are concatenated into a single file
 LIBS_CSS_FILES += \
+    node_modules/angular-loading-bar/build/loading-bar.css \
     node_modules/bootstrap-slider/dist/css/bootstrap-slider.css \
     node_modules/bootstrap-markdown/css/bootstrap-markdown.min.css \
     node_modules/slick-carousel/slick/slick.css \
