@@ -429,6 +429,16 @@ app.ViewDetailsController.prototype.openEmbeddedImage = function(imgUrl, imgId) 
 
 
 /**
+ * @param {string} filename
+ * @param {string} suffix
+ * @return {string}
+ * @export
+ */
+app.ViewDetailsController.prototype.createImageUrl = function(filename, suffix) {
+  return this.imageUrl_ + app.utils.createImageUrl(filename, suffix);
+};
+
+/**
  * get the clicked image detailed infos
  * and compile them into the slide
  * @param {number} id

@@ -12,41 +12,36 @@
       personal = is_personal(doc)
       collaborative = is_collaborative(doc) if not personal else False
   %>
-  <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
-    <h4><span translate>Licence</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
-    <div class="name-icon">
-       % if personal or collaborative:
-        <span class="creative-commons icon-CC"></span>
-      % else:
-        <span class="glyphicon glyphicon-copyright-mark"></span>
-      % endif
-      <p translate>Licence</p>
+      <h3 translate>Licence<span class="glyphicon pull-right rotate-arrow-down"></span></h3>
+        <div class="finfo" ng-click="detailsCtrl.toggleTab($event)">
+              <div class="ficontent">
+  
+        <span class="detail-text accordion">
+          <article class="value">
+            % if personal:
+              <a class="creative-commons" ng-href="https://creativecommons.org/licenses/by-nc-nd/3.0/deed.{{detailsCtrl.lang.getLang()}}">
+                <span class="creative-commons icon-BY green-text"
+                    uib-tooltip="{{'Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made.' | translate}}"></span>
+                <span class="creative-commons icon-ND green-text" tooltip-placement=''
+                    uib-tooltip="{{'NoDerivatives — If you remix, transform, or build upon the material, you may not distribute the modified material.' | translate}}"></span>
+                <span class="creative-commons icon-NC green-text"
+                      uib-tooltip="{{'NonCommercial — You may not use the material for commercial purposes.' | translate}}"></span>
+              </a>
+            % elif collaborative:
+              <a class="creative-commons" ng-href="https://creativecommons.org/licenses/by-sa/3.0/deed.{{detailsCtrl.lang.getLang()}}">
+                <span class="creative-commons icon-BY green-text"
+                      uib-tooltip="{{'Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made.' | translate}}"></span>
+                <span class="creative-commons icon-SA green-text"
+                      uib-tooltip="{{'ShareAlike — If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.' | translate}}"></span>
+              </a>
+            % else:
+              <span class="glyphicon glyphicon-duplicate green-text"
+                    uib-tooltip="{{'This picture depicts a book cover. It is the property of its editor and/or author. It is presented here only for illustration purposes.' | translate}}"></span>
+            % endif
+          </article>
+        </span>
+      </div>
     </div>
-    <span class="detail-text accordion">
-      <article class="value">
-        % if personal:
-          <a class="creative-commons" ng-href="https://creativecommons.org/licenses/by-nc-nd/3.0/deed.{{detailsCtrl.lang.getLang()}}">
-            <span class="creative-commons icon-BY green-text"
-                uib-tooltip="{{'Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made.' | translate}}"></span>
-            <span class="creative-commons icon-ND green-text" tooltip-placement=''
-                uib-tooltip="{{'NoDerivatives — If you remix, transform, or build upon the material, you may not distribute the modified material.' | translate}}"></span>
-            <span class="creative-commons icon-NC green-text"
-                  uib-tooltip="{{'NonCommercial — You may not use the material for commercial purposes.' | translate}}"></span>
-          </a>
-        % elif collaborative:
-          <a class="creative-commons" ng-href="https://creativecommons.org/licenses/by-sa/3.0/deed.{{detailsCtrl.lang.getLang()}}">
-            <span class="creative-commons icon-BY green-text"
-                  uib-tooltip="{{'Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made.' | translate}}"></span>
-            <span class="creative-commons icon-SA green-text"
-                  uib-tooltip="{{'ShareAlike — If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.' | translate}}"></span>
-          </a>
-        % else:
-          <span class="glyphicon glyphicon-duplicate green-text"
-                uib-tooltip="{{'This picture depicts a book cover. It is the property of its editor and/or author. It is presented here only for illustration purposes.' | translate}}"></span>
-        % endif
-      </article>
-    </span>
-  </div>
 </%def>
 
 <%def name="show_attr(obj, key, parse=True)">\
@@ -389,9 +384,9 @@
   %>
   ${add_seo_association_links(document['associations'][type], 'waypoints')}
   <section ng-show="${associations}.length > 0">
-    <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-waypoints">
-      <span class="glyphicon glyphicon-map-marker"></span>
+    <h3 class="show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-waypoints">
       <span x-translate>Associated ${type}</span><span class="glyphicon glyphicon-menu-down"></span>
+   
     </h3>
     <div class="associated-documents collapse in" id="associated-waypoints">
       <div class="list-item waypoints"
@@ -435,8 +430,7 @@
   %>
   ${add_seo_association_links(outings, 'outings')}
   <article>
-    <h3 class="heading show-phone outings" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-outings">
-      <span class="glyphicon glyphicon-map-marker"></span>
+    <h3 class="show-phone outings" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-outings">
       % if isRecentOutings:
         <span translate>Last outings</span>
       % else:
@@ -445,29 +439,33 @@
       <span class="glyphicon glyphicon-menu-down"></span>
     </h3>
     <div class="associated-documents collapse in" id="associated-outings">
+       <div class="list-item vertical-align new-outing" >
       % if document['doctype'] == 'routes':
-        <div class="list-item vertical-align new-outing" protected-url-btn
+       
+          <a protected-url-btn
              url="${request.route_path('outings_add') + '#r=' + str(document['document_id'])}">
-          <a>
             <button class="btn orange-btn" translate>add a new outing to this document</button>
           </a>
-        </div>
+        
       % endif
+      
+        % if isRecentOutings:
+        <%
+            fragment = '{0}={1}'.format(document['type'], document['document_id'])
+        %>
+    
+          <a class="vertical-align" ng-href="${request.route_path('outings_index')}#${fragment}">
+            <button class="gray-btn btn show-more" translate>show all</button>
+          </a>
+    
+      % endif
+          </div>
       <div class="list-item outings" ng-repeat="doc in detailsCtrl.documentService.document.associations.${'recent_outings.documents' if isRecentOutings else 'outings'}">
         <app-card app-card-doc="doc"></app-card>
           <app-delete-association child-doctype="o" parent-id="${document['document_id']}" child-id="doc.document_id"
             ng-if="${test_association_rights(document)}"></app-delete-association>
       </div>
-      % if isRecentOutings:
-        <%
-            fragment = '{0}={1}'.format(document['type'], document['document_id'])
-        %>
-        <div class="list-item">
-          <a class="vertical-align" ng-href="${request.route_path('outings_index')}#${fragment}">
-            <button class="gray-btn btn show-more" translate>show all</button>
-          </a>
-        </div>
-      % endif
+
       ${generate_empty_list_items(5)}
     </div>
   </article>
@@ -520,6 +518,7 @@
 
 <%def name="get_document_description(locale, doctype, title=None)">\
   % if locale.get('summary') or locale.get('description'):
+ <!--
     <div class="view-details-description col-xs-12  description">
       % if doctype not in ['article', 'profile']:
         <h3 class="heading show-phone">
@@ -549,22 +548,49 @@
         </div>
       </span>
     </div>
+-->
+  
+   
+
+      % if doctype not in ['article', 'profile']:
+        <h3>
+          % if title:
+            <span x-translate>${title}</span>
+          % else:
+            <span translate>description</span>
+          % endif
+        </h3>
+      % endif
+           <div class="finfo">
+              <div class="ficontent collapse in">
+          % if locale.get('summary'):
+            % if locale.get('description'):
+              <summary class="document-summary">
+                ${show_attr(locale, 'summary')}
+              </summary>
+            % else:
+              ${show_attr(locale, 'summary')}
+            % endif
+          % endif
+
+          % if locale.get('description'):
+            ${show_attr(locale, 'description')}
+          % endif
+        </div>
+  </div>
+
+  
   % endif
 </%def>
 
 <%def name="get_document_locale_text(locale, text, open_tab=False, title=None)">\
   % if text in locale and locale[text]:
-    <div class="view-details-info col-xs-12">
-      <h3 class="heading ${'' if open_tab else 'closed '}show-phone"
-          ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#${text}">
-        <span x-translate>${title if title else text}</span><span class="glyphicon glyphicon-menu-${'down' if open_tab else 'right'}"></span>
-      </h3>
-      <section class="collapse${' in' if open_tab else ''}" id="${text}" aria-expanded="true">
-        <div class="lead">
-          ${show_attr(locale, text)}
-        </div>
-      </section>
-    </div>
+    <h3 x-translate>${title if title else text}</h3>
+      <div class="finfo">
+              <div class="ficontent">
+                ${show_attr(locale, text)}
+            </div>
+      </div>
   % endif
 </%def>
 
@@ -856,9 +882,18 @@
 </%def>
 
 <%def name="get_image_gallery()">\
+  <!--
   <div class="view-details-photos col-xs-12 tab description" ng-show="detailsCtrl.documentService.document.associations.images.length > 0">
-    <div class="photos" data-slick='{"variableWidth": true, "infinite": false, "focusOnSelect": false, "lazyLoad": "progressive"}'></div>
+    <div class="photos" data-slick='{"variableWidth": true, "infinite": false, "focusOnSelect": false, "lazyLoad": "progressive", "vertical": true, "rows": 2}'></div>
   </div>
+-->
+  <div class="finfo" ng-show="detailsCtrl.documentService.document.associations.images.length > 0">
+              <div class="ficontent moz">
+                <div ng-repeat="img in detailsCtrl.documentService.document.associations.images" class="imgmoz" ng-click="detailsCtrl.openEmbeddedImage({{detailsCtrl.createImageUrl(img.filename, 'MI')}}, {{img.document_id}})"> 
+         
+                  <img ng-src="{{detailsCtrl.createImageUrl(img.filename, 'SI')}}" alt="{{img.locales[0].title}}" />
+                </div>
+    </div></div>
 </%def>
 
 <%def name="get_comments()">\
