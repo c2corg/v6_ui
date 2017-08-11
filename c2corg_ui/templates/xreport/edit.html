@@ -17,7 +17,7 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
 <%block name="pagetitle"><title ng-init="id = ${xreport_id if xreport_id else 0}" ng-bind="id ? mainCtrl.page_title('Editing a report') : mainCtrl.page_title('Creating a report')">${show_title('Create/edit report')}</title></%block>
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
 
-<section class="create-edit-document">
+<section class="create-edit-document" ng-cloak>
 
   <h1 ng-init="id = ${xreport_id if xreport_id else 0}" class="text-center">
     <label class="label label-primary" ng-bind="id ? ('Editing a report' | translate) : ('Creating a report' | translate)"></label>

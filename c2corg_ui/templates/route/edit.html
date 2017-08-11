@@ -22,7 +22,7 @@ updating_doc = route_id and route_lang
 
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
 
-<section class="create-edit-document">
+<section class="create-edit-document" ng-cloak>
 
   <h1 ng-cloak ng-init="id=${route_id if route_id else 0}" ng-bind="id ? ('Editing a route' | translate) : ('Creating a route' | translate)" class="text-center"></h1>
 

@@ -23,7 +23,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
 
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
 
-<section class="create-edit-document">
+<section class="create-edit-document" ng-cloak>
 
   <h1 ng-init="id = ${waypoint_id if waypoint_id else 0}" class="text-center">
     <label class="label label-primary" ng-bind="id ? ('Editing a waypoint' | translate) : ('Creating a waypoint' | translate)"></label>

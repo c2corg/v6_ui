@@ -93,7 +93,7 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
     <span class="title">${locale['title']}</span><br>
     ${show_badge(outing, 'outing')}
   </h1>
-  <div class="outing-date" class="ng-cloak">${show_fulldate(outing['date_start'], outing['date_end'])}</div>
+  <div class="outing-date" ng-cloak>${show_fulldate(outing['date_start'], outing['date_end'])}</div>
 </header>
 
 % if outing.get('areas'):

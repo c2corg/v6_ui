@@ -13,7 +13,7 @@ from c2corg_common.attributes import default_langs, activities, article_categori
 <%block name="pagetitle"><title ng-init="id = ${article_id if article_id else 0}" ng-bind="id ? mainCtrl.page_title('Editing an article') : mainCtrl.page_title('Creating an article')">${show_title('Create/edit article')}</title></%block>
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
 
-<section class="create-edit-document">
+<section class="create-edit-document" ng-cloak>
 
   <h1 ng-init="id = ${article_id if article_id else 0}" class="text-center">
     <label class="label label-primary" ng-bind="id ? ('Editing an article' | translate) : ('Creating an article' | translate)"></label>

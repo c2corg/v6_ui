@@ -19,7 +19,7 @@ from c2corg_common.attributes import default_langs, activities, image_types, ima
 
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
 
-<section class="create-edit-document">
+<section class="create-edit-document" ng-cloak>
 
   <h1 ng-init="id = ${image_id if image_id else 0}" class="text-center">
     <label class="label label-primary" ng-bind="id ? ('Editing an image' | translate) : ('Creating an image' | translate)"></label>
