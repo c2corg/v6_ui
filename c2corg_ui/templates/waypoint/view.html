@@ -143,7 +143,8 @@ waypoint['doctype'] = 'waypoints'
   </div>
 
   % if not version:
-    <div class="view-details-associations col-xs-12 associations" ng-init="a = detailsCtrl.documentService.document.associations"
+    <div class="view-details-associations col-xs-12 associations" ng-cloak
+         ng-init="a = detailsCtrl.documentService.document.associations"
          ng-show="userCtrl.auth.isAuthenticated() || a.waypoint_children.length || a.waypoints.length">
       <ul class="actions">
         <li>
@@ -151,25 +152,24 @@ waypoint['doctype'] = 'waypoints'
         </li>
       </ul>
       <span class="lead">
+        <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
+          <label translate>Add association</label>
+          <app-add-association parent-id="${waypoint_id}" parent-doctype="waypoints" dataset="wcbx"></app-add-association>
+        </div>
         <section>
-          <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
-            <label translate>Add association</label>
-            <app-add-association parent-id="${waypoint_id}" parent-doctype="waypoints" dataset="wcbx"></app-add-association>
-          </div>
           ${show_associated_waypoints(waypoint, 'waypoints', showDelete=False)}
           ${show_associated_waypoints(waypoint, 'waypoint_children')}
         </section>
       </span>
     </div>
-    <div class="view-details-associations col-xs-12 associations">
+    <div class="view-details-associations col-xs-12 associations" ng-cloak>
       <span class="lead">
         <section>
           ${show_associated_routes(waypoint, 'all_routes')}
         </section>
       </span>
     </div>
-
-    <div class="view-details-associations col-xs-12 associations" ng-show="a.recent_outings.total > 0 || a.articles.length || a.books.length">
+    <div class="view-details-associations col-xs-12 associations" ng-show="a.recent_outings.total > 0 || a.articles.length || a.books.length" ng-cloak>
       <span class="lead">
         <section>
           ${show_associated_articles(waypoint)}

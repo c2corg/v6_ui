@@ -149,7 +149,7 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
     <%
         userIds = dumps([user['document_id'] for user in outing['associations']['users']])
     %>
-    <div class="view-details-associations col-xs-12 associations"
+    <div class="view-details-associations col-xs-12 associations" ng-cloak
        % if not has_associations(outing):
          ng-if="userCtrl.hasEditRights('outings', {'users': ${userIds}})"
        % endif

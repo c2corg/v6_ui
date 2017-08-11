@@ -70,7 +70,7 @@ other_langs, missing_langs = get_lang_lists(book, lang)
     ${get_image_gallery()}
   % endif
 
-  <div class="view-details-informations col-xs-12  informations">
+  <div class="view-details-informations col-xs-12 informations">
     <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
       <span translate>Informations</span><span class="glyphicon glyphicon-menu-down"></span>
     </h3>
@@ -85,7 +85,7 @@ other_langs, missing_langs = get_lang_lists(book, lang)
   </div>
 
   % if not version:
-    <div class="view-details-associations col-xs-12  associations">
+    <div class="view-details-associations col-xs-12 associations" ng-cloak>
       <span class="lead">
           <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
             <label translate>Add association</label>
