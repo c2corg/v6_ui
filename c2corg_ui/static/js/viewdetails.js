@@ -87,6 +87,12 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
    */
   this.api_ = appApi;
 
+    /**
+   * @type {boolean}
+   * @private
+   */
+  this.hasHeadband = false;
+  
   /**
    * @type {string}
    * @private
@@ -153,6 +159,29 @@ app.ViewDetailsController.prototype.toggleTab = function(tab) {
   }
 };
 
+
+/**
+ * blablabla
+ @return {string}
+ * @export
+ */
+app.ViewDetailsController.prototype.initHeadband = function() {
+  
+  console.log(this.documentService.document.associations.images);
+  if(this.documentService.document.associations.images.length > 0)
+  {
+    this.hasHeadband = true;
+    console.log(this.documentService.document.associations.images[0])
+    //return this.createImageUrl(this.documentService.document.associations.images[0].filename,'');
+    return "";
+  }
+  else {
+    this.hasHeadband = false;
+    return "";
+  }
+  
+  //return "bla";
+}
 
 /**
  * Copied and adapted from http://codepen.io/jeffpannone/pen/GpKOed
@@ -426,6 +455,18 @@ app.ViewDetailsController.prototype.openEmbeddedImage = function(imgUrl, imgId) 
   gallery.init();
   this.compile_($('.image-infos-buttons').contents())(this.scope_);
 };
+
+
+/**
+ * @param {string} filename
+ * @param {string} suffix
+ * @return {string}
+ * @export
+ */
+app.ViewDetailsController.prototype.getBandeau = function(filename, suffix) {
+  return this.imageUrl_ + app.utils.createImageUrl(filename, suffix);
+};
+
 
 
 /**

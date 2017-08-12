@@ -90,8 +90,8 @@ other_langs, missing_langs = get_lang_lists(route, lang)
   });
 </%block>
 
-<div class="viewdoc">
-  <header class="view-title-with-bg">
+<div class="viewdoc" ng-init="background = detailsCtrl.initHeadband()">
+  <header class="view-title-with-bg" ng-if="detailsCtrl.hasHeadband">
     <div class="view-image-bg" style="background-image: url(https://media.camptocamp.org/c2corg_active/1502308482_1055102292BI.jpg)">
     </div>
     <h1 class="routes">
@@ -99,7 +99,12 @@ other_langs, missing_langs = get_lang_lists(route, lang)
       <div class="icons-header routes">${get_activities(route, 'top')}</div> ${show_badge(route, 'route')}
     </h1>
   </header>
-
+  <header class="view-title-without-bg" ng-if="!detailsCtrl.hasHeadband">
+    <h1 class="routes">
+      <span class="title" ng-click="detailsCtrl.initHeadband()">${show_locale_title(locale)}</span>
+      <div class="icons-header routes">${get_activities(route, 'top')}</div> ${show_badge(route, 'route')}
+    </h1>
+  </header>
   <article class="location-static text-center">
     ${show_areas(route)}
   </article>
@@ -123,11 +128,17 @@ other_langs, missing_langs = get_lang_lists(route, lang)
         % endif
 
 
+        
+        ${show_associated_outings(route)}
+        
         ${get_route_associated_maps(route)}
   
         ${get_licence(route)}
 
 
+
+   
+        
       </div>
       <div class="col-xs-12 col-md-8 col-lg-9">
         <section id="document-informations" class="collapse in">
@@ -172,7 +183,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
     ## route has always at least 1 associated waypoint so this div will always be displayed
     <div class="row">
     <div class="col-xs-12">
-      <app-list-switch></app-list-switch>
+      
       <span class="lead">
         <section>
           <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
@@ -188,15 +199,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
       </span>
     </div>
 </div>
-    <div class="row">
-    <div class="col-xs-12">
-      <span class="lead">
-        <section>
-          ${show_associated_outings(route)}
-        </section>
-      </span>
-    </div>
-</div>
+  
     ${get_comments()}
 
     ${show_float_buttons(route, lang, other_langs, missing_langs)}

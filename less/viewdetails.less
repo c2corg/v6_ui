@@ -7,6 +7,7 @@
 }
 
 
+
 .ficontent, .fpcontent {
   display: -webkit-box;
   display: -moz-box;
@@ -31,15 +32,77 @@
 }
 
 
-
 .viewdoc {
+  app-simple-search {
+    border-radius: 0px;
+    background: #A9D361;
+    .form-control{
+      border-radius: 0px;
+    }
+  }
+  app-add-association app-simple-search .search {
+    border-bottom: 1px solid rgba(0,0,0,.12);
+  }
+  app-add-association app-simple-search .glyphicon-search {
+    font-size: 1.1em;
+  }
 
+  #associated-outings  {
+    .list-item.outings {
+      margin-right: 0px;
+    }
+  }
+
+  .glyphicon-menu-down{
+    margin-left: 10px;
+  }
+
+  .lead {
+    section {
+      clear:both;
+    }
+  }
+  .row-list.view-details-section { 
+    .associated-documents {
+      margin-bottom: 20px;
+      margin-top: 6px;
+      clear: both;
+    }
+  }
+
+  .row-list .list-item.new-outing {
+    margin-top: 20px;  
+  }
+  .row-list {
+
+    .orange-btn.pull-right, app-list-switch.pull-right {
+      margin-top: -5px;
+      margin-bottom: 5px;
+    }
+
+
+    .outings .parent-text {
+      display: none;
+    }
+
+    .list-item {
+      margin: 0px;
+    }
+
+  }
+
+  .orange-btn .glyphicon {
+    margin-right: 0px;
+  }
 
   a {
     text-decoration: none;
   }
   .creative-commons {
     font-size: 1.5em;
+  }
+  .orientation-svg {
+    height: 110px;
   }
   .ficontent, .fpcontent {
     h4 {
@@ -52,12 +115,20 @@
   .value-title {
     font-weight: normal;
   }
+  
   background: @content-color;
+  
   h3 {
     font-size: 16px;
     font-weight: 700;
     margin-bottom: 10px;
     //color: rgba(0,0,0,.8);
+      @media @phone {
+
+      text-align: center;
+        width: 100%;
+  
+  }
   }
 
   .view-details-map{
@@ -88,7 +159,7 @@
     }
   }
 
-  header.view-title-with-bg {
+  header.view-title-with-bg , header.view-title-without-bg {
     position: relative;
     height: 500px;
     .view-image-bg {
@@ -144,7 +215,7 @@
       }
 
     }
- 
+
     view-details-section {
       .view-details-photos  {
         width: 100%;
@@ -154,8 +225,19 @@
 
   }
 
+  header.view-title-without-bg {
+    height: auto;
+    padding-top: 30px;
+    h1 {
+      position: relative;
+      color: #000;
+      top:auto;
+    }
+
+  }
+
+
   .associated-documents {
-    margin-left: -6px; 
     .post {
       .infoa {
         font-size: 12px;
@@ -164,7 +246,7 @@
       {
         font-size: 13px;
       }
-      
+
       .parent-infop .parent-bubble .bubble {
         font-size: 13px;
       }
@@ -173,6 +255,13 @@
   .new-outing {
     flex-direction: column;
   }
+
+  @media @phone {
+    .view-details-section {
+      padding: 0px;
+    }
+  }
+
 } 
 
 .view-details-associations .section,  .view-details-informations, #document-informations, .name-icon,
@@ -667,7 +756,6 @@
     }
 
     .orientation-svg {
-      height: 110px;
       width: auto;
       margin-left: 10%;
     }
