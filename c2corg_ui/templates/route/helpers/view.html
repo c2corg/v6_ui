@@ -8,7 +8,7 @@ from c2corg_ui.templates.utils import get_route_gear_articles, format_length
 ## LOCATION
 <%def name="get_route_location(route)">\
   % if route.get('areas'):
-    <div class="name-icon-value location" ng-click="detailsCtrl.toggleTab($event)">
+    <div class="name-icon-value location list-green" ng-click="detailsCtrl.toggleTab($event)">
       <h4><span class="glyphicon glyphicon-map-marker"></span> <span translate>Location</span><span class="glyphicon pull-right rotate-arrow-down"></span></h4>
       <span class="detail-text accordion">
         <span class="areas">${show_areas(route)}</span>
@@ -262,9 +262,10 @@ from c2corg_ui.templates.utils import get_route_gear_articles, format_length
       </section>
     </div>
 -->
-        <h3><span x-translate>gear</span><span class="glyphicon glyphicon-menu-down"></span></h3>
+        <h3 ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#gear"><span x-translate>gear</span><span class="glyphicon glyphicon-menu-down"></span></h3>
+       <div class="finfo collapse in" id="gear" aria-expanded="true">
           % if gear_articles:
-             <div class="finfo collapse in">
+          
             % for article_id, name in gear_articles.items():
               
                 <div class="ficontent "><a href="${request.route_path('articles_view_id', id=article_id)}" x-translate>${name}</a></div>

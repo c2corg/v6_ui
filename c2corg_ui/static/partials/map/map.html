@@ -1,5 +1,9 @@
-<div class="map" ngeo-map="::mapCtrl.map">
-
+<div class="map" ngeo-map="::mapCtrl.map" ng-class="::mapCtrl.isFullScreen">
+  <div class="full-page-control">
+  <button type="button" ng-click="mapCtrl.toggleFullscreen()"
+          class="btn btn-primary btn-xs btn-map-fullscreen"
+          title="{{ 'Fullscreen map' | translate }}" translate><span class="glyphicon glyphicon-fullscreen"></span></button>
+  </div>
   <div class="map-upper-controls">
     <div class="map-recenter-tools" ng-show="::mapCtrl.showRecenterTools">
       <app-geolocation app-geolocation-map="::mapCtrl.map"></app-geolocation>

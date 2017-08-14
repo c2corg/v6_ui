@@ -16,10 +16,11 @@ app.viewDetailsDirective = function() {
     link: function(scope, el, attrs, ctrl) {
 
       function initGalleries() {
-        ctrl.initSlickGallery_();
         ctrl.initPhotoswipe_();
       }
+
       ctrl.loadImages_(initGalleries);
+
       ctrl.watchPswpContainer_();
 
       // clicking on 'info' btn will open slide from the right and get the infos
@@ -54,7 +55,7 @@ app.module.directive('appViewDetails', app.viewDetailsDirective);
  * @ngInject
  */
 app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
-    appDocument, documentData, imageUrl, discourseUrl, appUrl, appLang) {
+                                      appDocument, documentData, imageUrl, discourseUrl, appUrl, appLang) {
 
   /**
    * @type {app.Document}
@@ -87,12 +88,38 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
    */
   this.api_ = appApi;
 
-    /**
+  /**
    * @type {boolean}
-   * @private
+   * @export
    */
   this.hasHeadband = false;
-  
+
+
+  /**
+   * @type {boolean}
+   * @export
+   */
+  this.hasVerticalImg = false;
+
+
+  /**
+   * @type {string}
+   * @export
+   */
+  this.headBands = "";
+
+  /**
+   * @type {number}
+   * @private
+   */
+  this.widestCoef_ = -500;
+
+  /**
+   * @type {number}
+   * @private
+   */
+  this.widestImg_ = 0;
+
   /**
    * @type {string}
    * @private
@@ -116,6 +143,9 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
    * @private
    */
   this.scope_ = $scope;
+
+
+  this.initHeadband();
 
 };
 
@@ -162,26 +192,95 @@ app.ViewDetailsController.prototype.toggleTab = function(tab) {
 
 /**
  * blablabla
- @return {string}
  * @export
  */
 app.ViewDetailsController.prototype.initHeadband = function() {
-  
-  console.log(this.documentService.document.associations.images);
-  if(this.documentService.document.associations.images.length > 0)
-  {
-    this.hasHeadband = true;
-    console.log(this.documentService.document.associations.images[0])
-    //return this.createImageUrl(this.documentService.document.associations.images[0].filename,'');
-    return "";
-  }
-  else {
+
+
+  if(this.documentService.document.activities.indexOf('rock_climbing') > -1 || this.documentService.document.activities.indexOf('mountain_climbing') > -1 || this.documentService.document.activities.indexOf('ice_climbing') > -1 ) {
+
     this.hasHeadband = false;
-    return "";
+    if(this.documentService.document.associations.images.length == 0) {
+      this.hasVerticalImg = false;
+    }
+    else{
+      this.hasVerticalImg = true;
+    }
   }
-  
+  else
+  {
+    
+    this.hasVerticalImg = false;
+    if(this.documentService.document.associations.images.length == 0)
+    {
+      this.hasHeadband = false;
+    } else if(this.documentService.document.associations.images.length == 1)
+    {
+      this.hasHeadband = true;
+      this.scope_.headBands = this.createImageUrl(this.documentService.document.associations.images[this.widestImg_]['filename'],'BI');     
+    } else if(this.documentService.document.associations.images.length > 1) {
+      this.getBestWideImg();
+      this.hasHeadband = true;
+    }
+    else {
+      this.hasHeadband = false;
+    }
+   
+  }
+}
+
+
+/**
+ * get the most wide image
+ * @return string
+ * @export
+ */
+app.ViewDetailsController.prototype.getBestWideImg = function() {
+
+  for(var i = 0;i < this.documentService.document.associations.images.length;i++)
+  {
+    this.getMeta(i,this.createImageUrl(this.documentService.document.associations.images[i]['filename'],'BI'),function(index,w,h) {
+
+      if(this.widestCoef_ < w/h) {
+        this.widestCoef_ = w/h;
+        this.widestImg_ = index;
+
+      } 
+      console.log("coef = " +w/h +" index = " + index);
+
+      if(index ==  this.documentService.document.associations.images.length-1) {
+        console.log("on set le bandeau")
+
+
+
+        this.scope_.headBands = this.createImageUrl(this.documentService.document.associations.images[this.widestImg_]['filename'],'BI');
+        this.scope_.$apply();
+      }
+
+    }.bind(this))
+  }
+  return {'background-image': 'url('+this.headBands+')'} 
+  //return this.headBands;
+
   //return "bla";
 }
+
+/**
+ * load image
+ * @param {number} index
+ * @param {string} url
+ * @param {Function} callback
+ * @return string
+ * @export
+ */
+
+app.ViewDetailsController.prototype.getMeta = function(index,url, callback) {
+  var img = new Image();
+  img.src = url;
+  img.onload = function() { callback(index,this.width, this.height); }
+}
+
+
 
 /**
  * Copied and adapted from http://codepen.io/jeffpannone/pen/GpKOed
@@ -210,14 +309,14 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
 
         item = { // create slide object
           html: app.utils.createPhotoswipeSlideHTML(image['src'], id.split('-')[1], '#image-')
-         // TODO: for zoom in animation -> add this when WIDTH & HEIGHT will be returned by API in image properties
-         // w: image.naturalWidth,
-         // h: image.naturalHeight
+          // TODO: for zoom in animation -> add this when WIDTH & HEIGHT will be returned by API in image properties
+          // w: image.naturalWidth,
+          // h: image.naturalHeight
         };
 
         // <img> thumbnail element, retrieving thumbnail url (small img)
         if (linkEl.children.length > 0) {
-         // ADD  item.src = linkEl.getAttribute('href'); when WIDHT & HEIGHT will be returned
+          // ADD  item.src = linkEl.getAttribute('href'); when WIDHT & HEIGHT will be returned
           item.msrc = linkEl.children[0].getAttribute('src');
         }
         item.el = figureEl; // save link to element for getThumbBoundsFn
@@ -326,14 +425,6 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
 
 
 /**
- * @private
- */
-app.ViewDetailsController.prototype.initSlickGallery_ = function() {
-  $('.photos').slick({slidesToScroll: 3, dots: false});
-};
-
-
-/**
  * @export
  */
 app.ViewDetailsController.prototype.getComments = function() {
@@ -386,19 +477,24 @@ app.ViewDetailsController.prototype.createTopic = function() {
  * @private
  */
 app.ViewDetailsController.prototype.loadImages_ = function(initGalleries) {
+  console.log("on init le bouzin");
   // prepare document images for slideshow
   var photos = this.documentService.document['associations']['images'];
+
   for (var i in photos) {
+  
     var scope = this.scope_.$new(true);
     var id = 'image-' + photos[i]['document_id'];
     photos[i]['edit_url'] = '/images/edit/' + photos[i]['document_id'] + '/' + photos[i]['locales'][0]['lang'];
     photos[i]['view_url'] = this.url_.buildDocumentUrl('images', photos[i]['document_id'], photos[i]['locales'][0], photos[i]['locales'][0]['lang']);
     photos[i]['image_id'] = id;
     scope['photo'] = photos[i];
-
+    
     var element = app.utils.createImageSlide(photos[i], this.imageUrl_);
+
     $('.photos').append(element);
     this.compile_($('#' + id).contents())(scope);
+  
   }
 
   // prepare the embedded images for slideshow
@@ -416,6 +512,9 @@ app.ViewDetailsController.prototype.loadImages_ = function(initGalleries) {
 
     this.compile_($(el).contents())(scope);
   }.bind(this));
+  
+
+
 
   initGalleries();
 };
@@ -427,6 +526,8 @@ app.ViewDetailsController.prototype.loadImages_ = function(initGalleries) {
  * @export
  */
 app.ViewDetailsController.prototype.openEmbeddedImage = function(imgUrl, imgId) {
+
+
   $('.showing-info').removeClass('showing-info');
 
   // Replace 'MI' and get the BigImage
@@ -450,10 +551,14 @@ app.ViewDetailsController.prototype.openEmbeddedImage = function(imgUrl, imgId) 
       index = i;
     }
   }
+  
 
   var gallery = new window.PhotoSwipe(pswpElement, window.PhotoSwipeUI_Default, items, {index: index});
   gallery.init();
-  this.compile_($('.image-infos-buttons').contents())(this.scope_);
+
+ this.compile_($('.image-infos-buttons').contents())(this.scope_);
+
+
 };
 
 

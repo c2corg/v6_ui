@@ -182,7 +182,7 @@
           slug = get_slug(locale, is_route=False)
           url = request.route_path('areas_view', id=area['document_id'], lang=locale['lang'], slug=slug)
         %>
-        <li class="${area['area_type']}"><a href="${url}">${locale['title']}</a></li>
+        <li class="${area['area_type']}"><a href="${url}" title="${locale['title']}">${locale['title']}</a></li>
       % endfor
     </ul>
   % endif
@@ -573,7 +573,7 @@
         </h3>
       % endif
            <div class="finfo">
-              <div class="ficontent collapse in">
+              <div class="ficontent collapse in max">
           % if locale.get('summary'):
             % if locale.get('description'):
               <summary class="document-summary">
@@ -596,9 +596,9 @@
 
 <%def name="get_document_locale_text(locale, text, open_tab=False, title=None)">\
   % if text in locale and locale[text]:
-    <h3 x-translate>${title if title else text}</h3>
-      <div class="finfo">
-              <div class="ficontent">
+    <h3  class="${'' if open_tab else 'closed '}show-phone"  ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#${text}"><span x-translate>${title if title else text}</span><span class="glyphicon glyphicon-menu-${'down' if open_tab else 'right'}"></span></h3>
+      <div class="finfo collapse${' in' if open_tab else ''}" id="${text}" aria-expanded="true">
+              <div class="ficontent max">
                 ${show_attr(locale, text)}
             </div>
       </div>
@@ -893,18 +893,9 @@
 </%def>
 
 <%def name="get_image_gallery()">\
-  <!--
-  <div class="view-details-photos col-xs-12 tab description" ng-show="detailsCtrl.documentService.document.associations.images.length > 0">
-    <div class="photos" data-slick='{"variableWidth": true, "infinite": false, "focusOnSelect": false, "lazyLoad": "progressive", "vertical": true, "rows": 2}'></div>
-  </div>
--->
   <div class="finfo" ng-show="detailsCtrl.documentService.document.associations.images.length > 0">
-              <div class="ficontent moz">
-                <div ng-repeat="img in detailsCtrl.documentService.document.associations.images" class="imgmoz" ng-click="detailsCtrl.openEmbeddedImage({{detailsCtrl.createImageUrl(img.filename, 'MI')}}, {{img.document_id}})"> 
-         
-                  <img ng-src="{{detailsCtrl.createImageUrl(img.filename, 'SI')}}" alt="{{img.locales[0].title}}" />
-                </div>
-    </div></div>
+    <div class="ficontent moz photos"></div>
+</div>
 </%def>
 
 <%def name="get_comments()">\
