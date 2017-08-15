@@ -21,8 +21,6 @@ from json import dumps
     get_route_access, get_route_associated_maps, get_route_orientations,
     get_route_gear"/>
 
-<%namespace file="../helpers/cotometer.html" import="show_cotometer_dialog"/>
-
 <%
 route_id = route['document_id']
 route['doctype'] = 'routes'
@@ -195,7 +193,6 @@ other_langs, missing_langs = get_lang_lists(route, lang)
     ${show_missing_langs_links('routes', route, missing_langs)}
     ${show_merge_documents_dialog('routes')}
     ${show_delete_document_dialog('routes', lang, other_langs)}
-    ${show_cotometer_dialog('routes', lang, other_langs)}
   </div>
 
   ${photoswipe_gallery()}
