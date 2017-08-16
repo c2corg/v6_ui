@@ -333,31 +333,6 @@ app.CardController.prototype.getFullRatings = function() {
   return fullRatings[Object.keys(fullRatings)[0]] ? fullRatings : null;
 };
 
-/**
- * @param {string} rating1
- * @param {string} rating2
- * @return {string} rating
- */
-app.CardController.prototype.slashSeparatedRating_ = function(rating1, rating2) {
-      } else if (p === 'rock_required_rating' || p === 'rock_free_rating') {
-        ratings['rock_rating'] = doc.rock_free_rating;
-
-        if (doc.rock_required_rating && doc.rock_free_rating) {
-          // [A0] (without bracket) is showed only if equipment_rating = P1 or P1+, and if aid_rating is empty.
-          var A0 = (doc.equipment_rating === 'P1' || doc.equipment_rating === 'P1+') && !doc.aid_rating;
-          ratings['rock_rating'] += '>' + doc.rock_required_rating;
-          ratings['rock_rating'] += A0 ? '[A0]' : '';
-        }
-      }
-    }
-  }
-  app.constants.fullRatingOrdered.forEach(function(rating) {
-    if (rating in ratings && ratings[rating]) {
-      fullRatings[rating] = ratings[rating];
-    }
-  });
-  return fullRatings[Object.keys(fullRatings)[0]] ? fullRatings : null;
-};
 
 /**
  * @param {string} rating1
