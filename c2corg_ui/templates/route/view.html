@@ -15,13 +15,13 @@ from json import dumps
     show_associated_articles, show_associated_books, show_associated_xreports,
     delete_association_confirmation_modal, associated_waypoints_featurelist,
     show_badge, get_document_description, get_licence, show_merge_documents_dialog,
-    show_delete_document_dialog"/>
+    show_delete_document_dialog, generate_share_metadata" />
 
 <%namespace file="helpers/view.html" import="get_route_location,
     get_route_glacier_gear, get_route_rating, get_route_general, get_route_heights,
     get_route_access, get_route_associated_maps, get_route_orientations,
     get_route_gear"/>
-  
+
 <%namespace file="../helpers/cotometer.html" import="show_cotometer_dialog"/>
 
 <%
@@ -89,10 +89,13 @@ other_langs, missing_langs = get_lang_lists(route, lang)
     "associations": ${dumps(route.get('associations')) | n}
   });
 </%block>
-
+<%block name="share">
+  ${generate_share_metadata(route, 'routes')}
+</%block>
 <div class="viewdoc">
   <header class="view-title-with-bg" ng-if="detailsCtrl.hasHeadband">
     <div class="view-image-bg" ng-style="{'background-image': 'url('+this.headBands+')'}"><div class="view-filter-bg"></div></div>
+
     <h1 class="routes">
       <span class="title">${show_locale_title(locale)}</span>
       <div class="icons-header routes">${get_activities(route, 'top')}</div> ${show_badge(route, 'route')}
@@ -185,6 +188,9 @@ other_langs, missing_langs = get_lang_lists(route, lang)
     <div class="row">
     <div class="col-xs-12">
       
+          <app-list-switch type="short"></app-list-switch>
+        </li>
+      </ul>
       <span class="lead">
         <section>
           <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">

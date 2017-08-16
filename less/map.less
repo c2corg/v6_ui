@@ -78,7 +78,7 @@
 
 /*containing app-base-selector and map filter*/
 .map-upper-controls {
-  .flex();
+  display: flex;
   flex-flow: wrap row;
   position: absolute;
   z-index: 2;
@@ -95,7 +95,7 @@ app-baselayer-selector {
 }
 
 .map-recenter-tools {
-  .flex();
+  display: flex;
   margin-right: 10px;
   margin-bottom: 0;
   margin-top: 3px;
@@ -147,7 +147,7 @@ app-map-search {
       padding-left: 5px !important;
       white-space: pre;
       overflow: hidden;
-      .flex();
+      display: flex;
 
       &:extend(.dropdown-menu > li > a);
       &:hover, &:focus, &.tt-cursor {

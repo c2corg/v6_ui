@@ -309,8 +309,6 @@ app.ImageUploaderController.prototype.save = function() {
       var scope = this.scope_.$new(true);
       scope['photo'] = images[i];
       scope['photo']['image_id'] = 'image-' + id;
-      scope['photo']['edit_url'] = '/images/edit/' + id + '/' + images[i]['locales'][0]['lang'];
-      scope['photo']['view_url'] = this.url_.buildDocumentUrl('images', id, images[i]['locales'][0]);
       this.documentService.document.associations['images'].push(scope['photo']);
       this.compile_($('#image-' + id).contents())(scope); // compile the figure thumbnail with <app-slide-info>c
 

@@ -1,10 +1,7 @@
 @import 'variables.less';
 
 .text-center-vertical {
-  .flex() !important;
-  -ms-flex-align: center;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
+  display: flex !important;
   align-items: center;
   justify-content: center;
 }
@@ -51,10 +48,25 @@
   }
 }
 .uib-datepicker-popup .uib-button-bar {
-  margin-bottom: 5px;
+  padding: 7px 5px 5px;
+  span.pull-left {
+    float: none !important;
+  }
+
+  .uib-datepicker-current {
+    .btn-primary();
+  }
+  .uib-close {
+    .btn-success();
+  }
+}
+.uib-datepicker {
+  .btn-info {
+    .orange-btn();
+  }
 }
 
-.orange-btn, .gray-btn, .green-btn {
+.orange-btn, .gray-btn, .green-btn, .blue-btn {
   color: white;
   font-weight: bold;
   font-variant: small-caps;
@@ -76,26 +88,40 @@
   }
   transition: 0.1s;
 }
+
 .orange-btn {
   background-color: @C2C-orange;
+  border-color: @C2C-orange;
   &:hover, &:active {
     background-color: #FF9416;
+    border-color: #FF9416;
     transition: 0.1s;
   }
 }
-
 .gray-btn {
   background-color: graytext;
+  border-color: graytext;
   &:hover {
     background-color: #B89191;
+    border-color: #B89191;
     transition: 0.1s;
   }
 }
-
+.blue-btn {
+  background-color: @brand-primary;
+  border-color: @brand-primary;
+  &:hover {
+    background-color: #286090;
+    border-color: #286090;
+    transition: 0.1s;
+  }
+}
 .green-btn {
   background-color: @bright-green;
+  border-color: @bright-green;
   &:hover {
     background-color: #4C9B5D;
+    border-color: #4C9B5D;
     transition: 0.1s;
   }
 }
@@ -185,7 +211,7 @@ input[type=checkbox]:checked + * {
 }
 
 .heading {
-  .flex();
+  display: flex;
   width: 100%;
   padding: 5px 10px;
   justify-content: space-between;
@@ -258,7 +284,7 @@ p {
 }
 
 .vertical-align {
-  .flex() !important;
+  display: flex !important;
   align-items: center;
   justify-content: space-around;
 }
@@ -329,7 +355,7 @@ p {
 
 
 .flex {
-  .flex();
+  display: flex;
 }
 
 .margin-r-sm {

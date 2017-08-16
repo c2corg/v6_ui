@@ -36,6 +36,6 @@
   position: fixed !important;
   top: @page-header-height + @page-main-title-height !important;
   margin-top: 0 !important;
-  .calc(max-height, "100vh -  @{page-header-height} - @{page-main-title-height}") !important;
+  max-height: ~"calc(100vh -  @{page-header-height} - @{page-main-title-height})" !important;
   transition: .2s;
 }

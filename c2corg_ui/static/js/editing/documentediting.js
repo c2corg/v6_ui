@@ -597,7 +597,7 @@ app.DocumentEditingController.prototype.preview = function() {
     }.bind(this)).
     then(function(response) {
       var template = angular.element('#preview-container').clone();
-      template.find('#preview-container-content').append(response['data']);
+      template.find('.preview-container-content').append(response['data']);
 
       this.modal.open({
         animation: true,
@@ -666,7 +666,7 @@ app.ConfirmSaveController = function($uibModalInstance, appDocument, appLang) {
    * @type {string}
    * @export
    */
-  this.quality = appDocument.document.quality;
+  this.quality = appDocument.document.quality || 'draft';
 
 };
 

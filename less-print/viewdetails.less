@@ -9,7 +9,7 @@
   margin-bottom: 10px;
 }
 
-.view-details-info , .view-details-section .view-details-description {
+.view-details-info, .view-details-section .view-details-description {
   float: none;
 }
 
@@ -51,8 +51,38 @@
 }
 
 .orientation-svg {
-  height: 55px !important;
+  height: 45px !important;
   margin-left: 0 !important;
+  text {
+    display: none !important;
+  }
+  path {
+    &.orientation-selected {
+      fill: black !important;
+    }
+    &:not(.orientation-selected) {
+      fill: none !important;
+      stroke: black !important;
+    }
+  }
+}
+
+[class*="creative-commons icon-"]:after {
+  font-size: .5em;
+  vertical-align: middle;
+  padding-left: .2em;
+}
+.icon-BY:after {
+  content: "BY";
+}
+.icon-NC:after {
+  content: "NC";
+}
+.icon-ND:after {
+  content: "ND";
+}
+.icon-SA:after {
+  content: "SA";
 }
 
 .name-icon-value {
