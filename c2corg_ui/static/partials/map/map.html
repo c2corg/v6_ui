@@ -1,4 +1,4 @@
-<div class="map" ngeo-map="::mapCtrl.map" ng-class="::mapCtrl.isFullScreen">
+<div class="map" ngeo-map="::mapCtrl.map" ng-class="{'map-fullscreen': mapCtrl.isFullscreen}">
   <div class="full-page-control">
   <button type="button" ng-click="mapCtrl.toggleFullscreen()"
           class="btn btn-primary btn-xs btn-map-fullscreen"

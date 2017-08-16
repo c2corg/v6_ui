@@ -216,10 +216,10 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
   this.currentSelectedFeatureId_ = null;
 
   /**
-   * @type {string}
+   * @type {boolean}
    * @export
    */
-  this.isFullscreen = '';
+  this.isFullscreen = false;
   
   /**
    * @type {boolean}
@@ -982,12 +982,15 @@ app.MapController.prototype.simplifyFeature_ = function(feature) {
  */
 app.MapController.prototype.toggleFullscreen = function() {
   console.log("on toggle fullscreen");
-  if(this.isFullscreen == '') {
-    this.isFullscreen = 'map-fullscreen';
-  }
-  else {
-    this.isFullscreen = '';
-  }
+  
+  this.isFullscreen = !this.isFullscreen;
+  
+  this.scope_.isFullscreen = this.isFullscreen;
+  setTimeout(function() {this.scope_.$apply();
+                        
+                          this.map.renderSync();
+  this.map.updateSize();
+                        }.bind(this),0);
   
   console.log(this.isFullscreen);
 };

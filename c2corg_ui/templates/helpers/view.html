@@ -899,16 +899,10 @@
 </%def>
 
 <%def name="get_comments()">\
-  <div class="view-details-comments col-xs-12 comments">
-    <h3 class="heading comments"
-        data-toggle="collapse" data-target="#discourse-comments"
-        ng-click="mainCtrl.animateHeaderIcon($event)">
-      <span class="glyphicon glyphicon-comment"></span>
-      <span translate>Comments</span>
-      <span class="glyphicon glyphicon-menu-down"></span>
-    </h3>
-    <section id="discourse-comments" class="collapse in" ng-init="detailsCtrl.getComments()">
-      <div ng-if="detailsCtrl.documentService.document.topic_id == null" class="no-thread">
+   <h3  class="show-phone"  ng-init="open_tab = true" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#discourse-comments"><span translate>Comments</span><span class="glyphicon glyphicon-menu-down"></span></h3>
+      <div class="finfo collapse in" id="discourse-comments" aria-expanded="true" ng-init="detailsCtrl.getComments();">
+              <div class="ficontent max" ng-if="detailsCtrl.documentService.document.topic_id == null" >
+                      <div class="no-thread">
         <p class="text-center" translate>No thread yet?</p>
         <p class="text-center" translate
             ng-if="!userCtrl.auth.isAuthenticated()">Log in to post the first comment</p>
@@ -917,8 +911,27 @@
             ng-click="detailsCtrl.createTopic()"
             translate>Post the first comment</button>
       </div>
-    </section>
-  </div>
+              </div>
+                
+                <div ng-if="detailsCtrl.comments.length > 0">
+              <div  class="fpost" ng-repeat="post in detailsCtrl.comments track by post.id" >
+        <div class="ficontent max">
+          <div class="fleft">
+            <div class="fportrait">
+              <img ng-src="https://forum.camptocamp.org/{{::post['avatar_template']}}">
+            </div>
+            <div class="ctxt">
+              <div class="parent_top"><div class="fauthor"><a href="https://forum.camptocamp.org/users/{{::post['username']}}/" title="{{::post['username']}}">{{::post['username']}}</a></div><div class="fdate">{{::post['created_at'] | amUtc | amLocal | amTimeAgo}}</div></div>
+              <div class="comment" ng-bind-html="::post['cooked']"></div>
+            </div>
+          </div>
+        </div> 
+      </div>
+      <div class="toforum"><a href="https://forum.camptocamp.org/t/{{detailsCtrl.documentService.document['topic_slug']}}/{{detailsCtrl.documentService.document['topic_id']}}/{{detailsCtrl.documentService.document['last_post_number']}}" class="btn btn-primary" translate>Continue the discussion</a></div> 
+            </div>    
+                </div>
+
+
 </%def>
 
 <%def name="show_badge(document, type)">\

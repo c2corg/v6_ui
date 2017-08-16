@@ -101,7 +101,13 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
    */
   this.hasVerticalImg = false;
 
-
+  
+  /**
+   * @type {Array<Object>}
+   * @export
+   */
+  this.comments = [];
+  
   /**
    * @type {string}
    * @export
@@ -424,10 +430,41 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
 };
 
 
+
+
 /**
  * @export
  */
 app.ViewDetailsController.prototype.getComments = function() {
+  console.log("on get les commentaires")
+    var topic_id = this.documentService.document['topic_id'];
+  if (topic_id === null) {
+    return;
+  }
+    var document = this.documentService.document;
+  var lang = document.lang;
+    this.api_.readCommentsForum( topic_id,lang).then(function(response) {
+      console.log("reponse")
+    this.handleCommentsForum(response);
+  }.bind(this), function() { // Error msg is shown in the api service
+    
+    //this.busyForum = false;
+    //this.errorForum = true;
+    
+  }.bind(this));
+/*
+  //this.busyForum = true;
+  this.api.readForumComments().then(function(response) {
+    this.handleForum(response);
+  }.bind(this), function() { // Error msg is shown in the api service
+    
+    //this.busyForum = false;
+    //this.errorForum = true;
+    
+  }.bind(this));
+
+  */
+  /*
   var topic_id = this.documentService.document['topic_id'];
   if (topic_id === null) {
     return;
@@ -436,18 +473,48 @@ app.ViewDetailsController.prototype.getComments = function() {
   // create DiscourseEmbed script tag. From a discourse tutorial.
   // https://meta.discourse.org/t/embedding-discourse-comments-via-javascript/31963
   var s = document.createElement('script');
-  /**
-   * @export
-   * @type {appx.DiscourseEmbedded}
-   */
+
   window.DiscourseEmbed = {
     'discourseUrl': this.discourseUrl_,
     'topicId': topic_id
   };
   s.src = this.discourseUrl_ + 'javascripts/embed.js';
   document.getElementsByTagName('body')[0].appendChild(s);
+  */
+  
 };
 
+/**
+ * Handles forum processing for Feed.js
+ * @param response
+ * @public
+ */
+app.ViewDetailsController.prototype.handleCommentsForum = function(response) {
+  /*
+  this.errorForum = false;
+  this.busyForum = false;
+  */
+  var data = response['data'];
+  var postersAvatar = {};
+  if (data['post_stream'] !== undefined) {
+    /*
+    for (var j = 0; j < data['post_stream'].length; j++) {
+      postersAvatar[data['users'][j]['username']] = data['users'][j]['avatar_template'].replace('{size}','24');
+    }
+*/
+   
+    for (var i = 0; i < data['post_stream']['posts'].length; i++) {
+      console.log(data['post_stream']['posts'][i]);
+      if(data['post_stream']['posts'][i]['name'] == "system")
+        continue;
+      
+      this.comments.push({'id':data['post_stream']['posts'][i]['id'], 'username':data['post_stream']['posts'][i]['username'],'avatar_template':data['post_stream']['posts'][i]['avatar_template'].replace("{size}","24"),'cooked':data['post_stream']['posts'][i]['cooked'].replace(/<a class="mention" href="/g,'<a class="mention" href="'+this.discourseUrl_),'created_at':data['post_stream']['posts'][i]['created_at'],'reply_count':data['post_stream']['posts'][i]['reply_count'],'reply_to_user':data['post_stream']['posts'][i]['reply_to_user']});
+    }
+    
+     this.documentService.document['topic_slug'] = data['post_stream']['posts'][0]['topic_slug'];
+ 
+  }
+};
 
 /**
  * @export

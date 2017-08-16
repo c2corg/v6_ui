@@ -240,28 +240,6 @@ from c2corg_ui.templates.utils import get_route_gear_articles, format_length
     gear_articles = get_route_gear_articles(route)
   %>
   % if locale['gear'] or gear_articles:
-    <!--
-    <div class="view-details-info col-xs-12">
-      <h3 class="heading show-phone"
-          ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#gear">
-        <span x-translate>gear</span><span class="glyphicon glyphicon-menu-down"></span>
-      </h3>
-      <section class="collapse in" id="gear" aria-expanded="true">
-        <div class="lead">
-          % if gear_articles:
-            <ul>
-            % for article_id, name in gear_articles.items():
-              <li><a href="${request.route_path('articles_view_id', id=article_id)}" x-translate>${name}</a></li>
-            % endfor
-            </ul>
-          % endif
-          % if locale['gear']:
-            ${show_attr(locale, 'gear')}
-          % endif
-        </div>
-      </section>
-    </div>
--->
         <h3 ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#gear"><span x-translate>gear</span><span class="glyphicon glyphicon-menu-down"></span></h3>
        <div class="finfo collapse in" id="gear" aria-expanded="true">
           % if gear_articles:
@@ -271,9 +249,7 @@ from c2corg_ui.templates.utils import get_route_gear_articles, format_length
                 <div class="ficontent "><a href="${request.route_path('articles_view_id', id=article_id)}" x-translate>${name}</a></div>
             % endfor
           % endif
-    
-      
-         
+
           % if locale['gear']:
                <div class="ficontent ">  ${show_attr(locale, 'gear')}</div>
           % endif

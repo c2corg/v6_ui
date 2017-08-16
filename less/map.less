@@ -1,12 +1,14 @@
-  .map-fullscreen {
+  .viewdoc .view-details-map .map-fullscreen {
     position: fixed !important;
-    width: 100%;
-    height: 100% !important;
-    top: 0px;
-    left: 0px;
+    width: calc ( 100% - 250px );
+    height: calc ( 100% - 48px ) !important;
+    top: 48px;
+    left: 250px;
     z-index:10;
-    .btn-map-fullscreen {
-      top: 60px;
+    background-color: rgba(164,164,166,1);
+    @media @phone {
+      left: 0px;
+      width: 100%;
     }
   }
 

@@ -4,7 +4,8 @@ goog.require('app');
 
 
 /**
- * Service for accessing the API.
+ * Service for accessing the API.3
+ * @param {string} discourseUrl URL to the forum API.
  * @param {string} apiUrl URL to the API.
  * @param {string} imageBackendUrl URL to the image backend.
  * @param {angular.$http} $http
@@ -15,7 +16,13 @@ goog.require('app');
  * @struct
  * @ngInject
  */
-app.Api = function(apiUrl, imageBackendUrl, $http, appAlerts, $q, appAuthentication) {
+app.Api = function(discourseUrl, apiUrl, imageBackendUrl, $http, appAlerts, $q, appAuthentication) {
+
+  /**
+   * @type {string}
+   * @private
+   */
+  this.discourseUrl_ = discourseUrl;
 
   /**
    * @type {string}
@@ -576,6 +583,28 @@ app.Api.prototype.createImages = function(files, document) {
   var promise = this.postJson_('/images/list', {'images': images});
   promise.catch(this.errorSaveDocument_.bind(this));
   promise['images'] = images;
+  return promise;
+};
+
+
+/**
+ * @param {number} document_id
+ * @param {string} lang
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.readCommentsForum = function(document_id, lang) {
+  var alerts = this.alerts_;
+
+  var config = {
+    headers: {
+      'Accept': 'application/json'
+    }
+  };
+
+  var promise = this.http_.get(this.discourseUrl_ + '/t/'+document_id+'-'+lang+'/'+document_id+'.json', config);
+  promise.catch(function(response) {
+    alerts.addError(response);
+  });
   return promise;
 };
 
