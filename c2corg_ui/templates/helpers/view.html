@@ -901,7 +901,7 @@
 <%def name="get_comments()">\
    <h3  class="show-phone"  ng-init="open_tab = true" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#discourse-comments"><span translate>Comments</span><span class="glyphicon glyphicon-menu-down"></span></h3>
       <div class="finfo collapse in" id="discourse-comments" aria-expanded="true" ng-init="detailsCtrl.getComments();">
-              <div class="ficontent max" ng-if="detailsCtrl.documentService.document.topic_id == null" >
+              <div class="ficontent max noflex" ng-if="detailsCtrl.documentService.document.topic_id == null" >
                       <div class="no-thread">
         <p class="text-center" translate>No thread yet?</p>
         <p class="text-center" translate
