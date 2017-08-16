@@ -304,7 +304,6 @@ app.CardController.prototype.getFullRatings = function() {
       ratings[p] = doc[p];
     } else {
       ratings[p] = doc[p];
-    } else {
       if (p === 'hiking_mtb_exposition') {
         ratings['hiking_mtb_exposition'] = doc.hiking_mtb_exposition;
 
