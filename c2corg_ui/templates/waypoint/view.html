@@ -13,7 +13,7 @@ from json import dumps
     show_associated_books, show_associated_outings, show_associated_xreports,
     delete_association_confirmation_modal, associated_waypoints_featurelist,
     show_badge, get_document_description, get_licence, show_merge_documents_dialog,
-    show_delete_document_dialog"/>
+    show_delete_document_dialog, generate_share_metadata"/>
 <%namespace file="helpers/view.html" import="get_waypoint_equipment,
     get_waypoint_orientations, get_waypoint_contact, get_waypoint_style, get_waypoint_rating,
     get_waypoint_access, get_waypoint_heights, get_waypoint_location, get_waypoint_general,
@@ -82,6 +82,10 @@ waypoint['doctype'] = 'waypoints'
   });
 </%block>
 
+<%block name="share">
+  ${generate_share_metadata(waypoint, 'waypoints')}
+</%block>
+
 <header class="view-details-title">
   <h1>
     <span class="icon-${waypoint['waypoint_type']} waypoint-type" uib-tooltip="{{mainCtrl.translate('${waypoint['waypoint_type']}')}}"></span>
@@ -141,7 +145,11 @@ waypoint['doctype'] = 'waypoints'
   % if not version:
     <div class="view-details-associations col-xs-12 associations" ng-init="a = detailsCtrl.documentService.document.associations"
          ng-show="userCtrl.auth.isAuthenticated() || a.waypoint_children.length || a.waypoints.length">
-      <app-list-switch></app-list-switch>
+      <ul class="actions">
+        <li>
+          <app-list-switch type="short"></app-list-switch>
+        </li>
+      </ul>
       <span class="lead">
         <section>
           <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">

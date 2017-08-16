@@ -68,10 +68,10 @@ updating_doc = route_id and route_lang
                            'has-success': editForm.title.$touched && editForm.title.$valid }">
             <label ng-class="{ 'control-label': editForm.title.$touched && editForm.title.$invalid }"><span translate>title</span> *</label>
             <span uib-tooltip="{{mainCtrl.translate('main waypoint title')}}"><input type="text" name="main_waypoint_title"
-              ng-model="route.main_waypoint_title" ng-show="route.main_waypoint_title" class="form-control" disabled></span>
+              ng-model="route.main_waypoint_title" ng-if="route.main_waypoint_title" class="form-control" disabled></span>
             <input type="text" name="title" ng-model="route.locales[0].title" ng-minlength="3" class="form-control" required />
-            <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.title.$valid"></span>
-            <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.title.$invalid && editForm.title.$touched"></span>
+            <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="editForm.title.$valid"></span>
+            <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-if="editForm.title.$invalid && editForm.title.$touched"></span>
             <div class="help-block" ng-messages="editForm.title.$error" ng-if="editForm.title.$invalid && editForm.title.$touched">
               <p ng-message="required" translate>This field is required.</p>
               <p ng-message="minlength" translate>Title must have at least 3 characters.</p>
@@ -89,8 +89,8 @@ updating_doc = route_id and route_lang
               % else:
                 <select name="lang" ng-options="lang as mainCtrl.translate(lang) for lang in ['${"','".join(default_langs) |n}'] | translate" ng-model="route.locales[0].lang" class="form-control" required><option value=""></option></select>
               % endif
-                <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.locales[0].lang"></span>
-              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.lang.$touched && editForm.lang.$invalid"></span>
+                <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.locales[0].lang"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-if="editForm.lang.$touched && editForm.lang.$invalid"></span>
               <div class="help-block" ng-messages="editForm.lang.$error" ng-if="editForm.lang.$touched && editForm.lang.$invalid">
                 <p ng-message="required" translate>This field is required.</p>
               </div>
@@ -111,7 +111,7 @@ updating_doc = route_id and route_lang
 
         <section class="section associations">
           <h2 class="heading show-phone"><span translate>associations</span></h2>
-          <h5 class="full" translate ng-show="editCtrl.documentService.document.associations.routes.length == 0 && editCtrl.documentService.document.associations.waypoints.length == 0">
+          <h5 class="full" translate ng-if="editCtrl.documentService.document.associations.routes.length == 0 && editCtrl.documentService.document.associations.waypoints.length == 0">
             You can add associated routes and waypoints by searching in the field.
           </h5>
           <div class="content">
@@ -134,7 +134,8 @@ updating_doc = route_id and route_lang
 
             ## ACTIVITIES
             <div class="form-group data full" id="route-activities" ng-init="activities = ${activities}">
-              <label app-context-help context-help-title="{{'activities' | translate}}" context-help-content-url="/static/partials/contexthelp/activities.html"><span translate>activities</span> *</label>
+              <label app-context-help context-help-title="{{'activities' | translate}}"
+                     context-help-content-url="/static/partials/contexthelp/activities.html"><span translate>activities</span> *</label>
               <div class="route-activities">
                 <div ng-repeat="activity in activities" class="activity" ng-if="activity !== 'paragliding' ">
                   <div>
@@ -151,7 +152,7 @@ updating_doc = route_id and route_lang
             <div ng-if="route.activities.indexOf('rock_climbing') > -1" class="form-group data half">
               <label translate>climbing_outdoor_type</label>
               <select class="form-control" ng-model="route.climbing_outdoor_type" ng-options="type as mainCtrl.translate(type) for type in ${climbing_outdoor_types}"><option value=""></option></select>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.climbing_outdoor_type"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.climbing_outdoor_type"></span>
             </div>
 
           </div>
@@ -168,8 +169,8 @@ updating_doc = route_id and route_lang
                 <input type="number" min="0" minlength="1" name="route_length" ng-model="route.route_length" class="form-control" />
                 <span class="input-group-addon">m</span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.route_length"></span>
-              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.route_length.$invalid && editForm.route_length.$touched"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.route_length"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-if="editForm.route_length.$invalid && editForm.route_length.$touched"></span>
               <div class="help-block" ng-messages="editForm.route_length.$error">
                 <p ng-message="number" class="label label-danger" style="{{ (editForm.route_length.$invalid && editForm.route_length.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
               </div>
@@ -182,8 +183,8 @@ updating_doc = route_id and route_lang
                 <input type="number" min="0" minlength="1" name="slackline_height" ng-model="route.slackline_height" class="form-control" />
                 <span class="input-group-addon">m</span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.slackline_height"></span>
-              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.slackline_height.$invalid && editForm.slackline_height.$touched"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.slackline_height"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-if="editForm.slackline_height.$invalid && editForm.slackline_height.$touched"></span>
               <div class="help-block" ng-messages="editForm.slackline_height.$error">
                 <p ng-message="number" class="label label-danger" style="{{ (editForm.route_length.$invalid && editForm.route_length.$touched) ? 'display:inline' : '' }}" translate>This field must be a number.</p>
               </div>
@@ -193,7 +194,7 @@ updating_doc = route_id and route_lang
             <div class="form-group data half" ng-class="{ 'has-success': route.slackline_type}">
               <label translate>Type</label>
               <select class="form-control" ng-model="route.slackline_type" ng-options="type as mainCtrl.translate(type) for type in ${slackline_types}"><option value=""></option></select>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.slackline_type"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.slackline_type"></span>
             </div>
 
             ## SLACKLINING HELP
@@ -221,17 +222,28 @@ updating_doc = route_id and route_lang
             <div class="form-group data half">
 
               ## ROUTE TYPES
-              <label translate>route_types</label>
-              <ul class="types">
-                <li ng-repeat="type in ${route_types}" ng-click="editCtrl.pushToArray(route, 'route_types', type, $event)">
-                  <div class="checkbox"><input type="checkbox" ng-checked="route.route_types.indexOf(type) > -1"><span>{{type | translate}}</span></div>
-                </li>
-              </ul>
+              <div ng-if="route.activities.length
+                       && (route.activities.indexOf('rock_climbing') === -1
+                           || route.climbing_outdoor_types.indexOf === 'multi'
+                           || route.climbing_outdoor_types === 'single'
+                           || route.activities.length > 1)"
+                   class="form-group">
+                <label translate>route_types</label>
+                <ul class="types">
+                  <li ng-repeat="type in ${route_types}" ng-click="editCtrl.pushToArray(route, 'route_types', type, $event)">
+                    <div class="checkbox"><input type="checkbox" ng-checked="route.route_types.indexOf(type) > -1"><span>{{type | translate}}</span></div>
+                  </li>
+                </ul>
+              </div>
 
               ## CONFIGURATION TYPES
-              <div  ng-if="route.activities.indexOf('skitouring') > -1 || route.activities.indexOf('snow_ice_mixed') > -1
-                  || route.activities.indexOf('mountain_climbing') > -1  || route.activities.indexOf('rock_climbing') > -1
-                  || route.activities.indexOf('snowshoeing') > -1 || route.activities.indexOf('via_ferrata') > -1" class="form-group" adsd>
+              <div ng-if="route.activities.indexOf('skitouring') > -1
+                       || route.activities.indexOf('snow_ice_mixed') > -1
+                       || route.activities.indexOf('mountain_climbing') > -1
+                       || route.activities.indexOf('rock_climbing') > -1 && route.climbing_outdoor_type === 'multi'
+                       || route.activities.indexOf('snowshoeing') > -1
+                       || route.activities.indexOf('via_ferrata') > -1"
+                   class="form-group">
                 <label translate>route_configuration_types</label>
                 <ul class="types">
                   <li ng-repeat="type in ${route_configuration_types}" ng-click="editCtrl.pushToArray(route, 'configuration', type, $event)">
@@ -243,7 +255,11 @@ updating_doc = route_id and route_lang
             </div>
 
             ## ROCK TYPES
-            <div class="form-group data half" ng-if="route.activities.indexOf('snow_ice_mixed') > -1 || route.activities.indexOf('mountain_climbing') > -1 || route.activities.indexOf('rock_climbing') > -1 || route.activities.indexOf('via_ferrata') > -1">
+            <div class="form-group data half"
+                 ng-if="route.activities.indexOf('snow_ice_mixed') > -1
+                     || route.activities.indexOf('mountain_climbing') > -1
+                     || route.activities.indexOf('rock_climbing') > -1
+                     || route.activities.indexOf('via_ferrata') > -1">
               <label translate>rock_types</label>
               <ul class="types long">
                 <li ng-repeat="type in ${rock_types}" ng-click="editCtrl.pushToArray(route, 'rock_types', type, $event)">
@@ -269,8 +285,8 @@ updating_doc = route_id and route_lang
                 <input type="number" min="0" max="9999" minlength="1" name="elevation_min" ng-model="route.elevation_min" class="form-control" />
                 <span class="input-group-addon">m</span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.elevation_min"></span>
-              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.elevation_min.$touched && editForm.elevation_min.$invalid"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.elevation_min"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-if="editForm.elevation_min.$touched && editForm.elevation_min.$invalid"></span>
               <div class="help-block" ng-messages="editForm.elevation_min.$error" ng-if="editForm.elevation_min.$touched && editForm.elevation_min.$invalid">
                 <p ng-message="max" translate>This field must be lower than 9999 m.</p>
                 <p ng-message="number" translate>This field must be a number.</p>
@@ -287,8 +303,8 @@ updating_doc = route_id and route_lang
                 <input type="number" min="0" max="9999" minlength="1" name="elevation_max" ng-model="route.elevation_max" class="form-control" />
                 <span class="input-group-addon">m</span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.elevation_max"></span>
-              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.elevation_max.$touched && editForm.elevation_max.$invalid"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.elevation_max"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-if="editForm.elevation_max.$touched && editForm.elevation_max.$invalid"></span>
               <div class="help-block" ng-messages="editForm.elevation_max.$error" ng-if="editForm.elevation_max.$touched && editForm.elevation_max.$invalid">
                 <p ng-message="max" translate>This field must be lower than 9999 m.</p>
                 <p ng-message="number" translate>This field must be a number.</p>
@@ -305,8 +321,8 @@ updating_doc = route_id and route_lang
                 <input type="number" min="0" name="height_diff_up" ng-model="route.height_diff_up" class="form-control" />
                 <span class="input-group-addon">m</span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.height_diff_up"></span>
-              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.height_diff_up.$invalid && editForm.height_diff_up.$touched"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.height_diff_up"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-if="editForm.height_diff_up.$invalid && editForm.height_diff_up.$touched"></span>
               <div class="help-block" ng-messages="editForm.height_diff_up.$error" ng-if="editForm.height_diff_up.$touched && editForm.height_diff_up.$invalid">
                 <p ng-message="number" translate>This field must be a number.</p>
               </div>
@@ -322,8 +338,8 @@ updating_doc = route_id and route_lang
                 <input type="number" min="0" name="height_diff_down" ng-model="route.height_diff_down" class="form-control" />
                 <span class="input-group-addon">m</span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.height_diff_down"></span>
-              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.height_diff_down.$invalid && editForm.height_diff_down.$touched"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.height_diff_down"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-if="editForm.height_diff_down.$invalid && editForm.height_diff_down.$touched"></span>
               <div class="help-block" ng-messages="editForm.height_diff_down.$error" ng-if="editForm.height_diff_down.$touched && editForm.height_diff_down.$invalid">
                 <p ng-message="number" translate>This field must be a number.</p>
               </div>
@@ -339,8 +355,8 @@ updating_doc = route_id and route_lang
                 <input type="number" min="0" name="height_diff_access" ng-model="route.height_diff_access" class="form-control" />
                 <span class="input-group-addon">m</span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.height_diff_access"></span>
-              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.height_diff_access.$invalid && editForm.height_diff_access.$touched"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.height_diff_access"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-if="editForm.height_diff_access.$invalid && editForm.height_diff_access.$touched"></span>
               <div class="help-block" ng-messages="editForm.height_diff_access.$error" ng-if="editForm.height_diff_access.$touched && editForm.height_diff_access.$invalid">
                 <p ng-message="number" translate>This field must be a number.</p>
               </div>
@@ -356,8 +372,8 @@ updating_doc = route_id and route_lang
                 <input type="number" min="0" name="height_diff_difficulties" ng-model="route.height_diff_difficulties" class="form-control" />
                 <span class="input-group-addon">m</span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.height_diff_difficulties"></span>
-              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.height_diff_difficulties.$invalid && editForm.height_diff_difficulties.$touched"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.height_diff_difficulties"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-if="editForm.height_diff_difficulties.$invalid && editForm.height_diff_difficulties.$touched"></span>
               <div class="help-block" ng-messages="editForm.height_diff_difficulties.$error" ng-if="editForm.height_diff_difficulties.$touched && editForm.height_diff_difficulties.$invalid">
                 <p ng-message="number" translate>This field must be a number.</p>
               </div>
@@ -368,14 +384,18 @@ updating_doc = route_id and route_lang
                  ng-class="{ 'has-feedback': editForm.difficulties_height.$touched,
                              'has-error': editForm.difficulties_height.$touched && editForm.difficulties_height.$invalid,
                              'has-success': route.difficulties_height }"
-                 ng-if="route.activities.indexOf('via_ferrata') > -1 || route.activities.indexOf('ice_climbing') > -1 || route.activities.indexOf('rock_climbing') > -1 || route.activities.indexOf('mountain_climbing') > -1 || route.activities.indexOf('snow_ice_mixed') > -1">
+                 ng-if="route.activities.indexOf('via_ferrata') > -1
+                     || route.activities.indexOf('ice_climbing') > -1
+                     || route.activities.indexOf('rock_climbing') > -1
+                     || route.activities.indexOf('mountain_climbing') > -1
+                     || route.activities.indexOf('snow_ice_mixed') > -1">
               <label ng-class="{ 'control-label': editForm.difficulties_height.$touched && editForm.difficulties_height.$invalid }" translate>difficulties_height</label>
               <div class="input-group">
                 <input type="number" min="0" max="9999" name="difficulties_height" ng-model="route.difficulties_height" class="form-control" />
                 <span class="input-group-addon">m</span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.difficulties_height"></span>
-              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.difficulties_height.$invalid && editForm.difficulties_height.$touched"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.difficulties_height"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-if="editForm.difficulties_height.$invalid && editForm.difficulties_height.$touched"></span>
               <div class="help-block" ng-messages="editForm.difficulties_height.$error" ng-if="editForm.difficulties_height.$touched && editForm.difficulties_height.$invalid">
                 <p ng-message="max" translate>This field must be lower than 9999 m.</p>
                 <p ng-message="number" translate>This field must be a number.</p>
@@ -395,8 +415,8 @@ updating_doc = route_id and route_lang
                        class="form-control" />
                 <span class="input-group-addon">km</span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.route_length"></span>
-              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.route_length.$invalid && editForm.route_length.$touched"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.route_length"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-if="editForm.route_length.$invalid && editForm.route_length.$touched"></span>
               <div class="help-block" ng-messages="editForm.route_length.$error" ng-if="editForm.route_length.$touched && editForm.route_length.$invalid">
                 <p ng-message="number" translate>This field must be a number.</p>
               </div>
@@ -415,8 +435,8 @@ updating_doc = route_id and route_lang
                        class="form-control" />
                 <span class="input-group-addon">km</span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.mtb_length_asphalt"></span>
-              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.mtb_length_asphalt.$invalid && editForm.mtb_length_asphalt.$touched"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.mtb_length_asphalt"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-if="editForm.mtb_length_asphalt.$invalid && editForm.mtb_length_asphalt.$touched"></span>
               <div class="help-block" ng-messages="editForm.mtb_length_asphalt.$error" ng-if="editForm.mtb_length_asphalt.$touched && editForm.mtb_length_asphalt.$invalid">
                 <p ng-message="number" translate>This field must be a number.</p>
               </div>
@@ -435,8 +455,8 @@ updating_doc = route_id and route_lang
                        class="form-control" />
                 <span class="input-group-addon">km</span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.mtb_length_trail"></span>
-              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.mtb_length_trail.$invalid && editForm.mtb_length_trail.$touched"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.mtb_length_trail"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-if="editForm.mtb_length_trail.$invalid && editForm.mtb_length_trail.$touched"></span>
               <div class="help-block" ng-messages="editForm.mtb_length_trail.$error" ng-if="editForm.mtb_length_trail.$touched && editForm.mtb_length_trail.$invalid">
                 <p ng-message="number" translate>This field must be a number.</p>
               </div>
@@ -453,8 +473,8 @@ updating_doc = route_id and route_lang
                 <input type="number" min="0" minlength="1" name="mtb_height_diff_portages" ng-model="route.mtb_height_diff_portages" class="form-control" />
                 <span class="input-group-addon">m</span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.mtb_height_diff_portages"></span>
-              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.mtb_height_diff_portages.$invalid && editForm.mtb_height_diff_portages.$touched"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.mtb_height_diff_portages"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-if="editForm.mtb_height_diff_portages.$invalid && editForm.mtb_height_diff_portages.$touched"></span>
               <div class="help-block" ng-messages="editForm.mtb_height_diff_portages.$error" ng-if="editForm.mtb_height_diff_portages.$touched && editForm.mtb_height_diff_portages.$invalid">
                 <p ng-message="number" translate>This field must be a number.</p>
               </div>
@@ -482,7 +502,7 @@ updating_doc = route_id and route_lang
                 <span class="input-group-addon"><span class="glyphicon glyphicon-resize-vertical"></span></span>
               </div>
 
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.lift_access"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.lift_access"></span>
             </div>
 
           </div>
@@ -493,210 +513,253 @@ updating_doc = route_id and route_lang
           <div class="content" id="rating-edit">
 
             ## SKI RATING
-            <div class="form-group data half" ng-class="{ 'has-success': route.ski_rating}" ng-if="route.activities.indexOf('skitouring') > -1">
+            <div class="form-group data half" ng-class="{ 'has-success': route.ski_rating}"
+                 ng-if="route.activities.indexOf('skitouring') > -1">
               <label translate>ski_rating</label>
               <div class="input-group">
                 <select class="form-control" ng-model="route.ski_rating" ng-options="rat as rat for rat in ${ski_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
                 <span class="input-group-addon" ng-click="editCtrl.openModal('#cotometer-dialog','md')"><span class="glyphicon glyphicon-sort-by-attributes"></span></span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.ski_rating"></span>
-      
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.ski_rating"></span>
+
             </div>
 
             ## LABANDE SKI RATING
-            <div class="form-group data half" ng-class="{ 'has-success': route.labande_ski_rating}" ng-if="route.activities.indexOf('skitouring') > -1">
+            <div class="form-group data half" ng-class="{ 'has-success': route.labande_ski_rating}"
+                 ng-if="route.activities.indexOf('skitouring') > -1">
               <label translate>labande_ski_rating</label>
               <div class="input-group">
                 <select class="form-control" ng-model="route.labande_ski_rating" ng-options="rat as rat for rat in ${labande_ski_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.labande_ski_rating"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.labande_ski_rating"></span>
             </div>
 
             ## LABANDE GLOBAL  RATING
-            <div class="form-group data half" ng-class="{ 'has-success': route.labande_global_rating}" ng-if="route.activities.indexOf('skitouring') > -1">
+            <div class="form-group data half" ng-class="{ 'has-success': route.labande_global_rating}"
+                 ng-if="route.activities.indexOf('skitouring') > -1">
               <label translate>labande_global_rating</label>
               <div class="input-group">
                 <select class="form-control" ng-model="route.labande_global_rating" ng-options="rat as rat for rat in ${global_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.labande_global_rating"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.labande_global_rating"></span>
             </div>
 
             ## SNOWSHOE  RATING
-            <div class="form-group data half" ng-class="{ 'has-success': route.snowshoe_rating}" ng-if="route.activities.indexOf('snowshoeing') > -1">
+            <div class="form-group data half" ng-class="{ 'has-success': route.snowshoe_rating}"
+                 ng-if="route.activities.indexOf('snowshoeing') > -1">
               <label translate>snowshoe_rating</label>
               <div class="input-group">
                 <select class="form-control" ng-model="route.snowshoe_rating" ng-options="rat as rat for rat in ${snowshoe_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.snowshoe_rating"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.snowshoe_rating"></span>
             </div>
 
             ## GLOBAL  RATING
-            <div class="form-group data half" ng-class="{ 'has-success': route.global_rating}" ng-if="route.activities.indexOf('snow_ice_mixed') > -1 || route.activities.indexOf('mountain_climbing') > -1 || route.activities.indexOf('rock_climbing') > -1 || route.activities.indexOf('ice_climbing') > -1">
+            <div class="form-group data half" ng-class="{ 'has-success': route.global_rating}"
+                 ng-if="route.activities.indexOf('snow_ice_mixed') > -1
+                     || route.activities.indexOf('mountain_climbing') > -1
+                     || route.activities.indexOf('rock_climbing') > -1 && route.climbing_outdoor_type === 'multi'
+                     || route.activities.indexOf('ice_climbing') > -1">
               <label translate>global_rating</label>
               <div class="input-group">
                 <select class="form-control" ng-model="route.global_rating" ng-options="rat as rat for rat in ${global_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.global_rating"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.global_rating"></span>
             </div>
 
             ## ENGAGEMENT  RATING
-            <div class="form-group data half" ng-class="{ 'has-success': route.engagement_rating}" ng-if="route.activities.indexOf('snow_ice_mixed') > -1 || route.activities.indexOf('mountain_climbing') > -1 || route.activities.indexOf('rock_climbing') > -1
-                 || route.activities.indexOf('ice_climbing') > -1 || route.activities.indexOf('via_ferrata') > -1">
+            <div class="form-group data half" ng-class="{ 'has-success': route.engagement_rating}"
+                 ng-if="route.activities.indexOf('snow_ice_mixed') > -1
+                     || route.activities.indexOf('mountain_climbing') > -1
+                     || route.activities.indexOf('rock_climbing') > -1 && route.climbing_outdoor_type === 'multi'
+                     || route.activities.indexOf('ice_climbing') > -1
+                     || route.activities.indexOf('via_ferrata') > -1">
               <label translate>engagement_rating</label>
               <div class="input-group">
                 <select class="form-control" ng-model="route.engagement_rating" ng-options="rat as rat for rat in ${engagement_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.engagement_rating"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.engagement_rating"></span>
             </div>
 
             ## EQUIPMENT  RATING
-            <div class="form-group data half" ng-class="{ 'has-success': route.equipment_rating}" ng-if="route.activities.indexOf('snow_ice_mixed') > -1 || route.activities.indexOf('mountain_climbing') > -1 || route.activities.indexOf('rock_climbing') > -1 || route.activities.indexOf('ice_climbing') > -1 || route.activities.indexOf('via_ferrata') > -1">
+            <div class="form-group data half" ng-class="{ 'has-success': route.equipment_rating}"
+                 ng-if="route.activities.indexOf('snow_ice_mixed') > -1
+                     || route.activities.indexOf('mountain_climbing') > -1
+                     || route.activities.indexOf('rock_climbing') > -1
+                         && (route.climbing_outdoor_type === 'multi' || route.climbing_outdoor_type === 'single')
+                     || route.activities.indexOf('ice_climbing') > -1
+                     || route.activities.indexOf('via_ferrata') > -1">
               <label app-context-help context-help-title="{{'equipment_rating' | translate}}" context-help-content-url="/static/partials/contexthelp/route-equipment_rating.html" translate>equipment_rating</label>
               <div class="input-group">
                 <select class="form-control" ng-model="route.equipment_rating" ng-options="rat as rat for rat in ${equipment_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.equipment_rating"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.equipment_rating"></span>
             </div>
 
             ## ICE  RATING
-            <div class="form-group data half" ng-class="{ 'has-success': route.ice_rating}" ng-if="route.activities.indexOf('snow_ice_mixed') > -1 || route.activities.indexOf('ice_climbing') > -1">
+            <div class="form-group data half" ng-class="{ 'has-success': route.ice_rating}"
+                 ng-if="route.activities.indexOf('snow_ice_mixed') > -1 || route.activities.indexOf('ice_climbing') > -1">
               <label translate>ice_rating</label>
               <div class="input-group">
                 <select class="form-control" ng-model="route.ice_rating" ng-options="rat as rat for rat in ${ice_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.ice_rating"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.ice_rating"></span>
             </div>
 
             ## MIXED  RATING
-            <div class="form-group data half" ng-class="{ 'has-success': route.mixed_rating}" ng-if="route.activities.indexOf('snow_ice_mixed') > -1 || route.activities.indexOf('ice_climbing') > -1">
+            <div class="form-group data half" ng-class="{ 'has-success': route.mixed_rating}"
+                 ng-if="route.activities.indexOf('snow_ice_mixed') > -1 || route.activities.indexOf('ice_climbing') > -1">
               <label translate>mixed_rating</label>
               <div class="input-group">
                 <select class="form-control" ng-model="route.mixed_rating" ng-options="rat as rat for rat in ${mixed_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.mixed_rating"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.mixed_rating"></span>
             </div>
 
             ## RISK  RATING
-            <div class="form-group data half" ng-class="{ 'has-success': route.risk_rating}" ng-if="route.activities.indexOf('snow_ice_mixed') > -1 || route.activities.indexOf('mountain_climbing') > -1 || route.activities.indexOf('rock_climbing') > -1 || route.activities.indexOf('ice_climbing') > -1">
+            <div class="form-group data half" ng-class="{ 'has-success': route.risk_rating}"
+                 ng-if="route.activities.indexOf('snow_ice_mixed') > -1
+                     || route.activities.indexOf('mountain_climbing') > -1
+                     || route.activities.indexOf('rock_climbing') > -1
+                     || route.activities.indexOf('ice_climbing') > -1">
               <label translate>risk_rating</label>
               <div class="input-group">
                 <select class="form-control" ng-model="route.risk_rating" ng-options="rat as rat for rat in ${risk_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.risk_rating"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.risk_rating"></span>
             </div>
 
             ## VIA FERRATA  RATING
-            <div class="form-group data half" ng-class="{ 'has-success': route.via_ferrata_rating}" ng-if="route.activities.indexOf('via_ferrata') > -1">
+            <div class="form-group data half" ng-class="{ 'has-success': route.via_ferrata_rating}"
+                 ng-if="route.activities.indexOf('via_ferrata') > -1">
               <label translate>via_ferrata_rating</label>
               <div class="input-group">
                 <select class="form-control" ng-model="route.via_ferrata_rating" ng-options="rat as rat for rat in ${via_ferrata_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.via_ferrata_rating"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.via_ferrata_rating"></span>
             </div>
 
             ## HIKING  RATING
-            <div class="form-group data half" ng-class="{ 'has-success': route.hiking_rating}" ng-if="route.activities.indexOf('hiking') > -1">
+            <div class="form-group data half" ng-class="{ 'has-success': route.hiking_rating}"
+                 ng-if="route.activities.indexOf('hiking') > -1">
               <label translate>hiking_rating</label>
               <div class="input-group">
                 <select class="form-control" ng-model="route.hiking_rating" ng-options="rat as rat for rat in ${hiking_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.hiking_rating"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.hiking_rating"></span>
             </div>
 
             ## MTB DOWN  RATING
-            <div class="form-group data half" ng-class="{ 'has-success': route.mtb_down_rating}" ng-if="route.activities.indexOf('mountain_biking') > -1">
+            <div class="form-group data half" ng-class="{ 'has-success': route.mtb_down_rating}"
+                 ng-if="route.activities.indexOf('mountain_biking') > -1">
               <label translate>mtb_down_rating</label>
               <div class="input-group">
                 <select class="form-control" ng-model="route.mtb_down_rating" ng-options="rat as rat for rat in ${mtb_down_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.mtb_down_rating"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.mtb_down_rating"></span>
             </div>
 
             ## MTB UP  RATING
-            <div class="form-group data half" ng-class="{ 'has-success': route.mtb_up_rating}" ng-if="route.activities.indexOf('mountain_biking') > -1">
+            <div class="form-group data half" ng-class="{ 'has-success': route.mtb_up_rating}"
+                 ng-if="route.activities.indexOf('mountain_biking') > -1">
               <label translate>mtb_up_rating</label>
               <div class="input-group">
                 <select class="form-control" ng-model="route.mtb_up_rating" ng-options="rat as rat for rat in ${mtb_up_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.mtb_up_rating"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.mtb_up_rating"></span>
             </div>
 
             ## ROCK FREE  RATING
-            <div class="form-group data half" ng-class="{ 'has-success': route.rock_free_rating}" ng-if="route.activities.indexOf('mountain_climbing') > -1 || route.activities.indexOf('rock_climbing') > -1">
+            <div class="form-group data half" ng-class="{ 'has-success': route.rock_free_rating}"
+                 ng-if="route.activities.indexOf('mountain_climbing') > -1 || route.activities.indexOf('rock_climbing') > -1">
               <label translate>rock_free_rating</label>
               <div class="input-group">
                 <select class="form-control" ng-model="route.rock_free_rating" ng-options="rat as rat for rat in ${climbing_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.rock_free_rating"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.rock_free_rating"></span>
             </div>
 
             ## ROCK EXPOSITION RATING
-            <div class="form-group data half" ng-class="{ 'has-success': route.exposition_rock_rating}" ng-if="route.activities.indexOf('rock_climbing') > -1 || route.activities.indexOf('mountain_climbing') > -1">
-              <label app-context-help context-help-title="{{'exposition_rock_rating' | translate}}" context-help-content-url="/static/partials/contexthelp/route-exposition_rock_rating.html" translate>exposition_rock_rating</label>
+            <div class="form-group data half" ng-class="{ 'has-success': route.exposition_rock_rating}"
+                 ng-if="route.activities.indexOf('rock_climbing') > -1 || route.activities.indexOf('mountain_climbing') > -1">
+              <label app-context-help context-help-title="{{'exposition_rock_rating' | translate}}"
+                     context-help-content-url="/static/partials/contexthelp/route-exposition_rock_rating.html" translate>exposition_rock_rating</label>
               <div class="input-group">
                 <select class="form-control" ng-model="route.exposition_rock_rating" ng-options="rat as rat for rat in ${exposition_rock_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.exposition_rock_rating"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.exposition_rock_rating"></span>
             </div>
 
             ## ROCK REQUIRED  RATING
-            <div class="form-group data half" ng-class="{ 'has-success': route.rock_required_rating}" ng-if="route.activities.indexOf('mountain_climbing') > -1 || route.activities.indexOf('rock_climbing') > -1">
+            <div class="form-group data half" ng-class="{ 'has-success': route.rock_required_rating}"
+                 ng-if="route.activities.indexOf('mountain_climbing') > -1
+                     || route.activities.indexOf('rock_climbing') > -1
+                         && (route.climbing_outdoor_type === 'multi' || route.climbing_outdoor_type === 'single')">
               <label translate>rock_required_rating</label>
               <div class="input-group">
                 <select class="form-control" ng-model="route.rock_required_rating" ng-options="rat as rat for rat in ${climbing_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.rock_required_rating"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.rock_required_rating"></span>
             </div>
 
             ## AID RATING
-            <div class="form-group data half" ng-class="{ 'has-success': route.aid_rating}" ng-if="route.activities.indexOf('mountain_climbing') > -1 || route.activities.indexOf('rock_climbing') > -1">
+            <div class="form-group data half" ng-class="{ 'has-success': route.aid_rating}"
+                 ng-if="route.activities.indexOf('mountain_climbing') > -1
+                     || route.activities.indexOf('rock_climbing') > -1
+                         && (route.climbing_outdoor_type === 'multi' || route.climbing_outdoor_type === 'single')">
               <label translate>aid_rating</label>
               <div class="input-group">
                 <select class="form-control" ng-model="route.aid_rating" ng-options="rat as rat for rat in ${aid_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.aid_rating"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.aid_rating"></span>
             </div>
 
             ## SKI EXPOSITION
-            <div class="form-group data half" ng-if="route.activities.indexOf('skitouring') > -1" ng-class="{ 'has-success': route.ski_exposition}">
+            <div class="form-group data half" ng-if="route.activities.indexOf('skitouring') > -1"
+                 ng-class="{ 'has-success': route.ski_exposition}">
               <label translate>ski_exposition</label>
               <div class="input-group">
                 <select class="form-control" ng-model="route.ski_exposition" ng-options="rat as mainCtrl.translate(rat) for rat in ${exposition_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-resize-vertical"></span></span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.ski_exposition"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.ski_exposition"></span>
             </div>
 
             ## HIKING MTB EXPOSITION
-            <div class="form-group data half" ng-class="{ 'has-success': route.hiking_mtb_exposition}" ng-if="route.activities.indexOf('hiking') > -1 || route.activities.indexOf('mountain_biking') > -1">
+            <div class="form-group data half" ng-class="{ 'has-success': route.hiking_mtb_exposition}"
+                 ng-if="route.activities.indexOf('hiking') > -1 || route.activities.indexOf('mountain_biking') > -1">
               <label translate>hiking_mtb_exposition</label>
               <div class="input-group">
                 <select class="form-control" ng-model="route.hiking_mtb_exposition" ng-options="rat as rat for rat in ${exposition_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-resize-vertical"></span></span>
               </div>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.hiking_mtb_exposition"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.hiking_mtb_exposition"></span>
             </div>
 
             ## SLOPE
-            <div id="slope-group" class="form-group data full" ng-class="{ 'has-success': route.locales[0].slope}"  ng-if="route.activities.indexOf('skitouring') > -1 || route.activities.indexOf('snow_ice_mixed') > -1  || route.activities.indexOf('ice_climbing') > -1 || route.activities.indexOf('snowshoeing') > -1">
+            <div id="slope-group" class="form-group data full" ng-class="{ 'has-success': route.locales[0].slope}"
+                 ng-if="route.activities.indexOf('skitouring') > -1
+                     || route.activities.indexOf('snow_ice_mixed') > -1
+                     || route.activities.indexOf('ice_climbing') > -1
+                     || route.activities.indexOf('snowshoeing') > -1">
               <label translate>slope</label>
               <input type="text" name="slope" ng-model="route.locales[0].slope" class="form-control">
             </div>
@@ -743,24 +806,32 @@ updating_doc = route_id and route_lang
             ## ROUTE HISTORY
             <div class="form-group data full">
               <label translate>route_history</label>
-              <textarea app-markdown-editor name="route_history" ng-model="route.locales[0].route_history" class="form-control" placeholder="{{'Describes here historical information about the route (date, names..) ' | translate}}"></textarea>
+              <textarea app-markdown-editor name="route_history"
+                        ng-model="route.locales[0].route_history"
+                        class="form-control"
+                        placeholder="{{'Describes here historical information about the route (date, names..) ' | translate}}"></textarea>
             </div>
 
             ## GEAR LOCALE
             <div id="gear-group" class="form-group data full">
               <label translate>specific gear</label>
-              <textarea app-markdown-editor name="gear" ng-model="route.locales[0].gear" class="form-control" placeholder="{{'Describe here the gear needed for this route' | translate}}"></textarea>
+              <textarea app-markdown-editor name="gear"
+                        ng-model="route.locales[0].gear" class="form-control"
+                        placeholder="{{'Describe here the gear needed for this route' | translate}}"></textarea>
             </div>
 
             ## GLACIER GEAR
             <div class="form-group data half" ng-class="{ 'has-success': route.glacier_gear }"
-                 ng-if="route.activities.indexOf('skitouring') > -1 || route.activities.indexOf('snow_ice_mixed') > -1
-                || route.activities.indexOf('mountain_climbing') > -1 || route.activities.indexOf('rock_climbing') > -1
-                || route.activities.indexOf('ice_climbing') > -1  || route.activities.indexOf('snowshoeing') > -1
-                || route.activities.indexOf('hiking') > -1">
+                 ng-if="route.activities.indexOf('skitouring') > -1
+                     || route.activities.indexOf('snow_ice_mixed') > -1
+                     || route.activities.indexOf('mountain_climbing') > -1
+                     || route.activities.indexOf('rock_climbing') > -1
+                     || route.activities.indexOf('ice_climbing') > -1
+                     || route.activities.indexOf('snowshoeing') > -1
+                     || route.activities.indexOf('hiking') > -1">
               <label translate>glacier_gear</label>
               <select class="form-control" ng-model="route.glacier_gear" ng-options="rat as mainCtrl.translate(rat) for rat in ${glacier_gear_types}"><option value=""></option></select>
-              <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="route.glacier_gear"></span>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.glacier_gear"></span>
             </div>
 
             ## EXTERNAL RESOURCES

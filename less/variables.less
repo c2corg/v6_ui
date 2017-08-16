@@ -8,7 +8,7 @@
 @gray: #A9A9A9;
 @darkgray: #6D6D6D;
 @C2C-orange: #FFAA45;
-@bg-color1 : #ebe4d1;
+@bg-color1 : #FBFBFB;
 @page-header-height: 48px;
 @menu-width: 250px;
 @menu-width-tablet: 50px;
@@ -24,23 +24,3 @@
 @page-main-title-height: 30px;
 @gray-bg: #CECECE80;
 @gray-border-card: #5A5E6B;
-
-.shadow(@right, @bottom, @spread, @color) {
-  -moz-box-shadow: @right @bottom @spread @color;
-  -webkit-box-shadow: @right @bottom @spread @color;
-  box-shadow: @right @bottom @spread @color;
-}
-.flex(){
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-}
-
-.calc(@prop; @val) {
-  @{prop}: calc(~'@{val}');
-  @{prop}: -moz-calc(~'@{val}');
-  @{prop}: -webkit-calc(~'@{val}');
-  @{prop}: -o-calc(~'@{val}');
-}

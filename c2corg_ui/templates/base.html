@@ -8,7 +8,7 @@ closure_library_path = settings.get('closure_library_path')
 %>\
 <%namespace file="helpers/common.html" import="show_title"/>\
 <!DOCTYPE html>
-<html ng-cloak <%block name="pagelang"></%block> ng-app="app" ng-controller="MainController as mainCtrl">
+<html ng-cloak <%block name="pagelang"></%block> ng-app="app" ng-controller="MainController as mainCtrl" itemscope itemtype="http://schema.org/Article">
   <head>
     <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Home')">${show_title('Home')}</title></%block>
     <meta charset="utf-8">
@@ -46,19 +46,20 @@ closure_library_path = settings.get('closure_library_path')
     <link rel="stylesheet" href="${request.static_path('c2corg_ui:static/build/deps.css')}">
     <link rel="stylesheet" href="${request.static_path('c2corg_ui:static/build/build.min.css')}">
     <link rel="stylesheet" href="${request.static_path('c2corg_ui:static/build/build-print.min.css')}" media="print">
+    <%block name="share"></%block>
 % endif
   </head>
   <body class="on-load loading">
     <%include file="sidemenu.html"/>
     <img src="${request.static_path('c2corg_ui:static/img/loading.gif')}" class="loading-gif">
-    <a href="${request.route_path('index')}" title="{{'Back to homepage'|translate}}" class="logo header">
-      <img src="${request.static_path('c2corg_ui:static/img/logo2.svg')}" alt="Camptocamp.org"/>
-    </a>
     <main class="page-content">
       ${self.body()}
     </main>
     <div class="page-header">
-      <button class="btn btn-default menu-open-close header"><span class="glyphicon glyphicon-align-justify"></span></button>
+      <button class="btn btn-default menu-open-close header"><span class="glyphicon glyphicon-menu-hamburger"></span></button>
+      <a href="${request.route_path('index')}" title="{{'Back to homepage'|translate}}" class="logo header">
+        <img src="${request.static_path('c2corg_ui:static/img/logo2.svg')}" alt="Camptocamp.org"/>
+      </a>
       <div class="quick-search">
         <app-simple-search app-simple-search-standard="true" dataset="wrcb"></app-simple-search>
       </div>
@@ -166,5 +167,6 @@ closure_library_path = settings.get('closure_library_path')
       ga('send','pageview',{'anonymizeIp':true});
     </script>
     <script src="https://www.google-analytics.com/analytics.js" async defer></script>
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-58abf6b4f3a680cb" async defer></script>
   </body>
 </html>

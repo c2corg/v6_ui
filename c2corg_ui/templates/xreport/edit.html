@@ -199,9 +199,11 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
           <div class="content collapse in">
 
             ## DATE
-            <div class="date form-group" ng-init="openDateStart = false">
+            <div class="date form-group">
               <label><span translate>date</span> *</label>
-              <div class="input-group" ng-model="xreport.date" uib-datepicker-popup="dd MM yyyy" is-open="openDateStart">
+              <div class="input-group" ng-init="openDateStart = false" ng-model="xreport.date"
+                   uib-datepicker-popup="dd MM yyyy" is-open="openDateStart"
+                   datepicker-options="{maxDate : editCtrl.today}">
                 <input type="text" disabled class="form-control" value="{{xreport.date | amDateFormat:'Do MMMM YYYY' }}"/>
                 <span class="input-group-btn">
                   <button type="button" class="btn btn-default" ng-click="openDateStart = true"><span class="glyphicon glyphicon-calendar"></span></button>
@@ -297,8 +299,8 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
                              'has-success': editForm.age.$valid && xreport.age }">
               <label ng-class="{ 'control-label': xreport.age && editForm.nb_impacted.$invalid }"><span translate>age</span></label>
               <div class="input-group">
-                <input type="number" name="age" min="0" max="99" ng-model="xreport.age" class="form-control"/>
-##                   <span class="input-group-addon">years</span>
+                <input class="form-control" type="number" name="age" min="0" max="99" ng-model="xreport.age"/>
+                <span class="input-group-addon">years</span>
               </div>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.age"></span>
               <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="editForm.xreport.age.$touched && editForm.xreport.age.$invalid"></span>
@@ -375,9 +377,17 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
               <textarea app-markdown-editor name="description" ng-model="xreport.locales[0].description" class="form-control description" placeholder="{{'Details of the actual outing and the incident. If you have already written up your outing, you only need to describe the incident, then link it to your outing report (after first uploading it)' | translate}}"></textarea>
             </div>
 
+            ## ANONYMOUS REPORTS
+            % if not updating_doc:
+              <div class="form-group full">
+                <label translate>anonymous</label>
+                <input type="checkbox" ng-model="xreport.anonymous">
+                <span ng-click="editCtrl.pushToArray(xreport, 'anonymous', !xreport.anonymous, $event)" translate>Check to publish the report anonymously</span>
+              </div>
+            % endif
+
             ## ASSOCIATED PARTICIPANTS
-            ## TODO better to show all users in one row, will have to convert users in controller.  ng-class="{'has-success': xreport.locales[0]['participants']}"
-            <div id="participants-group" class="form-group  full">
+            <div id="participants-group" class="form-group full" ng-hide="xreport.anonymous">
               <label translate>associated_participants</label>
 
               <section class="section associations">
@@ -491,13 +501,18 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].modifications"></span>
             </div>
 
-			
-			
             ## other_comments
             <div id="other_comments-group" class="form-group full">
               <label translate>other_comments</label>
               <textarea app-markdown-editor name="other_comments" ng-model="xreport.locales[0].other_comments" class="form-control" placeholder="{{'Briefly describe any injuries. Comments that do not fit into any other fields can be entered here.' | translate}}"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].other_comments"></span>
+            </div>
+
+            ## COMMENTS MANAGEMENT
+            <div class="form-group full">
+              <label translate>disable_comments</label>
+              <input type="checkbox" ng-model="xreport.disable_comments">
+              <span ng-click="editCtrl.pushToArray(xreport, 'disable_comments', !xreport.disable_comments, $event)" translate>If checked, comments cannot be posted or read.</span>
             </div>
 
           </div>

@@ -64,13 +64,26 @@ goog.inherits(app.XreportEditingController, app.DocumentEditingController);
 
 
 /**
-* @param {appx.Document} data
-* @return {appx.Document}
-* @override
-* @public
-*/
+ * @param {appx.Document} data
+ * @return {appx.Document}
+ * @override
+ * @public
+ */
 app.XreportEditingController.prototype.filterData = function(data) {
   data['date'] = new Date(data['date']);
+  return data;
+};
+
+
+/**
+ * @param {appx.Document} data Document attributes.
+ * @return {appx.Document}
+ * @public
+ */
+app.XreportEditingController.prototype.prepareData = function(data) {
+  if (data['anonymous']) {
+    data['associations']['users'] = [];
+  }
   return data;
 };
 

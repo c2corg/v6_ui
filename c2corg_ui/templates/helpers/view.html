@@ -12,7 +12,7 @@
       personal = is_personal(doc)
       collaborative = is_collaborative(doc) if not personal else False
   %>
-  <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
+  <div class="name-icon-value license" ng-click="detailsCtrl.toggleTab($event)">
     <h4><span translate>Licence</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
     <div class="name-icon">
        % if personal or collaborative:
@@ -151,7 +151,7 @@
     </div>
   % endif
 </%def>
-  
+
 <%def name="show_locale_title(locale, is_tab_title=False)">\
   <%
       title = get_title(locale)
@@ -606,6 +606,13 @@
       <p class="float-button-text" translate>Comments</p>
     </div>
 
+    <div class="float-button float-share-alt addthis_button hide-only-mobile"
+        addthis:ui_click="true" addthis:ui_offset_top="40" addthis:ui_offset_left="-50"
+        tooltip-placement="left" uib-tooltip="{{'Share' | translate}}">
+      <span class="glyphicon glyphicon-share"></span>
+      <p class="float-button-text" translate>Share</p>
+    </div>
+
     <div class="dropdown">
       <div class="btn-group float-more float-button dropdown-toggle" type="button" data-toggle="dropdown"
            tooltip-placement="left" uib-tooltip="{{'More' | translate}}">
@@ -615,6 +622,7 @@
       <ul class="dropdown-menu dm-icon" role="menu">
         <li><a ng-click="detailsCtrl.printPage()"><span class="glyphicon glyphicon-print"></span> <translate>Print page</translate></a></li>
         <li><a ng-click="detailsCtrl.openModal('#cotometer-dialog','md')"><span class="glyphicon glyphicon-sort-by-attributes"></span> <translate>Cotometer</translate></a></li>
+        <li class="show-only-mobile"><a class="addthis_button_compact" addthis:ui_click="true" addthis:ui_disable="true"><span class="glyphicon glyphicon-share-alt"></span> <translate>Share</translate></a></li>
         <li><a href="${request.route_path(doctype + '_history', id=doc_id, lang=doc_lang)}"><span class="glyphicon glyphicon-hourglass"></span> <translate>History</translate></a></li>
         % if other_langs:
         <li ng-click="detailsCtrl.openModal('#other-langs')"><a><span class="glyphicon glyphicon-globe"></span> <translate>View in other lang</translate></a></li>
@@ -809,6 +817,13 @@
 
           <button class="pswp__button pswp__button--close" title="{{'Close (Esc)' | translate}}"></button>
           <button class="pswp__button pswp__button--fs" title="{{'Toggle fullscreen' | translate}}"></button>
+          <button class="pswp__button pswp__button--info glyphicon glyphicon-info-sign"></button>
+          <a href="#" class="pswp__button pswp__button--edit">
+            <span class="glyphicon glyphicon-edit"></span>
+          </a>
+          <a href="#" class="pswp__button pswp__button--open">
+            <span class="glyphicon glyphicon-eye-open"></span>
+          </a>
 
           ## Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR
           ## element will get class pswp__preloader--active when preloader is running
@@ -821,10 +836,6 @@
           </div>
         </div>
 
-        <div class="pswp__caption">
-          <div class="pswp__caption__center"></div>
-        </div>
-
         <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
           <div class="pswp__share-tooltip"></div>
         </div>
@@ -835,6 +846,9 @@
         <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
         </button>
 
+        <div class="pswp__caption">
+          <div class="pswp__caption__center"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -857,11 +871,11 @@
 
 <%def name="get_image_gallery()">\
   <div class="view-details-photos col-xs-12 tab description" ng-show="detailsCtrl.documentService.document.associations.images.length > 0">
-    <div class="photos" data-slick='{"variableWidth": true, "infinite": false, "focusOnSelect": false, "lazyLoad": "progressive"}'></div>
+    <div class="photos" data-slick='{"slidesToScroll": 2, "variableWidth": true, "infinite": false, "focusOnSelect": false, "lazyLoad": "progressive"}'></div>
   </div>
 </%def>
 
-<%def name="get_comments()">\
+<%def name="get_comments(disable=False)">\
   <div class="view-details-comments col-xs-12 comments">
     <h3 class="heading comments"
         data-toggle="collapse" data-target="#discourse-comments"
@@ -870,17 +884,23 @@
       <span translate>Comments</span>
       <span class="glyphicon glyphicon-menu-down"></span>
     </h3>
-    <section id="discourse-comments" class="collapse in" ng-init="detailsCtrl.getComments()">
-      <div ng-if="detailsCtrl.documentService.document.topic_id == null" class="no-thread">
-        <p class="text-center" translate>No thread yet?</p>
-        <p class="text-center" translate
-            ng-if="!userCtrl.auth.isAuthenticated()">Log in to post the first comment</p>
-        <button class="btn gray-btn"
-            ng-if="userCtrl.auth.isAuthenticated()"
-            ng-click="detailsCtrl.createTopic()"
-            translate>Post the first comment</button>
-      </div>
-    </section>
+    % if disable:
+      <section id="discourse-comments" class="collapse in">
+        <p class="text-center" translate>Comments are disabled.</p>
+      </section>
+    % else:
+      <section id="discourse-comments" class="collapse in" ng-init="detailsCtrl.getComments()">
+        <div ng-if="detailsCtrl.documentService.document.topic_id == null" class="no-thread">
+          <p class="text-center" translate>No thread yet?</p>
+          <p class="text-center" translate
+              ng-if="!userCtrl.auth.isAuthenticated()">Log in to post the first comment</p>
+          <button class="btn gray-btn"
+              ng-if="userCtrl.auth.isAuthenticated()"
+              ng-click="detailsCtrl.createTopic()"
+              translate>Post the first comment</button>
+        </div>
+      </section>
+    % endif
   </div>
 </%def>
 
@@ -920,5 +940,26 @@
         <app-geom-download></app-geom-download>
       </p>
     % endif
+  % endif
+</%def>
+
+<%def name="generate_share_metadata(document, document_type)">\
+  ## metadata specific to google and facebook for sharing
+  % if not version:
+    % if document_type not in ['images', 'profiles'] and document.get('associations').get('images'):
+      % for image in document.get('associations').get('images'):
+        <meta property="og:image" content="${image_url + image['filename']}">
+        <meta itemprop="image" content="${image_url + image['filename']}" />
+      % endfor
+    % endif
+    % if document_type == 'images':
+      <meta property="og:image" content="${image_url + document.get('filename')}">
+    % endif
+    <meta property="og:title" content="${show_locale_title(locale, True)}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="${request.application_url + '/' + document_type + '/' + str(document.get('document_id'))}" />
+    <meta property="og:site_name" content="camptocamp.org" />
+
+    <meta itemprop="name" content="${show_locale_title(locale, True)}" />
   % endif
 </%def>

@@ -1,5 +1,5 @@
 #topoguide, #serac {
-  .calc(min-height, "100vh - 50px");
+  min-height: ~"calc(100vh - 50px)";
   background-color: rgba(229, 229, 229, 0.3);
   @media @tablet {
     margin-top: -12px;
@@ -31,7 +31,7 @@
     text-align: center;
     margin-right: 1%;
     margin-left: 1%;
-    .flex();
+    display: flex;
     flex-direction: column;
     flex-grow: 0;
     justify-content: space-around;
@@ -48,7 +48,7 @@
   }
   .wrapper {
     padding: 10px;
-    .flex();
+    display: flex;
     flex-flow: wrap;
     justify-content: center;
     border-bottom-left-radius: 5px;
@@ -171,7 +171,7 @@
       margin: auto;
       color: white;
       flex-flow: wrap row;
-      .flex();
+      display: flex;
       @media @tablet {
         width: 80%;
       }

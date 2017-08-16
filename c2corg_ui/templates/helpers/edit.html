@@ -99,9 +99,7 @@
       ## QUALITY
       <div class="full comment" ng-class="{'has-success': saveCtrl.quality}">
         <label translate>quality</label>
-        <select ng-model="saveCtrl.quality" ng-options="type as saveCtrl.langService.translate(type) for type in ${quality_types}" class="form-control">
-          <option value=""></option>
-        </select>
+        <select ng-model="saveCtrl.quality" ng-options="type as saveCtrl.langService.translate(type) for type in ${quality_types}" class="form-control"></select>
       </div>
 
       <div class="text-center">
@@ -114,8 +112,10 @@
 <%def name="show_preview_container()">\
   <div class="ng-hide">
     <div id="preview-container">
-      <div id="preview-container-content"></div>
-      <button class="btn btn-warning" type="button" ng-click="previewModalCtrl.close()" translate>Close</button>
+      <div class="preview-container-content"></div>
+      <div class="preview-container-buttons">
+        <button class="btn btn-warning" type="button" ng-click="previewModalCtrl.close()" translate>Close</button>
+      </div>
     </div>
   </div>
 </%def>

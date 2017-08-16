@@ -1,7 +1,9 @@
 import markdown
 from markdown.inlinepatterns import Pattern
 
-EXTRA_AUTOLINK_RE = r'(?<!"|>)(?<!\[url=)((https?://|www)[-\w./#?%=&]+)'
+# Only catch strings starting with http://, https:// or www
+# but not preceeded by a " or a > (link is already done)
+EXTRA_AUTOLINK_RE = r'(?<!"|>)((https?://|(?<!http://)(?<!https://)www)[-\w./#?%=&]+)'  # noqa
 
 
 class AutoLinkPattern(Pattern):

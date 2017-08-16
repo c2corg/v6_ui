@@ -1,5 +1,10 @@
-<button class="btn orange-btn btn-default no-list-btn hidden-xs card-list" ng-click="switchCtrl.toggle()" >
+<button ng-if="type != 'short'" class="btn orange-btn btn-default no-list-btn hidden-xs card-list" ng-click="switchCtrl.toggle()" >
   <span class="glyphicon glyphicon-globe"></span>
   <span translate ng-show="!switchCtrl.showList">List Format</span>
   <span translate ng-show="switchCtrl.showList">Card Format</span>
+</button>
+<button ng-if="type == 'short'" class="btn btn-default hidden-xs"
+        ng-click="switchCtrl.toggle()"
+        ng-attr-title="{{switchCtrl.showList ? 'List Format' : 'Card Format' | translate}}">
+  <span ng-class="['glyphicon', {'glyphicon-th-list': !switchCtrl.showList, 'glyphicon-th-large': switchCtrl.showList}]"></span>
 </button>
