@@ -12,8 +12,8 @@
       personal = is_personal(doc)
       collaborative = is_collaborative(doc) if not personal else False
   %>
-      <h3 translate>Licence<span class="glyphicon pull-right rotate-arrow-down"></span></h3>
-        <div class="finfo" ng-click="detailsCtrl.toggleTab($event)">
+    <h3 ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#licence"><span translate>Licence</span> <span class="glyphicon glyphicon-menu-down"></span></h3>
+        <div class="finfo" id="licence">
               <div class="ficontent">
   
         <span class="detail-text accordion">

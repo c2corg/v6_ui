@@ -152,23 +152,18 @@ other_langs, missing_langs = get_lang_lists(route, lang)
           <div class="finfo">
             <div class="ficontent">
               <div class="row">
-                <div class="col-sm-6 col-lg-3">
+               
                   ${get_route_general(route, locale)}
-                </div>
-                <div class="col-sm-6 col-lg-3">
+          
                   ${get_route_location(route)}
                   ${get_route_rating(route)}
-                </div>
-                <div class="col-sm-6 col-lg-3">
                   ${get_route_heights(route, locale)}
-                </div>
-                <div class="col-sm-6 col-lg-3">
+         
                   ${get_route_glacier_gear(route)}
                   ${get_route_access(route)}
-                </div>
-                <div class="col-sm-6 col-lg-3">
+            
                   ${get_route_orientations(route)}
-                </div>
+              
 
 
               </div>
@@ -188,9 +183,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
     <div class="row">
     <div class="col-xs-12">
       
-          <app-list-switch type="short"></app-list-switch>
-        </li>
-      </ul>
+    
       <span class="lead">
         <section>
           <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">

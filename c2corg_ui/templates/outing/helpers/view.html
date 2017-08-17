@@ -30,12 +30,9 @@
 </%def>
 
 <%def name="get_outing_general(outing, isPreview=False)">\
+    <div class="col-sm-6 col-lg-3">   
 <div class="name-icon-value general" ng-click="detailsCtrl.toggleTab($event)">
-  <h4><span translate>General</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
-  <div class="name-icon">
-    <span class="glyphicon glyphicon-info-sign"></span>
-    <p translate>General</p>
-  </div>
+  <h4><span class="glyphicon glyphicon-info-sign"></span> <span translate>General</span></h4>
   <span class="detail-text accordion">
 
     % if outing.get('activities'):
@@ -69,18 +66,17 @@
 
   </span>
 </div>
+  </div>
 </%def>
 
 <%def name="get_outing_snow(outing)">\
   % if outing.get('elevation_up_snow') or outing.get('snow_quantity') \
         or outing.get('snow_quality') or outing.get('glacier_rating') \
         or outing.get('avalanche_signs') or outing.get('elevation_down_snow'):
+      <div class="col-sm-6 col-lg-3">   
     <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
-      <h4><span translate>snow</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
-      <div class="name-icon">
-        <span class="glyphicon glyphicon-asterisk"></span>
-        <p translate>snow</p>
-      </div>
+      <h4><span class="glyphicon glyphicon-asterisk"></span> <span translate>snow</span></h4>
+ 
       <span class="detail-text accordion">
         % if outing.get('elevation_up_snow'):
         <p><span class="value-title" translate>elevation_up_snow</span>: <span class="value">${outing['elevation_up_snow']}&nbsp;m</span></p>
@@ -113,17 +109,15 @@
 
       </span>
     </div>
+  </div>
   % endif
 </%def>
 
 <%def name="get_outing_access(outing)">\
   % if outing.get('public_transport') or outing.get('access_condition') or outing.get('lift_status') or outing.get('hut_status') :
+  <div class="col-sm-6 col-lg-3"> 
     <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
-      <h4><span translate>Access</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
-      <div class="name-icon">
-        <span class="glyphicon glyphicon-road"></span>
-        <p translate>Access</p>
-      </div>
+      <h4><span class="glyphicon glyphicon-road"></span> <span translate>Access</span></h4>
       <span class="detail-text accordion">
         % if outing.get('public_transport'):
         <p>
@@ -145,17 +139,16 @@
         % endif
       </span>
     </div>
+  </div>
   % endif
 </%def>
 
 <%def name="get_outing_participants(outing, preview=False)">\
   % if outing.get('participant_count') or outing['locales'][0].get('participants') or outing['associations']['users']:
+  <div class="col-sm-6 col-lg-3">  
     <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
-      <h4><span translate>participants</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
-      <div class="name-icon">
-        <span class="icon-user"></span>
-        <p translate>participants</p>
-      </div>
+      <h4><span class="icon-user"></span> <span translate>participants</span></h4>
+
       <span class="detail-text accordion">
         % if outing.get('participant_count') :
           <p><span translate>participant_count</span>: <b>${outing['participant_count']}</b></p>
@@ -183,19 +176,16 @@
 
       </span>
     </div>
+    </div>
   % endif
 </%def>
 
 <%def name="get_outing_heights(outing)">\
   % if outing.get('elevation_min') or outing.get('elevation_max') or outing.get('elevation_access') or outing.get('height_diff_up') \
   or outing.get('height_diff_down') or outing.get('length_total'):
-
+<div class="col-sm-6 col-lg-3">  
     <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
-      <h4><span translate>heights</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
-      <div class="name-icon">
-        <span class="glyphicon glyphicon-stats"></span>
-        <p translate>heights</p>
-      </div>
+      <h4><span class="glyphicon glyphicon-stats"></span> <span translate>heights</span></h4>
       <span class="detail-text accordion">
 
         ${get_document_min_max(outing, 'elevation')}
@@ -211,6 +201,7 @@
         % endif
       </span>
     </div>
+  </div>
   %endif
 </%def>
 
@@ -224,13 +215,9 @@
           ('level_comment' in cond[0] and cond[0].get('level_comment') != '') )
   %>
   % if locale.get('weather') or locale.get('conditions') or conditions_levels_exist:
-    <div class="view-details-info col-xs-12">
-      <h3 class="heading ${'' if open_tab else 'closed '}show-phone"
-          ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#weather-conditions">
-        <span translate>weather and conditions</span><span class="glyphicon glyphicon-menu-${'down' if open_tab else 'right'}"></span>
-      </h3>
-      <section class="collapse${' in' if open_tab else ''}" id="weather-conditions">
-        <div class="lead">
+           <h3 ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#weather-conditions"><span translate>weather and conditions</span><span class="glyphicon glyphicon-menu-${'down' if open_tab else 'right'}"></span></h3>
+       <div class="finfo collapse${' in' if open_tab else ''}" id="weather-conditions" aria-expanded="true">
+<div class="ficontent noflex">
           % if locale.get('weather'):
             <div class="document-weather">
               <label translate>weather</label><br>
@@ -248,8 +235,7 @@
           % if conditions_levels_exist:
             ${create_conditions_levels_tables(cond)}
           % endif
-        </div>
-      </section>
+         </div>
     </div>
   % endif
 </%def>

@@ -100,13 +100,13 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
    */
   this.hasVerticalImg = false;
 
-  
+
   /**
    * @type {Array<Object>}
    * @export
    */
   this.comments = [];
-  
+
   /**
    * @type {string}
    * @export
@@ -228,7 +228,7 @@ app.ViewDetailsController.prototype.initHeadband = function() {
   }
   else
   {
-    
+
     this.hasVerticalImg = false;
     if(this.documentService.document.associations.images.length == 0)
     {
@@ -244,7 +244,7 @@ app.ViewDetailsController.prototype.initHeadband = function() {
     else {
       this.hasHeadband = false;
     }
-   
+
   }
 }
 
@@ -339,7 +339,7 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
 
         // <img> thumbnail element, retrieving thumbnail url (small img)
         if (linkEl.children.length > 0) {
-         // ADD  item.src = linkEl.getAttribute('href'); when WIDTH & HEIGHT will be returned
+          // ADD  item.src = linkEl.getAttribute('href'); when WIDTH & HEIGHT will be returned
           item.msrc = linkEl.children[0].getAttribute('src');
         }
         item.el = figureEl; // save link to element for getThumbBoundsFn
@@ -438,7 +438,7 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
 };
 
 
-  $('.photos').slick({slidesToScroll: 3, dots: false});
+$('.photos').slick({slidesToScroll: 3, dots: false});
 
 
 /**
@@ -446,30 +446,30 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
  */
 app.ViewDetailsController.prototype.getComments = function() {
   console.log("on get les commentaires")
-    var topic_id = this.documentService.document['topic_id'];
+  var topic_id = this.documentService.document['topic_id'];
   if (topic_id === null) {
     return;
   }
-    var document = this.documentService.document;
+  var document = this.documentService.document;
   var lang = document.lang;
-    this.api_.readCommentsForum( topic_id,lang).then(function(response) {
-      console.log("reponse")
+  this.api_.readCommentsForum( topic_id,lang).then(function(response) {
+    console.log("reponse")
     this.handleCommentsForum(response);
   }.bind(this), function() { // Error msg is shown in the api service
-    
+
     //this.busyForum = false;
     //this.errorForum = true;
-    
+
   }.bind(this));
-/*
+  /*
   //this.busyForum = true;
   this.api.readForumComments().then(function(response) {
     this.handleForum(response);
   }.bind(this), function() { // Error msg is shown in the api service
-    
+
     //this.busyForum = false;
     //this.errorForum = true;
-    
+
   }.bind(this));
 
   */
@@ -490,7 +490,7 @@ app.ViewDetailsController.prototype.getComments = function() {
   s.src = this.discourseUrl_ + 'javascripts/embed.js';
   document.getElementsByTagName('body')[0].appendChild(s);
   */
-  
+
 };
 
 /**
@@ -511,17 +511,17 @@ app.ViewDetailsController.prototype.handleCommentsForum = function(response) {
       postersAvatar[data['users'][j]['username']] = data['users'][j]['avatar_template'].replace('{size}','24');
     }
 */
-   
+
     for (var i = 0; i < data['post_stream']['posts'].length; i++) {
       console.log(data['post_stream']['posts'][i]);
       if(data['post_stream']['posts'][i]['name'] == "system")
         continue;
-      
+
       this.comments.push({'id':data['post_stream']['posts'][i]['id'], 'username':data['post_stream']['posts'][i]['username'],'avatar_template':data['post_stream']['posts'][i]['avatar_template'].replace("{size}","24"),'cooked':data['post_stream']['posts'][i]['cooked'].replace(/<a class="mention" href="/g,'<a class="mention" href="'+this.discourseUrl_),'created_at':data['post_stream']['posts'][i]['created_at'],'reply_count':data['post_stream']['posts'][i]['reply_count'],'reply_to_user':data['post_stream']['posts'][i]['reply_to_user']});
     }
-    
-     this.documentService.document['topic_slug'] = data['post_stream']['posts'][0]['topic_slug'];
- 
+
+    this.documentService.document['topic_slug'] = data['post_stream']['posts'][0]['topic_slug'];
+
   }
 };
 
@@ -558,17 +558,17 @@ app.ViewDetailsController.prototype.loadImages_ = function(initGalleries) {
   var photos = this.documentService.document['associations']['images'];
 
   for (var i in photos) {
-  
+
     var scope = this.scope_.$new(true);
     var id = 'image-' + photos[i]['document_id'];
     photos[i]['image_id'] = id;
     scope['photo'] = photos[i];
-    
+
     var element = app.utils.createImageSlide(photos[i], this.imageUrl_);
 
     $('.photos').append(element);
     this.compile_($('#' + id).contents())(scope);
-  
+
   }
 
   // prepare the embedded images for slideshow
@@ -584,7 +584,7 @@ app.ViewDetailsController.prototype.loadImages_ = function(initGalleries) {
 
     this.compile_($(el).contents())(scope);
   }.bind(this));
-  
+
 
 
 
@@ -636,9 +636,9 @@ app.ViewDetailsController.prototype.openEmbeddedImage = function(imgUrl, imgId) 
       index = i;
     }
   }
-  
+
   var pswp = new window.PhotoSwipe(pswpElement, window.PhotoSwipeUI_Default, items,
-    $.extend(this.pswpOptions, {index: index}));
+                                   $.extend(this.pswpOptions, {index: index}));
   var lang = this.lang.getLang();
   pswp.listen('beforeChange', function() {
     var id = pswp['currItem']['id'];
@@ -647,71 +647,73 @@ app.ViewDetailsController.prototype.openEmbeddedImage = function(imgUrl, imgId) 
     $('.pswp__button--edit').attr('href', '/images/edit/' + id + '/' + lang);
   });
   pswp.init();
-/**
+};
+
+  /**
  * @param {string} filename
  * @param {string} suffix
  * @return {string}
  * @export
  */
-app.ViewDetailsController.prototype.getBandeau = function(filename, suffix) {
-  return this.imageUrl_ + app.utils.createImageUrl(filename, suffix);
-};
+  app.ViewDetailsController.prototype.getBandeau = function(filename, suffix) {
+    return this.imageUrl_ + app.utils.createImageUrl(filename, suffix);
+  };
 
 
 
-/**
+  /**
  * @param {string} filename
  * @param {string} suffix
  * @return {string}
  * @export
  */
-app.ViewDetailsController.prototype.createImageUrl = function(filename, suffix) {
-  return this.imageUrl_ + app.utils.createImageUrl(filename, suffix);
-};
+  app.ViewDetailsController.prototype.createImageUrl = function(filename, suffix) {
+    return this.imageUrl_ + app.utils.createImageUrl(filename, suffix);
+  };
 
-/**
+  /**
  * get the clicked image detailed infos
  * and compile them into the slide
  * @param {number} id
  * @private
  */
-app.ViewDetailsController.prototype.getImageInfo_ = function(id) {
-  if ($('.showing-info').length > 0) {
-    $('.loading-infos').show();
-    $('.images-infos-container').hide();
+  app.ViewDetailsController.prototype.getImageInfo_ = function(id) {
+    if ($('.showing-info').length > 0) {
+      $('.loading-infos').show();
+      $('.images-infos-container').hide();
 
-    this.api_.readDocument('images', id, this.lang.getLang()).then(function(res) {
-      var imgData = res.data;
-      var scope = this.scope_.$new(true);
-      angular.extend(scope, imgData);
-      this.compile_($('.image-infos'))(scope);
-      $('.loading-infos').hide();
-      $('.images-infos-container').show();
+      this.api_.readDocument('images', id, this.lang.getLang()).then(function(res) {
+        var imgData = res.data;
+        var scope = this.scope_.$new(true);
+        angular.extend(scope, imgData);
+        this.compile_($('.image-infos'))(scope);
+        $('.loading-infos').hide();
+        $('.images-infos-container').show();
 
-    }.bind(this));
-  }
-};
+      }.bind(this));
+    }
+  };
 
 
-/**
+  /**
  * remove .showing-info if the container detects swipe/drag
  * @private
  */
-app.ViewDetailsController.prototype.watchPswpContainer_ = function() {
-  var target = $('.pswp__container')[0];
-  if (target) {
-    var observer = new MutationObserver(function() {
-      $('.showing-info').removeClass('showing-info');
-    }.bind(this));
-    observer.observe(target, {attributes: true, attributeFilter: ['style']});
-  }
-};
+  app.ViewDetailsController.prototype.watchPswpContainer_ = function() {
+    var target = $('.pswp__container')[0];
+    if (target) {
+      var observer = new MutationObserver(function() {
+        $('.showing-info').removeClass('showing-info');
+      }.bind(this));
+      observer.observe(target, {attributes: true, attributeFilter: ['style']});
+    }
+  };
 
-/**
+  /**
  * @export
  */
-app.ViewDetailsController.prototype.printPage = function() {
-  window.print();
-};
+  app.ViewDetailsController.prototype.printPage = function() {
+    window.print();
+  };
 
-app.module.controller('AppViewDetailsController', app.ViewDetailsController);
+  app.module.controller('AppViewDetailsController', app.ViewDetailsController);
