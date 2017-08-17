@@ -115,7 +115,7 @@ updating_doc = outing_id and outing_lang
 
             ## ROUTE TAKEN
             <div class="full form-group">
-              <label><span translate>Taken routes</span> *</label>
+              <label app-context-help context-help-title="{{'Taken routes' | translate}}" context-help-content-url="/static/partials/contexthelp/associate.html"><span translate>Taken routes</span> *</label>
               <h5 translate ng-show="outing.associations.routes.length == 0">Choose at least one route taken during the outing.</h5>
               <app-simple-search parent-id="outing.document_id"
                 app-select="editCtrl.documentService.pushToAssociations(doc, 'routes', true)" dataset="r"></app-simple-search>
@@ -253,7 +253,7 @@ updating_doc = outing_id and outing_lang
             ## CONDITIONS LEVELS
             <div class="full form-group"
                  ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('ice_climbing') > -1 || outing.activities.indexOf('snow_ice_mixed') > -1 ">
-              <label translate>conditions_levels</label>
+              <label app-context-help context-help-title="{{'conditions_levels' | translate}}" context-help-content-url="/static/partials/contexthelp/outing-conditions_levels.html" translate>conditions_levels</label>
               <table class="table table-striped conditions-levels" ng-if="outing.locales[0].conditions_levels[0]">
                 <thead>
                   <tr>
@@ -285,7 +285,7 @@ updating_doc = outing_id and outing_lang
 
             ## CONDITION RATING
             <div class="form-group half" ng-class="{'has-success': outing.condition_rating}" ng-init="condition_ratings = ${condition_ratings}">
-              <label translate>condition_rating</label>
+              <label app-context-help context-help-title="{{'condition_rating' | translate}}" context-help-content="{{'Global judgment on the conditions encountered on the route during the outing. This criterion can be used to filter outings. The <i>Conditions</i> field allows to fill in additional information.' | translate}}" translate>condition_rating</label>
               <div class="input-group">
                 <select class="form-control" ng-model="outing.condition_rating" ng-options="rat as mainCtrl.translate(rat) for rat in condition_ratings"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
@@ -299,7 +299,7 @@ updating_doc = outing_id and outing_lang
                              'has-error': editForm.elevation_up_snow.$touched && editForm.elevation_up_snow.$invalid,
                              'has-success': outing.elevation_up_snow }"
                  ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('ice_climbing') > -1  || outing.activities.indexOf('mountain_climbing') > -1  || outing.activities.indexOf('snow_ice_mixed') > -1">
-              <label ng-class="{ 'control-label': editForm.elevation_up_snow.$touched && editForm.elevation_up_snow.$invalid }" translate>elevation_up_snow</label>
+              <label ng-class="{ 'control-label': editForm.elevation_up_snow.$touched && editForm.elevation_up_snow.$invalid }" app-context-help context-help-title="{{'elevation_up_snow' | translate}}" context-help-content="{{'Elevation at which skis were put on, on the way up. The <i>Conditions</i> field allows to fill in additional information.' | translate}}" translate>elevation_up_snow</label>
               <div class="input-group">
                 <input type="number" min="0" max="9999" minlength="1" name="elevation_up_snow" ng-model="outing.elevation_up_snow" class="form-control" />
                 <span class="input-group-addon">m</span>
@@ -318,7 +318,7 @@ updating_doc = outing_id and outing_lang
                              'has-error': editForm.elevation_down_snow.$touched && editForm.elevation_down_snow.$invalid,
                              'has-success': outing.elevation_down_snow }"
                  ng-if="outing.activities.indexOf('snow_ice_mixed') > -1 || outing.activities.indexOf('mountain_climbing') > -1 || outing.activities.indexOf('ice_climbing') > -1  || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('skitouring') > -1">
-              <label ng-class="{ 'control-label': editForm.elevation_down_snow.$touched && editForm.elevation_down_snow.$invalid }" translate>elevation_down_snow</label>
+              <label ng-class="{ 'control-label': editForm.elevation_down_snow.$touched && editForm.elevation_down_snow.$invalid }" app-context-help context-help-title="{{'elevation_down_snow' | translate}}" context-help-content="{{'Elevation at which skis were taken off, on the way down. The <i>Conditions</i> field allows to fill in additional information.' | translate}}" translate>elevation_down_snow</label>
               <div class="input-group">
                 <input type="number" min="0" max="9999" minlength="1" name="elevation_down_snow" ng-model="outing.elevation_down_snow" class="form-control" />
                 <span class="input-group-addon">m</span>
@@ -349,7 +349,7 @@ updating_doc = outing_id and outing_lang
 
             ## GLACIER RATING
             <div class="form-group half" ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('mountain_climbing') > -1  || outing.activities.indexOf('snow_ice_mixed') > -1 ">
-              <label translate>glacier_rating</label>
+              <label app-context-help context-help-title="{{'glacier_rating' | translate}}" context-help-content="{{'Condition of the glacier followed by the route: covered and easty to cross, delicate but travel is possible, open and difficult to cross or clearly imposible to cross. The <i>Conditions</i> field allows to fill in additional information.' | translate}}" translate>glacier_rating</label>
               <div class="input-group" ng-class="{'has-success': outing.glacier_rating }">
                 <select class="form-control" ng-model="outing.glacier_rating" ng-options="rat as mainCtrl.translate(rat) for rat in ${glacier_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
@@ -375,7 +375,7 @@ updating_doc = outing_id and outing_lang
             ## AVALANCHES
             <div class="form-group  full"  ng-if="(outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1
                       || outing.activities.indexOf('ice_climbing') > -1 || outing.activities.indexOf('snow_ice_mixed') > -1) && (outing.avalanche_signs != 'no' && outing.avalanche_signs != null) ">
-              <label translate>avalanches</label>
+              <label app-context-help context-help-title="{{'conditions_levels' | translate}}" context-help-content-url="/static/partials/contexthelp/outing-avalanche_signs.html" translate>avalanches</label>
               <textarea app-markdown-editor class="form-control" ng-model="outing.locales[0]['avalanches']"></textarea>
             </div>
 
@@ -399,7 +399,7 @@ updating_doc = outing_id and outing_lang
 
             ## FREQUENTATION
             <div class="form-group half" ng-class="{'has-success': outing.frequentation}" ng-init="frequentation_types = ${frequentation_types}">
-              <label translate>frequentation</label>
+              <label app-context-help context-help-title="{{'frequentation' | translate}}" context-help-content-url="/static/partials/contexthelp/outing-frequentation.html" translate>frequentation</label>
               <select class="form-control" ng-model="outing.frequentation" ng-options="rat as mainCtrl.translate(rat) for rat in frequentation_types"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.frequentation"></span>
             </div>
@@ -509,7 +509,9 @@ updating_doc = outing_id and outing_lang
             ## ASSOCIATED PARTICIPANTS
             ## TODO better to show all users in one row, will have to convert users in controller.
             <div id="participants-group" class="form-group  full" ng-class="{'has-success': outing.locales[0]['participants']}">
-              <label translate>associated_participants</label>
+              <label app-context-help context-help-title="{{'associated_participants' | translate}}" context-help-content="{{'Registered participants can be directly associated to the outing, thus allowing them to modify the outing, add pictures, and associate other registered participants.' |translate}}" translate>associated_participants</label>
+
+
 
               <section class="section associations" ng-show="outing.associations.users.length > 0">
                 <app-simple-search parent-id="outing.document_id"
@@ -529,7 +531,7 @@ updating_doc = outing_id and outing_lang
 
             ## PARTICIPANTS
             <div id="participants-group" class="form-group full" ng-class="{'has-success': outing.locales[0]['participants']}">
-              <label translate>participants</label>
+              <label app-context-help context-help-title="{{'participants' | translate}}" context-help-content="{{'List of participants to the outing who are not registered users on the website.' |translate}}" translate>participants</label>
               <div class="input-group">
                 <input type="text"  ng-model="outing.locales[0]['participants']" class="form-control" />
                 <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
