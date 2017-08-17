@@ -81,22 +81,8 @@ other_langs, missing_langs = get_lang_lists(article, lang)
      </div>
      <div class="col-xs-12 col-md-8 col-lg-9">
        ${get_document_description(locale, 'article')}
-     </div>
-  </div>
-  <!--
-  <div class="view-details-informations col-xs-12  informations">
-    <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
-      <span translate>Information</span><span class="glyphicon glyphicon-menu-down"></span>
-    </h3>
-    <section id="document-informations" class="collapse in">
-  
-    </section>
-  </div>
--->
-  
-
-
-  % if not version:
+       
+         % if not version:
   <div class="row">
     <div class="col-xs-12"
       % if not has_associations(article):
@@ -131,6 +117,23 @@ other_langs, missing_langs = get_lang_lists(article, lang)
     ${show_float_buttons(article, lang, other_langs, missing_langs)}
   </div>
   % endif
+       
+     </div>
+  </div>
+  <!--
+  <div class="view-details-informations col-xs-12  informations">
+    <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
+      <span translate>Information</span><span class="glyphicon glyphicon-menu-down"></span>
+    </h3>
+    <section id="document-informations" class="collapse in">
+  
+    </section>
+  </div>
+-->
+  
+
+
+
 </section>
 
 <div class="text-center">
