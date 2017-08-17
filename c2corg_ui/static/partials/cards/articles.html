@@ -37,8 +37,8 @@
 </a>
 -->
 
-<article class="post" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;" ng-click="feedCtrl.openDoc(doc)">
-	<a ng-href="{{::feedCtrl.createURL(doc)}}" title="{{::feedCtrl.showTitle(doc['document']['locales'])}}" ng-click="$event.stopPropagation()" class="text-link"> 
+<article class="post" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;" ng-click="cardCtrl.openDoc(doc)">
+	<a ng-href="{{::cardCtrl.createURL(doc)}}" title="{{::feedCtrl.showTitle(doc['document']['locales'])}}" ng-click="$event.stopPropagation()" class="text-link"> 
 		<div class="parent-text">
 			<div class="text" ng-if="::doc.image1">{{::locale.title}}
 				<div class="summary" ng-if="::doc.document.type=='c'">{{::locale.title}}</div>

@@ -90,6 +90,7 @@ app.CardController = function(gettextCatalog, appUrl, imageUrl) {
    * @export
    */
   this.doc;
+  console.log(this.doc);
 
   /**
    * @type {boolean}

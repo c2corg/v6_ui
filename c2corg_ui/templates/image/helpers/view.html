@@ -8,9 +8,9 @@
       ext = '.jpg' if size and ext == '.svg' else ext
   %>
   % if link:
-    <a href="${image_url + image['filename']}">
+    <a href="${image_url + image['filename']}" target="_blank" title="${locale['title']}">
   % endif
-      <img class="image" src="${image_url + base + size + ext}" alt="${locale['title']}">
+      <img class="image full-image" src="${image_url + base + size + ext}" alt="${locale['title']}">
   % if link:
     </a>
   % endif
@@ -20,12 +20,10 @@
   <%
       base, ext = os.path.splitext(image['filename'])
   %>
-  <div class="name-icon-value general" ng-click="detailsCtrl.toggleTab($event)">
-    <h4><span translate>General</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
-    <div class="name-icon">
-      <span class="glyphicon glyphicon-info-sign"></span>
-      <p translate>General</p>
-    </div>
+  <h3 ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#general">
+    <span translate>General</span> <span class="glyphicon glyphicon-menu-down"></span></h3>
+  <div class="finfo" id="general">
+    <div class="ficontent collapse in max">
     <span class="detail-text accordion">
 
       % if image.get('activities') :
@@ -75,6 +73,7 @@
       % endif
     </span>
   </div>
+    </div>
 </%def>
 
 ## CAMERA SETTINGS
@@ -82,12 +81,14 @@
 
   % if image.get('camera_name') or image.get('fnumber') or image.get('exposure_time') or image.get('iso_speed') or \
    image.get('width') or image.get('height') or image.get('focal_length'):
-    <div class="name-icon-value general" ng-click="detailsCtrl.toggleTab($event)">
-      <h4><span translate>camera</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
-      <div class="name-icon">
-        <span class="glyphicon glyphicon-camera"></span>
-        <p translate>camera</p>
-      </div>
+
+      
+        <h3 ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#camera">
+    <span translate>camera</span> <span class="glyphicon glyphicon-menu-down"></span></h3>
+  <div class="finfo" id="camera">
+    <div class="ficontent collapse in max">
+      
+      
       <span class="detail-text accordion">
 
         % if image.get('camera_name'):
@@ -127,5 +128,6 @@
         % endif
       </span>
     </div>
+        </div>
    % endif
 </%def>

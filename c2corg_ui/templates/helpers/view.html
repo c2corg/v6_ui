@@ -971,7 +971,7 @@
     % if type == 'profile':
       <span class="glyphicon glyphicon-user"></span>&nbsp;<span x-translate>${type}</span></a>
     % else:
-      <a href="${request.route_path(type + 's_index')}${'#' if fragments else ''}${'&'.join(['='.join(fragment) for fragment in fragments])}"><span
+      <a href="${request.route_path(type + 's_index')}${'#' if fragments else ''}${'&'.join(['='.join(fragment) for fragment in fragments])}" title="${type}"><span
          class="glyphicon glyphicon-arrow-right"></span>&nbsp;<span x-translate>${type}</span></a>
     % endif
   </label>

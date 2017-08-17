@@ -1,14 +1,9 @@
 <%def name="get_article_general(article)">\
-<div class="name-icon-value general" ng-click="detailsCtrl.toggleTab($event)">
-  <h4>
-    <span translate>General</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span>
-  </h4>
-  <div class="name-icon">
-    <span class="glyphicon glyphicon-info-sign"></span>
-    <p translate>General</p>
-  </div>
-  <span class="detail-text accordion">
-
+      <h3 ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#general">
+    <span translate>General</span> <span class="glyphicon glyphicon-menu-down"></span></h3>
+                 <div class="finfo" id="general">
+              <div class="ficontent collapse in max">
+      <span class="detail-text accordion">
     % if article.get('activities'):
       <article class="value activities">
           <span translate class="value-title">activities</span><br>
@@ -43,9 +38,9 @@
     % if article.get('quality'):
       <p><span class="value-title" translate>quality</span>: <span class="value" x-translate>${article['quality']}</span></p>
     % endif
-
-    </span>
-</div>
+      </span>
+    </div>
+  </div>
 </%def>
 
 <%def name="get_article_associated_users(article)">\

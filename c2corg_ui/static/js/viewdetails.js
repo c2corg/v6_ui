@@ -327,7 +327,6 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
         title = linkEl.getAttribute('title');
         var image = new Image();
         image['src'] = linkEl.getAttribute('href');
-
         item = { // create slide object
           html: app.utils.createPhotoswipeSlideHTML(image['src'], id.split('-')[1], '#image-'),
           id: id.split('-')[1],
@@ -437,8 +436,6 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
   initPhotoSwipeFromDOM('.photos');
 };
 
-
-$('.photos').slick({slidesToScroll: 3, dots: false});
 
 
 /**

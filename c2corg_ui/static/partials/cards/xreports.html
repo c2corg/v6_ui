@@ -50,7 +50,7 @@ uib-tooltip="{{'quality'| translate}} : {{doc['quality'] | translate}}" tooltip-
 
 
 <article class="post" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;" ng-click="cardCtrl.openDoc(doc)">
-	<a ng-href="{{::feedCtrl.createURL(doc)}}" title="{{::feedCtrl.showTitle(doc['document']['locales'])}}" ng-click="$event.stopPropagation()" class="text-link"> 
+	<a ng-href="{{::cardCtrl.createURL(doc)}}" title="{{::feedCtrl.showTitle(doc['document']['locales'])}}" ng-click="$event.stopPropagation()" class="text-link"> 
 		<div class="parent-text">
 			<div class="text emptyimg">{{::locale.title}}
 				<div class="summary"><span class="value" ng-repeat="type in doc['event_type']">{{type | translate}}{{$last ? '' : ', '}}</span></div>

@@ -86,13 +86,23 @@ waypoint['doctype'] = 'waypoints'
   ${generate_share_metadata(waypoint, 'waypoints')}
 </%block>
 
-<header class="view-details-title">
-  <h1>
-    <span class="icon-${waypoint['waypoint_type']} waypoint-type" uib-tooltip="{{mainCtrl.translate('${waypoint['waypoint_type']}')}}"></span>
+  <div class="viewdoc">
+  <header class="view-title-with-bg" ng-if="detailsCtrl.hasHeadband">
+    <div class="view-image-bg" ng-style="{'background-image': 'url('+this.headBands+')'}"><div class="view-filter-bg"></div></div>
+
+    <h1 class="routes">
     <span>${locale['title']}</span>
     ${show_badge(waypoint, 'waypoint')}
-  </h1>
-</header>
+    </h1>
+  </header>
+  <header class="view-title-without-bg" ng-if="!detailsCtrl.hasHeadband">
+    <h1 class="routes">
+   <span>${locale['title']}</span>
+    ${show_badge(waypoint, 'waypoint')}
+    </h1>
+  </header>
+    
+
 
 <article class="location-static">
   ${show_areas(waypoint)}
@@ -103,54 +113,59 @@ waypoint['doctype'] = 'waypoints'
     <p ng-bind="'${round(geometry.x)}/${round(geometry.y)}' | coordinate"></p>
   % endif
 </article>
-<app-map class="view-details-map"></app-map>
+
 
 <section class="view-details-section" app-view-details  ng-class="{'row-list' : switchCtrl.showList}">
-
+  <div class="row">
+      <div class="col-xs-12 col-md-4 col-lg-3">
+        
   % if version:
     ${show_archive_data('waypoints', waypoint, locale, version)}
   % endif
-
+<app-map class="view-details-map"></app-map>
   ## IMAGES
   % if not version:
     ${get_image_gallery()}
   % endif
-
-  <div class="view-details-informations col-xs-12  informations">
-    <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
-      <span translate>Information</span><span class="glyphicon glyphicon-menu-down"></span>
-    </h3>
-    <section id="document-informations" class="collapse in">
-      ${get_waypoint_general(waypoint)}
+        
+            ${get_waypoint_maps_info(waypoint)}
+         ${get_licence(waypoint)}
+        
+    </div>
+    <div class="col-xs-12 cold-md-8 col-lg-9">
+            <section id="document-informations" class="collapse in">
+          <div class="finfo">
+            <div class="ficontent">
+              <div class="row">
+               
+             ${get_waypoint_general(waypoint)}
       ${get_waypoint_orientations(waypoint)}
       ${get_waypoint_location(waypoint, geometry4326) if geometry4326 else ''}
       ${get_waypoint_contact(waypoint)}
-      ${get_waypoint_maps_info(waypoint)}
+  
       ${get_waypoint_rating(waypoint)}
       ${get_waypoint_heights(waypoint)}
       ${get_waypoint_equipment(waypoint)}
       ${get_waypoint_style(waypoint)}
       ${get_waypoint_access(waypoint, locale)}
-      ${get_licence(waypoint)}
-    </section>
-  </div>
-  <% description_title = 'road access' if waypoint['waypoint_type'] == 'access' else 'description' %>
+              
+
+
+              </div>
+            </div>
+          </div>
+              <% description_title = 'road access' if waypoint['waypoint_type'] == 'access' else 'description' %>
   ${get_document_description(locale, 'waypoint', description_title)}
 
-  <div class="description ">
     ${get_waypoint_access_field(locale, waypoint['waypoint_type'], True)}
     ${get_waypoint_access_period(locale, waypoint['waypoint_type'], True)}
-  </div>
-
-  % if not version:
-    <div class="view-details-associations col-xs-12 associations" ng-init="a = detailsCtrl.documentService.document.associations"
-         ng-show="userCtrl.auth.isAuthenticated() || a.waypoint_children.length || a.waypoints.length">
-      <ul class="actions">
-        <li>
-          <app-list-switch type="short"></app-list-switch>
-        </li>
-      </ul>
-      <span class="lead">
+        </section>
+      
+        % if not version:
+                  <div class="row">
+    <div class="col-xs-12">
+      
+        <span class="lead">
         <section>
           <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
             <label translate>Add association</label>
@@ -160,17 +175,17 @@ waypoint['doctype'] = 'waypoints'
           ${show_associated_waypoints(waypoint, 'waypoint_children')}
         </section>
       </span>
-    </div>
-    <div class="view-details-associations col-xs-12 associations">
+      
+  
       <span class="lead">
         <section>
           ${show_associated_routes(waypoint, 'all_routes')}
         </section>
       </span>
-    </div>
+ 
 
-    <div class="view-details-associations col-xs-12 associations" ng-show="a.recent_outings.total > 0 || a.articles.length || a.books.length">
-      <span class="lead">
+   
+      <span class="lead" ng-show="a.recent_outings.total > 0 || a.articles.length || a.books.length">
         <section>
           ${show_associated_articles(waypoint)}
           ${show_associated_books(waypoint)}
@@ -178,12 +193,19 @@ waypoint['doctype'] = 'waypoints'
           ${show_associated_outings(waypoint)}
         </section>
       </span>
-    </div>
+    
 
     ${get_comments()}
 
     ${show_float_buttons(waypoint, lang, other_langs, missing_langs)}
   % endif
+    </div>
+  </div>
+
+
+
+
+
 </section>
 
 <div class="text-center">

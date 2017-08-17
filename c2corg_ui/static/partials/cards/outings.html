@@ -59,7 +59,7 @@ uib-tooltip="{{'quality' | translate}} : {{doc['quality'] | translate}}" tooltip
 		<a class="pportrait" ng-href="/profiles/{{::doc['author']['user_id']}}/{{::doc['user']['locales'][0]['lang']}}" title="{{::doc['author']['name']}}" ng-click="$event.stopPropagation()" ng-if="::doc['author']['forum_username'] != null"><img class="URgs7" ng-src="https://forum.camptocamp.org/user_avatar/forum.camptocamp.org/{{::doc['user']['forum_username']}}/36/1_1.png" alt="" width="36" height="36"></a>
 		<div class="parent-author">
 			<div class="under-author">
-				<div class="author"><a ng-href="/profiles/{{::doc['user']['document_id']}}/{{::doc['user']['locales'][0]['lang']}}" title="{{::doc['user']['name']}}" ng-click="$event.stopPropagation()">{{::doc['author']['name']}}</a> <span>{{feedCtrl.createActionLine(doc) | translate}} </span></div>
+				<div class="author"><a ng-href="/profiles/{{::doc['author']['user_id']}}/{{::doc['locales'][0]['lang']}}" title="{{::doc['author']['name']}}" ng-click="$event.stopPropagation()">{{::doc['author']['name']}}</a> <span>{{feedCtrl.createActionLine(doc) | translate}} </span></div>
 			</div>
 			<div class="parent-hour">
 				<div class="hour"><span class="d-hour">{{::doc['date_end'] | amUtc | amLocal | amDateFormat: 'DD/MM/YYYY'}}</span></div>
@@ -77,7 +77,7 @@ uib-tooltip="{{'quality' | translate}} : {{doc['quality'] | translate}}" tooltip
 		</div></a><div class="parent-img"><div class="img" ng-if="::doc.image1"><a ng-href="/images/{{::doc.image1.document_id}}/{{::doc.image1.locales[0].lang}}"><img class="imgo" ng-src="{{feedCtrl.createImageUrl(doc.image1.filename, 'MI')}}" alt="Photo"></a></div></div><div class="parent-infop">
 	</div>
 	<div class="parent-infop parent-infop-first" ng-if="::doc['areas'] != null">
-		<a ng-href="{{::cardCtrl.createURLArea(doc['areas'])}}" title="{{::cardCtrl.showArea(doc['areas'])}}" ng-click="$event.stopPropagation()">
+		<a ng-href="{{::cardCtrl.createURLArea(doc['areas'])}}" title="{{::cardCtrl.showArea(doc['areas'])}} {{::doc.activities[0]}}" ng-click="$event.stopPropagation()">
 			<div class="infop-bar">
 				<div class="parent-bubble">
 					<div class="bubble">

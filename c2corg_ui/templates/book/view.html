@@ -50,13 +50,15 @@ other_langs, missing_langs = get_lang_lists(book, lang)
 <%block name="share">
   ${generate_share_metadata(book, 'books')}
 </%block>
-
-<header class="view-details-title">
-  <h1 class="routes">
-    <span class="title">${show_locale_title(locale)}</span><br>
+  
+<div class="viewdoc">
+  <header class="view-title-without-bg">
+    <h1 class="routes">
+      <span class="title">${show_locale_title(locale)}</span><br>
     ${show_badge(book, 'book')}
-  </h1>
-</header>
+    </h1>
+  </header>
+  
 
 <section class="view-details-section" app-view-details>
 
@@ -64,27 +66,24 @@ other_langs, missing_langs = get_lang_lists(book, lang)
     ${show_archive_data('books', book, locale, version)}
   % endif
 
+    <div class="row">
+      <div class="col-xs-12 col-md-4 col-lg-3">
+         
+   
+      ${get_book_general(book)}
+    
 
+        
   ## IMAGES
   % if not version:
     ${get_image_gallery()}
   % endif
-
-  <div class="view-details-informations col-xs-12  informations">
-    <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
-      <span translate>Informations</span><span class="glyphicon glyphicon-menu-down"></span>
-    </h3>
-    <section id="document-informations" class="collapse in">
-      ${get_book_general(book)}
-      ${get_licence(book)}
-    </section>
-  </div>
-
-  <div class="description">
-    ${get_document_description(locale, 'book')}
-  </div>
-
-  % if not version:
+        
+          ${get_licence(book)}
+      </div>
+      <div class="col-xs-12 col-md-8 col-lg-9">
+        ${get_document_description(locale, 'book')}
+          % if not version:
     <div class="view-details-associations col-xs-12  associations">
       <span class="lead">
           <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
@@ -103,8 +102,14 @@ other_langs, missing_langs = get_lang_lists(book, lang)
 
     ${show_float_buttons(book, lang, other_langs, missing_langs)}
   % endif
-</section>
+      </div>
+  </div>
+  
 
+
+
+</section>
+  </div>
 <div class="text-center">
   <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);">&nbsp;<span class="glyphicon glyphicon-menu-up"></span></button>
 </div>

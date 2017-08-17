@@ -36,18 +36,27 @@
       font-size: 18px;
     }
   }
-  
+
   &.noflex {
-  display: block;
-}
+    display: block;
+  }
   &.max {
-  height: 100%;
-  padding: 15px;
-}
+    height: 100%;
+    padding: 15px;
+  }
 }
 
 .viewdoc {
-
+  app-activity-filter {
+    text-align: center;
+    .route-activities {
+      align-content: center;
+justify-content: center;
+    }
+  }
+  #associated-routes {
+    clear: both;
+  }
   .document-weather {
     margin-bottom: 10px;
   }
@@ -55,22 +64,22 @@
     align-items: baseline;
   }
 
-    .toforum {
-      text-align: center;
-      margin-top: 20px;
-    }
-  .ficontent {
-    
-    .no-thread {
+  .toforum {
     text-align: center;
+    margin-top: 20px;
+  }
+  .ficontent {
+
+    .no-thread {
+      text-align: center;
 
     }
-  
+
     .ctxt {
       width: 100%;
     }
     .fportrait { 
-          margin: 0 16px 0 0;
+      margin: 0 16px 0 0;
     }
     .ctxt {
       .parent_top {
@@ -140,6 +149,13 @@
       margin-bottom: 20px;
       margin-top: 6px;
       clear: both;
+      &.area {
+        .list-item {
+          a {
+            text-align:  center;
+          }
+        }
+      }
     }
   }
 
@@ -311,42 +327,44 @@
         padding-bottom: 6px;
         margin-top: 5px;
         cursor: pointer;
-        
-        &.route, &.article, &.book, &.image, &.outing, &.outing, &.xreport, &.waypoint {
-        background-color: @brand-info;
-        a {
-          .glyphicon {
+
+        &.route, &.article, &.book, &.image, &.outing, &.outing, &.xreport, &.waypoint, &.area {
+
+          a {
+            .glyphicon {
+              color: #fff;
+            }
             color: #fff;
+            text-decoration: none;
           }
-          color: #fff;
-          text-decoration: none;
         }
+
+        &.route {
+          background-color: @brand-info;
+        }
+        &.article {
+          background-color: @darkcyan;
+        }
+        &.book {
+          background-color: @plum;
+        }
+        &.image {
+          background-color: @darkolivegreen;
+        }
+        &.outing {
+          background-color: @indigo;
+        }
+        &.xreport {
+          background-color: @tomato;
+        }
+        &.waypoint {
+          background-color: @bright-green;
+        }
+
+
+
       }
-        
-     
-          &.article {
-        background-color: @darkcyan;
-      }
-      &.book {
-        background-color: @plum;
-      }
-      &.image {
-        background-color: @darkolivegreen;
-      }
-      &.outing {
-        background-color: @indigo;
-      }
-      &.xreport {
-        background-color: @tomato;
-      }
-      &.waypoint {
-        background-color: @bright-green;
-      }
-        
-        
-        
-      }
-      
+
     }
 
     view-details-section {
@@ -384,6 +402,21 @@
         font-size: 13px;
       }
     }
+
+
+    &.area {
+      .list-item {
+    
+          text-align:  center;
+        span {
+          display: block;
+        }
+    
+      }
+    }
+
+
+
   }
   .new-outing {
     flex-direction: column;
@@ -1067,7 +1100,7 @@ app-add-association {
     }
     .glyphicon-search {
       font-size: 1.0em;
-margin-top: 7px;
+      margin-top: 7px;
     }
     .tt-suggestion {
       border-radius: 0;
@@ -1187,6 +1220,10 @@ margin-top: 7px;
   img.image {
     max-width: 100%;
   }
+  img.image.full-image {
+    margin-bottom: 20px;  
+  }
+
   @media @phone {
     min-height:  50px;
     margin-bottom: -200px;
