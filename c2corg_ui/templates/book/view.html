@@ -84,7 +84,7 @@ other_langs, missing_langs = get_lang_lists(book, lang)
       <div class="col-xs-12 col-md-8 col-lg-9">
         ${get_document_description(locale, 'book')}
           % if not version:
-    <div class="view-details-associations col-xs-12  associations">
+ 
       <span class="lead">
           <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
             <label translate>Add association</label>
@@ -96,7 +96,7 @@ other_langs, missing_langs = get_lang_lists(book, lang)
             ${show_associated_articles(book)}
           </section>
       </span>
-    </div>
+
 
     ${get_comments()}
 
