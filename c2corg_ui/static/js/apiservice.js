@@ -405,6 +405,26 @@ app.Api.prototype.updatePreferredLanguage = function(lang) {
 
 
 /**
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.readLatestForum = function() {
+  var alerts = this.alerts_;
+
+  var config = {
+    headers: {
+      'Accept': 'application/json'
+    }
+  };
+
+  var promise = this.http_.get(this.discourseUrl_ + '/latest.json', config);
+  promise.catch(function(response) {
+    alerts.addError(response);
+  });
+  return promise;
+};
+
+
+/**
  * @param {undefined | string} token
  * @param {string} lang
  * @param {?number} userId

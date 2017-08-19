@@ -21,6 +21,7 @@ app.cardDirective = function($compile, $templateCache) {
     if (cardElementCache[doctype] !== undefined) {
       return cardElementCache[doctype];
     }
+    console.log("on ouvre: " +doctype)
     var path = '/static/partials/cards/' + doctype + '.html';
     var template = app.utils.getTemplate(path, $templateCache);
 
@@ -90,7 +91,7 @@ app.CardController = function(gettextCatalog, appUrl, imageUrl) {
    * @export
    */
   this.doc;
-  console.log(this.doc);
+  console.log(this.doc)
 
   /**
    * @type {boolean}
@@ -104,19 +105,38 @@ app.CardController = function(gettextCatalog, appUrl, imageUrl) {
    */
   this.type = app.utils.getDoctype(this.doc['type']);
 
+
   /**
    * @type {Object}
    * @export
    */
-  this.locale = this.doc.locales[0];
-  for (var i = 0, n = this.doc.locales.length; i < n; i++) {
-    var l = this.doc.locales[i];
-    if (l['lang'] === this.lang) {
-      this.locale = l;
-      break;
+
+  this.locale = {};
+
+  if(this.type === "feeds") {
+    this.locale = this.doc.document.locales[0];
+    for (var i = 0, n = this.doc.document.locales.length; i < n; i++) {
+      var l = this.doc.document.locales[i];
+      if (l['lang'] === this.lang) {
+        this.locale = l;
+        break;
+      }
+    }
+  }  else {
+    this.locale= this.doc.locales[0];
+    for (var i = 0, n = this.doc.locales.length; i < n; i++) {
+      var l = this.doc.locales[i];
+      if (l['lang'] === this.lang) {
+        this.locale = l;
+        break;
+      }
     }
   }
+
 };
+
+
+
 
 
 /**
@@ -214,10 +234,27 @@ app.CardController.prototype.createURL = function() {
   var loc = window.location.pathname;
   // Don't create links on edit and add pages.
   if (loc.indexOf('/edit/') === -1 && loc.indexOf('/add') === -1) {
-    return this.url_.buildDocumentUrl(
+    if(this.type == "feeds") {
+       return this.url_.buildDocumentUrl(
+      this.type, this.doc['document']['document_id'], this.doc['document']['locales'][0]);
+    } else {
+       return this.url_.buildDocumentUrl(
       this.type, this.doc['document_id'], this.doc['locales'][0]);
+    }
+   
   }
 };
+
+/**
+ * @param {string} filename
+ * @param {string} suffix
+ * @return {string}
+ * @export
+ */
+app.CardController.prototype.createImageUrl = function(filename, suffix) {
+  return this.imageUrl_ + app.utils.createImageUrl(filename, suffix);
+};
+
 
 /**
  * @param {Array} areas
