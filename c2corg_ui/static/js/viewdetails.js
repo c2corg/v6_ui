@@ -238,7 +238,7 @@ app.ViewDetailsController.prototype.initHeadband = function() {
       this.hasHeadband = true;
       this.scope_.headBands = this.createImageUrl(this.documentService.document.associations.images[this.widestImg_]['filename'],'BI');     
     } else if(this.documentService.document.associations.images.length > 1) {
-      this.getBestWideImg();
+      this.getBestWideImg(0);
       this.hasHeadband = true;
     }
     else {
@@ -251,37 +251,38 @@ app.ViewDetailsController.prototype.initHeadband = function() {
 
 /**
  * get the most wide image
+  * @param {number} index
  * @return string
  * @export
  */
-app.ViewDetailsController.prototype.getBestWideImg = function() {
+app.ViewDetailsController.prototype.getBestWideImg = function(index) {
+  console.log("on recupere l'image a l'index " + index)
 
-  for(var i = 0;i < this.documentService.document.associations.images.length;i++)
-  {
-    this.getMeta(i,this.createImageUrl(this.documentService.document.associations.images[i]['filename'],'BI'),function(index,w,h) {
-
-      if(this.widestCoef_ < w/h) {
-        this.widestCoef_ = w/h;
-        this.widestImg_ = index;
-
-      } 
-      console.log("coef = " +w/h +" index = " + index);
-
-      if(index ==  this.documentService.document.associations.images.length-1) {
-        console.log("on set le bandeau")
+  this.getMeta(index,this.createImageUrl(this.documentService.document.associations.images[index]['filename'],'MI'),function(index,w,h) {
 
 
+    if(this.widestCoef_ <= w/h) {
+      this.widestCoef_ = w/h;
+      this.widestImg_ = index;
 
+    } 
+
+
+    if(index == this.documentService.document.associations.images.length -1 || ( this.widestCoef_ > 1 && this.documentService.document.associations.images.length >= 10 && index > 20 )) {
         this.scope_.headBands = this.createImageUrl(this.documentService.document.associations.images[this.widestImg_]['filename'],'BI');
         this.scope_.$apply();
-      }
+    } else {
+      
+           index++;
+      this.getBestWideImg(index);
+      
+    }
 
-    }.bind(this))
-  }
+
+  }.bind(this))
+
   return {'background-image': 'url('+this.headBands+')'} 
-  //return this.headBands;
 
-  //return "bla";
 }
 
 /**
@@ -646,71 +647,71 @@ app.ViewDetailsController.prototype.openEmbeddedImage = function(imgUrl, imgId) 
   pswp.init();
 };
 
-  /**
+/**
  * @param {string} filename
  * @param {string} suffix
  * @return {string}
  * @export
  */
-  app.ViewDetailsController.prototype.getBandeau = function(filename, suffix) {
-    return this.imageUrl_ + app.utils.createImageUrl(filename, suffix);
-  };
+app.ViewDetailsController.prototype.getBandeau = function(filename, suffix) {
+  return this.imageUrl_ + app.utils.createImageUrl(filename, suffix);
+};
 
 
 
-  /**
+/**
  * @param {string} filename
  * @param {string} suffix
  * @return {string}
  * @export
  */
-  app.ViewDetailsController.prototype.createImageUrl = function(filename, suffix) {
-    return this.imageUrl_ + app.utils.createImageUrl(filename, suffix);
-  };
+app.ViewDetailsController.prototype.createImageUrl = function(filename, suffix) {
+  return this.imageUrl_ + app.utils.createImageUrl(filename, suffix);
+};
 
-  /**
+/**
  * get the clicked image detailed infos
  * and compile them into the slide
  * @param {number} id
  * @private
  */
-  app.ViewDetailsController.prototype.getImageInfo_ = function(id) {
-    if ($('.showing-info').length > 0) {
-      $('.loading-infos').show();
-      $('.images-infos-container').hide();
+app.ViewDetailsController.prototype.getImageInfo_ = function(id) {
+  if ($('.showing-info').length > 0) {
+    $('.loading-infos').show();
+    $('.images-infos-container').hide();
 
-      this.api_.readDocument('images', id, this.lang.getLang()).then(function(res) {
-        var imgData = res.data;
-        var scope = this.scope_.$new(true);
-        angular.extend(scope, imgData);
-        this.compile_($('.image-infos'))(scope);
-        $('.loading-infos').hide();
-        $('.images-infos-container').show();
+    this.api_.readDocument('images', id, this.lang.getLang()).then(function(res) {
+      var imgData = res.data;
+      var scope = this.scope_.$new(true);
+      angular.extend(scope, imgData);
+      this.compile_($('.image-infos'))(scope);
+      $('.loading-infos').hide();
+      $('.images-infos-container').show();
 
-      }.bind(this));
-    }
-  };
+    }.bind(this));
+  }
+};
 
 
-  /**
+/**
  * remove .showing-info if the container detects swipe/drag
  * @private
  */
-  app.ViewDetailsController.prototype.watchPswpContainer_ = function() {
-    var target = $('.pswp__container')[0];
-    if (target) {
-      var observer = new MutationObserver(function() {
-        $('.showing-info').removeClass('showing-info');
-      }.bind(this));
-      observer.observe(target, {attributes: true, attributeFilter: ['style']});
-    }
-  };
+app.ViewDetailsController.prototype.watchPswpContainer_ = function() {
+  var target = $('.pswp__container')[0];
+  if (target) {
+    var observer = new MutationObserver(function() {
+      $('.showing-info').removeClass('showing-info');
+    }.bind(this));
+    observer.observe(target, {attributes: true, attributeFilter: ['style']});
+  }
+};
 
-  /**
+/**
  * @export
  */
-  app.ViewDetailsController.prototype.printPage = function() {
-    window.print();
-  };
+app.ViewDetailsController.prototype.printPage = function() {
+  window.print();
+};
 
-  app.module.controller('AppViewDetailsController', app.ViewDetailsController);
+app.module.controller('AppViewDetailsController', app.ViewDetailsController);
