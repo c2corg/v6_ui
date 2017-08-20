@@ -193,8 +193,8 @@ app.FeedController.prototype.initDocumentsCol_ = function() {
   if(this.documentsCol[1] == null) {
     this.documentsCol[1] = Array();
   }
-  if(this.documentsCol[1] == null) {
-    this.documentsCol[1] = Array();
+  if(this.documentsCol[2] == null) {
+    this.documentsCol[2] = Array();
   }
 }
 /**
@@ -281,8 +281,8 @@ app.FeedController.prototype.handleFeed = function(response) {
   this.nextToken = token;
   
   this.initDocumentsCol_();
-  
-  if (window.innerWidth >= 1360) {
+  console .log("window.innerWidth  = " + window.innerWidth );
+  if (window.innerWidth >= 1360 && window.innerWidth < 2000) {
     this.nbCols_ = 2;
 
     for (var i = 0,n = data.length; i < n / 2; i++) {
@@ -296,7 +296,32 @@ app.FeedController.prototype.handleFeed = function(response) {
       this.documentsCol[1].push(data[j]);
       this.documents.push(data[j]);
     }
-  } else {
+  } else if (window.innerWidth >= 2000) {
+    this.nbCols_ = 3;
+  
+    for (var i = 0, n = Math.round(data.length/3); i < n; i++) {
+     console.log("on ajoute dans col 1")
+      data[i]['type'] = "f";
+      this.documentsCol[0].push(data[i]);
+      this.documents.push(data[i]);
+    }
+    for (var j = Math.round(data.length / 3),  o = Math.round(data.length*2/3); j < o; j++) {
+       console.log("on ajoute dans col 2")
+      data[j]['type'] = "f";
+      this.documentsCol[1].push(data[j]);
+      this.documents.push(data[j]);
+    }
+    
+     for (var k = Math.round(data.length*2 / 3); k < data.length; k++) {
+        console.log("on ajoute dans col 3")
+      data[k]['type'] = "f";
+      this.documentsCol[2].push(data[k]);
+      this.documents.push(data[k]);
+    }
+    
+  }
+  
+  else {
     this.nbCols_ = 1;
     for (var k = 0; k < data.length; k++) {
       data[k]['type'] = "f";
