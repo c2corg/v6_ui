@@ -91,7 +91,7 @@ app.CardController = function(gettextCatalog, appUrl, imageUrl) {
    * @export
    */
   this.doc;
-  console.log(this.doc)
+  //console.log(this.doc)
 
   /**
    * @type {boolean}
@@ -132,12 +132,47 @@ app.CardController = function(gettextCatalog, appUrl, imageUrl) {
       }
     }
   }
+  
+  console.log(this.locale);
 
 };
 
 
 
 
+/**
+ * Creates a HTML with action that user used on the document in the feed.
+ * Will be useful for verbs like 'created', 'updated', 'associated xx', 'went hiking with xx'.
+ * @return {string} line
+ * @export
+ */
+app.CardController.prototype.createActionLine = function() {
+  var line = '';
+
+  switch (this.doc['change_type']) {
+    case 'created':
+      line += 'has created a new ';
+      break;
+    case 'updated':
+      line += 'has updated the ';
+      break;
+    case 'added_photos':
+      line += 'has added images to ';
+      break;
+    default:
+      break;
+                            }
+  return line + this.getDocumentType(this.doc['document']['type']);
+};
+
+/**
+ * document type without 's' (singular form)
+ * @export
+ * @returns {string}
+ */
+app.CardController.prototype.getDocumentType = function(type) {
+  return app.utils.getDoctype(type).slice(0, -1);
+};
 
 /**
  * @param {string} str String to translate.
@@ -196,25 +231,14 @@ app.CardController.prototype.showOrientation = function(orientations) {
 /**
  * Show summary with the good language:
  * 1) range 2) admin limits 3) country
- * @param {?Array<Object>} locales
  * @return {string | null}
  * @export
  */
-app.CardController.prototype.showSummary = function(locales) {
+app.CardController.prototype.showSummary = function() {
 
-  for (var i = 0; i < locales.length; i++) {
-    if (locales.lang == this.lang) {
-      if (locales[i].summary) {
-        return locales[i].summary;
-      }
-    }
-  }
+ console.log("on montre le resumé! " +this.locale.summary)
 
-  if (locales[0].summary) {
-    return locales[0].summary;
-  }
-
-  return null;
+  return this.locale.summary;
 };
 
 /**
@@ -236,7 +260,7 @@ app.CardController.prototype.createURL = function() {
   if (loc.indexOf('/edit/') === -1 && loc.indexOf('/add') === -1) {
     if(this.type == "feeds") {
        return this.url_.buildDocumentUrl(
-      this.type, this.doc['document']['document_id'], this.doc['document']['locales'][0]);
+      this.doc['document']['type'], this.doc['document']['document_id'], this.doc['document']['locales'][0]);
     } else {
        return this.url_.buildDocumentUrl(
       this.type, this.doc['document_id'], this.doc['locales'][0]);

@@ -344,6 +344,7 @@ app.FeedController.prototype.handleForum = function(response) {
  * @return {string} line
  * @export
  */
+/*
 app.FeedController.prototype.createActionLine = function(doc) {
   var line = '';
 
@@ -362,7 +363,7 @@ app.FeedController.prototype.createActionLine = function(doc) {
                             }
   return line + this.getDocumentType(doc['document']['type']);
 };
-
+*/
 
 /**
  * Switches between /personal-feed and /feed
