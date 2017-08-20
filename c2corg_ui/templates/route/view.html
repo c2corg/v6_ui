@@ -15,7 +15,7 @@ from json import dumps
     show_associated_articles, show_associated_books, show_associated_xreports,
     delete_association_confirmation_modal, associated_waypoints_featurelist,
     show_badge, get_document_description, get_licence, show_merge_documents_dialog,
-    show_delete_document_dialog, generate_share_metadata" />
+    show_delete_document_dialog, generate_share_metadata, app_smartphone_info" />
 
 <%namespace file="helpers/view.html" import="get_route_location,
     get_route_glacier_gear, get_route_rating, get_route_general, get_route_heights,
@@ -130,13 +130,13 @@ other_langs, missing_langs = get_lang_lists(route, lang)
         % endif
 
         <app-map class="view-details-map"></app-map>
-
+        ${app_smartphone_info('route')}
         ## IMAGES
         % if not version:
         ${get_image_gallery()}
         % endif
 
-   
+        
         ${show_associated_outings(route)}
         
         ${get_route_associated_maps(route)}
