@@ -13,7 +13,7 @@ from json import dumps
     show_associated_books, show_associated_outings, show_associated_xreports,
     delete_association_confirmation_modal, associated_waypoints_featurelist,
     show_badge, get_document_description, get_licence, show_merge_documents_dialog,
-    show_delete_document_dialog, generate_share_metadata"/>
+    show_delete_document_dialog, generate_share_metadata, app_smartphone_info"/>
 <%namespace file="helpers/view.html" import="get_waypoint_equipment,
     get_waypoint_orientations, get_waypoint_contact, get_waypoint_style, get_waypoint_rating,
     get_waypoint_access, get_waypoint_heights, get_waypoint_location, get_waypoint_general,
@@ -123,6 +123,7 @@ waypoint['doctype'] = 'waypoints'
     ${show_archive_data('waypoints', waypoint, locale, version)}
   % endif
 <app-map class="view-details-map"></app-map>
+        ${app_smartphone_info('waypoint')}
   ## IMAGES
   % if not version:
     ${get_image_gallery()}

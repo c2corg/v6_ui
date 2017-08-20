@@ -527,42 +527,31 @@
   % endif
 </%def>
 
+<%def name="app_smartphone_info(doctype)">\
+  
+  <h3 translate>Application mobile</h3>
+      <div class="finfo">
+        <div class="ficontent collapse in max">
+          % if doctype == 'route':
+            <p>Consulter hors ligne toutes les informations de cet itinéraire sur l'application Camptocamp.</p>
+          % elif doctype == 'outing':
+          <p>Consulter et enregistrer vos sorties directement sur le terrain grâce à l'application Camptocamp.</p>
+          % elif doctype == 'waypoint':
+          <p>Consulter hors ligne toutes les informations de ce point de passage sur l'application Camptocamp.</p>
+          % else:
+          <p>Retrouver tout Camptocamp en montagne avec la nouvelle application Smartphone.</p>
+          % endif
+         <div class="row nomargin">
+            <div class="col-xs-6"><div class="gooleplay"><a href="https://play.google.com/store/apps/details?id=com.webfit.camptocamp&hl=fr" title="{{'Application' || translate}}" target="_blank"><img src="${request.static_path('c2corg_ui:static/img/app/googleplay.svg')}" alt="Google play" /></a></div></div><div class="col-xs-6"><div class="appstore"><a href="https://itunes.apple.com/fr/app/camptocamp/id1253411269" title="{{'Application' || translate}}" target="_blank"><img src="${request.static_path('c2corg_ui:static/img/app/appstore.svg')}" alt="Appstore" /></a></div></div>
+          </div>
+          
+        </div>
+  </div>
+
+</%def>
+    
 <%def name="get_document_description(locale, doctype, title=None)">\
   % if locale.get('summary') or locale.get('description'):
- <!--
-    <div class="view-details-description col-xs-12  description">
-      % if doctype not in ['article', 'profile']:
-        <h3 class="heading show-phone">
-          % if title:
-            <span x-translate>${title}</span>
-          % else:
-            <span translate>description</span>
-          % endif
-        </h3>
-      % endif
-      <span class="lead">
-        <div id="document-description" class="collapse in">
-          % if locale.get('summary'):
-            % if locale.get('description'):
-              <summary class="document-summary">
-                <label translate>summary</label><br>
-                ${show_attr(locale, 'summary')}
-              </summary>
-            % else:
-              ${show_attr(locale, 'summary')}
-            % endif
-          % endif
-
-          % if locale.get('description'):
-            ${show_attr(locale, 'description')}
-          % endif
-        </div>
-      </span>
-    </div>
--->
-  
-   
-
       % if doctype not in ['article', 'profile']:
         <h3>
           % if title:
@@ -589,8 +578,6 @@
           % endif
         </div>
   </div>
-
-  
   % endif
 </%def>
 

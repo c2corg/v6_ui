@@ -12,7 +12,7 @@ from json import dumps
     show_associated_waypoints, show_associated_routes, show_associated_articles,
     show_associated_xreports, delete_association_confirmation_modal,
     associated_images_featurelist, show_badge, get_licence, show_merge_documents_dialog,
-    show_delete_document_dialog, get_document_description, generate_share_metadata"/>
+    show_delete_document_dialog, get_document_description, generate_share_metadata, app_smartphone_info"/>
 <%namespace file="helpers/view.html" import="get_outing_snow, get_outing_access,
     get_outing_participants, get_outing_general, get_outing_heights,
     show_fulldate, get_conditions"/>
@@ -121,6 +121,7 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
       <div class="col-xs-12 col-md-4 col-lg-3">
         % if outing.get('geometry'):
   <app-map class="view-details-map"></app-map>
+        ${app_smartphone_info('outing')}
 % endif
                 ## IMAGES
   % if not version:
