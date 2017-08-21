@@ -30,7 +30,7 @@ app.module.directive('appWhatsnewFeed', app.whatsnewFeedDirective);
  */
 app.WhatsnewFeedController = function($scope, appAuthentication, appApi, appLang, imageUrl, ngeoLocation) {
 
-  goog.base(this, appAuthentication, appApi, appLang, imageUrl, ngeoLocation);
+  goog.base(this,$scope, appAuthentication, appApi, appLang, imageUrl, ngeoLocation);
 
   /**
    * @type {number}

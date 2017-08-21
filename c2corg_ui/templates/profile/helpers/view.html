@@ -1,37 +1,34 @@
 <%def name="get_profile_general(profile)">\
-  <div class="name-icon-value general" ng-click="detailsCtrl.toggleTab($event)">
+ <h3><span translate>General</span> <span class="glyphicon glyphicon-menu-right "></span></h3>
+  <div class="finfo" id="general">
+    <div class="ficontent collapse in max">
+      <span class="detail-text accordion">
+        <p>
+          <span translate class="value-title">Forum username</span>:
+          <span class="value">
+            <a href="${discourse_url}users/${profile['forum_username']}/activity">${profile['forum_username']}</a>
+          </span>
+        </p>
 
-    <h4><span translate>General</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
-    <div class="name-icon">
-      <span class="glyphicon glyphicon-info-sign"></span>
-      <p translate>General</p>
+        % if profile.get('activities'):
+          <article class="value activities">
+            <span translate class="value-title">activities</span>:<br>
+            % for activity in profile.get('activities'):
+              <span class="route-activity icon-${activity}" uib-tooltip="{{mainCtrl.translate('${activity}')}}"></span>
+            % endfor
+          </article>
+        % endif
+
+        % if profile.get('categories'):
+          <article>
+            <span translate class="value-title">categories</span>:
+            % for category in profile.get('categories'):
+              <span class="value" x-translate>${category}</span>${'' if loop.last else ', '}
+            % endfor
+          </article>
+        % endif
+      </span>
     </div>
-    <span class="detail-text accordion">
-      <p>
-        <span translate class="value-title">Forum username</span>:
-        <span class="value">
-          <a href="${discourse_url}users/${profile['forum_username']}/activity">${profile['forum_username']}</a>
-        </span>
-      </p>
-
-      % if profile.get('activities'):
-        <article class="value activities">
-          <span translate class="value-title">activities</span>:<br>
-          % for activity in profile.get('activities'):
-            <span class="route-activity icon-${activity}" uib-tooltip="{{mainCtrl.translate('${activity}')}}"></span>
-          % endfor
-        </article>
-      % endif
-
-      % if profile.get('categories'):
-        <article>
-          <span translate class="value-title">categories</span>:
-          % for category in profile.get('categories'):
-            <span class="value" x-translate>${category}</span>${'' if loop.last else ', '}
-          % endfor
-        </article>
-      % endif
-    </span>
   </div>
 </%def>
 

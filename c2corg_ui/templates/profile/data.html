@@ -1,6 +1,6 @@
 <%!
-from c2corg_ui.templates.utils import get_lang_lists
-from json import dumps
+    from c2corg_ui.templates.utils import get_lang_lists
+    from json import dumps
 %>
 <%namespace file="../helpers/view.html" import="get_image_gallery, get_document_description, show_areas, get_licence"/>
 <%namespace file="helpers/view.html" import="get_profile_general"/>
@@ -13,50 +13,60 @@ from json import dumps
   </div>
 
 % else:
+          % if geometry:
 
-  <div app-view-details>
-    % if geometry:
-
-      % if profile.get('areas'):
+        % if profile.get('areas'):
         <article class="location-static">
           ${show_areas(profile)}
         </article>
-      % endif
+        % endif
+        % endif
+  <div class="row">
+    <div class="col-xs-12 col-md-4 col-lg-3">
 
-      <div ng-init='profileFeature = {
-          "type": "FeatureCollection",
-          "properties": {},
-          "features": [{
-            "type": "Feature",
-            "geometry": {"type": "Point", "coordinates": [${geometry.x}, ${geometry.y}]},
-            "properties": {
-              "title": ${dumps(profile["name"]) | n},
-              "lang": "${locale["lang"]}",
-              "documentId": ${profile['document_id']},
-              "module": "profiles",
-              "highlight": true
-            }
-          }]
-        };'></div>
-      <app-map class="view-details-map" app-map-feature-collection="profileFeature"></app-map>
-    % endif
-    <div ng-init="detailsCtrl.documentService.setAssociations(${profile['associations']});"></div>
+      <div app-view-details>
+        % if geometry:
 
-    ${get_image_gallery()}
+    
+        <div ng-init='profileFeature = {
+                      "type": "FeatureCollection",
+                      "properties": {},
+                      "features": [{
+                      "type": "Feature",
+                      "geometry": {"type": "Point", "coordinates": [${geometry.x}, ${geometry.y}]},
+                      "properties": {
+                      "title": ${dumps(profile["name"]) | n},
+                      "lang": "${locale["lang"]}",
+                      "documentId": ${profile['document_id']},
+                                                           "module": "profiles",
+                                                           "highlight": true
+                                                           }
+                                                           }]
+                                                           };'></div>
+        <app-map class="view-details-map" app-map-feature-collection="profileFeature"></app-map>
+        % endif
+        <div ng-init="detailsCtrl.documentService.setAssociations(${profile['associations']});"></div>
 
-    <div class="view-details-informations col-xs-12  informations">
-      <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
-        <span translate>Informations</span><span class="glyphicon glyphicon-menu-down"></span>
-      </h3>
-      <section id="document-informations" class="collapse in">
-        ${get_profile_general(profile)}
-        ${get_licence(profile)}
-      </section>
+        ${get_image_gallery()}
+
+
+   
+    
+            ${get_profile_general(profile)}
+            ${get_licence(profile)}
+      
+   
+
+        ${get_document_description(locale, 'profile')}
+
+
+
+      </div>
+
     </div>
 
-    ${get_document_description(locale, 'profile')}
-
-    <app-feed app-feed-profile="${profile['document_id']}" id="feed"></app-feed>
-
+    <div clas="col-xs-12 col-md-8 col-lg-3">
+      <app-feed app-feed-profile="${profile['document_id']}" id="feed"></app-feed>
+    </div>
   </div>
 % endif

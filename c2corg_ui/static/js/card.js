@@ -21,7 +21,7 @@ app.cardDirective = function($compile, $templateCache) {
     if (cardElementCache[doctype] !== undefined) {
       return cardElementCache[doctype];
     }
-    console.log("on ouvre: " +doctype)
+   
     var path = '/static/partials/cards/' + doctype + '.html';
     var template = app.utils.getTemplate(path, $templateCache);
 
@@ -133,7 +133,7 @@ app.CardController = function(gettextCatalog, appUrl, imageUrl) {
     }
   }
   
-  console.log(this.locale);
+
 
 };
 
@@ -228,18 +228,6 @@ app.CardController.prototype.showOrientation = function(orientations) {
   return str;
 };
 
-/**
- * Show summary with the good language:
- * 1) range 2) admin limits 3) country
- * @return {string | null}
- * @export
- */
-app.CardController.prototype.showSummary = function() {
-
- console.log("on montre le resumé! " +this.locale.summary)
-
-  return this.locale.summary;
-};
 
 /**
  * Create redirection to the document page
