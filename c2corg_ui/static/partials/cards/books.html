@@ -1,45 +1,3 @@
-<!--
-<a ng-href="{{cardCtrl.createURL()}}" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;">
-  <div class="list-item-info">
-
-    <div class="list-item-title-lang">
-      <span class="list-item-title">{{::locale.title}}</span>
-      <span class="list-item-lang" ng-if="cardCtrl.lang != locale.lang">({{::locale.lang}})</span>
-    </div>
-
-    <div class="article-categories">
-      <span ng-repeat="book_type in ::doc['book_types']" class="value book-type">{{book_type | translate}}{{$last ? '' : ', '}}</span>
-    </div>
-
-    <div class="activities flex wrap-row margin-t-sm">
-      <span ng-repeat="activity in ::doc.activities | limitTo: 4"  class="activity icon-{{::activity}}"
-            uib-tooltip="{{cardCtrl.translate(activity)}}" tooltip-append-to-body="true"></span>
-
-      <span class="flex flexend-align show-more-activities"
-            ng-if="doc.activities.length > 4 && !cardCtrl.remainingActivities"
-            ng-click="$event.preventDefault(); cardCtrl.remainingActivities = true">
-        ...(+ {{::doc.activities.length - 4}})
-      </span>
-
-      <span ng-if="cardCtrl.remainingActivities" ng-repeat="activity in ::doc.activities | limitTo: (4 - doc.activities.length)"
-            class="activity icon-{{::activity}}" uib-tooltip="{{cardCtrl.translate(activity)}}" tooltip-append-to-body="true">
-      </span>
-    </div>
-
-    <div class="quality" ng-if="::doc['quality']"
-         uib-tooltip="{{'quality'| translate}} : {{doc['quality'] | translate}}" tooltip-append-to-body="true">
-      <span class="quality-{{::doc['quality']}}"></span>
-    </div>
-
-    <div class="author margin-t-sm" ng-if="::doc['author']">
-      <span class="glyphicon glyphicon-pencil"></span>
-      <span ng-if="::doc['author']" class="value">{{::doc['author']}}</span>
-    </div>
-
-  </div>
-</a>
--->
-
 <article class="post" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;" ng-click="cardCtrl.openDoc(doc)">
 	<a ng-href="{{cardCtrl.createURL()}}" title="{{::locale.title}}" ng-click="$event.stopPropagation()" class="text-link"> 
 		<div class="parent-text">
@@ -49,7 +7,6 @@
 		</div></a><div class="parent-img"><div class="img" ng-if="::doc.image1"><a ng-href="/images/{{::doc.image1.document_id}}/{{::doc.image1.locales[0].lang}}"><img class="imgo" ng-src="{{feedCtrl.createImageUrl(doc.image1.filename, 'MI')}}" alt="Photo"></a></div></div><div class="parent-infop">
 	</div>
 	<div class="parent-infop parent-infop-first">
-
 			<div class="infop-bar">
 				<div class="parent-bubble">
 					<div class="bubble">
@@ -66,7 +23,6 @@
 				</div>
 			</div>
 	</div>
-
 	<div class="parent-infop">
 		<div class="infop-bar">
 			<div class="parent-activity large">
@@ -80,7 +36,6 @@
 			</div>
 			<div class="grow">
 			</div>
-			
 			<div class="parent-bubble"><div class="bubble bquality" ng-if="::doc['quality']">
 				<a class="link" uib-tooltip="{{doc['quality'] | translate}}" tooltip-append-to-body="true">
 					<span class="quality-{{::doc['quality']}}"></span>

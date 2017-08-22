@@ -21,7 +21,7 @@ app.cardDirective = function($compile, $templateCache) {
     if (cardElementCache[doctype] !== undefined) {
       return cardElementCache[doctype];
     }
-   
+
     var path = '/static/partials/cards/' + doctype + '.html';
     var template = app.utils.getTemplate(path, $templateCache);
 
@@ -99,6 +99,8 @@ app.CardController = function(gettextCatalog, appUrl, imageUrl) {
    */
   this.remainingActivities = false;
 
+
+
   /**
    * @type {string}
    * @public
@@ -132,7 +134,18 @@ app.CardController = function(gettextCatalog, appUrl, imageUrl) {
       }
     }
   }
-  
+
+  /**
+   * @type {Object}
+   * @export
+   */
+  this.mainImageFeed = null;
+  if(this.type == "feeds") {
+    if(this.doc['image1'] !== null) {
+      this.mainImageFeed = this.doc['image1'];
+    }
+
+  }
 
 
 };
@@ -161,7 +174,7 @@ app.CardController.prototype.createActionLine = function() {
       break;
     default:
       break;
-                            }
+                                 }
   return line + this.getDocumentType(this.doc['document']['type']);
 };
 
@@ -247,13 +260,13 @@ app.CardController.prototype.createURL = function() {
   // Don't create links on edit and add pages.
   if (loc.indexOf('/edit/') === -1 && loc.indexOf('/add') === -1) {
     if(this.type == "feeds") {
-       return this.url_.buildDocumentUrl(
-      this.doc['document']['type'], this.doc['document']['document_id'], this.doc['document']['locales'][0]);
+      return this.url_.buildDocumentUrl(
+        this.doc['document']['type'], this.doc['document']['document_id'], this.doc['document']['locales'][0]);
     } else {
-       return this.url_.buildDocumentUrl(
-      this.type, this.doc['document_id'], this.doc['locales'][0]);
+      return this.url_.buildDocumentUrl(
+        this.type, this.doc['document_id'], this.doc['locales'][0]);
     }
-   
+
   }
 };
 
@@ -337,12 +350,28 @@ app.CardController.prototype.getGlobalRatings = function() {
 
 
 /**
+ * change big image in card
+ * @param {Object} img
+ * @export
+ */
+app.CardController.prototype.clickThumb= function(img) {
+  if(img !== null) {
+    this.mainImageFeed = img;
+  }
+}
+
+/**
  * Based on mako functions in helpers/view.html and route/detailed_route_attributes.html
  * @export
  * @return {Object} ratings
  */
 app.CardController.prototype.getFullRatings = function() {
-  var doc = this.doc;
+  var doc = {}
+  if(this.type == "feeds") {
+    doc = this.doc['document'];
+  } else {
+    doc = this.doc;
+  }
   var ratings = {};
   var fullRatings = {};
 
@@ -380,6 +409,7 @@ app.CardController.prototype.getFullRatings = function() {
       fullRatings[rating] = ratings[rating];
     }
   });
+
   return fullRatings[Object.keys(fullRatings)[0]] ? fullRatings : null;
 };
 

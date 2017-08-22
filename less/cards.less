@@ -21,15 +21,57 @@
 
   cursor:pointer;
 
+  &.card-outing {
+    .infoa {
+      display: none;
+    }
+  }
+
+  &.card-article {
+    height: 175px;
+    .title {
+
+      white-space: normal;
+    }
+  }
+
   .value {
     color: #777;
-    
-      font-weight: normal;
+
+    font-weight: normal;
   }
-  .parent-infop.inlist {
-    display: none;
+  .parent-infop {
+    &.inlist {
+      display:none;
+    }
+
+    .d-hour {
+      font-size: 13px;
+    }
 
   }
+  .parent-img-gal {
+    display: flex;
+    margin-top: 1px;
+    .gal {
+      width: 33.33%;
+      height: 100px;
+      background: #ccc;
+      &.centerg {
+        margin: 0 1px;
+      }
+      .image {
+        height: 100px;
+        width: 100%;
+        display: block;
+        background-size: cover;
+        background-position: center center;
+      }
+
+    }
+  }
+
+
 }
 .post.route {
   height: 154px;
@@ -44,29 +86,40 @@
 
   .row-list {
 
-    .post.route .parent-infop.large {
-      /*height: auto;*/
-    }
+
+
+    .outings {}
 
     .post.route {
       height: auto;
     }
     .list-item {
       margin-top: 0px;
-      
+
       a.text-link {
         width: 40%;
       }
     }
+
+
+
     .post {
       display: flex;
       justify-content: space-between;
-      
-          box-shadow: none;
-    margin-bottom: 0;
-    border-bottom: 1px solid rgba(0,0,0,.12);
-    padding: 15px;
-      
+
+      box-shadow: none;
+      margin-bottom: 0;
+      border-bottom: 1px solid rgba(0,0,0,.12);
+      padding: 8px;
+
+      &.card-outing {
+        .inlist {
+          display: none;
+        }
+        .infoa {
+          display: flex;
+        }
+      }
       .parent-text { 
         margin: 9px 0 0 10px;
         .text {
@@ -143,6 +196,7 @@
         }
 
       }
+
       .outings .parent-infop {
         display: none;
       }
@@ -604,6 +658,7 @@ textarea {
   flex-wrap: nowrap;
   box-pack: center;
   white-space: nowrap;
+  height: 36px;
   /*
   -webkit-justify-content: center;
   justify-content: center;
@@ -662,10 +717,10 @@ textarea {
 .post .parent-infop.parent-infop-first .parent-bubble .bubble {
   height: 24px;
   width: 36px;
- 
+
 }
 .post .parent-infop.parent-infop-first .parent-bubble  {
- margin: 0px;
+  margin: 0px;
 }
 
 .post .parent-infop .parent-bubble
@@ -864,7 +919,7 @@ textarea {
   color: rgba(0,0,0,0.87);
 }
 .cotationbox {
- /* max-width: 120px;*/
+  /* max-width: 120px;*/
   overflow: hidden;
   max-height: 36px;
   word-wrap: break-word;
@@ -911,7 +966,7 @@ textarea {
   .route {
     height: auto;
   }
-  
+
   .post .parent-infop .infop-bar {
     flex-wrap:wrap;
     flex-flow: row wrap;

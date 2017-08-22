@@ -238,7 +238,7 @@ from c2corg_ui.templates.utils import get_route_gear_articles, format_length
   % if route.get('glacier_gear') and route.get('glacier_gear') != 'no':
   <div class="col-sm-6 col-lg-3">    
     <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
-      <h4><span class="icon-glacier"></span><span translate>gear</span> <span class="glyphicon glyphicon-menu-down"></span></h4>
+      <h4><span class="icon-glacier"></span> <span translate>gear</span> <span class="glyphicon glyphicon-menu-down"></span></h4>
       <span class="detail-text accordion" id="glacier-gear">
         <span translate class="value-title">glacier_gear</span>:
         <span class="value" x-translate>${route.get('glacier_gear')}</span>

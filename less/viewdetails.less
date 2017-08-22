@@ -27,6 +27,9 @@
       margin: 0px;
     }
   }
+  h3,p {
+    clear:none;
+  }
 }
 
 .ficontent {
@@ -143,11 +146,7 @@
     font-size: 1.0em;
   }
 
-  #associated-outings  {
-    .list-item.outings {
-      margin-right: 0px;
-    }
-  }
+
 
   .glyphicon-menu-down{
     margin-left: 10px;
@@ -215,12 +214,13 @@
     height: 110px;
   }
   .ficontent, .fpcontent {
-    h4 {
-
+    h3 {
+clear: none;
     }
   }
   .value{
     color: #387ef5;
+    word-wrap: break-word;
   }
   .value-title {
     font-weight: normal;
@@ -270,7 +270,17 @@ border-bottom: none;
     }
     figure {
       width: 33.33%;
+        @media @tablet  {
+      width: 50%;
     }
+    
+    @media @desktop {
+      width: 50%;
+    }
+    }
+    
+  
+    
     .fullimg {
       width: 100%;
     }

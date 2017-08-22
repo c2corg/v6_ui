@@ -378,6 +378,7 @@
 
       </span>
     </div>
+  </div>
   % endif
 </%def>
 
@@ -397,7 +398,7 @@
 
 <%def name="get_waypoint_access_period(locale, waypoint_type, open_tab=False)">\
   % if locale.get('access_period'):
-      <h3 class="pull-left show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-routes">
+      <h3 ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-routes">
      % if waypoint_type in ['hut', 'gite', 'camp_site']:
           <span translate>opening_periods</span>
         % elif waypoint_type == 'local_product':
@@ -413,9 +414,9 @@
      <div class="finfo"  class="collapse${' in' if open_tab else ''}" id="access_period" aria-expanded="true">
               <div class="ficontent collapse in max">
     
-        <div class="lead">
+
           ${show_attr(locale, 'access_period')}
-        </div>
+   
     </div>
   </div>
   % endif

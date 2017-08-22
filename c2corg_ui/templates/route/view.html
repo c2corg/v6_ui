@@ -137,7 +137,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
         % endif
 
         
-        ${show_associated_outings(route)}
+      
         
         ${get_route_associated_maps(route)}
   
@@ -192,6 +192,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
           </div>
           ${show_associated_waypoints(route)}
           ${show_associated_routes(route)}
+          ${show_associated_outings(route)}
           ${show_associated_articles(route)}
           ${show_associated_books(route)}
           ${show_associated_xreports(route)}

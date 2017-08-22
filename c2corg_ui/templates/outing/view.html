@@ -135,21 +135,21 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
            <div class="finfo">
             <div class="ficontent">
               <div class="row">
-                   ${get_outing_general(outing)}
-              ${get_outing_heights(outing)}
-                 ${get_outing_access(outing)}
-                ${get_outing_snow(outing)}
-                          % if not version:
-                        ${get_outing_participants(outing)}
-                      % endif
+                  ${get_outing_general(outing)}
+                  ${get_outing_heights(outing)}
+                  ${get_outing_access(outing)}
+                  ${get_outing_snow(outing)}
+                  % if not version:
+                    ${get_outing_participants(outing)}
+                  % endif
                 </div>
 
             </div>
           </div>
          % if version:
-    ${show_archive_data('outings', outing, locale, version)}
-  % endif
-          ${get_document_locale_text(locale, 'route_description', True)}
+          ${show_archive_data('outings', outing, locale, version)}
+        % endif
+        ${get_document_locale_text(locale, 'route_description', True)}
         ${get_conditions(locale, True)}
         ${get_document_locale_text(locale, 'avalanches', True)}
         ${get_document_locale_text(locale, 'timing', True)}
