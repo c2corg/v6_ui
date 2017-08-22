@@ -583,7 +583,7 @@
   % if text in locale and locale[text]:
     <h3  class="${'' if open_tab else 'closed '}show-phone"  ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#${text}"><span x-translate>${title if title else text}</span><span class="glyphicon glyphicon-menu-${'down' if open_tab else 'right'}"></span></h3>
       <div class="finfo collapse${' in' if open_tab else ''}" id="${text}" aria-expanded="true">
-              <div class="ficontent max">
+              <div class="ficontent max noflex">
                 ${show_attr(locale, text)}
             </div>
       </div>
