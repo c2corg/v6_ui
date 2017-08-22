@@ -135,17 +135,7 @@ app.CardController = function(gettextCatalog, appUrl, imageUrl) {
     }
   }
 
-  /**
-   * @type {Object}
-   * @export
-   */
-  this.mainImageFeed = null;
-  if(this.type == "feeds") {
-    if(this.doc['image1'] !== null) {
-      this.mainImageFeed = this.doc['image1'];
-    }
 
-  }
 
 
 };
@@ -349,16 +339,7 @@ app.CardController.prototype.getGlobalRatings = function() {
 };
 
 
-/**
- * change big image in card
- * @param {Object} img
- * @export
- */
-app.CardController.prototype.clickThumb= function(img) {
-  if(img !== null) {
-    this.mainImageFeed = img;
-  }
-}
+
 
 /**
  * Based on mako functions in helpers/view.html and route/detailed_route_attributes.html

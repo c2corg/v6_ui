@@ -53,22 +53,32 @@
   .parent-img-gal {
     display: flex;
     margin-top: 1px;
-    .gal {
+    .gal-3,.gal-2 {
       width: 33.33%;
-      height: 100px;
       background: #ccc;
+      &.gal-2-first {
+       margin-right: 1px; 
+      }
       &.centerg {
         margin: 0 1px;
       }
       .image {
-        height: 100px;
+
         width: 100%;
         display: block;
         background-size: cover;
         background-position: center center;
       }
+      
+      .imgo {
+        width: 100%;
+      }
 
     }
+    .gal-2 {
+      width: 50%;
+    }
+    
   }
 
 

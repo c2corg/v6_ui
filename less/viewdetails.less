@@ -55,7 +55,9 @@
   background: #f1f1f1;
 }
 .viewdoc {
-  
+  .emoji {
+    width: 20px;
+  }
   app-feed {
     .feed-cr {
     display: none;
@@ -595,8 +597,12 @@ border-bottom: none;
     .route-activity, .waypoint-type {
       color: @C2C-orange;
     }
+    @media @desktop {
+      font-size: 2.8em;
+    }
+    
     @media @big {
-      font-size: 4em;
+      font-size: 3em;
     }
     @media @phone {
       font-size: 2em;

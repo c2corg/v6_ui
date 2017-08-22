@@ -111,7 +111,7 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
    * @type {string}
    * @export
    */
-  this.headBands = "";
+  this.headBands = '';
 
   /**
    * @type {number}
@@ -216,10 +216,10 @@ app.ViewDetailsController.prototype.toggleTab = function(tab) {
 app.ViewDetailsController.prototype.initHeadband = function() {
 
 
-  if(this.documentService.document.activities.indexOf('rock_climbing') > -1 || this.documentService.document.activities.indexOf('mountain_climbing') > -1 || this.documentService.document.activities.indexOf('ice_climbing') > -1 ) {
+  if (this.documentService.document.activities.indexOf('rock_climbing') > -1 || this.documentService.document.activities.indexOf('mountain_climbing') > -1 || this.documentService.document.activities.indexOf('ice_climbing') > -1 ) {
 
     this.hasHeadband = false;
-    if(this.documentService.document.associations.images.length == 0) {
+    if (this.documentService.document.associations.images.length == 0) {
       this.hasVerticalImg = false;
     }
     else{
@@ -230,14 +230,14 @@ app.ViewDetailsController.prototype.initHeadband = function() {
   {
 
     this.hasVerticalImg = false;
-    if(this.documentService.document.associations.images.length == 0)
+    if (this.documentService.document.associations.images.length == 0)
     {
       this.hasHeadband = false;
-    } else if(this.documentService.document.associations.images.length == 1)
+    } else if (this.documentService.document.associations.images.length == 1)
     {
       this.hasHeadband = true;
       this.scope_.headBands = this.createImageUrl(this.documentService.document.associations.images[this.widestImg_]['filename'],'BI');     
-    } else if(this.documentService.document.associations.images.length > 1) {
+    } else if (this.documentService.document.associations.images.length > 1) {
       this.getBestWideImg(0);
       this.hasHeadband = true;
     }
@@ -261,14 +261,14 @@ app.ViewDetailsController.prototype.getBestWideImg = function(index) {
   this.getMeta(index,this.createImageUrl(this.documentService.document.associations.images[index]['filename'],'MI'),function(index,w,h) {
 
 
-    if(this.widestCoef_ <= w/h) {
+    if (this.widestCoef_ <= w/h) {
       this.widestCoef_ = w/h;
       this.widestImg_ = index;
 
     } 
 
 
-    if(index == this.documentService.document.associations.images.length -1 || ( this.widestCoef_ > 1 && this.documentService.document.associations.images.length >= 10 && index > 20 )) {
+    if (index == this.documentService.document.associations.images.length -1 || ( this.widestCoef_ > 1 && this.documentService.document.associations.images.length >= 10 && index > 20 )) {
         this.scope_.headBands = this.createImageUrl(this.documentService.document.associations.images[this.widestImg_]['filename'],'BI');
         this.scope_.$apply();
     } else {
@@ -497,29 +497,17 @@ app.ViewDetailsController.prototype.getComments = function() {
  * @public
  */
 app.ViewDetailsController.prototype.handleCommentsForum = function(response) {
-  /*
-  this.errorForum = false;
-  this.busyForum = false;
-  */
   var data = response['data'];
   var postersAvatar = {};
   if (data['post_stream'] !== undefined) {
-    /*
-    for (var j = 0; j < data['post_stream'].length; j++) {
-      postersAvatar[data['users'][j]['username']] = data['users'][j]['avatar_template'].replace('{size}','24');
-    }
-*/
-
     for (var i = 0; i < data['post_stream']['posts'].length; i++) {
       console.log(data['post_stream']['posts'][i]);
-      if(data['post_stream']['posts'][i]['name'] == "system")
+      if (data['post_stream']['posts'][i]['name'] == "system")
         continue;
 
       this.comments.push({'id':data['post_stream']['posts'][i]['id'], 'username':data['post_stream']['posts'][i]['username'],'avatar_template':data['post_stream']['posts'][i]['avatar_template'].replace("{size}","24"),'cooked':data['post_stream']['posts'][i]['cooked'].replace(/<a class="mention" href="/g,'<a class="mention" href="'+this.discourseUrl_),'created_at':data['post_stream']['posts'][i]['created_at'],'reply_count':data['post_stream']['posts'][i]['reply_count'],'reply_to_user':data['post_stream']['posts'][i]['reply_to_user']});
     }
-
     this.documentService.document['topic_slug'] = data['post_stream']['posts'][0]['topic_slug'];
-
   }
 };
 

@@ -444,7 +444,7 @@ app.MapController.prototype.createStyleFunction_ = function() {
           return this.createLineStyle_(feature, resolution);
         default:
           return null;
-                    }
+      }
     }).bind(this);
 };
 
@@ -482,7 +482,7 @@ app.MapController.prototype.createPointStyle_ = function(feature, resolution) {
     default:
       path = '/documents/' + type + '.svg';
       break;
-                }
+  }
 
   var key = type + scale + '_' + id;
   var styles = this.styleCache[key];
@@ -618,7 +618,7 @@ app.MapController.prototype.getIconColor_ = function(feature) {
         // Usual icon orange
         color = '#FFAA45';
         break;
-                                           }
+    }
   }
   return color;
 };
@@ -976,24 +976,18 @@ app.MapController.prototype.simplifyFeature_ = function(feature) {
 };
 
 
-
 /**
  * @export
  */
 app.MapController.prototype.toggleFullscreen = function() {
-
-
   this.isFullscreen = !this.isFullscreen;
-
   this.scope_.isFullscreen = this.isFullscreen;
   setTimeout(function() {
     this.scope_.$apply();
-
     this.map.renderSync();
     this.map.updateSize();
   }.bind(this),0);
 
-  console.log(this.isFullscreen);
 };
 
 /**
