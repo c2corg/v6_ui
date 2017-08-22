@@ -19,7 +19,7 @@
         <div class="summary {{::cardCtrl.document.type}}">{{::cardCtrl.locale.summary}}</div>
       </div>
     </div></a>
-  <div class="parent-img"><div class="img" ng-if="::doc.image1 && !doc.image2"><a ng-href="/images/{{::cardCtrl.mainImageFeed.document_id}}/{{::cardCtrl.mainImageFeed.locales[0].lang}}"><img class="imgo" ng-src="{{cardCtrl.createImageUrl(cardCtrl.mainImageFeed.filename, 'MI')}}" alt="Photo"></a></div></div>
+  <div class="parent-img"><div class="img" ng-if="::doc.image1 && !doc.image2"><a ng-href="/images/{{::doc.image1.document_id}}/{{::doc.image1.locales[0].lang}}"><img class="imgo" ng-src="{{cardCtrl.createImageUrl(doc.image1.filename, 'MI')}}" alt="Photo"></a></div></div>
 
   <div class="parent-img-gal" ng-if="::doc.image1 && doc.image2 && !doc.image3">
     <div class="gal-2 gal-2-first" ng-click="cardCtrl.clickThumb(doc.image1); $event.stopPropagation()"><a ng-href="/images/{{::doc.image1.document_id}}/{{::doc.image1.locales[0].lang}}"><img class="imgo" ng-src="{{cardCtrl.createImageUrl(doc.image1.filename, 'SI')}}" alt="Photo"></a></div>
