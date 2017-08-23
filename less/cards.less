@@ -21,6 +21,7 @@
 
   cursor:pointer;
 
+
   &.card-outing {
     .infoa {
       display: none;
@@ -40,7 +41,17 @@
 
     font-weight: normal;
   }
+
+  .parent-text {
+    font-size: 13px;
+    line-height: 20px;
+    margin: 0 10px 10px;
+    word-wrap: break-word;
+  }
+
   .parent-infop {
+    margin: 0px 10px;
+
     &.inlist {
       display:none;
     }
@@ -426,12 +437,7 @@
   margin-top: 8px;
 }
 
-.post .parent-text {
-  font-size: 14px;
-  line-height: 20px;
-  margin: 0 16px 16px;
-  word-wrap: break-word;
-}
+
 .post .parent-text .text {
   float: right;
   width: 100%;
@@ -624,9 +630,6 @@ textarea {
   width: 100%;
   border-bottom: 1px solid #ebebeb;
   height: 10px;
-}
-.post .parent-infop {
-  margin: 0px 16px;
 }
 
 .post .cards-img {
