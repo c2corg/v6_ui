@@ -199,16 +199,25 @@ app.CardController.prototype.showArea = function(areas) {
     // the areas often come in different orders within 3 area objects.
     var orderedAreas = {'range': [], 'admin_limits': [], 'country': []};
     var type;
-
+    
+    console.log(areas);
+    
     for (var i = 0; i < areas.length; i++) {
       type = areas[i]['area_type'];
       orderedAreas[type].push(areas[i]['locales'][0]['title']);
     }
-    for (var t in orderedAreas) {
-      if (orderedAreas[t].length) {
-        return orderedAreas[t].join(' - ');
-      }
+
+    
+    if(orderedAreas['admin_limits'].length > 0)
+    {
+      return orderedAreas['admin_limits'].join(' - ');
+    } else if (orderedAreas['range'].length > 0) {
+      return orderedAreas['range'].join(' - ');
+      
+    } else if (orderedAreas['country'].length > 0) {
+       return orderedAreas['countru'].join(' - ');
     }
+    
   }
   return null;
 };
