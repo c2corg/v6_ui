@@ -148,6 +148,12 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
    * @private
    */
   this.scope_ = $scope;
+  
+  /**
+   * @type {boolean}
+   * @export
+   */
+  this.showMobileBlock = /** @type {boolean} */ (JSON.parse(window.localStorage.getItem('showMobileBlock') || 'true'));
 
 
   this.initHeadband();
@@ -168,6 +174,15 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
   };
 };
 
+/**
+ * hide block with info for the mobile app
+ * @export
+ */
+app.ViewDetailsController.prototype.toggleMobileBlock = function() {
+  console.log("on tooglge le bouzin " + this.showMobileBlock);
+  this.showMobileBlock = !this.showMobileBlock;
+  window.localStorage.setItem('showMobileBlock', JSON.stringify(this.showMobileBlock));
+};
 
 /**
  * @param {string} selector
@@ -269,13 +284,13 @@ app.ViewDetailsController.prototype.getBestWideImg = function(index) {
 
 
     if (index == this.documentService.document.associations.images.length -1 || ( this.widestCoef_ > 1 && this.documentService.document.associations.images.length >= 10 && index > 20 )) {
-        this.scope_.headBands = this.createImageUrl(this.documentService.document.associations.images[this.widestImg_]['filename'],'BI');
-        this.scope_.$apply();
+      this.scope_.headBands = this.createImageUrl(this.documentService.document.associations.images[this.widestImg_]['filename'],'BI');
+      this.scope_.$apply();
     } else {
-      
-           index++;
+
+      index++;
       this.getBestWideImg(index);
-      
+
     }
 
 

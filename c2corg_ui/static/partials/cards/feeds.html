@@ -1,12 +1,12 @@
-<article class="post" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;" ng-click="cardCtrl.openDoc(doc)">
+<article class="post" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;type = cardCtrl.getDocumentType(doc.document.type);" ng-click="cardCtrl.openDoc(doc)">
   <div class="infoa">
     <a class="pportrait" ng-href="/profiles/{{::doc['user']['document_id']}}/{{::doc['user']['locales'][0]['lang']}}" title="{{::doc['user']['name']}}" ng-click="$event.stopPropagation()"><img class="URgs7" ng-src="https://forum.camptocamp.org/user_avatar/forum.camptocamp.org/{{::doc['user']['forum_username']}}/36/1_1.png" alt="" width="36" height="36"></a>
     <div class="parent-author">
       <div class="under-author">
         <div class="author"><a ng-href="/profiles/{{::doc['user']['document_id']}}/{{::doc['user']['locales'][0]['lang']}}" title="{{::doc['user']['name']}}" ng-click="$event.stopPropagation()">{{::doc['user']['name']}}</a> <span>{{::cardCtrl.createActionLine() | translate}} </span></div>
       </div>
-      <div class="parent-hour">
-        <div class="hour"><span class="d-hour">{{::doc.time | amUtc | amLocal | amTimeAgo}}</span></div>
+      <div class="parent-type">
+        <div class="timeline-bullet icon-{{::type}}s" uib-tooltip="{{::type | translate}}" tooltip-placement="left"></div>
       </div>
     </div>
   </div>
@@ -95,6 +95,11 @@
         </a>
       </div>
       <div class="grow">
+      </div>
+      <div class="parent-bubble">
+        <div class="parent-hour">
+          <div class="hour"><span class="d-hour">{{::doc.time | amUtc | amLocal | amTimeAgo}}</span><span class="d-date" ng-if="::type == 'outing'"> - {{::doc['document']['date_end'] | amUtc | amLocal | amDateFormat: 'DD/MM/YYYY'}}</span></div>
+        </div>
       </div>
       <div class="parent-bubble">
         <a href="#" class="link" ng-if="::doc['document']['condition_rating']" uib-tooltip="{{'condition_rating' | translate}} : {{doc['document']['condition_rating'] | translate}}" tooltip-append-to-body="true">

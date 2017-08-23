@@ -249,11 +249,10 @@
     associations = 'detailsCtrl.documentService.document.associations.' + type
   %>
    ${add_seo_association_links(articles, 'articles')}
+    <h3 class="pull-left show-phone" ng-show="${associations}.length > 0" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-articles">
+      <span x-translate>Associated articles</span><span class="glyphicon glyphicon-menu-down"></span>
+    </h3>
     <section ng-show="${associations}.length > 0">
-      <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-articles">
-        <span class="glyphicon glyphicon-map-marker"></span>
-        <span translate>Associated articles</span><span class="glyphicon glyphicon-menu-down"></span>
-      </h3>
       <div class="associated-documents collapse in" id="associated-articles">
         <div class="list-item" ng-repeat="doc in ${associations}" ng-class="{'new-item': doc['new']}">
           <app-card app-card-doc="doc"></app-card>
@@ -274,11 +273,10 @@
     associations = 'detailsCtrl.documentService.document.associations.' + type
   %>
    ${add_seo_association_links(books, 'books')}
+    <h3 class="pull-left show-phone" ng-show="${associations}.length > 0" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-books">
+      <span x-translate>Associated books</span><span class="glyphicon glyphicon-menu-down"></span>
+    </h3>
     <section ng-show="${associations}.length > 0">
-      <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-books">
-        <span class="glyphicon glyphicon-map-marker"></span>
-        <span translate>Associated books</span><span class="glyphicon glyphicon-menu-down"></span>
-      </h3>
       <div class="associated-documents collapse in" id="associated-books">
         <div class="list-item" ng-repeat="doc in ${associations}" ng-class="{'new-item': doc['new']}">
           <app-card app-card-doc="doc"></app-card>
@@ -299,11 +297,10 @@
     associations = 'detailsCtrl.documentService.document.associations.' + type
   %>
    ${add_seo_association_links(xreports, 'xreports')}
+    <h3 class="pull-left show-phone" ng-show="${associations}.length > 0" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-xreports">
+      <span x-translate>Associated xreports</span><span class="glyphicon glyphicon-menu-down"></span>
+    </h3>
     <section ng-show="${associations}.length > 0">
-      <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-xreports">
-        <span class="glyphicon glyphicon-map-marker"></span>
-        <span translate>Associated xreports</span><span class="glyphicon glyphicon-menu-down"></span>
-      </h3>
       <div class="associated-documents collapse in" id="associated-xreports">
         <div class="list-item" ng-repeat="doc in ${associations}" ng-class="{'new-item': doc['new']}">
           <app-card app-card-doc="doc"></app-card>
@@ -528,8 +525,8 @@
 </%def>
 
 <%def name="app_smartphone_info(doctype)">\
-  <h3><span translate>Application mobile</span> <span class="glyphicon glyphicon-remove pull-right"></span></h3>
-      <div class="finfo">
+  <h3 ng-show='detailsCtrl.showMobileBlock'><span translate>Application mobile</span> <span class="glyphicon glyphicon-remove pull-right" ng-click='detailsCtrl.toggleMobileBlock()'></span></h3>
+      <div class="finfo" ng-show='detailsCtrl.showMobileBlock'>
         <div class="ficontent collapse in max">
           % if doctype == 'route':
             <p>Consulter hors ligne toutes les informations de cet itinéraire sur l'application Camptocamp.</p>

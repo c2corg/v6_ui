@@ -57,7 +57,7 @@
       width: 33.33%;
       background: #ccc;
       &.gal-2-first {
-       margin-right: 1px; 
+        margin-right: 1px; 
       }
       &.centerg {
         margin: 0 1px;
@@ -69,7 +69,7 @@
         background-size: cover;
         background-position: center center;
       }
-      
+
       .imgo {
         width: 100%;
       }
@@ -78,7 +78,7 @@
     .gal-2 {
       width: 50%;
     }
-    
+
   }
 
 
@@ -120,7 +120,7 @@
       box-shadow: none;
       margin-bottom: 0;
       border-bottom: 1px solid rgba(0,0,0,.12);
-      padding: 8px;
+      padding: 5px;
 
       &.card-outing {
         .inlist {
@@ -146,9 +146,16 @@
         }
       }
 
-      .parent-bubble.topsubicon {
-        display: none;
+      .parent-bubble {
+
+        &.topsubicon {
+          display: none;
+        }
+        &.bubble-date {
+          display: none;
+        }
       }
+
       .parent-img {
         display: none;
       }
@@ -680,6 +687,8 @@ textarea {
 }
 .post .parent-infop .subicon {
   color: #FFAA45;
+  font-size: 15px;
+  line-height: 26px;
 }
 .post .parent-infop .parent-bubble {
   display: block;

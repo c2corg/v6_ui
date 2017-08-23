@@ -163,6 +163,20 @@ app.FeedController = function($scope,appAuthentication, appApi, appLang, imageUr
   this.isPersonal = !this.userId;
 
   /**
+   * @type {boolean}
+   * @export
+   */
+  this.showMobileBlock = /** @type {boolean} */ (JSON.parse(window.localStorage.getItem('showMobileBlock') || 'true'));
+
+  /**
+   * @type {boolean}
+   * @export
+   */
+  this.showAssoBlock = /** @type {boolean} */ (JSON.parse(window.localStorage.getItem('showAssoBlock') || 'true'));
+
+
+
+  /**
    * @type {ngeo.Location}
    * @public
    */
@@ -188,6 +202,29 @@ app.FeedController.prototype.getAnnouncement_ = function() {
 
 }
 
+/**
+ * toggle block above forum topics list
+ @param number
+ * @export
+ */
+app.FeedController.prototype.toggleBlock = function(id) {
+  console.log("toogle: " +id)
+  switch(id) {
+    case 0:
+ 
+      this.showAssoBlock = !this.showAssoBlock;
+      window.localStorage.setItem('showAssoBlock', JSON.stringify(this.showAssoBlock));
+      break;
+
+    case 1:
+        
+      this.showMobileBlock = !this.showMobileBlock;
+      window.localStorage.setItem('showMobileBlock', JSON.stringify(this.showMobileBlock));
+      break;
+  }
+
+
+};
 
 /**
  * init array for the column Manager
@@ -212,7 +249,7 @@ app.FeedController.prototype.feedColumnManager = function() {
 
   $(window).resize(function() {
 
-    if (window.innerWidth < 1600) {
+    if (window.innerWidth < 1400) {
       if(this.nbCols_ != 1) {
         this.documentsCol = Array();
         this.documentsCol[0] = this.documents;
@@ -223,7 +260,7 @@ app.FeedController.prototype.feedColumnManager = function() {
         this.scope_.$apply();
       }
 
-    } else if(window.innerWidth >= 1600 && window.innerWidth < 2000) {
+    } else if(window.innerWidth >= 1400 && window.innerWidth < 2000) {
 
 
       if(this.nbCols_ != 2) {
@@ -381,7 +418,8 @@ app.FeedController.prototype.handleFeed = function(response) {
   this.nextToken = token;
 
   this.initDocumentsCol_();
-  if(window.innerWidth < 1600 ) {
+  console.log(window.innerWidth );
+  if(window.innerWidth < 1400 ) {
     this.nbCols_ = 1;
     for (var k = 0; k < data.length; k++) {
       data[k]['type'] = "f";
@@ -389,8 +427,7 @@ app.FeedController.prototype.handleFeed = function(response) {
       this.documents.push(data[k]);
     }
 
-
-  } else if (window.innerWidth >= 1600 && window.innerWidth < 2000) { 
+  } else if (window.innerWidth >= 1400 && window.innerWidth < 2000) { 
     this.nbCols_ = 2;
 
     var element1 = angular.element(document.querySelector('.in-feed-col-1')); 
@@ -401,7 +438,6 @@ app.FeedController.prototype.handleFeed = function(response) {
 
     for(var i = 0,n = data.length;i<n;i++) {
       data[i]['type'] = "f";
-
 
       if(height1 <= height2 ) {
         this.documentsCol[0].push(data[i]);
@@ -417,9 +453,6 @@ app.FeedController.prototype.handleFeed = function(response) {
       this.documents.push(data[i]);
 
     }
-
-
-
 
   } else if(window.innerWidth >= 2000) {
     this.nbCols_ = 3;

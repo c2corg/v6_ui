@@ -12,20 +12,17 @@
       <div class="alert alert-warning">{{feedCtrl.announce.message}}</div>
     </div>
     <div class="in-feed-col-1">
-      <article ng-repeat="doc in feedCtrl.documentsCol[0] track by doc.id"
-               ng-init="type = feedCtrl.getDocumentType(doc.document.type);">
+      <article ng-repeat="doc in feedCtrl.documentsCol[0] track by doc.id">
         <app-card app-card-doc="::doc"></app-card>
       </article>
     </div>
     <div class="in-feed-col-2">
-      <article ng-repeat="doc in feedCtrl.documentsCol[1] track by doc.id"
-               ng-init="type = feedCtrl.getDocumentType(doc.document.type);">
+      <article ng-repeat="doc in feedCtrl.documentsCol[1] track by doc.id">
         <app-card app-card-doc="::doc"></app-card>
       </article>
     </div>
     <div class="in-feed-col-3">
-      <article ng-repeat="doc in feedCtrl.documentsCol[2] track by doc.id"
-               ng-init="type = feedCtrl.getDocumentType(doc.document.type);">
+      <article ng-repeat="doc in feedCtrl.documentsCol[2] track by doc.id">
         <app-card app-card-doc="::doc"></app-card>
       </article>
     </div>
@@ -36,22 +33,22 @@
   </div>
 </div>
 <div class="feed-cr">
-  <div class="info">
-    <h3><span translate>Bienvenue sur Camptocamp.org!</span> <span class="glyphicon glyphicon-remove pull-right"></span></h3>
+  <div class="info" ng-show="feedCtrl.showAssoBlock">
+    <h3><span translate>Bienvenue sur Camptocamp.org!</span> <span class="glyphicon glyphicon-remove pull-right" ng-click="feedCtrl.toggleBlock(0)"></span></h3>
     <div class="finfo">
       <div class="ficontent">
         <div class="fleft">
           <div class="ftxt">
             <div class="ftitle">
-              <span class="title">Camptocamp.org est un site communautaire dédié aux sports de montagne. Le site est géré par une association à but non lucratif, qui a fait le choix de contenus sous licences libres. N'hésitez pas à vous inscrire et à contribuer ! <br><span class="center"><a href="/articles/106726/fr/camptocamp-association" title="Rejoignez l'association">Envie d'en savoir plus ?</a> - <a href="https://forum.camptocamp.org/c/site-et-association" title="Association Camptocamp">Forum de l'association</a></span></span>
+              <p class="title">Camptocamp.org est un site communautaire dédié aux sports de montagne. Le site est géré par une association à but non lucratif, qui a fait le choix de contenus sous licences libres. N'hésitez pas à vous inscrire et à contribuer ! <br><span class="center"><a href="/articles/106726/fr/camptocamp-association" title="Rejoignez l'association">Envie d'en savoir plus ?</a> - <a href="https://forum.camptocamp.org/c/site-et-association" title="Association Camptocamp">Forum de l'association</a></span></p>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="info">
-    <h3><span translate>Application mobile</span> <span class="glyphicon glyphicon-remove pull-right"></span></h3>
+  <div class="info" ng-show="feedCtrl.showMobileBlock">
+    <h3><span translate>Application mobile</span> <span class="glyphicon glyphicon-remove pull-right" ng-click="feedCtrl.toggleBlock(1)"></span></h3>
     <div class="finfo">
       <div class="ficontent noflex">
         <p>Retrouver tout Camptocamp en montagne avec la nouvelle application Smartphone.</p>

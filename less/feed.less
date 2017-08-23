@@ -22,10 +22,16 @@ app-feed {
   }
   .appstore img, .googleplay img {
     width: 50%;
+    
+        @media @desktop-medium {
+      width: 100%;
+    }
+    
+    
     @media @tablet {
       width: 100%;
     }
-  
+
   }
   .post {
     -webkit-box-shadow: 0 1px 4px 0 rgba(0,0,0,0.14);
@@ -52,7 +58,12 @@ app-feed {
       margin-right: 0px;
     }
 
-
+    .parent-infop  {
+      .d-hour, .d-date {
+        color: #9e9e9e;
+        font-size: 13px;
+      }
+    }
     &.rencontre {
       padding: 10px;
       .lville {
@@ -88,6 +99,78 @@ app-feed {
       align-items: center;
       border-bottom: 1px solid #ebebeb;
       padding-bottom: 10px;
+      @media @desktop-little {
+        padding-bottom: 6px;
+      }
+    @media @desktop-medium {
+        padding-bottom: 6px;
+      }
+
+      .parent-hour, .parent-type {
+        -webkit-box-flex: auto;
+        -webkit-flex: auto;
+        flex: auto;
+        position: relative;
+        .hour, .timeline-bullet  {
+          position: absolute;
+          top: 0;
+          right: 0;
+
+          font-size: 12px;
+          font-weight: 400;
+          -webkit-box-flex: none;
+          -webkit-flex: none;
+          flex: none;
+          display: block;
+          color: #9e9e9e;
+          max-width: 100%;
+          text-align: right;
+          word-wrap: break-word;
+          .d-hour{
+
+            height: 20px;
+            display: block;
+          }
+        }
+        .timeline-bullet  { 
+          font-size: 24px;
+          top: -5px;
+        }
+      }
+
+      .parent-author {
+        width: 120px;
+        line-height: 18px;
+        display: -webkit-box;
+        display: -moz-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-flex: auto;
+        -webkit-flex: auto;
+        flex: auto;
+
+      }
+
+      .pportrait
+      {
+        display: block;
+        outline: none;
+        flex: none;
+        img {
+          border-radius: 50%;
+          display: block;
+          @media @desktop-little {
+            width: 30px;
+              height: 30px;
+          }
+        }
+      }
+
+    }
+
+    .cont {
+      padding: 10px;
     }
 
   }
@@ -100,34 +183,7 @@ app-feed {
     border-bottom: 1px solid #ebebeb;
   }
 
-  .post .infoa .pportrait
-  {
-    display: block;
-    outline: none;
-    flex: none;
-  }
 
-  .post .infoa .pportrait img {
-    border-radius: 50%;
-    display: block;
-  }
-
-  .post .infoa .parent-author {
-    width: 120px;
-    line-height: 18px;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-flex: auto;
-    -webkit-flex: auto;
-    flex: auto;
-
-  }
-  .post .cont {
-    padding: 10px;
-  }
   .mt20{
     margin-top: 20px;
   }
@@ -150,7 +206,7 @@ app-feed {
     -webkit-box-flex: auto;
     -webkit-flex: auto;
     flex: auto;
-    width: ~"calc(100% - 200px)";
+    width: ~"calc(100% - 100px)";
   }
 
   .post .infoa .parent-author .under-author .author {
@@ -174,34 +230,7 @@ app-feed {
     overflow: hidden;
   }
 
-  .post .infoa .parent-hour {
-    -webkit-box-flex: auto;
-    -webkit-flex: auto;
-    flex: auto;
-    position: relative;
-  }
 
-  .post .infoa .parent-hour .hour {
-    position: absolute;
-    top: 0;
-    right: 0;
-
-    font-size: 12px;
-    font-weight: 400;
-    -webkit-box-flex: none;
-    -webkit-flex: none;
-    flex: none;
-    display: block;
-    color: #9e9e9e;
-    max-width: 100%;
-    text-align: right;
-    word-wrap: break-word;
-  }
-  .post .infoa .parent-hour .hour .d-hour{
-
-    height: 20px;
-    display: block;
-  }
   .hashtagmsg{
     color: #ee4c5b;
     margin-left: 5px;
@@ -249,6 +278,9 @@ app-feed {
   .post .parent-text .text.emptyimg {
     border-bottom: 1px solid #ebebeb;
     padding: 0 0 8px 0;
+    @media @desktop-little {
+      padding: 0 0 6px 0;
+    }
   }
   .post .parent-img .img {
     display: block;
@@ -400,6 +432,10 @@ app-feed {
   }
   .post .parent-infop {
     margin: 5px 16px;
+    @media @desktop-little {
+      margin: 4px 16px;
+      padding-bottom: 3px;
+    }
   }
   .post .parent-infop .infop-bar {
     display: -webkit-box;
@@ -554,30 +590,28 @@ app-feed {
     margin-left: -25%;
   }
 
-
-
-
-
-
-
-
-
-
-
-
   .feed-cl {
     width: 66.66%;
-    @media @desktop {
+    @media @desktop-little {
       width: 60%;
     }
+    @media @desktop-medium {
+      width: 75%;
+    }
+
 
   }
 
   .feed-cr {
     width: 33.33%;
-    @media @desktop {
+    @media @desktop-little {
       width: 40%;
     }
+
+    @media @desktop-medium {
+      width: 25%;
+    }
+
   }
 
   .fpost {
@@ -725,12 +759,14 @@ app-feed {
     }
 
 
-    @media @desktop{
+    @media @desktop-little {
       padding-right: 20px;
       width: 100%;
     }
 
-
+    @media @desktop-medium{
+      width: 50%;
+    }
     @media @big {
       width: 50%;
     } 
@@ -762,10 +798,6 @@ app-feed {
     width: 0;
     height: 0;
   }
-
-
-
-
 
   .feed-list { 
     .info  {

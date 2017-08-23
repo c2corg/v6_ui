@@ -20,7 +20,7 @@
       </div>
     </div></a><div class="parent-img"><div class="img" ng-if="::doc.image1"><a ng-href="/images/{{::doc.image1.document_id}}/{{::doc.image1.locales[0].lang}}"><img class="imgo" ng-src="{{feedCtrl.createImageUrl(doc.image1.filename, 'MI')}}" alt="Photo"></a></div></div><div class="parent-infop">
   </div>
-  <div class="parent-infop parent-infop-first" ng-if="::doc['areas'] != null">
+  <div class="parent-infop parent-infop-first area" ng-if="::doc['areas'] != null">
     <a ng-href="{{::cardCtrl.createURLArea(doc['areas'])}}" title="{{::cardCtrl.showArea(doc['areas'])}} {{::doc.activities[0]}}" ng-click="$event.stopPropagation()">
       <div class="infop-bar">
         <div class="parent-bubble">
@@ -99,7 +99,7 @@
       </div>
       <div class="grow">
       </div>
-      <div class="parent-bubble">
+      <div class="parent-bubble bubble-date">
         <div class="parent-hour">
           <div class="hour"><span class="d-hour">{{::doc['date_end'] | amUtc | amLocal | amDateFormat: 'DD/MM/YYYY'}}</span></div>
         </div>

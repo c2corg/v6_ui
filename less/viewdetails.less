@@ -26,6 +26,9 @@
     &.nomargin {
       margin: 0px;
     }
+    @media @phone {
+      width: auto;
+    }
   }
   h3,p {
     clear:none;
@@ -55,11 +58,14 @@
   background: #f1f1f1;
 }
 .viewdoc {
-  
+
+  &.viewroute .area {
+    display: none;
+  }
   .important_message {
     border: 2px solid #f93;
-}
- .important_message, .warning_message {
+  }
+  .important_message, .warning_message {
     clear: both;
     display: inline-block;
     border-radius: 8px;
@@ -69,17 +75,17 @@
     vertical-align: middle;
     border-collapse: collapse;
     padding: 10px;
-   span {
-     margin-right: 5px;
-   }
-}
+    span {
+      margin-right: 5px;
+    }
+  }
   .emoji {
     width: 20px;
   }
   app-feed {
     .feed-cr {
-    display: none;
-  }
+      display: none;
+    }
     .feed-cl {
       width: 100%;
     }
@@ -235,7 +241,7 @@
   }
   .ficontent, .fpcontent {
     h3 {
-clear: none;
+      clear: none;
     }
   }
   .value{
@@ -282,25 +288,25 @@ clear: none;
     display: flex;
     flex-flow: row wrap;
     padding: 0;
-background: transparent;
-border-bottom: none;
-    
+    background: transparent;
+    border-bottom: none;
+
     app-slide-info {
       display: none;
     }
     figure {
       width: 33.33%;
-        @media @tablet  {
-      width: 50%;
+      @media @tablet  {
+        width: 50%;
+      }
+
+      @media @desktop {
+        width: 50%;
+      }
     }
-    
-    @media @desktop {
-      width: 50%;
-    }
-    }
-    
-  
-    
+
+
+
     .fullimg {
       width: 100%;
     }
@@ -322,7 +328,9 @@ border-bottom: none;
     display: flex;
     align-items: center;
     justify-content: center;
-
+    @media @desktop-little {
+      height: 350px;
+    }
     .outing-date {
       font-size: 0.7em;
       color: #6D6D6D;
@@ -340,6 +348,9 @@ border-bottom: none;
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center bottom;
+      @media @desktop-little {
+        height: 350px;
+      }
       .view-filter-bg {
         background-color: rgba(0,0,0,0.4);
         position: absolute;
@@ -362,6 +373,7 @@ border-bottom: none;
       font-size: 2.8em;
       .icons-header {
         margin: 10px 0 0;
+
 
         .route-activity,   .waypoint-type {
           color: #FFAA45;
@@ -435,7 +447,12 @@ border-bottom: none;
       position: relative;
       color: #000;
       top:auto;
+      .icons-header {
+        display: none;
+      }
     }
+
+
 
   }
 
@@ -618,7 +635,7 @@ border-bottom: none;
     @media @desktop {
       font-size: 2.8em;
     }
-    
+
     @media @big {
       font-size: 3em;
     }
@@ -1410,6 +1427,10 @@ app-add-association {
       min-width: 60px;
       padding: 1px 6px;
       vertical-align: top;
+      @media @phone {
+        min-width: 0px;
+        padding: 1px 4px;
+      }
     }
   }
 }

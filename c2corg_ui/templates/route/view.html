@@ -92,7 +92,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
 <%block name="share">
   ${generate_share_metadata(route, 'routes')}
 </%block>
-<div class="viewdoc">
+<div class="viewdoc viewroute">
   <header class="view-title-with-bg" ng-if="detailsCtrl.hasHeadband">
     <div class="view-image-bg" ng-style="{'background-image': 'url('+this.headBands+')'}"><div class="view-filter-bg"></div></div>
 
@@ -124,48 +124,30 @@ other_langs, missing_langs = get_lang_lists(route, lang)
                   <img ng-src="{{detailsCtrl.createImageUrl(detailsCtrl.documentService.document.associations.images[0].filename, 'MI')}}" alt="{{detailsCtrl.documentService.document.associations.images[0].locales[0].title}}" class="fullimg"/>
               
     </div></div> 
-        
         % if version:
         ${show_archive_data('routes', route, locale, version)}
         % endif
-
         <app-map class="view-details-map"></app-map>
         ${app_smartphone_info('route')}
         ## IMAGES
         % if not version:
         ${get_image_gallery()}
         % endif
-
-        
-      
-        
         ${get_route_associated_maps(route)}
-  
         ${get_licence(route)}
-
-
-   
-        
       </div>
       <div class="col-xs-12 col-md-8 col-lg-9">
         <section id="document-informations" class="collapse in">
           <div class="finfo">
             <div class="ficontent">
               <div class="row">
-               
                   ${get_route_general(route, locale)}
-          
                   ${get_route_location(route)}
                   ${get_route_rating(route)}
                   ${get_route_heights(route, locale)}
-         
                   ${get_route_glacier_gear(route)}
                   ${get_route_access(route)}
-            
                   ${get_route_orientations(route)}
-              
-
-
               </div>
             </div>
           </div>

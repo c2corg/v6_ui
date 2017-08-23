@@ -106,7 +106,7 @@ app.CardController = function(gettextCatalog, appUrl, imageUrl) {
    * @public
    */
   this.type = app.utils.getDoctype(this.doc['type']);
-
+  
 
   /**
    * @type {Object}
@@ -251,7 +251,7 @@ app.CardController.prototype.createURL = function() {
   if (loc.indexOf('/edit/') === -1 && loc.indexOf('/add') === -1) {
     if(this.type == "feeds") {
       return this.url_.buildDocumentUrl(
-        this.doc['document']['type'], this.doc['document']['document_id'], this.doc['document']['locales'][0]);
+        app.utils.getDoctype(this.doc['document']['type']), this.doc['document']['document_id'], this.doc['document']['locales'][0]);
     } else {
       return this.url_.buildDocumentUrl(
         this.type, this.doc['document_id'], this.doc['locales'][0]);
