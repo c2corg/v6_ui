@@ -118,7 +118,7 @@
       margin-top: 0px;
 
       a.text-link {
-        width: 40%;
+        width: 25%;
       }
     }
 
@@ -138,7 +138,8 @@
           display: none;
         }
         .infoa {
-          display: flex;
+          display: block;
+          margin-top: 9px;
         }
       }
       .parent-text { 
@@ -170,27 +171,53 @@
       .parent-img {
         display: none;
       }
+      .infoa {
+        width: 20%;
+      }
       .parent-infop {
         margin: 0px;
+        width: 15%;
+        &.large {
+          
+          .infop-bar {
+            display:block;
+            .group-infop {
+            float: left;  
+            }
+          }
+          
+        }
+        &.area {
+          .parent-bubble {
+            display :none;
+          }
+
+
+
+
+          .text-bubble {
+            white-space: pre-wrap;
+            text-overflow: inherit;
+            overflow: auto;
+          }
+
+        }
 
         .infop-bar {
+          height: auto;
           min-height: 37px;
           .parent-elevation  {
             display: none;
           }
         }
-        .text-bubble {
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
+
       }
       .parent-infop-first {
         margin: 0px;
         border-bottom: none;
         padding-bottom: 0px;
         max-width: 300px;
-        width: 25%;
+
       }
 
       .infoa  { 
@@ -200,12 +227,13 @@
         display:block;
         flex:none;
         */
-        display: flex;
+        display: block;
         border-bottom: none;
         .parent-hour { 
           flex: none;
+          float: right;
           .hour {
-            width: 75px;
+            width: 50%;
             position: relative;
             text-align:inherit;
 
@@ -213,12 +241,17 @@
         }
         .parent-author {
 
-          width: 200px;
-          flex-direction: row-reverse;
+          width: 100%;
+          display: block;
+          .under-author { float:right;
 
-          .under-author { .author {
-            max-width: 150px;
-            width: auto;
+            width:50%;
+
+            .author {
+              width: 100%;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              white-space: pre-wrap;
             }
           }
         }

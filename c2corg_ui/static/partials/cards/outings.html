@@ -18,8 +18,7 @@
       <div class="text emptyimg" ng-if="::!doc.image1">{{::locale.title}}
         <div class="summary" ng-if="::doc.document.type=='c'">{{::feedCtrl.showSummary(doc['document']['locales'])}}</div>
       </div>
-    </div></a><div class="parent-img"><div class="img" ng-if="::doc.image1"><a ng-href="/images/{{::doc.image1.document_id}}/{{::doc.image1.locales[0].lang}}"><img class="imgo" ng-src="{{feedCtrl.createImageUrl(doc.image1.filename, 'MI')}}" alt="Photo"></a></div></div><div class="parent-infop">
-  </div>
+    </div></a><div class="parent-img"><div class="img" ng-if="::doc.image1"><a ng-href="/images/{{::doc.image1.document_id}}/{{::doc.image1.locales[0].lang}}"><img class="imgo" ng-src="{{feedCtrl.createImageUrl(doc.image1.filename, 'MI')}}" alt="Photo"></a></div></div>
   <div class="parent-infop parent-infop-first area" ng-if="::doc['areas'] != null">
     <a ng-href="{{::cardCtrl.createURLArea(doc['areas'])}}" title="{{::cardCtrl.showArea(doc['areas'])}} {{::doc.activities[0]}}" ng-click="$event.stopPropagation()">
       <div class="infop-bar">
@@ -35,59 +34,56 @@
         </div>
       </div></a>
   </div>
-  <div class="parent-infop parent-infop-first" ng-init="fullRatings = feedCtrl.getFullRatings()">
-    <div class="infop-bar">
-      <div class="parent-bubble" ng-if="::fullRatings">
-        <div class="bubble ">
-          <span class="icon-rating "></span>
-        </div>
-      </div>
-      <div class="parent-bubble inlist">
-        <div class="bubble" uib-tooltip="{{'author'| translate}}" tooltip-append-to-body="true">
-          <span class="value-title glyphicon glyphicon-pencil"></span>
-        </div>
-      </div>
+  <div class="parent-infop parent-infop-first large" ng-init="fullRatings = feedCtrl.getFullRatings()">
+    <div class="group-infop">
+      <div class="infop-bar">
+        <div class="group-infop">
+          <div class="parent-bubble inlist">
+            <div class="bubble" uib-tooltip="{{'author'| translate}}" tooltip-append-to-body="true">
+              <span class="value-title glyphicon glyphicon-pencil"></span>
+            </div>
+          </div>
 
-      <div class="text-bubble inlist">
-        <a ng-href="/profiles/{{::doc['author']['user_id']}}/{{::doc['locales'][0]['lang']}}" title="{{::doc['author']['name']}}" ng-click="$event.stopPropagation()">{{::doc['author']['name']}}</a> 
-      </div>
+          <div class="text-bubble inlist">
+            <a ng-href="/profiles/{{::doc['author']['user_id']}}/{{::doc['locales'][0]['lang']}}" title="{{::doc['author']['name']}}" ng-click="$event.stopPropagation()">{{::doc['author']['name']}}</a> 
+          </div>
+        </div>
+        <div class="group-infop">
 
 
-      <div class="text-bubble cotationbox" ng-if="::fullRatings">
-        <div ng-repeat="(attr, val) in ::fullRatings" uib-tooltip="{{attr | translate}}" class="rating ng-scope" tooltip-append-to-body="true"> <span class="value">{{::val}}</span> </div>
-      </div> 
+          <div class="parent-bubble" ng-if="::doc['elevation_max']">
+            <div class="bubble" uib-tooltip="{{'elevation_max'| translate}}" tooltip-append-to-body="true">
+              <span class="value-title glyphicon glyphicon-sort-by-attributes rotate-180"></span>
+            </div>
+          </div>
+          <div class="text-bubble" ng-if="::doc['elevation_max']">
+            {{::doc['elevation_max']}} m
+          </div>
+        </div>
+        <div class="group-infop">
 
-      <div class="parent-bubble" ng-if="::doc['elevation_max']">
-        <div class="bubble" uib-tooltip="{{'elevation_max'| translate}}" tooltip-append-to-body="true">
-          <span class="value-title glyphicon glyphicon-sort-by-attributes rotate-180"></span>
+          <div class="parent-bubble" ng-if="::doc['height_diff_up']">
+            <div class="bubble" uib-tooltip="{{'height_diff_up'| translate}}">
+              <span class="icon-height_diff"></span>
+            </div>
+          </div>
+          <div class="text-bubble" ng-if="::doc['height_diff_up']">
+            {{::doc['height_diff_up']}} m
+          </div>
         </div>
-      </div>
-      <div class="text-bubble" ng-if="::doc['elevation_max']">
-        {{::doc['elevation_max']}} m
-      </div>
-      <!--
-      <div class="parent-bubble" ng-if="::doc['height_diff_up']">
-        <div class="bubble" uib-tooltip="{{'height_diff_up'| translate}}">
-          <span class="icon-height_diff"></span>
+        <div class="group-infop">
+          <div class="parent-bubble" ng-if="::doc['document']['height_diff_difficulties']">
+            <div class="bubble" uib-tooltip="{{'height_diff_difficulties'| translate}}" tooltip-append-to-body="true">
+              <span class="value-title glyphicon glyphicon-resize-vertical"></span>
+            </div>
+          </div>
+          <div class="text-bubble" ng-if="::doc['document']['height_diff_difficulties']">
+            {{::doc['document']['height_diff_difficulties']}} m
+          </div>
         </div>
-      </div>
-      <div class="text-bubble" ng-if="::doc['height_diff_up']">
-        {{::doc['height_diff_up']}} m
-      </div>
--->
-      <div class="parent-bubble" ng-if="::doc['document']['height_diff_difficulties']">
-        <div class="bubble" uib-tooltip="{{'height_diff_difficulties'| translate}}" tooltip-append-to-body="true">
-          <span class="value-title glyphicon glyphicon-resize-vertical"></span>
-        </div>
-      </div>
-      <div class="text-bubble" ng-if="::doc['document']['height_diff_difficulties']">
-        {{::doc['document']['height_diff_difficulties']}} m
-      </div>
-      <div class="grow">
       </div>
     </div>
   </div>
-
   <div class="parent-infop">
     <div class="infop-bar">
       <div class="parent-activity">

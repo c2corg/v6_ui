@@ -3,9 +3,8 @@
     <div class="parent-text">
       <div class="text emptyimg"><span ng-if="::locale.title_prefix">{{::locale.title_prefix}}&nbsp;: </span> {{::locale.title}}
       </div>
-    </div></a><div class="parent-img"></div><div class="parent-infop">
-  </div>
-  <div class="parent-infop parent-infop-first" ng-if="::doc['areas'] != null">
+    </div></a><div class="parent-img"></div>
+  <div class="parent-infop parent-infop-first area" ng-if="::doc['areas'] != null">
     <a ng-href="{{::cardCtrl.createURLArea(doc['areas'])}}" title="{{::cardCtrl.showArea(doc['areas'])}}" ng-click="$event.stopPropagation()">
       <div class="infop-bar">
         <div class="parent-bubble">
