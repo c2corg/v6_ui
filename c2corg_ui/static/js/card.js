@@ -106,7 +106,7 @@ app.CardController = function(gettextCatalog, appUrl, imageUrl) {
    * @public
    */
   this.type = app.utils.getDoctype(this.doc['type']);
-  
+
 
   /**
    * @type {Object}
@@ -199,25 +199,25 @@ app.CardController.prototype.showArea = function(areas) {
     // the areas often come in different orders within 3 area objects.
     var orderedAreas = {'range': [], 'admin_limits': [], 'country': []};
     var type;
-    
-    console.log(areas);
-    
     for (var i = 0; i < areas.length; i++) {
       type = areas[i]['area_type'];
       orderedAreas[type].push(areas[i]['locales'][0]['title']);
     }
 
-    
+    var str = '';
+
     if(orderedAreas['admin_limits'].length > 0)
     {
-      return orderedAreas['admin_limits'].join(' - ');
-    } else if (orderedAreas['range'].length > 0) {
-      return orderedAreas['range'].join(' - ');
-      
-    } else if (orderedAreas['country'].length > 0) {
-       return orderedAreas['countru'].join(' - ');
+      str = orderedAreas['admin_limits'].join(' - ');
     }
-    
+
+    if (orderedAreas['range'].length > 0) {
+      str = str + ' - ' + orderedAreas['range'].join(' - ');
+    } else if (orderedAreas['country'].length > 0) {
+      str = str + ' - ' +  orderedAreas['country'].join(' - ');
+      return str;
+    }
+    return str;
   }
   return null;
 };
@@ -288,12 +288,31 @@ app.CardController.prototype.createImageUrl = function(filename, suffix) {
 app.CardController.prototype.createURLArea = function(areas) {
   if (areas !== undefined) {
     if (areas.length > 0) {
+      var type;
+      var orderedAreas = {'range': [], 'admin_limits': [], 'country': []};
+
+      for (var i = 0; i < areas.length; i++) {
+        type = areas[i]['area_type'];
+        orderedAreas[type].push(areas[i]);
+      }
+
       var loc = window.location.pathname;
       // Don't create links on edit and add pages.
-      var doc = areas[areas.length - 1];
+      //var doc = areas[areas.length - 1];
+
+      var doc;
+        if (orderedAreas['range'].length > 0) {
+        doc = orderedAreas['range'];
+      } else if (orderedAreas['range'].length > 0) {
+        doc = orderedAreas['admin_limits'];
+      }
+      else {
+        doc = orderedAreas['country'];
+      }
+      
       if (loc.indexOf('/edit/') === -1 && loc.indexOf('/add') === -1) {
         return this.url_.buildDocumentUrl(
-          app.utils.getDoctype(doc['type']),  doc['document_id'],  doc['locales'][0]);
+          app.utils.getDoctype(doc[doc.length-1]['type']),  doc[doc.length-1]['document_id'],  doc[doc.length-1]['locales'][0]);
       }
     }
   }
