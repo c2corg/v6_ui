@@ -1,4 +1,4 @@
-<article class="post  card-outing" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;" ng-click="cardCtrl.openDoc(doc)">
+<article class="post card-outing" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;" ng-click="cardCtrl.openDoc(doc)">
   <div class="infoa">
     <a class="pportrait" ng-href="/profiles/{{::doc['author']['user_id']}}/{{::doc['user']['locales'][0]['lang']}}" title="{{::doc['author']['name']}}" ng-click="$event.stopPropagation()" ng-if="::doc['author']['forum_username'] != null"><img class="URgs7" ng-src="https://forum.camptocamp.org/user_avatar/forum.camptocamp.org/{{::doc['user']['forum_username']}}/36/1_1.png" alt="" width="36" height="36"></a>
     <div class="parent-author">

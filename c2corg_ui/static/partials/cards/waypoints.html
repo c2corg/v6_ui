@@ -1,5 +1,5 @@
-<article class="post" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;" ng-click="cardCtrl.openDoc()">
-  <div class="infoa">
+<article class="post card-waypoint" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;" ng-click="cardCtrl.openDoc()">
+  <div class="infoa flex">
     <span class="pportrait"><span class="{{'icon-' + doc['waypoint_type']}} waypoint-type"
                                   uib-tooltip="{{doc['waypoint_type'] | translate}}" tooltip-append-to-body="true">
       </span></span>
@@ -11,7 +11,7 @@
   </div>
   <div class="parent-infop">
   </div>
-  <div class="parent-infop parent-infop-first inlist">
+  <div class="parent-infop parent-infop-first">
     <div class="infop-bar">
       <div class="parent-bubble" ng-if="::doc['elevation']">
         <div class="bubble" uib-tooltip="{{'elevation'| translate}}" tooltip-append-to-body="true">
@@ -25,7 +25,7 @@
       </div>
     </div>
   </div>
-  <div class="parent-infop parent-infop-first" ng-if="::doc['areas'] != null">
+  <div class="parent-infop parent-infop-first area" ng-if="::doc['areas'] != null">
     <a ng-href="{{::cardCtrl.createURLArea(doc['areas'])}}" title="{{::cardCtrl.showArea(doc['areas'])}}" ng-click="$event.stopPropagation()">
       <div class="infop-bar">
         <div class="parent-bubble">
@@ -40,9 +40,7 @@
         </div>
       </div></a>
   </div>
-
-
-  <div class="parent-infop parent-infop-first inlist" ng-if="::doc['slackline_types']">
+  <div class="parent-infop parent-infop-first" ng-if="::doc['slackline_types']">
     <div class="infop-bar">
       <div class="text-bubble">
         <div class="flex" >
