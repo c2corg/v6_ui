@@ -109,11 +109,9 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
 
   % if version:
     ${show_archive_data('outings', outing, locale, version)}
-  % endif
-
-  ## IMAGES
-  % if not version:
+  % else:
     ${get_image_gallery()}
+    ${show_other_langs_links('outings', outing, other_langs)}
   % endif
 
   <div class="view-details-informations col-xs-12  informations">
@@ -184,7 +182,6 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
 % if not version:
   <div class="ng-hide">
     <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
-    ${show_other_langs_links('outings', outing, other_langs)}
     ${show_missing_langs_links('outings', outing, missing_langs)}
     ${delete_association_confirmation_modal()}
     ${show_merge_documents_dialog('outings')}

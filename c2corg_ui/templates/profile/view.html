@@ -1,12 +1,8 @@
 <%!
     from c2corg_common.attributes import activities, image_categories, image_types
-    from c2corg_ui.templates.utils import get_lang_lists
 %>
 <%inherit file="../base.html"/>
-<%namespace file="../helpers/view.html" import="show_badge, show_locale_title,
-    photoswipe_gallery, show_missing_langs_links, show_other_langs_links,
-    generate_share_metadata"/>
-<%namespace file="helpers/view.html" import="show_profile_float_buttons"/>
+<%namespace file="../helpers/view.html" import="show_badge, show_locale_title, photoswipe_gallery, generate_share_metadata"/>
 
 <%block name="pagelang">lang="${lang}"</%block>
 
@@ -15,13 +11,6 @@
 <%block name="metarobots">
   <meta name="robots" content="index,follow">
 </%block>
-
-<%
-    user_id = profile['document_id']
-    locale = locales[0]
-    lang_data = {'available_langs': [l['lang'] for l in locales]}
-    other_langs, missing_langs = get_lang_lists(lang_data, lang)
-%>
 
 <%block name="moduleConstantsValues">
   ## Set in the data request
@@ -41,21 +30,15 @@
 
 <header class="view-details-title">
   <h1>
-    <span>${locale['title']}</span>
+    <span>${locales[0]['title']}</span>
     ${show_badge(profile, 'profile')}
   </h1>
 </header>
 
 <section class="view-details-section">
-
-  <div app-user-profile="${user_id}" app-user-profile-lang="${lang}">
+  <div app-user-profile="${profile['document_id']}" app-user-profile-lang="${lang}">
     <div id="user-profile-data" app-loading></div>
   </div>
-
-  ${show_other_langs_links('profiles', profile, other_langs)}
-  ${show_missing_langs_links('profiles', profile, missing_langs)}
-  ${show_profile_float_buttons(user_id, lang, other_langs, missing_langs)}
-
 </section>
 
 <div class="ng-hide">

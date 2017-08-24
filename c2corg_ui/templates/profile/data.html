@@ -2,8 +2,9 @@
 from c2corg_ui.templates.utils import get_lang_lists
 from json import dumps
 %>
-<%namespace file="../helpers/view.html" import="get_image_gallery, get_document_description, show_areas, get_licence"/>
-<%namespace file="helpers/view.html" import="get_profile_general"/>
+<%namespace file="../helpers/view.html" import="get_image_gallery, get_document_description,
+    show_areas, get_licence, show_other_langs_links, show_missing_langs_links"/>
+<%namespace file="helpers/view.html" import="get_profile_general, show_profile_float_buttons"/>
 
 % if not_authorized:
   <div class="view-details-not-authorised text-center">
@@ -13,6 +14,10 @@ from json import dumps
   </div>
 
 % else:
+  <%
+      user_id = profile['document_id']
+      other_langs, missing_langs = get_lang_lists(profile, lang)
+  %>
 
   <div app-view-details>
     % if geometry:
@@ -32,7 +37,7 @@ from json import dumps
             "properties": {
               "title": ${dumps(profile["name"]) | n},
               "lang": "${locale["lang"]}",
-              "documentId": ${profile['document_id']},
+              "documentId": ${user_id},
               "module": "profiles",
               "highlight": true
             }
@@ -43,6 +48,7 @@ from json import dumps
     <div ng-init="detailsCtrl.documentService.setAssociations(${profile['associations']});"></div>
 
     ${get_image_gallery()}
+    ${show_other_langs_links('profiles', profile, other_langs)}
 
     <div class="view-details-informations col-xs-12  informations">
       <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
@@ -56,7 +62,10 @@ from json import dumps
 
     ${get_document_description(locale, 'profile')}
 
-    <app-feed app-feed-profile="${profile['document_id']}" id="feed"></app-feed>
+    <app-feed app-feed-profile="${user_id}" id="feed"></app-feed>
 
   </div>
+
+  ${show_missing_langs_links('profiles', profile, missing_langs)}
+  ${show_profile_float_buttons(user_id, lang, other_langs, missing_langs)}
 % endif
