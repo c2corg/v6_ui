@@ -557,7 +557,7 @@
           ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#${text}">
         <span x-translate>${title if title else text}</span><span class="glyphicon glyphicon-menu-${'down' if open_tab else 'right'}"></span>
       </h3>
-      <section class="collapse${' in' if open_tab else ''}" id="${text}" aria-expanded="true">
+      <section class="collapse${' in' if open_tab else ''}" id="${text}" aria-expanded="${'true' if open else 'false'}">
         <div class="lead">
           ${show_attr(locale, text)}
         </div>
