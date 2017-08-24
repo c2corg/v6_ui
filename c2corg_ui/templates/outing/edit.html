@@ -18,7 +18,7 @@ updating_doc = outing_id and outing_lang
 <%block name="pagetitle"><title ng-init="id=${outing_id if outing_id else 0}" ng-bind="id ? mainCtrl.page_title('Editing an outing') : mainCtrl.page_title('Creating an outing')">${show_title('Create/edit outing')}</title></%block>
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
 
-<section class="create-edit-document">
+<section class="create-edit-document" ng-cloak>
 
   <h1 ng-cloak ng-init="id=${outing_id if outing_id else 0}"
       ng-bind="id ? ('Editing an outing' | translate) : ('Creating an outing' | translate)"

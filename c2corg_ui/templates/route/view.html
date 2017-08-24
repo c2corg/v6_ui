@@ -144,18 +144,18 @@ other_langs, missing_langs = get_lang_lists(route, lang)
 
   % if not version:
     ## route has always at least 1 associated waypoint so this div will always be displayed
-    <div class="view-details-associations col-xs-12 associations">
+    <div class="view-details-associations col-xs-12 associations" ng-cloak>
       <ul class="actions">
         <li>
           <app-list-switch type="short"></app-list-switch>
         </li>
       </ul>
       <span class="lead">
+        <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
+          <label translate>Add association</label>
+          <app-add-association parent-id="${route_id}" parent-doctype="routes" dataset="wrcbx"></app-add-association>
+        </div>
         <section>
-          <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
-            <label translate>Add association</label>
-            <app-add-association parent-id="${route_id}" parent-doctype="routes" dataset="wrcbx"></app-add-association>
-          </div>
           ${show_associated_waypoints(route)}
           ${show_associated_routes(route)}
           ${show_associated_articles(route)}

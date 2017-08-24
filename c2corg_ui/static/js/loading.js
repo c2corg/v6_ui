@@ -24,10 +24,8 @@ app.loadingDirective = function($http) {
        }, function() {
          if ($http.pendingRequests.length > 0) {
            $('.loading-gif').show();
-           el.addClass('loading');
          } else {
            $('.loading-gif').hide();
-           el.removeClass('loading');
          }
        });
      }

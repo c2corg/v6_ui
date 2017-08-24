@@ -121,7 +121,7 @@ from json import dumps
   % endif
 
   % if not version:
-    <div class="view-details-associations col-xs-12 associations"
+    <div class="view-details-associations col-xs-12 associations" ng-cloak
       % if not has_associations(image):
          ng-if="userCtrl.hasEditRights('images', {'imageType': '${image['image_type']}', 'imageCreator': ${image['creator']['user_id']}})"
       % endif

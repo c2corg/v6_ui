@@ -81,7 +81,7 @@ other_langs, missing_langs = get_lang_lists(article, lang)
   </div>
 
   % if not version:
-    <div class="view-details-associations col-xs-12 associations"
+    <div class="view-details-associations col-xs-12 associations" ng-cloak
       % if not has_associations(article):
          ng-show="userCtrl.hasEditRights('articles', {'articleType': '${article['article_type']}', 'authorId': ${article['author']['user_id']}})"
       % endif
