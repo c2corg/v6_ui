@@ -26,7 +26,7 @@ closure_library_path = settings.get('closure_library_path')
     <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
     <link rel="manifest" href="/manifest.json">
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-    <%block name="metarobots"><meta name="robots" content="index,follow"></%block>
+    <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
 % if debug:
     <link rel="stylesheet" href="${request.static_path('%s/bootstrap/dist/css/bootstrap.css' % node_modules_path)}">
     <link rel="stylesheet" href="${request.static_path('%s/bootstrap-slider/dist/css/bootstrap-slider.css' % node_modules_path)}">
