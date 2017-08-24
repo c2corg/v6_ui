@@ -98,7 +98,7 @@
       </div>
       <div class="parent-bubble">
         <div class="parent-hour">
-          <div class="hour"><span class="d-hour">{{::doc.time | amUtc | amLocal | amTimeAgo}}</span><span class="d-date" ng-if="::type == 'outing'"> - {{::doc['document']['date_end'] | amUtc | amLocal | amDateFormat: 'DD/MM/YYYY'}}</span></div>
+          <div class="hour"><span class="d-hour" ng-if="type != 'outing'">{{'posted' | translate}} {{::doc.time | amUtc | amLocal | amTimeAgo}}</span><span class="d-date" ng-if="::type == 'outing'">{{'realized the' | translate}} {{::doc['document']['date_end'] | amUtc | amLocal | amDateFormat: 'DD/MM/YYYY'}}</span></div>
         </div>
       </div>
       <div class="parent-bubble">

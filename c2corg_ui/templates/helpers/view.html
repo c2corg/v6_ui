@@ -434,11 +434,11 @@
       % endif
       <span class="glyphicon glyphicon-menu-down"></span>
       
-    </h3><app-list-switch class="pull-right"></app-list-switch>
+    </h3>
     % if document['doctype'] == 'routes':   
           <a protected-url-btn
              url="${request.route_path('outings_add') + '#r=' + str(document['document_id'])}">
-            <button class="btn btn-default orange-btn pull-right"><span class="glyphicon glyphicon-plus"></span></button>
+            <button class="btn btn-default orange-btn pull-right"><span class="glyphicon glyphicon-plus"></span> <span translate>add an outing</span></button>
           </a>
       % endif
     <div class="associated-documents collapse in" id="associated-outings">
@@ -451,7 +451,7 @@
 
              <div class="list-item vertical-align new-outing" >
     
-      
+      <!--
       % if total == 0:
        % if document['doctype'] == 'routes':   
           <a protected-url-btn
@@ -459,6 +459,7 @@
             <button class="btn btn-default orange-btn pull-right" translate>add a new outing to this document</button>
           </a>
       % endif
+-->
     
       % endif
           
@@ -548,16 +549,17 @@
 <%def name="get_document_description(locale, doctype, title=None)">\
   % if locale.get('summary') or locale.get('description'):
       % if doctype not in ['article', 'profile']:
-        <h3>
+        <h3 ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#desc_${doctype}">
           % if title:
             <span x-translate>${title}</span>
           % else:
             <span translate>description</span>
           % endif
+          <span class="glyphicon glyphicon-menu-down"></span>
         </h3>
       % endif
            <div class="finfo">
-              <div class="ficontent collapse in max">
+              <div class="ficontent collapse max in" aria-expanded="true">
           % if locale.get('summary'):
             % if locale.get('description'):
               <summary class="document-summary">

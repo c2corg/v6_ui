@@ -13,21 +13,16 @@
   </div>
 
 % else:
-          % if geometry:
-
-        % if profile.get('areas'):
-        <article class="location-static">
-          ${show_areas(profile)}
-        </article>
-        % endif
-        % endif
+    
   <div class="row">
-    <div class="col-xs-12 col-md-4 col-lg-3">
-
+    <div class="col-xs-12 col-sm-6 col-md-5 col-lg-4">
       <div app-view-details>
+        ${get_profile_general(profile)}
+        
+        ${get_document_description(locale, 'profile')}
+
         % if geometry:
 
-    
         <div ng-init='profileFeature = {
                       "type": "FeatureCollection",
                       "properties": {},
@@ -47,25 +42,19 @@
         % endif
         <div ng-init="detailsCtrl.documentService.setAssociations(${profile['associations']});"></div>
 
+      % if geometry:
+
+        % if profile.get('areas'):
+        <article class="location-static">
+          ${show_areas(profile)}
+        </article>
+        % endif
+        % endif
         ${get_image_gallery()}
-
-
-   
-    
-            ${get_profile_general(profile)}
-            ${get_licence(profile)}
-      
-   
-
-        ${get_document_description(locale, 'profile')}
-
-
-
+        ${get_licence(profile)}
       </div>
-
     </div>
-
-    <div clas="col-xs-12 col-md-8 col-lg-3">
+    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
       <app-feed app-feed-profile="${profile['document_id']}" id="feed"></app-feed>
     </div>
   </div>

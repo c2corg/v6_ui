@@ -11,6 +11,9 @@
       <h3>{{feedCtrl.announce.title}}</h3>
       <div class="alert alert-warning">{{feedCtrl.announce.message}}</div>
     </div>
+
+       <h3 class="title-feed" translate>Activity feed</h3>
+
     <div class="in-feed-col-1">
       <article ng-repeat="doc in feedCtrl.documentsCol[0] track by doc.id">
         <app-card app-card-doc="::doc"></app-card>

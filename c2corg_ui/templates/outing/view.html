@@ -98,13 +98,17 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
     <h1 class="routes">
       <span class="title">${locale['title']}</span>
       <div class="icons-header routes">${get_activities(outing, 'top')}</div> ${show_badge(outing, 'outing')}
+           <div class="outing-date" class="ng-cloak">${show_fulldate(outing['date_start'], outing['date_end'])}</div>
     </h1>
+
   </header>
   <header class="view-title-without-bg" ng-if="!detailsCtrl.hasHeadband">
     <h1 class="routes">
       <span class="title">${locale['title']}</span>
       <div class="icons-header routes">${get_activities(outing, 'top')}</div> ${show_badge(outing, 'outing')}
+      <div class="outing-date" class="ng-cloak">${show_fulldate(outing['date_start'], outing['date_end'])}</div>
     </h1>
+     
   </header>
   
 
@@ -196,50 +200,6 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
      </div>
   </div>
 
-
-<!--
-
-  <div class="view-details-informations col-xs-12  informations">
-    <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
-      <span translate>Information</span><span class="glyphicon glyphicon-menu-down"></span>
-    </h3>
-    <section id="document-informations" class="collapse in">
-     
-
-   
-    
-  
-    </section>
-  </div>
-
-
-
- 
-
-
-    <div class="view-details-associations col-xs-12 associations"
-       % if not has_associations(outing):
-         ng-if="userCtrl.hasEditRights('outings', {'users': ${userIds}})"
-       % endif
-    >
-      <ul class="actions">
-        <li>
-          <app-list-switch type="short"></app-list-switch>
-        </li>
-      </ul>
-      <span class="lead">
-        <div ng-show="userCtrl.auth.isAuthenticated() && userCtrl.hasEditRights('outings', {'users': ${userIds}})">
-          <label translate>Add association</label>
-          <app-add-association parent-doctype="outings" parent-id="${outing_id}" dataset="rcx"></app-add-association>
-        </div>
-        <section>
-          ${show_associated_routes(outing)}
-          ${show_associated_articles(outing)}
-          ${show_associated_xreports(outing)}
-        </section>
-      </span>
-    </div>
--->
 
 </section>
 
