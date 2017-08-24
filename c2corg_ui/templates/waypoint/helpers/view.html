@@ -203,11 +203,7 @@
    waypoint.get('parking_fee') or waypoint.get('snow_clearance_rating') or waypoint.get('lift_access') is not None or waypoint.get('routes_quantity') :
 
   <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
-    <h4><span translate>Access</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
-    <div class="name-icon">
-      <span class="glyphicon glyphicon-road"></span>
-      <p translate>Access</p>
-    </div>
+    <h4><span class="glyphicon glyphicon-road"></span> <span translate>Access</span></h4>
     <span class="detail-text accordion">
 
       % if waypoint.get('access_time'):
@@ -424,8 +420,8 @@
 
 <%def name="get_waypoint_access_field(locale, waypoint_type, open_tab=False)">\
   % if locale.get('access'):
-    <div class="view-details-info col-xs-12">
-      <h3 class="heading ${'' if open_tab else 'closed '}show-phone"
+   
+      <h3 class="${'' if open_tab else 'closed '}"
           ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#access">
           % if waypoint_type == 'access':
             <span translate>public transportation access</span>
@@ -436,11 +432,12 @@
           % endif
           <span class="glyphicon glyphicon-menu-${'down' if open_tab else 'right'}"></span>
       </h3>
-      <section class="collapse${' in' if open_tab else ''}" id="access" aria-expanded="true">
-        <div class="lead">
+    <div class="finfo"  class="collapse${' in' if open_tab else ''}" id="access" aria-expanded="true">
+              <div class="ficontent collapse in max">
+    
           ${show_attr(locale, 'access')}
         </div>
-      </section>
+
     </div>
   % endif
 </%def>
