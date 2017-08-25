@@ -174,8 +174,6 @@ app.FeedController = function($scope,appAuthentication, appApi, appLang, imageUr
    */
   this.showAssoBlock = /** @type {boolean} */ (JSON.parse(window.localStorage.getItem('showAssoBlock') || 'true'));
 
-
-
   /**
    * @type {ngeo.Location}
    * @public
@@ -195,12 +193,10 @@ app.FeedController = function($scope,appAuthentication, appApi, appLang, imageUr
  */
 app.FeedController.prototype.getAnnouncement_ = function() {
 
-
   this.hasAnnounce = true;
-  this.announce = {"title":"test titre","message": "test message"};
+  this.announce = {'title':'','message': ''};
 
-
-}
+};
 
 /**
  * toggle block above forum topics list
@@ -208,22 +204,18 @@ app.FeedController.prototype.getAnnouncement_ = function() {
  * @export
  */
 app.FeedController.prototype.toggleBlock = function(id) {
-  console.log("toogle: " +id)
-  switch(id) {
+  switch (id) {
     case 0:
- 
       this.showAssoBlock = !this.showAssoBlock;
       window.localStorage.setItem('showAssoBlock', JSON.stringify(this.showAssoBlock));
       break;
-
     case 1:
-        
       this.showMobileBlock = !this.showMobileBlock;
       window.localStorage.setItem('showMobileBlock', JSON.stringify(this.showMobileBlock));
       break;
+    default:
+      break;
   }
-
-
 };
 
 /**
@@ -231,16 +223,17 @@ app.FeedController.prototype.toggleBlock = function(id) {
  * @private
  */
 app.FeedController.prototype.initDocumentsCol_ = function() {
-  if(this.documentsCol[0] == null) {
+  if (this.documentsCol[0] === null) {
     this.documentsCol[0] = Array();
   }
-  if(this.documentsCol[1] == null) {
+  if (this.documentsCol[1] === null) {
     this.documentsCol[1] = Array();
   }
-  if(this.documentsCol[2] == null) {
+  if (this.documentsCol[2] === null) {
     this.documentsCol[2] = Array();
   }
-}
+};
+
 /**
  * refresh the feed column according the width
  * @export
@@ -250,7 +243,7 @@ app.FeedController.prototype.feedColumnManager = function() {
   $(window).resize(function() {
 
     if (window.innerWidth < 1400) {
-      if(this.nbCols_ != 1) {
+      if (this.nbCols_ != 1) {
         this.documentsCol = Array();
         this.documentsCol[0] = this.documents;
         this.documentsCol[1] = Array();
@@ -260,63 +253,61 @@ app.FeedController.prototype.feedColumnManager = function() {
         this.scope_.$apply();
       }
 
-    } else if(window.innerWidth >= 1400 && window.innerWidth < 2000) {
+    } else if (window.innerWidth >= 1400 && window.innerWidth < 2000) {
 
 
-      if(this.nbCols_ != 2) {
+      if (this.nbCols_ != 2) {
         this.documentsCol = Array();
         this.documentsCol[0] = Array();
         this.documentsCol[1] = Array();
         this.documentsCol[2] = Array();
         this.nbCols_ = 2;
 
-        var height1 = 0;
-        var height2 = 0;
+        var height1_c2 = 0;
+        var height2_c2 = 0;
 
-        for(var i = 0,n = this.documents.length;i<n;i++) {
+        for (var i = 0,n = this.documents.length; i < n; i++) {
 
-          console.log(height1 + " - " + height2 )
-          if(height1 <= height2 ) {
+          if (height1_c2 <= height2_c2) {
             this.documentsCol[0].push(this.documents[i]);
-            height1 = height1 + this.sizeEstimator(this.documents[i]);
-          } else if(height2 <= height1) {
+            height1_c2 = height1_c2 + this.sizeEstimator(this.documents[i]);
+          } else if (height2_c2 <= height1_c2) {
             this.documentsCol[1].push(this.documents[i]);
-            height2 = height2 + this.sizeEstimator(this.documents[i]);
+            height2_c2 = height2_c2 + this.sizeEstimator(this.documents[i]);
           } else {
             this.documentsCol[0].push(this.documents[i]);
-            height1 = height1 + this.sizeEstimator(this.documents[i]);
+            height1_c2 = height1_c2 + this.sizeEstimator(this.documents[i]);
           }
 
 
         }
         this.scope_.$apply();
-      }  
+      }
     } else {
-      if(this.nbCols_ != 3) {
+      if (this.nbCols_ != 3) {
         this.documentsCol = Array();
         this.documentsCol[0] = Array();
         this.documentsCol[1] = Array();
         this.documentsCol[2] = Array();
         this.nbCols_ = 3;
 
-        var height1 = 0;
-        var height2 = 0;
-        var height3 = 0;
+        var height1_c3 = 0;
+        var height2_c3 = 0;
+        var height3_c3 = 0;
 
-        for(var i = 0,n = this.documents.length;i<n;i++) {
-          console.log(height1 + " - " + height2 + " - " + height3 )
-          if(height1 <= height2 && height1 <= height3) {
-            this.documentsCol[0].push(this.documents[i]);
-            height1 = height1 + this.sizeEstimator(this.documents[i]);
-          } else if(height2 <= height1 && height2 <= height3) {
-            this.documentsCol[1].push(this.documents[i]);
-            height2 = height2 + this.sizeEstimator(this.documents[i]);
-          } else if(height3 <= height2 && height3 <= height1) {
-            this.documentsCol[2].push(this.documents[i]);
-            height3 = height3 + this.sizeEstimator(this.documents[i]);
+        for (var j = 0,o = this.documents.length; j < o; j++) {
+          if (height1_c3 <= height2_c3 && height1_c3 <= height3_c3) {
+            this.documentsCol[0].push(this.documents[j]);
+            height1_c3 = height1_c3 + this.sizeEstimator(this.documents[j]);
+          } else if (height2_c3 <= height1_c3 && height2_c3 <= height3_c3) {
+            this.documentsCol[1].push(this.documents[j]);
+            height2_c3 = height2_c3 + this.sizeEstimator(this.documents[j]);
+          } else if (height3_c3 <= height2_c3 && height3_c3 <= height1_c3) {
+            this.documentsCol[2].push(this.documents[j]);
+            height3_c3 = height3_c3 + this.sizeEstimator(this.documents[j]);
           } else {
-            this.documentsCol[0].push(this.documents[i]);
-            height1 = height1 + this.sizeEstimator(this.documents[i]);
+            this.documentsCol[0].push(this.documents[j]);
+            height1_c3 = height1_c3 + this.sizeEstimator(this.documents[j]);
           }
 
 
@@ -329,7 +320,6 @@ app.FeedController.prototype.feedColumnManager = function() {
 
   }.bind(this));
 };
-
 
 /**
  * Fills the feed with documents.
@@ -360,24 +350,22 @@ app.FeedController.prototype.getLatestTopics_ = function() {
   }.bind(this));
 };
 
-
 /**
  * number cannot be < 0 and cannot be decimal
  * @param number
  * @private
  */
 app.FeedController.prototype.naturalNumber = function(n) {
-  if(n < 0) {
+  if (n < 0) {
     return 0;
   } else {
-    if(n > 10) {
+    if (n > 10) {
       return 10;
-    }
-    else {
+    } else {
       return Math.round(n);
     }
   }
-}
+};
 
 /**
  * simulate size for a doc
@@ -385,26 +373,24 @@ app.FeedController.prototype.naturalNumber = function(n) {
  @return {number}
  * @public
  */
-app.FeedController.prototype.sizeEstimator= function(doc) {
-
+app.FeedController.prototype.sizeEstimator = function(doc) {
   var size = 225;
-  if(doc['document']['locales'][0]['summary'] !== null)
-  {
+  if (doc['document']['locales'][0]['summary'] !== null) {
     size = size + 22;
   }
-  if(doc['document']['elevation_max'] !== null || doc['document']['height_diff_up'] !== null || doc['document']['height_diff_difficulties'] != null) {
-    size = size +51
+  if (doc['document']['elevation_max'] !== null || doc['document']['height_diff_up'] !== null || doc['document']['height_diff_difficulties'] !== null) {
+    size = size + 51;
   }
-  if(doc['image1'] != null)  {
-    size = size +275;
+  if (doc['image1'] !== null)  {
+    size = size + 275;
   }
-  if(doc['image2'] != null)  {
-    size = size +100;
+  if (doc['image2'] !== null)  {
+    size = size + 100;
   }
 
   return size;
+};
 
-}
 /**
  * Handles feed processing for Feed.js and Whatsnew.js
  * @param response
@@ -418,76 +404,73 @@ app.FeedController.prototype.handleFeed = function(response) {
   this.nextToken = token;
 
   this.initDocumentsCol_();
-  console.log(window.innerWidth );
-  if(window.innerWidth < 1400 ) {
+  if (window.innerWidth < 1400) {
     this.nbCols_ = 1;
-    for (var k = 0; k < data.length; k++) {
-      data[k]['type'] = "f";
+    for (var k = 0, n = data.length; k < n; k++) {
+      data[k]['type'] = 'f';
       this.documentsCol[0].push(data[k]);
       this.documents.push(data[k]);
     }
 
-  } else if (window.innerWidth >= 1400 && window.innerWidth < 2000) { 
+  } else if (window.innerWidth >= 1400 && window.innerWidth < 2000) {
     this.nbCols_ = 2;
 
-    var element1 = angular.element(document.querySelector('.in-feed-col-1')); 
-    var element2 = angular.element(document.querySelector('.in-feed-col-2'));
+    var element1_c2 = angular.element(document.querySelector('.in-feed-col-1'));
+    var element2_c2 = angular.element(document.querySelector('.in-feed-col-2'));
 
-    var height1 = element1[0].offsetHeight;
-    var height2 = element2[0].offsetHeight;
+    var height1_c2 = element1_c2[0].offsetHeight;
+    var height2_c2 = element2_c2[0].offsetHeight;
 
-    for(var i = 0,n = data.length;i<n;i++) {
-      data[i]['type'] = "f";
+    for (var i = 0,o = data.length; i < o; i++) {
+      data[i]['type'] = 'f';
 
-      if(height1 <= height2 ) {
+      if (height1_c2 <= height2_c2) {
         this.documentsCol[0].push(data[i]);
-        height1 = height1 + this.sizeEstimator(data[i]);
-      } else if(height2 <= height1) {
+        height1_c2 = height1_c2 + this.sizeEstimator(data[i]);
+      } else if (height2_c2 <= height1_c2) {
         this.documentsCol[1].push(data[i]);
-        height2 = height2 + this.sizeEstimator(data[i]);
+        height2_c2 = height2_c2 + this.sizeEstimator(data[i]);
       } else {
         this.documentsCol[0].push(data[i]);
-        height1 = height1 + this.sizeEstimator(data[i]);
+        height1_c2 = height1_c2 + this.sizeEstimator(data[i]);
       }
 
       this.documents.push(data[i]);
 
     }
 
-  } else if(window.innerWidth >= 2000) {
+  } else if (window.innerWidth >= 2000) {
     this.nbCols_ = 3;
-    var element1 = angular.element(document.querySelector('.in-feed-col-1')); 
+    var element1 = angular.element(document.querySelector('.in-feed-col-1'));
     var element2 = angular.element(document.querySelector('.in-feed-col-2'));
-    var element3 = angular.element(document.querySelector('.in-feed-col-3')); 
+    var element3 = angular.element(document.querySelector('.in-feed-col-3'));
 
-    var height1 = element1[0].offsetHeight;
-    var height2 = element2[0].offsetHeight;
-    var height3 = element3[0].offsetHeight;
-
-
-    for(var i = 0,n = data.length;i<n;i++) {
-      data[i]['type'] = "f";
+    var height1_c3 = element1[0].offsetHeight;
+    var height2_c3 = element2[0].offsetHeight;
+    var height3_c3 = element3[0].offsetHeight;
 
 
-      if(height1 <= height2 && height1 <= height3) {
-        this.documentsCol[0].push(data[i]);
-        height1 = height1 + this.sizeEstimator(data[i]);
-      } else if(height2 <= height1 && height2 <= height3) {
-        this.documentsCol[1].push(data[i]);
-        height2 = height2 + this.sizeEstimator(data[i]);
-      } else if(height3 <= height2 && height3 <= height1) {
-        this.documentsCol[2].push(data[i]);
-        height3 = height3 + this.sizeEstimator(data[i]);
+    for (var j = 0,q = data.length; j < q; j++) {
+      data[j]['type'] = 'f';
+
+
+      if (height1_c3 <= height2_c3 && height1_c3 <= height3_c3) {
+        this.documentsCol[0].push(data[j]);
+        height1_c3 = height1_c3 + this.sizeEstimator(data[j]);
+      } else if (height2_c3 <= height1_c3 && height2_c3 <= height3_c3) {
+        this.documentsCol[1].push(data[j]);
+        height2_c3 = height2_c3 + this.sizeEstimator(data[j]);
+      } else if (height3_c3 <= height2_c3 && height3_c3 <= height1_c3) {
+        this.documentsCol[2].push(data[j]);
+        height3_c3 = height3_c3 + this.sizeEstimator(data[j]);
       } else {
-        this.documentsCol[0].push(data[i]);
-        height1 = height1 + this.sizeEstimator(data[i]);
+        this.documentsCol[0].push(data[j]);
+        height1_c3 = height1_c3 + this.sizeEstimator(data[j]);
       }
 
-      this.documents.push(data[i]);
+      this.documents.push(data[j]);
 
     }
-
-
   }
 
   if ((token && data.length === 0) || !token && this.documentsCol[0].length > 0) {
@@ -534,7 +517,6 @@ app.FeedController.prototype.toggleFilters = function() {
   this.getDocumentsFromFeed();
   window.scrollTo(0, 0);
 };
-
 
 /**
  * document type without 's' (singular form)

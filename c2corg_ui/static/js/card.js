@@ -121,7 +121,7 @@ app.CardController = function(gettextCatalog, appUrl, imageUrl) {
       }
     }
   } else {
-    this.locale= this.doc.locales[0];
+    this.locale = this.doc.locales[0];
     for (var j = 0, o = this.doc.locales.length; j < o; j++) {
       var l2 = this.doc.locales[j];
       if (l2['lang'] === this.lang) {
@@ -197,8 +197,7 @@ app.CardController.prototype.showArea = function(areas) {
 
     var str = '';
 
-    if(orderedAreas['admin_limits'].length > 0)
-    {
+    if (orderedAreas['admin_limits'].length > 0) {
       str = orderedAreas['admin_limits'].join(' - ');
     }
 
@@ -249,7 +248,7 @@ app.CardController.prototype.createURL = function() {
   var loc = window.location.pathname;
   // Don't create links on edit and add pages.
   if (loc.indexOf('/edit/') === -1 && loc.indexOf('/add') === -1) {
-    if(this.type == "feeds") {
+    if (this.type == 'feeds') {
       return this.url_.buildDocumentUrl(
         app.utils.getDoctype(this.doc['document']['type']), this.doc['document']['document_id'], this.doc['document']['locales'][0]);
     } else {
@@ -292,18 +291,16 @@ app.CardController.prototype.createURLArea = function(areas) {
       //var doc = areas[areas.length - 1];
 
       var doc;
-        if (orderedAreas['range'].length > 0) {
+      if (orderedAreas['range'].length > 0) {
         doc = orderedAreas['range'];
       } else if (orderedAreas['range'].length > 0) {
         doc = orderedAreas['admin_limits'];
-      }
-      else {
+      } else {
         doc = orderedAreas['country'];
       }
-      
+
       if (loc.indexOf('/edit/') === -1 && loc.indexOf('/add') === -1) {
-        return this.url_.buildDocumentUrl(
-          app.utils.getDoctype(doc[doc.length-1]['type']),  doc[doc.length-1]['document_id'],  doc[doc.length-1]['locales'][0]);
+        return this.url_.buildDocumentUrl(app.utils.getDoctype(doc[doc.length - 1]['type']),  doc[doc.length - 1]['document_id'],  doc[doc.length - 1]['locales'][0]);
       }
     }
   }
@@ -358,16 +355,14 @@ app.CardController.prototype.getGlobalRatings = function() {
 };
 
 
-
-
 /**
  * Based on mako functions in helpers/view.html and route/detailed_route_attributes.html
  * @export
  * @return {Object} ratings
  */
 app.CardController.prototype.getFullRatings = function() {
-  var doc = {}
-  if(this.type == "feeds") {
+  var doc = {};
+  if (this.type == 'feeds') {
     doc = this.doc['document'];
   } else {
     doc = this.doc;

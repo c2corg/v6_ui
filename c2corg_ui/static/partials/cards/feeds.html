@@ -107,7 +107,7 @@
         </a>
       </div>
       <div class="parent-bubble"><div class="bubble bquality">
-        <a class="link" uib-tooltip="{{doc['document']['quality'] | translate}}" tooltip-append-to-body="true">
+        <a class="link" uib-tooltip="{{'quality' | translate}} : {{doc['document']['quality'] | translate}}" tooltip-append-to-body="true">
           <span class="quality-{{::doc['document']['quality']}}"></span>
         </a></div>
       </div>

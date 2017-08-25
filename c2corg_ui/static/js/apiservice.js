@@ -621,7 +621,7 @@ app.Api.prototype.readCommentsForum = function(document_id, lang) {
     }
   };
 
-  var promise = this.http_.get(this.discourseUrl_ + '/t/'+document_id+'-'+lang+'/'+document_id+'.json', config);
+  var promise = this.http_.get(this.discourseUrl_ + '/t/' + document_id + '-' + lang + '/' + document_id + '.json', config);
   promise.catch(function(response) {
     alerts.addError(response);
   });
