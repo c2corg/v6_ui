@@ -200,7 +200,7 @@ app.FeedController.prototype.getAnnouncement_ = function() {
 
 /**
  * toggle block above forum topics list
- @param number
+ @param {number} id
  * @export
  */
 app.FeedController.prototype.toggleBlock = function(id) {
@@ -352,7 +352,7 @@ app.FeedController.prototype.getLatestTopics_ = function() {
 
 /**
  * number cannot be < 0 and cannot be decimal
- * @param number
+ * @param {number} n
  * @private
  */
 app.FeedController.prototype.naturalNumber = function(n) {
@@ -369,7 +369,7 @@ app.FeedController.prototype.naturalNumber = function(n) {
 
 /**
  * simulate size for a doc
- * @param Object
+ * @param {Object} doc
  @return {number}
  * @public
  */
