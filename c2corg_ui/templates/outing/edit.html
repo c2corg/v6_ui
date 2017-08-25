@@ -17,7 +17,7 @@ updating_doc = outing_id and outing_lang
 
 <%block name="pagetitle"><title ng-init="id=${outing_id if outing_id else 0}" ng-bind="id ? mainCtrl.page_title('Editing an outing') : mainCtrl.page_title('Creating an outing')">${show_title('Create/edit outing')}</title></%block>
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
-
+<div class="viewdoc">
 <section class="create-edit-document">
 
   <h1 ng-cloak ng-init="id=${outing_id if outing_id else 0}"
@@ -121,10 +121,18 @@ updating_doc = outing_id and outing_lang
                 app-select="editCtrl.documentService.pushToAssociations(doc, 'routes', true)" dataset="r"></app-simple-search>
             </div>
 
-            <section class="section associations full route-associations">
-              ${show_editing_associated_routes('outing', True)}
-            </section>
+  
 
+            <div class="row group-route">
+            <div class="col-xs-12">
+              <span class="lead">
+                <section>
+                   ${show_editing_associated_routes('outing', True)}
+                </section>
+              </span>
+            </div>
+          </div>
+            
             ## ROUTE DESCRIPTION
             <div class="full form-group">
               <label translate>route_description</label>
@@ -577,3 +585,4 @@ updating_doc = outing_id and outing_lang
   ${show_preview_container()}
   ${show_save_confirmation_modal(updating_doc)}
 </section>
+</div>
