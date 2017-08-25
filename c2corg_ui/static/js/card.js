@@ -91,7 +91,6 @@ app.CardController = function(gettextCatalog, appUrl, imageUrl) {
    * @export
    */
   this.doc;
-  //console.log(this.doc)
 
   /**
    * @type {boolean}
@@ -99,14 +98,11 @@ app.CardController = function(gettextCatalog, appUrl, imageUrl) {
    */
   this.remainingActivities = false;
 
-
-
   /**
    * @type {string}
    * @public
    */
   this.type = app.utils.getDoctype(this.doc['type']);
-
 
   /**
    * @type {Object}
@@ -115,7 +111,7 @@ app.CardController = function(gettextCatalog, appUrl, imageUrl) {
 
   this.locale = {};
 
-  if(this.type === "feeds") {
+  if (this.type === 'feeds') {
     this.locale = this.doc.document.locales[0];
     for (var i = 0, n = this.doc.document.locales.length; i < n; i++) {
       var l = this.doc.document.locales[i];
@@ -124,23 +120,18 @@ app.CardController = function(gettextCatalog, appUrl, imageUrl) {
         break;
       }
     }
-  }  else {
+  } else {
     this.locale= this.doc.locales[0];
-    for (var i = 0, n = this.doc.locales.length; i < n; i++) {
-      var l = this.doc.locales[i];
-      if (l['lang'] === this.lang) {
-        this.locale = l;
+    for (var j = 0, o = this.doc.locales.length; j < o; j++) {
+      var l2 = this.doc.locales[j];
+      if (l2['lang'] === this.lang) {
+        this.locale = l2;
         break;
       }
     }
   }
 
-
-
-
 };
-
-
 
 
 /**
@@ -164,7 +155,7 @@ app.CardController.prototype.createActionLine = function() {
       break;
     default:
       break;
-                                 }
+  }
   return line + this.getDocumentType(this.doc['document']['type']);
 };
 

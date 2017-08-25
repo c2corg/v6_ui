@@ -134,14 +134,14 @@
       padding: 5px;
 
       &.route {
-        
+
         .parent-infop {
           &.large {
             width: 35%;
           }
         }
-        
-        
+
+
       }
       &.card-outing {
         .inlist {
@@ -150,12 +150,19 @@
         .infoa {
           display: block;
           margin-top: 9px;
+
+          .author {
+            a {
+              font-weight: normal;
+              
+            }
+          }
         }
       }
       &.card-waypoint {
-        .infoa { display: flex;
-          
-          }
+        .infoa { 
+          display: flex;
+        }
       }
       .parent-text { 
         margin: 9px 0 0 10px;
@@ -193,14 +200,14 @@
         margin: 0px;
         width: 15%;
         &.large {
-          
+
           .infop-bar {
             display:block;
             .group-infop {
-            float: left;  
+              float: left;  
             }
           }
-          
+
         }
         &.area {
           .parent-bubble {
@@ -254,7 +261,7 @@
           .under-author { float:right;
 
             width:50%;
-              margin-right: 0px;
+            margin-right: 0px;
             .author {
               width: 100%;
               text-overflow: ellipsis;
@@ -1030,8 +1037,5 @@ textarea {
     height: auto;
   }
 
-  .post .parent-infop .infop-bar {
-    flex-wrap:wrap;
-    flex-flow: row wrap;
-  }
+
 }

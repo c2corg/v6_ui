@@ -148,13 +148,12 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
    * @private
    */
   this.scope_ = $scope;
-  
+
   /**
    * @type {boolean}
    * @export
    */
   this.showMobileBlock = /** @type {boolean} */ (JSON.parse(window.localStorage.getItem('showMobileBlock') || 'true'));
-
 
   this.initHeadband();
 
@@ -179,7 +178,6 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
  * @export
  */
 app.ViewDetailsController.prototype.toggleMobileBlock = function() {
-  console.log("on tooglge le bouzin " + this.showMobileBlock);
   this.showMobileBlock = !this.showMobileBlock;
   window.localStorage.setItem('showMobileBlock', JSON.stringify(this.showMobileBlock));
 };
@@ -229,39 +227,28 @@ app.ViewDetailsController.prototype.toggleTab = function(tab) {
  * @export
  */
 app.ViewDetailsController.prototype.initHeadband = function() {
-
-
-  if (this.documentService.document.activities.indexOf('rock_climbing') > -1 || this.documentService.document.activities.indexOf('mountain_climbing') > -1 || this.documentService.document.activities.indexOf('ice_climbing') > -1 ) {
-
+  if (this.documentService.document.activities.indexOf('rock_climbing') > -1 || this.documentService.document.activities.indexOf('mountain_climbing') > -1 || this.documentService.document.activities.indexOf('ice_climbing') > -1) {
     this.hasHeadband = false;
     if (this.documentService.document.associations.images.length == 0) {
       this.hasVerticalImg = false;
-    }
-    else{
+    } else {
       this.hasVerticalImg = true;
     }
-  }
-  else
-  {
-
+  } else {
     this.hasVerticalImg = false;
-    if (this.documentService.document.associations.images.length == 0)
-    {
+    if (this.documentService.document.associations.images.length == 0) {
       this.hasHeadband = false;
-    } else if (this.documentService.document.associations.images.length == 1)
-    {
+    } else if (this.documentService.document.associations.images.length == 1) {
       this.hasHeadband = true;
-      this.scope_.headBands = this.createImageUrl(this.documentService.document.associations.images[this.widestImg_]['filename'],'BI');     
+      this.scope_.headBands = this.createImageUrl(this.documentService.document.associations.images[this.widestImg_]['filename'],'BI');
     } else if (this.documentService.document.associations.images.length > 1) {
       this.getBestWideImg(0);
       this.hasHeadband = true;
-    }
-    else {
+    } else {
       this.hasHeadband = false;
     }
-
   }
-}
+};
 
 
 /**
@@ -271,34 +258,23 @@ app.ViewDetailsController.prototype.initHeadband = function() {
  * @export
  */
 app.ViewDetailsController.prototype.getBestWideImg = function(index) {
-  console.log("on recupere l'image a l'index " + index)
-
   this.getMeta(index,this.createImageUrl(this.documentService.document.associations.images[index]['filename'],'MI'),function(index,w,h) {
-
-
-    if (this.widestCoef_ <= w/h) {
-      this.widestCoef_ = w/h;
+    if (this.widestCoef_ <= w / h) {
+      this.widestCoef_ = w / h;
       this.widestImg_ = index;
-
-    } 
-
-
-    if (index == this.documentService.document.associations.images.length -1 || ( this.widestCoef_ > 1 && this.documentService.document.associations.images.length >= 10 && index > 20 )) {
+    }
+    if (index == this.documentService.document.associations.images.length - 1 || (this.widestCoef_ > 1 && this.documentService.document.associations.images.length >= 10 && index > 20)) {
       this.scope_.headBands = this.createImageUrl(this.documentService.document.associations.images[this.widestImg_]['filename'],'BI');
       this.scope_.$apply();
     } else {
-
       index++;
       this.getBestWideImg(index);
-
     }
+  }.bind(this));
 
+  return {'background-image': 'url(' + this.headBands + ')'};
+};
 
-  }.bind(this))
-
-  return {'background-image': 'url('+this.headBands+')'} 
-
-}
 
 /**
  * load image
@@ -308,13 +284,13 @@ app.ViewDetailsController.prototype.getBestWideImg = function(index) {
  * @return string
  * @export
  */
-
 app.ViewDetailsController.prototype.getMeta = function(index,url, callback) {
   var img = new Image();
   img.src = url;
-  img.onload = function() { callback(index,this.width, this.height); }
-}
-
+  img.onload = function() {
+    callback(index, this.width, this.height);
+  };
+};
 
 
 /**
@@ -370,7 +346,6 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
 
     var openPhotoSwipe = function(index, clickedGallery) {
       var pswpElement = document.querySelectorAll('.pswp')[0];
-      var gallery;
       var options;
       var items = parseThumbnailElements(clickedGallery);
 
@@ -453,74 +428,39 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
 };
 
 
-
 /**
  * @export
  */
 app.ViewDetailsController.prototype.getComments = function() {
-  console.log("on get les commentaires")
+
   var topic_id = this.documentService.document['topic_id'];
   if (topic_id === null) {
     return;
   }
   var document = this.documentService.document;
   var lang = document.lang;
-  this.api_.readCommentsForum( topic_id,lang).then(function(response) {
-    console.log("reponse")
+  this.api_.readCommentsForum(topic_id,lang).then(function(response) {
     this.handleCommentsForum(response);
   }.bind(this), function() { // Error msg is shown in the api service
-
-    //this.busyForum = false;
-    //this.errorForum = true;
-
-  }.bind(this));
-  /*
-  //this.busyForum = true;
-  this.api.readForumComments().then(function(response) {
-    this.handleForum(response);
-  }.bind(this), function() { // Error msg is shown in the api service
-
-    //this.busyForum = false;
-    //this.errorForum = true;
-
   }.bind(this));
 
-  */
-  /*
-  var topic_id = this.documentService.document['topic_id'];
-  if (topic_id === null) {
-    return;
-  }
-
-  // create DiscourseEmbed script tag. From a discourse tutorial.
-  // https://meta.discourse.org/t/embedding-discourse-comments-via-javascript/31963
-  var s = document.createElement('script');
-
-  window.DiscourseEmbed = {
-    'discourseUrl': this.discourseUrl_,
-    'topicId': topic_id
-  };
-  s.src = this.discourseUrl_ + 'javascripts/embed.js';
-  document.getElementsByTagName('body')[0].appendChild(s);
-  */
 
 };
 
 /**
- * Handles forum processing for Feed.js
+ * Handles forum processing for comments
  * @param response
  * @public
  */
 app.ViewDetailsController.prototype.handleCommentsForum = function(response) {
   var data = response['data'];
-  var postersAvatar = {};
   if (data['post_stream'] !== undefined) {
     for (var i = 0; i < data['post_stream']['posts'].length; i++) {
-      console.log(data['post_stream']['posts'][i]);
-      if (data['post_stream']['posts'][i]['name'] == "system")
+      if (data['post_stream']['posts'][i]['name'] == 'system') {
         continue;
+      }
 
-      this.comments.push({'id':data['post_stream']['posts'][i]['id'], 'username':data['post_stream']['posts'][i]['username'],'avatar_template':data['post_stream']['posts'][i]['avatar_template'].replace("{size}","24"),'cooked':data['post_stream']['posts'][i]['cooked'].replace(/<a class="mention" href="/g,'<a class="mention" href="'+this.discourseUrl_),'created_at':data['post_stream']['posts'][i]['created_at'],'reply_count':data['post_stream']['posts'][i]['reply_count'],'reply_to_user':data['post_stream']['posts'][i]['reply_to_user']});
+      this.comments.push({'id':data['post_stream']['posts'][i]['id'], 'username':data['post_stream']['posts'][i]['username'],'avatar_template':data['post_stream']['posts'][i]['avatar_template'].replace('{size}','24'),'cooked':data['post_stream']['posts'][i]['cooked'].replace(/<a class="mention" href="/g,'<a class="mention" href="' + this.discourseUrl_),'created_at':data['post_stream']['posts'][i]['created_at'],'reply_count':data['post_stream']['posts'][i]['reply_count'],'reply_to_user':data['post_stream']['posts'][i]['reply_to_user']});
     }
     this.documentService.document['topic_slug'] = data['post_stream']['posts'][0]['topic_slug'];
   }
@@ -554,7 +494,6 @@ app.ViewDetailsController.prototype.createTopic = function() {
  * @private
  */
 app.ViewDetailsController.prototype.loadImages_ = function(initGalleries) {
-  console.log("on init le bouzin");
   // prepare document images for slideshow
   var photos = this.documentService.document['associations']['images'];
 
@@ -585,9 +524,6 @@ app.ViewDetailsController.prototype.loadImages_ = function(initGalleries) {
 
     this.compile_($(el).contents())(scope);
   }.bind(this));
-
-
-
 
   initGalleries();
 };
@@ -659,7 +595,6 @@ app.ViewDetailsController.prototype.openEmbeddedImage = function(imgUrl, imgId) 
 app.ViewDetailsController.prototype.getBandeau = function(filename, suffix) {
   return this.imageUrl_ + app.utils.createImageUrl(filename, suffix);
 };
-
 
 
 /**
