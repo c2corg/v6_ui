@@ -164,10 +164,11 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
        </section>
        
        
-    <%
+
+              % if not version:
+           <%
         userIds = dumps([user['document_id'] for user in outing['associations']['users']])
     %>
-              % if not version:
           <div class="row">
     <div class="col-xs-12"  
         % if not has_associations(outing):

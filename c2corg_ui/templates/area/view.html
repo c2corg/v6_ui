@@ -106,17 +106,7 @@ area['doctype'] = 'areas'
           ${get_licence(area)}
       </div>
       <div class="col-xs-12 col-md-8 col-lg-9">
-        <!--
-          <div class="view-details-informations col-xs-12 informations">
-    <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
-      <span translate>Information</span><span class="glyphicon glyphicon-menu-down"></span>
-    </h3>
-    <section id="document-informations" class="collapse in">
-    
-    
-    </section>
-  </div>
--->
+
   ${get_document_description(locale, 'area')}
 
   % if not version:
@@ -147,7 +137,7 @@ area['doctype'] = 'areas'
       </div>
   </div>
 
-
+  % endif
 
 </section>
   </div>

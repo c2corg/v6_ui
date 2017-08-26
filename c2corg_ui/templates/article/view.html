@@ -67,17 +67,14 @@ other_langs, missing_langs = get_lang_lists(article, lang)
    <div class="row">
       <div class="col-xs-12 col-md-4 col-lg-3">
             ${get_article_general(article)}
- 
-        
-          ## IMAGES
-  % if not version:
-    ${get_image_gallery()}
-    ${show_other_langs_links('articles', article, other_langs)}
-  % endif
+            ## IMAGES
+            % if not version:
+              ${get_image_gallery()}
+              ${show_other_langs_links('articles', article, other_langs)}
+            % endif
         
              ${get_article_associated_users(article)}
-      ${get_licence(article)}
-        
+            ${get_licence(article)}
      </div>
      <div class="col-xs-12 col-md-8 col-lg-9">
        ${get_document_description(locale, 'article')}
@@ -120,19 +117,8 @@ other_langs, missing_langs = get_lang_lists(article, lang)
        
      </div>
   </div>
-  <!--
-  <div class="view-details-informations col-xs-12  informations">
-    <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
-      <span translate>Information</span><span class="glyphicon glyphicon-menu-down"></span>
-    </h3>
-    <section id="document-informations" class="collapse in">
-  
-    </section>
-  </div>
--->
-  
 
-
+  % endif
 
 </section>
 
