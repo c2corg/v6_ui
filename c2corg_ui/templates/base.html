@@ -8,7 +8,7 @@ closure_library_path = settings.get('closure_library_path')
 %>\
 <%namespace file="helpers/common.html" import="show_title"/>\
 <!DOCTYPE html>
-<html ng-cloak <%block name="pagelang"></%block> ng-app="app" ng-controller="MainController as mainCtrl" itemscope itemtype="http://schema.org/Article">
+<html <%block name="pagelang"></%block> ng-app="app" ng-controller="MainController as mainCtrl" itemscope itemtype="http://schema.org/Article">
   <head>
     <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Home')">${show_title('Home')}</title></%block>
     <meta charset="utf-8">
@@ -113,6 +113,7 @@ closure_library_path = settings.get('closure_library_path')
     <script src="${request.static_path('%s/slug/slug.js' % node_modules_path)}"></script>
     <script src="${request.static_path('%s/file-saver/FileSaver.js' % node_modules_path)}"></script>
     <script src="${request.static_path('%s/bootstrap-markdown/js/bootstrap-markdown.js' % node_modules_path)}"></script>
+    <script src="${request.static_path('%s/d3/d3.js' % node_modules_path)}"></script>
     <script src="${request.route_path('deps.js')}"></script>
     <script src="${request.static_path('c2corg_ui:static/js/main.js')}"></script>
 % else:

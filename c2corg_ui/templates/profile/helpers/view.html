@@ -66,9 +66,6 @@
       </div>
       <ul class="dropdown-menu" role="menu">
         <li class="show-only-mobile"><a class="addthis_button_compact" addthis:ui_click="true" addthis:ui_disable="true"><span class="glyphicon glyphicon-share-alt"></span> <translate>Share</translate></a></li>
-        % if other_langs:
-          <li ng-click="detailsCtrl.openModal('#other-langs')"><a><span class="glyphicon glyphicon-globe"></span> <translate>View in other lang</translate></a></li>
-        % endif
         % if missing_langs:
           <li ng-click="detailsCtrl.openModal('#missing-langs')"><a><span class="glyphicon glyphicon-edit"></span> <translate>Translate into an other lang</translate></a></li>
         % endif

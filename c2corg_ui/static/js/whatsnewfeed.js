@@ -72,7 +72,7 @@ app.WhatsnewFeedController.prototype.getDocumentsFromFeed = function() {
  * @export
  */
 app.WhatsnewFeedController.prototype.getVersionUrl = function(doc) {
-  return '/{module}/{id}/{lang}/{version}'
+  return '/{module}/version/{id}/{lang}/{version}'
     .replace('{module}', app.utils.getDoctype(doc.document.type))
     .replace('{id}', String(doc.document.document_id))
     .replace('{lang}', doc.lang)

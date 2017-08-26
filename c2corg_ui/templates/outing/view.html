@@ -15,9 +15,8 @@ from json import dumps
     show_delete_document_dialog, get_document_description, generate_share_metadata, app_smartphone_info"/>
 <%namespace file="helpers/view.html" import="get_outing_snow, get_outing_access,
     get_outing_participants, get_outing_general, get_outing_heights,
-    show_fulldate, get_conditions"/>
+    show_fulldate, get_conditions, get_outing_elevation_profile"/>
 
-<%namespace file="../helpers/cotometer.html" import="show_cotometer_dialog"/>
 <%
 outing_id = outing['document_id']
 outing['doctype'] = 'outings'
@@ -82,15 +81,11 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
     % endif
   });
 </%block>
-<div class="viewdoc">
-
-  
+<div class="viewdoc" ng-cloak>
 
 <%block name="share">
   ${generate_share_metadata(outing, 'outings')}
 </%block>
-
-
   
   <header class="view-title-with-bg" ng-if="detailsCtrl.hasHeadband">
     <div class="view-image-bg" ng-style="{'background-image': 'url('+this.headBands+')'}"><div class="view-filter-bg"></div></div>
@@ -125,11 +120,15 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
       <div class="col-xs-12 col-md-4 col-lg-3">
         % if outing.get('geometry'):
   <app-map class="view-details-map"></app-map>
+            % if outing.get('geometry').get('geom_detail'):
+      ${get_outing_elevation_profile()}
+    % endif
         ${app_smartphone_info('outing')}
 % endif
                 ## IMAGES
   % if not version:
     ${get_image_gallery()}
+    ${show_other_langs_links('outings', outing, other_langs)}
   % endif
             ${get_licence(outing)}
         
@@ -157,6 +156,7 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
         ${get_conditions(locale, True)}
         ${get_document_locale_text(locale, 'avalanches', True)}
         ${get_document_locale_text(locale, 'timing', True)}
+
         ${get_document_locale_text(locale, 'access', True)}
         ${get_document_locale_text(locale, 'access_comment', True)}
         ${get_document_locale_text(locale, 'hut_comment', True)}
@@ -175,7 +175,7 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
        % endif
          >
       
-      <span class="lead" >
+      <span class="lead" ng-cloak>
         <section>
           <div ng-show="userCtrl.auth.isAuthenticated() && userCtrl.hasEditRights('outings', {'users': ${userIds}})" class="add-association">
             <label translate>Add association</label>
@@ -192,7 +192,7 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
       
       
       
-    ${get_comments()}
+    ${get_comments(outing.get('disable_comments'))}
 
     ${show_float_buttons(outing, lang, other_langs, missing_langs)}
   % endif
@@ -210,12 +210,10 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
 % if not version:
   <div class="ng-hide">
     <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
-    ${show_other_langs_links('outings', outing, other_langs)}
     ${show_missing_langs_links('outings', outing, missing_langs)}
     ${delete_association_confirmation_modal()}
     ${show_merge_documents_dialog('outings')}
     ${show_delete_document_dialog('outings', lang, other_langs)}
-    ${show_cotometer_dialog('outings', lang, other_langs)}
   </div>
 
   ${photoswipe_gallery()}

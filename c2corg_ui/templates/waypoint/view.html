@@ -86,7 +86,7 @@ waypoint['doctype'] = 'waypoints'
   ${generate_share_metadata(waypoint, 'waypoints')}
 </%block>
 
-  <div class="viewdoc">
+  <div class="viewdoc" ng-cloak>
   <header class="view-title-with-bg" ng-if="detailsCtrl.hasHeadband">
     <div class="view-image-bg" ng-style="{'background-image': 'url('+this.headBands+')'}"><div class="view-filter-bg"></div></div>
 
@@ -127,6 +127,7 @@ waypoint['doctype'] = 'waypoints'
   ## IMAGES
   % if not version:
     ${get_image_gallery()}
+    ${show_other_langs_links('waypoints', waypoint, other_langs)}
   % endif
         
             ${get_waypoint_maps_info(waypoint)}
@@ -218,7 +219,6 @@ waypoint['doctype'] = 'waypoints'
   <div class="ng-hide">
     <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
     ${delete_association_confirmation_modal()}
-    ${show_other_langs_links('waypoints', waypoint, other_langs)}
     ${show_missing_langs_links('waypoints', waypoint, missing_langs)}
     ${show_merge_documents_dialog('waypoints')}
     ${show_delete_document_dialog('waypoints', lang, other_langs)}

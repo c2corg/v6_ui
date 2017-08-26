@@ -12,7 +12,7 @@ from c2corg_common.attributes import activities, user_categories
 
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
 
-<section class="create-edit-document">
+<section class="create-edit-document" ng-cloak>
 
   <h1 class="text-center">
     <label class="label label-primary" translate>Editing a profile</label>
@@ -21,7 +21,7 @@ from c2corg_common.attributes import activities, user_categories
   <form app-loading app-document-editing="profiles" app-document-editing-model="profile"
     app-document-editing-controller-name="appDocumentEditingController"
     app-document-editing-id="${user_id}" app-document-editing-lang="${profile_lang}"
-    class="document-editing" name="editForm" novalidate ng-submit="editCtrl.submitForm(editForm.$valid)">
+    class="document-editing" name="editForm" novalidate>
 
     ${show_protected_warning('profile')}
 

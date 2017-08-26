@@ -223,13 +223,13 @@ app.FeedController.prototype.toggleBlock = function(id) {
  * @private
  */
 app.FeedController.prototype.initDocumentsCol_ = function() {
-  if (this.documentsCol[0] === null) {
+  if (this.documentsCol[0] === null || this.documentsCol[0] == undefined) {
     this.documentsCol[0] = Array();
   }
-  if (this.documentsCol[1] === null) {
+  if (this.documentsCol[1] === null || this.documentsCol[1] == undefined) {
     this.documentsCol[1] = Array();
   }
-  if (this.documentsCol[2] === null) {
+  if (this.documentsCol[2] === null || this.documentsCol[2] == undefined) {
     this.documentsCol[2] = Array();
   }
 };

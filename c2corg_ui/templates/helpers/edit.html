@@ -108,7 +108,7 @@
 
       <div class="text-center">
         <button ng-click="saveCtrl.close({'message': saveCtrl.message, 'quality': saveCtrl.quality})" class="btn btn-success" translate>Save</button>
-        <button ng-click="saveCtrl.close()" class="btn btn-danger" translate>Cancel</button>
+        <button ng-click="saveCtrl.close()" class="btn btn-danger" type="button" translate>Cancel</button>
       </div>
     </div>
   </section>
@@ -132,7 +132,8 @@
       tooltip-placement="left" uib-tooltip="{{'Preview' | translate}}">
       <span class="glyphicon glyphicon-eye-open"></span>
     </button>
-    <button type="submit" class="btn orange-btn btn-lg float-button"
+    <button type="button" class="btn orange-btn btn-lg float-button"
+      ng-click="editCtrl.${'submitForm' if model == 'profile' else 'confirmSave'}(editForm.$valid)"
       ng-if="!editForm.$invalid && !editCtrl.hasMissingProps(${model}, false)"
       tooltip-placement="left" uib-tooltip="{{'Save' | translate}}">
       <span class="glyphicon glyphicon-ok"></span>

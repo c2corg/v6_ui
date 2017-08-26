@@ -7,7 +7,7 @@ from pyramid.settings import asbool
 
 <div app-auth class="auth-form" app-loading>
 
-  <section>
+  <section ng-cloak>
     <div ng-show="authCtrl.uiStates.showLoginForm">
       <h1 translate>Login</h1>
 
@@ -55,7 +55,6 @@ from pyramid.settings import asbool
         </button>
       </p>
     </div>
-
 
     <div ng-show="authCtrl.uiStates.showRegisterForm">
       <h1 translate>Register</h1>
@@ -144,7 +143,6 @@ from pyramid.settings import asbool
       </p>
     </div>
 
-
     <div ng-show="authCtrl.uiStates.showRequestChangePasswordForm">
       <h1 translate>Reset password</h1>
 
@@ -178,7 +176,6 @@ from pyramid.settings import asbool
         </button>
       </p>
     </div>
-
 
     <div ng-show="authCtrl.uiStates.showChangePasswordForm">
       <h1 translate>Change password</h1>

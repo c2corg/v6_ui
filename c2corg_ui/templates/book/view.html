@@ -64,8 +64,7 @@ other_langs, missing_langs = get_lang_lists(book, lang)
 
   % if version:
     ${show_archive_data('books', book, locale, version)}
-  % endif
-
+  % else:
     <div class="row">
       <div class="col-xs-12 col-md-4 col-lg-3">
          
@@ -77,6 +76,7 @@ other_langs, missing_langs = get_lang_lists(book, lang)
   ## IMAGES
   % if not version:
     ${get_image_gallery()}
+    ${show_other_langs_links('books', book, other_langs)}
   % endif
         
           ${get_licence(book)}
@@ -85,7 +85,7 @@ other_langs, missing_langs = get_lang_lists(book, lang)
         ${get_document_description(locale, 'book')}
           % if not version:
  
-      <span class="lead">
+      <span class="lead" ng-cloak>
           <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
             <label translate>Add association</label>
             <app-add-association parent-doctype="books" parent-id="${book_id}" dataset="wrc"></app-add-association>
@@ -118,7 +118,6 @@ other_langs, missing_langs = get_lang_lists(book, lang)
   <div class="ng-hide">
     <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
     ${delete_association_confirmation_modal()}
-    ${show_other_langs_links('books', book, other_langs)}
     ${show_missing_langs_links('books', book, missing_langs)}
     ${show_merge_documents_dialog('books')}
     ${show_delete_document_dialog('books', lang, other_langs)}

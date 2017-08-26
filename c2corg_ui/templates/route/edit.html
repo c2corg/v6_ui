@@ -21,7 +21,7 @@ updating_doc = route_id and route_lang
 <%block name="pagetitle"><title ng-init="id=${route_id if route_id else 0}" ng-bind="id ? mainCtrl.page_title('Editing a route') : mainCtrl.page_title('Creating a route')">${show_title('Create/edit route')}</title></%block>
 
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
-<div class="viewdoc">
+<div class="viewdoc" ng-cloak>
   <section class="create-edit-document">
 
     <h1 ng-cloak ng-init="id=${route_id if route_id else 0}" ng-bind="id ? ('Editing a route' | translate) : ('Creating a route' | translate)" class="text-center"></h1>
@@ -31,7 +31,7 @@ updating_doc = route_id and route_lang
     % if updating_doc:
       app-document-editing-id="${route_id}" app-document-editing-lang="${route_lang}"
     % endif
-       name="editForm" novalidate ng-submit="editCtrl.confirmSave(editForm.$valid)" class="document-editing">
+     name="editForm" novalidate class="document-editing">
 
       <app-progress-bar>
         ## It won't work with ng-init
@@ -531,7 +531,7 @@ updating_doc = route_id and route_lang
                 <div class="input-group">
                   <select class="form-control" ng-model="route.ski_rating" ng-options="rat as rat for rat in ${ski_ratings}"><option value=""></option></select>
                   <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
-                  <span class="input-group-addon" ng-click="editCtrl.openModal('#cotometer-dialog','md')"><span class="glyphicon glyphicon-sort-by-attributes"></span></span>
+                <span class="input-group-addon" ng-click="editCtrl.openModal('#cotometer-dialog','md')"><span class="glyphicon glyphicon-question-sign"></span></span>
                 </div>
                 <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.ski_rating"></span>
 
@@ -821,7 +821,7 @@ updating_doc = route_id and route_lang
                 <textarea app-markdown-editor name="route_history"
                           ng-model="route.locales[0].route_history"
                           class="form-control"
-                          placeholder="{{'Describes here historical information about the route (date, names..) ' | translate}}"></textarea>
+                        placeholder="{{'Describe historical information about the route (date, names..) here' | translate}}"></textarea>
               </div>
 
               ## GEAR LOCALE

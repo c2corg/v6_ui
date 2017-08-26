@@ -70,7 +70,7 @@ from json import dumps
   ${generate_share_metadata(image, 'images')}
 </%block>
   
-<div class="viewdoc">
+<div class="viewdoc" ng-cloak>
   <header class="view-title-without-bg">
     <h1 class="routes">
  <span class="title">${locale['title']}</span>
@@ -86,6 +86,8 @@ from json import dumps
 
   % if version:
     ${show_archive_data('images', image, locale, version)}
+  % else:
+    ${show_other_langs_links('images', image, other_langs)}
   % endif
 
      <div class="row">
@@ -155,7 +157,6 @@ from json import dumps
   <div class="ng-hide">
     <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
     ${delete_association_confirmation_modal()}
-    ${show_other_langs_links('images', image, other_langs)}
     ${show_missing_langs_links('images', image, missing_langs)}
     ${show_merge_documents_dialog('images')}
     ${show_delete_document_dialog('images', lang, other_langs)}

@@ -544,7 +544,7 @@ app.DocumentEditingController.prototype.hasMissingProps = function(doc, showErro
       }
     }
   }
-  if (missing['data']['errors'].length > 0) {
+  if (missing['data']['errors'].length) {
     this.alerts.addError(missing);
   }
   return hasError;
@@ -614,6 +614,10 @@ app.DocumentEditingController.prototype.preview = function() {
  * @export
  */
 app.DocumentEditingController.prototype.confirmSave = function(isValid) {
+  if (!isValid) {
+    this.alerts.addError('Form is not valid');
+    return;
+  }
   var template = angular.element('#save-confirmation-modal').clone();
   var modalInstance = this.modal.open({
     animation: true,

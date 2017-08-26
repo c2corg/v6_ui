@@ -49,7 +49,8 @@ LIBS_JS_FILES += \
     node_modules/angular-slug/angular-slug.js \
     node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js \
     node_modules/file-saver/FileSaver.min.js \
-    node_modules/slug/slug.js
+    node_modules/slug/slug.js \
+    node_modules/d3/d3.min.js
 
 # CSS files of dependencies that are concatenated into a single file
 LIBS_CSS_FILES += \

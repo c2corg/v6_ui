@@ -81,7 +81,7 @@ app.OutingsCsvDownloadController.prototype.download = function(event) {
       ];
       csvFile += '"' + cells.map(function(cell) {
         if (cell.indexOf('"') > -1) {
-          return cells.replace(/"/g,'""');
+          return cell.replace(/"/g,'""');
         }
         return cell;
       }).join('","') + '"\n';

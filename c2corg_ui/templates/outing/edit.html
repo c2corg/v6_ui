@@ -17,7 +17,7 @@ updating_doc = outing_id and outing_lang
 
 <%block name="pagetitle"><title ng-init="id=${outing_id if outing_id else 0}" ng-bind="id ? mainCtrl.page_title('Editing an outing') : mainCtrl.page_title('Creating an outing')">${show_title('Create/edit outing')}</title></%block>
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
-<div class="viewdoc">
+<div class="viewdoc" ng-cloak>
 <section class="create-edit-document">
 
   <h1 ng-cloak ng-init="id=${outing_id if outing_id else 0}"
@@ -29,7 +29,7 @@ updating_doc = outing_id and outing_lang
   % if updating_doc:
     app-document-editing-id="${outing_id}" app-document-editing-lang="${outing_lang}"
   % endif
-    name="editForm" novalidate ng-submit="editCtrl.confirmSave(editForm.$valid)" class="document-editing">
+    name="editForm" novalidate class="document-editing">
 
     <app-progress-bar>
       ## It won't work with ng-init
@@ -569,7 +569,7 @@ updating_doc = outing_id and outing_lang
             </div>
 
             ## COMMENTS MANAGEMENT
-            <div class="form-group half">
+            <div class="form-group full">
               <label translate>disable_comments</label>
               <input type="checkbox" ng-model="outing.disable_comments">
               <span ng-click="editCtrl.pushToArray(outing, 'disable_comments', !outing.disable_comments, $event)" translate>If checked, comments cannot be posted or read.</span>

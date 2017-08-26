@@ -7,7 +7,7 @@ from c2corg_common.attributes import mailinglists
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
 
 <div class="following" app-loading>
-  <section app-following>
+  <section app-following ng-cloak>
     <h3 class="green-text" translate>Followed users</h3>
     <p translate>Here is the list of users you are following and whose activity you will see in your personal feed.</p>
     <app-simple-search app-select="flCtrl.addUser(doc)" dataset="u"></app-simple-search>

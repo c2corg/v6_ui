@@ -17,7 +17,7 @@ from c2corg_common.attributes import default_langs, area_types
 
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
 
-<section class="create-edit-document">
+<section class="create-edit-document" ng-cloak>
 
   <h1 ng-init="id = ${area_id if area_id else 0}" class="text-center">
     <label class="label label-primary" ng-bind="id ? ('Editing an area' | translate) : ('Creating an area' | translate)"></label>
@@ -28,7 +28,7 @@ from c2corg_common.attributes import default_langs, area_types
   % if updating_doc:
     app-document-editing-id="${area_id}" app-document-editing-lang="${area_lang}"
   % endif
-    class="document-editing" name="editForm" novalidate ng-submit="editCtrl.confirmSave(editForm.$valid)">
+    class="document-editing" name="editForm" novalidate>
 
     ${show_protected_warning('area')}
 

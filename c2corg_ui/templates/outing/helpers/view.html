@@ -290,3 +290,19 @@
     </tbody>
   </table>
 </%def>
+
+<%def name="get_outing_elevation_profile()">\
+
+  
+  <h3 class="show-phone" ng-click="mainCtrl.animateHeaderIcon($event)"
+        data-toggle="collapse" data-target="#elevation-profile">
+      <span translate>Elevation profile</span><span class="glyphicon glyphicon-menu-right"></span>
+  </h3>
+  <div class="finfo collapse in" id="elevation-profile" aria-expanded="false">
+    <div class="ficontent noflex">
+      <div class="lead">
+        <app-elevation-profile></app-elevation-profile>
+      </div>
+    </div>
+  </div>
+</%def>

@@ -1,5 +1,5 @@
 <%def name="toggle_map_btns()">\
-  <button class="btn btn-primary no-map-btn show-list hidden-xs" ng-if="noList"
+  <button class="btn btn-primary no-map-btn show-list hidden-xs" ng-show="noList"
           ng-click="noList = false; noMap = false; mainCtrl.resizeMap();">
     <span  class="glyphicon glyphicon-th-large"></span>
     <span translate>Show list</span>
@@ -8,7 +8,7 @@
 
 <%def name="toggle_list_btns()">\
 <button class="btn orange-btn btn-default no-list-btn hidden-xs"
-        ng-if="!noMap" ng-click="noList = !noList; noMap = false; mainCtrl.resizeMap();">
+        ng-show="!noMap" ng-click="noList = !noList; noMap = false; mainCtrl.resizeMap();">
   <span class="glyphicon glyphicon-eye-close"></span>
   <span translate>Hide list</span>
 </button>

@@ -76,14 +76,13 @@ other_langs, missing_langs = get_lang_lists(xreport, lang)
 <%block name="share">
   ${generate_share_metadata(xreport, 'xreports')}
 </%block>
-<div class="viewdoc">
+<div class="viewdoc" ng-cloak>
   <header class="view-title-without-bg">
     <h1 class="routes">
       <span class="title">${show_locale_title(locale)}</span>
       <div class="icons-header routes">${get_activities(xreport, 'top')}</div> ${show_badge(xreport, 'xreport')}
       <div class="outing-date" ng-cloak>${show_fulldate(xreport['date'])}</div>
     </h1>
-    
   </header>
   
 
@@ -104,6 +103,7 @@ other_langs, missing_langs = get_lang_lists(xreport, lang)
 
 <section class="view-details-section" app-view-details>
   
+    ${show_other_langs_links('xreports', xreport, other_langs)}
   
     <div class="row">
       <div class="col-xs-12 col-md-4 col-lg-3">
@@ -189,7 +189,6 @@ other_langs, missing_langs = get_lang_lists(xreport, lang)
   <div class="ng-hide">
     <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
     ${delete_association_confirmation_modal()}
-    ${show_other_langs_links('xreports', xreport, other_langs)}
     ${show_missing_langs_links('xreports', xreport, missing_langs)}
     ${show_merge_documents_dialog('xreports')}
     ${show_delete_document_dialog('xreports', lang, other_langs)}

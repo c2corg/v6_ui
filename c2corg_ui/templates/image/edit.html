@@ -19,7 +19,7 @@ from c2corg_common.attributes import default_langs, activities, image_types, ima
 
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
 
-<section class="create-edit-document">
+<section class="create-edit-document" ng-cloak>
 
   <h1 ng-init="id = ${image_id if image_id else 0}" class="text-center">
     <label class="label label-primary" ng-bind="id ? ('Editing an image' | translate) : ('Creating an image' | translate)"></label>
@@ -30,7 +30,7 @@ from c2corg_common.attributes import default_langs, activities, image_types, ima
   % if updating_doc:
     app-document-editing-id="${image_id}" app-document-editing-lang="${image_lang}"
   % endif
-    class="document-editing" name="editForm" novalidate ng-submit="editCtrl.confirmSave(editForm.$valid)">
+    class="document-editing" name="editForm" novalidate>
 
     ## PROGRESS BAR
     <app-progress-bar ng-init="progressBarCtrl.maxSteps = 2">
@@ -105,7 +105,7 @@ from c2corg_common.attributes import default_langs, activities, image_types, ima
             <div class="form-group full" ng-init="activities = ${activities}" id="image-activities">
               <label translate>activities</label>
               <div class="route-activities">
-                <div ng-repeat="activity in activities" class="activity" ng-if="activity !== 'paragliding' ">
+                <div ng-repeat="activity in activities" class="activity">
                   <div>
                     <div class="icon-{{activity}}" class="icon-" ng-click="editCtrl.pushToArray(image, 'activities', activity, $event)"
                          ng-class="{'activity-selected' : image.activities.indexOf(activity) > -1}">
