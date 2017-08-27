@@ -1,46 +1,46 @@
 <article class="post" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;" ng-click="cardCtrl.openDoc(doc)">
-	<a ng-href="{{cardCtrl.createURL()}}" title="{{::locale.title}}" ng-click="$event.stopPropagation()" class="text-link"> 
-		<div class="parent-text">
-			<div class="text emptyimg">{{::locale.title}}
-				<div class="summary"><span ng-repeat="book_type in ::doc['book_types']" class="value book-type">{{book_type | translate}}{{$last ? '' : ', '}}</span></div>
-			</div>
-		</div></a><div class="parent-img"><div class="img" ng-if="::doc.image1"><a ng-href="/images/{{::doc.image1.document_id}}/{{::doc.image1.locales[0].lang}}"><img class="imgo" ng-src="{{feedCtrl.createImageUrl(doc.image1.filename, 'MI')}}" alt="Photo"></a></div></div><div class="parent-infop">
-	</div>
-	<div class="parent-infop parent-infop-first">
-			<div class="infop-bar">
-				<div class="parent-bubble">
-					<div class="bubble">
-						<span class="glyphicon glyphicon-pencil"></span>
-					</div>
-				</div>
-				<div class="text-bubble" ng-if="doc['author']">
-					{{::doc['author']}}
-				</div>
-				<div class="text-bubble" ng-if="!doc['author']" translate>
-					Unknow
-				</div>
-				<div class="grow">
-				</div>
-			</div>
-	</div>
-	<div class="parent-infop">
-		<div class="infop-bar">
-			<div class="parent-activity large">
-				<div class="parent-bubble" ng-repeat="activity in ::doc.activities" >
-					<a href="#" class="shcom" uib-tooltip="{{activity | translate}}"> 
-						<div class="bubble">
-							<span class="route-activity icon-{{::activity}}"></span>
-						</div>
-					</a>
-				</div>
-			</div>
-			<div class="grow">
-			</div>
-			<div class="parent-bubble"><div class="bubble bquality" ng-if="::doc['quality']">
-				<a class="link" uib-tooltip="{{doc['quality'] | translate}}" tooltip-append-to-body="true">
-					<span class="quality-{{::doc['quality']}}"></span>
-				</a></div>
-			</div>
-		</div>
-	</div>
+  <a ng-href="{{cardCtrl.createURL()}}" title="{{::locale.title}}" ng-click="$event.stopPropagation()" class="text-link"> 
+    <div class="parent-text">
+      <div class="text emptyimg">{{::locale.title}}
+        <div class="summary"><span ng-repeat="book_type in ::doc['book_types']" class="value book-type">{{book_type | translate}}{{$last ? '' : ', '}}</span></div>
+      </div>
+    </div></a><div class="parent-img"><div class="img" ng-if="::doc.image1"><a ng-href="/images/{{::doc.image1.document_id}}/{{::doc.image1.locales[0].lang}}"><img class="imgo" ng-src="{{feedCtrl.createImageUrl(doc.image1.filename, 'MI')}}" alt="Photo"></a></div></div><div class="parent-infop">
+  </div>
+  <div class="parent-infop parent-infop-first">
+    <div class="infop-bar">
+      <div class="parent-bubble">
+        <div class="bubble">
+          <span class="glyphicon glyphicon-pencil"></span>
+        </div>
+      </div>
+      <div class="text-bubble" ng-if="doc['author']">
+        {{::doc['author']}}
+      </div>
+      <div class="text-bubble" ng-if="!doc['author']" translate>
+        Unknow
+      </div>
+      <div class="grow">
+      </div>
+    </div>
+  </div>
+  <div class="parent-infop">
+    <div class="infop-bar">
+      <div class="parent-activity large">
+        <div class="parent-bubble" ng-repeat="activity in ::doc.activities" >
+          <a href="#" class="shcom" uib-tooltip="{{activity | translate}}"> 
+            <div class="bubble">
+              <span class="route-activity icon-{{::activity}}"></span>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="grow">
+      </div>
+      <div class="parent-bubble"><div class="bubble bquality" ng-if="::doc['quality']">
+        <a class="link" uib-tooltip="{{doc['quality'] | translate}}" tooltip-append-to-body="true">
+          <span class="quality-{{::doc['quality']}}"></span>
+        </a></div>
+      </div>
+    </div>
+  </div>
 </article>

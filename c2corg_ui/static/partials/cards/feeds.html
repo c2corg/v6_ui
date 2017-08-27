@@ -30,7 +30,6 @@
     <div class="gal-3 centerg" ng-click="cardCtrl.clickThumb(doc.image2); $event.stopPropagation()"><a ng-href="/images/{{::doc.image2.document_id}}/{{::doc.image2.locales[0].lang}}"><img class="imgo" ng-src="{{cardCtrl.createImageUrl(doc.image2.filename, 'SI')}}" alt="Photo"></a></div>
     <div class="gal-3" ng-click="cardCtrl.clickThumb(doc.image3); $event.stopPropagation()"><a ng-href="/images/{{::doc.image3.document_id}}/{{::doc.image3.locales[0].lang}}"><img class="imgo" ng-src="{{cardCtrl.createImageUrl(doc.image3.filename, 'SI')}}" alt="Photo"></a></div>
   </div>
-
   <div class="parent-infop parent-infop-first" ng-init="fullRatings = cardCtrl.getFullRatings()" ng-if="::fullRatings || doc['document']['elevation_max'] || doc['document']['height_diff_up'] || doc['document']['height_diff_difficulties']">
     <div class="infop-bar">
       <div class="parent-bubble" ng-if="::fullRatings">

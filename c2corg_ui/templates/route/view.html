@@ -116,21 +116,20 @@ other_langs, missing_langs = get_lang_lists(route, lang)
 
     <div class="row">
       <div class="col-xs-12 col-md-4 col-lg-3">
-        
-      <div class="finfo" ng-if="detailsCtrl.documentService.document.associations.images.length > 0 && detailsCtrl.hasVerticalImg">
-              <div class="ficontent moz">
-                  <img ng-src="{{detailsCtrl.createImageUrl(detailsCtrl.documentService.document.associations.images[0].filename, 'MI')}}" alt="{{detailsCtrl.documentService.document.associations.images[0].locales[0].title}}" class="fullimg"/>
-              
-    </div></div> 
+        <div class="finfo" ng-if="detailsCtrl.documentService.document.associations.images.length > 0 && detailsCtrl.hasVerticalImg">
+          <div class="ficontent moz">
+            <img ng-src="{{detailsCtrl.createImageUrl(detailsCtrl.documentService.document.associations.images[0].filename, 'MI')}}" alt="{{detailsCtrl.documentService.document.associations.images[0].locales[0].title}}" class="fullimg"/>    
+          </div>
+        </div> 
         % if version:
-        ${show_archive_data('routes', route, locale, version)}
+          ${show_archive_data('routes', route, locale, version)}
         % endif
         <app-map class="view-details-map"></app-map>
         ${app_smartphone_info('route')}
         ## IMAGES
         % if not version:
-        ${get_image_gallery()}
-    ${show_other_langs_links('routes', route, other_langs)}
+          ${get_image_gallery()}
+          ${show_other_langs_links('routes', route, other_langs)}
         % endif
         ${get_route_associated_maps(route)}
         ${get_licence(route)}
@@ -159,38 +158,34 @@ other_langs, missing_langs = get_lang_lists(route, lang)
           ${get_document_locale_text(locale, 'external_resources', True)}
         </section>
         
-            % if not version:
-    ## route has always at least 1 associated waypoint so this div will always be displayed
-    <div class="row">
-    <div class="col-xs-12">
+        % if not version:
+          ## route has always at least 1 associated waypoint so this div will always be displayed
+          <div class="row">
+            <div class="col-xs-12">
 
-      <span class="lead">
-        <section>
-          <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
-            <label translate>Add association</label>
-            <app-add-association parent-id="${route_id}" parent-doctype="routes" dataset="wrcbx"></app-add-association>
+              <span class="lead">
+                <section>
+                  <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
+                    <label translate>Add association</label>
+                    <app-add-association parent-id="${route_id}" parent-doctype="routes" dataset="wrcbx"></app-add-association>
+                  </div>
+                  ${show_associated_waypoints(route)}
+                  ${show_associated_routes(route)}
+                  ${show_associated_outings(route)}
+                  ${show_associated_articles(route)}
+                  ${show_associated_books(route)}
+                  ${show_associated_xreports(route)}
+                </section>
+              </span>
+            </div>
           </div>
-          ${show_associated_waypoints(route)}
-          ${show_associated_routes(route)}
-          ${show_associated_outings(route)}
-          ${show_associated_articles(route)}
-          ${show_associated_books(route)}
-          ${show_associated_xreports(route)}
-        </section>
-      </span>
-    </div>
-</div>
-  
-    ${get_comments()}
 
-    ${show_float_buttons(route, lang, other_langs, missing_langs)}
-    % endif
+          ${get_comments()}
+
+          ${show_float_buttons(route, lang, other_langs, missing_langs)}
+        % endif
       </div>
     </div>
-
-
-
-
 
   </section>
 </div>

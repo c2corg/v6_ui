@@ -409,7 +409,6 @@ app.Api.prototype.updatePreferredLanguage = function(lang) {
  */
 app.Api.prototype.readLatestForum = function() {
   var alerts = this.alerts_;
-
   var config = {
     headers: {
       'Accept': 'application/json'
@@ -614,7 +613,6 @@ app.Api.prototype.createImages = function(files, document) {
  */
 app.Api.prototype.readCommentsForum = function(document_id, lang) {
   var alerts = this.alerts_;
-
   var config = {
     headers: {
       'Accept': 'application/json'

@@ -20,7 +20,6 @@ app.viewDetailsDirective = function() {
       }
 
       ctrl.loadImages_(initGalleries);
-
       ctrl.watchPswpContainer_();
 
       // clicking on 'info' btn will open slide from the right and get the infos
@@ -432,7 +431,6 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
  * @export
  */
 app.ViewDetailsController.prototype.getComments = function() {
-
   var topic_id = this.documentService.document['topic_id'];
   if (topic_id === null) {
     return;
@@ -443,8 +441,6 @@ app.ViewDetailsController.prototype.getComments = function() {
     this.handleCommentsForum(response);
   }.bind(this), function() { // Error msg is shown in the api service
   }.bind(this));
-
-
 };
 
 /**
@@ -459,7 +455,6 @@ app.ViewDetailsController.prototype.handleCommentsForum = function(response) {
       if (data['post_stream']['posts'][i]['name'] == 'system') {
         continue;
       }
-
       this.comments.push({'id':data['post_stream']['posts'][i]['id'], 'username':data['post_stream']['posts'][i]['username'],'avatar_template':data['post_stream']['posts'][i]['avatar_template'].replace('{size}','24'),'cooked':data['post_stream']['posts'][i]['cooked'].replace(/<a class="mention" href="/g,'<a class="mention" href="' + this.discourseUrl_),'created_at':data['post_stream']['posts'][i]['created_at'],'reply_count':data['post_stream']['posts'][i]['reply_count'],'reply_to_user':data['post_stream']['posts'][i]['reply_to_user']});
     }
     this.documentService.document['topic_slug'] = data['post_stream']['posts'][0]['topic_slug'];
@@ -498,17 +493,13 @@ app.ViewDetailsController.prototype.loadImages_ = function(initGalleries) {
   var photos = this.documentService.document['associations']['images'];
 
   for (var i in photos) {
-
     var scope = this.scope_.$new(true);
     var id = 'image-' + photos[i]['document_id'];
     photos[i]['image_id'] = id;
     scope['photo'] = photos[i];
-
     var element = app.utils.createImageSlide(photos[i], this.imageUrl_);
-
     $('.photos').append(element);
     this.compile_($('#' + id).contents())(scope);
-
   }
 
   // prepare the embedded images for slideshow

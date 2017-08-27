@@ -86,7 +86,7 @@ waypoint['doctype'] = 'waypoints'
   ${generate_share_metadata(waypoint, 'waypoints')}
 </%block>
 
-  <div class="viewdoc" ng-cloak>
+<div class="viewdoc" ng-cloak>
   <header class="view-title-with-bg" ng-if="detailsCtrl.hasHeadband">
     <div class="view-image-bg" ng-style="{'background-image': 'url('+this.headBands+')'}"><div class="view-filter-bg"></div></div>
 
@@ -104,113 +104,98 @@ waypoint['doctype'] = 'waypoints'
     
 
 
-<article class="location-static">
-  ${show_areas(waypoint)}
-  % if waypoint.get('elevation'):
-    <p class="text-center"><b>${waypoint['elevation']} m</b></p>
-  % endif
-  % if geometry:
-    <p ng-bind="'${round(geometry.x)}/${round(geometry.y)}' | coordinate"></p>
-  % endif
-</article>
+  <article class="location-static">
+    ${show_areas(waypoint)}
+    % if waypoint.get('elevation'):
+      <p class="text-center"><b>${waypoint['elevation']} m</b></p>
+    % endif
+    % if geometry:
+      <p ng-bind="'${round(geometry.x)}/${round(geometry.y)}' | coordinate"></p>
+    % endif
+  </article>
 
 
-<section class="view-details-section" app-view-details  ng-class="{'row-list' : switchCtrl.showList}">
-  <div class="row">
-      <div class="col-xs-12 col-md-4 col-lg-3">
-        
-  % if version:
-    ${show_archive_data('waypoints', waypoint, locale, version)}
-  % endif
-<app-map class="view-details-map"></app-map>
-        ${app_smartphone_info('waypoint')}
-  ## IMAGES
-  % if not version:
-    ${get_image_gallery()}
-    ${show_other_langs_links('waypoints', waypoint, other_langs)}
-  % endif
-        
-            ${get_waypoint_maps_info(waypoint)}
-         ${get_licence(waypoint)}
-        
-    </div>
-    <div class="col-xs-12 cold-md-8 col-lg-9">
-            <section id="document-informations" class="collapse in">
-          <div class="finfo">
-            <div class="ficontent">
-              <div class="row">
-               
-             ${get_waypoint_general(waypoint)}
-      ${get_waypoint_orientations(waypoint)}
-      ${get_waypoint_location(waypoint, geometry4326) if geometry4326 else ''}
-      ${get_waypoint_contact(waypoint)}
-  
-      ${get_waypoint_rating(waypoint)}
-      ${get_waypoint_heights(waypoint)}
-      ${get_waypoint_equipment(waypoint)}
-      ${get_waypoint_style(waypoint)}
-      ${get_waypoint_access(waypoint, locale)}
-              
+  <section class="view-details-section" app-view-details  ng-class="{'row-list' : switchCtrl.showList}">
+    <div class="row">
+        <div class="col-xs-12 col-md-4 col-lg-3">
 
+          % if version:
+            ${show_archive_data('waypoints', waypoint, locale, version)}
+          % endif
+        <app-map class="view-details-map"></app-map>
+                ${app_smartphone_info('waypoint')}
+          ## IMAGES
+          % if not version:
+            ${get_image_gallery()}
+            ${show_other_langs_links('waypoints', waypoint, other_langs)}
+          % endif
+          
+          ${get_waypoint_maps_info(waypoint)}
+          ${get_licence(waypoint)}
 
+        </div>
+        <div class="col-xs-12 cold-md-8 col-lg-9">
+          <section id="document-informations" class="collapse in">
+            <div class="finfo">
+              <div class="ficontent">
+                <div class="row">
+                ${get_waypoint_general(waypoint)}
+                ${get_waypoint_orientations(waypoint)}
+                ${get_waypoint_location(waypoint, geometry4326) if geometry4326 else ''}
+                ${get_waypoint_contact(waypoint)}
+
+                ${get_waypoint_rating(waypoint)}
+                ${get_waypoint_heights(waypoint)}
+                ${get_waypoint_equipment(waypoint)}
+                ${get_waypoint_style(waypoint)}
+                ${get_waypoint_access(waypoint, locale)}
+                </div>
               </div>
             </div>
-          </div>
-              <% description_title = 'road access' if waypoint['waypoint_type'] == 'access' else 'description' %>
-  ${get_document_description(locale, 'waypoint', description_title)}
+            <% description_title = 'road access' if waypoint['waypoint_type'] == 'access' else 'description' %>
+            ${get_document_description(locale, 'waypoint', description_title)}
 
-    ${get_waypoint_access_field(locale, waypoint['waypoint_type'], True)}
-    ${get_waypoint_access_period(locale, waypoint['waypoint_type'], True)}
-        </section>
-      
-        % if not version:
-                  <div class="row">
-    <div class="col-xs-12">
-      
-        <span class="lead">
-        <section>
-          <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
-            <label translate>Add association</label>
-            <app-add-association parent-id="${waypoint_id}" parent-doctype="waypoints" dataset="wcbx"></app-add-association>
-          </div>
-          ${show_associated_waypoints(waypoint, 'waypoints', showDelete=False)}
-          ${show_associated_waypoints(waypoint, 'waypoint_children')}
-        </section>
-      </span>
-      
-  
-      <span class="lead">
-        <section>
-          ${show_associated_routes(waypoint, 'all_routes')}
-        </section>
-      </span>
- 
+            ${get_waypoint_access_field(locale, waypoint['waypoint_type'], True)}
+            ${get_waypoint_access_period(locale, waypoint['waypoint_type'], True)}
+          </section>
 
-   
-      <span class="lead" ng-show="a.recent_outings.total > 0 || a.articles.length || a.books.length">
-        <section>
-          ${show_associated_articles(waypoint)}
-          ${show_associated_books(waypoint)}
-          ${show_associated_xreports(waypoint)}
-          ${show_associated_outings(waypoint)}
-        </section>
-      </span>
-    
+          % if not version:
+            <div class="row">
+              <div class="col-xs-12">
 
-    ${get_comments()}
+              <span class="lead">
+                <section>
+                  <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
+                    <label translate>Add association</label>
+                    <app-add-association parent-id="${waypoint_id}" parent-doctype="waypoints" dataset="wcbx"></app-add-association>
+                  </div>
+                  ${show_associated_waypoints(waypoint, 'waypoints', showDelete=False)}
+                  ${show_associated_waypoints(waypoint, 'waypoint_children')}
+                </section>
+              </span>
+              <span class="lead">
+                <section>
+                  ${show_associated_routes(waypoint, 'all_routes')}
+                </section>
+              </span>
+              <span class="lead" ng-show="a.recent_outings.total > 0 || a.articles.length || a.books.length">
+                <section>
+                  ${show_associated_articles(waypoint)}
+                  ${show_associated_books(waypoint)}
+                  ${show_associated_xreports(waypoint)}
+                  ${show_associated_outings(waypoint)}
+                </section>
+              </span>
+              ${get_comments()}
 
-    ${show_float_buttons(waypoint, lang, other_langs, missing_langs)}
-          </div>
-  </div>
-  % endif
-
+              ${show_float_buttons(waypoint, lang, other_langs, missing_langs)}
               </div>
-
-    </div
-
-
-</section>
-
+            </div>
+          % endif
+      </div>
+    </div>
+  </section>
+</div>
 <div class="text-center">
   <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);">&nbsp;<span class="glyphicon glyphicon-menu-up"></span></button>
 </div>

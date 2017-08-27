@@ -254,10 +254,8 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
 
   // editing mode
   if (this.edit) {
-    this.scope_.$root.$on('documentDataChange',
-                          this.handleEditModelChange_.bind(this));
-    this.scope_.$root.$on('featuresUpload',
-                          this.handleFeaturesUpload_.bind(this));
+    this.scope_.$root.$on('documentDataChange', this.handleEditModelChange_.bind(this));
+    this.scope_.$root.$on('featuresUpload', this.handleFeaturesUpload_.bind(this));
     this.addTrackImporter_();
   }
 
@@ -278,10 +276,8 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
       this.ignoreExtentChange_ = app.utils.detectDocumentIdFilter(this.location_);
     }
 
-    this.scope_.$root.$on('searchFeaturesChange',
-                          this.handleSearchChange_.bind(this));
-    this.scope_.$root.$on('searchFilterClear',
-                          this.handleSearchClear_.bind(this));
+    this.scope_.$root.$on('searchFeaturesChange', this.handleSearchChange_.bind(this));
+    this.scope_.$root.$on('searchFilterClear', this.handleSearchClear_.bind(this));
     this.scope_.$root.$on('cardEnter', function(event, id) {
       this.toggleFeatureHighlight_(id, true);
     }.bind(this));
@@ -776,8 +772,7 @@ app.MapController.prototype.handleModify_ = function(event) {
  * @param {boolean} recenter
  * @private
  */
-app.MapController.prototype.handleSearchChange_ = function(event,
-                                                            features, total, recenter) {
+app.MapController.prototype.handleSearchChange_ = function(event, features, total, recenter) {
   // show the search results on the map but don't change the map filter
   // if recentering on search results, the extent change must not trigger
   // a new search request.

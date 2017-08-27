@@ -1,8 +1,6 @@
 <article class="post card-outing" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;" ng-click="cardCtrl.openDoc(doc)">
-
-      <div class="infoa">
+  <div class="infoa">
     <div class="parent-author">
-  
       <div class="parent-hour">
         <div class="hour"><span class="d-hour">{{::doc['date_end'] | amUtc | amLocal | amDateFormat: 'DD/MM/YYYY'}}</span></div>
       </div>
@@ -17,13 +15,12 @@
         <div class="summary" ng-if="::doc.document.type=='c'">{{::feedCtrl.showSummary(doc['document']['locales'])}}</div>
       </div>
     </div></a>
-      <div class="infoa">
+  <div class="infoa">
     <a class="pportrait" ng-href="/profiles/{{::doc['author']['user_id']}}/{{::doc['user']['locales'][0]['lang']}}" title="{{::doc['author']['name']}}" ng-click="$event.stopPropagation()" ng-if="::doc['author']['forum_username'] != null"><img class="URgs7" ng-src="https://forum.camptocamp.org/user_avatar/forum.camptocamp.org/{{::doc['user']['forum_username']}}/36/1_1.png" alt="" width="36" height="36"></a>
     <div class="parent-author">
       <div class="under-author">
         <div class="author"><a ng-href="/profiles/{{::doc['author']['user_id']}}/{{::doc['locales'][0]['lang']}}" title="{{::doc['author']['name']}}" ng-click="$event.stopPropagation()">{{::doc['author']['name']}}</a> <span>{{feedCtrl.createActionLine(doc) | translate}} </span></div>
       </div>
-   
     </div>
   </div>
   <div class="parent-img"><div class="img" ng-if="::doc.image1"><a ng-href="/images/{{::doc.image1.document_id}}/{{::doc.image1.locales[0].lang}}"><img class="imgo" ng-src="{{feedCtrl.createImageUrl(doc.image1.filename, 'MI')}}" alt="Photo"></a></div></div>
@@ -51,14 +48,11 @@
               <span class="value-title glyphicon glyphicon-pencil"></span>
             </div>
           </div>
-
           <div class="text-bubble inlist">
             <a ng-href="/profiles/{{::doc['author']['user_id']}}/{{::doc['locales'][0]['lang']}}" title="{{::doc['author']['name']}}" ng-click="$event.stopPropagation()">{{::doc['author']['name']}}</a> 
           </div>
         </div>
         <div class="group-infop">
-
-
           <div class="parent-bubble" ng-if="::doc['elevation_max']">
             <div class="bubble" uib-tooltip="{{'elevation_max'| translate}}" tooltip-append-to-body="true">
               <span class="value-title glyphicon glyphicon-sort-by-attributes rotate-180"></span>
@@ -115,8 +109,6 @@
           <div class="condition-rating" ng-class="::doc['condition_rating']" ></div>
         </a>
       </div>
-
-
       <div class="parent-bubble"><div class="bubble bquality" ng-if="::doc['quality']">
         <a class="link" uib-tooltip="{{doc['quality'] | translate}}" tooltip-append-to-body="true">
           <span class="quality-{{::doc['quality']}}"></span>

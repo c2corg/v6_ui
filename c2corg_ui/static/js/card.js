@@ -21,13 +21,10 @@ app.cardDirective = function($compile, $templateCache) {
     if (cardElementCache[doctype] !== undefined) {
       return cardElementCache[doctype];
     }
-
     var path = '/static/partials/cards/' + doctype + '.html';
     var template = app.utils.getTemplate(path, $templateCache);
-
     var element = angular.element(template);
     cardElementCache[doctype] = $compile(element);
-
     return cardElementCache[doctype];
   };
 
@@ -194,13 +191,10 @@ app.CardController.prototype.showArea = function(areas) {
       type = areas[i]['area_type'];
       orderedAreas[type].push(areas[i]['locales'][0]['title']);
     }
-
     var str = '';
-
     if (orderedAreas['admin_limits'].length > 0) {
       str = orderedAreas['admin_limits'].join(' - ');
     }
-
     if (orderedAreas['range'].length > 0) {
       str = str + ' - ' + orderedAreas['range'].join(' - ');
     } else if (orderedAreas['country'].length > 0) {
@@ -211,6 +205,7 @@ app.CardController.prototype.showArea = function(areas) {
   }
   return null;
 };
+
 
 /**
  * Convert orientations array into a string
@@ -239,6 +234,7 @@ app.CardController.prototype.openDoc = function() {
   window.location = this.createURL();
 };
 
+
 /**
  * Creates a link to the document view-page
  * @export
@@ -255,9 +251,9 @@ app.CardController.prototype.createURL = function() {
       return this.url_.buildDocumentUrl(
         this.type, this.doc['document_id'], this.doc['locales'][0]);
     }
-
   }
 };
+
 
 /**
  * @param {string} filename
@@ -287,9 +283,6 @@ app.CardController.prototype.createURLArea = function(areas) {
       }
 
       var loc = window.location.pathname;
-      // Don't create links on edit and add pages.
-      //var doc = areas[areas.length - 1];
-
       var doc;
       if (orderedAreas['range'].length > 0) {
         doc = orderedAreas['range'];
@@ -317,6 +310,7 @@ app.CardController.prototype.createURLArea = function(areas) {
 app.CardController.prototype.createImg = function(suffix) {
   return this.imageUrl_ + app.utils.createImageUrl(this.doc['filename'], 'MI');
 };
+
 
 /**
  * Gets the global ratings for each activity of a route.

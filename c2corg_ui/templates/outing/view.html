@@ -113,97 +113,88 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
   </article>
 % endif
 
-
-
-<section class="view-details-section" app-view-details ng-class="{'row-list' : switchCtrl.showList}">
-   <div class="row">
-      <div class="col-xs-12 col-md-4 col-lg-3">
-        % if outing.get('geometry'):
-  <app-map class="view-details-map"></app-map>
-            % if outing.get('geometry').get('geom_detail'):
-      ${get_outing_elevation_profile()}
+  <section class="view-details-section" app-view-details ng-class="{'row-list' : switchCtrl.showList}">
+     <div class="row">
+        <div class="col-xs-12 col-md-4 col-lg-3">
+          % if outing.get('geometry'):
+    <app-map class="view-details-map"></app-map>
+              % if outing.get('geometry').get('geom_detail'):
+        ${get_outing_elevation_profile()}
+      % endif
+          ${app_smartphone_info('outing')}
+  % endif
+                  ## IMAGES
+    % if not version:
+      ${get_image_gallery()}
+      ${show_other_langs_links('outings', outing, other_langs)}
     % endif
-        ${app_smartphone_info('outing')}
-% endif
-                ## IMAGES
-  % if not version:
-    ${get_image_gallery()}
-    ${show_other_langs_links('outings', outing, other_langs)}
-  % endif
-            ${get_licence(outing)}
-        
-     </div>
-     <div class="col-xs-12 col-md-8 col-lg-9">
-       <section id="document-informations" class="collapse in">
-           <div class="finfo">
-            <div class="ficontent">
-              <div class="row">
-                  ${get_outing_general(outing)}
-                  ${get_outing_heights(outing)}
-                  ${get_outing_access(outing)}
-                  ${get_outing_snow(outing)}
-                  % if not version:
-                    ${get_outing_participants(outing)}
-                  % endif
-                </div>
+              ${get_licence(outing)}
 
+       </div>
+       <div class="col-xs-12 col-md-8 col-lg-9">
+         <section id="document-informations" class="collapse in">
+             <div class="finfo">
+              <div class="ficontent">
+                <div class="row">
+                    ${get_outing_general(outing)}
+                    ${get_outing_heights(outing)}
+                    ${get_outing_access(outing)}
+                    ${get_outing_snow(outing)}
+                    % if not version:
+                      ${get_outing_participants(outing)}
+                    % endif
+                  </div>
+
+              </div>
             </div>
-          </div>
-         % if version:
-          ${show_archive_data('outings', outing, locale, version)}
-        % endif
-        ${get_document_locale_text(locale, 'route_description', True)}
-        ${get_conditions(locale, True)}
-        ${get_document_locale_text(locale, 'avalanches', True)}
-        ${get_document_locale_text(locale, 'timing', True)}
+           % if version:
+            ${show_archive_data('outings', outing, locale, version)}
+          % endif
+          ${get_document_locale_text(locale, 'route_description', True)}
+          ${get_conditions(locale, True)}
+          ${get_document_locale_text(locale, 'avalanches', True)}
+          ${get_document_locale_text(locale, 'timing', True)}
 
-        ${get_document_locale_text(locale, 'access', True)}
-        ${get_document_locale_text(locale, 'access_comment', True)}
-        ${get_document_locale_text(locale, 'hut_comment', True)}
-        ${get_document_description(locale, 'outing', 'personal comments')}
-       </section>
-       
-       
+          ${get_document_locale_text(locale, 'access', True)}
+          ${get_document_locale_text(locale, 'access_comment', True)}
+          ${get_document_locale_text(locale, 'hut_comment', True)}
+          ${get_document_description(locale, 'outing', 'personal comments')}
+         </section>
 
-              % if not version:
-           <%
-        userIds = dumps([user['document_id'] for user in outing['associations']['users']])
-    %>
-          <div class="row">
-    <div class="col-xs-12"  
-        % if not has_associations(outing):
-         ng-if="userCtrl.hasEditRights('outings', {'users': ${userIds}})"
-       % endif
-         >
-      
-      <span class="lead" ng-cloak>
-        <section>
-          <div ng-show="userCtrl.auth.isAuthenticated() && userCtrl.hasEditRights('outings', {'users': ${userIds}})" class="add-association">
-            <label translate>Add association</label>
-            <app-add-association parent-id="${outing_id}" parent-doctype="outings" dataset="rcx"></app-add-association>
-          </div>
-            ${show_associated_routes(outing)}
-          ${show_associated_articles(outing)}
-          ${show_associated_xreports(outing)}
-        </section>
-      </span>
+          % if not version:
+            <%
+              userIds = dumps([user['document_id'] for user in outing['associations']['users']])
+            %>
+            <div class="row">
+              <div class="col-xs-12"  
+                  % if not has_associations(outing):
+                   ng-if="userCtrl.hasEditRights('outings', {'users': ${userIds}})"
+                 % endif
+                   >
+
+                  <span class="lead" ng-cloak>
+                    <section>
+                      <div ng-show="userCtrl.auth.isAuthenticated() && userCtrl.hasEditRights('outings', {'users': ${userIds}})" class="add-association">
+                        <label translate>Add association</label>
+                        <app-add-association parent-id="${outing_id}" parent-doctype="outings" dataset="rcx"></app-add-association>
+                      </div>
+                        ${show_associated_routes(outing)}
+                      ${show_associated_articles(outing)}
+                      ${show_associated_xreports(outing)}
+                    </section>
+                  </span>
+                </div>
+              </div>
+
+      ${get_comments(outing.get('disable_comments'))}
+
+      ${show_float_buttons(outing, lang, other_langs, missing_langs)}
+    % endif
+
+       </div>
     </div>
+  </section>
 </div>
-  
-      
-      
-      
-    ${get_comments(outing.get('disable_comments'))}
-
-    ${show_float_buttons(outing, lang, other_langs, missing_langs)}
-  % endif
-      
-     </div>
-  </div>
-
-
-</section>
-
 <div class="text-center">
   <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);">&nbsp;<span class="glyphicon glyphicon-menu-up"></span></button>
 </div>

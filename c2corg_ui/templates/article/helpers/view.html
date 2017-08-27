@@ -1,43 +1,43 @@
 <%def name="get_article_general(article)">\
       <h3 ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#general">
     <span translate>General</span> <span class="glyphicon glyphicon-menu-down"></span></h3>
-                 <div class="finfo" id="general">
-              <div class="ficontent collapse in max">
-      <span class="detail-text accordion">
-    % if article.get('activities'):
-      <article class="value activities">
-          <span translate class="value-title">activities</span><br>
-        % for type in article.get('activities') :
-          <span class="route-activity icon-${type}" uib-tooltip="{{mainCtrl.translate('${type}')}}"></span>
-        % endfor
+     <div class="finfo" id="general">
+      <div class="ficontent collapse in max">
+        <span class="detail-text accordion">
+      % if article.get('activities'):
+        <article class="value activities">
+            <span translate class="value-title">activities</span><br>
+          % for type in article.get('activities') :
+            <span class="route-activity icon-${type}" uib-tooltip="{{mainCtrl.translate('${type}')}}"></span>
+          % endfor
+          </article>
+      % endif
+
+      % if article.get('categories'):
+        <article>
+          <span class="value-title" translate>categories</span>:
+          % for type in article.get('categories') :
+            <span x-translate class="value">${type}</span>${'' if loop.last else ', '}
+          % endfor
         </article>
-    % endif
+      % endif
 
-    % if article.get('categories'):
-      <article>
-        <span class="value-title" translate>categories</span>:
-        % for type in article.get('categories') :
-          <span x-translate class="value">${type}</span>${'' if loop.last else ', '}
-        % endfor
-      </article>
-    % endif
+      % if article.get('article_type'):
+        <p><span class="value-title" translate>article_type</span>: <span class="value" x-translate>${article['article_type']}</span></p>
+      % endif
 
-    % if article.get('article_type'):
-      <p><span class="value-title" translate>article_type</span>: <span class="value" x-translate>${article['article_type']}</span></p>
-    % endif
+      % if article.get('author') and article['article_type'] == 'personal':
+        <%
+            user_id = article['author']['user_id']
+            user_lang = article['locales'][0]['lang']
+        %>
+        <p><span class="value-title" translate>author</span>:
+        <a class="value" href="${request.route_path('profiles_view', id=user_id, lang=user_lang)}" >${article['author']['name']}</a>
+      % endif
 
-    % if article.get('author') and article['article_type'] == 'personal':
-      <%
-          user_id = article['author']['user_id']
-          user_lang = article['locales'][0]['lang']
-      %>
-      <p><span class="value-title" translate>author</span>:
-      <a class="value" href="${request.route_path('profiles_view', id=user_id, lang=user_lang)}" >${article['author']['name']}</a>
-    % endif
-
-    % if article.get('quality'):
-      <p><span class="value-title" translate>quality</span>: <span class="value" x-translate>${article['quality']}</span></p>
-    % endif
+      % if article.get('quality'):
+        <p><span class="value-title" translate>quality</span>: <span class="value" x-translate>${article['quality']}</span></p>
+      % endif
       </span>
     </div>
   </div>
