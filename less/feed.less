@@ -64,23 +64,7 @@ app-feed {
         font-size: 13px;
       }
     }
-    &.rencontre {
-      padding: 10px;
-      .lville {
-        list-style: none;
-        margin: 0px;
-        padding: 0px;
-        a {
-          color: #ee4c5b;
-        }
-      }
-    }
 
-    .lvillel {
-      list-style: none;
-      margin: 0px;
-      padding: 0px;
-    }
 
     h1 {
       text-align: ;
@@ -530,16 +514,18 @@ app-feed {
       text-decoration: none;
     }
   }
-  .feed-cr .info h3 {
-    font-size: 16px;
-    font-weight: 500;
-    color: rgba(0,0,0,0.8);
-    margin-bottom: 10px;
-    font-weight: bold;
-  }
+  
   .feed-cr .info {
-    margin-bottom: 40px;
+        margin-bottom: 40px;
+    h3 {
+      font-size: 16px;
+      font-weight: 500;
+      color: rgba(0,0,0,0.8);
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
   }
+
 
   .fpcontent {
 
@@ -587,17 +573,7 @@ app-feed {
     box-align: center;
     align-items: center;
   }
-  .fportrait {
-    display: inline-block;
-    background-color: #bdbdbd;
-    height: 24px;
-    width: 24px;
 
-    margin: 0 16px;
-    -moz-border-radius: 50%;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
   .loc {
     font-style: italic;
   }
@@ -607,6 +583,15 @@ app-feed {
     margin-top: -6px;
   }
   .fportrait {
+        display: inline-block;
+    background-color: #bdbdbd;
+    height: 24px;
+    width: 24px;
+
+    margin: 0 16px;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    flex-shrink: 0;
     .activity {
       color: #FFAA45;
       font-size: 3em;
