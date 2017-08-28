@@ -82,14 +82,18 @@
 
 <%def name="show_other_langs_links(module, document, other_langs)">\
   % if other_langs:
-    <div class="other-langs"><span translate>View in other lang</span>
-      <%
-          route = 'profiles_view' if module == 'profiles' else (module + '_view_id_lang')
-      %>
-      % for l in other_langs:
-        <a href="${request.route_path(route, id=document['document_id'], lang=l)}" x-translate>${l}</a>
-        ${' - ' if not loop.last else ''}
-      % endfor
+  <div class="finfo">
+    <div class="ficontent">
+      <div class="other-langs"><span translate>View in other lang</span>
+        <%
+            route = 'profiles_view' if module == 'profiles' else (module + '_view_id_lang')
+        %>
+        % for l in other_langs:
+          <a href="${request.route_path(route, id=document['document_id'], lang=l)}" title="${l}" x-translate>${l}</a>
+          ${' - ' if not loop.last else ''}
+        % endfor
+      </div>
+      </div>
     </div>
   % endif
 </%def>
@@ -378,11 +382,14 @@
   %>
   ${add_seo_association_links(document['associations'][type], 'waypoints')}
   <section ng-show="${associations}.length > 0">
-    <h3 class="show-phone pull-left" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-waypoints">
+    <h3 class="show-phone pull-left" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-waypoints-${type}">
       <span x-translate>Associated ${type}</span><span class="glyphicon glyphicon-menu-down"></span>
    
-    </h3><app-list-switch class="pull-right"></app-list-switch>
-    <div class="associated-documents collapse in" id="associated-waypoints">
+    </h3>
+    % if type == 'waypoints':
+    <app-list-switch class="pull-right"></app-list-switch>
+    % endif
+    <div class="associated-documents collapse in" id="associated-waypoints-${type}">
       <div class="list-item waypoints"
            % if document['doctype'] == 'routes':
              ng-class="{'main-waypoint': doc.document_id === ${document['main_waypoint_id']}, 'new-item': doc['new']}"

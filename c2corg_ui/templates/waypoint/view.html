@@ -126,6 +126,7 @@ waypoint['doctype'] = 'waypoints'
                 ${app_smartphone_info('waypoint')}
           ## IMAGES
           % if not version:
+            ${show_associated_waypoints(waypoint, 'waypoints', showDelete=False)}
             ${get_image_gallery()}
             ${show_other_langs_links('waypoints', waypoint, other_langs)}
           % endif
@@ -154,7 +155,7 @@ waypoint['doctype'] = 'waypoints'
             </div>
             <% description_title = 'road access' if waypoint['waypoint_type'] == 'access' else 'description' %>
             ${get_document_description(locale, 'waypoint', description_title)}
-
+              
             ${get_waypoint_access_field(locale, waypoint['waypoint_type'], True)}
             ${get_waypoint_access_period(locale, waypoint['waypoint_type'], True)}
           </section>
@@ -169,8 +170,7 @@ waypoint['doctype'] = 'waypoints'
                     <label translate>Add association</label>
                     <app-add-association parent-id="${waypoint_id}" parent-doctype="waypoints" dataset="wcbx"></app-add-association>
                   </div>
-                  ${show_associated_waypoints(waypoint, 'waypoints', showDelete=False)}
-                  ${show_associated_waypoints(waypoint, 'waypoint_children')}
+                ${show_associated_waypoints(waypoint, 'waypoint_children')}
                 </section>
               </span>
               <span class="lead">
