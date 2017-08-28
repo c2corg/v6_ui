@@ -2,13 +2,13 @@ include Makefile
 
 export instanceid = ui
 export base_url = /
-export api_url = https://api.camptocamp.org
-export api_url_internal = https://api.camptocamp.org
-export api_url_host = api.camptocamp.org
+export api_url = http://api.demov6.camptocamp.org
+export api_url_internal = http://api
+export api_url_host = api
 
-export discourse_url = https://api.webfit.io/full-forum.php?url=
-export image_backend_url = https://media.camptocamp.org
-export image_url = $(image_backend_url)/c2corg_active/
+export discourse_url = https://forum.demov6.camptocamp.org
+export image_backend_url = https://images.demov6.camptocamp.org
+export image_url = $(image_backend_url)/active/
 
 # Key for www.demov6.camptocamp.org
 export ign_api_key = u2hnvshmi7absub9qkpunb3o
