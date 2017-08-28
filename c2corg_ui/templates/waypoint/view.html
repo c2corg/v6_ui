@@ -160,7 +160,7 @@ waypoint['doctype'] = 'waypoints'
           </section>
 
           % if not version:
-            <div class="row">
+            <div class="row" ng-cloak ng-init="a = detailsCtrl.documentService.document.associations" ng-show="userCtrl.auth.isAuthenticated() || a.waypoint_children.length || a.waypoints.length">
               <div class="col-xs-12">
 
               <span class="lead">
