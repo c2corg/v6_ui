@@ -59,6 +59,8 @@
 }
 .viewdoc {
 
+    background: @content-color;
+  
   .editing {
     .clear {
       clear: both;
@@ -66,16 +68,16 @@
     .group-route {
       background: #f1f1f1;
       width: 100%;
-      
+
       margin: 0 20px 10px 20px;
       .associated-documents{
         display: flex;
         flex-wrap: wrap;
       }
     }
- 
+
   }
-  
+
   .create-edit-document {
     h1 {
       margin-top:0px;
@@ -84,7 +86,7 @@
     .section .content .associated-documents {
       border: none;
       border-radius: none;
-      
+
     }
     .associated-section {
       width: 100%;
@@ -99,13 +101,13 @@
         top: -12px;
       }
     }
-    
+
     .group-route {
-       .associated-section {
-         margin-bottom: 0px;
+      .associated-section {
+        margin-bottom: 0px;
       }
-      
-      }
+
+    }
   }
   &.viewroute .area {
     display: none;
@@ -220,8 +222,6 @@
     font-size: 1.0em;
   }
 
-
-
   .glyphicon-menu-down{
     margin-left: 10px;
   }
@@ -256,9 +256,6 @@
       margin-bottom: 5px;
     }
 
-
-
-
     .list-item {
       margin: 0px;
     }
@@ -291,14 +288,11 @@
     font-weight: normal;
   }
 
-  background: @content-color;
-
   h3 {
     font-size: 16px;
     font-weight: 700;
     margin-bottom: 10px;
     clear: both;
-    //color: rgba(0,0,0,.8);
     @media @phone {
 
       text-align: center;
@@ -343,8 +337,6 @@
         width: 50%;
       }
     }
-
-
 
     .fullimg {
       width: 100%;
@@ -406,14 +398,12 @@
 
     h1 {
       position: relative;
-      /*      width: 100%; */
       text-align: center;
       color: #fff;
       font-size: 2.8em;
       .icons-header {
         margin: 10px 0 0;
-
-
+        
         .route-activity,   .waypoint-type {
           color: #FFAA45;
           background: #fff;
@@ -421,7 +411,6 @@
         }
 
       }
-
 
       .badge {
         font-size: .5em;
@@ -463,11 +452,7 @@
         &.waypoint {
           background-color: @bright-green;
         }
-
-
-
       }
-
     }
 
     view-details-section {
@@ -496,10 +481,7 @@
 
     }
 
-
-
   }
-
 
   .associated-documents {
     .post {
@@ -516,7 +498,6 @@
       }
     }
 
-
     &.area {
       .list-item {
 
@@ -527,8 +508,6 @@
 
       }
     }
-
-
 
   }
   .new-outing {
@@ -927,7 +906,7 @@
       @media @phone {
         font-size: 2em;
       }
-      /*red strike through*/
+      
       &:after {
         content: "";
         border-top: 3px solid #ea3636;
@@ -1153,7 +1132,7 @@
   .other-langs {
     clear: both;
   }
-} /*.view-details-section*/
+} 
 
 .view-details-map {
   height: 230px!important;
