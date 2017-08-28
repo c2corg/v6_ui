@@ -126,8 +126,10 @@ other_langs, missing_langs = get_lang_lists(route, lang)
         % endif
         <app-map class="view-details-map"></app-map>
         ${app_smartphone_info('route')}
-        ## IMAGES
+        
+        ## IMAGES and WAYPOINT
         % if not version:
+           ${show_associated_waypoints(route)}
           ${get_image_gallery()}
           ${show_other_langs_links('routes', route, other_langs)}
         % endif
@@ -169,7 +171,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
                     <label translate>Add association</label>
                     <app-add-association parent-id="${route_id}" parent-doctype="routes" dataset="wrcbx"></app-add-association>
                   </div>
-                  ${show_associated_waypoints(route)}
+               
                   ${show_associated_routes(route)}
                   ${show_associated_outings(route)}
                   ${show_associated_articles(route)}

@@ -432,7 +432,7 @@
       % endif
       <span class="glyphicon glyphicon-menu-down"></span>
       
-    </h3>
+    </h3><app-list-switch class="pull-right"></app-list-switch>
     % if document['doctype'] == 'routes':   
           <a protected-url-btn
              url="${request.route_path('outings_add') + '#r=' + str(document['document_id'])}">
