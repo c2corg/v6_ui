@@ -161,10 +161,10 @@ waypoint['doctype'] = 'waypoints'
           </section>
 
           % if not version:
-            <div class="row" ng-cloak ng-init="a = detailsCtrl.documentService.document.associations" ng-show="userCtrl.auth.isAuthenticated() || a.waypoint_children.length || a.waypoints.length">
+            <div class="row" ng-cloak ng-init="a = detailsCtrl.documentService.document.associations">
               <div class="col-xs-12">
 
-              <span class="lead">
+              <span class="lead" ng-show="userCtrl.auth.isAuthenticated() || a.waypoint_children.length || a.waypoints.length">
                 <section>
                   <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
                     <label translate>Add association</label>
