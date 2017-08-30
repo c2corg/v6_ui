@@ -2,7 +2,7 @@
     import datetime
     from json import loads
 %>
-<%namespace file="../../helpers/view.html" import="get_document_up_down, get_document_min_max,
+<%namespace file="../../helpers/view.html" import="get_global_rating, get_hiking_mtb_rating, get_skitouring_rating, get_document_up_down, get_document_min_max,
     show_attr, show_geom_download"/>
 
 <%def name="show_fulldate(dateStart, dateEnd)">\
@@ -112,7 +112,7 @@
   </div>
   % endif
 </%def>
-
+  
 <%def name="get_outing_access(outing)">\
   % if outing.get('public_transport') or outing.get('access_condition') or outing.get('lift_status') or outing.get('hut_status') :
   <div class="col-sm-6 col-lg-3"> 
@@ -291,9 +291,42 @@
   </table>
 </%def>
 
+## RATING
+<%def name="get_outing_route_rating(route)">\
+% if route.get('global_rating') or route.get('engagement_rating') or route.get('risk_rating') or route.get('exposition_rock_rating') \
+  or route.get('rock_free_rating') or route.get('rock_required_rating') or route.get('hiking_rating') \
+  or route.get('hiking_mtb_exposition') or route.get('ice_rating') or route.get('mixed_rating') or route.get('snowshoe_rating')  \
+  or route.get('mtb_down_rating') or route.get('mtb_up_rating') or route.get('via_ferrata_rating') or route.get('equipment_rating') \
+  or route.get('ski_rating') or route.get('labande_ski_rating') or route.get('labande_global_rating') or route.get('ski_exposition') :
+  <div class="col-sm-6 col-lg-3">
+  <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
+    <h4><span class="glyphicon glyphicon-sort-by-attributes"></span> <span translate>Rating</span><span class="glyphicon pull-right rotate-arrow-down"></span></h4>
+    <span class="detail-text accordion ratings">
+
+      ${get_global_rating(route)}
+      ${get_skitouring_rating(route)}
+
+      % if route.get('hiking_rating'):
+        <div class="rating-block c">
+          <span uib-tooltip="{{'hiking_rating' | translate}}" class="value">${route['hiking_rating']}</span>&nbsp;
+        </div>
+      % endif
+
+      % if route.get('snowshoe_rating'):
+        <div class="rating-block d">
+          <span uib-tooltip="{{mainCtrl.translate('snowshoe_rating')}}" class="value">${route['snowshoe_rating']}</span>
+        </div>
+      % endif
+
+      ${get_hiking_mtb_rating(route)}
+    </span>
+  </div>
+  </div>
+  % endif
+</%def>
+  
 <%def name="get_outing_elevation_profile()">\
 
-  
   <h3 class="show-phone" ng-click="mainCtrl.animateHeaderIcon($event)"
         data-toggle="collapse" data-target="#elevation-profile">
       <span translate>Elevation profile</span><span class="glyphicon glyphicon-menu-right"></span>

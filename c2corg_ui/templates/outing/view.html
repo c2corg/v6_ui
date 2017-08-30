@@ -15,7 +15,7 @@ from json import dumps
     show_delete_document_dialog, get_document_description, generate_share_metadata, app_smartphone_info"/>
 <%namespace file="helpers/view.html" import="get_outing_snow, get_outing_access,
     get_outing_participants, get_outing_general, get_outing_heights,
-    show_fulldate, get_conditions, get_outing_elevation_profile"/>
+    show_fulldate, get_conditions, get_outing_elevation_profile, get_outing_route_rating"/>
 
 <%
 outing_id = outing['document_id']
@@ -137,6 +137,9 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
               <div class="ficontent">
                 <div class="row">
                     ${get_outing_general(outing)}
+                    % if not version:
+                      ${get_outing_route_rating(outing['associations']['routes'][0])}
+                    % endif
                     ${get_outing_heights(outing)}
                     ${get_outing_access(outing)}
                     ${get_outing_snow(outing)}

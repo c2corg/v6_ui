@@ -61,7 +61,7 @@
 .viewdoc {
 
     background: @content-color;
-  
+
   .editing {
     .clear {
       clear: both;
@@ -71,12 +71,20 @@
       width: 100%;
 
       margin: 0 20px 10px 20px;
-      .associated-documents{
+       .associated-documents{
         display: flex;
         flex-wrap: wrap;
       }
     }
 
+        .associated-documents{
+          width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+          .list-item{
+            position: relative;
+          }
+      }
   }
 
   .create-edit-document {

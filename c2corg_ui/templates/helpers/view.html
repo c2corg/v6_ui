@@ -454,20 +454,8 @@
             ng-if="${test_association_rights(document)}"></app-delete-association>
       </div>
 
-             <div class="list-item vertical-align new-outing" >
+        <div class="list-item vertical-align new-outing" >
     
-      <!--
-      % if total == 0:
-       % if document['doctype'] == 'routes':   
-          <a protected-url-btn
-             url="${request.route_path('outings_add') + '#r=' + str(document['document_id'])}">
-            <button class="btn btn-default orange-btn pull-right" translate>add a new outing to this document</button>
-          </a>
-      % endif
-
-    
-      % endif
-          -->
         % if isRecentOutings:
            % if total > 0:
         <%
@@ -479,7 +467,7 @@
           </a>
        % endif
       % endif
-          </div>
+      </div>
       ${generate_empty_list_items(5)}
     </div>
   </article>
