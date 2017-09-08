@@ -181,7 +181,9 @@ app.FeedController = function($scope,appAuthentication, appApi, appLang, imageUr
   this.ngeoLocation = ngeoLocation;
 
   this.getDocumentsFromFeed();
-  this.getLatestTopics_();
+  if (!this.isPersonal) {
+    this.getLatestTopics_();
+  }
   this.feedColumnManager();
   this.getAnnouncement_();
 };
@@ -200,7 +202,7 @@ app.FeedController.prototype.getAnnouncement_ = function() {
 
 /**
  * toggle block above forum topics list
- @param {number} id
+ * @param {number} id
  * @export
  */
 app.FeedController.prototype.toggleBlock = function(id) {
@@ -223,13 +225,13 @@ app.FeedController.prototype.toggleBlock = function(id) {
  * @private
  */
 app.FeedController.prototype.initDocumentsCol_ = function() {
-  if (this.documentsCol[0] === null || this.documentsCol[0] == undefined) {
+  if (!this.documentsCol[0]) {
     this.documentsCol[0] = Array();
   }
-  if (this.documentsCol[1] === null || this.documentsCol[1] == undefined) {
+  if (!this.documentsCol[1]) {
     this.documentsCol[1] = Array();
   }
-  if (this.documentsCol[2] === null || this.documentsCol[2] == undefined) {
+  if (!this.documentsCol[2]) {
     this.documentsCol[2] = Array();
   }
 };
@@ -255,7 +257,6 @@ app.FeedController.prototype.feedColumnManager = function() {
 
     } else if (window.innerWidth >= 1400 && window.innerWidth < 2000) {
 
-
       if (this.nbCols_ != 2) {
         this.documentsCol = Array();
         this.documentsCol[0] = Array();
@@ -278,7 +279,6 @@ app.FeedController.prototype.feedColumnManager = function() {
             this.documentsCol[0].push(this.documents[i]);
             height1_c2 = height1_c2 + this.sizeEstimator(this.documents[i]);
           }
-
 
         }
         this.scope_.$apply();
@@ -342,7 +342,7 @@ app.FeedController.prototype.getDocumentsFromFeed = function() {
  */
 app.FeedController.prototype.getLatestTopics_ = function() {
   this.busyForum = true;
-  this.api.readLatestForum().then(function(response) {
+  this.api.readLatestForumTopics().then(function(response) {
     this.handleForum(response);
   }.bind(this), function() { // Error msg is shown in the api service
     this.busyForum = false;
@@ -376,16 +376,16 @@ app.FeedController.prototype.naturalNumber = function(n) {
 app.FeedController.prototype.sizeEstimator = function(doc) {
   var size = 225;
   if (doc['document']['locales'][0]['summary'] !== null) {
-    size = size + 22;
+    size += 22;
   }
   if (doc['document']['elevation_max'] !== null || doc['document']['height_diff_up'] !== null || doc['document']['height_diff_difficulties'] !== null) {
-    size = size + 51;
+    size += 51;
   }
   if (doc['image1'] !== null)  {
-    size = size + 275;
+    size += 275;
   }
   if (doc['image2'] !== null)  {
-    size = size + 100;
+    size += 100;
   }
 
   return size;
@@ -393,6 +393,7 @@ app.FeedController.prototype.sizeEstimator = function(doc) {
 
 /**
  * Handles feed processing for Feed.js and Whatsnew.js
+ * the next post is add on the column with the littlest height according the height of the column and the estimation about the height of the new post
  * @param response
  * @public
  */

@@ -418,7 +418,7 @@ app.MapController.prototype.getVectorLayer_ = function() {
  */
 app.MapController.prototype.createStyleFunction_ = function() {
   return (
-    /**
+      /**
        * @param {ol.Feature|ol.render.Feature} feature
        * @param {number} resolution
        * @return {ol.style.Style|Array.<ol.style.Style>}

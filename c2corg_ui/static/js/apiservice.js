@@ -4,7 +4,7 @@ goog.require('app');
 
 
 /**
- * Service for accessing the API.3
+ * Service for accessing the API.
  * @param {string} discourseUrl URL to the forum API.
  * @param {string} apiUrl URL to the API.
  * @param {string} imageBackendUrl URL to the image backend.
@@ -407,7 +407,7 @@ app.Api.prototype.updatePreferredLanguage = function(lang) {
 /**
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
-app.Api.prototype.readLatestForum = function() {
+app.Api.prototype.readLatestForumTopics = function() {
   var alerts = this.alerts_;
   var config = {
     headers: {
@@ -619,7 +619,8 @@ app.Api.prototype.readCommentsForum = function(document_id, lang) {
     }
   };
 
-  var promise = this.http_.get(this.discourseUrl_ + '/t/' + document_id + '-' + lang + '/' + document_id + '.json', config);
+  var urlTopics = this.discourseUrl_ + '/t/' + document_id + '-' + lang + '/' + document_id + '.json';
+  var promise = this.http_.get(urlTopics, config);
   promise.catch(function(response) {
     alerts.addError(response);
   });

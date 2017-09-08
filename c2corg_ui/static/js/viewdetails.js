@@ -222,11 +222,13 @@ app.ViewDetailsController.prototype.toggleTab = function(tab) {
 
 
 /**
- * blablabla
+ *
  * @export
  */
 app.ViewDetailsController.prototype.initHeadband = function() {
-  if (this.documentService.document.activities.indexOf('rock_climbing') > -1 || this.documentService.document.activities.indexOf('mountain_climbing') > -1 || this.documentService.document.activities.indexOf('ice_climbing') > -1) {
+  if (this.documentService.document.activities.indexOf('rock_climbing') > -1 ||
+      this.documentService.document.activities.indexOf('mountain_climbing') > -1 ||
+      this.documentService.document.activities.indexOf('ice_climbing') > -1) {
     this.hasHeadband = false;
     if (this.documentService.document.associations.images.length == 0) {
       this.hasVerticalImg = false;
@@ -252,7 +254,7 @@ app.ViewDetailsController.prototype.initHeadband = function() {
 
 /**
  * get the most wide image
-  * @param {number} index
+ * @param {number} index
  * @return string
  * @export
  */
@@ -455,7 +457,13 @@ app.ViewDetailsController.prototype.handleCommentsForum = function(response) {
       if (data['post_stream']['posts'][i]['name'] == 'system') {
         continue;
       }
-      this.comments.push({'id':data['post_stream']['posts'][i]['id'], 'username':data['post_stream']['posts'][i]['username'],'avatar_template':data['post_stream']['posts'][i]['avatar_template'].replace('{size}','24'),'cooked':data['post_stream']['posts'][i]['cooked'].replace(/<a class="mention" href="/g,'<a class="mention" href="' + this.discourseUrl_),'created_at':data['post_stream']['posts'][i]['created_at'],'reply_count':data['post_stream']['posts'][i]['reply_count'],'reply_to_user':data['post_stream']['posts'][i]['reply_to_user']});
+      this.comments.push({'id':data['post_stream']['posts'][i]['id'],
+                          'username':data['post_stream']['posts'][i]['username'],
+                          'avatar_template':data['post_stream']['posts'][i]['avatar_template'].replace('{size}','24'),
+                          'cooked':data['post_stream']['posts'][i]['cooked'].replace(/<a class="mention" href="/g,'<a class="mention" href="' + this.discourseUrl_),
+                          'created_at':data['post_stream']['posts'][i]['created_at'],
+                          'reply_count':data['post_stream']['posts'][i]['reply_count'],
+                          'reply_to_user':data['post_stream']['posts'][i]['reply_to_user']});
     }
     this.documentService.document['topic_slug'] = data['post_stream']['posts'][0]['topic_slug'];
   }
@@ -575,16 +583,6 @@ app.ViewDetailsController.prototype.openEmbeddedImage = function(imgUrl, imgId) 
     $('.pswp__button--edit').attr('href', '/images/edit/' + id + '/' + lang);
   });
   pswp.init();
-};
-
-/**
- * @param {string} filename
- * @param {string} suffix
- * @return {string}
- * @export
- */
-app.ViewDetailsController.prototype.getBandeau = function(filename, suffix) {
-  return this.imageUrl_ + app.utils.createImageUrl(filename, suffix);
 };
 
 

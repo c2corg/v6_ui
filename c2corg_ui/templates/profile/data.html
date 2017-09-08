@@ -24,8 +24,6 @@
       <div app-view-details>
         ${get_profile_general(profile)}
         
-        ${get_document_description(locale, 'profile')}
-
         % if geometry:
 
         <div ng-init='profileFeature = {
@@ -62,7 +60,8 @@
       </div>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
-    <app-feed app-feed-profile="${user_id}" id="feed"></app-feed>
+      ${get_document_description(locale, 'profile')}
+      <app-feed app-feed-profile="${user_id}" id="feed"></app-feed>
     </div>
   </div>
 

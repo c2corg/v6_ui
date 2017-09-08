@@ -214,15 +214,7 @@ app.CardController.prototype.showArea = function(areas) {
  * @export
  */
 app.CardController.prototype.showOrientation = function(orientations) {
-  var str = '';
-  for (var i = 0; i < orientations.length; i++) {
-    if (i == 0) {
-      str = str + '' + orientations[i];
-    } else {
-      str = str + ', ' + orientations[i];
-    }
-  }
-  return str;
+  return orientations.join(', ');
 };
 
 
@@ -272,31 +264,31 @@ app.CardController.prototype.createImageUrl = function(filename, suffix) {
  * @export
  */
 app.CardController.prototype.createURLArea = function(areas) {
-  if (areas !== undefined) {
-    if (areas.length > 0) {
-      var type;
-      var orderedAreas = {'range': [], 'admin_limits': [], 'country': []};
+  if (areas && areas.length) {
+    var orderedAreas = {'range': [], 'admin_limits': [], 'country': []};
 
-      for (var i = 0; i < areas.length; i++) {
-        type = areas[i]['area_type'];
-        orderedAreas[type].push(areas[i]);
-      }
+    for (var i = 0, type; i < areas.length; i++) {
+      type = areas[i]['area_type'];
+      orderedAreas[type].push(areas[i]);
+    }
 
-      var loc = window.location.pathname;
-      var doc;
-      if (orderedAreas['range'].length > 0) {
-        doc = orderedAreas['range'];
-      } else if (orderedAreas['range'].length > 0) {
-        doc = orderedAreas['admin_limits'];
-      } else {
-        doc = orderedAreas['country'];
-      }
+    var loc = window.location.pathname;
+    var doc;
+    if (orderedAreas['range'].length > 0) {
+      doc = orderedAreas['range'];
+    } else if (orderedAreas['range'].length > 0) {
+      doc = orderedAreas['admin_limits'];
+    } else {
+      doc = orderedAreas['country'];
+    }
 
-      if (loc.indexOf('/edit/') === -1 && loc.indexOf('/add') === -1) {
-        return this.url_.buildDocumentUrl(app.utils.getDoctype(doc[doc.length - 1]['type']),  doc[doc.length - 1]['document_id'],  doc[doc.length - 1]['locales'][0]);
-      }
+    if (loc.indexOf('/edit/') === -1 && loc.indexOf('/add') === -1) {
+      return this.url_.buildDocumentUrl(app.utils.getDoctype(doc[doc.length - 1]['type']),
+                                        doc[doc.length - 1]['document_id'],
+                                        doc[doc.length - 1]['locales'][0]);
     }
   }
+
 
 };
 
