@@ -246,7 +246,6 @@ app.FeedController.prototype.feedColumnManager = function() {
 
     if (window.innerWidth < 1400) {
       if (this.nbCols_ != 1) {
-        this.documentsCol = Array();
         this.documentsCol[0] = this.documents;
         this.documentsCol[1] = Array();
         this.documentsCol[2] = Array();
@@ -258,7 +257,6 @@ app.FeedController.prototype.feedColumnManager = function() {
     } else if (window.innerWidth >= 1400 && window.innerWidth < 2000) {
 
       if (this.nbCols_ != 2) {
-        this.documentsCol = Array();
         this.documentsCol[0] = Array();
         this.documentsCol[1] = Array();
         this.documentsCol[2] = Array();
@@ -271,13 +269,13 @@ app.FeedController.prototype.feedColumnManager = function() {
 
           if (height1_c2 <= height2_c2) {
             this.documentsCol[0].push(this.documents[i]);
-            height1_c2 = height1_c2 + this.sizeEstimator(this.documents[i]);
-          } else if (height2_c2 <= height1_c2) {
+            height1_c2 += this.estimateSize(this.documents[i]);
+          } else if (height2_c2 < height1_c2) {
             this.documentsCol[1].push(this.documents[i]);
-            height2_c2 = height2_c2 + this.sizeEstimator(this.documents[i]);
+            height2_c2 += this.estimateSize(this.documents[i]);
           } else {
             this.documentsCol[0].push(this.documents[i]);
-            height1_c2 = height1_c2 + this.sizeEstimator(this.documents[i]);
+            height1_c2 += this.estimateSize(this.documents[i]);
           }
 
         }
@@ -285,7 +283,6 @@ app.FeedController.prototype.feedColumnManager = function() {
       }
     } else {
       if (this.nbCols_ != 3) {
-        this.documentsCol = Array();
         this.documentsCol[0] = Array();
         this.documentsCol[1] = Array();
         this.documentsCol[2] = Array();
@@ -298,16 +295,16 @@ app.FeedController.prototype.feedColumnManager = function() {
         for (var j = 0,o = this.documents.length; j < o; j++) {
           if (height1_c3 <= height2_c3 && height1_c3 <= height3_c3) {
             this.documentsCol[0].push(this.documents[j]);
-            height1_c3 = height1_c3 + this.sizeEstimator(this.documents[j]);
+            height1_c3 += this.estimateSize(this.documents[j]);
           } else if (height2_c3 <= height1_c3 && height2_c3 <= height3_c3) {
             this.documentsCol[1].push(this.documents[j]);
-            height2_c3 = height2_c3 + this.sizeEstimator(this.documents[j]);
+            height2_c3 += this.estimateSize(this.documents[j]);
           } else if (height3_c3 <= height2_c3 && height3_c3 <= height1_c3) {
             this.documentsCol[2].push(this.documents[j]);
-            height3_c3 = height3_c3 + this.sizeEstimator(this.documents[j]);
+            height3_c3 += this.estimateSize(this.documents[j]);
           } else {
             this.documentsCol[0].push(this.documents[j]);
-            height1_c3 = height1_c3 + this.sizeEstimator(this.documents[j]);
+            height1_c3 += this.estimateSize(this.documents[j]);
           }
 
 
@@ -358,22 +355,20 @@ app.FeedController.prototype.getLatestTopics_ = function() {
 app.FeedController.prototype.naturalNumber = function(n) {
   if (n < 0) {
     return 0;
-  } else {
-    if (n > 10) {
-      return 10;
-    } else {
-      return Math.round(n);
-    }
   }
+  if (n > 10) {
+    return 10;
+  }
+  return Math.round(n);
 };
 
 /**
  * simulate size for a doc
  * @param {Object} doc
- @return {number}
+ * @return {number}
  * @public
  */
-app.FeedController.prototype.sizeEstimator = function(doc) {
+app.FeedController.prototype.estimateSize = function(doc) {
   var size = 225;
   if (doc['document']['locales'][0]['summary'] !== null) {
     size += 22;
@@ -427,13 +422,13 @@ app.FeedController.prototype.handleFeed = function(response) {
 
       if (height1_c2 <= height2_c2) {
         this.documentsCol[0].push(data[i]);
-        height1_c2 = height1_c2 + this.sizeEstimator(data[i]);
+        height1_c2 = height1_c2 + this.estimateSize(data[i]);
       } else if (height2_c2 <= height1_c2) {
         this.documentsCol[1].push(data[i]);
-        height2_c2 = height2_c2 + this.sizeEstimator(data[i]);
+        height2_c2 = height2_c2 + this.estimateSize(data[i]);
       } else {
         this.documentsCol[0].push(data[i]);
-        height1_c2 = height1_c2 + this.sizeEstimator(data[i]);
+        height1_c2 = height1_c2 + this.estimateSize(data[i]);
       }
 
       this.documents.push(data[i]);
@@ -457,16 +452,16 @@ app.FeedController.prototype.handleFeed = function(response) {
 
       if (height1_c3 <= height2_c3 && height1_c3 <= height3_c3) {
         this.documentsCol[0].push(data[j]);
-        height1_c3 = height1_c3 + this.sizeEstimator(data[j]);
+        height1_c3 = height1_c3 + this.estimateSize(data[j]);
       } else if (height2_c3 <= height1_c3 && height2_c3 <= height3_c3) {
         this.documentsCol[1].push(data[j]);
-        height2_c3 = height2_c3 + this.sizeEstimator(data[j]);
+        height2_c3 = height2_c3 + this.estimateSize(data[j]);
       } else if (height3_c3 <= height2_c3 && height3_c3 <= height1_c3) {
         this.documentsCol[2].push(data[j]);
-        height3_c3 = height3_c3 + this.sizeEstimator(data[j]);
+        height3_c3 = height3_c3 + this.estimateSize(data[j]);
       } else {
         this.documentsCol[0].push(data[j]);
-        height1_c3 = height1_c3 + this.sizeEstimator(data[j]);
+        height1_c3 = height1_c3 + this.estimateSize(data[j]);
       }
 
       this.documents.push(data[j]);

@@ -40,7 +40,6 @@ LIBS_JS_FILES += \
     node_modules/moment/min/moment.min.js \
     node_modules/moment-timezone/builds/moment-timezone-with-data.min.js \
     node_modules/angular-moment/angular-moment.min.js \
-    node_modules/slick-carousel/slick/slick.min.js \
     node_modules/angular-recaptcha/release/angular-recaptcha.min.js \
     node_modules/ng-file-upload/dist/ng-file-upload.min.js \
     node_modules/blueimp-load-image/js/load-image.all.min.js \
@@ -56,10 +55,8 @@ LIBS_JS_FILES += \
 LIBS_CSS_FILES += \
     node_modules/bootstrap-slider/dist/css/bootstrap-slider.css \
     node_modules/bootstrap-markdown/css/bootstrap-markdown.min.css \
-    node_modules/slick-carousel/slick/slick.css \
     node_modules/photoswipe/dist/photoswipe.css \
-    node_modules/photoswipe/dist/default-skin/default-skin.css \
-    node_modules/slick-carousel/slick/slick-theme.css
+    node_modules/photoswipe/dist/default-skin/default-skin.css
 
 
 # variables used in config files (*.in)
