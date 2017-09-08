@@ -245,8 +245,6 @@ app.ViewDetailsController.prototype.initHeadband = function() {
     } else if (this.documentService.document.associations.images.length > 1) {
       this.getBestWideImg(0);
       this.hasHeadband = true;
-    } else {
-      this.hasHeadband = false;
     }
   }
 };
@@ -259,7 +257,7 @@ app.ViewDetailsController.prototype.initHeadband = function() {
  * @export
  */
 app.ViewDetailsController.prototype.getBestWideImg = function(index) {
-  this.getMeta(index,this.createImageUrl(this.documentService.document.associations.images[index]['filename'],'MI'),function(index,w,h) {
+  this.getPictureDimension(index,this.createImageUrl(this.documentService.document.associations.images[index]['filename'],'MI'),function(index,w,h) {
     if (this.widestCoef_ <= w / h) {
       this.widestCoef_ = w / h;
       this.widestImg_ = index;
@@ -285,7 +283,7 @@ app.ViewDetailsController.prototype.getBestWideImg = function(index) {
  * @return string
  * @export
  */
-app.ViewDetailsController.prototype.getMeta = function(index,url, callback) {
+app.ViewDetailsController.prototype.getPictureDimension = function(index,url, callback) {
   var img = new Image();
   img.src = url;
   img.onload = function() {
@@ -451,21 +449,21 @@ app.ViewDetailsController.prototype.getComments = function() {
  * @public
  */
 app.ViewDetailsController.prototype.handleCommentsForum = function(response) {
-  var data = response['data'];
-  if (data['post_stream'] !== undefined) {
-    for (var i = 0; i < data['post_stream']['posts'].length; i++) {
-      if (data['post_stream']['posts'][i]['name'] == 'system') {
+  var data = response['data']['post_stream'];
+  if (data !== undefined) {
+    for (var i = 0; i < data['posts'].length; i++) {
+      if (data['posts'][i]['name'] == 'system') {
         continue;
       }
-      this.comments.push({'id':data['post_stream']['posts'][i]['id'],
-                          'username':data['post_stream']['posts'][i]['username'],
-                          'avatar_template':data['post_stream']['posts'][i]['avatar_template'].replace('{size}','24'),
-                          'cooked':data['post_stream']['posts'][i]['cooked'].replace(/<a class="mention" href="/g,'<a class="mention" href="' + this.discourseUrl_),
-                          'created_at':data['post_stream']['posts'][i]['created_at'],
-                          'reply_count':data['post_stream']['posts'][i]['reply_count'],
-                          'reply_to_user':data['post_stream']['posts'][i]['reply_to_user']});
+      this.comments.push({'id':data['posts'][i]['id'],
+                          'username':data['posts'][i]['username'],
+                          'avatar_template':data['posts'][i]['avatar_template'].replace('{size}','24'),
+                          'cooked':data['posts'][i]['cooked'].replace(/<a class="mention" href="/g,'<a class="mention" href="' + this.discourseUrl_),
+                          'created_at':data['posts'][i]['created_at'],
+                          'reply_count':data['posts'][i]['reply_count'],
+                          'reply_to_user':data['posts'][i]['reply_to_user']});
     }
-    this.documentService.document['topic_slug'] = data['post_stream']['posts'][0]['topic_slug'];
+    this.documentService.document['topic_slug'] = data['posts'][0]['topic_slug'];
   }
 };
 
