@@ -230,7 +230,7 @@ app.ViewDetailsController.prototype.initHeadband = function() {
       this.documentService.document.activities.indexOf('mountain_climbing') > -1 ||
       this.documentService.document.activities.indexOf('ice_climbing') > -1) {
     this.hasHeadband = false;
-   this.hasVerticalImg = !!this.documentService.document.associations.image;
+    this.hasVerticalImg = !!this.documentService.document.associations.image;
   } else {
     this.hasVerticalImg = false;
     if (this.documentService.document.associations.images.length == 0) {

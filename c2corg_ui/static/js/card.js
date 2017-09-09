@@ -143,7 +143,7 @@ app.CardController.prototype.createActionLine = function() {
       break;
     default:
       break;
-                                 }
+  }
   return line + this.getDocumentType(this.doc['document']['type']);
 };
 
@@ -251,7 +251,7 @@ app.CardController.prototype.createImageUrl = function(filename, suffix) {
  * @return {string | undefined}
  * @export
  */
-app.CardController.prototype.createAreaURL= function(areas) {
+app.CardController.prototype.createAreaURL = function(areas) {
   if (areas && areas.length) {
     var orderedAreas = {'range': [], 'admin_limits': [], 'country': []};
 
