@@ -4,6 +4,7 @@ goog.provide('app.feedDirective');
 goog.require('app');
 goog.require('app.Api');
 goog.require('app.Authentication');
+// goog.require('app.PreferencesController');
 goog.require('app.utils');
 
 
@@ -24,6 +25,7 @@ app.module.directive('appFeed', app.feedDirective);
 
 
 /**
+ * @param {angular.$cookies} $cookies Cookies service.
  * @param {app.Authentication} appAuthentication
  * @param {app.Api} appApi Api service.
  * @param {app.Lang} appLang Lang service.
@@ -33,13 +35,19 @@ app.module.directive('appFeed', app.feedDirective);
  * @ngInject
  * @struct
  */
-app.FeedController = function(appAuthentication, appApi, appLang, imageUrl, ngeoLocation) {
+app.FeedController = function($cookies, appAuthentication, appApi, appLang, imageUrl, ngeoLocation) {
 
   /**
    * @type {app.Api}
    * @public
    */
   this.api = appApi;
+
+  /**
+   * @type {angular.$cookies}
+   * @private
+   */
+  this.cookies_ = $cookies;
 
   /**
    * @type {app.Authentication}
@@ -130,7 +138,12 @@ app.FeedController = function(appAuthentication, appApi, appLang, imageUrl, ngeo
  */
 app.FeedController.prototype.getDocumentsFromFeed = function() {
   this.busy = true;
-  this.api.readFeed(this.nextToken, this.lang_.getLang(), this.userId, this.isPersonal).then(function(response) {
+  console.log('cookie is ', this.cookies_.get('preferred_lang'));
+  console.log('interface lang is ', this.lang_.getLang());
+
+  var lang = this.cookies_.get('preferred_lang') || this.lang_.getLang();
+  console.log('lang');
+  this.api.readFeed(this.nextToken, lang, this.userId, this.isPersonal).then(function(response) {
     this.handleFeed(response);
   }.bind(this), function() { // Error msg is shown in the api service
     this.busy = false;

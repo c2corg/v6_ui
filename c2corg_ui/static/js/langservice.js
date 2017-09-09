@@ -78,6 +78,10 @@ app.Lang = function($cookies, gettextCatalog, ngeoGetBrowserLanguage, langs,
     this.cookies_.get('interface_lang') ||
     this.ngeoGetBrowserLanguage_(this.langs_) || 'fr'
   );
+  // this.updatePreferredLang(
+  //   this.cookies_.get('preferred_lang') ||
+  //   this.ngeoGetBrowserLanguage_(this.langs_) || 'fr'
+  // );
 };
 
 
