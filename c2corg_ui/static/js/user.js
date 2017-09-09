@@ -134,4 +134,12 @@ app.UserController.prototype.isModerator = function() {
   return this.auth.isModerator();
 };
 
+/**
+ * @export
+ */
+app.UserController.prototype.goToOutingsPage = function() {
+  window.location.href = '/outings#u=' + this.auth.userData.id;
+  window.location.reload();
+};
+
 app.module.controller('AppUserController', app.UserController);

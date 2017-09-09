@@ -15,7 +15,7 @@
     <li><a translate href="/account">My account</a></li>
     <li><a translate href="/preferences">My preferences</a></li>
     <li>
-      <a translate ng-href="/outings#u={{userCtrl.auth.userData.id}}">My outings</a>
+      <a translate ng-href="/outings#u={{userCtrl.auth.userData.id}}" ng-click="userCtrl.goToOutingsPage()">My outings</a>
       <app-outings-csv-download></app-outings-csv-download>
     </li>
     <li><a translate href="/following">My followed users</a></li>
