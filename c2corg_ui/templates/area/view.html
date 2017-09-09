@@ -67,7 +67,7 @@ area['doctype'] = 'areas'
 <%block name="share">
   ${generate_share_metadata(area, 'areas')}
 </%block>
-
+<div ng-cloack>
 <div class="viewdoc">
   <header class="view-title-with-bg" ng-if="detailsCtrl.hasHeadband">
     <div class="view-image-bg" ng-style="{'background-image': 'url('+this.headBands+')'}"><div class="view-filter-bg"></div></div>
@@ -157,3 +157,4 @@ area['doctype'] = 'areas'
     };
   </script>
 % endif
+</div>

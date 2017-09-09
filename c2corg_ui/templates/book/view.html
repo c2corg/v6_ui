@@ -50,85 +50,87 @@ other_langs, missing_langs = get_lang_lists(book, lang)
 <%block name="share">
   ${generate_share_metadata(book, 'books')}
 </%block>
-  
-<div class="viewdoc">
-  <header class="view-title-without-bg">
-    <h1 class="routes">
-      <span class="title">${show_locale_title(locale)}</span><br>
-    ${show_badge(book, 'book')}
-    </h1>
-  </header>
-  
-
-  <section class="view-details-section" app-view-details>
-
-    % if version:
-      ${show_archive_data('books', book, locale, version)}
-    % else:
-      <div class="row">
-        <div class="col-xs-12 col-md-4 col-lg-3">
+  <div ng-cloak>
+  <div class="viewdoc">
+    <header class="view-title-without-bg">
+      <h1 class="routes">
+        <span class="title">${show_locale_title(locale)}</span><br>
+      ${show_badge(book, 'book')}
+      </h1>
+    </header>
 
 
-        ${get_book_general(book)}
+    <section class="view-details-section" app-view-details>
+
+      % if version:
+        ${show_archive_data('books', book, locale, version)}
+      % else:
+        <div class="row">
+          <div class="col-xs-12 col-md-4 col-lg-3">
+
+
+          ${get_book_general(book)}
 
 
 
-    ## IMAGES
-    % if not version:
-      ${get_image_gallery()}
-      ${show_other_langs_links('books', book, other_langs)}
-    % endif
-
-            ${get_licence(book)}
-        </div>
-        <div class="col-xs-12 col-md-8 col-lg-9">
-          ${get_document_description(locale, 'book')}
-            % if not version:
-
-        <span class="lead" ng-cloak>
-            <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
-              <label translate>Add association</label>
-              <app-add-association parent-doctype="books" parent-id="${book_id}" dataset="wrc"></app-add-association>
-            </div>
-            <section>
-              ${show_associated_waypoints(book)}
-              ${show_associated_routes(book)}
-              ${show_associated_articles(book)}
-            </section>
-        </span>
-
-
-      ${get_comments()}
-
-      ${show_float_buttons(book, lang, other_langs, missing_langs)}
-    % endif
-        </div>
-    </div>
+      ## IMAGES
+      % if not version:
+        ${get_image_gallery()}
+        ${show_other_langs_links('books', book, other_langs)}
       % endif
 
+              ${get_licence(book)}
+          </div>
+          <div class="col-xs-12 col-md-8 col-lg-9">
+            ${get_document_description(locale, 'book')}
+              % if not version:
+
+          <span class="lead" ng-cloak>
+              <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
+                <label translate>Add association</label>
+                <app-add-association parent-doctype="books" parent-id="${book_id}" dataset="wrc"></app-add-association>
+              </div>
+              <section>
+                ${show_associated_waypoints(book)}
+                ${show_associated_routes(book)}
+                ${show_associated_articles(book)}
+              </section>
+          </span>
 
 
-  </section>
-</div>
-<div class="text-center viewdoc-bottom">
-  <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);">&nbsp;<span class="glyphicon glyphicon-menu-up"></span></button>
-</div>
+        ${get_comments()}
 
-% if not version:
-  <div class="ng-hide">
-    <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
-    ${delete_association_confirmation_modal()}
-    ${show_missing_langs_links('books', book, missing_langs)}
-    ${show_merge_documents_dialog('books')}
-    ${show_delete_document_dialog('books', lang, other_langs)}
+        ${show_float_buttons(book, lang, other_langs, missing_langs)}
+      % endif
+          </div>
+      </div>
+        % endif
+
+
+
+    </section>
+  </div>
+  <div class="text-center viewdoc-bottom">
+    <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);">&nbsp;<span class="glyphicon glyphicon-menu-up"></span></button>
   </div>
 
-  ${photoswipe_gallery()}
+  % if not version:
+    <div class="ng-hide">
+      <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
+      ${delete_association_confirmation_modal()}
+      ${show_missing_langs_links('books', book, missing_langs)}
+      ${show_merge_documents_dialog('books')}
+      ${show_delete_document_dialog('books', lang, other_langs)}
+    </div>
 
-  <script>
-    window.onload = function() {
-      ## init float-buttons tooltips
-      $('[data-toggle=\'tooltip\']').tooltip();
-    };
-  </script>
-% endif
+    ${photoswipe_gallery()}
+
+    <script>
+      window.onload = function() {
+        ## init float-buttons tooltips
+        $('[data-toggle=\'tooltip\']').tooltip();
+      };
+    </script>
+  % endif
+    
+</div>

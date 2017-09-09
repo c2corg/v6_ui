@@ -48,7 +48,7 @@ other_langs, missing_langs = get_lang_lists(article, lang)
 <%block name="share">
   ${generate_share_metadata(article, 'articles')}
 </%block>
-
+<div ng-cloak>
 <div class="viewdoc">
 
   <header class="view-title-without-bg">
@@ -144,3 +144,4 @@ other_langs, missing_langs = get_lang_lists(article, lang)
     };
   </script>
 % endif
+</div>

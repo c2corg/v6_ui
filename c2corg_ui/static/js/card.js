@@ -143,7 +143,7 @@ app.CardController.prototype.createActionLine = function() {
       break;
     default:
       break;
-  }
+                                 }
   return line + this.getDocumentType(this.doc['document']['type']);
 };
 
@@ -170,7 +170,7 @@ app.CardController.prototype.translate = function(str) {
  * Show only one of the area types, the first that is available:
  * 1) range 2) admin limits 3) country
  * @param {?Array<Object>} areas
- * @return {Object | null}
+ * @return {string | null}
  * @export
  */
 app.CardController.prototype.showArea = function(areas) {
@@ -182,17 +182,16 @@ app.CardController.prototype.showArea = function(areas) {
       type = areas[i]['area_type'];
       orderedAreas[type].push(areas[i]['locales'][0]['title']);
     }
-    var str = '';
-    if (orderedAreas['admin_limits'].length > 0) {
-      str = orderedAreas['admin_limits'].join(' - ');
+    var area = [];
+    if (orderedAreas['admin_limits'].length) {
+      area = area.concat(orderedAreas['admin_limits']);
     }
-    if (orderedAreas['range'].length > 0) {
-      str = str + ' - ' + orderedAreas['range'].join(' - ');
-    } else if (orderedAreas['country'].length > 0) {
-      str = str + ' - ' +  orderedAreas['country'].join(' - ');
-      return str;
+    if (orderedAreas['range'].length) {
+      area = area.concat(orderedAreas['range']);
+    } else if (orderedAreas['country'].length) {
+      area = areas.concat(orderedAreas['country']);
     }
-    return str;
+    return area.join(' - ');
   }
   return null;
 };
@@ -224,17 +223,15 @@ app.CardController.prototype.openDoc = function() {
  * @return {string | undefined}
  */
 app.CardController.prototype.createURL = function() {
-  var loc = window.location.pathname;
-  // Don't create links on edit and add pages.
-  if (loc.indexOf('/edit/') === -1 && loc.indexOf('/add') === -1) {
-    if (this.type == 'feeds') {
-      return this.url_.buildDocumentUrl(
-        app.utils.getDoctype(this.doc['document']['type']), this.doc['document']['document_id'], this.doc['document']['locales'][0]);
-    } else {
-      return this.url_.buildDocumentUrl(
-        this.type, this.doc['document_id'], this.doc['locales'][0]);
-    }
+  var type, doc;
+  if (this.type == 'feeds') {
+    type = app.utils.getDoctype(this.doc['document']['type']);
+    doc = this.doc['document'];
+  } else {
+    type = this.type;
+    doc = this.doc;
   }
+  return this.url_.buildDocumentUrl(type, doc['document_id'], doc['locales'][0]);
 };
 
 
@@ -254,7 +251,7 @@ app.CardController.prototype.createImageUrl = function(filename, suffix) {
  * @return {string | undefined}
  * @export
  */
-app.CardController.prototype.createURLArea = function(areas) {
+app.CardController.prototype.createAreaURL= function(areas) {
   if (areas && areas.length) {
     var orderedAreas = {'range': [], 'admin_limits': [], 'country': []};
 
