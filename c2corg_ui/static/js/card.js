@@ -108,23 +108,14 @@ app.CardController = function(gettextCatalog, appUrl, imageUrl) {
 
   this.locale = {};
 
-  if (this.type === 'feeds') {
-    this.locale = this.doc.document.locales[0];
-    for (var i = 0, n = this.doc.document.locales.length; i < n; i++) {
-      var l = this.doc.document.locales[i];
-      if (l['lang'] === this.lang) {
-        this.locale = l;
-        break;
-      }
-    }
-  } else {
-    this.locale = this.doc.locales[0];
-    for (var j = 0, o = this.doc.locales.length; j < o; j++) {
-      var l2 = this.doc.locales[j];
-      if (l2['lang'] === this.lang) {
-        this.locale = l2;
-        break;
-      }
+  var locales = this.type === 'feeds' ? this.doc.document.locales : this.doc.locales;
+
+  this.locale = locales[0];
+  for (var i = 0, n = locales.length; i < n; i++) {
+    var l = locales[i];
+    if (l['lang'] === this.lang) {
+      this.locale = l;
+      break;
     }
   }
 

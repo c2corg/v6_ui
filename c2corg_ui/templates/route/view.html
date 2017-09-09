@@ -105,10 +105,6 @@ other_langs, missing_langs = get_lang_lists(route, lang)
       <div class="icons-header routes">${get_activities(route, 'top')}</div> ${show_badge(route, 'route')}
     </h1>
   </header>
-  <article class="location-static text-center">
-    ${show_areas(route)}
-  </article>
-
   <section class="view-details-section" app-view-details ng-class="{'row-list' : switchCtrl.showList}">
     % if version:
     ${show_archive_data('routes', route, locale, version)}

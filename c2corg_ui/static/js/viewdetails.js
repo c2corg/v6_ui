@@ -438,7 +438,7 @@ app.ViewDetailsController.prototype.getComments = function() {
   var document = this.documentService.document;
   var lang = document.lang;
   this.api_.readCommentsForum(topic_id,lang).then(function(response) {
-    this.handleCommentsForum(response);
+    this.handleCommentsForum_(response);
   }.bind(this), function() { // Error msg is shown in the api service
   }.bind(this));
 };
@@ -446,9 +446,9 @@ app.ViewDetailsController.prototype.getComments = function() {
 /**
  * Handles forum processing for comments
  * @param response
- * @public
+ * @private
  */
-app.ViewDetailsController.prototype.handleCommentsForum = function(response) {
+app.ViewDetailsController.prototype.handleCommentsForum_ = function(response) {
   var data = response['data']['post_stream'];
   if (data !== undefined) {
     for (var i = 0; i < data['posts'].length; i++) {
