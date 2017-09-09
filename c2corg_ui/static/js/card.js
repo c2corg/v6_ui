@@ -338,12 +338,7 @@ app.CardController.prototype.getGlobalRatings = function() {
  * @return {Object} ratings
  */
 app.CardController.prototype.getFullRatings = function() {
-  var doc = {};
-  if (this.type == 'feeds') {
-    doc = this.doc['document'];
-  } else {
-    doc = this.doc;
-  }
+  var doc = this.type == 'feeds' ? this.doc['document'] : this.doc;
   var ratings = {};
   var fullRatings = {};
 

@@ -433,9 +433,7 @@ app.MapController.prototype.createStyleFunction_ = function() {
           return this.createPointStyle_(feature, resolution);
         case 'routes':
         case 'outings':
-          return this.advancedSearch ?
-            this.createPointStyle_(feature, resolution) :
-          this.createLineStyle_(feature, resolution);
+          return this.advancedSearch ? this.createPointStyle_(feature, resolution) : this.createLineStyle_(feature, resolution);
         case 'areas':
           return this.createLineStyle_(feature, resolution);
         default:
@@ -976,7 +974,6 @@ app.MapController.prototype.simplifyFeature_ = function(feature) {
  */
 app.MapController.prototype.toggleFullscreen = function() {
   this.isFullscreen = !this.isFullscreen;
-  this.scope_.isFullscreen = this.isFullscreen;
   setTimeout(function() {
     this.scope_.$apply();
     this.map.renderSync();
@@ -1012,7 +1009,7 @@ app.MapController.prototype.resetFeature = function() {
  */
 app.MapController.prototype.canDelete = function() {
   return this.edit && this.getVectorLayer_().getSource().getFeatures().length > 0
-  && this.initialGeometry_ && this.initialGeometry_['geom'];
+      && this.initialGeometry_ && this.initialGeometry_['geom'];
 };
 
 

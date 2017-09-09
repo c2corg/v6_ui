@@ -348,21 +348,6 @@ app.FeedController.prototype.getLatestTopics_ = function() {
 };
 
 /**
- * number cannot be < 0 and cannot be decimal
- * @param {number} n
- * @private
- */
-app.FeedController.prototype.naturalNumber = function(n) {
-  if (n < 0) {
-    return 0;
-  }
-  if (n > 10) {
-    return 10;
-  }
-  return Math.round(n);
-};
-
-/**
  * simulate size for a doc
  * @param {Object} doc
  * @return {number}
