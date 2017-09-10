@@ -181,7 +181,8 @@ app.FeedController = function($scope,appAuthentication, appApi, appLang, imageUr
   this.ngeoLocation = ngeoLocation;
 
   this.getDocumentsFromFeed();
-  if (!this.isPersonal) {
+
+  if (this.isPersonal) {
     this.getLatestTopics_();
   }
   this.feedColumnManager();

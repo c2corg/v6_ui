@@ -5,19 +5,20 @@
       </div>
     </div></a><div class="parent-img"></div>
   <div class="parent-infop parent-infop-first area" ng-if="::doc['areas'] != null">
-    <a ng-href="{{::cardCtrl.createAreaURL(doc['areas'])}}" title="{{::cardCtrl.showArea(doc['areas'])}}" ng-click="$event.stopPropagation()">
+    
       <div class="infop-bar">
         <div class="parent-bubble">
           <div class="bubble">
             <span class="glyphicon glyphicon-map-marker"></span>
           </div>
         </div>
+        <a ng-href="{{::cardCtrl.createAreaURL(doc['areas'])}}" title="{{::cardCtrl.showArea(doc['areas'])}}" ng-click="$event.stopPropagation()">
         <div class="text-bubble">
           {{::cardCtrl.showArea(doc['areas'])}}
-        </div>
+        </div></a>
         <div class="grow">
         </div>
-      </div></a>
+      </div>
   </div>
   <div class="parent-infop parent-infop-first large" ng-init="fullRatings = cardCtrl.getFullRatings()" ng-if="fullRatings || doc['elevation_max'] || doc['height_diff_up'] || doc['height_diff_difficulties']">
     <div class="infop-bar" >

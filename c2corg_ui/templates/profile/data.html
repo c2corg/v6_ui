@@ -49,9 +49,11 @@
     
 
         % if profile.get('areas'):
-        <article class="location-static">
+        <div class="finfo">
+        <div class="ficontent list-green">
           ${show_areas(profile)}
-        </article>
+          </div>
+        </div>
         % endif
         % endif
         ${show_other_langs_links('profiles', profile, other_langs)}
