@@ -138,24 +138,21 @@ from c2corg_common.attributes import default_langs, activities, article_categori
           <div class="content route-associations">
             <app-simple-search parent-id="article.document_id"
               app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="wrocb"></app-simple-search>
-      
           </div>
         </section>
-            <div class="row">
-      <div class="col-xs-12">
-
-
-        <span class="lead">
-          <section>
-            ${show_editing_associated_waypoints('article')}
-            ${show_editing_associated_routes('article')}
-            ${show_editing_associated_outings('article')}
-            ${show_editing_associated_articles('article')}
-            ${show_editing_associated_books('article')}
-          </section>
-        </span>
-        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <span class="lead">
+              <section>
+                ${show_editing_associated_waypoints('article')}
+                ${show_editing_associated_routes('article')}
+                ${show_editing_associated_outings('article')}
+                ${show_editing_associated_articles('article')}
+                ${show_editing_associated_books('article')}
+              </section>
+            </span>
           </div>
+        </div>
         
         <section class="section">
           <h2 class="heading show-phone" translate>description</h2>
@@ -172,7 +169,6 @@ from c2corg_common.attributes import default_langs, activities, article_categori
               <label translate>article body</label>
               <textarea app-markdown-editor name="description" ng-model="article.locales[0].description" class="form-control description"></textarea>
             </div>
-
           </div>
         </section>
 

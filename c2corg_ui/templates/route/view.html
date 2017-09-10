@@ -15,7 +15,7 @@ from json import dumps
     show_associated_articles, show_associated_books, show_associated_xreports,
     delete_association_confirmation_modal, associated_waypoints_featurelist,
     show_badge, get_document_description, get_licence, show_merge_documents_dialog,
-    show_delete_document_dialog, generate_share_metadata, app_smartphone_info" />
+    show_delete_document_dialog, generate_share_metadata, display_app_smartphone_info" />
 
 <%namespace file="helpers/view.html" import="get_route_location,
     get_route_glacier_gear, get_route_rating, get_route_general, get_route_heights,
@@ -122,11 +122,11 @@ other_langs, missing_langs = get_lang_lists(route, lang)
             ${show_archive_data('routes', route, locale, version)}
           % endif
           <app-map class="view-details-map"></app-map>
-          ${app_smartphone_info('route')}
+          ${display_app_smartphone_info('route')}
 
           ## IMAGES and WAYPOINT
           % if not version:
-             ${show_associated_waypoints(route)}
+            ${show_associated_waypoints(route)}
             ${get_image_gallery()}
             ${show_other_langs_links('routes', route, other_langs)}
           % endif
@@ -161,7 +161,6 @@ other_langs, missing_langs = get_lang_lists(route, lang)
             ## route has always at least 1 associated waypoint so this div will always be displayed
             <div class="row">
               <div class="col-xs-12">
-
                 <span class="lead">
                   <section>
                     <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">

@@ -611,7 +611,6 @@ app.Api.prototype.createImages = function(files, document) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.readCommentsForum = function(document_id, lang) {
-  var alerts = this.alerts_;
   var config = {
     headers: {
       'Accept': 'application/json'
@@ -621,8 +620,8 @@ app.Api.prototype.readCommentsForum = function(document_id, lang) {
   var urlTopics = this.discourseUrl_ + '/t/' + document_id + '-' + lang + '/' + document_id + '.json';
   var promise = this.http_.get(urlTopics, config);
   promise.catch(function(response) {
-    alerts.addError(response);
-  });
+    this.alerts_.addError(response);
+  }.bind(this));
   return promise;
 };
 

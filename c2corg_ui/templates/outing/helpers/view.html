@@ -183,25 +183,25 @@
 <%def name="get_outing_heights(outing)">\
   % if outing.get('elevation_min') or outing.get('elevation_max') or outing.get('elevation_access') or outing.get('height_diff_up') \
   or outing.get('height_diff_down') or outing.get('length_total'):
-<div class="col-sm-6 col-lg-3">  
-    <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
-      <h4><span class="glyphicon glyphicon-stats"></span> <span translate>heights</span></h4>
-      <span class="detail-text accordion">
+    <div class="col-sm-6 col-lg-3">  
+      <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
+        <h4><span class="glyphicon glyphicon-stats"></span> <span translate>heights</span></h4>
+        <span class="detail-text accordion">
 
-        ${get_document_min_max(outing, 'elevation')}
+          ${get_document_min_max(outing, 'elevation')}
 
-        % if outing.get('elevation_access'):
-        <p><b class="value-title" translate>elevation_access</b>:  <span class="value">${outing['elevation_access']}&nbsp;m</span></p>
-        % endif
+          % if outing.get('elevation_access'):
+          <p><b class="value-title" translate>elevation_access</b>:  <span class="value">${outing['elevation_access']}&nbsp;m</span></p>
+          % endif
 
-        ${get_document_up_down(outing, 'height_diff')}
+          ${get_document_up_down(outing, 'height_diff')}
 
-        % if outing.get('length_total'):
-        <p><span class="value-title" translate>length_total</span>: <span class="value">${outing['length_total']/1000}&nbsp;km</span></p>
-        % endif
-      </span>
+          % if outing.get('length_total'):
+          <p><span class="value-title" translate>length_total</span>: <span class="value">${outing['length_total']/1000}&nbsp;km</span></p>
+          % endif
+        </span>
+      </div>
     </div>
-  </div>
   %endif
 </%def>
 
@@ -215,27 +215,27 @@
           ('level_comment' in cond[0] and cond[0].get('level_comment') != '') )
   %>
   % if locale.get('weather') or locale.get('conditions') or conditions_levels_exist:
-           <h3 ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#weather-conditions"><span translate>weather and conditions</span><span class="glyphicon glyphicon-menu-${'down' if open_tab else 'right'}"></span></h3>
-       <div class="finfo collapse${' in' if open_tab else ''}" id="weather-conditions" aria-expanded="true">
-<div class="ficontent noflex">
-          % if locale.get('weather'):
-            <div class="document-weather">
-              <label translate>weather</label><br>
-              ${show_attr(locale, 'weather')}
-            </div>
-          % endif
+    <h3 ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#weather-conditions"><span translate>weather and conditions</span><span class="glyphicon glyphicon-menu-${'down' if open_tab else 'right'}"></span></h3>
+    <div class="finfo collapse${' in' if open_tab else ''}" id="weather-conditions" aria-expanded="true">
+      <div class="ficontent noflex">
+        % if locale.get('weather'):
+          <div class="document-weather">
+            <label translate>weather</label><br>
+            ${show_attr(locale, 'weather')}
+          </div>
+        % endif
+        
+        % if locale.get('conditions'):
+          <div class="document-conditions">
+            <label translate>conditions</label><br>
+            ${show_attr(locale, 'conditions')}
+          </div>
+        % endif
 
-          % if locale.get('conditions'):
-            <div class="document-conditions">
-              <label translate>conditions</label><br>
-              ${show_attr(locale, 'conditions')}
-            </div>
-          % endif
-
-          % if conditions_levels_exist:
-            ${create_conditions_levels_tables(cond)}
-          % endif
-         </div>
+        % if conditions_levels_exist:
+          ${create_conditions_levels_tables(cond)}
+        % endif
+       </div>
     </div>
   % endif
 </%def>
@@ -326,7 +326,6 @@
 </%def>
   
 <%def name="get_outing_elevation_profile()">\
-
   <h3 class="show-phone" ng-click="mainCtrl.animateHeaderIcon($event)"
         data-toggle="collapse" data-target="#elevation-profile">
       <span translate>Elevation profile</span><span class="glyphicon glyphicon-menu-right"></span>
