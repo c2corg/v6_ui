@@ -5,7 +5,16 @@
         <div class="title">{{::locale.title}}</div>
         <div class="summary"><span ng-repeat="category in ::doc.categories" class="value">{{category | translate }}{{$last ? '' : ', '}}</span></div>
       </div>
-    </div></a><div class="parent-img"><div class="img" ng-if="::doc.image1"><a ng-href="/images/{{::doc.image1.document_id}}/{{::doc.image1.locales[0].lang}}"><img class="imgo" ng-src="{{feedCtrl.createImageUrl(doc.image1.filename, 'MI')}}" alt="Photo"></a></div></div><div class="parent-infop">
+    </div>
+  </a>
+  <div class="parent-img">
+    <div class="img" ng-if="::doc.image1">
+      <a ng-href="/images/{{::doc.image1.document_id}}/{{::doc.image1.locales[0].lang}}">
+        <img class="imgo" ng-src="{{feedCtrl.createImageUrl(doc.image1.filename, 'MI')}}" alt="Photo">
+      </a>
+    </div>
+  </div>
+  <div class="parent-infop">
   </div>
   <div class="parent-infop parent-infop-first" ng-if="::doc['article_type'] != null">
     <div class="infop-bar">

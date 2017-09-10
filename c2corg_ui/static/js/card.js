@@ -123,7 +123,6 @@ app.CardController = function(gettextCatalog, appUrl, imageUrl) {
 
 
 /**
- * Creates a HTML with action that user used on the document in the feed.
  * Will be useful for verbs like 'created', 'updated', 'associated xx', 'went hiking with xx'.
  * @return {string} line
  * @export
