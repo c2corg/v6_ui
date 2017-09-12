@@ -227,7 +227,10 @@ updating_doc = route_id and route_lang
 
               ## ORIENTATION
               <div class="form-group data half">
-                <label><span translate>orientations</span></label>
+                <label app-context-help context-help-title="{{'orientations' | translate}}"
+                       context-help-content="{{'Main facing of the route or of its main difficulties only. Additional information can be added into the \'Remarks\' section.' | translate}}">
+                  <span translate>orientations</span>
+                </label>
                 ${show_orientations('editCtrl', 'route')}
               </div>
 
@@ -240,7 +243,10 @@ updating_doc = route_id and route_lang
                              || route.climbing_outdoor_types === 'single'
                              || route.activities.length > 1)"
                      class="form-group">
-                  <label translate>route_types</label>
+                  <label app-context-help context-help-title="{{'route_types' | translate}}"
+                         context-help-content-url="/static/partials/contexthelp/route-types.html">
+                    <span translate>route_types</span>
+                  </label>
                   <ul class="types">
                     <li ng-repeat="type in ${route_types}" ng-click="editCtrl.pushToArray(route, 'route_types', type, $event)">
                       <div class="checkbox"><input type="checkbox" ng-checked="route.route_types.indexOf(type) > -1"><span>{{type | translate}}</span></div>
@@ -256,7 +262,10 @@ updating_doc = route_id and route_lang
                          || route.activities.indexOf('snowshoeing') > -1
                          || route.activities.indexOf('via_ferrata') > -1"
                      class="form-group">
-                  <label translate>route_configuration_types</label>
+                  <label app-context-help context-help-title="{{'route_configuration_types' | translate}}"
+                         context-help-content-url="/static/partials/contexthelp/route-configuration.html">
+                    <span translate>route_configuration_types</span>
+                  </label>
                   <ul class="types">
                     <li ng-repeat="type in ${route_configuration_types}" ng-click="editCtrl.pushToArray(route, 'configuration', type, $event)">
                       <div class="checkbox"><input type="checkbox" ng-checked="route.configuration.indexOf(type) > -1"><span>{{type | translate}}</span></div>
@@ -292,7 +301,11 @@ updating_doc = route_id and route_lang
                    ng-class="{ 'has-feedback': editForm.elevation_min.$touched,
                                'has-error': editForm.elevation_min.$touched && editForm.elevation_min.$invalid,
                                'has-success': route.elevation_min }">
-                <label ng-class="{ 'control-label': editForm.elevation_min.$touched && editForm.elevation_min.$invalid }" translate>elevation_min</label>
+                <label ng-class="{ 'control-label': editForm.elevation_min.$touched && editForm.elevation_min.$invalid }"
+                       app-context-help context-help-title="{{'elevation_min' | translate}}"
+                       context-help-content-url="/static/partials/contexthelp/route-elevation_min_max.html">
+                  <span translate>elevation_min</span>
+                </label>
                 <div class="input-group">
                   <input type="number" min="0" max="9999" minlength="1" name="elevation_min" ng-model="route.elevation_min" class="form-control" />
                   <span class="input-group-addon">m</span>
@@ -310,7 +323,11 @@ updating_doc = route_id and route_lang
                    ng-class="{ 'has-feedback': editForm.elevation_max.$touched,
                                'has-error': editForm.elevation_max.$touched && editForm.elevation_max.$invalid,
                                'has-success': route.elevation_max }">
-                <label ng-class="{ 'control-label': editForm.elevation_max.$touched && editForm.elevation_max.$invalid }" translate>elevation_max</label>
+                <label ng-class="{ 'control-label': editForm.elevation_max.$touched && editForm.elevation_max.$invalid }"
+                       app-context-help context-help-title="{{'elevation_max' | translate}}"
+                       context-help-content-url="/static/partials/contexthelp/route-elevation_min_max.html">
+                  <span translate>elevation_max</span>
+                </label>
                 <div class="input-group">
                   <input type="number" min="0" max="9999" minlength="1" name="elevation_max" ng-model="route.elevation_max" class="form-control" />
                   <span class="input-group-addon">m</span>
@@ -328,7 +345,11 @@ updating_doc = route_id and route_lang
                    ng-class="{ 'has-feedback': editForm.height_diff_up.$touched,
                                'has-error': editForm.height_diff_up.$touched && editForm.height_diff_up.$invalid,
                                'has-success': route.height_diff_up }">
-                <label ng-class="{ 'control-label': editForm.height_diff_up.$touched && editForm.height_diff_up.$invalid }" translate>height_diff_up</label>
+                <label ng-class="{ 'control-label': editForm.height_diff_up.$touched && editForm.height_diff_up.$invalid }"
+                       app-context-help context-help-title="{{'height_diff_up' | translate}}"
+                       context-help-content-url="/static/partials/contexthelp/route-elevation_min_max.html">
+                  <span translate>height_diff_up</span>
+                </label>
                 <div class="input-group">
                   <input type="number" min="0" name="height_diff_up" ng-model="route.height_diff_up" class="form-control" />
                   <span class="input-group-addon">m</span>
@@ -345,7 +366,11 @@ updating_doc = route_id and route_lang
                    ng-class="{ 'has-feedback': editForm.height_diff_down.$touched,
                                'has-error': editForm.height_diff_down.$touched && editForm.height_diff_down.$invalid,
                                'has-success': route.height_diff_down }">
-                <label ng-class="{ 'control-label': editForm.height_diff_down.$touched && editForm.height_diff_down.$invalid }" translate>height_diff_down</label>
+                <label ng-class="{ 'control-label': editForm.height_diff_down.$touched && editForm.height_diff_down.$invalid }"
+                       app-context-help context-help-title="{{'height_diff_down' | translate}}"
+                       context-help-content="{{'Cumulated negative elevation gain. This includes potential descents on the route to the summit.' |translate}}">
+                  <span translate>height_diff_down</span>
+                </label>
                 <div class="input-group">
                   <input type="number" min="0" name="height_diff_down" ng-model="route.height_diff_down" class="form-control" />
                   <span class="input-group-addon">m</span>
@@ -362,7 +387,11 @@ updating_doc = route_id and route_lang
                    ng-class="{ 'has-feedback': editForm.height_diff_access.$touched,
                                'has-error': editForm.height_diff_access.$touched && editForm.height_diff_access.$invalid,
                                'has-success': route.height_diff_access }">
-                <label ng-class="{ 'control-label': editForm.height_diff_access.$touched && editForm.height_diff_access.$invalid }" translate>height_diff_access</label>
+                <label ng-class="{ 'control-label': editForm.height_diff_access.$touched && editForm.height_diff_access.$invalid }"
+                       app-context-help context-help-title="{{'height_diff_access' | translate}}"
+                       context-help-content="{{'Combined elevation of the approach of a route, for a route where approach is distinguished from the route itself. The approach height is calculated from minimum altitude and altitude where difficulties start.' |translate}}">
+                  <span translate>height_diff_access</span>
+                </label>
                 <div class="input-group">
                   <input type="number" min="0" name="height_diff_access" ng-model="route.height_diff_access" class="form-control" />
                   <span class="input-group-addon">m</span>
@@ -379,7 +408,11 @@ updating_doc = route_id and route_lang
                    ng-class="{ 'has-feedback': editForm.height_diff_difficulties.$touched,
                                'has-error': editForm.height_diff_difficulties.$touched && editForm.height_diff_difficulties.$invalid,
                                'has-success': route.height_diff_difficulties }">
-                <label ng-class="{ 'control-label': editForm.height_diff_difficulties.$touched && editForm.height_diff_difficulties.$invalid }" translate>height_diff_difficulties</label>
+                <label ng-class="{ 'control-label': editForm.height_diff_difficulties.$touched && editForm.height_diff_difficulties.$invalid }"
+                       app-context-help context-help-title="{{'height_diff_difficulties' | translate}}"
+                       context-help-content="{{'Combined elevation of the main difficulties of a route, for a route where approach is distinguished from the route itself. Do not mix up with the difficulties length: difficulties height is always lower.' |translate}}">
+                  <span translate>height_diff_difficulties</span>
+                </label>
                 <div class="input-group">
                   <input type="number" min="0" name="height_diff_difficulties" ng-model="route.height_diff_difficulties" class="form-control" />
                   <span class="input-group-addon">m</span>
@@ -401,7 +434,11 @@ updating_doc = route_id and route_lang
                        || route.activities.indexOf('rock_climbing') > -1
                        || route.activities.indexOf('mountain_climbing') > -1
                        || route.activities.indexOf('snow_ice_mixed') > -1">
-                <label ng-class="{ 'control-label': editForm.difficulties_height.$touched && editForm.difficulties_height.$invalid }" translate>difficulties_height</label>
+                <label ng-class="{ 'control-label': editForm.difficulties_height.$touched && editForm.difficulties_height.$invalid }"
+                       app-context-help context-help-title="{{'difficulties_height' | translate}}"
+                       context-help-content="{{'Altitude of the base of the route, for an itinerary with a clear distinction between an approach and a route proper. This field should not be used for itineraries where an approach and a route cannot be distinguished.' |translate}}">
+                  <span translate>difficulties_height</span>
+                </label>
                 <div class="input-group">
                   <input type="number" min="0" max="9999" name="difficulties_height" ng-model="route.difficulties_height" class="form-control" />
                   <span class="input-group-addon">m</span>
@@ -527,7 +564,10 @@ updating_doc = route_id and route_lang
               ## SKI RATING
               <div class="form-group data half" ng-class="{ 'has-success': route.ski_rating}"
                    ng-if="route.activities.indexOf('skitouring') > -1">
-                <label translate>ski_rating</label>
+                <label app-context-help context-help-title="{{'ski_rating' | translate}}"
+                       context-help-content-url="/static/partials/contexthelp/route-ski_rating.html">
+                  <span translate>ski_rating</span>
+                </label>
                 <div class="input-group">
                   <select class="form-control" ng-model="route.ski_rating" ng-options="rat as rat for rat in ${ski_ratings}"><option value=""></option></select>
                   <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
@@ -540,7 +580,10 @@ updating_doc = route_id and route_lang
               ## LABANDE SKI RATING
               <div class="form-group data half" ng-class="{ 'has-success': route.labande_ski_rating}"
                    ng-if="route.activities.indexOf('skitouring') > -1">
-                <label translate>labande_ski_rating</label>
+                <label app-context-help context-help-title="{{'labande_ski_rating' | translate}}"
+                       context-help-content-url="/static/partials/contexthelp/route-labande_ski_rating.html">
+                  <span translate>labande_ski_rating</span>
+                </label>
                 <div class="input-group">
                   <select class="form-control" ng-model="route.labande_ski_rating" ng-options="rat as rat for rat in ${labande_ski_ratings}"><option value=""></option></select>
                   <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
@@ -551,7 +594,10 @@ updating_doc = route_id and route_lang
               ## LABANDE GLOBAL  RATING
               <div class="form-group data half" ng-class="{ 'has-success': route.labande_global_rating}"
                    ng-if="route.activities.indexOf('skitouring') > -1">
-                <label translate>labande_global_rating</label>
+                <label app-context-help context-help-title="{{'labande_global_rating' | translate}}"
+                       context-help-content-url="/static/partials/contexthelp/route-labande_global_rating.html">
+                  <span translate>labande_global_rating</span>
+                </label>
                 <div class="input-group">
                   <select class="form-control" ng-model="route.labande_global_rating" ng-options="rat as rat for rat in ${global_ratings}"><option value=""></option></select>
                   <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
@@ -562,7 +608,10 @@ updating_doc = route_id and route_lang
               ## SNOWSHOE  RATING
               <div class="form-group data half" ng-class="{ 'has-success': route.snowshoe_rating}"
                    ng-if="route.activities.indexOf('snowshoeing') > -1">
-                <label translate>snowshoe_rating</label>
+                <label app-context-help context-help-title="{{'snowshoe_rating' | translate}}"
+                       context-help-content-url="/static/partials/contexthelp/route-snowshoe_rating.html">
+                  <span translate>snowshoe_rating</span>
+                </label>
                 <div class="input-group">
                   <select class="form-control" ng-model="route.snowshoe_rating" ng-options="rat as rat for rat in ${snowshoe_ratings}"><option value=""></option></select>
                   <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
@@ -576,7 +625,10 @@ updating_doc = route_id and route_lang
                        || route.activities.indexOf('mountain_climbing') > -1
                        || route.activities.indexOf('rock_climbing') > -1 && route.climbing_outdoor_type === 'multi'
                        || route.activities.indexOf('ice_climbing') > -1">
-                <label translate>global_rating</label>
+                <label app-context-help context-help-title="{{'global_rating' | translate}}"
+                       context-help-content-url="/static/partials/contexthelp/route-global_rating.html">
+                  <span translate>global_rating</span>
+                </label>
                 <div class="input-group">
                   <select class="form-control" ng-model="route.global_rating" ng-options="rat as rat for rat in ${global_ratings}"><option value=""></option></select>
                   <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
@@ -591,7 +643,10 @@ updating_doc = route_id and route_lang
                        || route.activities.indexOf('rock_climbing') > -1 && route.climbing_outdoor_type === 'multi'
                        || route.activities.indexOf('ice_climbing') > -1
                        || route.activities.indexOf('via_ferrata') > -1">
-                <label translate>engagement_rating</label>
+                <label app-context-help context-help-title="{{'engagement_rating' | translate}}"
+                       context-help-content-url="/static/partials/contexthelp/route-engagement_rating.html">
+                  <span translate>engagement_rating</span>
+                </label>
                 <div class="input-group">
                   <select class="form-control" ng-model="route.engagement_rating" ng-options="rat as rat for rat in ${engagement_ratings}"><option value=""></option></select>
                   <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
@@ -607,7 +662,10 @@ updating_doc = route_id and route_lang
                            && (route.climbing_outdoor_type === 'multi' || route.climbing_outdoor_type === 'single')
                        || route.activities.indexOf('ice_climbing') > -1
                        || route.activities.indexOf('via_ferrata') > -1">
-                <label app-context-help context-help-title="{{'equipment_rating' | translate}}" context-help-content-url="/static/partials/contexthelp/route-equipment_rating.html" translate>equipment_rating</label>
+                <label app-context-help context-help-title="{{'equipment_rating' | translate}}"
+                       context-help-content-url="/static/partials/contexthelp/route-equipment_rating.html">
+                  <span translate>equipment_rating</span>
+                </label>
                 <div class="input-group">
                   <select class="form-control" ng-model="route.equipment_rating" ng-options="rat as rat for rat in ${equipment_ratings}"><option value=""></option></select>
                   <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
@@ -618,7 +676,10 @@ updating_doc = route_id and route_lang
               ## ICE  RATING
               <div class="form-group data half" ng-class="{ 'has-success': route.ice_rating}"
                    ng-if="route.activities.indexOf('snow_ice_mixed') > -1 || route.activities.indexOf('ice_climbing') > -1">
-                <label translate>ice_rating</label>
+                <label app-context-help context-help-title="{{'ice_rating' | translate}}"
+                       context-help-content-url="/static/partials/contexthelp/route-ice_rating.html">
+                  <span translate>ice_rating</span>
+                </label>
                 <div class="input-group">
                   <select class="form-control" ng-model="route.ice_rating" ng-options="rat as rat for rat in ${ice_ratings}"><option value=""></option></select>
                   <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
@@ -629,7 +690,10 @@ updating_doc = route_id and route_lang
               ## MIXED  RATING
               <div class="form-group data half" ng-class="{ 'has-success': route.mixed_rating}"
                    ng-if="route.activities.indexOf('snow_ice_mixed') > -1 || route.activities.indexOf('ice_climbing') > -1">
-                <label translate>mixed_rating</label>
+                <label app-context-help context-help-title="{{'mixed_rating' | translate}}"
+                       context-help-content-url="/static/partials/contexthelp/route-mixed_rating.html">
+                  <span translate>mixed_rating</span>
+                </label>
                 <div class="input-group">
                   <select class="form-control" ng-model="route.mixed_rating" ng-options="rat as rat for rat in ${mixed_ratings}"><option value=""></option></select>
                   <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
@@ -643,7 +707,10 @@ updating_doc = route_id and route_lang
                        || route.activities.indexOf('mountain_climbing') > -1
                        || route.activities.indexOf('rock_climbing') > -1
                        || route.activities.indexOf('ice_climbing') > -1">
-                <label translate>risk_rating</label>
+                <label app-context-help context-help-title="{{'risk_rating' | translate}}"
+                       context-help-content-url="/static/partials/contexthelp/route-risk_rating.html">
+                  <span translate>risk_rating</span>
+                </label>
                 <div class="input-group">
                   <select class="form-control" ng-model="route.risk_rating" ng-options="rat as rat for rat in ${risk_ratings}"><option value=""></option></select>
                   <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
@@ -654,7 +721,10 @@ updating_doc = route_id and route_lang
               ## VIA FERRATA  RATING
               <div class="form-group data half" ng-class="{ 'has-success': route.via_ferrata_rating}"
                    ng-if="route.activities.indexOf('via_ferrata') > -1">
-                <label translate>via_ferrata_rating</label>
+                <label app-context-help context-help-title="{{'via_ferrata_rating' | translate}}"
+                       context-help-content-url="/static/partials/contexthelp/route-via_ferrata_rating.html">
+                  <span translate>via_ferrata_rating</span>
+                </label>
                 <div class="input-group">
                   <select class="form-control" ng-model="route.via_ferrata_rating" ng-options="rat as rat for rat in ${via_ferrata_ratings}"><option value=""></option></select>
                   <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
@@ -665,7 +735,10 @@ updating_doc = route_id and route_lang
               ## HIKING  RATING
               <div class="form-group data half" ng-class="{ 'has-success': route.hiking_rating}"
                    ng-if="route.activities.indexOf('hiking') > -1">
-                <label translate>hiking_rating</label>
+                <label app-context-help context-help-title="{{'hiking_rating' | translate}}"
+                       context-help-content-url="/static/partials/contexthelp/route-hiking_rating.html">
+                  <span translate>hiking_rating</span>
+                </label>
                 <div class="input-group">
                   <select class="form-control" ng-model="route.hiking_rating" ng-options="rat as rat for rat in ${hiking_ratings}"><option value=""></option></select>
                   <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
@@ -676,7 +749,10 @@ updating_doc = route_id and route_lang
               ## MTB DOWN  RATING
               <div class="form-group data half" ng-class="{ 'has-success': route.mtb_down_rating}"
                    ng-if="route.activities.indexOf('mountain_biking') > -1">
-                <label translate>mtb_down_rating</label>
+                <label app-context-help context-help-title="{{'mtb_down_rating' | translate}}"
+                       context-help-content-url="/static/partials/contexthelp/route-mtb_down_rating.html">
+                  <span translate>mtb_down_rating</span>
+                </label>
                 <div class="input-group">
                   <select class="form-control" ng-model="route.mtb_down_rating" ng-options="rat as rat for rat in ${mtb_down_ratings}"><option value=""></option></select>
                   <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
@@ -687,7 +763,10 @@ updating_doc = route_id and route_lang
               ## MTB UP  RATING
               <div class="form-group data half" ng-class="{ 'has-success': route.mtb_up_rating}"
                    ng-if="route.activities.indexOf('mountain_biking') > -1">
-                <label translate>mtb_up_rating</label>
+                <label app-context-help context-help-title="{{'mtb_up_rating' | translate}}"
+                       context-help-content-url="/static/partials/contexthelp/route-mtb_up_rating.html">
+                  <span translate>mtb_up_rating</span>
+                </label>
                 <div class="input-group">
                   <select class="form-control" ng-model="route.mtb_up_rating" ng-options="rat as rat for rat in ${mtb_up_ratings}"><option value=""></option></select>
                   <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
@@ -698,7 +777,10 @@ updating_doc = route_id and route_lang
               ## ROCK FREE  RATING
               <div class="form-group data half" ng-class="{ 'has-success': route.rock_free_rating}"
                    ng-if="route.activities.indexOf('mountain_climbing') > -1 || route.activities.indexOf('rock_climbing') > -1">
-                <label translate>rock_free_rating</label>
+                <label app-context-help context-help-title="{{'rock_free_rating' | translate}}"
+                       context-help-content-url="/static/partials/contexthelp/route-rock_free_rating.html">
+                  <span translate>rock_free_rating</span>
+                </label>
                 <div class="input-group">
                   <select class="form-control" ng-model="route.rock_free_rating" ng-options="rat as rat for rat in ${climbing_ratings}"><option value=""></option></select>
                   <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
@@ -710,7 +792,9 @@ updating_doc = route_id and route_lang
               <div class="form-group data half" ng-class="{ 'has-success': route.exposition_rock_rating}"
                    ng-if="route.activities.indexOf('rock_climbing') > -1 || route.activities.indexOf('mountain_climbing') > -1">
                 <label app-context-help context-help-title="{{'exposition_rock_rating' | translate}}"
-                       context-help-content-url="/static/partials/contexthelp/route-exposition_rock_rating.html" translate>exposition_rock_rating</label>
+                       context-help-content-url="/static/partials/contexthelp/route-exposition_rock_rating.html">
+                  <span translate>exposition_rock_rating</span>
+                </label>
                 <div class="input-group">
                   <select class="form-control" ng-model="route.exposition_rock_rating" ng-options="rat as rat for rat in ${exposition_rock_ratings}"><option value=""></option></select>
                   <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
@@ -723,7 +807,10 @@ updating_doc = route_id and route_lang
                    ng-if="route.activities.indexOf('mountain_climbing') > -1
                        || route.activities.indexOf('rock_climbing') > -1
                            && (route.climbing_outdoor_type === 'multi' || route.climbing_outdoor_type === 'single')">
-                <label translate>rock_required_rating</label>
+                <label app-context-help context-help-title="{{'rock_required_rating' | translate}}"
+                       context-help-content-url="/static/partials/contexthelp/route-rock_required_rating.html">
+                  <span translate>rock_required_rating</span>
+                </label>
                 <div class="input-group">
                   <select class="form-control" ng-model="route.rock_required_rating" ng-options="rat as rat for rat in ${climbing_ratings}"><option value=""></option></select>
                   <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
@@ -736,7 +823,10 @@ updating_doc = route_id and route_lang
                    ng-if="route.activities.indexOf('mountain_climbing') > -1
                        || route.activities.indexOf('rock_climbing') > -1
                            && (route.climbing_outdoor_type === 'multi' || route.climbing_outdoor_type === 'single')">
-                <label translate>aid_rating</label>
+                <label app-context-help context-help-title="{{'aid_rating' | translate}}"
+                       context-help-content-url="/static/partials/contexthelp/route-aid_rating.html">
+                  <span translate>aid_rating</span>
+                </label>
                 <div class="input-group">
                   <select class="form-control" ng-model="route.aid_rating" ng-options="rat as rat for rat in ${aid_ratings}"><option value=""></option></select>
                   <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
@@ -747,7 +837,10 @@ updating_doc = route_id and route_lang
               ## SKI EXPOSITION
               <div class="form-group data half" ng-if="route.activities.indexOf('skitouring') > -1"
                    ng-class="{ 'has-success': route.ski_exposition}">
-                <label translate>ski_exposition</label>
+                <label app-context-help context-help-title="{{'ski_exposition' | translate}}"
+                       context-help-content-url="/static/partials/contexthelp/route-ski_exposition.html">
+                  <span translate>ski_exposition</span>
+                </label>
                 <div class="input-group">
                   <select class="form-control" ng-model="route.ski_exposition" ng-options="rat as mainCtrl.translate(rat) for rat in ${exposition_ratings}"><option value=""></option></select>
                   <span class="input-group-addon"><span class="glyphicon glyphicon-resize-vertical"></span></span>
@@ -758,7 +851,10 @@ updating_doc = route_id and route_lang
               ## HIKING MTB EXPOSITION
               <div class="form-group data half" ng-class="{ 'has-success': route.hiking_mtb_exposition}"
                    ng-if="route.activities.indexOf('hiking') > -1 || route.activities.indexOf('mountain_biking') > -1">
-                <label translate>hiking_mtb_exposition</label>
+                <label app-context-help context-help-title="{{'hiking_mtb_exposition' | translate}}"
+                       context-help-content-url="/static/partials/contexthelp/route-hiking_mtb_exposition.html">
+                  <span translate>hiking_mtb_exposition</span>
+                </label>
                 <div class="input-group">
                   <select class="form-control" ng-model="route.hiking_mtb_exposition" ng-options="rat as rat for rat in ${exposition_ratings}"><option value=""></option></select>
                   <span class="input-group-addon"><span class="glyphicon glyphicon-resize-vertical"></span></span>
@@ -826,7 +922,10 @@ updating_doc = route_id and route_lang
 
               ## GEAR LOCALE
               <div id="gear-group" class="form-group data full">
-                <label translate>specific gear</label>
+                <label app-context-help context-help-title="{{'specific gear' | translate}}"
+                       context-help-content-url="/static/partials/contexthelp/route-specific_gear.html">
+                  <span translate>specific gear</span>
+                </label>
                 <textarea app-markdown-editor name="gear"
                           ng-model="route.locales[0].gear" class="form-control"
                           placeholder="{{'Describe here the gear needed for this route' | translate}}"></textarea>
