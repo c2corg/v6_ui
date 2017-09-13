@@ -413,11 +413,7 @@ app.Api.prototype.readLatestForumTopics = function() {
       'Accept': 'application/json'
     }
   };
-
   var promise = this.http_.get(this.discourseUrl_ + '/latest.json', config);
-  promise.catch(function(response) {
-    this.alerts_.addError(response);
-  }.bind(this));
   return promise;
 };
 

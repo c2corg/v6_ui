@@ -1,7 +1,8 @@
 <article class="post area" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;">
   <a ng-href="{{cardCtrl.createURL()}}" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;" title="{{::locale.title}}">
     <div class="parent-text">
-      <div class="text emptyimg">{{::locale.title}} <span class="list-item-lang" ng-if="cardCtrl.lang != locale.lang">({{::locale.lang}})</span>
+      <div class="text emptyimg">{{::locale.title}}
+        <span class="list-item-lang" ng-if="cardCtrl.lang != locale.lang">({{::locale.lang}})</span>
         <div class="summary">{{doc['area_type'] | translate}}</div>
       </div>
     </div>

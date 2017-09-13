@@ -19,18 +19,16 @@ app.module.directive('appWhatsnewFeed', app.whatsnewFeedDirective);
 
 /**
  * @param {!angular.Scope} $scope Scope.
- * @param {app.Authentication} appAuthentication
  * @param {app.Api} appApi Api service.
  * @param {app.Lang} appLang Lang service.
- * @param {!string} imageUrl URL to the image backend.
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @constructor
  * @extends {app.FeedController}
  * @ngInject
  */
-app.WhatsnewFeedController = function($scope, appAuthentication, appApi, appLang, imageUrl, ngeoLocation) {
+app.WhatsnewFeedController = function($scope, appApi, appLang, ngeoLocation) {
 
-  goog.base(this,$scope, appAuthentication, appApi, appLang, imageUrl, ngeoLocation);
+  goog.base(this, $scope, appApi, appLang, ngeoLocation);
 
   /**
    * @type {number}

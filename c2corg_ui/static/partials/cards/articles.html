@@ -1,22 +1,24 @@
 <article class="post card-article" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;" ng-click="cardCtrl.openDoc(doc)">
-  <a ng-href="{{::cardCtrl.createURL(doc)}}" title="{{::feedCtrl.showTitle(doc['document']['locales'])}}" ng-click="$event.stopPropagation()" class="text-link"> 
+  <a ng-href="{{::cardCtrl.createURL(doc)}}" title="{{::feedCtrl.showTitle(doc['document']['locales'])}}"
+     ng-click="$event.stopPropagation()" class="text-link">
     <div class="parent-text">
-      <div class="text emptyimg" ng-if="::!doc.image1">
+      <div class="text emptyimg" ng-if="!doc.image1">
         <div class="title">{{::locale.title}}</div>
-        <div class="summary"><span ng-repeat="category in ::doc.categories" class="value">{{category | translate }}{{$last ? '' : ', '}}</span></div>
+        <div class="summary">
+          <span ng-repeat="category in doc.categories" class="value">{{category | translate }}{{$last ? '' : ', '}}</span>
+        </div>
       </div>
     </div>
   </a>
   <div class="parent-img">
-    <div class="img" ng-if="::doc.image1">
+    <div class="img" ng-if="doc.image1">
       <a ng-href="/images/{{::doc.image1.document_id}}/{{::doc.image1.locales[0].lang}}">
         <img class="imgo" ng-src="{{feedCtrl.createImageUrl(doc.image1.filename, 'MI')}}" alt="Photo">
       </a>
     </div>
   </div>
-  <div class="parent-infop">
-  </div>
-  <div class="parent-infop parent-infop-first" ng-if="::doc['article_type'] != null">
+  <div class="parent-infop"></div>
+  <div class="parent-infop parent-infop-first" ng-if="doc['article_type']">
     <div class="infop-bar">
       <div class="parent-bubble">
         <div class="bubble">
@@ -26,14 +28,13 @@
       <div class="text-bubble">
         {{doc['article_type'] | translate}}
       </div>
-      <div class="grow">
-      </div>
+      <div class="grow"></div>
     </div>
   </div>
   <div class="parent-infop">
     <div class="infop-bar">
       <div class="parent-activity">
-        <div class="parent-bubble" ng-repeat="activity in ::doc.activities" >
+        <div class="parent-bubble" ng-repeat="activity in doc.activities" >
           <a href="#" class="shcom" uib-tooltip="{{activity | translate}}"> 
             <div class="bubble">
               <span class="route-activity icon-{{::activity}}"></span>
@@ -41,27 +42,32 @@
           </a>
         </div>
       </div>
-      <div class="grow">
-      </div>
+      <div class="grow"></div>
       <div class="parent-bubble topsubicon">
-        <a href="#" class="link" ng-if="::doc['elevation_max']" uib-tooltip="{{'elevation_max'| translate}}: {{::doc['elevation_max']}} m" tooltip-append-to-body="true">
+        <a href="#" class="link" ng-if="doc['elevation_max']"
+           uib-tooltip="{{'elevation_max'| translate}}: {{::doc['elevation_max']}} m" tooltip-append-to-body="true">
           <span class="subicon glyphicon glyphicon-sort-by-attributes rotate-180"></span>
         </a>
       </div>
       <div class="parent-bubble topsubicon">
-        <a href="#" class="link" ng-if="::doc['elevation_max']" uib-tooltip="{{'height_diff_up'| translate}}: {{::doc['height_diff_up']}} m" tooltip-append-to-body="true">
+        <a href="#" class="link" ng-if="doc['elevation_max']"
+           uib-tooltip="{{'height_diff_up'| translate}}: {{::doc['height_diff_up']}} m" tooltip-append-to-body="true">
           <span class="subicon glyphicon glyphicon-resize-vertical rotate-180"></span>
         </a>
       </div>
       <div class="parent-bubble">
-        <a href="#" class="link" ng-if="::doc['condition_rating']" uib-tooltip="{{'condition_rating' | translate}} : {{doc['condition_rating'] | translate}}" tooltip-append-to-body="true">
-          <div class="condition-rating" ng-class="::doc['condition_rating']" ></div>
+        <a href="#" class="link" ng-if="doc['condition_rating']"
+           uib-tooltip="{{'condition_rating' | translate}} : {{doc['condition_rating'] | translate}}"
+           tooltip-append-to-body="true">
+          <div class="condition-rating" ng-class="::doc['condition_rating']"></div>
         </a>
       </div>
-      <div class="parent-bubble"><div class="bubble bquality" ng-if="::doc['quality']">
-        <a class="link" uib-tooltip="{{doc['quality'] | translate}}" tooltip-append-to-body="true">
-          <span class="quality-{{::doc['quality']}}"></span>
-        </a></div>
+      <div class="parent-bubble">
+        <div class="bubble bquality" ng-if="doc['quality']">
+          <a class="link" uib-tooltip="{{doc['quality'] | translate}}" tooltip-append-to-body="true">
+            <span class="quality-{{::doc['quality']}}"></span>
+          </a>
+        </div>
       </div>
     </div>
   </div>

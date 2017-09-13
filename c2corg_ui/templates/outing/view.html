@@ -96,7 +96,6 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
         <div class="icons-header routes">${get_activities(outing, 'top')}</div> ${show_badge(outing, 'outing')}
              <div class="outing-date" class="ng-cloak">${show_fulldate(outing['date_start'], outing['date_end'])}</div>
       </h1>
-
     </header>
     <header class="view-title-without-bg" ng-if="!detailsCtrl.hasHeadband">
       <h1 class="routes">
@@ -104,9 +103,7 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
         <div class="icons-header routes">${get_activities(outing, 'top')}</div> ${show_badge(outing, 'outing')}
         <div class="outing-date" class="ng-cloak">${show_fulldate(outing['date_start'], outing['date_end'])}</div>
       </h1>
-
     </header>
-
 
   % if outing.get('areas'):
     <article class="location-static">
@@ -122,15 +119,15 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
               % if outing.get('geometry').get('geom_detail'):
                 ${get_outing_elevation_profile()}
               % endif
-              ${display_app_smartphone_info('outing')}
             % endif
-            ## IMAGES
             % if not version:
               ${get_image_gallery()}
               ${show_other_langs_links('outings', outing, other_langs)}
             % endif
             ${get_licence(outing)}
-
+            % if not version:
+              ${display_app_smartphone_info('outing')}
+            % endif
          </div>
          <div class="col-xs-12 col-md-8 col-lg-9">
            <section id="document-informations" class="collapse in">

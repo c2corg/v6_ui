@@ -1,101 +1,29 @@
-<div class="feed-cl">
+<h4 class="text-center text-danger" translate ng-show="feedCtrl.error">Sorry, there was an error while getting the feed.</h4>
+<h4 class="text-success text-center" translate ng-show="feedCtrl.busy">Loading feed, please wait...</h4>
+<h4 class="text-success text-center" translate ng-show="feedCtrl.noFeed">This user has no recent activity.</h4>
+<div class="feed-list" ng-show="feedCtrl.documents.length > 0"
+     infinite-scroll="feedCtrl.getDocumentsFromFeed()"
+     infinite-scroll-immediate-check="false"
+     infinite-scroll-distance="0.7"
+     infinite-scroll-disabled="feedCtrl.busy || feedCtrl.error || feedCtrl.feedEnd || feedCtrl.noFeed">
+  <h3 class="title-feed" translate>Activity feed</h3>
+  <div class="in-feed-col-1">
+    <article ng-repeat="doc in feedCtrl.documentsCol[0] track by doc.id">
+      <app-card app-card-doc="::doc"></app-card>
+    </article>
+  </div>
+  <div class="in-feed-col-2">
+    <article ng-repeat="doc in feedCtrl.documentsCol[1] track by doc.id">
+      <app-card app-card-doc="::doc"></app-card>
+    </article>
+  </div>
+  <div class="in-feed-col-3">
+    <article ng-repeat="doc in feedCtrl.documentsCol[2] track by doc.id">
+      <app-card app-card-doc="::doc"></app-card>
+    </article>
+  </div>
+  <div style="clear:both">&nbsp;</div>
   <h4 class="text-center text-danger" translate ng-show="feedCtrl.error">Sorry, there was an error while getting the feed.</h4>
   <h4 class="text-success text-center" translate ng-show="feedCtrl.busy">Loading feed, please wait...</h4>
-  <h4 class="text-success text-center" translate ng-show="feedCtrl.noFeed">This user has no recent activity.</h4>
-  <div class="feed-list" ng-show="feedCtrl.documents.length > 0"
-       infinite-scroll="feedCtrl.getDocumentsFromFeed()"
-       infinite-scroll-immediate-check="false"
-       infinite-scroll-distance="0.7"
-       infinite-scroll-disabled="feedCtrl.busy || feedCtrl.error || feedCtrl.feedEnd || feedCtrl.noFeed">
-    <div class="info" ng-show="::feedCtrl.hasAnnounce">
-      <h3>{{feedCtrl.announce.title}}</h3>
-      <div class="alert alert-warning">{{feedCtrl.announce.message}}</div>
-    </div>
-    <h3 class="title-feed" translate>Activity feed</h3>
-    <div class="in-feed-col-1">
-      <article ng-repeat="doc in feedCtrl.documentsCol[0] track by doc.id">
-        <app-card app-card-doc="::doc"></app-card>
-      </article>
-    </div>
-    <div class="in-feed-col-2">
-      <article ng-repeat="doc in feedCtrl.documentsCol[1] track by doc.id">
-        <app-card app-card-doc="::doc"></app-card>
-      </article>
-    </div>
-    <div class="in-feed-col-3">
-      <article ng-repeat="doc in feedCtrl.documentsCol[2] track by doc.id">
-        <app-card app-card-doc="::doc"></app-card>
-      </article>
-    </div>
-    <div style="clear:both">&nbsp;</div>
-    <h4 class="text-center text-danger" translate ng-show="feedCtrl.error">Sorry, there was an error while getting the feed.</h4>
-    <h4 class="text-success text-center" translate ng-show="feedCtrl.busy">Loading feed, please wait...</h4>
-    <h4 class="text-success text-center" translate ng-show="feedCtrl.feedEnd">No more feed to load.</h4>
-  </div>
-</div>
-<div class="feed-cr">
-  <div class="info" ng-show="feedCtrl.showAssoBlock">
-    <h3><span translate>Welcome on Camptocamp.org!</span> <span class="glyphicon glyphicon-remove pull-right" ng-click="feedCtrl.toggleBlock(0)"></span></h3>
-    <div class="finfo">
-      <div class="ficontent">
-        <div class="fleft">
-          <div class="ftxt">
-            <div class="ftitle">
-              <p class="title">
-                <span translate>Camptocamp.org is a community web site dedicated to mountain sports. The site is managed by a non-profit association, which has made the choice of contents under free licenses. Do not hesitate to register and contribute! </span>
-                <br>
-                <span class="center">
-                  <a href="/articles/106726/fr/camptocamp-association" title="{{'Join the association' | translate}}" translate>Want to know more ?</a>
-                  - 
-                  <a href="https://forum.camptocamp.org/c/site-et-association" title="{{'Camptocamp association' | translate}}" translate>Forum of the association</a>
-                </span>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="info" ng-show="feedCtrl.showMobileBlock">
-    <h3><span translate>Mobile application</span> <span class="glyphicon glyphicon-remove pull-right" ng-click="feedCtrl.toggleBlock(1)"></span></h3>
-    <div class="finfo">
-      <div class="ficontent noflex">
-        <p translate>Find all Camptocamp in the mountains with the new Smartphone application.</p>
-        <div class="row nomargin">
-          <div class="col-xs-6">
-            <div class="googleplay">
-              <a href="https://play.google.com/store/apps/details?id=com.webfit.camptocamp&hl=fr" title="{{'Application' || translate}}" target="_blank">
-                <img src="/static/91832c1/img/app/googleplay.svg" alt="Google play" />
-              </a>
-            </div>
-          </div>
-          <div class="col-xs-6">
-            <div class="appstore">
-              <a href="https://itunes.apple.com/fr/app/camptocamp/id1253411269" title="{{'Application' || translate}}" target="_blank">
-                <img src="/static/91832c1/img/app/appstore.svg" alt="Appstore" />
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="info">
-    <h3 translate>Last forum topics</h3>
-    <h4 class="text-danger" translate ng-show="feedCtrl.errorForum">Sorry, there was an error while getting the forum data.</h4>
-    <div class="fpost" ng-repeat="post in feedCtrl.topics track by post.id" ng-if="::feedCtrl.topics.length > 0">
-      <a href="https://forum.camptocamp.org/t/{{::post['slug']}}/{{::post['id']}}" title="{{::post['title']}}">
-        <div class="fpcontent">
-          <div class="fleft">
-            <div class="fportrait">
-              <img ng-src="https://forum.camptocamp.org/{{::post['avatar_template']}}">
-            </div>
-            <div class="ftxt">
-              <div class="fauthor">{{::post['last_poster_username']}}</div>
-              <div class="ftitle"><span class="title">{{::post['title']}}</span> - {{::post['last_posted_at'] | amUtc | amLocal | amTimeAgo}}</div>
-            </div>
-          </div>
-        </div></a>
-    </div>
-  </div>
+  <h4 class="text-success text-center" translate ng-show="feedCtrl.feedEnd">No more feed to load.</h4>
 </div>

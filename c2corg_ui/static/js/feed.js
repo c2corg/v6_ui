@@ -3,7 +3,6 @@ goog.provide('app.feedDirective');
 
 goog.require('app');
 goog.require('app.Api');
-goog.require('app.Authentication');
 goog.require('app.utils');
 
 
@@ -13,7 +12,8 @@ goog.require('app.utils');
 app.feedDirective = function() {
   return {
     restrict: 'E',
-    controller: 'appFeedController as feedCtrl',
+    controller: 'appFeedController',
+    controllerAs: 'feedCtrl',
     bindToController: {
       'userId' : '=appFeedProfile'
     },
@@ -25,16 +25,14 @@ app.module.directive('appFeed', app.feedDirective);
 
 /**
  * @param {!angular.Scope} $scope Scope.
- * @param {app.Authentication} appAuthentication
  * @param {app.Api} appApi Api service.
  * @param {app.Lang} appLang Lang service.
- * @param {!string} imageUrl URL to the image backend.
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @constructor
  * @ngInject
  * @struct
  */
-app.FeedController = function($scope,appAuthentication, appApi, appLang, imageUrl, ngeoLocation) {
+app.FeedController = function($scope, appApi, appLang, ngeoLocation) {
 
   /**
    * @type {!angular.Scope}
@@ -49,40 +47,16 @@ app.FeedController = function($scope,appAuthentication, appApi, appLang, imageUr
   this.api = appApi;
 
   /**
-   * @type {app.Authentication}
-   * @private
-   */
-  this.auth_ = appAuthentication;
-
-  /**
    * @type {app.Lang}
    * @private
    */
   this.lang_ = appLang;
 
   /**
-   * @type {string}
-   * @private
-   */
-  this.imageUrl_ = imageUrl;
-
-  /**
    * @type {number}
    * @private
    */
   this.nbCols_ = 0;
-
-  /**
-   * @type {boolean}
-   * @public
-   */
-  this.hasAnnounce = false;
-
-  /**
-   * @type {Object}
-   * @public
-   */
-  this.announce = {};
 
   /**
    * @type {Array<Object>}
@@ -95,12 +69,6 @@ app.FeedController = function($scope,appAuthentication, appApi, appLang, imageUr
    * @export
    */
   this.documentsCol = [];
-
-  /**
-   * @type {Array<Object>}
-   * @export
-   */
-  this.topics = [];
 
   /**
    * @type {string | undefined}
@@ -118,19 +86,7 @@ app.FeedController = function($scope,appAuthentication, appApi, appLang, imageUr
    * @type {boolean}
    * @export
    */
-  this.busyForum = true;
-
-  /**
-   * @type {boolean}
-   * @export
-   */
   this.error = false;
-
-  /**
-   * @type {boolean}
-   * @export
-   */
-  this.errorForum = false;
 
   /**
    * @type {boolean}
@@ -163,62 +119,13 @@ app.FeedController = function($scope,appAuthentication, appApi, appLang, imageUr
   this.isPersonal = !this.userId;
 
   /**
-   * @type {boolean}
-   * @export
-   */
-  this.showMobileBlock = /** @type {boolean} */ (JSON.parse(window.localStorage.getItem('showMobileBlock') || 'true'));
-
-  /**
-   * @type {boolean}
-   * @export
-   */
-  this.showAssoBlock = /** @type {boolean} */ (JSON.parse(window.localStorage.getItem('showAssoBlock') || 'true'));
-
-  /**
    * @type {ngeo.Location}
    * @public
    */
   this.ngeoLocation = ngeoLocation;
 
+  this.initFeedColumnManager_();
   this.getDocumentsFromFeed();
-
-  if (this.isPersonal) {
-    this.getLatestTopics_();
-  }
-  this.feedColumnManager();
-  this.getAnnouncement_();
-};
-
-
-/**
- * init array for the column Manager
- * @private
- */
-app.FeedController.prototype.getAnnouncement_ = function() {
-
-  this.hasAnnounce = true;
-  this.announce = {'title':'','message': ''};
-
-};
-
-/**
- * toggle block above forum topics list
- * @param {number} id
- * @export
- */
-app.FeedController.prototype.toggleBlock = function(id) {
-  switch (id) {
-    case 0:
-      this.showAssoBlock = !this.showAssoBlock;
-      window.localStorage.setItem('showAssoBlock', JSON.stringify(this.showAssoBlock));
-      break;
-    case 1:
-      this.showMobileBlock = !this.showMobileBlock;
-      window.localStorage.setItem('showMobileBlock', JSON.stringify(this.showMobileBlock));
-      break;
-    default:
-      break;
-  }
 };
 
 /**
@@ -238,10 +145,10 @@ app.FeedController.prototype.initDocumentsCol_ = function() {
 };
 
 /**
- * refresh the feed column according the width
- * @export
+ * Refresh the feed columns according to the available screen width
+ * @private
  */
-app.FeedController.prototype.feedColumnManager = function() {
+app.FeedController.prototype.initFeedColumnManager_ = function() {
 
   $(window).resize(function() {
 
@@ -256,7 +163,6 @@ app.FeedController.prototype.feedColumnManager = function() {
       }
 
     } else if (window.innerWidth >= 1400 && window.innerWidth < 2000) {
-
       if (this.nbCols_ != 2) {
         this.documentsCol[0] = Array();
         this.documentsCol[1] = Array();
@@ -307,12 +213,9 @@ app.FeedController.prototype.feedColumnManager = function() {
             this.documentsCol[0].push(this.documents[j]);
             height1_c3 += this.estimateSize(this.documents[j]);
           }
-
-
         }
 
         this.scope_.$apply();
-
       }
     }
 
@@ -327,24 +230,11 @@ app.FeedController.prototype.feedColumnManager = function() {
 app.FeedController.prototype.getDocumentsFromFeed = function() {
   this.busy = true;
   this.api.readFeed(this.nextToken, this.lang_.getLang(), this.userId, this.isPersonal).then(function(response) {
+    this.busy = false;
     this.handleFeed(response);
   }.bind(this), function() { // Error msg is shown in the api service
     this.busy = false;
     this.error = true;
-  }.bind(this));
-};
-
-/**
- * get latest topics
- * @private
- */
-app.FeedController.prototype.getLatestTopics_ = function() {
-  this.busyForum = true;
-  this.api.readLatestForumTopics().then(function(response) {
-    this.handleForum(response);
-  }.bind(this), function() { // Error msg is shown in the api service
-    this.busyForum = false;
-    this.errorForum = true;
   }.bind(this));
 };
 
@@ -368,7 +258,6 @@ app.FeedController.prototype.estimateSize = function(doc) {
   if (doc['image2'] !== null)  {
     size += 100;
   }
-
   return size;
 };
 
@@ -380,7 +269,6 @@ app.FeedController.prototype.estimateSize = function(doc) {
  */
 app.FeedController.prototype.handleFeed = function(response) {
   this.error = false;
-  this.busy = false;
   var data = response['data']['feed'];
   var token = response['data']['pagination_token'];
   this.nextToken = token;
@@ -418,7 +306,6 @@ app.FeedController.prototype.handleFeed = function(response) {
       }
 
       this.documents.push(data[i]);
-
     }
 
   } else if (window.innerWidth >= 2000) {
@@ -431,10 +318,8 @@ app.FeedController.prototype.handleFeed = function(response) {
     var height2_c3 = element2[0].offsetHeight;
     var height3_c3 = element3[0].offsetHeight;
 
-
     for (var j = 0,q = data.length; j < q; j++) {
       data[j]['type'] = 'f';
-
 
       if (height1_c3 <= height2_c3 && height1_c3 <= height3_c3) {
         this.documentsCol[0].push(data[j]);
@@ -451,7 +336,6 @@ app.FeedController.prototype.handleFeed = function(response) {
       }
 
       this.documents.push(data[j]);
-
     }
   }
 
@@ -461,32 +345,6 @@ app.FeedController.prototype.handleFeed = function(response) {
     this.noFeed = true;
   }
 };
-
-/**
- * Handles forum processing for Feed.js
- * @param response
- * @public
- */
-app.FeedController.prototype.handleForum = function(response) {
-  this.errorForum = false;
-  this.busyForum = false;
-  var data = response['data'];
-  var postersAvatar = {};
-  if (data['users'] !== undefined) {
-    for (var j = 0; j < data['users'].length; j++) {
-      postersAvatar[data['users'][j]['username']] = data['users'][j]['avatar_template'].replace('{size}','24');
-    }
-
-    for (var i = 0; i < data['topic_list']['topics'].length; i++) {
-      data['topic_list']['topics'][i]['avatar_template'] = postersAvatar[data['topic_list']['topics'][i]['last_poster_username']];
-      this.topics.push(data['topic_list']['topics'][i]);
-      if (i == 15) {
-        break;
-      }
-    }
-  }
-};
-
 
 /**
  * Switches between /personal-feed and /feed

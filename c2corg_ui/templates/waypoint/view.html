@@ -123,8 +123,6 @@ waypoint['doctype'] = 'waypoints'
               ${show_archive_data('waypoints', waypoint, locale, version)}
             % endif
             <app-map class="view-details-map"></app-map>
-            ${display_app_smartphone_info('waypoint')}
-            ## IMAGES
             % if not version:
               ${show_associated_waypoints(waypoint, 'waypoints', showDelete=False)}
               ${get_image_gallery()}
@@ -134,6 +132,9 @@ waypoint['doctype'] = 'waypoints'
             ${get_waypoint_maps_info(waypoint)}
             ${get_licence(waypoint)}
 
+            % if not version:
+              ${display_app_smartphone_info('waypoint')}
+            % endif
           </div>
           <div class="col-xs-12 cold-md-8 col-lg-9">
             <section id="document-informations" class="collapse in">

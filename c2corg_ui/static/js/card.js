@@ -57,7 +57,7 @@ app.module.directive('appCard', app.cardDirective);
  * @struct
  * @ngInject
  */
-app.CardController = function(gettextCatalog, appUrl, imageUrl) {
+app.CardController = function(gettextCatalog, appUrl, imageUrl, moment) {
 
   /**
    * @type {angularGettext.Catalog}
@@ -102,10 +102,15 @@ app.CardController = function(gettextCatalog, appUrl, imageUrl) {
   this.type = app.utils.getDoctype(this.doc['type']);
 
   /**
+   * FIXME: find type declaration for MomentJs
+   * @private
+   */
+  this.moment_ = moment;
+
+  /**
    * @type {Object}
    * @export
    */
-
   this.locale = {};
 
   var locales = this.type === 'feeds' ? this.doc.document.locales : this.doc.locales;
@@ -118,7 +123,6 @@ app.CardController = function(gettextCatalog, appUrl, imageUrl) {
       break;
     }
   }
-
 };
 
 
@@ -169,7 +173,7 @@ app.CardController.prototype.translate = function(str) {
  * Show only one of the area types, the first that is available:
  * 1) range 2) admin limits 3) country
  * @param {?Array<Object>} areas
- * @return {string | null}
+ * @return {string}
  * @export
  */
 app.CardController.prototype.showArea = function(areas) {
@@ -181,18 +185,19 @@ app.CardController.prototype.showArea = function(areas) {
       type = areas[i]['area_type'];
       orderedAreas[type].push(areas[i]['locales'][0]['title']);
     }
-    var area = [];
+    var sortedAreas = [];
+    if (orderedAreas['country'].length) {
+      sortedAreas = sortedAreas.concat(orderedAreas['country']);
+    }
     if (orderedAreas['admin_limits'].length) {
-      area = area.concat(orderedAreas['admin_limits']);
+      sortedAreas = sortedAreas.concat(orderedAreas['admin_limits']);
     }
     if (orderedAreas['range'].length) {
-      area = area.concat(orderedAreas['range']);
-    } else if (orderedAreas['country'].length) {
-      area = areas.concat(orderedAreas['country']);
+      sortedAreas = sortedAreas.concat(orderedAreas['range']);
     }
-    return area.join(' - ');
+    return sortedAreas.join(' - ');
   }
-  return null;
+  return '';
 };
 
 
@@ -204,6 +209,29 @@ app.CardController.prototype.showArea = function(areas) {
  */
 app.CardController.prototype.showOrientation = function(orientations) {
   return orientations.join(', ');
+};
+
+
+/**
+ * @return {string}
+ * @export
+ */
+app.CardController.prototype.showDates = function() {
+  var start = this.doc['document']['date_start'];
+  var end = this.doc['document']['date_end'];
+  var sameYear = this.moment_(start).year() == this.moment_(end).year();
+  var sameMonth = this.moment_(start).month() == this.moment_(end).month();
+  var sameDay = this.moment_(start).date() == this.moment_(end).date();
+  if (sameDay && sameMonth && sameYear) {
+    return this.moment_(end).format('Do MMMM YYYY');
+  }
+  if (sameYear) {
+    if (sameMonth) {
+      return this.moment_(start).format('Do') + ' - ' + this.moment_(end).format('Do MMMM YYYY');
+    }
+    return this.moment_(start).format('Do MMMM') + ' - ' + this.moment_(end).format('Do MMMM YYYY');
+  }
+  return this.moment_(start).format('Do MMMM YYYY') + ' - ' + this.moment_(end).format('Do MMMM YYYY');
 };
 
 
@@ -251,32 +279,29 @@ app.CardController.prototype.createImageUrl = function(filename, suffix) {
  * @export
  */
 app.CardController.prototype.createAreaURL = function(areas) {
-  if (areas && areas.length) {
-    var orderedAreas = {'range': [], 'admin_limits': [], 'country': []};
+  var loc = window.location.pathname;
+  if (areas && areas.length &&
+      loc.indexOf('/edit/') === -1 && loc.indexOf('/add') === -1) {
 
+    var orderedAreas = {'range': [], 'admin_limits': [], 'country': []};
     for (var i = 0, type; i < areas.length; i++) {
       type = areas[i]['area_type'];
       orderedAreas[type].push(areas[i]);
     }
 
-    var loc = window.location.pathname;
     var doc;
-    if (orderedAreas['range'].length > 0) {
-      doc = orderedAreas['range'];
-    } else if (orderedAreas['range'].length > 0) {
-      doc = orderedAreas['admin_limits'];
+    if (orderedAreas['range'].length) {
+      doc = orderedAreas['range'][0];
+    } else if (orderedAreas['admin_limits'].length) {
+      doc = orderedAreas['admin_limits'][0];
     } else {
-      doc = orderedAreas['country'];
+      doc = orderedAreas['country'][0];
     }
 
-    if (loc.indexOf('/edit/') === -1 && loc.indexOf('/add') === -1) {
-      return this.url_.buildDocumentUrl(app.utils.getDoctype(doc[doc.length - 1]['type']),
-                                        doc[doc.length - 1]['document_id'],
-                                        doc[doc.length - 1]['locales'][0]);
-    }
+    return this.url_.buildDocumentUrl(app.utils.getDoctype(doc['type']),
+                                      doc['document_id'],
+                                      doc['locales'][0]);
   }
-
-
 };
 
 

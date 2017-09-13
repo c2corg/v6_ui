@@ -53,7 +53,7 @@ app.module.directive('appViewDetails', app.viewDetailsDirective);
  * @ngInject
  */
 app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
-                                      appDocument, documentData, imageUrl, discourseUrl, appUrl, appLang) {
+                                     appDocument, documentData, imageUrl, discourseUrl, appUrl, appLang) {
 
   /**
    * @type {app.Document}
@@ -92,13 +92,11 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
    */
   this.hasHeadband = false;
 
-
   /**
    * @type {boolean}
    * @export
    */
   this.hasVerticalImg = false;
-
 
   /**
    * @type {Array<Object>}
@@ -148,12 +146,6 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
    */
   this.scope_ = $scope;
 
-  /**
-   * @type {boolean}
-   * @export
-   */
-  this.showMobileBlock = /** @type {boolean} */ (JSON.parse(window.localStorage.getItem('showMobileBlock') || 'true'));
-
   this.initHeadband();
 
   this.pswpOptions = {
@@ -172,14 +164,6 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
   };
 };
 
-/**
- * hide block with info for the mobile app
- * @export
- */
-app.ViewDetailsController.prototype.toggleMobileBlock = function() {
-  this.showMobileBlock = !this.showMobileBlock;
-  window.localStorage.setItem('showMobileBlock', JSON.stringify(this.showMobileBlock));
-};
 
 /**
  * @param {string} selector

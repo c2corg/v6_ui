@@ -1,7 +1,6 @@
 @import 'variables.less';
 
-app-feed {
-
+.feeds {
   display: flex;
   flex-direction: row;
   padding: 20px;
@@ -10,7 +9,6 @@ app-feed {
   @media @phone {
     padding: 20px 0;
   }
-
   @media @tablet {
     padding: 20px;
   }
@@ -20,15 +18,12 @@ app-feed {
   }
   .appstore img, .googleplay img {
     width: 50%;
-
     @media @desktop-medium {
       width: 100%;
     }
-
     @media @tablet {
       width: 50%;
     }
-
   }
   .post {
     -webkit-box-shadow: 0 1px 4px 0 rgba(0,0,0,0.14);
@@ -41,13 +36,11 @@ app-feed {
     margin-right: 20px;
     overflow: hidden;
     text-align: start;
-
     min-width: 350px;
     max-width: 100%;
     width: 100%;
     margin-bottom: 20px;
     outline: none;
-
     cursor:pointer;
 
     @media @phone {
@@ -61,7 +54,6 @@ app-feed {
         font-size: 13px;
       }
     }
-
 
     h1 {
       text-align: ;
@@ -96,7 +88,6 @@ app-feed {
           position: absolute;
           top: 0;
           right: 0;
-
           font-size: 12px;
           font-weight: 400;
           -webkit-box-flex: none;
@@ -107,8 +98,8 @@ app-feed {
           max-width: 100%;
           text-align: right;
           word-wrap: break-word;
-          .d-hour{
 
+          .d-hour{
             height: 20px;
             display: block;
           }
@@ -130,11 +121,9 @@ app-feed {
         -webkit-box-flex: auto;
         -webkit-flex: auto;
         flex: auto;
-
       }
 
-      .pportrait
-      {
+      .pportrait {
         display: block;
         outline: none;
         flex: none;
@@ -149,7 +138,6 @@ app-feed {
       }
 
       .parent-author  {
-
         .under-author {
           font-weight: 500;
           margin-right: 16px;
@@ -159,6 +147,7 @@ app-feed {
           -webkit-flex: auto;
           flex: auto;
           width: ~"calc(100% - 100px)";
+
           .author {
             margin-left: 6px;
             max-width: 100%;
@@ -179,9 +168,7 @@ app-feed {
               white-space: nowrap;
               overflow: hidden;
             }
-
           }
-
         }
       }
     }
@@ -208,15 +195,10 @@ app-feed {
           &.c {
             overflow: hidden;
             white-space: normal
-
           }
-
         }
       }
-
     }
-
-
   }
 
   .parent-infop-first {
@@ -225,7 +207,7 @@ app-feed {
   }
 
 
-  .mt20{
+  .mt20 {
     margin-top: 20px;
   }
 
@@ -239,7 +221,7 @@ app-feed {
       float: right;
       width: 100%;
       margin-left: -5px;
-      padding :0px;
+      padding: 0px;
 
       &.emptyimg {
         border-bottom: 1px solid #ebebeb;
@@ -258,7 +240,7 @@ app-feed {
     overflow: hidden;
     max-height: 275px;
 
-    .img1, img2 ,.img3 {
+    .img1, img2, .img3 {
       display: flex;
       flex: auto;
       flex-direction: column;
@@ -281,7 +263,6 @@ app-feed {
     .img3 {
       margin: auto ;
     }
-
   }
 
   .flux {
@@ -316,8 +297,8 @@ app-feed {
       box-pack: center;
       -webkit-justify-content: center;
       justify-content: center;
-
     }
+
     .parent-bubble {
       display: block;
       margin: 0px 8px 0 0;
@@ -356,9 +337,9 @@ app-feed {
           font-size: 2em;
           color: #A9D361;
         }
-
-        i { font-size: 21px;  }
-
+        i {
+          font-size: 21px;
+        }
       }
 
       .bubblej {
@@ -378,16 +359,14 @@ app-feed {
         margin-top: 2px;
       }
       .condition-rating.excellent {
-        background-color:green;
+        background-color: green;
 
       }
       .condition-rating.good {
-        background-color:#9ACD32;
-
+        background-color: #9ACD32;
       }
       .condition-rating.average {
         background-color:#ff0;
-
       }
       .condition-rating.poor {
         background-color:red;
@@ -397,8 +376,7 @@ app-feed {
         background:#8B0000
       }
 
-      .bquality 
-      {
+      .bquality {
         width: 20px;
         height: 20px;
         span {
@@ -406,13 +384,14 @@ app-feed {
           color: #d3d3d3;
         }
       }
-
     }
 
-    &.parent-infop-first  { .parent-bubble { .bubble {
-      height: 24px;
-      width: 36px;
-      }
+    &.parent-infop-first {
+      .parent-bubble {
+        .bubble {
+          height: 24px;
+          width: 36px;
+        }
       }
     }
 
@@ -431,7 +410,6 @@ app-feed {
       font-size: 12px;
       margin:10px 0 6px 0;
     }
-
   }
 
   .post .parent-img .img .imgo {
@@ -447,7 +425,6 @@ app-feed {
   .rating {
     float:left; margin-right:5px;
   }
-
 
   .feed-cl {
     width: 66.66%;
@@ -465,8 +442,6 @@ app-feed {
       font-weight: 700;
       text-align: left;
     }
-
-
   }
 
   .feed-cr {
@@ -474,11 +449,9 @@ app-feed {
     @media @desktop-little {
       width: 40%;
     }
-
     @media @desktop-medium {
       width: 25%;
     }
-
   }
 
   .fpost {
@@ -498,7 +471,6 @@ app-feed {
     }
   }
 
-
   .fpcontent {
     height: 60px;
   }
@@ -514,13 +486,11 @@ app-feed {
     }
 
     .ftitle {
-
       .title {
         font-weight: 400;
         white-space: initial;
         text-align: justify;
         line-height: 22px;
-
       }
     }
   }
@@ -554,7 +524,6 @@ app-feed {
     background-color: #bdbdbd;
     height: 24px;
     width: 24px;
-
     margin: 0 16px;
     -moz-border-radius: 50%;
     border-radius: 50%;
@@ -563,7 +532,8 @@ app-feed {
       color: #FFAA45;
       font-size: 3em;
       background: #fff;
-    } img {
+    }
+    img {
       border-radius: 50%;
       height: 24px;
       width: 24px;
@@ -576,7 +546,7 @@ app-feed {
     margin-top: 3px;
   }
 
-  .fauthor{
+  .fauthor {
     color: rgba(0,0,0,0.87);
     font-size: 16px;
     margin-right: 8px;
@@ -600,7 +570,6 @@ app-feed {
     .title {
       font-weight: bold;
       color: rgba(0,0,0,0.87);
-
     }
   }
 
@@ -612,7 +581,10 @@ app-feed {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  .in-feed-col-1 , .in-feed-col-2  , .in-feed-col-3 {float:left; width:50%; padding-right: 20px;
+  .in-feed-col-1, .in-feed-col-2, .in-feed-col-3 {
+    float: left;
+    width: 50%;
+    padding-right: 20px;
     @media @phone {
       padding:0px;
       width: 100%;
@@ -621,13 +593,10 @@ app-feed {
       padding-right: 20px;
       width: 100%;
     }
-
-
     @media @desktop-little {
       padding-right: 20px;
       width: 100%;
     }
-
     @media @desktop-medium{
       width: 50%;
     }
@@ -638,19 +607,20 @@ app-feed {
       width: 33.33%;
     }
   }
-  .in-feed-cr {float:left; width:50%; padding-right: 20px;}
+  .in-feed-cr {
+    float:left;
+    width:50%;
+    padding-right: 20px;
+  }
 
-  #user-profile-data 
-  {
+  #user-profile-data {
     .in-feed-col-1 , .in-feed-col-2, .in-feed-col-3  {
       float:none;
       width: 100%;
       padding: 0 10px;
-
     }
     .feed-cl {
       width: 100%;
-
     }
     .feed-cr {
       display: none;
@@ -677,12 +647,16 @@ app-feed {
         text-align: center;
         margin-bottom: 10px;
       }
-
     }
   }
 
   @media screen and (min-width: 768px) and (max-width: 1360px){
-    .in-feed-cl , .in-feed-cr {float:none; width:100%;width: 100%; padding-right: 20px;}
+    .in-feed-cl, .in-feed-cr {
+      float: none;
+      width: 100%;
+      width: 100%;
+      padding-right: 20px;
+    }
     .post {
       max-width: 100%;
     }
@@ -694,7 +668,6 @@ app-feed {
     #feed {
       padding: 0px;
     }
-
     .feed-cl {
       width: 100%;
     }
@@ -706,9 +679,13 @@ app-feed {
       max-width: none;
       width: 100%;
     }
-    .in-feed-cl , .in-feed-cr {float:none; width:100%;width: 100%; padding: 0 10px;}
-
+    .in-feed-cl, .in-feed-cr {
+      float: none;
+      width: 100%;
+      padding: 0 10px;
+    }
   }
-  .post .author a {color: #000;}
-
+  .post .author a {
+    color: #000;
+  }
 }

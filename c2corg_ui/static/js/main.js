@@ -10,6 +10,7 @@ goog.provide('app.main');
 goog.require('app.MainController');
 goog.require('app.AccountController');
 goog.require('app.ArticleEditingController');
+goog.require('app.ForumFeedController');
 goog.require('app.ImageEditingController');
 goog.require('app.OutingEditingController');
 goog.require('app.XreportEditingController');
