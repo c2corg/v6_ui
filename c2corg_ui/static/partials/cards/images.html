@@ -1,15 +1,18 @@
-<a ng-href="{{cardCtrl.createURL()}}" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;">
-  <div class="image margin-b-sm"
-       style="background-image: url({{cardCtrl.createImg()}});" ng-style="{'height': !locale.title ? '100%' : '150px'}"></div>
-  <div class="list-item-info">
-
-    <div class="list-item-title-lang" ng-if="locale.title">
-      <span class="list-item-title"><p>{{::locale.title}}</p></span>
-      <span class="list-item-lang" ng-if="cardCtrl.lang != locale.lang">({{::locale.lang}})</span>
+<article class="post" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;" ng-click="cardCtrl.openDoc(doc)">
+  <div class="parent-img cards-img">
+    <a ng-href="{{cardCtrl.createURL()}}">
+      <div class="img-bg" style="background-image: url({{cardCtrl.createImg()}});"></div>
+    </a>
+    <div class="parent-infop" ng-if="locale.title">
+      <a ng-href="{{::cardCtrl.createURL(doc)}}" title="{{feedCtrl.showTitle(doc['document']['locales'])}}"
+         ng-click="$event.stopPropagation()" class="text-link">
+        <div class="parent-overlay">
+          <div class="text">
+            {{::locale.title}}
+            <span class="list-item-lang" ng-if="cardCtrl.lang != locale.lang">({{::locale.lang}})</span>
+          </div>
+        </div>
+      </a>
     </div>
-
-    <div class="outing-date">{{ ::doc['date_time'] | date: 'dd/MM/yyyy'}}</div>
-    <div ng-if="doc['author']"><span class="value-title" translate>author</span>: <span class="value">{{::doc['author']}}</span></div>
-
   </div>
-</a>
+</article>

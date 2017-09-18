@@ -10,7 +10,8 @@
   }
 }
 
-.list-item {
+#topoguide .list-item, #serac .list-item {
+
   position: relative;
   cursor: pointer;
   background-color: white;
@@ -20,7 +21,7 @@
   -moz-border-radius: 7px;
   -webkit-border-radius: 7px;
   transition: .2s ease-in-out;
-  border: 1px solid @darkgray;
+  border: 1px solid @darkgray; 
 
 
   &:active {
@@ -59,7 +60,7 @@
       text-decoration: none;
       outline: none;
     }
-  } /*list-item a*/
+  } 
 
   .list-item-lang {
     opacity: 0.9;
@@ -87,7 +88,7 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-     .value {
+    .value {
       overflow: hidden;
       text-overflow: ellipsis;
     }
@@ -150,7 +151,7 @@
         margin-right: 2px;
       }
     }
-  }/*list-item-info*/
+  }
   .show-more-activities:hover {
     color: teal;
   }
@@ -284,7 +285,7 @@
 
   } // end outing cards
 
-&.routes {
+  &.routes {
 
     .list-item-info {
       .location {
@@ -293,7 +294,7 @@
     }
     .quality {
       font-size:1.2em;
-      }
+    }
   } // end routes card
 
   // .list-item.highlight
@@ -315,7 +316,7 @@
       margin: 5px;
     }
   }
-} /* list-item*/
+} 
 
 
 .documents-list-section-container {
@@ -365,13 +366,19 @@
   flex: 1 1 300px;
   min-width: 0;
   margin-top: 6px;
-  margin-left: 6px;
-
+  margin-right: 10px;
+  position: relative;
   // http://stackoverflow.com/a/22018710
   &:empty {
     min-height: 0;
     height: 0;
     border: none;
+  }
+
+  app-delete-association {
+    position: absolute;
+    top: 47px;
+    right: 5px;
   }
 }
 
@@ -444,19 +451,29 @@
 
 
 .row-list {
+  flex-direction: row;
+
   .margin-t-sm {
     margin-top: 0px;
   }
   .margin-b-sm {
     margin-bottom: 0px;
   }
-  flex-direction: row;
+
   .list-item {
     flex-direction: row;
     flex: 1 1 100%;
     margin-top: 3px;
+    position: relative;
+    
     a {
       padding: 0px;
+    }
+
+    app-delete-association {
+      position: absolute;
+      right: -10px;
+      top: -10px;
     }
   }
   .list-item-info {
@@ -649,12 +666,12 @@
 }
 
 .no-map-btn {
-    position: absolute;
-    top: ~"calc(100% - 80px)";
-    right: 10px;
-    z-index: 2;
-    margin-left: 10px;
-    .glyphicon {
-      color: white;
-    }
+  position: absolute;
+  top: ~"calc(100% - 80px)";
+  right: 10px;
+  z-index: 2;
+  margin-left: 10px;
+  .glyphicon {
+    color: white;
   }
+}

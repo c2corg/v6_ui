@@ -18,7 +18,7 @@
     <span class="badge" ng-cloak>{{resCounter}}</span>
   </h3>
 </header>
-<div class="documents-list-section-container" ng-class="{'no-map': noMap, 'no-list': noList}">
+<div class="documents-list-section-container" ng-class="{'no-map': MapswitchCtrl.hideMap, 'no-list': noList, 'row-list' : switchCtrl.showList}">
   <section class="documents-list-section">
     <%include file="filters.html" />
 

@@ -1,6 +1,6 @@
 <%!
-from c2corg_ui.templates.utils import get_lang_lists
-from json import dumps
+    from c2corg_ui.templates.utils import get_lang_lists
+    from json import dumps
 %>
 <%namespace file="../helpers/view.html" import="get_image_gallery, get_document_description,
     show_areas, get_licence, show_other_langs_links, show_missing_langs_links"/>
@@ -18,52 +18,52 @@ from json import dumps
       user_id = profile['document_id']
       other_langs, missing_langs = get_lang_lists(profile, lang)
   %>
-
-  <div app-view-details>
-    % if geometry:
-
-      % if profile.get('areas'):
-        <article class="location-static">
-          ${show_areas(profile)}
-        </article>
-      % endif
-
-      <div ng-init='profileFeature = {
-          "type": "FeatureCollection",
-          "properties": {},
-          "features": [{
-            "type": "Feature",
-            "geometry": {"type": "Point", "coordinates": [${geometry.x}, ${geometry.y}]},
-            "properties": {
-              "title": ${dumps(profile["name"]) | n},
-              "lang": "${locale["lang"]}",
-              "documentId": ${user_id},
-              "module": "profiles",
-              "highlight": true
-            }
-          }]
-        };'></div>
-      <app-map class="view-details-map" app-map-feature-collection="profileFeature"></app-map>
-    % endif
-    <div ng-init="detailsCtrl.documentService.setAssociations(${profile['associations']});"></div>
-
-    ${get_image_gallery()}
-    ${show_other_langs_links('profiles', profile, other_langs)}
-
-    <div class="view-details-informations col-xs-12  informations">
-      <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
-        <span translate>Informations</span><span class="glyphicon glyphicon-menu-down"></span>
-      </h3>
-      <section id="document-informations" class="collapse in">
+    
+  <div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-5 col-lg-4">
+      <div app-view-details>
         ${get_profile_general(profile)}
+        
+        <div ng-init="detailsCtrl.documentService.setAssociations(${profile['associations']});"></div>
+
+        % if geometry:
+          <div ng-init='profileFeature = {
+            "type": "FeatureCollection",
+            "properties": {},
+            "features": [{
+              "type": "Feature",
+              "geometry": {"type": "Point", "coordinates": [${geometry.x}, ${geometry.y}]},
+              "properties": {
+                "title": ${dumps(profile["name"]) | n},
+                "lang": "${locale["lang"]}",
+                "documentId": ${user_id},
+                "module": "profiles",
+                "highlight": true
+              }
+            }]
+          };'></div>
+          <app-map class="view-details-map" app-map-feature-collection="profileFeature"></app-map>
+
+          % if profile.get('areas'):
+            <div class="finfo">
+              <div class="ficontent list-green">
+                ${show_areas(profile)}
+              </div>
+            </div>
+          % endif
+        % endif
+
+        ${show_other_langs_links('profiles', profile, other_langs)}
+        ${get_image_gallery()}
         ${get_licence(profile)}
-      </section>
+      </div>
     </div>
-
-    ${get_document_description(locale, 'profile')}
-
-    <app-feed app-feed-profile="${user_id}" id="feed"></app-feed>
-
+    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
+      ${get_document_description(locale, 'profile')}
+      <div class="feed-cl">
+        <app-feed app-feed-profile="${user_id}" id="feed"></app-feed>
+      </div>
+    </div>
   </div>
 
   ${show_missing_langs_links('profiles', profile, missing_langs)}

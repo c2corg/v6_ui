@@ -303,8 +303,6 @@ app.ImageUploaderController.prototype.save = function() {
     $('.img-container').each(function(i) {
       var id = imageIds[i]['document_id'];
       images[i]['image_id'] = 'image-' + id;
-      var element = app.utils.createImageSlide(images[i], this.imageUrl_);
-      $('.photos').slick('slickAdd', element, true);
 
       var scope = this.scope_.$new(true);
       scope['photo'] = images[i];

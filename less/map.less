@@ -1,4 +1,28 @@
+  .viewdoc .view-details-map .map-fullscreen {
+    position: fixed !important;
+    width: calc ( 100% - 250px );
+    height: calc ( 100% - 48px ) !important;
+    top: 48px;
+    left: 250px;
+    z-index:10;
+    background-color: rgba(164,164,166,1);
+    @media @phone {
+      left: 0px;
+      width: 100%;
+    }
+    
+    app-baselayer-selector {
+      bottom: 60px;
+    }
+  }
+.documents-list-section-container {
+  .btn-map-fullscreen {
+    display: none;
+    }
+}
 .map {
+
+  
   margin:0;
   position: relative;
 
@@ -13,6 +37,12 @@
     right: 10px;
   }
 
+  .btn-map-fullscreen {
+    position: absolute;
+    z-index: 10;
+    top: 10px;
+    right: 10px;
+  }
   .map-unset-feature {
     position: absolute;
     z-index: 2;

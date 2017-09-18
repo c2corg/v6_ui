@@ -25,6 +25,8 @@ app.utils.getDoctype = function(type) {
       return 'books';
     case 'x':
       return 'xreports';
+    case 'f':
+      return 'feeds';
     default:
       goog.asserts.fail('Unrecognized type: ' + type);
       return '';

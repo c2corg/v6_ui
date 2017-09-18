@@ -8,16 +8,14 @@ from c2corg_ui.templates.utils import get_route_gear_articles, format_length
 ## LOCATION
 <%def name="get_route_location(route)">\
   % if route.get('areas'):
-    <div class="name-icon-value location" ng-click="detailsCtrl.toggleTab($event)">
-      <h4><span translate>Location</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
-      <div class="name-icon">
-        <span class="glyphicon glyphicon-map-marker"></span>
-        <p translate>Location</p>
-      </div>
+<div class="col-sm-6 col-lg-3">         
+    <div class="name-icon-value location list-green" ng-click="detailsCtrl.toggleTab($event)">
+      <h4><span class="glyphicon glyphicon-map-marker"></span> <span translate>Location</span><span class="glyphicon pull-right rotate-arrow-down"></span></h4>
       <span class="detail-text accordion">
         <span class="areas">${show_areas(route)}</span>
       </span>
     </div>
+</div>
   % endif
 </%def>
 
@@ -25,28 +23,23 @@ from c2corg_ui.templates.utils import get_route_gear_articles, format_length
 ## ORIENTATION
 <%def name="get_route_orientations(route)">\
   % if route.get('orientations'):
+  <div class="col-sm-6 col-lg-3">    
     <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
-      <h4><span translate>orientations</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
-      <div class="name-icon">
-        <span class="glyphicon glyphicon-move"></span>
-        <p translate>orientations</p>
-      </div>
+      <h4><span class="glyphicon glyphicon-move"></span> <span translate>orientations</span><span class="glyphicon pull-right rotate-arrow-down"></span></h4>
       <span class="detail-text accordion">
         ${show_orientations_static(route.get('orientations'))}
       </span>
     </div>
+  </div>
   % endif
 </%def>
 
 
 ## GENERAL
 <%def name="get_route_general(route, locale, isPreview=False)">\
+<div class="col-sm-6 col-lg-3">          
   <div class="name-icon-value general" ng-click="detailsCtrl.toggleTab($event)">
-    <h4><span translate>General</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
-    <div class="name-icon">
-      <span class="glyphicon glyphicon-info-sign"></span>
-      <p translate>General</p>
-    </div>
+    <h4><span class="glyphicon glyphicon-info-sign"></span> <span translate>General</span><span class="glyphicon pull-right rotate-arrow-down"></span></h4>
     <span class="detail-text accordion">
 
       % if route.get('route_types'):
@@ -112,6 +105,7 @@ from c2corg_ui.templates.utils import get_route_gear_articles, format_length
       % endif
     </span>
   </div>
+</div>
 </%def>
 
 
@@ -122,12 +116,9 @@ from c2corg_ui.templates.utils import get_route_gear_articles, format_length
   or route.get('hiking_mtb_exposition') or route.get('ice_rating') or route.get('mixed_rating') or route.get('snowshoe_rating')  \
   or route.get('mtb_down_rating') or route.get('mtb_up_rating') or route.get('via_ferrata_rating') or route.get('equipment_rating') \
   or route.get('ski_rating') or route.get('labande_ski_rating') or route.get('labande_global_rating') or route.get('ski_exposition') :
+  <div class="col-sm-6 col-lg-3">
   <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
-    <h4><span translate>Rating</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
-    <div class="name-icon">
-      <span class="glyphicon glyphicon-sort-by-attributes"></span>
-      <p translate>Rating</p>
-    </div>
+    <h4><span class="glyphicon glyphicon-sort-by-attributes"></span> <span translate>Rating</span><span class="glyphicon pull-right rotate-arrow-down"></span></h4>
     <span class="detail-text accordion ratings">
 
       ${get_global_rating(route)}
@@ -148,6 +139,7 @@ from c2corg_ui.templates.utils import get_route_gear_articles, format_length
       ${get_hiking_mtb_rating(route)}
     </span>
   </div>
+  </div>
   % endif
 </%def>
 
@@ -159,12 +151,9 @@ from c2corg_ui.templates.utils import get_route_gear_articles, format_length
         or route.get('mtb_length_asphalt') or route.get('mtb_length_trail') \
         or locale.get('slope') or route.get('elevation_max') or route.get('elevation_min') \
         or route.get('height_diff_max') or route.get('height_diff_min') or route.get('slackline_height'):
+  <div class="col-sm-6 col-lg-3">
     <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
-      <h4><span translate>heights</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
-      <div class="name-icon">
-        <span class="glyphicon glyphicon-stats"></span>
-        <p translate>heights</p>
-      </div>
+      <h4><span class="glyphicon glyphicon-stats"></span> <span translate>heights</span><span class="glyphicon pull-right rotate-arrow-down"></span></h4>
       <span class="detail-text accordion">
 
        ${get_document_min_max(route, 'elevation')}
@@ -204,18 +193,16 @@ from c2corg_ui.templates.utils import get_route_gear_articles, format_length
 
       </span>
     </div>
+  </div>
   % endif
 </%def>
 
 ## ACCESS
 <%def name="get_route_access(route)">\
   % if route.get('lift_access') is not None or route.get('height_diff_access'):
+  <div class="col-sm-6 col-lg-3">    
     <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
-      <h4><span translate>Access</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
-      <div class="name-icon">
-        <span class="glyphicon glyphicon-road"></span>
-        <p translate>Access</p>
-      </div>
+      <h4><span class="glyphicon glyphicon-road"></span> <span translate>Access</span><span class="glyphicon pull-right rotate-arrow-down"></span></h4>
 
       <span class="detail-text accordion">
         % if route.get('lift_access'):
@@ -228,21 +215,20 @@ from c2corg_ui.templates.utils import get_route_gear_articles, format_length
 
       </span>
     </div>
+  </div>
   % endif
 </%def>
 
 ## MAPS
 <%def name="get_route_associated_maps(route)">\
   % if route.get('maps'):
-  <div class="name-icon-value maps" ng-click="detailsCtrl.toggleTab($event)">
-    <h4><span translate>Maps</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
-    <div class="name-icon">
-      <span class="glyphicon glyphicon-globe"></span>
-      <p translate>Maps</p>
+  <h3 ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-maps"><span translate>Map</span> <span class="glyphicon glyphicon-menu-down"></span></h3>
+  <div class="finfo" id="associated-maps">
+    <div class="ficontent">
+      <div class="list-green">
+      <span class="detail-text accordion">${show_maps(route)}</span>
+        </div>
     </div>
-    <span class="detail-text accordion">
-        ${show_maps(route)}
-    </span>
   </div>
   % endif
 </%def>
@@ -250,17 +236,15 @@ from c2corg_ui.templates.utils import get_route_gear_articles, format_length
 ## GLACIER GEAR
 <%def name="get_route_glacier_gear(route)">\
   % if route.get('glacier_gear') and route.get('glacier_gear') != 'no':
+  <div class="col-sm-6 col-lg-3">    
     <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
-      <h4><span translate>gear</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
-      <div class="name-icon">
-        <span class="icon-glacier"></span>
-        <p translate>gear</p>
-      </div>
+      <h4><span class="icon-glacier"></span> <span translate>gear</span> <span class="glyphicon glyphicon-menu-down"></span></h4>
       <span class="detail-text accordion" id="glacier-gear">
         <span translate class="value-title">glacier_gear</span>:
         <span class="value" x-translate>${route.get('glacier_gear')}</span>
       </span>
     </div>
+  </div>
   % endif
 </%def>
 
@@ -270,25 +254,20 @@ from c2corg_ui.templates.utils import get_route_gear_articles, format_length
     gear_articles = get_route_gear_articles(route)
   %>
   % if locale['gear'] or gear_articles:
-    <div class="view-details-info col-xs-12">
-      <h3 class="heading show-phone"
-          ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#gear">
-        <span x-translate>gear</span><span class="glyphicon glyphicon-menu-down"></span>
-      </h3>
-      <section class="collapse in" id="gear" aria-expanded="true">
-        <div class="lead">
+        <h3 ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#gear"><span x-translate>gear</span> <span class="glyphicon glyphicon-menu-down"></span></h3>
+       <div class="finfo collapse in" id="gear" aria-expanded="true">
           % if gear_articles:
-            <ul>
+          
             % for article_id, name in gear_articles.items():
-              <li><a href="${request.route_path('articles_view_id', id=article_id)}" x-translate>${name}</a></li>
+              
+                <div class="ficontent"><a href="${request.route_path('articles_view_id', id=article_id)}" x-translate>${name}</a></div>
             % endfor
-            </ul>
           % endif
+
           % if locale['gear']:
-            ${show_attr(locale, 'gear')}
+               <div class="ficontent">  ${show_attr(locale, 'gear')}</div>
           % endif
-        </div>
-      </section>
-    </div>
+          </div>
+    
   % endif
 </%def>

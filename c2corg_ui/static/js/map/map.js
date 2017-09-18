@@ -75,7 +75,7 @@ app.module.directive('appMap', app.mapDirective);
  * @ngInject
  */
 app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
-  ngeoDebounce, appUrl, imgPath) {
+                              ngeoDebounce, appUrl, imgPath) {
 
   /**
    * @type {number}
@@ -217,6 +217,12 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
 
   /**
    * @type {boolean}
+   * @export
+   */
+  this.isFullscreen = false;
+
+  /**
+   * @type {boolean}
    * @private
    */
   this.ignoreExtentChange_ = false;
@@ -248,10 +254,8 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
 
   // editing mode
   if (this.edit) {
-    this.scope_.$root.$on('documentDataChange',
-        this.handleEditModelChange_.bind(this));
-    this.scope_.$root.$on('featuresUpload',
-        this.handleFeaturesUpload_.bind(this));
+    this.scope_.$root.$on('documentDataChange', this.handleEditModelChange_.bind(this));
+    this.scope_.$root.$on('featuresUpload', this.handleFeaturesUpload_.bind(this));
     this.addTrackImporter_();
   }
 
@@ -272,10 +276,8 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
       this.ignoreExtentChange_ = app.utils.detectDocumentIdFilter(this.location_);
     }
 
-    this.scope_.$root.$on('searchFeaturesChange',
-        this.handleSearchChange_.bind(this));
-    this.scope_.$root.$on('searchFilterClear',
-        this.handleSearchClear_.bind(this));
+    this.scope_.$root.$on('searchFeaturesChange', this.handleSearchChange_.bind(this));
+    this.scope_.$root.$on('searchFilterClear', this.handleSearchClear_.bind(this));
     this.scope_.$root.$on('cardEnter', function(event, id) {
       this.toggleFeatureHighlight_(id, true);
     }.bind(this));
@@ -284,9 +286,9 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
     }.bind(this));
 
     this.view_.on('propertychange',
-      ngeoDebounce(
-        this.handleMapSearchChange_.bind(this),
-        500, /* invokeApply */ true));
+                  ngeoDebounce(
+      this.handleMapSearchChange_.bind(this),
+      500, /* invokeApply */ true));
 
     this.scope_.$watch(function() {
       return this.enableMapFilter;
@@ -331,7 +333,7 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
         // of existing vertices
         deleteCondition: function(event) {
           return ol.events.condition.shiftKeyOnly(event) &&
-              ol.events.condition.singleClick(event);
+            ol.events.condition.singleClick(event);
         }
       });
       modify.on('modifyend', this.handleModify_.bind(this));
@@ -421,25 +423,23 @@ app.MapController.prototype.createStyleFunction_ = function() {
        * @param {number} resolution
        * @return {ol.style.Style|Array.<ol.style.Style>}
        */
-      function(feature, resolution) {
-        var module = /** @type {string} */ (feature.get('module'));
-        switch (module) {
-          case 'waypoints':
-          case 'images':
-          case 'profiles':
-          case 'xreports':
-            return this.createPointStyle_(feature, resolution);
-          case 'routes':
-          case 'outings':
-            return this.advancedSearch ?
-              this.createPointStyle_(feature, resolution) :
-              this.createLineStyle_(feature, resolution);
-          case 'areas':
-            return this.createLineStyle_(feature, resolution);
-          default:
-            return null;
-        }
-      }).bind(this);
+    function(feature, resolution) {
+      var module = /** @type {string} */ (feature.get('module'));
+      switch (module) {
+        case 'waypoints':
+        case 'images':
+        case 'profiles':
+        case 'xreports':
+          return this.createPointStyle_(feature, resolution);
+        case 'routes':
+        case 'outings':
+          return this.advancedSearch ? this.createPointStyle_(feature, resolution) : this.createLineStyle_(feature, resolution);
+        case 'areas':
+          return this.createLineStyle_(feature, resolution);
+        default:
+          return null;
+      }
+    }).bind(this);
 };
 
 
@@ -770,8 +770,7 @@ app.MapController.prototype.handleModify_ = function(event) {
  * @param {boolean} recenter
  * @private
  */
-app.MapController.prototype.handleSearchChange_ = function(event,
-    features, total, recenter) {
+app.MapController.prototype.handleSearchChange_ = function(event, features, total, recenter) {
   // show the search results on the map but don't change the map filter
   // if recentering on search results, the extent change must not trigger
   // a new search request.
@@ -914,7 +913,7 @@ app.MapController.prototype.handleMapFeatureHover_ = function(event) {
  * @private
  */
 app.MapController.prototype.handleMapFilterSwitchChange_ = function(enabled,
-    was_enabled) {
+                                                                     was_enabled) {
   if (enabled === was_enabled) {
     // initial setting of the filter switch
     // * do nothing if the filter is enabled by default
@@ -969,6 +968,19 @@ app.MapController.prototype.simplifyFeature_ = function(feature) {
   return feature;
 };
 
+
+/**
+ * @export
+ */
+app.MapController.prototype.toggleFullscreen = function() {
+  this.isFullscreen = !this.isFullscreen;
+  setTimeout(function() {
+    this.scope_.$apply();
+    this.map.renderSync();
+    this.map.updateSize();
+  }.bind(this),0);
+
+};
 
 /**
  * @export

@@ -5,14 +5,11 @@
 </%def>
 
 <%def name="get_xreport_general(xreport)">\
-<div class="name-icon-value general" ng-click="detailsCtrl.openTab($event)">
-  <h4>
-    <span translate>General</span><span class="glyphicon glyphicon-menu-right"></span>
-  </h4>
-  <div class="name-icon">
-    <span class="glyphicon glyphicon-info-sign"></span>
-    <p translate>General</p>
-  </div>
+      <h3 ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#general"><span translate>Information</span> <span class="glyphicon glyphicon-menu-down"></span></h3>
+        <div class="finfo" id="general">
+              <div class="ficontent">
+                
+
   <span class="detail-text accordion">
 
     % if xreport.get('activities'):
@@ -83,17 +80,17 @@
     % endif
 
     </span>
+             </div>
 </div>
 </%def>
 
 <%def name="get_xreport_participants(xreport)">\
   % if 'users' in xreport['associations'] and xreport['associations']['users']:
-    <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)">
-      <h4><span translate>participants</span><span class="glyphicon glyphicon-menu-right"></span></h4>
-      <div class="name-icon">
-        <span class="icon-user"></span>
-        <p translate>participants</p>
-      </div>
+       <h3 ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#participant"><span translate>participants</span> <span class="glyphicon glyphicon-menu-down"></span></h3>
+        <div class="finfo" id="participant">
+              <div class="ficontent">
+                
+
       <span class="detail-text accordion">
         % if xreport.get('participant_count') :
           <p><span translate>participant_count</span>: <b>${xreport['participant_count']}</b></p>
@@ -115,6 +112,7 @@
 
       </span>
     </div>
+  </div>
   % endif
 </%def>
 

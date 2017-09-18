@@ -16,9 +16,9 @@ app.viewDetailsDirective = function() {
     link: function(scope, el, attrs, ctrl) {
 
       function initGalleries() {
-        ctrl.initSlickGallery_();
         ctrl.initPhotoswipe_();
       }
+
       ctrl.loadImages_(initGalleries);
       ctrl.watchPswpContainer_();
 
@@ -53,7 +53,7 @@ app.module.directive('appViewDetails', app.viewDetailsDirective);
  * @ngInject
  */
 app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
-    appDocument, documentData, imageUrl, discourseUrl, appUrl, appLang) {
+                                     appDocument, documentData, imageUrl, discourseUrl, appUrl, appLang) {
 
   /**
    * @type {app.Document}
@@ -87,6 +87,42 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
   this.api_ = appApi;
 
   /**
+   * @type {boolean}
+   * @export
+   */
+  this.hasHeadband = false;
+
+  /**
+   * @type {boolean}
+   * @export
+   */
+  this.hasVerticalImg = false;
+
+  /**
+   * @type {Array<Object>}
+   * @export
+   */
+  this.comments = [];
+
+  /**
+   * @type {string}
+   * @export
+   */
+  this.headBands = '';
+
+  /**
+   * @type {number}
+   * @private
+   */
+  this.widestCoef_ = -500;
+
+  /**
+   * @type {number}
+   * @private
+   */
+  this.widestImg_ = 0;
+
+  /**
    * @type {string}
    * @private
    */
@@ -109,6 +145,8 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
    * @private
    */
   this.scope_ = $scope;
+
+  this.initHeadband();
 
   this.pswpOptions = {
     tapToClose: true,
@@ -168,6 +206,73 @@ app.ViewDetailsController.prototype.toggleTab = function(tab) {
 
 
 /**
+ *
+ * @export
+ */
+app.ViewDetailsController.prototype.initHeadband = function() {
+  if (this.documentService.document.activities.indexOf('rock_climbing') > -1 ||
+      this.documentService.document.activities.indexOf('mountain_climbing') > -1 ||
+      this.documentService.document.activities.indexOf('ice_climbing') > -1) {
+    this.hasHeadband = false;
+    this.hasVerticalImg = !!this.documentService.document.associations.image;
+  } else {
+    this.hasVerticalImg = false;
+    if (this.documentService.document.associations.images.length == 0) {
+      this.hasHeadband = false;
+    } else if (this.documentService.document.associations.images.length == 1) {
+      this.hasHeadband = true;
+      this.scope_.headBands = this.createImageUrl(this.documentService.document.associations.images[this.widestImg_]['filename'],'BI');
+    } else if (this.documentService.document.associations.images.length > 1) {
+      this.getBestWideImg(0);
+      this.hasHeadband = true;
+    }
+  }
+};
+
+
+/**
+ * get the most wide image
+ * @param {number} index
+ * @return string
+ * @export
+ */
+app.ViewDetailsController.prototype.getBestWideImg = function(index) {
+  this.getPictureDimension(index,this.createImageUrl(this.documentService.document.associations.images[index]['filename'],'MI'),function(index,w,h) {
+    if (this.widestCoef_ <= w / h) {
+      this.widestCoef_ = w / h;
+      this.widestImg_ = index;
+    }
+    if (index == this.documentService.document.associations.images.length - 1 || (this.widestCoef_ > 1 && this.documentService.document.associations.images.length >= 10 && index > 20)) {
+      this.scope_.headBands = this.createImageUrl(this.documentService.document.associations.images[this.widestImg_]['filename'],'BI');
+      this.scope_.$apply();
+    } else {
+      index++;
+      this.getBestWideImg(index);
+    }
+  }.bind(this));
+
+  return {'background-image': 'url(' + this.headBands + ')'};
+};
+
+
+/**
+ * load image
+ * @param {number} index
+ * @param {string} url
+ * @param {Function} callback
+ * @return string
+ * @export
+ */
+app.ViewDetailsController.prototype.getPictureDimension = function(index,url, callback) {
+  var img = new Image();
+  img.src = url;
+  img.onload = function() {
+    callback(index, this.width, this.height);
+  };
+};
+
+
+/**
  * Copied and adapted from http://codepen.io/jeffpannone/pen/GpKOed
  * @private
  */
@@ -193,19 +298,18 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
         title = linkEl.getAttribute('title');
         var image = new Image();
         image['src'] = linkEl.getAttribute('href');
-
         item = { // create slide object
           html: app.utils.createPhotoswipeSlideHTML(image['src'], id.split('-')[1], '#image-'),
           id: id.split('-')[1],
           title: title
-         // TODO: for zoom in animation -> add this when WIDTH & HEIGHT will be returned by API in image properties
-         // w: image.naturalWidth,
-         // h: image.naturalHeight
+          // TODO: for zoom in animation -> add this when WIDTH & HEIGHT will be returned by API in image properties
+          // w: image.naturalWidth,
+          // h: image.naturalHeight
         };
 
         // <img> thumbnail element, retrieving thumbnail url (small img)
         if (linkEl.children.length > 0) {
-         // ADD  item.src = linkEl.getAttribute('href'); when WIDTH & HEIGHT will be returned
+          // ADD  item.src = linkEl.getAttribute('href'); when WIDTH & HEIGHT will be returned
           item.msrc = linkEl.children[0].getAttribute('src');
         }
         item.el = figureEl; // save link to element for getThumbBoundsFn
@@ -304,14 +408,6 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
 
 
 /**
- * @private
- */
-app.ViewDetailsController.prototype.initSlickGallery_ = function() {
-  $('.photos').slick({});
-};
-
-
-/**
  * @export
  */
 app.ViewDetailsController.prototype.getComments = function() {
@@ -319,22 +415,37 @@ app.ViewDetailsController.prototype.getComments = function() {
   if (topic_id === null) {
     return;
   }
-
-  // create DiscourseEmbed script tag. From a discourse tutorial.
-  // https://meta.discourse.org/t/embedding-discourse-comments-via-javascript/31963
-  var s = document.createElement('script');
-  /**
-   * @export
-   * @type {appx.DiscourseEmbedded}
-   */
-  window.DiscourseEmbed = {
-    'discourseUrl': this.discourseUrl_,
-    'topicId': topic_id
-  };
-  s.src = this.discourseUrl_ + 'javascripts/embed.js';
-  document.getElementsByTagName('body')[0].appendChild(s);
+  var document = this.documentService.document;
+  var lang = document.lang;
+  this.api_.readCommentsForum(topic_id,lang).then(function(response) {
+    this.handleCommentsForum_(response);
+  }.bind(this), function() { // Error msg is shown in the api service
+  }.bind(this));
 };
 
+/**
+ * Handles forum processing for comments
+ * @param response
+ * @private
+ */
+app.ViewDetailsController.prototype.handleCommentsForum_ = function(response) {
+  var data = response['data']['post_stream'];
+  if (data !== undefined) {
+    for (var i = 0; i < data['posts'].length; i++) {
+      if (data['posts'][i]['name'] == 'system') {
+        continue;
+      }
+      this.comments.push({'id':data['posts'][i]['id'],
+                          'username':data['posts'][i]['username'],
+                          'avatar_template':data['posts'][i]['avatar_template'].replace('{size}','24'),
+                          'cooked':data['posts'][i]['cooked'].replace(/<a class="mention" href="/g,'<a class="mention" href="' + this.discourseUrl_),
+                          'created_at':data['posts'][i]['created_at'],
+                          'reply_count':data['posts'][i]['reply_count'],
+                          'reply_to_user':data['posts'][i]['reply_to_user']});
+    }
+    this.documentService.document['topic_slug'] = data['posts'][0]['topic_slug'];
+  }
+};
 
 /**
  * @export
@@ -366,12 +477,12 @@ app.ViewDetailsController.prototype.createTopic = function() {
 app.ViewDetailsController.prototype.loadImages_ = function(initGalleries) {
   // prepare document images for slideshow
   var photos = this.documentService.document['associations']['images'];
+
   for (var i in photos) {
     var scope = this.scope_.$new(true);
     var id = 'image-' + photos[i]['document_id'];
     photos[i]['image_id'] = id;
     scope['photo'] = photos[i];
-
     var element = app.utils.createImageSlide(photos[i], this.imageUrl_);
     $('.photos').append(element);
     this.compile_($('#' + id).contents())(scope);
@@ -401,6 +512,8 @@ app.ViewDetailsController.prototype.loadImages_ = function(initGalleries) {
  * @export
  */
 app.ViewDetailsController.prototype.openEmbeddedImage = function(imgUrl, imgId) {
+
+
   $('.showing-info').removeClass('showing-info');
 
   // Replace 'MI' and get the BigImage
@@ -439,7 +552,7 @@ app.ViewDetailsController.prototype.openEmbeddedImage = function(imgUrl, imgId) 
   }
 
   var pswp = new window.PhotoSwipe(pswpElement, window.PhotoSwipeUI_Default, items,
-    $.extend(this.pswpOptions, {index: index}));
+                                   $.extend(this.pswpOptions, {index: index}));
   var lang = this.lang.getLang();
   pswp.listen('beforeChange', function() {
     var id = pswp['currItem']['id'];
@@ -450,6 +563,16 @@ app.ViewDetailsController.prototype.openEmbeddedImage = function(imgUrl, imgId) 
   pswp.init();
 };
 
+
+/**
+ * @param {string} filename
+ * @param {string} suffix
+ * @return {string}
+ * @export
+ */
+app.ViewDetailsController.prototype.createImageUrl = function(filename, suffix) {
+  return this.imageUrl_ + app.utils.createImageUrl(filename, suffix);
+};
 
 /**
  * get the clicked image detailed infos

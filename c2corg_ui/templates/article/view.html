@@ -48,76 +48,81 @@ other_langs, missing_langs = get_lang_lists(article, lang)
 <%block name="share">
   ${generate_share_metadata(article, 'articles')}
 </%block>
+<div ng-cloak>
+<div class="viewdoc">
 
-<header class="view-details-title">
-  <h1 class="routes">
-    <span class="title">${locale['title']}</span>
-    ${show_badge(article, 'article')}
-  </h1>
-</header>
+  <header class="view-title-without-bg">
+    <h1 class="routes">
+      <span class="title">${locale['title']}</span>
+       ${show_badge(article, 'article')}
+    </h1>
+  </header>
+  
+  <section class="view-details-section" app-view-details ng-class="{'row-list' : switchCtrl.showList}">
 
-<section class="view-details-section" app-view-details ng-class="{'row-list' : switchCtrl.showList}">
+    % if version:
+      ${show_archive_data('articles', article, locale, version)}
+    % else:
 
-  % if version:
-    ${show_archive_data('articles', article, locale, version)}
-  % else:
-    ${get_image_gallery()}
-    ${show_other_langs_links('articles', article, other_langs)}
-  % endif
+     <div class="row">
+        <div class="col-xs-12 col-md-4 col-lg-3">
+              ${get_article_general(article)}
+              ## IMAGES
+              % if not version:
+                ${get_image_gallery()}
+                ${show_other_langs_links('articles', article, other_langs)}
+              % endif
 
-  <div class="view-details-informations col-xs-12  informations">
-    <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
-      <span translate>Information</span><span class="glyphicon glyphicon-menu-down"></span>
-    </h3>
-    <section id="document-informations" class="collapse in">
-      ${get_article_general(article)}
-      ${get_article_associated_users(article)}
-      ${get_licence(article)}
-    </section>
-  </div>
+               ${get_article_associated_users(article)}
+              ${get_licence(article)}
+       </div>
+       <div class="col-xs-12 col-md-8 col-lg-9">
+         ${get_document_description(locale, 'article')}
 
-  <div class="description">
-    ${get_document_description(locale, 'article')}
-  </div>
+           % if not version:
+            <div class="row">
+              <div class="col-xs-12"
+                % if not has_associations(article):
+                   ng-show="userCtrl.hasEditRights('articles', {'articleType': '${article['article_type']}', 'authorId': ${article['author']['user_id']}})"
+                % endif
+              >
 
-  % if not version:
-    <div class="view-details-associations col-xs-12 associations" ng-cloak
-      % if not has_associations(article):
-         ng-show="userCtrl.hasEditRights('articles', {'articleType': '${article['article_type']}', 'authorId': ${article['author']['user_id']}})"
-      % endif
-    >
-      <ul class="actions">
-        <li>
-          <app-list-switch type="short"></app-list-switch>
-        </li>
-      </ul>
-      <span class="lead">
-        <div class="add-association" ng-show="userCtrl.auth.isAuthenticated()
-          % if article['article_type'] == 'personal':
-            && userCtrl.hasEditRights('articles', {'articleType': '${article['article_type']}', 'authorId': ${article['author']['user_id']}})
-          % endif
-        ">
-          <label translate>Add association</label>
-          <app-add-association parent-doctype="articles" parent-id="${article_id}" dataset="wrocb"></app-add-association>
-        </div>
-        <section>
-          ${show_associated_waypoints(article)}
-          ${show_associated_routes(article)}
-          ${show_associated_articles(article)}
-          ${show_associated_books(article)}
-          ${show_associated_xreports(article)}
-          ${show_associated_outings(article)}
-        </section>
-      </span>
+                <span class="lead" ng-cloak>
+                  <div class="add-association" ng-show="userCtrl.auth.isAuthenticated()
+                    % if article['article_type'] == 'personal':
+                      && userCtrl.hasEditRights('articles', {'articleType': '${article['article_type']}', 'authorId': ${article['author']['user_id']}})
+                    % endif
+                  ">
+                    <label translate>Add association</label>
+                    <app-add-association parent-doctype="articles" parent-id="${article_id}" dataset="wrocb"></app-add-association>
+                  </div>
+                  <section>
+                    ${show_associated_waypoints(article)}
+                    ${show_associated_routes(article)}
+                    ${show_associated_articles(article)}
+                    ${show_associated_books(article)}
+                    ${show_associated_xreports(article)}
+                    ${show_associated_outings(article)}
+
+                    ${get_comments()}
+                  </section>
+                </span>
+              </div>
+
+
+
+              ${show_float_buttons(article, lang, other_langs, missing_langs)}
+            </div>
+            % endif
+
+       </div>
     </div>
 
-    ${get_comments()}
+    % endif
 
-    ${show_float_buttons(article, lang, other_langs, missing_langs)}
-  % endif
-</section>
-
-<div class="text-center">
+  </section>
+</div>
+<div class="text-center viewdoc-bottom">
   <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);">&nbsp;<span class="glyphicon glyphicon-menu-up"></span></button>
 </div>
 
@@ -139,3 +144,4 @@ other_langs, missing_langs = get_lang_lists(article, lang)
     };
   </script>
 % endif
+</div>

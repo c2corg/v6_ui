@@ -1,12 +1,543 @@
 @import "variables.less";
 
-.view-details-associations .section,  .view-details-informations, #document-informations,
+
+
+.finfo {
+  margin-bottom: 20px;
+  clear: both;
+}
+
+
+
+.ficontent, .fpcontent {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -moz-box-align: center;
+  box-align: center;
+  align-items: center;
+  background-color: #fff;
+  height: 60px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(0,0,0,.12);
+  .row {
+    width: 100%;
+    &.nomargin {
+      margin: 0px;
+    }
+    @media @phone {
+      width: auto;
+    }
+  }
+  h3,p {
+    clear:none;
+  }
+}
+
+.ficontent {
+  height: auto;
+  padding: 15px;
+  h4 { 
+    [class*="icon-"] {
+      color: #FFAA45;
+      font-weight: bold;
+      font-size: 18px;
+    }
+  }
+
+  &.noflex {
+    display: block;
+  }
+  &.max {
+    height: 100%;
+    padding: 15px;
+  }
+}
+.viewdoc-bottom {
+  background: #f1f1f1;
+}
+.viewdoc {
+
+    background: @content-color;
+
+  .editing {
+    .clear {
+      clear: both;
+    }
+    .group-route {
+      background: #f1f1f1;
+      width: 100%;
+
+      margin: 0 20px 10px 20px;
+       .associated-documents{
+        display: flex;
+        flex-wrap: wrap;
+      }
+    }
+
+        .associated-documents{
+          width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+          .list-item{
+            position: relative;
+          }
+      }
+  }
+
+  .create-edit-document {
+    h1 {
+      margin-top:0px;
+      padding-top: 25px;
+    }
+    .section .content .associated-documents {
+      border: none;
+      border-radius: none;
+
+    }
+    .associated-section {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+      .principal {
+        text-align: center;
+      }
+      .glyphicon-trash {
+        right: -12px;
+        top: -12px;
+      }
+    }
+
+    .group-route {
+      .associated-section {
+        margin-bottom: 0px;
+      }
+
+    }
+  }
+  &.viewroute .area {
+    display: none;
+  }
+  .important_message {
+    border: 2px solid #f93;
+  }
+  .important_message, .warning_message {
+    clear: both;
+    display: inline-block;
+    border-radius: 8px;
+    margin: 0 0 5px 0;
+    min-height: 25px;
+    text-align: justify;
+    vertical-align: middle;
+    border-collapse: collapse;
+    padding: 10px;
+    span {
+      margin-right: 5px;
+    }
+  }
+  .emoji {
+    width: 20px;
+  }
+  app-feed {
+    .feed-cr {
+      display: none;
+    }
+    .feed-cl {
+      width: 100%;
+    }
+  }
+  app-activity-filter {
+    text-align: center;
+    .route-activities {
+      align-content: center;
+      justify-content: center;
+      [class^="icon-"] {
+        font-size: 2.5em;
+      }
+    }
+  }
+  #associated-routes {
+    clear: both;
+  }
+  .document-weather {
+    margin-bottom: 10px;
+  }
+  .fleft {
+    align-items: baseline;
+  }
+
+  .toforum {
+    text-align: center;
+    margin-top: 20px;
+  }
+  .ficontent {
+
+    .no-thread {
+      text-align: center;
+
+    }
+
+    .ctxt {
+      width: 100%;
+    }
+    .fportrait { 
+      margin: 0 16px 0 0;
+    }
+    .ctxt {
+      .parent_top {
+        .flex();
+        justify-content: space-between;
+        margin-bottom: 10px;
+        .fdate {
+          color: #aaa;
+          font-size: 0.857em;
+
+        }
+        .fauthor {
+          max-width: 50%;
+          font-weight: bold;
+          a {
+            color: #000;
+          }
+        }
+      }
+    }
+  }
+  .detail-text  {
+    .route-activity {
+      color: #A9D361;
+      font-size: 30px;
+    }
+  }
+
+  .post {
+    .value {
+      color:#777;
+      font-weight: normal;
+    }
+
+  }
+  app-simple-search {
+    border-radius: 0px;
+    background: #A9D361;
+    .form-control{
+      border-radius: 0px;
+    }
+  }
+  app-add-association app-simple-search .search {
+    border-bottom: 1px solid rgba(0,0,0,.12);
+  }
+  app-add-association app-simple-search .glyphicon-search {
+    font-size: 1.0em;
+  }
+
+  .glyphicon-menu-down{
+    margin-left: 10px;
+  }
+
+  .lead {
+    section {
+      clear:both;
+    }
+  }
+  .row-list.view-details-section { 
+    .associated-documents {
+      margin-bottom: 20px;
+      margin-top: 6px;
+      clear: both;
+      &.area {
+        .list-item {
+          a {
+            text-align:  center;
+          }
+        }
+      }
+    }
+  }
+
+  .row-list .list-item.new-outing {
+    margin-top: 20px;  
+  }
+  .row-list {
+
+    .orange-btn.pull-right, app-list-switch.pull-right {
+      margin-top: -5px;
+      margin-bottom: 5px;
+    }
+
+    .list-item {
+      margin: 0px;
+    }
+
+  }
+
+  .orange-btn .glyphicon {
+    margin-right: 0px;
+  }
+
+  a {
+    text-decoration: none;
+  }
+  .creative-commons {
+    font-size: 1.5em;
+  }
+  .orientation-svg {
+    height: 110px;
+  }
+  .ficontent, .fpcontent {
+    h3 {
+      clear: none;
+    }
+  }
+  .value{
+    color: #387ef5;
+    word-wrap: break-word;
+  }
+  .value-title {
+    font-weight: normal;
+  }
+
+  h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    clear: both;
+    @media @phone {
+
+      text-align: center;
+      width: 100%;
+
+    }
+  }
+
+  .view-details-map{
+    margin-bottom: 15px;
+    padding-top: 75%;
+    width: 100%;
+    position: relative;
+    display: block;
+
+    .map {
+      height: 100%;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+  }
+  .moz {
+    display: flex;
+    flex-flow: row wrap;
+    padding: 0;
+    background: transparent;
+    border-bottom: none;
+
+    app-slide-info {
+      display: none;
+    }
+    figure {
+      width: 33.33%;
+   
+
+      @media @desktop {
+        width: 50%;
+      }
+    }
+
+    .fullimg {
+      width: 100%;
+    }
+    a {
+      width: 100%;
+      padding: 1px;
+      display: block;
+      img {
+        width: 100%;
+      }
+    }
+  }
+
+  header.view-title-with-bg , header.view-title-without-bg {
+    position: relative;
+    height: 500px;
+
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @media @desktop-little {
+      height: 350px;
+    }
+    .outing-date {
+      font-size: 0.7em;
+      color: #fff;
+      text-align: center;
+      margin-top: 10px;
+    }
+    .view-image-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      overflow: hidden;
+      height: 500px;
+      width: 100%;
+
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center bottom;
+      @media @desktop-little {
+        height: 350px;
+      }
+      .view-filter-bg {
+        background-color: rgba(0,0,0,0.4);
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transition:background-color 0.2s ease;
+
+      }
+      .view-filter-bg:hover {
+        background-color: transparent;
+      }
+
+    }
+
+    h1 {
+      position: relative;
+      text-align: center;
+      color: #fff;
+      font-size: 2.8em;
+      .icons-header {
+        margin: 10px 0 0;
+        
+        .route-activity,   .waypoint-type {
+          color: #FFAA45;
+          background: #fff;
+          border-radius: 20px;
+        }
+
+      }
+
+      .badge {
+        font-size: .5em;
+        margin-right: 10px;
+        margin-left: 10px;
+        padding-bottom: 6px;
+        margin-top: 5px;
+        cursor: pointer;
+
+        &.route, &.article, &.book, &.image, &.outing, &.outing, &.xreport, &.waypoint, &.area {
+
+          a {
+            .glyphicon {
+              color: #fff;
+            }
+            color: #fff;
+            text-decoration: none;
+          }
+        }
+
+        &.route {
+          background-color: @brand-info;
+        }
+        &.article {
+          background-color: @darkcyan;
+        }
+        &.book {
+          background-color: @plum;
+        }
+        &.image {
+          background-color: @darkolivegreen;
+        }
+        &.outing {
+          background-color: @indigo;
+        }
+        &.xreport {
+          background-color: @tomato;
+        }
+        &.waypoint {
+          background-color: @bright-green;
+        }
+      }
+    }
+
+    view-details-section {
+      .view-details-photos  {
+        width: 100%;
+        margin: 0;
+      }
+    }
+
+  }
+
+  header.view-title-without-bg {
+    height: auto;
+    padding-top: 30px;
+    h1 {
+      position: relative;
+      color: #000;
+      top:auto;
+      .icons-header {
+        display: none;
+      }
+
+      .outing-date {
+        color: #6D6D6D;
+      }
+
+    }
+
+  }
+
+  .associated-documents {
+    .post {
+      .infoa {
+        font-size: 12px;
+      }
+      .parent-infop-first
+      {
+        font-size: 13px;
+      }
+
+      .parent-infop .parent-bubble .bubble {
+        font-size: 13px;
+      }
+    }
+
+    &.area {
+      .list-item {
+
+        text-align:  center;
+        span {
+          display: block;
+        }
+
+      }
+    }
+
+  }
+  .new-outing {
+    flex-direction: column;
+  }
+
+  @media @phone {
+    .view-details-section {
+      padding: 0px;
+    }
+  }
+
+} 
+
 .view-details-associations .associated-documents {
   display: flex;
   &.collapse:not(.in) {
     display: none;
   }
-  flex-flow: wrap row;
+  flex-flow: wrap column;
 }
 
 .name-icon {
@@ -134,8 +665,12 @@
     .route-activity, .waypoint-type {
       color: @C2C-orange;
     }
+    @media @desktop {
+      font-size: 2.8em;
+    }
+
     @media @big {
-      font-size: 4em;
+      font-size: 3em;
     }
     @media @phone {
       font-size: 2em;
@@ -155,6 +690,7 @@
   display: inline-block;
   margin-left: 3%;
   width: 91%;
+  margin-top: 20px;
   padding-bottom: 200px;
 
   @media @phone {
@@ -165,16 +701,13 @@
     margin-left: 0;
     margin-right: 0;
   }
-  @media @big {
-    margin-left: 4%;
-    width: 89%;
-  }
+
 
   .view-details-photos {
-    width: 90% !important;
-    margin-right: 5%;
-    padding: 10px 0 10px 0;
-    height: 170px;
+    width: 100% !important;
+    margin-right: 0;
+    padding: 0;
+
     @media @phone {
       width: 88% !important;
       margin-right: 6%;
@@ -190,26 +723,6 @@
       }
       app-slide-info {
         display: none;
-      }
-    }
-    .slick-prev, .slick-next {
-      width: 40px;
-      height: 100%;
-      &:before {
-        font-size: 30px;
-        color: @C2C-orange;
-      }
-    }
-    .slick-prev {
-      left: -40px;
-      @media @phone {
-        left: -35px;
-      }
-    }
-    .slick-next {
-      right: -40px;
-      @media @phone {
-        right: -35px;
       }
     }
   }
@@ -383,7 +896,7 @@
       @media @phone {
         font-size: 2em;
       }
-      /*red strike through*/
+      
       &:after {
         content: "";
         border-top: 3px solid #ea3636;
@@ -503,7 +1016,6 @@
     }
 
     .orientation-svg {
-      height: 110px;
       width: auto;
       margin-left: 10%;
     }
@@ -610,7 +1122,7 @@
   .other-langs {
     clear: both;
   }
-} /*.view-details-section*/
+} 
 
 .view-details-map {
   height: 230px!important;
@@ -649,7 +1161,7 @@
   color: #626262;
   border: 1px solid #D8D8D8;
   border-left: 0.5em solid @bright-green;
-  padding: 5px 15px 5px 15px;
+  padding: 10px 15px 5px 15px;
   background-color: rgba(168, 168, 168, 0.07);
   margin: 10px 0 10px 0;
   box-shadow: 0 0 2px rgba(0,0,0,0.2);
@@ -677,8 +1189,8 @@ app-add-association {
 
     }
     .glyphicon-search {
-      margin-top: 4px;
-      font-size: 1.5em;
+      font-size: 1.0em;
+      margin-top: 7px;
     }
     .tt-suggestion {
       border-radius: 0;
@@ -691,7 +1203,7 @@ app-add-association {
 
 }
 
-.view-details-description, .view-details-other,  .view-details-info, .view-details-associations, .view-details-photos, .view-details-informations {
+.view-details-description, .view-details-other,  .view-details-info, .view-details-associations, .view-details-photos, .view-details-informations , .list-green {
   will-change: height;
   ul li {
     list-style: none;
@@ -709,7 +1221,14 @@ app-add-association {
     float: left;
   }
 }
-
+.list-green {
+  ul {
+    margin-bottom: 0px;
+  }
+}
+.parent-scroll {
+  background: @content-color;
+}
 .view-details-associations  {
   background: #CECECE;
   ul.actions {
@@ -747,7 +1266,7 @@ app-add-association {
   float: right;
   z-index: 3;
   margin-bottom: -18%;
-  top: 45px;
+  top: -45px;
   background: #FFFB80; /*yellow*/
   -webkit-transform: rotate(4deg);
   -moz-transform: rotate(4deg);
@@ -791,6 +1310,10 @@ app-add-association {
   img.image {
     max-width: 100%;
   }
+  img.image.full-image {
+    margin-bottom: 20px;  
+  }
+
   @media @phone {
     min-height:  50px;
     margin-bottom: -200px;
@@ -804,7 +1327,7 @@ app-add-association {
     border-radius: 3px;
     padding: 15px;
     background-color: rgba(234, 234, 234, 0.37);
-    box-shadow: 0 3px 6px rgba(0,0,0,.25);
+    /* box-shadow: 0 3px 6px rgba(0,0,0,.25); */
     cursor: pointer;
 
     @media @phone {
@@ -921,6 +1444,10 @@ app-add-association {
       min-width: 60px;
       padding: 1px 6px;
       vertical-align: top;
+      @media @phone {
+        min-width: 0px;
+        padding: 1px 4px;
+      }
     }
   }
 }
