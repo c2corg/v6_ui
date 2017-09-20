@@ -44,25 +44,6 @@ from c2corg_common.attributes import activities
     </div>
 
     <div class="feed-cr">
-      <div class="info" ng-controller="appForumFeedController as forumCtrl" ng-cloak>
-        <h3 translate>Last forum topics</h3>
-        <h4 class="text-danger" translate ng-show="forumCtrl.errorForum">Sorry, there was an error while getting the forum data.</h4>
-        <div class="fpost" ng-repeat="post in forumCtrl.topics track by post.id" ng-if="::forumCtrl.topics.length">
-          <a href="${discourse_url}t/{{::post['slug']}}/{{::post['id']}}" title="{{::post['title']}}">
-            <div class="fpcontent">
-              <div class="fleft">
-                <div class="fportrait">
-                  <img ng-src="${discourse_url}{{::post['avatar_template']}}">
-                </div>
-                <div class="ftxt">
-                  <div class="fauthor">{{::post['last_poster_username']}}</div>
-                  <div class="ftitle"><span class="title">{{::post['title']}}</span> - {{::post['last_posted_at'] | amUtc | amLocal | amTimeAgo}}</div>
-                </div>
-              </div>
-            </div>
-          </a>
-        </div>
-      </div>
       <div class="info">
         <h3 translate>Mobile application</h3>
         <div class="finfo">
@@ -85,6 +66,26 @@ from c2corg_common.attributes import activities
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      
+      <div class="info" ng-controller="appForumFeedController as forumCtrl" ng-cloak>
+        <h3 translate>Last forum topics</h3>
+        <h4 class="text-danger" translate ng-show="forumCtrl.errorForum">Sorry, there was an error while getting the forum data.</h4>
+        <div class="fpost" ng-repeat="post in forumCtrl.topics track by post.id" ng-if="::forumCtrl.topics.length">
+          <a href="${discourse_url}t/{{::post['slug']}}/{{::post['id']}}" title="{{::post['title']}}">
+            <div class="fpcontent">
+              <div class="fleft">
+                <div class="fportrait">
+                  <img ng-src="${discourse_url}{{::post['avatar_template']}}">
+                </div>
+                <div class="ftxt">
+                  <div class="fauthor">{{::post['last_poster_username']}}</div>
+                  <div class="ftitle"><span class="title">{{::post['title']}}</span> - {{::post['last_posted_at'] | amUtc | amLocal | amTimeAgo}}</div>
+                </div>
+              </div>
+            </div>
+          </a>
         </div>
       </div>
     </div>

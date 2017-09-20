@@ -121,13 +121,13 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
               % endif
             % endif
             % if not version:
+              ${display_app_smartphone_info('outing')}
+            % endif
+            % if not version:
               ${get_image_gallery()}
               ${show_other_langs_links('outings', outing, other_langs)}
             % endif
             ${get_licence(outing)}
-            % if not version:
-              ${display_app_smartphone_info('outing')}
-            % endif
          </div>
          <div class="col-xs-12 col-md-8 col-lg-9">
            <section id="document-informations" class="collapse in">

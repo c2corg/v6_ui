@@ -140,6 +140,12 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
    */
   this.discourseUrl_ = discourseUrl;
 
+    /**
+    * @type {boolean}
+    * @export
+    */
+  this.showMobileBlock = /** @type {boolean} */ (JSON.parse(window.localStorage.getItem('showMobileBlock') || 'true'));
+
   /**
    * @type {!angular.Scope}
    * @private
@@ -202,6 +208,16 @@ app.ViewDetailsController.prototype.toggleTab = function(tab) {
       $(tab.target).closest('.name-icon-value').find('.accordion').slideToggle();
     }
   }
+};
+
+
+/**
+ * hide block with info for the mobile app
+ * @export
+ */
+app.ViewDetailsController.prototype.toggleMobileBlock = function() {
+  this.showMobileBlock = !this.showMobileBlock;
+  window.localStorage.setItem('showMobileBlock', JSON.stringify(this.showMobileBlock));
 };
 
 

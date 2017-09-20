@@ -519,7 +519,8 @@
 </%def>
 
 <%def name="display_app_smartphone_info(doctype)">\
-  <div class="finfo">
+  <div class="finfo" ng-show='detailsCtrl.showMobileBlock'>
+    <h3><span translate>Application mobile</span> <span class="glyphicon glyphicon-remove pull-right" ng-click='detailsCtrl.toggleMobileBlock()'></span></h3>
     <div class="ficontent collapse in max">
       % if doctype == 'route':
         <p translate>View off-line all information from this route on the Camptocamp mobile application.</p>

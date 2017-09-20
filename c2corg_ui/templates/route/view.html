@@ -123,15 +123,15 @@ other_langs, missing_langs = get_lang_lists(route, lang)
           % endif
           <app-map class="view-details-map"></app-map>
           % if not version:
+            ${display_app_smartphone_info('route')}
+          % endif
+          % if not version:
             ${show_associated_waypoints(route)}
             ${get_image_gallery()}
             ${show_other_langs_links('routes', route, other_langs)}
           % endif
           ${get_route_associated_maps(route)}
           ${get_licence(route)}
-          % if not version:
-            ${display_app_smartphone_info('route')}
-          % endif
         </div>
         <div class="col-xs-12 col-md-8 col-lg-9">
           <section id="document-informations" class="collapse in">
