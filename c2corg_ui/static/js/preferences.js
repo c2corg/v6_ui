@@ -52,6 +52,12 @@ app.PreferencesController = function($scope, appAuthentication, appApi,
   this.activities = [];
 
   /**
+   * @type {Array.<string>}
+   * @export
+   */
+  this.langs = [];
+
+  /**
    * @type {Array.<appx.Area>}
    * @export
    */
@@ -67,6 +73,7 @@ app.PreferencesController = function($scope, appAuthentication, appApi,
     this.api_.readPreferences().then(function(response) {
       var data = /** @type {appx.UserPreferences} */ (response['data']);
       this.activities = data.activities;
+      this.langs = data.langs;
       this.areas = data.areas;
       this.followed_only = data.followed_only;
 
@@ -95,6 +102,22 @@ app.PreferencesController.prototype.updateActivities = function(activity) {
     });
   } else {
     this.activities.push(activity);
+  }
+  this.save_();
+};
+
+
+/**
+ * @param {string} lang
+ * @export
+ */
+app.PreferencesController.prototype.updateLangs = function(lang) {
+  if (this.langs.indexOf(lang) > -1) {
+    this.langs = this.langs.filter(function(item) {
+      return item !== lang;
+    });
+  } else {
+    this.langs.push(lang);
   }
   this.save_();
 };
@@ -134,6 +157,7 @@ app.PreferencesController.prototype.removeArea = function(id) {
 app.PreferencesController.prototype.save_ = function() {
   var data = {
     'activities': this.activities,
+    'langs': this.langs,
     'areas': this.areas,
     'followed_only': this.followed_only
   };
