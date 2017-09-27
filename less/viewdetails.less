@@ -917,12 +917,13 @@ app-add-association {
   }
 
   tr {
+    padding: 0.2em 0;
+    
     td {
-      padding: 0.2em 0.6em 0.2em 0;
       vertical-align: top;
       
-      &:last-child {
-        padding-right: 0;
+      &:not(:last-child) {
+        padding-right: 0.6em;
       }
     }
     
@@ -934,11 +935,6 @@ app-add-association {
       
       &:last-child {
         border-bottom: 1px solid #d0d0d0;
-      }
-      
-      td {
-        padding-top: 0;
-        padding-bottom: 0;
       }
     }
   }
