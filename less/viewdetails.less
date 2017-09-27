@@ -910,7 +910,7 @@ app-add-association {
 }
 
 .ltag {
-  margin: 10px;
+  margin: 0.5em 0;
 
   .pitch {
     font-weight: bold
@@ -918,9 +918,28 @@ app-add-association {
 
   tr {
     td {
-      min-width: 60px;
-      padding: 1px 6px;
+      padding: 0.2em 0.6em 0.2em 0;
       vertical-align: top;
+      
+      &:last-child {
+        padding-right: 0;
+      }
+    }
+    
+    @media @phone {
+      display: flex;
+      flex-flow: row wrap;
+      padding: 0.4em 0 0.5em;
+      border-top: 1px solid #d0d0d0;
+      
+      &:last-child {
+        border-bottom: 1px solid #d0d0d0;
+      }
+      
+      td {
+        padding-top: 0;
+        padding-bottom: 0;
+      }
     }
   }
 }
