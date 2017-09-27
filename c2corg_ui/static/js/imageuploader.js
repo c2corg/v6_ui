@@ -303,12 +303,14 @@ app.ImageUploaderController.prototype.save = function() {
     $('.img-container').each(function(i) {
       var id = imageIds[i]['document_id'];
       images[i]['image_id'] = 'image-' + id;
+      var element = app.utils.createImageSlide(images[i],this.imageUrl_);
+      $('.photos').append(element);
 
       var scope = this.scope_.$new(true);
       scope['photo'] = images[i];
       scope['photo']['image_id'] = 'image-' + id;
       this.documentService.document.associations['images'].push(scope['photo']);
-      this.compile_($('#image-' + id).contents())(scope); // compile the figure thumbnail with <app-slide-info>c
+      this.compile_($('#image-' + id).contents())(scope); // compile the figure thumbnail with <app-slide-info>
 
     }.bind(this));
 
