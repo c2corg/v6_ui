@@ -36,3 +36,8 @@ patch:
         patched: '2017-05-26T01:35:05.261Z'
     - closure-util > send > debug > ms:
         patched: '2017-05-26T01:35:05.261Z'
+  'npm:debug:20170905':
+    - closure-util > send > debug:
+        patched: '2017-09-29T01:35:08.194Z'
+    - closure-util > socket.io > socket.io-client > debug:
+        patched: '2017-09-29T01:35:08.194Z'
