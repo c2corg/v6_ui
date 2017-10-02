@@ -61,10 +61,10 @@
           </div>
           <div class="text-bubble inlist">
             <a ng-href="/profiles/{{::doc['author']['user_id']}}/{{::doc['locales'][0]['lang']}}"
-               title="{{::doc['author']['name']}}" ng-click="$event.stopPropagation()">{{::doc['author']['name']}}</a> 
+               title="{{::doc['author']['name']}}" ng-click="$event.stopPropagation()">{{::doc['author']['name']}}</a>
           </div>
         </div>
-        <div class="group-infop">
+        <div class="group-infop elevation_max"">
           <div class="parent-bubble" ng-if="doc['elevation_max']">
             <div class="bubble" uib-tooltip="{{'elevation_max'| translate}}" tooltip-append-to-body="true">
               <span class="value-title glyphicon glyphicon-sort-by-attributes rotate-180"></span>
@@ -74,7 +74,7 @@
             {{::doc['elevation_max']}} m
           </div>
         </div>
-        <div class="group-infop">
+        <div class="group-infop height_diff_up">
 
           <div class="parent-bubble" ng-if="doc['height_diff_up']">
             <div class="bubble" uib-tooltip="{{'height_diff_up'| translate}}">
@@ -85,7 +85,7 @@
             {{::doc['height_diff_up']}} m
           </div>
         </div>
-        <div class="group-infop">
+        <div class="group-infop height_diff_difficulties">
           <div class="parent-bubble" ng-if="doc['document']['height_diff_difficulties']">
             <div class="bubble" uib-tooltip="{{'height_diff_difficulties'| translate}}" tooltip-append-to-body="true">
               <span class="value-title glyphicon glyphicon-resize-vertical"></span>
@@ -102,7 +102,7 @@
     <div class="infop-bar">
       <div class="parent-activity">
         <div class="parent-bubble" ng-repeat="activity in doc.activities">
-          <a href="#" class="shcom" uib-tooltip="{{activity | translate}}"> 
+          <a href="#" class="shcom" uib-tooltip="{{activity | translate}}">
             <div class="bubble">
               <span class="route-activity icon-{{::activity}}"></span>
             </div>

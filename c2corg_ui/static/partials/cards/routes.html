@@ -35,9 +35,9 @@
                class="rating ng-scope" tooltip-append-to-body="true">
             <span class="value">{{::val}}</span>
           </div>
-        </div> 
+        </div>
       </div>
-      <div class="group-infop">
+      <div class="group-infop elevation_max">
         <div class="parent-bubble" ng-if="doc['elevation_max']">
           <div class="bubble" uib-tooltip="{{'elevation_max'| translate}}: {{::doc['elevation_max']}} m"
                tooltip-append-to-body="true">
@@ -48,7 +48,7 @@
           {{::doc['elevation_max']}} m
         </div>
       </div>
-      <div class="group-infop">
+      <div class="group-infop height_diff_up">
         <div class="parent-bubble" ng-if="doc['height_diff_up']">
           <div class="bubble" uib-tooltip="{{'height_diff_up'| translate}}: {{::doc['height_diff_up']}} m">
             <span class="icon-height_diff"></span>
@@ -58,7 +58,7 @@
           {{::doc['height_diff_up']}} m
         </div>
       </div>
-      <div class="group-infop">
+      <div class="group-infop height_diff_difficulties">
         <div class="parent-bubble" ng-if="doc['height_diff_difficulties']">
           <div class="bubble" uib-tooltip="{{'height_diff_difficulties'| translate}}: {{::doc['height_diff_difficulties']}} m"
                tooltip-append-to-body="true">
