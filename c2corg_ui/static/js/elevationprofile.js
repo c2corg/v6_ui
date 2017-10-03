@@ -77,6 +77,7 @@ app.ElevationProfileController = function(
            feature.geometry.type === 'MultiLineString';
   });
   if (!lines) {
+    $('#elevation-profile-title').remove();
     $('#elevation-profile').closest('.finfo').remove();
     return;
   }
@@ -129,6 +130,7 @@ app.ElevationProfileController = function(
       return coord.ele > 0;
     })
   ) {
+    $('#elevation-profile-title').remove();
     $('#elevation-profile').closest('.finfo').remove();
     return;
   }

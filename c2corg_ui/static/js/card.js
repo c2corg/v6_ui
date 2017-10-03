@@ -186,14 +186,14 @@ app.CardController.prototype.showArea = function(areas) {
       orderedAreas[type].push(areas[i]['locales'][0]['title']);
     }
     var sortedAreas = [];
-    if (orderedAreas['country'].length) {
-      sortedAreas = sortedAreas.concat(orderedAreas['country']);
+    if (orderedAreas['range'].length) {
+      sortedAreas = sortedAreas.concat(orderedAreas['range']);
     }
     if (orderedAreas['admin_limits'].length) {
       sortedAreas = sortedAreas.concat(orderedAreas['admin_limits']);
     }
-    if (orderedAreas['range'].length) {
-      sortedAreas = sortedAreas.concat(orderedAreas['range']);
+    if (orderedAreas['country'].length) {
+      sortedAreas = sortedAreas.concat(orderedAreas['country']);
     }
     return sortedAreas.join(' - ');
   }
