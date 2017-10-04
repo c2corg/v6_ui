@@ -15,7 +15,7 @@
     <h3 ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#licence"><span translate>Licence</span> <span class="glyphicon glyphicon-menu-down"></span></h3>
         <div class="finfo" id="licence">
               <div class="ficontent">
-  
+
         <span class="detail-text accordion">
           <article class="value">
             % if personal:
@@ -384,7 +384,7 @@
   <section ng-show="${associations}.length > 0">
     <h3 class="show-phone pull-left" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-waypoints-${type}">
       <span x-translate>Associated ${type}</span><span class="glyphicon glyphicon-menu-down"></span>
-   
+
     </h3>
     % if type == 'waypoints':
     <app-list-switch class="pull-right"></app-list-switch>
@@ -438,11 +438,11 @@
         <span translate>Associated outings</span>
       % endif
       <span class="glyphicon glyphicon-menu-down"></span>
-      
+
     </h3><app-list-switch class="pull-right"></app-list-switch>
-    % if document['doctype'] == 'routes':   
+    % if document['doctype'] == 'routes':
           <a protected-url-btn
-             url="${request.route_path('outings_add') + '#r=' + str(document['document_id'])}">
+             url="${request.route_path('outings_add') + '#r=' + str(document['document_id'])}" class="center-mobile">
             <button class="btn btn-default orange-btn pull-right"><span class="glyphicon glyphicon-plus"></span> <span translate>add an outing</span></button>
           </a>
       % endif
@@ -455,17 +455,17 @@
       </div>
 
         <div class="list-item vertical-align new-outing" >
-    
+
         % if isRecentOutings and total > 0:
-          
+
         <%
             fragment = '{0}={1}'.format(document['type'], document['document_id'])
         %>
-    
+
           <a class="vertical-align" ng-href="${request.route_path('outings_index')}#${fragment}">
             <button class="gray-btn btn show-more" translate>show all</button>
           </a>
-  
+
       % endif
       </div>
       ${generate_empty_list_items(5)}
@@ -551,7 +551,7 @@
     </div>
   </div>
 </%def>
-    
+
 <%def name="get_document_description(locale, doctype, title=None)">\
   % if locale.get('summary') or locale.get('description'):
       % if doctype not in ['article', 'profile']:
@@ -564,8 +564,8 @@
           <span class="glyphicon glyphicon-menu-down"></span>
         </h3>
       % endif
-           <div class="finfo">
-              <div class="ficontent collapse max in" aria-expanded="true">
+           <div class="finfo" aria-expanded="true" id="desc_${doctype}">
+              <div class="ficontent collapse max in">
           % if locale.get('summary'):
             % if locale.get('description'):
               <summary class="document-summary">
@@ -918,7 +918,7 @@
           </div>
           % endif
         </div>
-                
+
         <div ng-if="detailsCtrl.comments.length > 0">
           <div  class="fpost" ng-repeat="post in detailsCtrl.comments track by post.id" >
             <div class="ficontent max">
@@ -931,10 +931,10 @@
                   <div class="comment" ng-bind-html="::post['cooked']"></div>
                 </div>
               </div>
-            </div> 
+            </div>
           </div>
-          <div class="toforum"><a href="https://forum.camptocamp.org/t/{{::detailsCtrl.documentService.document['topic_slug']}}/{{::detailsCtrl.documentService.document['topic_id']}}/{{::detailsCtrl.documentService.document['last_post_number']}}" class="btn btn-primary" translate>Continue the discussion</a></div> 
-        </div>    
+          <div class="toforum"><a href="https://forum.camptocamp.org/t/{{::detailsCtrl.documentService.document['topic_slug']}}/{{::detailsCtrl.documentService.document['topic_id']}}/{{::detailsCtrl.documentService.document['last_post_number']}}" class="btn btn-primary" translate>Continue the discussion</a></div>
+        </div>
     </div>
 </%def>
 

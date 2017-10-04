@@ -296,6 +296,7 @@
   .ficontent, .fpcontent {
     h3 {
       clear: none;
+      text-align: left;
     }
   }
   .value{
@@ -532,7 +533,8 @@
 
   @media @phone {
     .view-details-section {
-      padding: 0px;
+      padding: 0px 0px 70px 0;
+      background: #f1f1f1;
     }
   }
 
@@ -1313,6 +1315,19 @@ app-add-association {
   }
 }
 .view-details-section {
+
+.center-mobile {
+  @media @phone {
+    text-align: center;
+    width: 100%;
+    display: block;
+  }
+  .pull-right {
+    float: none !important;
+  }
+}
+
+
   img.image {
     max-width: 100%;
   }
