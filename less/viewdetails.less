@@ -1454,20 +1454,33 @@ app-add-association {
 }
 
 .ltag {
-  margin: 10px;
+  margin: 0.5em 0;
 
   .pitch {
     font-weight: bold
   }
 
   tr {
+   padding: 0.2em 0;
+
     td {
-      min-width: 60px;
-      padding: 1px 6px;
       vertical-align: top;
-      @media @phone {
-        min-width: 0px;
-        padding: 1px 4px;
+      word-wrap: normal;
+      word-break: normal;
+
+      &:not(:last-child) {
+        padding-right: 0.6em;
+      }
+    }
+
+    @media @phone {
+      display: flex;
+      flex-flow: row wrap;
+      padding: 0.4em 0 0.5em;
+      border-top: 1px solid #d0d0d0;
+
+      &:last-child {
+        border-bottom: 1px solid #d0d0d0;
       }
     }
   }
