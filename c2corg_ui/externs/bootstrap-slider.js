@@ -16,7 +16,8 @@ var bootstrapSliderParameters;
 
 
 /**
- * @param {bootstrapSliderParameters} arg
+ * @param {bootstrapSliderParameters | string} arg
+ * @param {*=} opt_value
  * @return {!jQuery}
  */
-$.prototype.slider = function(arg) {};
+$.prototype.slider = function(arg, opt_value) {};

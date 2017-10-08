@@ -222,7 +222,7 @@ app.SliderController.prototype.handleRangeChange_ = function() {
  */
 app.SliderController.prototype.handleClear_ = function() {
   this.updateMinMax_(this.boundaries);
-  // FIXME make sure the slider handles are reset too
+  $(this.element_).find('.range-between').slider('setValue', this.boundaries);
 };
 
 
