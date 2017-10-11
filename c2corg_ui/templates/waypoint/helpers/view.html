@@ -4,7 +4,7 @@
 ## MAPSINFO
 <%def name="get_waypoint_maps_info(waypoint)">\
   % if waypoint.get('maps_info') or waypoint.get('maps'):
-  <h3 ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-maps"><span translate>Map</span> <span class="glyphicon glyphicon-menu-down"></span></h3>
+  <h3 id="title-associated-maps" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-maps"><span translate>Map</span> <span class="glyphicon glyphicon-menu-down"></span></h3>
   <div class="finfo" id="associated-maps">
     <div class="ficontent">
       <div class="list-green">

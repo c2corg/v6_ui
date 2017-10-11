@@ -222,7 +222,7 @@ from c2corg_ui.templates.utils import get_route_gear_articles, format_length
 ## MAPS
 <%def name="get_route_associated_maps(route)">\
   % if route.get('maps'):
-  <h3 ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-maps"><span translate>Map</span> <span class="glyphicon glyphicon-menu-down"></span></h3>
+  <h3 ng-click="mainCtrl.animateHeaderIcon($event)" id="title-associated-maps" data-toggle="collapse" data-target="#associated-maps"><span translate>Map</span> <span class="glyphicon glyphicon-menu-down"></span></h3>
   <div class="finfo" id="associated-maps">
     <div class="ficontent">
       <div class="list-green">

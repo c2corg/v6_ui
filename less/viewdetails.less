@@ -503,6 +503,29 @@
 
   }
 
+ header.view-title-with-bg {
+@media @phone {
+    height: auto;
+    padding-top: 30px;
+        .view-image-bg {
+display: none;
+}
+
+    h1 {
+      position: relative;
+      color: #000;
+      top:auto;
+      .icons-header {
+        display: none;
+      }
+      .outing-date {
+        color: #6D6D6D;
+      }
+
+    }
+}
+  }
+
   header.view-title-without-bg {
     height: auto;
     padding-top: 30px;
@@ -1509,4 +1532,10 @@ app-add-association {
       }
     }
   }
+}
+
+#title-associated-maps, #associated-maps {
+@media @phone {
+display: none;
+}
 }

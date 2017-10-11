@@ -381,7 +381,7 @@
       associations = 'detailsCtrl.documentService.document.associations.' + type
   %>
   ${add_seo_association_links(document['associations'][type], 'waypoints')}
-  <section ng-show="${associations}.length > 0">
+  <section ng-show="${associations}.length > 0" class="row-list-phone">
     <h3 class="show-phone pull-left" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-waypoints-${type}">
       <span x-translate>Associated ${type}</span><span class="glyphicon glyphicon-menu-down"></span>
 
