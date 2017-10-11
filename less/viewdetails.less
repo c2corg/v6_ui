@@ -1508,18 +1508,16 @@ app-add-association {
     font-weight: bold
   }
 
-  tr {
-   padding: 0.2em 0;
+  td {
+    vertical-align: top;
+    word-wrap: normal;
+    word-break: normal;
+    padding: 0.2em 0;
 
-    td {
-      vertical-align: top;
-      word-wrap: normal;
-      word-break: normal;
-
-      &:not(:last-child) {
-        padding-right: 0.6em;
-      }
+    &:not(:last-child) {
+       padding-right: 0.6em;
     }
+  }
 
     @media @phone {
       display: flex;
