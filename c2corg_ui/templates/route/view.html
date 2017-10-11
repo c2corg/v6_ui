@@ -112,8 +112,28 @@ other_langs, missing_langs = get_lang_lists(route, lang)
       % endif
 
       <div class="row">
-
-        <div class="col-xs-12 col-md-8 col-lg-9 col-lg-push-3">
+        <div class="col-xs-12 col-md-4 col-lg-3">
+          <div class="finfo" ng-if="detailsCtrl.documentService.document.associations.images.length > 0 && detailsCtrl.hasVerticalImg">
+            <div class="ficontent moz">
+              <img ng-src="{{detailsCtrl.createImageUrl(detailsCtrl.documentService.document.associations.images[0].filename, 'MI')}}" alt="{{detailsCtrl.documentService.document.associations.images[0].locales[0].title}}" class="fullimg"/>
+            </div>
+          </div>
+          % if version:
+            ${show_archive_data('routes', route, locale, version)}
+          % endif
+          <app-map class="view-details-map"></app-map>
+          % if not version:
+            ${display_app_smartphone_info('route')}
+          % endif
+          % if not version:
+            ${show_associated_waypoints(route)}
+            ${get_image_gallery()}
+            ${show_other_langs_links('routes', route, other_langs)}
+          % endif
+          ${get_route_associated_maps(route)}
+          ${get_licence(route)}
+        </div>
+        <div class="col-xs-12 col-md-8 col-lg-9">
           <section id="document-informations" class="collapse in flexmobile">
             <div class="finfo">
               <div class="ficontent">
@@ -163,27 +183,6 @@ other_langs, missing_langs = get_lang_lists(route, lang)
 
             ${show_float_buttons(route, lang, other_langs, missing_langs)}
           % endif
-        </div>
-        <div class="col-xs-12 col-md-4 col-lg-3 col-lg-pull-9">
-          <div class="finfo" ng-if="detailsCtrl.documentService.document.associations.images.length > 0 && detailsCtrl.hasVerticalImg">
-            <div class="ficontent moz">
-              <img ng-src="{{detailsCtrl.createImageUrl(detailsCtrl.documentService.document.associations.images[0].filename, 'MI')}}" alt="{{detailsCtrl.documentService.document.associations.images[0].locales[0].title}}" class="fullimg"/>
-            </div>
-          </div>
-          % if version:
-            ${show_archive_data('routes', route, locale, version)}
-          % endif
-          <app-map class="view-details-map"></app-map>
-          % if not version:
-            ${display_app_smartphone_info('route')}
-          % endif
-          % if not version:
-            ${show_associated_waypoints(route)}
-            ${get_image_gallery()}
-            ${show_other_langs_links('routes', route, other_langs)}
-          % endif
-          ${get_route_associated_maps(route)}
-          ${get_licence(route)}
         </div>
       </div>
 
