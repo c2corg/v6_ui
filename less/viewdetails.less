@@ -63,6 +63,22 @@
 .viewdoc {
 
     background: @content-color;
+    @media @phone {
+      .flexmobile {
+        display: flex;
+        flex-direction: column;
+
+        .finfo {
+          order: 0;
+        }
+        #route_history, #title-route_history  {
+          order: 1;
+        }
+
+
+      }
+    }
+
 
     &.viewprofile {
       .ficontent {
@@ -881,9 +897,12 @@
     #document-informations {
       overflow: hidden;
       width: 100%;
+
+
       @media @phone {
         display: block;
         border: 2px solid @C2C-orange;
+
       }
     }
     >.heading {
