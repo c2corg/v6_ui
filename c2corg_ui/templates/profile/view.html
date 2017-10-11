@@ -23,7 +23,7 @@
     "type": "u"
   });
 </%block>
-<div class="viewdoc">
+<div class="viewdoc viewprofile">
 <%block name="share">
   ${generate_share_metadata(profile, 'profiles')}
 </%block>
@@ -35,8 +35,8 @@
        ${show_badge(profile, 'profile')}
     </h1>
   </header>
-  
-  
+
+
 
 <section class="view-details-section">
   <div app-user-profile="${profile['document_id']}" app-user-profile-lang="${lang}">
