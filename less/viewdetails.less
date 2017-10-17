@@ -440,6 +440,14 @@
       text-align: center;
       color: #fff;
       font-size: 2.8em;
+	 .waypoint-type {
+          color: #FFAA45;
+          background: #fff;
+          border-radius: 25px;
+	padding: 5px;
+	font-size: 35px;
+        }
+
       .icons-header {
         margin: 10px 0 0;
 
@@ -536,6 +544,15 @@ display: none;
       .icons-header {
         display: none;
       }
+
+	  .waypoint-type {
+          color: #FFAA45;
+          background: #fff;
+          border-radius: 25px;
+        padding: 5px;
+        font-size: 35px;
+        }
+
 
       .outing-date {
         color: #6D6D6D;
@@ -1519,7 +1536,8 @@ app-add-association {
     }
   }
 
-    @media @phone {
+  @media @phone {
+    tr {
       display: flex;
       flex-flow: row wrap;
       padding: 0.4em 0 0.5em;
@@ -1529,7 +1547,12 @@ app-add-association {
         border-bottom: 1px solid #d0d0d0;
       }
     }
- 
+
+    td {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  } 
 }
 
 #title-associated-maps, #associated-maps {

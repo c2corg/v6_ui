@@ -91,12 +91,14 @@ waypoint['doctype'] = 'waypoints'
       <div class="view-image-bg" ng-style="{'background-image': 'url('+this.headBands+')'}"><div class="view-filter-bg"></div></div>
 
       <h1 class="routes">
+	<span class="icon-${waypoint['waypoint_type']} waypoint-type" uib-tooltip="{{mainCtrl.translate('${waypoint['waypoint_type']}')}}"></span>
       <span>${locale['title']}</span>
       ${show_badge(waypoint, 'waypoint')}
       </h1>
     </header>
     <header class="view-title-without-bg" ng-if="!detailsCtrl.hasHeadband">
       <h1 class="routes">
+	<span class="icon-${waypoint['waypoint_type']} waypoint-type" uib-tooltip="{{mainCtrl.translate('${waypoint['waypoint_type']}')}}"></span>
      <span>${locale['title']}</span>
       ${show_badge(waypoint, 'waypoint')}
       </h1>
