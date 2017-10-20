@@ -199,7 +199,7 @@ app.OutingEditingController.prototype.formatOuting_ = function(outing, submit) {
  * init empty conditions levels for ng-repeat
  * @private
  */
-app.DocumentEditingController.prototype.initConditionsLevels_ = function() {
+app.OutingEditingController.prototype.initConditionsLevels_ = function() {
   this.scope['outing']['locales'][0]['conditions_levels'] = [{
     'level_snow_height_soft': '',
     'level_snow_height_total': '',

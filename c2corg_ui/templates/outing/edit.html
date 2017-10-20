@@ -1,7 +1,10 @@
 <%!
 from c2corg_common.attributes import default_langs, activities, condition_ratings, \
     hut_status, lift_status, frequentation_types, avalanche_signs, \
-    route_duration_types, access_conditions, glacier_ratings
+    route_duration_types, access_conditions, glacier_ratings, \
+    via_ferrata_ratings, mtb_up_ratings, mtb_down_ratings, ski_ratings, \
+    global_ratings, engagement_ratings, ice_ratings, equipment_ratings, \
+    hiking_ratings, snowshoe_ratings, climbing_ratings
 %>
 
 <%inherit file="../base.html"/>
@@ -14,6 +17,7 @@ updating_doc = outing_id and outing_lang
 <%namespace file="../helpers/edit.html" import="show_editing_associated_waypoints,
     show_editing_associated_routes,show_preview_container, show_save_confirmation_modal,
     show_editing_buttons, show_protected_warning"/>
+<%namespace file="../helpers/cotometer.html" import="show_cotometer_dialog"/>
 
 <%block name="pagetitle"><title ng-init="id=${outing_id if outing_id else 0}" ng-bind="id ? mainCtrl.page_title('Editing an outing') : mainCtrl.page_title('Creating an outing')">${show_title('Create/edit outing')}</title></%block>
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
@@ -238,11 +242,161 @@ updating_doc = outing_id and outing_lang
                 <p ng-message="number" translate>This field must be a number.</p>
               </div>
             </div>
-            <section class="section associations" ng-if="outing.associations.waypoints.length > 0">
-              <div class=" full route-associations">
-                ${show_editing_associated_waypoints('outing')}
+
+            ## SKI RATING
+            <div class="form-group data half" ng-class="{ 'has-success': outing.ski_rating}"
+                 ng-if="outing.activities.indexOf('skitouring') > -1">
+              <label app-context-help context-help-title="{{'ski_rating' | translate}}" context-help-content-url="/static/partials/contexthelp/route-ski_rating.html"><span translate>ski_rating</label>
+              <div class="input-group">
+                <select class="form-control" ng-model="outing.ski_rating" ng-options="rat as rat for rat in ${ski_ratings}"><option value=""></option></select>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
+                <span class="input-group-addon" ng-click="editCtrl.openModal('#cotometer-dialog','md')"><span class="glyphicon glyphicon-question-sign"></span></span>
               </div>
-            </section>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="outing.ski_rating"></span>
+            </div>
+
+            ## LABANDE GLOBAL RATING
+            <div class="form-group data half" ng-class="{ 'has-success': outing.labande_global_rating}"
+                 ng-if="outing.activities.indexOf('skitouring') > -1">
+              <label app-context-help context-help-title="{{'labande_global_rating' | translate}}" context-help-content-url="/static/partials/contexthelp/route-labande_global_rating.html"><span translate>labande_global_rating</label>
+              <div class="input-group">
+                <select class="form-control" ng-model="outing.labande_global_rating" ng-options="rat as rat for rat in ${global_ratings}"><option value=""></option></select>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="outing.labande_global_rating"></span>
+            </div>
+
+            ## SNOWSHOE RATING
+            <div class="form-group data half" ng-class="{ 'has-success': outing.snowshoe_rating}"
+                 ng-if="outing.activities.indexOf('snowshoeing') > -1">
+              <label app-context-help context-help-title="{{'snowshoe_rating' | translate}}" context-help-content-url="/static/partials/contexthelp/route-snowshoe_rating.html"><span translate>snowshoe_rating</span></label>
+              <div class="input-group">
+                <select class="form-control" ng-model="outing.snowshoe_rating" ng-options="rat as rat for rat in ${snowshoe_ratings}"><option value=""></option></select>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="outing.snowshoe_rating"></span>
+            </div>
+
+            ## GLOBAL RATING
+            <div class="form-group data half" ng-class="{ 'has-success': outing.global_rating}"
+                 ng-if="outing.activities.indexOf('snow_ice_mixed') > -1
+                     || outing.activities.indexOf('mountain_climbing') > -1
+                     || outing.activities.indexOf('rock_climbing') > -1">
+              <label app-context-help context-help-title="{{'global_rating' | translate}}" context-help-content-url="/static/partials/contexthelp/route-global_rating.html"><span translate>global_rating</span></label>
+              <div class="input-group">
+                <select class="form-control" ng-model="outing.global_rating" ng-options="rat as rat for rat in ${global_ratings}"><option value=""></option></select>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="outing.global_rating"></span>
+            </div>
+
+            ## ENGAGEMENT RATING
+            <div class="form-group data half" ng-class="{ 'has-success': outing.engagement_rating}"
+                 ng-if="outing.activities.indexOf('snow_ice_mixed') > -1
+                     || outing.activities.indexOf('mountain_climbing') > -1">
+              <label app-context-help context-help-title="{{'engagement_rating' | translate}}" context-help-content-url="/static/partials/contexthelp/route-engagement_rating.html"><span translate>engagement_rating</span></label>
+              <div class="input-group">
+                <select class="form-control" ng-model="outing.engagement_rating" ng-options="rat as rat for rat in ${engagement_ratings}"><option value=""></option></select>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="outing.engagement_rating"></span>
+            </div>
+
+            ## EQUIPMENT RATING
+            <div class="form-group data half" ng-class="{ 'has-success': outing.equipment_rating}"
+                 ng-if="outing.activities.indexOf('rock_climbing') > -1">
+              <label app-context-help context-help-title="{{'equipment_rating' | translate}}" context-help-content-url="/static/partials/contexthelp/route-equipment_rating.html"><span translate>equipment_rating</span></label>
+              <div class="input-group">
+                <select class="form-control" ng-model="outing.equipment_rating" ng-options="rat as rat for rat in ${equipment_ratings}"><option value=""></option></select>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="outing.equipment_rating"></span>
+            </div>
+
+            ## ICE RATING
+            <div class="form-group data half" ng-class="{ 'has-success': outing.ice_rating}"
+                 ng-if="outing.activities.indexOf('ice_climbing') > -1">
+              <label app-context-help context-help-title="{{'ice_rating' | translate}}" context-help-content-url="/static/partials/contexthelp/route-ice_rating.html"><span translate>ice_rating</span></label>
+              <div class="input-group">
+                <select class="form-control" ng-model="outing.ice_rating" ng-options="rat as rat for rat in ${ice_ratings}"><option value=""></option></select>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="outing.ice_rating"></span>
+            </div>
+
+            ## VIA FERRATA RATING
+            <div class="form-group data half" ng-class="{ 'has-success': outing.via_ferrata_rating}"
+                 ng-if="outing.activities.indexOf('via_ferrata') > -1">
+                            <label app-context-help context-help-title="{{'via_ferrata_rating' | translate}}" context-help-content-url="/static/partials/contexthelp/route-via_ferrata_rating.html"><span translate>via_ferrata_rating</span></label>
+              <div class="input-group">
+                <select class="form-control" ng-model="outing.via_ferrata_rating" ng-options="rat as rat for rat in ${via_ferrata_ratings}"><option value=""></option></select>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="outing.via_ferrata_rating"></span>
+            </div>
+
+            ## HIKING RATING
+            <div class="form-group data half" ng-class="{ 'has-success': outing.hiking_rating}"
+                 ng-if="outing.activities.indexOf('hiking') > -1">
+              <label app-context-help context-help-title="{{'hiking_rating' | translate}}" context-help-content-url="/static/partials/contexthelp/route-hiking_rating.html"><span translate>hiking_rating</span></label>
+              <div class="input-group">
+                <select class="form-control" ng-model="outing.hiking_rating" ng-options="rat as rat for rat in ${hiking_ratings}"><option value=""></option></select>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="outing.hiking_rating"></span>
+            </div>
+
+            ## MTB DOWN RATING
+            <div class="form-group data half" ng-class="{ 'has-success': outing.mtb_down_rating}"
+                 ng-if="outing.activities.indexOf('mountain_biking') > -1">
+              <label app-context-help context-help-title="{{'mtb_down_rating' | translate}}" context-help-content-url="/static/partials/contexthelp/route-mtb_down_rating.html"><span translate>mtb_down_rating</span></label>
+              <div class="input-group">
+                <select class="form-control" ng-model="outing.mtb_down_rating" ng-options="rat as rat for rat in ${mtb_down_ratings}"><option value=""></option></select>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="outing.mtb_down_rating"></span>
+            </div>
+
+            ## MTB UP RATING
+            <div class="form-group data half" ng-class="{ 'has-success': outing.mtb_up_rating}"
+                 ng-if="outing.activities.indexOf('mountain_biking') > -1">
+              <label app-context-help context-help-title="{{'mtb_up_rating' | translate}}" context-help-content-url="/static/partials/contexthelp/route-mtb_up_rating.html"><span translate>mtb_up_rating</span></label>
+              <div class="input-group">
+                <select class="form-control" ng-model="outing.mtb_up_rating" ng-options="rat as rat for rat in ${mtb_up_ratings}"><option value=""></option></select>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="outing.mtb_up_rating"></span>
+            </div>
+
+            ## ROCK FREE RATING
+            <div class="form-group data half" ng-class="{ 'has-success': outing.rock_free_rating}"
+                 ng-if="outing.activities.indexOf('rock_climbing') > -1">
+              <label app-context-help context-help-title="{{'rock_free_rating' | translate}}" context-help-content-url="/static/partials/contexthelp/route-rock_free_rating.html"><span translate>rock_free_rating</span></label>
+              <div class="input-group">
+                <select class="form-control" ng-model="outing.rock_free_rating" ng-options="rat as rat for rat in ${climbing_ratings}"><option value=""></option></select>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="outing.rock_free_rating"></span>
+            </div>
+
+            ## HEIGHT DIFF DIFFICULTIES
+            <div id="height_diff_difficulties-group" class="data half form-group"
+                 ng-if="outing.activities.indexOf('snow_ice_mixed') > -1 || outing.activities.indexOf('mountain_climbing') > -1"
+                 ng-class="{ 'has-feedback': editForm.height_diff_difficulties.$touched,
+                             'has-error': editForm.height_diff_difficulties.$touched && editForm.height_diff_difficulties.$invalid,
+                             'has-success': outing.height_diff_difficulties }">
+              <label ng-class="{ 'control-label': editForm.height_diff_difficulties.$touched && editForm.height_diff_difficulties.$invalid }" app-context-help context-help-title="{{'height_diff_difficulties' | translate}}" context-help-content="{{'Combined elevation of the main difficulties of a route, for a route where approach is distinguished from the route itself. Do not mix up with the difficulties length: difficulties height is always lower.' | translate}}"><span translate>height_diff_difficulties</span></label>
+              <div class="input-group">
+                <input type="number" min="0" name="height_diff_difficulties" ng-model="outing.height_diff_difficulties" class="form-control" />
+                <span class="input-group-addon">m</span>
+              </div>
+              <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="outing.height_diff_difficulties"></span>
+              <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-if="editForm.height_diff_difficulties.$invalid && editForm.height_diff_difficulties.$touched"></span>
+              <div class="help-block" ng-messages="editForm.height_diff_difficulties.$error" ng-if="editForm.height_diff_difficulties.$touched && editForm.height_diff_difficulties.$invalid">
+                <p ng-message="number" translate>This field must be a number.</p>
+              </div>
+            </div>
+
           </div>
         </section>
       </div>
@@ -585,5 +739,6 @@ updating_doc = outing_id and outing_lang
   </form>
   ${show_preview_container()}
   ${show_save_confirmation_modal(updating_doc)}
+  ${show_cotometer_dialog('outings', lang, other_langs)}
 </section>
 </div>

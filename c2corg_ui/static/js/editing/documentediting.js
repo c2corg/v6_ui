@@ -635,6 +635,20 @@ app.DocumentEditingController.prototype.confirmSave = function(isValid) {
 };
 
 
+/**
+ * @param {string} selector
+ * @param {string} sizem
+ * @export
+ */
+app.DocumentEditingController.prototype.openModal = function(selector, sizem) {
+  var template = $(selector).clone();
+  this.modal.open({
+    animation: true,
+    size: sizem || 'lg',
+    template: this.compile(template)(this.scope)
+  });
+};
+
 app.module.controller('appDocumentEditingController', app.DocumentEditingController);
 
 
