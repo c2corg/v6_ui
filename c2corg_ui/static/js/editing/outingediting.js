@@ -72,9 +72,13 @@ app.OutingEditingController = function($scope, $element, $attrs, $http,
     // allow association only for a new outing to existing route
     if (ngeoLocation.hasFragmentParam('r')) {
       var routeId = parseInt(ngeoLocation.getFragmentParam('r'), 10);
-      appApi.getDocumentByIdAndDoctype(routeId, 'r', appLang.getLang()).then(function(doc) {
-        this.documentService.pushToAssociations(doc.data['routes'].documents[0], 'routes', true);
-      }.bind(this));
+      appApi.getDocumentByIdAndDoctype(routeId, 'r', appLang.getLang()).then(
+        function(doc) {
+          this.documentService.pushToAssociations(doc.data['routes'].documents[0],
+                                                  'routes',
+                                                  this.handleAssociation);
+        }.bind(this)
+      );
     }
 
     this.scope[this.modelName]['associations']['users'].push({
@@ -206,6 +210,31 @@ app.OutingEditingController.prototype.initConditionsLevels_ = function() {
     'level_comment': '',
     'level_place': ''
   }];
+};
+
+
+/**
+ * @param {appx.Document} data
+ * @param {appx.SimpleSearchDocument} doc
+ * @param {string=} doctype Optional doctype
+ * @return {appx.Document}
+ * @export
+ */
+app.OutingEditingController.prototype.handleAssociation = function(data, doc,
+    doctype) {
+  doctype = doctype || app.utils.getDoctype(doc['type']);
+
+  // When creating an outing, the outing title defaults to the title
+  // of the first associated route.
+  if (doctype === 'routes' && !data.locales[0]['title'] &&
+      data.associations.routes.length === 1) {
+    var title = 'title_prefix' in doc.locales[0] &&
+      doc.locales[0]['title_prefix'] ?
+      doc.locales[0]['title_prefix'] + ' : ' : '';
+    title += doc.locales[0]['title'];
+    data.locales[0]['title'] = title;
+  }
+  return data;
 };
 
 app.module.controller('appOutingEditingController', app.OutingEditingController);

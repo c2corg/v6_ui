@@ -124,34 +124,15 @@ app.Document.prototype.hasAssociation = function(type, id) {
 /**
  * @param {appx.SimpleSearchDocument} doc
  * @param {string=} doctype Optional doctype
- * @param {boolean=} setOutingTitle
- * @param {boolean=} editing
+ * @param {function(appx.Document, appx.SimpleSearchDocument, string=):appx.Document=} callback
  * @export
  */
-app.Document.prototype.pushToAssociations = function(doc, doctype,
-    setOutingTitle, editing) {
-  var associations = this.document.associations;
-  doctype = doctype || app.utils.getDoctype(doc['type']);
-  setOutingTitle = typeof setOutingTitle !== 'undefined' ?
-    setOutingTitle : false;
+app.Document.prototype.pushToAssociations = function(doc, doctype, callback) {
   doc['new'] = true;
-  associations[doctype].push(doc);
+  this.document.associations[doctype].push(doc);
 
-  // when creating/editing a route, make the first associated wp a main one
-  if (editing && associations.waypoints.length === 1) {
-    this.document['main_waypoint_id'] = doc['document_id'];
-  }
-
-  // When creating an outing, the outing title defaults to the title
-  // of the first associated route.
-  if (setOutingTitle && doctype === 'routes' &&
-      !this.document.locales[0]['title'] &&
-      this.document.associations.routes.length === 1) {
-    var title = 'title_prefix' in doc.locales[0] &&
-      doc.locales[0]['title_prefix'] ?
-      doc.locales[0]['title_prefix'] + ' : ' : '';
-    title += doc.locales[0]['title'];
-    this.document.locales[0]['title'] = title;
+  if (callback) {
+    this.document = callback(this.document, doc, doctype);
   }
 };
 

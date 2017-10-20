@@ -42,9 +42,13 @@ app.RouteEditingController = function($scope, $element, $attrs, $http,
     // allow association only for a new route to existing waypoint
     if (ngeoLocation.hasFragmentParam('w')) {
       var waypointId = parseInt(ngeoLocation.getFragmentParam('w'), 10);
-      appApi.getDocumentByIdAndDoctype(waypointId, 'w', appLang.getLang()).then(function(doc) {
-        this.documentService.pushToAssociations(doc.data['waypoints'].documents[0], 'waypoints', false, true);
-      }.bind(this));
+      appApi.getDocumentByIdAndDoctype(waypointId, 'w', appLang.getLang()).then(
+        function(doc) {
+          this.documentService.pushToAssociations(doc.data['waypoints'].documents[0],
+                                                  'waypoints',
+                                                  this.handleAssociation);
+        }.bind(this)
+      );
     }
   }
 };
@@ -75,6 +79,23 @@ app.RouteEditingController.prototype.showRatings = function() {
     // no rating for slacklining
     return activities[0] !== 'slacklining';
   }
+};
+
+
+/**
+ * @param {appx.Document} data
+ * @param {appx.SimpleSearchDocument} doc
+ * @param {string=} doctype Optional doctype
+ * @return {appx.Document}
+ * @export
+ */
+app.RouteEditingController.prototype.handleAssociation = function(data, doc,
+    doctype) {
+  // when creating/editing a route, make the first associated wp a main one
+  if (data.associations.waypoints.length === 1) {
+    data['main_waypoint_id'] = doc['document_id'];
+  }
+  return data;
 };
 
 app.module.controller('appRouteEditingController', app.RouteEditingController);

@@ -115,28 +115,25 @@ updating_doc = route_id and route_lang
               You can add associated routes and waypoints by searching in the field.
             </h5>
             <div class="content">
-              ## wr = waypoints, routes
+              ## wrcb = waypoints, routes, articles, books
               <app-simple-search parent-id="route.document_id"
                 app-select="editCtrl.documentService.pushToAssociations(doc, null, false, true)" dataset="wrcb"></app-simple-search>
-
             </div>
           </section>
 
-            <div class="row">
-      <div class="col-xs-12">
-
-
-        <span class="lead">
-          <section>
-
-           ${show_editing_associated_waypoints('route')}
-              ${show_editing_associated_routes('route')}
-              ${show_editing_associated_articles('route')}
-              ${show_editing_associated_books('route')}
-          </section>
-        </span>
-        </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <span class="lead">
+                <section>
+                  ${show_editing_associated_waypoints('route')}
+                  ${show_editing_associated_routes('route')}
+                  ${show_editing_associated_articles('route')}
+                  ${show_editing_associated_books('route')}
+                </section>
+              </span>
+            </div>
           </div>
+
         </div>
 
         <div class="step step-2">
