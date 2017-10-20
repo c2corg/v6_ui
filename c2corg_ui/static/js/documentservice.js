@@ -128,6 +128,7 @@ app.Document.prototype.hasAssociation = function(type, id) {
  * @export
  */
 app.Document.prototype.pushToAssociations = function(doc, doctype, callback) {
+  doctype = doctype || app.utils.getDoctype(doc['type']);
   doc['new'] = true;
   this.document.associations[doctype].push(doc);
 
