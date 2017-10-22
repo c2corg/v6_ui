@@ -689,3 +689,64 @@
     color: #000;
   }
 }
+
+.whatsnew {
+  padding: 10px;
+  margin: 10px;
+
+  .tools {
+    padding: 10px;
+  }
+  .feed-list {
+    transition: .3s;
+
+    .badge {
+      font-size: 0.8em;
+      margin-right: 5px;
+      margin-left: 5px;
+      padding-bottom: 4px;
+      margin-top: 2px;
+
+      a {
+        color: white;
+        cursor: pointer;
+        text-decoration: none;
+      }
+
+      @media @phone {
+        display: none;
+      }
+
+      .glyphicon {
+        color: white;
+      }
+
+      &.article {
+        background-color: @darkcyan;
+      }
+      &.book {
+        background-color: @plum;
+      }
+      &.image {
+        background-color: @darkolivegreen;
+      }
+      &.route {
+        background-color: @brand-info;
+      }
+      &.xreport {
+        background-color: @tomato;
+      }
+      &.waypoint {
+        background-color: @bright-green;
+      }
+    }
+  }
+  .table > tbody > tr > td {
+     vertical-align: middle;
+  }
+  .feedtable {
+    overflow-y: hidden;
+    padding: 10px;
+    background-color: rgba(229, 229, 229, 0.5);
+  }
+}

@@ -269,12 +269,14 @@ app.FeedController.prototype.estimateSize = function(doc) {
  */
 app.FeedController.prototype.handleFeed = function(response) {
   this.error = false;
+  this.busy = false;
   var data = response['data']['feed'];
   var token = response['data']['pagination_token'];
   this.nextToken = token;
+  var whatsnew = angular.element(document.querySelector('app-whatsnew-feed'));
 
   this.initDocumentsCol_();
-  if (window.innerWidth < 1400) {
+  if (window.innerWidth < 1400 || whatsnew.length > 0) {
     this.nbCols_ = 1;
     for (var k = 0, n = data.length; k < n; k++) {
       data[k]['type'] = 'f';
