@@ -52,8 +52,8 @@ from c2corg_ui.templates.utils import get_route_gear_articles, format_length
       % endif
 
       % if route.get('activities'):
-        <article class="value activities">
-          <span translate class="value-title">activities</span><br>
+        <article class="activities">
+          <span translate class="value-title">activities</span>:<br>
           % for type in route.get('activities') :
             <span class="route-activity icon-${type}" uib-tooltip="{{mainCtrl.translate('${type}')}}"></span>
           % endfor
