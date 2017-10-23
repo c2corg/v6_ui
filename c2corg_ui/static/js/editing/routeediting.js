@@ -91,9 +91,14 @@ app.RouteEditingController.prototype.showRatings = function() {
  */
 app.RouteEditingController.prototype.handleAssociation = function(data, doc,
     doctype) {
-  // when creating/editing a route, make the first associated wp a main one
-  if (data.associations.waypoints.length === 1) {
+  // when creating a route, make the first associated wp a main one
+  if (!data.document_id && data.associations.waypoints.length === 1) {
     data['main_waypoint_id'] = doc['document_id'];
+    if (doc['waypoint_type'] === 'access') {
+      data['elevation_min'] = doc['elevation'];
+    } else {
+      data['elevation_max'] = doc['elevation'];
+    }
   }
   return data;
 };
