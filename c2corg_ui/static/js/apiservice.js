@@ -417,6 +417,20 @@ app.Api.prototype.readLatestForumTopics = function() {
   return promise;
 };
 
+/**
+ * @param {string} lang
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.readAnnouncement = function(lang) {
+  var config = {
+    headers: {
+      'Accept': 'application/json'
+    }
+  };
+
+  var promise = this.http_.get(this.discourseUrl_ + '/t/annonce-' + lang + '.json', config);
+  return promise;
+};
 
 /**
  * @param {undefined | string} token

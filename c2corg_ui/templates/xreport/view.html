@@ -77,6 +77,7 @@ other_langs, missing_langs = get_lang_lists(xreport, lang)
   ${generate_share_metadata(xreport, 'xreports')}
 </%block>
 <div class="viewdoc" ng-cloak>
+  <app-announcement></app-announcement>
   <header class="view-title-without-bg">
     <h1 class="routes">
       <span class="title">${show_locale_title(locale)}</span>

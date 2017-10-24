@@ -4,6 +4,7 @@ from c2corg_common.attributes import activities
 <%inherit file="base.html"/>
 
 <div class="home-page">
+  <app-announcement></app-announcement>
   <section ng-class="{'show': !userCtrl.auth.isAuthenticated()}" class="site-intro not-logged">
     <div class="intro-banner">
       <h1 class="welcome-title text-center" translate>The mountain sports community</h1>
@@ -68,7 +69,7 @@ from c2corg_common.attributes import activities
           </div>
         </div>
       </div>
-      
+
       <div class="info" ng-controller="appForumFeedController as forumCtrl" ng-cloak>
         <h3 translate>Last forum topics</h3>
         <h4 class="text-danger" translate ng-show="forumCtrl.errorForum">Sorry, there was an error while getting the forum data.</h4>

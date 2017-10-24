@@ -50,14 +50,14 @@ other_langs, missing_langs = get_lang_lists(article, lang)
 </%block>
 <div ng-cloak>
 <div class="viewdoc">
-
+  <app-announcement></app-announcement>
   <header class="view-title-without-bg">
     <h1 class="routes">
       <span class="title">${locale['title']}</span>
        ${show_badge(article, 'article')}
     </h1>
   </header>
-  
+
   <section class="view-details-section" app-view-details ng-class="{'row-list' : switchCtrl.showList}">
 
     % if version:

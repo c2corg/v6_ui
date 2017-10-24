@@ -52,6 +52,7 @@ other_langs, missing_langs = get_lang_lists(book, lang)
 </%block>
   <div ng-cloak>
   <div class="viewdoc">
+    <app-announcement></app-announcement>
     <header class="view-title-without-bg">
       <h1 class="routes">
         <span class="title">${show_locale_title(locale)}</span><br>
@@ -132,5 +133,5 @@ other_langs, missing_langs = get_lang_lists(book, lang)
       };
     </script>
   % endif
-    
+
 </div>
