@@ -12,9 +12,6 @@ app.announcementDirective = function() {
     restrict: 'E',
     controller: 'appAnnouncementController',
     controllerAs: 'announcementCtrl',
-    link: function(scope, element, attrs) {
-      scope.type = attrs.type;
-    },
     templateUrl: '/static/partials/announcement.html'
   };
 };
@@ -39,7 +36,7 @@ app.AnnouncementController = function($scope,appApi, appLang) {
 
   /**
    * @type {app.Api}
-   * @public
+   * @private
    */
   this.api = appApi;
 
@@ -47,8 +44,8 @@ app.AnnouncementController = function($scope,appApi, appLang) {
    * @type {app.Lang}
    * @private
    */
-
   this.lang_ = appLang;
+
   /**
    * @type {boolean}
    * @export
@@ -67,17 +64,16 @@ app.AnnouncementController = function($scope,appApi, appLang) {
    */
   this.text = '';
 
-  this.getAnnouncementFromForum();
+  this.getAnnouncementFromForum_();
 };
 
 /**
  * Get the announcement on the forum with the good language
- * @export
+ * @private
  */
-app.AnnouncementController.prototype.getAnnouncementFromForum = function() {
+app.AnnouncementController.prototype.getAnnouncementFromForum_ = function() {
   this.api.readAnnouncement(this.lang_.getLang()).then(function(response) {
     this.handleAnnouncement(response);
-  }.bind(this), function() {
   }.bind(this));
 };
 

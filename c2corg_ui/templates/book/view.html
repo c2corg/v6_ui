@@ -68,19 +68,15 @@ other_langs, missing_langs = get_lang_lists(book, lang)
       % else:
         <div class="row">
           <div class="col-xs-12 col-md-4 col-lg-3">
+            ${get_book_general(book)}
 
+            ## IMAGES
+            % if not version:
+              ${get_image_gallery()}
+              ${show_other_langs_links('books', book, other_langs)}
+            % endif
 
-          ${get_book_general(book)}
-
-
-
-      ## IMAGES
-      % if not version:
-        ${get_image_gallery()}
-        ${show_other_langs_links('books', book, other_langs)}
-      % endif
-
-              ${get_licence(book)}
+            ${get_licence(book)}
           </div>
           <div class="col-xs-12 col-md-8 col-lg-9">
             ${get_document_description(locale, 'book')}

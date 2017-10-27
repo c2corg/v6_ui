@@ -66,15 +66,15 @@ other_langs, missing_langs = get_lang_lists(article, lang)
 
      <div class="row">
         <div class="col-xs-12 col-md-4 col-lg-3">
-              ${get_article_general(article)}
-              ## IMAGES
-              % if not version:
-                ${get_image_gallery()}
-                ${show_other_langs_links('articles', article, other_langs)}
-              % endif
+          ${get_article_general(article)}
+          ## IMAGES
+          % if not version:
+            ${get_image_gallery()}
+            ${show_other_langs_links('articles', article, other_langs)}
+          % endif
 
-               ${get_article_associated_users(article)}
-              ${get_licence(article)}
+          ${get_article_associated_users(article)}
+          ${get_licence(article)}
        </div>
        <div class="col-xs-12 col-md-8 col-lg-9">
          ${get_document_description(locale, 'article')}

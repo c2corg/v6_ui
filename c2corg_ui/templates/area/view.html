@@ -93,11 +93,11 @@ area['doctype'] = 'areas'
         <div class="col-xs-12 col-md-4 col-lg-3">
             ${get_area_general(area)}
             <app-map class="view-details-map"></app-map>
-    ## IMAGES
-    % if not version:
-      ${get_image_gallery()}
-      ${show_other_langs_links('areas', area, other_langs)}
-    % endif
+            ## IMAGES
+            % if not version:
+              ${get_image_gallery()}
+              ${show_other_langs_links('areas', area, other_langs)}
+            % endif
 
             ${get_licence(area)}
         </div>

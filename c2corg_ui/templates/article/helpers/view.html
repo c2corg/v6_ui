@@ -1,17 +1,18 @@
 <%def name="get_article_general(article)">\
-      <h3 ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#general">
-    <span translate>General</span> <span class="glyphicon glyphicon-menu-down"></span></h3>
-     <div class="finfo" id="general">
-      <div class="ficontent collapse in max">
-        <span class="detail-text accordion">
-      % if article.get('activities'):
-        <article class="value activities">
-            <span translate class="value-title">activities</span><br>
-          % for type in article.get('activities') :
-            <span class="route-activity icon-${type}" uib-tooltip="{{mainCtrl.translate('${type}')}}"></span>
-          % endfor
+  <h3 ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#general">
+    <span translate>General</span> <span class="glyphicon glyphicon-menu-down"></span>
+  </h3>
+  <div class="finfo" id="general">
+    <div class="ficontent collapse in max">
+      <span class="detail-text accordion">
+        % if article.get('activities'):
+          <article class="value activities">
+              <span translate class="value-title">activities</span><br>
+            % for type in article.get('activities') :
+              <span class="route-activity icon-${type}" uib-tooltip="{{mainCtrl.translate('${type}')}}"></span>
+            % endfor
           </article>
-      % endif
+        % endif
 
       % if article.get('categories'):
         <article>
@@ -65,7 +66,6 @@
             % endfor
           </p>
         % endif
-
       </span>
     </div>
   % endif
