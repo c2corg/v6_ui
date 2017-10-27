@@ -8,27 +8,31 @@ locale = document['locales'][0]
 %>
 
 ${show_preview_warning()}
-
+<div class="viewdoc viewprofile">
 <header class="view-details-title">
   <h1>
-    <span>${profile['name']}</span>
+    <span></span>
     <label class="badge profile">
       <span class="glyphicon glyphicon-arrow-right"></span>&nbsp;<span translate>profile</span>
     </label>
   </h1>
 </header>
 
+<header class="view-title-without-bg">
+  <h1 class="routes">
+    <span class="title">${profile['name']}</span>
+  </h1>
+</header>
+
 <section class="view-details-section">
-
-  <div class="view-details-informations col-xs-12  informations">
-    <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
-      <span translate>Informations</span><span class="glyphicon glyphicon-menu-down"></span>
-    </h3>
-    <section id="document-informations" class="collapse in">
-      ${get_profile_general(profile)}
-    </section>
+  <div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-5 col-lg-4">
+      <div>
+        ${get_profile_general(profile)}
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
+      ${get_document_description(locale, 'profile')}
+    </div>
   </div>
-
-  ${get_document_description(locale, 'profile')}
-
 </section>

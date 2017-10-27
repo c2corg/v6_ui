@@ -10,26 +10,23 @@ locale = document['locales'][0]
 
 ${show_preview_warning()}
 
-<header class="view-details-title">
-  <h1 class="routes">
-    <span class="title">${locale['title']}</span><br>
-    <label class="badge book">
-      <span class="glyphicon glyphicon-arrow-right"></span>&nbsp;<span translate>book</span>
-    </label>
-  </h1>
-</header>
+<div class="viewdoc">
+  <app-announcement></app-announcement>
+  <header class="view-title-without-bg">
+    <h1 class="routes">
+      <span class="title">${locale['title']}</span><br>
+    </h1>
+  </header>
 
-<section class="view-details-section">
-
-  <div class="view-details-informations col-xs-12 informations">
-    <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
-      <span translate>Informations</span><span class="glyphicon glyphicon-menu-down"></span>
-    </h3>
-    <section id="document-informations" class="collapse in">
+  <section class="view-details-section">
+    <div class="row">
+      <div class="col-xs-12 col-md-4 col-lg-3">
         ${get_book_general(book)}
-    </section>
-  </div>
+      </div>
+      <div class="col-xs-12 col-md-8 col-lg-9">
+        ${get_document_description(locale, 'book')}
 
-  ${get_document_description(locale, 'book')}
-
-</section>
+      </div>
+    </div>
+  </section>
+</div>
