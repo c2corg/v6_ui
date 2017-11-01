@@ -356,6 +356,8 @@ app.FeedController.prototype.toggleFilters = function() {
   this.isPersonal = !this.isPersonal;
   this.nextToken = undefined;
   this.documents = [];
+  this.documentsCol = [];
+  this.initFeedColumnManager_();
   this.getDocumentsFromFeed();
   window.scrollTo(0, 0);
 };

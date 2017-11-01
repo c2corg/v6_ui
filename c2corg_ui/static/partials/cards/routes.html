@@ -21,9 +21,8 @@
       <div class="grow"></div>
     </div>
   </div>
-  <div class="parent-infop parent-infop-first large" ng-init="fullRatings = cardCtrl.getFullRatings()"
-       ng-if="fullRatings || doc['elevation_max'] || doc['height_diff_up'] || doc['height_diff_difficulties']">
-    <div class="infop-bar">
+  <div class="parent-infop parent-infop-first large" ng-init="fullRatings = cardCtrl.getFullRatings()">
+    <div class="infop-bar" ng-if="fullRatings || doc['elevation_max'] || doc['height_diff_up'] || doc['height_diff_difficulties']">
       <div class="group-infop">
         <div class="parent-bubble" ng-if="fullRatings">
           <div class="bubble">
