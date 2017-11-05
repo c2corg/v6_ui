@@ -1,13 +1,12 @@
 <%def name="get_area_general(area)">\
-  <div class="name-icon-value general" ng-click="detailsCtrl.toggleTab($event)">
-    <h4><span translate>General</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
-    <div class="name-icon">
-      <span class="glyphicon glyphicon-info-sign"></span>
-      <p translate>General</p>
+  <h3 ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#general">
+    <span translate>General</span> <span class="glyphicon glyphicon-menu-down"></span></h3>
+  <div class="finfo" id="general">
+    <div class="ficontent collapse in max">
+      <span class="detail-text accordion">
+        <p><span translate class="value-title">area_type</span>: <span x-translate class="value">${area['area_type']}</span></p>
+        <p><span translate class="value-title">quality</span>: <span x-translate class="value">${area['quality']}</span></p>
+      </span>
     </div>
-    <span class="detail-text accordion">
-      <p><span translate class="value-title">area_type</span>: <span x-translate class="value">${area['area_type']}</span></p>
-      <p><span translate class="value-title">quality</span>: <span x-translate class="value">${area['quality']}</span></p>
-    </span>
   </div>
 </%def>

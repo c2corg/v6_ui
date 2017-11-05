@@ -10,47 +10,55 @@ xreport['date'] = xreport['date'] if xreport.get('date') else None
 
 ${show_preview_warning()}
 
-<header class="view-details-title">
-  <h1 class="routes">
-    <span class="title">${locale['title']}</span><br>
-    <label class="badge xreport">
-      <span class="glyphicon glyphicon-arrow-right"></span>&nbsp;<span translate>xreport</span>
-    </label>
-  </h1>
-  <div class="outing-date" ng-cloak>${show_fulldate(xreport['date'])}</div>
-</header>
+<div class="viewdoc">
+    <header class="view-title-without-bg">
+    <h1 class="routes">
+      <span class="title">${locale['title']}</span>
 
-<section class="view-details-section">
+      <div class="outing-date" ng-cloak>${show_fulldate(xreport['date'])}</div>
+    </h1>
+  </header>
 
-  <div class="view-details-informations col-xs-12 informations">
-    <h3 class="heading informations" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#document-informations">
-      <span translate>Information</span><span class="glyphicon glyphicon-menu-down"></span>
-    </h3>
-    <section id="document-informations" class="collapse in">
-      ${get_xreport_general(xreport)}
-      % if not version:
-        ${get_xreport_participants(xreport)}
-        ${get_xreport_personal(xreport)}
-      % endif
+    % if xreport.get('areas'):
+      <article class="location-static text-center">
+        ${show_areas(xreport)}
+        % if xreport.get('elevation'):
+          <p class="text-center"><b>${xreport['elevation']} m</b></p>
+        % endif
+        % if geometry:
+          <p ng-bind="'${round(geometry.x)}/${round(geometry.y)}' | coordinate"></p>
+        % endif
+      </article>
+    % endif
+
+    <section class="view-details-section">
+
+
+
+        <div class="row">
+          <div class="col-xs-12 col-md-4 col-lg-3">
+            ${get_xreport_general(xreport)}
+          </div>
+          <div class="col-xs-12 col-md-8 col-lg-9">
+            ${get_document_description(locale, 'xreport')}
+            ${get_document_locale_text(locale, 'place', True)}
+            ${get_document_locale_text(locale, 'route_study', True)}
+            ${get_document_locale_text(locale, 'conditions', True, 'conditions study')}
+            ${get_document_locale_text(locale, 'training', True)}
+            ${get_document_locale_text(locale, 'motivations', True)}
+            ${get_document_locale_text(locale, 'group_management', True)}
+            ${get_document_locale_text(locale, 'risk', True)}
+            ${get_document_locale_text(locale, 'time_management', True)}
+            ${get_document_locale_text(locale, 'safety', True)}
+            ${get_document_locale_text(locale, 'increase_impact', True)}
+            ${get_document_locale_text(locale, 'reduce_impact', True)}
+            ${get_document_locale_text(locale, 'modifications', True)}
+            ${get_document_locale_text(locale, 'other_comments', True)}
+
+
+
+          </div>
+      </div>
     </section>
-  </div>
 
-  ${get_document_description(locale, 'xreport')}
-
-  <div class="description">
-    ${get_document_locale_text(locale, 'place', True)}
-    ${get_document_locale_text(locale, 'route_study', True)}
-    ${get_document_locale_text(locale, 'conditions', True)}
-    ${get_document_locale_text(locale, 'training', True)}
-    ${get_document_locale_text(locale, 'motivations', True)}
-    ${get_document_locale_text(locale, 'group_management', True)}
-    ${get_document_locale_text(locale, 'risk', True)}
-    ${get_document_locale_text(locale, 'time_management', True)}
-    ${get_document_locale_text(locale, 'safety', True)}
-    ${get_document_locale_text(locale, 'increase_impact', True)}
-    ${get_document_locale_text(locale, 'reduce_impact', True)}
-    ${get_document_locale_text(locale, 'modifications', True)}
-    ${get_document_locale_text(locale, 'other_comments', True)}
-  </div>
-
-</section>
+</div>

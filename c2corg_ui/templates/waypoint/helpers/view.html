@@ -4,31 +4,29 @@
 ## MAPSINFO
 <%def name="get_waypoint_maps_info(waypoint)">\
   % if waypoint.get('maps_info') or waypoint.get('maps'):
-    <div class="name-icon-value maps" ng-click="detailsCtrl.toggleTab($event)">
-      <h4><span translate>maps_info</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
-      <div class="name-icon">
-        <span class="glyphicon glyphicon-globe"></span>
-        <p translate>maps_info</p>
-      </div>
+  <h3 id="title-associated-maps" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-maps"><span translate>Map</span> <span class="glyphicon glyphicon-menu-down"></span></h3>
+  <div class="finfo" id="associated-maps">
+    <div class="ficontent">
+      <div class="list-green">
       <span class="detail-text accordion">
-        % if waypoint.get('maps_info'):
+            % if waypoint.get('maps_info'):
           <p><span translate>maps_info</span>: <span>${waypoint['maps_info']}</span></p>
         % endif
-
-        ${show_maps(waypoint)}
-      </span>
+        
+        ${show_maps(waypoint)}</span>
+        </div>
     </div>
+  </div>
   % endif
 </%def>
 
+
+
 ## GENERAL
 <%def name="get_waypoint_general(waypoint, isPreview=False)">\
+  <div class="col-sm-6 col-lg-3">    
 <div class="name-icon-value general" ng-click="detailsCtrl.toggleTab($event)">
-  <h4><span translate>General</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
-  <div class="name-icon">
-    <span class="glyphicon glyphicon-info-sign"></span>
-    <p translate>General</p>
-  </div>
+  <h4><span class="glyphicon glyphicon-info-sign"></span> <span translate>General</span></h4>
   <span class="detail-text accordion">
     % if waypoint.get('elevation'):
       <p><span translate class="value-title">elevation</span>: <span class="value">${waypoint['elevation']} m</span></p>
@@ -145,16 +143,14 @@
     % endif
   </span>
 </div>
+  </div>
 </%def>
 
 ## LOCATION
 <%def name="get_waypoint_location(waypoint, geometry4326)">\
-<div class="name-icon-value location" ng-click="detailsCtrl.toggleTab($event)">
-  <h4><span translate>Location</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
-  <div class="name-icon">
-    <span class="glyphicon glyphicon-map-marker"></span>
-    <p translate>Location</p>
-  </div>
+   <div class="col-sm-6 col-lg-3">    
+<div class="name-icon-value location" >
+  <h4><span class="glyphicon glyphicon-map-marker"></span><span translate>Location</span></h4>
   <span class="detail-text accordion">
     % if not version:
       ${show_areas(waypoint)}
@@ -162,6 +158,7 @@
     <p>${round(geometry4326.x)} °E / ${round(geometry4326.y)} °N</p>
   </span>
 </div>
+  </div>
 </%def>
 
 ## HEIGHTS
@@ -170,13 +167,9 @@
   % if waypoint.get('elevation') and ( waypoint.get('prominence') or waypoint.get('elevation_min') \
     or waypoint.get('height_min')  or waypoint.get('height_max') \
     or waypoint.get('prominence')  or waypoint.get('height_median') ):
-
+   <div class="col-sm-6 col-lg-3">    
     <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
-      <h4><span translate>heights</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
-      <div class="name-icon">
-        <span class="glyphicon glyphicon-map-marker"></span>
-        <p translate>heights</p>
-      </div>
+      <h4><span class="glyphicon glyphicon-map-marker"></span><span translate>heights</span></h4>
       <span class="detail-text accordion">
 
         % if waypoint.get('prominence'):
@@ -199,6 +192,7 @@
 
       </span>
     </div>
+  </div>
   % endif
 </%def>
 
@@ -209,11 +203,7 @@
    waypoint.get('parking_fee') or waypoint.get('snow_clearance_rating') or waypoint.get('lift_access') is not None or waypoint.get('routes_quantity') :
 
   <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
-    <h4><span translate>Access</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
-    <div class="name-icon">
-      <span class="glyphicon glyphicon-road"></span>
-      <p translate>Access</p>
-    </div>
+    <h4><span class="glyphicon glyphicon-road"></span> <span translate>Access</span></h4>
     <span class="detail-text accordion">
 
       % if waypoint.get('access_time'):
@@ -253,12 +243,9 @@
 ## RATING
 <%def name="get_waypoint_rating(waypoint)">\
   % if waypoint.get('climbing_rating_max') or waypoint.get('risk_rating') or waypoint.get('climbing_rating_median') or waypoint.get('equipment_ratings') or  waypoint.get('paragliding_rating') or waypoint.get('exposition_rating') :
+  <div class="col-sm-6 col-lg-3">    
     <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
-      <h4><span translate>Rating</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
-      <div class="name-icon">
-        <span class="glyphicon glyphicon-sort-by-attributes"></span>
-        <p translate>Rating</p>
-      </div>
+      <h4><span class="glyphicon glyphicon-sort-by-attributes"></span><span translate>Rating</span></h4>
       <span class="detail-text accordion">
 
         % if waypoint.get('risk_rating'):
@@ -295,18 +282,16 @@
         % endif
       </span>
     </div>
+    </div>
   % endif
 </%def>
 
 ## STYLE
 <%def name="get_waypoint_style(waypoint)">\
   % if waypoint.get('climbing_styles'):
+   <div class="col-sm-6 col-lg-3">    
     <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
-      <h4><span translate>Style</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
-      <div class="name-icon">
-        <span class="glyphicon glyphicon-sunglasses"></span>
-        <p translate>Style</p>
-      </div>
+      <h4> <span class="glyphicon glyphicon-sunglasses"></span><span translate>Style</span></h4>
       <span class="detail-text accordion">
 
         % if waypoint.get('climbing_styles'):
@@ -320,18 +305,16 @@
 
       </span>
     </div>
+  </div>
   % endif
 </%def>
 
 ## CONTACT
 <%def name="get_waypoint_contact(waypoint)">\
   % if waypoint.get('url') or waypoint.get('phone') or waypoint.get('phone_custodian') or waypoint.get('custodianship') is not None:
+  <div class="col-sm-6 col-lg-3">    
     <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
-      <h4><span translate>Contact</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
-      <div class="name-icon">
-        <span class="glyphicon glyphicon-phone-alt"></span>
-        <p translate>Contact</p>
-      </div>
+      <h4><span class="glyphicon glyphicon-phone-alt"></span> <span translate>Contact</span></h4>
       <span class="detail-text accordion">
 
         % if waypoint.get('url'):
@@ -352,6 +335,7 @@
 
       </span>
     </div>
+  </div>
   % endif
 </%def>
 
@@ -359,12 +343,9 @@
 <%def name="get_waypoint_equipment(waypoint)">\
   % if waypoint.get('matress_unstaffed') is not None or  waypoint.get('gas_unstaffed') is not None or \
   waypoint.get('heating_unstaffed') is not None or waypoint.get('blanket_unstaffed') is not None:
+  <div class="col-sm-6 col-lg-3">   
     <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
-      <h4><span translate>Equipment</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
-      <div class="name-icon">
-        <span class="glyphicon glyphicon-cutlery"></span>
-        <p translate>Equipment</p>
-      </div>
+      <h4><span class="glyphicon glyphicon-cutlery"></span> <span translate>Equipment</span></h4>
       <span class="detail-text accordion">
 
         % if waypoint.get('matress_unstaffed'):
@@ -393,31 +374,28 @@
 
       </span>
     </div>
+  </div>
   % endif
 </%def>
 
 ## ORIENTATION
 <%def name="get_waypoint_orientations(waypoint)">\
   % if waypoint.get('orientations'):
-    <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
-      <h4><span translate>orientations</span><span class="glyphicon glyphicon-menu-right rotate-arrow-down"></span></h4>
-      <div class="name-icon">
-        <span class="glyphicon glyphicon-move"></span>
-        <p translate>orientations</p>
-      </div>
+    <div class="col-sm-6 col-lg-3">    
+    <div class="name-icon-value">
+      <h4> <span class="glyphicon glyphicon-move"></span><span translate>orientations</span></h4>
       <span class="detail-text accordion">
         ${show_orientations_static(waypoint.get('orientations'))}
       </span>
     </div>
+  </div>
   % endif
 </%def>
 
 <%def name="get_waypoint_access_period(locale, waypoint_type, open_tab=False)">\
   % if locale.get('access_period'):
-    <div class="view-details-info col-xs-12">
-      <h3 class="heading ${'' if open_tab else 'closed '}show-phone"
-          ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#access_period">
-        % if waypoint_type in ['hut', 'gite', 'camp_site']:
+      <h3 ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-routes">
+     % if waypoint_type in ['hut', 'gite', 'camp_site']:
           <span translate>opening_periods</span>
         % elif waypoint_type == 'local_product':
           <span translate>opening_hours</span>
@@ -427,20 +405,23 @@
           <span translate>access_period</span>
         % endif
         <span class="glyphicon glyphicon-menu-${'down' if open_tab else 'right'}"></span>
-      </h3>
-      <section class="collapse${' in' if open_tab else ''}" id="access_period" aria-expanded="true">
-        <div class="lead">
+  </h3>
+  
+     <div class="finfo"  class="collapse${' in' if open_tab else ''}" id="access_period" aria-expanded="true">
+              <div class="ficontent collapse in max">
+    
+
           ${show_attr(locale, 'access_period')}
-        </div>
-      </section>
+   
     </div>
+  </div>
   % endif
 </%def>
 
 <%def name="get_waypoint_access_field(locale, waypoint_type, open_tab=False)">\
   % if locale.get('access'):
-    <div class="view-details-info col-xs-12">
-      <h3 class="heading ${'' if open_tab else 'closed '}show-phone"
+   
+      <h3 class="${'' if open_tab else 'closed '}"
           ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#access">
           % if waypoint_type == 'access':
             <span translate>public transportation access</span>
@@ -451,11 +432,12 @@
           % endif
           <span class="glyphicon glyphicon-menu-${'down' if open_tab else 'right'}"></span>
       </h3>
-      <section class="collapse${' in' if open_tab else ''}" id="access" aria-expanded="true">
-        <div class="lead">
+    <div class="finfo"  class="collapse${' in' if open_tab else ''}" id="access" aria-expanded="true">
+              <div class="ficontent collapse in max">
+    
           ${show_attr(locale, 'access')}
         </div>
-      </section>
+
     </div>
   % endif
 </%def>

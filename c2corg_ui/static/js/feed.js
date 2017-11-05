@@ -3,7 +3,6 @@ goog.provide('app.feedDirective');
 
 goog.require('app');
 goog.require('app.Api');
-goog.require('app.Authentication');
 goog.require('app.utils');
 
 
@@ -13,7 +12,8 @@ goog.require('app.utils');
 app.feedDirective = function() {
   return {
     restrict: 'E',
-    controller: 'appFeedController as feedCtrl',
+    controller: 'appFeedController',
+    controllerAs: 'feedCtrl',
     bindToController: {
       'userId' : '=appFeedProfile'
     },
@@ -24,16 +24,21 @@ app.module.directive('appFeed', app.feedDirective);
 
 
 /**
- * @param {app.Authentication} appAuthentication
+ * @param {!angular.Scope} $scope Scope.
  * @param {app.Api} appApi Api service.
  * @param {app.Lang} appLang Lang service.
- * @param {!string} imageUrl URL to the image backend.
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @constructor
  * @ngInject
  * @struct
  */
-app.FeedController = function(appAuthentication, appApi, appLang, imageUrl, ngeoLocation) {
+app.FeedController = function($scope, appApi, appLang, ngeoLocation) {
+
+  /**
+   * @type {!angular.Scope}
+   * @private
+   */
+  this.scope_ = $scope;
 
   /**
    * @type {app.Api}
@@ -42,28 +47,28 @@ app.FeedController = function(appAuthentication, appApi, appLang, imageUrl, ngeo
   this.api = appApi;
 
   /**
-   * @type {app.Authentication}
-   * @private
-   */
-  this.auth_ = appAuthentication;
-
-  /**
    * @type {app.Lang}
    * @private
    */
   this.lang_ = appLang;
 
   /**
-   * @type {string}
+   * @type {number}
    * @private
    */
-  this.imageUrl_ = imageUrl;
+  this.nbCols_ = 0;
 
   /**
    * @type {Array<Object>}
    * @export
    */
   this.documents = [];
+
+  /**
+   * @type {Array<Object>}
+   * @export
+   */
+  this.documentsCol = [];
 
   /**
    * @type {string | undefined}
@@ -119,9 +124,103 @@ app.FeedController = function(appAuthentication, appApi, appLang, imageUrl, ngeo
    */
   this.ngeoLocation = ngeoLocation;
 
+  this.initFeedColumnManager_();
   this.getDocumentsFromFeed();
 };
 
+/**
+ * init array for the column Manager
+ * @private
+ */
+app.FeedController.prototype.initDocumentsCol_ = function() {
+  if (!this.documentsCol[0]) {
+    this.documentsCol[0] = Array();
+  }
+  if (!this.documentsCol[1]) {
+    this.documentsCol[1] = Array();
+  }
+  if (!this.documentsCol[2]) {
+    this.documentsCol[2] = Array();
+  }
+};
+
+/**
+ * Refresh the feed columns according to the available screen width
+ * @private
+ */
+app.FeedController.prototype.initFeedColumnManager_ = function() {
+
+  $(window).resize(function() {
+
+    if (window.innerWidth < 1400) {
+      if (this.nbCols_ != 1) {
+        this.documentsCol[0] = this.documents;
+        this.documentsCol[1] = Array();
+        this.documentsCol[2] = Array();
+
+        this.nbCols_ = 1;
+        this.scope_.$apply();
+      }
+
+    } else if (window.innerWidth >= 1400 && window.innerWidth < 2000) {
+      if (this.nbCols_ != 2) {
+        this.documentsCol[0] = Array();
+        this.documentsCol[1] = Array();
+        this.documentsCol[2] = Array();
+        this.nbCols_ = 2;
+
+        var height1_c2 = 0;
+        var height2_c2 = 0;
+
+        for (var i = 0,n = this.documents.length; i < n; i++) {
+
+          if (height1_c2 <= height2_c2) {
+            this.documentsCol[0].push(this.documents[i]);
+            height1_c2 += this.estimateSize(this.documents[i]);
+          } else if (height2_c2 < height1_c2) {
+            this.documentsCol[1].push(this.documents[i]);
+            height2_c2 += this.estimateSize(this.documents[i]);
+          } else {
+            this.documentsCol[0].push(this.documents[i]);
+            height1_c2 += this.estimateSize(this.documents[i]);
+          }
+
+        }
+        this.scope_.$apply();
+      }
+    } else {
+      if (this.nbCols_ != 3) {
+        this.documentsCol[0] = Array();
+        this.documentsCol[1] = Array();
+        this.documentsCol[2] = Array();
+        this.nbCols_ = 3;
+
+        var height1_c3 = 0;
+        var height2_c3 = 0;
+        var height3_c3 = 0;
+
+        for (var j = 0,o = this.documents.length; j < o; j++) {
+          if (height1_c3 <= height2_c3 && height1_c3 <= height3_c3) {
+            this.documentsCol[0].push(this.documents[j]);
+            height1_c3 += this.estimateSize(this.documents[j]);
+          } else if (height2_c3 <= height1_c3 && height2_c3 <= height3_c3) {
+            this.documentsCol[1].push(this.documents[j]);
+            height2_c3 += this.estimateSize(this.documents[j]);
+          } else if (height3_c3 <= height2_c3 && height3_c3 <= height1_c3) {
+            this.documentsCol[2].push(this.documents[j]);
+            height3_c3 += this.estimateSize(this.documents[j]);
+          } else {
+            this.documentsCol[0].push(this.documents[j]);
+            height1_c3 += this.estimateSize(this.documents[j]);
+          }
+        }
+
+        this.scope_.$apply();
+      }
+    }
+
+  }.bind(this));
+};
 
 /**
  * Fills the feed with documents.
@@ -131,6 +230,7 @@ app.FeedController = function(appAuthentication, appApi, appLang, imageUrl, ngeo
 app.FeedController.prototype.getDocumentsFromFeed = function() {
   this.busy = true;
   this.api.readFeed(this.nextToken, this.lang_.getLang(), this.userId, this.isPersonal).then(function(response) {
+    this.busy = false;
     this.handleFeed(response);
   }.bind(this), function() { // Error msg is shown in the api service
     this.busy = false;
@@ -138,9 +238,32 @@ app.FeedController.prototype.getDocumentsFromFeed = function() {
   }.bind(this));
 };
 
+/**
+ * simulate size for a doc
+ * @param {Object} doc
+ * @return {number}
+ * @public
+ */
+app.FeedController.prototype.estimateSize = function(doc) {
+  var size = 225;
+  if (doc['document']['locales'][0]['summary'] !== null) {
+    size += 22;
+  }
+  if (doc['document']['elevation_max'] !== null || doc['document']['height_diff_up'] !== null || doc['document']['height_diff_difficulties'] !== null) {
+    size += 51;
+  }
+  if (doc['image1'] !== null)  {
+    size += 275;
+  }
+  if (doc['image2'] !== null)  {
+    size += 100;
+  }
+  return size;
+};
 
 /**
  * Handles feed processing for Feed.js and Whatsnew.js
+ * the next post is add on the column with the littlest height according the height of the column and the estimation about the height of the new post
  * @param response
  * @public
  */
@@ -150,43 +273,80 @@ app.FeedController.prototype.handleFeed = function(response) {
   var data = response['data']['feed'];
   var token = response['data']['pagination_token'];
   this.nextToken = token;
-  for (var i = 0; i < data.length; i++) {
-    this.documents.push(data[i]);
+  var whatsnew = angular.element(document.querySelector('app-whatsnew-feed'));
+
+  this.initDocumentsCol_();
+  if (window.innerWidth < 1400 || whatsnew.length > 0) {
+    this.nbCols_ = 1;
+    for (var k = 0, n = data.length; k < n; k++) {
+      data[k]['type'] = 'f';
+      this.documentsCol[0].push(data[k]);
+      this.documents.push(data[k]);
+    }
+
+  } else if (window.innerWidth >= 1400 && window.innerWidth < 2000) {
+    this.nbCols_ = 2;
+
+    var element1_c2 = angular.element(document.querySelector('.in-feed-col-1'));
+    var element2_c2 = angular.element(document.querySelector('.in-feed-col-2'));
+
+    var height1_c2 = element1_c2[0].offsetHeight;
+    var height2_c2 = element2_c2[0].offsetHeight;
+
+    for (var i = 0,o = data.length; i < o; i++) {
+      data[i]['type'] = 'f';
+
+      if (height1_c2 <= height2_c2) {
+        this.documentsCol[0].push(data[i]);
+        height1_c2 = height1_c2 + this.estimateSize(data[i]);
+      } else if (height2_c2 <= height1_c2) {
+        this.documentsCol[1].push(data[i]);
+        height2_c2 = height2_c2 + this.estimateSize(data[i]);
+      } else {
+        this.documentsCol[0].push(data[i]);
+        height1_c2 = height1_c2 + this.estimateSize(data[i]);
+      }
+
+      this.documents.push(data[i]);
+    }
+
+  } else if (window.innerWidth >= 2000) {
+    this.nbCols_ = 3;
+    var element1 = angular.element(document.querySelector('.in-feed-col-1'));
+    var element2 = angular.element(document.querySelector('.in-feed-col-2'));
+    var element3 = angular.element(document.querySelector('.in-feed-col-3'));
+
+    var height1_c3 = element1[0].offsetHeight;
+    var height2_c3 = element2[0].offsetHeight;
+    var height3_c3 = element3[0].offsetHeight;
+
+    for (var j = 0,q = data.length; j < q; j++) {
+      data[j]['type'] = 'f';
+
+      if (height1_c3 <= height2_c3 && height1_c3 <= height3_c3) {
+        this.documentsCol[0].push(data[j]);
+        height1_c3 = height1_c3 + this.estimateSize(data[j]);
+      } else if (height2_c3 <= height1_c3 && height2_c3 <= height3_c3) {
+        this.documentsCol[1].push(data[j]);
+        height2_c3 = height2_c3 + this.estimateSize(data[j]);
+      } else if (height3_c3 <= height2_c3 && height3_c3 <= height1_c3) {
+        this.documentsCol[2].push(data[j]);
+        height3_c3 = height3_c3 + this.estimateSize(data[j]);
+      } else {
+        this.documentsCol[0].push(data[j]);
+        height1_c3 = height1_c3 + this.estimateSize(data[j]);
+      }
+
+      this.documents.push(data[j]);
+    }
   }
-  // reached the end of the feed - disable scroll
-  if ((token && data.length === 0) || (!token && this.documents.length > 0)) {
+
+  if ((token && data.length === 0) || !token && this.documentsCol[0].length > 0) {
     this.feedEnd = true;
   } else if (data.length === 0) { // first fetch with no feed returned.
     this.noFeed = true;
   }
 };
-
-
-/**
- * Creates a HTML with action that user used on the document in the feed.
- * Will be useful for verbs like 'created', 'updated', 'associated xx', 'went hiking with xx'.
- * @return {string} line
- * @export
- */
-app.FeedController.prototype.createActionLine = function(doc) {
-  var line = '';
-
-  switch (doc['change_type']) {
-    case 'created':
-      line += 'has created a new ';
-      break;
-    case 'updated':
-      line += 'has updated the ';
-      break;
-    case 'added_photos':
-      line += 'has added images to ';
-      break;
-    default:
-      break;
-  }
-  return line + this.getDocumentType(doc['document']['type']);
-};
-
 
 /**
  * Switches between /personal-feed and /feed
@@ -196,21 +356,11 @@ app.FeedController.prototype.toggleFilters = function() {
   this.isPersonal = !this.isPersonal;
   this.nextToken = undefined;
   this.documents = [];
+  this.documentsCol = [];
+  this.initFeedColumnManager_();
   this.getDocumentsFromFeed();
   window.scrollTo(0, 0);
 };
-
-
-/**
- * @param {string} filename
- * @param {string} suffix
- * @return {string}
- * @export
- */
-app.FeedController.prototype.createImageUrl = function(filename, suffix) {
-  return this.imageUrl_ + app.utils.createImageUrl(filename, suffix);
-};
-
 
 /**
  * document type without 's' (singular form)

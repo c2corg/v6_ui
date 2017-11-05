@@ -77,7 +77,8 @@ app.ElevationProfileController = function(
            feature.geometry.type === 'MultiLineString';
   });
   if (!lines) {
-    $('#elevation-profile').closest('.view-details-info').remove();
+    $('#elevation-profile-title').remove();
+    $('#elevation-profile').closest('.finfo').remove();
     return;
   }
 
@@ -129,7 +130,8 @@ app.ElevationProfileController = function(
       return coord.ele > 0;
     })
   ) {
-    $('#elevation-profile').closest('.view-details-info').remove();
+    $('#elevation-profile-title').remove();
+    $('#elevation-profile').closest('.finfo').remove();
     return;
   }
   this.createChart_();
@@ -139,7 +141,7 @@ app.ElevationProfileController = function(
  * @private
  */
 app.ElevationProfileController.prototype.createChart_ = function() {
-  var wrapper = $('#elevation-profile').closest('.view-details-info');
+  var wrapper = $('#elevation-profile').closest('.finfo');
   var width = wrapper.width();
   var size = {
     width: width,
@@ -382,7 +384,7 @@ app.ElevationProfileController.prototype.updateChart_ = function() {
  * @private
  */
 app.ElevationProfileController.prototype.resizeChart_ = function() {
-  var wrapper = $('#elevation-profile').closest('.view-details-info');
+  var wrapper = $('#elevation-profile').closest('.finfo');
   var width = wrapper.width() - this.margin.left - this.margin.right;
   var div = window.d3.select('#elevation-profile');
 

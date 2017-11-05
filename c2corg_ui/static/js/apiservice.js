@@ -5,6 +5,7 @@ goog.require('app');
 
 /**
  * Service for accessing the API.
+ * @param {string} discourseUrl URL to the forum API.
  * @param {string} apiUrl URL to the API.
  * @param {string} imageBackendUrl URL to the image backend.
  * @param {angular.$http} $http
@@ -15,7 +16,13 @@ goog.require('app');
  * @struct
  * @ngInject
  */
-app.Api = function(apiUrl, imageBackendUrl, $http, appAlerts, $q, appAuthentication) {
+app.Api = function(discourseUrl, apiUrl, imageBackendUrl, $http, appAlerts, $q, appAuthentication) {
+
+  /**
+   * @type {string}
+   * @private
+   */
+  this.discourseUrl_ = discourseUrl;
 
   /**
    * @type {string}
@@ -206,10 +213,10 @@ app.Api.prototype.readDocument = function(module, id, lang, editing) {
   var alerts = this.alerts_;
   editing = typeof editing === 'undefined' ? false : editing;
   var url = '/{module}/{id}?l={lang}{editing}'
-    .replace('{module}', module)
-    .replace('{id}', String(id))
-    .replace('{lang}', lang)
-    .replace('{editing}', editing ? '&e=1' : '');
+  .replace('{module}', module)
+  .replace('{id}', String(id))
+  .replace('{lang}', lang)
+  .replace('{editing}', editing ? '&e=1' : '');
 
   var promise = this.getJson_(url);
   promise.catch(function(response) {
@@ -227,8 +234,8 @@ app.Api.prototype.readDocument = function(module, id, lang, editing) {
  */
 app.Api.prototype.updateDocument = function(module, id, json) {
   var url = '/{module}/{id}'
-    .replace('{module}', module)
-    .replace('{id}', String(id));
+  .replace('{module}', module)
+  .replace('{id}', String(id));
 
   var promise = this.putJson_(url, json);
   promise.catch(this.errorSaveDocument_.bind(this));
@@ -244,9 +251,9 @@ app.Api.prototype.updateDocument = function(module, id, json) {
  */
 app.Api.prototype.listDocuments = function(module, qstr, cancelerPromise) {
   var url = '/{module}{qmark}{qstr}'
-    .replace('{module}', module)
-    .replace('{qmark}', qstr ? '?' : '')
-    .replace('{qstr}', qstr);
+  .replace('{module}', module)
+  .replace('{qmark}', qstr ? '?' : '')
+  .replace('{qstr}', qstr);
   var alerts = this.alerts_;
   var promise = this.getJson_(url, cancelerPromise);
   promise.catch(function(response) {
@@ -396,6 +403,34 @@ app.Api.prototype.updatePreferredLanguage = function(lang) {
   return promise;
 };
 
+
+/**
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.readLatestForumTopics = function() {
+  var config = {
+    headers: {
+      'Accept': 'application/json'
+    }
+  };
+  var promise = this.http_.get(this.discourseUrl_ + '/latest.json', config);
+  return promise;
+};
+
+/**
+ * @param {string} lang
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.readAnnouncement = function(lang) {
+  var config = {
+    headers: {
+      'Accept': 'application/json'
+    }
+  };
+
+  var promise = this.http_.get(this.discourseUrl_ + '/t/annonce-' + lang + '.json', config);
+  return promise;
+};
 
 /**
  * @param {undefined | string} token
@@ -576,6 +611,27 @@ app.Api.prototype.createImages = function(files, document) {
   var promise = this.postJson_('/images/list', {'images': images});
   promise.catch(this.errorSaveDocument_.bind(this));
   promise['images'] = images;
+  return promise;
+};
+
+
+/**
+ * @param {number} document_id
+ * @param {string} lang
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.readCommentsForum = function(document_id, lang) {
+  var config = {
+    headers: {
+      'Accept': 'application/json'
+    }
+  };
+
+  var urlTopics = this.discourseUrl_ + '/t/' + document_id + '-' + lang + '/' + document_id + '.json';
+  var promise = this.http_.get(urlTopics, config);
+  promise.catch(function(response) {
+    this.alerts_.addError(response);
+  }.bind(this));
   return promise;
 };
 

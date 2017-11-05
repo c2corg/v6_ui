@@ -1,0 +1,62 @@
+app-announcement {
+  display: block;
+
+  .ttr {
+    text-align: right;
+  }
+  .announcement {
+
+    background-color: #cce5ff;
+    margin: 0 20px 20px 20px;
+    padding: 10px;
+    border-radius: 0 0 2px 2px;
+    height: 55px;
+    border-bottom: 1px solid #b8daff;
+    overflow: hidden;
+    &.showAnnouncement {
+      height: auto !important;
+        .encart {
+          p {
+            line-height: normal;
+          }
+        }
+    }
+    .shtdesc {
+      margin-top: 10px;
+    }
+    .encart {
+      color: #004085;
+      p {
+
+        margin-bottom: 5px;
+        font-size: 18px;
+        line-height: 40px;
+        @media @phone {
+          font-size: 15px;
+
+        }
+        .msg { p {
+            display: inline;
+            text-align: justify;
+          }
+        }
+      }
+      .btn {
+        float: right;
+        margin: 0px 0px 0px 10px;
+        @media @phone {
+          margin: 5px 0px 0px 10px;
+        }
+      }
+    }
+
+    .closep {
+      text-align: right;
+      .glyphicon  {
+        color: #fff;
+        transform: rotate(270deg);
+        cursor: pointer;
+      }
+    }
+  }
+}

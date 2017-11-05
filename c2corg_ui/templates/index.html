@@ -4,6 +4,7 @@ from c2corg_common.attributes import activities
 <%inherit file="base.html"/>
 
 <div class="home-page">
+  <app-announcement></app-announcement>
   <section ng-class="{'show': !userCtrl.auth.isAuthenticated()}" class="site-intro not-logged">
     <div class="intro-banner">
       <h1 class="welcome-title text-center" translate>The mountain sports community</h1>
@@ -37,7 +38,59 @@ from c2corg_common.attributes import activities
 
     </div>
   </section>
-  <app-feed id="feed"></app-feed>
+
+  <div class="feeds">
+    <div class="feed-cl">
+      <app-feed id="feed"></app-feed>
+    </div>
+
+    <div class="feed-cr">
+      <div class="info">
+        <h3 translate>Mobile application</h3>
+        <div class="finfo">
+          <div class="ficontent noflex">
+            <p translate>Find all Camptocamp in the mountains with the new mobile application</p>
+            <div class="row nomargin">
+              <div class="col-xs-6">
+                <div class="googleplay">
+                  <a href="https://play.google.com/store/apps/details?id=com.webfit.camptocamp&hl=fr" title="{{'Application' || translate}}" target="_blank">
+                    <img src="${request.static_path('c2corg_ui:static/img/app/googleplay.svg')}" alt="Google play">
+                  </a>
+                </div>
+              </div>
+              <div class="col-xs-6">
+                <div class="appstore">
+                  <a href="https://itunes.apple.com/fr/app/camptocamp/id1253411269" title="{{'Application' || translate}}" target="_blank">
+                    <img src="${request.static_path('c2corg_ui:static/img/app/appstore.svg')}" alt="Appstore">
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info" ng-controller="appForumFeedController as forumCtrl" ng-cloak>
+        <h3 translate>Last forum topics</h3>
+        <h4 class="text-danger" translate ng-show="forumCtrl.errorForum">Sorry, there was an error while getting the forum data.</h4>
+        <div class="fpost" ng-repeat="post in forumCtrl.topics track by post.id" ng-if="::forumCtrl.topics.length">
+          <a href="${discourse_url}t/{{::post['slug']}}/{{::post['id']}}" title="{{::post['title']}}">
+            <div class="fpcontent">
+              <div class="fleft">
+                <div class="fportrait">
+                  <img ng-src="${discourse_url}{{::post['avatar_template']}}">
+                </div>
+                <div class="ftxt">
+                  <div class="fauthor">{{::post['last_poster_username']}}</div>
+                  <div class="ftitle"><span class="title">{{::post['title']}}</span> - {{::post['last_posted_at'] | amUtc | amLocal | amTimeAgo}}</div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="float-buttons" ng-if="userCtrl.auth.isAuthenticated()">
     <div class="float-button-container">

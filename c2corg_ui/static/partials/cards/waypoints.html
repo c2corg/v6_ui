@@ -1,37 +1,68 @@
-<a ng-href="{{cardCtrl.createURL()}}" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;">
-  <div class="waypoint-items-infos flex wrap-row center-items-align">
-    <span class="{{'icon-' + doc['waypoint_type']}} waypoint-type"
-      uib-tooltip="{{doc['waypoint_type'] | translate}}" tooltip-append-to-body="true">
+<article class="post card-waypoint" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;" ng-click="cardCtrl.openDoc()">
+  <div class="infoa flex">
+    <span class="pportrait">
+      <span class="{{'icon-' + doc['waypoint_type']}} waypoint-type"
+            uib-tooltip="{{doc['waypoint_type'] | translate}}" tooltip-append-to-body="true"></span>
     </span>
-
-    <div class="list-item-info">
-      <div class="list-item-title-lang">
-        <span class="list-item-title"><p>{{::locale.title}}</p></span>
-        <span class="list-item-lang" ng-if="cardCtrl.lang != locale.lang">({{::locale.lang}})</span>
-      </div>
-
-      <div class="waypoint-infos">
-        <span class="waypoint-elevation margin-r-sm margin-b-sm" 
-              uib-tooltip="{{'elevation_max'| translate}}" tooltip-append-to-body="true">
-          <span class="value-title glyphicon glyphicon-sort-by-attributes rotate-180" ng-if="::doc['elevation']"></span>
-          <span class="value" ng-if="::doc['elevation']">{{::doc['elevation']}}&nbsp;m</span>
-        </span>
-
-        <span class="location" ng-if="::doc['areas']">
-          <span class="value">{{::cardCtrl.showArea(doc['areas'])}}</span>
-        </span>
-      </div>
-
-      <div class="flex" ng-if="::doc['slackline_types']">
-        <span class="value slackline-type" ng-repeat="type in ::doc.slackline_types">
-          {{::type | translate}}{{$last ? '' : ',&nbsp;'}}
-        </span>
-      </div>
-
-      <div class="quality" ng-if="::doc['quality']"
-           uib-tooltip="{{'quality'| translate}} : {{doc['quality']| translate}}" tooltip-append-to-body="true">
-        <span class="quality-{{::doc['quality']}}"></span>
+    <div class="parent-author">
+      <div class="under-author">
+        <div class="author">
+          <a ng-href="{{cardCtrl.createURL()}}" title="{{::locale.title}}"
+             ng-click="$event.stopPropagation()">{{::locale.title}}</a>
+          <span class="list-item-lang" ng-if="cardCtrl.lang != locale.lang">({{::locale.lang}})</span>
+        </div>
       </div>
     </div>
   </div>
-</a>
+  <div class="parent-infop parent-infop-first">
+    <div class="infop-bar">
+      <div class="parent-bubble" ng-if="doc['elevation']">
+        <div class="bubble" uib-tooltip="{{'elevation'| translate}}" tooltip-append-to-body="true">
+          <span class="value-title glyphicon glyphicon-sort-by-attributes rotate-180"></span>
+        </div>
+      </div>
+      <div class="text-bubble" ng-if="doc['elevation']">
+        {{::doc['elevation']}} m
+      </div>
+      <div class="grow"></div>
+    </div>
+  </div>
+  <div class="parent-infop parent-infop-first area" ng-if="doc['areas']">
+    <div class="infop-bar">
+      <div class="parent-bubble">
+        <div class="bubble">
+          <span class="glyphicon glyphicon-map-marker"></span>
+        </div>
+      </div>
+      <div class="text-bubble">
+        <a ng-href="{{cardCtrl.createAreaURL(doc['areas'])}}" title="{{cardCtrl.showArea(doc['areas'])}}"
+           ng-click="$event.stopPropagation()">{{cardCtrl.showArea(doc['areas'])}}</a>
+      </div>
+      <div class="grow"></div>
+    </div>
+  </div>
+  <div class="parent-infop parent-infop-first" ng-if="doc['slackline_types']">
+    <div class="infop-bar">
+      <div class="text-bubble">
+        <div class="flex" >
+          <span class="value slackline-type" ng-repeat="type in doc.slackline_types">
+            {{type | translate}}{{$last ? '' : ',&nbsp;'}}
+          </span>
+        </div>
+      </div>
+      <div class="grow"></div>
+    </div>
+  </div>
+  <div class="parent-infop">
+    <div class="infop-bar">
+      <div class="grow"></div>
+      <div class="parent-bubble">
+        <div class="bubble bquality" ng-if="doc['quality']">
+          <a class="link" uib-tooltip="{{doc['quality'] | translate}}" tooltip-append-to-body="true">
+            <span class="quality-{{::doc['quality']}}"></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>

@@ -16,8 +16,8 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
 
 <%block name="pagetitle"><title ng-init="id = ${xreport_id if xreport_id else 0}" ng-bind="id ? mainCtrl.page_title('Editing a report') : mainCtrl.page_title('Creating a report')">${show_title('Create/edit report')}</title></%block>
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
-
-<section class="create-edit-document" ng-cloak>
+<div class="viewdoc" ng-cloak>
+<section class="create-edit-document">
 
   <h1 ng-init="id = ${xreport_id if xreport_id else 0}" class="text-center">
     <label class="label label-primary" ng-bind="id ? ('Editing a report' | translate) : ('Creating a report' | translate)"></label>
@@ -187,12 +187,25 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
           <div class="content route-associations">
             <app-simple-search parent-id="xreport.document_id"
               app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="roc"></app-simple-search>
-            ${show_editing_associated_routes('xreport')}
-            ${show_editing_associated_outings('xreport')}
-            ${show_editing_associated_articles('xreport')}
+     
           </div>
         </section>
 
+                    <div class="row">
+      <div class="col-xs-12">
+
+
+        <span class="lead">
+          <section>
+          ${show_editing_associated_routes('xreport')}
+            ${show_editing_associated_outings('xreport')}
+            ${show_editing_associated_articles('xreport')}
+          </section>
+        </span>
+        </div>
+          </div>
+        
+        
         ## xreport
         <section class="section title">
           <h2 class="heading show-phone" translate>xreport general</h2>
@@ -519,7 +532,7 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
         </section>
 
       </div>
-
+      <div class="clear"></div>
       ${show_editing_buttons('xreport', updating_doc, xreport_id, xreport_lang)}
 
     </section>
@@ -527,3 +540,4 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
   ${show_preview_container()}
   ${show_save_confirmation_modal(updating_doc)}
 </section>
+</div>

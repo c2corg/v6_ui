@@ -23,10 +23,8 @@ app.cardDirective = function($compile, $templateCache) {
     }
     var path = '/static/partials/cards/' + doctype + '.html';
     var template = app.utils.getTemplate(path, $templateCache);
-
     var element = angular.element(template);
     cardElementCache[doctype] = $compile(element);
-
     return cardElementCache[doctype];
   };
 
@@ -59,7 +57,7 @@ app.module.directive('appCard', app.cardDirective);
  * @struct
  * @ngInject
  */
-app.CardController = function(gettextCatalog, appUrl, imageUrl) {
+app.CardController = function(gettextCatalog, appUrl, imageUrl, moment) {
 
   /**
    * @type {angularGettext.Catalog}
@@ -104,12 +102,22 @@ app.CardController = function(gettextCatalog, appUrl, imageUrl) {
   this.type = app.utils.getDoctype(this.doc['type']);
 
   /**
+   * FIXME: find type declaration for MomentJs
+   * @private
+   */
+  this.moment_ = moment;
+
+  /**
    * @type {Object}
    * @export
    */
-  this.locale = this.doc.locales[0];
-  for (var i = 0, n = this.doc.locales.length; i < n; i++) {
-    var l = this.doc.locales[i];
+  this.locale = {};
+
+  var locales = this.type === 'feeds' ? this.doc.document.locales : this.doc.locales;
+
+  this.locale = locales[0];
+  for (var i = 0, n = locales.length; i < n; i++) {
+    var l = locales[i];
     if (l['lang'] === this.lang) {
       this.locale = l;
       break;
@@ -117,6 +125,39 @@ app.CardController = function(gettextCatalog, appUrl, imageUrl) {
   }
 };
 
+
+/**
+ * Will be useful for verbs like 'created', 'updated', 'associated xx', 'went hiking with xx'.
+ * @return {string} line
+ * @export
+ */
+app.CardController.prototype.createActionLine = function() {
+  var line = '';
+
+  switch (this.doc['change_type']) {
+    case 'created':
+      line += 'has created a new ';
+      break;
+    case 'updated':
+      line += 'has updated the ';
+      break;
+    case 'added_photos':
+      line += 'has added images to ';
+      break;
+    default:
+      break;
+  }
+  return line + this.getDocumentType(this.doc['document']['type']);
+};
+
+/**
+ * document type without 's' (singular form)
+ * @export
+ * @returns {string}
+ */
+app.CardController.prototype.getDocumentType = function(type) {
+  return app.utils.getDoctype(type).slice(0, -1);
+};
 
 /**
  * @param {string} str String to translate.
@@ -132,7 +173,7 @@ app.CardController.prototype.translate = function(str) {
  * Show only one of the area types, the first that is available:
  * 1) range 2) admin limits 3) country
  * @param {?Array<Object>} areas
- * @return {Object | null}
+ * @return {string}
  * @export
  */
 app.CardController.prototype.showArea = function(areas) {
@@ -140,18 +181,66 @@ app.CardController.prototype.showArea = function(areas) {
     // the areas often come in different orders within 3 area objects.
     var orderedAreas = {'range': [], 'admin_limits': [], 'country': []};
     var type;
-
     for (var i = 0; i < areas.length; i++) {
       type = areas[i]['area_type'];
       orderedAreas[type].push(areas[i]['locales'][0]['title']);
     }
-    for (var t in orderedAreas) {
-      if (orderedAreas[t].length) {
-        return orderedAreas[t].join(' - ');
-      }
+    var sortedAreas = [];
+    if (orderedAreas['range'].length) {
+      sortedAreas = sortedAreas.concat(orderedAreas['range']);
     }
+    if (orderedAreas['admin_limits'].length) {
+      sortedAreas = sortedAreas.concat(orderedAreas['admin_limits']);
+    }
+    if (orderedAreas['country'].length) {
+      sortedAreas = sortedAreas.concat(orderedAreas['country']);
+    }
+    return sortedAreas.join(' - ');
   }
-  return null;
+  return '';
+};
+
+
+/**
+ * Convert orientations array into a string
+ * @param {?Array<string>} orientations
+ * @return {string}
+ * @export
+ */
+app.CardController.prototype.showOrientation = function(orientations) {
+  return orientations.join(', ');
+};
+
+
+/**
+ * @return {string}
+ * @export
+ */
+app.CardController.prototype.showDates = function() {
+  var start = this.doc['document']['date_start'];
+  var end = this.doc['document']['date_end'];
+  var sameYear = this.moment_(start).year() == this.moment_(end).year();
+  var sameMonth = this.moment_(start).month() == this.moment_(end).month();
+  var sameDay = this.moment_(start).date() == this.moment_(end).date();
+  if (sameDay && sameMonth && sameYear) {
+    return this.moment_(end).format('Do MMMM YYYY');
+  }
+  if (sameYear) {
+    if (sameMonth) {
+      return this.moment_(start).format('Do') + ' - ' + this.moment_(end).format('Do MMMM YYYY');
+    }
+    return this.moment_(start).format('Do MMMM') + ' - ' + this.moment_(end).format('Do MMMM YYYY');
+  }
+  return this.moment_(start).format('Do MMMM YYYY') + ' - ' + this.moment_(end).format('Do MMMM YYYY');
+};
+
+
+/**
+ * Create redirection to the document page
+ * @export
+ */
+app.CardController.prototype.openDoc = function() {
+  window.location = this.createURL();
 };
 
 
@@ -161,11 +250,57 @@ app.CardController.prototype.showArea = function(areas) {
  * @return {string | undefined}
  */
 app.CardController.prototype.createURL = function() {
+  var type, doc;
+  if (this.type == 'feeds') {
+    type = app.utils.getDoctype(this.doc['document']['type']);
+    doc = this.doc['document'];
+  } else {
+    type = this.type;
+    doc = this.doc;
+  }
+  return this.url_.buildDocumentUrl(type, doc['document_id'], doc['locales'][0]);
+};
+
+
+/**
+ * @param {string} filename
+ * @param {string} suffix
+ * @return {string}
+ * @export
+ */
+app.CardController.prototype.createImageUrl = function(filename, suffix) {
+  return this.imageUrl_ + app.utils.createImageUrl(filename, suffix);
+};
+
+
+/**
+ * @param {Array} areas
+ * @return {string | undefined}
+ * @export
+ */
+app.CardController.prototype.createAreaURL = function(areas) {
   var loc = window.location.pathname;
-  // Don't create links on edit and add pages.
-  if (loc.indexOf('/edit/') === -1 && loc.indexOf('/add') === -1) {
-    return this.url_.buildDocumentUrl(
-      this.type, this.doc['document_id'], this.doc['locales'][0]);
+  if (areas && areas.length &&
+      loc.indexOf('/edit/') === -1 && loc.indexOf('/add') === -1) {
+
+    var orderedAreas = {'range': [], 'admin_limits': [], 'country': []};
+    for (var i = 0, type; i < areas.length; i++) {
+      type = areas[i]['area_type'];
+      orderedAreas[type].push(areas[i]);
+    }
+
+    var doc;
+    if (orderedAreas['range'].length) {
+      doc = orderedAreas['range'][0];
+    } else if (orderedAreas['admin_limits'].length) {
+      doc = orderedAreas['admin_limits'][0];
+    } else {
+      doc = orderedAreas['country'][0];
+    }
+
+    return this.url_.buildDocumentUrl(app.utils.getDoctype(doc['type']),
+                                      doc['document_id'],
+                                      doc['locales'][0]);
   }
 };
 
@@ -179,6 +314,7 @@ app.CardController.prototype.createURL = function() {
 app.CardController.prototype.createImg = function(suffix) {
   return this.imageUrl_ + app.utils.createImageUrl(this.doc['filename'], 'MI');
 };
+
 
 /**
  * Gets the global ratings for each activity of a route.
@@ -223,7 +359,7 @@ app.CardController.prototype.getGlobalRatings = function() {
  * @return {Object} ratings
  */
 app.CardController.prototype.getFullRatings = function() {
-  var doc = this.doc;
+  var doc = this.type == 'feeds' ? this.doc['document'] : this.doc;
   var ratings = {};
   var fullRatings = {};
 
@@ -234,6 +370,7 @@ app.CardController.prototype.getFullRatings = function() {
         p !== 'labande_global_rating' && p !== 'labande_ski_rating') {
       ratings[p] = doc[p];
     } else {
+      ratings[p] = doc[p];
       if (p === 'hiking_mtb_exposition') {
         ratings['hiking_mtb_exposition'] = doc.hiking_mtb_exposition;
 
@@ -260,8 +397,10 @@ app.CardController.prototype.getFullRatings = function() {
       fullRatings[rating] = ratings[rating];
     }
   });
+
   return fullRatings[Object.keys(fullRatings)[0]] ? fullRatings : null;
 };
+
 
 /**
  * @param {string} rating1
@@ -281,7 +420,7 @@ app.CardController.prototype.slashSeparatedRating_ = function(rating1, rating2) 
  */
 app.CardController.prototype.hasActivity = function(activities) {
   return (this.type === 'routes') ?
-      app.utils.hasActivity(/** @type{appx.Route}*/ (this.doc), activities) : false;
+    app.utils.hasActivity(/** @type{appx.Route}*/ (this.doc), activities) : false;
 };
 
 app.module.controller('AppCardController', app.CardController);

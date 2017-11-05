@@ -583,11 +583,15 @@ input[type="radio"] {
 }
 
 .orientation-svg {
-  width: 100%;
+  width: auto;
   @media @tablet {
-    width: 90%;
+    width: 100%;
   }
 
+    @media @phone {
+    width: 100%;
+  }
+  
   path {
     fill: darkgray;
 

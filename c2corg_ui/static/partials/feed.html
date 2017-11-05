@@ -1,75 +1,35 @@
-<div class="feed-title flex flexend-align" ng-show="!feedCtrl.busy && !feedCtrl.error && !feedCtrl.noFeed">
-  <span class="icon-news"></span>
-  <h3 translate>Activity feed</h3>
-</div>
-
 <h4 class="text-center text-danger" translate ng-show="feedCtrl.error">Sorry, there was an error while getting the feed.</h4>
 <h4 class="text-success text-center" translate ng-show="feedCtrl.busy">Loading feed, please wait...</h4>
 <h4 class="text-success text-center" translate ng-show="feedCtrl.noFeed">This user has no recent activity.</h4>
-
-<div class="feed-list" ng-show="feedCtrl.documents.length > 0"
-     infinite-scroll="feedCtrl.getDocumentsFromFeed()"
-     infinite-scroll-immediate-check="false"
-     infinite-scroll-distance="0.7"
-     infinite-scroll-disabled="feedCtrl.busy || feedCtrl.error || feedCtrl.feedEnd || feedCtrl.noFeed">
-
-  <article class="feed-list-item" ng-if="!feedCtrl.userId">
-    <div class="timeline-bullet icon-outings" uib-tooltip="{{'outing'| translate}}" tooltip-placement="left"></div>
-    <div class="list-item vertical-align">
-      <button class="orange-btn btn" protected-url-btn url="/outings/add" translate>add an outing</button>
-      <button class="green-btn btn" ng-if="userCtrl.auth.isAuthenticated()"
-              app-loading app-load-preferences="outings" app-load-preferences-url="/outings"
-              translate>See outings according to my preferences</button>
-      <a href="/outings" ng-if="!userCtrl.auth.isAuthenticated()">
-        <button class="green-btn btn" translate>See outings</button>
-      </a>
-    </div>
-  </article>
-
-  <article class="feed-list-item" ng-if="feedCtrl.userId">
-    <div class="timeline-bullet icon-outings" uib-tooltip="{{'outing'| translate}}" tooltip-placement="left"></div>
+ <article class="feed-list-item" ng-if="feedCtrl.userId">
     <div class="list-item vertical-align">
       <a ng-href="/outings#u={{feedCtrl.userId}}">
         <button class="orange-btn btn" translate>Show this user's outings</button>
       </a>
     </div>
-  </article>
-  <article class="feed-list-item flex" ng-repeat="doc in feedCtrl.documents track by doc.id"
-           ng-init="type = feedCtrl.getDocumentType(doc.document.type);">
-
-    <div class="timeline-bullet icon-{{::type}}s" uib-tooltip="{{::type | translate}}" tooltip-placement="left"></div>
-
-    <p class="action-line">
-      <span class="action" ng-cloak>
-        <b><a ng-href="/profiles/{{::doc['user']['document_id']}}/{{::doc['user']['locales'][0]['lang']}}">{{::doc['user']['name']}}</a></b>
-        {{feedCtrl.createActionLine(doc) | translate}}
-      </span>
-      <span class="action date">
-        <span class=" glyphicon glyphicon-time"></span>
-        <span>{{::doc.time | amUtc | amLocal | amTimeAgo }}</span>
-      </span>
-    </p>
-
-    <div class="details flex wrap-row">
-      <div ng-if="::doc.image1" class="images flex">
-        <a class="thumbnail flex" ng-href="/images/{{::doc.image1.document_id}}/{{::doc.image1.locales[0].lang}}"
-           ng-style="(!doc.image2 && !doc.image3) && {'width': '100%'}">
-          <span class="image" style="background-image: url({{feedCtrl.createImageUrl(doc.image1.filename, 'MI')}})"></span>
-        </a>
-        <a class="thumbnail flex" ng-href="/images/{{::doc.image2.document_id}}/{{::doc.image2.locales[0].lang}}"
-         ng-if="::doc.image2">
-          <span class="image" style="background-image: url({{feedCtrl.createImageUrl(doc.image2.filename, 'MI')}})"></span>
-        </a>
-        <a class="thumbnail flex" ng-href="/images/{{::doc.image3.document_id}}/{{::doc.image3.locales[0].lang}}"
-          ng-if="::doc.image3">
-          <span class="image" style="background-image: url({{feedCtrl.createImageUrl(doc.image3.filename, 'MI')}})"></span>
-        </a>
-      </div>
-      <div class="list-item {{::type}}s" ng-init="feed = true">
-        <app-card app-card-doc="::doc['document']"></app-card>
-      </div>
-    </div>
-  </article>
+</article>
+<div class="feed-list" ng-show="feedCtrl.documents.length > 0"
+     infinite-scroll="feedCtrl.getDocumentsFromFeed()"
+     infinite-scroll-immediate-check="false"
+     infinite-scroll-distance="0.7"
+     infinite-scroll-disabled="feedCtrl.busy || feedCtrl.error || feedCtrl.feedEnd || feedCtrl.noFeed">
+  <h3 class="title-feed" translate>Activity feed</h3>
+  <div class="in-feed-col-1">
+    <article ng-repeat="doc in feedCtrl.documentsCol[0] track by doc.id">
+      <app-card app-card-doc="::doc"></app-card>
+    </article>
+  </div>
+  <div class="in-feed-col-2">
+    <article ng-repeat="doc in feedCtrl.documentsCol[1] track by doc.id">
+      <app-card app-card-doc="::doc"></app-card>
+    </article>
+  </div>
+  <div class="in-feed-col-3">
+    <article ng-repeat="doc in feedCtrl.documentsCol[2] track by doc.id">
+      <app-card app-card-doc="::doc"></app-card>
+    </article>
+  </div>
+  <div style="clear:both">&nbsp;</div>
   <h4 class="text-center text-danger" translate ng-show="feedCtrl.error">Sorry, there was an error while getting the feed.</h4>
   <h4 class="text-success text-center" translate ng-show="feedCtrl.busy">Loading feed, please wait...</h4>
   <h4 class="text-success text-center" translate ng-show="feedCtrl.feedEnd">No more feed to load.</h4>

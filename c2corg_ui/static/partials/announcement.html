@@ -1,0 +1,9 @@
+<div class="announcement" ng-class="{'showAnnouncement': announcementCtrl.visible}" ng-if="announcementCtrl.hasAnnouncement">
+  <div class="encart">
+    <p>
+      <a href="#" class="btn btn-primary" ng-click="announcementCtrl.toggle()"><span ng-if="!announcementCtrl.visible" translate>Read the announcement</span><span ng-if="announcementCtrl.visible" translate>Close the announcement</span></a>
+      <span ng-bind-html="announcementCtrl.text" class="msg"></span>
+    </p>
+    <div class="closep" ng-click="announcementCtrl.toggle()"> <span class="btalp"><span class="glyphicon glyphicon-play "></span></span> </div>
+  </div>
+</div>

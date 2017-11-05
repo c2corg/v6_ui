@@ -12,8 +12,8 @@ from c2corg_common.attributes import default_langs, activities, article_categori
 
 <%block name="pagetitle"><title ng-init="id = ${article_id if article_id else 0}" ng-bind="id ? mainCtrl.page_title('Editing an article') : mainCtrl.page_title('Creating an article')">${show_title('Create/edit article')}</title></%block>
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
-
-<section class="create-edit-document" ng-cloak>
+<div class="viewdoc" ng-cloak>
+<section class="create-edit-document">
 
   <h1 ng-init="id = ${article_id if article_id else 0}" class="text-center">
     <label class="label label-primary" ng-bind="id ? ('Editing an article' | translate) : ('Creating an article' | translate)"></label>
@@ -138,14 +138,22 @@ from c2corg_common.attributes import default_langs, activities, article_categori
           <div class="content route-associations">
             <app-simple-search parent-id="article.document_id"
               app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="wrocb"></app-simple-search>
-            ${show_editing_associated_waypoints('article')}
-            ${show_editing_associated_routes('article')}
-            ${show_editing_associated_outings('article')}
-            ${show_editing_associated_articles('article')}
-            ${show_editing_associated_books('article')}
           </div>
         </section>
-
+        <div class="row">
+          <div class="col-xs-12">
+            <span class="lead">
+              <section>
+                ${show_editing_associated_waypoints('article')}
+                ${show_editing_associated_routes('article')}
+                ${show_editing_associated_outings('article')}
+                ${show_editing_associated_articles('article')}
+                ${show_editing_associated_books('article')}
+              </section>
+            </span>
+          </div>
+        </div>
+        
         <section class="section">
           <h2 class="heading show-phone" translate>description</h2>
           <div class="content">
@@ -161,12 +169,11 @@ from c2corg_common.attributes import default_langs, activities, article_categori
               <label translate>article body</label>
               <textarea app-markdown-editor name="description" ng-model="article.locales[0].description" class="form-control description"></textarea>
             </div>
-
           </div>
         </section>
 
       </div>
-
+      <div class="clear"></div>
       ${show_editing_buttons('article', updating_doc, article_id, article_lang)}
 
     </section>
@@ -174,3 +181,4 @@ from c2corg_common.attributes import default_langs, activities, article_categori
   ${show_preview_container()}
   ${show_save_confirmation_modal(updating_doc)}
 </section>
+</div>
