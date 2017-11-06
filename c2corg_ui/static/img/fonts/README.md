@@ -11,20 +11,22 @@ You can use an online tool such as Icomoon - https://icomoon.io/app/#/select
 7) put the contents of fonts folder into static/img/fonts and give them a special name (for example "heavy_metal")
 8) copy style.css to the less folder and update it renaming 
 
-  ```src:  url('fonts/icomoon.eot?56tqll');
+```src:  url('fonts/icomoon.eot?56tqll');
   src:  url('fonts/icomoon.eot?56tqll#iefix') format('embedded-opentype'),
     url('fonts/icomoon.ttf?56tqll') format('truetype'),
     url('fonts/icomoon.woff?56tqll') format('woff'),
-    url('fonts/icomoon.svg?56tqll#icomoon') format('svg');```
+    url('fonts/icomoon.svg?56tqll#icomoon') format('svg');
+```
 
 to
 
-
-  ```src:  url('fonts/heavy_metal.eot?56tqll');
+```src:  url('fonts/heavy_metal.eot?56tqll');
   src:  url('fonts/heavy_metal.eot?56tqll#iefix') format('embedded-opentype'),
     url('fonts/heavy_metal.ttf?56tqll') format('truetype'),
     url('fonts/heavy_metal.woff?56tqll') format('woff'),
-    url('fonts/heavy_metal.svg?56tqll#icomoon') format('svg');```
+    url('fonts/heavy_metal.svg?56tqll#icomoon') format('svg');
+```
+
 
 9) @import 'heavymetal.less'; in c2corg_ui.less
 
