@@ -1,6 +1,7 @@
 import bbcode
 import markdown
 import html
+import re
 
 from c2corg_ui.format.wikilinks import C2CWikiLinkExtension
 from c2corg_ui.format.img import C2CImageExtension
@@ -54,6 +55,10 @@ def parse_code(text, md=True, bb=True):
         text = _get_markdown_parser().convert(text)
     return text
 
+_sanitize_fixer = re.compile(r"&lt;(/?)(sup|sub|br|p|abbr|del|ins)&gt;")
 
 def sanitize(text):
-    return html.escape(text)
+    escaped = html.escape(text)
+    blockquote_fixed = escaped.replace("\n&gt;", "\n>")
+    html_fixed = _sanitize_fixer.sub(r"<\1\2>", blockquote_fixed)
+    return html_fixed
