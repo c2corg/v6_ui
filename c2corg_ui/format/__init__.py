@@ -57,6 +57,7 @@ def parse_code(text, md=True, bb=True):
 
 _sanitize_fixer = re.compile(r"&lt;(/?)(sup|sub|br|p|abbr|del|ins)&gt;")
 
+
 def sanitize(text):
     escaped = html.escape(text)
     blockquote_fixed = escaped.replace("\n&gt;", "\n>")
