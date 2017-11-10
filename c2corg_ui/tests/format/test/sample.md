@@ -23,3 +23,9 @@ Some pitches definition
 
 L# | 5b | Nice slab with a slightly harder move
 L# | 5a | Lightly protected, carrying a cam or two could help
+
+### Video
+
+[video]https://www.youtube.com/watch?v=123[/video]
+
+[video]bad url[/video]
