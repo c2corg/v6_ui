@@ -89,7 +89,7 @@ def _get_markdown_parser():
     if not _markdown_parser:
         extensions = [
             C2CWikiLinkExtension(),
-            C2CImageExtension(api_url="coucou", ngclick_secret_tag=_ngclick_secret_tag),
+            C2CImageExtension(api_url=_parsers_settings['api_url'], ngclick_secret_tag=_ngclick_secret_tag),
             C2CImportantExtension(),
             C2CWarningExtension(),
             Nl2BrExtension(),
