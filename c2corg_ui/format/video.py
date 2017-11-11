@@ -14,23 +14,30 @@ VIDEO_RE = r'\[video\](.*?)\[/video\]'
 
 
 class C2CVideoExtension(Extension):
+    def __init__(self, *args, **kwargs):
+        self._iframe_secret_tag = kwargs.pop("iframe_secret_tag")
+        super(C2CVideoExtension, self).__init__(*args, **kwargs)
 
     def extendMarkdown(self, md, md_globals):  # noqa
         self.md = md
 
-        pattern = C2CVideo(VIDEO_RE)
+        pattern = C2CVideo(VIDEO_RE, markdown_instance=md, iframe_secret_tag=self._iframe_secret_tag)
         pattern.md = md
         # append to end of inline patterns
         md.inlinePatterns.add('c2cvideo', pattern, "<extra_autolink")
 
 
 class C2CVideo(Pattern):
+    def __init__(self, *args, **kwargs):
+        self._iframe_secret_tag = kwargs.pop("iframe_secret_tag")
+        super(C2CVideo, self).__init__(*args, **kwargs)
 
     def handleMatch(self, m):  # noqa
         link = m.group(2).strip()
 
         # youtube http://www.youtube.com/watch?v=3xMk3RNSbcc(&something)
-        match = re.search(r"https?:\/\/(?:www\.)?youtube\.com/watch\?(?:[=&\w]+&)?v=([-\w]+)(?:&.+)?(?:\#.*)?", link)  # noqa
+        match = re.search(r"https?:\/\/(?:www\.)?youtube\.com/watch\?(?:[=&\w]+&)?v=([-\w]+)(?:&.+)?(?:\#.*)?",
+                          link)  # noqa
         if match:
             return self._embed('//www.youtube.com/embed/' + match.group(1))
 
@@ -64,7 +71,7 @@ class C2CVideo(Pattern):
         return self.unescape(m.group(0))
 
     def _embed(self, link):
-        iframe = etree.Element('iframe')
+        iframe = etree.Element(self._iframe_secret_tag)
         iframe.set('class', 'embed-reponsive-item')
         iframe.set('src', link)
         embed = etree.Element('div')
