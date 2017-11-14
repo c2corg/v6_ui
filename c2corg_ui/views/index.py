@@ -33,6 +33,11 @@ class Pages(object):
         return self._get_page(
             'auth', 'c2corg_ui:templates/auth.html', no_etag=True)
 
+    @view_config(route_name='sso-login')
+    def sso_login(self):
+        return self._get_page(
+            'sso-login', 'c2corg_ui:templates/sso_login.html')
+
     @view_config(route_name='account')
     def account(self):
         return self._get_page('account', 'c2corg_ui:templates/account.html')

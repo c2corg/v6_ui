@@ -182,6 +182,7 @@ def main(global_config, **settings):
 
     config.add_route('auth', '/auth')
     config.add_route('auth-sso', '/auth-sso')
+    config.add_route('sso-login', '/sso-login')
 
     config.add_route('topoguide', '/topoguide')
     config.add_route('serac', '/serac')

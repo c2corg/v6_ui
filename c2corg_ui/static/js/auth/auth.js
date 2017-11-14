@@ -155,6 +155,23 @@ app.AuthController.prototype.login = function() {
 
 
 /**
+ * @export
+ */
+app.AuthController.prototype.ssoLogin = function() {
+  var login = this.scope_['login'];
+  var remember = !!login['remember']; // a true boolean
+
+  // Discourse SSO
+  login['discourse'] = true;
+
+  // SSO Token
+  login['token'] = this.ngeoLocation_.getParam('token');
+
+  this.api_.ssoLogin(login).then(this.successLogin_.bind(this, remember));
+};
+
+
+/**
  * @param {string} url Authentication URL for discourse. This URL is returned
  * by the API.
  * @return {angular.$q.Promise}
@@ -210,7 +227,9 @@ app.AuthController.prototype.successLogin_ = function(remember, response) {
   var promise = discourse_url ? this.loginToDiscourse_(discourse_url) :
       this.q_.when(true);
 
-  promise.finally(this.redirect_.bind(this, data.redirect));
+  if (!this.ngeoLocation_.hasParam('no_redirect')) {
+    promise.finally(this.redirect_.bind(this, data.redirect));
+  }
 };
 
 

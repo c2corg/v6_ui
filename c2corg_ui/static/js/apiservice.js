@@ -391,6 +391,20 @@ app.Api.prototype.login = function(data) {
 
 
 /**
+ * @param {Object} data
+ * @return {!angular.$q.Promise<!angular.$http.Response>}
+ */
+app.Api.prototype.ssoLogin = function(data) {
+  var promise = this.postJson_('/sso_login', data);
+  promise.catch(function(response) {
+    var msg = this.alerts_.gettext('SSO login failed:');
+    this.alerts_.addErrorWithMsg(msg, response);
+  }.bind(this));
+  return promise;
+};
+
+
+/**
  * @param {string} lang
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
