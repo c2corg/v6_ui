@@ -18,7 +18,7 @@ _parsers_settings = None
 _cleaner = None
 
 _iframe_secret_tag = "iframe_" + binascii.hexlify(os.urandom(32)).decode('ascii')
-_ngclick_secret_tag = "iframe_" + binascii.hexlify(os.urandom(32)).decode('ascii')
+_ngclick_secret_tag = "ngclick_" + binascii.hexlify(os.urandom(32)).decode('ascii')
 
 """
 _***_secret_tag is used as a private key to remplace critical HTML node and attributes
