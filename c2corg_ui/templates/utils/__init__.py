@@ -1,5 +1,5 @@
 from c2corg_common.attributes import default_langs
-from c2corg_ui.format import parse_code, sanitize
+from c2corg_ui.format import parse_code
 
 
 def get_lang_lists(document, lang):
@@ -24,15 +24,14 @@ def get_title(locale):
     return title
 
 
-def get_attr(obj, key, md=True, bb=True):
+def get_attr(obj, key, parse):
     """Get attribute from passed object if exists.
     md and bb are optional params that may be used to finetune
     the text formating.
     """
     attr = obj[key] if key in obj else None
     if attr and isinstance(attr, str):
-        attr = sanitize(attr)
-        attr = parse_code(attr, md, bb) if md or bb else attr
+        attr = parse_code(attr) if parse else attr
     return attr
 
 
