@@ -13,25 +13,29 @@ from c2corg_ui.format.ltag import C2CLTagExtension
 from markdown.extensions.nl2br import Nl2BrExtension
 from markdown.extensions.toc import TocExtension
 
+def _get_secret():
+    return binascii.hexlify(os.urandom(32)).decode('ascii')
+
 _markdown_parser = None
 _parsers_settings = None
 _cleaner = None
-
-_iframe_secret_tag = "iframe_" + binascii.hexlify(os.urandom(32)).decode('ascii')
-_ngclick_secret_tag = "ngclick_" + binascii.hexlify(os.urandom(32)).decode('ascii')
+_iframe_secret_tag = "iframe_" + _get_secret()
+_ngclick_secret_tag = "ngclick_" + _get_secret()
 
 """
-_***_secret_tag is used as a private key to remplace critical HTML node and attributes
-The key point is this : the parser will use them. bleach will remove all critical nodes.
-Then. A very end parser replace secret_tag by good HTML node/attribute
+_***_secret_tag is used as a private key to remplace critical HTML node and
+attributes. The key point is this : the parser will use them. bleach will
+remove all critical nodes. Then, a very end parser replace secret_tag by good
+HTML node/attribute
 
 PEP 506 :
-os.urandom is the safe way to generate private data, where random module only generate random data
-without entropy. Hexlify() and ascii() convert it to lower case string. Once V6_ui will be into python
-3.6 or higher, we will use secrets module.
+os.urandom is the safe way to generate private data, where random module only
+generate random data without entropy. Hexlify() and ascii() convert it to
+lower case string. Once V6_ui will be into python 3.6 or higher, we will use
+secrets module.
 
-how to hack C2C ? if you want to inject an iframe, you will need to know the value of _iframe_secret_tag
-present into server memory.
+How to hack C2C ? if you want to inject an iframe, you will need to know the
+value of _iframe_secret_tag present into server memory.
 """
 
 
@@ -89,7 +93,8 @@ def _get_markdown_parser():
     if not _markdown_parser:
         extensions = [
             C2CWikiLinkExtension(),
-            C2CImageExtension(api_url=_parsers_settings['api_url'], ngclick_secret_tag=_ngclick_secret_tag),
+            C2CImageExtension(api_url=_parsers_settings['api_url'],
+                              ngclick_secret_tag=_ngclick_secret_tag),
             C2CImportantExtension(),
             C2CWarningExtension(),
             Nl2BrExtension(),

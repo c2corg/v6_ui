@@ -21,7 +21,8 @@ class C2CVideoExtension(Extension):
     def extendMarkdown(self, md, md_globals):  # noqa
         self.md = md
 
-        pattern = C2CVideo(VIDEO_RE, markdown_instance=md, iframe_secret_tag=self._iframe_secret_tag)
+        pattern = C2CVideo(VIDEO_RE, markdown_instance=md,
+                           iframe_secret_tag=self._iframe_secret_tag)
         pattern.md = md
         # append to end of inline patterns
         md.inlinePatterns.add('c2cvideo', pattern, "<extra_autolink")
@@ -36,19 +37,23 @@ class C2CVideo(Pattern):
         link = m.group(2).strip()
 
         # youtube http://www.youtube.com/watch?v=3xMk3RNSbcc(&something)
-        match = re.search(r"https?:\/\/(?:www\.)?youtube\.com/watch\?(?:[=&\w]+&)?v=([-\w]+)(?:&.+)?(?:\#.*)?",
-                          link)  # noqa
+        match = re.search(
+            r"https?:\/\/(?:www\.)?youtube\.com/watch\?(?:[=&\w]+&)?v=([-\w]+)(?:&.+)?(?:\#.*)?",
+            link)  # noqa
         if match:
             return self._embed('//www.youtube.com/embed/' + match.group(1))
 
         # youtube short links http://youtu.be/3xMk3RNSbcc
-        match = re.search(r'https?:\/\/(?:www\.)?youtu\.be/([-\w]+)(?:\#.*)?', link)  # noqa
+        match = re.search(r'https?:\/\/(?:www\.)?youtu\.be/([-\w]+)(?:\#.*)?',
+                          link)  # noqa
         if match:
             return self._embed('//player.vimeo.com/video/' + match.group(1) +
                                '?title=0&amp;byline=0&amp;portrait=0&amp;color=ff9933')  # noqa
 
         # dailymotion http://www.dailymotion.com/video/x28z33_chinese-man
-        match = re.search(r"https?://www\.dailymotion\.com/video/([\da-zA-Z]+)_[-&;\w]+(?:\#.*)?", link)  # noqa
+        match = re.search(
+            r"https?://www\.dailymotion\.com/video/([\da-zA-Z]+)_[-&;\w]+(?:\#.*)?",
+            link)  # noqa
         if match:
             return self._embed('//www.dailymotion.com/embed/video/' +
                                match.group(1) +

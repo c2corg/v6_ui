@@ -68,7 +68,10 @@ class C2CImage(Pattern):
         img.set('img-id', img_id)
 
         fig = etree.Element('figure')
-        fig.set(self._ngclick_secret_tag, 'detailsCtrl.openEmbeddedImage("' + img_url + '", "' + img_id + '")')
+        fig.set(self._ngclick_secret_tag,
+                'detailsCtrl.openEmbeddedImage("{}", "{}")'
+                .format(img_url, img_id))
+
         fig.append(img)
         fig.set('class', 'embedded_' + position + ' ' + img_size)
 
