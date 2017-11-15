@@ -13,8 +13,10 @@ from c2corg_ui.format.ltag import C2CLTagExtension
 from markdown.extensions.nl2br import Nl2BrExtension
 from markdown.extensions.toc import TocExtension
 
+
 def _get_secret():
     return binascii.hexlify(os.urandom(32)).decode('ascii')
+
 
 _markdown_parser = None
 _parsers_settings = None

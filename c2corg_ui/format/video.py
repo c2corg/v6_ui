@@ -37,9 +37,9 @@ class C2CVideo(Pattern):
         link = m.group(2).strip()
 
         # youtube http://www.youtube.com/watch?v=3xMk3RNSbcc(&something)
-        match = re.search(
-            r"https?:\/\/(?:www\.)?youtube\.com/watch\?(?:[=&\w]+&)?v=([-\w]+)(?:&.+)?(?:\#.*)?",
-            link)  # noqa
+        domain = r"https?:\/\/(?:www\.)?youtube\.com"
+        url = r"/watch\?(?:[=&\w]+&)?v=([-\w]+)(?:&.+)?(?:\#.*)?"
+        match = re.search(domain + url, link)  # noqa
         if match:
             return self._embed('//www.youtube.com/embed/' + match.group(1))
 
@@ -47,13 +47,15 @@ class C2CVideo(Pattern):
         match = re.search(r'https?:\/\/(?:www\.)?youtu\.be/([-\w]+)(?:\#.*)?',
                           link)  # noqa
         if match:
-            return self._embed('//player.vimeo.com/video/' + match.group(1) +
-                               '?title=0&amp;byline=0&amp;portrait=0&amp;color=ff9933')  # noqa
+            return self._embed('//player.vimeo.com/video/' +
+                               match.group(1) +
+                               '?title=0&amp;byline=0&amp;' +
+                               'portrait=0&amp;color=ff9933')  # noqa
 
         # dailymotion http://www.dailymotion.com/video/x28z33_chinese-man
-        match = re.search(
-            r"https?://www\.dailymotion\.com/video/([\da-zA-Z]+)_[-&;\w]+(?:\#.*)?",
-            link)  # noqa
+        domain = r"https?://www\.dailymotion\.com"
+        url = r"/video/([\da-zA-Z]+)_[-&;\w]+(?:\#.*)?"
+        match = re.search(domain + url, link)  # noqa
         if match:
             return self._embed('//www.dailymotion.com/embed/video/' +
                                match.group(1) +
@@ -70,8 +72,11 @@ class C2CVideo(Pattern):
         match = re.search(r'https?://(?:www\.)?vimeo\.com/(\d+)(?:\#.*)?',
                           link)
         if match:
-            return self._embed('//player.vimeo.com/video/' + match.group(1) +
-                               '?title=0&amp;byline=0&amp;portrait=0&amp;color=ff9933')  # noqa
+
+            return self._embed('//player.vimeo.com/video/' +
+                               match.group(1) +
+                               '?title=0&amp;byline=0&amp;' +
+                               'portrait=0&amp;color=ff9933')  # noqa
 
         return self.unescape(m.group(0))
 
