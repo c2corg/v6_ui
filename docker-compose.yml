@@ -3,7 +3,7 @@ ui:
   ports:
     - 6553:6553
   environment:
-    api_url: 'http://api.demov6.camptocamp.org'
+    api_url: 'https://api.demov6.camptocamp.org'
     version: ''
     redis_url: 'redis://redis:6379/'
   volumes:
