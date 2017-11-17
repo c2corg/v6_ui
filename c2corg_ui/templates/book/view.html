@@ -67,7 +67,7 @@ other_langs, missing_langs = get_lang_lists(book, lang)
         ${show_archive_data('books', book, locale, version)}
       % else:
         <div class="row">
-          <div class="col-xs-12 col-md-4 col-lg-3">
+          <div class="col-xs-12 col-md-4 col-lg-3" id="left-column">
             ${get_book_general(book)}
 
             ## IMAGES
@@ -78,11 +78,11 @@ other_langs, missing_langs = get_lang_lists(book, lang)
 
             ${get_licence(book)}
           </div>
-          <div class="col-xs-12 col-md-8 col-lg-9">
+          <div class="col-xs-12 col-md-8 col-lg-9" id="right-column">
             ${get_document_description(locale, 'book')}
               % if not version:
 
-          <span class="lead" ng-cloak>
+          <span class="lead" ng-cloak id="associated-documents">
               <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
                 <label translate>Add association</label>
                 <app-add-association parent-doctype="books" parent-id="${book_id}" dataset="wrc"></app-add-association>
