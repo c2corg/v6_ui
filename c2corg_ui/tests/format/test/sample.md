@@ -1,21 +1,46 @@
-## Title 1
-Some [b]bold text[/b] and a [[waypoints/12345/fr/some-slug|wiki link]] before [[/whatever|another one]] that follows.
+# Title 1
+## Title 2
+### Title 3
+#### Title 4
 
-### Title 2
+[b]Old bold BBcode en gras[/b] 
+old [url=http://example.com]bbcode link[/url]
 
-Here is a 'list':
+[[waypoints/12345/fr/some-slug|wiki link]] before [[/whatever|another one]] that follows.
+Some **bold text** and *italic*
+*italic âccentuated content*
+[markdown link](https://example.com?a=b&c=d)
+Use the `printf()` function.
+and <br> is allowed
 
-* a [url=http://example.com]standard link[/url]
-* another [url=https://httpbin.org/get?value1=1&value2=2]link[/url]
-* and a [markdown link](https://example.com)
-* <http://www.example.com>
-* and also a link without tag: https://example.com
-* some [i]italic âccentuated content[/i]
+<address@example.com>
 
-Another list:
+[img=123]image[/img]
 
-- [[routes/56730|Eperon de la Tournette]]
-- [[routes/49571|Versant W - Couloir Saudan]]
+[video]http://www.youtube.com/watch?v=qEpdQDqaQdo[/video]
+
+[video]wrong url[/video]
+
+> quote
+
+----
+
+### lists
+
+* Here
+* is
+    * a
+* list
+
+and
+
+- Another
+- list.
+
+and
+
+1. numbered list
+* with autonumber
 
 "Slope": > 30° and < 35°
 
@@ -23,3 +48,25 @@ Some pitches definition
 
 L# | 5b | Nice slab with a slightly harder move
 L# | 5a | Lightly protected, carrying a cam or two could help
+
+> quote
+
+[important]Some **important**
+thing[/important]
+
+    Code with <span>a span</span>
+    Code with <patate>unknown tag</patate>
+
+<script> alert("beach") </script> 
+
+<span>span</span>
+
+<patate>unknown tag</patate>
+
+<iframe>iframe</iframe>
+
+a est superieur > à b
+
+This is [an example][id] reference-style link.
+
+[id]: http://example.com/  "Optional Title Here"
