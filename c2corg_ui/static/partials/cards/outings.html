@@ -1,5 +1,5 @@
 <article class="post card-outing" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;" ng-click="cardCtrl.openDoc(doc)">
-  <div class="infoa">
+  <div class="infoa outing-date">
     <div class="parent-author">
       <div class="parent-hour">
         <div class="hour"><span class="d-hour">{{::doc['date_end'] | amUtc | amLocal | amDateFormat: 'DD/MM/YYYY'}}</span></div>
