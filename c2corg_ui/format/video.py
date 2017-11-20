@@ -18,7 +18,7 @@ class C2CVideoExtension(Extension):
     def extendMarkdown(self, md, md_globals):  # noqa
         self.md = md
 
-        pattern = C2CVideo(VIDEO_RE)
+        pattern = C2CVideo(VIDEO_RE, markdown_instance=md)
         pattern.md = md
         # append to end of inline patterns
         md.inlinePatterns.add('c2cvideo', pattern, "<extra_autolink")
