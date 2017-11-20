@@ -196,12 +196,8 @@ class LTagProcessor(BlockProcessor):
 
         for match in matches:
             pitch_type = match.group('pitch_type')
-            modifier = match.group('modifier')
+            #modifier = match.group('modifier')
             pitch_number = self.get_row_count(col_number, pitch_type)
-
-            # Text in the middle
-            #if modifier == "~":
-
 
             text = text.replace(
                 match.group(0),
