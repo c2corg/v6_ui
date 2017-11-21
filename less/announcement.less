@@ -13,6 +13,11 @@ app-announcement {
     height: 55px;
     border-bottom: 1px solid #b8daff;
     overflow: hidden;
+
+    @media print {
+        display: none;
+    }
+
     &.showAnnouncement {
       height: auto !important;
         .encart {
