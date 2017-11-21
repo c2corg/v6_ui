@@ -45,7 +45,8 @@ class LTagPreprocessor(Preprocessor):
             # Are current & next lines LTags ?
             is_line_ltag_line = self.processor.is_line_globally_ltag(line)
             if i < last_line:
-                is_line_ltag_next_line = self.processor.is_line_globally_ltag(lines[i+1])
+                is_line_ltag_next_line \
+                    = self.processor.is_line_globally_ltag(lines[i+1])
             else:
                 is_line_ltag_next_line = False
 
@@ -121,7 +122,8 @@ class LTagProcessor(BlockProcessor):
         if self.text_in_the_middle:
             return True
 
-        # There is a text in the middle LTAG "L#~" so we'll include the following lines until next LTAG
+        # There is a text in the middle LTAG "L#~" 
+        # so we'll include the following lines until next LTAG
         if self.is_line_ltag_for_text_in_the_middle(text):
             self.text_in_the_middle = True
             return True
@@ -129,7 +131,8 @@ class LTagProcessor(BlockProcessor):
         return is_line_ltag
 
     def is_line_ltag_for_text_in_the_middle(self, text):
-        return self.RE_LTAG_FOR_TEXT_IN_THE_MIDDLE_BLOCK.search(text) is not None
+        return self.RE_LTAG_FOR_TEXT_IN_THE_MIDDLE_BLOCK.search(text) \
+            is not None
 
     def test(self, parent, block):
         # Split block in lines
@@ -160,16 +163,18 @@ class LTagProcessor(BlockProcessor):
                 text_in_the_middle_td = None
 
             if text_in_the_middle_td is not None:
-                text_in_the_middle_td.text = text_in_the_middle_td.text + "<br/>" + row
+                text_in_the_middle_td.text = text_in_the_middle_td.text \
+                    + "<br/>" + row
                 continue
 
             if self.is_line_ltag_for_text_in_the_middle(row):
                 tr = etree.SubElement(tbody, 'tr')
                 text_in_the_middle_td = etree.SubElement(tr, 'td')
                 text_in_the_middle_td.set('colspan', str(max_col_number))
-                text_in_the_middle_td.text = self.RE_LTAG_FOR_TEXT_IN_THE_MIDDLE.sub('', row)
+                text_in_the_middle_td.text \
+                    = self.RE_LTAG_FOR_TEXT_IN_THE_MIDDLE.sub('', row)
                 continue
-                
+
             tr = etree.SubElement(tbody, 'tr')
             cols = row.split(self.pipe_replacement)
             col_number = 1
@@ -196,7 +201,7 @@ class LTagProcessor(BlockProcessor):
 
         for match in matches:
             pitch_type = match.group('pitch_type')
-            #modifier = match.group('modifier')
+            # modifier = match.group('modifier')
             pitch_number = self.get_row_count(col_number, pitch_type)
 
             text = text.replace(
