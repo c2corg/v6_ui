@@ -1,52 +1,50 @@
 .viewdoc {
 
-  background: @content-color;
-  @media print {
+  .location-static {
+    text-align: center;
+  }
 
-    .location-static {
-      text-align: center;
-    }
-
-    header {
-      &.view-title-with-bg {
+  header {
+    &.view-title-with-bg {
       height: auto !important;
       padding-top: 30px;
     }
   }
-    .glyphicon-menu-down {
+  .glyphicon-menu-down {
+    display: none;
+  }
+
+  .view-details-section {
+    [class^=embedded_] {
       display: none;
     }
 
-    .view-details-section {
-      [class^=embedded_] {
-        display: none;
-      }
-
-      #left-column {
-        display: none;
-      }
-
-      #right-column {
-        width: 100%;
-      }
-    }
-
-    h3 {
-      padding: 0 15px;
-    }
-
-    #discourse-comments, #associated-documents, #discourse-comments-title {
+    #left-column {
       display: none;
-      &.collapse.in {
-        display: none;
-      }
+    }
+
+    #right-column {
+      width: 100%;
     }
   }
+
+  h3 {
+    padding: 0 15px;
+  }
+
+  #discourse-comments, #associated-documents, #discourse-comments-title {
+    display: none;
+    &.collapse.in {
+      display: none;
+    }
+  }
+
+}
 
 
 .view-details-associations, .view-details-comments, .view-details-photos,
 .scroll-top-btn, .view-details-map, .badge, .icons-header {
-   display: none !important;
+  display: none !important;
 }
 
 .view-details-title {
