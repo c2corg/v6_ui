@@ -122,7 +122,7 @@ class LTagProcessor(BlockProcessor):
         if self.text_in_the_middle:
             return True
 
-        # There is a text in the middle LTAG "L#~" 
+        # There is a text in the middle LTAG "L#~"
         # so we'll include the following lines until next LTAG
         if self.is_line_ltag_for_text_in_the_middle(text):
             self.text_in_the_middle = True
