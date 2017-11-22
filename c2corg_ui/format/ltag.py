@@ -175,7 +175,7 @@ class LTagProcessor(BlockProcessor):
             if self.is_line_ltag_for_text_in_the_middle(row):
                 tr = etree.SubElement(tbody, 'tr')
                 text_in_the_middle_td = etree.SubElement(tr, 'td')
-                text_in_the_middle_td.set('colspan', str(max_col_number))
+                text_in_the_middle_td.set('colspan', str(max_col_number - 1))
                 text_in_the_middle_td.text \
                     = self.RE_LTAG_FOR_TEXT_IN_THE_MIDDLE.sub('', row)
                 continue
