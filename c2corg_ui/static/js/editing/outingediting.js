@@ -72,9 +72,13 @@ app.OutingEditingController = function($scope, $element, $attrs, $http,
     // allow association only for a new outing to existing route
     if (ngeoLocation.hasFragmentParam('r')) {
       var routeId = parseInt(ngeoLocation.getFragmentParam('r'), 10);
-      appApi.getDocumentByIdAndDoctype(routeId, 'r', appLang.getLang()).then(function(doc) {
-        this.documentService.pushToAssociations(doc.data['routes'].documents[0], 'routes', true);
-      }.bind(this));
+      appApi.getDocumentByIdAndDoctype(routeId, 'r', appLang.getLang()).then(
+        function(doc) {
+          this.documentService.pushToAssociations(doc.data['routes'].documents[0],
+                                                  'routes',
+                                                  this.handleAssociation);
+        }.bind(this)
+      );
     }
 
     this.scope[this.modelName]['associations']['users'].push({
@@ -130,6 +134,44 @@ app.OutingEditingController.prototype.prepareData = function(data) {
   this.formatOuting_(/** @type appx.Outing */ (data), true);
   // Length attributes are stored in meters but shown in kilometers:
   data['length_total'] *= 1000;
+
+  // filtering outing ratings on activities
+  var activities = data['activities'];
+  if (activities.indexOf('skitouring') === -1) {
+    delete data['ski_rating'];
+    delete data['labande_global_rating'];
+  }
+  if (activities.indexOf('snowshoeing') === -1) {
+    delete data['snowshoe_rating'];
+  }
+  if (activities.indexOf('hiking') === -1) {
+    delete data['hiking_rating'];
+  }
+  if (activities.indexOf('snow_ice_mixed') === -1 &&
+      activities.indexOf('mountain_climbing') === -1 &&
+      activities.indexOf('rock_climbing') === -1) {
+    delete data['global_rating'];
+  }
+  if (activities.indexOf('snow_ice_mixed') === -1 &&
+      activities.indexOf('mountain_climbing') === -1) {
+    delete data['height_diff_difficulties'];
+    delete data['engagement_rating'];
+  }
+  if (activities.indexOf('rock_climbing') === -1) {
+    delete data['equipment_rating'];
+    delete data['rock_free_rating'];
+  }
+  if (activities.indexOf('ice_climbing') === -1) {
+    delete data['ice_rating'];
+  }
+  if (activities.indexOf('via_ferrata') === -1) {
+    delete data['via_ferrata_rating'];
+  }
+  if (activities.indexOf('mountain_biking') === -1) {
+    delete data['mtb_up_rating'];
+    delete data['mtb_down_rating'];
+  }
+
   return data;
 };
 
@@ -199,13 +241,58 @@ app.OutingEditingController.prototype.formatOuting_ = function(outing, submit) {
  * init empty conditions levels for ng-repeat
  * @private
  */
-app.DocumentEditingController.prototype.initConditionsLevels_ = function() {
+app.OutingEditingController.prototype.initConditionsLevels_ = function() {
   this.scope['outing']['locales'][0]['conditions_levels'] = [{
     'level_snow_height_soft': '',
     'level_snow_height_total': '',
     'level_comment': '',
     'level_place': ''
   }];
+};
+
+
+/**
+ * @param {appx.Document} data
+ * @param {appx.SimpleSearchDocument} doc
+ * @param {string=} doctype Optional doctype
+ * @return {appx.Document}
+ * @export
+ */
+app.OutingEditingController.prototype.handleAssociation = function(data, doc,
+    doctype) {
+  doctype = doctype || app.utils.getDoctype(doc['type']);
+
+  // When creating an outing, set the default title and ratings using
+  // the first associated route data.
+  if (!data.document_id && doctype === 'routes' &&
+      data.associations.routes.length === 1) {
+    var title = 'title_prefix' in doc.locales[0] &&
+      doc.locales[0]['title_prefix'] ?
+      doc.locales[0]['title_prefix'] + ' : ' : '';
+    title += doc.locales[0]['title'];
+    data.locales[0]['title'] = title;
+
+    data['ski_rating'] = doc['ski_rating'];
+    data['labande_global_rating'] = doc['labande_global_rating'];
+    data['snowshoe_rating'] = doc['snowshoe_rating'];
+    data['hiking_rating'] = doc['hiking_rating'];
+    data['global_rating'] = doc['global_rating'];
+    data['height_diff_difficulties'] = doc['height_diff_difficulties'];
+    data['engagement_rating'] = doc['engagement_rating'];
+    data['equipment_rating'] = doc['equipment_rating'];
+    data['rock_free_rating'] = doc['rock_free_rating'];
+    data['ice_rating'] = doc['ice_rating'];
+    data['via_ferrata_rating'] = doc['via_ferrata_rating'];
+    data['mtb_up_rating'] = doc['mtb_up_rating'];
+    data['mtb_down_rating'] = doc['mtb_down_rating'];
+
+    data['elevation_min'] = doc['elevation_min'];
+    data['elevation_max'] = doc['elevation_max'];
+    data['height_diff_up'] = doc['height_diff_up'];
+    data['height_diff_down'] = doc['height_diff_down'];
+  }
+
+  return data;
 };
 
 app.module.controller('appOutingEditingController', app.OutingEditingController);
