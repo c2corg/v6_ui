@@ -20,7 +20,7 @@ class LTagPreprocessor(Preprocessor):
     """ Preprocess lines to clean LTag blocks """
 
     """ Supported tags are L#, R# """
-    RE_LTAG_UNSUPPORTED = re.compile(r'[L|R]#[^\s|~]+')
+    RE_LTAG_UNSUPPORTED = re.compile(r'[L|R]#[^\s|\~]+')
 
     def __init__(self, processor):
         self.processor = processor
@@ -135,6 +135,11 @@ class LTagProcessor(BlockProcessor):
             is not None
 
     def test(self, parent, block):
+        # Early return if we have to skip the whole block because of an
+        # unsupported Ltag
+        if self.skip:
+            return False
+
         # Split block in lines
         rows = block.split('\n')
         is_block_ltag = True
