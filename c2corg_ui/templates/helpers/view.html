@@ -46,7 +46,7 @@
 
 <%def name="show_attr(obj, key, parse=True)">\
   <%
-      attr = get_attr(obj, key, md=parse, bb=parse)
+      attr = get_attr(obj, key, parse=parse)
       attr = attr if attr else ''
   %>
   ${attr | n}\
@@ -157,7 +157,7 @@
 </%def>
 
 <%def name="show_version_comment(version)">\
-  ${get_attr(version, 'comment', md=False)  if version['comment'] else '' | n}
+  ${get_attr(version, 'comment', parse=False)  if version['comment'] else '' | n}
 </%def>
 
 <%def name="show_maps(document)">\
@@ -899,7 +899,7 @@
 </%def>
 
 <%def name="get_comments(disable=False)">\
-    <h3  class="show-phone"  id="discourse-comments-title" ng-init="open_tab = true" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#discourse-comments"><span translate>Comments</span><span class="glyphicon glyphicon-menu-down"></span></h3>
+    <h3  class="show-phone"  ng-init="open_tab = true" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#discourse-comments"><span translate>Comments</span><span class="glyphicon glyphicon-menu-down"></span></h3>
       <div class="finfo collapse in" id="discourse-comments" aria-expanded="true" ng-init="detailsCtrl.getComments();">
         <div class="ficontent max noflex" ng-if="detailsCtrl.documentService.document.topic_id == null" >
           <div class="no-thread">
