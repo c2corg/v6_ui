@@ -72,7 +72,6 @@ class C2CVideo(Pattern):
         match = re.search(r'https?://(?:www\.)?vimeo\.com/(\d+)(?:\#.*)?',
                           link)
         if match:
-
             return self._embed('//player.vimeo.com/video/' +
                                match.group(1) +
                                '?title=0&amp;byline=0&amp;' +
