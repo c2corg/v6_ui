@@ -101,14 +101,25 @@
   <div class="parent-infop">
     <div class="infop-bar">
       <div class="parent-activity">
-        <div class="parent-bubble" ng-repeat="activity in doc.activities">
+        <div class="parent-bubble" ng-repeat="activity in doc.activities | limitTo: 2">
           <a href="#" class="shcom" uib-tooltip="{{activity | translate}}">
             <div class="bubble">
               <span class="route-activity icon-{{::activity}}"></span>
             </div>
           </a>
         </div>
+        <div class="show-more-activities" ng-if="doc.activities.length > 2 && !cardCtrl.remainingActivities"
+              ng-click="$event.preventDefault(); cardCtrl.remainingActivities = true">
+          ...(+ {{::doc.activities.length - 2}})  
       </div>
+        <div ng-if="cardCtrl.remainingActivities" ng-repeat="activity in ::doc.activities | limitTo: (2 - doc.activities.length)"
+          <a href="#" class="shcom" uib-tooltip="{{activity | translate}}">
+            <div class="bubble">
+              <span class="route-activity icon-{{::activity}}"></span>
+            </div>
+          </a>
+        </div>
+      </div>    
       <div class="grow">
       </div>
       <div class="parent-bubble bubble-date">
