@@ -112,7 +112,7 @@
               ng-click="$event.preventDefault(); cardCtrl.remainingActivities = true">
           ...(+ {{::doc.activities.length - 2}})  
       </div>
-        <div ng-if="cardCtrl.remainingActivities" ng-repeat="activity in ::doc.activities | limitTo: (2 - doc.activities.length)"
+        <div class="parent-bubble" ng-if="cardCtrl.remainingActivities" ng-repeat="activity in ::doc.activities | limitTo: (2 - doc.activities.length)"
           <a href="#" class="shcom" uib-tooltip="{{activity | translate}}">
             <div class="bubble">
               <span class="route-activity icon-{{::activity}}"></span>
