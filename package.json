@@ -22,7 +22,7 @@
     "bootstrap": "3.3.6",
     "bootstrap-markdown": "2.10.0",
     "bootstrap-slider": "7.1.0",
-    "closure-util": "1.15.1",
+    "closure-util": "1.24.1",
     "d3": "3.5.17",
     "moment": "2.15.2",
     "moment-timezone": "0.5.9",
