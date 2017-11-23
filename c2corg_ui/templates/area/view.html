@@ -70,15 +70,7 @@ area['doctype'] = 'areas'
 <div ng-cloack>
 <div class="viewdoc">
   <app-announcement></app-announcement>
-  <header class="view-title-with-bg" ng-if="detailsCtrl.hasHeadband">
-    <div class="view-image-bg" ng-style="{'background-image': 'url('+this.headBands+')'}"><div class="view-filter-bg"></div></div>
-
-    <h1 class="routes">
-      <span class="title">${locale['title']}</span>
-      ${show_badge(area, 'area')}
-    </h1>
-  </header>
-  <header class="view-title-without-bg" ng-if="!detailsCtrl.hasHeadband">
+  <header class="view-title-without-bg">
     <h1 class="routes">
       <span class="title">${locale['title']}</span>
       ${show_badge(area, 'area')}

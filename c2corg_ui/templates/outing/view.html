@@ -87,17 +87,7 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
   <%block name="share">
     ${generate_share_metadata(outing, 'outings')}
   </%block>
-
-    <header class="view-title-with-bg" ng-if="detailsCtrl.hasHeadband">
-      <div class="view-image-bg" ng-style="{'background-image': 'url('+this.headBands+')'}"><div class="view-filter-bg"></div></div>
-
-      <h1 class="routes">
-        <span class="title">${locale['title']}</span>
-        <div class="icons-header routes">${get_activities(outing, 'top')}</div> ${show_badge(outing, 'outing')}
-             <div class="outing-date" class="ng-cloak">${show_fulldate(outing['date_start'], outing['date_end'])}</div>
-      </h1>
-    </header>
-    <header class="view-title-without-bg" ng-if="!detailsCtrl.hasHeadband">
+    <header class="view-title-without-bg">
       <h1 class="routes">
         <span class="title">${locale['title']}</span>
         <div class="icons-header routes">${get_activities(outing, 'top')}</div> ${show_badge(outing, 'outing')}
