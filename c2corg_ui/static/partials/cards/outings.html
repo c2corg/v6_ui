@@ -109,9 +109,9 @@
           </a>
         </div>
         <div class="show-more-activities" ng-if="doc.activities.length > 2 && !cardCtrl.remainingActivities"
-              ng-click="$event.preventDefault(); cardCtrl.remainingActivities = true">
-          ...(+ {{::doc.activities.length - 2}})  
-      </div>
+           ng-click="$event.preventDefault(); cardCtrl.remainingActivities = true">
+           ...(+ {{::doc.activities.length - 2}})  
+        </div>
         <div class="parent-bubble" ng-if="cardCtrl.remainingActivities" ng-repeat="activity in ::doc.activities | limitTo: (2 - doc.activities.length)"
           <a href="#" class="shcom" uib-tooltip="{{activity | translate}}">
             <div class="bubble">
