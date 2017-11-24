@@ -48,20 +48,33 @@
            ng-click="$event.stopPropagation()">{{cardCtrl.showArea(doc['areas'])}}</a>
       </div>
       <div class="grow"></div>
+      <div class="group-infop">
+        <div class="parent-bubble inlist">
+          <div class="bubble" uib-tooltip="{{'author'| translate}}" tooltip-append-to-body="true">
+            <span class="value-title glyphicon glyphicon-pencil"></span>
+          </div>
+        </div>
+        <div class="text-bubble inlist">
+          <a ng-href="/profiles/{{::doc['author']['user_id']}}/{{::doc['locales'][0]['lang']}}"
+             title="{{::doc['author']['name']}}" ng-click="$event.stopPropagation()">{{::doc['author']['name']}}</a>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="parent-infop parent-infop-first large" ng-init="fullRatings = feedCtrl.getFullRatings()">
+  <div class="parent-infop parent-infop-first large" ng-init="fullRatings = cardCtrl.getFullRatings()">
     <div class="group-infop">
       <div class="infop-bar">
         <div class="group-infop">
-          <div class="parent-bubble inlist">
-            <div class="bubble" uib-tooltip="{{'author'| translate}}" tooltip-append-to-body="true">
-              <span class="value-title glyphicon glyphicon-pencil"></span>
+          <div class="parent-bubble" >
+            <div class="bubble">
+              <span class="icon-rating" ng-if="fullRatings"></span>
             </div>
           </div>
-          <div class="text-bubble inlist">
-            <a ng-href="/profiles/{{::doc['author']['user_id']}}/{{::doc['locales'][0]['lang']}}"
-               title="{{::doc['author']['name']}}" ng-click="$event.stopPropagation()">{{::doc['author']['name']}}</a>
+          <div class="text-bubble cotationbox" >
+            <div ng-repeat="(attr, val) in fullRatings" uib-tooltip="{{attr | translate}} : {{::val}}"
+              class="rating ng-scope" tooltip-append-to-body="true">
+              <span class="value">{{::val}}</span>
+            </div>
           </div>
         </div>
         <div class="group-infop elevation_max"">
@@ -98,7 +111,7 @@
       </div>
     </div>
   </div>
-  <div class="parent-infop">
+  <div class="parent-infop outing-icon-infos">
     <div class="infop-bar">
       <div class="parent-activity">
         <div class="parent-bubble" ng-repeat="activity in doc.activities | limitTo: 2">

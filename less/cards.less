@@ -24,13 +24,15 @@
   }
 
   &.card-article {
-    height: 175px;
+    height: 150px;
     .title {
 
       white-space: normal;
     }
   }
-
+  &.card-article, .post.card-outing,  .post.card-waypoint, .post.route,  .post.area{
+    margin-bottom:0px;
+  }
   .value {
     color: #777;
 
@@ -240,9 +242,9 @@
 
       .parent-activity {
         display: flex;
-        width: 125px;
+        width: 80px;
         overflow: hidden;
-        height: 35px;
+        height: 30px;
       }
 
       .parent-elevation {
@@ -558,7 +560,7 @@
 
   .row-list {
     .cotationbox {
-      width:  120px;
+      width:  90px;
     }
     .outings {}
     .post.route {
@@ -608,6 +610,7 @@
             width: 100%;
           }
           .author {
+            max-width: 120px;
             a {
               font-weight: normal;
               text-overflow: ellipsis;
@@ -618,6 +621,19 @@
         .outing-date {
           width: 65px;
         }
+        .outing-icon-infos {
+          width:  150px;
+        }
+        .area  {
+          width:  10%;
+          max-width: 120px;
+        }
+        
+        .large {
+          width:  25%;
+          max-width: 250px;
+        }
+        
       }
       &.card-waypoint {
         .bquality{
@@ -698,6 +714,7 @@
 
           .infop-bar {
             display:block;
+            height: auto;
             .group-infop {
               float: left;
               &.elevation_max, &.height_diff_up , &.height_diff_difficulties {
@@ -774,14 +791,20 @@
       .parent-infop.inlist {
         display: none;
       }
-      .parent-infop {
-        .infop-bar {
-          .parent-activity {
-            width: 35px;
-          }
-        }
-      }
     }
+  }
+}
+
+@media @big {
+  .area {
+    width:  20%;
+    max-width: 600px;
+  }
+}
+@media @verybig {
+  .large {
+    width:  20%;
+    max-width: 600px;
   }
 }
 
@@ -996,7 +1019,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   display: flex;
-}
+} 
 
 #user-profile-data .post {
   max-width:none;
@@ -1036,7 +1059,9 @@
   }
 
 }
-
+.show-more-activities {
+    align-self: center;
+  }
 .show-more-activities:hover {
     color: teal;
     align-self: center;

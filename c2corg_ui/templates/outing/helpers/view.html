@@ -292,33 +292,33 @@
 </%def>
 
 ## RATING
-<%def name="get_outing_route_rating(route)">\
-% if route.get('global_rating') or route.get('engagement_rating') or route.get('risk_rating') or route.get('exposition_rock_rating') \
-  or route.get('rock_free_rating') or route.get('rock_required_rating') or route.get('hiking_rating') \
-  or route.get('hiking_mtb_exposition') or route.get('ice_rating') or route.get('mixed_rating') or route.get('snowshoe_rating')  \
-  or route.get('mtb_down_rating') or route.get('mtb_up_rating') or route.get('via_ferrata_rating') or route.get('equipment_rating') \
-  or route.get('ski_rating') or route.get('labande_ski_rating') or route.get('labande_global_rating') or route.get('ski_exposition') :
+<%def name="get_outing_rating(outing)">\
+% if outing.get('global_rating') or outing.get('engagement_rating')  \
+  or outing.get('rock_free_rating') or outing.get('hiking_rating') \
+  or outing.get('ice_rating') or outing.get('mixed_rating') or outing.get('snowshoe_rating')  \
+  or outing.get('mtb_down_rating') or outing.get('mtb_up_rating') or outing.get('via_ferrata_rating') or outing.get('equipment_rating') \
+  or outing.get('ski_rating') or outing.get('labande_global_rating') :
   <div class="col-sm-6 col-lg-3">
   <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
     <h4><span class="glyphicon glyphicon-sort-by-attributes"></span> <span translate>Rating</span><span class="glyphicon pull-right rotate-arrow-down"></span></h4>
     <span class="detail-text accordion ratings">
 
-      ${get_global_rating(route)}
-      ${get_skitouring_rating(route)}
+      ${get_global_rating(outing)}
+      ${get_skitouring_rating(outing)}
 
-      % if route.get('hiking_rating'):
+      % if outing.get('hiking_rating'):
         <div class="rating-block c">
-          <span uib-tooltip="{{'hiking_rating' | translate}}" class="value">${route['hiking_rating']}</span>&nbsp;
+          <span uib-tooltip="{{'hiking_rating' | translate}}" class="value">${outing['hiking_rating']}</span>&nbsp;
         </div>
       % endif
 
-      % if route.get('snowshoe_rating'):
+      % if outing.get('snowshoe_rating'):
         <div class="rating-block d">
-          <span uib-tooltip="{{mainCtrl.translate('snowshoe_rating')}}" class="value">${route['snowshoe_rating']}</span>
+          <span uib-tooltip="{{mainCtrl.translate('snowshoe_rating')}}" class="value">${outing['snowshoe_rating']}</span>
         </div>
       % endif
 
-      ${get_hiking_mtb_rating(route)}
+      ${get_hiking_mtb_rating(outing)}
     </span>
   </div>
   </div>

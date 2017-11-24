@@ -492,6 +492,7 @@
         text-align: justify;
         line-height: 22px;
       }
+      
     }
   }
 
@@ -567,6 +568,11 @@
     display: inline-block;
     max-width: 100%;
     line-height: 17px;
+    @media @desktop, @tablet {
+        .fage {
+          display: none;  
+        }
+      }
     .title {
       font-weight: bold;
       color: rgba(0,0,0,0.87);
