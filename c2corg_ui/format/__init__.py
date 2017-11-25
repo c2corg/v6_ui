@@ -54,7 +54,7 @@ def _get_cleaner():
     if not _cleaner:
         allowed_tags = bleach.ALLOWED_TAGS + [
             "div", "p", "h1", "h2", "h3", "h4", "h5", "pre", "hr",  # blocks
-            "span", "br", "sub", "sup", "s", "del", "ins",  # inline
+            "span", "br", "sub", "sup", "s", "del", "ins",  "small",  # inline
             "figure", "img", "figcaption",  # images
             _iframe_secret_tag,
             "table", "tr", "td", "th", "tbody"  # tables
