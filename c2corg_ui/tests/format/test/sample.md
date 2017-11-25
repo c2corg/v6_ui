@@ -1,13 +1,13 @@
 # Title 1
-## Title 2
-### Title 3
-#### Title 4
+## Title 2 ##
+### Title 3 # small
+#### Title 4 
 
 [b]Old bold BBcode en gras[/b] 
 old [url=http://example.com]bbcode link[/url]
 
 [[waypoints/12345/fr/some-slug|wiki link]] before [[/whatever|another one]] that follows.
-Some **bold text** and *italic*
+Some **bold text** and *italic* and small <small>text</small>
 *italic âccentuated content*
 [markdown link](https://example.com?a=b&c=d)
 Use the `printf()` function.

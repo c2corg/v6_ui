@@ -53,11 +53,19 @@ def _get_cleaner():
 
     if not _cleaner:
         allowed_tags = bleach.ALLOWED_TAGS + [
-            "div", "p", "h1", "h2", "h3", "h4", "h5", "pre", "hr",  # blocks
-            "span", "br", "sub", "sup", "s", "del", "ins",  # inline
-            "figure", "img", "figcaption",  # images
+            # blocks
+            "div", "p", "h1", "h2", "h3", "h4", "h5", "pre", "hr", "center",
+
+            # inline
+            "span", "br", "sub", "sup", "s", "del", "ins", "small",
+
+            # images
+            "figure", "img", "figcaption",
+
             _iframe_secret_tag,
-            "table", "tr", "td", "th", "tbody"  # tables
+
+            # tables
+            "table", "tr", "td", "th", "tbody"
         ]
 
         allowed_attributes = dict(bleach.ALLOWED_ATTRIBUTES)
