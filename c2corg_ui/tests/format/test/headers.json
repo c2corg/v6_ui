@@ -1,0 +1,29 @@
+[{
+  "id":"standard link",
+  "text":"## Title",
+  "expected":"<h3 id=\"title\">Title</h3>"
+},{
+  "id":"standard link2",
+  "text":"## Title #",
+  "expected":"<h3 id=\"title\">Title</h3>"
+},{
+  "id":"standard link3",
+  "text":"## Title ##",
+  "expected":"<h3 id=\"title\">Title</h3>"
+},{
+  "id":"standard link4",
+  "text":"## Title ###",
+  "expected":"<h3 id=\"title\">Title</h3>"
+},{
+  "id":"standard link5",
+  "text":"### Title ",
+  "expected":"<h4 id=\"title\">Title</h4>"
+},{
+  "id":"standard link6",
+  "text":"#### Title ",
+  "expected":"<h5 id=\"title\">Title</h5>"
+},{
+  "id":"Emphasis",
+  "text":"## Title # emphasis",
+  "expected":"<h3 id=\"title-emphasis\">Title<span class=\"HeaderEmphasis\">emphasis</span></h3>"
+}]
