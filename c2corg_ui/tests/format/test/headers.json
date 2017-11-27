@@ -26,4 +26,16 @@
   "id":"Emphasis",
   "text":"## Title # emphasis",
   "expected":"<h3 id=\"title-emphasis\">Title <span class=\"HeaderEmphasis\">emphasis</span></h3>"
+},{
+  "id":"Emphasis on h5",
+  "text":"#### Title # emphasis",
+  "expected":"<h5 id=\"title-emphasis\">Title <span class=\"HeaderEmphasis\">emphasis</span></h5>"
+},{
+  "id":"strange separator",
+  "text":"## Title #### emphasis",
+  "expected":"<h3 id=\"title-emphasis\">Title <span class=\"HeaderEmphasis\">emphasis</span></h3>"
+},{
+  "id":"Strange title",
+  "text":"## Title with # inside #### emphasis",
+  "expected":"<h3 id=\"title-with-inside-emphasis\">Title with # inside <span class=\"HeaderEmphasis\">emphasis</span></h3>"
 }]
