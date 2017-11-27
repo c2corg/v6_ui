@@ -33,7 +33,7 @@ class HeaderEmphasisProcessor(BlockProcessor):
             h = util.etree.SubElement(parent, 'h%d' % len(m.group('level')))
             h.text = m.group('header').strip() + ' '
             emphasis = util.etree.SubElement(h, 'span')
-            emphasis.set('class', 'HeaderEmphasis')
+            emphasis.set('class', 'header-emphasis')
             emphasis.text = m.group('emphasis').strip()
 
             if after:
