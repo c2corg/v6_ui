@@ -25,5 +25,5 @@
 },{
   "id":"Emphasis",
   "text":"## Title # emphasis",
-  "expected":"<h3 id=\"title-emphasis\">Title<span class=\"HeaderEmphasis\">emphasis</span></h3>"
+  "expected":"<h3 id=\"title-emphasis\">Title <span class=\"HeaderEmphasis\">emphasis</span></h3>"
 }]
