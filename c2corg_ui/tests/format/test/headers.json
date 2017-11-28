@@ -1,0 +1,41 @@
+[{
+  "id":"standard link",
+  "text":"## Title",
+  "expected":"<h3 id=\"title\">Title</h3>"
+},{
+  "id":"standard link2",
+  "text":"## Title #",
+  "expected":"<h3 id=\"title\">Title</h3>"
+},{
+  "id":"standard link3",
+  "text":"## Title ##",
+  "expected":"<h3 id=\"title\">Title</h3>"
+},{
+  "id":"standard link4",
+  "text":"## Title ###",
+  "expected":"<h3 id=\"title\">Title</h3>"
+},{
+  "id":"standard link5",
+  "text":"### Title ",
+  "expected":"<h4 id=\"title\">Title</h4>"
+},{
+  "id":"standard link6",
+  "text":"#### Title ",
+  "expected":"<h5 id=\"title\">Title</h5>"
+},{
+  "id":"Emphasis",
+  "text":"## Title # emphasis",
+  "expected":"<h3 id=\"title-emphasis\">Title <span class=\"header-emphasis\">emphasis</span></h3>"
+},{
+  "id":"Emphasis on h5",
+  "text":"#### Title # emphasis",
+  "expected":"<h5 id=\"title-emphasis\">Title <span class=\"header-emphasis\">emphasis</span></h5>"
+},{
+  "id":"strange separator",
+  "text":"## Title #### emphasis",
+  "expected":"<h3 id=\"title-emphasis\">Title <span class=\"header-emphasis\">emphasis</span></h3>"
+},{
+  "id":"Strange title",
+  "text":"## Title with # inside #### emphasis",
+  "expected":"<h3 id=\"title-with-inside-emphasis\">Title with # inside <span class=\"header-emphasis\">emphasis</span></h3>"
+}]

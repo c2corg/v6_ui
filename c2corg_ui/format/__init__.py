@@ -9,6 +9,7 @@ from c2corg_ui.format.video import C2CVideoExtension
 from c2corg_ui.format.important import C2CImportantExtension
 from c2corg_ui.format.warning import C2CWarningExtension
 from c2corg_ui.format.ltag import C2CLTagExtension
+from c2corg_ui.format.header_emphasis import HeaderEmphasisExtension
 from markdown.extensions.nl2br import Nl2BrExtension
 from markdown.extensions.toc import TocExtension
 
@@ -37,6 +38,7 @@ def _get_markdown_parser():
             AutoLinkExtension(),
             C2CVideoExtension(),
             C2CLTagExtension(),
+            HeaderEmphasisExtension(),
         ]
         _markdown_parser = markdown.Markdown(output_format='xhtml5',
                                              extensions=extensions)
