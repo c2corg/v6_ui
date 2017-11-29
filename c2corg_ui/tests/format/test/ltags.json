@@ -21,7 +21,12 @@
     },
     {
         "id": "Unsupported LTag",
-        "text": "L#~ |1\nL#| 2",
-        "expected": "<p>L#~ |1<br>\nL#| 2</p>"
+        "text": "L#+1 |1\nL#| 2",
+        "expected": "<p>L#+1 |1<br>\nL#| 2</p>"
+    },
+    {
+        "id": "Text in the middle",
+        "text": "L# | 1 \nL#~ text in\nthe middle\nL# | 2 ",
+        "expected": "<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>1</span></td>\n<td>1</td>\n</tr>\n<tr>\n<td colspan=\"2\">text in<br>the middle</td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>2</span></td>\n<td>2</td>\n</tr>\n</tbody>\n</table>"
     }
 ]

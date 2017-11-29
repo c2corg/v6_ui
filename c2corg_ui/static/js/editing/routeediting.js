@@ -42,9 +42,13 @@ app.RouteEditingController = function($scope, $element, $attrs, $http,
     // allow association only for a new route to existing waypoint
     if (ngeoLocation.hasFragmentParam('w')) {
       var waypointId = parseInt(ngeoLocation.getFragmentParam('w'), 10);
-      appApi.getDocumentByIdAndDoctype(waypointId, 'w', appLang.getLang()).then(function(doc) {
-        this.documentService.pushToAssociations(doc.data['waypoints'].documents[0], 'waypoints', false, true);
-      }.bind(this));
+      appApi.getDocumentByIdAndDoctype(waypointId, 'w', appLang.getLang()).then(
+        function(doc) {
+          this.documentService.pushToAssociations(doc.data['waypoints'].documents[0],
+                                                  'waypoints',
+                                                  this.handleAssociation);
+        }.bind(this)
+      );
     }
   }
 };
@@ -62,21 +66,6 @@ app.RouteEditingController.prototype.hasActivity = function(activities) {
 
 
 /**
- * @param {string} selector
- * @param {string} sizem
- * @export
- */
-app.RouteEditingController.prototype.openModal = function(selector,sizem) {
-
-  var template = $(selector).clone();
-  if (sizem === null) {
-    sizem = 'lg';
-  }
-  this.modal.open({animation: true, size: sizem, template: this.compile(template)(this.scope)});
-};
-
-
-/**
  * @return {boolean}
  * @export
  */
@@ -90,6 +79,28 @@ app.RouteEditingController.prototype.showRatings = function() {
     // no rating for slacklining
     return activities[0] !== 'slacklining';
   }
+};
+
+
+/**
+ * @param {appx.Document} data
+ * @param {appx.SimpleSearchDocument} doc
+ * @param {string=} doctype Optional doctype
+ * @return {appx.Document}
+ * @export
+ */
+app.RouteEditingController.prototype.handleAssociation = function(data, doc,
+    doctype) {
+  // when creating a route, make the first associated wp a main one
+  if (!data.document_id && data.associations.waypoints.length === 1) {
+    data['main_waypoint_id'] = doc['document_id'];
+    if (doc['waypoint_type'] === 'access') {
+      data['elevation_min'] = doc['elevation'];
+    } else {
+      data['elevation_max'] = doc['elevation'];
+    }
+  }
+  return data;
 };
 
 app.module.controller('appRouteEditingController', app.RouteEditingController);

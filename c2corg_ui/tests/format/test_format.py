@@ -9,6 +9,7 @@ base_path = os.path.dirname(os.path.abspath(__file__))
 
 
 class TestFormat(unittest.TestCase):
+    maxDiff = None
     def setUp(self):  # noqa
         configure_parsers({'api_url': 'https://api.camptocamp.org/'})
 
