@@ -76,6 +76,7 @@ def _get_cleaner():
             "h3": ["id"],
             "h4": ["id"],
             "h5": ["id"],
+            "div": ["class"],
             "table": ["class"],
             "td": ["colspan"],
             "span": ["class", "translate", "id"],
