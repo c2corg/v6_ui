@@ -1,5 +1,5 @@
 <article class="post card-outing" ng-init="doc = cardCtrl.doc; locale = cardCtrl.locale;" ng-click="cardCtrl.openDoc(doc)">
-  <div class="infoa">
+  <div class="infoa outing-date">
     <div class="parent-author">
       <div class="parent-hour">
         <div class="hour"><span class="d-hour">{{::doc['date_end'] | amUtc | amLocal | amDateFormat: 'DD/MM/YYYY'}}</span></div>
@@ -101,14 +101,25 @@
   <div class="parent-infop">
     <div class="infop-bar">
       <div class="parent-activity">
-        <div class="parent-bubble" ng-repeat="activity in doc.activities">
+        <div class="parent-bubble" ng-repeat="activity in doc.activities | limitTo: 2">
           <a href="#" class="shcom" uib-tooltip="{{activity | translate}}">
             <div class="bubble">
               <span class="route-activity icon-{{::activity}}"></span>
             </div>
           </a>
         </div>
-      </div>
+        <div class="show-more-activities" ng-if="doc.activities.length > 2 && !cardCtrl.remainingActivities"
+           ng-click="$event.preventDefault(); cardCtrl.remainingActivities = true">
+           ...(+ {{::doc.activities.length - 2}})  
+        </div>
+        <div class="parent-bubble" ng-if="cardCtrl.remainingActivities" ng-repeat="activity in ::doc.activities | limitTo: (2 - doc.activities.length)"
+          <a href="#" class="shcom" uib-tooltip="{{activity | translate}}">
+            <div class="bubble">
+              <span class="route-activity icon-{{::activity}}"></span>
+            </div>
+          </a>
+        </div>
+      </div>    
       <div class="grow">
       </div>
       <div class="parent-bubble bubble-date">

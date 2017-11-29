@@ -1,6 +1,9 @@
 <%!
-from c2corg_common.attributes import default_langs, quality_types, activities, frequentation_types, \
-    condition_ratings, glacier_ratings, avalanche_signs
+from c2corg_common.attributes import default_langs, quality_types, activities, \
+    frequentation_types, condition_ratings, glacier_ratings, avalanche_signs, \
+    climbing_ratings, ski_ratings, global_ratings, engagement_ratings, equipment_ratings, \
+    ice_ratings, via_ferrata_ratings, hiking_ratings, snowshoe_ratings, \
+    mtb_up_ratings, mtb_down_ratings
 %>
 <%namespace file="../helpers/filters.html" import="add_multiselect, show_results_buttons, show_filters_buttons"/>
 
@@ -27,7 +30,7 @@ from c2corg_common.attributes import default_langs, quality_types, activities, f
   </div>
 </%def>
 
-<form app-search-filters app-search-filters-controller-name="appOutingFiltersController"  app-sticky-filters>
+<form app-search-filters app-search-filters-controller-name="appOutingFiltersController" app-sticky-filters>
   <div class="filters">
     ${simple_filters()}
     <div class="row collapse" id="moreFilters">
@@ -56,24 +59,8 @@ from c2corg_common.attributes import default_langs, quality_types, activities, f
       </div>
 
       <div class="col-xs-12 col-sm-6 filter">
-        <label translate>lang</label><br>
-        ${add_multiselect('l', default_langs)}
-      </div>
-
-      <div class="col-xs-12 col-sm-6 filter">
-        <label translate>quality</label><br>
-        <app-slider filter="qa" filters-list="filtersCtrl.filters" unit=""
-          values-list="['${"','".join(quality_types) |n}']"></app-slider>
-      </div>
-
-      <div class="col-xs-12 col-sm-6 filter">
         <label translate>elevation_max</label><br>
         <app-slider filter="oalt" filters-list="filtersCtrl.filters" max="8850"></app-slider>
-      </div>
-
-      <div class="col-xs-12 col-sm-6 filter">
-        <label translate>height_diff_up</label><br>
-        <app-slider filter="odif" filters-list="filtersCtrl.filters" max="5000"></app-slider>
       </div>
 
       <div class="col-xs-12 col-sm-6 filter">
@@ -82,17 +69,122 @@ from c2corg_common.attributes import default_langs, quality_types, activities, f
       </div>
 
       <div class="col-xs-12 col-sm-6 filter">
+        <label translate>height_diff_up</label><br>
+        <app-slider filter="odif" filters-list="filtersCtrl.filters" max="5000"></app-slider>
+      </div>
+
+      <div class="col-xs-12 col-sm-6 filter"
+           ng-if="filtersCtrl.filters.act.length
+               && (filtersCtrl.filters.act.indexOf('snow_ice_mixed') !== -1 ||
+                   filtersCtrl.filters.act.indexOf('mountain_climbing') !== -1)">
+        <label translate>height_diff_difficulties</label><br>
+        <app-slider filter="dhei" filters-list="filtersCtrl.filters" max="3000"></app-slider>
+      </div>
+
+      <div class="col-xs-12 col-sm-6 filter">
         <label translate>frequentation</label><br>
         <app-slider filter="ofreq" filters-list="filtersCtrl.filters" unit=""
           values-list="['${"','".join(frequentation_types) |n}']"></app-slider>
       </div>
 
-      <div class="col-xs-12 col-sm-6 filter">
-        <label translate>public_transport</label><br>
-        <a ng-click="filtersCtrl.toggleCheckbox('owpt')">
-          <input type="checkbox" ng-checked="filtersCtrl.filters.owpt">
-          <span></span>
-        </a>
+      <div ng-if="filtersCtrl.filters.act.length
+               && (filtersCtrl.filters.act.indexOf('snow_ice_mixed') !== -1 ||
+                   filtersCtrl.filters.act.indexOf('mountain_climbing') !== -1)">
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>global_rating</label><br>
+          <app-slider filter="grat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(global_ratings) |n}']"></app-slider>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>engagement_rating</label><br>
+          <app-slider filter="erat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(engagement_ratings) |n}']"></app-slider>
+        </div>
+      </div>
+
+      <div ng-if="filtersCtrl.filters.act.length
+               && filtersCtrl.filters.act.indexOf('rock_climbing') !== -1">
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>global_rating</label><br>
+          <app-slider filter="grat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(global_ratings) |n}']"></app-slider>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>equipment_rating</label><br>
+          <app-slider filter="prat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(equipment_ratings) |n}']"></app-slider>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>rock_free_rating</label><br>
+          <app-slider filter="frat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(climbing_ratings) |n}']"></app-slider>
+        </div>
+      </div>
+
+      <div ng-if="filtersCtrl.filters.act.length
+               && filtersCtrl.filters.act.indexOf('skitouring') !== -1">
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>ski_rating</label><br>
+          <app-slider filter="trat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(ski_ratings) |n}']"></app-slider>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>labande_global_rating</label><br>
+          <app-slider filter="lrat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(global_ratings) |n}']"></app-slider>
+        </div>
+      </div>
+
+      <div ng-if="filtersCtrl.filters.act.length
+               && filtersCtrl.filters.act.indexOf('ice_climbing') !== -1">
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>ice_rating</label><br>
+          <app-slider filter="irat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(ice_ratings) |n}']"></app-slider>
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-sm-6 filter"
+           ng-if="filtersCtrl.filters.act.length
+               && filtersCtrl.filters.act.indexOf('via_ferrata') !== -1">
+        <label translate>via_ferrata_rating</label><br>
+        <app-slider filter="krat" filters-list="filtersCtrl.filters" unit=""
+          values-list="['${"','".join(via_ferrata_ratings) |n}']"></app-slider>
+      </div>
+
+      <div class="col-xs-12 col-sm-6 filter"
+           ng-if="filtersCtrl.filters.act.length
+               && filtersCtrl.filters.act.indexOf('hiking') !== -1">
+        <label translate>hiking_rating</label><br>
+        <app-slider filter="hrat" filters-list="filtersCtrl.filters" unit=""
+          values-list="['${"','".join(hiking_ratings) |n}']"></app-slider>
+      </div>
+
+      <div class="col-xs-12 col-sm-6 filter"
+           ng-if="filtersCtrl.filters.act.length
+               && filtersCtrl.filters.act.indexOf('snowshoeing') !== -1">
+        <label translate>snowshoe_rating</label><br>
+        <app-slider filter="wrat" filters-list="filtersCtrl.filters" unit=""
+          values-list="['${"','".join(snowshoe_ratings) |n}']"></app-slider>
+      </div>
+
+      <div ng-if="filtersCtrl.filters.act.length
+               && filtersCtrl.filters.act.indexOf('mountain_biking') !== -1">
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>mtb_up_rating</label><br>
+          <app-slider filter="mbur" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(mtb_up_ratings) |n}']"></app-slider>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
+          <label translate>mtb_down_rating</label><br>
+          <app-slider filter="mbdr" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(mtb_down_ratings) |n}']"></app-slider>
+        </div>
       </div>
 
       ## SNOW ACTVITIES
@@ -101,11 +193,6 @@ from c2corg_common.attributes import default_langs, quality_types, activities, f
                     filtersCtrl.filters.act.indexOf('snow_ice_mixed') !== -1 ||
                     filtersCtrl.filters.act.indexOf('mountain_climbing') !== -1 ||
                     filtersCtrl.filters.act.indexOf('ice_climbing') !== -1)">
-
-        <div class="col-xs-12 col-sm-6 filter">
-          <label translate>avalanche_signs</label><br>
-          ${add_multiselect('avdate', avalanche_signs)}
-        </div>
 
         <div class="col-xs-12 col-sm-6 filter">
           <label translate>elevation_up_snow</label><br>
@@ -130,11 +217,35 @@ from c2corg_common.attributes import default_langs, quality_types, activities, f
         </div>
 
         <div class="col-xs-12 col-sm-6 filter">
+          <label translate>avalanche_signs</label><br>
+          ${add_multiselect('avdate', avalanche_signs)}
+        </div>
+
+        <div class="col-xs-12 col-sm-6 filter">
           <label translate>glacier_rating</label><br>
           <app-slider filter="oglac" filters-list="filtersCtrl.filters" unit=""
             values-list="['${"','".join(glacier_ratings) |n}']"></app-slider>
         </div>
 
+      </div>
+
+      <div class="col-xs-12 col-sm-6 filter">
+        <label translate>public_transport</label><br>
+        <a ng-click="filtersCtrl.toggleCheckbox('owpt')">
+          <input type="checkbox" ng-checked="filtersCtrl.filters.owpt">
+          <span></span>
+        </a>
+      </div>
+
+      <div class="col-xs-12 col-sm-6 filter">
+        <label translate>lang</label><br>
+        ${add_multiselect('l', default_langs)}
+      </div>
+
+      <div class="col-xs-12 col-sm-6 filter">
+        <label translate>quality</label><br>
+        <app-slider filter="qa" filters-list="filtersCtrl.filters" unit=""
+          values-list="['${"','".join(quality_types) |n}']"></app-slider>
       </div>
 
       ${show_results_buttons('outings')}
