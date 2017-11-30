@@ -10,18 +10,20 @@
   }
 }
 
-#topoguide .list-item, #serac .list-item {
+#topoguide .list-item, #serac .list-item, #friend .list-item  {
 
   position: relative;
   cursor: pointer;
-  background-color: white;
   margin-top: 4px;
   outline: none;
-  border-radius: 7px;
-  -moz-border-radius: 7px;
-  -webkit-border-radius: 7px;
-  transition: .2s ease-in-out;
-  border: 1px solid @darkgray; 
+  margin-top: 4px;
+  background-color: #fefefe;
+  border-radius: 2px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  transition: .2s ease-in-out; 
+  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
 
 
   &:active {
@@ -381,12 +383,24 @@
     right: 5px;
   }
 }
-
+ 
 .list.users,
 .list.areas {
   .list-item {
+    margin-top: 4px;
+    background-color: #fefefe;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    transition: .2s ease-in-out; 
+    -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+    align-items: center;
     flex: 1 0 200px;
     min-width: 0;
+    a {
+      line-height: 50px;
+    }          
   }
 }
 
