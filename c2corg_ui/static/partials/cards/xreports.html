@@ -3,7 +3,7 @@
      ng-click="$event.stopPropagation()" class="text-link">
     <div class="parent-text">
       <div class="text emptyimg">{{::locale.title}}
-        <div class="summary">i
+        <div class="summary">
           <span class="value" ng-repeat="type in doc['event_type']">{{type | translate}}{{$last ? '' : ', '}}</span>
         </div>
       </div>
@@ -47,7 +47,7 @@
         </div>
       </div>
       <div class="text-bubble">
-        {{::doc['date_end'] | amUtc | amLocal | amDateFormat: 'DD/MM/YYYY'}}
+        {{::doc['date'] | amUtc | amLocal | amDateFormat: 'DD/MM/YYYY'}}
       </div>
       <div class="grow"></div>
     </div>
