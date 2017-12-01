@@ -13,7 +13,7 @@ from json import dumps
   delete_association_confirmation_modal, associated_waypoints_featurelist,
   associated_images_featurelist, show_badge, get_licence,
   show_merge_documents_dialog, show_delete_document_dialog"/>
-<%namespace file="helpers/view.html" import="show_fulldate, get_xreport_general, get_xreport_participants, get_xreport_personal"/>
+<%namespace file="helpers/view.html" import="show_fulldate, get_xreport_general, get_xreport_participants"/>
 
 <%
 xreport_id = xreport['document_id']
@@ -141,8 +141,7 @@ other_langs, missing_langs = get_lang_lists(xreport, lang)
           ${get_document_locale_text(locale, 'other_comments', True)}
 
           % if not version:
-            <div
-                 ng-init="a = detailsCtrl.documentService.document.associations"
+            <div ng-init="a = detailsCtrl.documentService.document.associations"
                  ng-show="a.waypoints.length || a.routes.length || a.articles.length || a.outings.length" id="associated-documents">
               <span class="lead">
                 <div class="add-association" ng-show="userCtrl.auth.isAuthenticated()
