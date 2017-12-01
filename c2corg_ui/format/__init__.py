@@ -78,7 +78,6 @@ def _get_cleaner():
             "h5": ["id"],
             "div": ["class"],
             "table": ["class"],
-            "div": ["class"],
             "td": ["colspan"],
             "span": ["class", "translate", "id"],
             _iframe_secret_tag: ["class", "src"],
