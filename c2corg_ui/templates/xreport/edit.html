@@ -407,15 +407,13 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
                 <app-simple-search parent-id="xreport.document_id"
                                    app-select="editCtrl.documentService.pushToAssociations(doc, 'users')" dataset="u"></app-simple-search>
                 <section class="associated-section flex wrap-row">
-                  <h5 translate ng-show="xreport.associations.users.length == 0">You can look up for users that were with you during the accident.</h5>
+                  <h5 translate ng-if="xreport.associations.users.length == 0">You can look up for users that were with you during the accident.</h5>
+                  <div class="list users" ng-if="xreport.associations.users.length > 0">
                     <div class="list-item users new-item" ng-repeat="user in xreport.associations.users track by user.name">
                       <app-card app-card-doc="{'document_id': user.document_id, 'name': user.name, 'type': 'u', 'locales': user.locales}"></app-card>
                       <span class="glyphicon glyphicon-trash"
-                            ng-click="editCtrl.documentService.removeAssociation(user.document_id, 'users', $event)"
-                            ng-show="xreport.associations.users.length > 1"></span>
-                    <span class="glyphicon glyphicon-trash"
-                          ng-click="editCtrl.documentService.removeAssociation(user.document_id, 'users', $event)"
-                          ng-show="xreport.associations.users.length > 1"></span>
+                            ng-click="editCtrl.documentService.removeAssociation(user.document_id, 'users', $event)"></span>
+                    </div>
                   </div>
                 </section>
 
