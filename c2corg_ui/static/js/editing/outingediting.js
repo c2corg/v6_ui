@@ -81,11 +81,18 @@ app.OutingEditingController = function($scope, $element, $attrs, $http,
       );
     }
 
-    this.scope[this.modelName]['associations']['users'].push({
-      'document_id': this.auth.userData.id,
-      'name': this.auth.userData.name
-    });
     if (!this.id) {
+      // for a new outing, associate author
+      this.scope[this.modelName]['associations']['users'].push({
+        'document_id': this.auth.userData.id,
+        'name': this.auth.userData.name,
+        'locales': [
+          {
+            'lang': this.auth.userData.lang,
+            'version': 1
+          }
+        ]
+      });
       this.initConditionsLevels_();
     }
   }
