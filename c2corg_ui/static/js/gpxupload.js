@@ -66,8 +66,20 @@ app.GpxUploadController.prototype.importGpx_ = function(gpx) {
   var features = gpxFormat.readFeatures(gpx, {
     featureProjection: 'EPSG:3857'
   });
+  if (features.length > 1) {
+    var parser = new jsts.io.OL3Parser();
+    var gf = new jsts.geom.GeometryFactory();
+
+    var jstsFeatures = [];
+    for (var i = 0; i < features.length; i++) {
+      jstsFeatures.push(parser.read(features[i]));
+    }
+    var jstsFeatureColl = gf.createGeometryCollection(jstsFeatures);
+    var mergedFeatures = jstsFeatureColl.union();
+    features[0].setGeometry(parser.write(mergedFeatures));
+  }
   if (features.length) {
-    this.scope_.$root.$emit('featuresUpload', features);
+    this.scope_.$root.$emit('featuresUpload', [features[0]]);
   }
 };
 
