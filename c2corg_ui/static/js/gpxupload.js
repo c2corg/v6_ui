@@ -72,14 +72,16 @@ app.GpxUploadController.prototype.importGpx_ = function(gpx) {
 
     var jstsFeatures = [];
     for (var i = 0; i < features.length; i++) {
-      jstsFeatures.push(parser.read(features[i]));
+      var geofeat = features[i].getGeometry();
+      var jstsfeat = parser.read(geofeat);
+      jstsFeatures.push(jstsfeat);
     }
     var jstsFeatureColl = gf.createGeometryCollection(jstsFeatures);
     var mergedFeatures = jstsFeatureColl.union();
     features[0].setGeometry(parser.write(mergedFeatures));
   }
   if (features.length) {
-    this.scope_.$root.$emit('featuresUpload', [features[0]]);
+    this.scope_.$root.$emit('featuresUpload', features);
   }
 };
 

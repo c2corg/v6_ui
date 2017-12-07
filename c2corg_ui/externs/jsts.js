@@ -20,7 +20,7 @@ jsts.io = {};
 jsts.io.OL3Parser = function() {};
 
 /**
- * @param {Object} feat
+ * @param {ol.geom.Geometry|undefined} feat
  */
 jsts.io.OL3Parser.prototype.read = function(feat) {};
 
