@@ -215,7 +215,7 @@
           ('level_comment' in cond[0] and cond[0].get('level_comment') != '') )
   %>
   % if locale.get('weather') or locale.get('conditions') or conditions_levels_exist:
-    <h3 ng-click="mainCtrl.animateHeaderIcon($event)" class="${'' if open_tab else 'closed'}"
+    <h3 ng-click="mainCtrl.animateHeaderIcon($event)" class="${'' if open_tab else 'closed '}collapsible-title"
         data-toggle="collapse" data-target="#weather-conditions" aria-expanded="${'true' if open_tab else 'false'}" aria-controls="weather-conditions">
       <span translate>weather and conditions</span><span class="glyphicon glyphicon-menu-${'down' if open_tab else 'right'}"></span>
     </h3>
@@ -329,7 +329,7 @@
 </%def>
 
 <%def name="get_outing_elevation_profile()">\
-  <h3 class="show-phone" ng-click="mainCtrl.animateHeaderIcon($event)" id="elevation-profile-title"
+  <h3 class="show-phone collapsible-title" ng-click="mainCtrl.animateHeaderIcon($event)" id="elevation-profile-title"
         data-toggle="collapse" data-target="#elevation-profile" aria-expanded="true" aria-controls="elevation-profile">
       <span translate>Elevation profile</span><span class="glyphicon glyphicon-menu-right"></span>
   </h3>

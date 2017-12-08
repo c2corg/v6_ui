@@ -5,7 +5,7 @@
 </%def>
 
 <%def name="get_xreport_general(xreport)">\
-  <h3 ng-click="mainCtrl.animateHeaderIcon($event)"
+  <h3 ng-click="mainCtrl.animateHeaderIcon($event)" class="collapsible-title"
       data-toggle="collapse" data-target="#general" aria-expanded="true" aria-controls="general">
     <span translate>Information</span> <span class="glyphicon glyphicon-menu-down"></span>
   </h3>
@@ -87,7 +87,7 @@
 
 <%def name="get_xreport_participants(xreport)">\
   % if 'users' in xreport['associations'] and xreport['associations']['users']:
-    <h3 ng-click="mainCtrl.animateHeaderIcon($event)"
+    <h3 ng-click="mainCtrl.animateHeaderIcon($event)" class="collapsible-title"
         data-toggle="collapse" data-target="#participant" aria-expanded="true" aria-controls="participant">
       <span translate>participants</span> <span class="glyphicon glyphicon-menu-down"></span>
     </h3>

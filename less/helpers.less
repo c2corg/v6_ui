@@ -185,13 +185,18 @@ input[type=checkbox]:checked + * {
   color: @bright-green;
 }
 
-.rotate-arrow-down {
-  transform: rotateZ(90deg);
-  transition: .3s;
-}
-.rotate-arrow-up {
-  transform: rotateZ(-90deg);
-  transition: .3s;
+.collapsible-title {
+  span.glyphicon {
+    transition: .3s;
+  }
+  .rotate-arrow-down {
+    transform: rotateZ(90deg);
+    transition: .3s;
+  }
+  .rotate-arrow-up {
+    transform: rotateZ(-90deg);
+    transition: .3s;
+  }
 }
 
 .loading-gif {
@@ -235,7 +240,6 @@ input[type=checkbox]:checked + * {
   border: 1px solid transparent;
   border-radius: 4px;
   margin-top: 1%;
-  transition: .2s ease-in-out;
 
   >span {
     pointer-events: none;
@@ -244,7 +248,6 @@ input[type=checkbox]:checked + * {
   &.closed {
     background-color: white !important;
     color: @C2C-orange;
-    transition: .2s ease-in-out;
 
     .glyphicon {
       color: @C2C-orange;

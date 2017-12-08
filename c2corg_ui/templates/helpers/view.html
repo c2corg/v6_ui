@@ -12,7 +12,7 @@
       personal = is_personal(doc)
       collaborative = is_collaborative(doc) if not personal else False
   %>
-    <h3 ng-click="mainCtrl.animateHeaderIcon($event)"
+    <h3 ng-click="mainCtrl.animateHeaderIcon($event)" class="collapsible-title"
         data-toggle="collapse" data-target="#licence" aria-expanded="true" aria-controls="licence">
       <span translate>Licence</span> <span class="glyphicon glyphicon-menu-down"></span>
     </h3>
@@ -253,7 +253,7 @@
     associations = 'detailsCtrl.documentService.document.associations.' + type
   %>
    ${add_seo_association_links(articles, 'articles')}
-    <h3 class="pull-left show-phone" ng-show="${associations}.length > 0" ng-click="mainCtrl.animateHeaderIcon($event)"
+    <h3 class="pull-left show-phone collapsible-title" ng-show="${associations}.length > 0" ng-click="mainCtrl.animateHeaderIcon($event)"
         data-toggle="collapse" data-target="#associated-articles" aria-expanded="true" aria-controls="associated-articles">
       <span x-translate>Associated articles</span><span class="glyphicon glyphicon-menu-down"></span>
     </h3>
@@ -278,7 +278,7 @@
     associations = 'detailsCtrl.documentService.document.associations.' + type
   %>
    ${add_seo_association_links(books, 'books')}
-    <h3 class="pull-left show-phone" ng-show="${associations}.length > 0" ng-click="mainCtrl.animateHeaderIcon($event)"
+    <h3 class="pull-left show-phone collapsible-title" ng-show="${associations}.length > 0" ng-click="mainCtrl.animateHeaderIcon($event)"
         data-toggle="collapse" data-target="#associated-books" aria-expanded="true" aria-controls="associated-books">
       <span x-translate>Associated books</span><span class="glyphicon glyphicon-menu-down"></span>
     </h3>
@@ -303,7 +303,7 @@
     associations = 'detailsCtrl.documentService.document.associations.' + type
   %>
    ${add_seo_association_links(xreports, 'xreports')}
-    <h3 class="pull-left show-phone" ng-show="${associations}.length > 0" ng-click="mainCtrl.animateHeaderIcon($event)"
+    <h3 class="pull-left show-phone collapsible-title" ng-show="${associations}.length > 0" ng-click="mainCtrl.animateHeaderIcon($event)"
         data-toggle="collapse" data-target="#associated-xreports" aria-expanded="true" aria-controls="associated-xreports">
       <span x-translate>Associated xreports</span><span class="glyphicon glyphicon-menu-down"></span>
     </h3>
@@ -339,7 +339,7 @@
         ng-show="${associations}.length > 0"
       % endif
     >
-    <h3 class="pull-left show-phone" ng-click="mainCtrl.animateHeaderIcon($event)"
+    <h3 class="pull-left show-phone collapsible-title" ng-click="mainCtrl.animateHeaderIcon($event)"
         data-toggle="collapse" data-target="#associated-routes" aria-expanded="true" aria-controls="associated-routes">
       <span x-translate>Associated routes</span><span class="glyphicon glyphicon-menu-down"></span>
     </h3><app-list-switch class="pull-right"></app-list-switch>
@@ -388,7 +388,7 @@
   %>
   ${add_seo_association_links(document['associations'][type], 'waypoints')}
   <section ng-show="${associations}.length > 0" class="row-list-phone">
-    <h3 class="show-phone pull-left" ng-click="mainCtrl.animateHeaderIcon($event)"
+    <h3 class="show-phone pull-left collapsible-title" ng-click="mainCtrl.animateHeaderIcon($event)"
         data-toggle="collapse" data-target="#associated-waypoints-${type}" aria-expanded="true" aria-controls="associated-waypoints-${type}">
       <span x-translate>Associated ${type}</span><span class="glyphicon glyphicon-menu-down"></span>
 
@@ -564,7 +564,7 @@
 <%def name="get_document_description(locale, doctype, title=None)">\
   % if locale.get('summary') or locale.get('description'):
       % if doctype not in ['article', 'profile']:
-        <h3 ng-click="mainCtrl.animateHeaderIcon($event)"
+        <h3 ng-click="mainCtrl.animateHeaderIcon($event)" class="collapsible-title"
             data-toggle="collapse" data-target="#desc_${doctype}" aria-expanded="true" aria-controls="desc_${doctype}">
           % if title:
             <span x-translate>${title}</span>
@@ -596,7 +596,7 @@
 
 <%def name="get_document_locale_text(locale, text, open_tab=False, title=None)">\
   % if text in locale and locale[text]:
-    <h3 id="title-${text}" class="${'' if open_tab else 'closed '}show-phone" ng-click="mainCtrl.animateHeaderIcon($event)"
+    <h3 id="title-${text}" class="${'' if open_tab else 'closed '}show-phone collapsible-title" ng-click="mainCtrl.animateHeaderIcon($event)"
         data-toggle="collapse" data-target="#${text}" aria-expanded="${'true' if open_tab else 'false'}" aria-controls="${text}">
       <span x-translate>${title if title else text}</span><span class="glyphicon glyphicon-menu-${'down' if open_tab else 'right'}"></span>
     </h3>
@@ -912,7 +912,7 @@
 </%def>
 
 <%def name="get_comments(disable=False)">\
-    <h3 class="show-phone" id="discourse-comments-title" ng-init="open_tab = true" ng-click="mainCtrl.animateHeaderIcon($event)"
+    <h3 class="show-phone collapsible-title" id="discourse-comments-title" ng-init="open_tab = true" ng-click="mainCtrl.animateHeaderIcon($event)"
         data-toggle="collapse" data-target="#discourse-comments" aria-expanded="true" aria-controls="discourse-comments">
       <span translate>Comments</span><span class="glyphicon glyphicon-menu-down"></span>
     </h3>

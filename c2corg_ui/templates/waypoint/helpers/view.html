@@ -4,7 +4,7 @@
 ## MAPSINFO
 <%def name="get_waypoint_maps_info(waypoint)">\
   % if waypoint.get('maps_info') or waypoint.get('maps'):
-  <h3 id="title-associated-maps" ng-click="mainCtrl.animateHeaderIcon($event)"
+  <h3 id="title-associated-maps" ng-click="mainCtrl.animateHeaderIcon($event)" class="collapsible-title"
       data-toggle="collapse" data-target="#associated-maps" aria-expanded="true" aria-controls="associated-maps">
     <span translate>Map</span> <span class="glyphicon glyphicon-menu-down"></span>
   </h3>
@@ -397,7 +397,7 @@
 
 <%def name="get_waypoint_access_period(locale, waypoint_type, open_tab=False)">\
   % if locale.get('access_period'):
-  <h3 ng-click="mainCtrl.animateHeaderIcon($event)" class="${'' if open_tab else 'closed'}"
+  <h3 ng-click="mainCtrl.animateHeaderIcon($event)" class="${'' if open_tab else 'closed '}collapsible-title"
       data-toggle="collapse" data-target="#access_period" aria-expanded="${'true' if open_tab else 'false'}" aria-controls="access_period">
     % if waypoint_type in ['hut', 'gite', 'camp_site']:
       <span translate>opening_periods</span>
@@ -421,7 +421,7 @@
 
 <%def name="get_waypoint_access_field(locale, waypoint_type, open_tab=False)">\
   % if locale.get('access'):
-    <h3 class="${'' if open_tab else 'closed'}" ng-click="mainCtrl.animateHeaderIcon($event)"
+    <h3 class="${'' if open_tab else 'closed '}collapsible-title" ng-click="mainCtrl.animateHeaderIcon($event)"
         data-toggle="collapse" data-target="#access" aria-expanded="${'true' if open_tab else 'false'}" aria-controls="access">
         % if waypoint_type == 'access':
           <span translate>public transportation access</span>
