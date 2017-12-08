@@ -222,8 +222,11 @@ from c2corg_ui.templates.utils import get_route_gear_articles, format_length
 ## MAPS
 <%def name="get_route_associated_maps(route)">\
   % if route.get('maps'):
-  <h3 ng-click="mainCtrl.animateHeaderIcon($event)" id="title-associated-maps" data-toggle="collapse" data-target="#associated-maps"><span translate>Map</span> <span class="glyphicon glyphicon-menu-down"></span></h3>
-  <div class="finfo" id="associated-maps">
+  <h3 ng-click="mainCtrl.animateHeaderIcon($event)" id="title-associated-maps"
+      data-toggle="collapse" data-target="#associated-maps" aria-expanded="true" aria-controls="associated-maps">
+    <span translate>Map</span> <span class="glyphicon glyphicon-menu-down"></span>
+  </h3>
+  <div class="finfo collpase in" id="associated-maps">
     <div class="ficontent">
       <div class="list-green">
       <span class="detail-text accordion">${show_maps(route)}</span>
@@ -254,20 +257,22 @@ from c2corg_ui.templates.utils import get_route_gear_articles, format_length
     gear_articles = get_route_gear_articles(route)
   %>
   % if locale['gear'] or gear_articles:
-        <h3 ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#gear"><span x-translate>gear</span> <span class="glyphicon glyphicon-menu-down"></span></h3>
-       <div class="finfo collapse in" id="gear" aria-expanded="true">
-          % if gear_articles:
+    <h3 ng-click="mainCtrl.animateHeaderIcon($event)"
+        data-toggle="collapse" data-target="#gear" aria-expanded="true" aria-controls="gear">
+      <span x-translate>gear</span> <span class="glyphicon glyphicon-menu-down"></span>
+    </h3>
+    <div class="finfo collapse in" id="gear">
+      % if gear_articles:
+      
+        % for article_id, name in gear_articles.items():
           
-            % for article_id, name in gear_articles.items():
-              
-                <div class="ficontent"><a href="${request.route_path('articles_view_id', id=article_id)}" x-translate>${name}</a></div>
-            % endfor
-          % endif
+            <div class="ficontent"><a href="${request.route_path('articles_view_id', id=article_id)}" x-translate>${name}</a></div>
+        % endfor
+      % endif
 
-          % if locale['gear']:
-               <div class="ficontent">  ${show_attr(locale, 'gear')}</div>
-          % endif
-          </div>
-    
+      % if locale['gear']:
+            <div class="ficontent">  ${show_attr(locale, 'gear')}</div>
+      % endif
+    </div>    
   % endif
 </%def>

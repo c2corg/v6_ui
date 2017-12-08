@@ -20,10 +20,11 @@
   <%
       base, ext = os.path.splitext(image['filename'])
   %>
-  <h3 ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#general">
+  <h3 ng-click="mainCtrl.animateHeaderIcon($event)"
+      data-toggle="collapse" data-target="#general" aria-expanded="true" aria-controls="general">
     <span translate>General</span> <span class="glyphicon glyphicon-menu-down"></span></h3>
-  <div class="finfo" id="general">
-    <div class="ficontent collapse in max">
+  <div class="finfo collapse in" id="general">
+    <div class="ficontent max">
     <span class="detail-text accordion">
 
       % if image.get('activities') :
@@ -82,13 +83,12 @@
   % if image.get('camera_name') or image.get('fnumber') or image.get('exposure_time') or image.get('iso_speed') or \
    image.get('width') or image.get('height') or image.get('focal_length'):
 
-      
-        <h3 ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#camera">
-    <span translate>camera</span> <span class="glyphicon glyphicon-menu-down"></span></h3>
-  <div class="finfo" id="camera">
-    <div class="ficontent collapse in max">
-      
-      
+  <h3 ng-click="mainCtrl.animateHeaderIcon($event)"
+      data-toggle="collapse" data-target="#camera" aria-expanded="true" aria-controls="camera">
+    <span translate>camera</span> <span class="glyphicon glyphicon-menu-down"></span>
+  </h3>
+  <div class="finfo collapse in" id="camera">
+    <div class="ficontent max">
       <span class="detail-text accordion">
 
         % if image.get('camera_name'):
