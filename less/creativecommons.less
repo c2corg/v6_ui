@@ -9,19 +9,17 @@
   font-style: normal;
 }
 
-[class^="creative-commons icon-"], [class*="creative-commons icon-"], .creative-commons {
+[class^="creative-commons icon-"],
+[class*="creative-commons icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
-  speak: none;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
   text-transform: none;
+  font-size: 30px;
   line-height: 1;
-  font-size: 2.5em;
-  color: @C2C-orange;
 
-  /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -40,4 +38,32 @@
 }
 .icon-SA:before {
   content: "\1f300";
+}
+
+.creative-commons {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  > span {
+    padding: 2px;
+    flex-shrink: 0;
+    flex-grow: 0;
+  }
+
+  .cc-description {
+    flex-shrink: 1;
+    flex-grow: 1;
+    font-weight: normal;
+    color: @gray-dark;
+
+    @media @tablet {
+      padding-left: 5px;
+    }
+  }
+
+  .glyphicon {
+    font-size: 30px;
+    color: @bright-green;
+  }
 }
