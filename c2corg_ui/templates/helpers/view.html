@@ -902,30 +902,45 @@
 <%def name="get_comments(disable=False)">\
     <h3  class="show-phone"  id="discourse-comments-title" ng-init="open_tab = true" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#discourse-comments"><span translate>Comments</span><span class="glyphicon glyphicon-menu-down"></span></h3>
       <div class="finfo collapse in" id="discourse-comments" aria-expanded="true" ng-init="detailsCtrl.getComments();">
-        <div class="ficontent max noflex" ng-if="detailsCtrl.documentService.document.topic_id == null" >
+        <div ng-if="detailsCtrl.documentService.document.topic_id == null"
+             class="ficontent max noflex">
           <div class="no-thread">
           % if disable:
             <section id="discourse-comments" class="collapse in">
               <p class="text-center" translate>Comments are disabled.</p>
             </section>
           % else:
-          <p class="text-center" translate>No thread yet?</p>
-          <p class="text-center" translate
-              ng-if="!userCtrl.auth.isAuthenticated()">Log in to post the first comment</p>
-          <button class="btn gray-btn"
-              ng-if="userCtrl.auth.isAuthenticated()"
-              ng-click="detailsCtrl.createTopic()"
-              translate>Post the first comment</button>
+            <p class="text-center" translate>No thread yet?</p>
+            <p class="text-center" translate
+                ng-if="!userCtrl.auth.isAuthenticated()">Log in to post the first comment</p>
+            <button class="btn gray-btn"
+                ng-if="userCtrl.auth.isAuthenticated()"
+                ng-click="detailsCtrl.createTopic()"
+                translate>Post the first comment</button>
           </div>
           % endif
         </div>
 
+        <div ng-if="detailsCtrl.documentService.document.topic_id != null && detailsCtrl.comments.length == 0"
+             class="ficontent max noflex">
+          ## there is a topic, but no comment was posted, only system post exists
+          <div class="no-thread">
+            <p class="text-center" translate>No thread yet?</p>
+            <p class="text-center" translate
+                ng-if="!userCtrl.auth.isAuthenticated()">Log in to post the first comment</p>
+            <div class="toforum">
+              <a href="{{::detailsCtrl.discourseUrl}}t/{{::detailsCtrl.documentService.document['topic_slug']}}/{{::detailsCtrl.documentService.document['topic_id']}}/{{::detailsCtrl.documentService.document['last_post_number']}}"
+                 class="btn gray-btn" translate>Post the first comment</a>
+            </div>
+          </div>
+        </div>
+
         <div ng-if="detailsCtrl.comments.length > 0">
-          <div  class="fpost" ng-repeat="post in detailsCtrl.comments track by post.id" >
+          <div class="fpost" ng-repeat="post in detailsCtrl.comments track by post.id">
             <div class="ficontent max">
               <div class="fleft">
                 <div class="fportrait">
-                  <img ng-src="https://forum.camptocamp.org/{{::post['avatar_template']}}">
+                  <img ng-src="{{::detailsCtrl.discourseUrl}}{{::post['avatar_template']}}">
                 </div>
                 <div class="ctxt">
                   <div class="parent_top"><div class="fauthor"><a href="https://forum.camptocamp.org/users/{{::post['username']}}/" title="{{::post['username']}}">{{::post['username']}}</a></div><div class="fdate">{{::post['created_at'] | amUtc | amLocal | amTimeAgo}}</div></div>
@@ -934,7 +949,7 @@
               </div>
             </div>
           </div>
-          <div class="toforum"><a href="https://forum.camptocamp.org/t/{{::detailsCtrl.documentService.document['topic_slug']}}/{{::detailsCtrl.documentService.document['topic_id']}}/{{::detailsCtrl.documentService.document['last_post_number']}}" class="btn btn-primary" translate>Continue the discussion</a></div>
+          <div class="toforum"><a href="{{::detailsCtrl.discourseUrl}}t/{{::detailsCtrl.documentService.document['topic_slug']}}/{{::detailsCtrl.documentService.document['topic_id']}}/{{::detailsCtrl.documentService.document['last_post_number']}}" class="btn btn-primary" translate>Continue the discussion</a></div>
         </div>
     </div>
 </%def>
