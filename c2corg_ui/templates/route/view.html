@@ -119,9 +119,6 @@ other_langs, missing_langs = get_lang_lists(route, lang)
               <img ng-src="{{detailsCtrl.createImageUrl(detailsCtrl.documentService.document.associations.images[0].filename, 'MI')}}" alt="{{detailsCtrl.documentService.document.associations.images[0].locales[0].title}}" class="fullimg"/>
             </div>
           </div>
-          % if version:
-            ${show_archive_data('routes', route, locale, version)}
-          % endif
           <app-map class="view-details-map"></app-map>
           % if not version:
             ${display_app_smartphone_info('route')}
