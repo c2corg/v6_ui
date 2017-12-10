@@ -18,7 +18,6 @@ app.announcementDirective = function() {
 app.module.directive('appAnnouncement', app.announcementDirective);
 
 /**
- * @param {!angular.Scope} $scope Scope.
  * @param {app.Api} appApi Api service.
  * @param {app.Lang} appLang Lang service.
  * @constructor
@@ -26,13 +25,7 @@ app.module.directive('appAnnouncement', app.announcementDirective);
  * @struct
  */
 
-app.AnnouncementController = function($scope,appApi, appLang) {
-
-  /**
-   * @type {!angular.Scope}
-   * @private
-   */
-  this.scope_ = $scope;
+app.AnnouncementController = function(appApi, appLang) {
 
   /**
    * @type {app.Api}
@@ -50,7 +43,7 @@ app.AnnouncementController = function($scope,appApi, appLang) {
    * @type {boolean}
    * @export
    */
-  this.visible = false;
+  this.expanded = false;
 
   /**
    * @type {boolean}
@@ -95,7 +88,7 @@ app.AnnouncementController.prototype.handleAnnouncement = function(response) {
  * @export
  */
 app.AnnouncementController.prototype.toggle = function() {
-  this.visible = !this.visible;
+  this.expanded = !this.expanded;
 };
 
 app.module.controller('appAnnouncementController', app.AnnouncementController);
