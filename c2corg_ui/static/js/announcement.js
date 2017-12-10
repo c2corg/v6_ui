@@ -49,6 +49,12 @@ app.AnnouncementController = function(appApi, appLang) {
    * @type {boolean}
    * @export
    */
+  this.canExpand = false;
+
+  /**
+   * @type {boolean}
+   * @export
+   */
   this.hasAnnouncement = false;
 
   /**
@@ -81,6 +87,7 @@ app.AnnouncementController.prototype.handleAnnouncement = function(response) {
   if (data['tags'].indexOf('visible') > -1) {
     this.hasAnnouncement = true;
     this.text = data['post_stream']['posts'][0]['cooked'];
+    this.canExpand = $(this.text).filter('p').length > 1;
   }
 };
 
