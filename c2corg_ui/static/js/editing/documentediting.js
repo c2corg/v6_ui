@@ -662,6 +662,9 @@ app.module.controller('appDocumentEditingController', app.DocumentEditingControl
  */
 app.ConfirmSaveController = function($uibModalInstance, appDocument, appLang) {
 
+  var doc = appDocument.document;
+  var doctype = app.utils.getDoctype(doc.type);
+
   /**
    * @export
    * @type {app.Lang}
@@ -684,10 +687,48 @@ app.ConfirmSaveController = function($uibModalInstance, appDocument, appLang) {
    * @type {string}
    * @export
    */
-  this.quality = appDocument.document.quality || 'draft';
+  /*this.quality = appDocument.document.quality || 'draft';*/
+  this.quality = this.PreSetQuality(doctype,doc);
 
 };
 
+/**
+ * @private
+ */
+app.ConfirmSaveController.prototype.PreSetQuality = function(doctype,doc) {
+    var score=0;
+    var activities = doc.activities[0];
+    
+    if (doctype === 'outings'){
+        
+        // if (doc.locales[0].description !== null){
+        // if (doc.locales[0].participants !== null){
+        // if (doc.locales[0].route_description.length > 0){
+        if (doc.locales[0].conditions !== null){
+            score = score+1;}
+        
+        if (activities === 'skitouring'){           
+            if ((doc.elevation_up_snow )||(doc.elevation_down_snow)||(doc.snow_quantity)||(doc.snow_quality)||(doc.height_diff_up)||(doc.height_diff_down)||(doc.length_total)||(doc.glacier_rating)){
+                score = score+1;}
+        }
+
+        if(doc.geometry.has_geom_detail){
+             score = score+1;}
+         
+        if (score === 0){
+            return 'empty';}
+        else if (score === 1){
+            return 'draft';}
+        else if (score === 2){
+            return 'medium';}
+        else if (score === 3){
+            return 'fine';}
+        else if (score === 4){
+            return 'great';}
+    }
+    else {
+    return 'draft';}
+};
 
 /**
  * @export
