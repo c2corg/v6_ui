@@ -429,48 +429,49 @@
           outings = []
           total = 0
   %>
-  ${add_seo_association_links(outings, 'outings')}
-  <article>
-    <h3 class="show-phone outings pull-left" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-outings">
-      % if isRecentOutings:
-        <span translate>Last outings</span>
-      % else:
-        <span translate>Associated outings</span>
-      % endif
-      <span class="glyphicon glyphicon-menu-down"></span>
+  ## show content only if there are associated outings, unless the document type is route
+  % if total > 0 or document['doctype'] == 'routes':
+    ${add_seo_association_links(outings, 'outings')}
+    <article>
+      <h3 class="show-phone outings pull-left" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-outings">
+        % if isRecentOutings:
+          <span translate>Last outings</span>
+        % else:
+          <span translate>Associated outings</span>
+        % endif
+        <span class="glyphicon glyphicon-menu-down"></span>
 
-    </h3><app-list-switch class="pull-right"></app-list-switch>
-    % if document['doctype'] == 'routes':
-          <a protected-url-btn
-             url="${request.route_path('outings_add') + '#r=' + str(document['document_id'])}" class="center-mobile">
-            <button class="btn btn-default orange-btn pull-right"><span class="glyphicon glyphicon-plus"></span> <span translate>add an outing</span></button>
-          </a>
-      % endif
-    <div class="associated-documents collapse in" id="associated-outings">
+      </h3><app-list-switch class="pull-right"></app-list-switch>
+      % if document['doctype'] == 'routes':
+            <a protected-url-btn
+              url="${request.route_path('outings_add') + '#r=' + str(document['document_id'])}" class="center-mobile">
+              <button class="btn btn-default orange-btn pull-right"><span class="glyphicon glyphicon-plus"></span> <span translate>add an outing</span></button>
+            </a>
+        % endif
+      <div class="associated-documents collapse in" id="associated-outings">
 
-      <div class="list-item outings" ng-repeat="doc in detailsCtrl.documentService.document.associations.${'recent_outings.documents' if isRecentOutings else 'outings'}">
-        <app-card app-card-doc="doc"></app-card>
+        <div class="list-item outings"
+            ng-repeat="doc in detailsCtrl.documentService.document.associations.${'recent_outings.documents' if isRecentOutings else 'outings'}">
+          <app-card app-card-doc="doc"></app-card>
           <app-delete-association child-doctype="o" parent-id="${document['document_id']}" child-id="doc.document_id"
-            ng-if="${test_association_rights(document)}"></app-delete-association>
-      </div>
-
-        <div class="list-item vertical-align new-outing" >
+                                  ng-if="${test_association_rights(document)}"></app-delete-association>
+        </div>
 
         % if isRecentOutings and total > 0:
-
-        <%
-            fragment = '{0}={1}'.format(document['type'], document['document_id'])
-        %>
-
+        <div class="list-item vertical-align new-outing" >
+          <%
+              fragment = '{0}={1}'.format(document['type'], document['document_id'])
+          %>
           <a class="vertical-align" ng-href="${request.route_path('outings_index')}#${fragment}">
             <button class="gray-btn btn show-more" translate>show all</button>
           </a>
+        </div>
+        % endif
 
-      % endif
+        ${generate_empty_list_items(5)}
       </div>
-      ${generate_empty_list_items(5)}
-    </div>
-  </article>
+    </article>
+    % endif
 </%def>
 
 
