@@ -136,9 +136,9 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
 
   /**
    * @type {string}
-   * @private
+   * @export
    */
-  this.discourseUrl_ = discourseUrl;
+  this.discourseUrl = discourseUrl;
 
     /**
     * @type {boolean}
@@ -454,7 +454,7 @@ app.ViewDetailsController.prototype.handleCommentsForum_ = function(response) {
       this.comments.push({'id':data['posts'][i]['id'],
                           'username':data['posts'][i]['username'],
                           'avatar_template':data['posts'][i]['avatar_template'].replace('{size}','24'),
-                          'cooked':data['posts'][i]['cooked'].replace(/<a class="mention" href="/g,'<a class="mention" href="' + this.discourseUrl_),
+                          'cooked':data['posts'][i]['cooked'].replace(/<a class="mention" href="/g,'<a class="mention" href="' + this.discourseUrl),
                           'created_at':data['posts'][i]['created_at'],
                           'reply_count':data['posts'][i]['reply_count'],
                           'reply_to_user':data['posts'][i]['reply_to_user']});
@@ -472,7 +472,7 @@ app.ViewDetailsController.prototype.createTopic = function() {
   var lang = document.lang;
   this.api_.createTopic(document_id, lang).then(function(resp) {
     var topic_id = resp['data']['topic_id'];
-    var url = this.discourseUrl_ + 't/' + document_id + '_' + lang + '/' + topic_id;
+    var url = this.discourseUrl + 't/' + document_id + '_' + lang + '/' + topic_id;
     window.location = url;
   }.bind(this), function(resp) {
     if (resp.status == 400) {
