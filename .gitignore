@@ -12,3 +12,4 @@
 *.egg-info
 *.po~
 Dockerfile_deployment_environment
+package-lock.json
