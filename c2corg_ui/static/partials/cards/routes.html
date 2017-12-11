@@ -82,6 +82,9 @@
           </a>
         </div>
       </div>
+      <div class="parent-bubble" ng-if="doc['geometry']['has_geom_detail']" uib-tooltip="{{ 'GPS Track'| translate}}" tooltip-append-to-body="true">
+        <span class="glyphicon glyphicon-flag"></span>
+      </div>
       <div class="grow"></div>
       <div class="group-infop">
         <div class="parent-bubble topsubicon">
@@ -94,13 +97,6 @@
         <div class="text-bubble" ng-if="doc['orientations'].length">
           {{cardCtrl.showOrientation(doc['orientations'])}}
         </div>
-      </div>
-      <div class="parent-bubble">
-        <a href="#" class="link" ng-if="doc['condition_rating']"
-           uib-tooltip="{{'condition_rating' | translate}} : {{doc['condition_rating'] | translate}}"
-           tooltip-append-to-body="true">
-          <div class="condition-rating" ng-class="::doc['condition_rating']" ></div>
-        </a>
       </div>
       <div class="parent-bubble">
         <div class="bubble bquality" ng-if="doc['quality']">
