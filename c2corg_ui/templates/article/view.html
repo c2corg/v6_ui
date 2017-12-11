@@ -62,7 +62,7 @@ other_langs, missing_langs = get_lang_lists(article, lang)
 
     % if version:
       ${show_archive_data('articles', article, locale, version)}
-    % else:
+    % endif
 
      <div class="row">
         <div class="col-xs-12 col-md-4 col-lg-3">
@@ -117,8 +117,6 @@ other_langs, missing_langs = get_lang_lists(article, lang)
 
        </div>
     </div>
-
-    % endif
 
   </section>
 </div>
