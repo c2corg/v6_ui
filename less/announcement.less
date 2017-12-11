@@ -8,11 +8,10 @@ app-announcement {
     border-bottom: 1px solid #b8daff;
 
     display: flex;
-    flex-flow: column;
     align-items: flex-end;
 
     .msg {
-      align-self: stretch;
+      flex-grow: 1;
       margin-bottom: 5px;
       font-size: 18px;
 
@@ -30,9 +29,17 @@ app-announcement {
     }
 
     button {
+      margin-left: 5px;
+      align-self: flex-end;
       .blue-btn;
-      @media @phone {
-        width: 100%;
+
+      @media only screen and (max-width: @tablet-max) {
+        span.glyphicon {
+          margin-right: 0;
+        }
+        span:not(.glyphicon) {
+          display: none;
+        }
       }
     }
 

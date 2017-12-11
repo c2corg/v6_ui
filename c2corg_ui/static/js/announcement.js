@@ -43,7 +43,7 @@ app.AnnouncementController = function(appApi, appLang) {
    * @type {boolean}
    * @export
    */
-  this.expanded = false;
+  this.isExpanded = false;
 
   /**
    * @type {boolean}
@@ -95,7 +95,7 @@ app.AnnouncementController.prototype.handleAnnouncement = function(response) {
  * @export
  */
 app.AnnouncementController.prototype.toggle = function() {
-  this.expanded = !this.expanded;
+  this.isExpanded = !this.isExpanded;
 };
 
 app.module.controller('appAnnouncementController', app.AnnouncementController);
