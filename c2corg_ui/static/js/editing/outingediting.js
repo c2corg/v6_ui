@@ -28,8 +28,8 @@ goog.require('app.Lang');
  * @ngInject
  */
 app.OutingEditingController = function($scope, $element, $attrs, $http,
-    $uibModal, $compile, appLang, appAuthentication, ngeoLocation, appAlerts,
-    appApi, authUrl, appDocument, appUrl, imageUrl) {
+  $uibModal, $compile, appLang, appAuthentication, ngeoLocation, appAlerts,
+  appApi, authUrl, appDocument, appUrl, imageUrl) {
 
   goog.base(this, $scope, $element, $attrs, $http, $uibModal, $compile,
     appLang, appAuthentication, ngeoLocation, appAlerts, appApi, authUrl,
@@ -74,9 +74,11 @@ app.OutingEditingController = function($scope, $element, $attrs, $http,
       var routeId = parseInt(ngeoLocation.getFragmentParam('r'), 10);
       appApi.getDocumentByIdAndDoctype(routeId, 'r', appLang.getLang()).then(
         function(doc) {
-          this.documentService.pushToAssociations(doc.data['routes'].documents[0],
-                                                  'routes',
-                                                  this.handleAssociation);
+          this.documentService.pushToAssociations(
+            doc.data['routes'].documents[0],
+            'routes',
+            this.handleAssociation
+          );
         }.bind(this)
       );
     }
@@ -266,7 +268,7 @@ app.OutingEditingController.prototype.initConditionsLevels_ = function() {
  * @export
  */
 app.OutingEditingController.prototype.handleAssociation = function(data, doc,
-    doctype) {
+  doctype) {
   doctype = doctype || app.utils.getDoctype(doc['type']);
 
   // When creating an outing, set the default title and ratings using

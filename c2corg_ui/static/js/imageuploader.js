@@ -49,7 +49,7 @@ app.module.directive('appImageUploader', app.imageUploaderDirective);
  * @ngInject
  */
 app.ImageUploaderController = function($scope, $uibModal, $compile, $q,
-    appAlerts, appApi, appDocument, imageUrl, appUrl, appAuthentication) {
+  appAlerts, appApi, appDocument, imageUrl, appUrl, appAuthentication) {
 
   /**
    * @type {app.Document}
@@ -296,28 +296,28 @@ app.ImageUploaderController.prototype.save = function() {
   var defer = this.q_.defer();
 
   this.api_.createImages(this.files, this.documentService.document)
-  .then(function(data) {
-    var images = data['config']['data']['images'];
-    var imageIds = data['data']['images']; // newly created document_id
+    .then(function(data) {
+      var images = data['config']['data']['images'];
+      var imageIds = data['data']['images']; // newly created document_id
 
-    $('.img-container').each(function(i) {
-      var id = imageIds[i]['document_id'];
-      images[i]['image_id'] = 'image-' + id;
-      var element = app.utils.createImageSlide(images[i],this.imageUrl_);
-      $('.photos').append(element);
+      $('.img-container').each(function(i) {
+        var id = imageIds[i]['document_id'];
+        images[i]['image_id'] = 'image-' + id;
+        var element = app.utils.createImageSlide(images[i],this.imageUrl_);
+        $('.photos').append(element);
 
-      var scope = this.scope_.$new(true);
-      scope['photo'] = images[i];
-      scope['photo']['image_id'] = 'image-' + id;
-      this.documentService.document.associations['images'].push(scope['photo']);
-      this.compile_($('#image-' + id).contents())(scope); // compile the figure thumbnail with <app-slide-info>
+        var scope = this.scope_.$new(true);
+        scope['photo'] = images[i];
+        scope['photo']['image_id'] = 'image-' + id;
+        this.documentService.document.associations['images'].push(scope['photo']);
+        this.compile_($('#image-' + id).contents())(scope); // compile the figure thumbnail with <app-slide-info>
 
-    }.bind(this));
+      }.bind(this));
 
-    defer.resolve();
-  }.bind(this), function() {
-    defer.reject();
-  });
+      defer.resolve();
+    }.bind(this), function() {
+      defer.reject();
+    });
 
   return defer.promise;
 };
@@ -499,7 +499,7 @@ app.ImageUploaderController.prototype.selectOption = function(object, property, 
  * @export
  */
 app.ImageUploaderController.prototype.resizeIf = function(
-    file, width, height) {
+  file, width, height) {
   if (file.type === 'image/jpeg' || file.type === 'image/png') {
     return file.size > 2 * 1024 * 1024; /** 2 MB */
   }

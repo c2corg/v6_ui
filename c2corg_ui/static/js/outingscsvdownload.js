@@ -32,7 +32,7 @@ app.module.directive('appOutingsCsvDownload', app.outingsCsvDownloadDirective);
  * @ngInject
  */
 app.OutingsCsvDownloadController = function(appAuthentication, appApi, $q,
-    appLang) {
+  appLang) {
 
   /**
    * @type {app.Authentication}
@@ -128,7 +128,7 @@ app.OutingsCsvDownloadController.prototype.getOutings_ = function() {
         var additionalRequests = [];
         offsets.forEach(function(offset) {
           additionalRequests.push(appApi.listDocuments('outings',
-              'u=' + userId + '&offset=' + offset, promise));
+            'u=' + userId + '&offset=' + offset, promise));
         });
         return $q.all(additionalRequests).then(function(results) {
           results.forEach(function(result) {

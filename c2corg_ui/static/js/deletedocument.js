@@ -85,12 +85,12 @@ app.DeleteDocumentController = function(documentData, appApi, appAlerts, gettext
  */
 app.DeleteDocumentController.prototype.deleteDocument = function() {
   this.appApi_.deleteDocument(this.documentData.document_id).then(
-      function(response) {
-        this.closeDialog();
-        this.appAlerts_.addSuccess(this.gettextCatalog_.getString(
-            'Document successfully deleted'
-        ));
-      }.bind(this)
+    function(response) {
+      this.closeDialog();
+      this.appAlerts_.addSuccess(this.gettextCatalog_.getString(
+        'Document successfully deleted'
+      ));
+    }.bind(this)
   );
 };
 
@@ -100,12 +100,12 @@ app.DeleteDocumentController.prototype.deleteDocument = function() {
  */
 app.DeleteDocumentController.prototype.deleteLocale = function() {
   this.appApi_.deleteLocale(this.documentData.document_id, this.lang).then(
-      function(response) {
-        this.closeDialog();
-        this.appAlerts_.addSuccess(this.gettextCatalog_.getString(
-            'Locale successfully deleted'
-        ));
-      }.bind(this)
+    function(response) {
+      this.closeDialog();
+      this.appAlerts_.addSuccess(this.gettextCatalog_.getString(
+        'Locale successfully deleted'
+      ));
+    }.bind(this)
   );
 };
 

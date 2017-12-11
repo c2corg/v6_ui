@@ -31,8 +31,8 @@ goog.require('app.lengthConverterDirective');
  * @ngInject
  */
 app.RouteEditingController = function($scope, $element, $attrs, $http,
-    $uibModal, $compile, appLang, appAuthentication, ngeoLocation, appAlerts,
-    appApi, authUrl, appDocument, appUrl, imageUrl) {
+  $uibModal, $compile, appLang, appAuthentication, ngeoLocation, appAlerts,
+  appApi, authUrl, appDocument, appUrl, imageUrl) {
 
   goog.base(this, $scope, $element, $attrs, $http, $uibModal, $compile,
     appLang, appAuthentication, ngeoLocation, appAlerts, appApi, authUrl,
@@ -44,9 +44,11 @@ app.RouteEditingController = function($scope, $element, $attrs, $http,
       var waypointId = parseInt(ngeoLocation.getFragmentParam('w'), 10);
       appApi.getDocumentByIdAndDoctype(waypointId, 'w', appLang.getLang()).then(
         function(doc) {
-          this.documentService.pushToAssociations(doc.data['waypoints'].documents[0],
-                                                  'waypoints',
-                                                  this.handleAssociation);
+          this.documentService.pushToAssociations(
+            doc.data['waypoints'].documents[0],
+            'waypoints',
+            this.handleAssociation
+          );
         }.bind(this)
       );
     }
@@ -90,7 +92,7 @@ app.RouteEditingController.prototype.showRatings = function() {
  * @export
  */
 app.RouteEditingController.prototype.handleAssociation = function(data, doc,
-    doctype) {
+  doctype) {
   // when creating a route, make the first associated wp a main one
   if (!data.document_id && data.associations.waypoints.length === 1) {
     data['main_waypoint_id'] = doc['document_id'];

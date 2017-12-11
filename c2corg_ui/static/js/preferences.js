@@ -31,7 +31,7 @@ app.module.directive('appPreferences', app.preferencesDirective);
  * @ngInject
  */
 app.PreferencesController = function($scope, appAuthentication, appApi,
-    authUrl) {
+  authUrl) {
 
   /**
    * @type {angular.Scope}

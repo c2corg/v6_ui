@@ -39,7 +39,7 @@ app.module.directive('appUser', app.userDirective);
  * @ngInject
  */
 app.UserController = function(appAuthentication, ngeoLocation,
-    appAlerts, appApi, authUrl, gettext) {
+  appAlerts, appApi, authUrl, gettext) {
 
   /**
    * @type {app.Authentication}
@@ -118,7 +118,7 @@ app.UserController.prototype.logout = function() {
  * @export
  */
 app.UserController.prototype.hasEditRights = function(doctype, options,
-    opt_protected) {
+  opt_protected) {
   if (opt_protected && !this.isModerator()) {
     return false;
   }

@@ -41,8 +41,7 @@ app.module.directive('appAuth', app.authDirective);
  * @ngInject
  */
 app.AuthController = function($scope, appApi, appAuthentication,
-    ngeoLocation, appAlerts, gettextCatalog, $q, appLang,
-    vcRecaptchaService) {
+  ngeoLocation, appAlerts, gettextCatalog, $q, appLang, vcRecaptchaService) {
 
   /**
    * @type {VCRecaptcha}
@@ -225,7 +224,7 @@ app.AuthController.prototype.successLogin_ = function(remember, response) {
 
   var discourse_url = data['redirect_internal'];
   var promise = discourse_url ? this.loginToDiscourse_(discourse_url) :
-      this.q_.when(true);
+    this.q_.when(true);
 
   if (!this.ngeoLocation_.hasParam('no_redirect')) {
     promise.finally(this.redirect_.bind(this, data.redirect));
@@ -244,9 +243,9 @@ app.AuthController.prototype.register = function() {
 
   this.api_.register(form).then(function() {
     var msg = alerts.gettext(
-        'Thank you for your registration! ' +
-        'We sent you an email, please click on the link to activate ' +
-        'your account.');
+      'Thank you for your registration! ' +
+      'We sent you an email, please click on the link to activate ' +
+      'your account.');
     alerts.addSuccess(msg);
   }, function() {
     // The captcha can be used only once
@@ -266,7 +265,7 @@ app.AuthController.prototype.requestPasswordChange = function() {
   var data = this.scope_['requestChangePassword'];
   this.api_.requestPasswordChange(data.email).then(function() {
     var msg = alerts.gettext(
-        'We sent you an email, please click on the link to reset password.');
+      'We sent you an email, please click on the link to reset password.');
     alerts.addSuccess(msg);
   });
 };

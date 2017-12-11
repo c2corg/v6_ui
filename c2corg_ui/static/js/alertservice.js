@@ -46,7 +46,7 @@ app.Alerts.prototype.add = function(data) {
   this.addLoading_(timeout);
   var msg = data['msg'];
   msg = msg instanceof Object ? this.formatErrorMsg_(msg) :
-      this.filterStr_(msg);
+    this.filterStr_(msg);
   this.alerts_.push({
     type: data['type'] || 'warning',
     msg: msg,
