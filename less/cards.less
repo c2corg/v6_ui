@@ -1,6 +1,16 @@
 .list.advanced-search {
   margin-top: 10px;
 }
+
+.hovered-card() {
+  background-color: #EFEFEF;
+  transition: 0.1s ease-in-out;
+}
+
+.highlight .post {
+  .hovered-card;
+}
+
 .post {
   -webkit-box-shadow: 0 1px 4px 0 rgba(0,0,0,0.14);
   box-shadow: 0 1px 4px 0 rgba(0,0,0,0.14);
@@ -16,6 +26,10 @@
   margin-bottom: 15px;
   outline: none;
   cursor:pointer;
+  
+  &:hover  {
+    .hovered-card;
+  }
 
   &.card-outing {
     .infoa {
@@ -242,7 +256,7 @@
 
       .parent-activity {
         display: flex;
-        width: 80px;
+        width: 90px;
         overflow: hidden;
         height: 30px;
       }
@@ -422,7 +436,7 @@
         box-shadow: none;
         margin-bottom: 0;
         border-bottom: 1px solid rgba(0,0,0,.12);
-        padding: padding: 1px 5px;
+        padding: 1px 5px;
 
 
         &.card-waypoint {
@@ -443,7 +457,7 @@
           .parent-infop {
             width: 20%;
             &.parent-infop-first {
-              width: 70px;
+              width: 50%;
             }
           }
         }
@@ -590,8 +604,6 @@
             width: 35%;
           }
         }
-
-
       }
       &.card-outing {
         .inlist {
@@ -624,16 +636,15 @@
         .outing-icon-infos {
           width:  150px;
         }
-        .area  {
-          width:  10%;
-          max-width: 120px;
+        .area {
+          width:  20%;
+          max-width: 500px;
         }
         
         .large {
           width:  25%;
-          max-width: 250px;
+          max-width: 500px;
         }
-        
       }
       &.card-waypoint {
         .bquality{
@@ -656,7 +667,7 @@
         .parent-infop {
           width: 20%;
           &.parent-infop-first {
-            width: 70px;
+            width: 50%;
           }
         }
       }
@@ -792,19 +803,12 @@
         display: none;
       }
     }
-  }
-}
-
-@media @big {
-  .area {
-    width:  20%;
-    max-width: 600px;
-  }
-}
-@media @verybig {
-  .large {
-    width:  20%;
-    max-width: 600px;
+    .post.card-outing {
+      .area {
+        width:  10%;
+        max-width: 120px;
+      }
+    }       
   }
 }
 
