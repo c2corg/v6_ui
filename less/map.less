@@ -1,14 +1,21 @@
   .viewdoc .view-details-map .map-fullscreen {
     position: fixed !important;
-    width: calc ( 100% - 250px );
-    height: calc ( 100% - 48px ) !important;
-    top: 48px;
-    left: 250px;
-    z-index:10;
+    width: ~"calc(100% - @{menu-width})";
+    height: ~"calc(100% - @{page-header-height}) !important";
+    top: @page-header-height;
+    left: @menu-width;
+    z-index: 10;
     background-color: rgba(164,164,166,1);
-    @media @phone {
-      left: 0px;
+
+    .fullscreen() {
+      left: 0;
       width: 100%;
+    }
+    @media @phone {
+      .fullscreen;
+    }
+    @media @tablet {
+      .fullscreen;
     }
     
     app-baselayer-selector {
@@ -22,7 +29,6 @@
 }
 .map {
 
-  
   margin:0;
   position: relative;
 
