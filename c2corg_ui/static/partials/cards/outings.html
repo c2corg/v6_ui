@@ -132,7 +132,13 @@
             </div>
           </a>
         </div>
-      </div>    
+      </div>
+      <div class="parent-bubble" ng-if="doc['img_count']">
+        <span class="glyphicon glyphicon-picture">  {{::doc['img_count']}}</span>
+      </div>
+      <div class="parent-bubble" ng-if="doc['geometry']['has_geom_detail']">
+        <span class="glyphicon glyphicon-flag"></span>
+      </div>
       <div class="grow">
       </div>
       <div class="parent-bubble bubble-date">
