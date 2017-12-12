@@ -1,41 +1,37 @@
 .list {
-  width:100%;
+  width: 100%;
   padding: 2px 2px 50px 2px;
   display: flex;
   flex-flow: wrap;
   margin-left: -4px;
   margin-top: -4px;
+
   & + .no-results {
     display: none;
   }
 }
 
-#topoguide .list-item, #serac .list-item, #friend .list-item  {
-
+#topoguide .list-item,
+#serac .list-item,
+#friend .list-item {
   position: relative;
   cursor: pointer;
   margin-top: 4px;
   outline: none;
-  margin-top: 4px;
   background-color: #fefefe;
   border-radius: 2px;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  transition: .2s ease-in-out; 
-  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+  transition: 0.2s ease-in-out;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
 
-
   &:active {
-    -webkit-box-shadow: inset 1px 1px 8px -3px rgba(0,0,0,.75);
-    -moz-box-shadow: inset 1px 1px 8px -3px rgba(0,0,0,.75);
-    box-shadow: inset 1px 1px 8px -3px rgba(0,0,0,.75);
-    -webkit-transition: .2s ease-in-out;
+    box-shadow: inset 1px 1px 8px -3px rgba(0, 0, 0, 0.75);
     transition: 0.2s ease-in-out;
     outline: none;
   }
-  &:hover, &.highlight {
-    background-color: #EFEFEF;
+
+  &:hover,
+  &.highlight {
+    background-color: #efefef;
     transition: 0.1s ease-in-out;
     cursor: pointer;
   }
@@ -58,11 +54,12 @@
       transition: 0.1s ease-in-out;
     }
 
-    &:focus, &:hover {
+    &:focus,
+    &:hover {
       text-decoration: none;
       outline: none;
     }
-  } 
+  }
 
   .list-item-lang {
     opacity: 0.9;
@@ -70,13 +67,13 @@
     white-space: nowrap;
     font-weight: normal;
   }
+
   .list-item-title {
     font-weight: bold;
     color: #333;
     font-size: 1.1em;
     margin-right: 5px;
-    font-size: 1.1em;
-    color: #333;
+
     p {
       line-height: normal;
       display: block;
@@ -90,6 +87,7 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+
     .value {
       overflow: hidden;
       text-overflow: ellipsis;
@@ -101,16 +99,21 @@
     align-items: center;
     margin-bottom: 2px;
   }
-  .elevation, .waypoint-elevation .glyphicon {
+
+  .elevation,
+  .waypoint-elevation .glyphicon {
     margin-top: -1px;
   }
+
   .show-more-activities:hover {
     color: teal;
   }
+
   .activities .activity {
     font-size: 2.2em;
     color: @C2C-orange;
   }
+
   .set-main-waypoint {
     margin-left: 10px;
     margin-bottom: 10px;
@@ -120,18 +123,20 @@
 
   // .list-item.waypoints
   &.waypoints {
-
     .waypoint-type {
       font-size: 2em;
       color: @C2C-orange;
       margin: 5px;
+
       @media @phone {
         margin-left: 10px;
       }
     }
+
     .list-item-info {
       flex: 1;
     }
+
     .waypoint-infos {
       width: ~"calc(100% - 20px)";
       display: flex;
@@ -145,9 +150,11 @@
       line-height: normal;
       width: ~"calc(100% - 30px)";
     }
+
     .glyphicon-pencil {
       color: @lightgray !important;
     }
+
     .book-type {
       color: @bright-green;
     }
@@ -157,15 +164,18 @@
     border: 2px solid @bright-green;
   }
   // .list-item.images
-  &.images  {
+  &.images {
     min-height: 170px;
+
     a {
       display: flex;
       flex-flow: wrap;
     }
+
     .list-item-info {
       align-self: flex-start;
     }
+
     .image {
       width: 100%;
       height: 150px;
@@ -176,15 +186,18 @@
   // .list-item.outings
   &.outings {
     max-height: 150px;
+
     .activities {
       margin-right: 5px;
       width: 120px;
     }
+
     .activity-author {
       width: ~"calc(100% - 20px)";
       display: flex;
       justify-content: space-between;
       flex-wrap: nowrap;
+
       .condition-rating {
         width: 1.2em;
         height: 1.2em;
@@ -195,34 +208,42 @@
         border-radius: 8px;
         border: 1px solid @lightgray;
         flex-shrink: 0;
+
         &.excellent {
           background: #008000;
         }
+
         &.good {
-          background: #9ACD32;
+          background: #9acd32;
         }
+
         &.average {
-          background: #FFFF00;
+          background: #ff0;
         }
+
         &.poor {
-          background: #FF0000;
+          background: #f00;
         }
+
         &.awful {
-          background: #8B0000;
+          background: #8b0000;
         }
       }
     }
+
     .author-name {
       font-weight: bold;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
+
     .list-item-info {
       justify-content: flex-start;
       width: ~"calc(100% - 50px)";
       align-self: flex-start;
     }
+
     .outing-author {
       color: @gray;
       align-items: flex-end;
@@ -231,21 +252,21 @@
       justify-content: flex-end;
       overflow: hidden;
     }
+
     .date-location {
       justify-content: space-between;
     }
-
   } // end outing cards
 
   &.routes {
-
     .list-item-info {
       .location {
         width: 100%;
       }
     }
+
     .quality {
-      font-size:1.2em;
+      font-size: 1.2em;
     }
   } // end routes card
 
@@ -259,49 +280,59 @@
     .list-item-info {
       justify-content: center;
     }
+
     .icon-user {
       font-size: 2.5em;
       color: @gray !important;
     }
+
     button {
       float: right;
       margin: 5px;
     }
   }
-} 
-
+}
 
 .documents-list-section-container {
   display: flex;
 
   &.no-map {
-    .page-main-title, .documents-list-section {
+    .page-main-title,
+    .documents-list-section {
       flex-basis: 100%;
     }
   }
+
   &.no-list .documents-list-section {
     flex-basis: 0;
   }
-  .no-list-btn, .switch-list-button {
+
+  .no-list-btn,
+  .switch-list-button {
     padding: 7px 5px 6px 5px;
   }
 }
-.documents-list-section, .not-found-section, .map-right .map {
+
+.documents-list-section,
+.not-found-section,
+.map-right .map {
   margin-top: @page-main-title-height;
   height: ~"calc(100vh - @{page-header-height} - @{page-main-title-height})";
 }
 
-.documents-list-section, .not-found-section {
-  background-color: rgba(206,206,206,.38);
+.documents-list-section,
+.not-found-section {
+  background-color: rgba(206, 206, 206, 0.38);
   overflow: auto;
   flex-basis: @list-width;
-  transition: .3s;
+  transition: 0.3s;
 
   @media @phone {
     flex-basis: 100%;
     padding-top: 35px;
     height: ~"calc(100vh - 92px)";
   }
+
   .show-documents-filters-phone {
     display: none;
     height: 33px;
@@ -327,55 +358,57 @@
     border: none;
   }
 
-  app-delete-association {
+  app-delete-association { /* stylelint-disable-line selector-type-no-unknown */
     position: absolute;
     top: 47px;
     right: 5px;
   }
 }
- 
+
 .list.users,
 .list.areas {
   .list-item {
     margin-top: 4px;
     background-color: #fefefe;
     border-radius: 2px;
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
-    transition: .2s ease-in-out; 
-    -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+    transition: 0.2s ease-in-out;
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
     align-items: center;
     flex: 1 0 200px;
     min-width: 0;
+
     a {
       line-height: 50px;
-    }          
+    }
   }
 }
 
-.section.associations .list-item, .view-details-section .list-item {
+.section.associations .list-item,
+.view-details-section .list-item {
   font-size: 0.9em;
-  &.new-outing a, &.new-route a {
+
+  &.new-outing a,
+  &.new-route a {
     display: flex;
     align-items: center;
   }
-  &.waypoints  {
+
+  &.waypoints {
     &.to-route {
       min-height: 115px;
       flex-wrap: wrap;
       display: flex;
-      app-card {
+
+      app-card { /* stylelint-disable-line selector-type-no-unknown */
         flex-basis: 100%;
       }
     }
+
     a {
       height: auto;
     }
   }
 }
-
-
 
 .list.advanced-search {
   padding-left: 10px;
@@ -385,14 +418,9 @@
 }
 
 .card-list {
-  display: none ;
-  @media @tablet {
-    display: inherit;
-  }
-  @media @desktop {
-    display: inherit;
-  }
-  @media @big {
+  display: none;
+
+  @media @tablet, @desktop, @big {
     display: inherit;
   }
 }
@@ -402,6 +430,7 @@
     display: none;
   }
 }
+
 .view-details-section.images .location {
   display: inherit;
 }
@@ -412,6 +441,7 @@
   right: 10px;
   z-index: 2;
   margin-left: 10px;
+
   .glyphicon {
     color: white;
   }

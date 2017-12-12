@@ -1,7 +1,8 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('../img/fonts/creativecommons.eot?hp0x2n');
-  src:  url('../img/fonts/creativecommons.eot?hp0x2n#iefix') format('embedded-opentype'),
+  src: url('../img/fonts/creativecommons.eot?hp0x2n');
+  src:
+    url('../img/fonts/creativecommons.eot?hp0x2n#iefix') format('embedded-opentype'),
     url('../img/fonts/creativecommons.ttf?hp0x2n') format('truetype'),
     url('../img/fonts/creativecommons.woff?hp0x2n') format('woff'),
     url('../img/fonts/creativecommons.svg?hp0x2n#icomoon') format('svg');
@@ -12,31 +13,35 @@
 [class^="creative-commons icon-"],
 [class*="creative-commons icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'icomoon' !important;
+  font-family: 'icomoon' !important; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
+  speak: none;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
   text-transform: none;
   font-size: 30px;
   line-height: 1;
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-BY:before {
+.icon-BY::before {
   content: "\1f32e";
 }
-.icon-CC:before {
+
+.icon-CC::before {
   content: "\1f419";
 }
-.icon-NC:before {
+
+.icon-NC::before {
   content: "\1f4f3";
 }
-.icon-ND:before {
+
+.icon-ND::before {
   content: "\1f5b2";
 }
-.icon-SA:before {
+
+.icon-SA::before {
   content: "\1f300";
 }
 

@@ -1,33 +1,35 @@
-@import "variables.less";
-
 @margin-desktop: 24%;
 @margin-tablet: 5%;
 
 .home-page {
-
   .site-intro {
     display: none;
     background-color: rgba(229, 229, 229, 0.3);
+
     @media @phone {
       height: auto;
+
       .route-activities {
         display: none;
       }
     }
 
     &.not-logged {
-      background-image:url(../img/home/alexbuisse-greenland.jpg);
+      background-image: url(../img/home/alexbuisse-greenland.jpg);
       background-size: cover;
       background-position-y: 50%;
     }
 
     .welcome-title {
       margin-top: 50px;
+
       @media @phone {
         margin-top: 0;
       }
     }
-    .welcome-title, p {
+
+    .welcome-title,
+    p {
       padding: 10px;
       background-color: rgba(21, 50, 69, 0.3);
     }
@@ -41,23 +43,30 @@
       flex-flow: wrap row;
       align-items: center;
       display: flex;
+
       @media @tablet {
         width: 80%;
       }
+
       @media @phone {
         width: 100%;
       }
-      >* {
+
+      > * {
         width: 100%;
       }
+
       p {
         font-size: 1.5em;
       }
+
       button {
         margin: 5px;
+
         @media @phone {
           width: 100%;
         }
+
         .small {
           text-transform: none;
           font-size: 1.2em;
@@ -68,12 +77,15 @@
     .route-activities {
       font-size: 4em;
       width: 100%;
+
       a {
-        &:hover, &:focus {
+        &:hover,
+        &:focus {
           text-decoration: none;
           outline: none;
         }
       }
+
       .activity {
         color: @C2C-orange;
         background-color: white;
@@ -82,6 +94,7 @@
         cursor: pointer;
       }
     }
+
     .intro-shortcuts {
       text-align: center;
       padding: 10px 20px 20px 10px;
@@ -91,9 +104,11 @@
       }
     }
   }
+
   .personal-feed-on {
     background-color: @bright-green;
   }
+
   .button-preferences {
     background-color: @btn-primary-bg;
   }
@@ -103,10 +118,12 @@
     width: 90px;
     border-radius: 5px;
     padding: 10px 7px 0 6px;
+
     .float-button {
       margin-bottom: 2px;
       margin-right: 15px;
     }
+
     .float-button-text {
       text-align: center;
       font-size: 12px;
@@ -114,18 +131,21 @@
       margin-bottom: 10px;
       clear: both;
     }
+
     @media @phone {
       width: 100%;
-      right:0;
+      right: 0;
       border-radius: unset;
-      .float-buttons, .float-button {
+
+      .float-buttons,
+      .float-button {
         margin-right: 5px;
       }
+
       .float-button-text {
         display: inline-block;
         width: 80px;
       }
     }
   }
-  /*end home-page*/
 }

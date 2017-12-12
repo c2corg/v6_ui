@@ -1,79 +1,97 @@
-@import: 'variables.less';
-
 .create-edit-document {
   margin-top: @page-header-height;
 
   @media @tablet {
     margin-top: -20px;
   }
+
   @media @phone {
     margin-top: 50px;
   }
+
   .document-editing {
     width: 80%;
     margin: auto;
+
     @media @tablet {
       width: 85%;
     }
+
     @media @phone {
       width: 92%;
       margin-left: 2px;
     }
   }
+
   #save-confirmation-modal {
     display: none;
   }
+
   .nav-buttons {
     @media @phone {
       display: none;
     }
-    .prev, .next {
+
+    .prev,
+    .next {
       position: fixed;
       top: 50vh;
       z-index: 4;
       height: 45px;
       width: 45px;
       border-radius: 50%;
+
       .glyphicon {
         color: white;
       }
+
       @media @tablet {
         padding: 3px 7px;
       }
     }
+
     .prev {
       left: @menu-width + 15;
+
       @media @tablet {
         left: @menu-width-tablet + 10;
       }
     }
+
     .next {
       right: 15px;
     }
   }
+
   .editing {
     position: relative;
     width: 600%;
+
     @media @phone {
       position: static;
       margin-bottom: 100px;
     }
   }
+
   .form-group {
     padding: 0;
+
     .track {
       .track-tip {
         display: inline-block;
         margin-bottom: 10px;
       }
+
       .upload-file {
         margin-top: 0;
+
         @media @phone {
           margin-bottom: 10px;
         }
       }
     }
   }
+
   h1 {
     margin-top: 70px;
     font-size: 2em;
@@ -82,9 +100,11 @@
       background: slategray;
       padding: 3px 6px 3px 6px;
     }
+
     @media @tablet {
       margin-top: 55px;
     }
+
     @media @phone {
       padding-top: 10px;
       margin-top: 0;
@@ -95,24 +115,28 @@
     width: 100%;
     margin-top: 15px;
 
-    input:not(last-of-type) {
+    input:not(:last-of-type) {
       margin-bottom: 10px;
     }
+
     .map-info {
       float: none;
+
       @media (max-width: @screen-md-max) {
         width: 100%;
       }
     }
+
     #document-add-maps {
       margin-left: 20px;
       font-size: 1.4em;
       border-radius: 50%;
       height: 40px;
       width: 40px;
-      background:  @C2C-orange;
+      background: @C2C-orange;
+
       .glyphicon {
-        color:white;
+        color: white;
       }
     }
   }
@@ -129,6 +153,7 @@
 
     #image {
       width: 100%;
+
       .image {
         height: 300px;
         background-size: contain;
@@ -137,22 +162,27 @@
       }
     }
 
-    app-simple-search {
+    app-simple-search { /* stylelint-disable-line selector-type-no-unknown */
       width: 100px;
+
       @media @phone {
         width: 100%;
+
         .search {
           width: 100%;
         }
       }
     }
+
     .conditions-levels {
       margin-bottom: 10px;
+
       th {
         font-size: 0.9em;
         line-height: 13px;
         text-align: center;
       }
+
       .glyphicon-trash {
         position: relative;
         margin-top: 6px;
@@ -161,7 +191,13 @@
       }
     }
 
-    .third, .half, .full, #rock_types-group, #title-group, #lang-group, .date {
+    .third,
+    .half,
+    .full,
+    #rock_types-group,
+    #title-group,
+    #lang-group,
+    .date {
       float: left;
       margin-right: 2%;
       margin-left: 2%;
@@ -171,28 +207,34 @@
         flex-basis: 100% !important;
       }
     }
+
     .date {
       width: 45%;
       flex-basis: 45%;
+
       &:nth-of-type(2) {
         > div {
           width: 100%;
         }
+
         @media @phone {
           flex-basis: 90% !important;
         }
       }
     }
+
     .third {
       width: 29.3%;
       flex-basis: 29.3%;
     }
+
     .half {
       flex-basis: 46%;
 
       @media @big {
         flex-basis: 29.3%;
       }
+
       &.half-group {
         @media @big {
           flex-basis: 45% !important;
@@ -201,50 +243,63 @@
 
       &.remain {
         flex-basis: 46% !important;
+
         @media @phone {
           flex-basis: 48% !important;
         }
       }
-      .glyphicon-warning-sign, .glyphicon-ok {
+
+      .glyphicon-warning-sign,
+      .glyphicon-ok {
         left: 102%;
       }
     }
+
     .full {
       flex-basis: 100%;
       margin-right: 1.5%;
       margin-bottom: 10px;
     }
+
     textarea.description {
       height: 300px !important;
     }
+
     .route-activities {
       @media @phone {
         justify-content: space-between;
       }
+
       .activity {
         width: 20%;
         text-align: center;
+
         @media (max-width: @screen-md-min) {
           width: 33%;
         }
+
         p {
           text-align: center;
         }
       }
+
       [class^="icon-"] {
         font-size: 4em;
 
         @media (max-width: @screen-sm-min) {
           font-size: 3.5em;
         }
+
         @media (max-width: @screen-sm-max) {
           font-size: 3.5em;
         }
+
         @media @phone {
           font-size: 3em;
         }
       }
     }
+
     .content {
       padding: 10px 20px;
       width: 100%;
@@ -253,46 +308,57 @@
       justify-content: space-between;
 
       &.waypoint-association {
-        min-height:  300px;
-        app-simple-search {
+        min-height: 300px;
+
+        app-simple-search { /* stylelint-disable-line selector-type-no-unknown */
           height: 37px;
         }
       }
+
       &.outing-route {
         .tt-menu {
           max-height: 400px;
           overflow-y: scroll;
         }
       }
+
       .associated-documents {
         padding: 0 10px 10px 10px;
         border: 2px solid #eee;
         border-radius: 5px;
       }
     }
+
     .heading {
       margin: 0;
       background-color: @bright-green;
       font-size: 1.5em;
-      >span {
+
+      > span {
         margin-left: 10px;
         margin-right: 10px;
       }
     }
-    &.numbers, &.ratings, &.maps-info, &.transports {
+
+    &.numbers,
+    &.ratings,
+    &.maps-info,
+    &.transports {
       .content {
         justify-content: flex-start;
       }
     }
+
     &.summary {
       .content {
         @media @phone {
           padding: 15px;
         }
+
         figure {
           flex: 1;
           min-width: 32%;
-          margin: .5%;
+          margin: 0.5%;
           background-color: rgba(243, 243, 243, 0.57);
           padding: 10px;
           border: 1px solid #eee;
@@ -301,30 +367,38 @@
           @media @tablet {
             flex-basis: 49%;
           }
+
           @media @phone {
             flex-basis: 100%;
           }
+
           h3 {
             font-variant: small-caps;
             text-align: center;
-            color: #FFB862;
+            color: #ffb862;
             margin-bottom: 10px;
             border-radius: 7px;
             background-color: white;
           }
+
           article {
             margin-bottom: 10px;
           }
         }
       }
-      .summary-description, .summary-numbers, .summary-gear {
+
+      .summary-description,
+      .summary-numbers,
+      .summary-gear {
         min-width: 99% !important;
       }
     }
   }
+
   .input-group {
     z-index: 0 !important;
   }
+
   .form-control-feedback {
     position: relative;
     top: -34px !important;
@@ -345,10 +419,12 @@
     margin-top: 5px;
     margin-bottom: 10px;
     flex-basis: 100%;
+
     @media @phone {
       margin-top: 8px;
     }
-    .map{
+
+    .map {
       height: 400px;
     }
   }
@@ -360,11 +436,7 @@
     width: 102%;
     margin: 40px 20px 20px 0;
     height: 4px;
-    background-image: -moz-linear-gradient(left, @bright-green 0,@bright-green  15%,@gray 20@gray 0%);  /*green to gray*/
-    background-image: -o-linear-gradient(left, @bright-green 0,@bright-green  15%,@gray 20%,@gray 0%);  /*green to gray*/
-    background-image: -ms-linear-gradient(left, @bright-green 0,@bright-green  15%,@gray 20%,@gray 0%);  /*green to gray*/
-    background-image: linear-gradient(left, @bright-green 0,@bright-green  15%,@gray 0%,@gray 20%);  /*green to gray*/
-    background-image: -webkit-linear-gradient(left, @bright-green 0,@bright-green  15%,@gray 20%,@gray 0%);  /*green to gray*/
+    background-image: linear-gradient(90deg, @bright-green 0, @bright-green 15%, @gray 0%, @gray 20%); /*green to gray*/
     background-size: 100%;
 
     @media @phone {
@@ -383,7 +455,8 @@
       width: 103%;
     }
 
-    &::before, &::after {
+    &::before,
+    &::after {
       content: "";
       position: absolute;
       top: -8px;
@@ -393,9 +466,11 @@
       border-radius: 10px;
       border: 10px solid @bright-green;
     }
+
     &::before {
       left: -5px;
     }
+
     &::after {
       right: -10px;
       border: 10px solid transparent;
@@ -409,17 +484,22 @@
       position: relative;
       top: -24px;
       display: inline-block;
-      font: bold 14px arial;
+      font-weight: bold;
+      font-size: 14px;
       color: graytext;
+
       &:hover {
         cursor: pointer;
         color: #28e;
       }
+
       .nav-text {
         font-variant: small-caps;
+
         @media @big {
           font-size: 1.2em;
         }
+
         @media @desktop {
           font-size: 1.1em;
         }
@@ -446,8 +526,10 @@
   .associations {
     border: none;
   }
+
   &:last-child:not(.associations):not(.preferences-act-areas) {
     margin-bottom: 20%;
+
     @media @phone {
       margin-bottom: 0;
     }
@@ -457,7 +539,9 @@
     padding: 0;
     list-style: none;
   }
-  .months, .types {
+
+  .months,
+  .types {
     column-count: 2;
     -webkit-column-count: 2;
     -moz-column-count: 2;
@@ -469,6 +553,7 @@
       -webkit-column-count: 1;
       -moz-column-count: 1;
     }
+
     &.long {
       column-count: 2 !important;
       -webkit-column-count: 2 !important;
@@ -483,12 +568,14 @@
       margin: 0;
     }
   }
-  article ul{
+
+  article ul {
     padding-left: 20px;
-    li:before {
+
+    li::before {
       /*Using a Bootstrap glyphicon as the bullet point*/
       content: "\e080";
-      font-family: 'Glyphicons Halflings';
+      font-family: 'Glyphicons Halflings'; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
       font-size: 0.85em;
       float: left;
       margin-left: -10px;
@@ -496,48 +583,63 @@
       color: @bright-green;
     }
   }
-  label, .months, .types, #route-activities, h2 {
+
+  label,
+  .months,
+  .types,
+  #route-activities,
+  h2 {
     width: 100%;
   }
 }
 
 .action-buttons {
   margin-top: 100px;
+
   button {
     padding: 0;
   }
+
   .glyphicon-ok {
     color: white !important;
   }
 }
+
 #title-edit {
   justify-content: flex-start;
 }
+
 #title-group {
   flex-basis: 74%;
   margin-right: 3% !important;
   margin-bottom: 15px;
 }
+
 #lang-group {
   margin: 0 !important;
   flex-basis: 20%;
+
   @media @phone {
-    margin: 0 .5% 15px 2% !important;
+    margin: 0 0.5% 15px 2% !important;
   }
 }
+
 #waypoint_type-group {
   height: 70px;
 }
+
 #access-period {
   ul {
     flex-basis: 46%;
   }
+
   article {
     display: flex;
     justify-content: space-between;
     flex-flow: wrap row;
   }
 }
+
 .step {
   will-change: right, left;
   position: relative;
@@ -547,7 +649,7 @@
 
   @media @big {
     margin-right: 2.6%;
-    margin-left: .5%;
+    margin-left: 0.5%;
     width: 16%;
   }
 
@@ -564,6 +666,7 @@
   display: flex;
   justify-content: space-around;
   top: 22px;
+
   .bullet {
     border: 4px solid #9b2;
     border-radius: 10px;
@@ -575,8 +678,10 @@ input[type="radio"] {
   margin-right: 10px;
 }
 
-#orientation-list, #activity-list {
+#orientation-list,
+#activity-list {
   display: none;
+
   @media @phone {
     display: block;
   }
@@ -584,25 +689,25 @@ input[type="radio"] {
 
 .orientation-svg {
   width: auto;
+
   @media @tablet {
     width: 100%;
   }
 
-    @media @phone {
+  @media @phone {
     width: 100%;
   }
-  
+
   path {
     fill: darkgray;
 
     &.orientation-selected {
       fill: @bright-green;
     }
-
   }
 
   text {
-    fill:#fff;
+    fill: #fff;
   }
 }
 
@@ -612,7 +717,9 @@ input[type="radio"] {
     fill: gray;
   }
 
-  path, text, g {
+  path,
+  text,
+  g {
     cursor: pointer;
     transition: 0.3s ease-in-out;
 
@@ -628,13 +735,14 @@ input[type="radio"] {
     color: black;
     transition: 0.3s ease-in-out;
   }
+
   .bullet {
     border-color: @C2C-orange;
     transition: 0.3s ease-in-out;
   }
 }
 
-#participants-group app-simple-search{
+#participants-group app-simple-search { /* stylelint-disable-line selector-type-no-unknown */
   margin-bottom: 0;
 }
 
@@ -664,6 +772,7 @@ ul.uib-datepicker {
 
   .preview-container-buttons {
     flex-grow: 0;
+
     button {
       float: right;
       margin-top: 10px;
@@ -672,15 +781,16 @@ ul.uib-datepicker {
   }
 }
 
-
 #save-confirmation-modal {
   .comment {
     margin-top: 10px;
     margin-bottom: 10px;
   }
+
   .heading {
-    margin-top: 0
+    margin-top: 0;
   }
+
   .content {
     padding: 20px;
   }

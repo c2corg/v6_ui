@@ -1,7 +1,8 @@
 @font-face {
   font-family: 'icomoon';
-  src:    url('../img/fonts/social.eot?3b91nt');
-  src:    url('../img/fonts/social.eot?3b91nt#iefix') format('embedded-opentype'),
+  src: url('../img/fonts/social.eot?3b91nt');
+  src:
+    url('../img/fonts/social.eot?3b91nt#iefix') format('embedded-opentype'),
     url('../img/fonts/social.ttf?3b91nt') format('truetype'),
     url('../img/fonts/social.woff?3b91nt') format('woff'),
     url('../img/fonts/social.svg?3b91nt#icomoon') format('svg');
@@ -9,9 +10,10 @@
   font-style: normal;
 }
 
-[class^="icon-"], [class*=" icon-"] {
+[class^="icon-"],
+[class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'icomoon' !important;
+  font-family: 'icomoon' !important; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
   speak: none;
   font-style: normal;
   font-weight: normal;
@@ -24,21 +26,26 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-facebook:before {
+.icon-facebook::before {
   content: "\e930";
 }
-.icon-google-plus:before {
+
+.icon-google-plus::before {
   content: "\e931";
 }
-.icon-news:before {
+
+.icon-news::before {
   content: "\e932";
 }
-.icon-share:before {
+
+.icon-share::before {
   content: "\e933";
 }
-.icon-twitter:before {
+
+.icon-twitter::before {
   content: "\e934";
 }
-.icon-user:before {
+
+.icon-user::before {
   content: "\e935";
 }
