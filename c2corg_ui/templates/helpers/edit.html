@@ -1,6 +1,7 @@
 <%!
     from c2corg_common.attributes import quality_types
 %>
+<%namespace file="common.html" import="generate_empty_list_items"/>
 
 <%def name="show_editing_associated_waypoints(model, type='waypoints')">\
   <h3 translate ng-show="${model}.associations.${type}.length > 0">Associated waypoints</h3>
@@ -43,6 +44,7 @@
         <app-card app-card-doc="rte" app-card-disable-click="true"></app-card>
         <span class="glyphicon glyphicon-trash" ng-click="editCtrl.documentService.removeAssociation(rte.document_id, 'routes', $event)"></span>
       </div>
+      ${generate_empty_list_items(5)}
     </article>
   </section>
 </%def>
@@ -57,6 +59,7 @@
         <app-card app-card-doc="out" app-card-disable-click="true"></app-card>
         <span class="glyphicon glyphicon-trash" ng-click="editCtrl.documentService.removeAssociation(out.document_id, 'outings', $event)"></span>
       </div>
+      ${generate_empty_list_items(5)}
     </article>
   </section>
 </%def>
@@ -71,6 +74,7 @@
         <app-card app-card-doc="bk" app-card-disable-click="true"></app-card>
         <span class="glyphicon glyphicon-trash" ng-click="editCtrl.documentService.removeAssociation(bk.document_id, 'books', $event)"></span>
       </div>
+      ${generate_empty_list_items(5)}
     </article>
   </section>
 </%def>
@@ -85,6 +89,7 @@
         <app-card app-card-doc="art" app-card-disable-click="true"></app-card>
         <span class="glyphicon glyphicon-trash" ng-click="editCtrl.documentService.removeAssociation(art.document_id, 'articles', $event)"></span>
       </div>
+      ${generate_empty_list_items(5)}
     </article>
   </section>
 </%def>
@@ -113,6 +118,7 @@
     </div>
   </section>
 </%def>
+
 <%def name="show_preview_container()">\
   <div class="ng-hide">
     <div id="preview-container">
