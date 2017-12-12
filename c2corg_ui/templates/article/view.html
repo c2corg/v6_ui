@@ -10,8 +10,9 @@ from json import dumps
   show_archive_data, show_areas, show_float_buttons, show_locale_title,
   show_associated_waypoints, show_associated_outings, show_associated_routes,
   show_associated_articles, show_associated_books, show_associated_xreports,
-  delete_association_confirmation_modal, associated_images_featurelist, show_badge, get_licence,
-  show_merge_documents_dialog, show_delete_document_dialog, generate_share_metadata"/>
+  delete_association_confirmation_modal, associated_images_featurelist, show_badge,
+  get_licence, get_print_license, show_merge_documents_dialog,
+  show_delete_document_dialog, generate_share_metadata"/>
 <%namespace file="helpers/view.html" import="get_article_general, get_article_associated_users"/>
 
 <%
@@ -105,6 +106,8 @@ other_langs, missing_langs = get_lang_lists(article, lang)
                     ${show_associated_outings(article)}
 
                     ${get_comments()}
+
+                    ${get_print_license(article)}
                   </section>
                 </span>
               </div>

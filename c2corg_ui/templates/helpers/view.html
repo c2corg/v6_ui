@@ -7,48 +7,60 @@
 %>
 <%namespace file="common.html" import="generate_empty_list_items"/>
 
+<%def name="get_print_license(doc)">\
+  <div class="print-only">
+    <%
+        get_license_description(doc)
+    %>
+    <div>&ndash; <span translate>Printed on</span> {{detailsCtrl.date | date: "MM/dd/yyyy HH:mm"}}</div>
+  </div>
+</%def>
+
 <%def name="get_licence(doc)">\
+  <h3 ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#licence"><span translate>Licence</span> <span class="glyphicon glyphicon-menu-down"></span></h3>
+  <div class="finfo" id="license">
+    <div class="ficontent">
+      <span class="detail-text accordion">
+        <article class="value">
+          <%
+              get_license_description(doc)
+          %>
+        </article>
+      </span>
+    </div>
+  </div>
+</%def>
+
+<%def name="get_license_description(doc)">
   <%
       personal = is_personal(doc)
       collaborative = is_collaborative(doc) if not personal else False
   %>
-    <h3 ng-click="mainCtrl.animateHeaderIcon($event)" class="collapsible-title"
-        data-toggle="collapse" data-target="#licence" aria-expanded="true" aria-controls="licence">
-      <span translate>Licence</span> <span class="glyphicon glyphicon-menu-down"></span>
-    </h3>
-    <div class="finfo collapse in" id="licence">
-      <div class="ficontent">
-        <span class="detail-text accordion">
-          <article class="value">
-            % if personal:
-              <a class="creative-commons" ng-href="https://creativecommons.org/licenses/by-nc-nd/3.0/deed.{{detailsCtrl.lang.getLang()}}">
-                <span class="creative-commons icon-BY green-text"
-                      uib-tooltip="{{'Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made.' | translate}}"></span>
-                <span class="creative-commons icon-NC green-text"
-                      uib-tooltip="{{'NonCommercial — You may not use the material for commercial purposes.' | translate}}"></span>
-                <span class="creative-commons icon-ND green-text" tooltip-placement=''
-                      uib-tooltip="{{'NoDerivatives — If you remix, transform, or build upon the material, you may not distribute the modified material.' | translate}}"></span>
-                <span class="cc-description" translate>This content is licensed under Creative Commons BY-NC-ND 3.0</span>
-              </a>
-            % elif collaborative:
-              <a class="creative-commons" ng-href="https://creativecommons.org/licenses/by-sa/3.0/deed.{{detailsCtrl.lang.getLang()}}">
-                <span class="creative-commons icon-BY green-text"
-                      uib-tooltip="{{'Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made.' | translate}}"></span>
-                <span class="creative-commons icon-SA green-text"
-                      uib-tooltip="{{'ShareAlike — If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.' | translate}}"></span>
-                <span class="cc-description" translate>This content is licensed under Creative Commons BY-SA 3.0</span>
-              </a>
-            % else:
-              <div class="creative-commons">
-                <span class="glyphicon glyphicon-ban-circle green-text"
-                      uib-tooltip="{{'This picture depicts a book cover. It is the property of its editor and/or author. It is presented here only for illustration purposes.' | translate}}"></span>
-                <span class="cc-description" translate>This book cover is the property of its editor and/or author</span>
-              </div>
-            % endif
-          </article>
-        </span>
-      </div>
-    </div>
+  % if personal:
+  <a class="creative-commons" ng-href="https://creativecommons.org/licenses/by-nc-nd/3.0/deed.{{detailsCtrl.lang.getLang()}}">
+    <span class="creative-commons icon-BY green-text"
+          uib-tooltip="{{'Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made.' | translate}}"></span>
+    <span class="creative-commons icon-NC green-text"
+          uib-tooltip="{{'NonCommercial — You may not use the material for commercial purposes.' | translate}}"></span>
+    <span class="creative-commons icon-ND green-text" tooltip-placement=''
+          uib-tooltip="{{'NoDerivatives — If you remix, transform, or build upon the material, you may not distribute the modified material.' | translate}}"></span>
+    <span class="cc-description" translate>This content is licensed under Creative Commons BY-NC-ND 3.0</span>
+  </a>
+  % elif collaborative:
+  <a class="creative-commons" ng-href="https://creativecommons.org/licenses/by-sa/3.0/deed.{{detailsCtrl.lang.getLang()}}">
+    <span class="creative-commons icon-BY green-text"
+          uib-tooltip="{{'Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made.' | translate}}"></span>
+    <span class="creative-commons icon-SA green-text"
+          uib-tooltip="{{'ShareAlike — If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.' | translate}}"></span>
+    <span class="cc-description" translate>This content is licensed under Creative Commons BY-SA 3.0</span>
+  </a>
+  % else:
+  <div class="creative-commons">
+    <span class="glyphicon glyphicon-ban-circle green-text"
+          uib-tooltip="{{'This picture depicts a book cover. It is the property of its editor and/or author. It is presented here only for illustration purposes.' | translate}}"></span>
+    <span class="cc-description" translate>This book cover is the property of its editor and/or author</span>
+  </div>
+  % endif
 </%def>
 
 <%def name="show_attr(obj, key, parse=True)">\

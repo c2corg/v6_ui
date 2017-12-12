@@ -9,7 +9,8 @@ from json import dumps
     photoswipe_gallery, get_document_locale_text, show_badge,
     show_missing_langs_links, show_other_langs_links, show_archive_data,
     show_locale_title, show_float_buttons, get_document_description,
-    get_licence, show_merge_documents_dialog, generate_share_metadata"/>
+    get_licence, show_merge_documents_dialog, generate_share_metadata,
+    get_print_license"/>
 <%namespace file="helpers/view.html" import="get_area_general"/>
 <%
 area_id = area['document_id']
@@ -128,6 +129,8 @@ area['doctype'] = 'areas'
       </div>
 
       ${get_comments()}
+      
+      ${get_print_license(area)}
 
       ${show_float_buttons(area, lang, other_langs, missing_langs)}
     % endif
