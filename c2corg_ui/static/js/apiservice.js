@@ -59,6 +59,38 @@ app.Api = function(discourseUrl, apiUrl, imageBackendUrl, $http, appAlerts, $q, 
    * @private
    */
   this.auth_ = appAuthentication;
+
+  var excludedCategories = [
+    95,  // Partenaires : Escalade, SAE
+    113, // Partenaires : Alpinisme, Cascade de glace
+    94,  // Partenaires : Ski, Surf, Raquette, Randonnée
+    96,  // Co-voiturage
+    42,  // Annonces matos Rocher, SAE
+    41,  // Annonces matos Glace, Neige, Mixte
+    40,  // Annonces matos Ski, Surf, Raquette
+    43,  // Annonces matos Divers (multiactivité, livres...)
+    44,  // Autres annonces (gîtes, locations, fourgons...)
+    45,  // Annonces de Professionnels
+    97,  // Perdu / trouvé
+    54,  // Bistrot
+    47,  // Partenaires ++
+    29,  // Commentaires des documents
+    136, // V6 : suggestions, bugs et problèmes
+    146, // Appli Mobile: suggestions, bugs...
+    56,  // Modération : forums, topoguide, articles
+    64,  // Traduction
+    55   // V5 : suggestions, bugs et problèmes
+  ];
+  var url = this.discourseUrl_ + 'latest.json?page=1';
+  for (var i = 0; i < excludedCategories.length; i++) {
+    url += '&exclude_category_ids[]=' + excludedCategories[i];
+  }
+
+  /**
+   * @type {string}
+   * @private
+   */
+  this.discourseLatestTopicsUrl = url;
 };
 
 
@@ -427,8 +459,7 @@ app.Api.prototype.readLatestForumTopics = function() {
       'Accept': 'application/json'
     }
   };
-  var promise = this.http_.get(this.discourseUrl_ + '/latest.json', config);
-  return promise;
+  return this.http_.get(this.discourseLatestTopicsUrl, config);
 };
 
 /**
