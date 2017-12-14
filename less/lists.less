@@ -104,56 +104,6 @@
   .elevation, .waypoint-elevation .glyphicon {
     margin-top: -1px;
   }
-  .list-item-info {
-    height: 100%;
-    width: 100%;
-    text-decoration: none;
-    color: #919191;
-    font-weight: normal;
-    display: flex;
-    flex-direction: column;
-    -webkit-flex-direction: column;
-    justify-content: flex-start;
-    align-self: flex-start;
-
-    .quality, .orientations, .date,  .height-diff, .height-diff-difficulties, .elevation, .waypoint-elevation {
-      white-space: nowrap;
-      .glyphicon {
-        margin-right: 3px;
-      }
-    }
-    .elevation, .height-diff, .height-diff-difficulties, .orientations, .icon-rating, .rating {
-      margin-right: 3px;
-      align-self: center;
-    }
-    .icon-rating {
-      font-size: 1.4em;
-      margin-bottom: 5px;
-    }
-    .full-rating {
-      flex-wrap: wrap;
-      align-items: baseline;
-      .glyphicon {
-        font-size: 1.3em;
-        margin-left: -3px;
-        margin-right: 3px !important;
-      }
-      .value {
-        transition: .2s;
-        &:hover {
-          color: gold;
-        }
-      }
-    }
-    .glyphicon, [class*="icon-"]:not(.activity):not(.waypoint-type) {
-      color: @bright-green;
-    }
-    .route-infos {
-      > span {
-        margin-right: 2px;
-      }
-    }
-  }
   .show-more-activities:hover {
     color: teal;
   }
@@ -432,10 +382,6 @@
   padding-right: 10px;
   margin: 0;
   font-size: 0.9em;
-}
-
-.list-item-info .slackline-type {
-  color: @bright-green;
 }
 
 .card-list {
