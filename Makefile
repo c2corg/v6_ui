@@ -30,8 +30,8 @@ LIBS_JS_FILES += \
     node_modules/bootstrap-markdown/js/bootstrap-markdown.js \
     node_modules/angular/angular.min.js \
     node_modules/bootstrap/dist/js/bootstrap.min.js \
-    c2corg_ui/static/lib/angular-bootstrap/ui-bootstrap-custom-1.3.2.min.js \
-    c2corg_ui/static/lib/angular-bootstrap/ui-bootstrap-custom-tpls-1.3.2.min.js \
+    c2corg_ui/static/lib/angular-bootstrap/ui-bootstrap-custom-2.5.0.min.js \
+    c2corg_ui/static/lib/angular-bootstrap/ui-bootstrap-custom-tpls-2.5.0.min.js \
     node_modules/angular-gettext/dist/angular-gettext.min.js \
     node_modules/angular-messages/angular-messages.min.js \
     node_modules/angular-cookies/angular-cookies.min.js \
