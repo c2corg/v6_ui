@@ -147,6 +147,12 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
   this.showMobileBlock = /** @type {boolean} */ (JSON.parse(window.localStorage.getItem('showMobileBlock') || 'true'));
 
   /**
+   * @type {Date}
+   * @export
+   */
+  this.date = new Date();
+
+  /**
    * @type {!angular.Scope}
    * @private
    */

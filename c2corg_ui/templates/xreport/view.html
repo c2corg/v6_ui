@@ -11,7 +11,7 @@ from json import dumps
   show_associated_waypoints, show_associated_outings, show_associated_routes, show_associated_xreports,
   show_associated_articles, show_float_buttons, generate_share_metadata,
   delete_association_confirmation_modal, associated_waypoints_featurelist,
-  associated_images_featurelist, show_badge, get_licence,
+  associated_images_featurelist, show_badge, get_licence, get_print_license,
   show_merge_documents_dialog, show_delete_document_dialog"/>
 <%namespace file="helpers/view.html" import="show_fulldate, get_xreport_general, get_xreport_participants"/>
 
@@ -158,6 +158,8 @@ other_langs, missing_langs = get_lang_lists(xreport, lang)
             </div>
 
             ${get_comments(xreport.get('disable_comments'))}
+
+            ${get_print_license(xreport)}
 
             ${show_float_buttons(xreport, lang, other_langs, missing_langs)}
           % endif

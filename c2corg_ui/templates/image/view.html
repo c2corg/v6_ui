@@ -11,7 +11,7 @@ from json import dumps
     show_associated_waypoints, show_associated_routes, show_associated_articles,
     show_associated_outings, show_associated_books, delete_association_confirmation_modal,
     get_document_description, get_comments, get_licence, show_merge_documents_dialog,
-    show_delete_document_dialog, generate_share_metadata"/>
+    show_delete_document_dialog, generate_share_metadata, get_print_license"/>
 <%namespace file="helpers/view.html" import="get_image_general, get_image_camera_settings, show_image"/>
 
 <%
@@ -134,6 +134,8 @@ from json import dumps
                 </div>
 
                 ${get_comments()}
+
+                ${get_print_license(image)}
 
                 ${show_float_buttons(image, lang, other_langs, missing_langs)}
               % endif
