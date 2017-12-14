@@ -1,8 +1,8 @@
 
 <%!
-from c2corg_common.attributes import activities, image_categories, image_types
-from c2corg_ui.templates.utils import get_lang_lists, get_title
-from json import dumps
+    from c2corg_common.attributes import activities, image_categories, image_types
+    from c2corg_ui.templates.utils import get_lang_lists, get_title
+    from json import dumps
 %>
 
 <%inherit file="../base.html"/>
@@ -21,12 +21,12 @@ from json import dumps
 <%namespace file="helpers/view.html" import="get_route_location,
     get_route_glacier_gear, get_route_rating, get_route_general, get_route_heights,
     get_route_access, get_route_associated_maps, get_route_orientations,
-    get_route_gear"/>
+    get_route_gear" />
 
 <%
-route_id = route['document_id']
-route['doctype'] = 'routes'
-other_langs, missing_langs = get_lang_lists(route, lang)
+  route_id = route['document_id']
+  route['doctype'] = 'routes'
+  other_langs, missing_langs = get_lang_lists(route, lang)
 %>
 
 <%block name="pagelang">lang="${lang}"</%block>
@@ -38,7 +38,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
     <meta name="robots" content="noindex,follow">
   % else:
     <meta name="robots" content="index,follow">
-  %endif
+  % endif
 </%block>
 
 <%block name="moduleConstantsValues">
@@ -91,11 +91,14 @@ other_langs, missing_langs = get_lang_lists(route, lang)
 <%block name="share">
   ${generate_share_metadata(route, 'routes')}
 </%block>
+
 <div ng-cloak>
   <div class="viewdoc viewroute">
     <app-announcement></app-announcement>
     <header class="view-title-with-bg" ng-if="detailsCtrl.hasHeadband">
-      <div class="view-image-bg" ng-style="{'background-image': 'url('+this.headBands+')'}"><div class="view-filter-bg"></div></div>
+      <div class="view-image-bg" ng-style="{'background-image': 'url('+this.headBands+')'}">
+        <div class="view-filter-bg"></div>
+      </div>
 
       <h1 class="routes">
         <span class="title">${show_locale_title(locale)}</span>
@@ -110,14 +113,16 @@ other_langs, missing_langs = get_lang_lists(route, lang)
     </header>
     <section class="view-details-section" app-view-details ng-class="{'row-list' : switchCtrl.showList}">
       % if version:
-      ${show_archive_data('routes', route, locale, version)}
+        ${show_archive_data('routes', route, locale, version)}
       % endif
 
       <div class="row">
         <div class="col-xs-12 col-md-4 col-lg-3" id="left-column">
           <div class="finfo" ng-if="detailsCtrl.documentService.document.associations.images.length > 0 && detailsCtrl.hasVerticalImg">
             <div class="ficontent moz">
-              <img ng-src="{{detailsCtrl.createImageUrl(detailsCtrl.documentService.document.associations.images[0].filename, 'MI')}}" alt="{{detailsCtrl.documentService.document.associations.images[0].locales[0].title}}" class="fullimg"/>
+              <img ng-src="{{detailsCtrl.createImageUrl(detailsCtrl.documentService.document.associations.images[0].filename, 'MI')}}"
+                   alt="{{detailsCtrl.documentService.document.associations.images[0].locales[0].title}}"
+                   class="fullimg"/>
             </div>
           </div>
           <app-map class="view-details-map"></app-map>
@@ -137,13 +142,13 @@ other_langs, missing_langs = get_lang_lists(route, lang)
             <div class="finfo">
               <div class="ficontent">
                 <div class="row">
-                    ${get_route_general(route, locale)}
-                    ${get_route_location(route)}
-                    ${get_route_rating(route)}
-                    ${get_route_heights(route, locale)}
-                    ${get_route_glacier_gear(route)}
-                    ${get_route_access(route)}
-                    ${get_route_orientations(route)}
+                  ${get_route_general(route, locale)}
+                  ${get_route_location(route)}
+                  ${get_route_rating(route)}
+                  ${get_route_heights(route, locale)}
+                  ${get_route_glacier_gear(route)}
+                  ${get_route_access(route)}
+                  ${get_route_orientations(route)}
                 </div>
               </div>
             </div>
@@ -186,26 +191,25 @@ other_langs, missing_langs = get_lang_lists(route, lang)
           % endif
         </div>
       </div>
-
     </section>
   </div>
 
   % if not version:
-  <div class="ng-hide">
-    <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
-    ${delete_association_confirmation_modal()}
-    ${show_missing_langs_links('routes', route, missing_langs)}
-    ${show_merge_documents_dialog('routes')}
-    ${show_delete_document_dialog('routes', lang, other_langs)}
-  </div>
+    <div class="ng-hide">
+      <div id="image-uploader" app-image-uploader activities="${activities}" 
+           categories="${image_categories}" types="${image_types}"></div>
+      ${delete_association_confirmation_modal()}
+      ${show_missing_langs_links('routes', route, missing_langs)}
+      ${show_merge_documents_dialog('routes')}
+      ${show_delete_document_dialog('routes', lang, other_langs)}
+    </div>
 
   ${photoswipe_gallery()}
 
-  <script>
-    window.onload = function() {
-      ## init float-buttons tooltips
-      $('[data-toggle=\'tooltip\']').tooltip();
-    }
-  </script>
+    <script>
+      window.onload = function() {
+        $('[data-toggle=\'tooltip\']').tooltip();
+      }
+    </script>
   % endif
 </div>

@@ -1,10 +1,10 @@
 <%!
-from c2corg_common.attributes import default_langs
+    from c2corg_common.attributes import default_langs
 %>\
 <%
-settings = request.registry.settings
-node_modules_path = settings.get('node_modules_path')
-closure_library_path = settings.get('closure_library_path')
+  settings = request.registry.settings
+  node_modules_path = settings.get('node_modules_path')
+  closure_library_path = settings.get('closure_library_path')
 %>\
 <%namespace file="helpers/common.html" import="show_title"/>\
 <!DOCTYPE html>
@@ -49,7 +49,7 @@ closure_library_path = settings.get('closure_library_path')
   </head>
   <body class="on-load loading">
     <%include file="sidemenu.html"/>
-    <img src="${request.static_path('c2corg_ui:static/img/loading.gif')}" class="loading-gif">
+    <img src="${request.static_path('c2corg_ui:static/img/loading.gif')}" class="loading-gif"/>
     <main class="page-content">
       ${self.body()}
     </main>
@@ -118,8 +118,6 @@ closure_library_path = settings.get('closure_library_path')
     <script src="${request.static_path('c2corg_ui:static/build/build.js')}"></script>
 % endif
 
-
-
     <script>
       (function() {
         // prevent loading a file from accidental image drag-drop outside the drop-box
@@ -133,15 +131,15 @@ closure_library_path = settings.get('closure_library_path')
         },false);
 
          var module = angular.module('app');
-         module.constant('langUrlTemplate', '${request.static_path('c2corg_ui:static/build/locale/__lang__/c2corg_ui.json')}');
-         module.constant('langMomentPath', '${request.static_path('c2corg_ui:static/build/locale_moment')}');
-         module.constant('imgPath', '${request.static_path('c2corg_ui:static/img')}');
+         module.constant('langUrlTemplate', '${request.static_path("c2corg_ui:static/build/locale/__lang__/c2corg_ui.json")}');
+         module.constant('langMomentPath', '${request.static_path("c2corg_ui:static/build/locale_moment")}');
+         module.constant('imgPath', '${request.static_path("c2corg_ui:static/img")}');
          module.constant('apiUrl', '${api_url}');
          module.constant('imageBackendUrl', '${image_backend_url}');
          module.constant('imageUrl', '${image_url}');
          module.constant('discourseUrl', '${discourse_url}');
-         module.constant('authUrl', '${request.route_path('auth')}');
-         module.constant('textFormatingUrl', '${request.route_path('articles_view_id', id=151910)}');
+         module.constant('authUrl', '${request.route_path("auth")}');
+         module.constant('textFormatingUrl', '${request.route_path("articles_view_id", id=151910)}');
          module.constant('langs', ['${"','".join(default_langs) |n}']);
          module.constant('mapApiKeys', {
            'ign': '${ign_api_key}',
@@ -151,9 +149,9 @@ closure_library_path = settings.get('closure_library_path')
            vcRecaptchaServiceProvider.setSiteKey('${settings["recaptcha_site_key"]}');
          });
 
-         <%block name="moduleConstantsValues">
+         // <%block name="moduleConstantsValues">
          module.value('mapFeatureCollection', null);
-         </%block>
+         // </%block>
          document.querySelector('.loading-gif').style.display = 'none';
          $('.on-load').removeClass('loading on-load');
          app.sidemenu();
