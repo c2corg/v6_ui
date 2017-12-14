@@ -106,13 +106,14 @@ area['doctype'] = 'areas'
     ${get_document_description(locale, 'area')}
 
     % if not version:
-      <h3 ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated">
+      <h3 ng-click="mainCtrl.animateHeaderIcon($event)" class="collapsible-title"
+          data-toggle="collapse" data-target="#associated" aria-expanded="true" aria-controls="associated">
         <span translate>Associated documents</span>
         <span class="glyphicon glyphicon-menu-down"></span>
       </h3>
 
-      <div class="view-details-comments col-xs-12 associations" id="associated">
-        <section id="associations" class="area-associations collapse in">
+      <div class="view-details-comments col-xs-12 associations collapse in" id="associated">
+        <section id="associations" class="area-associations">
           <div class="associated-documents area">
           % for module in ['waypoints', 'routes', 'outings']:
             <div class="list-item">
@@ -149,7 +150,7 @@ area['doctype'] = 'areas'
 
   <script>
     window.onload = function() {
-      ## init float-buttons tooltips
+      // init float-buttons tooltips
       $('[data-toggle=\'tooltip\']').tooltip();
     };
   </script>

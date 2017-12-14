@@ -91,13 +91,14 @@ app.utils.pushToArray = function(object, property, value, event) {
  */
 app.utils.animateHeaderIcon = function(e) {
   // TO FIX - if you quickly double-click, it will add/remove classes even when div is or has already collapsed
-  if ($(e.target).hasClass('closed') && $(e.target).parent().find('.collapsing').length === 0) {
-    $(e.target).removeClass('closed');
+  var target = $(e.currentTarget);
+  if (target.hasClass('closed') && target.parent().find('.collapsing').length === 0) {
+    target.removeClass('closed');
   } else {
-    $(e.target).addClass('closed');
+    target.addClass('closed');
   }
-  var menuDown = $(e.target).find('.glyphicon-menu-down');
-  var menuUp = $(e.target).find('.glyphicon-menu-right');
+  var menuDown = target.find('.glyphicon-menu-down');
+  var menuUp = target.find('.glyphicon-menu-right');
 
   if (menuDown.length > 0) {
     menuDown.toggleClass('rotate-arrow-up');

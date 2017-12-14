@@ -86,7 +86,7 @@ from c2corg_common.attributes import default_langs, activities, image_types, ima
             </div>
 
             ## THE IMAGE
-            <a class="full" href="#" data-target="#image" data-toggle="collapse"><label translate>see the image</label></a>
+            <a class="full" href="#image" data-toggle="collapse" aria-expanded="false" aria-controls="image"><label translate>see the image</label></a>
             <div id="image" class="collapse">
               <div class="image" style="background-image: url('{{editCtrl.createImgUrl(image.filename)}}');"></div>
             </div>

@@ -1,9 +1,10 @@
 <%def name="get_article_general(article)">\
-  <h3 ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#general">
+  <h3 ng-click="mainCtrl.animateHeaderIcon($event)" class="collapsible-title"
+      data-toggle="collapse" data-target="#general" aria-controls="general" aria-expanded="true">
     <span translate>General</span> <span class="glyphicon glyphicon-menu-down"></span>
   </h3>
-  <div class="finfo" id="general">
-    <div class="ficontent collapse in max">
+  <div class="finfo collapse in" id="general">
+    <div class="ficontent max">
       <span class="detail-text accordion">
         % if article.get('activities'):
           <article class="value activities">
