@@ -1,6 +1,8 @@
 UI Application for camptocamp.org v6
 ====================================
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/c2corg/v6_ui.svg)](https://greenkeeper.io/)
+
 Requirements
 ------------
 
