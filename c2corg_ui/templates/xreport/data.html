@@ -5,42 +5,41 @@ from json import dumps
 <%namespace file="../helpers/view.html" import="get_document_description, show_areas, get_licence"/>
 
 % if xreport.get('author_status') or xreport.get('activity_rate') or xreport.get('nb_outings') or xreport.get('age') or xreport.get('gender') or xreport.get('previous_injuries') or xreport.get('autonomy'):
-  <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)" >
-    <h4><span translate>personal informations</span><span class="glyphicon glyphicon-menu-right"></span></h4>
-    <div class="name-icon">
-      <span class="icon-user"></span>
-      <p translate>personal informations</p>
+  <h3 ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#personal-informations">
+    <span translate>personal informations</span> <span class="glyphicon glyphicon-menu-right"></span>
+  </h3>
+  <div class="finfo" id="personal-informations">
+    <div class="ficontent">
+      <span class="detail-text accordion">
+        % if xreport.get('author_status'):
+          <p><span class="value-title" translate>author_status</span>: <span class="value" x-translate>${xreport['author_status']}</span></p>
+        % endif
+
+        % if xreport.get('activity_rate'):
+          <p><span class="value-title" translate>activity_rate</span>: <span class="value" x-translate>${xreport['activity_rate']}</span></p>
+        % endif
+
+        % if xreport.get('nb_outings'):
+          <p><span class="value-title" translate>nb_outings</span>: <span class="value" x-translate>${xreport['nb_outings']}</span></p>
+        % endif
+
+        % if xreport.get('age'):
+          <p><span class="value-title" translate>age</span>: <span class="value" x-translate>${xreport['age']}</span></p>
+        % endif
+
+        % if xreport.get('gender'):
+          <p><span class="value-title" translate>gender</span>: <span class="value" x-translate>${xreport['gender']}</span></p>
+        % endif
+
+        % if xreport.get('previous_injuries'):
+          <p><span class="value-title" translate>previous_injuries</span>: <span class="value" x-translate>${xreport['previous_injuries']}</span></p>
+        % endif
+
+        % if xreport.get('autonomy'):
+          <p><span class="value-title" translate>autonomy</span>: <span class="value" x-translate>${xreport['autonomy']}</span></p>
+        % endif
+      </span>
     </div>
-
-    <span class="detail-text accordion">
-      % if xreport.get('author_status'):
-        <p><span class="value-title" translate>author_status</span>: <span class="value" x-translate>${xreport['author_status']}</span></p>
-      % endif
-
-      % if xreport.get('activity_rate'):
-        <p><span class="value-title" translate>activity_rate</span>: <span class="value" x-translate>${xreport['activity_rate']}</span></p>
-      % endif
-
-      % if xreport.get('nb_outings'):
-        <p><span class="value-title" translate>nb_outings</span>: <span class="value" x-translate>${xreport['nb_outings']}</span></p>
-      % endif
-
-      % if xreport.get('age'):
-        <p><span class="value-title" translate>age</span>: <span class="value" x-translate>${xreport['age']}</span></p>
-      % endif
-
-      % if xreport.get('gender'):
-        <p><span class="value-title" translate>gender</span>: <span class="value" x-translate>${xreport['gender']}</span></p>
-      % endif
-
-      % if xreport.get('previous_injuries'):
-        <p><span class="value-title" translate>previous_injuries</span>: <span class="value" x-translate>${xreport['previous_injuries']}</span></p>
-      % endif
-
-      % if xreport.get('autonomy'):
-        <p><span class="value-title" translate>autonomy</span>: <span class="value" x-translate>${xreport['autonomy']}</span></p>
-      % endif
-    </span>
   </div>
 
 % endif
