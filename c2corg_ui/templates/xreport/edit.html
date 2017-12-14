@@ -8,7 +8,7 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
 <%
   updating_doc = xreport_id and xreport_lang
 %>
-<%namespace file="../helpers/common.html" import="show_title"/>
+<%namespace file="../helpers/common.html" import="show_title, generate_empty_list_items"/>
 <%namespace file="../helpers/edit.html" import="show_save_confirmation_modal, show_preview_container,
   show_editing_buttons, show_editing_associated_waypoints, show_editing_associated_routes,
   show_editing_associated_outings, show_editing_associated_articles,
@@ -414,6 +414,7 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
                       <span class="glyphicon glyphicon-trash"
                             ng-click="editCtrl.documentService.removeAssociation(user.document_id, 'users', $event)"></span>
                     </div>
+                    ${generate_empty_list_items(5)}
                   </div>
                 </section>
 
