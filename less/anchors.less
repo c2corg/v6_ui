@@ -1,0 +1,18 @@
+// ensure that anchors take into account the fixed top navbar
+// see https://github.com/twbs/bootstrap/issues/1768#issuecomment-46519033
+
+// restrict this to titles h3 to h6 in view details sections
+
+@anchor-top-margin: 5px;
+
+.view-details-section {
+  h2, h3, h4, h5, h6 {
+    &[id]:before {
+      display: block;
+      content: " ";
+      margin-top: calc(~'-@{page-header-height} - @{anchor-top-margin}');
+      height: @page-header-height + @anchor-top-margin; 
+      visibility: hidden;
+    }
+  }
+}
