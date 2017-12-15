@@ -53,7 +53,7 @@ app.module.directive('appViewDetails', app.viewDetailsDirective);
  * @ngInject
  */
 app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
-                                     appDocument, documentData, imageUrl, discourseUrl, appUrl, appLang) {
+  appDocument, documentData, imageUrl, discourseUrl, appUrl, appLang) {
 
   /**
    * @type {app.Document}
@@ -140,10 +140,10 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
    */
   this.discourseUrl = discourseUrl;
 
-    /**
-    * @type {boolean}
-    * @export
-    */
+  /**
+  * @type {boolean}
+  * @export
+  */
   this.showMobileBlock = /** @type {boolean} */ (JSON.parse(window.localStorage.getItem('showMobileBlock') || 'true'));
 
   /**
@@ -457,13 +457,15 @@ app.ViewDetailsController.prototype.handleCommentsForum_ = function(response) {
       if (data['posts'][i]['name'] == 'system') {
         continue;
       }
-      this.comments.push({'id':data['posts'][i]['id'],
-                          'username':data['posts'][i]['username'],
-                          'avatar_template':data['posts'][i]['avatar_template'].replace('{size}','24'),
-                          'cooked':data['posts'][i]['cooked'].replace(/<a class="mention" href="/g,'<a class="mention" href="' + this.discourseUrl),
-                          'created_at':data['posts'][i]['created_at'],
-                          'reply_count':data['posts'][i]['reply_count'],
-                          'reply_to_user':data['posts'][i]['reply_to_user']});
+      this.comments.push({
+        'id':data['posts'][i]['id'],
+        'username':data['posts'][i]['username'],
+        'avatar_template':data['posts'][i]['avatar_template'].replace('{size}','24'),
+        'cooked':data['posts'][i]['cooked'].replace(/<a class="mention" href="/g,'<a class="mention" href="' + this.discourseUrl),
+        'created_at':data['posts'][i]['created_at'],
+        'reply_count':data['posts'][i]['reply_count'],
+        'reply_to_user':data['posts'][i]['reply_to_user']
+      });
     }
     this.documentService.document['topic_slug'] = data['posts'][0]['topic_slug'];
   }
@@ -573,8 +575,8 @@ app.ViewDetailsController.prototype.openEmbeddedImage = function(imgUrl, imgId) 
     }
   }
 
-  var pswp = new window.PhotoSwipe(pswpElement, window.PhotoSwipeUI_Default, items,
-                                   $.extend(this.pswpOptions, {index: index}));
+  var pswp = new window.PhotoSwipe(pswpElement, window.PhotoSwipeUI_Default,
+    items, $.extend(this.pswpOptions, {index: index}));
   var lang = this.lang.getLang();
   pswp.listen('beforeChange', function() {
     var id = pswp['currItem']['id'];

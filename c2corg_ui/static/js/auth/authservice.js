@@ -6,10 +6,11 @@ goog.require('app');
 /**
  * @param {string} apiUrl URL to the API.
  * @param {angular.Scope} $rootScope
+ * @param {angular.$log} $log
  * @constructor
  * @struct
  */
-app.Authentication = function(apiUrl, $rootScope) {
+app.Authentication = function(apiUrl, $rootScope, $log) {
 
   /**
    * @type {string}
@@ -29,6 +30,12 @@ app.Authentication = function(apiUrl, $rootScope) {
    * @private
    */
   this.langService_ = null;
+
+  /**
+   * @type {angular.$log}
+   * @private
+   */
+  this.$log = $log;
 
   /**
    * @type {string}
@@ -211,7 +218,7 @@ app.Authentication.prototype.setUserData = function(data) {
 
     var storage = data.remember ? window.localStorage : window.sessionStorage;
     if (goog.DEBUG) {
-      console.log('Stored user data in', data.remember ? 'local' : 'session');
+      this.$log.log('Stored user data in', data.remember ? 'local' : 'session');
     }
     storage.setItem('userData', raw);
     return true;
@@ -221,7 +228,7 @@ app.Authentication.prototype.setUserData = function(data) {
     // browser.
     // TODO: display error message to user
     if (goog.DEBUG) {
-      console.error('Fatal : failed to set authentication token', e);
+      this.$log.error('Fatal : failed to set authentication token', e);
     }
     return false;
   }
@@ -294,8 +301,8 @@ app.Authentication.prototype.handle_token_renewal_ = function(now, expire) {
   if (!!this.http_ && now > pending + 15) {
     // If no pending renewal or more than 15s after last one
     if (goog.DEBUG) {
-      console.log('Renewing authorization expiring on',
-          new Date(expire * 1000));
+      this.$log.log('Renewing authorization expiring on',
+        new Date(expire * 1000));
     }
 
     try {
@@ -305,17 +312,17 @@ app.Authentication.prototype.handle_token_renewal_ = function(now, expire) {
     }
 
     this.http_.post(this.apiUrl_ + '/users/renew', {}).then(
-        function(response) {
-          this.setUserData(response.data);
-          if (goog.DEBUG) {
-            console.log('Done renewing authorization');
-          }
-        }.bind(this),
-        function() {
-          if (goog.DEBUG) {
-            console.log('Failed renewing authorization');
-          }
-        });
+      function(response) {
+        this.setUserData(response.data);
+        if (goog.DEBUG) {
+          this.$log.log('Done renewing authorization');
+        }
+      }.bind(this),
+      function() {
+        if (goog.DEBUG) {
+          this.$log.log('Failed renewing authorization');
+        }
+      });
   }
 };
 
@@ -330,19 +337,19 @@ app.Authentication.prototype.handle_token_renewal_ = function(now, expire) {
  * @export
  */
 app.Authentication.prototype.addAuthorizationToHeaders = function(url,
-    headers) {
+  headers) {
   var token = this.userData ? this.userData.token : null;
   if (token && !this.isExpired_()) {
     if (goog.DEBUG && url.indexOf('http://') === 0) {
       // FIXME: ideally, should prevent the operation in prod mode
-      console.log('WARNING: added auth header to unsecure request to ' + url);
+      this.$log.log('WARNING: added auth header to unsecure request to ' + url);
     }
     headers['Authorization'] = 'JWT token="' + token + '"';
     return true;
   }
 
   if (goog.DEBUG) {
-    console.log('Application error, trying to authenticate request to ' +
+    this.$log.log('Application error, trying to authenticate request to ' +
         url + ' with missing or expired token');
   }
   return false;
@@ -399,10 +406,11 @@ app.Authentication.prototype.needAuthorization = function(method, url) {
  * @private
  * @param {string} apiUrl
  * @param {angular.Scope} $rootScope
+ * @param {angular.$log} $log
  * @return {app.Authentication}
  */
-app.AuthenticationFactory_ = function(apiUrl, $rootScope) {
-  return new app.Authentication(apiUrl, $rootScope);
+app.AuthenticationFactory_ = function(apiUrl, $rootScope, $log) {
+  return new app.Authentication(apiUrl, $rootScope, $log);
 };
 app.module.factory('appAuthentication', app.AuthenticationFactory_);
 

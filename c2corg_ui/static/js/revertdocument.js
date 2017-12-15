@@ -26,7 +26,7 @@ app.module.directive('appRevertDocument', app.revertDocumentDirective);
  * @ngInject
  */
 app.RevertDocumentController = function(
-    appAuthentication, appApi, appAlerts, gettextCatalog) {
+  appAuthentication, appApi, appAlerts, gettextCatalog) {
 
   /**
    * @type {app.Authentication}
@@ -61,7 +61,7 @@ app.RevertDocumentController = function(
  * @export
  */
 app.RevertDocumentController.prototype.revert = function(
-    documentId, lang, versionId) {
+  documentId, lang, versionId) {
   var catalog = this.gettextCatalog_;
   var gettext = function(str) {
     return catalog.getString(str);

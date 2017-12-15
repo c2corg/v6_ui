@@ -87,7 +87,7 @@ app.PaginationController.MAX_RESULT_OFFSET = 10000;
  * @private
  */
 app.PaginationController.prototype.handleSearchChange_ = function(event,
-    features, total, recenter) {
+  features, total, recenter) {
   this.total = total;
   this.offset = this.location_.getFragmentParamAsInt('offset') || 0;
   // don't show the "Go to last page" button if the offset is above

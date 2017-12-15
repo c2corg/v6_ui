@@ -206,7 +206,7 @@ app.MapSearchController.select_ = function(event, suggestion, dataset) {
 
   var mapSize = /** @type {ol.Size} */ (map.getSize());
   map.getView().fit(geomOrExtent, mapSize,
-      /** @type {olx.view.FitOptions} */ ({maxZoom: 12}));
+    /** @type {olx.view.FitOptions} */ ({maxZoom: 12}));
 };
 
 

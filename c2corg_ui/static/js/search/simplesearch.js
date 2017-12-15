@@ -100,7 +100,7 @@ app.module.directive('appSimpleSearch', app.simpleSearchDirective);
  * @ngInject
  */
 app.SimpleSearchController = function(appDocument, $scope, $compile, $attrs, apiUrl,
-    gettextCatalog, $templateCache, appAuthentication, appUrl) {
+  gettextCatalog, $templateCache, appAuthentication, appUrl) {
 
   /**
    * @type {app.Document}
@@ -313,8 +313,8 @@ app.SimpleSearchController.prototype.createDataset_ = function(type) {
         if ($('.header.empty').length === 0) {
           var partialFile = this.isStandardSearch ? 'create' : 'empty';
           var template = app.utils.getTemplate(
-              '/static/partials/suggestions/' + partialFile + '.html',
-              this.templatecache_);
+            '/static/partials/suggestions/' + partialFile + '.html',
+            this.templatecache_);
           return this.compile_(template)(this.scope_);
         }
       }.bind(this)
@@ -361,7 +361,7 @@ app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
 
       filter: (function(/** appx.SimpleSearchResponse */ resp) {
         var documentResponse =
-                /** @type {appx.SimpleSearchDocumentResponse} */ (resp[type]);
+          /** @type {appx.SimpleSearchDocumentResponse} */ (resp[type]);
         if (documentResponse) {
           this.nbResults_[type] = documentResponse.total;
           var documents = documentResponse.documents;

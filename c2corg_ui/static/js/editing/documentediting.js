@@ -67,8 +67,8 @@ app.module.directive('appDocumentEditing', app.documentEditingDirective);
  * @ngInject
  */
 app.DocumentEditingController = function($scope, $element, $attrs, $http,
-    $uibModal, $compile, appLang, appAuthentication, ngeoLocation, appAlerts,
-    appApi, authUrl, appDocument, appUrl, imageUrl) {
+  $uibModal, $compile, appLang, appAuthentication, ngeoLocation, appAlerts,
+  appApi, authUrl, appDocument, appUrl, imageUrl) {
 
   /**
    * @type {app.Document}
@@ -177,11 +177,11 @@ app.DocumentEditingController = function($scope, $element, $attrs, $http,
 
   if (this.auth.isAuthenticated()) {
     if (this.id && this.lang_) {
-     // Get document attributes from the API to feed the model:
+      // Get document attributes from the API to feed the model:
       goog.asserts.assert(!goog.isNull(this.id));
       goog.asserts.assert(!goog.isNull(this.lang_));
       this.api_.readDocument(this.module_, this.id, this.lang_, true).then(
-          this.successRead.bind(this)
+        this.successRead.bind(this)
       );
     } else if (!this.id) {
       // new doc lang = user interface lang
@@ -307,8 +307,10 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
     var lonlat = data['lonlat'];
     if ('longitude' in lonlat && 'latitude' in lonlat) {
       var point = new ol.geom.Point([lonlat['longitude'], lonlat['latitude']]);
-      point.transform(app.constants.documentEditing.FORM_PROJ,
-                      app.constants.documentEditing.DATA_PROJ);
+      point.transform(
+        app.constants.documentEditing.FORM_PROJ,
+        app.constants.documentEditing.DATA_PROJ
+      );
       // If creating a new document, the model has no geometry attribute yet:
       data['geometry'] = data['geometry'] || {};
 
@@ -432,7 +434,7 @@ app.DocumentEditingController.prototype.handleMapFeaturesChange_ = function(feat
     if (isPoint) {
       data['geometry']['geom'] = this.geojsonFormat_.writeGeometry(geometry);
       var coords = this.getCoordinatesFromPoint_(
-          /** @type {ol.geom.Point} */ (geometry.clone()));
+        /** @type {ol.geom.Point} */ (geometry.clone()));
       data['lonlat'] = {
         'longitude': coords[0],
         'latitude': coords[1]
@@ -477,9 +479,11 @@ app.DocumentEditingController.prototype.handleMapFeaturesReset_ = function(initi
  * @private
  */
 app.DocumentEditingController.prototype.getCoordinatesFromPoint_ = function(
-    geometry) {
-  geometry.transform(app.constants.documentEditing.DATA_PROJ,
-                     app.constants.documentEditing.FORM_PROJ);
+  geometry) {
+  geometry.transform(
+    app.constants.documentEditing.DATA_PROJ,
+    app.constants.documentEditing.FORM_PROJ
+  );
   var coords = geometry.getCoordinates();
   return goog.array.map(coords, function(coord) {
     return Math.round(coord * 1000000) / 1000000;

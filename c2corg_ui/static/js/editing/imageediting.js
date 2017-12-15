@@ -26,12 +26,12 @@ goog.require('app.Document');
  * @ngInject
  */
 app.ImageEditingController = function($scope, $element, $attrs, $http,
-        $uibModal, $compile, appLang, appAuthentication, ngeoLocation,
-        appAlerts, appApi, authUrl, appDocument, appUrl, imageUrl) {
+  $uibModal, $compile, appLang, appAuthentication, ngeoLocation, appAlerts,
+  appApi, authUrl, appDocument, appUrl, imageUrl) {
 
   goog.base(this, $scope, $element, $attrs, $http, $uibModal, $compile,
-          appLang, appAuthentication, ngeoLocation, appAlerts, appApi,
-          authUrl, appDocument, appUrl, imageUrl);
+    appLang, appAuthentication, ngeoLocation, appAlerts, appApi, authUrl,
+    appDocument, appUrl, imageUrl);
 
   /**
    * @type {Date}

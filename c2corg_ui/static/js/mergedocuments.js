@@ -99,14 +99,15 @@ app.MergeDocumentsController.prototype.mergeDocuments = function() {
   var msg = this.gettextCatalog_.getString('Are you sure you want to merge?');
   if (window.confirm(msg)) {
     this.appApi_.mergeDocuments(
-        this.sourceDocument.document_id, this.targetDocument.document_id).then(
-          function(response) {
-            this.closeDialog();
-            this.appAlerts_.addSuccess(this.gettextCatalog_.getString(
-                'Documents successfully merged'
-            ));
-          }.bind(this)
-    );
+      this.sourceDocument.document_id, this.targetDocument.document_id)
+      .then(
+        function(response) {
+          this.closeDialog();
+          this.appAlerts_.addSuccess(this.gettextCatalog_.getString(
+            'Documents successfully merged'
+          ));
+        }.bind(this)
+      );
   }
 };
 

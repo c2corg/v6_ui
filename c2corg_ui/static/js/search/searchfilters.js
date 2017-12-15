@@ -55,7 +55,7 @@ app.module.directive('appSearchFilters', app.searchFiltersDirective);
  * @ngInject
  */
 app.SearchFiltersController = function($scope, ngeoLocation, ngeoDebounce,
-    advancedSearchFilters) {
+  advancedSearchFilters) {
 
   /**
    * @type {angular.Scope}
@@ -114,15 +114,15 @@ app.SearchFiltersController = function($scope, ngeoLocation, ngeoDebounce,
   this.scope_.$watch(function() {
     return this.filters;
   }.bind(this), ngeoDebounce(
-      this.handleFiltersChange_.bind(this),
-      500, /* invokeApply */ true),
+    this.handleFiltersChange_.bind(this),
+    500, /* invokeApply */ true),
     /* deep watch */ true
   );
   this.scope_.$watch(function() {
     return this.checkboxes_;
   }.bind(this), ngeoDebounce(
-      this.handleCheckboxesChange_.bind(this),
-      700, /* invokeApply */ true),
+    this.handleCheckboxesChange_.bind(this),
+    700, /* invokeApply */ true),
     /* deep watch */ true
   );
 
@@ -267,7 +267,7 @@ app.SearchFiltersController.prototype.clear = function() {
  * @export
  */
 app.SearchFiltersController.prototype.toggleOrientation = function(orientation,
-    ctrl, e, filterName) {
+  ctrl, e, filterName) {
   if (this.orientations.indexOf(orientation) === -1) {
     this.orientations.push(orientation);
   } else {

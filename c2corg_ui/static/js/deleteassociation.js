@@ -48,7 +48,7 @@ app.module.directive('appDeleteAssociation', app.deleteAssociationDirective);
  * @struct
  */
 app.DeleteAssociationController = function($rootScope, $scope, $compile,
-    $uibModal, appApi, appDocument) {
+  $uibModal, appApi, appDocument) {
 
   /**
    * @type {angular.$compile}

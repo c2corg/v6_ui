@@ -32,7 +32,7 @@ app.module.directive('appProtectDocument', app.protectDocumentDirective);
  * @struct
  */
 app.ProtectDocumentController = function(appAuthentication, appApi,
-    appAlerts, gettextCatalog, documentData) {
+  appAlerts, gettextCatalog, documentData) {
 
   /**
    * @type {app.Api}
@@ -74,7 +74,7 @@ app.ProtectDocumentController.prototype.protect = function() {
     this.api_.protectDocument(this.documentData.document_id).then(function(response) {
       this.documentData['protected'] = true;
       this.appAlerts_.addSuccess(this.gettextCatalog_.getString(
-          'Document is now protected'
+        'Document is now protected'
       ));
     }.bind(this));
   }
@@ -89,7 +89,7 @@ app.ProtectDocumentController.prototype.unprotect = function() {
     this.api_.unprotectDocument(this.documentData.document_id).then(function(response) {
       this.documentData['protected'] = false;
       this.appAlerts_.addSuccess(this.gettextCatalog_.getString(
-          'Document is no longer protected'
+        'Document is no longer protected'
       ));
     }.bind(this));
   }

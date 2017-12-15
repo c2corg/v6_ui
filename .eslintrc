@@ -1,5 +1,11 @@
 {
-  "extends": "openlayers",
+  "parserOptions": {
+    "ecmaVersion": 6
+  },
+  "extends": [
+    "eslint:recommended",
+    "openlayers"
+  ],
   "globals": {
     "app": false,
     "goog": false,

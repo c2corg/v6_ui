@@ -127,7 +127,7 @@ app.Lang.prototype.gettext = function(str) {
 app.Lang.prototype.updateLang = function(lang, opt_syncWithApi) {
   this.gettextCatalog_.setCurrentLanguage(lang);
   this.gettextCatalog_.loadRemote(
-          this.langUrlTemplate_.replace('__lang__', lang));
+    this.langUrlTemplate_.replace('__lang__', lang));
   // store the interface language as cookie, so that it is available on the
   // server side.
   var d = new Date();

@@ -14,7 +14,7 @@ goog.require('app.SearchFiltersController');
  * @ngInject
  */
 app.OutingFiltersController = function($scope, ngeoLocation, ngeoDebounce,
-    advancedSearchFilters) {
+  advancedSearchFilters) {
 
   /**
    * @type {Array.<Date>}

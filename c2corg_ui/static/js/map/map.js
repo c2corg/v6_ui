@@ -75,7 +75,7 @@ app.module.directive('appMap', app.mapDirective);
  * @ngInject
  */
 app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
-                              ngeoDebounce, appUrl, imgPath) {
+  ngeoDebounce, appUrl, imgPath) {
 
   /**
    * @type {number}
@@ -285,10 +285,10 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
       this.toggleFeatureHighlight_(id, false);
     }.bind(this));
 
-    this.view_.on('propertychange',
-                  ngeoDebounce(
+    this.view_.on('propertychange', ngeoDebounce(
       this.handleMapSearchChange_.bind(this),
-      500, /* invokeApply */ true));
+      500, /* invokeApply */ true
+    ));
 
     this.scope_.$watch(function() {
       return this.enableMapFilter;
@@ -418,11 +418,11 @@ app.MapController.prototype.getVectorLayer_ = function() {
  */
 app.MapController.prototype.createStyleFunction_ = function() {
   return (
-      /**
-       * @param {ol.Feature|ol.render.Feature} feature
-       * @param {number} resolution
-       * @return {ol.style.Style|Array.<ol.style.Style>}
-       */
+    /**
+     * @param {ol.Feature|ol.render.Feature} feature
+     * @param {number} resolution
+     * @return {ol.style.Style|Array.<ol.style.Style>}
+     */
     function(feature, resolution) {
       var module = /** @type {string} */ (feature.get('module'));
       switch (module) {
@@ -912,8 +912,8 @@ app.MapController.prototype.handleMapFeatureHover_ = function(event) {
  * @param {boolean} was_enabled Former value.
  * @private
  */
-app.MapController.prototype.handleMapFilterSwitchChange_ = function(enabled,
-                                                                     was_enabled) {
+app.MapController.prototype.handleMapFilterSwitchChange_ = function(
+  enabled, was_enabled) {
   if (enabled === was_enabled) {
     // initial setting of the filter switch
     // * do nothing if the filter is enabled by default
@@ -1008,8 +1008,8 @@ app.MapController.prototype.resetFeature = function() {
  * @export
  */
 app.MapController.prototype.canDelete = function() {
-  return this.edit && this.getVectorLayer_().getSource().getFeatures().length > 0
-      && this.initialGeometry_ && this.initialGeometry_['geom'];
+  return this.edit && this.getVectorLayer_().getSource().getFeatures().length > 0 &&
+      this.initialGeometry_ && this.initialGeometry_['geom'];
 };
 
 

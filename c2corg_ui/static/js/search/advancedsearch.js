@@ -43,7 +43,7 @@ app.module.directive('appAdvancedSearch', app.advancedSearchDirective);
  * @ngInject
  */
 app.AdvancedSearchController = function($scope, appApi, ngeoLocation,
-    gettextCatalog, $q) {
+  gettextCatalog, $q) {
 
   /**
    * @type {angular.Scope}

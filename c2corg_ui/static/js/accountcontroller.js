@@ -14,7 +14,7 @@ goog.require('app.Alerts');
  * @ngInject
  */
 app.AccountController = function($scope, appAuthentication, appAlerts,
-    appApi, authUrl) {
+  appApi, authUrl) {
 
   /**
    * @type {angular.Scope}

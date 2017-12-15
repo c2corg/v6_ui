@@ -298,9 +298,11 @@ app.CardController.prototype.createAreaURL = function(areas) {
       doc = orderedAreas['country'][0];
     }
 
-    return this.url_.buildDocumentUrl(app.utils.getDoctype(doc['type']),
-                                      doc['document_id'],
-                                      doc['locales'][0]);
+    return this.url_.buildDocumentUrl(
+      app.utils.getDoctype(doc['type']),
+      doc['document_id'],
+      doc['locales'][0]
+    );
   }
 };
 

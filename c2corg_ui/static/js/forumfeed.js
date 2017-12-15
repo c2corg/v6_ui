@@ -29,13 +29,15 @@ app.ForumFeedController = function(appApi) {
    */
   this.errorForum = false;
 
-  appApi.readLatestForumTopics().then(function(response) {
-    this.busyForum = false;
-    this.handleTopics_(response);
-  }.bind(this), function() { // Error msg is shown in the api service
-    this.busyForum = false;
-    this.errorForum = true;
-  }.bind(this));
+  appApi.readLatestForumTopics()
+    .then(response => {
+      this.busyForum = false;
+      this.handleTopics_(response);
+    })
+    .catch(() => { // Error msg is shown in the api service
+      this.busyForum = false;
+      this.errorForum = true;
+    });
 };
 
 
