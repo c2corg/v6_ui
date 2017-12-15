@@ -124,7 +124,7 @@ flake8: .build/venv/bin/flake8
 	.build/venv/bin/flake8 c2corg_ui
 
 .PHONY: lint
-lint: .build/node_modules.timestamp .build/eslint.timestamp
+lint: .build/node_modules.timestamp .build/eslint.timestamp .build/stylelint.timestamp
 
 .PHONY: install
 install: build template .build/node_modules.timestamp
@@ -243,6 +243,10 @@ c2corg_ui/static/build/templatecache.js: c2corg_ui/templates/templatecache.js .b
 
 .build/eslint.timestamp: $(APP_JS_FILES)
 	./node_modules/.bin/eslint $?
+	touch $@
+
+.build/stylelint.timestamp: $(LESS_FILES)
+	./node_modules/.bin/stylelint $?
 	touch $@
 
 .build/venv/bin/flake8: .build/dev-requirements.timestamp
