@@ -134,9 +134,9 @@
         </div>
       </div>
       <div class="parent-bubble" ng-if="doc['img_count']">
-        <span class="glyphicon glyphicon-picture" uib-tooltip="{{::doc['img_count']}} picture(s)" tooltip-append-to-body="true"></span>
+        <span class="glyphicon glyphicon-picture" uib-tooltip="{{::doc['img_count']}} {{'picture(s)'' | translate}}" tooltip-append-to-body="true"></span>
       </div>
-      <div class="parent-bubble" ng-if="doc['geometry']['has_geom_detail']" uib-tooltip="{{ 'GPS Track'| translate}}" tooltip-append-to-body="true">
+      <div class="parent-bubble" ng-if="doc['geometry']['has_geom_detail']" uib-tooltip="{{'GPS Track' | translate}}" tooltip-append-to-body="true">
         <span class="glyphicon glyphicon-flag"></span>
       </div>
       <div class="grow"></div>
