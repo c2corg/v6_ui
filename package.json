@@ -50,7 +50,7 @@
     "nomnom": "1.8.1",
     "openlayers": "3.19.1",
     "slug": "0.9.1",
-    "stylelint": "8.3.1",
+    "stylelint": "8.4.0",
     "stylelint-config-standard": "18.0.0"
   },
   "snyk": true
