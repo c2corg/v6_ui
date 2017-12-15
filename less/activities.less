@@ -1,7 +1,8 @@
 @font-face {
   font-family: 'icomoon';
-  src:    url('../img/fonts/activities.eot?5617da');
-  src:    url('../img/fonts/activities.eot?5617da#iefix') format('embedded-opentype'),
+  src: url('../img/fonts/activities.eot?5617da');
+  src:
+    url('../img/fonts/activities.eot?5617da#iefix') format('embedded-opentype'),
     url('../img/fonts/activities.ttf?5617da') format('truetype'),
     url('../img/fonts/activities.woff?5617da') format('woff'),
     url('../img/fonts/activities.svg?5617da#icomoon') format('svg');
@@ -9,9 +10,11 @@
   font-style: normal;
 }
 
-[class^="route-activity icon-"], [class^="activity icon-"], .activity>div>div {
+[class^="route-activity icon-"],
+[class^="activity icon-"],
+.activity > div > div {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'icomoon' !important;
+  font-family: 'icomoon' !important; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
   speak: none;
   font-style: normal;
   font-weight: normal;
@@ -24,36 +27,46 @@
   transition: 0.3s;
 }
 
-.icon-hiking:before {
+.icon-hiking::before {
   content: "\1f304";
 }
-.icon-ice_climbing:before {
+
+.icon-ice_climbing::before {
   content: "\1f31b";
 }
-.icon-mountain_biking:before {
+
+.icon-mountain_biking::before {
   content: "\1f433";
 }
-.icon-mountain_climbing:before {
+
+.icon-mountain_climbing::before {
   content: "\1f36a";
 }
-.icon-paragliding:before {
+
+.icon-paragliding::before {
   content: "\1f332";
 }
-.icon-rock_climbing:before {
+
+.icon-rock_climbing::before {
   content: "\e913";
 }
-.icon-skitouring:before {
+
+.icon-skitouring::before {
   content: "\1f37d";
 }
-.icon-snow_ice_mixed:before {
+
+.icon-snow_ice_mixed::before {
   content: "\1f3fb";
 }
-.icon-snowshoeing:before {
+
+.icon-snowshoeing::before {
   content: "\1f388";
 }
-.icon-via_ferrata:before {
+
+.icon-via_ferrata::before {
   content: "\1f468";
 }
-.icon-slacklining:before {
+
+.icon-slacklining::before {
   content: "\e907";
 }

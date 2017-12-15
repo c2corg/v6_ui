@@ -1,22 +1,28 @@
-@import: 'variables.less';
-
-app-simple-search .twitter-typeahead, app-simple-search .tt-dropdown-menu, app-simple-search .tt-hint {
-  width: 220px;
+app-simple-search { /* stylelint-disable-line selector-type-no-unknown */
+  .twitter-typeahead,
+  .tt-dropdown-menu,
+  .tt-hint {
+    width: 220px;
+  }
 }
 
 .page-header {
   .tt-open {
     max-height: 90vh;
     overflow-y: scroll;
+
     @media @big {
       width: 42vw;
     }
+
     @media @tablet {
       width: 55vw;
     }
+
     @media (max-width: @screen-sm-min) {
       width: 70vw;
     }
+
     @media @phone {
       position: fixed !important;
       width: 100vw !important;
@@ -26,25 +32,33 @@ app-simple-search .twitter-typeahead, app-simple-search .tt-dropdown-menu, app-s
   }
 }
 
-.view-details-associations, .route-associations, .associations, .associated-documents, #participants-group {
+.view-details-associations,
+.route-associations,
+.associations,
+.associated-documents,
+#participants-group {
   .tt-open {
     max-height: 400px;
     overflow-y: scroll;
+
     @media @phone {
       max-height: 300px;
     }
   }
-  app-simple-search {
+
+  app-simple-search { /* stylelint-disable-line selector-type-no-unknown */
     margin-bottom: 10px;
   }
 }
 
-app-simple-search span.twitter-typeahead {
+app-simple-search span.twitter-typeahead { /* stylelint-disable-line selector-type-no-unknown */
   width: 100%;
+
   input.tt-hint {
     width: 0;
     opacity: 0;
   }
+
   .tt-menu {
     padding: 0;
     &:extend(.dropdown-menu);
@@ -65,33 +79,44 @@ app-simple-search span.twitter-typeahead {
     .glyphicon {
       color: @C2C-orange;
     }
-    [class^="icon-"], [class*=" icon-"]  {
+
+    [class^="icon-"],
+    [class*="icon-"] {
       float: right;
       color: @C2C-orange;
       font-size: 1.5em;
       margin-left: 5px;
     }
+
     .icon-container {
       margin-left: 0;
       min-width: 85px;
     }
+
     @media @phone {
-      white-space : normal;
+      white-space: normal;
     }
+
     @media @tablet {
-      white-space : normal;
+      white-space: normal;
     }
     &:extend(.dropdown-menu > li > a);
-    &:hover, &:focus {
+
+    &:hover,
+    &:focus {
       &:extend(.dropdown-menu > .active > a);
+
       cursor: pointer;
-      .suggestion-title, .suggestion-info{
+
+      .suggestion-title,
+      .suggestion-info {
         color: white;
       }
     }
+
     .suggestion-info {
-      font-size: .9em;
-      color: #A9A9A9;
+      font-size: 0.9em;
+      color: #a9a9a9;
 
       .glyphicon,  [class^="icon-"] {
         color: @bright-green;
@@ -104,11 +129,13 @@ app-simple-search span.twitter-typeahead {
         margin-right: 10px;
       }
     }
+
     .suggestion-title {
       white-space: normal !important;
       font-weight: bold;
       color: graytext;
     }
+
     .suggestion-text {
       width: 100%;
     }
@@ -116,6 +143,7 @@ app-simple-search span.twitter-typeahead {
 
   .tt-suggestion.tt-cursor {
     &:extend(.dropdown-menu > .active > a);
+
     .suggestion-title {
       color: white !important;
     }
@@ -123,20 +151,24 @@ app-simple-search span.twitter-typeahead {
 
   .input-group & {
     display: block !important;
+
     .tt-dropdown-menu {
-      top:32px !important;
+      top: 32px !important;
     }
   }
+
   .input-group.input-group-lg & {
     .tt-dropdown-menu {
-      top:44px !important;
+      top: 44px !important;
     }
   }
+
   .input-group.input-group-sm & {
     .tt-dropdown-menu {
-      top:28px !important;
+      top: 28px !important;
     }
   }
+
   .header {
     min-width: 20vw !important;
     cursor: pointer;
@@ -148,15 +180,12 @@ app-simple-search span.twitter-typeahead {
   }
 
   .tt-hint {
-    color: #777777;
+    color: #777;
   }
 }
 
 .show-search {
-  -webkit-transition: width .5s ease-in-out !important;
-  -moz-transition: width .5s ease-in-out !important;
-  -o-transition: width .5s ease-in-out !important;
-  transition: width .5s ease-in-out !important;
+  transition: width 0.5s ease-in-out !important;
   width: 160px !important;
   visibility: visible !important;
   padding: 8px !important;
@@ -167,7 +196,7 @@ app-simple-search span.twitter-typeahead {
 }
 
 .tt-highlight {
-  color: #FCAC4F;
+  color: #fcac4f;
 }
 
 .tt-menu {
@@ -183,7 +212,7 @@ app-simple-search span.twitter-typeahead {
   .suggestion-more {
     float: right;
     font-weight: bold;
-    border-bottom: 1px solid rgba(210, 210, 210, .5);
+    border-bottom: 1px solid rgba(210, 210, 210, 0.5);
     padding-bottom: 10px;
     padding-top: 5px;
     width: 100%;
@@ -191,6 +220,7 @@ app-simple-search span.twitter-typeahead {
     a {
       float: right;
       margin-right: 10px;
+
       &:hover {
         color: green;
         text-decoration: none;

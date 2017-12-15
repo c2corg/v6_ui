@@ -14,9 +14,10 @@
   font-style: normal;
 }
 
-[class^="quality-"], [class*=" quality-"] {
+[class^="quality-"],
+[class*=" quality-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'quality' !important;
+  font-family: 'quality' !important; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
   speak: none;
   font-style: normal;
   font-weight: normal;
@@ -30,27 +31,31 @@
 }
 
 .quality-empty {
-  &:before {
+  &::before {
     content: @icon-empty;
   }
 }
+
 .quality-draft {
-  &:before {
+  &::before {
     content: @icon-draft;
   }
 }
+
 .quality-medium {
-  &:before {
+  &::before {
     content: @icon-medium;
   }
 }
+
 .quality-fine {
-  &:before {
+  &::before {
     content: @icon-fine;
   }
 }
+
 .quality-great {
-  &:before {
+  &::before {
     content: @icon-great;
   }
 }
