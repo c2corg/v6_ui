@@ -6,12 +6,16 @@
 @anchor-top-margin: 5px;
 
 .view-details-section {
-  h2, h3, h4, h5, h6 {
-    &[id]:before {
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    &[id]::before {
       display: block;
       content: " ";
       margin-top: calc(~'-@{page-header-height} - @{anchor-top-margin}');
-      height: @page-header-height + @anchor-top-margin; 
+      height: @page-header-height + @anchor-top-margin;
       visibility: hidden;
     }
   }
