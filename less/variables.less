@@ -1,9 +1,9 @@
 @phone-max: 768px;
-@tablet-min: @phone-max + 1px;
+@tablet-min: (@phone-max + 1px);
 @tablet-max: 1099px;
-@desktop-min: @tablet-max + 1px;
+@desktop-min: (@tablet-max + 1px);
 @desktop-max: 1599px;
-@big-min: @desktop-max + 1px;
+@big-min: (@desktop-max + 1px);
 @phone: ~"only screen and (max-width: @{phone-max})";
 @tablet: ~"only screen and (min-width: @{tablet-min}) and (max-width: @{tablet-max})";
 @desktop: ~"only screen and (min-width: @{desktop-min}) and (max-width: @{desktop-max})";
@@ -11,7 +11,7 @@
 
 @desktop-little-min: @desktop-min;
 @desktop-little-max: 1399px;
-@desktop-medium-min: @desktop-little-max + 1px;
+@desktop-medium-min: (@desktop-little-max + 1px);
 @desktop-medium-max: @desktop-max;
 @verybig-min: 2000px;
 @desktop-little: ~"only screen and (min-width: @{desktop-little-min}) and (max-width: @{desktop-little-max})";
