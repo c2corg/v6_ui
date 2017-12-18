@@ -3,7 +3,7 @@
 <%namespace file="../helpers/preview.html" import="show_preview_warning"/>
 <%namespace file="helpers/view.html" import="get_outing_snow, get_outing_access,
     get_outing_participants, get_outing_general, get_outing_heights,
-    show_fulldate, get_conditions"/>
+    show_fulldate, get_conditions, get_outing_location"/>
 
 <%
 outing = document
@@ -41,6 +41,7 @@ ${show_preview_warning()}
               <div class="ficontent">
                 <div class="row">
                     ${get_outing_general(outing)}
+                    ${get_outing_location(outing)}
                     ${get_outing_heights(outing)}
                     ${get_outing_access(outing)}
                     ${get_outing_snow(outing)}

@@ -3,7 +3,7 @@
     from json import loads
 %>
 <%namespace file="../../helpers/view.html" import="get_global_rating, get_hiking_mtb_rating, get_skitouring_rating, get_document_up_down, get_document_min_max,
-    show_attr, show_geom_download"/>
+    show_attr, show_geom_download, show_areas"/>
 
 <%def name="show_fulldate(dateStart, dateEnd)">\
   % if dateStart == dateEnd:
@@ -340,4 +340,18 @@
       </div>
     </div>
   </div>
+</%def>
+
+## LOCATION
+<%def name="get_outing_location(outing)">\
+  % if outing.get('areas'):
+    <div class="col-sm-6 col-lg-3">         
+      <div class="name-icon-value location list-green" ng-click="detailsCtrl.toggleTab($event)">
+        <h4><span class="glyphicon glyphicon-map-marker"></span> <span translate>Location</span><span class="glyphicon pull-right rotate-arrow-down"></span></h4>
+        <span class="detail-text accordion">
+          <span class="areas">${show_areas(outing)}</span>
+        </span>
+      </div>
+    </div>
+  % endif
 </%def>
