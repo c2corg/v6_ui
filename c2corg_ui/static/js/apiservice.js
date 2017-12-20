@@ -60,7 +60,7 @@ app.Api = function(discourseUrl, apiUrl, imageBackendUrl, $http, appAlerts, $q, 
    */
   this.auth_ = appAuthentication;
 
-  var excludedCategories = [
+  const excludedCategories = [
     95,  // Partenaires : Escalade, SAE
     113, // Partenaires : Alpinisme, Cascade de glace
     94,  // Partenaires : Ski, Surf, Raquette, Randonnée
@@ -81,9 +81,9 @@ app.Api = function(discourseUrl, apiUrl, imageBackendUrl, $http, appAlerts, $q, 
     64,  // Traduction
     55   // V5 : suggestions, bugs et problèmes
   ];
-  var url = this.discourseUrl_ + 'latest.json?page=1';
-  for (var i = 0; i < excludedCategories.length; i++) {
-    url += '&exclude_category_ids[]=' + excludedCategories[i];
+  let url = `${this.discourseUrl_}latest.json?exclude_category_ids[]=${excludedCategories[0]}`;
+  for (let i = 1; i < excludedCategories.length; i++) {
+    url += `&exclude_category_ids[]=${excludedCategories[i]}`;
   }
 
   /**
