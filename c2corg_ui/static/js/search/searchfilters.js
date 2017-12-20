@@ -35,7 +35,7 @@ app.searchFiltersDirective = function() {
       // opened more-filters and scrolled, it would unfold filters on whole
       // page and make a stutter. Now it overflows.
       if (window.innerWidth < app.constants.SCREEN.SMARTPHONE) {
-        $('.more-filters-btn, .search-filters-btn, .less-filters-btn').click(function() {
+        $('.more-filters-btn, .search-filters-btn, .less-filters-btn').click(() => {
           $('.filters').toggleClass('filters-phone');
         });
       }
@@ -111,27 +111,27 @@ app.SearchFiltersController = function($scope, ngeoLocation, ngeoDebounce,
   // Deep watch is used here because we need to watch the list filters as well
   // which a simple $watch or $watchCollection does not. Might cause
   // perf/memory issues though...
-  this.scope_.$watch(function() {
+  this.scope_.$watch(() => {
     return this.filters;
-  }.bind(this), ngeoDebounce(
+  }, ngeoDebounce(
     this.handleFiltersChange_.bind(this),
     500, /* invokeApply */ true),
     /* deep watch */ true
   );
-  this.scope_.$watch(function() {
+  this.scope_.$watch(() => {
     return this.checkboxes_;
-  }.bind(this), ngeoDebounce(
+  }, ngeoDebounce(
     this.handleCheckboxesChange_.bind(this),
     700, /* invokeApply */ true),
     /* deep watch */ true
   );
 
-  this.scope_.$root.$on('searchFilterChange', function(event, loadPrefs) {
+  this.scope_.$root.$on('searchFilterChange', (event, loadPrefs) => {
     if (loadPrefs) {
       this.loading_ = true;
       this.setFilters_();
     }
-  }.bind(this));
+  });
 };
 
 
@@ -147,10 +147,10 @@ app.SearchFiltersController.IGNORED_FILTERS = ['bbox', 'offset', 'limit'];
  */
 app.SearchFiltersController.prototype.setFilters_ = function() {
   this.filters = {};
-  var keys = this.location.getFragmentParamKeys().filter(function(x) {
+  let keys = this.location.getFragmentParamKeys().filter((x) => {
     return app.SearchFiltersController.IGNORED_FILTERS.indexOf(x) === -1;
   });
-  for (var i = 0, n = keys.length; i < n; i++) {
+  for (let i = 0, n = keys.length; i < n; i++) {
     this.setFilterFromPermalink(keys[i]);
   }
 };
@@ -161,7 +161,7 @@ app.SearchFiltersController.prototype.setFilters_ = function() {
  * @public
  */
 app.SearchFiltersController.prototype.setFilterFromPermalink = function(key) {
-  var val = this.location.getFragmentParam(key);
+  let val = this.location.getFragmentParam(key);
   if (val === '') {
     return;
   }
@@ -175,7 +175,7 @@ app.SearchFiltersController.prototype.setFilterFromPermalink = function(key) {
         this.filters[key] = val.split(',');
         break;
       case 'range':
-        this.filters[key] = val.split(',').map(function(x) {
+        this.filters[key] = val.split(',').map((x) => {
           return parseInt(x, 10);
         });
         break;
@@ -205,7 +205,7 @@ app.SearchFiltersController.prototype.handleFiltersChange_ = function() {
   } else {
     this.loading_ = false;
   }
-  for (var key in this.filters) {
+  for (let key in this.filters) {
     if (key in this.config && this.config[key]['type'] === 'list') {
       // make sure the checkboxes buffer is up to date
       this.checkboxes_[key] = this.filters[key];
@@ -221,7 +221,7 @@ app.SearchFiltersController.prototype.handleFiltersChange_ = function() {
  */
 app.SearchFiltersController.prototype.handleCheckboxesChange_ = function() {
   // Synchronize filters with checkboxes
-  for (var prop in this.checkboxes_) {
+  for (let prop in this.checkboxes_) {
     if (this.checkboxes_[prop].length) {
       this.filters[prop] = this.checkboxes_[prop];
     } else {
@@ -249,7 +249,7 @@ app.SearchFiltersController.prototype.selectOption = function(prop, val, event) 
  * @export
  */
 app.SearchFiltersController.prototype.clear = function() {
-  for (var key in this.filters) {
+  for (let key in this.filters) {
     this.location.deleteFragmentParam(key);
   }
   this.filters = {};
@@ -271,7 +271,7 @@ app.SearchFiltersController.prototype.toggleOrientation = function(orientation,
   if (this.orientations.indexOf(orientation) === -1) {
     this.orientations.push(orientation);
   } else {
-    this.orientations = this.orientations.filter(function(val) {
+    this.orientations = this.orientations.filter((val) => {
       return val !== orientation;
     });
   }

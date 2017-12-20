@@ -42,9 +42,9 @@ app.Alerts.prototype.gettext = function(str) {
  * @export
  */
 app.Alerts.prototype.add = function(data) {
-  var timeout = data['timeout'] || 0;
+  let timeout = data['timeout'] || 0;
   this.addLoading_(timeout);
-  var msg = data['msg'];
+  let msg = data['msg'];
   msg = msg instanceof Object ? this.formatErrorMsg_(msg) :
     this.filterStr_(msg);
   this.alerts_.push({
@@ -87,8 +87,8 @@ app.Alerts.prototype.addError = function(msg) {
  * @export
  */
 app.Alerts.prototype.addErrorWithMsg = function(msg, errors) {
-  var content = this.filterStr_(msg) + '<br>' + this.formatErrorMsg_(errors);
-  var timeout = 5000;
+  let content = this.filterStr_(msg) + '<br>' + this.formatErrorMsg_(errors);
+  let timeout = 5000;
   this.addLoading_(timeout);
   this.alerts_.push({
     type: 'danger',
@@ -113,7 +113,7 @@ app.Alerts.prototype.get = function() {
  */
 app.Alerts.prototype.addLoading_ = function(timeout) {
   $('main, aside, .page-header').addClass('loading');
-  setTimeout(function() {
+  setTimeout(() => {
     $('main, aside, .page-header').removeClass('loading');
   }, timeout);
 };
@@ -130,11 +130,11 @@ app.Alerts.prototype.formatErrorMsg_ = function(response) {
       !response['data']['errors']) {
     return this.gettextCatalog_.getString('Unknown error');
   }
-  var errors = response['data']['errors'];
-  var len = errors.length;
+  let errors = response['data']['errors'];
+  let len = errors.length;
   if (len > 1) {
-    var msg = '<ul>';
-    for (var i = 0; i < len; i++) {
+    let msg = '<ul>';
+    for (let i = 0; i < len; i++) {
       msg += '<li>' + this.filterStr_(errors[i]['name']) + ' : ' + this.filterStr_(errors[i]['description']) + '</li>';
     }
     return msg + '</ul>';

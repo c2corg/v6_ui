@@ -51,7 +51,7 @@ app.Authentication = function(apiUrl, $rootScope, $log) {
   this.userData = null;
 
   // Load current user data from storage
-  var rawData = window.sessionStorage.getItem(this.USER_DATA_KEY_) ||
+  let rawData = window.sessionStorage.getItem(this.USER_DATA_KEY_) ||
       window.localStorage.getItem(this.USER_DATA_KEY_);
   if (rawData) {
     this.userData = this.parseUserData_(rawData);
@@ -59,12 +59,14 @@ app.Authentication = function(apiUrl, $rootScope, $log) {
 
   // Replace parsed user data when storage changed in another tab.
   // Handles set and remove. Does not handle same tab events.
-  window.addEventListener('storage', function(event) {
+  window.addEventListener('storage', (event) => {
     if (event.key === this.USER_DATA_KEY_) {
       this.userData = this.parseUserData_(event.newValue);
-      if (!$rootScope.$$phase) $rootScope.$apply();
+      if (!$rootScope.$$phase) {
+        $rootScope.$apply();
+      }
     }
-  }.bind(this));
+  });
 };
 
 
@@ -99,7 +101,7 @@ app.Authentication.prototype.isAuthenticated = function() {
  */
 app.Authentication.prototype.isModerator = function() {
   if (this.userData) {
-    var roles = this.userData.roles;
+    let roles = this.userData.roles;
     return roles.indexOf('moderator') > -1;
   } else {
     return false;
@@ -210,13 +212,13 @@ app.Authentication.prototype.hasEditRightsArticle_ = function(articleType, autho
  */
 app.Authentication.prototype.setUserData = function(data) {
   try {
-    var raw = JSON.stringify(data);
+    let raw = JSON.stringify(data);
     this.userData = this.parseUserData_(raw);
 
     // set the interface language
     this.langService_.updateLang(this.userData.lang, /* syncWithApi */ false);
 
-    var storage = data.remember ? window.localStorage : window.sessionStorage;
+    let storage = data.remember ? window.localStorage : window.sessionStorage;
     if (goog.DEBUG) {
       this.$log.log('Stored user data in', data.remember ? 'local' : 'session');
     }
@@ -255,7 +257,7 @@ app.Authentication.prototype.removeUserData = function() {
  */
 app.Authentication.prototype.parseUserData_ = function(raw) {
   if (raw) {
-    var data = /** @type {appx.AuthData} */ (JSON.parse(raw));
+    let data = /** @type {appx.AuthData} */ (JSON.parse(raw));
     // Make data immutable
     Object.freeze(data);
     Object.freeze(data.roles);
@@ -273,8 +275,8 @@ app.Authentication.prototype.parseUserData_ = function(raw) {
 app.Authentication.prototype.isExpired_ = function() {
   goog.asserts.assert(!!this.userData, 'this.userData should not be null');
 
-  var now = Date.now() / 1000; // in seconds
-  var expire = this.userData.expire;
+  let now = Date.now() / 1000; // in seconds
+  let expire = this.userData.expire;
   if (now > expire) {
     this.removeUserData();
     return true;
@@ -295,8 +297,8 @@ app.Authentication.prototype.isExpired_ = function() {
  * @private
  */
 app.Authentication.prototype.handle_token_renewal_ = function(now, expire) {
-  var storage = window.localStorage;
-  var pending = parseInt(storage.getItem('last_renewal') || 0, 10);
+  let storage = window.localStorage;
+  let pending = parseInt(storage.getItem('last_renewal') || 0, 10);
 
   if (!!this.http_ && now > pending + 15) {
     // If no pending renewal or more than 15s after last one
@@ -312,12 +314,12 @@ app.Authentication.prototype.handle_token_renewal_ = function(now, expire) {
     }
 
     this.http_.post(this.apiUrl_ + '/users/renew', {}).then(
-      function(response) {
+      (response) => {
         this.setUserData(response.data);
         if (goog.DEBUG) {
           this.$log.log('Done renewing authorization');
         }
-      }.bind(this),
+      },
       function() {
         if (goog.DEBUG) {
           this.$log.log('Failed renewing authorization');
@@ -338,7 +340,7 @@ app.Authentication.prototype.handle_token_renewal_ = function(now, expire) {
  */
 app.Authentication.prototype.addAuthorizationToHeaders = function(url,
   headers) {
-  var token = this.userData ? this.userData.token : null;
+  let token = this.userData ? this.userData.token : null;
   if (token && !this.isExpired_()) {
     if (goog.DEBUG && url.indexOf('http://') === 0) {
       // FIXME: ideally, should prevent the operation in prod mode

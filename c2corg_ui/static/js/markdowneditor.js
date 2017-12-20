@@ -10,11 +10,11 @@ goog.require('app');
  */
 app.markdownEditorDirective = function($rootScope, $compile, gettextCatalog, textFormatingUrl) {
 
-  var gettext = function(str) {
+  let gettext = function(str) {
     return str;
   };
 
-  var messages = {
+  let messages = {
     'Bold': gettext('Bold'),
     'Italic': gettext('Italic'),
     'Heading': gettext('Heading'),
@@ -32,15 +32,15 @@ app.markdownEditorDirective = function($rootScope, $compile, gettextCatalog, tex
     'enter image title here': gettext('enter image title here'),
     'list text here': gettext('list text here')
   };
-  angular.forEach(messages, function(value, key) {
+  angular.forEach(messages, (value, key) => {
     messages[key] = '{{\'' + value + '\'|translate}}';
   });
   $.fn.markdown.messages['angular'] = messages;
 
-  var createHeadingCallback = function(prefix) {
+  let createHeadingCallback = function(prefix) {
     return function(e) {
       // Append/remove prefix surround the selection
-      var chunk, cursor, selected = e.getSelection(),
+      let chunk, cursor, selected = e.getSelection(),
           content = e.getContent(),
           pointer, prevChar;
 
@@ -86,7 +86,7 @@ app.markdownEditorDirective = function($rootScope, $compile, gettextCatalog, tex
   };
 
   /** @type Array<Array<bootstrapMarkdown.ButtonGroupConfig>> */
-  var additionalButtons = [[
+  let additionalButtons = [[
     {
       name: 'groupFont',
       data: [{
@@ -111,14 +111,14 @@ app.markdownEditorDirective = function($rootScope, $compile, gettextCatalog, tex
 
   return {
     restrict: 'A',
-    require:  'ngModel',
+    require: 'ngModel',
     link: function(scope, element, attrs, ngModel) {
       // Only initialize the $.markdown plugin once.
       if (!element.hasClass('processed')) {
         element.addClass('processed');
 
         /** @type {bootstrapMarkdown.MarkdownConfig} */
-        var options = scope.$eval(attrs['appMarkdownEditor']) || {};
+        let options = scope.$eval(attrs['appMarkdownEditor']) || {};
 
         options.hiddenButtons = (options.hiddenButtons || []).concat([
           'cmdHeading',

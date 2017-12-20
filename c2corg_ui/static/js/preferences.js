@@ -70,21 +70,21 @@ app.PreferencesController = function($scope, appAuthentication, appApi,
   this.followed_only = false;
 
   if (appAuthentication.isAuthenticated()) {
-    this.api_.readPreferences().then(function(response) {
-      var data = /** @type {appx.UserPreferences} */ (response['data']);
+    this.api_.readPreferences().then((response) => {
+      let data = /** @type {appx.UserPreferences} */ (response['data']);
       this.activities = data.activities;
       this.langs = data.langs;
       this.areas = data.areas;
       this.followed_only = data.followed_only;
 
-      this.scope_.$watch(function() {
+      this.scope_.$watch(() => {
         return this.followed_only;
-      }.bind(this), function(newValue, oldValue) {
+      }, (newValue, oldValue) => {
         if (newValue !== oldValue) {
           this.save_();
         }
-      }.bind(this));
-    }.bind(this));
+      });
+    });
   } else {
     app.utils.redirectToLogin(authUrl);
   }
@@ -97,7 +97,7 @@ app.PreferencesController = function($scope, appAuthentication, appApi,
  */
 app.PreferencesController.prototype.updateActivities = function(activity) {
   if (this.activities.indexOf(activity) > -1) {
-    this.activities = this.activities.filter(function(item) {
+    this.activities = this.activities.filter((item) => {
       return item !== activity;
     });
   } else {
@@ -113,7 +113,7 @@ app.PreferencesController.prototype.updateActivities = function(activity) {
  */
 app.PreferencesController.prototype.updateLangs = function(lang) {
   if (this.langs.indexOf(lang) > -1) {
-    this.langs = this.langs.filter(function(item) {
+    this.langs = this.langs.filter((item) => {
       return item !== lang;
     });
   } else {
@@ -128,7 +128,7 @@ app.PreferencesController.prototype.updateLangs = function(lang) {
  * @export
  */
 app.PreferencesController.prototype.addArea = function(area) {
-  var alreadyInList = this.areas.some(function(a) {
+  let alreadyInList = this.areas.some((a) => {
     return a.document_id === area.document_id;
   });
   if (alreadyInList) {
@@ -144,7 +144,7 @@ app.PreferencesController.prototype.addArea = function(area) {
  * @export
  */
 app.PreferencesController.prototype.removeArea = function(id) {
-  this.areas = this.areas.filter(function(item) {
+  this.areas = this.areas.filter((item) => {
     return item.document_id !== id;
   });
   this.save_();
@@ -155,7 +155,7 @@ app.PreferencesController.prototype.removeArea = function(id) {
  * @private
  */
 app.PreferencesController.prototype.save_ = function() {
-  var data = {
+  let data = {
     'activities': this.activities,
     'langs': this.langs,
     'areas': this.areas,

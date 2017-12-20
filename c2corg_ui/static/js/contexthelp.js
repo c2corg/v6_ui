@@ -16,7 +16,7 @@ app.contextHelpDirective = function($uibModal, $templateCache, $compile) {
     restrict: 'A',
     link: function(scope, element, attrs) {
       element.append(' <span class="glyphicon glyphicon-info-sign context-help-sign">');
-      element.on('click', function() {
+      element.on('click', () => {
         $uibModal.open({
           controller: 'AppContextHelpModalController',
           controllerAs: 'contextHelpModalCtrl',
@@ -24,10 +24,10 @@ app.contextHelpDirective = function($uibModal, $templateCache, $compile) {
           'windowClass': 'context-help-modal',
           resolve: {
             content: function() {
-              var templateUrl = attrs['contextHelpContentUrl'];
+              let templateUrl = attrs['contextHelpContentUrl'];
               if (templateUrl) {
-                var template = app.utils.getTemplate(templateUrl, $templateCache);
-                var elements = $compile(template)(scope);
+                let template = app.utils.getTemplate(templateUrl, $templateCache);
+                let elements = $compile(template)(scope);
                 return angular.element('<div></div>').append(elements).html();
               } else {
                 return attrs['contextHelpContent'];

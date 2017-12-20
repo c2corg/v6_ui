@@ -15,15 +15,15 @@ goog.require('app.Url');
  * @ngInject
  */
 app.cardDirective = function($compile, $templateCache) {
-  var cardElementCache = {};
+  let cardElementCache = {};
 
-  var getCardElement = function(doctype) {
+  let getCardElement = function(doctype) {
     if (cardElementCache[doctype] !== undefined) {
       return cardElementCache[doctype];
     }
-    var path = '/static/partials/cards/' + doctype + '.html';
-    var template = app.utils.getTemplate(path, $templateCache);
-    var element = angular.element(template);
+    let path = '/static/partials/cards/' + doctype + '.html';
+    let template = app.utils.getTemplate(path, $templateCache);
+    let element = angular.element(template);
     cardElementCache[doctype] = $compile(element);
     return cardElementCache[doctype];
   };
@@ -37,8 +37,8 @@ app.cardDirective = function($compile, $templateCache) {
       'doc': '<appCardDoc'
     },
     link: function(scope, element, attrs, ctrl) {
-      var cardElementFn = getCardElement(ctrl.type);
-      cardElementFn(scope, function(clone) {
+      let cardElementFn = getCardElement(ctrl.type);
+      cardElementFn(scope, (clone) => {
         element.append(clone);
       });
     }
@@ -113,11 +113,11 @@ app.CardController = function(gettextCatalog, appUrl, imageUrl, moment) {
    */
   this.locale = {};
 
-  var locales = this.type === 'feeds' ? this.doc.document.locales : this.doc.locales;
+  let locales = this.type === 'feeds' ? this.doc.document.locales : this.doc.locales;
 
   this.locale = locales[0];
-  for (var i = 0, n = locales.length; i < n; i++) {
-    var l = locales[i];
+  for (let i = 0, n = locales.length; i < n; i++) {
+    let l = locales[i];
     if (l['lang'] === this.lang) {
       this.locale = l;
       break;
@@ -132,7 +132,7 @@ app.CardController = function(gettextCatalog, appUrl, imageUrl, moment) {
  * @export
  */
 app.CardController.prototype.createActionLine = function() {
-  var line = '';
+  let line = '';
 
   switch (this.doc['change_type']) {
     case 'created':
@@ -179,13 +179,13 @@ app.CardController.prototype.translate = function(str) {
 app.CardController.prototype.showArea = function(areas) {
   if (areas) {
     // the areas often come in different orders within 3 area objects.
-    var orderedAreas = {'range': [], 'admin_limits': [], 'country': []};
-    var type;
-    for (var i = 0; i < areas.length; i++) {
+    let orderedAreas = {'range': [], 'admin_limits': [], 'country': []};
+    let type;
+    for (let i = 0; i < areas.length; i++) {
       type = areas[i]['area_type'];
       orderedAreas[type].push(areas[i]['locales'][0]['title']);
     }
-    var sortedAreas = [];
+    let sortedAreas = [];
     if (orderedAreas['range'].length) {
       sortedAreas = sortedAreas.concat(orderedAreas['range']);
     }
@@ -217,11 +217,11 @@ app.CardController.prototype.showOrientation = function(orientations) {
  * @export
  */
 app.CardController.prototype.showDates = function() {
-  var start = this.doc['document']['date_start'];
-  var end = this.doc['document']['date_end'];
-  var sameYear = this.moment_(start).year() == this.moment_(end).year();
-  var sameMonth = this.moment_(start).month() == this.moment_(end).month();
-  var sameDay = this.moment_(start).date() == this.moment_(end).date();
+  let start = this.doc['document']['date_start'];
+  let end = this.doc['document']['date_end'];
+  let sameYear = this.moment_(start).year() == this.moment_(end).year();
+  let sameMonth = this.moment_(start).month() == this.moment_(end).month();
+  let sameDay = this.moment_(start).date() == this.moment_(end).date();
   if (sameDay && sameMonth && sameYear) {
     return this.moment_(end).format('Do MMMM YYYY');
   }
@@ -250,7 +250,7 @@ app.CardController.prototype.openDoc = function() {
  * @return {string | undefined}
  */
 app.CardController.prototype.createURL = function() {
-  var type, doc;
+  let type, doc;
   if (this.type == 'feeds') {
     type = app.utils.getDoctype(this.doc['document']['type']);
     doc = this.doc['document'];
@@ -279,17 +279,17 @@ app.CardController.prototype.createImageUrl = function(filename, suffix) {
  * @export
  */
 app.CardController.prototype.createAreaURL = function(areas) {
-  var loc = window.location.pathname;
+  let loc = window.location.pathname;
   if (areas && areas.length &&
       loc.indexOf('/edit/') === -1 && loc.indexOf('/add') === -1) {
 
-    var orderedAreas = {'range': [], 'admin_limits': [], 'country': []};
-    for (var i = 0, type; i < areas.length; i++) {
+    let orderedAreas = {'range': [], 'admin_limits': [], 'country': []};
+    for (let i = 0, type; i < areas.length; i++) {
       type = areas[i]['area_type'];
       orderedAreas[type].push(areas[i]);
     }
 
-    var doc;
+    let doc;
     if (orderedAreas['range'].length) {
       doc = orderedAreas['range'][0];
     } else if (orderedAreas['admin_limits'].length) {
@@ -324,10 +324,10 @@ app.CardController.prototype.createImg = function(suffix) {
  * @return {Object | null} ratings
  */
 app.CardController.prototype.getGlobalRatings = function() {
-  var doc = this.doc;
-  var ratings = {};
+  let doc = this.doc;
+  let ratings = {};
 
-  doc.activities.forEach(function(a) {
+  doc.activities.forEach((a) => {
     if (a === 'rock_climbing' || a === 'mountain_climbing' || a === 'snow_ice_mixed') {
       ratings['global_rating'] = doc.global_rating;
 
@@ -350,7 +350,7 @@ app.CardController.prototype.getGlobalRatings = function() {
     } else if (a === 'mountain_biking') {
       ratings['biking_rating'] = this.slashSeparatedRating_(doc.mtb_down_rating, doc.hiking_mtb_exposition);
     }
-  }.bind(this));
+  });
   return ratings[Object.keys(ratings)[0]] ? ratings : null;
 };
 
@@ -361,11 +361,11 @@ app.CardController.prototype.getGlobalRatings = function() {
  * @return {Object} ratings
  */
 app.CardController.prototype.getFullRatings = function() {
-  var doc = this.type == 'feeds' ? this.doc['document'] : this.doc;
-  var ratings = {};
-  var fullRatings = {};
+  let doc = this.type == 'feeds' ? this.doc['document'] : this.doc;
+  let ratings = {};
+  let fullRatings = {};
 
-  for (var p in doc) {
+  for (let p in doc) {
     // every property that has 'rating' in it but with some exceptions.
     if (doc.hasOwnProperty(p) && p.indexOf('rating') > -1 &&
         p !== 'rock_free_rating' && p !== 'rock_required_rating' && p !== 'ski_rating' &&
@@ -387,14 +387,14 @@ app.CardController.prototype.getFullRatings = function() {
 
         if (doc.rock_required_rating && doc.rock_free_rating) {
           // [A0] (without bracket) is showed only if equipment_rating = P1 or P1+, and if aid_rating is empty.
-          var A0 = (doc.equipment_rating === 'P1' || doc.equipment_rating === 'P1+') && !doc.aid_rating;
+          let A0 = (doc.equipment_rating === 'P1' || doc.equipment_rating === 'P1+') && !doc.aid_rating;
           ratings['rock_rating'] += '>' + doc.rock_required_rating;
           ratings['rock_rating'] += A0 ? '[A0]' : '';
         }
       }
     }
   }
-  app.constants.fullRatingOrdered.forEach(function(rating) {
+  app.constants.fullRatingOrdered.forEach((rating) => {
     if (rating in ratings && ratings[rating]) {
       fullRatings[rating] = ratings[rating];
     }
@@ -410,7 +410,7 @@ app.CardController.prototype.getFullRatings = function() {
  * @return {string} rating
  */
 app.CardController.prototype.slashSeparatedRating_ = function(rating1, rating2) {
-  var rating = rating1 || '';
+  let rating = rating1 || '';
   rating += (rating1 && rating2) ? '/' : '';
   rating += rating2 || '';
   return rating;

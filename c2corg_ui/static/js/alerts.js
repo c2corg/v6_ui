@@ -78,8 +78,8 @@ app.alertDirective = function() {
       'timeout': '@',
       'msg': '@'
     },
-    link : function() {
-      $('body').click(function(e) {
+    link: function() {
+      $('body').click((e) => {
         if ($('.alert').length > 0 && $(e.target).closest('.alert').length === 0) {
           $('.loading').removeClass('loading');
           $('.alert').hide();
@@ -101,11 +101,11 @@ app.module.directive('appAlert', app.alertDirective);
  */
 app.AlertController = function($timeout) {
   if (this['timeout'] && this['close']) {
-    var timeout = parseInt(this['timeout'], 10);
+    let timeout = parseInt(this['timeout'], 10);
     if (timeout) {
-      $timeout((function() {
+      $timeout(() => {
         this['close']();
-      }).bind(this), timeout);
+      }, timeout);
     }
   }
 };

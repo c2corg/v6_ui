@@ -58,17 +58,17 @@ app.GeomDownloadController = function(ngeoDownload, mapFeatureCollection) {
  */
 app.GeomDownloadController.prototype.downloadFeatures_ = function(
   format, extension, mimetype) {
-  var geojson = new ol.format.GeoJSON();
-  var features = geojson.readFeatures(this.featureCollection_);
+  let geojson = new ol.format.GeoJSON();
+  let features = geojson.readFeatures(this.featureCollection_);
   if (features.length) {
     // Export only the current document geometry, not the associated features
-    var feature = features[0];
-    var properties = feature.getProperties();
+    let feature = features[0];
+    let properties = feature.getProperties();
     if ('title' in properties && properties['title']) {
       feature.set('name', properties['title']);
     }
-    var filename = feature.get('documentId') + extension;
-    var content = format.writeFeatures([feature], {
+    let filename = feature.get('documentId') + extension;
+    let content = format.writeFeatures([feature], {
       featureProjection: 'EPSG:3857'
     });
     this.download_(content, filename, mimetype + ';charset=utf-8');

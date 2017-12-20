@@ -71,9 +71,9 @@ app.AnnouncementController = function(appApi, appLang) {
  * @private
  */
 app.AnnouncementController.prototype.getAnnouncementFromForum_ = function() {
-  this.api.readAnnouncement(this.lang_.getLang()).then(function(response) {
+  this.api.readAnnouncement(this.lang_.getLang()).then((response) => {
     this.handleAnnouncement(response);
-  }.bind(this));
+  });
 };
 
 /**
@@ -83,7 +83,7 @@ app.AnnouncementController.prototype.getAnnouncementFromForum_ = function() {
  * @public
  */
 app.AnnouncementController.prototype.handleAnnouncement = function(response) {
-  var data = response['data'];
+  let data = response['data'];
   if (data['tags'].indexOf('visible') > -1) {
     this.hasAnnouncement = true;
     this.text = data['post_stream']['posts'][0]['cooked'];

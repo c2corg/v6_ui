@@ -71,15 +71,15 @@ app.OutingEditingController = function($scope, $element, $attrs, $http,
   if (this.auth.isAuthenticated()) {
     // allow association only for a new outing to existing route
     if (ngeoLocation.hasFragmentParam('r')) {
-      var routeId = parseInt(ngeoLocation.getFragmentParam('r'), 10);
+      let routeId = parseInt(ngeoLocation.getFragmentParam('r'), 10);
       appApi.getDocumentByIdAndDoctype(routeId, 'r', appLang.getLang()).then(
-        function(doc) {
+        (doc) => {
           this.documentService.pushToAssociations(
             doc.data['routes'].documents[0],
             'routes',
             this.handleAssociation
           );
-        }.bind(this)
+        }
       );
     }
 
@@ -110,10 +110,10 @@ goog.inherits(app.OutingEditingController, app.DocumentEditingController);
 app.OutingEditingController.prototype.successRead = function(response) {
   goog.base(this, 'successRead', response);
 
-  var outing = this.scope[this.modelName];
+  let outing = this.scope[this.modelName];
   // check if user has right to edit -> the user is one of the associated users
-  var userIds = [];
-  outing['associations']['users'].forEach(function(user) {
+  let userIds = [];
+  outing['associations']['users'].forEach((user) => {
     userIds.push(user['document_id']);
   });
   if (this.auth.hasEditRights('outings', {'users': userIds})) {
@@ -126,7 +126,7 @@ app.OutingEditingController.prototype.successRead = function(response) {
     outing['length_total'] /= 1000;
   } else {
     this.alerts.addError('You have no rights to edit this document.');
-    setTimeout(function() { // redirect to the details-view page
+    setTimeout(() => { // redirect to the details-view page
       window.location = window.location.href.replace('/edit', '');
     }, 3000);
   }
@@ -145,7 +145,7 @@ app.OutingEditingController.prototype.prepareData = function(data) {
   data['length_total'] *= 1000;
 
   // filtering outing ratings on activities
-  var activities = data['activities'];
+  let activities = data['activities'];
   if (activities.indexOf('skitouring') === -1) {
     delete data['ski_rating'];
     delete data['labande_global_rating'];
@@ -232,7 +232,7 @@ app.OutingEditingController.prototype.formatOuting_ = function(outing, submit) {
       this.dateMaxStart = outing.date_end;
     }
 
-    var conditions = outing.locales[0]['conditions_levels'];
+    let conditions = outing.locales[0]['conditions_levels'];
     // conditions_levels -> to Object, snow_height -> to INT
     if (conditions && typeof conditions === 'string') {
       conditions = JSON.parse(conditions);
@@ -275,7 +275,7 @@ app.OutingEditingController.prototype.handleAssociation = function(data, doc,
   // the first associated route data.
   if (!data.document_id && doctype === 'routes' &&
       data.associations.routes.length === 1) {
-    var title = 'title_prefix' in doc.locales[0] &&
+    let title = 'title_prefix' in doc.locales[0] &&
       doc.locales[0]['title_prefix'] ?
       doc.locales[0]['title_prefix'] + ' : ' : '';
     title += doc.locales[0]['title'];

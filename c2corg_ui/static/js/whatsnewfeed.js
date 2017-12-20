@@ -55,12 +55,12 @@ app.WhatsnewFeedController.prototype.getDocumentsFromFeed = function() {
   if (this.ngeoLocation.hasFragmentParam('u')) {
     this.userId = parseInt(this.ngeoLocation.getFragmentParam('u'), 10);
   }
-  this.api.readWhatsnewFeed(this.nextToken, this.userId).then(function(response) {
+  this.api.readWhatsnewFeed(this.nextToken, this.userId).then((response) => {
     this.handleFeed(response);
-  }.bind(this), function() { // Error msg is shown in the api service
+  }, () => { // Error msg is shown in the api service
     this.busy = false;
     this.error = true;
-  }.bind(this));
+  });
 };
 
 

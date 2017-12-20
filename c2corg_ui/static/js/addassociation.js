@@ -14,7 +14,7 @@ goog.require('app.simpleSearchDirective');
  */
 app.addAssociationDirective = function($compile) {
 
-  var template = function(dataset) {
+  let template = function(dataset) {
     return '<app-simple-search app-select="addCtrl.associate(doc)" ' +
       'ignore-document-id="addCtrl.parentId" ' +
       'dataset="' + dataset + '"></app-simple-search>';
@@ -83,8 +83,8 @@ app.AddAssociationController = function(appApi, appDocument) {
  * @export
  */
 app.AddAssociationController.prototype.associate = function(doc) {
-  var parentId, childId;
-  var parentType = this.parentDoctype;
+  let parentId, childId;
+  let parentType = this.parentDoctype;
 
   // if the parent doc is a route and the child doc is a waypoint OR
   // if the parent doc is an outing, inverse the IDs.
@@ -104,14 +104,14 @@ app.AddAssociationController.prototype.associate = function(doc) {
     parentId = this.parentId;
   }
 
-  this.api_.associateDocument(parentId, childId).then(function() {
+  this.api_.associateDocument(parentId, childId).then(() => {
     if (parentType === 'waypoints' && doc['type'] === 'w') {
       // associating a waypoint to a waypoint
       this.documentService_.pushToAssociations(doc, 'waypoint_children');
     } else {
       this.documentService_.pushToAssociations(doc);
     }
-  }.bind(this));
+  });
 };
 
 

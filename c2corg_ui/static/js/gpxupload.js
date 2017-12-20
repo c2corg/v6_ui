@@ -51,9 +51,9 @@ app.GpxUploadController = function($scope) {
    */
   this.fileContent = '';
 
-  $scope.$watch(function() {
+  $scope.$watch(() => {
     return this.fileContent;
-  }.bind(this), this.importGpx_.bind(this));
+  }, this.importGpx_.bind(this));
 };
 
 
@@ -62,8 +62,8 @@ app.GpxUploadController = function($scope) {
  * @private
  */
 app.GpxUploadController.prototype.importGpx_ = function(gpx) {
-  var gpxFormat = new ol.format.GPX();
-  var features = gpxFormat.readFeatures(gpx, {
+  let gpxFormat = new ol.format.GPX();
+  let features = gpxFormat.readFeatures(gpx, {
     featureProjection: 'EPSG:3857'
   });
   if (features.length) {

@@ -15,7 +15,7 @@ app.blockAccountDirective = function() {
     controller: 'appBlockAccountController',
     controllerAs: 'blockCtrl',
     bindToController: {
-      'userId' : '=appUserId'
+      'userId': '=appUserId'
     },
     templateUrl: '/static/partials/blockaccount.html'
   };
@@ -57,9 +57,9 @@ app.BlockAccountController = function(appAuthentication, appApi) {
   this.accountBlocked = false;
 
   if (this.auth_.isModerator()) {
-    this.api_.isAccountBlocked(this.userId).then(function(response) {
+    this.api_.isAccountBlocked(this.userId).then((response) => {
       this.accountBlocked = response['data']['blocked'];
-    }.bind(this));
+    });
   }
 };
 
@@ -68,9 +68,9 @@ app.BlockAccountController = function(appAuthentication, appApi) {
  * @export
  */
 app.BlockAccountController.prototype.block = function() {
-  this.api_.blockAccount(this.userId).then(function(response) {
+  this.api_.blockAccount(this.userId).then((response) => {
     this.accountBlocked = true;
-  }.bind(this));
+  });
 };
 
 
@@ -78,9 +78,9 @@ app.BlockAccountController.prototype.block = function() {
  * @export
  */
 app.BlockAccountController.prototype.unblock = function() {
-  this.api_.unblockAccount(this.userId).then(function(response) {
+  this.api_.unblockAccount(this.userId).then((response) => {
     this.accountBlocked = false;
-  }.bind(this));
+  });
 };
 
 app.module.controller('appBlockAccountController', app.BlockAccountController);

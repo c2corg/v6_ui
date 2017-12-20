@@ -79,7 +79,7 @@ app.Document = function(appAuthentication, $rootScope) {
  * @export
  */
 app.Document.prototype.setDocument = function(doc) {
-  for (var attr in doc) {
+  for (let attr in doc) {
     if (attr === 'associations') {
       this.setAssociations(doc.associations);
     } else {
@@ -94,7 +94,7 @@ app.Document.prototype.setDocument = function(doc) {
  * @export
  */
 app.Document.prototype.setAssociations = function(associations) {
-  for (var type in associations) {
+  for (let type in associations) {
     if (type in this.document.associations) {
       this.document.associations[type] = associations[type];
     }
@@ -112,7 +112,7 @@ app.Document.prototype.hasAssociation = function(type, id) {
   if (!this.associationsIds_[type].length) {
     this.associationsIds_[type] = [];
     if (this.document.associations[type]) {
-      for (var i = 0; i < this.document.associations[type].length; i++) {
+      for (let i = 0; i < this.document.associations[type].length; i++) {
         this.associationsIds_[type].push(this.document.associations[type][i]['document_id']);
       }
     }
@@ -146,13 +146,13 @@ app.Document.prototype.pushToAssociations = function(doc, doctype, callback) {
  * @export
  */
 app.Document.prototype.removeAssociation = function(id, type, event, editing) {
-  var associations = this.document.associations[type];
+  let associations = this.document.associations[type];
 
   event.currentTarget.closest('.list-item').className += ' remove-item';
   // you need settimeout because if you splice the array immediatly, the animation
   // will have not enough time to complete and therefore will disappear instantly. Animation first, then remove from array.
-  setTimeout(function() {
-    for (var i = 0; i < associations.length; i++) {
+  setTimeout(() => {
+    for (let i = 0; i < associations.length; i++) {
       if (associations[i]['document_id'] === id) {
         associations.splice(i, 1);
 
@@ -165,7 +165,7 @@ app.Document.prototype.removeAssociation = function(id, type, event, editing) {
         break;
       }
     }
-  }.bind(this), 500); //remove animation duration
+  }, 500); //remove animation duration
 };
 
 

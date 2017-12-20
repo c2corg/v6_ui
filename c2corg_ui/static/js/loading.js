@@ -19,9 +19,9 @@ app.loadingDirective = function($http) {
       * @param {angular.Attributes} attrs Atttributes.
       */
      function(scope, el, attrs) {
-       scope.$watch(function() {
+       scope.$watch(() => {
          return $http.pendingRequests.length;
-       }, function() {
+       }, () => {
          if ($http.pendingRequests.length > 0) {
            $('.loading-gif').show();
          } else {

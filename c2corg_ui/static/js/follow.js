@@ -15,7 +15,7 @@ app.followDirective = function() {
     controller: 'appFollowController',
     controllerAs: 'followCtrl',
     bindToController: {
-      'docId' : '=appFollowId'
+      'docId': '=appFollowId'
     },
     templateUrl: '/static/partials/follow.html'
   };
@@ -57,9 +57,9 @@ app.FollowController = function(appAuthentication, appApi) {
   this.followed = false;
 
   if (this.canFollow()) {
-    this.api_.isFollowing(this.docId).then(function(response) {
+    this.api_.isFollowing(this.docId).then((response) => {
       this.followed = response['data']['is_following'];
-    }.bind(this));
+    });
   }
 };
 
@@ -81,13 +81,13 @@ app.FollowController.prototype.canFollow = function() {
  */
 app.FollowController.prototype.toggle = function() {
   if (this.followed) {
-    this.api_.unfollow(this.docId).then(function(response) {
+    this.api_.unfollow(this.docId).then((response) => {
       this.followed = false;
-    }.bind(this));
+    });
   } else {
-    this.api_.follow(this.docId).then(function(response) {
+    this.api_.follow(this.docId).then((response) => {
       this.followed = true;
-    }.bind(this));
+    });
   }
 };
 
