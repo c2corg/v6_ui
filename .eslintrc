@@ -18,6 +18,9 @@
   },
   "rules": {
     "no-console": 1,
-    "valid-jsdoc": 0
+    "valid-jsdoc": 1,
+    "prefer-arrow-callback": 1,
+    "no-var": 1,
+    "no-multi-assign": 1
   }
 }
