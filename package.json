@@ -36,7 +36,7 @@
     "angular-cookies": "1.5.8",
     "angular-gettext": "2.3.4",
     "angular-gettext-tools": "2.2.3",
-    "angular-messages": "1.5.8",
+    "angular-messages": "1.6.8",
     "angular-slug": "0.0.4",
     "corejs-typeahead": "1.0.1",
     "eslint": "4.13.0",
