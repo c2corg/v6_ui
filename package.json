@@ -13,7 +13,7 @@
   },
   "license": "AGPL-3.0",
   "dependencies": {
-    "angular": "1.5.8",
+    "angular": "1.6.1",
     "angular-cookies": "1.5.8",
     "angular-gettext": "2.3.10",
     "angular-messages": "1.5.8",
@@ -34,9 +34,10 @@
     "ng-file-upload": "12.2.13",
     "ng-infinite-scroll": "1.3.0",
     "ngeo": "2.1.1",
-    "openlayers": "3.19.1",
+    "openlayers": "4.5.0",
     "photoswipe": "4.1.2",
-    "slug": "0.9.1"
+    "slug": "0.9.1",
+    "snyk": "^1.62.0"
   },
   "devDependencies": {
     "angular-gettext-tools": "2.3.6",
@@ -48,8 +49,7 @@
     "less-plugin-clean-css": "1.5.1",
     "nomnom": "1.8.1",
     "stylelint": "8.4.0",
-    "stylelint-config-standard": "18.0.0",
-    "snyk": "^1.30.1"
+    "stylelint-config-standard": "18.0.0"
   },
   "snyk": true
 }

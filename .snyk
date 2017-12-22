@@ -1,5 +1,5 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.7.1
+version: v1.10.1
 ignore: {}
 # patches apply the minimum changes required to fix a vulnerability
 patch:
@@ -36,3 +36,6 @@ patch:
         patched: '2017-05-26T01:35:05.261Z'
     - closure-util > send > debug > ms:
         patched: '2017-05-26T01:35:05.261Z'
+  'npm:marked:20170907':
+    - openlayers > marked:
+        patched: '2017-12-22T12:25:49.485Z'
