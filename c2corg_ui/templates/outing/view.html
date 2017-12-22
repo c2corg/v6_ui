@@ -16,7 +16,7 @@ from json import dumps
     display_app_smartphone_info, get_print_license"/>
 <%namespace file="helpers/view.html" import="get_outing_snow, get_outing_access,
     get_outing_participants, get_outing_general, get_outing_heights,
-    show_fulldate, get_conditions, get_outing_elevation_profile, get_outing_rating"/>
+    show_fulldate, get_conditions, get_outing_elevation_profile, get_outing_rating, get_outing_location"/>
 
 <%
 outing_id = outing['document_id']
@@ -106,12 +106,6 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
       </h1>
     </header>
 
-  % if outing.get('areas'):
-    <article class="location-static">
-      ${show_areas(outing)}
-    </article>
-  % endif
-
     <section class="view-details-section" app-view-details ng-class="{'row-list' : switchCtrl.showList}">
        <div class="row">
          <div class="col-xs-12 col-md-4 col-lg-3" id="left-column">
@@ -136,6 +130,7 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
                 <div class="ficontent">
                   <div class="row">
                       ${get_outing_general(outing)}
+                      ${get_outing_location(outing)}
                       % if not version:
                         ${get_outing_rating(outing)}
                       % endif
