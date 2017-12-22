@@ -404,15 +404,12 @@
       associations = 'detailsCtrl.documentService.document.associations.' + type
   %>
   ${add_seo_association_links(document['associations'][type], 'waypoints')}
-  <section ng-show="${associations}.length > 0" class="row-list-phone">
+  <section ng-show="${associations}.length > 0" class="row-list-phone row-list">
     <h3 class="show-phone pull-left collapsible-title" ng-click="mainCtrl.animateHeaderIcon($event)"
         data-toggle="collapse" data-target="#associated-waypoints-${type}" aria-expanded="true" aria-controls="associated-waypoints-${type}">
       <span x-translate>Associated ${type}</span><span class="glyphicon glyphicon-menu-down"></span>
 
     </h3>
-    % if type == 'waypoints':
-    <app-list-switch class="pull-right"></app-list-switch>
-    % endif
     <div class="associated-documents collapse in" id="associated-waypoints-${type}">
       <div class="list-item waypoints"
            % if document['doctype'] == 'routes':
