@@ -118,3 +118,16 @@
   % endif
 </%def>
 
+## LOCATION
+<%def name="get_xreport_location(xreport)">\
+  % if xreport.get('areas'):
+    <div class="col-sm-6 col-lg-3">         
+      <div class="name-icon-value location list-green" ng-click="detailsCtrl.toggleTab($event)">
+        <h4><span class="glyphicon glyphicon-map-marker"></span> <span translate>Location</span><span class="glyphicon pull-right rotate-arrow-down"></span></h4>
+        <span class="detail-text accordion">
+          <span class="areas">${show_areas(xreport)}</span>
+        </span>
+      </div>
+    </div>
+  % endif
+</%def>
