@@ -106,16 +106,6 @@ waypoint['doctype'] = 'waypoints'
       </h1>
     </header>
 
-    <article class="location-static">
-      ${show_areas(waypoint)}
-      % if waypoint.get('elevation'):
-        <p class="text-center"><b>${waypoint['elevation']} m</b></p>
-      % endif
-      % if geometry:
-        <p ng-bind="'${round(geometry.x)}/${round(geometry.y)}' | coordinate"></p>
-      % endif
-    </article>
-
     <section class="view-details-section" app-view-details  ng-class="{'row-list' : switchCtrl.showList}">
       <div class="row">
           <div class="col-xs-12 col-md-4 col-lg-3" id="left-column">
