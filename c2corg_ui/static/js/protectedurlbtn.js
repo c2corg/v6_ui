@@ -15,7 +15,7 @@ app.protectedUrlBtnDirective = function() {
       'url': '@'
     },
     link: function(scope, el, attr, ctrl) {
-      el.click(function() {
+      el.click(() => {
         ctrl.redirectToProtectedUrl(scope.url);
       });
     }

@@ -55,7 +55,7 @@ app.DiffMapController = function(mapFeatureCollection) {
   this.features_ = [];
 
   if (mapFeatureCollection) {
-    var format = new ol.format.GeoJSON();
+    let format = new ol.format.GeoJSON();
     this.features_ = format.readFeatures(mapFeatureCollection);
   }
 
@@ -71,7 +71,7 @@ app.DiffMapController = function(mapFeatureCollection) {
     })
   });
 
-  var mouseWheelZoomInteraction = new ol.interaction.MouseWheelZoom();
+  let mouseWheelZoomInteraction = new ol.interaction.MouseWheelZoom();
   this.map.addInteraction(mouseWheelZoomInteraction);
   app.utils.setupSmartScroll(mouseWheelZoomInteraction);
 
@@ -92,14 +92,14 @@ app.DiffMapController = function(mapFeatureCollection) {
 app.DiffMapController.prototype.getVectorLayer_ = function() {
   if (!this.vectorLayer_) {
     // style for the first version
-    var fill1 = new ol.style.Fill({
+    let fill1 = new ol.style.Fill({
       color: 'rgba(237, 41, 39, 0.6)'
     });
-    var stroke1 = new ol.style.Stroke({
+    let stroke1 = new ol.style.Stroke({
       color: 'rgba(237, 41, 39, 1)',
       width: 3
     });
-    var style1 = new ol.style.Style({
+    let style1 = new ol.style.Style({
       image: new ol.style.Circle({
         fill: fill1,
         stroke: stroke1,
@@ -110,14 +110,14 @@ app.DiffMapController.prototype.getVectorLayer_ = function() {
     });
 
     // style for the second version
-    var fill2 = new ol.style.Fill({
+    let fill2 = new ol.style.Fill({
       color: 'rgba(31, 157, 61, 0.9)'
     });
-    var stroke2 = new ol.style.Stroke({
+    let stroke2 = new ol.style.Stroke({
       color: 'rgba(31, 157, 61, 1)',
       width: 2
     });
-    var style2 = new ol.style.Style({
+    let style2 = new ol.style.Style({
       image: new ol.style.Circle({
         fill: fill2,
         stroke: stroke2,
@@ -150,10 +150,10 @@ app.DiffMapController.prototype.getVectorLayer_ = function() {
  */
 app.DiffMapController.prototype.showFeatures_ = function(features) {
   goog.asserts.assert(features.length > 0);
-  var vectorLayer = this.getVectorLayer_();
+  let vectorLayer = this.getVectorLayer_();
   vectorLayer.getSource().addFeatures(features);
 
-  var mapSize = this.map.getSize();
+  let mapSize = this.map.getSize();
   if (mapSize) {
     this.map.getView().fit(vectorLayer.getSource().getExtent(), mapSize, {
       padding: [10, 10, 10, 10],

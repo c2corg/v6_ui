@@ -67,7 +67,7 @@ app.MapSearchController = function($rootScope, $compile, gettextCatalog) {
   this.gettextCatalog_ = gettextCatalog;
 
   /** @type {Bloodhound} */
-  var bloodhoundEngine = this.createAndInitBloodhound_();
+  let bloodhoundEngine = this.createAndInitBloodhound_();
 
   this.geoJsonFormat_ = new ol.format.GeoJSON({
     featureProjection: app.constants.documentEditing.DATA_PROJ
@@ -130,10 +130,10 @@ app.MapSearchController.SEARCH_URL = 'https://photon.komoot.de/api/';
  * @private
  */
 app.MapSearchController.prototype.createAndInitBloodhound_ = function() {
-  var url = app.MapSearchController.SEARCH_URL;
+  let url = app.MapSearchController.SEARCH_URL;
   url += '?q=%QUERY';
 
-  var bloodhound = new Bloodhound(/** @type {BloodhoundOptions} */({
+  let bloodhound = new Bloodhound(/** @type {BloodhoundOptions} */({
     limit: 10,
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('label'),
@@ -142,12 +142,12 @@ app.MapSearchController.prototype.createAndInitBloodhound_ = function() {
       wildcard: '%QUERY',
       rateLimitWait: 50,
       prepare: (function(query, settings) {
-        var url = settings['url'] + '&lang=' + this.gettextCatalog_.currentLanguage;
+        let url = settings['url'] + '&lang=' + this.gettextCatalog_.currentLanguage;
 
-        var center = this.map.getView().getCenter();
+        let center = this.map.getView().getCenter();
         if (center !== undefined) {
           // give priority to nearby results
-          var centerWgs84 = ol.proj.toLonLat(center);
+          let centerWgs84 = ol.proj.toLonLat(center);
           url += '&lon=' + centerWgs84[0] + '&lat=' + centerWgs84[1];
         }
 
@@ -156,9 +156,9 @@ app.MapSearchController.prototype.createAndInitBloodhound_ = function() {
       }).bind(this),
 
       filter: function(resp) {
-        var features = this.geoJsonFormat_.readFeatures(resp);
-        features.forEach(function(feature) {
-          var addressInfo = [];
+        let features = this.geoJsonFormat_.readFeatures(resp);
+        features.forEach((feature) => {
+          let addressInfo = [];
           if (feature.get('city')) {
             addressInfo.push(feature.get('city'));
           }
@@ -170,7 +170,7 @@ app.MapSearchController.prototype.createAndInitBloodhound_ = function() {
           }
 
           if (addressInfo.length > 0) {
-            var name = feature.get('name') + ' (' + addressInfo.join(', ') + ')';
+            let name = feature.get('name') + ' (' + addressInfo.join(', ') + ')';
             feature.set('name', name);
           }
         });
@@ -192,19 +192,19 @@ app.MapSearchController.prototype.createAndInitBloodhound_ = function() {
  * @private
  */
 app.MapSearchController.select_ = function(event, suggestion, dataset) {
-  var map = /** @type {ol.Map} */ (this.map);
-  var feature = /** @type {ol.Feature} */ (suggestion);
+  let map = /** @type {ol.Map} */ (this.map);
+  let feature = /** @type {ol.Feature} */ (suggestion);
 
-  var geomOrExtent;
+  let geomOrExtent;
   if (feature.get('extent')) {
-    var extent = /** @type{ol.Extent} */ (feature.get('extent'));
+    let extent = /** @type{ol.Extent} */ (feature.get('extent'));
     geomOrExtent = ol.proj.transformExtent(extent, 'EPSG:4326', 'EPSG:3857');
   } else {
     geomOrExtent = /** @type {ol.geom.SimpleGeometry} */
       (feature.getGeometry());
   }
 
-  var mapSize = /** @type {ol.Size} */ (map.getSize());
+  let mapSize = /** @type {ol.Size} */ (map.getSize());
   map.getView().fit(geomOrExtent, mapSize,
     /** @type {olx.view.FitOptions} */ ({maxZoom: 12}));
 };

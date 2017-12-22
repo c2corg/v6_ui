@@ -55,7 +55,7 @@ app.ActivityFilterController = function() {
  */
 app.ActivityFilterController.prototype.toggle = function(activity) {
   if (this.activities.indexOf(activity) != -1) {
-    var index = this.selectedActivities.indexOf(activity);
+    let index = this.selectedActivities.indexOf(activity);
     if (index == -1) {
       // activity is not already selected: add it to selection
       this.selectedActivities.push(activity);
@@ -78,9 +78,9 @@ app.ActivityFilterController.prototype.filter_ = function(doc, index, array) {
   if (!this.selectedActivities.length) {
     return true;
   }
-  return doc.activities.some(function(activity) {
+  return doc.activities.some((activity) => {
     return this.selectedActivities.indexOf(activity) != -1;
-  }.bind(this));
+  });
 };
 
 

@@ -62,17 +62,17 @@ app.RevertDocumentController = function(
  */
 app.RevertDocumentController.prototype.revert = function(
   documentId, lang, versionId) {
-  var catalog = this.gettextCatalog_;
-  var gettext = function(str) {
+  let catalog = this.gettextCatalog_;
+  let gettext = function(str) {
     return catalog.getString(str);
   };
   if (this.auth_.isModerator() && window.confirm(gettext(
     'Are you sure you want to revert to this version of the document?'
   ))) {
     this.appApi_.revertDocument(documentId, lang, versionId).then(
-      function(response) {
+      (response) => {
         this.appAlerts_.addSuccess(gettext('Revert succeeded'));
-      }.bind(this)
+      }
     );
   }
 };

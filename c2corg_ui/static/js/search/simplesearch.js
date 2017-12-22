@@ -34,7 +34,7 @@ app.simpleSearchDirective = function() {
          */
         function($scope, element, attrs, ctrl) {
 
-          var phoneScreen = app.constants.SCREEN.SMARTPHONE;
+          let phoneScreen = app.constants.SCREEN.SMARTPHONE;
 
           // Empty the search field on focus and blur.
           $('.page-header').find('input').on('focus blur', function() {
@@ -42,13 +42,13 @@ app.simpleSearchDirective = function() {
           });
 
           // Remove the class 'show-search' when screen width > @phone (defined in LESS)
-          $(window).resize(function resize() {
+          $(window).resize(() => {
             if ($(window).width() > phoneScreen) {
               $('.show-search').removeClass('show-search');
               $('.logo.header, .menu-open-close.header').removeClass('no-opacity');
             }
           });
-          element.on('click', function(e) {
+          element.on('click', (e) => {
 
             // Collapse suggestions
             if ($('app-simple-search .header').is(e.target)) {
@@ -65,7 +65,7 @@ app.simpleSearchDirective = function() {
           });
 
           // Hide the menu when click outside (smartphone)
-          $('main').click(function(e) {
+          $('main').click((e) => {
             if (window.innerWidth < phoneScreen) {
               $('.show-search').removeClass('show-search');
               $('.logo.header, .menu-open-close.header').removeClass('no-opacity');
@@ -73,10 +73,10 @@ app.simpleSearchDirective = function() {
           });
 
           // Show spinning gif while waiting for the results
-          element.on('typeahead:asyncrequest', function() {
+          element.on('typeahead:asyncrequest', () => {
             element.find('input').addClass('loading-gif-typehead');
           });
-          element.on('typeahead:asynccancel typeahead:asyncreceive', function() {
+          element.on('typeahead:asynccancel typeahead:asyncreceive', () => {
             element.find('input').removeClass('loading-gif-typehead');
           });
         }
@@ -187,7 +187,7 @@ app.SimpleSearchController = function(appDocument, $scope, $compile, $attrs, api
   this.dataset;
 
   // create only given datasets
-  for (var i = 0; i < this.dataset.length; i++) {
+  for (let i = 0; i < this.dataset.length; i++) {
     switch (this.dataset[i]) {
       case 'u':
         this.datasets.push(this.createDataset_('users'));
@@ -268,9 +268,9 @@ app.SimpleSearchController.MAX_RESULTS_NB = 7;
  * @private
  */
 app.SimpleSearchController.prototype.createDataset_ = function(type) {
-  var bloodhoundEngine = this.createAndInitBloodhound_(type);
+  let bloodhoundEngine = this.createAndInitBloodhound_(type);
   return /** @type {TypeaheadDataset} */({
-    contents : type,
+    contents: type,
     source: bloodhoundEngine.ttAdapter(),
     display: function(doc) {
       if (doc) {
@@ -280,12 +280,12 @@ app.SimpleSearchController.prototype.createDataset_ = function(type) {
     limit: 20,
     templates: {
       header: (function() {
-        var typeUpperCase = type.charAt(0).toUpperCase() + type.substr(1);
+        let typeUpperCase = type.charAt(0).toUpperCase() + type.substr(1);
         return '<div class="header" dataset="' + type + '">' +
           this.gettextCatalog_.getString(typeUpperCase) + '</div>';
       }).bind(this),
       footer: function(doc) {
-        var template;
+        let template;
         if (this.isStandardSearch) {
           template = '<p class="suggestion-more"><a href="/' + type +
             '#q=' + encodeURI(doc['query']) + '" class="green-text" translate>' +
@@ -311,8 +311,8 @@ app.SimpleSearchController.prototype.createDataset_ = function(type) {
       }.bind(this),
       empty: function(res) {
         if ($('.header.empty').length === 0) {
-          var partialFile = this.isStandardSearch ? 'create' : 'empty';
-          var template = app.utils.getTemplate(
+          let partialFile = this.isStandardSearch ? 'create' : 'empty';
+          let template = app.utils.getTemplate(
             '/static/partials/suggestions/' + partialFile + '.html',
             this.templatecache_);
           return this.compile_(template)(this.scope_);
@@ -328,9 +328,9 @@ app.SimpleSearchController.prototype.createDataset_ = function(type) {
  * @private
  */
 app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
-  var url = this.apiUrl_ + '/search?q=%QUERY';
+  let url = this.apiUrl_ + '/search?q=%QUERY';
 
-  var bloodhound = new Bloodhound(/** @type {BloodhoundOptions} */({
+  let bloodhound = new Bloodhound(/** @type {BloodhoundOptions} */({
     limit: app.SimpleSearchController.MAX_RESULTS_NB,
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('label'),
@@ -343,7 +343,7 @@ app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
         // reset results numbers
         this.nbResults_ = {};
 
-        var url = settings['url'] + '&pl=' + this.gettextCatalog_.currentLanguage;
+        let url = settings['url'] + '&pl=' + this.gettextCatalog_.currentLanguage;
         url += '&limit=' + app.SimpleSearchController.MAX_RESULTS_NB;
 
         if (this.dataset) {
@@ -360,12 +360,12 @@ app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
       }).bind(this),
 
       filter: (function(/** appx.SimpleSearchResponse */ resp) {
-        var documentResponse =
+        let documentResponse =
           /** @type {appx.SimpleSearchDocumentResponse} */ (resp[type]);
         if (documentResponse) {
           this.nbResults_[type] = documentResponse.total;
-          var documents = documentResponse.documents;
-          documents = documents.map(function(/** appx.SimpleSearchDocument */ doc) {
+          let documents = documentResponse.documents;
+          documents = documents.map((/** appx.SimpleSearchDocument */ doc) => {
             if (this.ignoreDocumentId !== undefined && this.ignoreDocumentId === doc.document_id) {
               return null;
             }
@@ -381,9 +381,9 @@ app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
               return doc;
             }
             return null;
-          }.bind(this));
+          });
 
-          return documents.filter(function(doc) {
+          return documents.filter((doc) => {
             return doc !== null;
           });
         }
@@ -402,8 +402,8 @@ app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
  * @private
  */
 app.SimpleSearchController.prototype.createDocLabel_ = function(doc, currentLang) {
-  var locale = doc.locales[0];
-  var label = '';
+  let locale = doc.locales[0];
+  let label = '';
   if (doc.type === 'u') {
     return doc.name;
   }

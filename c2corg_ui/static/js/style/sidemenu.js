@@ -7,10 +7,10 @@ goog.require('app');
  */
 app.sidemenu = function() {
   /* handle sidebar hiding */
-  var body = $('body');
-  var content = $('.page-content');
+  let body = $('body');
+  let content = $('.page-content');
 
-  $('.menu-open-close').on('click', function() {
+  $('.menu-open-close').on('click', () => {
     body.toggleClass('menu-toggled');
     if (body.hasClass('menu-toggled')) {
       content.prepend('<div id="content-toggled">');
@@ -19,13 +19,13 @@ app.sidemenu = function() {
     }
   });
 
-  $(window).resize(function() {
+  $(window).resize(() => {
     if (window.innerWidth >= 1100 && body.hasClass('menu-toggled')) {
       body.toggleClass('menu-toggled', false);
       $('#content-toggled').remove();
     }
   });
-  content.on('click', '#content-toggled', function() {
+  content.on('click', '#content-toggled', () => {
     body.toggleClass('menu-toggled', false);
     $('#content-toggled').remove();
   });

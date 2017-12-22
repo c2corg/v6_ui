@@ -80,7 +80,7 @@ app.ImageEditingController.prototype.filterData = function(data) {
  * @export
  */
 app.ImageEditingController.prototype.convertExposureTime = function(value) {
-  var exposure;
+  let exposure;
 
   if (value === 0) {
     this.exposureError = true;
@@ -114,7 +114,7 @@ app.ImageEditingController.prototype.createImgUrl = function(filename) {
  * @export
  */
 app.ImageEditingController.prototype.filterImageTypes = function(imageTypes) {
-  var removeCopyright = function(val) {
+  let removeCopyright = function(val) {
     return val !== 'copyright';
   };
   return imageTypes.filter(removeCopyright);

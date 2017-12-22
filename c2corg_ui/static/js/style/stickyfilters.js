@@ -13,26 +13,26 @@ app.stickyFiltersDirective = function() {
     controller: 'AppStickyFiltersController as stickyCtrl',
     link: function(scope, el, attrs, ctrl) {
       // show/hide filters on click, only available on phone
-      $('.show-documents-filters-phone').click(function() {
+      $('.show-documents-filters-phone').click(() => {
         $('form[app-search-filters]').toggleClass('show');
         $('.map-right').removeClass('show');
       });
       // hide/show map on mobile
-      $('.toggle-map').click(function() {
+      $('.toggle-map').click(() => {
         $('.map-right').toggleClass('show');
       });
       // on mobile, clicking on the 'all filters' btn will scroll up to the top
       // because opening the whole filters list would only show you the bottom end.
-      $('.orange-btn.more-filters-btn').click(function() {
+      $('.orange-btn.more-filters-btn').click(() => {
         if (window.innerWidth < app.constants.SCREEN.SMARTPHONE) {
           $('.documents-list-section').scrollTop(0);
         }
       });
 
 
-      $('.documents-list-section').scroll(function() {
-        var scrollMax = $('.simple-filters').height() + 30;
-        var documentsListTop = $('.documents-list-section').scrollTop();
+      $('.documents-list-section').scroll(() => {
+        let scrollMax = $('.simple-filters').height() + 30;
+        let documentsListTop = $('.documents-list-section').scrollTop();
         // if you scroll down and there is no sticky bar, add it
         if (documentsListTop > scrollMax && $('.sticky-filters-btn-container').length === 0) {
           ctrl.addStickyFilters_();
@@ -43,7 +43,7 @@ app.stickyFiltersDirective = function() {
         }
       });
       // on resize, show filters if they have been hidden on smartphone
-      $(window).resize(function() {
+      $(window).resize(() => {
         ctrl.adaptFiltersWidth_();
       });
     }
@@ -88,7 +88,7 @@ app.StickyFiltersController.prototype.removeStickyFilters_ = function() {
  * @private
  */
 app.StickyFiltersController.prototype.adaptFiltersWidth_ = function() {
-  var width = $('.documents-list-section').width();
+  let width = $('.documents-list-section').width();
   // sticky bar and filters width = filters width
   if ($('#moreFilters').hasClass('sticky-filters-moreFilters')) {
     $('#moreFilters, .more-filters-btn-container').css('width', parseInt(width, 10));

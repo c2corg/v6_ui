@@ -39,8 +39,8 @@ app.module.filter('capitalize', app.capitalize);
 app.coordinate = function() {
   return function(coordinateRaw) {
     if (coordinateRaw) {
-      var coordinatesRaw = coordinateRaw.split('/');
-      var coordinates = [
+      let coordinatesRaw = coordinateRaw.split('/');
+      let coordinates = [
         parseInt(coordinatesRaw[0], 10),
         parseInt(coordinatesRaw[1], 10)
       ];

@@ -46,7 +46,7 @@ app.VersionsController = function($scope) {
  * @export
  */
 app.VersionsController.prototype.compare = function() {
-  var url = '/{documentType}/diff/{id}/{lang}/{v1}/{v2}'
+  let url = '/{documentType}/diff/{id}/{lang}/{v1}/{v2}'
     .replace('{documentType}', this['documentType'])
     .replace('{id}', this['documentId'])
     .replace('{lang}', this['lang'])

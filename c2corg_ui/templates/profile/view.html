@@ -23,12 +23,12 @@
     "type": "u"
   });
 </%block>
+
 <div class="viewdoc viewprofile">
   <app-announcement></app-announcement>
-<%block name="share">
-  ${generate_share_metadata(profile, 'profiles')}
-</%block>
-
+  <%block name="share">
+    ${generate_share_metadata(profile, 'profiles')}
+  </%block>
 
   <header class="view-title-without-bg">
     <h1 class="routes">
@@ -37,25 +37,20 @@
     </h1>
   </header>
 
+  <section class="view-details-section">
+    <div app-user-profile="${profile['document_id']}" app-user-profile-lang="${lang}">
+      <div id="user-profile-data" app-loading></div>
+    </div>
+  </section>
 
-
-<section class="view-details-section">
-  <div app-user-profile="${profile['document_id']}" app-user-profile-lang="${lang}">
-    <div id="user-profile-data" app-loading></div>
+  <div class="ng-hide">
+    <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
   </div>
 
-
-</section>
-
-<div class="ng-hide">
-  <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
+  ${photoswipe_gallery()}
 </div>
-
-${photoswipe_gallery()}
-  </div>
 <script>
   window.onload = function() {
-    ## init float-buttons tooltips
     $('[data-toggle=\'tooltip\']').tooltip();
   };
 </script>

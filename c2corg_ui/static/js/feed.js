@@ -15,7 +15,7 @@ app.feedDirective = function() {
     controller: 'appFeedController',
     controllerAs: 'feedCtrl',
     bindToController: {
-      'userId' : '=appFeedProfile'
+      'userId': '=appFeedProfile'
     },
     templateUrl: '/static/partials/feed.html'
   };
@@ -150,7 +150,7 @@ app.FeedController.prototype.initDocumentsCol_ = function() {
  */
 app.FeedController.prototype.initFeedColumnManager_ = function() {
 
-  $(window).resize(function() {
+  $(window).resize(() => {
 
     if (window.innerWidth < 1400) {
       if (this.nbCols_ != 1) {
@@ -169,10 +169,10 @@ app.FeedController.prototype.initFeedColumnManager_ = function() {
         this.documentsCol[2] = Array();
         this.nbCols_ = 2;
 
-        var height1_c2 = 0;
-        var height2_c2 = 0;
+        let height1_c2 = 0;
+        let height2_c2 = 0;
 
-        for (var i = 0,n = this.documents.length; i < n; i++) {
+        for (let i = 0, n = this.documents.length; i < n; i++) {
 
           if (height1_c2 <= height2_c2) {
             this.documentsCol[0].push(this.documents[i]);
@@ -195,11 +195,11 @@ app.FeedController.prototype.initFeedColumnManager_ = function() {
         this.documentsCol[2] = Array();
         this.nbCols_ = 3;
 
-        var height1_c3 = 0;
-        var height2_c3 = 0;
-        var height3_c3 = 0;
+        let height1_c3 = 0;
+        let height2_c3 = 0;
+        let height3_c3 = 0;
 
-        for (var j = 0,o = this.documents.length; j < o; j++) {
+        for (let j = 0, o = this.documents.length; j < o; j++) {
           if (height1_c3 <= height2_c3 && height1_c3 <= height3_c3) {
             this.documentsCol[0].push(this.documents[j]);
             height1_c3 += this.estimateSize(this.documents[j]);
@@ -219,7 +219,7 @@ app.FeedController.prototype.initFeedColumnManager_ = function() {
       }
     }
 
-  }.bind(this));
+  });
 };
 
 /**
@@ -229,13 +229,13 @@ app.FeedController.prototype.initFeedColumnManager_ = function() {
  */
 app.FeedController.prototype.getDocumentsFromFeed = function() {
   this.busy = true;
-  this.api.readFeed(this.nextToken, this.lang_.getLang(), this.userId, this.isPersonal).then(function(response) {
+  this.api.readFeed(this.nextToken, this.lang_.getLang(), this.userId, this.isPersonal).then((response) => {
     this.busy = false;
     this.handleFeed(response);
-  }.bind(this), function() { // Error msg is shown in the api service
+  }, () => { // Error msg is shown in the api service
     this.busy = false;
     this.error = true;
-  }.bind(this));
+  });
 };
 
 /**
@@ -245,7 +245,7 @@ app.FeedController.prototype.getDocumentsFromFeed = function() {
  * @public
  */
 app.FeedController.prototype.estimateSize = function(doc) {
-  var size = 225;
+  let size = 225;
   if (doc['document']['locales'][0]['summary'] !== null) {
     size += 22;
   }
@@ -270,15 +270,15 @@ app.FeedController.prototype.estimateSize = function(doc) {
 app.FeedController.prototype.handleFeed = function(response) {
   this.error = false;
   this.busy = false;
-  var data = response['data']['feed'];
-  var token = response['data']['pagination_token'];
+  let data = response['data']['feed'];
+  let token = response['data']['pagination_token'];
   this.nextToken = token;
-  var whatsnew = angular.element(document.querySelector('app-whatsnew-feed'));
+  let whatsnew = angular.element(document.querySelector('app-whatsnew-feed'));
 
   this.initDocumentsCol_();
   if (window.innerWidth < 1400 || whatsnew.length > 0) {
     this.nbCols_ = 1;
-    for (var k = 0, n = data.length; k < n; k++) {
+    for (let k = 0, n = data.length; k < n; k++) {
       data[k]['type'] = 'f';
       this.documentsCol[0].push(data[k]);
       this.documents.push(data[k]);
@@ -287,13 +287,13 @@ app.FeedController.prototype.handleFeed = function(response) {
   } else if (window.innerWidth >= 1400 && window.innerWidth < 2000) {
     this.nbCols_ = 2;
 
-    var element1_c2 = angular.element(document.querySelector('.in-feed-col-1'));
-    var element2_c2 = angular.element(document.querySelector('.in-feed-col-2'));
+    let element1_c2 = angular.element(document.querySelector('.in-feed-col-1'));
+    let element2_c2 = angular.element(document.querySelector('.in-feed-col-2'));
 
-    var height1_c2 = element1_c2[0].offsetHeight;
-    var height2_c2 = element2_c2[0].offsetHeight;
+    let height1_c2 = element1_c2[0].offsetHeight;
+    let height2_c2 = element2_c2[0].offsetHeight;
 
-    for (var i = 0,o = data.length; i < o; i++) {
+    for (let i = 0, o = data.length; i < o; i++) {
       data[i]['type'] = 'f';
 
       if (height1_c2 <= height2_c2) {
@@ -312,15 +312,15 @@ app.FeedController.prototype.handleFeed = function(response) {
 
   } else if (window.innerWidth >= 2000) {
     this.nbCols_ = 3;
-    var element1 = angular.element(document.querySelector('.in-feed-col-1'));
-    var element2 = angular.element(document.querySelector('.in-feed-col-2'));
-    var element3 = angular.element(document.querySelector('.in-feed-col-3'));
+    let element1 = angular.element(document.querySelector('.in-feed-col-1'));
+    let element2 = angular.element(document.querySelector('.in-feed-col-2'));
+    let element3 = angular.element(document.querySelector('.in-feed-col-3'));
 
-    var height1_c3 = element1[0].offsetHeight;
-    var height2_c3 = element2[0].offsetHeight;
-    var height3_c3 = element3[0].offsetHeight;
+    let height1_c3 = element1[0].offsetHeight;
+    let height2_c3 = element2[0].offsetHeight;
+    let height3_c3 = element3[0].offsetHeight;
 
-    for (var j = 0,q = data.length; j < q; j++) {
+    for (let j = 0, q = data.length; j < q; j++) {
       data[j]['type'] = 'f';
 
       if (height1_c3 <= height2_c3 && height1_c3 <= height3_c3) {

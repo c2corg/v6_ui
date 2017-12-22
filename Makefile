@@ -30,8 +30,8 @@ LIBS_JS_FILES += \
     node_modules/bootstrap-markdown/js/bootstrap-markdown.js \
     node_modules/angular/angular.min.js \
     node_modules/bootstrap/dist/js/bootstrap.min.js \
-    c2corg_ui/static/lib/angular-bootstrap/ui-bootstrap-custom-1.3.2.min.js \
-    c2corg_ui/static/lib/angular-bootstrap/ui-bootstrap-custom-tpls-1.3.2.min.js \
+    c2corg_ui/static/lib/angular-bootstrap/ui-bootstrap-custom-2.5.0.min.js \
+    c2corg_ui/static/lib/angular-bootstrap/ui-bootstrap-custom-tpls-2.5.0.min.js \
     node_modules/angular-gettext/dist/angular-gettext.min.js \
     node_modules/angular-messages/angular-messages.min.js \
     node_modules/angular-cookies/angular-cookies.min.js \
@@ -291,7 +291,7 @@ publish: template
 deps: c2corg_ui/static/build/deps.js c2corg_ui/static/build/deps.css
 
 # concatenate all JS dependencies into one file
-c2corg_ui/static/build/deps.js: $(LIBS_JS_FILES) c2corg_ui/static/build/locale_moment slick-assets
+c2corg_ui/static/build/deps.js: $(LIBS_JS_FILES) c2corg_ui/static/build/locale_moment
 	@echo "Creating deps.js"
 	awk 'FNR==1{print ";\n"}1' $(LIBS_JS_FILES) > $@
 
@@ -303,11 +303,6 @@ c2corg_ui/static/build/locale_moment: .build/node_modules.timestamp
 photoswipe-skins: .build/node_modules.timestamp
 	cp node_modules/photoswipe/dist/default-skin/default-skin.png c2corg_ui/static/build/default-skin.png
 	cp node_modules/photoswipe/dist/default-skin/default-skin.svg c2corg_ui/static/build/default-skin.svg
-
-# copy files used by "slick-carousel" (?!)
-slick-assets: .build/node_modules.timestamp
-	cp node_modules/slick-carousel/slick/ajax-loader.gif c2corg_ui/static/build/ajax-loader.gif
-	cp -r node_modules/slick-carousel/slick/fonts c2corg_ui/static/build/fonts
 
 # concatenate all CSS dependencies into one file
 c2corg_ui/static/build/deps.css: $(LIBS_CSS_FILES)

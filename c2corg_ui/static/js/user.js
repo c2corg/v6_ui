@@ -96,17 +96,17 @@ app.UserController.prototype.showLogin = function() {
  * @export
  */
 app.UserController.prototype.logout = function() {
-  this.api_.logoutFromApiAndDiscourse().then(function() {
+  this.api_.logoutFromApiAndDiscourse().then(() => {
     this.alerts_.addSuccess(this.gettext('You have been disconnected'));
-  }.bind(this)).finally(function() {
+  }).finally(() => {
     this.auth.removeUserData();
-    var path = this.ngeoLocation_.getPath();
+    let path = this.ngeoLocation_.getPath();
     if (path.indexOf('/edit/') !== -1 || path.indexOf('/account') !== -1) {
       // The user is editing a document or viewing the account configuration.
       // Going to the authentication page.
       this.showLogin();
     }
-  }.bind(this));
+  });
 };
 
 

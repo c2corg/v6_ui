@@ -64,11 +64,11 @@ app.DoctypeSelectorController = function(ngeoLocation) {
    */
   this.selected;
 
-  this.doctypes.forEach(function(doctype) {
+  this.doctypes.forEach((doctype) => {
     if (doctype['id'] === this.defaultType) {
       this.selected = doctype;
     }
-  }.bind(this));
+  });
 
   /**
    * @type {Array.<string>}
@@ -100,7 +100,7 @@ app.DoctypeSelectorController.prototype.redirect = function() {
     default:
       break;
   }
-  var url = '/' + this.selected['id'];
+  let url = '/' + this.selected['id'];
   if (this.params_.length) {
     url += '#' + this.params_.join('&');
   }
@@ -112,7 +112,7 @@ app.DoctypeSelectorController.prototype.redirect = function() {
  * @private
  */
 app.DoctypeSelectorController.prototype.setBbox_ = function() {
-  var bbox = this.location_.getFragmentParam('bbox');
+  let bbox = this.location_.getFragmentParam('bbox');
   if (bbox) {
     this.params_.push('bbox=' + bbox);
   }
@@ -123,7 +123,7 @@ app.DoctypeSelectorController.prototype.setBbox_ = function() {
  * @private
  */
 app.DoctypeSelectorController.prototype.setAreas_ = function() {
-  var a = this.location_.getFragmentParam('a');
+  let a = this.location_.getFragmentParam('a');
   if (a) {
     this.params_.push('a=' + a);
   }
@@ -134,7 +134,7 @@ app.DoctypeSelectorController.prototype.setAreas_ = function() {
  * @private
  */
 app.DoctypeSelectorController.prototype.setActivities_ = function() {
-  var act = this.location_.getFragmentParam('act');
+  let act = this.location_.getFragmentParam('act');
   if (act) {
     this.params_.push('act=' + act);
   }

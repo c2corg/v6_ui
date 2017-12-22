@@ -79,7 +79,7 @@ app.module.controller('MainController', app.MainController);
  * TODO : add an array of possible document types and make a for loop
  */
 app.MainController.prototype.isPath = function(path) {
-  var location = window.location.pathname;
+  let location = window.location.pathname;
   if (path === location) {
     // path = '/'
     return 'home';

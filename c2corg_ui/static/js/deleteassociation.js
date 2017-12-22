@@ -20,9 +20,9 @@ app.deleteAssociationDirective = function() {
       'childDoctype': '@'
     },
     link: function(scope, element, attrs, controller) {
-      $(element).on('click', function(e) {
-        var modal = controller.openModal_();
-        modal.result.then(function(res) {
+      $(element).on('click', (e) => {
+        let modal = controller.openModal_();
+        modal.result.then((res) => {
           if (res) {
             controller.unassociateDocument_(e);
           }
@@ -111,7 +111,7 @@ app.DeleteAssociationController = function($rootScope, $scope, $compile,
  * @private
  */
 app.DeleteAssociationController.prototype.openModal_ = function() {
-  var template = $('#delete-association-modal').clone();
+  let template = $('#delete-association-modal').clone();
   return this.modal_.open({
     animation: true,
     size: 'sm',
@@ -127,9 +127,9 @@ app.DeleteAssociationController.prototype.openModal_ = function() {
  * @private
  */
 app.DeleteAssociationController.prototype.unassociateDocument_ = function(event) {
-  this.api_.unassociateDocument(this.parentId, this.childId).then(function() {
+  this.api_.unassociateDocument(this.parentId, this.childId).then(() => {
     this.documentService_.removeAssociation(this.childId, this.childDoctype, event);
-  }.bind(this));
+  });
 };
 
 

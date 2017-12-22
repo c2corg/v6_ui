@@ -45,7 +45,7 @@ app.Url.prototype.buildDocumentUrl = function(documentType, documentId, locale, 
       .replace('{lang}', lang);
   }
 
-  var title = '';
+  let title = '';
   if (locale && documentType === 'routes' && locale['title_prefix']) {
     title = locale['title_prefix'] + ' ';
   }

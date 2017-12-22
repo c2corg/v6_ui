@@ -19,11 +19,11 @@ app.lengthConverterDirective = function() {
     * @param {angular.NgModelController} ngModel ngModel.
     */
     function(scope, el, attrs, ngModel) {
-      ngModel.$parsers.push(function(value) {
+      ngModel.$parsers.push((value) => {
         return value * 1000;
       });
 
-      ngModel.$formatters.push(function(value) {
+      ngModel.$formatters.push((value) => {
         return value / 1000;
       });
     }

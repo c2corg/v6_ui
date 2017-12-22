@@ -11,31 +11,31 @@ app.module.constant('constants', app.constants);
 
 app.constants = {
   SCREEN: {
-    SMARTPHONE : 768,
-    TABLET : 1099,
-    DEKTOP : 1400
+    SMARTPHONE: 768,
+    TABLET: 1099,
+    DEKTOP: 1400
   },
   STEPS: {
-    'climbing_outdoor' : 3,
-    'climbing_indoor' :  3,
-    'hut' : 3,
-    'gite' : 3,
-    'shelter' : 3,
-    'access' : 3,
-    'camp_site' : 3,
-    'local_product' : 3,
-    'paragliding_takeoff' : 3,
-    'paragliding_landing' : 3,
-    'weather_station' : 3,
+    'climbing_outdoor': 3,
+    'climbing_indoor': 3,
+    'hut': 3,
+    'gite': 3,
+    'shelter': 3,
+    'access': 3,
+    'camp_site': 3,
+    'local_product': 3,
+    'paragliding_takeoff': 3,
+    'paragliding_landing': 3,
+    'weather_station': 3,
     'webcam': 3,
     'slackline_spot': 3
   },
   REQUIRED_FIELDS: {
-    'waypoints': ['title' , 'lang', 'waypoint_type', 'elevation', 'longitude', 'latitude', 'url'],
+    'waypoints': ['title', 'lang', 'waypoint_type', 'elevation', 'longitude', 'latitude', 'url'],
     'articles': ['title', 'activities', 'categories', 'article_type'],
     'books': ['title', 'activities', 'book_types'],
-    'routes' : ['title' , 'lang', 'activities', 'waypoints'],
-    'outings' : ['title' , 'lang', 'date_start', 'routes', 'activities'],
+    'routes': ['title', 'lang', 'activities', 'waypoints'],
+    'outings': ['title', 'lang', 'date_start', 'routes', 'activities'],
     'images': ['image_type'],
     'profiles': [],
     'xreports': ['title', 'lang', 'activities', 'event_type', 'longitude', 'latitude'],

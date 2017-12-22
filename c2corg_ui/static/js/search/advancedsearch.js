@@ -129,10 +129,10 @@ app.AdvancedSearchController = function($scope, appApi, ngeoLocation,
     app.utils.detectDocumentIdFilter(this.location_);
 
   // Refresh the results when pagination or criterias have changed:
-  this.scope_.$root.$on('searchFilterChange', function(event, loadPrefs) {
+  this.scope_.$root.$on('searchFilterChange', (event, loadPrefs) => {
     this.recenter_ = loadPrefs || this.recenter_;
     this.getResults_();
-  }.bind(this));
+  });
 
   // Get the initial results when loading the page unless a map is used.
   // In that case wait to get the map extent before triggering the request.
@@ -142,9 +142,9 @@ app.AdvancedSearchController = function($scope, appApi, ngeoLocation,
 
   if (this.useMap) {
     // Highlight matching cards when a map feature is hovered
-    this.scope_.$root.$on('mapFeatureHover', function(event, id) {
+    this.scope_.$root.$on('mapFeatureHover', (event, id) => {
       this.onMapFeatureHover_(id);
-    }.bind(this));
+    });
   }
 };
 
@@ -158,16 +158,16 @@ app.AdvancedSearchController.prototype.getResults_ = function() {
     this.canceler_.resolve();
   }
 
-  var url = this.location_.getUriString();
-  var qstr = goog.uri.utils.getFragment(url) || '';
+  let url = this.location_.getUriString();
+  let qstr = goog.uri.utils.getFragment(url) || '';
   qstr += '&pl=' + this.gettextCatalog_.currentLanguage;
 
   this.canceler_ = this.$q_.defer();
   this.api_.listDocuments(this.doctype, qstr, this.canceler_.promise).
-    then(function(resp) {
+    then((resp) => {
       this.canceler_ = null;
       this.successList_(resp);
-    }.bind(this));
+    });
 };
 
 
@@ -179,7 +179,7 @@ app.AdvancedSearchController.prototype.successList_ = function(response) {
   if (!('data' in response)) {
     return;
   }
-  var data = /** @type {appx.SearchDocumentResponse} */ (response['data']);
+  let data = /** @type {appx.SearchDocumentResponse} */ (response['data']);
   this.documents = data.documents;
   this.total = data.total;
   this.noResults = this.documents.length === 0;
@@ -197,12 +197,12 @@ app.AdvancedSearchController.prototype.successList_ = function(response) {
  * @private
  */
 app.AdvancedSearchController.prototype.getFeatures_ = function() {
-  var features = [];
-  var format = new ol.format.GeoJSON();
-  for (var i = 0, n = this.documents.length; i < n; i++) {
-    var doc = this.documents[i];
+  let features = [];
+  let format = new ol.format.GeoJSON();
+  for (let i = 0, n = this.documents.length; i < n; i++) {
+    let doc = this.documents[i];
     if ('geometry' in doc && doc['geometry'] && doc['geometry']['geom']) {
-      var properties = this.createFeatureProperties_(doc);
+      let properties = this.createFeatureProperties_(doc);
       properties['geometry'] = format.readGeometry(doc['geometry']['geom']);
       features.push(new ol.Feature(properties));
     }
@@ -219,8 +219,8 @@ app.AdvancedSearchController.prototype.getFeatures_ = function() {
 app.AdvancedSearchController.prototype.createFeatureProperties_ = function(doc) {
   // Since the request is done with the "pl" parameter (prefered language),
   // the API returns the best locale first.
-  var locale = doc['locales'][0];
-  var properties = {
+  let locale = doc['locales'][0];
+  let properties = {
     'module': this.doctype,
     'documentId': doc['document_id'],
     'lang': locale['lang'],
