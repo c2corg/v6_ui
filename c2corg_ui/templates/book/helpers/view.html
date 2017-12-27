@@ -1,10 +1,11 @@
 <%namespace file="../../helpers/view.html" import="show_attr"/>
 
 <%def name="get_book_general(book)">\
-  <h3 ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#general">
+  <h3 ng-click="mainCtrl.animateHeaderIcon($event)" class="collapsible-title"
+      data-toggle="collapse" data-target="#general" data-controls="general" aria-expanded="true">
     <span translate>General</span> <span class="glyphicon glyphicon-menu-down"></span></h3>
-  <div class="finfo" id="general">
-    <div class="ficontent collapse in max">
+  <div class="finfo collapse in" id="general">
+    <div class="ficontent max">
 
       <span class="detail-text accordion">
 

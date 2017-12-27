@@ -15,7 +15,7 @@ app.protectedUrlBtnDirective = function() {
       'url': '@'
     },
     link: function(scope, el, attr, ctrl) {
-      el.click(function() {
+      el.click(() => {
         ctrl.redirectToProtectedUrl(scope.url);
       });
     }
@@ -50,8 +50,8 @@ app.ProtectedUrlBtnController.prototype.redirectToProtectedUrl = function(url) {
     window.location.href = url;
   } else {
     window.location.href = '{authUrl}#to={redirect}'
-        .replace('{authUrl}', this.authUrl_)
-        .replace('{redirect}', encodeURIComponent(url));
+      .replace('{authUrl}', this.authUrl_)
+      .replace('{redirect}', encodeURIComponent(url));
   }
 };
 

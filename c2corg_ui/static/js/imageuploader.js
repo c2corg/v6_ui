@@ -16,7 +16,7 @@ app.imageUploaderDirective = function() {
     controller: 'AppImageUploaderController',
     controllerAs: 'uplCtrl',
     bindToController: {
-      'activities' : '=',
+      'activities': '=',
       'categories': '=',
       'types': '='
     },
@@ -49,7 +49,7 @@ app.module.directive('appImageUploader', app.imageUploaderDirective);
  * @ngInject
  */
 app.ImageUploaderController = function($scope, $uibModal, $compile, $q,
-    appAlerts, appApi, appDocument, imageUrl, appUrl, appAuthentication) {
+  appAlerts, appApi, appDocument, imageUrl, appUrl, appAuthentication) {
 
   /**
    * @type {app.Document}
@@ -163,13 +163,13 @@ app.ImageUploaderController = function($scope, $uibModal, $compile, $q,
   this.scope_['types'] = this.types;
   this.scope_['categories'] = this.categories;
 
-  this.scope_.$watch(function() {
+  this.scope_.$watch(() => {
     return this.files;
-  }.bind(this), function() {
+  }, () => {
     if (this.files.length) {
       this.processFiles_();
     }
-  }.bind(this));
+  });
 
   /**
    * @type {boolean}
@@ -184,9 +184,9 @@ app.ImageUploaderController = function($scope, $uibModal, $compile, $q,
  */
 app.ImageUploaderController.prototype.processFiles_ = function() {
   this.areAllUploaded = false;
-  var file;
+  let file;
 
-  for (var i = 0; i < this.files.length; i++) {
+  for (let i = 0; i < this.files.length; i++) {
     file = this.files[i];
     if (!file['metadata']) {
       angular.extend(file, {
@@ -214,9 +214,9 @@ app.ImageUploaderController.prototype.processFiles_ = function() {
  * @private
  */
 app.ImageUploaderController.prototype.upload_ = function() {
-  var file;
+  let file;
 
-  for (var i = 0; i < this.files.length; i++) {
+  for (let i = 0; i < this.files.length; i++) {
     file = this.files[i];
 
     // avoid uploading multiple files at the same time
@@ -225,9 +225,9 @@ app.ImageUploaderController.prototype.upload_ = function() {
     }
 
     if (file['queued']) {
-      this.uploadFile_(file).then(function() {
+      this.uploadFile_(file).then(() => {
         this.upload_();
-      }.bind(this));
+      });
       return;
     }
   }
@@ -240,24 +240,24 @@ app.ImageUploaderController.prototype.upload_ = function() {
  * @private
  */
 app.ImageUploaderController.prototype.uploadFile_ = function(file) {
-  var canceller = this.q_.defer();
-  var promise = this.api_.uploadImage(file, canceller.promise, function(file, event) {
-    var progress = event.loaded / event.total;
+  let canceller = this.q_.defer();
+  let promise = this.api_.uploadImage(file, canceller.promise, ((file, event) => {
+    let progress = event.loaded / event.total;
     file['progress'] = 100 * progress;
-  }.bind(this, file));
+  }).bind(this, file));
 
   file['queued'] = false;
   file['uploading'] = promise;
   file['canceller'] = canceller;
 
-  return promise.then(function(resp) {
-    var image = new Image();
+  return promise.then((resp) => {
+    let image = new Image();
     image['src'] = file['src'];
 
     file['metadata']['filename'] = resp['data']['filename'];
     file['processed'] = true;
 
-  }.bind(this), function(resp) {
+  }, (resp) => {
     if (file['manuallyAborted']) {
       return;
     }
@@ -267,7 +267,7 @@ app.ImageUploaderController.prototype.uploadFile_ = function(file) {
       file['failed'] = resp.statusText;
     }
     file['progress'] = 0;
-  }.bind(this));
+  });
 };
 
 
@@ -276,8 +276,8 @@ app.ImageUploaderController.prototype.uploadFile_ = function(file) {
  * @private
  */
 app.ImageUploaderController.prototype.areAllUploadedCheck_ = function() {
-  var file;
-  for (var i = 0; i < this.files.length; i++) {
+  let file;
+  for (let i = 0; i < this.files.length; i++) {
     file = this.files[i];
     if (!file['processed']) {
       this.areAllUploaded = false;
@@ -293,31 +293,31 @@ app.ImageUploaderController.prototype.areAllUploadedCheck_ = function() {
  * @export
  */
 app.ImageUploaderController.prototype.save = function() {
-  var defer = this.q_.defer();
+  let defer = this.q_.defer();
 
   this.api_.createImages(this.files, this.documentService.document)
-  .then(function(data) {
-    var images = data['config']['data']['images'];
-    var imageIds = data['data']['images']; // newly created document_id
+    .then((data) => {
+      let images = data['config']['data']['images'];
+      let imageIds = data['data']['images']; // newly created document_id
 
-    $('.img-container').each(function(i) {
-      var id = imageIds[i]['document_id'];
-      images[i]['image_id'] = 'image-' + id;
-      var element = app.utils.createImageSlide(images[i],this.imageUrl_);
-      $('.photos').append(element);
+      $('.img-container').each((i) => {
+        let id = imageIds[i]['document_id'];
+        images[i]['image_id'] = 'image-' + id;
+        let element = app.utils.createImageSlide(images[i], this.imageUrl_);
+        $('.photos').append(element);
 
-      var scope = this.scope_.$new(true);
-      scope['photo'] = images[i];
-      scope['photo']['image_id'] = 'image-' + id;
-      this.documentService.document.associations['images'].push(scope['photo']);
-      this.compile_($('#image-' + id).contents())(scope); // compile the figure thumbnail with <app-slide-info>
+        let scope = this.scope_.$new(true);
+        scope['photo'] = images[i];
+        scope['photo']['image_id'] = 'image-' + id;
+        this.documentService.document.associations['images'].push(scope['photo']);
+        this.compile_($('#image-' + id).contents())(scope); // compile the figure thumbnail with <app-slide-info>
 
-    }.bind(this));
+      });
 
-    defer.resolve();
-  }.bind(this), function() {
-    defer.reject();
-  });
+      defer.resolve();
+    }, () => {
+      defer.reject();
+    });
 
   return defer.promise;
 };
@@ -329,8 +329,8 @@ app.ImageUploaderController.prototype.save = function() {
  * @return {string}
  */
 app.ImageUploaderController.prototype.setImageType_ = function() {
-  var type = app.utils.getDoctype(this.documentService.document.type);
-  var isColl = this.documentService.isCollaborative(type);
+  let type = app.utils.getDoctype(this.documentService.document.type);
+  let isColl = this.documentService.isCollaborative(type);
   return isColl ? 'collaborative' : 'personal';
 };
 
@@ -364,9 +364,9 @@ app.ImageUploaderController.prototype.abortFileUpload = function(file) {
 * @export
 */
 app.ImageUploaderController.prototype.abortAllUploads = function() {
-  this.files.forEach(function(file) {
+  this.files.forEach((file) => {
     this.abortFileUpload(file);
-  }.bind(this));
+  });
 };
 
 
@@ -387,8 +387,8 @@ app.ImageUploaderController.prototype.deleteImage = function(index) {
  * @private
  */
 app.ImageUploaderController.prototype.getImageMetadata_ = function(file) {
-  window.loadImage.parseMetaData(file, function(data) {
-    var exif = data.exif;
+  window.loadImage.parseMetaData(file, (data) => {
+    let exif = data.exif;
     if (exif) {
       file['exif'] = exif.getAll();
 
@@ -397,7 +397,7 @@ app.ImageUploaderController.prototype.getImageMetadata_ = function(file) {
         this.setGeolocation_(file);
       }
     }
-  }.bind(this));
+  });
 };
 
 
@@ -406,10 +406,10 @@ app.ImageUploaderController.prototype.getImageMetadata_ = function(file) {
  * @private
  */
 app.ImageUploaderController.prototype.setExifData_ = function(file) {
-  var exif = file['exif'];
-  var metadata = file['metadata'];
+  let exif = file['exif'];
+  let metadata = file['metadata'];
 
-  var date = this.parseExifDate_(exif, 'DateTimeOriginal');
+  let date = this.parseExifDate_(exif, 'DateTimeOriginal');
   if (date === null) {
     date = this.parseExifDate_(exif, 'DateTime');
   }
@@ -432,8 +432,8 @@ app.ImageUploaderController.prototype.parseExifDate_ = function(exifData, exifTa
   if (!exifData[exifTag]) {
     return null;
   }
-  var exifDate = exifData[exifTag];
-  var date = window.moment(exifDate, 'YYYY:MM:DD HH:mm:ss');
+  let exifDate = exifData[exifTag];
+  let date = window.moment(exifDate, 'YYYY:MM:DD HH:mm:ss');
   return date.isValid() ? date.format() : null;
 };
 
@@ -443,21 +443,21 @@ app.ImageUploaderController.prototype.parseExifDate_ = function(exifData, exifTa
  * @private
  */
 app.ImageUploaderController.prototype.setGeolocation_ = function(file) {
-  var lat = file['exif']['GPSLatitude'].split(',');
-  var lon = file['exif']['GPSLongitude'].split(',');
+  let lat = file['exif']['GPSLatitude'].split(',');
+  let lon = file['exif']['GPSLongitude'].split(',');
   lat = app.utils.convertDMSToDecimal(lat[0], lat[1], lat[2], file['exif']['GPSLatitudeRef']);
   lon = app.utils.convertDMSToDecimal(lon[0], lon[1], lon[2], file['exif']['GPSLongitudeRef']);
-  var worldExtent = ol.proj.get('EPSG:4326').getExtent();
+  let worldExtent = ol.proj.get('EPSG:4326').getExtent();
 
   if (!isNaN(lat) && !isNaN(lon) && ol.extent.containsXY(worldExtent, lon, lat)) {
-    var location = ol.proj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857');
-    var geom = {'coordinates': location, 'type': 'Point'};
+    let location = ol.proj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857');
+    let geom = {'coordinates': location, 'type': 'Point'};
 
     file['metadata']['geometry'] = {'geom': JSON.stringify(geom)};
     file['exif']['geo_label'] = ol.coordinate.toStringHDMS([lon, lat]);
   }
 
-  var elevation = parseFloat(file['exif']['GPSAltitude']);
+  let elevation = parseFloat(file['exif']['GPSAltitude']);
   if (!isNaN(elevation)) {
     file['metadata']['elevation'] = elevation;
   }
@@ -468,7 +468,7 @@ app.ImageUploaderController.prototype.setGeolocation_ = function(file) {
  * @export
  */
 app.ImageUploaderController.prototype.openModal = function() {
-  var template = $('#image-uploader').clone();
+  let template = $('#image-uploader').clone();
   this.modal_.open({
     animation: true,
     template: this.compile_(template)(this.scope_),
@@ -499,7 +499,7 @@ app.ImageUploaderController.prototype.selectOption = function(object, property, 
  * @export
  */
 app.ImageUploaderController.prototype.resizeIf = function(
-    file, width, height) {
+  file, width, height) {
   if (file.type === 'image/jpeg' || file.type === 'image/png') {
     return file.size > 2 * 1024 * 1024; /** 2 MB */
   }
@@ -517,7 +517,7 @@ app.ImageUploaderController.prototype.filterImageTypes = function(imageTypes) {
     // moderators have access to all image types
     return imageTypes;
   }
-  var removeCopyright = function(val) {
+  let removeCopyright = function(val) {
     return val !== 'copyright';
   };
   return imageTypes.filter(removeCopyright);
@@ -549,9 +549,9 @@ app.ImageUploaderModalController = function($scope, $uibModalInstance) {
    */
   this.modalInstance_ = $uibModalInstance;
 
-  $scope.$on('modal.closing', function(event, reason, closed) {
+  $scope.$on('modal.closing', (event, reason, closed) => {
     this.scope_['uplCtrl'].abortAllUploads();
-  }.bind(this));
+  });
 };
 
 
@@ -569,16 +569,16 @@ app.ImageUploaderModalController.prototype.close = function() {
  * @export
  */
 app.ImageUploaderModalController.prototype.save = function() {
-  var uplCtrl = this.scope_['uplCtrl'];
+  let uplCtrl = this.scope_['uplCtrl'];
   if (uplCtrl.saving) {
     // saving is already in progress
     return;
   }
   uplCtrl.saving = true;
-  uplCtrl.save().then(function() {
+  uplCtrl.save().then(() => {
     uplCtrl.saving = false;
     this.modalInstance_.close();
-  }.bind(this));
+  });
 };
 
 

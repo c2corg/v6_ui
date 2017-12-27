@@ -157,10 +157,10 @@ app.SliderController = function($scope, $element, $attrs, ngeoLocation) {
 
   this.getRangeFromUrl_();
 
-  this.element_.on('slide', function(event) {
+  this.element_.on('slide', (event) => {
     this.updateMinMax_(event.value);
     this.scope_.$apply();
-  }.bind(this));
+  });
 
   this.element_.on('slideStop', this.handleRangeChange_.bind(this));
 
@@ -172,20 +172,20 @@ app.SliderController = function($scope, $element, $attrs, ngeoLocation) {
  * @private
  */
 app.SliderController.prototype.getRangeFromUrl_ = function() {
-  var param = this.filter ? this.location_.getFragmentParam(this.filter) : '';
+  let param = this.filter ? this.location_.getFragmentParam(this.filter) : '';
   if (param) {
-    var range = param.split(',');
+    let range = param.split(',');
     if (range.length != 2) {
       return;
     }
     if (this.showStringValues_) {
-      var min = this.valuesList.indexOf(range[0]);
-      var max = this.valuesList.indexOf(range[1]);
+      let min = this.valuesList.indexOf(range[0]);
+      let max = this.valuesList.indexOf(range[1]);
       if (min !== -1 && max !== -1) {
         this.updateMinMax_([min, max]);
       }
     } else {
-      range = range.map(function(x) {
+      range = range.map((x) => {
         return parseInt(x, 10);
       });
       this.updateMinMax_(range);

@@ -12,10 +12,11 @@ from json import dumps
     show_associated_waypoints, show_associated_routes, show_associated_articles,
     show_associated_xreports, delete_association_confirmation_modal,
     associated_images_featurelist, show_badge, get_licence, show_merge_documents_dialog,
-    show_delete_document_dialog, get_document_description, generate_share_metadata, display_app_smartphone_info"/>
+    show_delete_document_dialog, get_document_description, generate_share_metadata,
+    display_app_smartphone_info, get_print_license"/>
 <%namespace file="helpers/view.html" import="get_outing_snow, get_outing_access,
     get_outing_participants, get_outing_general, get_outing_heights,
-    show_fulldate, get_conditions, get_outing_elevation_profile, get_outing_route_rating"/>
+    show_fulldate, get_conditions, get_outing_elevation_profile, get_outing_rating, get_outing_location"/>
 
 <%
 outing_id = outing['document_id']
@@ -105,12 +106,6 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
       </h1>
     </header>
 
-  % if outing.get('areas'):
-    <article class="location-static">
-      ${show_areas(outing)}
-    </article>
-  % endif
-
     <section class="view-details-section" app-view-details ng-class="{'row-list' : switchCtrl.showList}">
        <div class="row">
          <div class="col-xs-12 col-md-4 col-lg-3" id="left-column">
@@ -130,13 +125,14 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
            ${get_licence(outing)}
         </div>
          <div class="col-xs-12 col-md-8 col-lg-9" id="right-column">
-           <section id="document-informations" class="collapse in">
+           <section id="document-informations">
                <div class="finfo">
                 <div class="ficontent">
                   <div class="row">
                       ${get_outing_general(outing)}
+                      ${get_outing_location(outing)}
                       % if not version:
-                        ${get_outing_route_rating(outing['associations']['routes'][0])}
+                        ${get_outing_rating(outing)}
                       % endif
                       ${get_outing_heights(outing)}
                       ${get_outing_access(outing)}
@@ -189,6 +185,8 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
 
         ${get_comments(outing.get('disable_comments'))}
 
+        ${get_print_license(outing)}
+
         ${show_float_buttons(outing, lang, other_langs, missing_langs)}
       % endif
 
@@ -196,9 +194,6 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
 
       </div>
     </section>
-  </div>
-  <div class="text-center viewdoc-bottom">
-    <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);">&nbsp;<span class="glyphicon glyphicon-menu-up"></span></button>
   </div>
 
   % if not version:
@@ -214,7 +209,6 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
 
     <script>
       window.onload = function() {
-        ## init float-buttons tooltips
         $('[data-toggle=\'tooltip\']').tooltip();
       };
     </script>

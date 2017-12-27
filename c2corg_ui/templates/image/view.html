@@ -11,7 +11,7 @@ from json import dumps
     show_associated_waypoints, show_associated_routes, show_associated_articles,
     show_associated_outings, show_associated_books, delete_association_confirmation_modal,
     get_document_description, get_comments, get_licence, show_merge_documents_dialog,
-    show_delete_document_dialog, generate_share_metadata"/>
+    show_delete_document_dialog, generate_share_metadata, get_print_license"/>
 <%namespace file="helpers/view.html" import="get_image_general, get_image_camera_settings, show_image"/>
 
 <%
@@ -135,15 +135,14 @@ from json import dumps
 
                 ${get_comments()}
 
+                ${get_print_license(image)}
+
                 ${show_float_buttons(image, lang, other_langs, missing_langs)}
               % endif
 
            </div>
       </div>
     </section>
-  </div>
-  <div class="text-center">
-    <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);">&nbsp;<span class="glyphicon glyphicon-menu-up"></span></button>
   </div>
 
   % if not version:
@@ -157,7 +156,6 @@ from json import dumps
 
     <script>
       window.onload = function() {
-        ## init float-buttons tooltips
         $('[data-toggle=\'tooltip\']').tooltip();
       };
     </script>

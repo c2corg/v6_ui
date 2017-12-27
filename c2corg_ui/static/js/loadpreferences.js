@@ -17,7 +17,7 @@ app.loadPreferencesDirective = function() {
       'url': '@appLoadPreferencesUrl'
     },
     link: function(scope, el, attr, ctrl) {
-      el.click(function() {
+      el.click(() => {
         ctrl.applyPreferences();
       });
     }
@@ -88,10 +88,10 @@ app.LoadPreferencesController.prototype.applyPreferences = function() {
   if (this.preferences_) {
     this.loadPreferences_();
   } else {
-    this.api_.readPreferences().then(function(response) {
+    this.api_.readPreferences().then((response) => {
       this.preferences_ = /** @type {appx.UserPreferences} */ (response['data']);
       this.loadPreferences_();
-    }.bind(this));
+    });
   }
 };
 
@@ -100,10 +100,10 @@ app.LoadPreferencesController.prototype.applyPreferences = function() {
  * @private
  */
 app.LoadPreferencesController.prototype.loadPreferences_ = function() {
-  var params = this.getParams_();
+  let params = this.getParams_();
   if (this.url) {
-    var list = [];
-    for (var param in params) {
+    let list = [];
+    for (let param in params) {
       list.push(param + '=' + params[param]);
     }
     window.location = this.url + '#' + list.join('&');
@@ -123,8 +123,8 @@ app.LoadPreferencesController.prototype.loadPreferences_ = function() {
  * @private
  */
 app.LoadPreferencesController.prototype.getParams_ = function() {
-  var params = {};
-  var areas, activities;
+  let params = {};
+  let areas, activities;
   switch (this.module) {
     case 'outings':
     case 'routes':
@@ -143,8 +143,12 @@ app.LoadPreferencesController.prototype.getParams_ = function() {
     default:
       break;
   }
-  if (areas) params['a'] = areas;
-  if (activities) params['act'] = activities;
+  if (areas) {
+    params['a'] = areas;
+  }
+  if (activities) {
+    params['act'] = activities;
+  }
   return params;
 };
 
@@ -154,9 +158,9 @@ app.LoadPreferencesController.prototype.getParams_ = function() {
  * @private
  */
 app.LoadPreferencesController.prototype.getAreas_ = function() {
-  var data = this.preferences_.areas;
-  var areas = [];
-  for (var i = 0, n = data.length; i < n; i++) {
+  let data = this.preferences_.areas;
+  let areas = [];
+  for (let i = 0, n = data.length; i < n; i++) {
     areas.push(data[i].document_id);
   }
   return areas.join(',');

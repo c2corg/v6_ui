@@ -32,8 +32,8 @@ from c2corg_common.attributes import activities, waypoint_types, area_types
 
   <div class="document-types flex wrap-row">
     <div class="xreports doctype">
-      <h3 class="heading show-phone" ng-click="mainCtrl.animateHeaderIcon($event)"
-          data-toggle="collapse" data-target="#xreports">
+      <h3 class="heading show-phone collapsible-title" ng-click="mainCtrl.animateHeaderIcon($event)"
+          data-toggle="collapse" data-target="#xreports" aria-expanded="true" aria-controls="xreports">
         <span translate>Xreports</span><span class="glyphicon glyphicon-menu-down"></span>
       </h3>
       ${show_cards_types('activity', activities, 'xreports', 'act')}

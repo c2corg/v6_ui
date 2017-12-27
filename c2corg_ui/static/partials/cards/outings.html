@@ -48,23 +48,36 @@
            ng-click="$event.stopPropagation()">{{cardCtrl.showArea(doc['areas'])}}</a>
       </div>
       <div class="grow"></div>
+      <div class="group-infop">
+        <div class="parent-bubble inlist">
+          <div class="bubble" uib-tooltip="{{'author'| translate}}" tooltip-append-to-body="true">
+            <span class="value-title glyphicon glyphicon-pencil"></span>
+          </div>
+        </div>
+        <div class="text-bubble inlist">
+          <a ng-href="/profiles/{{::doc['author']['user_id']}}/{{::doc['locales'][0]['lang']}}"
+             title="{{::doc['author']['name']}}" ng-click="$event.stopPropagation()">{{::doc['author']['name']}}</a>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="parent-infop parent-infop-first large" ng-init="fullRatings = feedCtrl.getFullRatings()">
+  <div class="parent-infop parent-infop-first large" ng-init="fullRatings = cardCtrl.getFullRatings()">
     <div class="group-infop">
       <div class="infop-bar">
         <div class="group-infop">
-          <div class="parent-bubble inlist">
-            <div class="bubble" uib-tooltip="{{'author'| translate}}" tooltip-append-to-body="true">
-              <span class="value-title glyphicon glyphicon-pencil"></span>
+          <div class="parent-bubble" >
+            <div class="bubble">
+              <span class="icon-rating" ng-if="fullRatings"></span>
             </div>
           </div>
-          <div class="text-bubble inlist">
-            <a ng-href="/profiles/{{::doc['author']['user_id']}}/{{::doc['locales'][0]['lang']}}"
-               title="{{::doc['author']['name']}}" ng-click="$event.stopPropagation()">{{::doc['author']['name']}}</a>
+          <div class="text-bubble cotationbox" >
+            <div ng-repeat="(attr, val) in fullRatings" uib-tooltip="{{attr | translate}} : {{::val}}"
+              class="rating ng-scope" tooltip-append-to-body="true">
+              <span class="value">{{::val}}</span>
+            </div>
           </div>
         </div>
-        <div class="group-infop elevation_max"">
+        <div class="group-infop elevation_max">
           <div class="parent-bubble" ng-if="doc['elevation_max']">
             <div class="bubble" uib-tooltip="{{'elevation_max'| translate}}" tooltip-append-to-body="true">
               <span class="value-title glyphicon glyphicon-sort-by-attributes rotate-180"></span>
@@ -98,7 +111,7 @@
       </div>
     </div>
   </div>
-  <div class="parent-infop">
+  <div class="parent-infop outing-icon-infos">
     <div class="infop-bar">
       <div class="parent-activity">
         <div class="parent-bubble" ng-repeat="activity in doc.activities | limitTo: 2">
@@ -112,16 +125,24 @@
            ng-click="$event.preventDefault(); cardCtrl.remainingActivities = true">
            ...(+ {{::doc.activities.length - 2}})  
         </div>
-        <div class="parent-bubble" ng-if="cardCtrl.remainingActivities" ng-repeat="activity in ::doc.activities | limitTo: (2 - doc.activities.length)"
+        <div class="parent-bubble" ng-if="cardCtrl.remainingActivities" ng-repeat="activity in ::doc.activities | limitTo: (2 - doc.activities.length)">
           <a href="#" class="shcom" uib-tooltip="{{activity | translate}}">
             <div class="bubble">
               <span class="route-activity icon-{{::activity}}"></span>
             </div>
           </a>
         </div>
-      </div>    
-      <div class="grow">
       </div>
+      <div class="parent-bubble" ng-if="doc['img_count']">
+        <span class="glyphicon glyphicon-picture"
+              uib-tooltip="{{::doc['img_count']}} {{'picture(s)' | translate}}"
+              tooltip-append-to-body="true"></span>
+      </div>
+      <div class="parent-bubble" ng-if="doc['geometry']['has_geom_detail']"
+           uib-tooltip="{{'GPS Track' | translate}}" tooltip-append-to-body="true">
+        <span class="glyphicon glyphicon-flag"></span>
+      </div>
+      <div class="grow"></div>
       <div class="parent-bubble bubble-date">
         <div class="parent-hour">
           <div class="hour"><span class="d-hour">{{::doc['date_end'] | amUtc | amLocal | amDateFormat: 'DD/MM/YYYY'}}</span></div>

@@ -124,13 +124,19 @@ from pyramid.settings import asbool
             <p ng-message="required" translate>This field is required.</p>
           </div>
         </div>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" name="acceptTerms" ng-model="register.acceptTerms" required /> <span translate>I have read and agree to the</span>
+            <a href="${request.route_path('articles_view_id', id=106730)}" target="_blank" translate>terms of use</a>
+          </label>
+        </div>
 %if not asbool(request.registry.settings['skip.captcha.validation']):
         <div id="register-captcha-group" class="form-group">
           <div vc-recaptcha ng-model="register.captcha" on-expire="authCtrl.reloadCaptcha()" required></div>
         </div>
 %endif
         <p>
-          <button type="submit" class="btn blue-btn" ng-disabled="registerForm.$invalid" translate>Register</button>
+          <button type="submit" class="btn blue-btn" ng-disabled="registerForm.$invalid || !registerForm.acceptTerms" translate>Register</button>
         </p>
       </form>
       <p ng-hide="!authCtrl.uiStates.showRegisterForm">

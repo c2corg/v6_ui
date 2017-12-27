@@ -1,29 +1,38 @@
-  .viewdoc .view-details-map .map-fullscreen {
-    position: fixed !important;
-    width: calc ( 100% - 250px );
-    height: calc ( 100% - 48px ) !important;
-    top: 48px;
-    left: 250px;
-    z-index:10;
-    background-color: rgba(164,164,166,1);
-    @media @phone {
-      left: 0px;
-      width: 100%;
-    }
-    
-    app-baselayer-selector {
-      bottom: 60px;
-    }
+.viewdoc .view-details-map .map-fullscreen {
+  position: fixed !important;
+  width: ~"calc(100% - @{menu-width})";
+  height: ~"calc(100% - @{page-header-height}) !important";
+  top: @page-header-height;
+  left: @menu-width;
+  z-index: 10;
+  background-color: rgba(164, 164, 166, 1);
+
+  .fullscreen() {
+    left: 0;
+    width: 100%;
   }
+
+  @media @phone {
+    .fullscreen;
+  }
+
+  @media @tablet {
+    .fullscreen;
+  }
+
+  app-baselayer-selector { /* stylelint-disable-line selector-type-no-unknown */
+    bottom: 60px;
+  }
+}
+
 .documents-list-section-container {
   .btn-map-fullscreen {
     display: none;
-    }
+  }
 }
-.map {
 
-  
-  margin:0;
+.map {
+  margin: 0;
   position: relative;
 
   .glyphicon {
@@ -43,6 +52,7 @@
     top: 10px;
     right: 10px;
   }
+
   .map-unset-feature {
     position: absolute;
     z-index: 2;
@@ -59,9 +69,11 @@
     margin-right: 10px;
     margin-top: 1px;
     font-size: 0.8em;
+
     label {
       margin-bottom: 0;
     }
+
     .text {
       display: block;
       font-weight: normal;
@@ -94,8 +106,7 @@
   margin-top: 10px;
 }
 
-
-app-baselayer-selector {
+app-baselayer-selector { /* stylelint-disable-line selector-type-no-unknown */
   margin-left: 10px;
   position: absolute;
   bottom: 10px;
@@ -109,31 +120,35 @@ app-baselayer-selector {
   margin-top: 3px;
 }
 
-app-map-search {
+app-map-search { /* stylelint-disable-line selector-type-no-unknown */
   margin-left: 5px;
 
   .tt-menu {
     min-width: 14vw !important;
     max-width: 30vw !important;
-    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
-    -moz-box-shadow: 0 6px 12px rgba(0,0,0,.175);
-    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    -moz-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+
     @media @phone {
       max-width: 86vw !important;
       max-height: 130px;
       overflow-y: scroll;
     }
+
     .tt-dataset {
       background-color: white;
       min-height: 20px;
       min-width: 20px;
     }
+
     .results-loading {
       background: url("../img/loading.gif") no-repeat;
       background-size: 20px 20px;
       background-position: center;
       height: 30px;
     }
+
     .no-result {
       padding: 3px;
     }
@@ -158,13 +173,19 @@ app-map-search {
       display: flex;
 
       &:extend(.dropdown-menu > li > a);
-      &:hover, &:focus, &.tt-cursor {
+
+      &:hover,
+      &:focus,
+      &.tt-cursor {
         &:extend(.dropdown-menu > .active > a);
+
         cursor: pointer;
+
         .suggestion-title {
           color: white;
         }
       }
+
       .suggestion-title {
         font-weight: bold;
         color: graytext;
@@ -187,7 +208,8 @@ app-map-search {
   button {
     background-color: @btn-primary-bg;
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       background-color: darken(@btn-primary-bg, 10%);
       border-color: darken(@btn-primary-border, 25%);
     }

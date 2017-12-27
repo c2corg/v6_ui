@@ -1,8 +1,8 @@
 
 <%!
-from c2corg_common.attributes import activities, image_categories, image_types
-from c2corg_ui.templates.utils import get_lang_lists, get_title
-from json import dumps
+    from c2corg_common.attributes import activities, image_categories, image_types
+    from c2corg_ui.templates.utils import get_lang_lists, get_title
+    from json import dumps
 %>
 
 <%inherit file="../base.html"/>
@@ -14,18 +14,19 @@ from json import dumps
     show_associated_waypoints, show_associated_routes, show_associated_outings,
     show_associated_articles, show_associated_books, show_associated_xreports,
     delete_association_confirmation_modal, associated_waypoints_featurelist,
-    show_badge, get_document_description, get_licence, show_merge_documents_dialog,
-    show_delete_document_dialog, generate_share_metadata, display_app_smartphone_info" />
+    show_badge, get_document_description, get_licence, get_print_license,
+    show_merge_documents_dialog, show_delete_document_dialog,
+    generate_share_metadata, display_app_smartphone_info, get_print_license" />
 
 <%namespace file="helpers/view.html" import="get_route_location,
     get_route_glacier_gear, get_route_rating, get_route_general, get_route_heights,
     get_route_access, get_route_associated_maps, get_route_orientations,
-    get_route_gear"/>
+    get_route_gear" />
 
 <%
-route_id = route['document_id']
-route['doctype'] = 'routes'
-other_langs, missing_langs = get_lang_lists(route, lang)
+  route_id = route['document_id']
+  route['doctype'] = 'routes'
+  other_langs, missing_langs = get_lang_lists(route, lang)
 %>
 
 <%block name="pagelang">lang="${lang}"</%block>
@@ -37,7 +38,7 @@ other_langs, missing_langs = get_lang_lists(route, lang)
     <meta name="robots" content="noindex,follow">
   % else:
     <meta name="robots" content="index,follow">
-  %endif
+  % endif
 </%block>
 
 <%block name="moduleConstantsValues">
@@ -90,11 +91,14 @@ other_langs, missing_langs = get_lang_lists(route, lang)
 <%block name="share">
   ${generate_share_metadata(route, 'routes')}
 </%block>
+
 <div ng-cloak>
   <div class="viewdoc viewroute">
     <app-announcement></app-announcement>
     <header class="view-title-with-bg" ng-if="detailsCtrl.hasHeadband">
-      <div class="view-image-bg" ng-style="{'background-image': 'url('+this.headBands+')'}"><div class="view-filter-bg"></div></div>
+      <div class="view-image-bg" ng-style="{'background-image': 'url('+this.headBands+')'}">
+        <div class="view-filter-bg"></div>
+      </div>
 
       <h1 class="routes">
         <span class="title">${show_locale_title(locale)}</span>
@@ -109,19 +113,18 @@ other_langs, missing_langs = get_lang_lists(route, lang)
     </header>
     <section class="view-details-section" app-view-details ng-class="{'row-list' : switchCtrl.showList}">
       % if version:
-      ${show_archive_data('routes', route, locale, version)}
+        ${show_archive_data('routes', route, locale, version)}
       % endif
 
       <div class="row">
         <div class="col-xs-12 col-md-4 col-lg-3" id="left-column">
           <div class="finfo" ng-if="detailsCtrl.documentService.document.associations.images.length > 0 && detailsCtrl.hasVerticalImg">
             <div class="ficontent moz">
-              <img ng-src="{{detailsCtrl.createImageUrl(detailsCtrl.documentService.document.associations.images[0].filename, 'MI')}}" alt="{{detailsCtrl.documentService.document.associations.images[0].locales[0].title}}" class="fullimg"/>
+              <img ng-src="{{detailsCtrl.createImageUrl(detailsCtrl.documentService.document.associations.images[0].filename, 'MI')}}"
+                   alt="{{detailsCtrl.documentService.document.associations.images[0].locales[0].title}}"
+                   class="fullimg"/>
             </div>
           </div>
-          % if version:
-            ${show_archive_data('routes', route, locale, version)}
-          % endif
           <app-map class="view-details-map"></app-map>
           % if not version:
             ${display_app_smartphone_info('route')}
@@ -135,17 +138,17 @@ other_langs, missing_langs = get_lang_lists(route, lang)
           ${get_licence(route)}
         </div>
         <div class="col-xs-12 col-md-8 col-lg-9" id="right-column">
-          <section id="document-informations" class="collapse in flexmobile">
+          <section id="document-informations" class="flexmobile">
             <div class="finfo">
               <div class="ficontent">
                 <div class="row">
-                    ${get_route_general(route, locale)}
-                    ${get_route_location(route)}
-                    ${get_route_rating(route)}
-                    ${get_route_heights(route, locale)}
-                    ${get_route_glacier_gear(route)}
-                    ${get_route_access(route)}
-                    ${get_route_orientations(route)}
+                  ${get_route_general(route, locale)}
+                  ${get_route_location(route)}
+                  ${get_route_rating(route)}
+                  ${get_route_heights(route, locale)}
+                  ${get_route_glacier_gear(route)}
+                  ${get_route_access(route)}
+                  ${get_route_orientations(route)}
                 </div>
               </div>
             </div>
@@ -182,36 +185,31 @@ other_langs, missing_langs = get_lang_lists(route, lang)
 
             ${get_comments()}
 
+            ${get_print_license(route)}
+
             ${show_float_buttons(route, lang, other_langs, missing_langs)}
           % endif
         </div>
       </div>
-
     </section>
   </div>
 
-
-
-  <div class="text-center parent-scroll viewdoc-bottom">
-    <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);">&nbsp;<span class="glyphicon glyphicon-menu-up"></span></button>
-  </div>
-
   % if not version:
-  <div class="ng-hide">
-    <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
-    ${delete_association_confirmation_modal()}
-    ${show_missing_langs_links('routes', route, missing_langs)}
-    ${show_merge_documents_dialog('routes')}
-    ${show_delete_document_dialog('routes', lang, other_langs)}
-  </div>
+    <div class="ng-hide">
+      <div id="image-uploader" app-image-uploader activities="${activities}" 
+           categories="${image_categories}" types="${image_types}"></div>
+      ${delete_association_confirmation_modal()}
+      ${show_missing_langs_links('routes', route, missing_langs)}
+      ${show_merge_documents_dialog('routes')}
+      ${show_delete_document_dialog('routes', lang, other_langs)}
+    </div>
 
-    ${photoswipe_gallery()}
+  ${photoswipe_gallery()}
 
-  <script>
-    window.onload = function() {
-      ## init float-buttons tooltips
-      $('[data-toggle=\'tooltip\']').tooltip();
-    }
-  </script>
+    <script>
+      window.onload = function() {
+        $('[data-toggle=\'tooltip\']').tooltip();
+      }
+    </script>
   % endif
 </div>

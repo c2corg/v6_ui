@@ -73,7 +73,7 @@ app.ProgressBarController = function($interval) {
  * @export
  */
 app.ProgressBarController.prototype.step = function(step, document, direction) {
-  var el = '.create-edit-document .editing';
+  let el = '.create-edit-document .editing';
 
   switch (step) {
     case 1:
@@ -121,12 +121,12 @@ app.ProgressBarController.prototype.step = function(step, document, direction) {
  * @private
  */
 app.ProgressBarController.prototype.animateBar_ = function(step, direction) {
-  var percent = 100 / this.maxSteps;
-  var green = '#A9D361'; // completed color
-  var gray = '#B4B4B4'; // left color
-  var willBe;
-  var nextPosition;
-  var stopBack;
+  let percent = 100 / this.maxSteps;
+  let green = '#A9D361'; // completed color
+  let gray = '#B4B4B4'; // left color
+  let willBe;
+  let nextPosition;
+  let stopBack;
 
   $('.nav-step-selected').removeClass('nav-step-selected');
   $('.nav-step-' + step).addClass('nav-step-selected');
@@ -142,7 +142,7 @@ app.ProgressBarController.prototype.animateBar_ = function(step, direction) {
   }
 
   // bar animation, interval for a gradual filling
-  var interval = this.interval_(function() {
+  const interval = this.interval_(() => {
     // if the direction is forwards, animate bar to the right
     if (direction === 'forwards') {
       // animate till the end (120%)
@@ -176,7 +176,7 @@ app.ProgressBarController.prototype.animateBar_ = function(step, direction) {
       .css({'background-image': '-moz-linear-gradient(left, ' + green + ' 0,' + green + ' ' + willBe + '%,' + gray + ' ' + (willBe + 7) + '%,' + gray + ' 0%)'})
       .css({'background-image': '-ms-linear-gradient(left, ' + green + ' 0,' + green + ' ' + willBe + '%,' + gray + ' ' + (willBe + 7) + '%,' + gray + ' 0%)'})
       .css({'background-image': 'linear-gradient(left, ' + green + ' 0,' + green + ' ' + willBe + '%,' + gray + ' ' + (willBe + 7) + '%,' + gray + ' 0%)'});
-  }.bind(this), 10);
+  }, 10);
 };
 
 

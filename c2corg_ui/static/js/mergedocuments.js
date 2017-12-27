@@ -96,17 +96,18 @@ app.MergeDocumentsController.prototype.mergeDocuments = function() {
     return;
   }
 
-  var msg = this.gettextCatalog_.getString('Are you sure you want to merge?');
+  let msg = this.gettextCatalog_.getString('Are you sure you want to merge?');
   if (window.confirm(msg)) {
     this.appApi_.mergeDocuments(
-        this.sourceDocument.document_id, this.targetDocument.document_id).then(
-          function(response) {
-            this.closeDialog();
-            this.appAlerts_.addSuccess(this.gettextCatalog_.getString(
-                'Documents successfully merged'
-            ));
-          }.bind(this)
-    );
+      this.sourceDocument.document_id, this.targetDocument.document_id)
+      .then(
+        (response) => {
+          this.closeDialog();
+          this.appAlerts_.addSuccess(this.gettextCatalog_.getString(
+            'Documents successfully merged'
+          ));
+        }
+      );
   }
 };
 
@@ -127,8 +128,8 @@ app.MergeDocumentsController.prototype.getTargetTitle = function() {
     return null;
   }
 
-  var locale = this.targetDocument.locales[0];
-  var title = (locale.title_prefix) ? locale.title_prefix + ' : ' : '';
+  let locale = this.targetDocument.locales[0];
+  let title = (locale.title_prefix) ? locale.title_prefix + ' : ' : '';
   title += locale.title;
 
   return title;

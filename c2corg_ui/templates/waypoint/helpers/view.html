@@ -4,8 +4,11 @@
 ## MAPSINFO
 <%def name="get_waypoint_maps_info(waypoint)">\
   % if waypoint.get('maps_info') or waypoint.get('maps'):
-  <h3 id="title-associated-maps" ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-maps"><span translate>Map</span> <span class="glyphicon glyphicon-menu-down"></span></h3>
-  <div class="finfo" id="associated-maps">
+  <h3 id="title-associated-maps" ng-click="mainCtrl.animateHeaderIcon($event)" class="collapsible-title"
+      data-toggle="collapse" data-target="#associated-maps" aria-expanded="true" aria-controls="associated-maps">
+    <span translate>Map</span> <span class="glyphicon glyphicon-menu-down"></span>
+  </h3>
+  <div class="finfo collpase in" id="associated-maps">
     <div class="ficontent">
       <div class="list-green">
       <span class="detail-text accordion">
@@ -394,25 +397,23 @@
 
 <%def name="get_waypoint_access_period(locale, waypoint_type, open_tab=False)">\
   % if locale.get('access_period'):
-      <h3 ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#associated-routes">
-     % if waypoint_type in ['hut', 'gite', 'camp_site']:
-          <span translate>opening_periods</span>
-        % elif waypoint_type == 'local_product':
-          <span translate>opening_hours</span>
-        % elif waypoint_type == 'climbing_outdoor':
-          <span translate>restricted_access</span>
-        % else:
-          <span translate>access_period</span>
-        % endif
-        <span class="glyphicon glyphicon-menu-${'down' if open_tab else 'right'}"></span>
+  <h3 ng-click="mainCtrl.animateHeaderIcon($event)" class="${'' if open_tab else 'closed '}collapsible-title"
+      data-toggle="collapse" data-target="#access_period" aria-expanded="${'true' if open_tab else 'false'}" aria-controls="access_period">
+    % if waypoint_type in ['hut', 'gite', 'camp_site']:
+      <span translate>opening_periods</span>
+    % elif waypoint_type == 'local_product':
+      <span translate>opening_hours</span>
+    % elif waypoint_type == 'climbing_outdoor':
+      <span translate>restricted_access</span>
+    % else:
+      <span translate>access_period</span>
+    % endif
+    <span class="glyphicon glyphicon-menu-${'down' if open_tab else 'right'}"></span>
   </h3>
   
-     <div class="finfo"  class="collapse${' in' if open_tab else ''}" id="access_period" aria-expanded="true">
-              <div class="ficontent collapse in max">
-    
-
-          ${show_attr(locale, 'access_period')}
-   
+  <div class="finfo" class="collapse${' in' if open_tab else ''}" id="access_period">
+    <div class="ficontent max">
+      ${show_attr(locale, 'access_period')}
     </div>
   </div>
   % endif
@@ -420,24 +421,21 @@
 
 <%def name="get_waypoint_access_field(locale, waypoint_type, open_tab=False)">\
   % if locale.get('access'):
-   
-      <h3 class="${'' if open_tab else 'closed '}"
-          ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#access">
-          % if waypoint_type == 'access':
-            <span translate>public transportation access</span>
-          % elif waypoint_type in ['hut', 'climbing_indoor', 'climbing_outdoor']:
-            <span translate>pedestrian access</span>
-          % else:
-            <span translate>road or pedestrian access</span>
-          % endif
-          <span class="glyphicon glyphicon-menu-${'down' if open_tab else 'right'}"></span>
-      </h3>
-    <div class="finfo"  class="collapse${' in' if open_tab else ''}" id="access" aria-expanded="true">
-              <div class="ficontent collapse in max">
-    
-          ${show_attr(locale, 'access')}
-        </div>
-
+    <h3 class="${'' if open_tab else 'closed '}collapsible-title" ng-click="mainCtrl.animateHeaderIcon($event)"
+        data-toggle="collapse" data-target="#access" aria-expanded="${'true' if open_tab else 'false'}" aria-controls="access">
+        % if waypoint_type == 'access':
+          <span translate>public transportation access</span>
+        % elif waypoint_type in ['hut', 'climbing_indoor', 'climbing_outdoor']:
+          <span translate>pedestrian access</span>
+        % else:
+          <span translate>road or pedestrian access</span>
+        % endif
+        <span class="glyphicon glyphicon-menu-${'down' if open_tab else 'right'}"></span>
+    </h3>
+    <div class="finfo" class="collapse${' in' if open_tab else ''}" id="access">
+      <div class="ficontent max">
+        ${show_attr(locale, 'access')}
+      </div>
     </div>
   % endif
 </%def>

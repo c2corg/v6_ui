@@ -1,33 +1,40 @@
 .drop-box {
-  background: #F8F8F8;
-  border: 5px dashed #DDD;
+  background: #f8f8f8;
+  border: 5px dashed #ddd;
   height: 100%;
   width: 100%;
   text-align: center;
   padding: 25px;
 }
+
 .dragover {
   border: 5px dashed red;
 }
+
 #image-uploader {
   height: 95%;
+
   @media @phone {
     height: 90%;
     padding: 0;
   }
+
   > button {
     float: right;
     margin-top: 10px;
     margin-left: 5px;
   }
+
   p {
     margin-bottom: 5px;
     margin-top: 4px;
   }
 }
+
 .progress {
   margin: 0;
 }
+
 .images-container {
   display: flex;
   flex-flow: wrap row;
@@ -36,6 +43,7 @@
   overflow: auto;
   padding-bottom: 200px;
 }
+
 .uploaded-image {
   flex-basis: 23%;
   margin-left: 1%;
@@ -47,40 +55,50 @@
   @media @desktop {
     flex-basis: 31%;
   }
+
   @media @tablet {
     flex-basis: 48%;
   }
+
   @media @phone {
     flex-basis: 98%;
   }
+
   .image-attributes {
     align-content: strech;
     display: flex;
+
     .btn-group {
       flex-grow: 1;
+
       @media @phone {
         .dropdown-toggle {
-          font-size: .8em;
+          font-size: 0.8em;
         }
       }
     }
+
     .btn {
       padding-right: 0;
       padding-bottom: 2px;
       height: 35px;
       width: 100%;
     }
+
     .dropdown-menu.geo {
-      padding:10px;
+      padding: 10px;
+
       .search {
         width: 200px;
       }
+
       @media @phone {
         .search {
           width: 180px;
         }
       }
     }
+
     .dropdown-menu > li > div.radio {
       display: block;
       padding: 3px 20px;
@@ -90,21 +108,24 @@
       color: #333;
       white-space: nowrap;
     }
+
     .remove-image-btn {
       font-size: 0.9em;
+
       .glyphicon-trash {
         position: relative;
         margin: 5px -3px auto auto;
-        top: 0px;
+        top: 0;
         right: 8px;
       }
     }
   }
+
   .img-container {
-    width:100%;
+    width: 100%;
     height: 200px;
     transition: 0.2s;
-    background-color: #E2E2E2;
+    background-color: #e2e2e2;
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
@@ -113,25 +134,31 @@
     &:hover {
       background-color: black;
       transition: 0.2s;
+
       .exif {
         background-color: rgba(83, 83, 83, 0.58);
       }
-      .remove-image-btn, .exif p {
+
+      .remove-image-btn,
+      .exif p {
         opacity: 1;
         transition: 0.2s;
       }
     }
   }
+
   img {
     width: 50%;
     height: 50%;
     position: relative;
     margin-bottom: -50px;
   }
+
   .glyphicon {
     margin-right: 10px;
   }
 }
+
 .exif {
   position: relative;
   text-align: left;
@@ -139,6 +166,7 @@
   transition: 0.2s;
   min-height: 60px;
   color: white;
+
   p {
     opacity: 0;
   }
@@ -148,22 +176,24 @@
   width: 90%;
   height: 90%;
 
-  @media @phone{
+  @media @phone {
     width: 100%;
     height: 95%;
     margin: 0;
   }
+
   &.modal-dialog {
     margin: 5vh auto auto auto;
+
     @media @phone {
       margin-top: 3vh;
     }
   }
+
   .modal-content {
     padding: 2%;
     height: 100%;
   }
-
 }
 
 .photoswipe-image-container {
@@ -185,6 +215,7 @@
       transition: 0.3s;
     }
   }
+
   .image-infos {
     width: 20%;
     right: -20%;
@@ -194,37 +225,50 @@
     top: 0;
     position: absolute;
     transition: 0.3s;
+
     @media @tablet {
       width: 30%;
       right: -30%;
     }
+
     &.showing-info {
       right: 0;
       transition: 0.3s;
-      background-color: #1D1D1D;
+      background-color: #1d1d1d;
+
       @media @phone {
         width: 60%;
         padding: 40px 10px 0 30px;
       }
     }
+
     .loading-infos {
       height: 20px;
       width: 20px;
       margin: 20px auto;
     }
-    .activities, .categories, .image-type, .settings,
-    .title, .date, .description {
+
+    .activities,
+    .categories,
+    .image-type,
+    .settings,
+    .title,
+    .date,
+    .description {
       margin-top: 10px;
     }
+
     .glyphicon {
       margin-right: 5px;
       color: gray;
     }
+
     .glyphicon-ok {
       color: white !important;
     }
+
     .glyphicon-remove {
-      color: #F9ABAB;
+      color: #f9abab;
     }
   }
 }
@@ -237,6 +281,7 @@
   color: #c3c7d0;
   margin-top: -1px;
   margin-left: 3px;
+
   @media @phone {
     margin-top: -3px;
   }
@@ -262,7 +307,9 @@
 
 .pswp__button {
   pointer-events: all;
-  &.glyphicon, .glyphicon {
+
+  &.glyphicon,
+  .glyphicon {
     color: #fff;
   }
 }

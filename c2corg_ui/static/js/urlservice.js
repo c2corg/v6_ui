@@ -41,11 +41,11 @@ app.Url.prototype.buildDocumentUrl = function(documentType, documentId, locale, 
 
   if (documentType === 'profiles' || documentType === 'users') {
     return '/profiles/{id}/{lang}'
-    .replace('{id}', String(documentId))
-    .replace('{lang}', lang);
+      .replace('{id}', String(documentId))
+      .replace('{lang}', lang);
   }
 
-  var title = '';
+  let title = '';
   if (locale && documentType === 'routes' && locale['title_prefix']) {
     title = locale['title_prefix'] + ' ';
   }

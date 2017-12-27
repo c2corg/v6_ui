@@ -1,9 +1,19 @@
 .list.advanced-search {
   margin-top: 10px;
 }
+
+.hovered-card() {
+  background-color: #efefef;
+  transition: 0.1s ease-in-out;
+}
+
+.highlight .post {
+  .hovered-card;
+}
+
 .post {
-  -webkit-box-shadow: 0 1px 4px 0 rgba(0,0,0,0.14);
-  box-shadow: 0 1px 4px 0 rgba(0,0,0,0.14);
+  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
   z-index: 1;
   background-color: #fefefe;
   -webkit-border-radius: 2px;
@@ -15,7 +25,11 @@
   width: 100%;
   margin-bottom: 15px;
   outline: none;
-  cursor:pointer;
+  cursor: pointer;
+
+  &:hover {
+    .hovered-card;
+  }
 
   &.card-outing {
     .infoa {
@@ -24,16 +38,23 @@
   }
 
   &.card-article {
-    height: 175px;
-    .title {
+    height: 150px;
 
+    .title {
       white-space: normal;
     }
   }
 
+  &.card-article,
+  .post.card-outing,
+  .post.card-waypoint,
+  .post.route,
+  .post.area {
+    margin-bottom: 0;
+  }
+
   .value {
     color: #777;
-
     font-weight: normal;
   }
 
@@ -45,31 +66,35 @@
   }
 
   .parent-infop {
-    margin: 0px 10px;
+    margin: 0 10px;
 
     &.inlist {
-      display:none;
+      display: none;
     }
 
     .d-hour {
       font-size: 13px;
     }
-
   }
+
   .parent-img-gal {
     display: flex;
     margin-top: 1px;
-    .gal-3,.gal-2 {
+
+    .gal-3,
+    .gal-2 {
       width: 33.33%;
       background: #ccc;
+
       &.gal-2-first {
         margin-right: 1px;
       }
+
       &.centerg {
         margin: 0 1px;
       }
-      .image {
 
+      .image {
         width: 100%;
         display: block;
         background-size: cover;
@@ -79,16 +104,16 @@
       .imgo {
         width: 100%;
       }
-
     }
+
     .gal-2 {
       width: 50%;
     }
-
   }
 
   .cards-img {
     position: relative;
+
     .parent-infop {
       position: absolute;
       bottom: 0;
@@ -97,9 +122,11 @@
       padding: 13px 15px 15px 15px;
       height: 40px;
       margin: 0;
-      background: rgba(0,0,0,0.7);
+      background: rgba(0, 0, 0, 0.7);
+
       a {
         color: #fff;
+
         .text {
           text-overflow: ellipsis;
           height: 20px;
@@ -107,15 +134,13 @@
           width: 100%;
           white-space: nowrap;
         }
-
       }
+
       a:hover {
         text-decoration: none;
-        color: rgba(255,255,255,0.8);
+        color: rgba(255, 255, 255, 0.8);
       }
-
     }
-
   }
 
   .cont {
@@ -124,17 +149,11 @@
 
   .infoa {
     margin: 16px 16px 2px 16px;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-align: center;
-    box-align: center;
-    -webkit-align-items: center;
     align-items: center;
     border-bottom: 1px solid #ebebeb;
     padding-bottom: 6px;
+
     .parent-author {
       width: 120px;
       line-height: 18px;
@@ -146,6 +165,7 @@
       -webkit-box-flex: auto;
       -webkit-flex: auto;
       flex: auto;
+
       .under-author {
         font-weight: 500;
         margin-right: 16px;
@@ -155,8 +175,9 @@
         -webkit-flex: auto;
         flex: auto;
         width: ~"calc(100% - 200px)";
+
         .author {
-          margin-left: 0px;
+          margin-left: 0;
           max-width: 100%;
           white-space: nowrap;
           float: left;
@@ -166,8 +187,9 @@
           display: -ms-flexbox;
           display: flex;
           font-weight: bold;
+
           span {
-            color: rgba(0,0,0,0.54);
+            color: rgba(0, 0, 0, 0.54);
             margin-left: 6px;
             font-weight: normal;
             text-overflow: ellipsis;
@@ -177,16 +199,17 @@
         }
       }
     }
+
     .parent-hour {
       -webkit-box-flex: auto;
       -webkit-flex: auto;
       flex: auto;
       position: relative;
+
       .hour {
         position: absolute;
         top: 0;
         right: 0;
-
         font-size: 12px;
         font-weight: 400;
         -webkit-box-flex: none;
@@ -198,51 +221,40 @@
         text-align: right;
         word-wrap: break-word;
       }
-
     }
-    .pportrait
-    {
+
+    .pportrait {
       display: block;
       outline: none;
       flex: none;
+
       img {
         border-radius: 50%;
         display: block;
       }
+
       .waypoint-type {
-        color: #A9D361;
+        color: #a9d361;
         margin-right: 3px;
         font-size: 1.5em;
       }
     }
   }
+
   .parent-infop {
     .infop-bar {
-      display: -webkit-box;
-      display: -moz-box;
-      display: -webkit-flex;
-      display: -ms-flexbox;
       display: flex;
-      -webkit-box-align: center;
-      box-align: center;
-      -webkit-align-items: center;
       align-items: center;
-      -webkit-box-orient: horizontal;
-      box-orient: horizontal;
-      -webkit-flex-direction: row;
       flex-direction: row;
-      -webkit-flex-wrap: nowrap;
-      flex-wrap: nowrap;
-      box-pack: center;
       white-space: nowrap;
       height: 36px;
 
-
       .parent-activity {
         display: flex;
-        width: 125px;
+        width: 90px;
         overflow: hidden;
-        height: 35px;
+        height: 30px;
+        margin-right: 2px;
       }
 
       .parent-elevation {
@@ -252,68 +264,63 @@
       .parent-activity.large {
         width: 75%;
       }
-
     }
 
     .subicon {
-      color: #FFAA45;
+      color: #ffaa45;
       font-size: 15px;
       line-height: 26px;
     }
+
     .parent-bubble {
       display: block;
-      margin: 0px 2px 0 0;
-      -webkit-box-flex: 0;
-      box-flex: 0;
-      -webkit-flex-grow: 0;
+      margin: 0 2px 0 0;
       flex-grow: 0;
-      -webkit-flex-shrink: 0;
       flex-shrink: 0;
+
       &.topsubicon {
-        margin-top: 4px
+        margin-top: 4px;
       }
 
       .bubble {
         -webkit-user-select: none;
-        -webkit-transition: background .3s;
-        transition: background .3s;
+        transition: background 0.3s;
         border: 0;
         -webkit-border-radius: 50%;
         border-radius: 50%;
         cursor: pointer;
         display: inline-block;
-
         outline: none;
         overflow: hidden;
         position: relative;
         text-align: center;
         -webkit-tap-highlight-color: transparent;
-
         z-index: 0;
         background: transparent;
-        display: block;
         height: 25px;
         width: 25px;
         margin-top: 4px;
-        i { font-size: 21px;  }
+
+        i {
+          font-size: 21px;
+        }
+
         span {
           font-size: 2em;
-          color: #A9D361;
+          color: #a9d361;
         }
       }
 
       .no-bubble {
         display: inline-block;
         height: 36px;
-        height: 36px;
-
         line-height: 35px;
-
       }
 
       &.parent-infop-first {
         .parent-bubble {
-          margin: 0px;
+          margin: 0;
+
           .bubble {
             height: 24px;
             width: 36px;
@@ -322,12 +329,12 @@
       }
 
       .bubblej {
-        background: #eeeeee;
+        background: #eee;
         padding: 5px;
       }
 
       .bubblei {
-        background: #eeeeee;
+        background: #eee;
         padding: 8px;
       }
 
@@ -335,33 +342,33 @@
         width: 16px;
         height: 16px;
         border-radius: 16px;
-        margin-top:1px;
+        margin-top: 1px;
 
         &.excellent {
-          background-color:green;
+          background-color: green;
         }
 
         &.good {
-          background-color:#9ACD32;
+          background-color: #9acd32;
         }
 
         &.average {
-          background-color:#ff0;
+          background-color: #ff0;
         }
 
         &.poor {
-          background-color:red;
+          background-color: red;
         }
 
         &.awful {
-          background:#8B0000
+          background: #8b0000;
         }
-
       }
-      .bquality
-      {
+
+      .bquality {
         width: 20px;
         height: 20px;
+
         span {
           font-size: 1.3em;
           color: #d3d3d3;
@@ -370,17 +377,15 @@
     }
 
     .parent-bubble:last-child {
-      margin: 0px;
+      margin: 0;
+
       a:hover {
         text-decoration: none;
       }
     }
+
     .grow {
-      -webkit-box-flex: 1;
-      box-flex: 1;
-      -webkit-flex-grow: 1;
       flex-grow: 1;
-      -webkit-flex-shrink: 1;
       flex-shrink: 1;
     }
 
@@ -392,294 +397,79 @@
       text-overflow: ellipsis;
       overflow: hidden;
     }
-
   }
+
   .route {
     height: 154px;
   }
-
 }
 
 @media @phone {
   .row-list-phone {
-
-
-
-      .list-item {
-        margin-top: 0px;
-
-        a.text-link {
-          width: 25%;
-        }
-      }
-
-      .post {
-        display: flex;
-        justify-content: space-between;
-
-        box-shadow: none;
-        margin-bottom: 0;
-        border-bottom: 1px solid rgba(0,0,0,.12);
-        padding: padding: 1px 5px;
-
-
-        &.card-waypoint {
-          .infoa {
-            display: flex;
-            width: 250px;
-            .pportrait {
-              width: 40px;
-            }
-            .parent-author {
-              .under-author {
-                width: 100%;
-                float: left;
-              }
-            }
-
-          }
-          .parent-infop {
-            width: 20%;
-            &.parent-infop-first {
-              width: 70px;
-            }
-          }
-        }
-
-
-        .parent-text {
-          margin: 9px 0 0 10px;
-          .text {
-            width: auto;
-            float: none;
-          }
-          .text.emptyimg {
-            width: auto;
-            border-bottom: none;
-            padding: 0px;
-            overflow: auto;
-            white-space: normal;
-            text-overflow: inherit;
-          }
-        }
-
-        .parent-bubble {
-
-          &.topsubicon {
-            display: none;
-          }
-          &.bubble-date {
-            display: none;
-          }
-        }
-
-        .parent-img {
-          display: none;
-        }
-        .infoa {
-          width: 20%;
-        }
-        .parent-infop {
-          margin: 0px;
-          width: 15%;
-          &.large {
-
-            .infop-bar {
-              display:block;
-              .group-infop {
-                float: left;
-                &.elevation_max, &.height_diff_up , &.height_diff_difficulties {
-                  width: 65px;
-                }
-              }
-            }
-          }
-          &.area {
-            .parent-bubble {
-              display :none;
-            }
-          }
-
-          .infop-bar {
-            height: auto;
-            min-height: 37px;
-            .parent-elevation  {
-              display: none;
-            }
-          }
-        }
-        .parent-infop-first {
-          margin: 0px;
-          border-bottom: none;
-          padding-bottom: 0px;
-
-        }
-
-        .infoa  {
-          padding: 0px;
-          margin: 3px 0px 0px 10px;
-          display: block;
-          border-bottom: none;
-          .parent-hour {
-            flex: none;
-            float: right;
-            width: 50%;
-            .hour {
-              position: relative;
-              text-align:inherit;
-            }
-          }
-          .parent-author {
-
-            width: 100%;
-            display: block;
-            .under-author { float:right;
-
-              width:50%;
-              margin-right: 0px;
-              .author {
-                width: 100%;
-                text-overflow: ellipsis;
-                overflow: hidden;
-                white-space: pre-wrap;
-              }
-            }
-          }
-        }
-
-        .parent-infop.inlist {
-          display: none;
-        }
-      }
- 
-  }
-}
-@media @tablet , @desktop , @big {
-
-  .row-list {
-    .cotationbox {
-      width:  120px;
-    }
-    .outings {}
-    .post.route {
-      height: auto;
-    }
     .list-item {
-      margin-top: 0px;
+      margin-top: 0;
+
       a.text-link {
-        width: 35%;
-        flex-grow: 1;
+        width: 25%;
       }
     }
 
     .post {
       display: flex;
       justify-content: space-between;
-
       box-shadow: none;
       margin-bottom: 0;
-      border-bottom: 1px solid rgba(0,0,0,.12);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
       padding: 1px 5px;
 
-      &.route {
-
-        .parent-infop {
-          &.large {
-            width: 35%;
-          }
-        }
-
-
-      }
-      &.card-outing {
-        .inlist {
-          display: none;
-        }
-        .infoa {
-          display: block;
-          margin-top: 9px;
-          width: 10%;
-          .parent-author {
-            .under-author {
-              width: 100%;
-            }
-          }
-          .parent-hour {
-            width: 100%;
-          }
-          .author {
-            a {
-              font-weight: normal;
-              text-overflow: ellipsis;
-              overflow: hidden;
-            }
-          }
-        }
-        .outing-date {
-          width: 65px;
-        }
-      }
       &.card-waypoint {
-        .bquality{
-        display: none;
-        }
         .infoa {
           display: flex;
           width: 250px;
+
           .pportrait {
-            width: 20px;
+            width: 40px;
           }
+
           .parent-author {
             .under-author {
               width: 100%;
               float: left;
             }
           }
-
         }
+
         .parent-infop {
           width: 20%;
+
           &.parent-infop-first {
-            width: 70px;
+            width: 50%;
           }
         }
       }
 
-      &.card-article {
-        height: auto;
-        .title {
-          margin-right: 10px;
-        }
-       a.text-link {
-          width: 50%;
-        }
-        .parent-text {
-          .text.emptyimg {
-            display: flex;
-          }
-        }
-      }
       .parent-text {
         margin: 9px 0 0 10px;
+
         .text {
           width: auto;
           float: none;
-        }
-        .text.emptyimg {
-          width: auto;
-          border-bottom: none;
-          padding: 0px;
-          overflow: auto;
-          white-space: normal;
-          text-overflow: inherit;
+
+          &.emptyimg {
+            border-bottom: none;
+            padding: 0;
+            overflow: auto;
+            white-space: normal;
+            text-overflow: inherit;
+          }
         }
       }
 
       .parent-bubble {
-
         &.topsubicon {
           display: none;
         }
+
         &.bubble-date {
           display: none;
         }
@@ -688,67 +478,79 @@
       .parent-img {
         display: none;
       }
+
       .infoa {
         width: 20%;
       }
-      .parent-infop {
-        margin: 0px;
-        width: 15%;
-        &.large {
 
+      .parent-infop {
+        margin: 0;
+        width: 15%;
+
+        &.large {
           .infop-bar {
-            display:block;
+            display: block;
+
             .group-infop {
               float: left;
-              &.elevation_max, &.height_diff_up , &.height_diff_difficulties {
+
+              &.elevation_max,
+              &.height_diff_up,
+              &.height_diff_difficulties {
                 width: 65px;
               }
             }
           }
         }
+
         &.area {
           .parent-bubble {
-            display :none;
+            display: none;
           }
         }
 
         .infop-bar {
           height: auto;
           min-height: 37px;
-          .parent-elevation  {
+
+          .parent-elevation {
             display: none;
           }
         }
       }
-      .parent-infop-first {
-        margin: 0px;
-        border-bottom: none;
-        padding-bottom: 0px;
 
+      .parent-infop-first {
+        margin: 0;
+        border-bottom: none;
+        padding-bottom: 0;
       }
 
-      .infoa  {
-        padding: 0px;
-        margin: 3px 0px 0px 0px;
+      .infoa {
+        padding: 0;
+        margin: 3px 0 0 10px;
         display: block;
         border-bottom: none;
+
         .parent-hour {
           flex: none;
           float: right;
           width: 50%;
+
           .hour {
             position: relative;
-            text-align:inherit;
+            text-align: inherit;
           }
         }
-        .parent-author {
 
+        .parent-author {
           width: 100%;
           display: block;
-          .under-author { float:right;
 
-            width:50%;
-            margin-right: 0px;
+          .under-author {
+            float: right;
+            width: 50%;
+            margin-right: 0;
+
             .author {
               width: 100%;
               text-overflow: ellipsis;
@@ -758,9 +560,281 @@
           }
         }
       }
+
+      .parent-infop.inlist {
+        display: none;
+      }
+    }
+  }
+}
+
+@media @tablet, @desktop, @big {
+  .row-list {
+    .cotationbox {
+      width: 150px;
+    }
+
+    .post.route {
+      height: auto;
+    }
+
+    .list-item {
+      margin-top: 0;
+      flex: 1 1 100%;
+
+      a.text-link {
+        width: 25%;
+        flex-grow: 1;
+      }
+    }
+
+    .post {
+      display: flex;
+      justify-content: space-between;
+      box-shadow: none;
+      margin-bottom: 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+      padding: 1px 5px;
+
+      &.route {
+        .parent-infop {
+          &.large {
+            width: 370px;
+          }
+        }
+
+        .area {
+          width: 10%;
+        }
+
+        .orientation {
+          width: 30px;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
+      }
+
+      &.card-outing {
+        .cotationbox {
+          width: 75px;
+        }
+
+        .inlist {
+          display: none;
+        }
+
+        .infoa {
+          display: block;
+          margin-top: 9px;
+          width: 10%;
+
+          .parent-author {
+            .under-author {
+              width: 100%;
+            }
+          }
+
+          .parent-hour {
+            width: 100%;
+          }
+
+          .author {
+            max-width: 120px;
+
+            a {
+              font-weight: normal;
+              text-overflow: ellipsis;
+              overflow: hidden;
+            }
+          }
+        }
+
+        .outing-date {
+          width: 65px;
+        }
+
+        .outing-icon-infos {
+          width: 160px;
+        }
+
+        .area {
+          width: 20%;
+          max-width: 500px;
+        }
+
+        .large {
+          width: 25%;
+          max-width: 500px;
+          min-width: 230px;
+        }
+      }
+
+      &.card-waypoint {
+        .bquality {
+          display: none;
+        }
+
+        .infoa {
+          display: flex;
+          width: 250px;
+
+          .pportrait {
+            width: 20px;
+          }
+
+          .parent-author {
+            .under-author {
+              width: 100%;
+              float: left;
+            }
+          }
+        }
+
+        .parent-infop {
+          width: 20%;
+
+          &.parent-infop-first {
+            width: 50%;
+          }
+        }
+      }
+
+      &.card-article {
+        height: auto;
+
+        .title {
+          margin-right: 10px;
+        }
+
+        a.text-link {
+          width: 50%;
+        }
+
+        .parent-text {
+          .text.emptyimg {
+            display: flex;
+          }
+        }
+      }
+
+      .parent-text {
+        margin: 9px 0 0 10px;
+
+        .text {
+          width: auto;
+          float: none;
+
+          &.emptyimg {
+            border-bottom: none;
+            padding: 0;
+            overflow: auto;
+            white-space: normal;
+            text-overflow: inherit;
+          }
+        }
+      }
+
+      .parent-bubble {
+        &.topsubicon {
+          display: none;
+        }
+
+        &.bubble-date {
+          display: none;
+        }
+      }
+
+      .parent-img {
+        display: none;
+      }
+
+      .infoa {
+        width: 20%;
+      }
+
+      .parent-infop {
+        margin: 0;
+        width: 15%;
+
+        &.large {
+          .infop-bar {
+            display: block;
+            height: auto;
+
+            .group-infop {
+              float: left;
+
+              &.elevation_max,
+              &.height_diff_up,
+              &.height_diff_difficulties {
+                width: 65px;
+              }
+            }
+          }
+        }
+
+        &.area {
+          .parent-bubble {
+            display: none;
+          }
+        }
+
+        .infop-bar {
+          height: auto;
+          min-height: 37px;
+
+          .parent-elevation {
+            display: none;
+          }
+        }
+      }
+
+      .parent-infop-first {
+        margin: 0;
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+
+      .infoa {
+        padding: 0;
+        margin: 3px 0 0 0;
+        display: block;
+        border-bottom: none;
+
+        .parent-hour {
+          flex: none;
+          float: right;
+          width: 50%;
+
+          .hour {
+            position: relative;
+            text-align: inherit;
+          }
+        }
+
+        .parent-author {
+          width: 100%;
+          display: block;
+
+          .under-author {
+            float: right;
+            width: 50%;
+            margin-right: 0;
+
+            .author {
+              width: 100%;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              white-space: pre-wrap;
+            }
+          }
+        }
+      }
+
       .outings .parent-infop {
         display: none;
       }
+
       .parent-infop.inlist {
         display: none;
       }
@@ -774,32 +848,31 @@
       .parent-infop.inlist {
         display: none;
       }
-      .parent-infop {
-        .infop-bar {
-          .parent-activity {
-            width: 35px;
-          }
-        }
+    }
+
+    .post.card-outing {
+      .area {
+        width: 10%;
+        max-width: 120px;
       }
     }
   }
 }
 
 .parent-infop-first {
-  padding-bottom: 0px;
+  padding-bottom: 0;
   border-bottom: 1px solid #ebebeb;
 }
 
-.mt20{
+.mt20 {
   margin-top: 20px;
 }
 
 .post.area a .parent-text .summary {
   color: #919191;
-
 }
-.post .infoa .parent-hour .hour .d-hour{
 
+.post .infoa .parent-hour .hour .d-hour {
   height: 20px;
   display: block;
 }
@@ -818,23 +891,23 @@
   float: right;
   width: 100%;
   margin-left: -5px;
-  padding :0px;
+  padding: 0;
+
   &.emptyimg {
     border-bottom: 1px solid #ebebeb;
     padding: 0 0 6px 0;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-
   }
 }
+
 .post a .parent-text .text {
   color: #000;
   font-weight: bold;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-
 }
 
 .post a .parent-text .summary {
@@ -848,15 +921,18 @@
   width: 100%;
   overflow: hidden;
   max-height: 275px;
+
   img {
     display: block;
     width: 100%;
     margin: auto auto -3px;
   }
+
   a {
     display: block;
     width: 100%;
   }
+
   .img-bg {
     background-size: cover;
     width: 100%;
@@ -871,7 +947,9 @@
     }
   }
 
-  .img1, .img2, .img3 {
+  .img1,
+  .img2,
+  .img3 {
     display: flex;
     flex: auto;
     flex-direction: column;
@@ -879,36 +957,37 @@
     height: 80px;
     margin: auto 1px auto 0;
   }
+
   .img3 {
-    margin: auto ;
+    margin: auto;
   }
 
-  .img {.imgo {
-    margin-top: 15px;
-    width: 100%;
+  .img {
+    .imgo {
+      margin-top: 15px;
+      width: 100%;
     }
   }
-
 }
 
 .post .parent-infop-first .parent-bubble .bubble span {
   font-size: 1em;
-  color: #FFAA45;
+  color: #ffaa45;
 }
 
 .rating {
-  margin-right:2px;
+  margin-right: 2px;
 }
-
 
 .entry-content {
   h3 {
-    margin-top: 0px;
+    margin-top: 0;
   }
+
   h4 {
     margin-top: 30px;
-
   }
+
   .img-share {
     max-width: 150%;
     margin-left: -25%;
@@ -916,40 +995,28 @@
 }
 
 .fpcontent {
-
-  display: -webkit-box;
-  display: -moz-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
-  -moz-box-align: center;
-  box-align: center;
   align-items: center;
   background-color: #fff;
   height: 72px;
   cursor: pointer;
-  border-bottom: 1px solid rgba(0,0,0,0.12);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 .fleft {
   cursor: pointer;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
   flex-shrink: 1;
   height: 100%;
   min-width: 0;
   width: 100%;
-  -moz-box-align: center;
-  box-align: center;
   align-items: center;
 }
 
 .loc {
   font-style: italic;
 }
+
 .s48 {
   width: 36px;
   height: 36px;
@@ -962,8 +1029,8 @@
   width: 100%;
 }
 
-.fauthor{
-  color: rgba(0,0,0,0.87);
+.fauthor {
+  color: rgba(0, 0, 0, 0.87);
   font-size: 16px;
   margin-right: 2px;
   white-space: nowrap;
@@ -975,7 +1042,7 @@
 }
 
 .ftitle {
-  color: rgba(0,0,0,0.54);
+  color: rgba(0, 0, 0, 0.54);
   font-size: 14px;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -983,9 +1050,10 @@
   display: inline-block;
   max-width: 100%;
   line-height: 17px;
+
   .title {
     font-weight: bold;
-    color: rgba(0,0,0,0.87);
+    color: rgba(0, 0, 0, 0.87);
   }
 }
 
@@ -999,45 +1067,48 @@
 }
 
 #user-profile-data .post {
-  max-width:none;
+  max-width: none;
 }
 
-
-@media screen and (min-width: 768px) and (max-width: 1360px){
-
+@media screen and (min-width: 768px) and (max-width: 1360px) {
   .post {
     max-width: 100%;
   }
 }
+
 @media screen and (max-width: 767px) {
   .post {
-    border-radius: 0px;
-  }
-
-  .post {
+    border-radius: 0;
     min-width: initial;
     max-width: none;
     width: 100%;
   }
-
 }
-.post .author a {color: #000;}
+
+.post .author a {
+  color: #000;
+}
 
 @media @phone {
   .list.advanced-search {
-    padding: 0px;
+    padding: 0;
   }
+
   .list-item {
-    margin-right: 0px;
-    margin-left: 0px;
+    margin-right: 0;
+    margin-left: 0;
   }
+
   .route {
     height: auto;
   }
+}
 
+.show-more-activities {
+  align-self: center;
 }
 
 .show-more-activities:hover {
-    color: teal;
-    align-self: center;
-  }
+  color: teal;
+  align-self: center;
+}

@@ -45,9 +45,9 @@ app.MailinglistsController = function(appAuthentication, appApi, authUrl) {
   this.mailinglists = null;
 
   if (appAuthentication.isAuthenticated()) {
-    this.api_.readMailinglists().then(function(response) {
+    this.api_.readMailinglists().then((response) => {
       this.mailinglists = response['data'];
-    }.bind(this));
+    });
   } else {
     app.utils.redirectToLogin(authUrl);
   }
@@ -60,7 +60,7 @@ app.MailinglistsController = function(appAuthentication, appApi, authUrl) {
  */
 app.MailinglistsController.prototype.toggle = function(listname) {
   goog.asserts.assert(listname in this.mailinglists);
-  var data = {};
+  let data = {};
   data[listname] = !this.mailinglists[listname];
   this.api_.updateMailinglists(data);
 };

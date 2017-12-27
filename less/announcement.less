@@ -1,67 +1,49 @@
-app-announcement {
-  display: block;
-
-  .ttr {
-    text-align: right;
-  }
+app-announcement { /* stylelint-disable-line selector-type-no-unknown */
   .announcement {
-
     background-color: #cce5ff;
-    margin: 0 20px 20px 20px;
+    color: #004085;
     padding: 10px;
     border-radius: 0 0 2px 2px;
-    height: 55px;
     border-bottom: 1px solid #b8daff;
-    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
 
-    @media print {
-        display: none;
-    }
+    .msg {
+      flex-grow: 1;
+      margin-bottom: 5px;
+      font-size: 18px;
 
-    &.showAnnouncement {
-      height: auto !important;
-        .encart {
-          p {
-            line-height: normal;
-          }
-        }
-    }
-    .shtdesc {
-      margin-top: 10px;
-    }
-    .encart {
-      color: #004085;
+      @media @phone {
+        font-size: 15px;
+      }
+
       p {
+        text-align: justify;
 
-        margin-bottom: 5px;
-        font-size: 18px;
-        line-height: 40px;
-        @media @phone {
-          font-size: 15px;
-
-        }
-        .msg { p {
-            display: inline;
-            text-align: justify;
-          }
-        }
-      }
-      .btn {
-        float: right;
-        margin: 0px 0px 0px 10px;
-        @media @phone {
-          margin: 5px 0px 0px 10px;
+        &:not(:first-child) {
+          display: none;
         }
       }
     }
 
-    .closep {
-      text-align: right;
-      .glyphicon  {
-        color: #fff;
-        transform: rotate(270deg);
-        cursor: pointer;
+    button {
+      margin-left: 5px;
+      align-self: flex-end;
+      .blue-btn;
+
+      @media only screen and (max-width: @tablet-max) {
+        span.glyphicon {
+          margin-right: 0;
+        }
+
+        span:not(.glyphicon) {
+          display: none;
+        }
       }
+    }
+
+    &.showAnnouncement p {
+      display: block !important;
     }
   }
 }

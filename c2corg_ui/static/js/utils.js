@@ -38,13 +38,13 @@ app.utils.getDoctype = function(type) {
  * @param {ol.interaction.MouseWheelZoom} mouseWheelZoomInteraction
  */
 app.utils.setupSmartScroll = function(mouseWheelZoomInteraction) {
-  var scrollTimer;
-  $(window).on('scroll', function(e) {
+  let scrollTimer;
+  $(window).on('scroll', (e) => {
     mouseWheelZoomInteraction.setActive(false);
     if (scrollTimer) {
       clearInterval(scrollTimer);
     }
-    scrollTimer = setTimeout(function() {
+    scrollTimer = setTimeout(() => {
       mouseWheelZoomInteraction.setActive(true);
     }, 1000);
   });
@@ -62,7 +62,7 @@ app.utils.setupSmartScroll = function(mouseWheelZoomInteraction) {
  * @export
  */
 app.utils.pushToArray = function(object, property, value, event) {
-  var checkbox = $(event.currentTarget).find('input') || null;
+  let checkbox = $(event.currentTarget).find('input') || null;
 
   if (typeof value === 'boolean') {
     object[property] = value;
@@ -91,13 +91,14 @@ app.utils.pushToArray = function(object, property, value, event) {
  */
 app.utils.animateHeaderIcon = function(e) {
   // TO FIX - if you quickly double-click, it will add/remove classes even when div is or has already collapsed
-  if ($(e.target).hasClass('closed') && $(e.target).parent().find('.collapsing').length === 0) {
-    $(e.target).removeClass('closed');
+  let target = $(e.currentTarget);
+  if (target.hasClass('closed') && target.parent().find('.collapsing').length === 0) {
+    target.removeClass('closed');
   } else {
-    $(e.target).addClass('closed');
+    target.addClass('closed');
   }
-  var menuDown = $(e.target).find('.glyphicon-menu-down');
-  var menuUp = $(e.target).find('.glyphicon-menu-right');
+  let menuDown = target.find('.glyphicon-menu-down');
+  let menuUp = target.find('.glyphicon-menu-right');
 
   if (menuDown.length > 0) {
     menuDown.toggleClass('rotate-arrow-up');
@@ -114,7 +115,7 @@ app.utils.animateHeaderIcon = function(e) {
  * @export
  */
 app.utils.getImageFileBase64Source = function(file) {
-  var reader = new FileReader();
+  let reader = new FileReader();
   reader.onload = function(e) {
     return file.src = e.target.result;
   };
@@ -128,11 +129,11 @@ app.utils.getImageFileBase64Source = function(file) {
  * @export
  */
 app.utils.createImageSlide = function(file, imageUrl) {
-  var smallImage = app.utils.createImageUrl(file.filename, 'SI');
-  var bigImage = app.utils.createImageUrl(file.filename, 'BI');
-  var title = goog.string.htmlEscape(file['locales'][0]['title']);
-  var ahref = '<a href="' + imageUrl + bigImage + '" data-info-id="' + file['image_id'] + '-slide" title="' + title + '">';
-  var img = '<img src="' + imageUrl + smallImage + '"></a>';
+  let smallImage = app.utils.createImageUrl(file.filename, 'SI');
+  let bigImage = app.utils.createImageUrl(file.filename, 'BI');
+  let title = goog.string.htmlEscape(file['locales'][0]['title']);
+  let ahref = '<a href="' + imageUrl + bigImage + '" data-info-id="' + file['image_id'] + '-slide" title="' + title + '">';
+  let img = '<img src="' + imageUrl + smallImage + '"></a>';
 
   return '<figure id="' + file['image_id'] + '">' + ahref + img + '<app-slide-info></app-slide-info></figure>';
 };
@@ -146,7 +147,7 @@ app.utils.createImageSlide = function(file, imageUrl) {
  * @export
  */
 app.utils.createPhotoswipeSlideHTML = function(imgUrl, imgId, selector) {
-  var slide = $(selector + imgId + '-slide');
+  let slide = $(selector + imgId + '-slide');
   return '<div class="photoswipe-image-container">' +
            '<img src="' + imgUrl + '">' + slide.html() +
          '</div>';
@@ -161,9 +162,9 @@ app.utils.createPhotoswipeSlideHTML = function(imgUrl, imgId, selector) {
  */
 app.utils.createImageUrl = function(url, suffix) {
   if (url) {
-    var i = url.lastIndexOf('.');
-    var base = url.slice(0, i);
-    var ext = url.slice(i);
+    let i = url.lastIndexOf('.');
+    let base = url.slice(0, i);
+    let ext = url.slice(i);
     ext = suffix && ext == '.svg' ? '.jpg' : ext;
     return base + suffix + ext;
   }
@@ -192,18 +193,18 @@ app.utils.isTopoguide = function(location) {
  */
 app.utils.stringDivider = function(str, width, spaceReplacer) {
   if (str.length > width) {
-    var p = width;
+    let p = width;
     while (p > 0 && (str[p] !== ' ' && str[p] !== '-')) {
       p--;
     }
     if (p > 0) {
-      var left;
+      let left;
       if (str.substring(p, p + 1) === '-') {
         left = str.substring(0, p + 1);
       } else {
         left = str.substring(0, p);
       }
-      var right = str.substring(p + 1);
+      let right = str.substring(p + 1);
       return left + spaceReplacer + app.utils.stringDivider(right, width, spaceReplacer);
     }
   }
@@ -217,9 +218,9 @@ app.utils.stringDivider = function(str, width, spaceReplacer) {
  * @return {string}
  */
 app.utils.getTemplate = function(path, $templateCache) {
-  var tpl = $templateCache.get(path);
+  let tpl = $templateCache.get(path);
   if (goog.DEBUG && !tpl) {
-    var req = new XMLHttpRequest();
+    let req = new XMLHttpRequest();
     req.open('GET', path, false /* synchronous */);
     req.send(null);
     tpl = req.status === 200 ? req.responseText : 'Partial not found';
@@ -235,8 +236,8 @@ app.utils.getTemplate = function(path, $templateCache) {
  */
 app.utils.detectDocumentIdFilter = function(ngeoLocation) {
   // see app.utils.getDoctype() for types definitions
-  var associatedDocTypes = ['w', 'r', 'a', 'u'];
-  for (var i = 0, n = associatedDocTypes.length; i < n; i++) {
+  let associatedDocTypes = ['w', 'r', 'a', 'u'];
+  for (let i = 0, n = associatedDocTypes.length; i < n; i++) {
     if (ngeoLocation.hasFragmentParam(associatedDocTypes[i])) {
       return true;
     }
@@ -250,15 +251,15 @@ app.utils.detectDocumentIdFilter = function(ngeoLocation) {
  * @param {string} authUrl
  */
 app.utils.redirectToLogin = function(authUrl) {
-  var location = window.location;
-  var current_url = location.pathname + location.search + location.hash;
+  let location = window.location;
+  let current_url = location.pathname + location.search + location.hash;
   if (location.pathname === '/auth') {
     // do not redirect to the 'auth' page
     current_url = '/';
   }
   location.href = '{login}#to={current}'
-      .replace('{login}', authUrl)
-      .replace('{current}', encodeURIComponent(current_url));
+    .replace('{login}', authUrl)
+    .replace('{current}', encodeURIComponent(current_url));
 };
 
 
@@ -270,7 +271,7 @@ app.utils.redirectToLogin = function(authUrl) {
  * @return {number} decimal
  */
 app.utils.convertDMSToDecimal = function(degrees, minutes, seconds, direction) {
-  var decimal = Number(degrees) + (Number(minutes) / 60) + (parseFloat(seconds) / 3600);
+  let decimal = Number(degrees) + (Number(minutes) / 60) + (parseFloat(seconds) / 3600);
   // Don't do anything for N or E
   if (direction === 'S' || direction === 'W') {
     decimal = decimal * -1;
@@ -289,13 +290,13 @@ app.utils.convertDMSToDecimal = function(degrees, minutes, seconds, direction) {
  *         }
  */
 app.utils.repositionMenu = function(els) {
-  var boxBoundEl = $(els['boxBoundEl']);
-  var menu = $(els['menu']).next();
+  let boxBoundEl = $(els['boxBoundEl']);
+  let menu = $(els['menu']).next();
   menu.css('opacity', 0); // prevent from jumping on the screen
 
-  setTimeout(function() { // because at the moment of the click the menu is hidden and result would give 0.
-    var boxBounds = boxBoundEl[0].getBoundingClientRect();
-    var menuBounds = menu[0].getBoundingClientRect();
+  setTimeout(() => { // because at the moment of the click the menu is hidden and result would give 0.
+    let boxBounds = boxBoundEl[0].getBoundingClientRect();
+    let menuBounds = menu[0].getBoundingClientRect();
     if (menuBounds.right > boxBounds.right) {
       menu.css('left', -Math.abs(menuBounds.right - boxBounds.right + 10));
     }
@@ -325,7 +326,7 @@ app.utils.isLineFeature = function(feature) {
  */
 app.utils.hasActivity = function(route, activities) {
   if (route !== undefined) {
-    return activities.some(function(activity) {
+    return activities.some((activity) => {
       return $.inArray(activity, route.activities) > -1;
     });
   }

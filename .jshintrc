@@ -2,5 +2,6 @@
   // suppresses warnings about using [] notation (person['name']) W069
   "sub": true,
   // suppresses errors that occur when adding @typedef
-  "-W030": true
+  "-W030": true,
+  "esversion": 6
 }

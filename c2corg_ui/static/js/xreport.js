@@ -59,20 +59,20 @@ app.XreportController = function($scope, $http, $compile, appAlerts) {
    * An authenticated request is made to the UI server to get the xreport
    * private data as rendered HTML (data are available to creator/moderator).
    */
-  var url = '/xreports/data/{id}/{lang}'
+  let url = '/xreports/data/{id}/{lang}'
     .replace('{id}', this.xreportId.toString())
     .replace('{lang}', this.lang);
-  var promise = $http.get(url);
-  promise.catch(function(response) {
+  let promise = $http.get(url);
+  promise.catch((response) => {
     this.alerts_.addErrorWithMsg(
       this.alerts_.gettext('An error occured while loading this xreport private data'),
       response);
-  }.bind(this));
-  promise.then(function(response) {
-    var element = angular.element('#xreport-data');
+  });
+  promise.then((response) => {
+    let element = angular.element('#xreport-data');
     element.html(response['data']);
     $compile(element.contents())($scope.$parent);
-  }.bind(this));
+  });
 };
 
 

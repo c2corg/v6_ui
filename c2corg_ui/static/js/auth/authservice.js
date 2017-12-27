@@ -6,10 +6,11 @@ goog.require('app');
 /**
  * @param {string} apiUrl URL to the API.
  * @param {angular.Scope} $rootScope
+ * @param {angular.$log} $log
  * @constructor
  * @struct
  */
-app.Authentication = function(apiUrl, $rootScope) {
+app.Authentication = function(apiUrl, $rootScope, $log) {
 
   /**
    * @type {string}
@@ -31,6 +32,12 @@ app.Authentication = function(apiUrl, $rootScope) {
   this.langService_ = null;
 
   /**
+   * @type {angular.$log}
+   * @private
+   */
+  this.$log = $log;
+
+  /**
    * @type {string}
    * @private
    * @const
@@ -44,7 +51,7 @@ app.Authentication = function(apiUrl, $rootScope) {
   this.userData = null;
 
   // Load current user data from storage
-  var rawData = window.sessionStorage.getItem(this.USER_DATA_KEY_) ||
+  let rawData = window.sessionStorage.getItem(this.USER_DATA_KEY_) ||
       window.localStorage.getItem(this.USER_DATA_KEY_);
   if (rawData) {
     this.userData = this.parseUserData_(rawData);
@@ -52,12 +59,14 @@ app.Authentication = function(apiUrl, $rootScope) {
 
   // Replace parsed user data when storage changed in another tab.
   // Handles set and remove. Does not handle same tab events.
-  window.addEventListener('storage', function(event) {
+  window.addEventListener('storage', (event) => {
     if (event.key === this.USER_DATA_KEY_) {
       this.userData = this.parseUserData_(event.newValue);
-      if (!$rootScope.$$phase) $rootScope.$apply();
+      if (!$rootScope.$$phase) {
+        $rootScope.$apply();
+      }
     }
-  }.bind(this));
+  });
 };
 
 
@@ -92,7 +101,7 @@ app.Authentication.prototype.isAuthenticated = function() {
  */
 app.Authentication.prototype.isModerator = function() {
   if (this.userData) {
-    var roles = this.userData.roles;
+    let roles = this.userData.roles;
     return roles.indexOf('moderator') > -1;
   } else {
     return false;
@@ -203,15 +212,15 @@ app.Authentication.prototype.hasEditRightsArticle_ = function(articleType, autho
  */
 app.Authentication.prototype.setUserData = function(data) {
   try {
-    var raw = JSON.stringify(data);
+    let raw = JSON.stringify(data);
     this.userData = this.parseUserData_(raw);
 
     // set the interface language
     this.langService_.updateLang(this.userData.lang, /* syncWithApi */ false);
 
-    var storage = data.remember ? window.localStorage : window.sessionStorage;
+    let storage = data.remember ? window.localStorage : window.sessionStorage;
     if (goog.DEBUG) {
-      console.log('Stored user data in', data.remember ? 'local' : 'session');
+      this.$log.log('Stored user data in', data.remember ? 'local' : 'session');
     }
     storage.setItem('userData', raw);
     return true;
@@ -221,7 +230,7 @@ app.Authentication.prototype.setUserData = function(data) {
     // browser.
     // TODO: display error message to user
     if (goog.DEBUG) {
-      console.error('Fatal : failed to set authentication token', e);
+      this.$log.error('Fatal : failed to set authentication token', e);
     }
     return false;
   }
@@ -248,7 +257,7 @@ app.Authentication.prototype.removeUserData = function() {
  */
 app.Authentication.prototype.parseUserData_ = function(raw) {
   if (raw) {
-    var data = /** @type {appx.AuthData} */ (JSON.parse(raw));
+    let data = /** @type {appx.AuthData} */ (JSON.parse(raw));
     // Make data immutable
     Object.freeze(data);
     Object.freeze(data.roles);
@@ -266,8 +275,8 @@ app.Authentication.prototype.parseUserData_ = function(raw) {
 app.Authentication.prototype.isExpired_ = function() {
   goog.asserts.assert(!!this.userData, 'this.userData should not be null');
 
-  var now = Date.now() / 1000; // in seconds
-  var expire = this.userData.expire;
+  let now = Date.now() / 1000; // in seconds
+  let expire = this.userData.expire;
   if (now > expire) {
     this.removeUserData();
     return true;
@@ -288,14 +297,14 @@ app.Authentication.prototype.isExpired_ = function() {
  * @private
  */
 app.Authentication.prototype.handle_token_renewal_ = function(now, expire) {
-  var storage = window.localStorage;
-  var pending = parseInt(storage.getItem('last_renewal') || 0, 10);
+  let storage = window.localStorage;
+  let pending = parseInt(storage.getItem('last_renewal') || 0, 10);
 
   if (!!this.http_ && now > pending + 15) {
     // If no pending renewal or more than 15s after last one
     if (goog.DEBUG) {
-      console.log('Renewing authorization expiring on',
-          new Date(expire * 1000));
+      this.$log.log('Renewing authorization expiring on',
+        new Date(expire * 1000));
     }
 
     try {
@@ -305,17 +314,17 @@ app.Authentication.prototype.handle_token_renewal_ = function(now, expire) {
     }
 
     this.http_.post(this.apiUrl_ + '/users/renew', {}).then(
-        function(response) {
-          this.setUserData(response.data);
-          if (goog.DEBUG) {
-            console.log('Done renewing authorization');
-          }
-        }.bind(this),
-        function() {
-          if (goog.DEBUG) {
-            console.log('Failed renewing authorization');
-          }
-        });
+      (response) => {
+        this.setUserData(response.data);
+        if (goog.DEBUG) {
+          this.$log.log('Done renewing authorization');
+        }
+      },
+      function() {
+        if (goog.DEBUG) {
+          this.$log.log('Failed renewing authorization');
+        }
+      });
   }
 };
 
@@ -330,19 +339,19 @@ app.Authentication.prototype.handle_token_renewal_ = function(now, expire) {
  * @export
  */
 app.Authentication.prototype.addAuthorizationToHeaders = function(url,
-    headers) {
-  var token = this.userData ? this.userData.token : null;
+  headers) {
+  let token = this.userData ? this.userData.token : null;
   if (token && !this.isExpired_()) {
     if (goog.DEBUG && url.indexOf('http://') === 0) {
       // FIXME: ideally, should prevent the operation in prod mode
-      console.log('WARNING: added auth header to unsecure request to ' + url);
+      this.$log.log('WARNING: added auth header to unsecure request to ' + url);
     }
     headers['Authorization'] = 'JWT token="' + token + '"';
     return true;
   }
 
   if (goog.DEBUG) {
-    console.log('Application error, trying to authenticate request to ' +
+    this.$log.log('Application error, trying to authenticate request to ' +
         url + ' with missing or expired token');
   }
   return false;
@@ -399,10 +408,11 @@ app.Authentication.prototype.needAuthorization = function(method, url) {
  * @private
  * @param {string} apiUrl
  * @param {angular.Scope} $rootScope
+ * @param {angular.$log} $log
  * @return {app.Authentication}
  */
-app.AuthenticationFactory_ = function(apiUrl, $rootScope) {
-  return new app.Authentication(apiUrl, $rootScope);
+app.AuthenticationFactory_ = function(apiUrl, $rootScope, $log) {
+  return new app.Authentication(apiUrl, $rootScope, $log);
 };
 app.module.factory('appAuthentication', app.AuthenticationFactory_);
 

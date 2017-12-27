@@ -1,22 +1,21 @@
-@import 'variables.less';
-
-
-.googleplay, .appstore {
+.googleplay,
+.appstore {
   width: 100%;
   display: inline-block;
   text-align: center;
   margin-top: 10px;
+
   img {
     width: 70%;
-      @media @tablet {
-    width: 50%;
-  }
-  
-  @media @desktop {
-    width: 100%;
-  }
-  }
 
+    @media @tablet {
+      width: 50%;
+    }
+
+    @media @desktop {
+      width: 100%;
+    }
+  }
 }
 
 .text-center-vertical {
@@ -24,18 +23,23 @@
   align-items: center;
   justify-content: center;
 }
+
 .hide-only-mobile {
   display: block;
+
   @media @phone {
-   display: none;
+    display: none;
   }
 }
+
 .show-only-mobile {
   display: none;
+
   @media @phone {
-   display: block !important;
+    display: block !important;
   }
 }
+
 .show {
   opacity: 1 !important;
   visibility: visible !important;
@@ -66,8 +70,10 @@
     font-size: 2em;
   }
 }
+
 .uib-datepicker-popup .uib-button-bar {
   padding: 7px 5px 5px;
+
   span.pull-left {
     float: none !important;
   }
@@ -75,92 +81,112 @@
   .uib-datepicker-current {
     .btn-primary();
   }
+
   .uib-close {
     .btn-success();
   }
 }
+
 .uib-datepicker {
   .btn-info {
     .orange-btn();
   }
 }
 
-.orange-btn, .gray-btn, .green-btn, .blue-btn {
+.orange-btn,
+.gray-btn,
+.green-btn,
+.blue-btn {
   color: white;
   font-weight: bold;
   font-variant: small-caps;
+
   &:hover {
     color: white;
   }
-  &:focus, &:active {
+
+  &:focus,
+  &:active {
     color: white;
   }
+
   .glyphicon {
     color: white;
     margin-right: 5px;
   }
+
   a {
     color: white;
+
     &:hover {
       text-decoration: none;
     }
   }
+
   transition: 0.1s;
 }
 
 .orange-btn {
   background-color: @C2C-orange;
   border-color: @C2C-orange;
-  &:hover, &:active {
-    background-color: #FF9416;
-    border-color: #FF9416;
+
+  &:hover,
+  &:active {
+    background-color: #ff9416;
+    border-color: #ff9416;
     transition: 0.1s;
   }
 }
+
 .gray-btn {
   background-color: graytext;
   border-color: graytext;
+
   &:hover {
-    background-color: #B89191;
-    border-color: #B89191;
+    background-color: #b89191;
+    border-color: #b89191;
     transition: 0.1s;
   }
 }
+
 .blue-btn {
   background-color: @brand-primary;
   border-color: @brand-primary;
+
   &:hover {
     background-color: #286090;
     border-color: #286090;
     transition: 0.1s;
   }
 }
+
 .green-btn {
   background-color: @bright-green;
   border-color: @bright-green;
+
   &:hover {
-    background-color: #4C9B5D;
-    border-color: #4C9B5D;
+    background-color: #4c9b5d;
+    border-color: #4c9b5d;
     transition: 0.1s;
   }
 }
 
-input[type=checkbox]{
+input[type=checkbox] {
   width: 0;
   display: none;
 }
 
 input[type=checkbox] + * {
   padding-left: 25px;
-  display:inline;
-  line-height: 23x;
-  background-repeat:no-repeat;
+  display: inline;
+  line-height: 23px;
+  background-repeat: no-repeat;
   background-position: 0 1px;
   padding-bottom: 2px;
   font-size: 1.1em;
   color: #333;
-  cursor:pointer;
-  background-image:url(../img/checkbox-unchecked.svg);
+  cursor: pointer;
+  background-image: url(../img/checkbox-unchecked.svg);
   transition: 0.2s ease-in-out;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -168,11 +194,10 @@ input[type=checkbox] + * {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  transition: 0.2s;
 }
 
 input[type=checkbox]:checked + * {
-  background-image:url(../img/checkbox-checked.svg);
+  background-image: url(../img/checkbox-checked.svg);
   transition: 0.2s;
 }
 
@@ -185,13 +210,20 @@ input[type=checkbox]:checked + * {
   color: @bright-green;
 }
 
-.rotate-arrow-down {
-  transform: rotateZ(90deg);
-  transition: .3s;
-}
-.rotate-arrow-up {
-  transform: rotateZ(-90deg);
-  transition: .3s;
+.collapsible-title {
+  span.glyphicon {
+    transition: 0.3s;
+  }
+
+  .rotate-arrow-down {
+    transform: rotateZ(90deg);
+    transition: 0.3s;
+  }
+
+  .rotate-arrow-up {
+    transform: rotateZ(-90deg);
+    transition: 0.3s;
+  }
 }
 
 .loading-gif {
@@ -216,6 +248,7 @@ input[type=checkbox]:checked + * {
 .glyphicon-ok {
   color: #3c763d !important;
 }
+
 .option-selected {
   background-color: #f7931d !important;
   color: white !important;
@@ -235,16 +268,14 @@ input[type=checkbox]:checked + * {
   border: 1px solid transparent;
   border-radius: 4px;
   margin-top: 1%;
-  transition: .2s ease-in-out;
 
-  >span {
+  > span {
     pointer-events: none;
   }
 
   &.closed {
     background-color: white !important;
     color: @C2C-orange;
-    transition: .2s ease-in-out;
 
     .glyphicon {
       color: @C2C-orange;
@@ -253,9 +284,9 @@ input[type=checkbox]:checked + * {
 
   .glyphicon {
     float: right;
-    transition: .3s;
+    transition: 0.3s;
     color: white;
-    font-size: .8em
+    font-size: 0.8em;
   }
 
   &:not(.show-phone) {
@@ -265,21 +296,17 @@ input[type=checkbox]:checked + * {
   }
 }
 
-h3, h2 {
+h3,
+h2 {
   margin-top: 0;
   margin-bottom: 0;
 }
 
 textarea {
   height: 100px !important;
+
   @media @phone {
     height: 135px !important;
-  }
-}
-
-btn-lg {
-  @media @phone {
-    padding: 7px 11px;
   }
 }
 
@@ -305,9 +332,12 @@ p {
   .location {
     width: 250px;
   }
-  .soft-snow,  .total-snow  {
+
+  .soft-snow,
+  .total-snow {
     width: 80px;
   }
+
   .delete {
     width: 10px;
   }
@@ -316,8 +346,9 @@ p {
 @-webkit-keyframes turnIn {
   from {
     opacity: 0;
-      transform: rotateX(-90deg);
+    transform: rotateX(-90deg);
   }
+
   to {
     transform: rotateX(0deg);
     opacity: 1;
@@ -327,8 +358,9 @@ p {
 @keyframes turnIn {
   from {
     opacity: 0;
-      transform: rotateX(-90deg)
+    transform: rotateX(-90deg);
   }
+
   to {
     transform: rotateX(0deg);
     opacity: 1;
@@ -350,8 +382,6 @@ p {
 }
 
 .new-item {
-  -webkit-animation: turnIn 0.5s linear forwards;
-  -o-animation: turnIn 0.5s linear forwards;
   animation: turnIn 0.5s linear forwards;
   transition: all 0.5s ease-in-out !important;
 }
@@ -359,12 +389,9 @@ p {
 .remove-item {
   white-space: nowrap;
   overflow: hidden;
-  -webkit-animation: removeItem 0.5s linear forwards;
-  -o-animation: removeItem 0.5s linear forwards;
   animation: removeItem 0.5s linear forwards;
-  transition: ease-in-out .5;
+  transition: ease-in-out 0.5;
 }
-
 
 .flex {
   display: flex;
@@ -406,9 +433,11 @@ p {
   flex-direction: column;
   height: 100%;
 }
+
 .center-items-align {
   align-items: center;
 }
+
 .quality {
   display: inline-table;
   position: absolute;
@@ -425,7 +454,16 @@ p {
 .pointer {
   cursor: pointer;
 }
+
 @keyframes fadein {
   from { opacity: 0; }
-  to   { opacity: 1; }
+  to { opacity: 1; }
+}
+
+.print-only {
+  display: none;
+
+  @media print {
+    display: initial;
+  }
 }

@@ -25,14 +25,14 @@ goog.require('app.Document');
  * @ngInject
  */
 app.XreportEditingController = function($scope, $element, $attrs, $http,
-        $uibModal, $compile, appLang, appAuthentication, ngeoLocation,
-        appAlerts, appApi, authUrl, appDocument, appUrl, imageUrl) {
+  $uibModal, $compile, appLang, appAuthentication, ngeoLocation, appAlerts,
+  appApi, authUrl, appDocument, appUrl, imageUrl) {
 
   goog.base(this, $scope, $element, $attrs, $http, $uibModal, $compile,
-          appLang, appAuthentication, ngeoLocation, appAlerts, appApi,
-          authUrl, appDocument, appUrl, imageUrl);
+    appLang, appAuthentication, ngeoLocation, appAlerts, appApi, authUrl,
+    appDocument, appUrl, imageUrl);
 
-    /**
+  /**
    * Start cannot be after today nor end_date.
    * @type {Date}
    * @export

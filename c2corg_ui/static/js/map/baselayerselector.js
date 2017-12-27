@@ -107,7 +107,7 @@ app.BaselayerSelectorController = function($http, ngeoBackgroundLayerMgr,
    * @export
    */
   this.bgLayerSpecs = app.BaselayerSelectorController.BG_LAYER_SPECS.filter(
-    function(layer) {
+    (layer) => {
       return appAuthentication.isAuthenticated() || !layer['auth'];
     }
   );
@@ -144,7 +144,7 @@ app.BaselayerSelectorController.BG_LAYER_SPECS = [{
  */
 app.BaselayerSelectorController.prototype.setLayer = function(layerSpec) {
   this.currentBgLayerSpec = layerSpec;
-  var layer = this.createLayer_(layerSpec['name']);
+  let layer = this.createLayer_(layerSpec['name']);
   if (layer) {
     this.bgLayerMgr_.set(this.map, layer);
   }
@@ -160,7 +160,7 @@ app.BaselayerSelectorController.prototype.createLayer_ = function(layerName) {
   if (layerName in this.cachedLayers_) {
     return this.cachedLayers_[layerName];
   }
-  var source;
+  let source;
   switch (layerName) {
     case 'esri':
       source = this.createEsriSource_();
@@ -185,7 +185,7 @@ app.BaselayerSelectorController.prototype.createLayer_ = function(layerName) {
       source = new ol.source.OSM();
       break;
   }
-  var layer = new ol.layer.Tile({source: source});
+  let layer = new ol.layer.Tile({source: source});
   this.cachedLayers_[layerName] = layer;
   return layer;
 };
@@ -197,17 +197,17 @@ app.BaselayerSelectorController.prototype.createLayer_ = function(layerName) {
  * @private
  */
 app.BaselayerSelectorController.prototype.createIgnSource_ = function(layer) {
-  var resolutions = [];
-  var matrixIds = [];
-  var proj3857 = ol.proj.get('EPSG:3857');
-  var maxResolution = ol.extent.getWidth(proj3857.getExtent()) / 256;
+  let resolutions = [];
+  let matrixIds = [];
+  let proj3857 = ol.proj.get('EPSG:3857');
+  let maxResolution = ol.extent.getWidth(proj3857.getExtent()) / 256;
 
-  for (var i = 0; i < 18; i++) {
+  for (let i = 0; i < 18; i++) {
     matrixIds[i] = i.toString();
     resolutions[i] = maxResolution / Math.pow(2, i);
   }
 
-  var tileGrid = new ol.tilegrid.WMTS({
+  let tileGrid = new ol.tilegrid.WMTS({
     origin: [-20037508, 20037508],
     resolutions: resolutions,
     matrixIds: matrixIds
@@ -243,7 +243,7 @@ app.BaselayerSelectorController.prototype.createSwisstopoSource_ = function(laye
         'internet/swisstopo/en/home.html">swisstopo</a>'
       })
     ],
-    urls: ['10', '11', '12', '13', '14'].map(function(i) {
+    urls: ['10', '11', '12', '13', '14'].map((i) => {
       return 'https://wmts' + i + '.geo.admin.ch/1.0.0/' + layer + '/default/current' +
         '/3857/{z}/{x}/{y}.jpeg';
     }),

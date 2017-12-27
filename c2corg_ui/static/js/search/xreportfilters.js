@@ -14,7 +14,7 @@ goog.require('app.SearchFiltersController');
  * @ngInject
  */
 app.XreportFiltersController = function($scope, ngeoLocation, ngeoDebounce,
-    advancedSearchFilters) {
+  advancedSearchFilters) {
 
   /**
    * @type {Array.<Date>}
@@ -56,14 +56,14 @@ goog.inherits(app.XreportFiltersController, app.SearchFiltersController);
  */
 app.XreportFiltersController.prototype.setFilterFromPermalink = function(key) {
   if (key in this.config && this.config[key]['type'] === 'date') {
-    var val = this.location.getFragmentParam(key);
+    let val = this.location.getFragmentParam(key);
     if (val === '') {
       return;
     }
-    var dates = val.split(',');
-    dates.forEach(function(date) {
+    let dates = val.split(',');
+    dates.forEach((date) => {
       this.dates.push(window.moment(date).toDate());
-    }.bind(this));
+    });
     this.filters[key] = dates;
     this.updateMinMaxDates_();
   } else {
@@ -87,7 +87,7 @@ app.XreportFiltersController.prototype.clear = function() {
  * @export
  */
 app.XreportFiltersController.prototype.setDate = function(filterName) {
-  this.dates = this.dates.filter(function(date) {
+  this.dates = this.dates.filter((date) => {
     return date !== null;
   });
   if (this.dates.length) {
@@ -115,7 +115,7 @@ app.XreportFiltersController.prototype.formatDate_ = function(date) {
  * @private
  */
 app.XreportFiltersController.prototype.updateMinMaxDates_ = function() {
-  var nb_dates = this.dates.length;
+  let nb_dates = this.dates.length;
   if (nb_dates > 0) {
     this.dateMaxStart = nb_dates > 1 ? this.dates[1] : this.dateMaxStart;
     this.dateMinEnd = this.dates[0];

@@ -12,7 +12,7 @@ from json import dumps
   show_associated_waypoints, show_associated_outings, show_associated_routes, show_associated_articles,
   delete_association_confirmation_modal, associated_images_featurelist,
   show_badge, get_document_description, get_licence, show_merge_documents_dialog,
-  show_delete_document_dialog, generate_share_metadata" />
+  show_delete_document_dialog, generate_share_metadata, get_print_license" />
 <%namespace file="helpers/view.html" import="get_book_general"/>
 
 <%
@@ -97,6 +97,8 @@ other_langs, missing_langs = get_lang_lists(book, lang)
 
         ${get_comments()}
 
+        ${get_print_license(book)}
+
         ${show_float_buttons(book, lang, other_langs, missing_langs)}
       % endif
           </div>
@@ -106,9 +108,6 @@ other_langs, missing_langs = get_lang_lists(book, lang)
 
 
     </section>
-  </div>
-  <div class="text-center viewdoc-bottom">
-    <button class="btn btn-default scroll-top-btn" onclick="window.scrollTo(0, 0);">&nbsp;<span class="glyphicon glyphicon-menu-up"></span></button>
   </div>
 
   % if not version:
@@ -124,7 +123,6 @@ other_langs, missing_langs = get_lang_lists(book, lang)
 
     <script>
       window.onload = function() {
-        ## init float-buttons tooltips
         $('[data-toggle=\'tooltip\']').tooltip();
       };
     </script>

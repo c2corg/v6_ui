@@ -14,7 +14,7 @@ goog.require('app.Alerts');
  * @ngInject
  */
 app.AccountController = function($scope, appAuthentication, appAlerts,
-    appApi, authUrl) {
+  appApi, authUrl) {
 
   /**
    * @type {angular.Scope}
@@ -41,10 +41,10 @@ app.AccountController = function($scope, appAuthentication, appAlerts,
   this.initialData_;
 
   if (appAuthentication.isAuthenticated()) {
-    this.api_.readAccount().then(function(data) {
+    this.api_.readAccount().then((data) => {
       this.initialData_ = data['data'];
       $scope['account'] = angular.copy(this.initialData_);
-    }.bind(this));
+    });
   } else {
     app.utils.redirectToLogin(authUrl);
   }
@@ -55,17 +55,17 @@ app.AccountController = function($scope, appAuthentication, appAlerts,
  * @export
  */
 app.AccountController.prototype.save = function() {
-  var data = this.scope_['account'];
-  var modifiedData = {};
+  let data = this.scope_['account'];
+  let modifiedData = {};
   // Only keep modified data
-  for (var key in data) {
+  for (let key in data) {
     if (!(key in this.initialData_) || data[key] !== this.initialData_[key]) {
       modifiedData[key] = data[key];
     }
   }
-  var alerts = this.alerts_;
-  this.api_.updateAccount(modifiedData).then(function() {
-    var msg = alerts.gettext('Update success');
+  let alerts = this.alerts_;
+  this.api_.updateAccount(modifiedData).then(() => {
+    let msg = alerts.gettext('Update success');
     alerts.addSuccess(msg);
   });
 };

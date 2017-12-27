@@ -17,8 +17,8 @@
 
 <%def name="show_results_buttons(module=None)">\
   <div class="filters-bottom-buttons">
-    <button class="btn search-filters-btn orange-btn" data-toggle="collapse"
-            data-target="#moreFilters" aria-expanded="false">
+    <button class="btn search-filters-btn orange-btn"
+            data-toggle="collapse" data-target="#moreFilters" aria-controls="moreFilters" aria-expanded="false">
       <span translate>Show results</span> ({{resCounter}})
     </button>
     <button class="btn blue-btn search-filters-btn" ng-click="filtersCtrl.clear()"
@@ -32,8 +32,8 @@
 
 <%def name="show_filters_buttons(module=None)">\
   <div class="more-filters-btn-container">
-    <button class="btn orange-btn more-filters-btn" data-toggle="collapse" data-target="#moreFilters"
-      aria-expanded="false" aria-controls="moreFilters" translate>All filters</button>
+    <button data-toggle="collapse" data-target="#moreFilters" aria-expanded="false" aria-controls="moreFilters"
+            class="btn orange-btn more-filters-btn" translate>All filters</button>
     <button class="btn blue-btn more-filters-btn" ng-click="filtersCtrl.clear()" ng-cloak
             ng-show="filtersCtrl.filtersNb > 0"><span translate>Clear filters</span> ({{filtersCtrl.filtersNb}})</button>
     % if module:

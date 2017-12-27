@@ -12,18 +12,18 @@ app.lengthConverterDirective = function() {
   return {
     require: 'ngModel',
     link:
-     /**
-      * @param {angular.Scope} scope Scope.
-      * @param {angular.JQLite} el Element.
-      * @param {angular.Attributes} attrs Atttributes.
-      * @param {angular.NgModelController} ngModel ngModel.
-      */
+    /**
+    * @param {angular.Scope} scope Scope.
+    * @param {angular.JQLite} el Element.
+    * @param {angular.Attributes} attrs Atttributes.
+    * @param {angular.NgModelController} ngModel ngModel.
+    */
     function(scope, el, attrs, ngModel) {
-      ngModel.$parsers.push(function(value) {
+      ngModel.$parsers.push((value) => {
         return value * 1000;
       });
 
-      ngModel.$formatters.push(function(value) {
+      ngModel.$formatters.push((value) => {
         return value / 1000;
       });
     }

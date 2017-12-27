@@ -1,7 +1,8 @@
 @font-face {
   font-family: 'icomoon';
-  src:    url('../img/fonts/other-icons.eot?3b91nt');
-  src:    url('../img/fonts/other-icons.eot?3b91nt#iefix') format('embedded-opentype'),
+  src: url('../img/fonts/other-icons.eot?3b91nt');
+  src:
+    url('../img/fonts/other-icons.eot?3b91nt#iefix') format('embedded-opentype'),
     url('../img/fonts/other-icons.ttf?3b91nt') format('truetype'),
     url('../img/fonts/other-icons.woff?3b91nt') format('woff'),
     url('../img/fonts/other-icons.svg?3b91nt#icomoon') format('svg');
@@ -9,9 +10,10 @@
   font-style: normal;
 }
 
-[class^="icon-"], [class*=" icon-"] {
+[class^="icon-"],
+[class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'icomoon' !important;
+  font-family: 'icomoon' !important; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
   speak: none;
   font-style: normal;
   font-weight: normal;
@@ -24,21 +26,26 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-height_diff:before, .icon-routes:before {
+.icon-height_diff::before,
+.icon-routes::before {
   content: "\3bd";
 }
-.icon-images .path1:before {
+
+.icon-images .path1::before {
   content: "\2ba";
   color: rgb(255, 255, 255);
 }
-.icon-images .path2:before {
+
+.icon-images .path2::before {
   content: "\2bb";
   margin-left: -1em;
   color: rgb(255, 170, 69);
 }
-.icon-outings:before {
+
+.icon-outings::before {
   content: "\2b3";
 }
-.icon-rating:before {
+
+.icon-rating::before {
   content: "\6aa";
 }

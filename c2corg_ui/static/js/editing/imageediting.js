@@ -26,12 +26,12 @@ goog.require('app.Document');
  * @ngInject
  */
 app.ImageEditingController = function($scope, $element, $attrs, $http,
-        $uibModal, $compile, appLang, appAuthentication, ngeoLocation,
-        appAlerts, appApi, authUrl, appDocument, appUrl, imageUrl) {
+  $uibModal, $compile, appLang, appAuthentication, ngeoLocation, appAlerts,
+  appApi, authUrl, appDocument, appUrl, imageUrl) {
 
   goog.base(this, $scope, $element, $attrs, $http, $uibModal, $compile,
-          appLang, appAuthentication, ngeoLocation, appAlerts, appApi,
-          authUrl, appDocument, appUrl, imageUrl);
+    appLang, appAuthentication, ngeoLocation, appAlerts, appApi, authUrl,
+    appDocument, appUrl, imageUrl);
 
   /**
    * @type {Date}
@@ -80,7 +80,7 @@ app.ImageEditingController.prototype.filterData = function(data) {
  * @export
  */
 app.ImageEditingController.prototype.convertExposureTime = function(value) {
-  var exposure;
+  let exposure;
 
   if (value === 0) {
     this.exposureError = true;
@@ -114,7 +114,7 @@ app.ImageEditingController.prototype.createImgUrl = function(filename) {
  * @export
  */
 app.ImageEditingController.prototype.filterImageTypes = function(imageTypes) {
-  var removeCopyright = function(val) {
+  let removeCopyright = function(val) {
     return val !== 'copyright';
   };
   return imageTypes.filter(removeCopyright);

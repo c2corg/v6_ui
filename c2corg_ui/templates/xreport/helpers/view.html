@@ -5,155 +5,116 @@
 </%def>
 
 <%def name="get_xreport_general(xreport)">\
-      <h3 ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#general"><span translate>Information</span> <span class="glyphicon glyphicon-menu-down"></span></h3>
-        <div class="finfo" id="general">
-              <div class="ficontent">
-                
-
-  <span class="detail-text accordion">
-
-    % if xreport.get('activities'):
-      <article class="value activities">
-          <span translate class="value-title">activities</span><br>
-        % for activity in xreport.get('activities'):
-          <span class="route-activity icon-${activity}" uib-tooltip="{{mainCtrl.translate('${activity}')}}"></span>
-        % endfor
-      </article>
-    % endif
-
-    % if xreport.get('event_type'):
-      <article class="value activities">
-          <span translate class="value-title">event_type</span>:
-        % for event_type in xreport.get('event_type'):
-          <span x-translate class="value">${event_type}</span>${'' if loop.last else ', '}
-        % endfor
-      </article>
-    % endif
-
-    % if xreport.get('elevation'):
-      <p><span class="value-title" translate>elevation</span>: <span class="value" x-translate>${xreport['elevation']}</span></p>
-    % endif
-
-##     TODO SHOW ALSO XY?
-##     % if xreport.get('lonlat'):
-##     <p><span class="value-title" translate>lon</span>: <span class="value">${xreport['lonlat']['lon']}</span></p>
-##     % endif
-##
-##     % if xreport.get('lonlat'):
-##     <p><span class="value-title" translate>lat</span>: <span class="value">${xreport['lonlat']['lat']}</span></p>
-##     % endif
-
-    % if xreport.get('nb_participants'):
-      <p><span class="value-title" translate>nb_participants</span>: <span class="value" x-translate>${xreport['nb_participants']}</span></p>
-    % endif
-
-    % if xreport.get('nb_impacted'):
-      <p><span class="value-title" translate>nb_impacted</span>: <span class="value" x-translate>${xreport['nb_impacted']}</span></p>
-    % endif
-
-    % if xreport.get('rescue'):
-      <p><span class="value-title" translate>rescue</span>: <span class="value" x-translate>${xreport['rescue']}</span></p>
-    % endif
-
-    % if xreport.get('avalanche_level'):
-      <p><span class="value-title" translate>avalanche_level</span>: <span class="value" x-translate>${xreport['avalanche_level']}</span></p>
-    % endif
-
-    % if xreport.get('avalanche_slope'):
-      <p><span class="value-title" translate>avalanche_slope</span>: <span class="value" x-translate>${xreport['avalanche_slope']}</span></p>
-    % endif
-
-    % if xreport.get('severity'):
-      <p><span class="value-title" translate>severity</span>: <span class="value" x-translate>${xreport['severity']}</span></p>
-    % endif
-
-    % if xreport.get('author'):
-      <%
-          user_id = xreport['author']['user_id']
-          user_lang = xreport['locales'][0]['lang']
-      %>
-      <span class="value-title" translate>author</span>: <a class="value" href="${request.route_path('profiles_view', id=user_id, lang=user_lang)}" >${xreport['author']['name']}</a>
-    % endif
-
-    % if xreport.get('quality'):
-      <p><span class="value-title" translate>quality</span>: <span class="value" x-translate>${xreport['quality']}</span></p>
-    % endif
-
-    </span>
-             </div>
-</div>
-</%def>
-
-<%def name="get_xreport_participants(xreport)">\
-  % if 'users' in xreport['associations'] and xreport['associations']['users']:
-       <h3 ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#participant"><span translate>participants</span> <span class="glyphicon glyphicon-menu-down"></span></h3>
-        <div class="finfo" id="participant">
-              <div class="ficontent">
-                
-
+  <h3 ng-click="mainCtrl.animateHeaderIcon($event)" class="collapsible-title"
+      data-toggle="collapse" data-target="#general" aria-expanded="true" aria-controls="general">
+    <span translate>Information</span> <span class="glyphicon glyphicon-menu-down"></span>
+  </h3>
+  <div class="finfo collpase in" id="general">
+    <div class="ficontent">
       <span class="detail-text accordion">
-        % if xreport.get('participant_count') :
-          <p><span translate>participant_count</span>: <b>${xreport['participant_count']}</b></p>
-        % endif
 
-        % if xreport.get('associations').get('users'):
-          <p>
-            % for user in xreport['associations']['users']:
-              <%
-                  user_id = user['document_id']
-                  user_lang = user['locales'][0]['lang']
-                  is_last_participant = loop.last and not xreport['locales'][0].get('participants')
-              %>
-              <a href="${request.route_path('profiles_view', id=user_id, lang=user_lang)}">${user['name']}</a>${'' if is_last_participant else ', '}
-            % endfor
-            ${xreport['locales'][0].get('participants') or ''}
-          </p>
-        % endif
+      % if xreport.get('activities'):
+        <article class="value activities">
+          <span translate class="value-title">activities</span><br>
+          % for activity in xreport.get('activities'):
+            <span class="route-activity icon-${activity}" uib-tooltip="{{mainCtrl.translate('${activity}')}}"></span>
+          % endfor
+        </article>
+      % endif
+
+      % if xreport.get('event_type'):
+        <article class="value activities">
+          <span translate class="value-title">event_type</span>:
+          % for event_type in xreport.get('event_type'):
+            <span x-translate class="value">${event_type}</span>${'' if loop.last else ', '}
+          % endfor
+        </article>
+      % endif
+
+      % if xreport.get('elevation'):
+        <p><span class="value-title" translate>elevation</span>: <span class="value" x-translate>${xreport['elevation']}</span></p>
+      % endif
+
+  ##     TODO SHOW ALSO XY?
+  ##     % if xreport.get('lonlat'):
+  ##     <p><span class="value-title" translate>lon</span>: <span class="value">${xreport['lonlat']['lon']}</span></p>
+  ##     % endif
+  ##
+  ##     % if xreport.get('lonlat'):
+  ##     <p><span class="value-title" translate>lat</span>: <span class="value">${xreport['lonlat']['lat']}</span></p>
+  ##     % endif
+
+      % if xreport.get('nb_participants'):
+        <p><span class="value-title" translate>nb_participants</span>: <span class="value" x-translate>${xreport['nb_participants']}</span></p>
+      % endif
+
+      % if xreport.get('nb_impacted'):
+        <p><span class="value-title" translate>nb_impacted</span>: <span class="value" x-translate>${xreport['nb_impacted']}</span></p>
+      % endif
+
+      % if xreport.get('rescue'):
+        <p><span class="value-title" translate>rescue</span>: <span class="value" x-translate>${xreport['rescue']}</span></p>
+      % endif
+
+      % if xreport.get('avalanche_level'):
+        <p><span class="value-title" translate>avalanche_level</span>: <span class="value" x-translate>${xreport['avalanche_level']}</span></p>
+      % endif
+
+      % if xreport.get('avalanche_slope'):
+        <p><span class="value-title" translate>avalanche_slope</span>: <span class="value" x-translate>${xreport['avalanche_slope']}</span></p>
+      % endif
+
+      % if xreport.get('severity'):
+        <p><span class="value-title" translate>severity</span>: <span class="value" x-translate>${xreport['severity']}</span></p>
+      % endif
+
+      % if xreport.get('author'):
+        <%
+            user_id = xreport['author']['user_id']
+            user_lang = xreport['locales'][0]['lang']
+        %>
+        <span class="value-title" translate>author</span>: <a class="value" href="${request.route_path('profiles_view', id=user_id, lang=user_lang)}" >${xreport['author']['name']}</a>
+      % endif
+
+      % if xreport.get('quality'):
+        <p><span class="value-title" translate>quality</span>: <span class="value" x-translate>${xreport['quality']}</span></p>
+      % endif
 
       </span>
     </div>
   </div>
-  % endif
 </%def>
 
-<%def name="get_xreport_personal(xreport)">\
-  % if xreport.get('author_status') or xreport.get('previous_injuries') or xreport.get('gender') or xreport.get('autonomy') or xreport.get('age'):
-    <div class="name-icon-value" ng-click="detailsCtrl.openTab($event)" >
-      <h4><span translate>personal informations</span><span class="glyphicon glyphicon-menu-right"></span></h4>
-      <div class="name-icon">
-        <span class="icon-user"></span>
-        <p translate>personal informations</p>
+<%def name="get_xreport_participants(xreport)">\
+  % if 'users' in xreport['associations'] and xreport['associations']['users']:
+    <h3 ng-click="mainCtrl.animateHeaderIcon($event)" class="collapsible-title"
+        data-toggle="collapse" data-target="#participant" aria-expanded="true" aria-controls="participant">
+      <span translate>participants</span> <span class="glyphicon glyphicon-menu-down"></span>
+    </h3>
+    <div class="finfo collpase in" id="participant">
+      <div class="ficontent">
+        <span class="detail-text accordion">
+          % if xreport.get('participant_count') :
+            <p><span translate>participant_count</span>: <b>${xreport['participant_count']}</b></p>
+          % endif
+
+          % if xreport.get('associations').get('users'):
+            <p>
+              % for user in xreport['associations']['users']:
+                <%
+                    user_id = user['document_id']
+                    user_lang = user['locales'][0]['lang']
+                    is_last_participant = loop.last and not xreport['locales'][0].get('participants')
+                %>
+                <a href="${request.route_path('profiles_view', id=user_id, lang=user_lang)}">${user['name']}</a>${'' if is_last_participant else ', '}
+              % endfor
+              ${xreport['locales'][0].get('participants') or ''}
+            </p>
+          % endif
+
+        </span>
       </div>
-
-      <span class="detail-text accordion">
-        % if xreport.get('author_status'):
-          <p><span class="value-title" translate>author_status</span>: <span class="value" x-translate>${xreport['author_status']}</span></p>
-        % endif
-
-        % if xreport.get('activity_rate'):
-          <p><span class="value-title" translate>activity_rate</span>: <span class="value" x-translate>${xreport['activity_rate']}</span></p>
-        % endif
-
-        % if xreport.get('nb_outings'):
-          <p><span class="value-title" translate>nb_outings</span>: <span class="value" x-translate>${xreport['nb_outings']}</span></p>
-        % endif
-
-        % if xreport.get('age'):
-          <p><span class="value-title" translate>age</span>: <span class="value" x-translate>${xreport['age']}</span></p>
-        % endif
-
-        % if xreport.get('gender'):
-          <p><span class="value-title" translate>gender</span>: <span class="value" x-translate>${xreport['gender']}</span></p>
-        % endif
-
-        % if xreport.get('previous_injuries'):
-          <p><span class="value-title" translate>previous_injuries</span>: <span class="value" x-translate>${xreport['previous_injuries']}</span></p>
-        % endif
-
-        % if xreport.get('autonomy'):
-          <p><span class="value-title" translate>autonomy</span>: <span class="value" x-translate>${xreport['autonomy']}</span></p>
-        % endif
-      </span>
     </div>
   % endif
 </%def>
+

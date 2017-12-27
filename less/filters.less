@@ -7,10 +7,12 @@ form[app-search-filters] {
   @media @phone {
     display: none;
   }
+
   .dropdown-menu {
     left: 10px;
     top: initial;
   }
+
   .more-filters-btn {
     position: relative;
     margin-bottom: 10px;
@@ -29,21 +31,25 @@ form[app-search-filters] {
   transition: 0.2s;
 
   /*too little filters in areas - do not show more-filters-bnt*/
-  &.areas  {
+  &.areas {
     .more-filters-btn-container {
       display: none;
     }
+
     .sticky-filters-btn-container {
       display: flex;
     }
   }
+
   /*there are 2 of them: one in .filters and one in #moreFilters*/
   .simple-filters {
     justify-content: space-between;
     flex-flow: wrap row;
     display: flex;
+
     .filter {
-      width:  33%;
+      width: 33%;
+
       @media @phone {
         width: 100%;
       }
@@ -52,10 +58,12 @@ form[app-search-filters] {
 
   label {
     margin-bottom: 0;
+
     @media @phone {
       margin-bottom: 5px;
     }
   }
+
   .filter {
     padding: 5px 10px;
 
@@ -80,7 +88,7 @@ form[app-search-filters] {
     overflow: auto;
     box-shadow: 0 14px 14px -14px #332;
     -webkit-box-shadow: 0 14px 14px -14px #332;
-    -moz-box-shadow:  0 14px 14px -14px #332;
+    -moz-box-shadow: 0 14px 14px -14px #332;
     max-height: 400vh;
 
     @media @phone {
@@ -89,9 +97,11 @@ form[app-search-filters] {
       width: 100% !important;
       padding: 0 0 20px 0;
     }
+
     &.images .collapse.in {
       overflow-y: visible;
     }
+
     /*show simple-filters only when #moreFilters has .sticky-filters-moreFilters*/
     &:not(.sticky-filters-moreFilters) .simple-filters {
       display: none;
@@ -113,26 +123,30 @@ form[app-search-filters] {
           margin-top: 5px;
         }
       }
-      @media (max-height: 580px){
+
+      @media (max-height: 580px) {
         position: relative !important;
         margin-bottom: 10px !important;
         bottom: -10px !important;
       }
-      @media (max-height: @screen-sm-max){
+
+      @media (max-height: @screen-sm-max) {
         position: relative !important;
         margin-bottom: 10px !important;
         bottom: -10px !important;
       }
+
       button {
         font-variant: small-caps;
         font-size: 1.2em;
         font-weight: bold;
 
-        @media (max-width:@screen-md-min) {
+        @media (max-width: @screen-md-min) {
           font-size: 1em;
         }
       }
     }
+
     .activities {
       list-style: none;
       display: flex;
@@ -143,36 +157,45 @@ form[app-search-filters] {
       [class^='icon'] {
         font-size: 4em;
       }
+
       .activity {
         width: 33.33%;
+
         @media (max-width: 900px) and (min-width: @phone-max) {
           width: 50%;
         }
       }
+
       li.activity {
         text-align: left;
       }
     }
+
     .route-activities {
       @media @phone {
         margin-bottom: 200px;
       }
+
       &.show-tight {
         display: none;
       }
-      @media (max-height: 740px) and (min-width: @phone-max){
+
+      @media (max-height: 740px) and (min-width: @phone-max) {
         display: none;
+
         &.show-tight {
-          display: block
+          display: block;
         }
+
         [class^='icon'] {
           width: 50%;
         }
       }
     }
+
     .orientation {
       svg {
-        transform: scale(.8);
+        transform: scale(0.8);
         margin-top: -10px;
         width: 100%;
       }
@@ -214,48 +237,50 @@ form[app-search-filters] {
       width: 65%;
     }
   }
+
   .slider-handle {
     background-image: none;
     background-color: @C2C-orange;
+    margin-top: -5px;
   }
+
   .slider.slider-horizontal {
     width: 95%;
 
     @media @phone {
       width: 90%;
     }
+
     @media @phone {
       width: 80%;
     }
   }
+
   .slider-selection {
-    background: #BABABA;
+    background: #bababa;
   }
+
   .dropdown-toggle {
     width: 100%;
+
     .activity {
       margin-left: 30px;
     }
+
     p {
       margin: 0;
     }
+
     label {
       font-family: inherit;
     }
   }
 } /*filters */
 
-
 .multiselect-box {
-  -webkit-columns: 2;
-  -moz-columns: 2;
   columns: 2;
-  -webkit-column-gap: 4px;
-  -moz-column-gap: 4px;
   column-gap: 4px;
-  -webkit-column-rule: 2px outset #CCC; /* Chrome, Safari, Opera */
-  -moz-column-rule: 2px outset #CCC; /* Firefox */
-  column-rule: 2px outset #CCC;
+  column-rule: 2px outset #ccc;
   margin-left: 1%;
 
   @media @phone {
@@ -263,27 +288,30 @@ form[app-search-filters] {
     -moz-columns: inherit;
     overflow-x: hidden;
     overflow-y: scroll;
-    max-height : 250px;
+    max-height: 250px;
   }
 
   @media @tablet {
     width: auto;
   }
 
-  @media (max-height: 400px){
+  @media (max-height: 400px) {
     overflow-y: scroll;
     height: 130px;
   }
+
   > li > a > span {
     margin-left: 8px;
     padding-right: 2%;
     display: block;
     width: 175px;
     white-space: normal;
+
     @media @phone {
       margin-left: 5px;
     }
   }
+
   a {
     padding-left: 5%;
     padding-right: 14px;
@@ -297,7 +325,8 @@ form[app-search-filters] {
   justify-content: center;
   flex-flow: wrap row;
   padding-top: 5px;
-  transition: .2s;
+  transition: 0.2s;
+
   @media @phone {
     width: 100% !important;
   }

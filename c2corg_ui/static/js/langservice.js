@@ -127,10 +127,10 @@ app.Lang.prototype.gettext = function(str) {
 app.Lang.prototype.updateLang = function(lang, opt_syncWithApi) {
   this.gettextCatalog_.setCurrentLanguage(lang);
   this.gettextCatalog_.loadRemote(
-          this.langUrlTemplate_.replace('__lang__', lang));
+    this.langUrlTemplate_.replace('__lang__', lang));
   // store the interface language as cookie, so that it is available on the
   // server side.
-  var d = new Date();
+  let d = new Date();
   d.setFullYear(d.getFullYear() + 1); // today + 1 year
   this.cookies_.put('interface_lang', lang, {
     'path': '/',
@@ -146,9 +146,9 @@ app.Lang.prototype.updateLang = function(lang, opt_syncWithApi) {
   }
 
   // This will retrieve then _evaluate_ the content of the file.
-  $.get(this.langMomentPath_ + '/' + lang + '.js', function() {
+  $.get(this.langMomentPath_ + '/' + lang + '.js', () => {
     this.amMoment_.changeLocale(lang);
-  }.bind(this));
+  });
 };
 
 

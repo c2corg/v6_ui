@@ -7,7 +7,6 @@
   transition: transform 0.3s;
   transform: translate3d(-@menu-translation, 0, 0);
   outline: 1px solid transparent; // fix transition display bug
-
   position: fixed;
   top: 0;
   bottom: 0;
@@ -38,7 +37,6 @@ body.menu-toggled #sidemenu {
   top: 0;
   z-index: 1001;
   cursor: pointer;
-
   background-color: black;
   opacity: 0;
   transition: opacity 0.3s;
@@ -47,7 +45,6 @@ body.menu-toggled #sidemenu {
 body.menu-toggled #content-toggled {
   opacity: 0.1;
 }
-
 
 #sidemenu {
   color: @darkgray;
@@ -61,32 +58,35 @@ body.menu-toggled #content-toggled {
     width: 100%;
   }
 
-  @media (max-height: 400px){
+  @media (max-height: 400px) {
     overflow-y: auto;
 
     ul li {
       font-size: 0.9em;
-      >a{
-        padding-top: 6px!important;
+
+      > a {
+        padding-top: 6px !important;
         padding-bottom: 6px !important;
       }
     }
+
     footer {
       position: relative;
-      margin-top : 20px;
+      margin-top: 20px;
     }
+
     .logo {
       width: 100px;
     }
   }
 
-  @media (max-height: 745px){
+  @media (max-height: 745px) {
     .advertisement {
       display: none !important;
     }
   }
 
-  @media (max-height: 770px){
+  @media (max-height: 770px) {
     .version {
       display: none !important;
     }
@@ -94,7 +94,7 @@ body.menu-toggled #content-toggled {
 
   .logo {
     width: 140px;
-    margin-left: 10px;
+    margin-left: 2px;
     margin-top: 5px;
     margin-bottom: 5px;
   }
@@ -111,11 +111,17 @@ body.menu-toggled #content-toggled {
   .glyphicon {
     color: @darkgray;
   }
+
   .menu-text {
     margin-left: 10px;
   }
-  .glyphicon-home, .glyphicon-arrow-right, .glyphicon-info-sign,
-  .glyphicon-warning-sign, .glyphicon-time, .glyphicon-comment {
+
+  .glyphicon-home,
+  .glyphicon-arrow-right,
+  .glyphicon-info-sign,
+  .glyphicon-warning-sign,
+  .glyphicon-time,
+  .glyphicon-comment {
     color: @bright-green;
   }
 
@@ -123,6 +129,7 @@ body.menu-toggled #content-toggled {
     background-color: @C2C-orange;
     color: white;
     cursor: pointer;
+
     .glyphicon {
       color: white;
     }
@@ -136,33 +143,41 @@ body.menu-toggled #content-toggled {
   li.main-menu {
     display: block;
     border-top: 1px solid #ccc;
+
     &:hover {
       cursor: pointer;
     }
+
     a {
-      display: inline-block;
       padding: 10px 15px;
       color: @darkgray;
       display: flex;
     }
   }
+
   a:hover {
     text-decoration: none;
   }
+
   .show-locale {
     display: block;
   }
 
   body.menu-toggled #sidemenu {
-    .menu-text:not(.hidden-locale), .logo  {
+    .menu-text:not(.hidden-locale),
+    .logo {
       display: inline !important;
     }
-    .advertisement, .version {
+
+    .advertisement,
+    .version {
       display: block;
     }
+
     .social-networks {
       display: block;
     }
+
     .footer-nav {
       display: flex !important;
     }
@@ -176,7 +191,7 @@ body.menu-toggled #content-toggled {
   top: 20px;
   font-size: 20px;
   z-index: 2000;
-  color: #999999;
+  color: #999;
   display: none !important;
   padding: 0;
 
@@ -184,13 +199,15 @@ body.menu-toggled #content-toggled {
     color: @gray;
     cursor: pointer;
   }
+
   @media (max-width: @phone-max) {
     display: block !important;
   }
 }
 
 .homepage {
-  margin-left: 45px;
+  margin-left: 25px;
+
   @media (max-width: @tablet-max) {
     margin-left: 0;
   }
@@ -222,7 +239,9 @@ body.menu-toggled #content-toggled {
     height: 4px;
     background: @C2C-orange;
     transform: rotate(180deg);
-    &::before, &::after {
+
+    &::before,
+    &::after {
       position: absolute;
       display: block;
       left: 0;
@@ -231,11 +250,13 @@ body.menu-toggled #content-toggled {
       background-color: @C2C-orange;
       content: "";
     }
+
     &::before {
       top: 0;
       transform-origin: top right;
       transform: translateX(16px) translateY(2px) rotate(45deg);
     }
+
     &::after {
       bottom: 0;
       transform-origin: bottom right;
@@ -243,9 +264,8 @@ body.menu-toggled #content-toggled {
     }
   }
 }
- /* menu-open-close*/
 
-.menu-open-close.header{
+.menu-open-close.header {
   display: none;
   position: fixed;
   top: 6px;
@@ -261,7 +281,9 @@ body.menu-toggled #content-toggled {
   text-decoration: none;
   background-color: @bright-green !important;
   transition: 0.1s;
-  .glyphicon, a {
+
+  .glyphicon,
+  a {
     color: white !important;
     font-weight: bold;
   }
@@ -281,14 +303,17 @@ footer {
   [class^="icon"] {
     font-size: 2.5em;
   }
+
   .icon-twitter {
-    color: #4099FF;
+    color: #4099ff;
   }
+
   .icon-google-plus {
-    color: #DD4B39;
+    color: #dd4b39;
   }
+
   .icon-facebook {
-    color: #6D8BC9;
+    color: #6d8bc9;
   }
 
   .footer-nav {
@@ -309,7 +334,7 @@ footer {
       transition: 0.2s ease-in-out;
 
       &:hover {
-        color:@C2C-orange;
+        color: @C2C-orange;
         transition: 0.1s ease-in-out;
       }
     }
@@ -318,6 +343,7 @@ footer {
   .version {
     width: 100%;
     text-align: center;
+
     a {
       font-size: 0.8em;
       color: fade(#337ab7, 40%);
@@ -328,6 +354,7 @@ footer {
     text-align: center;
     margin-bottom: 20px;
   }
+
   .social-networks {
     width: 100%;
     margin-top: 10px;
@@ -345,7 +372,6 @@ footer {
     }
   }
 }
-/*footer*/
 
 .logo.header {
   position: fixed;
@@ -361,6 +387,7 @@ footer {
     top: 4px;
     left: 0;
   }
+
   img {
     height: 39px;
   }

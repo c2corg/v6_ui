@@ -3,7 +3,7 @@
     from json import loads
 %>
 <%namespace file="../../helpers/view.html" import="get_global_rating, get_hiking_mtb_rating, get_skitouring_rating, get_document_up_down, get_document_min_max,
-    show_attr, show_geom_download"/>
+    show_attr, show_geom_download, show_areas"/>
 
 <%def name="show_fulldate(dateStart, dateEnd)">\
   % if dateStart == dateEnd:
@@ -215,8 +215,11 @@
           ('level_comment' in cond[0] and cond[0].get('level_comment') != '') )
   %>
   % if locale.get('weather') or locale.get('conditions') or conditions_levels_exist:
-    <h3 ng-click="mainCtrl.animateHeaderIcon($event)" data-toggle="collapse" data-target="#weather-conditions"><span translate>weather and conditions</span><span class="glyphicon glyphicon-menu-${'down' if open_tab else 'right'}"></span></h3>
-    <div class="finfo collapse${' in' if open_tab else ''}" id="weather-conditions" aria-expanded="true">
+    <h3 ng-click="mainCtrl.animateHeaderIcon($event)" class="${'' if open_tab else 'closed '}collapsible-title"
+        data-toggle="collapse" data-target="#weather-conditions" aria-expanded="${'true' if open_tab else 'false'}" aria-controls="weather-conditions">
+      <span translate>weather and conditions</span><span class="glyphicon glyphicon-menu-${'down' if open_tab else 'right'}"></span>
+    </h3>
+    <div class="finfo collapse${' in' if open_tab else ''}" id="weather-conditions">
       <div class="ficontent noflex">
         % if locale.get('weather'):
           <div class="document-weather">
@@ -292,33 +295,33 @@
 </%def>
 
 ## RATING
-<%def name="get_outing_route_rating(route)">\
-% if route.get('global_rating') or route.get('engagement_rating') or route.get('risk_rating') or route.get('exposition_rock_rating') \
-  or route.get('rock_free_rating') or route.get('rock_required_rating') or route.get('hiking_rating') \
-  or route.get('hiking_mtb_exposition') or route.get('ice_rating') or route.get('mixed_rating') or route.get('snowshoe_rating')  \
-  or route.get('mtb_down_rating') or route.get('mtb_up_rating') or route.get('via_ferrata_rating') or route.get('equipment_rating') \
-  or route.get('ski_rating') or route.get('labande_ski_rating') or route.get('labande_global_rating') or route.get('ski_exposition') :
+<%def name="get_outing_rating(outing)">\
+% if outing.get('global_rating') or outing.get('engagement_rating')  \
+  or outing.get('rock_free_rating') or outing.get('hiking_rating') \
+  or outing.get('ice_rating') or outing.get('mixed_rating') or outing.get('snowshoe_rating')  \
+  or outing.get('mtb_down_rating') or outing.get('mtb_up_rating') or outing.get('via_ferrata_rating') or outing.get('equipment_rating') \
+  or outing.get('ski_rating') or outing.get('labande_global_rating') :
   <div class="col-sm-6 col-lg-3">
   <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
     <h4><span class="glyphicon glyphicon-sort-by-attributes"></span> <span translate>Rating</span><span class="glyphicon pull-right rotate-arrow-down"></span></h4>
     <span class="detail-text accordion ratings">
 
-      ${get_global_rating(route)}
-      ${get_skitouring_rating(route)}
+      ${get_global_rating(outing)}
+      ${get_skitouring_rating(outing)}
 
-      % if route.get('hiking_rating'):
+      % if outing.get('hiking_rating'):
         <div class="rating-block c">
-          <span uib-tooltip="{{'hiking_rating' | translate}}" class="value">${route['hiking_rating']}</span>&nbsp;
+          <span uib-tooltip="{{'hiking_rating' | translate}}" class="value">${outing['hiking_rating']}</span>&nbsp;
         </div>
       % endif
 
-      % if route.get('snowshoe_rating'):
+      % if outing.get('snowshoe_rating'):
         <div class="rating-block d">
-          <span uib-tooltip="{{mainCtrl.translate('snowshoe_rating')}}" class="value">${route['snowshoe_rating']}</span>
+          <span uib-tooltip="{{mainCtrl.translate('snowshoe_rating')}}" class="value">${outing['snowshoe_rating']}</span>
         </div>
       % endif
 
-      ${get_hiking_mtb_rating(route)}
+      ${get_hiking_mtb_rating(outing)}
     </span>
   </div>
   </div>
@@ -326,15 +329,29 @@
 </%def>
 
 <%def name="get_outing_elevation_profile()">\
-  <h3 class="show-phone" ng-click="mainCtrl.animateHeaderIcon($event)"
-        data-toggle="collapse" data-target="#elevation-profile" id="elevation-profile-title">
+  <h3 class="show-phone collapsible-title" ng-click="mainCtrl.animateHeaderIcon($event)" id="elevation-profile-title"
+        data-toggle="collapse" data-target="#elevation-profile" aria-expanded="true" aria-controls="elevation-profile">
       <span translate>Elevation profile</span><span class="glyphicon glyphicon-menu-right"></span>
   </h3>
-  <div class="finfo collapse in" id="elevation-profile" aria-expanded="false">
+  <div class="finfo collapse in" id="elevation-profile">
     <div class="ficontent noflex">
       <div class="lead">
         <app-elevation-profile></app-elevation-profile>
       </div>
     </div>
   </div>
+</%def>
+
+## LOCATION
+<%def name="get_outing_location(outing)">\
+  % if outing.get('areas'):
+    <div class="col-sm-6 col-lg-3">         
+      <div class="name-icon-value location list-green" ng-click="detailsCtrl.toggleTab($event)">
+        <h4><span class="glyphicon glyphicon-map-marker"></span> <span translate>Location</span><span class="glyphicon pull-right rotate-arrow-down"></span></h4>
+        <span class="detail-text accordion">
+          <span class="areas">${show_areas(outing)}</span>
+        </span>
+      </div>
+    </div>
+  % endif
 </%def>

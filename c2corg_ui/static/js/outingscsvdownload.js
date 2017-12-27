@@ -32,7 +32,7 @@ app.module.directive('appOutingsCsvDownload', app.outingsCsvDownloadDirective);
  * @ngInject
  */
 app.OutingsCsvDownloadController = function(appAuthentication, appApi, $q,
-    appLang) {
+  appLang) {
 
   /**
    * @type {app.Authentication}
@@ -66,34 +66,34 @@ app.OutingsCsvDownloadController = function(appAuthentication, appApi, $q,
  */
 app.OutingsCsvDownloadController.prototype.download = function(event) {
   event.stopPropagation();
-  var filename = 'outings.csv';
-  var langService = this.langService_;
-  this.getOutings_().then(function(outings) {
-    var csvFile = '';
-    outings.forEach(function(outing) {
-      var cells = [
+  let filename = 'outings.csv';
+  let langService = this.langService_;
+  this.getOutings_().then((outings) => {
+    let csvFile = '';
+    outings.forEach((outing) => {
+      let cells = [
         outing.date_start,
         outing.locales[0].title,
-        outing.activities.map(function(activity) {
+        outing.activities.map((activity) => {
           return langService.translate(activity);
         }).join(';'),
         'https://www.camptocamp.org/outings/' + outing.document_id
       ];
-      csvFile += '"' + cells.map(function(cell) {
+      csvFile += '"' + cells.map((cell) => {
         if (cell.indexOf('"') > -1) {
-          return cell.replace(/"/g,'""');
+          return cell.replace(/"/g, '""');
         }
         return cell;
       }).join('","') + '"\n';
     });
-    var blob = new Blob([csvFile], {type: 'text/csv;charset=utf-8;'});
+    let blob = new Blob([csvFile], {type: 'text/csv;charset=utf-8;'});
     if (window.navigator.msSaveBlob) { // IE 10+
       window.navigator.msSaveBlob(blob, filename);
     } else {
-      var link = document.createElement('a');
+      let link = document.createElement('a');
       if (link.download !== undefined) { // feature detection
         // Browsers that support HTML5 download attribute
-        var url = URL.createObjectURL(blob);
+        let url = URL.createObjectURL(blob);
         link.setAttribute('href', url);
         link.setAttribute('download', filename);
         link.style.visibility = 'hidden';
@@ -111,29 +111,29 @@ app.OutingsCsvDownloadController.prototype.download = function(event) {
  * @returns {!angular.$q.Promise}
  */
 app.OutingsCsvDownloadController.prototype.getOutings_ = function() {
-  var promise = this.q_.defer().promise; // a promise that does... nothing
-  var userId = this.auth.userData.id;
-  var appApi = this.appApi;
-  var $q = this.q_;
+  let promise = this.q_.defer().promise; // a promise that does... nothing
+  let userId = this.auth.userData.id;
+  let appApi = this.appApi;
+  let $q = this.q_;
   return appApi.listDocuments('outings', 'u=' + userId, promise)
-    .then(function(resp) {
-      var total = resp.data.total;
-      var outings = resp.data.documents.slice();
+    .then((resp) => {
+      let total = resp.data.total;
+      let outings = resp.data.documents.slice();
       if (total > resp.data.documents.length) {
         // retrieve all other outings
-        var offsets = Array.apply(null, Array(Math.floor(total / 30)))
-          .map(function(value, index) {
+        let offsets = Array.apply(null, Array(Math.floor(total / 30)))
+          .map((value, index) => {
             return 30 * (index + 1);
           });
-        var additionalRequests = [];
-        offsets.forEach(function(offset) {
+        let additionalRequests = [];
+        offsets.forEach((offset) => {
           additionalRequests.push(appApi.listDocuments('outings',
-              'u=' + userId + '&offset=' + offset, promise));
+            'u=' + userId + '&offset=' + offset, promise));
         });
-        return $q.all(additionalRequests).then(function(results) {
-          results.forEach(function(result) {
+        return $q.all(additionalRequests).then((results) => {
+          results.forEach((result) => {
             outings = outings.concat(result.data.documents)
-              .sort(function(o1, o2) {
+              .sort((o1, o2) => {
                 return Date.parse(o1.date_start) - Date.parse(o2.date_start);
               });
           });
