@@ -32,7 +32,7 @@ RUN set -x \
     git \
     virtualenv \
  && curl -sL https://deb.nodesource.com/setup_8.x | bash - \
- && sudo apt-get install -y nodejs \
+ && apt-get install -y nodejs \
  && make -f config/dev install \
  && apt-get -y --purge autoremove \
  && apt-get clean \
