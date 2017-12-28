@@ -31,6 +31,7 @@ RUN set -x \
     gcc \
     git \
     virtualenv \
+    curl \
  && curl -sL https://deb.nodesource.com/setup_8.x | bash - \
  && apt-get install -y nodejs \
  && make -f config/dev install \
