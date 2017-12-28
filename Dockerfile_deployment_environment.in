@@ -26,13 +26,14 @@ RUN set -x \
     python3-dev \
     python3-pip \
     libgeos-dev \
-    nodejs-legacy \
-    npm \
     openjdk-7-jdk \
     gettext \
     gcc \
     git \
     virtualenv \
+    curl \
+ && curl -sL https://deb.nodesource.com/setup_8.x | bash - \
+ && apt-get install -y nodejs \
  && make -f config/dev install \
  && py3compile -f -X '^.*gevent/_util_py2.py$' .build/venv/ \
  && rm -fr .cache/ .npm/ /root/.cache/ /root/.npm/ \
@@ -40,13 +41,13 @@ RUN set -x \
     python3-dev \
     python3-pip \
     libgeos-dev \
-    nodejs-legacy \
-    npm \
+    nodejs \
     openjdk-7-jdk \
     gettext \
     gcc \
     git \
     virtualenv \
+    curl \
  && apt-get -y --purge autoremove \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
