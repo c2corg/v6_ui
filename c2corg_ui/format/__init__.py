@@ -37,7 +37,7 @@ generate random data without entropy. Hexlify() and ascii() convert it to
 lower case string. Once V6_ui will be into python 3.6 or higher, we will use
 secrets module.
 
-How to hack C2C ? if you want to inject an iframe, you will need to know the
+How to hack C2C? if you want to inject an iframe, you will need to know the
 value of _iframe_secret_tag present into server memory.
 """
 
