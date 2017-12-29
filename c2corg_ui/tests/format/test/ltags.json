@@ -28,5 +28,10 @@
         "id": "Text in the middle",
         "text": "L# | 1 \nL#~ text in\nthe middle\nL# | 2 ",
         "expected": "<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate>L</span>1</span></td>\n<td>1</td>\n</tr>\n<tr>\n<td colspan=\"2\">text in<br/>the middle</td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate>L</span>2</span></td>\n<td>2</td>\n</tr>\n</tbody>\n</table>"
+    },
+    {
+        "id": "Header and simple Ltags",
+        "text": "L#= | Numerotation\nL# |1\nL#| 2",
+        "expected": "<table class=\"ltag\">\n<tbody>\n<tr>\n<td></td>\n<th>Numerotation</th>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate>L</span>1</span></td>\n<td>1</td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate>L</span>2</span></td>\n<td>2</td>\n</tr>\n</tbody>\n</table>"
     }
 ]
