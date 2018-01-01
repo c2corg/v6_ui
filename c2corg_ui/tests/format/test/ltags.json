@@ -2,31 +2,31 @@
     {
         "id": "Simple LTag",
         "text": "L# |1\nL#| 2",
-        "expected": "<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate>L</span>1</span></td>\n<td>1</td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate>L</span>2</span></td>\n<td>2</td>\n</tr>\n</tbody>\n</table>"
+        "expected": "<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>1</span></td>\n<td>1</td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>2</span></td>\n<td>2</td>\n</tr>\n</tbody>\n</table>"
     },
     {
         "id": "Two LTags separated by text",
         "text": "Hello\n\n L# |1\nL#| 2\n\nGreat !\n\nL# |3\nL#| 4",
-        "expected": "<p>Hello</p>\n<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate>L</span>1</span></td>\n<td>1</td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate>L</span>2</span></td>\n<td>2</td>\n</tr>\n</tbody>\n</table>\n<p>Great !</p>\n<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate>L</span>3</span></td>\n<td>3</td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate>L</span>4</span></td>\n<td>4</td>\n</tr>\n</tbody>\n</table>"
+        "expected": "<p>Hello</p>\n<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>1</span></td>\n<td>1</td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>2</span></td>\n<td>2</td>\n</tr>\n</tbody>\n</table>\n<p>Great !</p>\n<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>3</span></td>\n<td>3</td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>4</span></td>\n<td>4</td>\n</tr>\n</tbody>\n</table>"
     },
     {
         "id": "LTag containing a wikilink",
         "text": "L# |1\nL#| 2 [[waypoints/106822|text]]",
-        "expected": "<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate>L</span>1</span></td>\n<td>1</td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate>L</span>2</span></td>\n<td>2 <a href=\"/waypoints/106822\">text</a></td>\n</tr>\n</tbody>\n</table>"
+        "expected": "<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>1</span></td>\n<td>1</td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>2</span></td>\n<td>2 <a href=\"/waypoints/106822\">text</a></td>\n</tr>\n</tbody>\n</table>"
     },
     {
         "id": "LTags and RTags separated by text",
         "text": "Hello\n\n L# |1\nL#| 2 then R#\n\nGreat !\n\nR# |1\nR#| 2",
-        "expected": "<p>Hello</p>\n<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate>L</span>1</span></td>\n<td>1</td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate>L</span>2</span></td>\n<td>2 then <span class=\"pitch\"><span translate>R</span>2</span></td>\n</tr>\n</tbody>\n</table>\n<p>Great !</p>\n<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate>R</span>1</span></td>\n<td>1</td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate>R</span>2</span></td>\n<td>2</td>\n</tr>\n</tbody>\n</table>"
+        "expected": "<p>Hello</p>\n<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>1</span></td>\n<td>1</td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>2</span></td>\n<td>2 then <span class=\"pitch\"><span translate=\"\">R</span>2</span></td>\n</tr>\n</tbody>\n</table>\n<p>Great !</p>\n<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">R</span>1</span></td>\n<td>1</td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">R</span>2</span></td>\n<td>2</td>\n</tr>\n</tbody>\n</table>"
     },
     {
         "id": "Unsupported LTag",
         "text": "L#+1 |1\nL#| 2",
-        "expected": "<p>L#+1 |1<br />\nL#| 2</p>"
+        "expected": "<p>L#+1 |1<br>\nL#| 2</p>"
     },
     {
         "id": "Text in the middle",
         "text": "L# | 1 \nL#~ text in\nthe middle\nL# | 2 ",
-        "expected": "<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate>L</span>1</span></td>\n<td>1</td>\n</tr>\n<tr>\n<td colspan=\"2\">text in<br/>the middle</td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate>L</span>2</span></td>\n<td>2</td>\n</tr>\n</tbody>\n</table>"
+        "expected": "<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>1</span></td>\n<td>1</td>\n</tr>\n<tr>\n<td colspan=\"2\">text in<br>the middle</td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>2</span></td>\n<td>2</td>\n</tr>\n</tbody>\n</table>"
     }
 ]
