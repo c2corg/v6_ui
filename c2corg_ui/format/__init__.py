@@ -1,6 +1,7 @@
-import bbcode
 import markdown
-import html
+import bleach
+import binascii
+import os
 
 from c2corg_ui.format.autolink import AutoLinkExtension
 from c2corg_ui.format.wikilinks import C2CWikiLinkExtension
@@ -13,9 +14,32 @@ from c2corg_ui.format.header_emphasis import HeaderEmphasisExtension
 from markdown.extensions.nl2br import Nl2BrExtension
 from markdown.extensions.toc import TocExtension
 
+
+def _get_secret():
+    return binascii.hexlify(os.urandom(32)).decode('ascii')
+
+
 _markdown_parser = None
-_bbcode_parser = None
 _parsers_settings = None
+_cleaner = None
+_iframe_secret_tag = "iframe_" + _get_secret()
+_ngclick_secret_tag = "ngclick_" + _get_secret()
+
+"""
+_***_secret_tag is used as a private key to remplace critical HTML node and
+attributes. The key point is this : the parser will use them. bleach will
+remove all critical nodes. Then, a very end parser replace secret_tag by good
+HTML node/attribute
+
+PEP 506 :
+os.urandom is the safe way to generate private data, where random module only
+generate random data without entropy. Hexlify() and ascii() convert it to
+lower case string. Once V6_ui will be into python 3.6 or higher, we will use
+secrets module.
+
+How to hack C2C ? if you want to inject an iframe, you will need to know the
+value of _iframe_secret_tag present into server memory.
+"""
 
 
 def configure_parsers(settings):
@@ -25,18 +49,71 @@ def configure_parsers(settings):
     }
 
 
+def _get_cleaner():
+    global _cleaner
+
+    if not _cleaner:
+        allowed_tags = bleach.ALLOWED_TAGS + [
+            # blocks
+            "div", "p", "h1", "h2", "h3", "h4", "h5", "pre", "hr", "center",
+
+            # inline
+            "span", "br", "sub", "sup", "s", "del", "ins", "small",
+
+            # images
+            "figure", "img", "figcaption",
+
+            _iframe_secret_tag,
+
+            # tables
+            "table", "tr", "td", "th", "tbody"
+        ]
+
+        allowed_attributes = dict(bleach.ALLOWED_ATTRIBUTES)
+        allowed_extra_attributes = {
+            "h1": ["id"],
+            "h2": ["id"],
+            "h3": ["id"],
+            "h4": ["id"],
+            "h5": ["id"],
+            "table": ["class"],
+            "div": ["class"],
+            "td": ["colspan"],
+            "span": ["class", "translate", "id"],
+            _iframe_secret_tag: ["class", "src"],
+            "figure": ["class", _ngclick_secret_tag],
+            "img": ["src", "class", "alt", "img-id"],
+        }
+
+        for key in allowed_extra_attributes:
+            if key not in allowed_attributes:
+                allowed_attributes[key] = []
+
+            allowed_attributes[key] += allowed_extra_attributes[key]
+
+        _cleaner = bleach.Cleaner(tags=allowed_tags,
+                                  attributes=allowed_attributes,
+                                  styles=bleach.ALLOWED_STYLES,
+                                  protocols=bleach.ALLOWED_PROTOCOLS,
+                                  strip=False,
+                                  strip_comments=True)
+
+    return _cleaner
+
+
 def _get_markdown_parser():
     global _markdown_parser
     if not _markdown_parser:
         extensions = [
             C2CWikiLinkExtension(),
-            C2CImageExtension(api_url=_parsers_settings['api_url']),
+            C2CImageExtension(api_url=_parsers_settings['api_url'],
+                              ngclick_secret_tag=_ngclick_secret_tag),
             C2CImportantExtension(),
             C2CWarningExtension(),
             Nl2BrExtension(),
             TocExtension(marker='[toc]', baselevel=2),
             AutoLinkExtension(),
-            C2CVideoExtension(),
+            C2CVideoExtension(iframe_secret_tag=_iframe_secret_tag),
             C2CLTagExtension(),
             HeaderEmphasisExtension(),
         ]
@@ -45,24 +122,10 @@ def _get_markdown_parser():
     return _markdown_parser
 
 
-def _get_bbcode_parser():
-    global _bbcode_parser
-    if not _bbcode_parser:
-        # prevent that BBCode parser escapes again (the Markdown parser does
-        # this already)
-        bbcode.Parser.REPLACE_ESCAPE = ()
-        _bbcode_parser = bbcode.Parser(
-            escape_html=False, newline='\n', replace_links=False)
-    return _bbcode_parser
+def parse_code(text):
+    text = _get_markdown_parser().convert(text)
+    text = _get_cleaner().clean(text=text)
+    text = text.replace(_iframe_secret_tag, "iframe")
+    text = text.replace(_ngclick_secret_tag, "ng-click")
 
-
-def parse_code(text, md=True, bb=True):
-    if bb:
-        text = _get_bbcode_parser().format(text)
-    if md:
-        text = _get_markdown_parser().convert(text)
     return text
-
-
-def sanitize(text):
-    return html.escape(text)
