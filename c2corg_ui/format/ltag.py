@@ -19,8 +19,8 @@ log = logging.getLogger(__name__)
 class LTagPreprocessor(Preprocessor):
     """ Preprocess lines to clean LTag blocks """
 
-    """ Supported tags are L#, R# """
-    RE_LTAG_UNSUPPORTED = re.compile(r'[L|R]#[^\s|\~]+')
+    """ Supported tags are L#, R#, L#~, L#= """
+    RE_LTAG_UNSUPPORTED = re.compile(r'[L|R]#[^\s|~|=]+')
 
     def __init__(self, processor):
         self.processor = processor
@@ -73,15 +73,15 @@ class LTagProcessor(BlockProcessor):
 
     RE_LTAG_BLOCK = re.compile(r'^\s*(?:[L|R]#(?:[^|\n]*(?:\|[^|\n]*)+))+$')
     RE_LTAG_FOR_TEXT_IN_THE_MIDDLE_BLOCK = re.compile(r'^\s*[L|R]#~.*$')
-    RE_LTAG = re.compile(r'(?P<pitch_type>[L|R])#(?P<modifier>_|[0-9]*)')
+    RE_LTAG = re.compile(r'(?P<pitch_type>[L|R])#(?P<modifier>~|=|_|[0-9]*)')
     RE_LTAG_FOR_TEXT_IN_THE_MIDDLE = re.compile(r'[L|R]#~\s*')
     RE_RTAG_ROW_DISTINCTION = re.compile(r'^\s*R#.*$')
     RE_PIPE_SELECTION = re.compile(r'(\|)(?![^|]*\]\])')
 
     ltag_template = '<span class="pitch"><span translate>{0}</span>{1}</span>'
     pipe_replacement = '__--|--__'
-    pitch_count = 1
-    abseil_count = 1
+    pitch_number = 1
+    abseil_number = 1
     shouldSkip = False
     text_in_the_middle = False
 
@@ -92,22 +92,22 @@ class LTagProcessor(BlockProcessor):
         self.shouldSkip = True
 
     def reset_for_new_document(self):
-        self.pitch_count = 1
-        self.abseil_count = 1
+        self.pitch_number = 1
+        self.abseil_number = 1
         self.shouldSkip = False
 
-    def increment_row_count(self, row):
+    def increment_row_number(self, row):
         if self.RE_RTAG_ROW_DISTINCTION.search(row) is not None:
-            self.abseil_count += 1
+            self.abseil_number += 1
             return
 
-        self.pitch_count += 1
+        self.pitch_number += 1
 
-    def get_row_count(self, col_number, pitch_type):
+    def get_row_number(self, col_number, pitch_type):
         if col_number == 1 and pitch_type == "R":
-            return self.abseil_count
+            return self.abseil_number
 
-        return self.pitch_count
+        return self.pitch_number
 
     def is_line_ltag(self, text):
         return self.RE_LTAG_BLOCK.search(text) is not None
@@ -186,28 +186,39 @@ class LTagProcessor(BlockProcessor):
 
             # Pitch / Relay cell
             td = etree.SubElement(tr, 'td')
+            td.text, main_modifier = self.process_ltag(cols[0], col_number)
 
-            td.text = self.process_ltag(cols[0], col_number)
             col_number += 1
 
             # Others cells
             for col in cols[1:]:
-                td = etree.SubElement(tr, 'td')
-                td.text = self.process_ltag(col, col_number)
+                if main_modifier == "=":
+                    thd = etree.SubElement(tr, 'th')
+                else:
+                    thd = etree.SubElement(tr, 'td')
+                thd.text, _ = self.process_ltag(col, col_number)
                 col_number += 1
 
             max_col_number = max(col_number, max_col_number)
 
-            self.increment_row_count(row)
+            if main_modifier != "=":
+                self.increment_row_number(row)
 
     def process_ltag(self, text, col_number):
         text = text.strip()
         matches = self.RE_LTAG.finditer(text)
+        main_modifier = ""
 
         for match in matches:
             pitch_type = match.group('pitch_type')
-            # modifier = match.group('modifier')
-            pitch_number = self.get_row_count(col_number, pitch_type)
+            modifier = match.group('modifier')
+
+            if str(modifier) == "=":
+                text = ""
+                main_modifier = str(modifier)
+                continue
+
+            pitch_number = self.get_row_number(col_number, pitch_type)
 
             text = text.replace(
                 match.group(0),
@@ -217,7 +228,7 @@ class LTagProcessor(BlockProcessor):
                 )
             )
 
-        return text
+        return text, main_modifier
 
 
 class C2CLTagExtension(Extension):
