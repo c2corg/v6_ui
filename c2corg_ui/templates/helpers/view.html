@@ -65,7 +65,7 @@
 
 <%def name="show_attr(obj, key, parse=True)">\
   <%
-      attr = get_attr(obj, key, md=parse, bb=parse)
+      attr = get_attr(obj, key, parse=parse)
       attr = attr if attr else ''
   %>
   ${attr | n}\
@@ -176,7 +176,7 @@
 </%def>
 
 <%def name="show_version_comment(version)">\
-  ${get_attr(version, 'comment', md=False)  if version['comment'] else '' | n}
+  ${get_attr(version, 'comment', parse=False)  if version['comment'] else '' | n}
 </%def>
 
 <%def name="show_maps(document)">\

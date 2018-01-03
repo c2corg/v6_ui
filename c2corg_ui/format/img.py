@@ -21,12 +21,13 @@ class C2CImageExtension(Extension):
             "api_url": ['', 'Base URL of the API. Defaults to ""']
         }
 
+        self._ngclick_secret_tag = kwargs.pop("ngclick_secret_tag")
         super(C2CImageExtension, self).__init__(*args, **kwargs)
 
     def extendMarkdown(self, md, md_globals):  # noqa
         self.md = md
 
-        pattern = C2CImage(IMG_RE, self.getConfigs())
+        pattern = C2CImage(IMG_RE, self.getConfigs(), self._ngclick_secret_tag)
         pattern.md = md
         # append to end of inline patterns
         md.inlinePatterns.add('c2cimg', pattern, "<not_strong")
@@ -34,9 +35,10 @@ class C2CImageExtension(Extension):
 
 class C2CImage(Pattern):
 
-    def __init__(self, pattern, config):
+    def __init__(self, pattern, config, ngclick_secret_tag):
         super(C2CImage, self).__init__(pattern)
         self.config = config
+        self._ngclick_secret_tag = ngclick_secret_tag
 
     def handleMatch(self, m):  # noqa
         # group(1) is everything before the pattern
@@ -68,8 +70,10 @@ class C2CImage(Pattern):
         img.set('img-id', img_id)
 
         fig = etree.Element('figure')
-        fig.set('ng-click', 'detailsCtrl.openEmbeddedImage("' + img_url + '", \
-           "' + img_id + '")')
+        fig.set(self._ngclick_secret_tag,
+                'detailsCtrl.openEmbeddedImage("{}", "{}")'
+                .format(img_url, img_id))
+
         fig.append(img)
         fig.set('class', 'embedded_' + position + ' ' + img_size)
 

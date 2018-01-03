@@ -1,5 +1,5 @@
 from c2corg_common.attributes import default_langs
-from c2corg_ui.format import parse_code, sanitize
+from c2corg_ui.format import parse_code
 
 
 def get_lang_lists(document, lang):
@@ -7,7 +7,7 @@ def get_lang_lists(document, lang):
         available_langs = document['available_langs']
         other_langs = [l for l in available_langs if l != lang]
         missing_langs = list(
-          set(default_langs) - set(available_langs)
+            set(default_langs) - set(available_langs)
         )
     else:
         other_langs = None
@@ -24,15 +24,14 @@ def get_title(locale):
     return title
 
 
-def get_attr(obj, key, md=True, bb=True):
+def get_attr(obj, key, parse):
     """Get attribute from passed object if exists.
     md and bb are optional params that may be used to finetune
     the text formating.
     """
     attr = obj[key] if key in obj else None
     if attr and isinstance(attr, str):
-        attr = sanitize(attr)
-        attr = parse_code(attr, md, bb) if md or bb else attr
+        attr = parse_code(attr) if parse else attr
     return attr
 
 
@@ -102,7 +101,7 @@ def get_route_gear_articles(route):
                 route.get('global_rating') in ['F', 'F+', 'PD-', 'PD', 'PD+']:
             articles.append(('185750', 'easy snow ice mixed gear'))
         if 'mountain_climbing' in activities and \
-                route.get('global_rating') in [
+            route.get('global_rating') in [
                     'F',
                     'F+',
                     'PD-',
@@ -116,7 +115,7 @@ def get_route_gear_articles(route):
             if route.get('equipment_rating') in ['P1', 'P1+']:
                 articles.append(('183332', 'bolted rock climbing gear'))
             elif 'mountain_climbing' not in activities and \
-                    route.get('global_rating') in [
+                route.get('global_rating') in [
                         'F',
                         'F+',
                         'PD-',
@@ -125,7 +124,7 @@ def get_route_gear_articles(route):
                         'AD-',
                         'AD'
                     ] and \
-                    route.get('equipment_rating') in [
+                route.get('equipment_rating') in [
                         'P2',
                         'P2+',
                         'P3',
@@ -138,11 +137,11 @@ def get_route_gear_articles(route):
         if 'hiking' in activities:
             articles.append(('185207', 'hiking gear'))
         if any(activity in activities for activity in [
-                'mountain_climbing',
-                'skitouring',
-                'snow_ice_mixed',
-                'snowshoeing'
-                ]) and \
+            'mountain_climbing',
+            'skitouring',
+            'snow_ice_mixed',
+            'snowshoeing'
+        ]) and \
                 route.get('glacier_gear') and \
                 route.get('glacier_gear') != 'no':
             # we should use an anchor for glacier gear, but it's not possible

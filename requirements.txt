@@ -10,6 +10,7 @@ Shapely==1.5.13
 htmlmin==0.1.10
 bbcode==1.0.21
 Markdown==2.6.5
+bleach==2.1.2
 dogpile.cache==0.6.1
 redis==2.10.5
 transifex-client==0.12.1
