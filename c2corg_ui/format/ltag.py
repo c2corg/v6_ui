@@ -20,7 +20,7 @@ class LTagPreprocessor(Preprocessor):
     """ Preprocess lines to clean LTag blocks """
 
     """ Supported tags are L#, R#, L#~, L#= """
-    RE_LTAG_UNSUPPORTED = re.compile(r'[L|R]#[^\s|~|=]+')
+    RE_LTAG_UNSUPPORTED = re.compile(r'[L|R]#[^\s|~|=|\d]+')
 
     def __init__(self, processor):
         self.processor = processor
@@ -76,15 +76,14 @@ class LTagProcessor(BlockProcessor):
 
     RE_LTAG_BLOCK = re.compile(r'^\s*(?:[L|R]#(?:[^|\n]*(?:\|[^|\n]*)+))+$')
     RE_LTAG_FOR_TEXT_IN_THE_MIDDLE_BLOCK = re.compile(r'^\s*[L|R]#~.*$')
-    RE_LTAG = re.compile(r'(?P<pitch_type>[L|R])#(?P<modifier>~|=|_|[0-9]*)')
+    RE_LTAG = re.compile(r'(?P<pitch_type>[L|R])#(?P<modifier>~|=|_|\d*)')
     RE_LTAG_FOR_TEXT_IN_THE_MIDDLE = re.compile(r'[L|R]#~\s*')
-    RE_RTAG_ROW_DISTINCTION = re.compile(r'^\s*R#.*$')
     RE_PIPE_SELECTION = re.compile(r'(\|)(?![^|]*\]\])')
 
     ltag_template = '<span class="pitch"><span translate>{0}</span>{1}</span>'
     pipe_replacement = '__--|--__'
-    pitch_number = 1
-    abseil_number = 1
+    pitch_number = 0
+    abseil_number = 0
     shouldSkip = False
     text_in_the_middle = False
 
@@ -95,22 +94,29 @@ class LTagProcessor(BlockProcessor):
         self.shouldSkip = True
 
     def reset_for_new_document(self):
-        self.pitch_number = 1
-        self.abseil_number = 1
+        self.pitch_number = 0
+        self.abseil_number = 0
         self.shouldSkip = False
 
-    def increment_row_number(self, row):
-        if self.RE_RTAG_ROW_DISTINCTION.search(row) is not None:
+    def increment_row_number(self, pitch_type):
+        if pitch_type == "R":
             self.abseil_number += 1
             return
 
         self.pitch_number += 1
 
-    def get_row_number(self, col_number, pitch_type):
-        if col_number == 1 and pitch_type == "R":
+    def get_row_number(self, pitch_type):
+        if pitch_type == "R":
             return self.abseil_number
 
         return self.pitch_number
+
+    def set_row_number(self, pitch_type, row_number):
+        if pitch_type == "R":
+            self.abseil_number = row_number
+            return
+
+        self.pitch_number = row_number
 
     def is_line_globally_ltag(self, text):
         is_line_ltag = self.is_line_ltag(text)
@@ -172,7 +178,6 @@ class LTagProcessor(BlockProcessor):
             )
             div = etree.SubElement(parent, 'div')
             div.text = raw_block
-            return
 
     def parse(self, rows):
         ltag_rows = []
@@ -180,26 +185,34 @@ class LTagProcessor(BlockProcessor):
         for raw_row in rows:
             raw_cells = raw_row.split(self.pipe_replacement)
 
-            if len(raw_cells) == 0:
-                raise Exception(
-                    "There's is no cells in this LTag : \"{}\""
-                    .format(raw_row)
-                )
-
+            # Text in the middle
             if ltag_row is not None \
                 and ltag_row.is_text_in_the_middle() \
                     and not self.is_line_ltag(raw_row):
                 ltag_row.append_text_to_first_cell(raw_row)
                 continue
 
+            # Build LTagRow object
             ltag_row = LTagRow(raw_row)
             ltag_row.parse_first_cell(raw_cells[0])
-            if ltag_row.has_position():
-                ltag_row.set_row_position(
-                    self.get_row_number(1, ltag_row.get_pitch_type())
-                )
-                self.increment_row_number(ltag_row.get_raw_text())
 
+            # Row position
+            if ltag_row.has_position():
+                absolute_position = ltag_row.get_absolute_position()
+
+                if absolute_position is not None:
+                    self.set_row_number(
+                        ltag_row.get_pitch_type(),
+                        absolute_position
+                    )
+                else:
+                    self.increment_row_number(ltag_row.get_pitch_type())
+
+                ltag_row.set_row_position(
+                    self.get_row_number(ltag_row.get_pitch_type())
+                )
+
+            # Cells
             for raw_cell in raw_cells:
                 ltag_cell = LTagCell(raw_cell)
 
@@ -250,17 +263,21 @@ class LTagProcessor(BlockProcessor):
         for match in matches:
             pitch_type = match.group('pitch_type')
             modifier = match.group('modifier')
+            position = row_position
 
             if str(modifier) == "=":
                 text = ""
                 main_modifier = str(modifier)
                 continue
 
+            if modifier.isdigit():
+                position = int(modifier)
+
             text = text.replace(
                 match.group(0),
                 self.ltag_template.format(
                     pitch_type,
-                    row_position
+                    position
                 )
             )
 
@@ -314,6 +331,12 @@ class LTagRow(object):
     def get_row_position(self):
         return self.row_position
 
+    def get_absolute_position(self):
+        if isinstance(self.row_modifier, int):
+            return self.row_modifier
+
+        return None
+
     def append(self, ltag_cell):
         self.ltag_cells.append(ltag_cell)
 
@@ -334,6 +357,9 @@ class LTagRow(object):
         for match in matches:
             self.pitch_type = match.group("pitch_type")
             self.row_modifier = match.group("modifier")
+
+            if self.row_modifier.isdigit():
+                self.row_modifier = int(self.row_modifier)
 
 
 class LTagCell(object):
