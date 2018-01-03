@@ -39,7 +39,10 @@ class LTagPreprocessor(Preprocessor):
 
             # If there is an unsupported tag, skip the entire block
             if self.is_line_ltag_supported(line):
-                log.info("Skip all because of unsupported LTAG : \""+line+"\"")
+                log.info(
+                    "[LTag] Skip all because of unsupported LTAG : \"{}\""
+                    .format(line)
+                )
                 self.processor.skip()
 
             # Are current & next lines LTags ?
@@ -150,80 +153,96 @@ class LTagProcessor(BlockProcessor):
 
         return is_block_ltag
 
+    def run(self, parent, blocks):
+        raw_block = blocks.pop(0)
+
+        # Replace relevant pipes to protect wikilinks
+        block = self.RE_PIPE_SELECTION.sub(self.pipe_replacement, raw_block)
+
+        rows = block.split('\n')
+
+        try:
+            ltag_rows = self.parse(rows)
+
+            self.render(parent, ltag_rows)
+        except Exception as e:
+            log.info(
+                "[LTag] Do not render due to parse/render Exception : \"{}\""
+                .format(e)
+            )
+            div = etree.SubElement(parent, 'div')
+            div.text = raw_block
+            return
+
     def parse(self, rows):
-        ltagRows = []
-        ltagRow = None
-        for rawRow in rows:
-            rawCells = rawRow.split(self.pipe_replacement)
+        ltag_rows = []
+        ltag_row = None
+        for raw_row in rows:
+            raw_cells = raw_row.split(self.pipe_replacement)
 
-            if len(rawCells) == 0:
-                raise Exception("There's is no cells in this LTag : \""+rawRow+"\"")
+            if len(raw_cells) == 0:
+                raise Exception(
+                    "There's is no cells in this LTag : \"{}\""
+                    .format(raw_row)
+                )
 
-            if ltagRow is not None \
-                and ltagRow.isTextInTheMiddle() \
-                and not self.is_line_ltag(rawRow):
-                ltagRow.appendTextToFirstCell(rawRow)
+            if ltag_row is not None \
+                and ltag_row.is_text_in_the_middle() \
+                    and not self.is_line_ltag(raw_row):
+                ltag_row.append_text_to_first_cell(raw_row)
                 continue
 
-            ltagRow = LTagRow(rawRow)
-            ltagRow.parseFirstCell(rawCells[0])
-            ltagRow.setRowPosition(self.get_row_number(ltagRow.getPitchType(), 0))
+            ltag_row = LTagRow(raw_row)
+            ltag_row.parse_first_cell(raw_cells[0])
+            if ltag_row.has_position():
+                ltag_row.set_row_position(
+                    self.get_row_number(1, ltag_row.get_pitch_type())
+                )
+                self.increment_row_number(ltag_row.get_raw_text())
 
-            for rawCell in rawCells:
-                ltagCell = LTagCell(rawCell)
+            for raw_cell in raw_cells:
+                ltag_cell = LTagCell(raw_cell)
 
-                ltagRow.append(ltagCell)
+                ltag_row.append(ltag_cell)
 
+            ltag_rows.append(ltag_row)
 
-            ltagRows.append(ltagRow)
+        return ltag_rows
 
-        return ltagRows
-
-    def render(self, parent, ltagRows):
+    def render(self, parent, ltag_rows):
         table = etree.SubElement(parent, 'table')
         table.set('class', 'ltag')
         tbody = etree.SubElement(table, 'tbody')
         max_col_number = 0
-        text_in_the_middle_td = None
-        for _, ltagRow in enumerate(ltagRows):
-           
+        for _, ltag_row in enumerate(ltag_rows):
+
             tr = etree.SubElement(tbody, 'tr')
             col_number = 1
 
             # Others cells
-            for cell in ltagRow.getLTagCells():
-                if ltagRow.getRowModifier() == "=":
+            for cell in ltag_row.get_ltag_cells():
+
+                # Header
+                if ltag_row.get_row_modifier() == "=":
                     thd = etree.SubElement(tr, 'th')
                 else:
                     thd = etree.SubElement(tr, 'td')
 
-                if ltagRow.getRowModifier() == "~":
-                    thd.text = self.RE_LTAG_FOR_TEXT_IN_THE_MIDDLE.sub('', cell.getRawText().replace("\n", "<br/>"))
+                # Text in the middle
+                if ltag_row.get_row_modifier() == "~":
+                    thd.text = self.RE_LTAG_FOR_TEXT_IN_THE_MIDDLE.sub(
+                        '', cell.get_raw_text().replace("\n", "<br/>")
+                    )
                     thd.set('colspan', str(max_col_number - 1))
                 else:
-                    thd.text, _ = self.process_ltag(cell.getRawText(), col_number)
+                    thd.text, _ = self.process_ltag(
+                        cell.get_raw_text(), ltag_row.get_row_position()
+                    )
                 col_number += 1
 
             max_col_number = max(col_number, max_col_number)
 
-            if ltagRow.getRowModifier() != "=":
-                self.increment_row_number(ltagRow.getRawText())
-
-
-    def run(self, parent, blocks):
-        block = blocks.pop(0)
-
-        # Replace relevant pipes to protect wikilinks
-        block = self.RE_PIPE_SELECTION.sub(self.pipe_replacement, block)
-
-        rows = block.split('\n')
-        
-        ltagRows = self.parse(rows)
-
-        self.render(parent, ltagRows)
-
-        
-    def process_ltag(self, text, col_number):
+    def process_ltag(self, text, row_position):
         text = text.strip()
         matches = self.RE_LTAG.finditer(text)
         main_modifier = ""
@@ -237,13 +256,11 @@ class LTagProcessor(BlockProcessor):
                 main_modifier = str(modifier)
                 continue
 
-            pitch_number = self.get_row_number(col_number, pitch_type)
-
             text = text.replace(
                 match.group(0),
                 self.ltag_template.format(
                     pitch_type,
-                    str(pitch_number)
+                    row_position
                 )
             )
 
@@ -266,66 +283,70 @@ class C2CLTagExtension(Extension):
 
 class LTagRow(object):
 
-    def __init__(self, rawText):
-        self.rawText = rawText
-        self.ltagCells = []
-        self.rowPosition = None
-        self.rowModifier = ""
-        self.pitchType = "L"
+    def __init__(self, raw_text):
+        self.raw_text = raw_text
+        self.ltag_cells = []
+        self.row_position = None
+        self.row_modifier = ""
+        self.pitch_type = "L"
 
-    def getPitchType(self):
-        return self.pitchType
+    def get_pitch_type(self):
+        return self.pitch_type
 
-    def getRowModifier(self):
-        return self.rowModifier
+    def get_row_modifier(self):
+        return self.row_modifier
 
-    def getRawText(self):
-        return self.rawText
+    def get_raw_text(self):
+        return self.raw_text
 
-    def getLTagCells(self):
-        return self.ltagCells
+    def get_ltag_cells(self):
+        return self.ltag_cells
 
-    def isTextInTheMiddle(self):
-        return self.rowModifier == "~"
+    def is_text_in_the_middle(self):
+        return self.row_modifier == "~"
 
-    def setRowPosition(self, rowPosition):
-        self.rowPosition = rowPosition
+    def has_position(self):
+        return self.row_modifier not in ['~', '=']
 
-    def append(self, ltagCell):
-        self.ltagCells.append(ltagCell)
+    def set_row_position(self, row_position):
+        self.row_position = row_position
 
-    def appendTextToFirstCell(self, text):
-        self.ltagCells[0].appendText(text)
+    def get_row_position(self):
+        return self.row_position
 
-    def parseFirstCell(self, firstCell):
-        firstCell = firstCell.strip()
+    def append(self, ltag_cell):
+        self.ltag_cells.append(ltag_cell)
+
+    def append_text_to_first_cell(self, text):
+        self.ltag_cells[0].append_text(text)
+
+    def parse_first_cell(self, first_cell):
+        first_cell = first_cell.strip()
 
         # count matches
-        if sum(1 for _ in LTagProcessor.RE_LTAG.finditer(firstCell)) != 1:
-            raise Exception("First row cell shouldn't have more or less than one LTag : \""+firstCell+"\"")
+        if sum(1 for _ in LTagProcessor.RE_LTAG.finditer(first_cell)) != 1:
+            raise Exception(
+                "First row cell must have one LTag : \"{}\""
+                .format(first_cell)
+                )
 
-        matches = LTagProcessor.RE_LTAG.finditer(firstCell)
+        matches = LTagProcessor.RE_LTAG.finditer(first_cell)
         for match in matches:
-            self.pitchType = match.group("pitch_type")
-            self.rowModifier = match.group("modifier")
-
+            self.pitch_type = match.group("pitch_type")
+            self.row_modifier = match.group("modifier")
 
 
 class LTagCell(object):
 
-    def __init__(self, rawText):
-        self.rawText = rawText
+    def __init__(self, raw_text):
+        self.raw_text = raw_text
 
-    def getRawText(self):
-        return self.rawText
+    def get_raw_text(self):
+        return self.raw_text
 
-    def appendText(self, text):
-        self.rawText = self.rawText + "\n" + text
-
-
+    def append_text(self, text):
+        self.raw_text = self.raw_text + "\n" + text
 
 
 def makeExtension(*args, **kwargs):  # noqa
     return C2CLTagExtension(*args, **kwargs)
-
-
