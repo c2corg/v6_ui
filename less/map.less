@@ -43,7 +43,7 @@
   .map-reset-feature {
     position: absolute;
     z-index: 2;
-    top: 10px;
+    top: 13px;
     right: 10px;
   }
 
@@ -57,7 +57,7 @@
   .map-unset-feature {
     position: absolute;
     z-index: 2;
-    top: 36px;
+    top: 39px;
     right: 10px;
   }
 
@@ -158,6 +158,10 @@ app-map-search { /* stylelint-disable-line selector-type-no-unknown */
   span.twitter-typeahead {
     width: 150px;
     margin-top: -2px;
+
+    @media @phone {
+      width: 135px;
+    }
 
     input {
       height: 26px;
