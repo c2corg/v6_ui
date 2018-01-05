@@ -1,0 +1,5 @@
+[{
+  "id":"base",
+  "text":"[p]",
+  "expected":"<div style=\"clear: both;\"></div>"
+}]

@@ -11,6 +11,7 @@ from c2corg_ui.format.important import C2CImportantExtension
 from c2corg_ui.format.warning import C2CWarningExtension
 from c2corg_ui.format.ltag import C2CLTagExtension
 from c2corg_ui.format.header_emphasis import HeaderEmphasisExtension
+from c2corg_ui.format.ptag import C2CPTagExtension
 from markdown.extensions.nl2br import Nl2BrExtension
 from markdown.extensions.toc import TocExtension
 
@@ -77,7 +78,7 @@ def _get_cleaner():
             "h4": ["id"],
             "h5": ["id"],
             "table": ["class"],
-            "div": ["class"],
+            "div": ["class", "style"],
             "td": ["colspan"],
             "span": ["class", "translate", "id"],
             _iframe_secret_tag: ["class", "src"],
@@ -93,7 +94,7 @@ def _get_cleaner():
 
         _cleaner = bleach.Cleaner(tags=allowed_tags,
                                   attributes=allowed_attributes,
-                                  styles=bleach.ALLOWED_STYLES,
+                                  styles=bleach.ALLOWED_STYLES + ["clear"],
                                   protocols=bleach.ALLOWED_PROTOCOLS,
                                   strip=False,
                                   strip_comments=True)
@@ -116,6 +117,7 @@ def _get_markdown_parser():
             C2CVideoExtension(iframe_secret_tag=_iframe_secret_tag),
             C2CLTagExtension(),
             HeaderEmphasisExtension(),
+            C2CPTagExtension(),
         ]
         _markdown_parser = markdown.Markdown(output_format='xhtml5',
                                              extensions=extensions)
