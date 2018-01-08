@@ -1,0 +1,43 @@
+[
+  {
+    "id": "img",
+    "text": "[img=123/]",
+    "expected": "<figure class=\"embedded_inline MI\" ng-click=\"detailsCtrl.openEmbeddedImage(&quot;https://api.camptocamp.org//images/proxy/123?size=MI&quot;, &quot;123&quot;)\"><img alt=\"123\" class=\"thumbnail embedded-image \" img-id=\"123\" src=\"https://api.camptocamp.org//images/proxy/123?size=MI\"></figure>"
+  },
+  {
+    "id": "two images, two figures",
+    "text": "[img=123/][img=123/]",
+    "expected": "<figure class=\"embedded_inline MI\" ng-click=\"detailsCtrl.openEmbeddedImage(&quot;https://api.camptocamp.org//images/proxy/123?size=MI&quot;, &quot;123&quot;)\"><img alt=\"123\" class=\"thumbnail embedded-image \" img-id=\"123\" src=\"https://api.camptocamp.org//images/proxy/123?size=MI\"></figure>\n<figure class=\"embedded_inline MI\" ng-click=\"detailsCtrl.openEmbeddedImage(&quot;https://api.camptocamp.org//images/proxy/123?size=MI&quot;, &quot;123&quot;)\"><img alt=\"123\" class=\"thumbnail embedded-image \" img-id=\"123\" src=\"https://api.camptocamp.org//images/proxy/123?size=MI\"></figure>"
+  },
+  {
+    "id": "even new line changes nothing",
+    "text": "[img=123/]\n[img=123/]",
+    "expected": "<figure class=\"embedded_inline MI\" ng-click=\"detailsCtrl.openEmbeddedImage(&quot;https://api.camptocamp.org//images/proxy/123?size=MI&quot;, &quot;123&quot;)\"><img alt=\"123\" class=\"thumbnail embedded-image \" img-id=\"123\" src=\"https://api.camptocamp.org//images/proxy/123?size=MI\"></figure>\n<figure class=\"embedded_inline MI\" ng-click=\"detailsCtrl.openEmbeddedImage(&quot;https://api.camptocamp.org//images/proxy/123?size=MI&quot;, &quot;123&quot;)\"><img alt=\"123\" class=\"thumbnail embedded-image \" img-id=\"123\" src=\"https://api.camptocamp.org//images/proxy/123?size=MI\"></figure>"
+  },
+  {
+    "id": "figure after p",
+    "text": "a\n[img=123/]",
+    "expected": "<p>a</p>\n<figure class=\"embedded_inline MI\" ng-click=\"detailsCtrl.openEmbeddedImage(&quot;https://api.camptocamp.org//images/proxy/123?size=MI&quot;, &quot;123&quot;)\"><img alt=\"123\" class=\"thumbnail embedded-image \" img-id=\"123\" src=\"https://api.camptocamp.org//images/proxy/123?size=MI\"></figure>"
+  },
+  {
+    "id": "figure between p",
+    "text": "a\n[img=123/]\nb",
+    "expected": "<p>a</p>\n<figure class=\"embedded_inline MI\" ng-click=\"detailsCtrl.openEmbeddedImage(&quot;https://api.camptocamp.org//images/proxy/123?size=MI&quot;, &quot;123&quot;)\"><img alt=\"123\" class=\"thumbnail embedded-image \" img-id=\"123\" src=\"https://api.camptocamp.org//images/proxy/123?size=MI\"></figure>\n<p>b</p>"
+  },
+  {
+    "id": "figure between p, and with empty lines",
+    "text": "a\n\n[img=123/]\n\nb",
+    "expected": "<p>a</p>\n<figure class=\"embedded_inline MI\" ng-click=\"detailsCtrl.openEmbeddedImage(&quot;https://api.camptocamp.org//images/proxy/123?size=MI&quot;, &quot;123&quot;)\"><img alt=\"123\" class=\"thumbnail embedded-image \" img-id=\"123\" src=\"https://api.camptocamp.org//images/proxy/123?size=MI\"></figure>\n<p>b</p>"
+  },
+  {
+    "id": "Inside a paragraph, do not parse",
+    "text": "a [img=123/] b",
+    "expected": "<p>a [img=123/] b</p>"
+  },
+  {
+    "id": "Do not parse",
+    "text": "En code `[img=123/]`.\n\n     [img=123/]",
+    "expected": "<p>En code <code>[img=123/]</code>.</p>\n<pre><code> [img=123/]\n</code></pre>"
+  }
+
+]

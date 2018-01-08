@@ -8,14 +8,15 @@ to advanced HTML img tags.
 '''
 
 from markdown.extensions import Extension
-from markdown.inlinepatterns import Pattern
+from markdown.blockprocessors import BlockProcessor
 from markdown.util import etree
 
-IMG_RE = r'\[img=(\d+)([a-z_ ]*)(/\]|\](.*?)\[/img\])'
+import re
+
+IMG_RE = r'(?:^|\n)\[img=(\d+)([a-z_ ]*)(/\]|\](.*?)\[/img\])'
 
 
 class C2CImageExtension(Extension):
-
     def __init__(self, *args, **kwargs):
         self.config = {
             "api_url": ['', 'Base URL of the API. Defaults to ""']
@@ -26,26 +27,42 @@ class C2CImageExtension(Extension):
 
     def extendMarkdown(self, md, md_globals):  # noqa
         self.md = md
+        md.parser.blockprocessors.add('c2cimgblock',
+                                      C2CImageBlock(md.parser,
+                                                    self.getConfigs(),
+                                                    self._ngclick_secret_tag),
+                                      "<paragraph")
 
-        pattern = C2CImage(IMG_RE, self.getConfigs(), self._ngclick_secret_tag)
-        pattern.md = md
-        # append to end of inline patterns
-        md.inlinePatterns.add('c2cimg', pattern, "<not_strong")
 
+class C2CImageBlock(BlockProcessor):
+    RE = re.compile(IMG_RE)
 
-class C2CImage(Pattern):
-
-    def __init__(self, pattern, config, ngclick_secret_tag):
-        super(C2CImage, self).__init__(pattern)
+    def __init__(self, parser, config, ngclick_secret_tag):
+        super(C2CImageBlock, self).__init__(parser)
         self.config = config
         self._ngclick_secret_tag = ngclick_secret_tag
 
-    def handleMatch(self, m):  # noqa
+    def test(self, parent, block):
+        return bool(self.RE.search(block))
+
+    def run(self, parent, blocks):
+        block = blocks.pop(0)
+        m = self.RE.search(block)
+
+        before = block[:m.start()]
+        self.parser.parseBlocks(parent, [before])
+
+        parent.append(self.build_element(m))
+
+        after = block[m.end():]
+        self.parser.parseBlocks(parent, [after])
+
+    def build_element(self, m):  # noqa
         # group(1) is everything before the pattern
         # group(2) is the first group of the pattern
-        img_id = m.group(2)
-        options = m.group(3).split() if m.group(3) else []
-        caption = m.group(5).strip() if m.group(5) else ''
+        img_id = m.group(1)
+        options = m.group(2).split() if m.group(2) else []
+        caption = m.group(4).strip() if m.group(4) else ''
 
         position = 'inline'
         img_size = 'MI'
