@@ -1,0 +1,32 @@
+[
+  {
+    "id": "not valid url",
+    "text": "[video]XXX[/video]",
+    "expected": "<p>[video]XXX[/video]</p>"
+  },
+  {
+    "id": "Vimeo",
+    "text": "[video]http://vimeo.com/8654134[/video]",
+    "expected": "<div class=\"embed-responsive embed-responsive-4by3 video\"><iframe class=\"embed-reponsive-item\" src=\"//player.vimeo.com/video/8654134?title=0&amp;byline=0&amp;portrait=0&amp;color=ff9933\"></iframe></div>"
+  },
+  {
+    "id": "dailymotion short",
+    "text": "[video]http://dai.ly/x5b5r49[/video]",
+    "expected": "<div class=\"embed-responsive embed-responsive-4by3 video\"><iframe class=\"embed-reponsive-item\" src=\"//www.dailymotion.com/embed/video/x5b5r49?theme=none&amp;wmode=transparent\"></iframe></div>"
+  },
+  {
+    "id": "dailymotion",
+    "text": "[video]http://www.dailymotion.com/video/x28z33_chinese-man[/video]",
+    "expected": "<div class=\"embed-responsive embed-responsive-4by3 video\"><iframe class=\"embed-reponsive-item\" src=\"//www.dailymotion.com/embed/video/x28z33?theme=none&amp;wmode=transparent\"></iframe></div>"
+  },
+  {
+    "id": "youtube",
+    "text": "[video]http://www.youtube.com/watch?v=3xMk3RNSbcc&something[/video]",
+    "expected": "<div class=\"embed-responsive embed-responsive-4by3 video\"><iframe class=\"embed-reponsive-item\" src=\"//www.youtube.com/embed/3xMk3RNSbcc\"></iframe></div>"
+  },
+  {
+    "id": "youtube short",
+    "text": "[video]http://youtu.be/3xMk3RNSbcc[/video]",
+    "expected": "<div class=\"embed-responsive embed-responsive-4by3 video\"><iframe class=\"embed-reponsive-item\" src=\"//www.youtube.com/embed/3xMk3RNSbcc\"></iframe></div>"
+  }
+]
