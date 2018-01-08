@@ -6,80 +6,57 @@ Converts video tags to advanced HTML video tags.
 '''
 
 from markdown.extensions import Extension
-from markdown.inlinepatterns import Pattern
+from markdown.blockprocessors import BlockProcessor
 from markdown.util import etree
 import re
 
-VIDEO_RE = r'\[video\](.*?)\[/video\]'
-
 
 class C2CVideoExtension(Extension):
-
     def __init__(self, *args, **kwargs):
         self._iframe_secret_tag = kwargs.pop("iframe_secret_tag")
         super(C2CVideoExtension, self).__init__(*args, **kwargs)
 
     def extendMarkdown(self, md, md_globals):  # noqa
-        self.md = md
 
-        pattern = C2CVideo(VIDEO_RE, markdown_instance=md,
-                           iframe_secret_tag=self._iframe_secret_tag)
-        pattern.md = md
-        # append to end of inline patterns
-        md.inlinePatterns.add('c2cvideo', pattern, "<extra_autolink")
+        processors = md.parser.blockprocessors
+
+        for processor in (C2CYoutubeVideoBlock,
+                          C2CYoutubeShortVideoBlock,
+                          C2CDailymotionVideoBlock,
+                          C2CDailymotionShortVideoBlock,
+                          C2CVimeoVideoBlock):
+            processors.add(processor.__name__,
+                           processor(md.parser, self._iframe_secret_tag),
+                           "<paragraph")
 
 
-class C2CVideo(Pattern):
+class C2CVideoBlock(BlockProcessor):
+    PATTERN = None
 
-    def __init__(self, *args, **kwargs):
-        self._iframe_secret_tag = kwargs.pop("iframe_secret_tag")
-        super(C2CVideo, self).__init__(*args, **kwargs)
+    def __init__(self, parser, iframe_secret_tag):
+        super(C2CVideoBlock, self).__init__(parser=parser)
+        self._iframe_secret_tag = iframe_secret_tag
+        self.RE = re.compile(r"(^|\n)\[video\]" +
+                             self.PATTERN +
+                             r"\[/video\]")
 
-    def handleMatch(self, m):  # noqa
-        link = m.group(2).strip()
+    def test(self, parent, block):
+        return bool(self.RE.search(block))
 
-        # youtube http://www.youtube.com/watch?v=3xMk3RNSbcc(&something)
-        domain = r"https?:\/\/(?:www\.)?youtube\.com"
-        url = r"/watch\?(?:[=&\w]+&)?v=([-\w]+)(?:&.+)?(?:\#.*)?"
-        match = re.search(domain + url, link)  # noqa
-        if match:
-            return self._embed('//www.youtube.com/embed/' + match.group(1))
+    def run(self, parent, blocks):
+        block = blocks.pop(0)
+        m = self.RE.search(block)
 
-        # youtube short links http://youtu.be/3xMk3RNSbcc
-        match = re.search(r'https?:\/\/(?:www\.)?youtu\.be/([-\w]+)(?:\#.*)?',
-                          link)  # noqa
-        if match:
-            return self._embed('//player.vimeo.com/video/' +
-                               match.group(1) +
-                               '?title=0&amp;byline=0&amp;' +
-                               'portrait=0&amp;color=ff9933')  # noqa
+        before = block[:m.start()]
+        self.parser.parseBlocks(parent, [before])
 
-        # dailymotion http://www.dailymotion.com/video/x28z33_chinese-man
-        domain = r"https?://www\.dailymotion\.com"
-        url = r"/video/([\da-zA-Z]+)_[-&;\w]+(?:\#.*)?"
-        match = re.search(domain + url, link)  # noqa
-        if match:
-            return self._embed('//www.dailymotion.com/embed/video/' +
-                               match.group(1) +
-                               '?theme=none&amp;wmode=transparent')
+        parent.append(self.build_element(m))
 
-        # dailymotion short links http://dai.ly/x5b5r49
-        match = re.search(r"https?://www\.dai\.ly/([\da-zA-Z]+)", link)
-        if match:
-            return self._embed('//www.dailymotion.com/embed/video/' +
-                               match.group(1) +
-                               '?theme=none&amp;wmode=transparent')
+        after = block[m.end():]
+        self.parser.parseBlocks(parent, [after])
 
-        # vimeo http://vimeo.com/8654134
-        match = re.search(r'https?://(?:www\.)?vimeo\.com/(\d+)(?:\#.*)?',
-                          link)
-        if match:
-            return self._embed('//player.vimeo.com/video/' +
-                               match.group(1) +
-                               '?title=0&amp;byline=0&amp;' +
-                               'portrait=0&amp;color=ff9933')  # noqa
-
-        return self.unescape(m.group(0))
+    def build_element(self, m):
+        raise NotImplementedError()
 
     def _embed(self, link):
         iframe = etree.Element(self._iframe_secret_tag)
@@ -89,6 +66,42 @@ class C2CVideo(Pattern):
         embed.set('class', 'embed-responsive embed-responsive-4by3 video')
         embed.append(iframe)
         return embed
+
+
+class C2CYoutubeVideoBlock(C2CVideoBlock):
+    PATTERN = (r"https?:\/\/(?:www\.)?youtube\.com"
+               r"/watch\?(?:[=&\w]+&)?v=([-\w]+)(?:&.+)?(?:\#.*)?")
+
+    def build_element(self, m):  # noqa
+        return self._embed('//www.youtube.com/embed/' + m.group(2))
+
+
+class C2CYoutubeShortVideoBlock(C2CYoutubeVideoBlock):
+    PATTERN = r"https?:\/\/(?:www\.)?youtu\.be/([-\w]+)(?:\#.*)?"
+
+
+class C2CDailymotionVideoBlock(C2CVideoBlock):
+    PATTERN = (r"https?://(?:www\.)?dailymotion\.com"
+               r"/video/([\da-zA-Z]+)_[-&;\w]+(?:\#.*)?")
+
+    def build_element(self, m):  # noqa
+        return self._embed('//www.dailymotion.com/embed/video/' +
+                           m.group(2) +
+                           '?theme=none&wmode=transparent')
+
+
+class C2CDailymotionShortVideoBlock(C2CDailymotionVideoBlock):
+    PATTERN = r"https?://(?:www\.)?dai\.ly/([\da-zA-Z]+)"
+
+
+class C2CVimeoVideoBlock(C2CVideoBlock):
+    PATTERN = r'https?://(?:www\.)?vimeo\.com/(\d+)(?:\#.*)?'
+
+    def build_element(self, m):  # noqa
+        return self._embed('//player.vimeo.com/video/' +
+                           m.group(2) +
+                           '?title=0&byline=0' +
+                           '&portrait=0&color=ff9933')  # noqa
 
 
 def makeExtension(*args, **kwargs):  # noqa
