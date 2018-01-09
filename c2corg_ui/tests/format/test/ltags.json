@@ -32,6 +32,11 @@
     {
         "id": "Header and simple Ltags",
         "text": "L#= | Numerotation\nL# |1\nL#| 2",
-        "expected": "<table class=\"ltag\">\n<tbody>\n<tr>\n<td></td>\n<th>Numerotation</th>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>1</span></td>\n<td>1</td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>2</span></td>\n<td>2</td>\n</tr>\n</tbody>\n</table>"
+        "expected": "<table class=\"ltag\">\n<tbody>\n<tr>\n<th></th>\n<th>Numerotation</th>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>1</span></td>\n<td>1</td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>2</span></td>\n<td>2</td>\n</tr>\n</tbody>\n</table>"
+    },
+    {
+        "id": "Absolute numbering",
+        "text": "L# | 5a | L#2 and L#3 are joined to L#\nL#4| 5b+ | Awesome pitch !",
+        "expected": "<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>1</span></td>\n<td>5a</td>\n<td><span class=\"pitch\"><span translate=\"\">L</span>2</span> and <span class=\"pitch\"><span translate=\"\">L</span>3</span> are joined to <span class=\"pitch\"><span translate=\"\">L</span>1</span></td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>4</span></td>\n<td>5b+</td>\n<td>Awesome pitch !</td>\n</tr>\n</tbody>\n</table>"
     }
 ]
