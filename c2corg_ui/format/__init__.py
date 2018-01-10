@@ -12,8 +12,8 @@ from c2corg_ui.format.warning import C2CWarningExtension
 from c2corg_ui.format.ltag import C2CLTagExtension
 from c2corg_ui.format.header_emphasis import HeaderEmphasisExtension
 from c2corg_ui.format.ptag import C2CPTagExtension
+from c2corg_ui.format.toc import C2CTocExtension
 from markdown.extensions.nl2br import Nl2BrExtension
-from markdown.extensions.toc import TocExtension
 
 
 def _get_secret():
@@ -112,7 +112,7 @@ def _get_markdown_parser():
             C2CImportantExtension(),
             C2CWarningExtension(),
             Nl2BrExtension(),
-            TocExtension(marker='[toc]', baselevel=2),
+            C2CTocExtension(marker='[toc]', baselevel=2),
             AutoLinkExtension(),
             C2CVideoExtension(iframe_secret_tag=_iframe_secret_tag),
             C2CLTagExtension(),

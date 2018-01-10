@@ -1,0 +1,22 @@
+[
+  {
+    "id": "toc",
+    "text": "[toc]\n# title 1",
+    "expected": "<div class=\"toc\">\n<ul>\n<li><a href=\"#title-1\">title 1</a></li>\n</ul>\n</div>\n<h2 id=\"title-1\">title 1</h2>"
+  },
+  {
+    "id": "toc 2 and 3",
+    "text": "[toc]\n## title 2\n### title 3",
+    "expected": "<div class=\"toc\">\n<ul>\n<li><a href=\"#title-2\">title 2</a><ul>\n<li><a href=\"#title-3\">title 3</a></li>\n</ul>\n</li>\n</ul>\n</div>\n<h3 id=\"title-2\">title 2</h3>\n<h4 id=\"title-3\">title 3</h4>"
+  },
+  {
+    "id": "toc 2 and 3, but not 4",
+    "text": "[toc]\n## title 2\n### title 3\n#### title 4",
+    "expected": "<div class=\"toc\">\n<ul>\n<li><a href=\"#title-2\">title 2</a><ul>\n<li><a href=\"#title-3\">title 3</a></li>\n</ul>\n</li>\n</ul>\n</div>\n<h3 id=\"title-2\">title 2</h3>\n<h4 id=\"title-3\">title 3</h4>\n<h5 id=\"title-4\">title 4</h5>"
+  },
+  {
+    "id": "Not emphasis",
+    "text": "[toc]\n# title 1 ## with strange ## emphasis",
+    "expected": "<div class=\"toc\">\n<ul>\n<li><a href=\"#title-1-with-strange\">title 1 ## with strange </a></li>\n</ul>\n</div>\n<h2 id=\"title-1-with-strange\">title 1 ## with strange <span class=\"header-emphasis\">emphasis</span></h2>"
+  }
+]
