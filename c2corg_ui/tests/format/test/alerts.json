@@ -1,0 +1,102 @@
+[
+  {
+    "id": "Information",
+    "text": "!!Information",
+    "expected": "<div class=\"md-alert md-alert-info\">\n<p>Information</p>\n</div>"
+  },
+  {
+    "id": "Warning",
+    "text": "!!!Warning",
+    "expected": "<div class=\"md-alert md-alert-warning\">\n<p>Warning</p>\n</div>"
+  },
+  {
+    "id": "Danger",
+    "text": "!!!!Danger",
+    "expected": "<div class=\"md-alert md-alert-danger\">\n<p>Danger</p>\n</div>"
+  },
+  {
+    "id": "Two lines",
+    "text": "!!!a\n!!!b",
+    "expected": "<div class=\"md-alert md-alert-warning\">\n<p>a<br>\nb</p>\n</div>"
+  },
+  {
+    "id": "Two paragraphs",
+    "text": "!!!a\n!!!\n!!!b",
+    "expected": "<div class=\"md-alert md-alert-warning\">\n<p>a</p>\n<p>b</p>\n</div>"
+  },
+  {
+    "id": "Not before",
+    "text": "a\n!!!a",
+    "expected": "<p>a</p>\n<div class=\"md-alert md-alert-warning\">\n<p>a</p>\n</div>"
+  },
+  {
+    "id": "Not after",
+    "text": "!!!a\na",
+    "expected": "<div class=\"md-alert md-alert-warning\">\n<p>a</p>\n</div>\n<p>a</p>"
+  },
+  {
+    "id": "Not before and not after",
+    "text": "a\n!!!a\na",
+    "expected": "<p>a</p>\n<div class=\"md-alert md-alert-warning\">\n<p>a</p>\n</div>\n<p>a</p>"
+  },
+  {
+    "id": "Not stacked",
+    "text": "!! Stacked\n!!! banners\n!! must\n!!!! not\n!!! be\n!!!! merged\n!! !",
+    "expected": "<div class=\"md-alert md-alert-info\">\n<p>Stacked</p>\n</div>\n<div class=\"md-alert md-alert-warning\">\n<p>banners</p>\n</div>\n<div class=\"md-alert md-alert-info\">\n<p>must</p>\n</div>\n<div class=\"md-alert md-alert-danger\">\n<p>not</p>\n</div>\n<div class=\"md-alert md-alert-warning\">\n<p>be</p>\n</div>\n<div class=\"md-alert md-alert-danger\">\n<p>merged</p>\n</div>\n<div class=\"md-alert md-alert-info\">\n<p>!</p>\n</div>"
+  },
+  {
+    "id": "Formats",
+    "text": "!!! *format* **works** ***greatly*** `code`",
+    "expected": "<div class=\"md-alert md-alert-warning\">\n<p><em>format</em> <strong>works</strong> <strong><em>greatly</em></strong> <code>code</code></p>\n</div>"
+  },
+  {
+    "id": "lists",
+    "text": "!!!! * also\n!!!! * lists",
+    "expected": "<div class=\"md-alert md-alert-danger\">\n<ul>\n<li>also</li>\n<li>lists</li>\n</ul>\n</div>"
+  },
+  {
+    "id": "quotes",
+    "text": "!!!! > also\n!!!! quotes",
+    "expected": "<div class=\"md-alert md-alert-danger\">\n<blockquote>\n<p>also<br>\n quotes</p>\n</blockquote>\n</div>"
+  },
+  {
+    "id": "not in code",
+    "text": "    !!!! code",
+    "expected": "<pre><code>!!!! code\n</code></pre>"
+  },
+  {
+    "id": "inside lists",
+    "text": "* !! coucou",
+    "expected": "<ul>\n<li>\n<div class=\"md-alert md-alert-info\">coucou</div>\n</li>\n</ul>"
+  },
+  {
+    "id": "inside quotes",
+    "text": "> !! coucou",
+    "expected": "<blockquote>\n<div class=\"md-alert md-alert-info\">\n<p>coucou</p>\n</div>\n</blockquote>"
+  },
+  {
+    "id": "images",
+    "text": "!!![img=123/]",
+    "expected": "<div class=\"md-alert md-alert-warning\">\n<figure class=\"embedded_inline MI\" ng-click=\"detailsCtrl.openEmbeddedImage(&quot;https://api.camptocamp.org//images/proxy/123?size=MI&quot;, &quot;123&quot;)\"><img alt=\"123\" class=\"thumbnail embedded-image \" img-id=\"123\" src=\"https://api.camptocamp.org//images/proxy/123?size=MI\"></figure>\n</div>"
+  },
+  {
+    "id": "Trailing spaces 1",
+    "text": " !!! 1",
+    "expected": "<div class=\"md-alert md-alert-warning\">\n<p>1</p>\n</div>"
+  },
+  {
+    "id": "Trailing spaces 2",
+    "text": "  !!!  2",
+    "expected": "<div class=\"md-alert md-alert-warning\">\n<p>2</p>\n</div>"
+  },
+  {
+    "id": "Trailing spaces 3",
+    "text": "   !!!   3",
+    "expected": "<div class=\"md-alert md-alert-warning\">\n<p>3</p>\n</div>"
+  },
+  {
+    "id": "Trailing spaces 4",
+    "text": "    !!!    4",
+    "expected": "<pre><code>!!!    4\n</code></pre>"
+  }
+]
