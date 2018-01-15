@@ -60,7 +60,7 @@ app.MailinglistsController = function(appAuthentication, appApi, authUrl) {
  */
 app.MailinglistsController.prototype.toggle = function(listname) {
   goog.asserts.assert(listname in this.mailinglists);
-  let data = {};
+  const data = {};
   data[listname] = !this.mailinglists[listname];
   this.api_.updateMailinglists(data);
 };

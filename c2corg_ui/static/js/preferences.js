@@ -71,7 +71,7 @@ app.PreferencesController = function($scope, appAuthentication, appApi,
 
   if (appAuthentication.isAuthenticated()) {
     this.api_.readPreferences().then((response) => {
-      let data = /** @type {appx.UserPreferences} */ (response['data']);
+      const data = /** @type {appx.UserPreferences} */ (response['data']);
       this.activities = data.activities;
       this.langs = data.langs;
       this.areas = data.areas;
@@ -128,7 +128,7 @@ app.PreferencesController.prototype.updateLangs = function(lang) {
  * @export
  */
 app.PreferencesController.prototype.addArea = function(area) {
-  let alreadyInList = this.areas.some((a) => {
+  const alreadyInList = this.areas.some((a) => {
     return a.document_id === area.document_id;
   });
   if (alreadyInList) {
@@ -155,7 +155,7 @@ app.PreferencesController.prototype.removeArea = function(id) {
  * @private
  */
 app.PreferencesController.prototype.save_ = function() {
-  let data = {
+  const data = {
     'activities': this.activities,
     'langs': this.langs,
     'areas': this.areas,

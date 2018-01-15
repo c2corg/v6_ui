@@ -62,8 +62,8 @@ app.RevertDocumentController = function(
  */
 app.RevertDocumentController.prototype.revert = function(
   documentId, lang, versionId) {
-  let catalog = this.gettextCatalog_;
-  let gettext = function(str) {
+  const catalog = this.gettextCatalog_;
+  const gettext = function(str) {
     return catalog.getString(str);
   };
   if (this.auth_.isModerator() && window.confirm(gettext(

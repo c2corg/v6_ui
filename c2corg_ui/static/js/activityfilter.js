@@ -55,7 +55,7 @@ app.ActivityFilterController = function() {
  */
 app.ActivityFilterController.prototype.toggle = function(activity) {
   if (this.activities.indexOf(activity) != -1) {
-    let index = this.selectedActivities.indexOf(activity);
+    const index = this.selectedActivities.indexOf(activity);
     if (index == -1) {
       // activity is not already selected: add it to selection
       this.selectedActivities.push(activity);

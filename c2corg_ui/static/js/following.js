@@ -80,7 +80,7 @@ app.FollowingController = function(appAuthentication, appApi, authUrl) {
  * @export
  */
 app.FollowingController.prototype.toggle = function(id) {
-  let index = this.followingIds.indexOf(id);
+  const index = this.followingIds.indexOf(id);
   if (index > -1) {
     // user was already followed => unfollow/paused them
     this.api_.unfollow(id).then((response) => {
@@ -91,7 +91,7 @@ app.FollowingController.prototype.toggle = function(id) {
     // user was paused/not followed => follow/unpause them
     this.api_.follow(id).then((response) => {
       this.followingIds.push(id);
-      let pIndex = this.pausedIds_.indexOf(id);
+      const pIndex = this.pausedIds_.indexOf(id);
       if (pIndex > -1) {
         this.pausedIds_.splice(pIndex, 1);
       }
@@ -105,7 +105,7 @@ app.FollowingController.prototype.toggle = function(id) {
  * @export
  */
 app.FollowingController.prototype.addUser = function(user) {
-  let id = user.document_id;
+  const id = user.document_id;
   if (this.followingIds.indexOf(id) > -1 || this.auth_.userData.id === id) {
     // do nothing if user to add is already followed or is the current user
     return;
@@ -113,7 +113,7 @@ app.FollowingController.prototype.addUser = function(user) {
 
   this.api_.follow(id).then((response) => {
     this.followingIds.push(id);
-    let pIndex = this.pausedIds_.indexOf(id);
+    const pIndex = this.pausedIds_.indexOf(id);
     if (pIndex > -1) {
       // user is paused => no need to add them to the list, only unpause them
       this.pausedIds_.splice(pIndex, 1);

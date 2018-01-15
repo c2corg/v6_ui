@@ -19,8 +19,8 @@ app.HttpAuthenticationInterceptor = function(apiUrl, appAuthentication) {
        * @return {!angular.$http.Config}
        */
       function(config) {
-        let method = config.method;
-        let url = config.url;
+        const method = config.method;
+        const url = config.url;
         goog.asserts.assert(method && url);
         if (appAuthentication.needAuthorization(method, url)) {
           config.headers = config.headers || {};

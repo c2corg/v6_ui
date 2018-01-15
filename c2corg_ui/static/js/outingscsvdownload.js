@@ -66,12 +66,12 @@ app.OutingsCsvDownloadController = function(appAuthentication, appApi, $q,
  */
 app.OutingsCsvDownloadController.prototype.download = function(event) {
   event.stopPropagation();
-  let filename = 'outings.csv';
-  let langService = this.langService_;
+  const filename = 'outings.csv';
+  const langService = this.langService_;
   this.getOutings_().then((outings) => {
     let csvFile = '';
     outings.forEach((outing) => {
-      let cells = [
+      const cells = [
         outing.date_start,
         outing.locales[0].title,
         outing.activities.map((activity) => {
@@ -86,14 +86,14 @@ app.OutingsCsvDownloadController.prototype.download = function(event) {
         return cell;
       }).join('","') + '"\n';
     });
-    let blob = new Blob([csvFile], {type: 'text/csv;charset=utf-8;'});
+    const blob = new Blob([csvFile], {type: 'text/csv;charset=utf-8;'});
     if (window.navigator.msSaveBlob) { // IE 10+
       window.navigator.msSaveBlob(blob, filename);
     } else {
-      let link = document.createElement('a');
+      const link = document.createElement('a');
       if (link.download !== undefined) { // feature detection
         // Browsers that support HTML5 download attribute
-        let url = URL.createObjectURL(blob);
+        const url = URL.createObjectURL(blob);
         link.setAttribute('href', url);
         link.setAttribute('download', filename);
         link.style.visibility = 'hidden';
@@ -111,21 +111,21 @@ app.OutingsCsvDownloadController.prototype.download = function(event) {
  * @returns {!angular.$q.Promise}
  */
 app.OutingsCsvDownloadController.prototype.getOutings_ = function() {
-  let promise = this.q_.defer().promise; // a promise that does... nothing
-  let userId = this.auth.userData.id;
-  let appApi = this.appApi;
-  let $q = this.q_;
+  const promise = this.q_.defer().promise; // a promise that does... nothing
+  const userId = this.auth.userData.id;
+  const appApi = this.appApi;
+  const $q = this.q_;
   return appApi.listDocuments('outings', 'u=' + userId, promise)
     .then((resp) => {
-      let total = resp.data.total;
+      const total = resp.data.total;
       let outings = resp.data.documents.slice();
       if (total > resp.data.documents.length) {
         // retrieve all other outings
-        let offsets = Array.apply(null, Array(Math.floor(total / 30)))
+        const offsets = Array.apply(null, Array(Math.floor(total / 30)))
           .map((value, index) => {
             return 30 * (index + 1);
           });
-        let additionalRequests = [];
+        const additionalRequests = [];
         offsets.forEach((offset) => {
           additionalRequests.push(appApi.listDocuments('outings',
             'u=' + userId + '&offset=' + offset, promise));

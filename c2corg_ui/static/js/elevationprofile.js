@@ -72,7 +72,7 @@ app.ElevationProfileController = function(
     duration_legend: appLang.gettext('Duration (hrs)')
   };
 
-  let lines = mapFeatureCollection.features.filter((feature) => {
+  const lines = mapFeatureCollection.features.filter((feature) => {
     return feature.geometry.type === 'LineString' ||
            feature.geometry.type === 'MultiLineString';
   });
@@ -92,24 +92,24 @@ app.ElevationProfileController = function(
   }
 
   // we consider the track contains time if all points have this information
-  let timeAvailable = coords.every((coord) => {
+  const timeAvailable = coords.every((coord) => {
     return coord.length > 3;
   });
   this.timeAvailable = timeAvailable;
-  let startDate = timeAvailable ? new Date(coords[0][3] * 1000) : undefined;
+  const startDate = timeAvailable ? new Date(coords[0][3] * 1000) : undefined;
   let totalDist = 0;
 
   this.data = coords.map((coord, i, coords) => {
-    let date = timeAvailable ? new Date(coord[3] * 1000) : undefined;
+    const date = timeAvailable ? new Date(coord[3] * 1000) : undefined;
     let d = 0;
     if (i > 0) {
       // convert from web mercator to lng/lat
-      let deg1 = ol.proj.transform(
+      const deg1 = ol.proj.transform(
         [coords[i][0], coords[i][1]],
         'EPSG:3857',
         'EPSG:4326'
       );
-      let deg2 = ol.proj.transform(
+      const deg2 = ol.proj.transform(
         [coords[i - 1][0], coords[i - 1][1]],
         'EPSG:3857',
         'EPSG:4326'
@@ -141,9 +141,9 @@ app.ElevationProfileController = function(
  * @private
  */
 app.ElevationProfileController.prototype.createChart_ = function() {
-  let wrapper = $('#elevation-profile').closest('.finfo');
+  const wrapper = $('#elevation-profile').closest('.finfo');
   let width = wrapper.width();
-  let size = {
+  const size = {
     width: width,
     height: 300
   };
@@ -154,13 +154,13 @@ app.ElevationProfileController.prototype.createChart_ = function() {
     left: 50
   };
   width = size.width - this.margin.left - this.margin.right;
-  let height = size.height - this.margin.top - this.margin.bottom;
+  const height = size.height - this.margin.top - this.margin.bottom;
 
   if (!this.timeAvailable) {
     $('.xaxis-dimension').hide();
   }
 
-  let d3 = window.d3;
+  const d3 = window.d3;
 
   // Add an SVG element with the desired dimensions and margin
   this.svg = d3
@@ -195,7 +195,7 @@ app.ElevationProfileController.prototype.createChart_ = function() {
     )
     .nice();
 
-  let yExtent = d3.extent(this.data, (d) => {
+  const yExtent = d3.extent(this.data, (d) => {
     return d.ele;
   });
   this.y.domain(yExtent).nice();
@@ -369,11 +369,11 @@ app.ElevationProfileController.prototype.createChart_ = function() {
  * @private
  */
 app.ElevationProfileController.prototype.updateChart_ = function() {
-  let nLine = this.mode === 'distance' ? this.dLine : this.tLine;
-  let axis = this.mode === 'distance' ? this.x1Axis : this.x2Axis;
-  let legend = this.mode === 'distance'
-    ? this.i18n_.distance_legend
-    : this.i18n_.duration_legend;
+  const nLine = this.mode === 'distance' ? this.dLine : this.tLine;
+  const axis = this.mode === 'distance' ? this.x1Axis : this.x2Axis;
+  const legend = this.mode === 'distance' ?
+    this.i18n_.distance_legend :
+    this.i18n_.duration_legend;
   this.line.transition().duration(1000).attr('d', nLine);
 
   window.d3.select('.x.axis').call(axis);
@@ -384,15 +384,15 @@ app.ElevationProfileController.prototype.updateChart_ = function() {
  * @private
  */
 app.ElevationProfileController.prototype.resizeChart_ = function() {
-  let wrapper = $('#elevation-profile').closest('.finfo');
-  let width = wrapper.width() - this.margin.left - this.margin.right;
-  let div = window.d3.select('#elevation-profile');
+  const wrapper = $('#elevation-profile').closest('.finfo');
+  const width = wrapper.width() - this.margin.left - this.margin.right;
+  const div = window.d3.select('#elevation-profile');
 
   this.x1.range([0, width]);
   if (this.timeAvailable) {
     this.x2.range([0, width]);
   }
-  let axis = this.mode === 'distance' ? this.x1Axis : this.x2Axis;
+  const axis = this.mode === 'distance' ? this.x1Axis : this.x2Axis;
   div.select('.x.axis').call(axis);
   div.select('.x.axis.legend').attr('x', width);
   this.line.attr('d', this.mode === 'distance' ? this.dLine : this.tLine);
@@ -413,30 +413,30 @@ app.ElevationProfileController.prototype.resizeChart_ = function() {
  * @private
  */
 app.ElevationProfileController.prototype.mousemove_ = function() {
-  let d3 = window.d3;
-  let bisectDistance = d3.bisector((d) => {
+  const d3 = window.d3;
+  const bisectDistance = d3.bisector((d) => {
     return d.d;
   }).left;
-  let bisectDate = d3.bisector((d) => {
+  const bisectDate = d3.bisector((d) => {
     return d.elapsed;
   }).left;
-  let formatDistance = d3.format('.2f');
-  let formatDate = d3.time.format('%H:%M');
-  let formatMinutes = d3.format('02d');
+  const formatDistance = d3.format('.2f');
+  const formatDate = d3.time.format('%H:%M');
+  const formatMinutes = d3.format('02d');
 
-  let bisect = this.mode === 'distance' ? bisectDistance : bisectDate;
-  let x0 = this.mode === 'distance'
-    ? this.x1.invert(d3.mouse(this.svg.node())[0])
-    : this.x2.invert(d3.mouse(this.svg.node())[0]);
-  let i = bisect(this.data, x0, 1, this.data.length - 1);
-  let d0 = this.data[i - 1];
-  let d1 = this.data[i];
-  let d = this.mode === 'distance'
-    ? x0 - d0.d > d1.d - x0 ? d1 : d0
-    : x0 - d0.elapsed > d1.elapsed - x0 ? d1 : d0;
+  const bisect = this.mode === 'distance' ? bisectDistance : bisectDate;
+  const x0 = this.mode === 'distance' ?
+    this.x1.invert(d3.mouse(this.svg.node())[0]) :
+    this.x2.invert(d3.mouse(this.svg.node())[0]);
+  const i = bisect(this.data, x0, 1, this.data.length - 1);
+  const d0 = this.data[i - 1];
+  const d1 = this.data[i];
+  const d = this.mode === 'distance' ?
+    x0 - d0.d > d1.d - x0 ? d1 : d0 :
+    x0 - d0.elapsed > d1.elapsed - x0 ? d1 : d0;
 
-  let dy = this.y(d.ele);
-  let dx = this.mode === 'distance' ? this.x1(d.d) : this.x2(d.elapsed);
+  const dy = this.y(d.ele);
+  const dx = this.mode === 'distance' ? this.x1(d.d) : this.x2(d.elapsed);
 
   this.focus.attr('transform', 'translate(' + dx + ',' + dy + ')');
   this.focush.attr('transform', 'translate(0,' + dy + ')');
@@ -454,7 +454,7 @@ app.ElevationProfileController.prototype.mousemove_ = function() {
       this.i18n_.km
   );
   if (this.timeAvailable) {
-    let elapsed = d.elapsed / 1000;
+    const elapsed = d.elapsed / 1000;
     this.bubble2.text(
       this.i18n_.time +
         ' ' +

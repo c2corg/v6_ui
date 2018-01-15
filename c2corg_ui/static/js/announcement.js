@@ -83,7 +83,7 @@ app.AnnouncementController.prototype.getAnnouncementFromForum_ = function() {
  * @public
  */
 app.AnnouncementController.prototype.handleAnnouncement = function(response) {
-  let data = response['data'];
+  const data = response['data'];
   if (data['tags'].indexOf('visible') > -1) {
     this.hasAnnouncement = true;
     this.text = data['post_stream']['posts'][0]['cooked'];

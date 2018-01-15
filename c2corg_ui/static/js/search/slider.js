@@ -172,15 +172,15 @@ app.SliderController = function($scope, $element, $attrs, ngeoLocation) {
  * @private
  */
 app.SliderController.prototype.getRangeFromUrl_ = function() {
-  let param = this.filter ? this.location_.getFragmentParam(this.filter) : '';
+  const param = this.filter ? this.location_.getFragmentParam(this.filter) : '';
   if (param) {
     let range = param.split(',');
     if (range.length != 2) {
       return;
     }
     if (this.showStringValues_) {
-      let min = this.valuesList.indexOf(range[0]);
-      let max = this.valuesList.indexOf(range[1]);
+      const min = this.valuesList.indexOf(range[0]);
+      const max = this.valuesList.indexOf(range[1]);
       if (min !== -1 && max !== -1) {
         this.updateMinMax_([min, max]);
       }

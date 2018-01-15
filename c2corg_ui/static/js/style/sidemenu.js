@@ -7,8 +7,8 @@ goog.require('app');
  */
 app.sidemenu = function() {
   /* handle sidebar hiding */
-  let body = $('body');
-  let content = $('.page-content');
+  const body = $('body');
+  const content = $('.page-content');
 
   $('.menu-open-close').on('click', () => {
     body.toggleClass('menu-toggled');

@@ -265,8 +265,8 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
 
     if (this.location_.hasFragmentParam('bbox')) {
       this.enableMapFilter = true;
-      let bbox = this.location_.getFragmentParam('bbox');
-      let extent = bbox.split(',');
+      const bbox = this.location_.getFragmentParam('bbox');
+      const extent = bbox.split(',');
       if (extent.length == 4) {
         this.initialExtent_ = extent.map((x) => {
           return parseInt(x, 10);
@@ -296,7 +296,7 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
   }
 
   if (!this.disableWheel) {
-    let mouseWheelZoomInteraction = new ol.interaction.MouseWheelZoom();
+    const mouseWheelZoomInteraction = new ol.interaction.MouseWheelZoom();
     this.map.addInteraction(mouseWheelZoomInteraction);
     app.utils.setupSmartScroll(mouseWheelZoomInteraction);
   }
@@ -314,7 +314,7 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
   }
 
   if (this.edit && this.drawType) {
-    let vectorSource = this.getVectorLayer_().getSource();
+    const vectorSource = this.getVectorLayer_().getSource();
 
     this.draw_ = new ol.interaction.Draw({
       source: vectorSource,
@@ -326,7 +326,7 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
 
     this.map.once('postrender', () => {
       // add modify interaction after the map has been initialized
-      let modify = new ol.interaction.Modify({
+      const modify = new ol.interaction.Modify({
         features: vectorSource.getFeaturesCollection(),
         // the SHIFT key must be pressed to delete vertices, so
         // that new vertices can be drawn at the same position
@@ -346,7 +346,7 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
     if (this.features_.length > 0) {
       this.showFeatures_(this.features_, true);
     } else {
-      let extent = this.initialExtent_ || app.MapController.DEFAULT_EXTENT;
+      const extent = this.initialExtent_ || app.MapController.DEFAULT_EXTENT;
       this.recenterOnExtent_(extent);
     }
   });
@@ -380,7 +380,7 @@ app.MapController.DEFAULT_POINT_ZOOM = 12;
  * @private
  */
 app.MapController.prototype.recenterOnExtent_ = function(extent, options) {
-  let mapSize = this.map.getSize();
+  const mapSize = this.map.getSize();
   if (!mapSize || !ol.extent.getWidth(extent) || !ol.extent.getHeight(extent)) {
     this.view_.setCenter(ol.extent.getCenter(extent));
     this.view_.setZoom(this.zoom || app.MapController.DEFAULT_POINT_ZOOM);
@@ -399,7 +399,7 @@ app.MapController.prototype.getVectorLayer_ = function() {
   if (!this.vectorLayer_) {
     // The Modify interaction requires the vector source is created
     // with an ol.Collection.
-    let features = new ol.Collection();
+    const features = new ol.Collection();
     this.vectorLayer_ = new ol.layer.Vector({
       source: new ol.source.Vector({features: features})
     });
@@ -424,7 +424,7 @@ app.MapController.prototype.createStyleFunction_ = function() {
      * @return {ol.style.Style|Array.<ol.style.Style>}
      */
     function(feature, resolution) {
-      let module = /** @type {string} */ (feature.get('module'));
+      const module = /** @type {string} */ (feature.get('module'));
       switch (module) {
         case 'waypoints':
         case 'images':
@@ -450,16 +450,16 @@ app.MapController.prototype.createStyleFunction_ = function() {
  * @private
  */
 app.MapController.prototype.createPointStyle_ = function(feature, resolution) {
-  let module = feature.get('module');
+  const module = feature.get('module');
   let path;
   let imgSize;
   let type = /** @type {string} */ (feature.get('module'));
   if (type === 'waypoints' && feature.get('type')) {
     type = /** @type {string} */ (feature.get('type'));
   }
-  let id = /** @type {number} */ (feature.get('documentId'));
-  let highlight = /** @type {boolean} */ (!!feature.get('highlight'));
-  let scale = highlight ? 0.55 : 0.4;
+  const id = /** @type {number} */ (feature.get('documentId'));
+  const highlight = /** @type {boolean} */ (!!feature.get('highlight'));
+  const scale = highlight ? 0.55 : 0.4;
 
   imgSize = highlight ? 22 : 16;
   switch (module) {
@@ -478,7 +478,7 @@ app.MapController.prototype.createPointStyle_ = function(feature, resolution) {
       break;
   }
 
-  let key = type + scale + '_' + id;
+  const key = type + scale + '_' + id;
   let styles = this.styleCache[key];
   if (!styles) {
     let iconKey = type + scale;
@@ -529,13 +529,13 @@ app.MapController.prototype.createPointStyle_ = function(feature, resolution) {
  * @private
  */
 app.MapController.prototype.createLineStyle_ = function(feature, resolution) {
-  let type = /** @type {string} */ (feature.get('module'));
-  let highlight = /** @type {boolean} */ (feature.get('highlight'));
-  let id = /** @type {number} */ (feature.get('documentId'));
-  let key = 'lines' + (highlight ? ' _highlight' : '') + '_' + id;
+  const type = /** @type {string} */ (feature.get('module'));
+  const highlight = /** @type {boolean} */ (feature.get('highlight'));
+  const id = /** @type {number} */ (feature.get('documentId'));
+  const key = 'lines' + (highlight ? ' _highlight' : '') + '_' + id;
   let style = this.styleCache[key];
   if (!style) {
-    let stroke = new ol.style.Stroke({
+    const stroke = new ol.style.Stroke({
       color: highlight ? 'red' : 'yellow',
       width: 3
     });
@@ -624,8 +624,8 @@ app.MapController.prototype.getIconColor_ = function(feature) {
  * @private
  */
 app.MapController.prototype.showFeatures_ = function(features, recenter) {
-  let vectorLayer = this.getVectorLayer_();
-  let source = vectorLayer.getSource();
+  const vectorLayer = this.getVectorLayer_();
+  const source = vectorLayer.getSource();
   source.clear();
 
   if (!features.length) {
@@ -636,7 +636,7 @@ app.MapController.prototype.showFeatures_ = function(features, recenter) {
   }
 
   features.forEach((feature) => {
-    let properties = feature.getProperties();
+    const properties = feature.getProperties();
     if (properties['documentId']) {
       feature.setId(/** @type {number} */ (properties['documentId']));
     }
@@ -664,12 +664,12 @@ app.MapController.prototype.handleEditModelChange_ = function(event, data) {
   if (!('geometry' in data && data['geometry'])) {
     return;
   }
-  let geomattr = this.drawType == 'Point' ? 'geom' : 'geom_detail';
+  const geomattr = this.drawType == 'Point' ? 'geom' : 'geom_detail';
   let geomstr = data['geometry'][geomattr];
   let geometry;
   if (geomstr) {
     geometry = this.geojsonFormat_.readGeometry(geomstr);
-    let features = [new ol.Feature(geometry)];
+    const features = [new ol.Feature(geometry)];
     this.showFeatures_(features, true);
   } else if (this.drawType != 'Point') {
     // recenter the map on the default point geometry for routes or outings
@@ -704,11 +704,11 @@ app.MapController.prototype.handleFeaturesUpload_ = function(event, features) {
  */
 app.MapController.prototype.validateFeatures_ = function(features) {
   for (let i = 0; i < features.length; i++) {
-    let geom = /** @type{ol.geom.Geometry} */ (features[i].getGeometry());
+    const geom = /** @type{ol.geom.Geometry} */ (features[i].getGeometry());
 
     if (geom instanceof ol.geom.MultiLineString) {
-      let multiLineString = /** @type{ol.geom.MultiLineString} */ (geom);
-      let lineStrings = multiLineString.getLineStrings();
+      const multiLineString = /** @type{ol.geom.MultiLineString} */ (geom);
+      const lineStrings = multiLineString.getLineStrings();
 
       for (let j = 0; j < lineStrings.length; j++) {
         if (lineStrings[j].getCoordinates().length === 1) {
@@ -716,7 +716,7 @@ app.MapController.prototype.validateFeatures_ = function(features) {
         }
       }
 
-      let newMs = new ol.geom.MultiLineString([]);
+      const newMs = new ol.geom.MultiLineString([]);
       newMs.setLineStrings(lineStrings);
       features[i].setGeometry(newMs);
     }
@@ -731,9 +731,9 @@ app.MapController.prototype.validateFeatures_ = function(features) {
  */
 app.MapController.prototype.handleDrawStart_ = function(event) {
   this.isDrawing_ = true;
-  let feature = event.feature;
+  const feature = event.feature;
   // Only one feature can be drawn at a time
-  let source = this.getVectorLayer_().getSource();
+  const source = this.getVectorLayer_().getSource();
   source.getFeatures().forEach((f) => {
     if (f !== feature) {
       source.removeFeature(f);
@@ -758,7 +758,7 @@ app.MapController.prototype.handleDrawEnd_ = function(event) {
  * @private
  */
 app.MapController.prototype.handleModify_ = function(event) {
-  let features = event.features.getArray();
+  const features = event.features.getArray();
   this.scope_.$root.$emit('mapFeaturesChange', features);
 };
 
@@ -786,7 +786,7 @@ app.MapController.prototype.handleSearchChange_ = function(event, features, tota
  */
 app.MapController.prototype.handleSearchClear_ = function(event) {
   if (!this.location_.hasFragmentParam('bbox')) {
-    let mapSize = this.map.getSize();
+    const mapSize = this.map.getSize();
     if (mapSize) {
       let extent = this.view_.calculateExtent(mapSize);
       extent = extent.map(Math.floor);
@@ -804,7 +804,7 @@ app.MapController.prototype.handleSearchClear_ = function(event) {
  * @private
  */
 app.MapController.prototype.toggleFeatureHighlight_ = function(id, highlight) {
-  let feature = this.getVectorLayer_().getSource().getFeatureById(id);
+  const feature = this.getVectorLayer_().getSource().getFeatureById(id);
   if (feature) {
     this.currentSelectedFeatureId_ = highlight ? id : null;
     feature.set('highlight', highlight);
@@ -825,7 +825,7 @@ app.MapController.prototype.handleMapSearchChange_ = function() {
     this.initialExtent_ = null;
     this.scope_.$root.$emit('searchFilterChange');
   } else {
-    let mapSize = this.map.getSize();
+    const mapSize = this.map.getSize();
     if (mapSize) {
       if (this.ignoreExtentChange_) {
         this.ignoreExtentChange_ = false;
@@ -848,16 +848,16 @@ app.MapController.prototype.handleMapSearchChange_ = function() {
  * @private
  */
 app.MapController.prototype.handleMapFeatureClick_ = function(event) {
-  let feature = this.map.forEachFeatureAtPixel(event.pixel, (feature) => {
+  const feature = this.map.forEachFeatureAtPixel(event.pixel, (feature) => {
     return feature;
   }, this, function(layer) {
     // test only features from the current vector layer
     return layer === this.getVectorLayer_();
   }, this);
   if (feature) {
-    let module = feature.get('module');
-    let id = feature.get('documentId');
-    let locale = {
+    const module = feature.get('module');
+    const id = feature.get('documentId');
+    const locale = {
       'lang': feature.get('lang'),
       'title': feature.get('title')
     };
@@ -878,15 +878,15 @@ app.MapController.prototype.handleMapFeatureHover_ = function(event) {
   if (event.dragging) {
     return;
   }
-  let pixel = this.map.getEventPixel(event.originalEvent);
-  let hit = this.map.hasFeatureAtPixel(pixel, function(layer) {
+  const pixel = this.map.getEventPixel(event.originalEvent);
+  const hit = this.map.hasFeatureAtPixel(pixel, function(layer) {
     // test only features from the current vector layer
     return layer === this.getVectorLayer_();
   }, this);
   this.map.getTarget().style.cursor = hit ? 'pointer' : '';
 
   if (hit) {
-    let feature = this.map.forEachFeatureAtPixel(pixel, (feature) => {
+    const feature = this.map.forEachFeatureAtPixel(pixel, (feature) => {
       return feature;
     }, this, function(layer) {
       // test only features from the current vector layer
@@ -896,7 +896,7 @@ app.MapController.prototype.handleMapFeatureHover_ = function(event) {
       // reset any feature that was highlighted previously
       this.toggleFeatureHighlight_(this.currentSelectedFeatureId_, false);
     }
-    let id = /** @type {number} */ (feature.getId());
+    const id = /** @type {number} */ (feature.getId());
     this.toggleFeatureHighlight_(id, true);
     this.scope_.$root.$emit('mapFeatureHover', id);
   } else if (this.currentSelectedFeatureId_) {
@@ -939,13 +939,13 @@ app.MapController.prototype.handleMapFilterSwitchChange_ = function(
  * @private
  */
 app.MapController.prototype.addTrackImporter_ = function() {
-  let dragAndDropInteraction = new ol.interaction.DragAndDrop({
+  const dragAndDropInteraction = new ol.interaction.DragAndDrop({
     formatConstructors: [
       ol.format.GPX
     ]
   });
   dragAndDropInteraction.on('addfeatures', (event) => {
-    let features = event.features;
+    const features = event.features;
     if (features.length) {
       this.handleFeaturesUpload_(null, features);
     }
@@ -997,7 +997,7 @@ app.MapController.prototype.resetFeature = function() {
   if (this.isDrawing_) {
     this.draw_.finishDrawing();
   }
-  let source = this.getVectorLayer_().getSource();
+  const source = this.getVectorLayer_().getSource();
   source.clear();
 
   this.scope_.$root.$emit('mapFeaturesReset', angular.copy(this.initialGeometry_));
@@ -1020,7 +1020,7 @@ app.MapController.prototype.deleteFeature = function() {
   if (this.isDrawing_) {
     this.draw_.finishDrawing();
   }
-  let source = this.getVectorLayer_().getSource();
+  const source = this.getVectorLayer_().getSource();
   source.clear();
   this.scope_.$root.$emit('mapFeaturesChange', []);
 };

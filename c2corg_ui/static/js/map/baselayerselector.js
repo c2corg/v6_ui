@@ -144,7 +144,7 @@ app.BaselayerSelectorController.BG_LAYER_SPECS = [{
  */
 app.BaselayerSelectorController.prototype.setLayer = function(layerSpec) {
   this.currentBgLayerSpec = layerSpec;
-  let layer = this.createLayer_(layerSpec['name']);
+  const layer = this.createLayer_(layerSpec['name']);
   if (layer) {
     this.bgLayerMgr_.set(this.map, layer);
   }
@@ -185,7 +185,7 @@ app.BaselayerSelectorController.prototype.createLayer_ = function(layerName) {
       source = new ol.source.OSM();
       break;
   }
-  let layer = new ol.layer.Tile({source: source});
+  const layer = new ol.layer.Tile({source: source});
   this.cachedLayers_[layerName] = layer;
   return layer;
 };
@@ -197,17 +197,17 @@ app.BaselayerSelectorController.prototype.createLayer_ = function(layerName) {
  * @private
  */
 app.BaselayerSelectorController.prototype.createIgnSource_ = function(layer) {
-  let resolutions = [];
-  let matrixIds = [];
-  let proj3857 = ol.proj.get('EPSG:3857');
-  let maxResolution = ol.extent.getWidth(proj3857.getExtent()) / 256;
+  const resolutions = [];
+  const matrixIds = [];
+  const proj3857 = ol.proj.get('EPSG:3857');
+  const maxResolution = ol.extent.getWidth(proj3857.getExtent()) / 256;
 
   for (let i = 0; i < 18; i++) {
     matrixIds[i] = i.toString();
     resolutions[i] = maxResolution / Math.pow(2, i);
   }
 
-  let tileGrid = new ol.tilegrid.WMTS({
+  const tileGrid = new ol.tilegrid.WMTS({
     origin: [-20037508, 20037508],
     resolutions: resolutions,
     matrixIds: matrixIds

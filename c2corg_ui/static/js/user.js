@@ -100,7 +100,7 @@ app.UserController.prototype.logout = function() {
     this.alerts_.addSuccess(this.gettext('You have been disconnected'));
   }).finally(() => {
     this.auth.removeUserData();
-    let path = this.ngeoLocation_.getPath();
+    const path = this.ngeoLocation_.getPath();
     if (path.indexOf('/edit/') !== -1 || path.indexOf('/account') !== -1) {
       // The user is editing a document or viewing the account configuration.
       // Going to the authentication page.

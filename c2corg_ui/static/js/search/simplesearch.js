@@ -34,7 +34,7 @@ app.simpleSearchDirective = function() {
          */
         function($scope, element, attrs, ctrl) {
 
-          let phoneScreen = app.constants.SCREEN.SMARTPHONE;
+          const phoneScreen = app.constants.SCREEN.SMARTPHONE;
 
           // Empty the search field on focus and blur.
           $('.page-header').find('input').on('focus blur', function() {
@@ -268,7 +268,7 @@ app.SimpleSearchController.MAX_RESULTS_NB = 7;
  * @private
  */
 app.SimpleSearchController.prototype.createDataset_ = function(type) {
-  let bloodhoundEngine = this.createAndInitBloodhound_(type);
+  const bloodhoundEngine = this.createAndInitBloodhound_(type);
   return /** @type {TypeaheadDataset} */({
     contents: type,
     source: bloodhoundEngine.ttAdapter(),
@@ -280,7 +280,7 @@ app.SimpleSearchController.prototype.createDataset_ = function(type) {
     limit: 20,
     templates: {
       header: (function() {
-        let typeUpperCase = type.charAt(0).toUpperCase() + type.substr(1);
+        const typeUpperCase = type.charAt(0).toUpperCase() + type.substr(1);
         return '<div class="header" dataset="' + type + '">' +
           this.gettextCatalog_.getString(typeUpperCase) + '</div>';
       }).bind(this),
@@ -311,8 +311,8 @@ app.SimpleSearchController.prototype.createDataset_ = function(type) {
       }.bind(this),
       empty: function(res) {
         if ($('.header.empty').length === 0) {
-          let partialFile = this.isStandardSearch ? 'create' : 'empty';
-          let template = app.utils.getTemplate(
+          const partialFile = this.isStandardSearch ? 'create' : 'empty';
+          const template = app.utils.getTemplate(
             '/static/partials/suggestions/' + partialFile + '.html',
             this.templatecache_);
           return this.compile_(template)(this.scope_);
@@ -328,9 +328,9 @@ app.SimpleSearchController.prototype.createDataset_ = function(type) {
  * @private
  */
 app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
-  let url = this.apiUrl_ + '/search?q=%QUERY';
+  const url = this.apiUrl_ + '/search?q=%QUERY';
 
-  let bloodhound = new Bloodhound(/** @type {BloodhoundOptions} */({
+  const bloodhound = new Bloodhound(/** @type {BloodhoundOptions} */({
     limit: app.SimpleSearchController.MAX_RESULTS_NB,
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('label'),
@@ -360,7 +360,7 @@ app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
       }).bind(this),
 
       filter: (function(/** appx.SimpleSearchResponse */ resp) {
-        let documentResponse =
+        const documentResponse =
           /** @type {appx.SimpleSearchDocumentResponse} */ (resp[type]);
         if (documentResponse) {
           this.nbResults_[type] = documentResponse.total;
@@ -402,7 +402,7 @@ app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
  * @private
  */
 app.SimpleSearchController.prototype.createDocLabel_ = function(doc, currentLang) {
-  let locale = doc.locales[0];
+  const locale = doc.locales[0];
   let label = '';
   if (doc.type === 'u') {
     return doc.name;

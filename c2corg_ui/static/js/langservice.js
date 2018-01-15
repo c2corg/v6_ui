@@ -130,7 +130,7 @@ app.Lang.prototype.updateLang = function(lang, opt_syncWithApi) {
     this.langUrlTemplate_.replace('__lang__', lang));
   // store the interface language as cookie, so that it is available on the
   // server side.
-  let d = new Date();
+  const d = new Date();
   d.setFullYear(d.getFullYear() + 1); // today + 1 year
   this.cookies_.put('interface_lang', lang, {
     'path': '/',
