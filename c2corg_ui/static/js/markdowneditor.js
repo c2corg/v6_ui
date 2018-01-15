@@ -10,11 +10,11 @@ goog.require('app');
  */
 app.markdownEditorDirective = function($rootScope, $compile, gettextCatalog, textFormatingUrl) {
 
-  let gettext = function(str) {
+  const gettext = function(str) {
     return str;
   };
 
-  let messages = {
+  const messages = {
     'Bold': gettext('Bold'),
     'Italic': gettext('Italic'),
     'Heading': gettext('Heading'),
@@ -37,12 +37,12 @@ app.markdownEditorDirective = function($rootScope, $compile, gettextCatalog, tex
   });
   $.fn.markdown.messages['angular'] = messages;
 
-  let createHeadingCallback = function(prefix) {
+  const createHeadingCallback = function(prefix) {
     return function(e) {
       // Append/remove prefix surround the selection
-      let chunk, cursor, selected = e.getSelection(),
-          content = e.getContent(),
-          pointer, prevChar;
+      let chunk, cursor, pointer, prevChar;
+      const selected = e.getSelection();
+      const content = e.getContent();
 
       if (selected.length === 0) {
         // Give extra word
@@ -86,7 +86,7 @@ app.markdownEditorDirective = function($rootScope, $compile, gettextCatalog, tex
   };
 
   /** @type Array<Array<bootstrapMarkdown.ButtonGroupConfig>> */
-  let additionalButtons = [[
+  const additionalButtons = [[
     {
       name: 'groupFont',
       data: [{
@@ -118,7 +118,7 @@ app.markdownEditorDirective = function($rootScope, $compile, gettextCatalog, tex
         element.addClass('processed');
 
         /** @type {bootstrapMarkdown.MarkdownConfig} */
-        let options = scope.$eval(attrs['appMarkdownEditor']) || {};
+        const options = scope.$eval(attrs['appMarkdownEditor']) || {};
 
         options.hiddenButtons = (options.hiddenButtons || []).concat([
           'cmdHeading',

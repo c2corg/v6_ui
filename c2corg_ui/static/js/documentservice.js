@@ -79,7 +79,7 @@ app.Document = function(appAuthentication, $rootScope) {
  * @export
  */
 app.Document.prototype.setDocument = function(doc) {
-  for (let attr in doc) {
+  for (const attr in doc) {
     if (attr === 'associations') {
       this.setAssociations(doc.associations);
     } else {
@@ -94,7 +94,7 @@ app.Document.prototype.setDocument = function(doc) {
  * @export
  */
 app.Document.prototype.setAssociations = function(associations) {
-  for (let type in associations) {
+  for (const type in associations) {
     if (type in this.document.associations) {
       this.document.associations[type] = associations[type];
     }
@@ -146,7 +146,7 @@ app.Document.prototype.pushToAssociations = function(doc, doctype, callback) {
  * @export
  */
 app.Document.prototype.removeAssociation = function(id, type, event, editing) {
-  let associations = this.document.associations[type];
+  const associations = this.document.associations[type];
 
   event.currentTarget.closest('.list-item').className += ' remove-item';
   // you need settimeout because if you splice the array immediatly, the animation

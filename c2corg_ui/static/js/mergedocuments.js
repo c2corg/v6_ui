@@ -96,7 +96,7 @@ app.MergeDocumentsController.prototype.mergeDocuments = function() {
     return;
   }
 
-  let msg = this.gettextCatalog_.getString('Are you sure you want to merge?');
+  const msg = this.gettextCatalog_.getString('Are you sure you want to merge?');
   if (window.confirm(msg)) {
     this.appApi_.mergeDocuments(
       this.sourceDocument.document_id, this.targetDocument.document_id)
@@ -128,7 +128,7 @@ app.MergeDocumentsController.prototype.getTargetTitle = function() {
     return null;
   }
 
-  let locale = this.targetDocument.locales[0];
+  const locale = this.targetDocument.locales[0];
   let title = (locale.title_prefix) ? locale.title_prefix + ' : ' : '';
   title += locale.title;
 

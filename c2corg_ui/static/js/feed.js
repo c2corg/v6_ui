@@ -270,10 +270,10 @@ app.FeedController.prototype.estimateSize = function(doc) {
 app.FeedController.prototype.handleFeed = function(response) {
   this.error = false;
   this.busy = false;
-  let data = response['data']['feed'];
-  let token = response['data']['pagination_token'];
+  const data = response['data']['feed'];
+  const token = response['data']['pagination_token'];
   this.nextToken = token;
-  let whatsnew = angular.element(document.querySelector('app-whatsnew-feed'));
+  const whatsnew = angular.element(document.querySelector('app-whatsnew-feed'));
 
   this.initDocumentsCol_();
   if (window.innerWidth < 1400 || whatsnew.length > 0) {
@@ -287,8 +287,8 @@ app.FeedController.prototype.handleFeed = function(response) {
   } else if (window.innerWidth >= 1400 && window.innerWidth < 2000) {
     this.nbCols_ = 2;
 
-    let element1_c2 = angular.element(document.querySelector('.in-feed-col-1'));
-    let element2_c2 = angular.element(document.querySelector('.in-feed-col-2'));
+    const element1_c2 = angular.element(document.querySelector('.in-feed-col-1'));
+    const element2_c2 = angular.element(document.querySelector('.in-feed-col-2'));
 
     let height1_c2 = element1_c2[0].offsetHeight;
     let height2_c2 = element2_c2[0].offsetHeight;
@@ -312,9 +312,9 @@ app.FeedController.prototype.handleFeed = function(response) {
 
   } else if (window.innerWidth >= 2000) {
     this.nbCols_ = 3;
-    let element1 = angular.element(document.querySelector('.in-feed-col-1'));
-    let element2 = angular.element(document.querySelector('.in-feed-col-2'));
-    let element3 = angular.element(document.querySelector('.in-feed-col-3'));
+    const element1 = angular.element(document.querySelector('.in-feed-col-1'));
+    const element2 = angular.element(document.querySelector('.in-feed-col-2'));
+    const element3 = angular.element(document.querySelector('.in-feed-col-3'));
 
     let height1_c3 = element1[0].offsetHeight;
     let height2_c3 = element2[0].offsetHeight;

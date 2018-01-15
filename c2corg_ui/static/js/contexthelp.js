@@ -24,10 +24,10 @@ app.contextHelpDirective = function($uibModal, $templateCache, $compile) {
           'windowClass': 'context-help-modal',
           resolve: {
             content: function() {
-              let templateUrl = attrs['contextHelpContentUrl'];
+              const templateUrl = attrs['contextHelpContentUrl'];
               if (templateUrl) {
-                let template = app.utils.getTemplate(templateUrl, $templateCache);
-                let elements = $compile(template)(scope);
+                const template = app.utils.getTemplate(templateUrl, $templateCache);
+                const elements = $compile(template)(scope);
                 return angular.element('<div></div>').append(elements).html();
               } else {
                 return attrs['contextHelpContent'];

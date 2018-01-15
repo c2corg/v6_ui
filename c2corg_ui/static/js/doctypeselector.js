@@ -112,7 +112,7 @@ app.DoctypeSelectorController.prototype.redirect = function() {
  * @private
  */
 app.DoctypeSelectorController.prototype.setBbox_ = function() {
-  let bbox = this.location_.getFragmentParam('bbox');
+  const bbox = this.location_.getFragmentParam('bbox');
   if (bbox) {
     this.params_.push('bbox=' + bbox);
   }
@@ -123,7 +123,7 @@ app.DoctypeSelectorController.prototype.setBbox_ = function() {
  * @private
  */
 app.DoctypeSelectorController.prototype.setAreas_ = function() {
-  let a = this.location_.getFragmentParam('a');
+  const a = this.location_.getFragmentParam('a');
   if (a) {
     this.params_.push('a=' + a);
   }
@@ -134,7 +134,7 @@ app.DoctypeSelectorController.prototype.setAreas_ = function() {
  * @private
  */
 app.DoctypeSelectorController.prototype.setActivities_ = function() {
-  let act = this.location_.getFragmentParam('act');
+  const act = this.location_.getFragmentParam('act');
   if (act) {
     this.params_.push('act=' + act);
   }

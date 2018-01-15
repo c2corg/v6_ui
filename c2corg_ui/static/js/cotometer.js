@@ -102,7 +102,7 @@ app.CotometerController.prototype.cotometerRating_ = function() {
 
   let inter = Math.tan(Math.PI * this.slope / 180) + 0.1 * Math.log(this.elevation);
   inter += this.skiability * (inter - 1);
-  let diff = (1 + this.skiability) * this.elevation;
+  const diff = (1 + this.skiability) * this.elevation;
 
   if (this.slope <= 17 && diff < 400) {
     this.rating = '1.1';

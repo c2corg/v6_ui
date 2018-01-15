@@ -106,20 +106,20 @@ app.AuthController = function($scope, appApi, appAuthentication,
    */
   this.nonce_;
 
-  let get_nonce = function(key) {
+  const get_nonce = function(key) {
     return ngeoLocation.getFragmentParam(key).replace(/[^0-9a-z_]/gi, '');
   };
 
   if (this.ngeoLocation_.hasFragmentParam('validate_register_email')) {
     // Activate and log in from API by using the nonce
-    let nonce1 = get_nonce('validate_register_email');
-    let remember = true;
-    let onLogin = this.successLogin_.bind(this, remember);
+    const nonce1 = get_nonce('validate_register_email');
+    const remember = true;
+    const onLogin = this.successLogin_.bind(this, remember);
     this.api_.validateRegisterEmail(nonce1).then(onLogin);
     this.uiStates = {};
   } else if (this.ngeoLocation_.hasFragmentParam('validate_change_email')) {
     // Activate the email and redirect
-    let nonce2 = get_nonce('validate_change_email');
+    const nonce2 = get_nonce('validate_change_email');
     this.api_.validateChangeEmail(nonce2).then(() => {
       this.redirect_();
     });
@@ -139,8 +139,8 @@ app.AuthController = function($scope, appApi, appAuthentication,
  * @export
  */
 app.AuthController.prototype.login = function() {
-  let login = this.scope_['login'];
-  let remember = !!login['remember']; // a true boolean
+  const login = this.scope_['login'];
+  const remember = !!login['remember']; // a true boolean
 
   // Discourse SSO
   login['discourse'] = true;
@@ -157,8 +157,8 @@ app.AuthController.prototype.login = function() {
  * @export
  */
 app.AuthController.prototype.ssoLogin = function() {
-  let login = this.scope_['login'];
-  let remember = !!login['remember']; // a true boolean
+  const login = this.scope_['login'];
+  const remember = !!login['remember']; // a true boolean
 
   // Discourse SSO
   login['discourse'] = true;
@@ -178,8 +178,8 @@ app.AuthController.prototype.ssoLogin = function() {
  */
 app.AuthController.prototype.loginToDiscourse_ = function(url) {
   // https://developer.mozilla.org/fr/docs/Web/HTML/Element/iframe
-  let deferred = this.q_.defer();
-  let timeoutId = window.setTimeout(() => {
+  const deferred = this.q_.defer();
+  const timeoutId = window.setTimeout(() => {
     deferred.reject();
   }, 10000); // 10s to complete discourse authentication
 
@@ -218,12 +218,12 @@ app.AuthController.prototype.redirect_ = function(opt_location) {
  * @private
  */
 app.AuthController.prototype.successLogin_ = function(remember, response) {
-  let data = /** @type {appx.AuthData} */ (response['data']);
+  const data = /** @type {appx.AuthData} */ (response['data']);
   data.remember = remember;
   this.appAuthentication_.setUserData(data);
 
-  let discourse_url = data['redirect_internal'];
-  let promise = discourse_url ? this.loginToDiscourse_(discourse_url) :
+  const discourse_url = data['redirect_internal'];
+  const promise = discourse_url ? this.loginToDiscourse_(discourse_url) :
     this.q_.when(true);
 
   if (!this.ngeoLocation_.hasParam('no_redirect')) {
@@ -236,13 +236,13 @@ app.AuthController.prototype.successLogin_ = function(remember, response) {
  * @export
  */
 app.AuthController.prototype.register = function() {
-  let alerts = this.alerts_;
-  let lang = this.langService_.getLang();
-  let form = this.scope_['register'];
+  const alerts = this.alerts_;
+  const lang = this.langService_.getLang();
+  const form = this.scope_['register'];
   form['lang'] = lang; // inject the current language
 
   this.api_.register(form).then(() => {
-    let msg = alerts.gettext(
+    const msg = alerts.gettext(
       'Thank you for your registration! ' +
       'We sent you an email, please click on the link to activate ' +
       'your account.');
@@ -258,13 +258,13 @@ app.AuthController.prototype.register = function() {
  * @export
  */
 app.AuthController.prototype.requestPasswordChange = function() {
-  let alerts = this.alerts_;
+  const alerts = this.alerts_;
   /**
    * @type {appx.auth.RequestChangePassword}
    */
-  let data = this.scope_['requestChangePassword'];
+  const data = this.scope_['requestChangePassword'];
   this.api_.requestPasswordChange(data.email).then(() => {
-    let msg = alerts.gettext(
+    const msg = alerts.gettext(
       'We sent you an email, please click on the link to reset password.');
     alerts.addSuccess(msg);
   });
@@ -275,9 +275,9 @@ app.AuthController.prototype.requestPasswordChange = function() {
  * @export
  */
 app.AuthController.prototype.validateNewPassword = function() {
-  let remember = true;
-  let onLogin = this.successLogin_.bind(this, remember);
-  let password = this.scope_['changePassword']['password'];
+  const remember = true;
+  const onLogin = this.successLogin_.bind(this, remember);
+  const password = this.scope_['changePassword']['password'];
   this.api_.validateNewPassword(this.nonce_, password).then(onLogin);
 };
 

@@ -147,7 +147,7 @@ app.SearchFiltersController.IGNORED_FILTERS = ['bbox', 'offset', 'limit'];
  */
 app.SearchFiltersController.prototype.setFilters_ = function() {
   this.filters = {};
-  let keys = this.location.getFragmentParamKeys().filter((x) => {
+  const keys = this.location.getFragmentParamKeys().filter((x) => {
     return app.SearchFiltersController.IGNORED_FILTERS.indexOf(x) === -1;
   });
   for (let i = 0, n = keys.length; i < n; i++) {
@@ -161,7 +161,7 @@ app.SearchFiltersController.prototype.setFilters_ = function() {
  * @public
  */
 app.SearchFiltersController.prototype.setFilterFromPermalink = function(key) {
-  let val = this.location.getFragmentParam(key);
+  const val = this.location.getFragmentParam(key);
   if (val === '') {
     return;
   }
@@ -205,7 +205,7 @@ app.SearchFiltersController.prototype.handleFiltersChange_ = function() {
   } else {
     this.loading_ = false;
   }
-  for (let key in this.filters) {
+  for (const key in this.filters) {
     if (key in this.config && this.config[key]['type'] === 'list') {
       // make sure the checkboxes buffer is up to date
       this.checkboxes_[key] = this.filters[key];
@@ -221,7 +221,7 @@ app.SearchFiltersController.prototype.handleFiltersChange_ = function() {
  */
 app.SearchFiltersController.prototype.handleCheckboxesChange_ = function() {
   // Synchronize filters with checkboxes
-  for (let prop in this.checkboxes_) {
+  for (const prop in this.checkboxes_) {
     if (this.checkboxes_[prop].length) {
       this.filters[prop] = this.checkboxes_[prop];
     } else {
@@ -249,7 +249,7 @@ app.SearchFiltersController.prototype.selectOption = function(prop, val, event) 
  * @export
  */
 app.SearchFiltersController.prototype.clear = function() {
-  for (let key in this.filters) {
+  for (const key in this.filters) {
     this.location.deleteFragmentParam(key);
   }
   this.filters = {};

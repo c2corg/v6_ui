@@ -41,7 +41,7 @@ app.RouteEditingController = function($scope, $element, $attrs, $http,
   if (this.auth.isAuthenticated()) {
     // allow association only for a new route to existing waypoint
     if (ngeoLocation.hasFragmentParam('w')) {
-      let waypointId = parseInt(ngeoLocation.getFragmentParam('w'), 10);
+      const waypointId = parseInt(ngeoLocation.getFragmentParam('w'), 10);
       appApi.getDocumentByIdAndDoctype(waypointId, 'w', appLang.getLang()).then(
         (doc) => {
           this.documentService.pushToAssociations(
@@ -72,7 +72,7 @@ app.RouteEditingController.prototype.hasActivity = function(activities) {
  * @export
  */
 app.RouteEditingController.prototype.showRatings = function() {
-  let activities = this.scope['route'].activities;
+  const activities = this.scope['route'].activities;
   if (activities.length === 0) {
     return false;
   } else if (activities.length > 1) {

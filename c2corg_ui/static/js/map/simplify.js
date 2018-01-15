@@ -20,8 +20,8 @@ goog.require('goog.asserts');
  */
 app.map.simplify.getSqDist_ = function(p1, p2) {
 
-  let dx = p1[0] - p2[0];
-  let dy = p1[1] - p2[1];
+  const dx = p1[0] - p2[0];
+  const dy = p1[1] - p2[1];
 
   return dx * dx + dy * dy;
 };
@@ -45,7 +45,7 @@ app.map.simplify.getSqSegDist_ = function getSqSegDist(p, p1, p2) {
 
   if (dx !== 0 || dy !== 0) {
 
-    let t = ((p[0] - x) * dx + (p[1] - y) * dy) / (dx * dx + dy * dy);
+    const t = ((p[0] - x) * dx + (p[1] - y) * dy) / (dx * dx + dy * dy);
 
     if (t > 1) {
       x = p2[0];
@@ -74,9 +74,9 @@ app.map.simplify.getSqSegDist_ = function getSqSegDist(p, p1, p2) {
  */
 app.map.simplify.simplifyRadialDist_ = function(points, sqTolerance) {
 
-  let prevPoint = points[0],
-      newPoints = [prevPoint],
-      point;
+  let prevPoint = points[0];
+  const newPoints = [prevPoint];
+  let point;
 
   for (let i = 1, len = points.length; i < len; i++) {
     point = points[i];
@@ -109,7 +109,7 @@ app.map.simplify.simplifyDPStep_ = function(points, first, last, sqTolerance, si
       index;
 
   for (let i = first + 1; i < last; i++) {
-    let sqDist = app.map.simplify.getSqSegDist_(points[i], points[first], points[last]);
+    const sqDist = app.map.simplify.getSqSegDist_(points[i], points[first], points[last]);
 
     if (sqDist > maxSqDist) {
       index = i;
@@ -139,9 +139,9 @@ app.map.simplify.simplifyDPStep_ = function(points, first, last, sqTolerance, si
  * @private
  */
 app.map.simplify.simplifyDouglasPeucker_ = function(points, sqTolerance) {
-  let last = points.length - 1;
+  const last = points.length - 1;
 
-  let simplified = [points[0]];
+  const simplified = [points[0]];
   app.map.simplify.simplifyDPStep_(points, 0, last, sqTolerance, simplified);
   simplified.push(points[last]);
 
@@ -163,7 +163,7 @@ app.map.simplify.simplify_ = function simplify(points, tolerance, highestQuality
     return points;
   }
 
-  let sqTolerance = tolerance !== undefined ? tolerance * tolerance : 1;
+  const sqTolerance = tolerance !== undefined ? tolerance * tolerance : 1;
 
   points = highestQuality ? points : app.map.simplify.simplifyRadialDist_(points, sqTolerance);
   points = app.map.simplify.simplifyDouglasPeucker_(points, sqTolerance);
@@ -182,11 +182,11 @@ app.map.simplify.simplify_ = function simplify(points, tolerance, highestQuality
  */
 app.map.simplify.simplify = function(geometry, tolerance) {
   if (geometry instanceof ol.geom.LineString) {
-    let coords = geometry.getCoordinates();
+    const coords = geometry.getCoordinates();
     geometry.setCoordinates(app.map.simplify.simplify_(coords, tolerance, true));
   } else if (geometry instanceof ol.geom.MultiLineString) {
-    let coordss = geometry.getCoordinates();
-    let simplifiedCoordss = coordss.map((coords) => {
+    const coordss = geometry.getCoordinates();
+    const simplifiedCoordss = coordss.map((coords) => {
       return app.map.simplify.simplify_(coords, tolerance, true);
     });
     geometry.setCoordinates(simplifiedCoordss);

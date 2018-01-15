@@ -71,7 +71,7 @@ app.OutingEditingController = function($scope, $element, $attrs, $http,
   if (this.auth.isAuthenticated()) {
     // allow association only for a new outing to existing route
     if (ngeoLocation.hasFragmentParam('r')) {
-      let routeId = parseInt(ngeoLocation.getFragmentParam('r'), 10);
+      const routeId = parseInt(ngeoLocation.getFragmentParam('r'), 10);
       appApi.getDocumentByIdAndDoctype(routeId, 'r', appLang.getLang()).then(
         (doc) => {
           this.documentService.pushToAssociations(
@@ -112,7 +112,7 @@ app.OutingEditingController.prototype.successRead = function(response) {
 
   let outing = this.scope[this.modelName];
   // check if user has right to edit -> the user is one of the associated users
-  let userIds = [];
+  const userIds = [];
   outing['associations']['users'].forEach((user) => {
     userIds.push(user['document_id']);
   });
@@ -145,7 +145,7 @@ app.OutingEditingController.prototype.prepareData = function(data) {
   data['length_total'] *= 1000;
 
   // filtering outing ratings on activities
-  let activities = data['activities'];
+  const activities = data['activities'];
   if (activities.indexOf('skitouring') === -1) {
     delete data['ski_rating'];
     delete data['labande_global_rating'];
