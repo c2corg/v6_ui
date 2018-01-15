@@ -55,17 +55,17 @@ app.AccountController = function($scope, appAuthentication, appAlerts,
  * @export
  */
 app.AccountController.prototype.save = function() {
-  let data = this.scope_['account'];
-  let modifiedData = {};
+  const data = this.scope_['account'];
+  const modifiedData = {};
   // Only keep modified data
-  for (let key in data) {
+  for (const key in data) {
     if (!(key in this.initialData_) || data[key] !== this.initialData_[key]) {
       modifiedData[key] = data[key];
     }
   }
-  let alerts = this.alerts_;
+  const alerts = this.alerts_;
   this.api_.updateAccount(modifiedData).then(() => {
-    let msg = alerts.gettext('Update success');
+    const msg = alerts.gettext('Update success');
     alerts.addSuccess(msg);
   });
 };

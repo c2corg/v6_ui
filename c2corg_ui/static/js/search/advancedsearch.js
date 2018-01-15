@@ -158,7 +158,7 @@ app.AdvancedSearchController.prototype.getResults_ = function() {
     this.canceler_.resolve();
   }
 
-  let url = this.location_.getUriString();
+  const url = this.location_.getUriString();
   let qstr = goog.uri.utils.getFragment(url) || '';
   qstr += '&pl=' + this.gettextCatalog_.currentLanguage;
 
@@ -179,7 +179,7 @@ app.AdvancedSearchController.prototype.successList_ = function(response) {
   if (!('data' in response)) {
     return;
   }
-  let data = /** @type {appx.SearchDocumentResponse} */ (response['data']);
+  const data = /** @type {appx.SearchDocumentResponse} */ (response['data']);
   this.documents = data.documents;
   this.total = data.total;
   this.noResults = this.documents.length === 0;
@@ -197,12 +197,12 @@ app.AdvancedSearchController.prototype.successList_ = function(response) {
  * @private
  */
 app.AdvancedSearchController.prototype.getFeatures_ = function() {
-  let features = [];
-  let format = new ol.format.GeoJSON();
+  const features = [];
+  const format = new ol.format.GeoJSON();
   for (let i = 0, n = this.documents.length; i < n; i++) {
-    let doc = this.documents[i];
+    const doc = this.documents[i];
     if ('geometry' in doc && doc['geometry'] && doc['geometry']['geom']) {
-      let properties = this.createFeatureProperties_(doc);
+      const properties = this.createFeatureProperties_(doc);
       properties['geometry'] = format.readGeometry(doc['geometry']['geom']);
       features.push(new ol.Feature(properties));
     }
@@ -219,8 +219,8 @@ app.AdvancedSearchController.prototype.getFeatures_ = function() {
 app.AdvancedSearchController.prototype.createFeatureProperties_ = function(doc) {
   // Since the request is done with the "pl" parameter (prefered language),
   // the API returns the best locale first.
-  let locale = doc['locales'][0];
-  let properties = {
+  const locale = doc['locales'][0];
+  const properties = {
     'module': this.doctype,
     'documentId': doc['document_id'],
     'lang': locale['lang'],

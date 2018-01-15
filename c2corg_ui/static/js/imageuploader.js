@@ -240,9 +240,9 @@ app.ImageUploaderController.prototype.upload_ = function() {
  * @private
  */
 app.ImageUploaderController.prototype.uploadFile_ = function(file) {
-  let canceller = this.q_.defer();
-  let promise = this.api_.uploadImage(file, canceller.promise, ((file, event) => {
-    let progress = event.loaded / event.total;
+  const canceller = this.q_.defer();
+  const promise = this.api_.uploadImage(file, canceller.promise, ((file, event) => {
+    const progress = event.loaded / event.total;
     file['progress'] = 100 * progress;
   }).bind(this, file));
 
@@ -251,7 +251,7 @@ app.ImageUploaderController.prototype.uploadFile_ = function(file) {
   file['canceller'] = canceller;
 
   return promise.then((resp) => {
-    let image = new Image();
+    const image = new Image();
     image['src'] = file['src'];
 
     file['metadata']['filename'] = resp['data']['filename'];
@@ -293,20 +293,20 @@ app.ImageUploaderController.prototype.areAllUploadedCheck_ = function() {
  * @export
  */
 app.ImageUploaderController.prototype.save = function() {
-  let defer = this.q_.defer();
+  const defer = this.q_.defer();
 
   this.api_.createImages(this.files, this.documentService.document)
     .then((data) => {
-      let images = data['config']['data']['images'];
-      let imageIds = data['data']['images']; // newly created document_id
+      const images = data['config']['data']['images'];
+      const imageIds = data['data']['images']; // newly created document_id
 
       $('.img-container').each((i) => {
-        let id = imageIds[i]['document_id'];
+        const id = imageIds[i]['document_id'];
         images[i]['image_id'] = 'image-' + id;
-        let element = app.utils.createImageSlide(images[i], this.imageUrl_);
+        const element = app.utils.createImageSlide(images[i], this.imageUrl_);
         $('.photos').append(element);
 
-        let scope = this.scope_.$new(true);
+        const scope = this.scope_.$new(true);
         scope['photo'] = images[i];
         scope['photo']['image_id'] = 'image-' + id;
         this.documentService.document.associations['images'].push(scope['photo']);
@@ -329,8 +329,8 @@ app.ImageUploaderController.prototype.save = function() {
  * @return {string}
  */
 app.ImageUploaderController.prototype.setImageType_ = function() {
-  let type = app.utils.getDoctype(this.documentService.document.type);
-  let isColl = this.documentService.isCollaborative(type);
+  const type = app.utils.getDoctype(this.documentService.document.type);
+  const isColl = this.documentService.isCollaborative(type);
   return isColl ? 'collaborative' : 'personal';
 };
 
@@ -388,7 +388,7 @@ app.ImageUploaderController.prototype.deleteImage = function(index) {
  */
 app.ImageUploaderController.prototype.getImageMetadata_ = function(file) {
   window.loadImage.parseMetaData(file, (data) => {
-    let exif = data.exif;
+    const exif = data.exif;
     if (exif) {
       file['exif'] = exif.getAll();
 
@@ -406,8 +406,8 @@ app.ImageUploaderController.prototype.getImageMetadata_ = function(file) {
  * @private
  */
 app.ImageUploaderController.prototype.setExifData_ = function(file) {
-  let exif = file['exif'];
-  let metadata = file['metadata'];
+  const exif = file['exif'];
+  const metadata = file['metadata'];
 
   let date = this.parseExifDate_(exif, 'DateTimeOriginal');
   if (date === null) {
@@ -432,8 +432,8 @@ app.ImageUploaderController.prototype.parseExifDate_ = function(exifData, exifTa
   if (!exifData[exifTag]) {
     return null;
   }
-  let exifDate = exifData[exifTag];
-  let date = window.moment(exifDate, 'YYYY:MM:DD HH:mm:ss');
+  const exifDate = exifData[exifTag];
+  const date = window.moment(exifDate, 'YYYY:MM:DD HH:mm:ss');
   return date.isValid() ? date.format() : null;
 };
 
@@ -447,17 +447,17 @@ app.ImageUploaderController.prototype.setGeolocation_ = function(file) {
   let lon = file['exif']['GPSLongitude'].split(',');
   lat = app.utils.convertDMSToDecimal(lat[0], lat[1], lat[2], file['exif']['GPSLatitudeRef']);
   lon = app.utils.convertDMSToDecimal(lon[0], lon[1], lon[2], file['exif']['GPSLongitudeRef']);
-  let worldExtent = ol.proj.get('EPSG:4326').getExtent();
+  const worldExtent = ol.proj.get('EPSG:4326').getExtent();
 
   if (!isNaN(lat) && !isNaN(lon) && ol.extent.containsXY(worldExtent, lon, lat)) {
-    let location = ol.proj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857');
-    let geom = {'coordinates': location, 'type': 'Point'};
+    const location = ol.proj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857');
+    const geom = {'coordinates': location, 'type': 'Point'};
 
     file['metadata']['geometry'] = {'geom': JSON.stringify(geom)};
     file['exif']['geo_label'] = ol.coordinate.toStringHDMS([lon, lat]);
   }
 
-  let elevation = parseFloat(file['exif']['GPSAltitude']);
+  const elevation = parseFloat(file['exif']['GPSAltitude']);
   if (!isNaN(elevation)) {
     file['metadata']['elevation'] = elevation;
   }
@@ -468,7 +468,7 @@ app.ImageUploaderController.prototype.setGeolocation_ = function(file) {
  * @export
  */
 app.ImageUploaderController.prototype.openModal = function() {
-  let template = $('#image-uploader').clone();
+  const template = $('#image-uploader').clone();
   this.modal_.open({
     animation: true,
     template: this.compile_(template)(this.scope_),
@@ -517,7 +517,7 @@ app.ImageUploaderController.prototype.filterImageTypes = function(imageTypes) {
     // moderators have access to all image types
     return imageTypes;
   }
-  let removeCopyright = function(val) {
+  const removeCopyright = function(val) {
     return val !== 'copyright';
   };
   return imageTypes.filter(removeCopyright);
@@ -569,7 +569,7 @@ app.ImageUploaderModalController.prototype.close = function() {
  * @export
  */
 app.ImageUploaderModalController.prototype.save = function() {
-  let uplCtrl = this.scope_['uplCtrl'];
+  const uplCtrl = this.scope_['uplCtrl'];
   if (uplCtrl.saving) {
     // saving is already in progress
     return;

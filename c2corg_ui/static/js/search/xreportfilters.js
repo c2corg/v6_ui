@@ -56,11 +56,11 @@ goog.inherits(app.XreportFiltersController, app.SearchFiltersController);
  */
 app.XreportFiltersController.prototype.setFilterFromPermalink = function(key) {
   if (key in this.config && this.config[key]['type'] === 'date') {
-    let val = this.location.getFragmentParam(key);
+    const val = this.location.getFragmentParam(key);
     if (val === '') {
       return;
     }
-    let dates = val.split(',');
+    const dates = val.split(',');
     dates.forEach((date) => {
       this.dates.push(window.moment(date).toDate());
     });
@@ -115,7 +115,7 @@ app.XreportFiltersController.prototype.formatDate_ = function(date) {
  * @private
  */
 app.XreportFiltersController.prototype.updateMinMaxDates_ = function() {
-  let nb_dates = this.dates.length;
+  const nb_dates = this.dates.length;
   if (nb_dates > 0) {
     this.dateMaxStart = nb_dates > 1 ? this.dates[1] : this.dateMaxStart;
     this.dateMinEnd = this.dates[0];

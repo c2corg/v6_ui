@@ -51,7 +51,7 @@ app.Authentication = function(apiUrl, $rootScope, $log) {
   this.userData = null;
 
   // Load current user data from storage
-  let rawData = window.sessionStorage.getItem(this.USER_DATA_KEY_) ||
+  const rawData = window.sessionStorage.getItem(this.USER_DATA_KEY_) ||
       window.localStorage.getItem(this.USER_DATA_KEY_);
   if (rawData) {
     this.userData = this.parseUserData_(rawData);
@@ -101,7 +101,7 @@ app.Authentication.prototype.isAuthenticated = function() {
  */
 app.Authentication.prototype.isModerator = function() {
   if (this.userData) {
-    let roles = this.userData.roles;
+    const roles = this.userData.roles;
     return roles.indexOf('moderator') > -1;
   } else {
     return false;
@@ -212,13 +212,13 @@ app.Authentication.prototype.hasEditRightsArticle_ = function(articleType, autho
  */
 app.Authentication.prototype.setUserData = function(data) {
   try {
-    let raw = JSON.stringify(data);
+    const raw = JSON.stringify(data);
     this.userData = this.parseUserData_(raw);
 
     // set the interface language
     this.langService_.updateLang(this.userData.lang, /* syncWithApi */ false);
 
-    let storage = data.remember ? window.localStorage : window.sessionStorage;
+    const storage = data.remember ? window.localStorage : window.sessionStorage;
     if (goog.DEBUG) {
       this.$log.log('Stored user data in', data.remember ? 'local' : 'session');
     }
@@ -257,7 +257,7 @@ app.Authentication.prototype.removeUserData = function() {
  */
 app.Authentication.prototype.parseUserData_ = function(raw) {
   if (raw) {
-    let data = /** @type {appx.AuthData} */ (JSON.parse(raw));
+    const data = /** @type {appx.AuthData} */ (JSON.parse(raw));
     // Make data immutable
     Object.freeze(data);
     Object.freeze(data.roles);
@@ -275,8 +275,8 @@ app.Authentication.prototype.parseUserData_ = function(raw) {
 app.Authentication.prototype.isExpired_ = function() {
   goog.asserts.assert(!!this.userData, 'this.userData should not be null');
 
-  let now = Date.now() / 1000; // in seconds
-  let expire = this.userData.expire;
+  const now = Date.now() / 1000; // in seconds
+  const expire = this.userData.expire;
   if (now > expire) {
     this.removeUserData();
     return true;
@@ -297,8 +297,8 @@ app.Authentication.prototype.isExpired_ = function() {
  * @private
  */
 app.Authentication.prototype.handle_token_renewal_ = function(now, expire) {
-  let storage = window.localStorage;
-  let pending = parseInt(storage.getItem('last_renewal') || 0, 10);
+  const storage = window.localStorage;
+  const pending = parseInt(storage.getItem('last_renewal') || 0, 10);
 
   if (!!this.http_ && now > pending + 15) {
     // If no pending renewal or more than 15s after last one
@@ -340,7 +340,7 @@ app.Authentication.prototype.handle_token_renewal_ = function(now, expire) {
  */
 app.Authentication.prototype.addAuthorizationToHeaders = function(url,
   headers) {
-  let token = this.userData ? this.userData.token : null;
+  const token = this.userData ? this.userData.token : null;
   if (token && !this.isExpired_()) {
     if (goog.DEBUG && url.indexOf('http://') === 0) {
       // FIXME: ideally, should prevent the operation in prod mode

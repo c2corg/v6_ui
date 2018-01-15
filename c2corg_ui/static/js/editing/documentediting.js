@@ -243,7 +243,7 @@ app.DocumentEditingController.prototype.successRead = function(response) {
  * @private
  */
 app.DocumentEditingController.prototype.toCoordinates_ = function(str) {
-  let point = /** @type {ol.geom.Point} */
+  const point = /** @type {ol.geom.Point} */
       (this.geojsonFormat_.readGeometry(str));
   return this.getCoordinatesFromPoint_(point);
 };
@@ -255,12 +255,12 @@ app.DocumentEditingController.prototype.toCoordinates_ = function(str) {
  */
 app.DocumentEditingController.prototype.updateGeometry_ = function(data) {
   if ('geometry' in data && data['geometry']) {
-    let geometry = data['geometry'];
+    const geometry = data['geometry'];
     // don't add lonlat for line or polygon geometries
     // (point geometries have no 'geom_detail' attribute)
     if (this.isPointType_() && !('geom_detail' in geometry && geometry['geom_detail']) &&
         'geom' in geometry && geometry['geom']) {
-      let coordinates = this.toCoordinates_(geometry['geom']);
+      const coordinates = this.toCoordinates_(geometry['geom']);
       data['lonlat'] = {
         'longitude': coordinates[0],
         'latitude': coordinates[1]
@@ -275,7 +275,7 @@ app.DocumentEditingController.prototype.updateGeometry_ = function(data) {
  * @private
  */
 app.DocumentEditingController.prototype.isPointType_ = function() {
-  let nonPointModels = ['outing', 'route', 'area'];
+  const nonPointModels = ['outing', 'route', 'area'];
   return $.inArray(this.modelName, nonPointModels) === -1;
 };
 
@@ -300,15 +300,15 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
   if (!goog.isArray(data['locales'])) {
     // With ng-model="route.locales[0].description" route.locales is taken
     // as an object instead of an array.
-    let locale = data['locales'][0];
+    const locale = data['locales'][0];
     data['locales'] = [locale];
   }
 
   // Convert point geometry data
   if ('lonlat' in data && data['lonlat']) {
-    let lonlat = data['lonlat'];
+    const lonlat = data['lonlat'];
     if ('longitude' in lonlat && 'latitude' in lonlat) {
-      let point = new ol.geom.Point([lonlat['longitude'], lonlat['latitude']]);
+      const point = new ol.geom.Point([lonlat['longitude'], lonlat['latitude']]);
       point.transform(
         app.constants.documentEditing.FORM_PROJ,
         app.constants.documentEditing.DATA_PROJ
@@ -386,7 +386,7 @@ app.DocumentEditingController.prototype.prepareData = function(data) {
  * @export
  */
 app.DocumentEditingController.prototype.cancel = function(view_url, index_url) {
-  let url = !view_url || this.isNewLang_ ? index_url : view_url;
+  const url = !view_url || this.isNewLang_ ? index_url : view_url;
   window.location.href = url;
 };
 
@@ -396,11 +396,11 @@ app.DocumentEditingController.prototype.cancel = function(view_url, index_url) {
  * @export
  */
 app.DocumentEditingController.prototype.updateMap = function() {
-  let data = this.scope[this.modelName];
+  const data = this.scope[this.modelName];
   if ('lonlat' in data && data['lonlat']) {
-    let lonlat = data['lonlat'];
+    const lonlat = data['lonlat'];
     if ('longitude' in lonlat && 'latitude' in lonlat) {
-      let point = new ol.geom.Point([lonlat['longitude'], lonlat['latitude']]);
+      const point = new ol.geom.Point([lonlat['longitude'], lonlat['latitude']]);
       point.transform(app.constants.documentEditing.FORM_PROJ, app.constants.documentEditing.DATA_PROJ);
       // If creating a new document, the model has no geometry attribute yet:
       data['geometry'] = data['geometry'] || {};
@@ -417,7 +417,7 @@ app.DocumentEditingController.prototype.updateMap = function() {
  * @private
  */
 app.DocumentEditingController.prototype.handleMapFeaturesChange_ = function(features) {
-  let data = this.scope[this.modelName];
+  const data = this.scope[this.modelName];
 
   // If creating a new document, the model has no geometry attribute yet:
   data['geometry'] = data['geometry'] || {};
@@ -429,13 +429,13 @@ app.DocumentEditingController.prototype.handleMapFeaturesChange_ = function(feat
       data['lonlat'] = null;
     }
   } else {
-    let feature = features[0];
-    let geometry = feature.getGeometry();
+    const feature = features[0];
+    const geometry = feature.getGeometry();
     goog.asserts.assert(geometry);
-    let isPoint = geometry instanceof ol.geom.Point;
+    const isPoint = geometry instanceof ol.geom.Point;
     if (isPoint) {
       data['geometry']['geom'] = this.geojsonFormat_.writeGeometry(geometry);
-      let coords = this.getCoordinatesFromPoint_(
+      const coords = this.getCoordinatesFromPoint_(
         /** @type {ol.geom.Point} */ (geometry.clone()));
       data['lonlat'] = {
         'longitude': coords[0],
@@ -452,7 +452,7 @@ app.DocumentEditingController.prototype.handleMapFeaturesChange_ = function(feat
       } else {
         center = ol.extent.getCenter(geometry.getExtent());
       }
-      let centerPoint = new ol.geom.Point(center);
+      const centerPoint = new ol.geom.Point(center);
       data['geometry']['geom'] = this.geojsonFormat_.writeGeometry(centerPoint);
       data['geometry']['geom_detail'] = this.geojsonFormat_.writeGeometry(geometry);
     }
@@ -467,7 +467,7 @@ app.DocumentEditingController.prototype.handleMapFeaturesChange_ = function(feat
  * @private
  */
 app.DocumentEditingController.prototype.handleMapFeaturesReset_ = function(initialGeometry) {
-  let data = this.scope[this.modelName];
+  const data = this.scope[this.modelName];
   data['geometry'] = initialGeometry;
   this.hasGeomChanged_ = false;
   this.updateGeometry_(data);
@@ -486,7 +486,7 @@ app.DocumentEditingController.prototype.getCoordinatesFromPoint_ = function(
     app.constants.documentEditing.DATA_PROJ,
     app.constants.documentEditing.FORM_PROJ
   );
-  let coords = geometry.getCoordinates();
+  const coords = geometry.getCoordinates();
   return goog.array.map(coords, (coord) => {
     return Math.round(coord * 1000000) / 1000000;
   });
@@ -500,13 +500,13 @@ app.DocumentEditingController.prototype.getCoordinatesFromPoint_ = function(
  * @return {boolean | undefined}
  */
 app.DocumentEditingController.prototype.hasMissingProps = function(doc, showError) {
-  let type = doc.type ? app.utils.getDoctype(doc.type) : this.module_;
-  let requiredFields = app.constants.REQUIRED_FIELDS[type] || null;
+  const type = doc.type ? app.utils.getDoctype(doc.type) : this.module_;
+  const requiredFields = app.constants.REQUIRED_FIELDS[type] || null;
   if (!requiredFields) {
     return false;
   }
   // understandable structure by alertService
-  let missing = {'data': {'errors': []}};
+  const missing = {'data': {'errors': []}};
   let hasError;
   let field;
   for (let i = 0; i < requiredFields.length; i++) {
@@ -586,13 +586,13 @@ app.DocumentEditingController.prototype.toggleOrientation = function(orientation
  * @export
  */
 app.DocumentEditingController.prototype.preview = function() {
-  let config = {
+  const config = {
     headers: {
       'Content-Type': 'application/json; charset=UTF-8',
       'Accept': 'application/json'
     }
   };
-  let url = '/' + this.module_ + '/preview';
+  const url = '/' + this.module_ + '/preview';
   let data = angular.copy(this.scope[this.modelName]);
   data = {
     'document': this.prepareData(data)
@@ -602,7 +602,7 @@ app.DocumentEditingController.prototype.preview = function() {
       this.alerts.addError('A server error prevented creating the preview');
     }).
     then((response) => {
-      let template = angular.element('#preview-container').clone();
+      const template = angular.element('#preview-container').clone();
       template.find('.preview-container-content').append(response['data']);
 
       this.modal.open({
@@ -624,8 +624,8 @@ app.DocumentEditingController.prototype.confirmSave = function(isValid) {
     this.alerts.addError('Form is not valid');
     return;
   }
-  let template = angular.element('#save-confirmation-modal').clone();
-  let modalInstance = this.modal.open({
+  const template = angular.element('#save-confirmation-modal').clone();
+  const modalInstance = this.modal.open({
     animation: true,
     template: this.compile(template)(this.scope),
     controller: 'appConfirmSaveModalController as saveCtrl'
@@ -647,7 +647,7 @@ app.DocumentEditingController.prototype.confirmSave = function(isValid) {
  * @export
  */
 app.DocumentEditingController.prototype.openModal = function(selector, sizem) {
-  let template = $(selector).clone();
+  const template = $(selector).clone();
   this.modal.open({
     animation: true,
     size: sizem || 'lg',

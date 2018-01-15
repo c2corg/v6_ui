@@ -11,16 +11,16 @@ goog.require('app.utils');
  * @ngInject
  */
 app.suggestionDirective = function($compile, $sce, $templateCache) {
-  let cardElementCache = {};
+  const cardElementCache = {};
 
-  let getCardElement = function(doctype) {
+  const getCardElement = function(doctype) {
     if (cardElementCache[doctype] !== undefined) {
       return cardElementCache[doctype];
     }
-    let path = '/static/partials/suggestions/' + doctype + '.html';
-    let template = app.utils.getTemplate(path, $templateCache);
+    const path = '/static/partials/suggestions/' + doctype + '.html';
+    const template = app.utils.getTemplate(path, $templateCache);
 
-    let element = angular.element(template);
+    const element = angular.element(template);
     cardElementCache[doctype] = $compile(element);
 
     return cardElementCache[doctype];
@@ -39,11 +39,11 @@ app.suggestionDirective = function($compile, $sce, $templateCache) {
         return $sce.trustAsHtml(text);
       };
 
-      let document = scope.$parent['doc'];
+      const document = scope.$parent['doc'];
       angular.extend(scope, document);
 
       if (document['activities']) {
-        let activities = document['activities'];
+        const activities = document['activities'];
         let activitiesHtml = '';
         for (let i = 0; i < activities.length; i++) {
           activitiesHtml += '<span class="icon-' + activities[i] + '"></span>';
@@ -51,7 +51,7 @@ app.suggestionDirective = function($compile, $sce, $templateCache) {
         scope.$parent['activitiesHtml'] = $sce.trustAsHtml(activitiesHtml);
       }
 
-      let cardElementFn = getCardElement(document['documentType']);
+      const cardElementFn = getCardElement(document['documentType']);
       cardElementFn(scope, (clone) => {
         element.append(clone);
       });

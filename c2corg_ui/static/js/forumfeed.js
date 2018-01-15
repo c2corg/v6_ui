@@ -46,10 +46,10 @@ app.ForumFeedController = function(appApi) {
  * @private
  */
 app.ForumFeedController.prototype.handleTopics_ = function(response) {
-  let data = response['data'];
+  const data = response['data'];
   this.errorForum = !('users' in data);
   if (!this.errorForum) {
-    let postersAvatar = {};
+    const postersAvatar = {};
     for (let j = 0, n = data['users'].length, user; j < n; j++) {
       user = data['users'][j];
       postersAvatar[user['username']] = user['avatar_template'].replace('{size}', '24');

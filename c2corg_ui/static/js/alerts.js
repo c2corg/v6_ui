@@ -101,7 +101,7 @@ app.module.directive('appAlert', app.alertDirective);
  */
 app.AlertController = function($timeout) {
   if (this['timeout'] && this['close']) {
-    let timeout = parseInt(this['timeout'], 10);
+    const timeout = parseInt(this['timeout'], 10);
     if (timeout) {
       $timeout(() => {
         this['close']();

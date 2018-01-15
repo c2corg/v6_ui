@@ -42,7 +42,7 @@ app.Alerts.prototype.gettext = function(str) {
  * @export
  */
 app.Alerts.prototype.add = function(data) {
-  let timeout = data['timeout'] || 0;
+  const timeout = data['timeout'] || 0;
   this.addLoading_(timeout);
   let msg = data['msg'];
   msg = msg instanceof Object ? this.formatErrorMsg_(msg) :
@@ -87,8 +87,8 @@ app.Alerts.prototype.addError = function(msg) {
  * @export
  */
 app.Alerts.prototype.addErrorWithMsg = function(msg, errors) {
-  let content = this.filterStr_(msg) + '<br>' + this.formatErrorMsg_(errors);
-  let timeout = 5000;
+  const content = this.filterStr_(msg) + '<br>' + this.formatErrorMsg_(errors);
+  const timeout = 5000;
   this.addLoading_(timeout);
   this.alerts_.push({
     type: 'danger',
@@ -130,8 +130,8 @@ app.Alerts.prototype.formatErrorMsg_ = function(response) {
       !response['data']['errors']) {
     return this.gettextCatalog_.getString('Unknown error');
   }
-  let errors = response['data']['errors'];
-  let len = errors.length;
+  const errors = response['data']['errors'];
+  const len = errors.length;
   if (len > 1) {
     let msg = '<ul>';
     for (let i = 0; i < len; i++) {

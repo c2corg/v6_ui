@@ -45,7 +45,7 @@ app.GeolocationController = function() {
    */
   this.map;
 
-  let positionFeatureStyle = new ol.style.Style({
+  const positionFeatureStyle = new ol.style.Style({
     image: new ol.style.Circle({
       radius: 6,
       fill: new ol.style.Fill({color: 'rgba(230, 100, 100, 1)'}),
@@ -53,7 +53,7 @@ app.GeolocationController = function() {
     })
   });
 
-  let accuracyFeatureStyle = new ol.style.Style({
+  const accuracyFeatureStyle = new ol.style.Style({
     fill: new ol.style.Fill({color: 'rgba(100, 100, 230, 0.3)'}),
     stroke: new ol.style.Stroke({color: 'rgba(40, 40, 230, 1)', width: 2})
   });

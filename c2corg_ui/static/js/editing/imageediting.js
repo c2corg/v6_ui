@@ -114,7 +114,7 @@ app.ImageEditingController.prototype.createImgUrl = function(filename) {
  * @export
  */
 app.ImageEditingController.prototype.filterImageTypes = function(imageTypes) {
-  let removeCopyright = function(val) {
+  const removeCopyright = function(val) {
     return val !== 'copyright';
   };
   return imageTypes.filter(removeCopyright);

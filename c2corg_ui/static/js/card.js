@@ -15,15 +15,15 @@ goog.require('app.Url');
  * @ngInject
  */
 app.cardDirective = function($compile, $templateCache) {
-  let cardElementCache = {};
+  const cardElementCache = {};
 
-  let getCardElement = function(doctype) {
+  const getCardElement = function(doctype) {
     if (cardElementCache[doctype] !== undefined) {
       return cardElementCache[doctype];
     }
-    let path = '/static/partials/cards/' + doctype + '.html';
-    let template = app.utils.getTemplate(path, $templateCache);
-    let element = angular.element(template);
+    const path = '/static/partials/cards/' + doctype + '.html';
+    const template = app.utils.getTemplate(path, $templateCache);
+    const element = angular.element(template);
     cardElementCache[doctype] = $compile(element);
     return cardElementCache[doctype];
   };
@@ -37,7 +37,7 @@ app.cardDirective = function($compile, $templateCache) {
       'doc': '<appCardDoc'
     },
     link: function(scope, element, attrs, ctrl) {
-      let cardElementFn = getCardElement(ctrl.type);
+      const cardElementFn = getCardElement(ctrl.type);
       cardElementFn(scope, (clone) => {
         element.append(clone);
       });
@@ -113,11 +113,11 @@ app.CardController = function(gettextCatalog, appUrl, imageUrl, moment) {
    */
   this.locale = {};
 
-  let locales = this.type === 'feeds' ? this.doc.document.locales : this.doc.locales;
+  const locales = this.type === 'feeds' ? this.doc.document.locales : this.doc.locales;
 
   this.locale = locales[0];
   for (let i = 0, n = locales.length; i < n; i++) {
-    let l = locales[i];
+    const l = locales[i];
     if (l['lang'] === this.lang) {
       this.locale = l;
       break;
@@ -179,7 +179,7 @@ app.CardController.prototype.translate = function(str) {
 app.CardController.prototype.showArea = function(areas) {
   if (areas) {
     // the areas often come in different orders within 3 area objects.
-    let orderedAreas = {'range': [], 'admin_limits': [], 'country': []};
+    const orderedAreas = {'range': [], 'admin_limits': [], 'country': []};
     let type;
     for (let i = 0; i < areas.length; i++) {
       type = areas[i]['area_type'];
@@ -217,11 +217,11 @@ app.CardController.prototype.showOrientation = function(orientations) {
  * @export
  */
 app.CardController.prototype.showDates = function() {
-  let start = this.doc['document']['date_start'];
-  let end = this.doc['document']['date_end'];
-  let sameYear = this.moment_(start).year() == this.moment_(end).year();
-  let sameMonth = this.moment_(start).month() == this.moment_(end).month();
-  let sameDay = this.moment_(start).date() == this.moment_(end).date();
+  const start = this.doc['document']['date_start'];
+  const end = this.doc['document']['date_end'];
+  const sameYear = this.moment_(start).year() == this.moment_(end).year();
+  const sameMonth = this.moment_(start).month() == this.moment_(end).month();
+  const sameDay = this.moment_(start).date() == this.moment_(end).date();
   if (sameDay && sameMonth && sameYear) {
     return this.moment_(end).format('Do MMMM YYYY');
   }
@@ -279,11 +279,11 @@ app.CardController.prototype.createImageUrl = function(filename, suffix) {
  * @export
  */
 app.CardController.prototype.createAreaURL = function(areas) {
-  let loc = window.location.pathname;
+  const loc = window.location.pathname;
   if (areas && areas.length &&
       loc.indexOf('/edit/') === -1 && loc.indexOf('/add') === -1) {
 
-    let orderedAreas = {'range': [], 'admin_limits': [], 'country': []};
+    const orderedAreas = {'range': [], 'admin_limits': [], 'country': []};
     for (let i = 0, type; i < areas.length; i++) {
       type = areas[i]['area_type'];
       orderedAreas[type].push(areas[i]);
@@ -324,8 +324,8 @@ app.CardController.prototype.createImg = function(suffix) {
  * @return {Object | null} ratings
  */
 app.CardController.prototype.getGlobalRatings = function() {
-  let doc = this.doc;
-  let ratings = {};
+  const doc = this.doc;
+  const ratings = {};
 
   doc.activities.forEach((a) => {
     if (a === 'rock_climbing' || a === 'mountain_climbing' || a === 'snow_ice_mixed') {
@@ -361,11 +361,11 @@ app.CardController.prototype.getGlobalRatings = function() {
  * @return {Object} ratings
  */
 app.CardController.prototype.getFullRatings = function() {
-  let doc = this.type == 'feeds' ? this.doc['document'] : this.doc;
-  let ratings = {};
-  let fullRatings = {};
+  const doc = this.type == 'feeds' ? this.doc['document'] : this.doc;
+  const ratings = {};
+  const fullRatings = {};
 
-  for (let p in doc) {
+  for (const p in doc) {
     // every property that has 'rating' in it but with some exceptions.
     if (doc.hasOwnProperty(p) && p.indexOf('rating') > -1 &&
         p !== 'rock_free_rating' && p !== 'rock_required_rating' && p !== 'ski_rating' &&
@@ -387,7 +387,7 @@ app.CardController.prototype.getFullRatings = function() {
 
         if (doc.rock_required_rating && doc.rock_free_rating) {
           // [A0] (without bracket) is showed only if equipment_rating = P1 or P1+, and if aid_rating is empty.
-          let A0 = (doc.equipment_rating === 'P1' || doc.equipment_rating === 'P1+') && !doc.aid_rating;
+          const A0 = (doc.equipment_rating === 'P1' || doc.equipment_rating === 'P1+') && !doc.aid_rating;
           ratings['rock_rating'] += '>' + doc.rock_required_rating;
           ratings['rock_rating'] += A0 ? '[A0]' : '';
         }

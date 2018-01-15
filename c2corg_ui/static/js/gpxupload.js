@@ -62,8 +62,8 @@ app.GpxUploadController = function($scope) {
  * @private
  */
 app.GpxUploadController.prototype.importGpx_ = function(gpx) {
-  let gpxFormat = new ol.format.GPX();
-  let features = gpxFormat.readFeatures(gpx, {
+  const gpxFormat = new ol.format.GPX();
+  const features = gpxFormat.readFeatures(gpx, {
     featureProjection: 'EPSG:3857'
   });
   if (features.length) {

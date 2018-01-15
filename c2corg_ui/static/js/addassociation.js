@@ -14,7 +14,7 @@ goog.require('app.simpleSearchDirective');
  */
 app.addAssociationDirective = function($compile) {
 
-  let template = function(dataset) {
+  const template = function(dataset) {
     return '<app-simple-search app-select="addCtrl.associate(doc)" ' +
       'ignore-document-id="addCtrl.parentId" ' +
       'dataset="' + dataset + '"></app-simple-search>';
@@ -84,7 +84,7 @@ app.AddAssociationController = function(appApi, appDocument) {
  */
 app.AddAssociationController.prototype.associate = function(doc) {
   let parentId, childId;
-  let parentType = this.parentDoctype;
+  const parentType = this.parentDoctype;
 
   // if the parent doc is a route and the child doc is a waypoint OR
   // if the parent doc is an outing, inverse the IDs.

@@ -73,7 +73,7 @@ app.ProgressBarController = function($interval) {
  * @export
  */
 app.ProgressBarController.prototype.step = function(step, document, direction) {
-  let el = '.create-edit-document .editing';
+  const el = '.create-edit-document .editing';
 
   switch (step) {
     case 1:
@@ -121,9 +121,9 @@ app.ProgressBarController.prototype.step = function(step, document, direction) {
  * @private
  */
 app.ProgressBarController.prototype.animateBar_ = function(step, direction) {
-  let percent = 100 / this.maxSteps;
-  let green = '#A9D361'; // completed color
-  let gray = '#B4B4B4'; // left color
+  const percent = 100 / this.maxSteps;
+  const green = '#A9D361'; // completed color
+  const gray = '#B4B4B4'; // left color
   let willBe;
   let nextPosition;
   let stopBack;

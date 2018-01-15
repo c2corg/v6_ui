@@ -67,7 +67,7 @@ app.MapSearchController = function($rootScope, $compile, gettextCatalog) {
   this.gettextCatalog_ = gettextCatalog;
 
   /** @type {Bloodhound} */
-  let bloodhoundEngine = this.createAndInitBloodhound_();
+  const bloodhoundEngine = this.createAndInitBloodhound_();
 
   this.geoJsonFormat_ = new ol.format.GeoJSON({
     featureProjection: app.constants.documentEditing.DATA_PROJ
@@ -133,7 +133,7 @@ app.MapSearchController.prototype.createAndInitBloodhound_ = function() {
   let url = app.MapSearchController.SEARCH_URL;
   url += '?q=%QUERY';
 
-  let bloodhound = new Bloodhound(/** @type {BloodhoundOptions} */({
+  const bloodhound = new Bloodhound(/** @type {BloodhoundOptions} */({
     limit: 10,
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('label'),
@@ -144,10 +144,10 @@ app.MapSearchController.prototype.createAndInitBloodhound_ = function() {
       prepare: (function(query, settings) {
         let url = settings['url'] + '&lang=' + this.gettextCatalog_.currentLanguage;
 
-        let center = this.map.getView().getCenter();
+        const center = this.map.getView().getCenter();
         if (center !== undefined) {
           // give priority to nearby results
-          let centerWgs84 = ol.proj.toLonLat(center);
+          const centerWgs84 = ol.proj.toLonLat(center);
           url += '&lon=' + centerWgs84[0] + '&lat=' + centerWgs84[1];
         }
 
@@ -156,9 +156,9 @@ app.MapSearchController.prototype.createAndInitBloodhound_ = function() {
       }).bind(this),
 
       filter: function(resp) {
-        let features = this.geoJsonFormat_.readFeatures(resp);
+        const features = this.geoJsonFormat_.readFeatures(resp);
         features.forEach((feature) => {
-          let addressInfo = [];
+          const addressInfo = [];
           if (feature.get('city')) {
             addressInfo.push(feature.get('city'));
           }
@@ -170,7 +170,7 @@ app.MapSearchController.prototype.createAndInitBloodhound_ = function() {
           }
 
           if (addressInfo.length > 0) {
-            let name = feature.get('name') + ' (' + addressInfo.join(', ') + ')';
+            const name = feature.get('name') + ' (' + addressInfo.join(', ') + ')';
             feature.set('name', name);
           }
         });
@@ -192,19 +192,19 @@ app.MapSearchController.prototype.createAndInitBloodhound_ = function() {
  * @private
  */
 app.MapSearchController.select_ = function(event, suggestion, dataset) {
-  let map = /** @type {ol.Map} */ (this.map);
-  let feature = /** @type {ol.Feature} */ (suggestion);
+  const map = /** @type {ol.Map} */ (this.map);
+  const feature = /** @type {ol.Feature} */ (suggestion);
 
   let geomOrExtent;
   if (feature.get('extent')) {
-    let extent = /** @type{ol.Extent} */ (feature.get('extent'));
+    const extent = /** @type{ol.Extent} */ (feature.get('extent'));
     geomOrExtent = ol.proj.transformExtent(extent, 'EPSG:4326', 'EPSG:3857');
   } else {
     geomOrExtent = /** @type {ol.geom.SimpleGeometry} */
       (feature.getGeometry());
   }
 
-  let mapSize = /** @type {ol.Size} */ (map.getSize());
+  const mapSize = /** @type {ol.Size} */ (map.getSize());
   map.getView().fit(geomOrExtent, mapSize,
     /** @type {olx.view.FitOptions} */ ({maxZoom: 12}));
 };

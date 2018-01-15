@@ -21,7 +21,7 @@ app.deleteAssociationDirective = function() {
     },
     link: function(scope, element, attrs, controller) {
       $(element).on('click', (e) => {
-        let modal = controller.openModal_();
+        const modal = controller.openModal_();
         modal.result.then((res) => {
           if (res) {
             controller.unassociateDocument_(e);
@@ -111,7 +111,7 @@ app.DeleteAssociationController = function($rootScope, $scope, $compile,
  * @private
  */
 app.DeleteAssociationController.prototype.openModal_ = function() {
-  let template = $('#delete-association-modal').clone();
+  const template = $('#delete-association-modal').clone();
   return this.modal_.open({
     animation: true,
     size: 'sm',

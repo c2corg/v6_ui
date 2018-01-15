@@ -100,10 +100,10 @@ app.LoadPreferencesController.prototype.applyPreferences = function() {
  * @private
  */
 app.LoadPreferencesController.prototype.loadPreferences_ = function() {
-  let params = this.getParams_();
+  const params = this.getParams_();
   if (this.url) {
-    let list = [];
-    for (let param in params) {
+    const list = [];
+    for (const param in params) {
       list.push(param + '=' + params[param]);
     }
     window.location = this.url + '#' + list.join('&');
@@ -123,7 +123,7 @@ app.LoadPreferencesController.prototype.loadPreferences_ = function() {
  * @private
  */
 app.LoadPreferencesController.prototype.getParams_ = function() {
-  let params = {};
+  const params = {};
   let areas, activities;
   switch (this.module) {
     case 'outings':
@@ -158,8 +158,8 @@ app.LoadPreferencesController.prototype.getParams_ = function() {
  * @private
  */
 app.LoadPreferencesController.prototype.getAreas_ = function() {
-  let data = this.preferences_.areas;
-  let areas = [];
+  const data = this.preferences_.areas;
+  const areas = [];
   for (let i = 0, n = data.length; i < n; i++) {
     areas.push(data[i].document_id);
   }

@@ -62,7 +62,7 @@ app.utils.setupSmartScroll = function(mouseWheelZoomInteraction) {
  * @export
  */
 app.utils.pushToArray = function(object, property, value, event) {
-  let checkbox = $(event.currentTarget).find('input') || null;
+  const checkbox = $(event.currentTarget).find('input') || null;
 
   if (typeof value === 'boolean') {
     object[property] = value;
@@ -91,14 +91,14 @@ app.utils.pushToArray = function(object, property, value, event) {
  */
 app.utils.animateHeaderIcon = function(e) {
   // TO FIX - if you quickly double-click, it will add/remove classes even when div is or has already collapsed
-  let target = $(e.currentTarget);
+  const target = $(e.currentTarget);
   if (target.hasClass('closed') && target.parent().find('.collapsing').length === 0) {
     target.removeClass('closed');
   } else {
     target.addClass('closed');
   }
-  let menuDown = target.find('.glyphicon-menu-down');
-  let menuUp = target.find('.glyphicon-menu-right');
+  const menuDown = target.find('.glyphicon-menu-down');
+  const menuUp = target.find('.glyphicon-menu-right');
 
   if (menuDown.length > 0) {
     menuDown.toggleClass('rotate-arrow-up');
@@ -115,7 +115,7 @@ app.utils.animateHeaderIcon = function(e) {
  * @export
  */
 app.utils.getImageFileBase64Source = function(file) {
-  let reader = new FileReader();
+  const reader = new FileReader();
   reader.onload = function(e) {
     return file.src = e.target.result;
   };
@@ -129,11 +129,11 @@ app.utils.getImageFileBase64Source = function(file) {
  * @export
  */
 app.utils.createImageSlide = function(file, imageUrl) {
-  let smallImage = app.utils.createImageUrl(file.filename, 'SI');
-  let bigImage = app.utils.createImageUrl(file.filename, 'BI');
-  let title = goog.string.htmlEscape(file['locales'][0]['title']);
-  let ahref = '<a href="' + imageUrl + bigImage + '" data-info-id="' + file['image_id'] + '-slide" title="' + title + '">';
-  let img = '<img src="' + imageUrl + smallImage + '"></a>';
+  const smallImage = app.utils.createImageUrl(file.filename, 'SI');
+  const bigImage = app.utils.createImageUrl(file.filename, 'BI');
+  const title = goog.string.htmlEscape(file['locales'][0]['title']);
+  const ahref = '<a href="' + imageUrl + bigImage + '" data-info-id="' + file['image_id'] + '-slide" title="' + title + '">';
+  const img = '<img src="' + imageUrl + smallImage + '"></a>';
 
   return '<figure id="' + file['image_id'] + '">' + ahref + img + '<app-slide-info></app-slide-info></figure>';
 };
@@ -147,7 +147,7 @@ app.utils.createImageSlide = function(file, imageUrl) {
  * @export
  */
 app.utils.createPhotoswipeSlideHTML = function(imgUrl, imgId, selector) {
-  let slide = $(selector + imgId + '-slide');
+  const slide = $(selector + imgId + '-slide');
   return '<div class="photoswipe-image-container">' +
            '<img src="' + imgUrl + '">' + slide.html() +
          '</div>';
@@ -162,8 +162,8 @@ app.utils.createPhotoswipeSlideHTML = function(imgUrl, imgId, selector) {
  */
 app.utils.createImageUrl = function(url, suffix) {
   if (url) {
-    let i = url.lastIndexOf('.');
-    let base = url.slice(0, i);
+    const i = url.lastIndexOf('.');
+    const base = url.slice(0, i);
     let ext = url.slice(i);
     ext = suffix && ext == '.svg' ? '.jpg' : ext;
     return base + suffix + ext;
@@ -204,7 +204,7 @@ app.utils.stringDivider = function(str, width, spaceReplacer) {
       } else {
         left = str.substring(0, p);
       }
-      let right = str.substring(p + 1);
+      const right = str.substring(p + 1);
       return left + spaceReplacer + app.utils.stringDivider(right, width, spaceReplacer);
     }
   }
@@ -220,7 +220,7 @@ app.utils.stringDivider = function(str, width, spaceReplacer) {
 app.utils.getTemplate = function(path, $templateCache) {
   let tpl = $templateCache.get(path);
   if (goog.DEBUG && !tpl) {
-    let req = new XMLHttpRequest();
+    const req = new XMLHttpRequest();
     req.open('GET', path, false /* synchronous */);
     req.send(null);
     tpl = req.status === 200 ? req.responseText : 'Partial not found';
@@ -236,7 +236,7 @@ app.utils.getTemplate = function(path, $templateCache) {
  */
 app.utils.detectDocumentIdFilter = function(ngeoLocation) {
   // see app.utils.getDoctype() for types definitions
-  let associatedDocTypes = ['w', 'r', 'a', 'u'];
+  const associatedDocTypes = ['w', 'r', 'a', 'u'];
   for (let i = 0, n = associatedDocTypes.length; i < n; i++) {
     if (ngeoLocation.hasFragmentParam(associatedDocTypes[i])) {
       return true;
@@ -251,7 +251,7 @@ app.utils.detectDocumentIdFilter = function(ngeoLocation) {
  * @param {string} authUrl
  */
 app.utils.redirectToLogin = function(authUrl) {
-  let location = window.location;
+  const location = window.location;
   let current_url = location.pathname + location.search + location.hash;
   if (location.pathname === '/auth') {
     // do not redirect to the 'auth' page
@@ -290,13 +290,13 @@ app.utils.convertDMSToDecimal = function(degrees, minutes, seconds, direction) {
  *         }
  */
 app.utils.repositionMenu = function(els) {
-  let boxBoundEl = $(els['boxBoundEl']);
-  let menu = $(els['menu']).next();
+  const boxBoundEl = $(els['boxBoundEl']);
+  const menu = $(els['menu']).next();
   menu.css('opacity', 0); // prevent from jumping on the screen
 
   setTimeout(() => { // because at the moment of the click the menu is hidden and result would give 0.
-    let boxBounds = boxBoundEl[0].getBoundingClientRect();
-    let menuBounds = menu[0].getBoundingClientRect();
+    const boxBounds = boxBoundEl[0].getBoundingClientRect();
+    const menuBounds = menu[0].getBoundingClientRect();
     if (menuBounds.right > boxBounds.right) {
       menu.css('left', -Math.abs(menuBounds.right - boxBounds.right + 10));
     }

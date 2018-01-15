@@ -183,7 +183,7 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
  * @export
  */
 app.ViewDetailsController.prototype.openModal = function(selector, sizem) {
-  let template = $(selector).clone();
+  const template = $(selector).clone();
   if (sizem === null) {
     sizem = 'lg';
   }
@@ -206,7 +206,7 @@ app.ViewDetailsController.prototype.scrollToComments = function() {
  * @export
  */
 app.ViewDetailsController.prototype.toggleTab = function(tab) {
-  let s = app.constants.SCREEN;
+  const s = app.constants.SCREEN;
   // only for smartphones
   if (window.innerWidth < s.SMARTPHONE) {
     if (tab.target) { // tab = event
@@ -286,7 +286,7 @@ app.ViewDetailsController.prototype.getBestWideImg = function(index) {
  * @export
  */
 app.ViewDetailsController.prototype.getPictureDimension = function(index, url, callback) {
-  let img = new Image();
+  const img = new Image();
   img.src = url;
   img.onload = function() {
     callback(index, this.width, this.height);
@@ -300,12 +300,12 @@ app.ViewDetailsController.prototype.getPictureDimension = function(index, url, c
  */
 app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
   // Photoswipe configuration for product page zoom
-  let initPhotoSwipeFromDOM = function(gallerySelector) {
+  const initPhotoSwipeFromDOM = function(gallerySelector) {
     // parse slide data (url, title, size ...) from DOM elements
     // (children of gallerySelector)
-    let parseThumbnailElements = function(el) {
-      let thumbElements = el.childNodes;
-      let items = [];
+    const parseThumbnailElements = function(el) {
+      const thumbElements = el.childNodes;
+      const items = [];
       let figureEl;
       let linkEl;
       let item;
@@ -318,7 +318,7 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
         // get the data-info-id and clone into the slide that's being opened
         id = linkEl.getAttribute('data-info-id');
         title = linkEl.getAttribute('title');
-        let image = new Image();
+        const image = new Image();
         image['src'] = linkEl.getAttribute('href');
         item = { // create slide object
           html: app.utils.createPhotoswipeSlideHTML(image['src'], id.split('-')[1], '#image-'),
@@ -341,24 +341,23 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
     }.bind(this);
 
     // find nearest parent element
-    let closest = function closest(el, fn) {
+    const closest = function closest(el, fn) {
       return el && (fn(el) ? el : closest(el.parentNode, fn));
     };
 
-    let openPhotoSwipe = function(index, clickedGallery) {
-      let pswpElement = document.querySelectorAll('.pswp')[0];
-      let options;
-      let items = parseThumbnailElements(clickedGallery);
+    const openPhotoSwipe = function(index, clickedGallery) {
+      const pswpElement = document.querySelectorAll('.pswp')[0];
+      const items = parseThumbnailElements(clickedGallery);
 
       // define options (if needed)
-      options = $.extend(this.pswpOptions, {
+      const options = $.extend(this.pswpOptions, {
         index: parseInt(index, 10),
         galleryUID: clickedGallery.getAttribute('data-pswp-uid'),
         getThumbBoundsFn: function(index) {
           // See Options -> getThumbBoundsFn section of documentation for more info
-          let thumbnail = items[index].el.getElementsByTagName('img')[0];
-          let pageYScroll = window.pageYOffset || document.documentElement.scrollTop;
-          let rect = thumbnail.getBoundingClientRect();
+          const thumbnail = items[index].el.getElementsByTagName('img')[0];
+          const pageYScroll = window.pageYOffset || document.documentElement.scrollTop;
+          const rect = thumbnail.getBoundingClientRect();
           return {x: rect.left, y: rect.top + pageYScroll, w: rect.width};
         }
       });
@@ -367,10 +366,10 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
         return;
       }
       // Pass data to PhotoSwipe and initialize it
-      let pswp = new window.PhotoSwipe(pswpElement, window.PhotoSwipeUI_Default, items, options);
-      let lang = this.lang.getLang();
+      const pswp = new window.PhotoSwipe(pswpElement, window.PhotoSwipeUI_Default, items, options);
+      const lang = this.lang.getLang();
       pswp.listen('beforeChange', () => {
-        let id = pswp['currItem']['id'];
+        const id = pswp['currItem']['id'];
         $('.pswp__button--info').attr('data-img-id', id);
         $('.pswp__button--open').attr('href', '/images/' + id + '/' + lang);
         $('.pswp__button--edit').attr('href', '/images/edit/' + id + '/' + lang);
@@ -380,13 +379,13 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
     }.bind(this);
 
     // triggers when user clicks on thumbnail
-    let onThumbnailsClick = function(e) {
+    const onThumbnailsClick = function(e) {
       e = e || window.event;
       e.preventDefault ? e.preventDefault() : e.returnValue = false;
-      let eTarget = e.target || e.srcElement;
+      const eTarget = e.target || e.srcElement;
 
       // find root element of slide
-      let clickedListItem = closest(eTarget, (el) => {
+      const clickedListItem = closest(eTarget, (el) => {
         return (el.tagName && el.tagName.toUpperCase() === 'FIGURE');
       });
       if (!clickedListItem) {
@@ -394,9 +393,9 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
       }
       // find index of clicked item by looping through all child nodes
       // alternatively, you may define index via data- attribute
-      let clickedGallery = clickedListItem.parentNode;
-      let childNodes = clickedListItem.parentNode.childNodes;
-      let numChildNodes = childNodes.length;
+      const clickedGallery = clickedListItem.parentNode;
+      const childNodes = clickedListItem.parentNode.childNodes;
+      const numChildNodes = childNodes.length;
       let nodeIndex = 0;
       let index;
 
@@ -417,7 +416,7 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
       return false;
     };
     // loop through all gallery elements and bind events
-    let galleryElements = document.querySelectorAll(gallerySelector);
+    const galleryElements = document.querySelectorAll(gallerySelector);
 
     for (let i = 0, l = galleryElements.length; i < l; i++) {
       galleryElements[i].setAttribute('data-pswp-uid', i + 1);
@@ -433,12 +432,12 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
  * @export
  */
 app.ViewDetailsController.prototype.getComments = function() {
-  let topic_id = this.documentService.document['topic_id'];
+  const topic_id = this.documentService.document['topic_id'];
   if (topic_id === null) {
     return;
   }
-  let document = this.documentService.document;
-  let lang = document.lang;
+  const document = this.documentService.document;
+  const lang = document.lang;
   this.api_.readCommentsForum(topic_id, lang).then((response) => {
     this.handleCommentsForum_(response);
   }, () => { // Error msg is shown in the api service
@@ -451,7 +450,7 @@ app.ViewDetailsController.prototype.getComments = function() {
  * @private
  */
 app.ViewDetailsController.prototype.handleCommentsForum_ = function(response) {
-  let data = response['data']['post_stream'];
+  const data = response['data']['post_stream'];
   if (data !== undefined) {
     for (let i = 0; i < data['posts'].length; i++) {
       if (data['posts'][i]['name'] == 'system') {
@@ -475,16 +474,16 @@ app.ViewDetailsController.prototype.handleCommentsForum_ = function(response) {
  * @export
  */
 app.ViewDetailsController.prototype.createTopic = function() {
-  let document = this.documentService.document;
-  let document_id = document.document_id;
-  let lang = document.lang;
+  const document = this.documentService.document;
+  const document_id = document.document_id;
+  const lang = document.lang;
   this.api_.createTopic(document_id, lang).then((resp) => {
-    let topic_id = resp['data']['topic_id'];
-    let url = this.discourseUrl + 't/' + document_id + '_' + lang + '/' + topic_id;
+    const topic_id = resp['data']['topic_id'];
+    const url = this.discourseUrl + 't/' + document_id + '_' + lang + '/' + topic_id;
     window.location = url;
   }, (resp) => {
     if (resp.status == 400) {
-      let topic_id = resp['data']['errors'][0]['topic_id'];
+      const topic_id = resp['data']['errors'][0]['topic_id'];
       if (topic_id !== undefined) {
         this.documentService.document['topic_id'] = topic_id;
         this.getComments();
@@ -500,14 +499,14 @@ app.ViewDetailsController.prototype.createTopic = function() {
  */
 app.ViewDetailsController.prototype.loadImages_ = function(initGalleries) {
   // prepare document images for slideshow
-  let photos = this.documentService.document['associations']['images'];
+  const photos = this.documentService.document['associations']['images'];
 
-  for (let i in photos) {
-    let scope = this.scope_.$new(true);
-    let id = 'image-' + photos[i]['document_id'];
+  for (const i in photos) {
+    const scope = this.scope_.$new(true);
+    const id = 'image-' + photos[i]['document_id'];
     photos[i]['image_id'] = id;
     scope['photo'] = photos[i];
-    let element = app.utils.createImageSlide(photos[i], this.imageUrl_);
+    const element = app.utils.createImageSlide(photos[i], this.imageUrl_);
     $('.photos').append(element);
     this.compile_($('#' + id).contents())(scope);
   }
@@ -515,11 +514,11 @@ app.ViewDetailsController.prototype.loadImages_ = function(initGalleries) {
   // prepare the embedded images for slideshow
   $('[class^="embedded_"]').each((i, el) => {
     $(el).append('<app-slide-info></app-slide-info>');
-    let img = $(el).find('img')[0];
-    let id = img.getAttribute('img-id');
-    let caption = $(el).find('figcaption')[0] ? $(el).find('figcaption')[0].textContent : '';
+    const img = $(el).find('img')[0];
+    const id = img.getAttribute('img-id');
+    const caption = $(el).find('figcaption')[0] ? $(el).find('figcaption')[0].textContent : '';
 
-    let scope = this.scope_.$new(true);
+    const scope = this.scope_.$new(true);
     scope['image_id'] = 'embedded-' + id;
     scope['locales'] = [{'title': caption}];
 
@@ -542,30 +541,30 @@ app.ViewDetailsController.prototype.openEmbeddedImage = function(imgUrl, imgId) 
 
   // Replace 'MI' and get the BigImage
   imgUrl = imgUrl.slice(0, -2) + 'BI';
-  let embeddedImages = $('.embedded-image');
-  let pswpElement = document.querySelectorAll('.pswp')[0];
-  let items = [];
+  const embeddedImages = $('.embedded-image');
+  const pswpElement = document.querySelectorAll('.pswp')[0];
+  const items = [];
   let index;
 
   for (let i = 0; i <  embeddedImages.length;  i++) {
-    let src = embeddedImages[i].src.slice(0, -2) + 'BI';
-    let id = parseInt($(embeddedImages[i]).attr('img-id'), 10);
-    let title = undefined;
-    let putativeFigCaption = embeddedImages[i].nextSibling;
+    const src = embeddedImages[i].src.slice(0, -2) + 'BI';
+    const id = parseInt($(embeddedImages[i]).attr('img-id'), 10);
+    let title;
+    const putativeFigCaption = embeddedImages[i].nextSibling;
     if (putativeFigCaption.tagName === 'FIGCAPTION') {
       title = putativeFigCaption.textContent;
     }
 
     // add all the other images that are not the one you clicked on
     if (src !== imgUrl) {
-      let item = {
+      const item = {
         html: app.utils.createPhotoswipeSlideHTML(src, id, '#embedded-'),
         id: id,
         title: title
       };
       items.push(item);
     } else {
-      let clickedImg = {
+      const clickedImg = {
         html: app.utils.createPhotoswipeSlideHTML(imgUrl, imgId, '#embedded-'),
         id: imgId,
         title: title
@@ -575,11 +574,11 @@ app.ViewDetailsController.prototype.openEmbeddedImage = function(imgUrl, imgId) 
     }
   }
 
-  let pswp = new window.PhotoSwipe(pswpElement, window.PhotoSwipeUI_Default,
+  const pswp = new window.PhotoSwipe(pswpElement, window.PhotoSwipeUI_Default,
     items, $.extend(this.pswpOptions, {index: index}));
-  let lang = this.lang.getLang();
+  const lang = this.lang.getLang();
   pswp.listen('beforeChange', () => {
-    let id = pswp['currItem']['id'];
+    const id = pswp['currItem']['id'];
     $('.pswp__button--info').attr('data-img-id', id);
     $('.pswp__button--open').attr('href', '/images/' + id + '/' + lang);
     $('.pswp__button--edit').attr('href', '/images/edit/' + id + '/' + lang);
@@ -610,8 +609,8 @@ app.ViewDetailsController.prototype.getImageInfo_ = function(id) {
     $('.images-infos-container').hide();
 
     this.api_.readDocument('images', id, this.lang.getLang()).then((res) => {
-      let imgData = res.data;
-      let scope = this.scope_.$new(true);
+      const imgData = res.data;
+      const scope = this.scope_.$new(true);
       angular.extend(scope, imgData);
       this.compile_($('.image-infos'))(scope);
       $('.loading-infos').hide();
@@ -627,9 +626,9 @@ app.ViewDetailsController.prototype.getImageInfo_ = function(id) {
  * @private
  */
 app.ViewDetailsController.prototype.watchPswpContainer_ = function() {
-  let target = $('.pswp__container')[0];
+  const target = $('.pswp__container')[0];
   if (target) {
-    let observer = new MutationObserver((() => {
+    const observer = new MutationObserver((() => {
       $('.showing-info').removeClass('showing-info');
     }));
     observer.observe(target, {attributes: true, attributeFilter: ['style']});

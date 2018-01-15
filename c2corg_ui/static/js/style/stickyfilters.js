@@ -31,8 +31,8 @@ app.stickyFiltersDirective = function() {
 
 
       $('.documents-list-section').scroll(() => {
-        let scrollMax = $('.simple-filters').height() + 30;
-        let documentsListTop = $('.documents-list-section').scrollTop();
+        const scrollMax = $('.simple-filters').height() + 30;
+        const documentsListTop = $('.documents-list-section').scrollTop();
         // if you scroll down and there is no sticky bar, add it
         if (documentsListTop > scrollMax && $('.sticky-filters-btn-container').length === 0) {
           ctrl.addStickyFilters_();
@@ -88,7 +88,7 @@ app.StickyFiltersController.prototype.removeStickyFilters_ = function() {
  * @private
  */
 app.StickyFiltersController.prototype.adaptFiltersWidth_ = function() {
-  let width = $('.documents-list-section').width();
+  const width = $('.documents-list-section').width();
   // sticky bar and filters width = filters width
   if ($('#moreFilters').hasClass('sticky-filters-moreFilters')) {
     $('#moreFilters, .more-filters-btn-container').css('width', parseInt(width, 10));

@@ -101,7 +101,7 @@ app.Api = function(discourseUrl, apiUrl, imageBackendUrl, $http, appAlerts, $q, 
  * @private
  */
 app.Api.prototype.postJson_ = function(url, json) {
-  let config = {
+  const config = {
     headers: {
       'Content-Type': 'application/json; charset=UTF-8',
       'Accept': 'application/json'
@@ -118,7 +118,7 @@ app.Api.prototype.postJson_ = function(url, json) {
  * @private
  */
 app.Api.prototype.deleteJson_ = function(url, json) {
-  let config = /** @type{angular.$http.Config} */ ({
+  const config = /** @type{angular.$http.Config} */ ({
     data: json,
     headers: {
       'Content-Type': 'application/json; charset=UTF-8',
@@ -136,7 +136,7 @@ app.Api.prototype.deleteJson_ = function(url, json) {
  * @private
  */
 app.Api.prototype.putJson_ = function(url, json) {
-  let config = {
+  const config = {
     headers: {
       'Content-Type': 'application/json; charset=UTF-8',
       'Accept': 'application/json'
@@ -154,7 +154,7 @@ app.Api.prototype.putJson_ = function(url, json) {
  */
 app.Api.prototype.getJson_ = function(url, cancelerPromise) {
   /** @type{angular.$http.Config} */
-  let config = {
+  const config = {
     headers: {
       'Accept': 'application/json'
     }
@@ -174,13 +174,13 @@ app.Api.prototype.getJson_ = function(url, cancelerPromise) {
  * @return {!angular.$q.Promise}
  */
 app.Api.prototype.associateDocument = function(parentId, childId) {
-  let data = {
+  const data = {
     'parent_document_id': parentId,
     'child_document_id': childId
   };
-  let promise = this.postJson_('/associations', data);
+  const promise = this.postJson_('/associations', data);
   promise.catch((res) => {
-    let msg = this.alerts_.gettext('Failed to associate document:');
+    const msg = this.alerts_.gettext('Failed to associate document:');
     this.alerts_.addErrorWithMsg(msg, res);
   });
   return promise;
@@ -193,13 +193,13 @@ app.Api.prototype.associateDocument = function(parentId, childId) {
  * @return {!angular.$q.Promise}
  */
 app.Api.prototype.unassociateDocument = function(parentId, childId) {
-  let data = {
+  const data = {
     'parent_document_id': parentId,
     'child_document_id': childId
   };
-  let promise = this.deleteJson_('/associations', data);
+  const promise = this.deleteJson_('/associations', data);
   promise.catch((res) => {
-    let msg = this.alerts_.gettext('Failed to unassociate document:');
+    const msg = this.alerts_.gettext('Failed to unassociate document:');
     this.alerts_.addErrorWithMsg(msg, res);
   });
   return promise;
@@ -210,12 +210,12 @@ app.Api.prototype.unassociateDocument = function(parentId, childId) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.logoutFromApiAndDiscourse = function() {
-  let data = {
+  const data = {
     'discourse': true
   };
-  let promise = this.postJson_('/users/logout', data);
+  const promise = this.postJson_('/users/logout', data);
   promise.catch(function(response) {
-    let msg = this.alerts_.gettext('Logout failed:');
+    const msg = this.alerts_.gettext('Logout failed:');
     this.alerts_.addErrorWithMsg(msg, response);
   });
   return promise;
@@ -228,7 +228,7 @@ app.Api.prototype.logoutFromApiAndDiscourse = function() {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.createDocument = function(module, json) {
-  let promise = this.postJson_('/' + module, json);
+  const promise = this.postJson_('/' + module, json);
   promise.catch(this.errorSaveDocument_.bind(this));
   return promise;
 };
@@ -242,15 +242,15 @@ app.Api.prototype.createDocument = function(module, json) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.readDocument = function(module, id, lang, editing) {
-  let alerts = this.alerts_;
+  const alerts = this.alerts_;
   editing = typeof editing === 'undefined' ? false : editing;
-  let url = '/{module}/{id}?l={lang}{editing}'
+  const url = '/{module}/{id}?l={lang}{editing}'
     .replace('{module}', module)
     .replace('{id}', String(id))
     .replace('{lang}', lang)
     .replace('{editing}', editing ? '&e=1' : '');
 
-  let promise = this.getJson_(url);
+  const promise = this.getJson_(url);
   promise.catch((response) => {
     alerts.addError(response);
   });
@@ -265,11 +265,11 @@ app.Api.prototype.readDocument = function(module, id, lang, editing) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.updateDocument = function(module, id, json) {
-  let url = '/{module}/{id}'
+  const url = '/{module}/{id}'
     .replace('{module}', module)
     .replace('{id}', String(id));
 
-  let promise = this.putJson_(url, json);
+  const promise = this.putJson_(url, json);
   promise.catch(this.errorSaveDocument_.bind(this));
   return promise;
 };
@@ -282,12 +282,12 @@ app.Api.prototype.updateDocument = function(module, id, json) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.listDocuments = function(module, qstr, cancelerPromise) {
-  let url = '/{module}{qmark}{qstr}'
+  const url = '/{module}{qmark}{qstr}'
     .replace('{module}', module)
     .replace('{qmark}', qstr ? '?' : '')
     .replace('{qstr}', qstr);
-  let alerts = this.alerts_;
-  let promise = this.getJson_(url, cancelerPromise);
+  const alerts = this.alerts_;
+  const promise = this.getJson_(url, cancelerPromise);
   promise.catch((response) => {
     if (response.status !== -1) {
       // ignore errors when request was canceled
@@ -306,8 +306,8 @@ app.Api.prototype.listDocuments = function(module, qstr, cancelerPromise) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.getDocumentByIdAndDoctype = function(id, doctype, lang) {
-  let alerts = this.alerts_;
-  let promise = this.getJson_('/search?q=' + id + '&t=' + doctype + '&pl=' + lang);
+  const alerts = this.alerts_;
+  const promise = this.getJson_('/search?q=' + id + '&t=' + doctype + '&pl=' + lang);
   promise.catch((response) => {
     alerts.addError(response);
   });
@@ -339,9 +339,9 @@ app.Api.prototype.errorSaveDocument_ = function(response) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.register = function(data) {
-  let promise = this.postJson_('/users/register', data);
+  const promise = this.postJson_('/users/register', data);
   promise.catch((response) => {
-    let msg = this.alerts_.gettext('Registration failed:');
+    const msg = this.alerts_.gettext('Registration failed:');
     this.alerts_.addErrorWithMsg(msg, response);
   });
   return promise;
@@ -353,9 +353,9 @@ app.Api.prototype.register = function(data) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.validateRegisterEmail = function(nonce) {
-  let promise = this.postJson_('/users/validate_register_email/' + nonce, {});
+  const promise = this.postJson_('/users/validate_register_email/' + nonce, {});
   promise.catch((response) => {
-    let msg = this.alerts_.gettext('Your account could not be activated:');
+    const msg = this.alerts_.gettext('Your account could not be activated:');
     this.alerts_.addErrorWithMsg(msg, response);
   });
   return promise;
@@ -367,9 +367,9 @@ app.Api.prototype.validateRegisterEmail = function(nonce) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.validateChangeEmail = function(nonce) {
-  let promise = this.postJson_('/users/validate_change_email/' + nonce, {});
+  const promise = this.postJson_('/users/validate_change_email/' + nonce, {});
   promise.catch((response) => {
-    let msg = this.alerts_.gettext('Your new email could not be activated:');
+    const msg = this.alerts_.gettext('Your new email could not be activated:');
     this.alerts_.addErrorWithMsg(msg, response);
   });
   return promise;
@@ -381,10 +381,10 @@ app.Api.prototype.validateChangeEmail = function(nonce) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.requestPasswordChange = function(email) {
-  let promise = this.postJson_('/users/request_password_change', {
+  const promise = this.postJson_('/users/request_password_change', {
     'email': email});
   promise.catch((response) => {
-    let msg = this.alerts_.gettext('No email could be sent:');
+    const msg = this.alerts_.gettext('No email could be sent:');
     this.alerts_.addErrorWithMsg(msg, response);
   });
   return promise;
@@ -397,11 +397,11 @@ app.Api.prototype.requestPasswordChange = function(email) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.validateNewPassword = function(nonce, password) {
-  let promise = this.postJson_('/users/validate_new_password/' + nonce, {
+  const promise = this.postJson_('/users/validate_new_password/' + nonce, {
     'password': password
   });
   promise.catch((response) => {
-    let msg = this.alerts_.gettext('Password could not be changed:');
+    const msg = this.alerts_.gettext('Password could not be changed:');
     this.alerts_.addErrorWithMsg(msg, response);
   });
   return promise;
@@ -413,9 +413,9 @@ app.Api.prototype.validateNewPassword = function(nonce, password) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.login = function(data) {
-  let promise = this.postJson_('/users/login', data);
+  const promise = this.postJson_('/users/login', data);
   promise.catch((response) => {
-    let msg = this.alerts_.gettext('Login failed:');
+    const msg = this.alerts_.gettext('Login failed:');
     this.alerts_.addErrorWithMsg(msg, response);
   });
   return promise;
@@ -427,9 +427,9 @@ app.Api.prototype.login = function(data) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.ssoLogin = function(data) {
-  let promise = this.postJson_('/sso_login', data);
+  const promise = this.postJson_('/sso_login', data);
   promise.catch((response) => {
-    let msg = this.alerts_.gettext('SSO login failed:');
+    const msg = this.alerts_.gettext('SSO login failed:');
     this.alerts_.addErrorWithMsg(msg, response);
   });
   return promise;
@@ -441,7 +441,7 @@ app.Api.prototype.ssoLogin = function(data) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.updatePreferredLanguage = function(lang) {
-  let promise = this.postJson_('/users/update_preferred_language', {
+  const promise = this.postJson_('/users/update_preferred_language', {
     'lang': lang});
   promise.catch((response) => {
     this.alerts_.addError(response);
@@ -454,7 +454,7 @@ app.Api.prototype.updatePreferredLanguage = function(lang) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.readLatestForumTopics = function() {
-  let config = {
+  const config = {
     headers: {
       'Accept': 'application/json'
     }
@@ -467,13 +467,13 @@ app.Api.prototype.readLatestForumTopics = function() {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.readAnnouncement = function(lang) {
-  let config = {
+  const config = {
     headers: {
       'Accept': 'application/json'
     }
   };
 
-  let promise = this.http_.get(this.discourseUrl_ + '/t/annonce-' + lang + '.json', config);
+  const promise = this.http_.get(this.discourseUrl_ + '/t/annonce-' + lang + '.json', config);
   return promise;
 };
 
@@ -486,7 +486,7 @@ app.Api.prototype.readAnnouncement = function(lang) {
  */
 app.Api.prototype.readFeed = function(token, lang, userId, isPersonal) {
   let url;
-  let params = {'pl': lang};
+  const params = {'pl': lang};
   if (token) {
     params['token'] = token;
   }
@@ -500,9 +500,9 @@ app.Api.prototype.readFeed = function(token, lang, userId, isPersonal) {
     url = '/feed';
   }
 
-  let promise = this.getJson_(url + '?' + $.param(params));
+  const promise = this.getJson_(url + '?' + $.param(params));
   promise.catch((response) => {
-    let msg = this.alerts_.gettext('Getting feed data failed:');
+    const msg = this.alerts_.gettext('Getting feed data failed:');
     this.alerts_.addErrorWithMsg(msg, response);
   });
   return promise;
@@ -515,7 +515,7 @@ app.Api.prototype.readFeed = function(token, lang, userId, isPersonal) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.readWhatsnewFeed = function(token, userId) {
-  let params = {};
+  const params = {};
   if (token) {
     params['token'] = token;
   }
@@ -523,9 +523,9 @@ app.Api.prototype.readWhatsnewFeed = function(token, userId) {
     params['u'] = userId;
   }
 
-  let promise = this.getJson_('/documents/changes?' + $.param(params));
+  const promise = this.getJson_('/documents/changes?' + $.param(params));
   promise.catch((response) => {
-    let msg = this.alerts_.gettext('Getting feed data failed:');
+    const msg = this.alerts_.gettext('Getting feed data failed:');
     this.alerts_.addErrorWithMsg(msg, response);
   });
   return promise;
@@ -536,9 +536,9 @@ app.Api.prototype.readWhatsnewFeed = function(token, userId) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.readAccount = function() {
-  let promise = this.getJson_('/users/account');
+  const promise = this.getJson_('/users/account');
   promise.catch((response) => {
-    let msg = this.alerts_.gettext('Getting account data failed:');
+    const msg = this.alerts_.gettext('Getting account data failed:');
     this.alerts_.addErrorWithMsg(msg, response);
   });
   return promise;
@@ -550,9 +550,9 @@ app.Api.prototype.readAccount = function() {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.updateAccount = function(data) {
-  let promise = this.postJson_('/users/account', data);
+  const promise = this.postJson_('/users/account', data);
   promise.catch((response) => {
-    let msg = this.alerts_.gettext('Updating account failed:');
+    const msg = this.alerts_.gettext('Updating account failed:');
     this.alerts_.addErrorWithMsg(msg, response);
   });
   return promise;
@@ -563,9 +563,9 @@ app.Api.prototype.updateAccount = function(data) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.readPreferences = function() {
-  let promise = this.getJson_('/users/preferences');
+  const promise = this.getJson_('/users/preferences');
   promise.catch((response) => {
-    let msg = this.alerts_.gettext('Getting preferences failed:');
+    const msg = this.alerts_.gettext('Getting preferences failed:');
     this.alerts_.addErrorWithMsg(msg, response);
   });
   return promise;
@@ -577,9 +577,9 @@ app.Api.prototype.readPreferences = function() {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.updatePreferences = function(data) {
-  let promise = this.postJson_('/users/preferences', data);
+  const promise = this.postJson_('/users/preferences', data);
   promise.catch((response) => {
-    let msg = this.alerts_.gettext('Updating preferences failed:');
+    const msg = this.alerts_.gettext('Updating preferences failed:');
     this.alerts_.addErrorWithMsg(msg, response);
   });
   return promise;
@@ -590,9 +590,9 @@ app.Api.prototype.updatePreferences = function(data) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.readMailinglists = function() {
-  let promise = this.getJson_('/users/mailinglists');
+  const promise = this.getJson_('/users/mailinglists');
   promise.catch((response) => {
-    let msg = this.alerts_.gettext('Getting mailing lists failed:');
+    const msg = this.alerts_.gettext('Getting mailing lists failed:');
     this.alerts_.addErrorWithMsg(msg, response);
   });
   return promise;
@@ -604,9 +604,9 @@ app.Api.prototype.readMailinglists = function() {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.updateMailinglists = function(data) {
-  let promise = this.postJson_('/users/mailinglists', data);
+  const promise = this.postJson_('/users/mailinglists', data);
   promise.catch((response) => {
-    let msg = this.alerts_.gettext('Updating mailing lists failed:');
+    const msg = this.alerts_.gettext('Updating mailing lists failed:');
     this.alerts_.addErrorWithMsg(msg, response);
   });
   return promise;
@@ -620,11 +620,11 @@ app.Api.prototype.updateMailinglists = function(data) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.uploadImage = function(file, canceller, progress) {
-  let formData = new FormData();
+  const formData = new FormData();
   formData.append('file', file);
 
-  let url = this.imageBackendUrl_ + '/upload';
-  let promise = this.http_.post(url, formData, {
+  const url = this.imageBackendUrl_ + '/upload';
+  const promise = this.http_.post(url, formData, {
     headers: {
       'Content-Type': undefined
     },
@@ -643,15 +643,15 @@ app.Api.prototype.uploadImage = function(file, canceller, progress) {
  * @param {Array<File>} files
  */
 app.Api.prototype.createImages = function(files, document) {
-  let documentType = app.utils.getDoctype(document.type);
-  let associations = {};
+  const documentType = app.utils.getDoctype(document.type);
+  const associations = {};
   associations[documentType] = [{'document_id': document.document_id}];
 
-  let images = [];
+  const images = [];
   for (let i = 0; i < files.length; i++) {
-    let file = files[i];
+    const file = files[i];
 
-    let image = file['metadata'];
+    const image = file['metadata'];
     image['file_size'] = file['size'];
     image['associations'] = associations;
     image['locales'] = [{'lang': document.lang, 'title': image['title']}];
@@ -659,7 +659,7 @@ app.Api.prototype.createImages = function(files, document) {
     images.push(image);
   }
 
-  let promise = this.postJson_('/images/list', {'images': images});
+  const promise = this.postJson_('/images/list', {'images': images});
   promise.catch(this.errorSaveDocument_.bind(this));
   promise['images'] = images;
   return promise;
@@ -672,14 +672,14 @@ app.Api.prototype.createImages = function(files, document) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.readCommentsForum = function(document_id, lang) {
-  let config = {
+  const config = {
     headers: {
       'Accept': 'application/json'
     }
   };
 
-  let urlTopics = this.discourseUrl_ + '/t/' + document_id + '-' + lang + '/' + document_id + '.json';
-  let promise = this.http_.get(urlTopics, config);
+  const urlTopics = this.discourseUrl_ + '/t/' + document_id + '-' + lang + '/' + document_id + '.json';
+  const promise = this.http_.get(urlTopics, config);
   promise.catch((response) => {
     this.alerts_.addError(response);
   });
@@ -693,7 +693,7 @@ app.Api.prototype.readCommentsForum = function(document_id, lang) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.createTopic = function(document_id, lang) {
-  let promise = this.postJson_('/forum/topics', {
+  const promise = this.postJson_('/forum/topics', {
     'document_id': document_id,
     'lang': lang
   });
@@ -709,10 +709,10 @@ app.Api.prototype.createTopic = function(document_id, lang) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.follow = function(user_id) {
-  let data = {'user_id': user_id};
-  let promise = this.postJson_('/users/follow', data);
+  const data = {'user_id': user_id};
+  const promise = this.postJson_('/users/follow', data);
   promise.catch((response) => {
-    let msg = this.alerts_.gettext('Following user failed:');
+    const msg = this.alerts_.gettext('Following user failed:');
     this.alerts_.addErrorWithMsg(msg, response);
   });
   return promise;
@@ -724,10 +724,10 @@ app.Api.prototype.follow = function(user_id) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.unfollow = function(user_id) {
-  let data = {'user_id': user_id};
-  let promise = this.postJson_('/users/unfollow', data);
+  const data = {'user_id': user_id};
+  const promise = this.postJson_('/users/unfollow', data);
   promise.catch((response) => {
-    let msg = this.alerts_.gettext('Unfollowing user failed:');
+    const msg = this.alerts_.gettext('Unfollowing user failed:');
     this.alerts_.addErrorWithMsg(msg, response);
   });
   return promise;
@@ -739,9 +739,9 @@ app.Api.prototype.unfollow = function(user_id) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.isFollowing = function(user_id) {
-  let promise = this.getJson_('/users/following-user/' + user_id);
+  const promise = this.getJson_('/users/following-user/' + user_id);
   promise.catch((response) => {
-    let msg = this.alerts_.gettext('Checking if following user failed:');
+    const msg = this.alerts_.gettext('Checking if following user failed:');
     this.alerts_.addErrorWithMsg(msg, response);
   });
   return promise;
@@ -752,9 +752,9 @@ app.Api.prototype.isFollowing = function(user_id) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.getFollowing = function() {
-  let promise = this.getJson_('/users/following');
+  const promise = this.getJson_('/users/following');
   promise.catch((response) => {
-    let msg = this.alerts_.gettext('Getting followed list failed:');
+    const msg = this.alerts_.gettext('Getting followed list failed:');
     this.alerts_.addErrorWithMsg(msg, response);
   });
   return promise;
@@ -766,9 +766,9 @@ app.Api.prototype.getFollowing = function() {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.isAccountBlocked = function(userId) {
-  let promise = this.getJson_('/users/blocked/' + userId);
+  const promise = this.getJson_('/users/blocked/' + userId);
   promise.catch((response) => {
-    let msg = this.alerts_.gettext('Checking if user is blocked failed:');
+    const msg = this.alerts_.gettext('Checking if user is blocked failed:');
     this.alerts_.addErrorWithMsg(msg, response);
   });
   return promise;
@@ -780,10 +780,10 @@ app.Api.prototype.isAccountBlocked = function(userId) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.blockAccount = function(userId) {
-  let data = {'user_id': userId};
-  let promise = this.postJson_('/users/block', data);
+  const data = {'user_id': userId};
+  const promise = this.postJson_('/users/block', data);
   promise.catch((response) => {
-    let msg = this.alerts_.gettext('Blocking user failed:');
+    const msg = this.alerts_.gettext('Blocking user failed:');
     this.alerts_.addErrorWithMsg(msg, response);
   });
   return promise;
@@ -795,10 +795,10 @@ app.Api.prototype.blockAccount = function(userId) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.unblockAccount = function(userId) {
-  let data = {'user_id': userId};
-  let promise = this.postJson_('/users/unblock', data);
+  const data = {'user_id': userId};
+  const promise = this.postJson_('/users/unblock', data);
   promise.catch((response) => {
-    let msg = this.alerts_.gettext('Unblocking user failed:');
+    const msg = this.alerts_.gettext('Unblocking user failed:');
     this.alerts_.addErrorWithMsg(msg, response);
   });
   return promise;
@@ -810,10 +810,10 @@ app.Api.prototype.unblockAccount = function(userId) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.protectDocument = function(documentId) {
-  let data = {'document_id': documentId};
-  let promise = this.postJson_('/documents/protect', data);
+  const data = {'document_id': documentId};
+  const promise = this.postJson_('/documents/protect', data);
   promise.catch((response) => {
-    let msg = this.alerts_.gettext('Protecting document failed:');
+    const msg = this.alerts_.gettext('Protecting document failed:');
     this.alerts_.addErrorWithMsg(msg, response);
   });
   return promise;
@@ -825,10 +825,10 @@ app.Api.prototype.protectDocument = function(documentId) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.unprotectDocument = function(documentId) {
-  let data = {'document_id': documentId};
-  let promise = this.postJson_('/documents/unprotect', data);
+  const data = {'document_id': documentId};
+  const promise = this.postJson_('/documents/unprotect', data);
   promise.catch((response) => {
-    let msg = this.alerts_.gettext('Unprotecting document failed:');
+    const msg = this.alerts_.gettext('Unprotecting document failed:');
     this.alerts_.addErrorWithMsg(msg, response);
   });
   return promise;
@@ -841,13 +841,13 @@ app.Api.prototype.unprotectDocument = function(documentId) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.mergeDocuments = function(sourceDocumentId, targetDocumentId) {
-  let data = {
+  const data = {
     'source_document_id': sourceDocumentId,
     'target_document_id': targetDocumentId
   };
-  let promise = this.postJson_('/documents/merge', data);
+  const promise = this.postJson_('/documents/merge', data);
   promise.catch((response) => {
-    let msg = this.alerts_.gettext('Merging documents failed:');
+    const msg = this.alerts_.gettext('Merging documents failed:');
     this.alerts_.addErrorWithMsg(msg, response);
   });
   return promise;
@@ -859,9 +859,9 @@ app.Api.prototype.mergeDocuments = function(sourceDocumentId, targetDocumentId) 
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.deleteDocument = function(documentId) {
-  let promise = this.deleteJson_('/documents/delete/' + String(documentId), {});
+  const promise = this.deleteJson_('/documents/delete/' + String(documentId), {});
   promise.catch((response) => {
-    let msg = this.alerts_.gettext('Deleting document failed:');
+    const msg = this.alerts_.gettext('Deleting document failed:');
     this.alerts_.addErrorWithMsg(msg, response);
   });
   return promise;
@@ -874,10 +874,10 @@ app.Api.prototype.deleteDocument = function(documentId) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.deleteLocale = function(documentId, lang) {
-  let url = '/documents/delete/' + String(documentId) + '/' + lang;
-  let promise = this.deleteJson_(url, {});
+  const url = '/documents/delete/' + String(documentId) + '/' + lang;
+  const promise = this.deleteJson_(url, {});
   promise.catch((response) => {
-    let msg = this.alerts_.gettext('Deleting locale failed:');
+    const msg = this.alerts_.gettext('Deleting locale failed:');
     this.alerts_.addErrorWithMsg(msg, response);
   });
   return promise;
@@ -891,14 +891,14 @@ app.Api.prototype.deleteLocale = function(documentId, lang) {
  * @return {!angular.$q.Promise<!angular.$http.Response>}
  */
 app.Api.prototype.revertDocument = function(documentId, lang, versionId) {
-  let data = {
+  const data = {
     'document_id': documentId,
     'lang': lang,
     'version_id': versionId
   };
-  let promise = this.postJson_('/documents/revert', data);
+  const promise = this.postJson_('/documents/revert', data);
   promise.catch((response) => {
-    let msg = this.alerts_.gettext('Reverting document failed:');
+    const msg = this.alerts_.gettext('Reverting document failed:');
     this.alerts_.addErrorWithMsg(msg, response);
   });
   return promise;
