@@ -123,7 +123,7 @@ app.BaselayerSelectorController = function($http, ngeoBackgroundLayerMgr,
 app.BaselayerSelectorController.BG_LAYER_SPECS = [{
   'name': 'esri'
 }, {
-  'name': 'osm'
+  'name': 'opentopomap'
 }, {
   'name': 'bing'
 }, {
@@ -180,7 +180,9 @@ app.BaselayerSelectorController.prototype.createLayer_ = function(layerName) {
     case 'swisstopo':
       source = this.createSwisstopoSource_('ch.swisstopo.pixelkarte-farbe');
       break;
-    case 'osm':
+    case 'opentopomap':
+      source = this.createOpenTopoMapSource_();
+      break;
     default:
       source = new ol.source.OSM();
       break;
@@ -267,6 +269,22 @@ app.BaselayerSelectorController.prototype.createEsriSource_ = function() {
     url: 'https://server.arcgisonline.com/arcgis/rest/services/World_Topo_Map/MapServer/WMTS?' +
       'layer=World_Topo_Map&style=default&tilematrixset=GoogleMapsCompatible&Service=WMTS&' +
       'Request=GetTile&Version=1.0.0&Format=image%2Fjpeg&TileMatrix={z}&TileCol={x}&TileRow={y}'
+  });
+};
+
+/**
+ * @return {ol.source.XYZ}
+ * @private
+ */
+app.BaselayerSelectorController.prototype.createOpenTopoMapSource_ = () => {
+  return new ol.source.XYZ({
+    attributions: [
+      new ol.Attribution({
+        html: '© <a href="//openstreetmap.org/copyright">OpenStreetMap</a> | ' +
+              '© <a href="//opentopomap.org" target="_blank">OpenTopoMap</a>'
+      })
+    ],
+    url: '//{a-c}.tile.opentopomap.org/{z}/{x}/{y}.png'
   });
 };
 
