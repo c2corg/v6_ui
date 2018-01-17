@@ -9,6 +9,7 @@ requests==2.1.0
 Shapely==1.5.13
 htmlmin==0.1.10
 Markdown==2.6.5
+pymdown-extensions==4.6
 bleach==2.1.2
 dogpile.cache==0.6.1
 redis==2.10.5

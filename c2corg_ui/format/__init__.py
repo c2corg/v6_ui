@@ -14,6 +14,7 @@ from c2corg_ui.format.header_emphasis import HeaderEmphasisExtension
 from c2corg_ui.format.ptag import C2CPTagExtension
 from c2corg_ui.format.alerts import AlertExtension
 from c2corg_ui.format.toc import C2CTocExtension
+from c2corg_ui.format.emojis import C2CEmojiExtension
 from markdown.extensions.nl2br import Nl2BrExtension
 
 
@@ -120,6 +121,7 @@ def _get_markdown_parser():
             HeaderEmphasisExtension(),
             C2CPTagExtension(),
             AlertExtension(),
+            C2CEmojiExtension(),
         ]
         _markdown_parser = markdown.Markdown(output_format='xhtml5',
                                              extensions=extensions)
