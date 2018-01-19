@@ -57,10 +57,13 @@ def _get_cleaner():
 
     if not _cleaner:
         allowed_tags = bleach.ALLOWED_TAGS + [
-            # blocks
-            "div", "p", "h1", "h2", "h3", "h4", "h5", "pre", "hr", "center",
+            # headers
+            "h1", "h2", "h3", "h4", "h5", "h6",
 
-            # inline
+            # blocks
+            "div", "p", "pre", "hr", "center",
+
+            # inline nodes
             "span", "br", "sub", "sup", "s", "del", "ins", "small",
 
             # images
@@ -79,6 +82,7 @@ def _get_cleaner():
             "h3": ["id"],
             "h4": ["id"],
             "h5": ["id"],
+            "h6": ["id"],
             "table": ["class"],
             "div": ["class", "style"],
             "td": ["colspan"],
