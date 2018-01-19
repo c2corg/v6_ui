@@ -13,7 +13,8 @@ from markdown.util import etree
 
 import re
 
-IMG_RE = r'(?:^|\n)\[img=(\d+)([a-z_ ]*)(/\]|\](.*?)\[/img\])'
+# \w\W pattern is a trick for capturing all, including new spaces
+IMG_RE = r'(?:^|\n)\[img=(\d+)([a-z_ ]*)(/\]|\]([\w\W]*?)\[/img\])'
 
 
 class C2CImageExtension(Extension):
@@ -83,7 +84,7 @@ class C2CImageBlock(BlockProcessor):
             img_url += '?size=' + img_size
         img.set('src', img_url)
         img.set('class', 'thumbnail embedded-image ')
-        img.set('alt', caption or img_id)
+        img.set('alt', (caption or img_id).replace("\n", " "))
         img.set('img-id', img_id)
 
         fig = etree.Element('figure')
