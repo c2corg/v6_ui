@@ -17,7 +17,7 @@
     {
         "id": "LTags and RTags separated by text",
         "text": "Hello\n\n L# |1\nL#| 2 then R#\n\nGreat !\n\nR# |1\nR#| 2",
-        "expected": "<p>Hello</p>\n<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>1</span></td>\n<td>1</td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>2</span></td>\n<td>2 then <span class=\"pitch\"><span translate=\"\">R</span>2</span></td>\n</tr>\n</tbody>\n</table>\n<p>Great !</p>\n<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">R</span>1</span></td>\n<td>1</td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">R</span>2</span></td>\n<td>2</td>\n</tr>\n</tbody>\n</table>"
+        "expected": "<p>Hello</p>\n<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>1</span></td>\n<td>1</td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>2</span></td>\n<td>2&nbsp;then <span class=\"pitch\"><span translate=\"\">R</span>2</span></td>\n</tr>\n</tbody>\n</table>\n<p>Great !</p>\n<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">R</span>1</span></td>\n<td>1</td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">R</span>2</span></td>\n<td>2</td>\n</tr>\n</tbody>\n</table>"
     },
     {
         "id": "Unsupported LTag",
