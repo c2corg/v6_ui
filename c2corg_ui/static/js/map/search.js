@@ -132,6 +132,7 @@ app.MapSearchController.SEARCH_URL = 'https://photon.komoot.de/api/';
 app.MapSearchController.prototype.createAndInitBloodhound_ = function() {
   let url = app.MapSearchController.SEARCH_URL;
   url += '?q=%QUERY';
+  // url += '&osm_tag=place:city&osm_tag=place:town&osm_tag=place:village';
 
   const bloodhound = new Bloodhound(/** @type {BloodhoundOptions} */({
     limit: 10,
