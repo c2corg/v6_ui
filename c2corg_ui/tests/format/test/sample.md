@@ -1,8 +1,3 @@
-# Title 1
-## Title 2 ##
-### Title 3 # small
-#### Title 4 
-
 [b]Old bold BBcode en gras[/b] 
 old [url=http://example.com]bbcode link[/url]
 

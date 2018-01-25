@@ -17,6 +17,11 @@
   {
     "id": "Not emphasis",
     "text": "[toc]\n# title 1 ## with strange ## emphasis",
-    "expected": "<div class=\"toc\">\n<ul>\n<li><a href=\"#title-1-with-strange\">title 1 ## with strange </a></li>\n</ul>\n</div>\n<h2 id=\"title-1-with-strange\">title 1 ## with strange <span class=\"header-emphasis\">emphasis</span></h2>"
+    "expected": "<div class=\"toc\">\n<ul>\n<li><a href=\"#title-1-with-strange\">title 1 ## with strange</a></li>\n</ul>\n</div>\n<h2 id=\"title-1-with-strange\">title 1 ## with strange<span class=\"header-emphasis\"> emphasis</span></h2>"
+  },
+  {
+    "id": "id",
+    "text": "[toc]\n# title 1 {#coucou}",
+    "expected": "<div class=\"toc\">\n<ul>\n<li><a href=\"#coucou\">title 1</a></li>\n</ul>\n</div>\n<h2 id=\"coucou\">title 1</h2>"
   }
 ]

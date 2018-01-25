@@ -37,21 +37,31 @@
   {
     "id": "Emphasis",
     "text": "## Title # emphasis",
-    "expected": "<h3 id=\"title\">Title <span class=\"header-emphasis\">emphasis</span></h3>"
+    "expected": "<h3 id=\"title\">Title<span class=\"header-emphasis\"> emphasis</span></h3>"
   },
   {
     "id": "Emphasis on h5",
     "text": "#### Title # emphasis",
-    "expected": "<h5 id=\"title\">Title <span class=\"header-emphasis\">emphasis</span></h5>"
+    "expected": "<h5 id=\"title\">Title<span class=\"header-emphasis\"> emphasis</span></h5>"
   },
   {
     "id": "strange separator",
     "text": "## Title #### emphasis",
-    "expected": "<h3 id=\"title\">Title <span class=\"header-emphasis\">emphasis</span></h3>"
+    "expected": "<h3 id=\"title\">Title<span class=\"header-emphasis\"> emphasis</span></h3>"
   },
   {
     "id": "Strange title",
     "text": "## Title with # inside #### emphasis",
-    "expected": "<h3 id=\"title-with-inside\">Title with # inside <span class=\"header-emphasis\">emphasis</span></h3>"
+    "expected": "<h3 id=\"title-with-inside\">Title with # inside<span class=\"header-emphasis\"> emphasis</span></h3>"
+  },
+  {
+    "id": "with id",
+    "text": "## Title {#coucou}",
+    "expected": "<h3 id=\"coucou\">Title</h3>"
+  },
+  {
+    "id": "with id and emphasis",
+    "text": "## Title # x # y {#coucou}",
+    "expected": "<h3 id=\"coucou\">Title # x<span class=\"header-emphasis\"> y</span></h3>"
   }
 ]

@@ -10,7 +10,7 @@ from c2corg_ui.format.video import C2CVideoExtension
 from c2corg_ui.format.important import C2CImportantExtension
 from c2corg_ui.format.warning import C2CWarningExtension
 from c2corg_ui.format.ltag import C2CLTagExtension
-from c2corg_ui.format.header_emphasis import HeaderEmphasisExtension
+from c2corg_ui.format.header import C2CHeaderExtension
 from c2corg_ui.format.ptag import C2CPTagExtension
 from c2corg_ui.format.alerts import AlertExtension
 from c2corg_ui.format.toc import C2CTocExtension
@@ -123,7 +123,7 @@ def _get_markdown_parser():
             AutoLinkExtension(),
             C2CVideoExtension(iframe_secret_tag=_iframe_secret_tag),
             C2CLTagExtension(),
-            HeaderEmphasisExtension(),
+            C2CHeaderExtension(),
             C2CPTagExtension(),
             AlertExtension(),
             C2CEmojiExtension(),
