@@ -56,7 +56,8 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
             "title": ${dumps(locale['title']) | n},
             "lang": "${locale['lang']}",
             "documentId": ${outing['document_id']},
-            "module": "outings"
+            "module": "outings",
+            "source": "c2c"
           }
         }
         % if not version:

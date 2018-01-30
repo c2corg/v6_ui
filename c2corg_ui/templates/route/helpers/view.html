@@ -276,3 +276,25 @@ from c2corg_ui.templates.utils import get_route_gear_articles, format_length
     </div>    
   % endif
 </%def>
+
+## REMARKS
+<%def name="get_route_remarks(route, locale)">\
+  <h3 id="title-remarks" class="show-phone collapsible-title"
+      ng-if="detailsCtrl.hasRemarks"
+      ng-click="mainCtrl.animateHeaderIcon($event)"
+      data-toggle="collapse" data-target="#remarks" aria-expanded="true" aria-controls="remarks">
+    <span translate>remarks</span><span class="glyphicon glyphicon-menu-down"></span>
+  </h3>
+  <div id="remarks" class="finfo collapse in"
+       ng-if="detailsCtrl.hasRemarks"
+       aria-expanded="true">
+    <div class="ficontent max noflex">
+      ${show_attr(locale, 'remarks')}
+      <div class="md-alert md-alert-info" ng-if="detailsCtrl.hasBiodivsportAreas">
+        <p>
+          <strong translate>Sensible areas</strong><br><span stranlate>There are sensible areas on this route. Please refer to the map.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</%def>

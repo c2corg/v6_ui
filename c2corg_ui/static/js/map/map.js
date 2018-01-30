@@ -1,9 +1,11 @@
 goog.provide('app.MapController');
 goog.provide('app.mapDirective');
+goog.provide('app.BiodivSportsModalController');
 
 goog.require('app');
 goog.require('app.utils');
 goog.require('app.Url');
+goog.require('app.Biodivsports');
 goog.require('ngeo.Debounce');
 goog.require('ngeo.Location');
 /** @suppress {extraRequire} */
@@ -32,6 +34,8 @@ goog.require('ol.style.Stroke');
 goog.require('ol.style.Style');
 goog.require('ol.style.Text');
 goog.require('app.map.simplify');
+/** @suppress {extraRequire} */
+goog.require('app.trustAsHtmlFilter');
 
 
 /**
@@ -51,7 +55,9 @@ app.mapDirective = function() {
       'zoom': '@appMapZoom',
       'defaultMapFilter': '=appMapDefaultMapFilter',
       'featureCollection': '=appMapFeatureCollection',
-      'showRecenterTools': '=appMapShowRecenterTools'
+      'showRecenterTools': '=appMapShowRecenterTools',
+      'showBiodivsportsAreas': '=appMapShowBiodivsportsAreas',
+      'biodivSportsActivities': '=appMapBiodivsportsActivities'
     },
     controller: 'AppMapController as mapCtrl',
     bindToController: true,
@@ -69,13 +75,16 @@ app.module.directive('appMap', app.mapDirective);
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {ngeo.Debounce} ngeoDebounce ngeo Debounce service.
  * @param {app.Url} appUrl URL service.
+ * @param {app.Biodivsports} appBiodivsports service.
+ * @param {app.Lang} appLang Lang service.
+ * @param {ui.bootstrap.$modal} $uibModal modal from angular bootstrap
  * @param {string} imgPath Path to the image directory.
  * @constructor
  * @struct
  * @ngInject
  */
 app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
-  ngeoDebounce, appUrl, imgPath) {
+  ngeoDebounce, appUrl, appBiodivsports, appLang, $uibModal, imgPath) {
 
   /**
    * @type {number}
@@ -151,6 +160,18 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
    * @type {boolean}
    * @export
    */
+  this.showBiodivsportsAreas;
+
+  /**
+   * @type {Array.<string>}
+   * @export
+   */
+  this.biodivSportsActivities;
+
+  /**
+   * @type {boolean}
+   * @export
+   */
   this.defaultMapFilter;
 
   /**
@@ -196,7 +217,6 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
    */
   this.initialGeometry_ = undefined;
 
-
   /**
    * @type {ol.interaction.Draw}
    * @private
@@ -210,7 +230,7 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
   this.isDrawing_ = false;
 
   /**
-   * @type {?number}
+   * @type {?number|string}
    * @private
    */
   this.currentSelectedFeatureId_ = null;
@@ -232,6 +252,24 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
    * @private
    */
   this.url_ = appUrl;
+
+  /**
+   * @type {app.Biodivsports}
+   * @private
+   */
+  this.biodivSports_ = appBiodivsports;
+
+  /**
+   * @type {app.Lang}
+   * @private
+   */
+  this.langService_ = appLang;
+
+  /**
+   * @type {ui.bootstrap.$modal} angular bootstrap modal
+   * @private
+   */
+  this.modal_ = $uibModal;
 
   /**
    * @type {ol.Map}
@@ -342,12 +380,18 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
   }
 
   // When the map is rendered:
-  this.map.once('change:size', (event) => {
+  this.map.once('change:size', event => {
     if (this.features_.length > 0) {
       this.showFeatures_(this.features_, true);
     } else {
       const extent = this.initialExtent_ || app.MapController.DEFAULT_EXTENT;
       this.recenterOnExtent_(extent);
+    }
+    if (this.showBiodivsportsAreas) {
+      let extent = this.view_.calculateExtent(this.map.getSize() || null);
+      // get extent in WGS format
+      extent = ol.proj.transformExtent(extent, ol.proj.get('EPSG:3857'), ol.proj.get('EPSG:4326'));
+      this.biodivSports_.fetchData(extent, this.biodivSportsActivities).then(this.addBiodivsportsData_.bind(this));
     }
   });
 };
@@ -372,6 +416,41 @@ app.MapController.DEFAULT_ZOOM = 4;
  * @type {number}
  */
 app.MapController.DEFAULT_POINT_ZOOM = 12;
+
+
+/**
+ * @param {Object} response Biodiv'sports request result.
+ * @private
+ */
+app.MapController.prototype.addBiodivsportsData_ = function(response) {
+  const results = response['data']['results'];
+  const features = [];
+  for (let i = 0; i < results.length; i++) {
+    const result = results[i];
+    let geometry = result['geometry'];
+    geometry = this.geojsonFormat_.readGeometry(geometry, {
+      dataProjection: 'EPSG:4326',
+      featureProjection: 'EPSG:3857'
+    });
+    const feature = new ol.Feature({
+      geometry,
+      'id': /** @type {number} */ (result['id']),
+      'source': 'biodivsports',
+      'title': /** @type {string} */ (result['name']),
+      'description': /** @type {string} */ (result['description']),
+      'info_url': /** @type {string} */ (result['info_url']),
+      'kml_url': /** @type {string} */ (result['kml_url']),
+      'period': /** @type {Array<boolean>} */ (result['period'])
+    });
+    feature.setId('biodiv_' + /** @type {number} */ (result['id']));
+    features.push(feature);
+
+  }
+  this.getVectorLayer_().getSource().addFeatures(features);
+  if (features.length) {
+    this.scope_.$emit('foundBiodivsportAreas');
+  }
+};
 
 
 /**
@@ -424,24 +503,55 @@ app.MapController.prototype.createStyleFunction_ = function() {
      * @return {ol.style.Style|Array.<ol.style.Style>}
      */
     function(feature, resolution) {
-      const module = /** @type {string} */ (feature.get('module'));
-      switch (module) {
-        case 'waypoints':
-        case 'images':
-        case 'profiles':
-        case 'xreports':
-          return this.createPointStyle_(feature, resolution);
-        case 'routes':
-        case 'outings':
-          return this.advancedSearch ? this.createPointStyle_(feature, resolution) : this.createLineStyle_(feature, resolution);
-        case 'areas':
-          return this.createLineStyle_(feature, resolution);
-        default:
-          return null;
+      const source = /** @type {string} */ (feature.get('source'));
+      if (source === 'biodivsports') {
+        return this.createBiodivsportsAreaStyle_(feature, resolution);
+      } else if (source === 'c2c') {
+        const module = /** @type {string} */ (feature.get('module'));
+        switch (module) {
+          case 'waypoints':
+          case 'images':
+          case 'profiles':
+          case 'xreports':
+            return this.createPointStyle_(feature, resolution);
+          case 'routes':
+          case 'outings':
+            return this.advancedSearch ? this.createPointStyle_(feature, resolution) : this.createLineStyle_(feature, resolution);
+          case 'areas':
+            return this.createLineStyle_(feature, resolution);
+          default: {
+            return null;
+          }
+        }
       }
+      return null;
     }).bind(this);
 };
 
+
+app.MapController.prototype.createBiodivsportsAreaStyle_ = function(feature, resolution) {
+  const id = /** @type {number} */ (feature.get('id'));
+  const highlight = /** @type {boolean} */ (!!feature.get('highlight'));
+  const key = 'lines_biodivsports'  + (highlight ? ' _highlight' : '') + '_' + id;
+  const opacityFactor = highlight ? 1.5 : 1;
+  let style = this.styleCache[key];
+  if (!style) {
+    const stroke = new ol.style.Stroke({
+      color: [51, 122, 183, 0.8 * opacityFactor],
+      width: 1
+    });
+    const fill = new ol.style.Fill({
+      color: [51, 122, 183, 0.4 * opacityFactor]
+    });
+    style = new ol.style.Style({
+      text: this.createTextStyle_(feature, 'biodivsports', highlight),
+      stroke,
+      fill
+    });
+    this.styleCache[key] = style;
+  }
+  return style;
+};
 
 /**
  * @param {ol.Feature|ol.render.Feature} feature
@@ -563,6 +673,9 @@ app.MapController.prototype.createTextStyle_ = function(feature, type, highlight
     if (type === 'routes' && feature.get('title_prefix')) {
       title = feature.get('title_prefix') + ' : ';
     }
+    if (type === 'biodivsports') {
+      title = this.langService_.translate('Sensitive area:') + ' ';
+    }
     title += feature.get('title');
 
     text = new ol.style.Text({
@@ -635,7 +748,7 @@ app.MapController.prototype.showFeatures_ = function(features, recenter) {
     return;
   }
 
-  features.forEach((feature) => {
+  features.forEach(feature => {
     const properties = feature.getProperties();
     if (properties['documentId']) {
       feature.setId(/** @type {number} */ (properties['documentId']));
@@ -799,7 +912,7 @@ app.MapController.prototype.handleSearchClear_ = function(event) {
 
 
 /**
- * @param {number} id Feature id.
+ * @param {number|string} id Feature id.
  * @param {boolean} highlight Whether the feature must be highlighted.
  * @private
  */
@@ -848,24 +961,40 @@ app.MapController.prototype.handleMapSearchChange_ = function() {
  * @private
  */
 app.MapController.prototype.handleMapFeatureClick_ = function(event) {
-  const feature = this.map.forEachFeatureAtPixel(event.pixel, (feature) => {
-    return feature;
-  }, this, function(layer) {
+  const feature = this.map.forEachFeatureAtPixel(event.pixel, feature => feature, this, function(layer) {
     // test only features from the current vector layer
     return layer === this.getVectorLayer_();
   }, this);
   if (feature) {
-    const module = feature.get('module');
-    const id = feature.get('documentId');
-    const locale = {
-      'lang': feature.get('lang'),
-      'title': feature.get('title')
-    };
-    if (module === 'routes' && feature.get('title_prefix')) {
-      locale['title_prefix'] = feature.get('title_prefix');
+    const source = feature.get('source');
+    if (source === 'c2c') {
+      const module = feature.get('module');
+      const id = feature.get('documentId');
+      const locale = {
+        'lang': feature.get('lang'),
+        'title': feature.get('title')
+      };
+      if (module === 'routes' && feature.get('title_prefix')) {
+        locale['title_prefix'] = feature.get('title_prefix');
+      }
+      window.location.href = this.url_.buildDocumentUrl(
+        module, id, /** @type {appx.DocumentLocale} */ (locale));
+    } else if (source === 'biodivsports') {
+      this.modal_.open({
+        animation: true,
+        size: 'sm',
+        templateUrl: '/static/partials/map/biodivsportsinfo.html',
+        controller: 'AppBiodivSportsModalController',
+        controllerAs: 'modalCtrl',
+        resolve: {
+          'title': () => feature.get('title'),
+          'description': () => feature.get('description'),
+          'infoUrl': () => feature.get('info_url'),
+          'kmlUrl': () => feature.get('kml_url'),
+          'period': () => feature.get('period')
+        }
+      });
     }
-    window.location.href = this.url_.buildDocumentUrl(
-      module, id, /** @type {appx.DocumentLocale} */ (locale));
   }
 };
 
@@ -886,9 +1015,7 @@ app.MapController.prototype.handleMapFeatureHover_ = function(event) {
   this.map.getTarget().style.cursor = hit ? 'pointer' : '';
 
   if (hit) {
-    const feature = this.map.forEachFeatureAtPixel(pixel, (feature) => {
-      return feature;
-    }, this, function(layer) {
+    const feature = this.map.forEachFeatureAtPixel(pixel, feature => feature, this, function(layer) {
       // test only features from the current vector layer
       return layer === this.getVectorLayer_();
     }, this);
@@ -896,7 +1023,7 @@ app.MapController.prototype.handleMapFeatureHover_ = function(event) {
       // reset any feature that was highlighted previously
       this.toggleFeatureHighlight_(this.currentSelectedFeatureId_, false);
     }
-    const id = /** @type {number} */ (feature.getId());
+    const id = /** @type {number|string} */ (feature.getId());
     this.toggleFeatureHighlight_(id, true);
     this.scope_.$root.$emit('mapFeatureHover', id);
   } else if (this.currentSelectedFeatureId_) {
@@ -1036,3 +1163,71 @@ app.MapController.prototype.resizeMap_ = function() {
 
 
 app.module.controller('AppMapController', app.MapController);
+
+
+/**
+ * We have to use a secondary controller for the modal so that we can inject
+ * uibModalInstance which is not available from the first level controller.
+ * @param {Object} $uibModalInstance modal from angular bootstrap
+ * @param {string} title title
+ * @param {string|null} description description
+ * @param {string} infoUrl link for more information
+ * @param {string} kmlUrl link to area KML
+ * @param {Array<boolean>} period sensitive month
+ * @constructor
+ * @ngInject
+ */
+app.BiodivSportsModalController = function($uibModalInstance, title, description, infoUrl, kmlUrl, period) {
+
+  /**
+   * @type {Object} $uibModalInstance angular bootstrap
+   * @private
+   */
+  this.modalInstance_ = $uibModalInstance;
+
+  /**
+   * @type {string} title
+   * @export
+   */
+  this.title = title;
+
+  /**
+   * @type {string|null} description
+   * @export
+   */
+  this.description = description;
+
+  /**
+   * @type {string} infoUrl
+   * @export
+   */
+  this.infoUrl = infoUrl;
+
+  /**
+   * @type {string} kmlUrl
+   * @export
+   */
+  this.kmlUrl = kmlUrl;
+
+  /**
+   * @type {Array<string>} sensitive months
+   * @export
+   */
+  this.months = [];
+
+  for (let i = 0; i < period.length; i++) {
+    if (period[i]) {
+      this.months.push(window.moment().month(i).format('MMMM'));
+    }
+  }
+};
+
+/**
+ * @export
+ */
+app.BiodivSportsModalController.prototype.close = function() {
+  this.modalInstance_.close();
+};
+
+app.module.controller('AppBiodivSportsModalController', app.BiodivSportsModalController);
+

@@ -153,12 +153,26 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
   this.date = new Date();
 
   /**
+   * @type {boolean}
+   * @export
+   */
+  this.hasRemarks = this.documentService.document.hasRemarks || false;
+
+  /**
+   * @type {boolean}
+   * @export
+   */
+  this.hasBiodivsportAreas = false;
+
+  /**
    * @type {!angular.Scope}
    * @private
    */
   this.scope_ = $scope;
 
   this.initHeadband();
+
+  this.handleBiodivsportAreas_();
 
   this.pswpOptions = {
     tapToClose: true,
@@ -633,6 +647,17 @@ app.ViewDetailsController.prototype.watchPswpContainer_ = function() {
     }));
     observer.observe(target, {attributes: true, attributeFilter: ['style']});
   }
+};
+
+/**
+ * Handles events emitted by map when Biodiv'sport areas are retrieved.
+ * @private
+ */
+app.ViewDetailsController.prototype.handleBiodivsportAreas_ = function() {
+  this.scope_.$on('foundBiodivsportAreas', (event, data) => {
+    this.hasRemarks = true;
+    this.hasBiodivsportAreas = true;
+  });
 };
 
 /**

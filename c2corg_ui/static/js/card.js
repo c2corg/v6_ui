@@ -405,9 +405,9 @@ app.CardController.prototype.getFullRatings = function() {
 
 
 /**
- * @param {string} rating1
- * @param {string} rating2
- * @return {string} rating
+ * @param {string|null} rating1
+ * @param {string|null} rating2
+ * @return {string|null} rating
  */
 app.CardController.prototype.slashSeparatedRating_ = function(rating1, rating2) {
   let rating = rating1 || '';

@@ -6,10 +6,10 @@
 
 
 /**
- * @param {Object | string} date
+ * @param {(Object | string)=} date
  * @param {string=} opt_format
  */
-function moment(date, opt_format) {};
+function moment(date, opt_format) {}
 
 /**
  * Formats the date in given format, for ex. 'YYYY-MM-DD'

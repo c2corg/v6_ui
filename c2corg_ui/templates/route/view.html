@@ -21,7 +21,7 @@
 <%namespace file="helpers/view.html" import="get_route_location,
     get_route_glacier_gear, get_route_rating, get_route_general, get_route_heights,
     get_route_access, get_route_associated_maps, get_route_orientations,
-    get_route_gear" />
+    get_route_gear, get_route_remarks" />
 
 <%
   route_id = route['document_id']
@@ -62,7 +62,8 @@
             "title": ${dumps((locale['title_prefix'] + ' : ' if locale.get('title_prefix') else '') + locale['title']) | n},
             "lang": "${locale['lang']}",
             "documentId": ${route['document_id']},
-            "module": "routes"
+            "module": "routes",
+            "source": "c2c"
           }
         }
         % if not version:
@@ -85,7 +86,8 @@
     % if route.get('orientations'):
       "orientations": [${'"' + '","'.join(route['orientations']) + '"' if len(route['orientations']) else '' | n}],
     % endif
-    "associations": ${dumps(route.get('associations')) | n}
+    "associations": ${dumps(route.get('associations')) | n},
+    "hasRemarks": ${'true' if 'remarks' in locale and locale.get('remarks') else 'false'}
   });
 </%block>
 <%block name="share">
@@ -125,7 +127,9 @@
                    class="fullimg"/>
             </div>
           </div>
-          <app-map class="view-details-map"></app-map>
+          <app-map class="view-details-map"
+                   app-map-show-biodivsports-areas="true"
+                   app-map-biodivsports-activities="${route.get('activities')}"></app-map>
           % if not version:
             ${display_app_smartphone_info('route')}
           % endif
@@ -156,7 +160,7 @@
             ${get_document_description(locale, 'route')}
             ${get_document_locale_text(locale, 'slackline_anchor1', True)}
             ${get_document_locale_text(locale, 'slackline_anchor2', True)}
-            ${get_document_locale_text(locale, 'remarks', True)}
+            ${get_route_remarks(route, locale)}
             ${get_route_gear(route, locale)}
             ${get_document_locale_text(locale, 'external_resources', True)}
           </section>
