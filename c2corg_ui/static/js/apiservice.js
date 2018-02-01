@@ -320,13 +320,13 @@ app.Api.prototype.getDocumentByIdAndDoctype = function(id, doctype, lang) {
  * @private
  */
 app.Api.prototype.errorSaveDocument_ = function(response) {
-  // FIXME: API does not return a valid JSON response for 500/403 errors.
-  // See https://github.com/c2corg/v6_api/issues/85
   let msg;
   if (response['data'] instanceof Object && 'errors' in response['data']) {
     msg = response;
   } else if (response['status'] === 403) {
-    msg = 'You have no permission to modify this document';
+    msg = 'You have no rights to edit this document.';
+  } else if (response['status'] === 429) {
+    msg = 'You have made too many changes recently and thus have been blocked';
   } else {
     msg = 'Failed saving the changes';
   }
