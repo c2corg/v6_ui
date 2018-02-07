@@ -22,7 +22,7 @@ app.baselayerSelectorDirective = function() {
   return {
     restrict: 'E',
     controller: 'AppBaselayerSelectorController',
-    controllerAs: 'bglayerCtrl',
+    controllerAs: 'mapLayerCtrl',
     bindToController: true,
     scope: {
       'map': '=appBaselayerSelectorMap'
@@ -107,12 +107,18 @@ app.BaselayerSelectorController = function($http, ngeoBackgroundLayerMgr,
    * @export
    */
   this.bgLayerSpecs = app.BaselayerSelectorController.BG_LAYER_SPECS.filter(
-    (layer) => {
-      return appAuthentication.isAuthenticated() || !layer['auth'];
-    }
+    layer => appAuthentication.isAuthenticated() || !layer['auth']
   );
 
-  this.setLayer(this.bgLayerSpecs[0]);
+  /**
+   * @type {Array.<Object>}
+   * @export
+   */
+  this.overlayLayerSpecs = app.BaselayerSelectorController.OVERLAY_LAYER_SPECS.filter(
+    layer => appAuthentication.isAuthenticated() || !layer['auth']
+  );
+
+  this.setBgLayer(this.bgLayerSpecs[0]);
 };
 
 
@@ -135,6 +141,19 @@ app.BaselayerSelectorController.BG_LAYER_SPECS = [{
   'auth': true
 }];
 
+/**
+ * @const
+ * @type {Array.<Object>}
+ */
+app.BaselayerSelectorController.OVERLAY_LAYER_SPECS = [{
+  'name': 'ign slopes',
+  'visible': false
+}, {
+  'name': 'swisstopo slopes',
+  'visible': false,
+  'auth': true
+}];
+
 
 /**
  * Function called when the user selects a new background layer in the
@@ -142,7 +161,7 @@ app.BaselayerSelectorController.BG_LAYER_SPECS = [{
  * @param {Object} layerSpec Layer specification object.
  * @export
  */
-app.BaselayerSelectorController.prototype.setLayer = function(layerSpec) {
+app.BaselayerSelectorController.prototype.setBgLayer = function(layerSpec) {
   this.currentBgLayerSpec = layerSpec;
   const layer = this.createLayer_(layerSpec['name']);
   if (layer) {
@@ -150,6 +169,21 @@ app.BaselayerSelectorController.prototype.setLayer = function(layerSpec) {
   }
 };
 
+
+/**
+ * @param {Object} layerSpec Layer specification object
+ * @export
+ */
+app.BaselayerSelectorController.prototype.switchOverlayLayer = function(layerSpec) {
+  layerSpec.visible = !layerSpec.visible;
+  const layer = this.createLayer_(layerSpec['name']);
+  if (layerSpec.visible) {
+    layer.setOpacity(0.4); // FIXME make a config option?
+    this.map.addLayer(layer);
+  } else {
+    this.map.removeLayer(layer);
+  }
+};
 
 /**
  * @param {string} layerName Layer name.
@@ -177,8 +211,14 @@ app.BaselayerSelectorController.prototype.createLayer_ = function(layerName) {
     case 'ign ortho':
       source = this.createIgnSource_('ORTHOIMAGERY.ORTHOPHOTOS');
       break;
+    case 'ign slopes':
+      source = this.createIgnSource_('GEOGRAPHICALGRIDSYSTEMS.SLOPES.MOUNTAIN', 'png');
+      break;
     case 'swisstopo':
       source = this.createSwisstopoSource_('ch.swisstopo.pixelkarte-farbe');
+      break;
+    case 'swisstopo slopes':
+      source = this.createSwisstopoSource_('ch.swisstopo.hangneigung-ueber_30', 'png', '20160101');
       break;
     case 'opentopomap':
       source = this.createOpenTopoMapSource_();
@@ -198,7 +238,7 @@ app.BaselayerSelectorController.prototype.createLayer_ = function(layerName) {
  * @return {ol.source.WMTS}
  * @private
  */
-app.BaselayerSelectorController.prototype.createIgnSource_ = function(layer) {
+app.BaselayerSelectorController.prototype.createIgnSource_ = function(layer, format = 'jpeg') {
   const resolutions = [];
   const matrixIds = [];
   const proj3857 = ol.proj.get('EPSG:3857');
@@ -219,7 +259,7 @@ app.BaselayerSelectorController.prototype.createIgnSource_ = function(layer) {
     url: '//wxs.ign.fr/' + this.ignApiKey_ + '/wmts',
     layer: layer,
     matrixSet: 'PM',
-    format: 'image/jpeg',
+    format: `image/${format}`,
     projection: 'EPSG:3857',
     tileGrid: tileGrid,
     style: 'normal',
@@ -237,17 +277,15 @@ app.BaselayerSelectorController.prototype.createIgnSource_ = function(layer) {
  * @return {ol.source.XYZ}
  * @private
  */
-app.BaselayerSelectorController.prototype.createSwisstopoSource_ = function(layer) {
+app.BaselayerSelectorController.prototype.createSwisstopoSource_ = function(layer, format = 'jpeg', time = 'current') {
   return new ol.source.XYZ({
     attributions: [
       new ol.Attribution({
-        html: '<a target="_blank" href="http://www.swisstopo.admin.ch/' +
-        'internet/swisstopo/en/home.html">swisstopo</a>'
+        html: '<a target="_blank" href="http://www.swisstopo.admin.ch">swisstopo</a>'
       })
     ],
-    urls: ['10', '11', '12', '13', '14'].map((i) => {
-      return 'https://wmts' + i + '.geo.admin.ch/1.0.0/' + layer + '/default/current' +
-        '/3857/{z}/{x}/{y}.jpeg';
+    urls: ['10', '11', '12', '13', '14'].map(i => {
+      return `https://wmts${i}.geo.admin.ch/1.0.0/${layer}/default/${time}/3857/{z}/{x}/{y}.${format}`;
     }),
     maxZoom: 17
   });
