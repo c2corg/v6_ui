@@ -44,7 +44,7 @@
     "closure-util": "1.15.1",
     "eslint": "4.17.0",
     "eslint-config-openlayers": "^9.0.0",
-    "less": "2.7.3",
+    "less": "3.0.0",
     "less-plugin-clean-css": "1.5.1",
     "nomnom": "1.8.1",
     "snyk": "^1.30.1",
