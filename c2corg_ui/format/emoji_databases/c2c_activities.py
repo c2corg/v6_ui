@@ -53,6 +53,11 @@ emoji = {
         "name": "via ferrata",
         "svg_name": "via_ferrata",
     },
+    ":mountain_climbing:": {
+        "category": "activitiy",
+        "name": "mountain climbing",
+        "svg_name": "mountain_climbing",
+    }
 }
 
 aliases = {}
