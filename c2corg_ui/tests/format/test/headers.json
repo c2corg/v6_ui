@@ -63,5 +63,10 @@
     "id": "with id and emphasis",
     "text": "## Title # x # y {#coucou}",
     "expected": "<h3 id=\"coucou\">Title # x<span class=\"header-emphasis\"> y</span></h3>"
+  },
+  {
+    "id": "with node",
+    "text": "## Title :hiking:",
+    "expected": "<h3 id=\"title\">Title <img alt=\":hiking:\" class=\"emoji\" src=\"/static/img/documents/activities/hiking.svg\"></h3>"
   }
 ]
