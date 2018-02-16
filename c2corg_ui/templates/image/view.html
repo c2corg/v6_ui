@@ -92,13 +92,11 @@ from json import dumps
          <div class="row">
           <div class="col-xs-12 col-md-4 col-lg-3">
             ${get_image_general(image)}
+            % if image.get('areas'):
+              ${show_areas(image)}
+            % endif
             ${get_image_camera_settings(image)}
             % if geometry:
-              % if image.get('areas'):
-                <article class="location-static">
-                  ${show_areas(image)}
-                </article>
-              % endif
               <app-map class="view-details-map"></app-map>
             % endif
             ${get_licence(image)}
