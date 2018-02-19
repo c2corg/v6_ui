@@ -5,7 +5,7 @@ import re
 
 
 class AlertProcessor(BlockProcessor):
-    RE = re.compile(r'(^|\n)[ ]{0,3}(!{2,4})(.*)')
+    RE = re.compile(r'(^|\n)[ ]{0,3}(!{2,4})(([^!]|$).*)')
 
     classes = {
         "!!": "md-alert md-alert-info",
