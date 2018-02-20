@@ -2,6 +2,7 @@ import markdown
 import bleach
 import binascii
 import os
+from threading import RLock
 
 from c2corg_ui.format.autolink import AutoLinkExtension
 from c2corg_ui.format.wikilinks import C2CWikiLinkExtension
@@ -20,6 +21,10 @@ from markdown.extensions.nl2br import Nl2BrExtension
 def _get_secret():
     return binascii.hexlify(os.urandom(32)).decode('ascii')
 
+
+# RLock because this lock can be released
+# only by the thread who acquires it.
+_parser_lock = RLock()
 
 _markdown_parser = None
 _parsers_settings = None
@@ -131,8 +136,31 @@ def _get_markdown_parser():
 
 
 def parse_code(text):
-    text = _get_markdown_parser().convert(text)
-    text = _get_cleaner().clean(text=text)
+    """
+    Get markdown, and returns HTML.
+    This function is thread-safe
+    """
+
+    # we need parsing to be thread safe because
+    # L numbering, and Markdown() has internal global variables
+
+    # for explanation about Lock context manager usage
+    # see https://docs.python.org/3/library/threading.html
+    # on paragraph 17.1.10 (with statement)
+    with _parser_lock:
+        parser = _get_markdown_parser()
+        cleaner = _get_cleaner()
+
+        # reset parser state. Otherwise, internals parser cache grows
+        # indefinitely, and performance decreases over time
+        parser.reset()
+
+        text = parser.convert(text)
+
+        # we keep clean function into thread safe part,
+        # because we are not sure of this function
+        text = cleaner.clean(text=text)
+
     text = text.replace(_iframe_secret_tag, "iframe")
     text = text.replace(_ngclick_secret_tag, "ng-click")
 
