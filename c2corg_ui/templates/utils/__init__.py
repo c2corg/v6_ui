@@ -31,7 +31,16 @@ def get_attr(obj, key, parse):
     """
     attr = obj[key] if key in obj else None
     if attr and isinstance(attr, str):
-        attr = parse_code(attr) if parse else attr
+
+        # markdown data may contain float elements that could
+        # potentialy goes under the end of container element
+        # we must add a div with style clear:both at the very end
+        # of produced html in order to force the container
+        # to ends at the very bottom of parsed HTML
+
+        if parse:
+            attr = "".join((parse_code(attr),
+                            '<div style="clear:both"></div>'))
     return attr
 
 

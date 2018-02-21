@@ -8,12 +8,16 @@ logger = logging.getLogger('MARKDOWN')
 
 
 # copied from class markdown.blockprocessors.HashHeaderProcessor
-class HeaderEmphasisProcessor(BlockProcessor):
+class C2CHeaderProcessor(BlockProcessor):
     """ Process Hash Headers. """
 
     # Detect a header at start of any line in block
-    RE = re.compile(r'(^|\n)(?P<level>#{1,6})' +
-                    '(?P<header>[^#].*?)#+(?P<emphasis>[^#]+?)(\n|$)')
+    RE = re.compile(r'(^|\n)'
+                    r'(?P<level>#{1,6})'
+                    r'(?P<header>.*?)'
+                    r'(?P<emphasis>#+[^#]*?)?'
+                    r'(?P<fixed_id>\{#[\w-]+\})?'
+                    r'(\n|$)')
 
     def test(self, parent, block):
         return bool(self.RE.search(block))
@@ -31,10 +35,17 @@ class HeaderEmphasisProcessor(BlockProcessor):
                 self.parser.parseBlocks(parent, [before])
             # Create header using named groups from RE
             h = util.etree.SubElement(parent, 'h%d' % len(m.group('level')))
-            h.text = m.group('header').strip() + ' '
-            emphasis = util.etree.SubElement(h, 'span')
-            emphasis.set('class', 'header-emphasis')
-            emphasis.text = m.group('emphasis').strip()
+            h.text = m.group('header').strip()
+
+            if m.group("fixed_id"):
+                h.set('id', m.group("fixed_id")[2:-1])
+
+            if m.group('emphasis'):
+                emphasis_text = m.group('emphasis').strip("# ")
+                if len(emphasis_text) != 0:
+                    emphasis = util.etree.SubElement(h, 'span')
+                    emphasis.set('class', 'header-emphasis')
+                    emphasis.text = ' ' + emphasis_text
 
             if after:
                 # Insert remaining lines as first block for future parsing.
@@ -44,13 +55,13 @@ class HeaderEmphasisProcessor(BlockProcessor):
             logger.warn("We've got a problem header: %r" % block)
 
 
-class HeaderEmphasisExtension(markdown.Extension):
+class C2CHeaderExtension(markdown.Extension):
     def extendMarkdown(self, md, md_globals):  # noqa
         md.parser.blockprocessors.add(
             'header_emphasis',
-            HeaderEmphasisProcessor(md.parser),
+            C2CHeaderProcessor(md.parser),
             "<hashheader")
 
 
 def makeExtension(configs=[]):  # noqa
-    return HeaderEmphasisExtension(configs=configs)
+    return C2CHeaderExtension(configs=configs)

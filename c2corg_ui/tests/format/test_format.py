@@ -15,7 +15,7 @@ class TestFormat(unittest.TestCase):
     def test_all(self):
         def do_test(id, text, expected):
             result = parse_code(text)
-            self.assertEqual(result.rstrip(), expected.rstrip(), id)
+            self.assertEqual(expected.rstrip(), result.rstrip(), id)
 
         test_path = os.path.join(base_path, 'test')
 

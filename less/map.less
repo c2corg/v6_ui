@@ -19,10 +19,6 @@
   @media @tablet {
     .fullscreen;
   }
-
-  app-baselayer-selector { /* stylelint-disable-line selector-type-no-unknown */
-    bottom: 60px;
-  }
 }
 
 .documents-list-section-container,
@@ -81,19 +77,6 @@
       margin: 0;
       padding-bottom: 0;
     }
-  }
-}
-
-.ol-scale-line {
-  background: rgba(255, 255, 255, 0.3);
-  bottom: 10px;
-  right: 40px;
-  left: initial;
-
-  .ol-scale-line-inner {
-    color: black;
-    border: 1px solid black;
-    border-top: none;
   }
 }
 
@@ -201,6 +184,32 @@ app-map-search { /* stylelint-disable-line selector-type-no-unknown */
 
 .ol-zoom {
   top: 10px;
+}
+
+.ol-scale-line {
+  background: rgba(255, 255, 255, 0.3);
+  bottom: 10px;
+  right: 40px;
+  left: initial;
+
+  .ol-scale-line-inner {
+    color: black;
+    border: 1px solid black;
+    border-top: none;
+  }
+}
+
+.ol-attribution {
+  z-index: 2; // ensure it is shown on top of scale line and base layer selector
+
+  &:not(.ol-collapsed),
+  &:hover:not(.ol-collapsed) {
+    background: white;
+  }
+
+  ul {
+    font-size: 1rem;
+  }
 }
 
 .ol-control {

@@ -1,0 +1,27 @@
+[
+  {
+    "id":"activity",
+    "text":":paragliding:",
+    "expected":"<p><img alt=\":paragliding:\" class=\"emoji\" src=\"/static/img/documents/activities/paragliding.svg\"></p>"
+  },
+  {
+    "id":"waypoints",
+    "text":":access:",
+    "expected":"<p><img alt=\":access:\" class=\"emoji\" src=\"/static/img/documents/waypoints/access.svg\"></p>"
+  },
+  {
+    "id":"smile",
+    "text":":smile:",
+    "expected":"<p><img alt=\"😄\" class=\"emoji\" src=\"https://cdn.jsdelivr.net/emojione/assets/svg/1f604.svg\"></p>"
+  },
+  {
+    "id":"code",
+    "text":"`:smile:`",
+    "expected":"<p><code>:smile:</code></p>"
+  },
+  {
+    "id":"code 2",
+    "text":"    :smile:",
+    "expected":"<pre><code>:smile:\n</code></pre>"
+  }
+]

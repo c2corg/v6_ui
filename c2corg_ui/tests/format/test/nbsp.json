@@ -1,0 +1,17 @@
+[
+  {
+    "id": "main",
+    "text": "I&nbsp;know 123 cows, I count 1, and 2 3 and I'm 3.",
+    "expected": "<p>I&nbsp;know 123&nbsp;cows, I count 1, and 2 3&nbsp;and I'm 3.</p>"
+  },
+  {
+    "id": "code",
+    "text": "I know `123 cows`\n\n    123 cows",
+    "expected": "<p>I know <code>123 cows</code></p>\n<pre><code>123 cows\n</code></pre>"
+  },
+  {
+    "id": "narrow unbreakable spaces",
+    "text": "a ! b ? c ;",
+    "expected": "<p>a&#8239;! b&#8239;? c&#8239;;</p>"
+  }
+]

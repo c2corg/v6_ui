@@ -5,6 +5,16 @@
     "expected": "<figure class=\"embedded_inline MI\" ng-click=\"detailsCtrl.openEmbeddedImage(&quot;https://api.camptocamp.org//images/proxy/123?size=MI&quot;, &quot;123&quot;)\"><img alt=\"123\" class=\"thumbnail embedded-image \" img-id=\"123\" src=\"https://api.camptocamp.org//images/proxy/123?size=MI\"></figure>"
   },
   {
+    "id": "img",
+    "text": "[img=123]strange\nlegend[/img]",
+    "expected": "<figure class=\"embedded_inline MI\" ng-click=\"detailsCtrl.openEmbeddedImage(&quot;https://api.camptocamp.org//images/proxy/123?size=MI&quot;, &quot;123&quot;)\"><img alt=\"strange legend\" class=\"thumbnail embedded-image \" img-id=\"123\" src=\"https://api.camptocamp.org//images/proxy/123?size=MI\"><figcaption>strange<br>\nlegend</figcaption>\n</figure>"
+  },
+  {
+    "id": "img",
+    "text": "[img=123]strange\n\nlegend[/img]",
+    "expected": "<p>[img=123]strange</p>\n<p>legend[/img]</p>"
+  },
+  {
     "id": "two images, two figures",
     "text": "[img=123/][img=123/]",
     "expected": "<figure class=\"embedded_inline MI\" ng-click=\"detailsCtrl.openEmbeddedImage(&quot;https://api.camptocamp.org//images/proxy/123?size=MI&quot;, &quot;123&quot;)\"><img alt=\"123\" class=\"thumbnail embedded-image \" img-id=\"123\" src=\"https://api.camptocamp.org//images/proxy/123?size=MI\"></figure>\n<figure class=\"embedded_inline MI\" ng-click=\"detailsCtrl.openEmbeddedImage(&quot;https://api.camptocamp.org//images/proxy/123?size=MI&quot;, &quot;123&quot;)\"><img alt=\"123\" class=\"thumbnail embedded-image \" img-id=\"123\" src=\"https://api.camptocamp.org//images/proxy/123?size=MI\"></figure>"
@@ -39,5 +49,4 @@
     "text": "En code `[img=123/]`.\n\n     [img=123/]",
     "expected": "<p>En code <code>[img=123/]</code>.</p>\n<pre><code> [img=123/]\n</code></pre>"
   }
-
 ]

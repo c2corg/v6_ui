@@ -7,13 +7,13 @@ from c2corg_ui.format.autolink import AutoLinkExtension
 from c2corg_ui.format.wikilinks import C2CWikiLinkExtension
 from c2corg_ui.format.img import C2CImageExtension
 from c2corg_ui.format.video import C2CVideoExtension
-from c2corg_ui.format.important import C2CImportantExtension
-from c2corg_ui.format.warning import C2CWarningExtension
 from c2corg_ui.format.ltag import C2CLTagExtension
-from c2corg_ui.format.header_emphasis import HeaderEmphasisExtension
+from c2corg_ui.format.header import C2CHeaderExtension
 from c2corg_ui.format.ptag import C2CPTagExtension
 from c2corg_ui.format.alerts import AlertExtension
 from c2corg_ui.format.toc import C2CTocExtension
+from c2corg_ui.format.emojis import C2CEmojiExtension
+from c2corg_ui.format.nbsp import C2CNbspExtension
 from markdown.extensions.nl2br import Nl2BrExtension
 
 
@@ -56,10 +56,13 @@ def _get_cleaner():
 
     if not _cleaner:
         allowed_tags = bleach.ALLOWED_TAGS + [
-            # blocks
-            "div", "p", "h1", "h2", "h3", "h4", "h5", "pre", "hr", "center",
+            # headers
+            "h1", "h2", "h3", "h4", "h5", "h6",
 
-            # inline
+            # blocks
+            "div", "p", "pre", "hr", "center",
+
+            # inline nodes
             "span", "br", "sub", "sup", "s", "del", "ins", "small",
 
             # images
@@ -78,6 +81,7 @@ def _get_cleaner():
             "h3": ["id"],
             "h4": ["id"],
             "h5": ["id"],
+            "h6": ["id"],
             "table": ["class"],
             "div": ["class", "style"],
             "td": ["colspan"],
@@ -110,16 +114,16 @@ def _get_markdown_parser():
             C2CWikiLinkExtension(),
             C2CImageExtension(api_url=_parsers_settings['api_url'],
                               ngclick_secret_tag=_ngclick_secret_tag),
-            C2CImportantExtension(),
-            C2CWarningExtension(),
             Nl2BrExtension(),
             C2CTocExtension(marker='[toc]', baselevel=2),
             AutoLinkExtension(),
             C2CVideoExtension(iframe_secret_tag=_iframe_secret_tag),
             C2CLTagExtension(),
-            HeaderEmphasisExtension(),
+            C2CHeaderExtension(),
             C2CPTagExtension(),
             AlertExtension(),
+            C2CEmojiExtension(),
+            C2CNbspExtension(),
         ]
         _markdown_parser = markdown.Markdown(output_format='xhtml5',
                                              extensions=extensions)

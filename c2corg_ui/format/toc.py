@@ -42,7 +42,7 @@ class C2CTocTreeprocessor(TocTreeprocessor):
                 # text = ''.join(el.itertext()).strip()
 
                 text = ''.join([elt.text for elt in el.iter()
-                                if not_emphasis(elt)])
+                                if elt.text and not_emphasis(elt)])
 
                 # Do not override pre-existing ids
                 if "id" not in el.attrib:

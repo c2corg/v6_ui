@@ -1,8 +1,3 @@
-# Title 1
-## Title 2 ##
-### Title 3 # small
-#### Title 4 
-
 [b]Old bold BBcode en gras[/b] 
 old [url=http://example.com]bbcode link[/url]
 
@@ -50,9 +45,6 @@ L# | 5b | Nice slab with a slightly harder move
 L# | 5a | Lightly protected, carrying a cam or two could help
 
 > quote
-
-[important]Some **important**
-thing[/important]
 
     Code with <span>a span</span>
     Code with <patate>unknown tag</patate>
