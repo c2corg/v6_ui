@@ -42,13 +42,13 @@
     "angular-gettext-tools": "2.3.8",
     "async": "2.6.0",
     "closure-util": "1.15.1",
-    "eslint": "4.17.0",
+    "eslint": "4.18.1",
     "eslint-config-openlayers": "^9.0.0",
     "less": "2.7.3",
     "less-plugin-clean-css": "1.5.1",
     "nomnom": "1.8.1",
     "snyk": "^1.30.1",
-    "stylelint": "8.4.0",
+    "stylelint": "9.1.0",
     "stylelint-config-standard": "18.1.0"
   },
   "snyk": true

@@ -20,11 +20,6 @@
         "expected": "<p>Hello</p>\n<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>1</span></td>\n<td>1</td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>2</span></td>\n<td>2&nbsp;then <span class=\"pitch\"><span translate=\"\">R</span>2</span></td>\n</tr>\n</tbody>\n</table>\n<p>Great&#8239;!</p>\n<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">R</span>1</span></td>\n<td>1</td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">R</span>2</span></td>\n<td>2</td>\n</tr>\n</tbody>\n</table>"
     },
     {
-        "id": "Unsupported LTag",
-        "text": "L#+1 |1\nL#| 2",
-        "expected": "<p>L#+1 |1<br>\nL#| 2</p>"
-    },
-    {
         "id": "Text in the middle",
         "text": "L# | 1 \nL#~ text in\nthe middle\nL# | 2 ",
         "expected": "<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>1</span></td>\n<td>1</td>\n</tr>\n<tr>\n<td colspan=\"2\">text in<br>the middle</td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>2</span></td>\n<td>2</td>\n</tr>\n</tbody>\n</table>"
@@ -35,8 +30,38 @@
         "expected": "<table class=\"ltag\">\n<tbody>\n<tr>\n<th></th>\n<th>Numerotation</th>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>1</span></td>\n<td>1</td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>2</span></td>\n<td>2</td>\n</tr>\n</tbody>\n</table>"
     },
     {
+        "id": "Unsupported LTag",
+        "text": "L# |1\n\nL#bis| 1bis",
+        "expected": "<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>1</span></td>\n<td>1</td>\n</tr>\n</tbody>\n</table>\n<table class=\"ltag\">\n<tbody>\n<tr>\n<td><code>L#bis</code></td>\n<td>1bis</td>\n</tr>\n</tbody>\n</table>"
+    },
+    {
         "id": "Absolute numbering",
         "text": "L# | 5a | L#2 and L#3 are joined to L#\nL#4| 5b+ | Awesome pitch !",
         "expected": "<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>1</span></td>\n<td>5a</td>\n<td><span class=\"pitch\"><span translate=\"\">L</span>2</span> and <span class=\"pitch\"><span translate=\"\">L</span>3</span> are joined to <span class=\"pitch\"><span translate=\"\">L</span>1</span></td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>4</span></td>\n<td>5b+</td>\n<td>Awesome pitch&#8239;!</td>\n</tr>\n</tbody>\n</table>"
+    },
+    {
+        "id": "very simple LTag",
+        "text": "L#\nL#",
+        "expected": "<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>1</span></td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>2</span></td>\n</tr>\n</tbody>\n</table>"
+    },
+    {
+        "id": "absolutes with label",
+        "text": "L#1\nL#3-4\nL#4bis\nL#6ter-9",
+        "expected": "<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>1</span></td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>3-4</span></td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>4bis</span></td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>6ter-9ter</span></td>\n</tr>\n</tbody>\n</table>"
+    },
+    {
+        "id": "absolutes without labels",
+        "text": "L#1\nL#\nL#3-4\nL#",
+        "expected": "<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>1</span></td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>2</span></td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>3-4</span></td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>5</span></td>\n</tr>\n</tbody>\n</table>"
+    },
+    {
+        "id": "tilde in a cell",
+        "text": "L# | L#~",
+        "expected": "<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>1</span></td>\n<td>L#~</td>\n</tr>\n</tbody>\n</table>"
+    },
+    {
+        "id": "L# in cell",
+        "text": "L#1 | L#1-2, | L#3bis, | L#4bis,",
+        "expected": "<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>1</span></td>\n<td><span class=\"pitch\"><span translate=\"\">L</span>1-2</span>,</td>\n<td><span class=\"pitch\"><span translate=\"\">L</span>3bis</span>,</td>\n<td><span class=\"pitch\"><span translate=\"\">L</span>4bis</span>,</td>\n</tr>\n</tbody>\n</table>"
     }
 ]

@@ -46,9 +46,6 @@ L# | 5a | Lightly protected, carrying a cam or two could help
 
 > quote
 
-[important]Some **important**
-thing[/important]
-
     Code with <span>a span</span>
     Code with <patate>unknown tag</patate>
 

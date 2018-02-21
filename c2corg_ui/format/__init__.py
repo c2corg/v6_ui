@@ -7,8 +7,6 @@ from c2corg_ui.format.autolink import AutoLinkExtension
 from c2corg_ui.format.wikilinks import C2CWikiLinkExtension
 from c2corg_ui.format.img import C2CImageExtension
 from c2corg_ui.format.video import C2CVideoExtension
-from c2corg_ui.format.important import C2CImportantExtension
-from c2corg_ui.format.warning import C2CWarningExtension
 from c2corg_ui.format.ltag import C2CLTagExtension
 from c2corg_ui.format.header import C2CHeaderExtension
 from c2corg_ui.format.ptag import C2CPTagExtension
@@ -116,8 +114,6 @@ def _get_markdown_parser():
             C2CWikiLinkExtension(),
             C2CImageExtension(api_url=_parsers_settings['api_url'],
                               ngclick_secret_tag=_ngclick_secret_tag),
-            C2CImportantExtension(),
-            C2CWarningExtension(),
             Nl2BrExtension(),
             C2CTocExtension(marker='[toc]', baselevel=2),
             AutoLinkExtension(),

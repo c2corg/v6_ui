@@ -98,5 +98,10 @@
     "id": "Trailing spaces 4",
     "text": "    !!!    4",
     "expected": "<pre><code>!!!    4\n</code></pre>"
+  },
+  {
+    "id": "Fat finger",
+    "text": "!!!!! x",
+    "expected": "<p>!!!!! x</p>"
   }
 ]
