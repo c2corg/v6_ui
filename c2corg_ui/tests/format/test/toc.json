@@ -23,5 +23,30 @@
     "id": "id",
     "text": "[toc]\n# title 1 {#coucou}",
     "expected": "<div class=\"toc\">\n<ul>\n<li><a href=\"#coucou\">title 1</a></li>\n</ul>\n</div>\n<h2 id=\"coucou\">title 1</h2>"
+  },
+  {
+    "id": "weird 1",
+    "text": "# [toc]",
+    "expected": "<h2 id=\"toc\">[toc]</h2>"
+  },
+  {
+    "id": "weird 2",
+    "text": "# *[toc]*",
+    "expected": "<h2 id=\"toc\"><em>[toc]</em></h2>"
+  },
+  {
+    "id": "weird 3",
+    "text": "*[toc]*\n=",
+    "expected": "<h2 id=\"toc\"><em>[toc]</em></h2>"
+  },
+  {
+    "id": "weird 4",
+    "text": "[toc]\n# [toc]",
+    "expected": "<div class=\"toc\">\n<ul>\n<li><a href=\"#toc\">[toc]</a></li>\n</ul>\n</div>\n<h2 id=\"toc\">[toc]</h2>"
+  },
+  {
+    "id": "weird 5",
+    "text": "# [toc]\n[toc]",
+    "expected": "<h2 id=\"toc\">[toc]</h2>\n<div class=\"toc\">\n<ul>\n<li><a href=\"#toc\">[toc]</a></li>\n</ul>\n</div>"
   }
 ]
