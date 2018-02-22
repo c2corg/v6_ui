@@ -20,6 +20,38 @@ from markdown.extensions.toc import (TocExtension, TocTreeprocessor,
 
 
 class C2CTocTreeprocessor(TocTreeprocessor):
+    # once https://github.com/Python-Markdown/markdown/issues/639
+    # is fixed, you can remove this two function
+
+    def iterparent(self, node):
+        ''' Iterator wrapper to get parent and child all at once. '''
+
+        # We do not allow the marker inside a header as that
+        # would causes an enless loop of placing a new TOC
+        # inside previously generated TOC.
+        for child in node:
+            if not self.header_rgx.match(child.tag) and \
+                    child.tag not in ['pre', 'code']:
+                yield node, child
+                for p, c in self.iterparent(child):
+                    yield p, c
+
+    def replace_marker(self, root, elem):
+        ''' Replace marker with elem. '''
+        for (p, c) in self.iterparent(root):
+            text = ''.join(c.itertext()).strip()
+            if not text:
+                continue
+
+            # To keep the output from screwing up the
+            # validation by putting a <div> inside of a <p>
+            # we actually replace the <p> in its entirety.
+            if c.text and c.text.strip() == self.marker:
+                for i in range(len(p)):
+                    if p[i] == c:
+                        p[i] = elem
+                        break
+
     def run(self, doc):
 
         def not_emphasis(elt):
