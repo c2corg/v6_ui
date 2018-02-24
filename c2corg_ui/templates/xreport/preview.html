@@ -18,22 +18,11 @@ ${show_preview_warning()}
     </h1>
   </header>
 
-  % if xreport.get('areas'):
-    <article class="location-static text-center">
-      ${show_areas(xreport)}
-      % if xreport.get('elevation'):
-        <p class="text-center"><b>${xreport['elevation']} m</b></p>
-      % endif
-      % if geometry:
-        <p ng-bind="'${round(geometry.x)}/${round(geometry.y)}' | coordinate"></p>
-      % endif
-    </article>
-  % endif
-
   <section class="view-details-section">
     <div class="row">
       <div class="col-xs-12 col-md-4 col-lg-3">
         ${get_xreport_general(xreport)}
+        ${get_xreport_location(xreport)}
       </div>
       <div class="col-xs-12 col-md-8 col-lg-9">
         ${get_document_description(locale, 'xreport')}

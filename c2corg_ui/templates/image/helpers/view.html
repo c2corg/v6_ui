@@ -2,6 +2,8 @@
     import os
 %>
 
+<%namespace file="../../helpers/view.html" import="show_areas"/>
+
 <%def name="show_image(image, locale, size='', link=False)">\
   <%
       base, ext = os.path.splitext(image['filename'])
@@ -129,5 +131,25 @@
       </span>
     </div>
         </div>
+   % endif
+</%def>
+
+
+## location
+<%def name="get_image_location(image)">\
+
+  % if image.get('areas'):
+
+  <h3 ng-click="mainCtrl.animateHeaderIcon($event)" class="collapsible-title"
+      data-toggle="collapse" data-target="#c2c_location" aria-expanded="true" aria-controls="camera">
+    <span translate>Location</span> <span class="glyphicon glyphicon-menu-down"></span>
+  </h3>
+  <div class="finfo collapse in" id="c2c_location">
+    <div class="ficontent max location list-green">
+      <span class="detail-text accordion">
+        <span class="areas">${show_areas(image)}</span>
+      </span>
+    </div>
+  </div>
    % endif
 </%def>

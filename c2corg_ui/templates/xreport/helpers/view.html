@@ -1,3 +1,6 @@
+
+<%namespace file="../../helpers/view.html" import="show_areas"/>
+
 <%def name="show_fulldate(date)">\
   % if date:
     <span class="date-locale">{{ '${date}' | amDateFormat:"dddd Do MMMM YYYY" }}</span>
@@ -118,3 +121,22 @@
   % endif
 </%def>
 
+
+## location
+<%def name="get_xreport_location(xreport)">\
+
+  % if xreport.get('areas'):
+
+  <h3 ng-click="mainCtrl.animateHeaderIcon($event)" class="collapsible-title"
+      data-toggle="collapse" data-target="#c2c_location" aria-expanded="true" aria-controls="camera">
+    <span translate>Location</span> <span class="glyphicon glyphicon-menu-down"></span>
+  </h3>
+  <div class="finfo collapse in" id="c2c_location">
+    <div class="ficontent max location list-green">
+      <span class="detail-text accordion">
+        <span class="areas">${show_areas(xreport)}</span>
+      </span>
+    </div>
+  </div>
+   % endif
+</%def>
