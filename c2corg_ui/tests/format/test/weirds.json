@@ -1,0 +1,12 @@
+[
+  {
+    "id": "markdwon bug",
+    "text": "{@{=}",
+    "expected": "<p>{@{=}</p>"
+  },
+  {
+    "id": "bleach bug",
+    "text": "<d {c}>",
+    "expected": "\n<div class=\"md-alert md-alert-danger\" style=\"font-weight:bold\">\nParser error, please send a mail to\n<a href=\"mailto:dev@camptocamp.org\">dev@camptocamp.org</a>\nor post a message on\n<a href=\"https://forum.camptocamp.org/c/site-et-association/v6-suggestions-bugs-et-problemes\">\nforum</a>.\n</div>\n"
+  }
+]
