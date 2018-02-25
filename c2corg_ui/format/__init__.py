@@ -22,6 +22,16 @@ def _get_secret():
     return binascii.hexlify(os.urandom(32)).decode('ascii')
 
 
+_PARSER_EXCEPTION_MESSAGE = """
+<div class="md-alert md-alert-danger" style="font-weight:bold">
+Parser error, please send a mail to
+<a href="mailto:dev@camptocamp.org">dev@camptocamp.org</a>
+or post a message on
+<a href="https://forum.camptocamp.org/c/site-et-association/v6-suggestions-bugs-et-problemes">
+forum</a>.
+</div>
+"""  # noqa
+
 # RLock because this lock can be released
 # only by the thread who acquires it.
 _parser_lock = RLock()
@@ -131,7 +141,8 @@ def _get_markdown_parser():
             C2CNbspExtension(),
         ]
         _markdown_parser = markdown.Markdown(output_format='xhtml5',
-                                             extensions=extensions)
+                                             extensions=extensions,
+                                             enable_attributes=False)
     return _markdown_parser
 
 
@@ -155,11 +166,14 @@ def parse_code(text):
         # indefinitely, and performance decreases over time
         parser.reset()
 
-        text = parser.convert(text)
+        try:
+            text = parser.convert(text)
 
-        # we keep clean function into thread safe part,
-        # because we are not sure of this function
-        text = cleaner.clean(text=text)
+            # we keep clean function into thread safe part,
+            # because we are not sure of this function
+            text = cleaner.clean(text=text)
+        except:
+            text = _PARSER_EXCEPTION_MESSAGE
 
     text = text.replace(_iframe_secret_tag, "iframe")
     text = text.replace(_ngclick_secret_tag, "ng-click")
