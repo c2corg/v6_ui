@@ -13,7 +13,8 @@ from json import dumps
   delete_association_confirmation_modal, associated_waypoints_featurelist,
   associated_images_featurelist, show_badge, get_licence, get_print_license,
   show_merge_documents_dialog, show_delete_document_dialog"/>
-<%namespace file="helpers/view.html" import="show_fulldate, get_xreport_general, get_xreport_participants"/>
+<%namespace file="helpers/view.html" import="show_fulldate, get_xreport_general,
+  get_xreport_participants, get_xreport_location"/>
 
 <%
 xreport_id = xreport['document_id']
@@ -86,18 +87,6 @@ other_langs, missing_langs = get_lang_lists(xreport, lang)
     </h1>
   </header>
 
-  % if xreport.get('areas'):
-    <article class="location-static text-center">
-      ${show_areas(xreport)}
-      % if xreport.get('elevation'):
-        <p class="text-center"><b>${xreport['elevation']} m</b></p>
-      % endif
-      % if geometry:
-        <p ng-bind="'${round(geometry.x)}/${round(geometry.y)}' | coordinate"></p>
-      % endif
-    </article>
-  % endif
-
   <section class="view-details-section" app-view-details>
 
       ${show_other_langs_links('xreports', xreport, other_langs)}
@@ -107,6 +96,8 @@ other_langs, missing_langs = get_lang_lists(xreport, lang)
           ${get_xreport_general(xreport)}
           % if not version:
             ${get_xreport_participants(xreport)}
+            ${get_xreport_location(xreport)}
+
             <app-map class="view-details-map"></app-map>
             <div app-xreport="${xreport_id}" app-xreport-lang="${lang}">
               <div id="xreport-data"></div>

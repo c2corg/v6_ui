@@ -150,18 +150,17 @@
 </%def>
 
 ## LOCATION
-<%def name="get_waypoint_location(waypoint, geometry4326)">\
-   <div class="col-sm-6 col-lg-3">    
-<div class="name-icon-value location" >
-  <h4><span class="glyphicon glyphicon-map-marker"></span><span translate>Location</span></h4>
-  <span class="detail-text accordion">
-    % if not version:
-      ${show_areas(waypoint)}
-    % endif
-    <p>${round(geometry4326.x)} °E / ${round(geometry4326.y)} °N</p>
-  </span>
+<%def name="get_waypoint_location(waypoint)">\
+  % if waypoint.get('areas'):
+<div class="col-sm-6 col-lg-3">
+    <div class="name-icon-value location list-green" ng-click="detailsCtrl.toggleTab($event)">
+      <h4><span class="glyphicon glyphicon-map-marker"></span> <span translate>Location</span><span class="glyphicon pull-right rotate-arrow-down"></span></h4>
+      <span class="detail-text accordion">
+        <span class="areas">${show_areas(waypoint)}</span>
+      </span>
+    </div>
 </div>
-  </div>
+  % endif
 </%def>
 
 ## HEIGHTS

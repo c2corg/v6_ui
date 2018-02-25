@@ -12,7 +12,8 @@ from json import dumps
     show_associated_outings, show_associated_books, delete_association_confirmation_modal,
     get_document_description, get_comments, get_licence, show_merge_documents_dialog,
     show_delete_document_dialog, generate_share_metadata, get_print_license"/>
-<%namespace file="helpers/view.html" import="get_image_general, get_image_camera_settings, show_image"/>
+<%namespace file="helpers/view.html" import="get_image_general, get_image_camera_settings,
+  show_image, get_image_location"/>
 
 <%
   image_id = image['document_id']
@@ -93,12 +94,9 @@ from json import dumps
           <div class="col-xs-12 col-md-4 col-lg-3">
             ${get_image_general(image)}
             ${get_image_camera_settings(image)}
+            ${get_image_location(image)}
+
             % if geometry:
-              % if image.get('areas'):
-                <article class="location-static">
-                  ${show_areas(image)}
-                </article>
-              % endif
               <app-map class="view-details-map"></app-map>
             % endif
             ${get_licence(image)}
