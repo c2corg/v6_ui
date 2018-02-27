@@ -52,7 +52,6 @@ body.menu-toggled #content-toggled {
   background-color: white;
   margin: 0;
   white-space: nowrap;
-  font-size: 1em;
 
   .page-menu {
     width: 100%;
@@ -80,14 +79,35 @@ body.menu-toggled #content-toggled {
     }
   }
 
-  @media (max-height: 745px) {
+  /********************************************************
+  fine compute size for ad display toggler
+  if place is missing, hide social links before hiding ads.
+
+  WHAT            SIZE  COMPUTE
+  Logo            80
+  Navigation      185   5*(1+8+20+8)
+  Margin          15
+  Advertising     320
+  Margin          15
+  Links           30
+  Margin          15
+  Social networks 35
+  Margin          15
+  TOTAL
+  without SN      660    35+15
+  All             710
+  ********************************************************/
+
+  @advertising-height: 660px;
+
+  @media (max-height: @advertising-height) {
     .advertisement {
       display: none !important;
     }
   }
 
-  @media (max-height: 770px) {
-    .version {
+  @media (max-height: 710px) {
+    .social-networks {
       display: none !important;
     }
   }
@@ -142,6 +162,7 @@ body.menu-toggled #content-toggled {
 
   li.main-menu {
     display: block;
+    height: 37px;
     border-top: 1px solid #ccc;
 
     &:hover {
@@ -149,7 +170,7 @@ body.menu-toggled #content-toggled {
     }
 
     a {
-      padding: 10px 15px;
+      padding: 8px 15px;
       color: @darkgray;
       display: flex;
     }
@@ -169,8 +190,7 @@ body.menu-toggled #content-toggled {
       display: inline !important;
     }
 
-    .advertisement,
-    .version {
+    .advertisement {
       display: block;
     }
 
@@ -293,7 +313,7 @@ footer {
   font-size: 0.8em;
   position: absolute;
   width: 100%;
-  bottom: 15px;
+  bottom: 0;
 
   a:hover {
     background-color: initial !important;
@@ -319,7 +339,8 @@ footer {
   .footer-nav {
     list-style: none;
     width: 100%;
-    margin-top: 20px;
+    height: 30px;
+    margin-bottom: 15px;
     padding: 0 5px;
     display: flex;
     flex-flow: wrap row;
@@ -329,7 +350,7 @@ footer {
       margin: 0 5px 0 5px;
     }
 
-    li {
+    a {
       cursor: pointer;
       transition: 0.2s ease-in-out;
 
@@ -340,24 +361,16 @@ footer {
     }
   }
 
-  .version {
-    width: 100%;
-    text-align: center;
-
-    a {
-      font-size: 0.8em;
-      color: fade(#337ab7, 40%);
-    }
-  }
-
   .advertisement {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    height: 320px;
   }
 
   .social-networks {
     width: 100%;
-    margin-top: 10px;
+    height: 35px;
+    margin-bottom: 15px;
 
     .icons {
       font-size: 1em;

@@ -9,12 +9,6 @@
     </a>
   </div>
   <ul class="nav">
-    <li class="main-menu" ng-class="{'menu-selected': mainCtrl.isPath('/') === 'home' }">
-      <a href="${request.route_path('index')}">
-        <i class="glyphicon glyphicon-home" tooltip-placement="right" uib-tooltip="{{'Home' | translate}}"></i>
-        <span class="menu-text" translate>Home</span>
-      </a>
-    </li>
     <li class="main-menu" ng-class="{'menu-selected': mainCtrl.isPath('topoguide')}">
       <a href="${request.route_path('topoguide')}">
         <i class="glyphicon glyphicon-arrow-right" tooltip-placement="right" uib-tooltip="{{'Topoguide' | translate}}"></i>
@@ -52,23 +46,17 @@
       <iframe src="${request.static_path('c2corg_ui:static/affiz.html')}" width="160" height="320" frameborder="0" scrolling="no"></iframe>
     </div>
 
-    <ul class="footer-nav">
-      <li><a href="${request.route_path('articles_view_id', id=106727)}" translate>contact</a></li>
+    <div class="footer-nav">
+      <a href="${request.route_path('articles_view_id', id=106727)}" translate>contact</a>
       <span class="bullet">&bull; </span>
-      <li><a href="${request.route_path('articles_view_id', id=121965)}" translate>credits</a></li>
+      <a href="${request.route_path('articles_view_id', id=106731)}" translate>EULA</a>
       <span class="bullet">&bull; </span>
-      <li><a href="${request.route_path('articles_view_id', id=106731)}" translate>terms of use</a></li>
-      <span class="bullet">&bull; </span>
-      <li><a href="${request.route_path('articles_view_id', id=106728)}" translate>content license</a></li>
-      <span class="bullet">&bull; </span>
-      <li><a href="${request.route_path('articles_view_id', id=106726)}" translate>Association</a></li>
-    </ul>
-
-    <div class="version">
-      <a href="https://github.com/c2corg/v6_ui">
-        <span translate>Version:</span> ${request.registry.settings.get('release')}
-      </a>
+      <a href="${request.route_path('articles_view_id', id=106728)}" translate>licenses</a>
+      <br>
+      <a href="${request.route_path('articles_view_id', id=106726)}" translate>Association</a>
     </div>
+
+    <!-- ${request.registry.settings.get('release')} -->
 
     <div class="social-networks">
       <div class="icons">
