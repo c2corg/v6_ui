@@ -22,7 +22,7 @@
     {
         "id": "Text in the middle",
         "text": "L# | 1 \nL#~ text in\nthe middle\nL# | 2 ",
-        "expected": "<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>1</span></td>\n<td>1</td>\n</tr>\n<tr>\n<td colspan=\"2\">text in<br>the middle</td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>2</span></td>\n<td>2</td>\n</tr>\n</tbody>\n</table>"
+        "expected": "<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>1</span></td>\n<td>1</td>\n</tr>\n<tr>\n<td colspan=\"2\">text in<br>\nthe middle</td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>2</span></td>\n<td>2</td>\n</tr>\n</tbody>\n</table>"
     },
     {
         "id": "Header and simple Ltags",
@@ -37,7 +37,7 @@
     {
         "id": "Absolute numbering",
         "text": "L# | 5a | L#2 and L#3 are joined to L#\nL#4| 5b+ | Awesome pitch !",
-        "expected": "<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>1</span></td>\n<td>5a</td>\n<td><span class=\"pitch\"><span translate=\"\">L</span>2</span> and <span class=\"pitch\"><span translate=\"\">L</span>3</span> are joined to <span class=\"pitch\"><span translate=\"\">L</span>1</span></td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>4</span></td>\n<td>5b+</td>\n<td>Awesome pitch&#8239;!</td>\n</tr>\n</tbody>\n</table>"
+        "expected": "<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>1</span></td>\n<td>5a</td>\n<td><span class=\"pitch\"><span translate=\"\">L</span>2</span>&nbsp;and <span class=\"pitch\"><span translate=\"\">L</span>3</span>&nbsp;are joined to <span class=\"pitch\"><span translate=\"\">L</span>1</span></td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>4</span></td>\n<td>5b+</td>\n<td>Awesome pitch&#8239;!</td>\n</tr>\n</tbody>\n</table>"
     },
     {
         "id": "very simple LTag",
@@ -63,5 +63,30 @@
         "id": "L# in cell",
         "text": "L#1 | L#1-2, | L#3bis, | L#4bis,",
         "expected": "<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>1</span></td>\n<td><span class=\"pitch\"><span translate=\"\">L</span>1-2</span>,</td>\n<td><span class=\"pitch\"><span translate=\"\">L</span>3bis</span>,</td>\n<td><span class=\"pitch\"><span translate=\"\">L</span>4bis</span>,</td>\n</tr>\n</tbody>\n</table>"
+    },
+    {
+        "id": "Mal formated first cell",
+        "text": "L# - | x",
+        "expected": "<table class=\"ltag\">\n<tbody>\n<tr>\n<td><code>L#</code> -</td>\n<td>x</td>\n</tr>\n</tbody>\n</table>"
+    },
+    {
+        "id": "Mal formated first cell #2",
+        "text": "L#1 - | x",
+        "expected": "<table class=\"ltag\">\n<tbody>\n<tr>\n<td><code>L#1</code> -</td>\n<td>x</td>\n</tr>\n</tbody>\n</table>"
+    },
+    {
+        "id": "Mal formated first cell #3",
+        "text": "L#1 **-** | x",
+        "expected": "<table class=\"ltag\">\n<tbody>\n<tr>\n<td><code>L#1</code> <strong>-</strong></td>\n<td>x</td>\n</tr>\n</tbody>\n</table>"
+    },
+    {
+        "id": "Does it see all?",
+        "text": "L#1  | L#2 | **x** L# | L# **x** | **L#** | `L#`",
+        "expected": "<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>1</span></td>\n<td><span class=\"pitch\"><span translate=\"\">L</span>2</span></td>\n<td><strong>x</strong> <span class=\"pitch\"><span translate=\"\">L</span>1</span></td>\n<td><span class=\"pitch\"><span translate=\"\">L</span>1</span> <strong>x</strong></td>\n<td><strong><span class=\"pitch\"><span translate=\"\">L</span>1</span></strong></td>\n<td><code>L#</code></td>\n</tr>\n</tbody>\n</table>"
+    },
+    {
+        "id": "strange spaces",
+        "text": "L#\t\u00a0 | x",
+        "expected": "<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>1</span></td>\n<td>x</td>\n</tr>\n</tbody>\n</table>"
     }
 ]
