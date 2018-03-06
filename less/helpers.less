@@ -176,7 +176,7 @@ input[type=checkbox] {
   display: none;
 }
 
-input[type=checkbox] + * {
+input[type=checkbox] + :not(.no-checkbox-style) {
   padding-left: 25px;
   display: inline;
   line-height: 23px;
@@ -196,7 +196,7 @@ input[type=checkbox] + * {
   appearance: none;
 }
 
-input[type=checkbox]:checked + * {
+input[type=checkbox]:checked + :not(.no-checkbox-style) {
   background-image: url(../img/checkbox-checked.svg);
   transition: 0.2s;
 }
