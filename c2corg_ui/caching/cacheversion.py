@@ -24,7 +24,7 @@ class CachebusterTween:
         try:
             int(str, 16)
             return True
-        except:
+        except:  # noqa
             return False
 
     @staticmethod

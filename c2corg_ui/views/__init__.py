@@ -89,7 +89,7 @@ def call_api(settings, url, headers=None):
 
     try:
         resp = http_requests.session.get(url, headers=headers)
-    except:
+    except:  # noqa
         log.error('Request failed: {0}'.format(url), exc_info=1)
         raise
 

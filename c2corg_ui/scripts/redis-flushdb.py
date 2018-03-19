@@ -46,5 +46,6 @@ def main(argv=sys.argv):
     r.flushdb()
     log.info('Flushed cache')
 
+
 if __name__ == "__main__":
     main()

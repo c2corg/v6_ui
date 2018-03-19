@@ -5,7 +5,7 @@ from c2corg_ui.format import parse_code
 def get_lang_lists(document, lang):
     if 'available_langs' in document:
         available_langs = document['available_langs']
-        other_langs = [l for l in available_langs if l != lang]
+        other_langs = [l for l in available_langs if l != lang]  # noqa
         missing_langs = list(
             set(default_langs) - set(available_langs)
         )

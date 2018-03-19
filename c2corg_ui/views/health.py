@@ -43,7 +43,7 @@ class Health(object):
             client = cache_document_detail.backend.client
             redis_keys = client.dbsize()
             success = True
-        except:
+        except:  # noqa
             log.exception('Getting redis keys failed')
 
         status['redis'] = 'ok' if success else 'error'
@@ -58,7 +58,7 @@ class Health(object):
                 self.request.registry.settings, 'health')
             if resp.status_code == 200:
                 success = True
-        except:
+        except:  # noqa
             log.exception('Getting api status failed')
 
         if not success:
