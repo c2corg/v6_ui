@@ -1,7 +1,7 @@
 /**
  * @type {Object}
  */
-var appx;
+let appx;
 
 
 /**
@@ -103,9 +103,22 @@ appx.DocumentAssociations;
  * @typedef {{
  *   associations: appx.DocumentAssociations,
  *   locales: Array.<Object>,
+ *   activities: ?Array.<string>,
  *   type: string,
  *   quality: string,
- *   document_id: number
+ *   document_id: number,
+ *   orientations: ?Array<string>,
+ *   global_rating: ?string,
+ *   hiking_rating: ?string,
+ *   ice_rating: ?string,
+ *   ski_rating: ?string,
+ *   snowshoe_rating: ?string,
+ *   mtb_down_rating: ?string,
+ *   via_ferrata_rating: ?string,
+ *   engagement_rating: ?string,
+ *   ski_exposition: ?string,
+ *   hiking_mtb_exposition: ?string,
+ *   hasRemarks: ?boolean
  * }}
  */
 appx.Document;

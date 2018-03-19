@@ -251,7 +251,7 @@ app.Api.prototype.readDocument = function(module, id, lang, editing) {
     .replace('{editing}', editing ? '&e=1' : '');
 
   const promise = this.getJson_(url);
-  promise.catch((response) => {
+  promise.catch(response => {
     alerts.addError(response);
   });
   return promise;

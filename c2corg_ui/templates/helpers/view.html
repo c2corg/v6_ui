@@ -512,6 +512,7 @@
               "lang": ${dumps(wp['locales'][0]['lang']) | n},
               "documentId": ${wp['document_id']},
               "module": "waypoints",
+              "source": "c2c",
               "type": "${wp['waypoint_type']}"
             }
           }
@@ -533,7 +534,8 @@
             "title": ${dumps(image['locales'][0]['title']) | n},
             "lang": ${dumps(image['locales'][0]['lang']) | n},
             "documentId": ${image['document_id']},
-            "module": "images"
+            "module": "images",
+            "source": "c2c"
           }
         }
       % endif
