@@ -1,0 +1,32 @@
+<button ng-if="::layertreeCtrl.isRoot"
+        type="button" class="btn btn-primary btn-xs" data-toggle="dropdown">
+    <span class="glyphicon glyphicon-tasks" aria-hidden="true"></span><span class="sr-only" translate>Layers</span> <span class="caret"></span>
+</button>
+
+<span ng-if="::!layertreeCtrl.isRoot && layertreeCtrl.node.children">{{::layertreeCtrl.node.name | translate}}</span>
+
+<div ng-if="::layertreeCtrl.node && !layertreeCtrl.node.children && layertreeCtrl.node.type == 'background'"
+     ng-click="mapLayerCtrl.setBgLayer(layertreeCtrl.node)">
+  <input type="radio" name="background-layer"
+        ng-checked="mapLayerCtrl.bgLayer.name == layertreeCtrl.node.name"/>
+  <span ng-if="::!layertreeCtrl.isRoot">{{::layertreeCtrl.node.name | translate}}</span>
+</div>
+
+<div ng-if="::layertreeCtrl.node && !layertreeCtrl.node.children && layertreeCtrl.node.type != 'background'">
+  <input type="checkbox"
+         ng-model="layertreeCtrl.getSetActive"
+         ng-model-options="{getterSetter: true}"/>
+  <span class="no-checkbox-style">{{::layertreeCtrl.node.name | translate}}</span>
+</div>
+<ul ng-if="::layertreeCtrl.node.children"
+    ng-class="{'dropdown-menu': layertreeCtrl.isRoot}"
+    ng-attr-role="::layertreeCtrl.isRoot ? 'menu' : undefined">
+  <li
+      ng-repeat="node in ::layertreeCtrl.node.children"
+      ngeo-layertree="::node"
+      ngeo-layertree-templateurl="/static/partials/map/layertree.html"
+      ngeo-layertree-notroot
+      ngeo-layertree-map="layertreeCtrl.map"
+      ngeo-layertree-nodelayerexpr="layertreeCtrl.nodelayerExpr">
+  </li>
+</ul>

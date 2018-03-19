@@ -1,58 +1,43 @@
-goog.provide('app.BaselayerSelectorController');
-goog.provide('app.baselayerSelectorDirective');
+goog.provide('app.LayertreeSelectorController');
+goog.provide('app.layertreeSelectorDirective');
 
 goog.require('app');
 goog.require('ngeo.BackgroundLayerMgr');
+/** @suppress {extraRequire} */
+goog.require('ngeo.layertreeDirective');
 goog.require('ol.Attribution');
 goog.require('ol.layer.Tile');
 goog.require('ol.source.BingMaps');
-goog.require('ol.source.OSM');
 goog.require('ol.source.WMTS');
 goog.require('ol.source.XYZ');
 goog.require('ol.tilegrid.WMTS');
 
-
-/**
- * This directive is used to display a map baselayer selector.
- *
- * @return {angular.Directive} The directive specs.
- * @ngInject
- */
-app.baselayerSelectorDirective = function() {
+app.layertreeSelectorDirective = function() {
   return {
     restrict: 'E',
-    controller: 'AppBaselayerSelectorController',
-    controllerAs: 'bglayerCtrl',
+    controller: 'AppLayertreeSelectorController',
+    controllerAs: 'mapLayerCtrl',
     bindToController: true,
     scope: {
-      'map': '=appBaselayerSelectorMap'
+      'map': '=appLayertreeSelectorMap'
     },
-    templateUrl: '/static/partials/map/baselayerselector.html'
+    templateUrl: '/static/partials/map/layertreeselector.html'
   };
 };
 
-app.module.directive('appBaselayerSelector', app.baselayerSelectorDirective);
-
+app.module.directive('appLayertreeSelector', app.layertreeSelectorDirective);
 
 /**
- * @param {angular.$http} $http
- * @param {ngeo.BackgroundLayerMgr} ngeoBackgroundLayerMgr Background layer
- *     manager.
- * @param {appx.mapApiKeys} mapApiKeys Set of map API keys.
- * @param {app.Alerts} appAlerts
- * @param {app.Authentication} appAuthentication
  * @constructor
- * @struct
+ * @param {ngeo.BackgroundLayerMgr} ngeoBackgroundLayerMgr Background layer
+ *   manager.
+ * @param {app.Authentication} appAuthentication
+ * @param {appx.mapApiKeys} mapApiKeys Set of map API keys.
  * @ngInject
+ * @export
  */
-app.BaselayerSelectorController = function($http, ngeoBackgroundLayerMgr,
-  mapApiKeys, appAlerts, appAuthentication) {
-
-  /**
-   * @type {angular.$http}
-   * @private
-   */
-  this.http_ = $http;
+app.LayertreeSelectorController = function(ngeoBackgroundLayerMgr,
+  appAuthentication, mapApiKeys) {
 
   /**
    * @type {ngeo.BackgroundLayerMgr}
@@ -73,28 +58,10 @@ app.BaselayerSelectorController = function($http, ngeoBackgroundLayerMgr,
   this.bingApiKey_ = mapApiKeys['bing'];
 
   /**
-   * @type {app.Alerts}
-   * @private
-   */
-  this.alerts_ = appAlerts;
-
-  /**
-   * @type {ol.Map}
-   * @export
-   */
-  this.map;
-
-  /**
    * @type {Object<string, ol.layer.Tile>}
    * @private
    */
   this.cachedLayers_ = {};
-
-  /**
-   * @type {ol.format.WMTSCapabilities}
-   * @private
-   */
-  this.wmtsParser_;
 
   /**
    * @type {Object}
@@ -103,38 +70,58 @@ app.BaselayerSelectorController = function($http, ngeoBackgroundLayerMgr,
   this.currentBgLayerSpec;
 
   /**
-   * @type {Array.<Object>}
+   * @type {Object|undefined}
    * @export
    */
-  this.bgLayerSpecs = app.BaselayerSelectorController.BG_LAYER_SPECS.filter(
-    (layer) => {
-      return appAuthentication.isAuthenticated() || !layer['auth'];
-    }
-  );
+  this.tree = {
+    'name': 'Root',
+    'children': [{
+      'name': 'Base layer',
+      'children': [{
+        'name': 'esri',
+        'type': 'background'
+      }, {
+        'name': 'opentopomap',
+        'type': 'background'
+      }, {
+        'name': 'bing',
+        'type': 'background'
+      }, {
+        'name': 'ign maps',
+        'type': 'background'
+      }, {
+        'name': 'ign ortho',
+        'type': 'background'
+      }, {
+        'name': 'swisstopo',
+        'type': 'background',
+        'auth': true
+      }]
+    }, {
+      'name': 'Slopes',
+      'children': [{
+        'name': 'ign slopes'
+      }, {
+        'name': 'swisstopo slopes',
+        'auth': true
+      }]
+    }]
+  };
 
-  this.setLayer(this.bgLayerSpecs[0]);
+  this.bgLayer = this.setBgLayer(this.tree.children[0].children[0]);
 };
 
-
 /**
- * @const
- * @type {Array.<Object>}
+ * Function called by the ngeo-layertree directives to create a layer
+ * from a tree node. The function should return `null` if no layer should
+ * be associated to the node (because it's not a leaf).
+ * @param {Object} node Node object.
+ * @return {ol.layer.Layer} The layer for this node.
+ * @export
  */
-app.BaselayerSelectorController.BG_LAYER_SPECS = [{
-  'name': 'esri'
-}, {
-  'name': 'opentopomap'
-}, {
-  'name': 'bing'
-}, {
-  'name': 'ign maps'
-}, {
-  'name': 'ign ortho'
-}, {
-  'name': 'swisstopo',
-  'auth': true
-}];
-
+app.LayertreeSelectorController.prototype.getLayer = function(node) {
+  return this.createLayer_(node);
+};
 
 /**
  * Function called when the user selects a new background layer in the
@@ -142,21 +129,24 @@ app.BaselayerSelectorController.BG_LAYER_SPECS = [{
  * @param {Object} layerSpec Layer specification object.
  * @export
  */
-app.BaselayerSelectorController.prototype.setLayer = function(layerSpec) {
+app.LayertreeSelectorController.prototype.setBgLayer = function(layerSpec) {
   this.currentBgLayerSpec = layerSpec;
-  const layer = this.createLayer_(layerSpec['name']);
+  const layer = this.createLayer_(layerSpec);
   if (layer) {
     this.bgLayerMgr_.set(this.map, layer);
+    this.bgLayer = layerSpec;
+    return layerSpec;
   }
+  return null;
 };
 
-
 /**
- * @param {string} layerName Layer name.
+ * @param {Object} layerSpec Layer specification object.
  * @return {ol.layer.Tile} The layer.
  * @private
  */
-app.BaselayerSelectorController.prototype.createLayer_ = function(layerName) {
+app.LayertreeSelectorController.prototype.createLayer_ = function(layerSpec) {
+  const layerName = layerSpec['name'];
   if (layerName in this.cachedLayers_) {
     return this.cachedLayers_[layerName];
   }
@@ -177,17 +167,25 @@ app.BaselayerSelectorController.prototype.createLayer_ = function(layerName) {
     case 'ign ortho':
       source = this.createIgnSource_('ORTHOIMAGERY.ORTHOPHOTOS');
       break;
+    case 'ign slopes':
+      source = this.createIgnSource_('GEOGRAPHICALGRIDSYSTEMS.SLOPES.MOUNTAIN', 'png');
+      break;
     case 'swisstopo':
       source = this.createSwisstopoSource_('ch.swisstopo.pixelkarte-farbe');
+      break;
+    case 'swisstopo slopes':
+      source = this.createSwisstopoSource_('ch.swisstopo.hangneigung-ueber_30', 'png', '20160101');
       break;
     case 'opentopomap':
       source = this.createOpenTopoMapSource_();
       break;
     default:
-      source = new ol.source.OSM();
-      break;
+      return null;
   }
   const layer = new ol.layer.Tile({source: source});
+  if (layerSpec['type'] !== 'background') {
+    layer.setOpacity(0.4);
+  }
   this.cachedLayers_[layerName] = layer;
   return layer;
 };
@@ -198,7 +196,7 @@ app.BaselayerSelectorController.prototype.createLayer_ = function(layerName) {
  * @return {ol.source.WMTS}
  * @private
  */
-app.BaselayerSelectorController.prototype.createIgnSource_ = function(layer) {
+app.LayertreeSelectorController.prototype.createIgnSource_ = function(layer, format = 'jpeg') {
   const resolutions = [];
   const matrixIds = [];
   const proj3857 = ol.proj.get('EPSG:3857');
@@ -219,7 +217,7 @@ app.BaselayerSelectorController.prototype.createIgnSource_ = function(layer) {
     url: '//wxs.ign.fr/' + this.ignApiKey_ + '/wmts',
     layer: layer,
     matrixSet: 'PM',
-    format: 'image/jpeg',
+    format: `image/${format}`,
     projection: 'EPSG:3857',
     tileGrid: tileGrid,
     style: 'normal',
@@ -237,17 +235,15 @@ app.BaselayerSelectorController.prototype.createIgnSource_ = function(layer) {
  * @return {ol.source.XYZ}
  * @private
  */
-app.BaselayerSelectorController.prototype.createSwisstopoSource_ = function(layer) {
+app.LayertreeSelectorController.prototype.createSwisstopoSource_ = function(layer, format = 'jpeg', time = 'current') {
   return new ol.source.XYZ({
     attributions: [
       new ol.Attribution({
-        html: '<a target="_blank" href="http://www.swisstopo.admin.ch/' +
-        'internet/swisstopo/en/home.html">swisstopo</a>'
+        html: '<a target="_blank" href="http://www.swisstopo.admin.ch">swisstopo</a>'
       })
     ],
-    urls: ['10', '11', '12', '13', '14'].map((i) => {
-      return 'https://wmts' + i + '.geo.admin.ch/1.0.0/' + layer + '/default/current' +
-        '/3857/{z}/{x}/{y}.jpeg';
+    urls: ['10', '11', '12', '13', '14'].map(i => {
+      return `https://wmts${i}.geo.admin.ch/1.0.0/${layer}/default/${time}/3857/{z}/{x}/{y}.${format}`;
     }),
     maxZoom: 17
   });
@@ -258,7 +254,7 @@ app.BaselayerSelectorController.prototype.createSwisstopoSource_ = function(laye
  * @return {ol.source.XYZ}
  * @private
  */
-app.BaselayerSelectorController.prototype.createEsriSource_ = function() {
+app.LayertreeSelectorController.prototype.createEsriSource_ = function() {
   return new ol.source.XYZ({
     attributions: [
       new ol.Attribution({
@@ -276,7 +272,7 @@ app.BaselayerSelectorController.prototype.createEsriSource_ = function() {
  * @return {ol.source.XYZ}
  * @private
  */
-app.BaselayerSelectorController.prototype.createOpenTopoMapSource_ = () => {
+app.LayertreeSelectorController.prototype.createOpenTopoMapSource_ = () => {
   return new ol.source.XYZ({
     attributions: [
       new ol.Attribution({
@@ -288,5 +284,4 @@ app.BaselayerSelectorController.prototype.createOpenTopoMapSource_ = () => {
   });
 };
 
-
-app.module.controller('AppBaselayerSelectorController', app.BaselayerSelectorController);
+app.module.controller('AppLayertreeSelectorController', app.LayertreeSelectorController);

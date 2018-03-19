@@ -25,7 +25,7 @@ goog.require('app.addAssociationDirective');
 goog.require('app.advancedSearchDirective');
 goog.require('app.alertsDirective');
 goog.require('app.authDirective');
-goog.require('app.baselayerSelectorDirective');
+goog.require('app.layertreeSelectorDirective');
 goog.require('app.blockAccountDirective');
 goog.require('app.cardDirective');
 goog.require('app.constants');
