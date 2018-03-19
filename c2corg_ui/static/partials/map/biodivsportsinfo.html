@@ -3,7 +3,7 @@
 </div>
 <div class="modal-body">
   <p>
-    <span translate>sensitive_months</span>:
+    <span translate>sensitive_months:</span>
     <span ng-repeat="month in modalCtrl.months">{{month}}{{$last ? '' : ', '}}</span>
   </p>
   <p ng-bind-html="modalCtrl.description | appTrustAsHtml"></p>
