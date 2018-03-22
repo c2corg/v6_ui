@@ -47,7 +47,7 @@ LIBS_JS_FILES += \
     node_modules/photoswipe/dist/photoswipe-ui-default.min.js \
     node_modules/angular-slug/angular-slug.js \
     node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js \
-    node_modules/file-saver/FileSaver.min.js \
+    node_modules/file-saver/dist/FileSaver.min.js \
     node_modules/slug/slug.js \
     node_modules/d3/d3.min.js
 
