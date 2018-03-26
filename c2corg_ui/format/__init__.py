@@ -172,7 +172,7 @@ def parse_code(text):
             # we keep clean function into thread safe part,
             # because we are not sure of this function
             text = cleaner.clean(text=text)
-        except:
+        except:  # noqa
             text = _PARSER_EXCEPTION_MESSAGE
 
     text = text.replace(_iframe_secret_tag, "iframe")

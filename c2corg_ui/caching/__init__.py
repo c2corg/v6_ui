@@ -24,6 +24,7 @@ def create_region(name):
         key_mangler=lambda key: '{0}:{1}:{2}'.format(KEY_PREFIX, name, key)
     )
 
+
 cache_document_detail = create_region('detail')
 cache_document_archive = create_region('archive')
 cache_document_history = create_region('history')
