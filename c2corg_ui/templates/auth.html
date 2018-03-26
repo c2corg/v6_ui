@@ -15,7 +15,7 @@ from pyramid.settings import asbool
         <div id="login-username-group" class="form-group"
              ng-class="{ 'has-feedback has-error': loginForm.username.$touched && loginForm.username.$invalid }">
           <label ng-class="{ 'control-label': loginForm.username.$touched && loginForm.username.$invalid }" translate>Username</label>
-          <input type="text" name="username" ng-model="login.username" class="form-control" required />
+          <input type="text" name="username" ng-model="login.username" class="form-control" required autofocus />
           <span ng-show="loginForm.username.$touched && loginForm.username.$invalid" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
           <div class="help-block" ng-messages="loginForm.username.$error" ng-if="loginForm.username.$touched && loginForm.username.$invalid">
             <p ng-message="required" translate>This field is required.</p>
@@ -41,7 +41,7 @@ from pyramid.settings import asbool
                   ng-click="authCtrl.uiStates.showRequestChangePasswordForm = true;
                                      authCtrl.uiStates.showRegisterForm = false;
                                      authCtrl.uiStates.showChangePasswordForm = false;
-                                     authCtrl.uiStates.showLoginForm = false;"  translate>Forgot password?
+                                     authCtrl.uiStates.showLoginForm = false;" translate>Forgot password?
           </button>
         </p>
       </form>
