@@ -108,6 +108,10 @@ app.LayertreeSelectorController = function(ngeoBackgroundLayerMgr,
     }]
   };
 
+  /**
+   * @type {Object|null}
+   * @export
+   */
   this.bgLayer = this.setBgLayer(this.tree.children[0].children[0]);
 };
 
