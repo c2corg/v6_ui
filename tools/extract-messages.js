@@ -1,23 +1,23 @@
-var async = require('async');
-var fs = require('fs');
-var nomnom = require('nomnom');
-var Extractor = require('angular-gettext-tools').Extractor;
+const async = require('async');
+const fs = require('fs');
+const nomnom = require('nomnom');
+const Extractor = require('angular-gettext-tools').Extractor;
 
 function main(inputs) {
-  var extractor = new Extractor({
+  const extractor = new Extractor({
     lineNumbers: false
   });
 
   async.eachSeries(inputs,
-    function(input, cb) {
-      fs.readFile(input, {encoding: 'utf-8'}, function(err, data) {
+    (input, cb) => {
+      fs.readFile(input, {encoding: 'utf-8'}, (err, data) => {
         if (!err) {
           extractor.parse(input, data);
         }
         cb(err);
       });
     },
-    function(err) {
+    err => {
       if (err) {
         throw new Error(err);
       }
@@ -28,8 +28,8 @@ function main(inputs) {
 
 // If running this module directly then call the main function.
 if (require.main === module) {
-  var options = nomnom.parse();
-  var inputs = options._;
+  const options = nomnom.parse();
+  const inputs = options._;
   main(inputs);
 }
 

@@ -1,24 +1,24 @@
-var async = require('async');
-var fs = require('fs');
-var nomnom = require('nomnom');
-var Compiler = require('angular-gettext-tools').Compiler;
+const async = require('async');
+const fs = require('fs');
+const nomnom = require('nomnom');
+const Compiler = require('angular-gettext-tools').Compiler;
 
 function main(inputs) {
-  var compiler = new Compiler({format: 'json'});
+  const compiler = new Compiler({format: 'json'});
 
-  var contents = [];
+  const contents = [];
   async.eachSeries(inputs,
-    function(input, cb) {
-      fs.readFile(input, {encoding: 'utf-8'}, function(err, content) {
+    (input, cb) => {
+      fs.readFile(input, {encoding: 'utf-8'}, (err, content) => {
         if (!err) {
           contents.push(content);
         }
         cb(err);
       });
     },
-    function(err) {
+    err=> {
       if (!err) {
-        var output = compiler.convertPo(contents);
+        const output = compiler.convertPo(contents);
         process.stdout.write(output);
       }
     }
@@ -27,8 +27,8 @@ function main(inputs) {
 
 // If running this module directly then call the main function.
 if (require.main === module) {
-  var options = nomnom.parse();
-  var inputs = options._;
+  const options = nomnom.parse();
+  const inputs = options._;
   main(inputs);
 }
 
