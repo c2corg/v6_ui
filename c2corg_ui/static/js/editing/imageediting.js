@@ -120,4 +120,44 @@ app.ImageEditingController.prototype.filterImageTypes = function(imageTypes) {
   return imageTypes.filter(removeCopyright);
 };
 
+/**
+ * @param {appx.Document} doc Document attributes.
+ * @return {number}
+ * @override
+ */
+app.ImageEditingController.prototype.presetQuality = function(doc) {
+  let score = 0;
+
+  if ('title' in doc.locales[0] && doc.locales[0]['title']) {
+    score++;
+  }
+
+  if ('description' in doc.locales[0] && doc.locales[0]['description']) {
+    score++;
+  }
+
+  if ('geometry' in doc && doc['geometry']) {
+    const geometry = doc['geometry'];
+    if ('geom' in geometry && geometry['geom']) {
+      score++;
+    }
+  }
+
+  if ('activities' in doc && doc['activities'].length) {
+    score = score + 0.5;
+  }
+
+  if ('categories' in doc && doc['categories'].length) {
+    score = score + 0.5;
+  }
+
+  if (doc['associations']['waypoints'].length || doc['associations']['routes'].length ||
+      ('date_time' in doc && doc['date_time'])) {
+    score = score + 0.5;
+  }
+
+  score = Math.floor(score);
+  return score;
+};
+
 app.module.controller('appImageEditingController', app.ImageEditingController);

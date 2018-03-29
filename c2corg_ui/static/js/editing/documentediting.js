@@ -624,6 +624,14 @@ app.DocumentEditingController.prototype.confirmSave = function(isValid) {
     this.alerts.addError('Form is not valid');
     return;
   }
+
+  const data = this.scope[this.modelName];
+  const doctype = app.utils.getDoctype(data['type']);
+  if ((doctype === 'outings') || (doctype === 'articles') || (doctype === 'images')) {
+    const score = this.presetQuality(data);
+    this.storeQuality(data, score);
+  }
+
   const template = angular.element('#save-confirmation-modal').clone();
   const modalInstance = this.modal.open({
     animation: true,
@@ -655,13 +663,52 @@ app.DocumentEditingController.prototype.openModal = function(selector, sizem) {
   });
 };
 
-app.module.controller('appDocumentEditingController', app.DocumentEditingController);
+/**
+ * @param {appx.Document} doc Document attributes.
+ * @return {number}
+ * @export
+ */
+app.DocumentEditingController.prototype.presetQuality = function(doc) {
+  // Do nothing special in the standard editing controller.
+  // Will be overridden in inheriting controllers.
+  return 1;
+};
 
+/**
+ * @param {appx.Document} doc Document attributes.
+ * @param {number} score
+ * @export
+ */
+app.DocumentEditingController.prototype.storeQuality = function(doc, score) {
+
+  switch (score) {
+    case 0:
+      doc['quality'] = 'empty';
+      break;
+    case 1:
+      doc['quality'] = 'draft';
+      break;
+    case 2:
+      doc['quality'] = 'medium';
+      break;
+    case 3:
+      doc['quality'] = 'fine';
+      break;
+    case 4:
+      doc['quality'] = 'great';
+      break;
+    default:
+      doc['quality'] = 'draft';
+  }
+};
+
+app.module.controller('appDocumentEditingController', app.DocumentEditingController);
 
 /**
  * We have to use a secondary controller for the modal so that we can inject
  * uibModalInstance which is not available from the first level controller.
  * @param {Object} $uibModalInstance modal from angular bootstrap
+ * @param {app.Document} appDocument
  * @param {app.Lang} appLang Lang service.
  * @constructor
  * @ngInject
@@ -691,9 +738,7 @@ app.ConfirmSaveController = function($uibModalInstance, appDocument, appLang) {
    * @export
    */
   this.quality = appDocument.document.quality || 'draft';
-
 };
-
 
 /**
  * @export
