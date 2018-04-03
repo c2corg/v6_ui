@@ -114,7 +114,7 @@ waypoint['doctype'] = 'waypoints'
             % if version:
               ${show_archive_data('waypoints', waypoint, locale, version)}
             % endif
-            <app-map class="view-details-map"></app-map>
+            <app-map class="view-details-map" app-map-show-biodivsports-areas="true"></app-map>
             % if not version:
               ${display_app_smartphone_info('waypoint')}
             % endif
