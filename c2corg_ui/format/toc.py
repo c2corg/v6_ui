@@ -46,7 +46,7 @@ class C2CTocTreeprocessor(TocTreeprocessor):
             # To keep the output from screwing up the
             # validation by putting a <div> inside of a <p>
             # we actually replace the <p> in its entirety.
-            if c.text and c.text.strip() == self.marker:
+            if c.text and c.text.strip() == self.marker and len(c) == 0:
                 for i in range(len(p)):
                     if p[i] == c:
                         p[i] = elem
