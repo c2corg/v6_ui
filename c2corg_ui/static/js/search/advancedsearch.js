@@ -164,7 +164,7 @@ app.AdvancedSearchController.prototype.getResults_ = function() {
 
   this.canceler_ = this.$q_.defer();
   this.api_.listDocuments(this.doctype, qstr, this.canceler_.promise).
-    then((resp) => {
+    then(resp => {
       this.canceler_ = null;
       this.successList_(resp);
     });
@@ -221,6 +221,7 @@ app.AdvancedSearchController.prototype.createFeatureProperties_ = function(doc) 
   // the API returns the best locale first.
   const locale = doc['locales'][0];
   const properties = {
+    'source': 'c2c',
     'module': this.doctype,
     'documentId': doc['document_id'],
     'lang': locale['lang'],
