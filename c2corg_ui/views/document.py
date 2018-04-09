@@ -276,7 +276,7 @@ class Document(object):
             # version again, so that the page can be rendered
             if not_modified1 and not content1:
                 _, api_cache_key1, content1 = get_with_etag(
-                    url1, old_api_cache_key=None)
+                    self.settings, url1, old_api_cache_key=None)
             if not_modified2 and not content2:
                 _, api_cache_key2, content2 = get_with_etag(
                     self.settings, url2, old_api_cache_key=None)
