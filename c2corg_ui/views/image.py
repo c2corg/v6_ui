@@ -77,10 +77,11 @@ class Image(Document):
                  renderer='c2corg_ui:templates/image/edit.html')
     def edit(self):
         id, lang = self._validate_id_lang()
+
         self.template_input.update({
             'image_lang': lang,
             'image_id': id,
-            'image_backend': self.settings.image_backend_url
+            'image_backend': self.settings['image_backend_url']
         })
         return self.template_input
 
