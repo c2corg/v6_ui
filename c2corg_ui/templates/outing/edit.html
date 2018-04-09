@@ -16,7 +16,7 @@ updating_doc = outing_id and outing_lang
 <%namespace file="../helpers/common.html" import="show_title"/>
 <%namespace file="../helpers/edit.html" import="show_editing_associated_waypoints,
     show_editing_associated_routes,show_preview_container, show_save_confirmation_modal,
-    show_editing_buttons, show_protected_warning"/>
+    show_editing_buttons, show_protected_warning, show_edit_framework"/>
 <%namespace file="../helpers/cotometer.html" import="show_cotometer_dialog"/>
 
 <%block name="pagetitle"><title ng-init="id=${outing_id if outing_id else 0}" ng-bind="id ? mainCtrl.page_title('Editing an outing') : mainCtrl.page_title('Creating an outing')">${show_title('Create/edit outing')}</title></%block>
@@ -57,10 +57,11 @@ updating_doc = outing_id and outing_lang
 
     <section class="editing outing">
       <div class="step step-1">
+        ${show_edit_framework('outing')}
 
         <section class="section title">
           <h2 class="heading show-phone" translate>general informations</h2>
-          <div class="content collapse in" id="title-edit">
+          <div class="content">
 
             ## DATE START
             <div class="date form-group" ng-init="openDateStart = false">
@@ -402,7 +403,7 @@ updating_doc = outing_id and outing_lang
       <div class="step step-2">
         <section class="section conditions">
           <h2 class="heading show-phone"><span><span translate>weather</span> & <span translate>conditions</span></span></h2>
-          <div class="content collapse in" id="outing-conditions">
+          <div class="content">
 
             ## WEATHER
             <div class="full form-group">
@@ -631,7 +632,7 @@ updating_doc = outing_id and outing_lang
       <div class="step step-3">
         <section class="section">
           <h2 class="heading show-phone"><span translate>Comments</span></h2>
-          <div class="content collapse in">
+          <div class="content">
 
             ## TITLE
             <div class="form-group" id="title-group"

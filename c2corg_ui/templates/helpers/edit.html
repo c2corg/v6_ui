@@ -6,7 +6,6 @@
 <%def name="show_editing_associated_waypoints(model, type='waypoints')">\
   <h3 translate ng-show="${model}.associations.${type}.length > 0">Associated waypoints</h3>
   <section  class="associated-section">
-  
     <article class="associated-documents">
       <div class="list-item waypoints ${'to-route' if model == 'route' else ''}"
            ng-repeat="wp in ${model}.associations.${type} | orderBy: 'waypoint_type'"
@@ -168,7 +167,19 @@
 </%def>
 
 <%def name="show_protected_warning(model)">\
-  <article class="protected-warning" ng-show="${model}.protected">
+  <article class="protected-warning" ng-if="${model}.protected">
     <span class="glyphicon glyphicon-warning-sign"></span>&nbsp;<span translate>This document is protected and can be edited by moderators only.</span>
   </article>
+</%def>
+
+<%def name="show_edit_framework(model)">\
+  <section class="section edit-framework" ng-if="!${model}.protected">
+    <h2 class="heading show-phone" translate>Framework of your contribution</h2>
+    <div class="content">
+      <div class="icon">
+        <span class="glyphicon glyphicon-warning-sign"></span>
+      </div>
+      <div class="details" translate>${model} edit framework details</div>
+    </div>
+  </section>
 </%def>
