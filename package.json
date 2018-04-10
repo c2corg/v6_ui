@@ -22,7 +22,7 @@
     "angular-sanitize": "1.5.8",
     "angular-slug": "0.0.4",
     "blueimp-load-image": "2.19.0",
-    "bootstrap": "3.3.7",
+    "bootstrap": "4.1.0",
     "bootstrap-markdown": "2.10.0",
     "bootstrap-slider": "10.0.0",
     "corejs-typeahead": "1.2.1",
