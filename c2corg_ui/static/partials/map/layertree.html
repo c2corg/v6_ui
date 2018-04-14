@@ -1,6 +1,6 @@
 <button ng-if="::layertreeCtrl.isRoot"
         type="button" class="btn btn-primary btn-xs" data-toggle="dropdown">
-    <span class="glyphicon glyphicon-tasks" aria-hidden="true"></span><span class="sr-only" translate>Layers</span> <span class="caret"></span>
+    <span class="icon-map-layers" aria-hidden="true"></span><span class="sr-only" translate>Layers</span>
 </button>
 
 <span ng-if="::!layertreeCtrl.isRoot && layertreeCtrl.node.children">{{layertreeCtrl.node.name | translate}}</span>
