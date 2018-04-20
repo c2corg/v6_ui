@@ -33,26 +33,22 @@ def _get_ltag_pattern():
     p = "(?P<{}>{})".format
 
     # small patterns used more than once
-    raw_label = r"[a-zA-Z'\"][a-zA-Z'\"\d_]*|_"
-    raw_offset = r"[+\-]?\d*"
+    raw_label = r"[a-zA-Z'\"][a-zA-Z'\"\d_]*"
 
-    # let's build multi pitch pattern, like L#-+3 or L#12-+4ter
+    # let's build multi pitch pattern, like L#1-2 or L#12bis-14
     multi_pitch_label = p("multi_pitch_label", raw_label)
-    first_offset = p("first_offset", raw_offset)
-    last_offset = p("last_offset", raw_offset)
+    first_offset = p("first_offset", "\d+")
+    last_offset = p("last_offset", "\d+")
     first_pitch = p("first_pitch", first_offset + multi_pitch_label + "?")
     last_pitch = p("last_pitch", last_offset)
-    multi_pitch = p("multi_pitch", first_pitch + "?-" + last_pitch)
+    multi_pitch = p("multi_pitch", first_pitch + "-" + last_pitch)
 
-    # mono pitch
+    # mono pitch, like L#, L#12 or L#13bis
     mono_pitch_label = p("mono_pitch_label", raw_label)
-    mono_pitch_value = p("mono_pitch_value", "\+?\d*")
+    mono_pitch_value = p("mono_pitch_value", "\d*")
     mono_pitch = p("mono_pitch", mono_pitch_value + mono_pitch_label + "?")
 
-    local_ref = p("local_ref", r"!")
-
-    pitch = "(" + multi_pitch + "|" + mono_pitch + ")"
-    numbering = p("numbering", pitch + local_ref + "?")
+    numbering = p("numbering", multi_pitch + "|" + mono_pitch)
 
     text_in_the_middle = p("text_in_the_middle", "~")
     header = p("header", "=")
@@ -126,8 +122,6 @@ class LTagNumbering(object):
         # must access to row_type and is_first_cell
         def handle_match(match):
 
-            assert match.group("local_ref") is None, "Not yet supported"
-
             if match.group("header") is not None:  # means L#=
                 result = "" if is_first_cell else match.group(0)
 
@@ -159,7 +153,6 @@ class LTagNumbering(object):
 
         if raw_label is not None:
             assert self.allow_labels, "Can't handle label"
-            assert raw_label != "_", "Not yet supported"
 
             self.contains_label = True
         else:
@@ -179,8 +172,6 @@ class LTagNumbering(object):
         typ = match.group("type")
         first_offset = match.group("first_offset")
         last_offset = match.group("last_offset")
-        assert first_offset.isdigit(), "Not yet supported"
-        assert last_offset.isdigit(), "Not yet supported"
 
         if is_first_cell:  # first cell impacts numbering
             self.value[typ] = int(last_offset)
@@ -199,47 +190,32 @@ class LTagNumbering(object):
         """
 
         label = self.compute_label(match.group("mono_pitch_label"))
-
         typ = match.group("type")
         value = match.group("mono_pitch_value")
 
         if value.isdigit():
-            return self.handle_monopitch_value(typ, is_first_cell,
-                                               value, label)
+            # Fixed number : L#12
+            # and label :    L#12bis
 
-        elif len(value) == 0:
-            old_value = self.value[typ if is_first_cell else row_type]
+            if is_first_cell:  # first cell impacts numbering
+                self.value[typ] = int(value)
 
-            return self.handle_monopitch_offset(typ, is_first_cell,
-                                                old_value)
+            return self.FORMAT(type=typ, text=value + label)
+
+        elif len(value) == 0:  # Simple use case : L#
+            self.allow_labels = False
+            assert not self.contains_label, "Not yet supported"
+
+            value = self.value[typ if is_first_cell else row_type]
+
+            if is_first_cell:  # first cell impacts numbering
+                value += 1
+                self.value[typ] = value
+
+            return self.FORMAT(type=typ, text=str(value))
 
         else:
-            # may be
-            # L#+12  (offset)
-            # L#+12bis (offset with label)
-            raise NotImplementedError("Not yet supported")
-
-    def handle_monopitch_value(self, typ, is_first_cell, value, label):
-        # Fixed number : L#12
-        # and label :    L#12bis
-
-        if is_first_cell:  # first cell impacts numbering
-            self.value[typ] = int(value)
-
-        return self.FORMAT(type=typ, text=value + label)
-
-    def handle_monopitch_offset(self, typ, is_first_cell, old_value):
-        # Simple use case : L#
-        self.allow_labels = False
-        assert not self.contains_label, "Not yet supported"
-
-        value = old_value
-
-        if is_first_cell:  # first cell impacts numbering
-            value += 1
-            self.value[typ] = value
-
-        return self.FORMAT(type=typ, text=str(value))
+            raise NotImplementedError("Should not happen")
 
 
 class LTagProcessor(BlockProcessor):
@@ -289,7 +265,7 @@ class LTagProcessor(BlockProcessor):
         and return row object
         """
 
-        row = etree.SubElement(tbody, 'tr')
+        row = etree.SubElement(tbody, 'tr', {"tag": markdown[0]})
         marker = markdown[2:3]
 
         if marker == "~":  # the pattern L#~
@@ -330,10 +306,12 @@ class LtagTreeprocessor(Treeprocessor):
                     child.tail = numbering.compute(child.tail, row_type, False)
 
         for row in root.findall("table[@class='ltag']/tbody/tr"):
-            row_type = row[0].text[0]
+            is_text_in_the_middle = row[0].get("colspan") is not None
+
+            row_type = row.get("tag")
 
             for i, cell in enumerate(row):
-                is_first_cell = i == 0 and not cell.get("colspan")
+                is_first_cell = i == 0 and not is_text_in_the_middle
 
                 if is_first_cell and len(cell) != 0:
                     numbering.supported = False

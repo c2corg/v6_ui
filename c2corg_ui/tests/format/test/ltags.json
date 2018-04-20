@@ -88,5 +88,25 @@
         "id": "strange spaces",
         "text": "L#\t\u00a0 | x",
         "expected": "<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>1</span></td>\n<td>x</td>\n</tr>\n</tbody>\n</table>"
+    },
+    {
+        "id": "Format in the middle",
+        "text": "L#~ **coucou**",
+        "expected": "<table class=\"ltag\">\n<tbody>\n<tr>\n<td colspan=\"1\"><strong>coucou</strong></td>\n</tr>\n</tbody>\n</table>"
+    },
+    {
+        "id": "wrong multi pitch",
+        "text": "L#a-2",
+        "expected": "<table class=\"ltag\">\n<tbody>\n<tr>\n<td><code>L#a</code>-2</td>\n</tr>\n</tbody>\n</table>"
+    },
+    {
+        "id": "middle numbering",
+        "text": "L#\nR#12\nL#~ L# R# L#~\nR#~ L# R# L#~",
+        "expected": "<table class=\"ltag\">\n<tbody>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">L</span>1</span></td>\n</tr>\n<tr>\n<td><span class=\"pitch\"><span translate=\"\">R</span>12</span></td>\n</tr>\n<tr>\n<td colspan=\"1\"><span class=\"pitch\"><span translate=\"\">L</span>1</span> <span class=\"pitch\"><span translate=\"\">R</span>1</span> L#~</td>\n</tr>\n<tr>\n<td colspan=\"1\"><span class=\"pitch\"><span translate=\"\">L</span>12</span> <span class=\"pitch\"><span translate=\"\">R</span>12</span> L#~</td>\n</tr>\n</tbody>\n</table>"
+    },
+    {
+        "id": "raw table",
+        "text": "<table class=\"ltag\">\n<tbody>\n<tr>\n<td>coucou</td>\n</tr>\n</tbody>\n</table>",
+        "expected": "<table class=\"ltag\">\n<tbody>\n<tr>\n<td>coucou</td>\n</tr>\n</tbody>\n</table>"
     }
 ]
