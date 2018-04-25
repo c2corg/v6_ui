@@ -116,6 +116,7 @@ app.OutingEditingController.prototype.successRead = function(response) {
   outing['associations']['users'].forEach((user) => {
     userIds.push(user['document_id']);
   });
+
   if (this.auth.hasEditRights('outings', {'users': userIds})) {
     outing = this.formatOuting_(outing);
     this.differentDates = window.moment(outing['date_start']).diff(outing['date_end']) !== 0;
@@ -130,6 +131,7 @@ app.OutingEditingController.prototype.successRead = function(response) {
       window.location = window.location.href.replace('/edit', '');
     }, 3000);
   }
+
 };
 
 
@@ -140,10 +142,10 @@ app.OutingEditingController.prototype.successRead = function(response) {
  * @public
  */
 app.OutingEditingController.prototype.prepareData = function(data) {
+
   this.formatOuting_(/** @type appx.Outing */ (data), true);
   // Length attributes are stored in meters but shown in kilometers:
   data['length_total'] *= 1000;
-
   // filtering outing ratings on activities
   const activities = data['activities'];
   if (activities.indexOf('skitouring') === -1) {
@@ -216,6 +218,7 @@ app.OutingEditingController.prototype.formatOuting_ = function(outing, submit) {
         outing.avalanche_signs.splice(0, 1);
       }
     }
+
   } else {
     // convert existing date from string to a date object
     if (outing.date_end && typeof outing.date_end === 'string') {
@@ -243,6 +246,184 @@ app.OutingEditingController.prototype.formatOuting_ = function(outing, submit) {
   }
 
   return outing;
+};
+
+/**
+ * @param {appx.Document} doc Document attributes.
+ * @return {number}
+ * @override
+ */
+app.OutingEditingController.prototype.presetQuality = function(doc) {
+  let score = 0;
+  let score_ski = 0;
+  let score_ice = 0;
+  let score_climbing = 0;
+  let score_route = 0;
+  let score_conditions = 0;
+  const activities = doc['activities'];
+
+  if ((activities.indexOf('skitouring') > -1) ||
+      (activities.indexOf('snowshoeing') > -1)) {
+
+    if ('description' in doc.locales[0] && doc.locales[0]['description']) {
+      score_ski = score_ski + 0.5;
+    }
+
+    score_conditions = 0;
+    if ('geometry' in doc && doc['geometry']) {
+      const geometry = doc['geometry'];
+      if ('geom_detail' in geometry && geometry['geom_detail']) {
+        score_route++;
+      }
+    }
+    if ('route_description' in doc.locales[0] && doc.locales[0]['route_description']) {
+      score_route++;
+    }
+    if (score_route > 0) {
+      score_ski = score_ski + 0.5;
+    }
+
+    if (('elevation_up_snow' in doc && doc['elevation_up_snow']) ||
+        ('elevation_down_snow' in doc && doc['elevation_down_snow']) ||
+        ('snow_quantity' in doc && doc['snow_quantity']) ||
+        ('snow_quality' in doc && doc['snow_quality']) ||
+        ('length_total' in doc && doc['length_total']) ||
+        ('glacier_rating' in doc && doc['glacier_rating'])) {
+      score_ski = score_ski + 0.5;
+    }
+
+    if ('weather' in doc.locales[0] && doc.locales[0]['weather']) {
+      score_ski = score_ski + 0.5;
+    }
+
+    if ((('access_condition' in doc && doc['access_condition']) && (doc['access_condition'] !== 'snowy') && (doc['elevation_access'])) ||
+        ((doc['access_condition'] === 'snowy') && (doc['elevation_access']) && ('access_comment' in doc.locales[0] && doc.locales[0]['access_comment']))) {
+      score_ski = score_ski + 0.5;
+    }
+
+    if ((doc['avalanche_signs'] !== 'no') && ('avalanches' in doc.locales[0] && doc.locales[0]['avalanches'])) {
+      score_ski = score_ski + 0.5;
+    }
+
+    if ('condition_rating' in doc && doc['condition_rating']) {
+      score_ski = score_ski + 0.5;
+    }
+
+    if (('level_place' in doc.locales[0]['conditions_levels'][0] && doc.locales[0]['conditions_levels'][0]['level_place']) ||
+        ('level_comment' in doc.locales[0]['conditions_levels'][0] && doc.locales[0]['conditions_levels'][0]['level_comment']) ||
+        ('level_snow_height_total' in doc.locales[0]['conditions_levels'][0] && doc.locales[0]['conditions_levels'][0]['level_snow_height_total']) ||
+        ('level_snow_height_soft' in doc.locales[0]['conditions_levels'][0] && doc.locales[0]['conditions_levels'][0]['level_snow_height_soft'])) {
+      score_conditions = score_conditions + 1;
+    }
+
+    if ('conditions' in doc.locales[0] && doc.locales[0]['conditions']) {
+      score_conditions = score_conditions + 1;
+    }
+
+    if (score_conditions > 0) {
+      score_ski = score_ski + 1;
+    } else {
+      score_ski = Math.min(score_ski, 2);
+    }
+
+  }
+
+  if ((activities.indexOf('snow_ice_mixed') > -1) ||
+      (activities.indexOf('ice_climbing') > -1) ||
+      (activities.indexOf('mountain_climbing') > -1)) {
+
+    if ('description' in doc.locales[0] && doc.locales[0]['description']) {
+      score_ice = score_ice + 1;
+    }
+
+    score_route = 0;
+    if ('geometry' in doc && doc['geometry']) {
+      const geometry = doc['geometry'];
+      if ('geom_detail' in geometry && geometry['geom_detail']) {
+        score_route++;
+      }
+    }
+    if ('route_description' in doc.locales[0] && doc.locales[0]['route_description']) {
+      score_route++;
+    }
+    if (score_route > 0) {
+      score_ice = score_ice + 0.5;
+    }
+
+    if ('condition_rating' in doc && doc['condition_rating']) {
+      score_ice = score_ice + 0.5;
+    }
+
+    if ('timing' in doc.locales[0] && doc.locales[0]['timing']) {
+      score_ice = score_ice + 0.5;
+    }
+
+    if ('weather' in doc.locales[0] && doc.locales[0]['weather']) {
+      score_ice = score_ice + 0.5;
+    }
+
+    score_conditions = 0;
+    if (('level_place' in doc.locales[0]['conditions_levels'][0] && doc.locales[0]['conditions_levels'][0]['level_place']) ||
+        ('level_comment' in doc.locales[0]['conditions_levels'][0] && doc.locales[0]['conditions_levels'][0]['level_comment']) ||
+        ('level_snow_height_total' in doc.locales[0]['conditions_levels'][0] && doc.locales[0]['conditions_levels'][0]['level_snow_height_total']) ||
+        ('level_snow_height_soft' in doc.locales[0]['conditions_levels'][0] && doc.locales[0]['conditions_levels'][0]['level_snow_height_soft'])) {
+      score_conditions = score_conditions + 1;
+    }
+
+    if ('conditions' in doc.locales[0] && doc.locales[0]['conditions']) {
+      score_conditions = score_conditions + 1;
+    }
+
+    if (score_conditions > 0) {
+      score_ice = score_ice + 1.5;
+    } else {
+      score_ice = Math.min(score_ice, 2);
+    }
+  }
+
+  if ((activities.indexOf('rock_climbing') > -1) ||
+      (activities.indexOf('hiking') > -1) ||
+      (activities.indexOf('mountain_biking') > -1) ||
+      (activities.indexOf('via_ferrata') > -1) ||
+      (activities.indexOf('paragliding') > -1) ||
+      (activities.indexOf('slacklining') > -1)) {
+
+    if ('description' in doc.locales[0] && doc.locales[0]['description']) {
+      score_climbing = score_climbing + 1;
+    }
+
+    if ('timing' in doc.locales[0] && doc.locales[0]['timing']) {
+      score_climbing = score_climbing + 0.5;
+    }
+
+    if ('weather' in doc.locales[0] && doc.locales[0]['weather']) {
+      score_climbing = score_climbing + 0.5;
+    }
+
+    score_route = 0;
+    if ('geometry' in doc && doc['geometry']) {
+      const geometry = doc['geometry'];
+      if ('geom_detail' in geometry && geometry['geom_detail']) {
+        score_route++;
+      }
+    }
+    if ('route_description' in doc.locales[0] && doc.locales[0]['route_description']) {
+      score_route++;
+    }
+    if (score_route > 0) {
+      score_climbing = score_climbing + 0.5;
+    }
+
+    if ('conditions' in doc.locales[0] && doc.locales[0]['conditions']) {
+      score_climbing = score_climbing + 2;
+    } else {
+      score_climbing = Math.min(score_climbing, 2);
+    }
+  }
+
+  score = Math.max(score_ski, score_ice, score_climbing);
+  score = Math.floor(score);
+  return score;
 };
 
 
