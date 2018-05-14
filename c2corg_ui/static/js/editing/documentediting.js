@@ -627,7 +627,7 @@ app.DocumentEditingController.prototype.confirmSave = function(isValid) {
 
   const data = this.scope[this.modelName];
   const doctype = app.utils.getDoctype(data['type']);
-  if ((doctype === 'outings') || (doctype === 'articles') || (doctype === 'images')) {
+  if ((doctype != 'routes') && (doctype != 'waypoints') && (doctype != 'books') && (doctype != 'xreports') && (doctype != 'users') && (doctype != 'areas')) {
     const score = this.presetQuality(data);
     this.storeQuality(data, score);
   }
@@ -666,7 +666,6 @@ app.DocumentEditingController.prototype.openModal = function(selector, sizem) {
 /**
  * @param {appx.Document} doc Document attributes.
  * @return {number}
- * @export
  */
 app.DocumentEditingController.prototype.presetQuality = function(doc) {
   // Do nothing special in the standard editing controller.
@@ -677,7 +676,6 @@ app.DocumentEditingController.prototype.presetQuality = function(doc) {
 /**
  * @param {appx.Document} doc Document attributes.
  * @param {number} score
- * @export
  */
 app.DocumentEditingController.prototype.storeQuality = function(doc, score) {
 

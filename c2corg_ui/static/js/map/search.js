@@ -131,7 +131,7 @@ app.MapSearchController.SEARCH_URL = 'https://photon.komoot.de/api/';
  */
 app.MapSearchController.prototype.createAndInitBloodhound_ = function() {
   let url = app.MapSearchController.SEARCH_URL;
-  url += '?q=%QUERY&distance_sort=false';
+  url += '?q=%QUERY';
 
   const bloodhound = new Bloodhound(/** @type {BloodhoundOptions} */({
     limit: 10,

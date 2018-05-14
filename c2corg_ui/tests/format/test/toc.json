@@ -48,5 +48,10 @@
     "id": "weird 5",
     "text": "# [toc]\n[toc]",
     "expected": "<h2 id=\"toc\">[toc]</h2>\n<div class=\"toc\">\n<ul>\n<li><a href=\"#toc\">[toc]</a></li>\n</ul>\n</div>"
+  },
+  {
+    "id": "not toc",
+    "text": "[toc]\nx",
+    "expected": "<p>[toc]<br>\nx</p>"
   }
 ]

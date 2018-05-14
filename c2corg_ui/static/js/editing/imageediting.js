@@ -152,7 +152,7 @@ app.ImageEditingController.prototype.presetQuality = function(doc) {
   }
 
   if (doc['associations']['waypoints'].length || doc['associations']['routes'].length ||
-      ('date_time' in doc && doc['date_time'])) {
+     ('date_time' in doc && doc['date_time'])) {
     score = score + 0.5;
   }
 
