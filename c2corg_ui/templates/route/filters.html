@@ -342,12 +342,13 @@ activities = [activity for activity in activities if activity != 'paragliding']
         <app-slider filter="rlen" filters-list="filtersCtrl.filters" max="100000" step="500" unit="m"></app-slider>
       </div>
 
-      ## SNOW_ICE_MIXED, ROCK AND ALPINE CLIMBING
+      ## SNOW_ICE_MIXED, ROCK AND ALPINE CLIMBING, VIA FERRATA
       <div class="col-xs-12 col-sm-6 filter"
            ng-if="filtersCtrl.filters.act.length
                && (filtersCtrl.filters.act.indexOf('snow_ice_mixed') !== -1 ||
                    filtersCtrl.filters.act.indexOf('rock_climbing') !== -1 ||
-                   filtersCtrl.filters.act.indexOf('mountain_climbing') !== -1)">
+                   filtersCtrl.filters.act.indexOf('mountain_climbing') !== -1 ||
+                   filtersCtrl.filters.act.indexOf('via_ferrata') !== -1))">
         <label translate>rock_types</label><br>
         ${add_multiselect('rock', rock_types)}
       </div>
