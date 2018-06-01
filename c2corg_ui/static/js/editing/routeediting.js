@@ -2,12 +2,10 @@ goog.provide('app.RouteEditingController');
 
 goog.require('app');
 goog.require('app.DocumentEditingController');
-goog.require('app.Alerts');
-goog.require('app.Document');
-goog.require('app.Lang');
 goog.require('app.utils');
 /** @suppress {extraRequire} */
 goog.require('app.lengthConverterDirective');
+goog.require('ol');
 
 
 /**

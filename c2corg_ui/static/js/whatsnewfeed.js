@@ -3,6 +3,7 @@ goog.provide('app.whatsnewFeedDirective');
 
 goog.require('app');
 goog.require('app.utils');
+goog.require('ol');
 
 /**
  * @return {angular.Directive} The directive specs.

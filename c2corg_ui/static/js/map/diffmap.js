@@ -6,7 +6,7 @@ goog.require('app.MapController');
 goog.require('app.utils');
 /** @suppress {extraRequire} */
 goog.require('ngeo.mapDirective');
-goog.require('ol.Feature');
+goog.require('ol');
 goog.require('ol.Map');
 goog.require('ol.View');
 goog.require('ol.format.GeoJSON');

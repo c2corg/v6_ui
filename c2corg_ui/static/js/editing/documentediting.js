@@ -4,13 +4,12 @@ goog.provide('app.documentEditingDirective');
 goog.provide('app.ConfirmSaveController');
 
 goog.require('app');
-goog.require('app.Alerts');
-goog.require('app.Document');
-goog.require('app.Lang');
-goog.require('app.Url');
 goog.require('app.utils');
 goog.require('goog.asserts');
+goog.require('ol');
 goog.require('ol.format.GeoJSON');
+goog.require('ol.geom.LineString');
+goog.require('ol.geom.MultiLineString');
 goog.require('ol.geom.Point');
 
 

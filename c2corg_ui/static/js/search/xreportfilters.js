@@ -2,6 +2,7 @@ goog.provide('app.XreportFiltersController');
 
 goog.require('app');
 goog.require('app.SearchFiltersController');
+goog.require('ol');
 
 
 /**

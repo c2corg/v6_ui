@@ -2,9 +2,7 @@ goog.provide('app.AdvancedSearchController');
 goog.provide('app.advancedSearchDirective');
 
 goog.require('app');
-goog.require('app.Api');
 goog.require('app.utils');
-goog.require('ngeo.Location');
 goog.require('ol.Feature');
 goog.require('ol.format.GeoJSON');
 

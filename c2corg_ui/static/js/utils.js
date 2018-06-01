@@ -1,5 +1,8 @@
 goog.provide('app.utils');
 
+goog.require('ol.geom.LineString');
+goog.require('ol.geom.MultiLineString');
+
 
 /**
  * @param {string} type Short document type code.

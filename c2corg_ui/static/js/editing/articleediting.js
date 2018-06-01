@@ -2,7 +2,7 @@ goog.provide('app.ArticleEditingController');
 
 goog.require('app');
 goog.require('app.DocumentEditingController');
-goog.require('app.Document');
+goog.require('ol');
 
 
 /**
