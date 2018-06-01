@@ -131,7 +131,8 @@ app.utils.getImageFileBase64Source = function(file) {
 app.utils.createImageSlide = function(file, imageUrl) {
   const smallImage = app.utils.createImageUrl(file.filename, 'SI');
   const bigImage = app.utils.createImageUrl(file.filename, 'BI');
-  const title = _.escape(file['locales'][0]['title']);
+  // FIXME use lodash const title = _.escape(file['locales'][0]['title']);
+  const title = file['locales'][0]['title'];
   const ahref = '<a href="' + imageUrl + bigImage + '" data-info-id="' + file['image_id'] + '-slide" title="' + title + '">';
   const img = '<img src="' + imageUrl + smallImage + '"></a>';
 
@@ -218,14 +219,14 @@ app.utils.stringDivider = function(str, width, spaceReplacer) {
  * @return {string}
  */
 app.utils.getTemplate = function(path, $templateCache) {
-  let tpl = $templateCache.get(path);
-  if (DEBUG && !tpl) {
-    const req = new XMLHttpRequest();
-    req.open('GET', path, false /* synchronous */);
-    req.send(null);
-    tpl = req.status === 200 ? req.responseText : 'Partial not found';
-    $templateCache.put(path, tpl);
-  }
+  const tpl = $templateCache.get(path);
+  // if (DEBUG && !tpl) {
+  //   const req = new XMLHttpRequest();
+  //   req.open('GET', path, false /* synchronous */);
+  //   req.send(null);
+  //   tpl = req.status === 200 ? req.responseText : 'Partial not found';
+  //   $templateCache.put(path, tpl);
+  // }
   return tpl;
 };
 

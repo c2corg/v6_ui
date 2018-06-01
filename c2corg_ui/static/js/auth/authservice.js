@@ -219,9 +219,9 @@ app.Authentication.prototype.setUserData = function(data) {
     this.langService_.updateLang(this.userData.lang, /* syncWithApi */ false);
 
     const storage = data.remember ? window.localStorage : window.sessionStorage;
-    if (DEBUG) {
+    /* if (DEBUG) {
       this.$log.log('Stored user data in', data.remember ? 'local' : 'session');
-    }
+    } */
     storage.setItem('userData', raw);
     return true;
   } catch (e) {
@@ -229,9 +229,9 @@ app.Authentication.prototype.setUserData = function(data) {
     // Either the storage is full or we are in incognito mode in a broken
     // browser.
     // TODO: display error message to user
-    if (DEBUG) {
+    /* if (DEBUG) {
       this.$log.error('Fatal : failed to set authentication token', e);
-    }
+    } */
     return false;
   }
 };
@@ -302,10 +302,10 @@ app.Authentication.prototype.handle_token_renewal_ = function(now, expire) {
 
   if (!!this.http_ && now > pending + 15) {
     // If no pending renewal or more than 15s after last one
-    if (DEBUG) {
+    /* if (DEBUG) {
       this.$log.log('Renewing authorization expiring on',
         new Date(expire * 1000));
-    }
+    } */
 
     try {
       storage.setItem('last_renewal', now.toString());
@@ -316,15 +316,15 @@ app.Authentication.prototype.handle_token_renewal_ = function(now, expire) {
     this.http_.post(this.apiUrl_ + '/users/renew', {}).then(
       (response) => {
         this.setUserData(response.data);
-        if (DEBUG) {
+        /* if (DEBUG) {
           this.$log.log('Done renewing authorization');
-        }
-      },
+        } */
+      }/* ,
       function() {
         if (DEBUG) {
           this.$log.log('Failed renewing authorization');
         }
-      });
+      } */);
   }
 };
 
@@ -342,18 +342,18 @@ app.Authentication.prototype.addAuthorizationToHeaders = function(url,
   headers) {
   const token = this.userData ? this.userData.token : null;
   if (token && !this.isExpired_()) {
-    if (DEBUG && url.indexOf('http://') === 0) {
+    /* if (DEBUG && url.indexOf('http://') === 0) {
       // FIXME: ideally, should prevent the operation in prod mode
       this.$log.log('WARNING: added auth header to unsecure request to ' + url);
-    }
+    } */
     headers['Authorization'] = 'JWT token="' + token + '"';
     return true;
   }
 
-  if (DEBUG) {
+  /* if (DEBUG) {
     this.$log.log('Application error, trying to authenticate request to ' +
         url + ' with missing or expired token');
-  }
+  } */
   return false;
 };
 
