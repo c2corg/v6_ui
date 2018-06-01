@@ -31,9 +31,9 @@ app.OutingEditingController = function($scope, $element, $attrs, $http,
   $uibModal, $compile, appLang, appAuthentication, ngeoLocation, appAlerts,
   appApi, authUrl, appDocument, appUrl, imageUrl) {
 
-  goog.base(this, $scope, $element, $attrs, $http, $uibModal, $compile,
-    appLang, appAuthentication, ngeoLocation, appAlerts, appApi, authUrl,
-    appDocument, appUrl, imageUrl);
+  app.DocumentEditingController.call(this, $scope, $element, $attrs, $http,
+    $uibModal, $compile, appLang, appAuthentication, ngeoLocation, appAlerts,
+    appApi, authUrl, appDocument, appUrl, imageUrl);
 
   /**
    * Start cannot be after today nor end_date.
@@ -99,7 +99,7 @@ app.OutingEditingController = function($scope, $element, $attrs, $http,
     }
   }
 };
-goog.inherits(app.OutingEditingController, app.DocumentEditingController);
+ol.inherits(app.OutingEditingController, app.DocumentEditingController);
 
 
 /**
@@ -108,7 +108,7 @@ goog.inherits(app.OutingEditingController, app.DocumentEditingController);
  * @public
  */
 app.OutingEditingController.prototype.successRead = function(response) {
-  goog.base(this, 'successRead', response);
+  app.DocumentEditingController.prototype.successRead.call(this, response);
 
   let outing = this.scope[this.modelName];
   // check if user has right to edit -> the user is one of the associated users

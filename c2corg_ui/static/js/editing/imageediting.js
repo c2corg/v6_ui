@@ -29,9 +29,9 @@ app.ImageEditingController = function($scope, $element, $attrs, $http,
   $uibModal, $compile, appLang, appAuthentication, ngeoLocation, appAlerts,
   appApi, authUrl, appDocument, appUrl, imageUrl) {
 
-  goog.base(this, $scope, $element, $attrs, $http, $uibModal, $compile,
-    appLang, appAuthentication, ngeoLocation, appAlerts, appApi, authUrl,
-    appDocument, appUrl, imageUrl);
+  app.DocumentEditingController.call(this, $scope, $element, $attrs, $http,
+    $uibModal, $compile, appLang, appAuthentication, ngeoLocation, appAlerts,
+    appApi, authUrl, appDocument, appUrl, imageUrl);
 
   /**
    * @type {Date}
@@ -57,7 +57,7 @@ app.ImageEditingController = function($scope, $element, $attrs, $http,
    */
   this.initialImageType = null;
 };
-goog.inherits(app.ImageEditingController, app.DocumentEditingController);
+ol.inherits(app.ImageEditingController, app.DocumentEditingController);
 
 
 /**

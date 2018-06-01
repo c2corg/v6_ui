@@ -43,10 +43,10 @@ app.XreportFiltersController = function($scope, ngeoLocation, ngeoDebounce,
    */
   this.dateMinEnd = null;
 
-  goog.base(this, $scope, ngeoLocation, ngeoDebounce, advancedSearchFilters);
+  app.SearchFiltersController.call(this, $scope, ngeoLocation, ngeoDebounce, advancedSearchFilters);
 };
 
-goog.inherits(app.XreportFiltersController, app.SearchFiltersController);
+ol.inherits(app.XreportFiltersController, app.SearchFiltersController);
 
 
 /**
@@ -67,7 +67,7 @@ app.XreportFiltersController.prototype.setFilterFromPermalink = function(key) {
     this.filters[key] = dates;
     this.updateMinMaxDates_();
   } else {
-    goog.base(this, 'setFilterFromPermalink', key);
+    app.SearchFiltersController.prototype.setFilterFromPermalink.call(this, key);
   }
 };
 
@@ -78,7 +78,7 @@ app.XreportFiltersController.prototype.setFilterFromPermalink = function(key) {
  */
 app.XreportFiltersController.prototype.clear = function() {
   this.resetDates_();
-  goog.base(this, 'clear');
+  app.SearchFiltersController.prototype.clear.call(this);
 };
 
 

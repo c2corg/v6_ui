@@ -28,7 +28,7 @@ app.module.directive('appWhatsnewFeed', app.whatsnewFeedDirective);
  */
 app.WhatsnewFeedController = function($scope, appApi, appLang, ngeoLocation) {
 
-  goog.base(this, $scope, appApi, appLang, ngeoLocation);
+  app.FeedController.call(this, $scope, appApi, appLang, ngeoLocation);
 
   /**
    * @type {number}
@@ -42,7 +42,7 @@ app.WhatsnewFeedController = function($scope, appApi, appLang, ngeoLocation) {
    */
   this.currentLang = appLang.getLang();
 };
-goog.inherits(app.WhatsnewFeedController, app.FeedController);
+ol.inherits(app.WhatsnewFeedController, app.FeedController);
 
 /**
  * Fills the feed with documents.

@@ -29,9 +29,9 @@ app.ArticleEditingController = function($scope, $element, $attrs, $http,
   $uibModal, $compile, appLang, appAuthentication, ngeoLocation, appAlerts,
   appApi, authUrl, appDocument, appUrl, imageUrl) {
 
-  goog.base(this, $scope, $element, $attrs, $http, $uibModal, $compile,
-    appLang, appAuthentication, ngeoLocation, appAlerts, appApi, authUrl,
-    appDocument, appUrl, imageUrl);
+  app.DocumentEditingController.call(this, $scope, $element, $attrs, $http,
+    $uibModal, $compile, appLang, appAuthentication, ngeoLocation, appAlerts,
+    appApi, authUrl, appDocument, appUrl, imageUrl);
 
   /**
    * @type {?string}
@@ -39,7 +39,7 @@ app.ArticleEditingController = function($scope, $element, $attrs, $http,
    */
   this.initialArticleType = null;
 };
-goog.inherits(app.ArticleEditingController, app.DocumentEditingController);
+ol.inherits(app.ArticleEditingController, app.DocumentEditingController);
 
 
 /**

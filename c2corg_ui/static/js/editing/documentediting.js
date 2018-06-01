@@ -297,7 +297,7 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
 
   // push to API
   let data = angular.copy(this.scope[this.modelName]);
-  if (!goog.isArray(data['locales'])) {
+  if (!Array.isArray(data['locales'])) {
     // With ng-model="route.locales[0].description" route.locales is taken
     // as an object instead of an array.
     const locale = data['locales'][0];
@@ -487,9 +487,7 @@ app.DocumentEditingController.prototype.getCoordinatesFromPoint_ = function(
     app.constants.documentEditing.FORM_PROJ
   );
   const coords = geometry.getCoordinates();
-  return goog.array.map(coords, (coord) => {
-    return Math.round(coord * 1000000) / 1000000;
-  });
+  return coords.map(coord => Math.round(coord * 1000000) / 1000000);
 };
 
 /**

@@ -75,12 +75,10 @@ app.DiffMapController = function(mapFeatureCollection) {
   this.map.addInteraction(mouseWheelZoomInteraction);
   app.utils.setupSmartScroll(mouseWheelZoomInteraction);
 
-  if (!goog.array.isEmpty(this.features_)) {
+  if (!this.features_.length) {
     // Recentering on the features extent requires that the map actually
     // has a target. Else the map size cannot be computed.
-    this.map.on('change:target', goog.bind(function() {
-      this.showFeatures_(this.features_);
-    }, this));
+    this.map.on('change:target', () => this.showFeatures_(this.features_));
   }
 };
 

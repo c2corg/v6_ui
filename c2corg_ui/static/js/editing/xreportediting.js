@@ -28,9 +28,9 @@ app.XreportEditingController = function($scope, $element, $attrs, $http,
   $uibModal, $compile, appLang, appAuthentication, ngeoLocation, appAlerts,
   appApi, authUrl, appDocument, appUrl, imageUrl) {
 
-  goog.base(this, $scope, $element, $attrs, $http, $uibModal, $compile,
-    appLang, appAuthentication, ngeoLocation, appAlerts, appApi, authUrl,
-    appDocument, appUrl, imageUrl);
+  app.DocumentEditingController.call(this, $scope, $element, $attrs, $http,
+    $uibModal, $compile, appLang, appAuthentication, ngeoLocation, appAlerts,
+    appApi, authUrl, appDocument, appUrl, imageUrl);
 
   /**
    * Start cannot be after today nor end_date.
@@ -60,7 +60,7 @@ app.XreportEditingController = function($scope, $element, $attrs, $http,
 
 };
 
-goog.inherits(app.XreportEditingController, app.DocumentEditingController);
+ol.inherits(app.XreportEditingController, app.DocumentEditingController);
 
 
 /**

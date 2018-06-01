@@ -43,10 +43,11 @@ app.OutingFiltersController = function($scope, ngeoLocation, ngeoDebounce,
    */
   this.dateMinEnd = null;
 
-  goog.base(this, $scope, ngeoLocation, ngeoDebounce, advancedSearchFilters);
+  app.SearchFiltersController.call(this, $scope, ngeoLocation, ngeoDebounce,
+    advancedSearchFilters);
 };
 
-goog.inherits(app.OutingFiltersController, app.SearchFiltersController);
+ol.inherits(app.OutingFiltersController, app.SearchFiltersController);
 
 
 /**
@@ -67,7 +68,7 @@ app.OutingFiltersController.prototype.setFilterFromPermalink = function(key) {
     this.filters[key] = dates;
     this.updateMinMaxDates_();
   } else {
-    goog.base(this, 'setFilterFromPermalink', key);
+    app.SearchFiltersController.prototype.setFilterFromPermalink.call(this, key);
   }
 };
 
@@ -78,7 +79,7 @@ app.OutingFiltersController.prototype.setFilterFromPermalink = function(key) {
  */
 app.OutingFiltersController.prototype.clear = function() {
   this.resetDates_();
-  goog.base(this, 'clear');
+  app.SearchFiltersController.prototype.clear.call(this);
 };
 
 

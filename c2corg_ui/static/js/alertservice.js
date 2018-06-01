@@ -149,7 +149,7 @@ app.Alerts.prototype.formatErrorMsg_ = function(response) {
  * @private
  */
 app.Alerts.prototype.filterStr_ = function(str) {
-  str = goog.string.htmlEscape(str);
+  str = _.escape(str);
   return this.gettextCatalog_.getString(str);
 };
 

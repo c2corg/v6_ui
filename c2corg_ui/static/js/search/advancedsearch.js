@@ -159,7 +159,7 @@ app.AdvancedSearchController.prototype.getResults_ = function() {
   }
 
   const url = this.location_.getUriString();
-  let qstr = goog.uri.utils.getFragment(url) || '';
+  let qstr = app.utils.getFragment(url) || '';
   qstr += '&pl=' + this.gettextCatalog_.currentLanguage;
 
   this.canceler_ = this.$q_.defer();

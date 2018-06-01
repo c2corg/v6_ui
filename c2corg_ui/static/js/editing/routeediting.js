@@ -34,9 +34,9 @@ app.RouteEditingController = function($scope, $element, $attrs, $http,
   $uibModal, $compile, appLang, appAuthentication, ngeoLocation, appAlerts,
   appApi, authUrl, appDocument, appUrl, imageUrl) {
 
-  goog.base(this, $scope, $element, $attrs, $http, $uibModal, $compile,
-    appLang, appAuthentication, ngeoLocation, appAlerts, appApi, authUrl,
-    appDocument, appUrl, imageUrl);
+  app.DocumentEditingController.call(this, $scope, $element, $attrs, $http,
+    $uibModal, $compile, appLang, appAuthentication, ngeoLocation, appAlerts,
+    appApi, authUrl, appDocument, appUrl, imageUrl);
 
   if (this.auth.isAuthenticated()) {
     // allow association only for a new route to existing waypoint
@@ -54,7 +54,7 @@ app.RouteEditingController = function($scope, $element, $attrs, $http,
     }
   }
 };
-goog.inherits(app.RouteEditingController, app.DocumentEditingController);
+ol.inherits(app.RouteEditingController, app.DocumentEditingController);
 
 
 /**
