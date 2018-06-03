@@ -2,10 +2,6 @@ goog.provide('app.MainController');
 
 goog.require('app');
 goog.require('app.utils');
-/** @suppress {extraRequire} */
-goog.require('app.HttpAuthenticationInterceptor');
-/** @suppress {extraRequire} */
-goog.require('app.coordinate');
 
 
 /**

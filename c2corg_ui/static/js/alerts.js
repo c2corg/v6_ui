@@ -1,113 +1,166 @@
-goog.provide('app.AlertController');
-goog.provide('app.AlertsController');
-goog.provide('app.alertDirective');
-goog.provide('app.alertsDirective');
+goog.provide('app.Alerts');
 
 goog.require('app');
-goog.require('app.Alerts');
-/** @suppress {extraRequire} */
-goog.require('app.trustAsHtmlFilter');
 
 
 /**
- * This directive is used to display feedbacks to user actions.
- * Inspired by angular-ui boostrap alert:
- * https://github.com/angular-ui/bootstrap/blob/master/src/alert/alert.js
- *
- * @return {angular.Directive} The directive specs.
- * @ngInject
- */
-app.alertsDirective = function() {
-  return {
-    restrict: 'E',
-    controller: 'AppAlertsController',
-    controllerAs: 'alertsCtrl',
-    bindToController: true,
-    templateUrl: '/static/partials/alerts.html'
-  };
-};
-
-
-app.module.directive('appAlerts', app.alertsDirective);
-
-
-/**
+ * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @constructor
- * @param {app.Alerts} appAlerts Alert service.
- * @ngInject
  */
-app.AlertsController = function(appAlerts) {
+app.Alerts = function(gettextCatalog) {
 
   /**
    * @type {Array.<appx.AlertMessage>}
-   * @export
+   * @private
    */
-  this.alerts = appAlerts.get();
+  this.alerts_ = [];
+
+  /**
+   * @type {angularGettext.Catalog}
+   * @private
+   */
+  this.gettextCatalog_ = gettextCatalog;
 };
 
 
 /**
- * @param {number} index Index of alert to close.
+ * Use this function to annotate a string for extraction by the
+ * gettext extract tool. The call to this function will be eliminated
+ * by the Closure compiler when minifying, so it should not have any
+ * performance effect.
+ * See https://angular-gettext.rocketeer.be/dev-guide/annotate-js/
+ * @param {string} str String to have extracted by gettext tool
+ * @return {string}
+ */
+app.Alerts.prototype.gettext = function(str) {
+  return str;
+};
+
+
+/**
+ * @param {appx.AlertMessage} data Alert data.
  * @export
  */
-app.AlertsController.prototype.close = function(index) {
-  this.alerts.splice(index, 1);
-  $('.loading').removeClass('loading');
+app.Alerts.prototype.add = function(data) {
+  const timeout = data['timeout'] || 0;
+  this.addLoading_(timeout);
+  let msg = data['msg'];
+  msg = msg instanceof Object ? this.formatErrorMsg_(msg) :
+    this.filterStr_(msg);
+  this.alerts_.push({
+    type: data['type'] || 'warning',
+    msg: msg,
+    timeout: timeout
+  });
 };
 
 
-app.module.controller('AppAlertsController', app.AlertsController);
-
-
 /**
- * This directive is used to display one alert message.
- *
- * @return {angular.Directive} The directive specs.
- * @ngInject
- */
-app.alertDirective = function() {
-  return {
-    restrict: 'E',
-    controller: 'AppAlertController',
-    controllerAs: 'alertCtrl',
-    bindToController: true,
-    templateUrl: '/static/partials/alert.html',
-    scope: {
-      'type': '@',
-      'close': '&',
-      'timeout': '@',
-      'msg': '@'
-    },
-    link: function() {
-      $('body').click((e) => {
-        if ($('.alert').length > 0 && $(e.target).closest('.alert').length === 0) {
-          $('.loading').removeClass('loading');
-          $('.alert').hide();
-        }
-      });
-    }
-  };
-};
-
-
-app.module.directive('appAlert', app.alertDirective);
-
-
-/**
- * @param {angular.$timeout} $timeout Angular timeout service.
- * @constructor
- * @ngInject
+ * @param {(string|Object)} msg
  * @export
  */
-app.AlertController = function($timeout) {
-  if (this['timeout'] && this['close']) {
-    const timeout = parseInt(this['timeout'], 10);
-    if (timeout) {
-      $timeout(() => {
-        this['close']();
-      }, timeout);
-    }
+app.Alerts.prototype.addSuccess = function(msg) {
+  this.add({
+    'type': 'success',
+    'msg': msg,
+    'timeout': 5000
+  });
+};
+
+
+/**
+ * @param {(string|Object)} msg
+ * @export
+ */
+app.Alerts.prototype.addError = function(msg) {
+  this.add({
+    'type': 'danger',
+    'msg': msg,
+    'timeout': 5000
+  });
+};
+
+
+/**
+ * @param {string} msg
+ * @param {Object} errors
+ * @export
+ */
+app.Alerts.prototype.addErrorWithMsg = function(msg, errors) {
+  const content = this.filterStr_(msg) + '<br>' + this.formatErrorMsg_(errors);
+  const timeout = 5000;
+  this.addLoading_(timeout);
+  this.alerts_.push({
+    type: 'danger',
+    msg: content,
+    timeout: timeout
+  });
+};
+
+
+/**
+ * @return {Array.<appx.AlertMessage>}
+ * @export
+ */
+app.Alerts.prototype.get = function() {
+  return this.alerts_;
+};
+
+
+/**
+ * @param {number} timeout
+ * @private
+ */
+app.Alerts.prototype.addLoading_ = function(timeout) {
+  $('main, aside, .page-header').addClass('loading');
+  setTimeout(() => {
+    $('main, aside, .page-header').removeClass('loading');
+  }, timeout);
+};
+
+
+/**
+ * @param {Object} response Response from the API server.
+ * @return {string}
+ * @private
+ */
+app.Alerts.prototype.formatErrorMsg_ = function(response) {
+  if (!('data' in response) || !response['data'] ||
+      !('errors' in response['data']) ||
+      !response['data']['errors']) {
+    return this.gettextCatalog_.getString('Unknown error');
   }
+  const errors = response['data']['errors'];
+  const len = errors.length;
+  if (len > 1) {
+    let msg = '<ul>';
+    for (let i = 0; i < len; i++) {
+      msg += '<li>' + this.filterStr_(errors[i]['name']) + ' : ' + this.filterStr_(errors[i]['description']) + '</li>';
+    }
+    return msg + '</ul>';
+  }
+  return this.filterStr_(errors[0]['name']) + ' : ' + this.filterStr_(errors[0]['description']);
 };
 
-app.module.controller('AppAlertController', app.AlertController);
+
+/**
+ * @param {string} str String to filter.
+ * @return {string}
+ * @private
+ */
+app.Alerts.prototype.filterStr_ = function(str) {
+  // FIXME use lodash str = _.escape(str);
+  return this.gettextCatalog_.getString(str);
+};
+
+
+/**
+ * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
+ * @private
+ * @ngInject
+ * @return {app.Alerts}
+ */
+app.AlertsFactory_ = function(gettextCatalog) {
+  return new app.Alerts(gettextCatalog);
+};
+app.module.factory('appAlerts', app.AlertsFactory_);

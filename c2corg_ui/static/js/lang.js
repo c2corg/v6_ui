@@ -1,75 +1,154 @@
-goog.provide('app.LangController');
-goog.provide('app.langDirective');
+goog.provide('app.Lang');
 
 goog.require('app');
-goog.require('app.Lang');
 
 
 /**
- * This directive is used to display a lang selector dropdown.
- *
- * @return {angular.Directive} The directive specs.
- * @ngInject
- */
-app.langDirective = function() {
-  return {
-    restrict: 'E',
-    controller: 'AppLangController',
-    controllerAs: 'langCtrl',
-    bindToController: true,
-    template:
-        '<div class="dropdown">' +
-        '  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">' +
-        '    <span class="selected-lang">{{langCtrl.lang}}</span>' +
-        '    <span class="glyphicon glyphicon-option-vertical"></span>' +
-        '  </button>' +
-        '  <ul class="dropdown-menu dropdown-menu-right">' +
-        '    <li ng-repeat="lang in langCtrl.langs" ng-click="langCtrl.updateLang(lang)"><a>{{lang | translate}}</a></li>' +
-        '  </ul>' +
-        '</div>'
-  };
-};
-
-
-app.module.directive('appLang', app.langDirective);
-
-
-/**
- * @param {app.Lang} appLang Lang service.
+ * @param {angular.$cookies} $cookies Cookies service.
+ * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
+ * @param {ngeo.GetBrowserLanguage} ngeoGetBrowserLanguage
+ *        GetBrowserLanguage Service.
+ * @param {Array.<string>} langs List of available langs.
+ * @param {amMoment} amMoment angular moment directive.
+ * @param {app.Api} appApi Api service.
+ * @param {app.Authentication} appAuthentication Authentication service.
+ * @param {string} langUrlTemplate Language URL template.
+ * @param {string} langMomentPath Path to the moment.js language files.
  * @constructor
  * @ngInject
+ * @struct
  */
-app.LangController = function(appLang) {
+app.Lang = function($cookies, gettextCatalog, ngeoGetBrowserLanguage, langs,
+  amMoment, appApi, appAuthentication, langUrlTemplate, langMomentPath) {
 
   /**
-   * @type {app.Lang}
+   * @type {angular.$cookies}
    * @private
    */
-  this.langService_ = appLang;
+  this.cookies_ = $cookies;
+
+  /**
+   * @type {angularGettext.Catalog}
+   * @private
+   */
+  this.gettextCatalog_ = gettextCatalog;
+
+  /**
+   * @type {ngeo.GetBrowserLanguage}
+   * @private
+   */
+  this.ngeoGetBrowserLanguage_ = ngeoGetBrowserLanguage;
 
   /**
    * @type {Array.<string>}
-   * @export
+   * @private
    */
-  this.langs = appLang.getAvailableLangs();
+  this.langs_ = langs;
+
+  /**
+   * @type {amMoment}
+   */
+  this.amMoment_ = amMoment;
 
   /**
    * @type {string}
-   * @export
    */
-  this.lang = appLang.getLang();
+  this.langMomentPath_ = langMomentPath;
+
+  /**
+   * @type {app.Api}
+   * @private
+   */
+  this.api_ = appApi;
+
+  /**
+   * @type {app.Authentication}
+   * @private
+   */
+  this.appAuthentication_ = appAuthentication;
+
+  /**
+   * @type {string}
+   * @private
+   */
+  this.langUrlTemplate_ = langUrlTemplate;
+
+  this.updateLang(
+    this.cookies_.get('interface_lang') ||
+    this.ngeoGetBrowserLanguage_(this.langs_) || 'fr'
+  );
+};
+
+
+/**
+ * @return {Array.<string>}
+ */
+app.Lang.prototype.getAvailableLangs = function() {
+  return this.langs_;
 };
 
 
 /**
  * @export
+ * @return {string}
  */
-app.LangController.prototype.updateLang = function(lang) {
-  if (this.langs.indexOf(lang) > -1) {
-    this.lang = lang;
-    this.langService_.updateLang(lang, /* syncWithApi */ true);
-  }
+app.Lang.prototype.getLang = function() {
+  return this.gettextCatalog_.currentLanguage;
 };
 
 
-app.module.controller('AppLangController', app.LangController);
+/**
+ * @export
+ * @param {string} str
+ * @return {string}
+ */
+app.Lang.prototype.translate = function(str) {
+  return this.gettextCatalog_.getString(str);
+};
+
+
+/**
+ * Alias of the translate() function, to be used in JS files
+ * to have passed strings extracted.
+ * @export
+ * @param {string} str
+ * @return {string}
+ */
+app.Lang.prototype.gettext = function(str) {
+  return this.translate(str);
+};
+
+
+/**
+ * @param {string} lang
+ * @param {boolean=} opt_syncWithApi
+ */
+app.Lang.prototype.updateLang = function(lang, opt_syncWithApi) {
+  this.gettextCatalog_.setCurrentLanguage(lang);
+  this.gettextCatalog_.loadRemote(
+    this.langUrlTemplate_.replace('__lang__', lang));
+  // store the interface language as cookie, so that it is available on the
+  // server side.
+  const d = new Date();
+  d.setFullYear(d.getFullYear() + 1); // today + 1 year
+  this.cookies_.put('interface_lang', lang, {
+    'path': '/',
+    'expires': d
+  });
+
+  if (opt_syncWithApi && this.appAuthentication_.isAuthenticated()) {
+    this.api_.updatePreferredLanguage(lang);
+  }
+
+  if (lang === 'en') {
+    lang = 'en-gb';
+  }
+
+  // This will retrieve then _evaluate_ the content of the file.
+  $.get(this.langMomentPath_ + '/' + lang + '.js', () => {
+    this.amMoment_.changeLocale(lang);
+  });
+};
+
+
+app.module.service('appLang', app.Lang);

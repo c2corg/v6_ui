@@ -1,7 +1,6 @@
 goog.provide('app.AccountController');
 
 goog.require('app');
-goog.require('app.Alerts');
 
 
 /**
