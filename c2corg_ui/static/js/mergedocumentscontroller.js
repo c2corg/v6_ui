@@ -1,7 +1,7 @@
-goog.provide('app.MergeDocumentsController');
-
-goog.require('app');
-
+/**
+ * @module app.MergeDocumentsController
+ */
+import appBase from './index.js';
 
 /**
  * @param {appx.Document} documentData Data set as module value in the HTML.
@@ -12,7 +12,7 @@ goog.require('app');
  * @constructor
  * @ngInject
  */
-app.MergeDocumentsController = function(documentData, appApi, appAlerts, gettextCatalog, $uibModalStack) {
+const exports = function(documentData, appApi, appAlerts, gettextCatalog, $uibModalStack) {
 
   /**
    * @type {appx.Document}
@@ -57,20 +57,20 @@ app.MergeDocumentsController = function(documentData, appApi, appAlerts, gettext
   this.targetDocument;
 };
 
-app.module.controller('AppMergeDocumentsController', app.MergeDocumentsController);
+appBase.module.controller('AppMergeDocumentsController', exports);
 
 /**
  * @export
  * @param {appx.SimpleSearchDocument} document
  */
-app.MergeDocumentsController.prototype.selectTargetDocument = function(document) {
+exports.prototype.selectTargetDocument = function(document) {
   this.targetDocument = document;
 };
 
 /**
  * @export
  */
-app.MergeDocumentsController.prototype.mergeDocuments = function() {
+exports.prototype.mergeDocuments = function() {
   if (!this.targetDocument) {
     return;
   }
@@ -94,7 +94,7 @@ app.MergeDocumentsController.prototype.mergeDocuments = function() {
 /**
  * @export
  */
-app.MergeDocumentsController.prototype.closeDialog = function() {
+exports.prototype.closeDialog = function() {
   this.$uibModalStack_.dismissAll();
 };
 
@@ -102,7 +102,7 @@ app.MergeDocumentsController.prototype.closeDialog = function() {
 /**
  * @export
  */
-app.MergeDocumentsController.prototype.getTargetTitle = function() {
+exports.prototype.getTargetTitle = function() {
   if (!this.targetDocument) {
     return null;
   }
@@ -113,3 +113,6 @@ app.MergeDocumentsController.prototype.getTargetTitle = function() {
 
   return title;
 };
+
+
+export default exports;

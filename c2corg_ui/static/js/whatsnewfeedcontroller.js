@@ -1,22 +1,22 @@
-goog.provide('app.WhatsnewFeedController');
-
-goog.require('app');
-goog.require('app.utils');
-goog.require('ol');
-
+/**
+ * @module app.WhatsnewFeedController
+ */
+import appBase from './index.js';
+import appUtils from './utils.js';
+import olBase from 'ol.js';
 
 /**
  * @param {!angular.Scope} $scope Scope.
  * @param {app.Api} appApi Api service.
- * @param {app.Lang} appLang Lang service.
+ * @param {app.Lang} LangService Lang service.
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @constructor
  * @extends {app.FeedController}
  * @ngInject
  */
-app.WhatsnewFeedController = function($scope, appApi, appLang, ngeoLocation) {
+const exports = function($scope, appApi, LangService, ngeoLocation) {
 
-  app.FeedController.call(this, $scope, appApi, appLang, ngeoLocation);
+  appBase.FeedController.call(this, $scope, appApi, LangService, ngeoLocation);
 
   /**
    * @type {number}
@@ -28,9 +28,10 @@ app.WhatsnewFeedController = function($scope, appApi, appLang, ngeoLocation) {
    * @type {string}
    * @export
    */
-  this.currentLang = appLang.getLang();
+  this.currentLang = LangService.getLang();
 };
-ol.inherits(app.WhatsnewFeedController, app.FeedController);
+
+olBase.inherits(exports, appBase.FeedController);
 
 /**
  * Fills the feed with documents.
@@ -38,7 +39,7 @@ ol.inherits(app.WhatsnewFeedController, app.FeedController);
  * @export
  * @override
  */
-app.WhatsnewFeedController.prototype.getDocumentsFromFeed = function() {
+exports.prototype.getDocumentsFromFeed = function() {
   this.busy = true;
   if (this.ngeoLocation.hasFragmentParam('u')) {
     this.userId = parseInt(this.ngeoLocation.getFragmentParam('u'), 10);
@@ -57,13 +58,16 @@ app.WhatsnewFeedController.prototype.getDocumentsFromFeed = function() {
  * @returns {string}
  * @export
  */
-app.WhatsnewFeedController.prototype.getVersionUrl = function(doc) {
+exports.prototype.getVersionUrl = function(doc) {
   return '/{module}/version/{id}/{lang}/{version}'
-    .replace('{module}', app.utils.getDoctype(doc.document.type))
+    .replace('{module}', appUtils.getDoctype(doc.document.type))
     .replace('{id}', String(doc.document.document_id))
     .replace('{lang}', doc.lang)
     .replace('{version}', String(doc.version_id));
 };
 
 
-app.module.controller('appWhatsnewFeedController', app.WhatsnewFeedController);
+appBase.module.controller('appWhatsnewFeedController', exports);
+
+
+export default exports;

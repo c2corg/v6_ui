@@ -1,7 +1,7 @@
-goog.provide('app.ViewDetailsController');
-
-goog.require('app');
-
+/**
+ * @module app.ViewDetailsController
+ */
+import appBase from './index.js';
 
 /**
  * @param {!angular.Scope} $scope Scope.
@@ -13,12 +13,12 @@ goog.require('app');
  * @param {string} imageUrl URL to the image backend.
  * @param {string} discourseUrl URL to discourse.
  * @param {app.Url} appUrl
- * @param {app.Lang} appLang Lang service.
+ * @param {app.Lang} LangService Lang service.
  * @constructor
  * @ngInject
  */
-app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
-  appDocument, documentData, imageUrl, discourseUrl, appUrl, appLang) {
+const exports = function($scope, $compile, $uibModal, appApi,
+  appDocument, documentData, imageUrl, discourseUrl, appUrl, LangService) {
 
   /**
    * @type {app.Document}
@@ -97,7 +97,7 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
    * @type {app.Lang}
    * @export
    */
-  this.lang = appLang;
+  this.lang = LangService;
 
   /**
    * @type {string}
@@ -161,7 +161,7 @@ app.ViewDetailsController = function($scope, $compile, $uibModal, appApi,
  * @param {string} sizem
  * @export
  */
-app.ViewDetailsController.prototype.openModal = function(selector, sizem) {
+exports.prototype.openModal = function(selector, sizem) {
   const template = $(selector).clone();
   if (sizem === null) {
     sizem = 'lg';
@@ -173,7 +173,7 @@ app.ViewDetailsController.prototype.openModal = function(selector, sizem) {
 /**
  * @export
  */
-app.ViewDetailsController.prototype.scrollToComments = function() {
+exports.prototype.scrollToComments = function() {
   $('html, body').animate({
     scrollTop: $('#discourse-comments').offset().top
   }, 1000);
@@ -184,8 +184,8 @@ app.ViewDetailsController.prototype.scrollToComments = function() {
  * @param {Event} tab the clicked tab
  * @export
  */
-app.ViewDetailsController.prototype.toggleTab = function(tab) {
-  const s = app.constants.SCREEN;
+exports.prototype.toggleTab = function(tab) {
+  const s = appBase.constants.SCREEN;
   // only for smartphones
   if (window.innerWidth < s.SMARTPHONE) {
     if (tab.target) { // tab = event
@@ -200,7 +200,7 @@ app.ViewDetailsController.prototype.toggleTab = function(tab) {
  * hide block with info for the mobile app
  * @export
  */
-app.ViewDetailsController.prototype.toggleMobileBlock = function() {
+exports.prototype.toggleMobileBlock = function() {
   this.showMobileBlock = !this.showMobileBlock;
   window.localStorage.setItem('showMobileBlock', JSON.stringify(this.showMobileBlock));
 };
@@ -210,7 +210,7 @@ app.ViewDetailsController.prototype.toggleMobileBlock = function() {
  *
  * @export
  */
-app.ViewDetailsController.prototype.initHeadband = function() {
+exports.prototype.initHeadband = function() {
   if (this.documentService.document.activities.indexOf('rock_climbing') > -1 ||
       this.documentService.document.activities.indexOf('mountain_climbing') > -1 ||
       this.documentService.document.activities.indexOf('ice_climbing') > -1) {
@@ -237,7 +237,7 @@ app.ViewDetailsController.prototype.initHeadband = function() {
  * @return string
  * @export
  */
-app.ViewDetailsController.prototype.getBestWideImg = function(index) {
+exports.prototype.getBestWideImg = function(index) {
   this.getPictureDimension(index, this.createImageUrl(this.documentService.document.associations.images[index]['filename'], 'MI'), (index, w, h) => {
     if (this.widestCoef_ <= w / h) {
       this.widestCoef_ = w / h;
@@ -264,7 +264,7 @@ app.ViewDetailsController.prototype.getBestWideImg = function(index) {
  * @return string
  * @export
  */
-app.ViewDetailsController.prototype.getPictureDimension = function(index, url, callback) {
+exports.prototype.getPictureDimension = function(index, url, callback) {
   const img = new Image();
   img.src = url;
   img.onload = function() {
@@ -277,7 +277,7 @@ app.ViewDetailsController.prototype.getPictureDimension = function(index, url, c
  * Copied and adapted from http://codepen.io/jeffpannone/pen/GpKOed
  * @private
  */
-app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
+exports.prototype.initPhotoswipe_ = function() {
   // Photoswipe configuration for product page zoom
   const initPhotoSwipeFromDOM = function(gallerySelector) {
     // parse slide data (url, title, size ...) from DOM elements
@@ -300,7 +300,7 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
         const image = new Image();
         image['src'] = linkEl.getAttribute('href');
         item = { // create slide object
-          html: app.utils.createPhotoswipeSlideHTML(image['src'], id.split('-')[1], '#image-'),
+          html: appBase.utils.createPhotoswipeSlideHTML(image['src'], id.split('-')[1], '#image-'),
           id: id.split('-')[1],
           title: title
           // TODO: for zoom in animation -> add this when WIDTH & HEIGHT will be returned by API in image properties
@@ -410,7 +410,7 @@ app.ViewDetailsController.prototype.initPhotoswipe_ = function() {
 /**
  * @export
  */
-app.ViewDetailsController.prototype.getComments = function() {
+exports.prototype.getComments = function() {
   const topic_id = this.documentService.document['topic_id'];
   if (topic_id === null) {
     return;
@@ -428,7 +428,7 @@ app.ViewDetailsController.prototype.getComments = function() {
  * @param response
  * @private
  */
-app.ViewDetailsController.prototype.handleCommentsForum_ = function(response) {
+exports.prototype.handleCommentsForum_ = function(response) {
   const data = response['data']['post_stream'];
   if (data !== undefined) {
     for (let i = 0; i < data['posts'].length; i++) {
@@ -452,7 +452,7 @@ app.ViewDetailsController.prototype.handleCommentsForum_ = function(response) {
 /**
  * @export
  */
-app.ViewDetailsController.prototype.createTopic = function() {
+exports.prototype.createTopic = function() {
   const document = this.documentService.document;
   const document_id = document.document_id;
   const lang = document.lang;
@@ -476,7 +476,7 @@ app.ViewDetailsController.prototype.createTopic = function() {
  * @param {Function} initGalleries callback
  * @private
  */
-app.ViewDetailsController.prototype.loadImages_ = function(initGalleries) {
+exports.prototype.loadImages_ = function(initGalleries) {
   // prepare document images for slideshow
   const photos = this.documentService.document['associations']['images'];
 
@@ -485,7 +485,7 @@ app.ViewDetailsController.prototype.loadImages_ = function(initGalleries) {
     const id = 'image-' + photos[i]['document_id'];
     photos[i]['image_id'] = id;
     scope['photo'] = photos[i];
-    const element = app.utils.createImageSlide(photos[i], this.imageUrl_);
+    const element = appBase.utils.createImageSlide(photos[i], this.imageUrl_);
     $('.photos').append(element);
     this.compile_($('#' + id).contents())(scope);
   }
@@ -513,7 +513,7 @@ app.ViewDetailsController.prototype.loadImages_ = function(initGalleries) {
  * @param {number} imgId
  * @export
  */
-app.ViewDetailsController.prototype.openEmbeddedImage = function(imgUrl, imgId) {
+exports.prototype.openEmbeddedImage = function(imgUrl, imgId) {
 
 
   $('.showing-info').removeClass('showing-info');
@@ -537,14 +537,14 @@ app.ViewDetailsController.prototype.openEmbeddedImage = function(imgUrl, imgId) 
     // add all the other images that are not the one you clicked on
     if (src !== imgUrl) {
       const item = {
-        html: app.utils.createPhotoswipeSlideHTML(src, id, '#embedded-'),
+        html: appBase.utils.createPhotoswipeSlideHTML(src, id, '#embedded-'),
         id: id,
         title: title
       };
       items.push(item);
     } else {
       const clickedImg = {
-        html: app.utils.createPhotoswipeSlideHTML(imgUrl, imgId, '#embedded-'),
+        html: appBase.utils.createPhotoswipeSlideHTML(imgUrl, imgId, '#embedded-'),
         id: imgId,
         title: title
       };
@@ -572,8 +572,8 @@ app.ViewDetailsController.prototype.openEmbeddedImage = function(imgUrl, imgId) 
  * @return {string}
  * @export
  */
-app.ViewDetailsController.prototype.createImageUrl = function(filename, suffix) {
-  return this.imageUrl_ + app.utils.createImageUrl(filename, suffix);
+exports.prototype.createImageUrl = function(filename, suffix) {
+  return this.imageUrl_ + appBase.utils.createImageUrl(filename, suffix);
 };
 
 /**
@@ -582,7 +582,7 @@ app.ViewDetailsController.prototype.createImageUrl = function(filename, suffix) 
  * @param {number} id
  * @private
  */
-app.ViewDetailsController.prototype.getImageInfo_ = function(id) {
+exports.prototype.getImageInfo_ = function(id) {
   if ($('.showing-info').length > 0) {
     $('.loading-infos').show();
     $('.images-infos-container').hide();
@@ -604,7 +604,7 @@ app.ViewDetailsController.prototype.getImageInfo_ = function(id) {
  * remove .showing-info if the container detects swipe/drag
  * @private
  */
-app.ViewDetailsController.prototype.watchPswpContainer_ = function() {
+exports.prototype.watchPswpContainer_ = function() {
   const target = $('.pswp__container')[0];
   if (target) {
     const observer = new MutationObserver((() => {
@@ -618,7 +618,7 @@ app.ViewDetailsController.prototype.watchPswpContainer_ = function() {
  * Handles events emitted by map when Biodiv'sport areas are retrieved.
  * @private
  */
-app.ViewDetailsController.prototype.handleBiodivsportAreas_ = function() {
+exports.prototype.handleBiodivsportAreas_ = function() {
   this.scope_.$on('foundBiodivsportAreas', (event, data) => {
     this.hasRemarks = true;
     this.hasBiodivsportAreas = true;
@@ -628,8 +628,11 @@ app.ViewDetailsController.prototype.handleBiodivsportAreas_ = function() {
 /**
  * @export
  */
-app.ViewDetailsController.prototype.printPage = function() {
+exports.prototype.printPage = function() {
   window.print();
 };
 
-app.module.controller('AppViewDetailsController', app.ViewDetailsController);
+appBase.module.controller('AppViewDetailsController', exports);
+
+
+export default exports;

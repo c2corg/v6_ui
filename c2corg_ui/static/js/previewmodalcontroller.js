@@ -1,6 +1,7 @@
-goog.provide('app.PreviewModalController');
-
-goog.require('app');
+/**
+ * @module app.PreviewModalController
+ */
+import appBase from './index.js';
 
 /**
  * We have to use a secondary controller for the modal so that we can inject
@@ -10,7 +11,7 @@ goog.require('app');
  * @ngInject
  * @returns {app.PreviewModalController}
  */
-app.PreviewModalController = function($uibModalInstance) {
+const exports = function($uibModalInstance) {
 
   /**
    * @type {Object} $uibModalInstance angular bootstrap
@@ -23,9 +24,12 @@ app.PreviewModalController = function($uibModalInstance) {
 /**
  * @export
  */
-app.PreviewModalController.prototype.close = function() {
+exports.prototype.close = function() {
   this.modalInstance_.close();
 };
 
 
-app.module.controller('appPreviewModalController', app.PreviewModalController);
+appBase.module.controller('appPreviewModalController', exports);
+
+
+export default exports;

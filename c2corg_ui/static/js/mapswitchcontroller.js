@@ -1,13 +1,13 @@
-goog.provide('app.MapSwitchController');
-
-goog.require('app');
-
+/**
+ * @module app.MapSwitchController
+ */
+import appBase from './index.js';
 
 /**
  * @constructor
  * @ngInject
  */
-app.MapSwitchController = function() {
+const exports = function() {
 
   /**
    * @type {boolean}
@@ -21,9 +21,12 @@ app.MapSwitchController = function() {
 /**
  * @export
  */
-app.MapSwitchController.prototype.toggle = function() {
+exports.prototype.toggle = function() {
   this.hideMap = !this.hideMap;
   window.localStorage.setItem('hideMap', JSON.stringify(this.hideMap));
 };
 
-app.module.controller('appMapSwitchController', app.MapSwitchController);
+appBase.module.controller('appMapSwitchController', exports);
+
+
+export default exports;

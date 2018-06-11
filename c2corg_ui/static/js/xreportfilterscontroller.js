@@ -1,9 +1,9 @@
-goog.provide('app.XreportFiltersController');
-
-goog.require('app');
-goog.require('app.SearchFiltersController');
-goog.require('ol');
-
+/**
+ * @module app.XreportFiltersController
+ */
+import appBase from './index.js';
+import appSearchFiltersController from './SearchFiltersController.js';
+import olBase from 'ol.js';
 
 /**
  * @param {angular.Scope} $scope Scope.
@@ -14,7 +14,7 @@ goog.require('ol');
  * @extends {app.SearchFiltersController}
  * @ngInject
  */
-app.XreportFiltersController = function($scope, ngeoLocation, ngeoDebounce,
+const exports = function($scope, ngeoLocation, ngeoDebounce,
   advancedSearchFilters) {
 
   /**
@@ -44,10 +44,10 @@ app.XreportFiltersController = function($scope, ngeoLocation, ngeoDebounce,
    */
   this.dateMinEnd = null;
 
-  app.SearchFiltersController.call(this, $scope, ngeoLocation, ngeoDebounce, advancedSearchFilters);
+  appSearchFiltersController.call(this, $scope, ngeoLocation, ngeoDebounce, advancedSearchFilters);
 };
 
-ol.inherits(app.XreportFiltersController, app.SearchFiltersController);
+olBase.inherits(exports, appSearchFiltersController);
 
 
 /**
@@ -55,7 +55,7 @@ ol.inherits(app.XreportFiltersController, app.SearchFiltersController);
  * @override
  * @public
  */
-app.XreportFiltersController.prototype.setFilterFromPermalink = function(key) {
+exports.prototype.setFilterFromPermalink = function(key) {
   if (key in this.config && this.config[key]['type'] === 'date') {
     const val = this.location.getFragmentParam(key);
     if (val === '') {
@@ -68,7 +68,7 @@ app.XreportFiltersController.prototype.setFilterFromPermalink = function(key) {
     this.filters[key] = dates;
     this.updateMinMaxDates_();
   } else {
-    app.SearchFiltersController.prototype.setFilterFromPermalink.call(this, key);
+    appSearchFiltersController.prototype.setFilterFromPermalink.call(this, key);
   }
 };
 
@@ -77,9 +77,9 @@ app.XreportFiltersController.prototype.setFilterFromPermalink = function(key) {
  * @override
  * @export
  */
-app.XreportFiltersController.prototype.clear = function() {
+exports.prototype.clear = function() {
   this.resetDates_();
-  app.SearchFiltersController.prototype.clear.call(this);
+  appSearchFiltersController.prototype.clear.call(this);
 };
 
 
@@ -87,7 +87,7 @@ app.XreportFiltersController.prototype.clear = function() {
  * @param {string} filterName Name of the filter param.
  * @export
  */
-app.XreportFiltersController.prototype.setDate = function(filterName) {
+exports.prototype.setDate = function(filterName) {
   this.dates = this.dates.filter((date) => {
     return date !== null;
   });
@@ -107,7 +107,7 @@ app.XreportFiltersController.prototype.setDate = function(filterName) {
  * @return {string}
  * @private
  */
-app.XreportFiltersController.prototype.formatDate_ = function(date) {
+exports.prototype.formatDate_ = function(date) {
   return window.moment(date).format('YYYY-MM-DD');
 };
 
@@ -115,7 +115,7 @@ app.XreportFiltersController.prototype.formatDate_ = function(date) {
 /**
  * @private
  */
-app.XreportFiltersController.prototype.updateMinMaxDates_ = function() {
+exports.prototype.updateMinMaxDates_ = function() {
   const nb_dates = this.dates.length;
   if (nb_dates > 0) {
     this.dateMaxStart = nb_dates > 1 ? this.dates[1] : this.dateMaxStart;
@@ -129,11 +129,14 @@ app.XreportFiltersController.prototype.updateMinMaxDates_ = function() {
 /**
  * @private
  */
-app.XreportFiltersController.prototype.resetDates_ = function() {
+exports.prototype.resetDates_ = function() {
   this.dates = [];
   this.dateMaxStart = new Date();
   this.dateMaxEnd = new Date();
   this.dateMinEnd = null;
 };
 
-app.module.controller('appXreportFiltersController', app.XreportFiltersController);
+appBase.module.controller('appXreportFiltersController', exports);
+
+
+export default exports;

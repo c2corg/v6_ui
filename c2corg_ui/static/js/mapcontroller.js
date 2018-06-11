@@ -1,34 +1,34 @@
-goog.provide('app.MapController');
-
-goog.require('app');
-goog.require('app.utils');
-goog.require('ol.Collection');
-goog.require('ol.control');
-goog.require('ol.Feature');
-goog.require('ol.Map');
-goog.require('ol.View');
-goog.require('ol.control.ScaleLine');
-goog.require('ol.format.GeoJSON');
-goog.require('ol.format.GPX');
-goog.require('ol.extent');
-goog.require('ol.events.condition');
-goog.require('ol.geom.MultiLineString');
-goog.require('ol.interaction.DragAndDrop');
-goog.require('ol.interaction.Draw');
-goog.require('ol.interaction.Modify');
-goog.require('ol.interaction.MouseWheelZoom');
-goog.require('ol.interaction');
-goog.require('ol.layer.Vector');
-goog.require('ol.proj');
-goog.require('ol.source.Vector');
-goog.require('ol.style.Circle');
-goog.require('ol.style.Fill');
-goog.require('ol.style.Icon');
-goog.require('ol.style.Stroke');
-goog.require('ol.style.Style');
-goog.require('ol.style.Text');
-goog.require('app.simplify');
-
+/**
+ * @module app.MapController
+ */
+import appBase from './index.js';
+import appUtils from './utils.js';
+import olCollection from 'ol/Collection.js';
+import olControl from 'ol/control.js';
+import olFeature from 'ol/Feature.js';
+import olMap from 'ol/Map.js';
+import olView from 'ol/View.js';
+import olControlScaleLine from 'ol/control/ScaleLine.js';
+import olFormatGeoJSON from 'ol/format/GeoJSON.js';
+import olFormatGPX from 'ol/format/GPX.js';
+import olExtent from 'ol/extent.js';
+import olEventsCondition from 'ol/events/condition.js';
+import olGeomMultiLineString from 'ol/geom/MultiLineString.js';
+import olInteractionDragAndDrop from 'ol/interaction/DragAndDrop.js';
+import olInteractionDraw from 'ol/interaction/Draw.js';
+import olInteractionModify from 'ol/interaction/Modify.js';
+import olInteractionMouseWheelZoom from 'ol/interaction/MouseWheelZoom.js';
+import olInteraction from 'ol/interaction.js';
+import olLayerVector from 'ol/layer/Vector.js';
+import olProj from 'ol/proj.js';
+import olSourceVector from 'ol/source/Vector.js';
+import olStyleCircle from 'ol/style/Circle.js';
+import olStyleFill from 'ol/style/Fill.js';
+import olStyleIcon from 'ol/style/Icon.js';
+import olStyleStroke from 'ol/style/Stroke.js';
+import olStyleStyle from 'ol/style/Style.js';
+import olStyleText from 'ol/style/Text.js';
+import appSimplify from './simplify.js';
 
 /**
  * @param {angular.Scope} $scope Directive scope.
@@ -38,15 +38,15 @@ goog.require('app.simplify');
  * @param {ngeo.Debounce} ngeoDebounce ngeo Debounce service.
  * @param {app.Url} appUrl URL service.
  * @param {app.Biodivsports} appBiodivsports service.
- * @param {app.Lang} appLang Lang service.
+ * @param {app.Lang} LangService Lang service.
  * @param {ui.bootstrap.$modal} $uibModal modal from angular bootstrap
  * @param {string} imgPath Path to the image directory.
  * @constructor
  * @struct
  * @ngInject
  */
-app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
-  ngeoDebounce, appUrl, appBiodivsports, appLang, $uibModal, imgPath) {
+const exports = function($scope, mapFeatureCollection, ngeoLocation,
+  ngeoDebounce, appUrl, appBiodivsports, LangService, $uibModal, imgPath) {
 
   /**
    * @type {number}
@@ -158,7 +158,7 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
    * @type {ol.format.GeoJSON}
    * @private
    */
-  this.geojsonFormat_ = new ol.format.GeoJSON();
+  this.geojsonFormat_ = new olFormatGeoJSON();
 
   /**
    * @type {?ol.Extent}
@@ -225,7 +225,7 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
    * @type {app.Lang}
    * @private
    */
-  this.langService_ = appLang;
+  this.langService_ = LangService;
 
   /**
    * @type {ui.bootstrap.$modal} angular bootstrap modal
@@ -237,12 +237,12 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
    * @type {ol.Map}
    * @export
    */
-  this.map = new ol.Map({
-    interactions: ol.interaction.defaults({mouseWheelZoom: false}),
-    controls: ol.control.defaults().extend([new ol.control.ScaleLine()]),
-    view: new ol.View({
-      center: ol.extent.getCenter(app.MapController.DEFAULT_EXTENT),
-      zoom: app.MapController.DEFAULT_ZOOM
+  this.map = new olMap({
+    interactions: olInteraction.defaults({mouseWheelZoom: false}),
+    controls: olControl.defaults().extend([new olControlScaleLine()]),
+    view: new olView({
+      center: olExtent.getCenter(exports.DEFAULT_EXTENT),
+      zoom: exports.DEFAULT_ZOOM
     })
   });
 
@@ -273,7 +273,7 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
         });
       }
     } else {
-      this.ignoreExtentChange_ = app.utils.detectDocumentIdFilter(this.location_);
+      this.ignoreExtentChange_ = appUtils.detectDocumentIdFilter(this.location_);
     }
 
     this.scope_.$root.$on('searchFeaturesChange', this.handleSearchChange_.bind(this));
@@ -296,9 +296,9 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
   }
 
   if (!this.disableWheel) {
-    const mouseWheelZoomInteraction = new ol.interaction.MouseWheelZoom();
+    const mouseWheelZoomInteraction = new olInteractionMouseWheelZoom();
     this.map.addInteraction(mouseWheelZoomInteraction);
-    app.utils.setupSmartScroll(mouseWheelZoomInteraction);
+    appUtils.setupSmartScroll(mouseWheelZoomInteraction);
   }
 
   if (this.featureCollection || mapFeatureCollection) {
@@ -316,7 +316,7 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
   if (this.edit && this.drawType) {
     const vectorSource = this.getVectorLayer_().getSource();
 
-    this.draw_ = new ol.interaction.Draw({
+    this.draw_ = new olInteractionDraw({
       source: vectorSource,
       type: this.drawType
     });
@@ -326,14 +326,14 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
 
     this.map.once('postrender', () => {
       // add modify interaction after the map has been initialized
-      const modify = new ol.interaction.Modify({
+      const modify = new olInteractionModify({
         features: vectorSource.getFeaturesCollection(),
         // the SHIFT key must be pressed to delete vertices, so
         // that new vertices can be drawn at the same position
         // of existing vertices
         deleteCondition: function(event) {
-          return ol.events.condition.shiftKeyOnly(event) &&
-            ol.events.condition.singleClick(event);
+          return olEventsCondition.shiftKeyOnly(event) &&
+            olEventsCondition.singleClick(event);
         }
       });
       modify.on('modifyend', this.handleModify_.bind(this));
@@ -346,13 +346,13 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
     if (this.features_.length > 0) {
       this.showFeatures_(this.features_, true);
     } else {
-      const extent = this.initialExtent_ || app.MapController.DEFAULT_EXTENT;
+      const extent = this.initialExtent_ || exports.DEFAULT_EXTENT;
       this.recenterOnExtent_(extent);
     }
     if (this.showBiodivsportsAreas) {
       let extent = this.view_.calculateExtent(this.map.getSize() || null);
       // get extent in WGS format
-      extent = ol.proj.transformExtent(extent, ol.proj.get('EPSG:3857'), ol.proj.get('EPSG:4326'));
+      extent = olProj.transformExtent(extent, olProj.get('EPSG:3857'), olProj.get('EPSG:4326'));
       this.biodivSports_.fetchData(extent, this.biodivSportsActivities).then(this.addBiodivsportsData_.bind(this));
     }
   });
@@ -363,28 +363,28 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
  * @const
  * @type {Array.<number>}
  */
-app.MapController.DEFAULT_EXTENT = [-400000, 5200000, 1200000, 6000000];
+exports.DEFAULT_EXTENT = [-400000, 5200000, 1200000, 6000000];
 
 
 /**
  * @const
  * @type {number}
  */
-app.MapController.DEFAULT_ZOOM = 4;
+exports.DEFAULT_ZOOM = 4;
 
 
 /**
  * @const
  * @type {number}
  */
-app.MapController.DEFAULT_POINT_ZOOM = 12;
+exports.DEFAULT_POINT_ZOOM = 12;
 
 
 /**
  * @param {Object} response Biodiv'sports request result.
  * @private
  */
-app.MapController.prototype.addBiodivsportsData_ = function(response) {
+exports.prototype.addBiodivsportsData_ = function(response) {
   const results = response['data']['results'];
   const features = [];
   for (let i = 0; i < results.length; i++) {
@@ -394,7 +394,7 @@ app.MapController.prototype.addBiodivsportsData_ = function(response) {
       dataProjection: 'EPSG:4326',
       featureProjection: 'EPSG:3857'
     });
-    const feature = new ol.Feature({
+    const feature = new olFeature({
       geometry,
       'id': /** @type {number} */ (result['id']),
       'source': 'biodivsports',
@@ -420,11 +420,11 @@ app.MapController.prototype.addBiodivsportsData_ = function(response) {
  * @param {olx.view.FitOptions=} options Options.
  * @private
  */
-app.MapController.prototype.recenterOnExtent_ = function(extent, options) {
+exports.prototype.recenterOnExtent_ = function(extent, options) {
   const mapSize = this.map.getSize();
-  if (!mapSize || !ol.extent.getWidth(extent) || !ol.extent.getHeight(extent)) {
-    this.view_.setCenter(ol.extent.getCenter(extent));
-    this.view_.setZoom(this.zoom || app.MapController.DEFAULT_POINT_ZOOM);
+  if (!mapSize || !olExtent.getWidth(extent) || !olExtent.getHeight(extent)) {
+    this.view_.setCenter(olExtent.getCenter(extent));
+    this.view_.setZoom(this.zoom || exports.DEFAULT_POINT_ZOOM);
   } else {
     options = options || {};
     this.view_.fit(extent, mapSize, options);
@@ -436,13 +436,13 @@ app.MapController.prototype.recenterOnExtent_ = function(extent, options) {
  * @return {ol.layer.Vector} Vector layer.
  * @private
  */
-app.MapController.prototype.getVectorLayer_ = function() {
+exports.prototype.getVectorLayer_ = function() {
   if (!this.vectorLayer_) {
     // The Modify interaction requires the vector source is created
     // with an ol.Collection.
-    const features = new ol.Collection();
-    this.vectorLayer_ = new ol.layer.Vector({
-      source: new ol.source.Vector({features: features})
+    const features = new olCollection();
+    this.vectorLayer_ = new olLayerVector({
+      source: new olSourceVector({features: features})
     });
 
     // Use vectorLayer.setMap(map) rather than map.addLayer(vectorLayer). This
@@ -457,7 +457,7 @@ app.MapController.prototype.getVectorLayer_ = function() {
  * @return {ol.StyleFunction}
  * @private
  */
-app.MapController.prototype.createStyleFunction_ = function() {
+exports.prototype.createStyleFunction_ = function() {
   return (
     /**
      * @param {ol.Feature|ol.render.Feature} feature
@@ -491,21 +491,21 @@ app.MapController.prototype.createStyleFunction_ = function() {
 };
 
 
-app.MapController.prototype.createBiodivsportsAreaStyle_ = function(feature, resolution) {
+exports.prototype.createBiodivsportsAreaStyle_ = function(feature, resolution) {
   const id = /** @type {number} */ (feature.get('id'));
   const highlight = /** @type {boolean} */ (!!feature.get('highlight'));
   const key = 'lines_biodivsports'  + (highlight ? ' _highlight' : '') + '_' + id;
   const opacityFactor = highlight ? 1.5 : 1;
   let style = this.styleCache[key];
   if (!style) {
-    const stroke = new ol.style.Stroke({
+    const stroke = new olStyleStroke({
       color: [51, 122, 183, 0.8 * opacityFactor],
       width: 1
     });
-    const fill = new ol.style.Fill({
+    const fill = new olStyleFill({
       color: [51, 122, 183, 0.4 * opacityFactor]
     });
-    style = new ol.style.Style({
+    style = new olStyleStyle({
       text: this.createTextStyle_(feature, 'biodivsports', highlight),
       stroke,
       fill
@@ -521,7 +521,7 @@ app.MapController.prototype.createBiodivsportsAreaStyle_ = function(feature, res
  * @return {ol.style.Style|Array.<ol.style.Style>}
  * @private
  */
-app.MapController.prototype.createPointStyle_ = function(feature, resolution) {
+exports.prototype.createPointStyle_ = function(feature, resolution) {
   const module = feature.get('module');
   let path;
   let imgSize;
@@ -560,7 +560,7 @@ app.MapController.prototype.createPointStyle_ = function(feature, resolution) {
     }
     let icon = this.iconCache[iconKey];
     if (!icon) {
-      icon = new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+      icon = new olStyleIcon(/** @type {olx.style.IconOptions} */ ({
         scale: scale,
         color: this.getIconColor_(feature),
         src: this.imgPath_ + path
@@ -571,19 +571,19 @@ app.MapController.prototype.createPointStyle_ = function(feature, resolution) {
       // render a transparent circle behind the actual icon so that selecting
       // is easier (the icons contain transparent areas that are not
       // selectable).
-      new ol.style.Style({
-        image: new ol.style.Circle({
+      new olStyleStyle({
+        image: new olStyleCircle({
           radius: imgSize,
-          fill: new ol.style.Fill({
+          fill: new olStyleFill({
             color: 'rgba(255, 255, 255, 0.5)'
           }),
-          stroke: new ol.style.Stroke({
+          stroke: new olStyleStroke({
             color: '#ddd',
             width: 2
           })
         })
       }),
-      new ol.style.Style({
+      new olStyleStyle({
         image: icon,
         text: this.createTextStyle_(feature, type, highlight)
       })
@@ -600,18 +600,18 @@ app.MapController.prototype.createPointStyle_ = function(feature, resolution) {
  * @return {ol.style.Style|Array.<ol.style.Style>}
  * @private
  */
-app.MapController.prototype.createLineStyle_ = function(feature, resolution) {
+exports.prototype.createLineStyle_ = function(feature, resolution) {
   const type = /** @type {string} */ (feature.get('module'));
   const highlight = /** @type {boolean} */ (feature.get('highlight'));
   const id = /** @type {number} */ (feature.get('documentId'));
   const key = 'lines' + (highlight ? ' _highlight' : '') + '_' + id;
   let style = this.styleCache[key];
   if (!style) {
-    const stroke = new ol.style.Stroke({
+    const stroke = new olStyleStroke({
       color: highlight ? 'red' : 'yellow',
       width: 3
     });
-    style = new ol.style.Style({
+    style = new olStyleStyle({
       text: this.createTextStyle_(feature, type, highlight),
       stroke: stroke
     });
@@ -628,7 +628,7 @@ app.MapController.prototype.createLineStyle_ = function(feature, resolution) {
  * @return {ol.style.Text|undefined}
  * @private
  */
-app.MapController.prototype.createTextStyle_ = function(feature, type, highlight) {
+exports.prototype.createTextStyle_ = function(feature, type, highlight) {
   let text;
   if (highlight) { // on hover in list view
     let title = '';
@@ -640,16 +640,16 @@ app.MapController.prototype.createTextStyle_ = function(feature, type, highlight
     }
     title += feature.get('title');
 
-    text = new ol.style.Text({
-      text: app.utils.stringDivider(title, 30, '\n'),
+    text = new olStyleText({
+      text: appUtils.stringDivider(title, 30, '\n'),
       textAlign: 'left',
       offsetX: 20,
       font: '12px verdana,sans-serif',
-      stroke: new ol.style.Stroke({
+      stroke: new olStyleStroke({
         color: 'white',
         width: 3
       }),
-      fill: new ol.style.Fill({
+      fill: new olStyleFill({
         color: 'black'
       }),
       textBaseline: 'middle'
@@ -664,7 +664,7 @@ app.MapController.prototype.createTextStyle_ = function(feature, type, highlight
  * @return {string|undefined}
  * @private
  */
-app.MapController.prototype.getIconColor_ = function(feature) {
+exports.prototype.getIconColor_ = function(feature) {
   let color;
   if (feature.get('module') === 'outings') {
     switch (feature.get('condition_rating')) {
@@ -698,14 +698,14 @@ app.MapController.prototype.getIconColor_ = function(feature) {
  * @param {boolean} recenter Whether or not to recenter on the features.
  * @private
  */
-app.MapController.prototype.showFeatures_ = function(features, recenter) {
+exports.prototype.showFeatures_ = function(features, recenter) {
   const vectorLayer = this.getVectorLayer_();
   const source = vectorLayer.getSource();
   source.clear();
 
   if (!features.length) {
     if (recenter) {
-      this.recenterOnExtent_(app.MapController.DEFAULT_EXTENT);
+      this.recenterOnExtent_(exports.DEFAULT_EXTENT);
     }
     return;
   }
@@ -731,7 +731,7 @@ app.MapController.prototype.showFeatures_ = function(features, recenter) {
  * @param {Object} data
  * @private
  */
-app.MapController.prototype.handleEditModelChange_ = function(event, data) {
+exports.prototype.handleEditModelChange_ = function(event, data) {
   if (this.initialGeometry_ === undefined) {
     this.initialGeometry_ = data['geometry'] ? angular.copy(data['geometry']) : null;
   }
@@ -744,7 +744,7 @@ app.MapController.prototype.handleEditModelChange_ = function(event, data) {
   let geometry;
   if (geomstr) {
     geometry = this.geojsonFormat_.readGeometry(geomstr);
-    const features = [new ol.Feature(geometry)];
+    const features = [new olFeature(geometry)];
     this.showFeatures_(features, true);
   } else if (this.drawType != 'Point') {
     // recenter the map on the default point geometry for routes or outings
@@ -752,7 +752,7 @@ app.MapController.prototype.handleEditModelChange_ = function(event, data) {
     geomstr = data['geometry']['geom'];
     geometry = /** @type {ol.geom.Point} */ (this.geojsonFormat_.readGeometry(geomstr));
     this.view_.setCenter(geometry.getCoordinates());
-    this.view_.setZoom(this.zoom || app.MapController.DEFAULT_POINT_ZOOM);
+    this.view_.setZoom(this.zoom || exports.DEFAULT_POINT_ZOOM);
   }
 };
 
@@ -762,8 +762,8 @@ app.MapController.prototype.handleEditModelChange_ = function(event, data) {
  * @param {Array.<ol.Feature>} features Uploaded features.
  * @private
  */
-app.MapController.prototype.handleFeaturesUpload_ = function(event, features) {
-  features = features.filter(app.utils.isLineFeature);
+exports.prototype.handleFeaturesUpload_ = function(event, features) {
+  features = features.filter(appUtils.isLineFeature);
   features = this.validateFeatures_(features);
   features.forEach(this.simplifyFeature_);
   this.showFeatures_(features, true);
@@ -777,11 +777,11 @@ app.MapController.prototype.handleFeaturesUpload_ = function(event, features) {
  * @returns {Array.<ol.Feature>} features - this geometry is valid
  * @private
  */
-app.MapController.prototype.validateFeatures_ = function(features) {
+exports.prototype.validateFeatures_ = function(features) {
   for (let i = 0; i < features.length; i++) {
     const geom = /** @type{ol.geom.Geometry} */ (features[i].getGeometry());
 
-    if (geom instanceof ol.geom.MultiLineString) {
+    if (geom instanceof olGeomMultiLineString) {
       const multiLineString = /** @type{ol.geom.MultiLineString} */ (geom);
       const lineStrings = multiLineString.getLineStrings();
 
@@ -791,7 +791,7 @@ app.MapController.prototype.validateFeatures_ = function(features) {
         }
       }
 
-      const newMs = new ol.geom.MultiLineString([]);
+      const newMs = new olGeomMultiLineString([]);
       newMs.setLineStrings(lineStrings);
       features[i].setGeometry(newMs);
     }
@@ -804,7 +804,7 @@ app.MapController.prototype.validateFeatures_ = function(features) {
  * @param {ol.interaction.Draw.Event} event
  * @private
  */
-app.MapController.prototype.handleDrawStart_ = function(event) {
+exports.prototype.handleDrawStart_ = function(event) {
   this.isDrawing_ = true;
   const feature = event.feature;
   // Only one feature can be drawn at a time
@@ -821,7 +821,7 @@ app.MapController.prototype.handleDrawStart_ = function(event) {
  * @param {ol.interaction.Draw.Event} event
  * @private
  */
-app.MapController.prototype.handleDrawEnd_ = function(event) {
+exports.prototype.handleDrawEnd_ = function(event) {
   this.isDrawing_ = false;
   this.scope_.$root.$emit('mapFeaturesChange', [event.feature]);
   this.scope_.$applyAsync();
@@ -832,7 +832,7 @@ app.MapController.prototype.handleDrawEnd_ = function(event) {
  * @param {ol.interaction.Modify.Event} event
  * @private
  */
-app.MapController.prototype.handleModify_ = function(event) {
+exports.prototype.handleModify_ = function(event) {
   const features = event.features.getArray();
   this.scope_.$root.$emit('mapFeaturesChange', features);
 };
@@ -845,7 +845,7 @@ app.MapController.prototype.handleModify_ = function(event) {
  * @param {boolean} recenter
  * @private
  */
-app.MapController.prototype.handleSearchChange_ = function(event, features, total, recenter) {
+exports.prototype.handleSearchChange_ = function(event, features, total, recenter) {
   // show the search results on the map but don't change the map filter
   // if recentering on search results, the extent change must not trigger
   // a new search request.
@@ -859,7 +859,7 @@ app.MapController.prototype.handleSearchChange_ = function(event, features, tota
  * @param {Object} event
  * @private
  */
-app.MapController.prototype.handleSearchClear_ = function(event) {
+exports.prototype.handleSearchClear_ = function(event) {
   if (!this.location_.hasFragmentParam('bbox')) {
     const mapSize = this.map.getSize();
     if (mapSize) {
@@ -878,7 +878,7 @@ app.MapController.prototype.handleSearchClear_ = function(event) {
  * @param {boolean} highlight Whether the feature must be highlighted.
  * @private
  */
-app.MapController.prototype.toggleFeatureHighlight_ = function(id, highlight) {
+exports.prototype.toggleFeatureHighlight_ = function(id, highlight) {
   const feature = this.getVectorLayer_().getSource().getFeatureById(id);
   if (feature) {
     this.currentSelectedFeatureId_ = highlight ? id : null;
@@ -890,7 +890,7 @@ app.MapController.prototype.toggleFeatureHighlight_ = function(id, highlight) {
 /**
  * @private
  */
-app.MapController.prototype.handleMapSearchChange_ = function() {
+exports.prototype.handleMapSearchChange_ = function() {
   if (!this.enableMapFilter) {
     return;
   }
@@ -922,7 +922,7 @@ app.MapController.prototype.handleMapSearchChange_ = function() {
  * @param {ol.MapBrowserEvent} event
  * @private
  */
-app.MapController.prototype.handleMapFeatureClick_ = function(event) {
+exports.prototype.handleMapFeatureClick_ = function(event) {
   const feature = this.map.forEachFeatureAtPixel(event.pixel, feature => feature, this, function(layer) {
     // test only features from the current vector layer
     return layer === this.getVectorLayer_();
@@ -965,7 +965,7 @@ app.MapController.prototype.handleMapFeatureClick_ = function(event) {
  * @param {ol.MapBrowserEvent} event
  * @private
  */
-app.MapController.prototype.handleMapFeatureHover_ = function(event) {
+exports.prototype.handleMapFeatureHover_ = function(event) {
   if (event.dragging) {
     return;
   }
@@ -1001,7 +1001,7 @@ app.MapController.prototype.handleMapFeatureHover_ = function(event) {
  * @param {boolean} was_enabled Former value.
  * @private
  */
-app.MapController.prototype.handleMapFilterSwitchChange_ = function(
+exports.prototype.handleMapFilterSwitchChange_ = function(
   enabled, was_enabled) {
   if (enabled === was_enabled) {
     // initial setting of the filter switch
@@ -1027,10 +1027,10 @@ app.MapController.prototype.handleMapFilterSwitchChange_ = function(
 /**
  * @private
  */
-app.MapController.prototype.addTrackImporter_ = function() {
-  const dragAndDropInteraction = new ol.interaction.DragAndDrop({
+exports.prototype.addTrackImporter_ = function() {
+  const dragAndDropInteraction = new olInteractionDragAndDrop({
     formatConstructors: [
-      ol.format.GPX
+      olFormatGPX
     ]
   });
   dragAndDropInteraction.on('addfeatures', (event) => {
@@ -1048,11 +1048,11 @@ app.MapController.prototype.addTrackImporter_ = function() {
  * @return {ol.Feature}
  * @private
  */
-app.MapController.prototype.simplifyFeature_ = function(feature) {
+exports.prototype.simplifyFeature_ = function(feature) {
   let geometry = feature.getGeometry();
   goog.asserts.assert(geometry !== undefined);
   // simplify geometry with a tolerance of 20 meters
-  geometry = app.simplify.simplify(geometry, 20);
+  geometry = appSimplify.simplify(geometry, 20);
   feature.setGeometry(geometry);
   return feature;
 };
@@ -1061,7 +1061,7 @@ app.MapController.prototype.simplifyFeature_ = function(feature) {
 /**
  * @export
  */
-app.MapController.prototype.toggleFullscreen = function() {
+exports.prototype.toggleFullscreen = function() {
   this.isFullscreen = !this.isFullscreen;
   setTimeout(() => {
     this.scope_.$apply();
@@ -1074,7 +1074,7 @@ app.MapController.prototype.toggleFullscreen = function() {
 /**
  * @export
  */
-app.MapController.prototype.canReset = function() {
+exports.prototype.canReset = function() {
   return this.edit;
 };
 
@@ -1082,7 +1082,7 @@ app.MapController.prototype.canReset = function() {
 /**
  * @export
  */
-app.MapController.prototype.resetFeature = function() {
+exports.prototype.resetFeature = function() {
   if (this.isDrawing_) {
     this.draw_.finishDrawing();
   }
@@ -1096,7 +1096,7 @@ app.MapController.prototype.resetFeature = function() {
 /**
  * @export
  */
-app.MapController.prototype.canDelete = function() {
+exports.prototype.canDelete = function() {
   return this.edit && this.getVectorLayer_().getSource().getFeatures().length > 0 &&
       this.initialGeometry_ && this.initialGeometry_['geom'];
 };
@@ -1105,7 +1105,7 @@ app.MapController.prototype.canDelete = function() {
 /**
  * @export
  */
-app.MapController.prototype.deleteFeature = function() {
+exports.prototype.deleteFeature = function() {
   if (this.isDrawing_) {
     this.draw_.finishDrawing();
   }
@@ -1118,10 +1118,13 @@ app.MapController.prototype.deleteFeature = function() {
 /**
  * @private
  */
-app.MapController.prototype.resizeMap_ = function() {
+exports.prototype.resizeMap_ = function() {
   this.map.renderSync();
   this.map.updateSize();
 };
 
 
-app.module.controller('AppMapController', app.MapController);
+appBase.module.controller('AppMapController', exports);
+
+
+export default exports;

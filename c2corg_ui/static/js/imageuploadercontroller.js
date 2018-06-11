@@ -1,10 +1,10 @@
-goog.provide('app.ImageUploaderController');
-
-goog.require('app');
-goog.require('ol.coordinate');
-goog.require('ol.extent');
-goog.require('ol.proj');
-
+/**
+ * @module app.ImageUploaderController
+ */
+import appBase from './index.js';
+import olCoordinate from 'ol/coordinate.js';
+import olExtent from 'ol/extent.js';
+import olProj from 'ol/proj.js';
 
 /**
  * @param {!angular.Scope} $scope Scope.
@@ -21,7 +21,7 @@ goog.require('ol.proj');
  * @struct
  * @ngInject
  */
-app.ImageUploaderController = function($scope, $uibModal, $compile, $q,
+const exports = function($scope, $uibModal, $compile, $q,
   appAlerts, appApi, appDocument, imageUrl, appUrl, appAuthentication) {
 
   /**
@@ -155,7 +155,7 @@ app.ImageUploaderController = function($scope, $uibModal, $compile, $q,
 /**
  * @private
  */
-app.ImageUploaderController.prototype.processFiles_ = function() {
+exports.prototype.processFiles_ = function() {
   this.areAllUploaded = false;
   let file;
 
@@ -163,7 +163,7 @@ app.ImageUploaderController.prototype.processFiles_ = function() {
     file = this.files[i];
     if (!file['metadata']) {
       angular.extend(file, {
-        'src': app.utils.getImageFileBase64Source(file),
+        'src': appBase.utils.getImageFileBase64Source(file),
         'queued': true,
         'progress': 0,
         'processed': false,
@@ -186,7 +186,7 @@ app.ImageUploaderController.prototype.processFiles_ = function() {
 /**
  * @private
  */
-app.ImageUploaderController.prototype.upload_ = function() {
+exports.prototype.upload_ = function() {
   let file;
 
   for (let i = 0; i < this.files.length; i++) {
@@ -212,7 +212,7 @@ app.ImageUploaderController.prototype.upload_ = function() {
 /**
  * @private
  */
-app.ImageUploaderController.prototype.uploadFile_ = function(file) {
+exports.prototype.uploadFile_ = function(file) {
   const canceller = this.q_.defer();
   const promise = this.api_.uploadImage(file, canceller.promise, ((file, event) => {
     const progress = event.loaded / event.total;
@@ -248,7 +248,7 @@ app.ImageUploaderController.prototype.uploadFile_ = function(file) {
  * Lets showing the 'save' button when all images have been uploaded.
  * @private
  */
-app.ImageUploaderController.prototype.areAllUploadedCheck_ = function() {
+exports.prototype.areAllUploadedCheck_ = function() {
   let file;
   for (let i = 0; i < this.files.length; i++) {
     file = this.files[i];
@@ -265,7 +265,7 @@ app.ImageUploaderController.prototype.areAllUploadedCheck_ = function() {
  * Save images and update their metadatas
  * @export
  */
-app.ImageUploaderController.prototype.save = function() {
+exports.prototype.save = function() {
   const defer = this.q_.defer();
 
   this.api_.createImages(this.files, this.documentService.document)
@@ -276,7 +276,7 @@ app.ImageUploaderController.prototype.save = function() {
       $('.img-container').each((i) => {
         const id = imageIds[i]['document_id'];
         images[i]['image_id'] = 'image-' + id;
-        const element = app.utils.createImageSlide(images[i], this.imageUrl_);
+        const element = appBase.utils.createImageSlide(images[i], this.imageUrl_);
         $('.photos').append(element);
 
         const scope = this.scope_.$new(true);
@@ -301,8 +301,8 @@ app.ImageUploaderController.prototype.save = function() {
  * @private
  * @return {string}
  */
-app.ImageUploaderController.prototype.setImageType_ = function() {
-  const type = app.utils.getDoctype(this.documentService.document.type);
+exports.prototype.setImageType_ = function() {
+  const type = appBase.utils.getDoctype(this.documentService.document.type);
   const isColl = this.documentService.isCollaborative(type);
   return isColl ? 'collaborative' : 'personal';
 };
@@ -312,7 +312,7 @@ app.ImageUploaderController.prototype.setImageType_ = function() {
  * @param {File} file
  * @export
  */
-app.ImageUploaderController.prototype.retryFileUpload = function(file) {
+exports.prototype.retryFileUpload = function(file) {
   file['failed'] = false;
   file['queued'] = true;
   this.upload_();
@@ -323,7 +323,7 @@ app.ImageUploaderController.prototype.retryFileUpload = function(file) {
  * @param {File} file
  * @export
  */
-app.ImageUploaderController.prototype.abortFileUpload = function(file) {
+exports.prototype.abortFileUpload = function(file) {
   if (!file['queued'] && !file['failed']) {
     file['manuallyAborted'] = true;
     file['canceller'].resolve();
@@ -336,7 +336,7 @@ app.ImageUploaderController.prototype.abortFileUpload = function(file) {
 /**
 * @export
 */
-app.ImageUploaderController.prototype.abortAllUploads = function() {
+exports.prototype.abortAllUploads = function() {
   this.files.forEach((file) => {
     this.abortFileUpload(file);
   });
@@ -346,7 +346,7 @@ app.ImageUploaderController.prototype.abortAllUploads = function() {
 /**
  * @export
  */
-app.ImageUploaderController.prototype.deleteImage = function(index) {
+exports.prototype.deleteImage = function(index) {
   this.files.splice(index, 1);
   if (this.files.length === 0) {
     this.areAllUploaded = false;
@@ -359,7 +359,7 @@ app.ImageUploaderController.prototype.deleteImage = function(index) {
  * @suppress {missingProperties}
  * @private
  */
-app.ImageUploaderController.prototype.getImageMetadata_ = function(file) {
+exports.prototype.getImageMetadata_ = function(file) {
   window.loadImage.parseMetaData(file, (data) => {
     const exif = data.exif;
     if (exif) {
@@ -378,7 +378,7 @@ app.ImageUploaderController.prototype.getImageMetadata_ = function(file) {
  * @param {File} file
  * @private
  */
-app.ImageUploaderController.prototype.setExifData_ = function(file) {
+exports.prototype.setExifData_ = function(file) {
   const exif = file['exif'];
   const metadata = file['metadata'];
 
@@ -401,7 +401,7 @@ app.ImageUploaderController.prototype.setExifData_ = function(file) {
  * @return {?string} Parsed date in ISO format.
  * @private
  */
-app.ImageUploaderController.prototype.parseExifDate_ = function(exifData, exifTag) {
+exports.prototype.parseExifDate_ = function(exifData, exifTag) {
   if (!exifData[exifTag]) {
     return null;
   }
@@ -415,19 +415,19 @@ app.ImageUploaderController.prototype.parseExifDate_ = function(exifData, exifTa
  * @param {File} file
  * @private
  */
-app.ImageUploaderController.prototype.setGeolocation_ = function(file) {
+exports.prototype.setGeolocation_ = function(file) {
   let lat = file['exif']['GPSLatitude'].split(',');
   let lon = file['exif']['GPSLongitude'].split(',');
-  lat = app.utils.convertDMSToDecimal(lat[0], lat[1], lat[2], file['exif']['GPSLatitudeRef']);
-  lon = app.utils.convertDMSToDecimal(lon[0], lon[1], lon[2], file['exif']['GPSLongitudeRef']);
-  const worldExtent = ol.proj.get('EPSG:4326').getExtent();
+  lat = appBase.utils.convertDMSToDecimal(lat[0], lat[1], lat[2], file['exif']['GPSLatitudeRef']);
+  lon = appBase.utils.convertDMSToDecimal(lon[0], lon[1], lon[2], file['exif']['GPSLongitudeRef']);
+  const worldExtent = olProj.get('EPSG:4326').getExtent();
 
-  if (!isNaN(lat) && !isNaN(lon) && ol.extent.containsXY(worldExtent, lon, lat)) {
-    const location = ol.proj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857');
+  if (!isNaN(lat) && !isNaN(lon) && olExtent.containsXY(worldExtent, lon, lat)) {
+    const location = olProj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857');
     const geom = {'coordinates': location, 'type': 'Point'};
 
     file['metadata']['geometry'] = {'geom': JSON.stringify(geom)};
-    file['exif']['geo_label'] = ol.coordinate.toStringHDMS([lon, lat]);
+    file['exif']['geo_label'] = olCoordinate.toStringHDMS([lon, lat]);
   }
 
   const elevation = parseFloat(file['exif']['GPSAltitude']);
@@ -440,7 +440,7 @@ app.ImageUploaderController.prototype.setGeolocation_ = function(file) {
 /**
  * @export
  */
-app.ImageUploaderController.prototype.openModal = function() {
+exports.prototype.openModal = function() {
   const template = $('#image-uploader').clone();
   this.modal_.open({
     animation: true,
@@ -458,9 +458,9 @@ app.ImageUploaderController.prototype.openModal = function() {
  * @param {jQuery.Event | goog.events.Event} event click
  * @export
  */
-app.ImageUploaderController.prototype.selectOption = function(object, property, value, event) {
+exports.prototype.selectOption = function(object, property, value, event) {
   event.stopPropagation();
-  app.utils.pushToArray(object, property, value, event);
+  appBase.utils.pushToArray(object, property, value, event);
 };
 
 
@@ -471,7 +471,7 @@ app.ImageUploaderController.prototype.selectOption = function(object, property, 
  * @return {boolean}
  * @export
  */
-app.ImageUploaderController.prototype.resizeIf = function(
+exports.prototype.resizeIf = function(
   file, width, height) {
   if (file.type === 'image/jpeg' || file.type === 'image/png') {
     return file.size > 2 * 1024 * 1024; /** 2 MB */
@@ -485,7 +485,7 @@ app.ImageUploaderController.prototype.resizeIf = function(
  * @return {Array.<string>}
  * @export
  */
-app.ImageUploaderController.prototype.filterImageTypes = function(imageTypes) {
+exports.prototype.filterImageTypes = function(imageTypes) {
   if (this.auth_.isModerator()) {
     // moderators have access to all image types
     return imageTypes;
@@ -497,4 +497,7 @@ app.ImageUploaderController.prototype.filterImageTypes = function(imageTypes) {
 };
 
 
-app.module.controller('AppImageUploaderController', app.ImageUploaderController);
+appBase.module.controller('AppImageUploaderController', exports);
+
+
+export default exports;

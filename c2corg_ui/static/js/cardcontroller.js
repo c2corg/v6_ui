@@ -1,8 +1,8 @@
-goog.provide('app.CardController');
-
-goog.require('app');
-goog.require('app.utils');
-
+/**
+ * @module app.CardController
+ */
+import appBase from './index.js';
+import appUtils from './utils.js';
 
 /**
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
@@ -12,7 +12,7 @@ goog.require('app.utils');
  * @struct
  * @ngInject
  */
-app.CardController = function(gettextCatalog, appUrl, imageUrl, moment) {
+const exports = function(gettextCatalog, appUrl, imageUrl, moment) {
 
   /**
    * @type {angularGettext.Catalog}
@@ -54,7 +54,7 @@ app.CardController = function(gettextCatalog, appUrl, imageUrl, moment) {
    * @type {string}
    * @public
    */
-  this.type = app.utils.getDoctype(this.doc['type']);
+  this.type = appUtils.getDoctype(this.doc['type']);
 
   /**
    * FIXME: find type declaration for MomentJs
@@ -86,7 +86,7 @@ app.CardController = function(gettextCatalog, appUrl, imageUrl, moment) {
  * @return {string} line
  * @export
  */
-app.CardController.prototype.createActionLine = function() {
+exports.prototype.createActionLine = function() {
   let line = '';
 
   switch (this.doc['change_type']) {
@@ -110,8 +110,8 @@ app.CardController.prototype.createActionLine = function() {
  * @export
  * @returns {string}
  */
-app.CardController.prototype.getDocumentType = function(type) {
-  return app.utils.getDoctype(type).slice(0, -1);
+exports.prototype.getDocumentType = function(type) {
+  return appUtils.getDoctype(type).slice(0, -1);
 };
 
 /**
@@ -119,7 +119,7 @@ app.CardController.prototype.getDocumentType = function(type) {
  * @return {string} Translated string.
  * @export
  */
-app.CardController.prototype.translate = function(str) {
+exports.prototype.translate = function(str) {
   return this.gettextCatalog_.getString(str);
 };
 
@@ -131,7 +131,7 @@ app.CardController.prototype.translate = function(str) {
  * @return {string}
  * @export
  */
-app.CardController.prototype.showArea = function(areas) {
+exports.prototype.showArea = function(areas) {
   if (areas) {
     // the areas often come in different orders within 3 area objects.
     const orderedAreas = {'range': [], 'admin_limits': [], 'country': []};
@@ -162,7 +162,7 @@ app.CardController.prototype.showArea = function(areas) {
  * @return {string}
  * @export
  */
-app.CardController.prototype.showOrientation = function(orientations) {
+exports.prototype.showOrientation = function(orientations) {
   return orientations.join(', ');
 };
 
@@ -171,7 +171,7 @@ app.CardController.prototype.showOrientation = function(orientations) {
  * @return {string}
  * @export
  */
-app.CardController.prototype.showDates = function() {
+exports.prototype.showDates = function() {
   const start = this.doc['document']['date_start'];
   const end = this.doc['document']['date_end'];
   const sameYear = this.moment_(start).year() == this.moment_(end).year();
@@ -194,7 +194,7 @@ app.CardController.prototype.showDates = function() {
  * Create redirection to the document page
  * @export
  */
-app.CardController.prototype.openDoc = function() {
+exports.prototype.openDoc = function() {
   window.location = this.createURL();
 };
 
@@ -204,10 +204,10 @@ app.CardController.prototype.openDoc = function() {
  * @export
  * @return {string | undefined}
  */
-app.CardController.prototype.createURL = function() {
+exports.prototype.createURL = function() {
   let type, doc;
   if (this.type == 'feeds') {
-    type = app.utils.getDoctype(this.doc['document']['type']);
+    type = appUtils.getDoctype(this.doc['document']['type']);
     doc = this.doc['document'];
   } else {
     type = this.type;
@@ -223,8 +223,8 @@ app.CardController.prototype.createURL = function() {
  * @return {string}
  * @export
  */
-app.CardController.prototype.createImageUrl = function(filename, suffix) {
-  return this.imageUrl_ + app.utils.createImageUrl(filename, suffix);
+exports.prototype.createImageUrl = function(filename, suffix) {
+  return this.imageUrl_ + appUtils.createImageUrl(filename, suffix);
 };
 
 
@@ -233,7 +233,7 @@ app.CardController.prototype.createImageUrl = function(filename, suffix) {
  * @return {string | undefined}
  * @export
  */
-app.CardController.prototype.createAreaURL = function(areas) {
+exports.prototype.createAreaURL = function(areas) {
   const loc = window.location.pathname;
   if (areas && areas.length &&
       loc.indexOf('/edit/') === -1 && loc.indexOf('/add') === -1) {
@@ -254,7 +254,7 @@ app.CardController.prototype.createAreaURL = function(areas) {
     }
 
     return this.url_.buildDocumentUrl(
-      app.utils.getDoctype(doc['type']),
+      appUtils.getDoctype(doc['type']),
       doc['document_id'],
       doc['locales'][0]
     );
@@ -268,8 +268,8 @@ app.CardController.prototype.createAreaURL = function(areas) {
  * @param {string} suffix (BI, SI, MI)
  * @return {string}
  */
-app.CardController.prototype.createImg = function(suffix) {
-  return this.imageUrl_ + app.utils.createImageUrl(this.doc['filename'], 'MI');
+exports.prototype.createImg = function(suffix) {
+  return this.imageUrl_ + appUtils.createImageUrl(this.doc['filename'], 'MI');
 };
 
 
@@ -278,7 +278,7 @@ app.CardController.prototype.createImg = function(suffix) {
  * @export
  * @return {Object | null} ratings
  */
-app.CardController.prototype.getGlobalRatings = function() {
+exports.prototype.getGlobalRatings = function() {
   const doc = this.doc;
   const ratings = {};
 
@@ -315,7 +315,7 @@ app.CardController.prototype.getGlobalRatings = function() {
  * @export
  * @return {Object} ratings
  */
-app.CardController.prototype.getFullRatings = function() {
+exports.prototype.getFullRatings = function() {
   const doc = this.type == 'feeds' ? this.doc['document'] : this.doc;
   const ratings = {};
   const fullRatings = {};
@@ -349,7 +349,7 @@ app.CardController.prototype.getFullRatings = function() {
       }
     }
   }
-  app.constants.fullRatingOrdered.forEach((rating) => {
+  appBase.constants.fullRatingOrdered.forEach((rating) => {
     if (rating in ratings && ratings[rating]) {
       fullRatings[rating] = ratings[rating];
     }
@@ -364,7 +364,7 @@ app.CardController.prototype.getFullRatings = function() {
  * @param {string|null} rating2
  * @return {string|null} rating
  */
-app.CardController.prototype.slashSeparatedRating_ = function(rating1, rating2) {
+exports.prototype.slashSeparatedRating_ = function(rating1, rating2) {
   let rating = rating1 || '';
   rating += (rating1 && rating2) ? '/' : '';
   rating += rating2 || '';
@@ -375,9 +375,12 @@ app.CardController.prototype.slashSeparatedRating_ = function(rating1, rating2) 
 /**
  * @export
  */
-app.CardController.prototype.hasActivity = function(activities) {
+exports.prototype.hasActivity = function(activities) {
   return (this.type === 'routes') ?
-    app.utils.hasActivity(/** @type{appx.Route}*/ (this.doc), activities) : false;
+    appUtils.hasActivity(/** @type{appx.Route}*/ (this.doc), activities) : false;
 };
 
-app.module.controller('AppCardController', app.CardController);
+appBase.module.controller('AppCardController', exports);
+
+
+export default exports;

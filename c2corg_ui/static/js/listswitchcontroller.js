@@ -1,13 +1,13 @@
-goog.provide('app.ListSwitchController');
-
-goog.require('app');
-
+/**
+ * @module app.ListSwitchController
+ */
+import appBase from './index.js';
 
 /**
  * @constructor
  * @ngInject
  */
-app.ListSwitchController = function() {
+const exports = function() {
 
   /**
    * @type {boolean}
@@ -21,9 +21,12 @@ app.ListSwitchController = function() {
 /**
  * @export
  */
-app.ListSwitchController.prototype.toggle = function() {
+exports.prototype.toggle = function() {
   this.showList = !this.showList;
   window.localStorage.setItem('showList', JSON.stringify(this.showList));
 };
 
-app.module.controller('appListSwitchController', app.ListSwitchController);
+appBase.module.controller('appListSwitchController', exports);
+
+
+export default exports;

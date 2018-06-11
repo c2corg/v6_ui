@@ -1,14 +1,16 @@
-goog.provide('app.utils');
-
-goog.require('ol.geom.LineString');
-goog.require('ol.geom.MultiLineString');
+/**
+ * @module app.utils
+ */
+let exports = {};
+import olGeomLineString from 'ol/geom/LineString.js';
+import olGeomMultiLineString from 'ol/geom/MultiLineString.js';
 
 
 /**
  * @param {string} type Short document type code.
  * @return {string} Full document type name.
  */
-app.utils.getDoctype = function(type) {
+exports.getDoctype = function(type) {
   switch (type) {
     case 'w':
       return 'waypoints';
@@ -40,7 +42,7 @@ app.utils.getDoctype = function(type) {
 /**
  * @param {ol.interaction.MouseWheelZoom} mouseWheelZoomInteraction
  */
-app.utils.setupSmartScroll = function(mouseWheelZoomInteraction) {
+exports.setupSmartScroll = function(mouseWheelZoomInteraction) {
   let scrollTimer;
   $(window).on('scroll', (e) => {
     mouseWheelZoomInteraction.setActive(false);
@@ -64,7 +66,7 @@ app.utils.setupSmartScroll = function(mouseWheelZoomInteraction) {
  * @param {goog.events.Event | jQuery.Event} event
  * @export
  */
-app.utils.pushToArray = function(object, property, value, event) {
+exports.pushToArray = function(object, property, value, event) {
   const checkbox = $(event.currentTarget).find('input') || null;
 
   if (typeof value === 'boolean') {
@@ -92,7 +94,7 @@ app.utils.pushToArray = function(object, property, value, event) {
 /**
  * @export
  */
-app.utils.animateHeaderIcon = function(e) {
+exports.animateHeaderIcon = function(e) {
   // TO FIX - if you quickly double-click, it will add/remove classes even when div is or has already collapsed
   const target = $(e.currentTarget);
   if (target.hasClass('closed') && target.parent().find('.collapsing').length === 0) {
@@ -117,7 +119,7 @@ app.utils.animateHeaderIcon = function(e) {
  * @property {Object} uploaded Image File
  * @export
  */
-app.utils.getImageFileBase64Source = function(file) {
+exports.getImageFileBase64Source = function(file) {
   const reader = new FileReader();
   reader.onload = function(e) {
     return file.src = e.target.result;
@@ -131,9 +133,9 @@ app.utils.getImageFileBase64Source = function(file) {
  * @return {string}
  * @export
  */
-app.utils.createImageSlide = function(file, imageUrl) {
-  const smallImage = app.utils.createImageUrl(file.filename, 'SI');
-  const bigImage = app.utils.createImageUrl(file.filename, 'BI');
+exports.createImageSlide = function(file, imageUrl) {
+  const smallImage = exports.createImageUrl(file.filename, 'SI');
+  const bigImage = exports.createImageUrl(file.filename, 'BI');
   // FIXME use lodash const title = _.escape(file['locales'][0]['title']);
   const title = file['locales'][0]['title'];
   const ahref = '<a href="' + imageUrl + bigImage + '" data-info-id="' + file['image_id'] + '-slide" title="' + title + '">';
@@ -150,7 +152,7 @@ app.utils.createImageSlide = function(file, imageUrl) {
  * @param {string} selector
  * @export
  */
-app.utils.createPhotoswipeSlideHTML = function(imgUrl, imgId, selector) {
+exports.createPhotoswipeSlideHTML = function(imgUrl, imgId, selector) {
   const slide = $(selector + imgId + '-slide');
   return '<div class="photoswipe-image-container">' +
            '<img src="' + imgUrl + '">' + slide.html() +
@@ -164,7 +166,7 @@ app.utils.createPhotoswipeSlideHTML = function(imgUrl, imgId, selector) {
  * @return {string | undefined}
  * @export
  */
-app.utils.createImageUrl = function(url, suffix) {
+exports.createImageUrl = function(url, suffix) {
   if (url) {
     const i = url.lastIndexOf('.');
     const base = url.slice(0, i);
@@ -180,7 +182,7 @@ app.utils.createImageUrl = function(url, suffix) {
  * @return {boolean}
  * @export
  */
-app.utils.isTopoguide = function(location) {
+exports.isTopoguide = function(location) {
   return location.indexOf('topoguide') > -1 ||
     location.indexOf('waypoints') > -1 || location.indexOf('routes') > -1 ||
     location.indexOf('images') > -1 || location.indexOf('areas') > -1 ||
@@ -195,7 +197,7 @@ app.utils.isTopoguide = function(location) {
  * @param {string} spaceReplacer
  * @return {string}
  */
-app.utils.stringDivider = function(str, width, spaceReplacer) {
+exports.stringDivider = function(str, width, spaceReplacer) {
   if (str.length > width) {
     let p = width;
     while (p > 0 && (str[p] !== ' ' && str[p] !== '-')) {
@@ -209,7 +211,7 @@ app.utils.stringDivider = function(str, width, spaceReplacer) {
         left = str.substring(0, p);
       }
       const right = str.substring(p + 1);
-      return left + spaceReplacer + app.utils.stringDivider(right, width, spaceReplacer);
+      return left + spaceReplacer + exports.stringDivider(right, width, spaceReplacer);
     }
   }
   return str;
@@ -221,7 +223,7 @@ app.utils.stringDivider = function(str, width, spaceReplacer) {
  * @param {angular.$templateCache} $templateCache service
  * @return {string}
  */
-app.utils.getTemplate = function(path, $templateCache) {
+exports.getTemplate = function(path, $templateCache) {
   const tpl = $templateCache.get(path);
   // if (DEBUG && !tpl) {
   //   const req = new XMLHttpRequest();
@@ -238,7 +240,7 @@ app.utils.getTemplate = function(path, $templateCache) {
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @return {boolean}
  */
-app.utils.detectDocumentIdFilter = function(ngeoLocation) {
+exports.detectDocumentIdFilter = function(ngeoLocation) {
   // see app.utils.getDoctype() for types definitions
   const associatedDocTypes = ['w', 'r', 'a', 'u'];
   for (let i = 0, n = associatedDocTypes.length; i < n; i++) {
@@ -254,7 +256,7 @@ app.utils.detectDocumentIdFilter = function(ngeoLocation) {
  * Redirects to the login page.
  * @param {string} authUrl
  */
-app.utils.redirectToLogin = function(authUrl) {
+exports.redirectToLogin = function(authUrl) {
   const location = window.location;
   let current_url = location.pathname + location.search + location.hash;
   if (location.pathname === '/auth') {
@@ -274,7 +276,7 @@ app.utils.redirectToLogin = function(authUrl) {
  * @param {string} direction
  * @return {number} decimal
  */
-app.utils.convertDMSToDecimal = function(degrees, minutes, seconds, direction) {
+exports.convertDMSToDecimal = function(degrees, minutes, seconds, direction) {
   let decimal = Number(degrees) + (Number(minutes) / 60) + (parseFloat(seconds) / 3600);
   // Don't do anything for N or E
   if (direction === 'S' || direction === 'W') {
@@ -293,7 +295,7 @@ app.utils.convertDMSToDecimal = function(degrees, minutes, seconds, direction) {
  *            checkBottom: if true - scroll down if the menu overflows the bottom
  *         }
  */
-app.utils.repositionMenu = function(els) {
+exports.repositionMenu = function(els) {
   const boxBoundEl = $(els['boxBoundEl']);
   const menu = $(els['menu']).next();
   menu.css('opacity', 0); // prevent from jumping on the screen
@@ -316,9 +318,9 @@ app.utils.repositionMenu = function(els) {
  * @param {ol.Feature} feature
  * @return {boolean}
  */
-app.utils.isLineFeature = function(feature) {
-  return feature.getGeometry() instanceof ol.geom.LineString ||
-    feature.getGeometry() instanceof ol.geom.MultiLineString;
+exports.isLineFeature = function(feature) {
+  return feature.getGeometry() instanceof olGeomLineString ||
+    feature.getGeometry() instanceof olGeomMultiLineString;
 };
 
 
@@ -328,7 +330,7 @@ app.utils.isLineFeature = function(feature) {
  * @param {Array.<string>} activities
  * @returns {boolean}
  */
-app.utils.hasActivity = function(route, activities) {
+exports.hasActivity = function(route, activities) {
   if (route !== undefined) {
     return activities.some((activity) => {
       return $.inArray(activity, route.activities) > -1;
@@ -341,7 +343,7 @@ app.utils.hasActivity = function(route, activities) {
  * Because IE11 doesn't support URL() standard.
  * @param {string} url
  */
-app.utils.getFragment = function(url) {
+exports.getFragment = function(url) {
   const hashIndex = url.indexOf('#');
   const fragment =  hashIndex < 0 ? null : url.substr(hashIndex + 1);
   if (!fragment) {
@@ -349,3 +351,6 @@ app.utils.getFragment = function(url) {
   }
   return decodeURIComponent(fragment);
 };
+
+
+export default exports;

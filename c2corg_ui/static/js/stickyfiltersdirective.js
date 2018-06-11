@@ -1,12 +1,12 @@
-goog.provide('app.stickyFiltersDirective');
-
-goog.require('app');
-
+/**
+ * @module app.stickyFiltersDirective
+ */
+import appBase from './index.js';
 
 /**
  * @return {angular.Directive} Directive Definition Object.
  */
-app.stickyFiltersDirective = function() {
+const exports = function() {
   return {
     restrict: 'A',
     controller: 'AppStickyFiltersController as stickyCtrl',
@@ -23,7 +23,7 @@ app.stickyFiltersDirective = function() {
       // on mobile, clicking on the 'all filters' btn will scroll up to the top
       // because opening the whole filters list would only show you the bottom end.
       $('.orange-btn.more-filters-btn').click(() => {
-        if (window.innerWidth < app.constants.SCREEN.SMARTPHONE) {
+        if (window.innerWidth < appBase.constants.SCREEN.SMARTPHONE) {
           $('.documents-list-section').scrollTop(0);
         }
       });
@@ -49,4 +49,7 @@ app.stickyFiltersDirective = function() {
   };
 };
 
-app.module.directive('appStickyFilters', app.stickyFiltersDirective);
+appBase.module.directive('appStickyFilters', exports);
+
+
+export default exports;

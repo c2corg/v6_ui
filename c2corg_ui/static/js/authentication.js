@@ -1,7 +1,7 @@
-goog.provide('app.Authentication');
-
-goog.require('app');
-
+/**
+ * @module app.Authentication
+ */
+import appBase from './index.js';
 
 /**
  * @param {string} apiUrl URL to the API.
@@ -10,7 +10,7 @@ goog.require('app');
  * @constructor
  * @struct
  */
-app.Authentication = function(apiUrl, $rootScope, $log) {
+const exports = function(apiUrl, $rootScope, $log) {
 
   /**
    * @type {string}
@@ -73,16 +73,16 @@ app.Authentication = function(apiUrl, $rootScope, $log) {
 /**
  * @param {angular.$http} $http
  */
-app.Authentication.prototype.setHttpService = function($http) {
+exports.prototype.setHttpService = function($http) {
   this.http_ = $http;
 };
 
 
 /**
- * @param {app.Lang} appLang Lang service.
+ * @param {app.Lang} LangService Lang service.
  */
-app.Authentication.prototype.setLangService = function(appLang) {
-  this.langService_ = appLang;
+exports.prototype.setLangService = function(LangService) {
+  this.langService_ = LangService;
 };
 
 
@@ -90,7 +90,7 @@ app.Authentication.prototype.setLangService = function(appLang) {
  * @return {boolean}
  * @export
  */
-app.Authentication.prototype.isAuthenticated = function() {
+exports.prototype.isAuthenticated = function() {
   return !!this.userData && !this.isExpired_();
 };
 
@@ -99,7 +99,7 @@ app.Authentication.prototype.isAuthenticated = function() {
  * @return {boolean}
  * @export
  */
-app.Authentication.prototype.isModerator = function() {
+exports.prototype.isModerator = function() {
   if (this.userData) {
     const roles = this.userData.roles;
     return roles.indexOf('moderator') > -1;
@@ -117,7 +117,7 @@ app.Authentication.prototype.isModerator = function() {
  * @return {boolean}
  * @export
  */
-app.Authentication.prototype.hasEditRights = function(doctype, options) {
+exports.prototype.hasEditRights = function(doctype, options) {
   if (!this.isAuthenticated()) {
     return false;
   }
@@ -147,7 +147,7 @@ app.Authentication.prototype.hasEditRights = function(doctype, options) {
  * @return {boolean}
  * @private
  */
-app.Authentication.prototype.hasEditRightsOuting_ = function(userIds) {
+exports.prototype.hasEditRightsOuting_ = function(userIds) {
   return this.isAssociatedUser(userIds);
 };
 
@@ -159,7 +159,7 @@ app.Authentication.prototype.hasEditRightsOuting_ = function(userIds) {
  * @return {boolean}
  * @private
  */
-app.Authentication.prototype.hasEditRightsXreport_ = function(authorId, userIds) {
+exports.prototype.hasEditRightsXreport_ = function(authorId, userIds) {
   if (this.userData.id === parseInt(authorId, 10)) {
     return true;
   }
@@ -170,7 +170,7 @@ app.Authentication.prototype.hasEditRightsXreport_ = function(authorId, userIds)
 /**
  * @param {Array<number>} userIds
  */
-app.Authentication.prototype.isAssociatedUser = function(userIds) {
+exports.prototype.isAssociatedUser = function(userIds) {
   return userIds.indexOf(this.userData.id) !== -1;
 };
 
@@ -181,7 +181,7 @@ app.Authentication.prototype.isAssociatedUser = function(userIds) {
  * @return {boolean}
  * @private
  */
-app.Authentication.prototype.hasEditRightsImage_ = function(imageType, creator) {
+exports.prototype.hasEditRightsImage_ = function(imageType, creator) {
   if (imageType === 'collaborative') {
     return true;
   } else {
@@ -197,7 +197,7 @@ app.Authentication.prototype.hasEditRightsImage_ = function(imageType, creator) 
  * @return {boolean}
  * @private
  */
-app.Authentication.prototype.hasEditRightsArticle_ = function(articleType, authorId) {
+exports.prototype.hasEditRightsArticle_ = function(articleType, authorId) {
   if (articleType === 'collab') {
     return true;
   } else {
@@ -210,7 +210,7 @@ app.Authentication.prototype.hasEditRightsArticle_ = function(articleType, autho
  * @param {appx.AuthData} data User data returned by the login request.
  * @return {boolean} whether the operation succeeded.
  */
-app.Authentication.prototype.setUserData = function(data) {
+exports.prototype.setUserData = function(data) {
   try {
     const raw = JSON.stringify(data);
     this.userData = this.parseUserData_(raw);
@@ -219,9 +219,9 @@ app.Authentication.prototype.setUserData = function(data) {
     this.langService_.updateLang(this.userData.lang, /* syncWithApi */ false);
 
     const storage = data.remember ? window.localStorage : window.sessionStorage;
-    /* if (DEBUG) {
+    if (DEBUG) {
       this.$log.log('Stored user data in', data.remember ? 'local' : 'session');
-    } */
+    }
     storage.setItem('userData', raw);
     return true;
   } catch (e) {
@@ -229,9 +229,9 @@ app.Authentication.prototype.setUserData = function(data) {
     // Either the storage is full or we are in incognito mode in a broken
     // browser.
     // TODO: display error message to user
-    /* if (DEBUG) {
+    if (DEBUG) {
       this.$log.error('Fatal : failed to set authentication token', e);
-    } */
+    }
     return false;
   }
 };
@@ -240,7 +240,7 @@ app.Authentication.prototype.setUserData = function(data) {
 /**
  * @export
  */
-app.Authentication.prototype.removeUserData = function() {
+exports.prototype.removeUserData = function() {
   try {
     // Make sure that user data are removed from all possible storages
     window.localStorage.removeItem(this.USER_DATA_KEY_);
@@ -255,7 +255,7 @@ app.Authentication.prototype.removeUserData = function() {
  * @return {?appx.AuthData}
  * @private
  */
-app.Authentication.prototype.parseUserData_ = function(raw) {
+exports.prototype.parseUserData_ = function(raw) {
   if (raw) {
     const data = /** @type {appx.AuthData} */ (JSON.parse(raw));
     // Make data immutable
@@ -272,7 +272,7 @@ app.Authentication.prototype.parseUserData_ = function(raw) {
  * @return {boolean}
  * @private
  */
-app.Authentication.prototype.isExpired_ = function() {
+exports.prototype.isExpired_ = function() {
   goog.asserts.assert(!!this.userData, 'this.userData should not be null');
 
   const now = Date.now() / 1000; // in seconds
@@ -296,16 +296,16 @@ app.Authentication.prototype.isExpired_ = function() {
  * @param {number} expire Token expiration (in seconds)
  * @private
  */
-app.Authentication.prototype.handle_token_renewal_ = function(now, expire) {
+exports.prototype.handle_token_renewal_ = function(now, expire) {
   const storage = window.localStorage;
   const pending = parseInt(storage.getItem('last_renewal') || 0, 10);
 
   if (!!this.http_ && now > pending + 15) {
     // If no pending renewal or more than 15s after last one
-    /* if (DEBUG) {
+    if (DEBUG) {
       this.$log.log('Renewing authorization expiring on',
         new Date(expire * 1000));
-    } */
+    }
 
     try {
       storage.setItem('last_renewal', now.toString());
@@ -316,15 +316,15 @@ app.Authentication.prototype.handle_token_renewal_ = function(now, expire) {
     this.http_.post(this.apiUrl_ + '/users/renew', {}).then(
       (response) => {
         this.setUserData(response.data);
-        /* if (DEBUG) {
+        if (DEBUG) {
           this.$log.log('Done renewing authorization');
-        } */
-      }/* ,
+        }
+      },
       function() {
         if (DEBUG) {
           this.$log.log('Failed renewing authorization');
         }
-      } */);
+      });
   }
 };
 
@@ -338,22 +338,22 @@ app.Authentication.prototype.handle_token_renewal_ = function(now, expire) {
  * @return {boolean} whether the operation was successful
  * @export
  */
-app.Authentication.prototype.addAuthorizationToHeaders = function(url,
+exports.prototype.addAuthorizationToHeaders = function(url,
   headers) {
   const token = this.userData ? this.userData.token : null;
   if (token && !this.isExpired_()) {
-    /* if (DEBUG && url.indexOf('http://') === 0) {
+    if (DEBUG && url.indexOf('http://') === 0) {
       // FIXME: ideally, should prevent the operation in prod mode
       this.$log.log('WARNING: added auth header to unsecure request to ' + url);
-    } */
+    }
     headers['Authorization'] = 'JWT token="' + token + '"';
     return true;
   }
 
-  /* if (DEBUG) {
+  if (DEBUG) {
     this.$log.log('Application error, trying to authenticate request to ' +
         url + ' with missing or expired token');
-  } */
+  }
   return false;
 };
 
@@ -364,7 +364,7 @@ app.Authentication.prototype.addAuthorizationToHeaders = function(url,
  * @return {boolean}
  * @export
  */
-app.Authentication.prototype.needAuthorization = function(method, url) {
+exports.prototype.needAuthorization = function(method, url) {
   if (url.indexOf(this.apiUrl_) === -1) {
     // UI user and xreport data service
     if ((url.indexOf('/profiles/data') !== -1 ||
@@ -411,10 +411,10 @@ app.Authentication.prototype.needAuthorization = function(method, url) {
  * @param {angular.$log} $log
  * @return {app.Authentication}
  */
-app.AuthenticationFactory_ = function(apiUrl, $rootScope, $log) {
-  return new app.Authentication(apiUrl, $rootScope, $log);
+appBase.AuthenticationFactory_ = function(apiUrl, $rootScope, $log) {
+  return new exports(apiUrl, $rootScope, $log);
 };
-app.module.factory('appAuthentication', app.AuthenticationFactory_);
+appBase.module.factory('appAuthentication', appBase.AuthenticationFactory_);
 
 
 /**
@@ -422,11 +422,14 @@ app.module.factory('appAuthentication', app.AuthenticationFactory_);
  * @private
  * @param {app.Authentication} appAuthentication
  * @param {angular.$http} $http
- * @param {app.Lang} appLang Lang service.
+ * @param {app.Lang} LangService Lang service.
  */
-app.AuthenticationFactoryRun_ = function(appAuthentication, $http, appLang) {
+appBase.AuthenticationFactoryRun_ = function(appAuthentication, $http, LangService) {
   // The http and lang service are set now to avoid circular dependency.
   appAuthentication.setHttpService($http);
-  appAuthentication.setLangService(appLang);
+  appAuthentication.setLangService(LangService);
 };
-app.module.run(app.AuthenticationFactoryRun_);
+appBase.module.run(appBase.AuthenticationFactoryRun_);
+
+
+export default exports;

@@ -1,7 +1,7 @@
-goog.provide('app.diffMapDirective');
-
-goog.require('app');
-
+/**
+ * @module app.diffMapDirective
+ */
+import appBase from './index.js';
 
 /**
  * A directive to show a map with two geometries of two different document
@@ -10,7 +10,7 @@ goog.require('app');
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-app.diffMapDirective = function() {
+const exports = function() {
   return {
     restrict: 'E',
     scope: {},
@@ -21,4 +21,7 @@ app.diffMapDirective = function() {
   };
 };
 
-app.module.directive('appDiffMap', app.diffMapDirective);
+appBase.module.directive('appDiffMap', exports);
+
+
+export default exports;

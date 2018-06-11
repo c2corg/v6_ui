@@ -1,7 +1,7 @@
-goog.provide('app.DeleteAssociationModalController');
-
-goog.require('app');
-
+/**
+ * @module app.DeleteAssociationModalController
+ */
+import appBase from './index.js';
 
 /**
  * We have to use a secondary controller for the modal so that we can inject
@@ -10,7 +10,7 @@ goog.require('app');
  * @constructor
  * @ngInject
  */
-app.DeleteAssociationModalController = function($uibModalInstance) {
+const exports = function($uibModalInstance) {
 
   /**
    * @type {Object} $uibModalInstance angular bootstrap
@@ -23,7 +23,7 @@ app.DeleteAssociationModalController = function($uibModalInstance) {
 /**
  * @export
  */
-app.DeleteAssociationModalController.prototype.close = function(action) {
+exports.prototype.close = function(action) {
   this.modalInstance_.close(action);
 };
 
@@ -31,8 +31,11 @@ app.DeleteAssociationModalController.prototype.close = function(action) {
 /**
  * @export
  */
-app.DeleteAssociationModalController.prototype.dismiss = function() {
+exports.prototype.dismiss = function() {
   this.modalInstance_.close();
 };
 
-app.module.controller('AppDeleteAssociationModalController', app.DeleteAssociationModalController);
+appBase.module.controller('AppDeleteAssociationModalController', exports);
+
+
+export default exports;

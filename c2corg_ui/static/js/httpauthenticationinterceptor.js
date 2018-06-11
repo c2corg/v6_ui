@@ -1,7 +1,7 @@
-goog.provide('app.HttpAuthenticationInterceptor');
-
-goog.require('app');
-
+/**
+ * @module app.HttpAuthenticationInterceptor
+ */
+import appBase from './index.js';
 
 /**
  * @ngInject
@@ -9,7 +9,7 @@ goog.require('app');
  * @param {app.Authentication} appAuthentication
  * @return {angular.$http.Interceptor}
  */
-app.HttpAuthenticationInterceptor = function(apiUrl, appAuthentication) {
+const exports = function(apiUrl, appAuthentication) {
   return {
     'request': (
       /**
@@ -30,5 +30,8 @@ app.HttpAuthenticationInterceptor = function(apiUrl, appAuthentication) {
   };
 };
 
-app.module.factory('appHttpAuthenticationInterceptor',
-  app.HttpAuthenticationInterceptor);
+appBase.module.factory('appHttpAuthenticationInterceptor',
+  exports);
+
+
+export default exports;

@@ -1,7 +1,7 @@
-goog.provide('app.sliderDirective');
-
-goog.require('app');
-
+/**
+ * @module app.sliderDirective
+ */
+import appBase from './index.js';
 
 /**
  * This directive displays a slider control used for instance in the advanced
@@ -9,7 +9,7 @@ goog.require('app');
  *
  * @return {angular.Directive} The directive specs.
  */
-app.sliderDirective = function() {
+const exports = function() {
   return {
     restrict: 'E',
     controller: 'AppSliderController',
@@ -37,4 +37,7 @@ app.sliderDirective = function() {
   };
 };
 
-app.module.directive('appSlider', app.sliderDirective);
+appBase.module.directive('appSlider', exports);
+
+
+export default exports;

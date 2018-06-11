@@ -1,14 +1,14 @@
-goog.provide('app.VersionsController');
-
-goog.require('app');
-
+/**
+ * @module app.VersionsController
+ */
+import appBase from './index.js';
 
 /**
  * @param {angular.Scope} $scope Scope.
  * @constructor
  * @ngInject
  */
-app.VersionsController = function($scope) {
+const exports = function($scope) {
 
   /**
    * @type {angular.Scope}
@@ -21,7 +21,7 @@ app.VersionsController = function($scope) {
 /**
  * @export
  */
-app.VersionsController.prototype.compare = function() {
+exports.prototype.compare = function() {
   const url = '/{documentType}/diff/{id}/{lang}/{v1}/{v2}'
     .replace('{documentType}', this['documentType'])
     .replace('{id}', this['documentId'])
@@ -32,4 +32,7 @@ app.VersionsController.prototype.compare = function() {
 };
 
 
-app.module.controller('appVersionsController', app.VersionsController);
+appBase.module.controller('appVersionsController', exports);
+
+
+export default exports;

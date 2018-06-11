@@ -1,15 +1,15 @@
-goog.provide('app.LayertreeSelectorController');
-
-goog.require('app');
-goog.require('ol.Attribution');
-goog.require('ol.layer.Tile');
-goog.require('ol.extent');
-goog.require('ol.proj');
-goog.require('ol.source.BingMaps');
-goog.require('ol.source.WMTS');
-goog.require('ol.source.XYZ');
-goog.require('ol.tilegrid.WMTS');
-
+/**
+ * @module app.LayertreeSelectorController
+ */
+import appBase from './index.js';
+import olAttribution from 'ol/Attribution.js';
+import olLayerTile from 'ol/layer/Tile.js';
+import olExtent from 'ol/extent.js';
+import olProj from 'ol/proj.js';
+import olSourceBingMaps from 'ol/source/BingMaps.js';
+import olSourceWMTS from 'ol/source/WMTS.js';
+import olSourceXYZ from 'ol/source/XYZ.js';
+import olTilegridWMTS from 'ol/tilegrid/WMTS.js';
 
 /**
  * @constructor
@@ -20,7 +20,7 @@ goog.require('ol.tilegrid.WMTS');
  * @ngInject
  * @export
  */
-app.LayertreeSelectorController = function(ngeoBackgroundLayerMgr,
+const exports = function(ngeoBackgroundLayerMgr,
   appAuthentication, mapApiKeys) {
 
   /**
@@ -107,7 +107,7 @@ app.LayertreeSelectorController = function(ngeoBackgroundLayerMgr,
  * @return {ol.layer.Layer} The layer for this node.
  * @export
  */
-app.LayertreeSelectorController.prototype.getLayer = function(node) {
+exports.prototype.getLayer = function(node) {
   return this.createLayer_(node);
 };
 
@@ -117,7 +117,7 @@ app.LayertreeSelectorController.prototype.getLayer = function(node) {
  * @param {Object} layerSpec Layer specification object.
  * @export
  */
-app.LayertreeSelectorController.prototype.setBgLayer = function(layerSpec) {
+exports.prototype.setBgLayer = function(layerSpec) {
   this.currentBgLayerSpec = layerSpec;
   const layer = this.createLayer_(layerSpec);
   if (layer) {
@@ -133,7 +133,7 @@ app.LayertreeSelectorController.prototype.setBgLayer = function(layerSpec) {
  * @return {ol.layer.Tile} The layer.
  * @private
  */
-app.LayertreeSelectorController.prototype.createLayer_ = function(layerSpec) {
+exports.prototype.createLayer_ = function(layerSpec) {
   const layerName = layerSpec['name'];
   if (layerName in this.cachedLayers_) {
     return this.cachedLayers_[layerName];
@@ -144,7 +144,7 @@ app.LayertreeSelectorController.prototype.createLayer_ = function(layerSpec) {
       source = this.createEsriSource_();
       break;
     case 'bing':
-      source = new ol.source.BingMaps({
+      source = new olSourceBingMaps({
         key: this.bingApiKey_,
         imagerySet: 'AerialWithLabels'
       });
@@ -170,7 +170,7 @@ app.LayertreeSelectorController.prototype.createLayer_ = function(layerSpec) {
     default:
       return null;
   }
-  const layer = new ol.layer.Tile({source: source});
+  const layer = new olLayerTile({source: source});
   if (layerSpec['type'] !== 'background') {
     layer.setOpacity(0.4);
   }
@@ -184,24 +184,24 @@ app.LayertreeSelectorController.prototype.createLayer_ = function(layerSpec) {
  * @return {ol.source.WMTS}
  * @private
  */
-app.LayertreeSelectorController.prototype.createIgnSource_ = function(layer, format = 'jpeg') {
+exports.prototype.createIgnSource_ = function(layer, format = 'jpeg') {
   const resolutions = [];
   const matrixIds = [];
-  const proj3857 = ol.proj.get('EPSG:3857');
-  const maxResolution = ol.extent.getWidth(proj3857.getExtent()) / 256;
+  const proj3857 = olProj.get('EPSG:3857');
+  const maxResolution = olExtent.getWidth(proj3857.getExtent()) / 256;
 
   for (let i = 0; i < 18; i++) {
     matrixIds[i] = i.toString();
     resolutions[i] = maxResolution / Math.pow(2, i);
   }
 
-  const tileGrid = new ol.tilegrid.WMTS({
+  const tileGrid = new olTilegridWMTS({
     origin: [-20037508, 20037508],
     resolutions: resolutions,
     matrixIds: matrixIds
   });
 
-  return new ol.source.WMTS({
+  return new olSourceWMTS({
     url: '//wxs.ign.fr/' + this.ignApiKey_ + '/wmts',
     layer: layer,
     matrixSet: 'PM',
@@ -209,7 +209,7 @@ app.LayertreeSelectorController.prototype.createIgnSource_ = function(layer, for
     projection: 'EPSG:3857',
     tileGrid: tileGrid,
     style: 'normal',
-    attributions: [new ol.Attribution({
+    attributions: [new olAttribution({
       html: '<a href="http://www.geoportail.fr/" target="_blank">' +
           '<img src="//api.ign.fr/geoportail/api/js/latest/' +
           'theme/geoportal/img/logo_gp.gif"></a>'
@@ -223,10 +223,10 @@ app.LayertreeSelectorController.prototype.createIgnSource_ = function(layer, for
  * @return {ol.source.XYZ}
  * @private
  */
-app.LayertreeSelectorController.prototype.createSwisstopoSource_ = function(layer, format = 'jpeg', time = 'current') {
-  return new ol.source.XYZ({
+exports.prototype.createSwisstopoSource_ = function(layer, format = 'jpeg', time = 'current') {
+  return new olSourceXYZ({
     attributions: [
-      new ol.Attribution({
+      new olAttribution({
         html: '<a target="_blank" href="http://www.swisstopo.admin.ch">swisstopo</a>'
       })
     ],
@@ -242,10 +242,10 @@ app.LayertreeSelectorController.prototype.createSwisstopoSource_ = function(laye
  * @return {ol.source.XYZ}
  * @private
  */
-app.LayertreeSelectorController.prototype.createEsriSource_ = function() {
-  return new ol.source.XYZ({
+exports.prototype.createEsriSource_ = function() {
+  return new olSourceXYZ({
     attributions: [
-      new ol.Attribution({
+      new olAttribution({
         html: '<a href="https://www.arcgis.com/home/item.html?id=30e5fe3149c34df1ba922e6f5bbf808f"' +
           ' target="_blank">Esri</a>'
       })
@@ -260,10 +260,10 @@ app.LayertreeSelectorController.prototype.createEsriSource_ = function() {
  * @return {ol.source.XYZ}
  * @private
  */
-app.LayertreeSelectorController.prototype.createOpenTopoMapSource_ = () => {
-  return new ol.source.XYZ({
+exports.prototype.createOpenTopoMapSource_ = () => {
+  return new olSourceXYZ({
     attributions: [
-      new ol.Attribution({
+      new olAttribution({
         html: '© <a href="//openstreetmap.org/copyright">OpenStreetMap</a> | ' +
               '© <a href="//opentopomap.org" target="_blank">OpenTopoMap</a>'
       })
@@ -272,4 +272,7 @@ app.LayertreeSelectorController.prototype.createOpenTopoMapSource_ = () => {
   });
 };
 
-app.module.controller('AppLayertreeSelectorController', app.LayertreeSelectorController);
+appBase.module.controller('AppLayertreeSelectorController', exports);
+
+
+export default exports;

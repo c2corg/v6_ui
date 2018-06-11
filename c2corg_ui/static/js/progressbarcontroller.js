@@ -1,14 +1,14 @@
-goog.provide('app.ProgressBarController');
-
-goog.require('app');
-
+/**
+ * @module app.ProgressBarController
+ */
+import appBase from './index.js';
 
 /**
  * @param {angular.$interval} $interval service
  * @constructor
  * @ngInject
  */
-app.ProgressBarController = function($interval) {
+const exports = function($interval) {
 
 /**
  * @type  {angular.$interval} $interval service
@@ -55,7 +55,7 @@ app.ProgressBarController = function($interval) {
  * @param {string} direction
  * @export
  */
-app.ProgressBarController.prototype.step = function(step, document, direction) {
+exports.prototype.step = function(step, document, direction) {
   const el = '.create-edit-document .editing';
 
   switch (step) {
@@ -103,7 +103,7 @@ app.ProgressBarController.prototype.step = function(step, document, direction) {
  * @param {string} direction
  * @private
  */
-app.ProgressBarController.prototype.animateBar_ = function(step, direction) {
+exports.prototype.animateBar_ = function(step, direction) {
   const percent = 100 / this.maxSteps;
   const green = '#A9D361'; // completed color
   const gray = '#B4B4B4'; // left color
@@ -168,8 +168,11 @@ app.ProgressBarController.prototype.animateBar_ = function(step, direction) {
  * @param {string} waypointType
  * @export
  */
-app.ProgressBarController.prototype.updateMaxSteps = function(waypointType) {
-  this.maxSteps = app.constants.STEPS[waypointType] || 2;
+exports.prototype.updateMaxSteps = function(waypointType) {
+  this.maxSteps = appBase.constants.STEPS[waypointType] || 2;
 };
 
-app.module.controller('appProgressBarController', app.ProgressBarController);
+appBase.module.controller('appProgressBarController', exports);
+
+
+export default exports;

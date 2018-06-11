@@ -1,15 +1,18 @@
-goog.provide('app.HttpAuthenticationInterceptorConfig');
-
-goog.require('app');
-
+/**
+ * @module app.HttpAuthenticationInterceptorConfig
+ */
+import appBase from './index.js';
 
 /**
  * @ngInject
  * @param {angular.$HttpProvider} $httpProvider
  */
-app.HttpAuthenticationInterceptorConfig = function($httpProvider) {
+const exports = function($httpProvider) {
   $httpProvider.interceptors.push('appHttpAuthenticationInterceptor');
 };
 
 
-app.module.config(app.HttpAuthenticationInterceptorConfig);
+appBase.module.config(exports);
+
+
+export default exports;

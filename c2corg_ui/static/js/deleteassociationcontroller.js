@@ -1,6 +1,7 @@
-goog.provide('app.DeleteAssociationController');
-
-goog.require('app');
+/**
+ * @module app.DeleteAssociationController
+ */
+import appBase from './index.js';
 
 /**
  * @constructor
@@ -13,7 +14,7 @@ goog.require('app');
  * @ngInject
  * @struct
  */
-app.DeleteAssociationController = function($rootScope, $scope, $compile,
+const exports = function($rootScope, $scope, $compile,
   $uibModal, appApi, appDocument) {
 
   /**
@@ -76,7 +77,7 @@ app.DeleteAssociationController = function($rootScope, $scope, $compile,
  * @return {ui.bootstrap.modalInstance}
  * @private
  */
-app.DeleteAssociationController.prototype.openModal_ = function() {
+exports.prototype.openModal_ = function() {
   const template = $('#delete-association-modal').clone();
   return this.modal_.open({
     animation: true,
@@ -92,11 +93,14 @@ app.DeleteAssociationController.prototype.openModal_ = function() {
  * @param {goog.events.Event | jQuery.Event} [event]
  * @private
  */
-app.DeleteAssociationController.prototype.unassociateDocument_ = function(event) {
+exports.prototype.unassociateDocument_ = function(event) {
   this.api_.unassociateDocument(this.parentId, this.childId).then(() => {
     this.documentService_.removeAssociation(this.childId, this.childDoctype, event);
   });
 };
 
 
-app.module.controller('AppDeleteAssociationController', app.DeleteAssociationController);
+appBase.module.controller('AppDeleteAssociationController', exports);
+
+
+export default exports;

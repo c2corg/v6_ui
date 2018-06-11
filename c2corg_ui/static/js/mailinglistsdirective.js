@@ -1,14 +1,14 @@
-goog.provide('app.mailinglistsDirective');
-
-goog.require('app');
-
+/**
+ * @module app.mailinglistsDirective
+ */
+import appBase from './index.js';
 
 /**
  * Directive managing the user mailinglists.
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-app.mailinglistsDirective = function() {
+const exports = function() {
   return {
     restrict: 'A',
     controller: 'appMailinglistsController',
@@ -17,4 +17,7 @@ app.mailinglistsDirective = function() {
 };
 
 
-app.module.directive('appMailinglists', app.mailinglistsDirective);
+appBase.module.directive('appMailinglists', exports);
+
+
+export default exports;

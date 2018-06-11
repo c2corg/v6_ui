@@ -1,5 +1,6 @@
-goog.provide('app.AddAssociationController');
-
+/**
+ * @module app.AddAssociationController
+ */
 /**
  * @param {app.Api} appApi The API service
  * @param {app.Document} appDocument service
@@ -7,7 +8,7 @@ goog.provide('app.AddAssociationController');
  * @struct
  * @ngInject
  */
-app.AddAssociationController = function(appApi, appDocument) {
+const exports = function(appApi, appDocument) {
 
   /**
    * @type {app.Api} appApi The API service
@@ -44,7 +45,7 @@ app.AddAssociationController = function(appApi, appDocument) {
  * @param {appx.SimpleSearchDocument} doc Document
  * @export
  */
-app.AddAssociationController.prototype.associate = function(doc) {
+exports.prototype.associate = function(doc) {
   let parentId, childId;
   const parentType = this.parentDoctype;
 
@@ -77,4 +78,7 @@ app.AddAssociationController.prototype.associate = function(doc) {
 };
 
 
-app.module.controller('AppAddAssociationController', app.AddAssociationController);
+app.module.controller('AppAddAssociationController', exports);
+
+
+export default exports;

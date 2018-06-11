@@ -1,13 +1,14 @@
 /**
+ * @module app.MapSearchController
+ */
+/**
  * Adapted from https://github.com/camptocamp/agridea_geoacorda/blob/master/jsapi/src/searchcontrol.js
  */
-goog.provide('app.MapSearchController');
 
-goog.require('app');
-goog.require('app.constants');
-goog.require('ol.format.GeoJSON');
-goog.require('ol.proj');
-
+import appBase from './index.js';
+import appConstants from './constants.js';
+import olFormatGeoJSON from 'ol/format/GeoJSON.js';
+import olProj from 'ol/proj.js';
 
 /**
  * @constructor
@@ -17,7 +18,7 @@ goog.require('ol.proj');
  * @ngInject
  * @ignore
  */
-app.MapSearchController = function($rootScope, $compile, gettextCatalog) {
+const exports = function($rootScope, $compile, gettextCatalog) {
 
   /**
    * @type {ol.Map}
@@ -34,8 +35,8 @@ app.MapSearchController = function($rootScope, $compile, gettextCatalog) {
   /** @type {Bloodhound} */
   const bloodhoundEngine = this.createAndInitBloodhound_();
 
-  this.geoJsonFormat_ = new ol.format.GeoJSON({
-    featureProjection: app.constants.documentEditing.DATA_PROJ
+  this.geoJsonFormat_ = new olFormatGeoJSON({
+    featureProjection: appConstants.documentEditing.DATA_PROJ
   });
 
   /**
@@ -77,7 +78,7 @@ app.MapSearchController = function($rootScope, $compile, gettextCatalog) {
    * @export
    */
   this.listeners = /** @type {ngeox.SearchDirectiveListeners} */ ({
-    select: app.MapSearchController.select_.bind(this)
+    select: exports.select_.bind(this)
   });
 
 };
@@ -87,15 +88,15 @@ app.MapSearchController = function($rootScope, $compile, gettextCatalog) {
  * @type {string}
  * @const
  */
-app.MapSearchController.SEARCH_URL = 'https://photon.komoot.de/api/';
+exports.SEARCH_URL = 'https://photon.komoot.de/api/';
 
 
 /**
  * @return {Bloodhound} The bloodhound engine.
  * @private
  */
-app.MapSearchController.prototype.createAndInitBloodhound_ = function() {
-  let url = app.MapSearchController.SEARCH_URL;
+exports.prototype.createAndInitBloodhound_ = function() {
+  let url = exports.SEARCH_URL;
   url += '?q=%QUERY';
 
   const bloodhound = new Bloodhound(/** @type {BloodhoundOptions} */({
@@ -112,7 +113,7 @@ app.MapSearchController.prototype.createAndInitBloodhound_ = function() {
         const center = this.map.getView().getCenter();
         if (center !== undefined) {
           // give priority to nearby results
-          const centerWgs84 = ol.proj.toLonLat(center);
+          const centerWgs84 = olProj.toLonLat(center);
           url += '&lon=' + centerWgs84[0] + '&lat=' + centerWgs84[1];
         }
 
@@ -156,14 +157,14 @@ app.MapSearchController.prototype.createAndInitBloodhound_ = function() {
  * @this {app.MapSearchController}
  * @private
  */
-app.MapSearchController.select_ = function(event, suggestion, dataset) {
+exports.select_ = function(event, suggestion, dataset) {
   const map = /** @type {ol.Map} */ (this.map);
   const feature = /** @type {ol.Feature} */ (suggestion);
 
   let geomOrExtent;
   if (feature.get('extent')) {
     const extent = /** @type{ol.Extent} */ (feature.get('extent'));
-    geomOrExtent = ol.proj.transformExtent(extent, 'EPSG:4326', 'EPSG:3857');
+    geomOrExtent = olProj.transformExtent(extent, 'EPSG:4326', 'EPSG:3857');
   } else {
     geomOrExtent = /** @type {ol.geom.SimpleGeometry} */
       (feature.getGeometry());
@@ -175,4 +176,7 @@ app.MapSearchController.select_ = function(event, suggestion, dataset) {
 };
 
 
-app.module.controller('AppMapSearchController', app.MapSearchController);
+appBase.module.controller('AppMapSearchController', exports);
+
+
+export default exports;

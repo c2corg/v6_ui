@@ -1,14 +1,14 @@
-goog.provide('app.userProfileDirective');
-
-goog.require('app');
-
+/**
+ * @module app.userProfileDirective
+ */
+import appBase from './index.js';
 
 /**
  * Directive managing the user profile.
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-app.userProfileDirective = function() {
+const exports = function() {
   return {
     restrict: 'A',
     scope: {
@@ -21,4 +21,7 @@ app.userProfileDirective = function() {
   };
 };
 
-app.module.directive('appUserProfile', app.userProfileDirective);
+appBase.module.directive('appUserProfile', exports);
+
+
+export default exports;

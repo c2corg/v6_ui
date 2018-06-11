@@ -1,7 +1,7 @@
-goog.provide('app.FollowController');
-
-goog.require('app');
-
+/**
+ * @module app.FollowController
+ */
+import appBase from './index.js';
 
 /**
  * @param {app.Authentication} appAuthentication
@@ -10,7 +10,7 @@ goog.require('app');
  * @ngInject
  * @struct
  */
-app.FollowController = function(appAuthentication, appApi) {
+const exports = function(appAuthentication, appApi) {
 
   /**
    * @type {app.Api}
@@ -51,7 +51,7 @@ app.FollowController = function(appAuthentication, appApi) {
  *
  * @export
  */
-app.FollowController.prototype.canFollow = function() {
+exports.prototype.canFollow = function() {
   return this.auth_.isAuthenticated() && this.auth_.userData.id !== this.docId;
 };
 
@@ -59,7 +59,7 @@ app.FollowController.prototype.canFollow = function() {
 /**
  * @export
  */
-app.FollowController.prototype.toggle = function() {
+exports.prototype.toggle = function() {
   if (this.followed) {
     this.api_.unfollow(this.docId).then((response) => {
       this.followed = false;
@@ -72,4 +72,7 @@ app.FollowController.prototype.toggle = function() {
 };
 
 
-app.module.controller('appFollowController', app.FollowController);
+appBase.module.controller('appFollowController', exports);
+
+
+export default exports;

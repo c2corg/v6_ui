@@ -1,8 +1,8 @@
-goog.provide('app.SearchFiltersController');
-
-goog.require('app');
-goog.require('app.utils');
-
+/**
+ * @module app.SearchFiltersController
+ */
+import appBase from './index.js';
+import appUtils from './utils.js';
 
 /**
  * @param {angular.Scope} $scope Scope.
@@ -12,7 +12,7 @@ goog.require('app.utils');
  * @constructor
  * @ngInject
  */
-app.SearchFiltersController = function($scope, ngeoLocation, ngeoDebounce,
+const exports = function($scope, ngeoLocation, ngeoDebounce,
   advancedSearchFilters) {
 
   /**
@@ -97,16 +97,16 @@ app.SearchFiltersController = function($scope, ngeoLocation, ngeoDebounce,
  * @const
  * @type {Array.<string>}
  */
-app.SearchFiltersController.IGNORED_FILTERS = ['bbox', 'offset', 'limit'];
+exports.IGNORED_FILTERS = ['bbox', 'offset', 'limit'];
 
 
 /**
  * @private
  */
-app.SearchFiltersController.prototype.setFilters_ = function() {
+exports.prototype.setFilters_ = function() {
   this.filters = {};
   const keys = this.location.getFragmentParamKeys().filter((x) => {
-    return app.SearchFiltersController.IGNORED_FILTERS.indexOf(x) === -1;
+    return exports.IGNORED_FILTERS.indexOf(x) === -1;
   });
   for (let i = 0, n = keys.length; i < n; i++) {
     this.setFilterFromPermalink(keys[i]);
@@ -118,7 +118,7 @@ app.SearchFiltersController.prototype.setFilters_ = function() {
  * @param {string} key Filter key.
  * @public
  */
-app.SearchFiltersController.prototype.setFilterFromPermalink = function(key) {
+exports.prototype.setFilterFromPermalink = function(key) {
   const val = this.location.getFragmentParam(key);
   if (val === '') {
     return;
@@ -154,7 +154,7 @@ app.SearchFiltersController.prototype.setFilterFromPermalink = function(key) {
 /**
  * @private
  */
-app.SearchFiltersController.prototype.handleFiltersChange_ = function() {
+exports.prototype.handleFiltersChange_ = function() {
   // ignore the initial $watchCollection triggering (at loading time)
   if (!this.loading_) {
     this.location.updateFragmentParams(this.filters);
@@ -177,7 +177,7 @@ app.SearchFiltersController.prototype.handleFiltersChange_ = function() {
 /**
  * @private
  */
-app.SearchFiltersController.prototype.handleCheckboxesChange_ = function() {
+exports.prototype.handleCheckboxesChange_ = function() {
   // Synchronize filters with checkboxes
   for (const prop in this.checkboxes_) {
     if (this.checkboxes_[prop].length) {
@@ -196,17 +196,17 @@ app.SearchFiltersController.prototype.handleCheckboxesChange_ = function() {
  * @param {jQuery.Event | goog.events.Event} event click
  * @export
  */
-app.SearchFiltersController.prototype.selectOption = function(prop, val, event) {
+exports.prototype.selectOption = function(prop, val, event) {
   // Don't close the menu after selecting an option
   event.stopPropagation();
-  app.utils.pushToArray(this.checkboxes_, prop, val, event);
+  appUtils.pushToArray(this.checkboxes_, prop, val, event);
 };
 
 
 /**
  * @export
  */
-app.SearchFiltersController.prototype.clear = function() {
+exports.prototype.clear = function() {
   for (const key in this.filters) {
     this.location.deleteFragmentParam(key);
   }
@@ -224,7 +224,7 @@ app.SearchFiltersController.prototype.clear = function() {
  * @param {string} filterName Name of the filter param in the URL.
  * @export
  */
-app.SearchFiltersController.prototype.toggleOrientation = function(orientation,
+exports.prototype.toggleOrientation = function(orientation,
   ctrl, e, filterName) {
   if (this.orientations.indexOf(orientation) === -1) {
     this.orientations.push(orientation);
@@ -246,7 +246,7 @@ app.SearchFiltersController.prototype.toggleOrientation = function(orientation,
  * @param {string} filterName Name of the filter param.
  * @export
  */
-app.SearchFiltersController.prototype.toggleCheckbox = function(filterName) {
+exports.prototype.toggleCheckbox = function(filterName) {
   if (filterName in this.filters) {
     delete this.filters[filterName];
     this.location.deleteFragmentParam(filterName);
@@ -256,4 +256,7 @@ app.SearchFiltersController.prototype.toggleCheckbox = function(filterName) {
 };
 
 
-app.module.controller('appSearchFiltersController', app.SearchFiltersController);
+appBase.module.controller('appSearchFiltersController', exports);
+
+
+export default exports;

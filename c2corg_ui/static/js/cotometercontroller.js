@@ -1,7 +1,7 @@
-goog.provide('app.CotometerController');
-
-goog.require('app');
-
+/**
+ * @module app.CotometerController
+ */
+import appBase from './index.js';
 
 /**
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
@@ -9,7 +9,7 @@ goog.require('app');
  * @constructor
  * @ngInject
  */
-app.CotometerController = function(gettextCatalog, $uibModalStack) {
+const exports = function(gettextCatalog, $uibModalStack) {
 
   /**
    * @type {string}
@@ -76,7 +76,7 @@ app.CotometerController = function(gettextCatalog, $uibModalStack) {
 /**
  * @private
  */
-app.CotometerController.prototype.cotometerRating_ = function() {
+exports.prototype.cotometerRating_ = function() {
 
   let inter = Math.tan(Math.PI * this.slope / 180) + 0.1 * Math.log(this.elevation);
   inter += this.skiability * (inter - 1);
@@ -147,7 +147,7 @@ app.CotometerController.prototype.cotometerRating_ = function() {
 /**
  * @export
  */
-app.CotometerController.prototype.cotometerTechnicalGrade = function() {
+exports.prototype.cotometerTechnicalGrade = function() {
   this.errorSlope = (isNaN(this.slope) || this.slope < 0 || this.slope > 80.0);
   this.errorElevation = (isNaN(this.elevation) || this.elevation < 50.0 || this.elevation > 3000.0);
 
@@ -162,7 +162,7 @@ app.CotometerController.prototype.cotometerTechnicalGrade = function() {
 /**
  * @export
  */
-app.CotometerController.prototype.setResult = function() {
+exports.prototype.setResult = function() {
   this.$uibModalStack_.dismissAll();
 };
 
@@ -170,8 +170,11 @@ app.CotometerController.prototype.setResult = function() {
 /**
  * @export
  */
-app.CotometerController.prototype.closeDialog = function() {
+exports.prototype.closeDialog = function() {
   this.$uibModalStack_.dismissAll();
 };
 
-app.module.controller('AppCotometerController', app.CotometerController);
+appBase.module.controller('AppCotometerController', exports);
+
+
+export default exports;

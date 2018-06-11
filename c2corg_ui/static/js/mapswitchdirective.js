@@ -1,12 +1,12 @@
-goog.provide('app.mapSwitchDirective');
-
-goog.require('app');
-
+/**
+ * @module app.mapSwitchDirective
+ */
+import appBase from './index.js';
 
 /**
  * @return {angular.Directive} The directive specs.
  */
-app.mapSwitchDirective = function() {
+const exports = function() {
   return {
     restrict: 'E',
     controller: 'appMapSwitchController',
@@ -14,4 +14,8 @@ app.mapSwitchDirective = function() {
     templateUrl: '/static/partials/mapswitch.html'
   };
 };
-app.module.directive('appMapSwitch', app.mapSwitchDirective);
+
+appBase.module.directive('appMapSwitch', exports);
+
+
+export default exports;

@@ -1,10 +1,14 @@
 /**
+ * @module app
+ */
+const exports = {};
+
+/**
  * @fileoverview This file defines the application's Angular module.
  */
-goog.provide('app');
 
 /** @suppress {extraRequire} */
-goog.require('ngeo');
+import ngeoBase from 'ngeo.js';
 
 
 // create fake modules for dependencies of ngeo that are not used
@@ -16,8 +20,8 @@ angular.module('floatThead', []);
  * @const
  * @type {!angular.Module}
  */
-app.module = angular.module('app', [
-  ngeo.module.name,
+exports.module = angular.module('app', [
+  ngeoBase.module.name,
   'gettext',
   'ngMessages',
   'ngCookies',
@@ -29,3 +33,6 @@ app.module = angular.module('app', [
   'infinite-scroll',
   'ngSanitize'
 ]);
+
+
+export default exports;

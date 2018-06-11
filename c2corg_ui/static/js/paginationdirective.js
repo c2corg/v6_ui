@@ -1,7 +1,7 @@
-goog.provide('app.paginationDirective');
-
-goog.require('app');
-
+/**
+ * @module app.paginationDirective
+ */
+import appBase from './index.js';
 
 /**
  * This directive is used to display pagination buttons
@@ -10,7 +10,7 @@ goog.require('app');
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-app.paginationDirective = function() {
+const exports = function() {
   return {
     restrict: 'E',
     controller: 'AppPaginationController',
@@ -20,4 +20,7 @@ app.paginationDirective = function() {
   };
 };
 
-app.module.directive('appPagination', app.paginationDirective);
+appBase.module.directive('appPagination', exports);
+
+
+export default exports;

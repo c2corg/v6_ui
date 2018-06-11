@@ -1,12 +1,12 @@
-goog.provide('app.protectedUrlBtnDirective');
-
-goog.require('app');
-
+/**
+ * @module app.protectedUrlBtnDirective
+ */
+import appBase from './index.js';
 
 /**
  * @return {angular.Directive} directive for detailed views
  */
-app.protectedUrlBtnDirective = function() {
+const exports = function() {
   return {
     restrict: 'A',
     controller: 'AppProtectedUrlBtnController',
@@ -21,4 +21,7 @@ app.protectedUrlBtnDirective = function() {
   };
 };
 
-app.module.directive('protectedUrlBtn', app.protectedUrlBtnDirective);
+appBase.module.directive('protectedUrlBtn', exports);
+
+
+export default exports;

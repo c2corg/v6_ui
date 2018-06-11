@@ -1,7 +1,7 @@
-goog.provide('app.ProtectedUrlBtnController');
-
-goog.require('app');
-
+/**
+ * @module app.ProtectedUrlBtnController
+ */
+import appBase from './index.js';
 
 /**
  * @param {app.Authentication} appAuthentication
@@ -9,7 +9,7 @@ goog.require('app');
  * @constructor
  * @ngInject
  */
-app.ProtectedUrlBtnController = function(appAuthentication, authUrl) {
+const exports = function(appAuthentication, authUrl) {
   /**
    * @type {app.Authentication}
    * @private
@@ -23,7 +23,7 @@ app.ProtectedUrlBtnController = function(appAuthentication, authUrl) {
   this.authUrl_ = authUrl;
 };
 
-app.ProtectedUrlBtnController.prototype.redirectToProtectedUrl = function(url) {
+exports.prototype.redirectToProtectedUrl = function(url) {
   if (this.auth_.isAuthenticated()) {
     window.location.href = url;
   } else {
@@ -33,4 +33,7 @@ app.ProtectedUrlBtnController.prototype.redirectToProtectedUrl = function(url) {
   }
 };
 
-app.module.controller('AppProtectedUrlBtnController', app.ProtectedUrlBtnController);
+appBase.module.controller('AppProtectedUrlBtnController', exports);
+
+
+export default exports;

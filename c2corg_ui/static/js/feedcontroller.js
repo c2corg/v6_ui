@@ -1,19 +1,19 @@
-goog.provide('app.FeedController');
-
-goog.require('app');
-goog.require('app.utils');
-
+/**
+ * @module app.FeedController
+ */
+import appBase from './index.js';
+import appUtils from './utils.js';
 
 /**
  * @param {!angular.Scope} $scope Scope.
  * @param {app.Api} appApi Api service.
- * @param {app.Lang} appLang Lang service.
+ * @param {app.Lang} LangService Lang service.
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @constructor
  * @ngInject
  * @struct
  */
-app.FeedController = function($scope, appApi, appLang, ngeoLocation) {
+const exports = function($scope, appApi, LangService, ngeoLocation) {
 
   /**
    * @type {!angular.Scope}
@@ -31,7 +31,7 @@ app.FeedController = function($scope, appApi, appLang, ngeoLocation) {
    * @type {app.Lang}
    * @private
    */
-  this.lang_ = appLang;
+  this.lang_ = LangService;
 
   /**
    * @type {number}
@@ -113,7 +113,7 @@ app.FeedController = function($scope, appApi, appLang, ngeoLocation) {
  * init array for the column Manager
  * @private
  */
-app.FeedController.prototype.initDocumentsCol_ = function() {
+exports.prototype.initDocumentsCol_ = function() {
   if (!this.documentsCol[0]) {
     this.documentsCol[0] = Array();
   }
@@ -129,7 +129,7 @@ app.FeedController.prototype.initDocumentsCol_ = function() {
  * Refresh the feed columns according to the available screen width
  * @private
  */
-app.FeedController.prototype.initFeedColumnManager_ = function() {
+exports.prototype.initFeedColumnManager_ = function() {
 
   $(window).resize(() => {
 
@@ -208,7 +208,7 @@ app.FeedController.prototype.initFeedColumnManager_ = function() {
  * Used by ng-infinite-scroll directive in the template.
  * @export
  */
-app.FeedController.prototype.getDocumentsFromFeed = function() {
+exports.prototype.getDocumentsFromFeed = function() {
   this.busy = true;
   this.api.readFeed(this.nextToken, this.lang_.getLang(), this.userId, this.isPersonal).then((response) => {
     this.busy = false;
@@ -225,7 +225,7 @@ app.FeedController.prototype.getDocumentsFromFeed = function() {
  * @return {number}
  * @public
  */
-app.FeedController.prototype.estimateSize = function(doc) {
+exports.prototype.estimateSize = function(doc) {
   let size = 225;
   if (doc['document']['locales'][0]['summary'] !== null) {
     size += 22;
@@ -248,7 +248,7 @@ app.FeedController.prototype.estimateSize = function(doc) {
  * @param response
  * @public
  */
-app.FeedController.prototype.handleFeed = function(response) {
+exports.prototype.handleFeed = function(response) {
   this.error = false;
   this.busy = false;
   const data = response['data']['feed'];
@@ -333,7 +333,7 @@ app.FeedController.prototype.handleFeed = function(response) {
  * Switches between /personal-feed and /feed
  * @export
  */
-app.FeedController.prototype.toggleFilters = function() {
+exports.prototype.toggleFilters = function() {
   this.isPersonal = !this.isPersonal;
   this.nextToken = undefined;
   this.documents = [];
@@ -348,8 +348,11 @@ app.FeedController.prototype.toggleFilters = function() {
  * @export
  * @returns {string}
  */
-app.FeedController.prototype.getDocumentType = function(type) {
-  return app.utils.getDoctype(type).slice(0, -1);
+exports.prototype.getDocumentType = function(type) {
+  return appUtils.getDoctype(type).slice(0, -1);
 };
 
-app.module.controller('appFeedController', app.FeedController);
+appBase.module.controller('appFeedController', exports);
+
+
+export default exports;

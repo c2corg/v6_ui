@@ -1,8 +1,8 @@
-goog.provide('app.MainController');
-
-goog.require('app');
-goog.require('app.utils');
-
+/**
+ * @module app.MainController
+ */
+import appBase from './index.js';
+import appUtils from './utils.js';
 
 /**
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
@@ -12,7 +12,7 @@ goog.require('app.utils');
  * @constructor
  * @ngInject
  */
-app.MainController = function($scope, gettextCatalog, appApi, appAuthentication, authUrl) {
+const exports = function($scope, gettextCatalog, appApi, appAuthentication, authUrl) {
 
   /**
    * @type {angular.Scope}
@@ -51,7 +51,7 @@ app.MainController = function($scope, gettextCatalog, appApi, appAuthentication,
  * @return {string} Translated string.
  * @export
  */
-app.MainController.prototype.translate = function(str) {
+exports.prototype.translate = function(str) {
   return this.gettextCatalog_.getString(str);
 };
 
@@ -60,11 +60,11 @@ app.MainController.prototype.translate = function(str) {
  * @return {string} concatenated and translated page title
  * @export
  */
-app.MainController.prototype.page_title = function(title) {
+exports.prototype.page_title = function(title) {
   return this.translate(title) + ' - Camptocamp.org';
 };
 
-app.module.controller('MainController', app.MainController);
+appBase.module.controller('MainController', exports);
 
 /**
  * @param {string} path
@@ -74,13 +74,13 @@ app.module.controller('MainController', app.MainController);
  * kinds of documents are associated, and '/' (home).
  * TODO : add an array of possible document types and make a for loop
  */
-app.MainController.prototype.isPath = function(path) {
+exports.prototype.isPath = function(path) {
   const location = window.location.pathname;
   if (path === location) {
     // path = '/'
     return 'home';
   } else if (path === 'topoguide') {
-    return app.utils.isTopoguide(location.substring(1));
+    return appUtils.isTopoguide(location.substring(1));
   }
   return location.indexOf(path) > -1;
 };
@@ -89,14 +89,17 @@ app.MainController.prototype.isPath = function(path) {
 /**
  * @export
  */
-app.MainController.prototype.animateHeaderIcon = function(e) {
-  app.utils.animateHeaderIcon(e);
+exports.prototype.animateHeaderIcon = function(e) {
+  appUtils.animateHeaderIcon(e);
 };
 
 
 /**
  * @export
  */
-app.MainController.prototype.resizeMap = function() {
+exports.prototype.resizeMap = function() {
   this.scope_.$root.$emit('resizeMap');
 };
+
+
+export default exports;

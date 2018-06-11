@@ -1,7 +1,7 @@
-goog.provide('app.XreportController');
-
-goog.require('app');
-
+/**
+ * @module app.XreportController
+ */
+import appBase from './index.js';
 
 /**
  * @param {!angular.Scope} $scope Scope.
@@ -13,7 +13,7 @@ goog.require('app');
  * @export
  * @ngInject
  */
-app.XreportController = function($scope, $http, $compile, appAlerts) {
+const exports = function($scope, $http, $compile, appAlerts) {
 
   /**
    * @type {number}
@@ -54,4 +54,7 @@ app.XreportController = function($scope, $http, $compile, appAlerts) {
 };
 
 
-app.module.controller('appXreportController', app.XreportController);
+appBase.module.controller('appXreportController', exports);
+
+
+export default exports;

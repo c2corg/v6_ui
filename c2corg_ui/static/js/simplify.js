@@ -1,4 +1,9 @@
 /**
+ * @module app.simplify
+ */
+let exports = {};
+
+/**
  * Based on Simplify.js
  *
  * (c) 2013, Vladimir Agafonkin
@@ -6,10 +11,9 @@
  * mourner.github.io/simplify-js
  */
 
-goog.provide('app.simplify');
-goog.require('goog.asserts');
-goog.require('ol.geom.LineString');
-goog.require('ol.geom.MultiLineString');
+import googAsserts from 'goog/asserts.js';
+import olGeomLineString from 'ol/geom/LineString.js';
+import olGeomMultiLineString from 'ol/geom/MultiLineString.js';
 
 
 /**
@@ -20,7 +24,7 @@ goog.require('ol.geom.MultiLineString');
  * @returns {number}
  * @private
  */
-app.simplify.getSqDist_ = function(p1, p2) {
+exports.getSqDist_ = function(p1, p2) {
 
   const dx = p1[0] - p2[0];
   const dy = p1[1] - p2[1];
@@ -38,7 +42,7 @@ app.simplify.getSqDist_ = function(p1, p2) {
  * @returns {number}
  * @private
  */
-app.simplify.getSqSegDist_ = function getSqSegDist(p, p1, p2) {
+exports.getSqSegDist_ = function getSqSegDist(p, p1, p2) {
 
   let x = p1[0],
       y = p1[1],
@@ -74,7 +78,7 @@ app.simplify.getSqSegDist_ = function getSqSegDist(p, p1, p2) {
  * @returns {Array.<ol.Coordinate>}
  * @private
  */
-app.simplify.simplifyRadialDist_ = function(points, sqTolerance) {
+exports.simplifyRadialDist_ = function(points, sqTolerance) {
 
   let prevPoint = points[0];
   const newPoints = [prevPoint];
@@ -83,7 +87,7 @@ app.simplify.simplifyRadialDist_ = function(points, sqTolerance) {
   for (let i = 1, len = points.length; i < len; i++) {
     point = points[i];
 
-    if (app.simplify.getSqDist_(point, prevPoint) > sqTolerance) {
+    if (exports.getSqDist_(point, prevPoint) > sqTolerance) {
       newPoints.push(point);
       prevPoint = point;
     }
@@ -106,12 +110,12 @@ app.simplify.simplifyRadialDist_ = function(points, sqTolerance) {
  * @param {Array.<ol.Coordinate>} simplified
  * @private
  */
-app.simplify.simplifyDPStep_ = function(points, first, last, sqTolerance, simplified) {
+exports.simplifyDPStep_ = function(points, first, last, sqTolerance, simplified) {
   let maxSqDist = sqTolerance,
       index;
 
   for (let i = first + 1; i < last; i++) {
-    const sqDist = app.simplify.getSqSegDist_(points[i], points[first], points[last]);
+    const sqDist = exports.getSqSegDist_(points[i], points[first], points[last]);
 
     if (sqDist > maxSqDist) {
       index = i;
@@ -120,13 +124,13 @@ app.simplify.simplifyDPStep_ = function(points, first, last, sqTolerance, simpli
   }
 
   if (maxSqDist > sqTolerance) {
-    goog.asserts.assert(index !== undefined);
+    googAsserts.assert(index !== undefined);
     if (index - first > 1) {
-      app.simplify.simplifyDPStep_(points, first, index, sqTolerance, simplified);
+      exports.simplifyDPStep_(points, first, index, sqTolerance, simplified);
     }
     simplified.push(points[index]);
     if (last - index > 1) {
-      app.simplify.simplifyDPStep_(points, index, last, sqTolerance, simplified);
+      exports.simplifyDPStep_(points, index, last, sqTolerance, simplified);
     }
   }
 };
@@ -140,11 +144,11 @@ app.simplify.simplifyDPStep_ = function(points, first, last, sqTolerance, simpli
  * @returns {Array.<ol.Coordinate>}
  * @private
  */
-app.simplify.simplifyDouglasPeucker_ = function(points, sqTolerance) {
+exports.simplifyDouglasPeucker_ = function(points, sqTolerance) {
   const last = points.length - 1;
 
   const simplified = [points[0]];
-  app.simplify.simplifyDPStep_(points, 0, last, sqTolerance, simplified);
+  exports.simplifyDPStep_(points, 0, last, sqTolerance, simplified);
   simplified.push(points[last]);
 
   return simplified;
@@ -160,15 +164,15 @@ app.simplify.simplifyDouglasPeucker_ = function(points, sqTolerance) {
  * @returns {Array.<ol.Coordinate>}
  * @private
  */
-app.simplify.simplify_ = function simplify(points, tolerance, highestQuality) {
+exports.simplify_ = function simplify(points, tolerance, highestQuality) {
   if (points.length <= 2) {
     return points;
   }
 
   const sqTolerance = tolerance !== undefined ? tolerance * tolerance : 1;
 
-  points = highestQuality ? points : app.simplify.simplifyRadialDist_(points, sqTolerance);
-  points = app.simplify.simplifyDouglasPeucker_(points, sqTolerance);
+  points = highestQuality ? points : exports.simplifyRadialDist_(points, sqTolerance);
+  points = exports.simplifyDouglasPeucker_(points, sqTolerance);
 
   return points;
 };
@@ -182,16 +186,19 @@ app.simplify.simplify_ = function simplify(points, tolerance, highestQuality) {
  * @param {number} tolerance
  * @return {ol.geom.Geometry}
  */
-app.simplify.simplify = function(geometry, tolerance) {
-  if (geometry instanceof ol.geom.LineString) {
+exports.simplify = function(geometry, tolerance) {
+  if (geometry instanceof olGeomLineString) {
     const coords = geometry.getCoordinates();
-    geometry.setCoordinates(app.simplify.simplify_(coords, tolerance, true));
-  } else if (geometry instanceof ol.geom.MultiLineString) {
+    geometry.setCoordinates(exports.simplify_(coords, tolerance, true));
+  } else if (geometry instanceof olGeomMultiLineString) {
     const coordss = geometry.getCoordinates();
     const simplifiedCoordss = coordss.map((coords) => {
-      return app.simplify.simplify_(coords, tolerance, true);
+      return exports.simplify_(coords, tolerance, true);
     });
     geometry.setCoordinates(simplifiedCoordss);
   }
   return geometry;
 };
+
+
+export default exports;

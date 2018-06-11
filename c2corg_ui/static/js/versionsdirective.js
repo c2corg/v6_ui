@@ -1,7 +1,7 @@
-goog.provide('app.versionsDirective');
-
-goog.require('app');
-
+/**
+ * @module app.versionsDirective
+ */
+import appBase from './index.js';
 
 /**
  * This directive is used to manage the history form.
@@ -9,7 +9,7 @@ goog.require('app');
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-app.versionsDirective = function() {
+const exports = function() {
   return {
     restrict: 'A',
     scope: true,
@@ -23,4 +23,7 @@ app.versionsDirective = function() {
   };
 };
 
-app.module.directive('appVersions', app.versionsDirective);
+appBase.module.directive('appVersions', exports);
+
+
+export default exports;

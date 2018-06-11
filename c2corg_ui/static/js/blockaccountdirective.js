@@ -1,12 +1,12 @@
-goog.provide('app.blockAccountDirective');
-
-goog.require('app');
-
+/**
+ * @module app.blockAccountDirective
+ */
+import appBase from './index.js';
 
 /**
  * @return {angular.Directive} The directive specs.
  */
-app.blockAccountDirective = function() {
+const exports = function() {
   return {
     restrict: 'A',
     controller: 'appBlockAccountController',
@@ -17,4 +17,8 @@ app.blockAccountDirective = function() {
     templateUrl: '/static/partials/blockaccount.html'
   };
 };
-app.module.directive('appBlockAccount', app.blockAccountDirective);
+
+appBase.module.directive('appBlockAccount', exports);
+
+
+export default exports;

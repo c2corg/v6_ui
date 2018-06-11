@@ -1,14 +1,14 @@
-goog.provide('app.coordinate');
-
-goog.require('app');
-goog.require('ol.coordinate');
-goog.require('ol.proj');
-
+/**
+ * @module app.coordinate
+ */
+import appBase from './index.js';
+import olCoordinate from 'ol/coordinate.js';
+import olProj from 'ol/proj.js';
 
 /**
  * @return {function(string):string}
  */
-app.coordinate = function() {
+const exports = function() {
   return function(coordinateRaw) {
     if (coordinateRaw) {
       const coordinatesRaw = coordinateRaw.split('/');
@@ -16,10 +16,13 @@ app.coordinate = function() {
         parseInt(coordinatesRaw[0], 10),
         parseInt(coordinatesRaw[1], 10)
       ];
-      return ol.coordinate.toStringHDMS(ol.proj.toLonLat(coordinates));
+      return olCoordinate.toStringHDMS(olProj.toLonLat(coordinates));
     }
     return '';
   };
 };
 
-app.module.filter('coordinate', app.coordinate);
+appBase.module.filter('coordinate', exports);
+
+
+export default exports;

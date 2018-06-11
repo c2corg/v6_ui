@@ -1,6 +1,7 @@
-goog.provide('app.gpxUploadDirective');
-
-goog.require('app');
+/**
+ * @module app.gpxUploadDirective
+ */
+import appBase from './index.js';
 
 /**
  * This directive is used to display a GPX file upload button.
@@ -8,7 +9,7 @@ goog.require('app');
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-app.gpxUploadDirective = function() {
+const exports = function() {
   return {
     restrict: 'E',
     controller: 'AppGpxUploadController',
@@ -18,4 +19,7 @@ app.gpxUploadDirective = function() {
   };
 };
 
-app.module.directive('appGpxUpload', app.gpxUploadDirective);
+appBase.module.directive('appGpxUpload', exports);
+
+
+export default exports;

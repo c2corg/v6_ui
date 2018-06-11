@@ -1,7 +1,7 @@
-goog.provide('app.BiodivSportsModalController');
-
-goog.require('app');
-
+/**
+ * @module app.BiodivSportsModalController
+ */
+import appBase from './index.js';
 
 /**
  * We have to use a secondary controller for the modal so that we can inject
@@ -15,7 +15,7 @@ goog.require('app');
  * @constructor
  * @ngInject
  */
-app.BiodivSportsModalController = function($uibModalInstance, title, description, infoUrl, kmlUrl, period) {
+const exports = function($uibModalInstance, title, description, infoUrl, kmlUrl, period) {
 
   /**
    * @type {Object} $uibModalInstance angular bootstrap
@@ -63,9 +63,11 @@ app.BiodivSportsModalController = function($uibModalInstance, title, description
 /**
  * @export
  */
-app.BiodivSportsModalController.prototype.close = function() {
+exports.prototype.close = function() {
   this.modalInstance_.close();
 };
 
-app.module.controller('AppBiodivSportsModalController', app.BiodivSportsModalController);
+appBase.module.controller('AppBiodivSportsModalController', exports);
 
+
+export default exports;

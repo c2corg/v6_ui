@@ -1,7 +1,7 @@
-goog.provide('app.alertsDirective');
-
-goog.require('app');
-
+/**
+ * @module app.alertsDirective
+ */
+import appBase from './index.js';
 
 /**
  * This directive is used to display feedbacks to user actions.
@@ -11,7 +11,7 @@ goog.require('app');
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-app.alertsDirective = function() {
+const exports = function() {
   return {
     restrict: 'E',
     controller: 'AppAlertsController',
@@ -22,4 +22,7 @@ app.alertsDirective = function() {
 };
 
 
-app.module.directive('appAlerts', app.alertsDirective);
+appBase.module.directive('appAlerts', exports);
+
+
+export default exports;

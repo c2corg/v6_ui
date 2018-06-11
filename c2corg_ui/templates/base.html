@@ -145,9 +145,7 @@
            'ign': '${ign_api_key}',
            'bing': '${bing_api_key}'
          });
-         module.config(function(vcRecaptchaServiceProvider) {
-           vcRecaptchaServiceProvider.setSiteKey('${settings["recaptcha_site_key"]}');
-         });
+         module.config(vcRecaptchaServiceProvider => vcRecaptchaServiceProvider.setSiteKey('${settings["recaptcha_site_key"]}'));
 
          // <%block name="moduleConstantsValues">
          module.value('mapFeatureCollection', null);

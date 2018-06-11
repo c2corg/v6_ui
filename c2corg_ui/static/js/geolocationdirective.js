@@ -1,7 +1,7 @@
-goog.provide('app.geolocationDirective');
-
-goog.require('app');
-
+/**
+ * @module app.geolocationDirective
+ */
+import appBase from './index.js';
 
 /**
  * This directive is used to display a "center on my position" button.
@@ -9,7 +9,7 @@ goog.require('app');
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-app.geolocationDirective = function() {
+const exports = function() {
   return {
     restrict: 'E',
     controller: 'AppGeolocationController',
@@ -22,4 +22,7 @@ app.geolocationDirective = function() {
   };
 };
 
-app.module.directive('appGeolocation', app.geolocationDirective);
+appBase.module.directive('appGeolocation', exports);
+
+
+export default exports;

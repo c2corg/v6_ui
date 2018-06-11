@@ -1,7 +1,7 @@
-goog.provide('app.suggestionDirective');
-
-goog.require('app.utils');
-
+/**
+ * @module app.suggestionDirective
+ */
+import appUtils from './utils.js';
 
 /**
  * @param {angular.$compile} $compile Angular compile service.
@@ -10,7 +10,7 @@ goog.require('app.utils');
  * @return {angular.Directive} Directive Definition Object.
  * @ngInject
  */
-app.suggestionDirective = function($compile, $sce, $templateCache) {
+const exports = function($compile, $sce, $templateCache) {
   const cardElementCache = {};
 
   const getCardElement = function(doctype) {
@@ -18,7 +18,7 @@ app.suggestionDirective = function($compile, $sce, $templateCache) {
       return cardElementCache[doctype];
     }
     const path = '/static/partials/suggestions/' + doctype + '.html';
-    const template = app.utils.getTemplate(path, $templateCache);
+    const template = appUtils.getTemplate(path, $templateCache);
 
     const element = angular.element(template);
     cardElementCache[doctype] = $compile(element);
@@ -60,4 +60,7 @@ app.suggestionDirective = function($compile, $sce, $templateCache) {
   };
 };
 
-app.module.directive('appSuggestion', app.suggestionDirective);
+app.module.directive('appSuggestion', exports);
+
+
+export default exports;

@@ -1,7 +1,7 @@
-goog.provide('app.geomDownloadDirective');
-
-goog.require('app');
-
+/**
+ * @module app.geomDownloadDirective
+ */
+import appBase from './index.js';
 
 /**
  * This directive is used to display a track download button.
@@ -9,7 +9,7 @@ goog.require('app');
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-app.geomDownloadDirective = function() {
+const exports = function() {
   return {
     restrict: 'E',
     controller: 'AppGeomDownloadController',
@@ -18,4 +18,7 @@ app.geomDownloadDirective = function() {
   };
 };
 
-app.module.directive('appGeomDownload', app.geomDownloadDirective);
+appBase.module.directive('appGeomDownload', exports);
+
+
+export default exports;

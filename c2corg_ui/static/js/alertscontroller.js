@@ -1,14 +1,14 @@
-goog.provide('app.AlertsController');
-
-goog.require('app');
-
+/**
+ * @module app.AlertsController
+ */
+import appBase from './index.js';
 
 /**
  * @constructor
  * @param {app.Alerts} appAlerts Alert service.
  * @ngInject
  */
-app.AlertsController = function(appAlerts) {
+const exports = function(appAlerts) {
 
   /**
    * @type {Array.<appx.AlertMessage>}
@@ -22,10 +22,13 @@ app.AlertsController = function(appAlerts) {
  * @param {number} index Index of alert to close.
  * @export
  */
-app.AlertsController.prototype.close = function(index) {
+exports.prototype.close = function(index) {
   this.alerts.splice(index, 1);
   $('.loading').removeClass('loading');
 };
 
 
-app.module.controller('AppAlertsController', app.AlertsController);
+appBase.module.controller('AppAlertsController', exports);
+
+
+export default exports;

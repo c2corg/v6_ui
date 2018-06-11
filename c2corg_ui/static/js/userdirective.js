@@ -1,7 +1,7 @@
-goog.provide('app.userDirective');
-
-goog.require('app');
-
+/**
+ * @module app.userDirective
+ */
+import appBase from './index.js';
 
 /**
  * This directive is used to display the user tools if authenticated or
@@ -10,7 +10,7 @@ goog.require('app');
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-app.userDirective = function() {
+const exports = function() {
   return {
     restrict: 'E',
     controller: 'AppUserController',
@@ -20,4 +20,7 @@ app.userDirective = function() {
   };
 };
 
-app.module.directive('appUser', app.userDirective);
+appBase.module.directive('appUser', exports);
+
+
+export default exports;

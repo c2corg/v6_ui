@@ -1,15 +1,16 @@
 /**
+ * @module app.mapSearchDirective
+ */
+/**
  * Adapted from https://github.com/camptocamp/agridea_geoacorda/blob/master/jsapi/src/searchcontrol.js
  */
-goog.provide('app.mapSearchDirective');
 
-goog.require('app');
-
+import appBase from './index.js';
 
 /**
  * @return {angular.Directive} Directive Definition Object.
  */
-app.mapSearchDirective = function() {
+const exports = function() {
   return {
     restrict: 'E',
     scope: {
@@ -34,4 +35,7 @@ app.mapSearchDirective = function() {
   };
 };
 
-app.module.directive('appMapSearch', app.mapSearchDirective);
+appBase.module.directive('appMapSearch', exports);
+
+
+export default exports;

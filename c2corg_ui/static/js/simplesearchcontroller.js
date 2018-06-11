@@ -1,8 +1,8 @@
-goog.provide('app.SimpleSearchController');
-
-goog.require('app');
-goog.require('app.utils');
-
+/**
+ * @module app.SimpleSearchController
+ */
+import appBase from './index.js';
+import appUtils from './utils.js';
 
 /**
  * @constructor
@@ -17,7 +17,7 @@ goog.require('app.utils');
  * @param {app.Url} appUrl URL service.
  * @ngInject
  */
-app.SimpleSearchController = function(appDocument, $scope, $compile, $attrs, apiUrl,
+const exports = function(appDocument, $scope, $compile, $attrs, apiUrl,
   gettextCatalog, $templateCache, appAuthentication, appUrl) {
 
   /**
@@ -162,7 +162,7 @@ app.SimpleSearchController = function(appDocument, $scope, $compile, $attrs, api
    * @export
    */
   this.listeners = /** @type {ngeox.SearchDirectiveListeners} */ ({
-    select: app.SimpleSearchController.select_.bind(this)
+    select: exports.select_.bind(this)
   });
 
   /**
@@ -177,7 +177,7 @@ app.SimpleSearchController = function(appDocument, $scope, $compile, $attrs, api
  * @type {number}
  * @const
  */
-app.SimpleSearchController.MAX_RESULTS_NB = 7;
+exports.MAX_RESULTS_NB = 7;
 
 
 /**
@@ -185,59 +185,61 @@ app.SimpleSearchController.MAX_RESULTS_NB = 7;
  * @return {TypeaheadDataset} A data set.
  * @private
  */
-app.SimpleSearchController.prototype.createDataset_ = function(type) {
+exports.prototype.createDataset_ = function(type) {
   const bloodhoundEngine = this.createAndInitBloodhound_(type);
-  return /** @type {TypeaheadDataset} */({
-    contents: type,
-    source: bloodhoundEngine.ttAdapter(),
-    display: function(doc) {
-      if (doc) {
-        return doc.label;
-      }
-    },
-    limit: 20,
-    templates: {
-      header: (function() {
-        const typeUpperCase = type.charAt(0).toUpperCase() + type.substr(1);
-        return '<div class="header" dataset="' + type + '">' +
-          this.gettextCatalog_.getString(typeUpperCase) + '</div>';
-      }).bind(this),
-      footer: function(doc) {
-        let template;
-        if (this.isStandardSearch) {
-          template = '<p class="suggestion-more"><a href="/' + type +
-            '#q=' + encodeURI(doc['query']) + '" class="green-text" translate>' +
-            this.gettextCatalog_.getString('see more results') + '</a></p>';
-          return this.compile_(template)(this.scope_);
-        } else if (this.nbResults_[type] > app.SimpleSearchController.MAX_RESULTS_NB) {
-          template = app.utils.getTemplate(
-            '/static/partials/suggestions/toomany.html',
-            this.templatecache_);
-          return this.compile_(template)(this.scope_);
-        }
-        return '';
-      }.bind(this),
-      suggestion: function(doc) {
+  return (
+    /** @type {TypeaheadDataset} */{
+      contents: type,
+      source: bloodhoundEngine.ttAdapter(),
+      display: function(doc) {
         if (doc) {
-          this.scope_['doc'] = doc;
-          return this.compile_(
-            '<app-suggestion class="tt-suggestion"></app-suggestion>'
-          )(this.scope_);
-        } else {
-          return '<div class="ng-hide"></div>';
+          return doc.label;
         }
-      }.bind(this),
-      empty: function(res) {
-        if ($('.header.empty').length === 0) {
-          const partialFile = this.isStandardSearch ? 'create' : 'empty';
-          const template = app.utils.getTemplate(
-            '/static/partials/suggestions/' + partialFile + '.html',
-            this.templatecache_);
-          return this.compile_(template)(this.scope_);
-        }
-      }.bind(this)
+      },
+      limit: 20,
+      templates: {
+        header: (function() {
+          const typeUpperCase = type.charAt(0).toUpperCase() + type.substr(1);
+          return '<div class="header" dataset="' + type + '">' +
+            this.gettextCatalog_.getString(typeUpperCase) + '</div>';
+        }).bind(this),
+        footer: function(doc) {
+          let template;
+          if (this.isStandardSearch) {
+            template = '<p class="suggestion-more"><a href="/' + type +
+              '#q=' + encodeURI(doc['query']) + '" class="green-text" translate>' +
+              this.gettextCatalog_.getString('see more results') + '</a></p>';
+            return this.compile_(template)(this.scope_);
+          } else if (this.nbResults_[type] > exports.MAX_RESULTS_NB) {
+            template = appUtils.getTemplate(
+              '/static/partials/suggestions/toomany.html',
+              this.templatecache_);
+            return this.compile_(template)(this.scope_);
+          }
+          return '';
+        }.bind(this),
+        suggestion: function(doc) {
+          if (doc) {
+            this.scope_['doc'] = doc;
+            return this.compile_(
+              '<app-suggestion class="tt-suggestion"></app-suggestion>'
+            )(this.scope_);
+          } else {
+            return '<div class="ng-hide"></div>';
+          }
+        }.bind(this),
+        empty: function(res) {
+          if ($('.header.empty').length === 0) {
+            const partialFile = this.isStandardSearch ? 'create' : 'empty';
+            const template = appUtils.getTemplate(
+              '/static/partials/suggestions/' + partialFile + '.html',
+              this.templatecache_);
+            return this.compile_(template)(this.scope_);
+          }
+        }.bind(this)
+      }
     }
-  });
+  );
 };
 
 /**
@@ -245,11 +247,11 @@ app.SimpleSearchController.prototype.createDataset_ = function(type) {
  * @return {Bloodhound} The bloodhound engine.
  * @private
  */
-app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
+exports.prototype.createAndInitBloodhound_ = function(type) {
   const url = this.apiUrl_ + '/search?q=%QUERY';
 
   const bloodhound = new Bloodhound(/** @type {BloodhoundOptions} */({
-    limit: app.SimpleSearchController.MAX_RESULTS_NB,
+    limit: exports.MAX_RESULTS_NB,
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('label'),
     remote: {
@@ -262,7 +264,7 @@ app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
         this.nbResults_ = {};
 
         let url = settings['url'] + '&pl=' + this.gettextCatalog_.currentLanguage;
-        url += '&limit=' + app.SimpleSearchController.MAX_RESULTS_NB;
+        url += '&limit=' + exports.MAX_RESULTS_NB;
 
         if (this.dataset) {
           // add the Auth header if searching for users
@@ -319,7 +321,7 @@ app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
  * @return {string} label
  * @private
  */
-app.SimpleSearchController.prototype.createDocLabel_ = function(doc, currentLang) {
+exports.prototype.createDocLabel_ = function(doc, currentLang) {
   const locale = doc.locales[0];
   let label = '';
   if (doc.type === 'u') {
@@ -344,7 +346,7 @@ app.SimpleSearchController.prototype.createDocLabel_ = function(doc, currentLang
  * @this {app.SimpleSearchController}
  * @private
  */
-app.SimpleSearchController.select_ = function(event, doc, dataset) {
+exports.select_ = function(event, doc, dataset) {
   if (this.selectHandler) {
     this.selectHandler({'doc': doc});
   } else {
@@ -353,4 +355,7 @@ app.SimpleSearchController.select_ = function(event, doc, dataset) {
   }
 };
 
-app.module.controller('AppSimpleSearchController', app.SimpleSearchController);
+appBase.module.controller('AppSimpleSearchController', exports);
+
+
+export default exports;

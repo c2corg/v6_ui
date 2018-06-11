@@ -1,19 +1,19 @@
-goog.provide('app.OutingsCsvDownloadController');
-
-goog.require('app');
-
+/**
+ * @module app.OutingsCsvDownloadController
+ */
+import appBase from './index.js';
 
 /**
  * @param {app.Authentication} appAuthentication
  * @param {app.Api} appApi The API service
  * @param {angular.$q} $q Angular q service.
- * @param {app.Lang} appLang Lang service.
+ * @param {app.Lang} LangService Lang service.
  * @constructor
  * @struct
  * @ngInject
  */
-app.OutingsCsvDownloadController = function(appAuthentication, appApi, $q,
-  appLang) {
+const exports = function(appAuthentication, appApi, $q,
+  LangService) {
 
   /**
    * @type {app.Authentication}
@@ -37,7 +37,7 @@ app.OutingsCsvDownloadController = function(appAuthentication, appApi, $q,
    * @type {app.Lang}
    * @private
    */
-  this.langService_ = appLang;
+  this.langService_ = LangService;
 };
 
 
@@ -45,7 +45,7 @@ app.OutingsCsvDownloadController = function(appAuthentication, appApi, $q,
  * @param {goog.events.Event | jQuery.Event} event
  * @export
  */
-app.OutingsCsvDownloadController.prototype.download = function(event) {
+exports.prototype.download = function(event) {
   event.stopPropagation();
   const filename = 'outings.csv';
   const langService = this.langService_;
@@ -91,7 +91,7 @@ app.OutingsCsvDownloadController.prototype.download = function(event) {
  * @private
  * @returns {!angular.$q.Promise}
  */
-app.OutingsCsvDownloadController.prototype.getOutings_ = function() {
+exports.prototype.getOutings_ = function() {
   const promise = this.q_.defer().promise; // a promise that does... nothing
   const userId = this.auth.userData.id;
   const appApi = this.appApi;
@@ -127,5 +127,8 @@ app.OutingsCsvDownloadController.prototype.getOutings_ = function() {
 };
 
 
-app.module.controller(
-  'AppOutingsCsvDownloadController', app.OutingsCsvDownloadController);
+appBase.module.controller(
+  'AppOutingsCsvDownloadController', exports);
+
+
+export default exports;

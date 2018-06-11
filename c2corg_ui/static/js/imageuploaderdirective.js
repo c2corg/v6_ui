@@ -1,13 +1,13 @@
-goog.provide('app.imageUploaderDirective');
-
-goog.require('app');
-
+/**
+ * @module app.imageUploaderDirective
+ */
+import appBase from './index.js';
 
 /**
  * This directive is used to display a drag-drop area for images to upload.
  * @return {angular.Directive} The directive specs.
  */
-app.imageUploaderDirective = function() {
+const exports = function() {
   return {
     restrict: 'A',
     controller: 'AppImageUploaderController',
@@ -20,11 +20,14 @@ app.imageUploaderDirective = function() {
     templateUrl: '/static/partials/imageuploader.html',
     link: function(scope, el, attrs, ctrl) {
       el.on('click', '.dropdown-toggle', function() {
-        app.utils.repositionMenu({'menu': this, 'boxBoundEl': '.images-container', 'checkBottom': true});
+        appBase.utils.repositionMenu({'menu': this, 'boxBoundEl': '.images-container', 'checkBottom': true});
       });
     }
   };
 };
 
 
-app.module.directive('appImageUploader', app.imageUploaderDirective);
+appBase.module.directive('appImageUploader', exports);
+
+
+export default exports;

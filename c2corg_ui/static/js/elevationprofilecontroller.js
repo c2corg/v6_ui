@@ -1,21 +1,22 @@
-goog.provide('app.ElevationProfileController');
-
-goog.require('app');
-goog.require('ol.proj');
+/**
+ * @module app.ElevationProfileController
+ */
+import appBase from './index.js';
+import olProj from 'ol/proj.js';
 
 /**
  * @param {angular.Scope} $scope Scope.
  * @param {?GeoJSONFeatureCollection} mapFeatureCollection FeatureCollection of
  *    features shown on the map.
- * @param {app.Lang} appLang Lang service.
+ * @param {app.Lang} LangService Lang service.
  * @param {ngeo.Debounce} ngeoDebounce ngeo Debounce service.
  * @constructor
  * @ngInject
  */
-app.ElevationProfileController = function(
+const exports = function(
   $scope,
   mapFeatureCollection,
-  appLang,
+  LangService,
   ngeoDebounce
 ) {
 
@@ -46,15 +47,15 @@ app.ElevationProfileController = function(
    * @private
    */
   this.i18n_ = {
-    elevation: appLang.gettext('Elevation'),
-    elevation_legend: appLang.gettext('Elevation (m)'),
-    meters: appLang.gettext('meters'),
-    distance: appLang.gettext('Distance'),
-    distance_legend: appLang.gettext('Distance (km)'),
-    km: appLang.gettext('kilometers'),
-    time: appLang.gettext('Time'),
-    duration: appLang.gettext('Duration'),
-    duration_legend: appLang.gettext('Duration (hrs)')
+    elevation: LangService.gettext('Elevation'),
+    elevation_legend: LangService.gettext('Elevation (m)'),
+    meters: LangService.gettext('meters'),
+    distance: LangService.gettext('Distance'),
+    distance_legend: LangService.gettext('Distance (km)'),
+    km: LangService.gettext('kilometers'),
+    time: LangService.gettext('Time'),
+    duration: LangService.gettext('Duration'),
+    duration_legend: LangService.gettext('Duration (hrs)')
   };
 
   const lines = mapFeatureCollection.features.filter((feature) => {
@@ -89,12 +90,12 @@ app.ElevationProfileController = function(
     let d = 0;
     if (i > 0) {
       // convert from web mercator to lng/lat
-      const deg1 = ol.proj.transform(
+      const deg1 = olProj.transform(
         [coords[i][0], coords[i][1]],
         'EPSG:3857',
         'EPSG:4326'
       );
-      const deg2 = ol.proj.transform(
+      const deg2 = olProj.transform(
         [coords[i - 1][0], coords[i - 1][1]],
         'EPSG:3857',
         'EPSG:4326'
@@ -125,7 +126,7 @@ app.ElevationProfileController = function(
 /**
  * @private
  */
-app.ElevationProfileController.prototype.createChart_ = function() {
+exports.prototype.createChart_ = function() {
   const wrapper = $('#elevation-profile').closest('.finfo');
   let width = wrapper.width();
   const size = {
@@ -353,7 +354,7 @@ app.ElevationProfileController.prototype.createChart_ = function() {
 /**
  * @private
  */
-app.ElevationProfileController.prototype.updateChart_ = function() {
+exports.prototype.updateChart_ = function() {
   const nLine = this.mode === 'distance' ? this.dLine : this.tLine;
   const axis = this.mode === 'distance' ? this.x1Axis : this.x2Axis;
   const legend = this.mode === 'distance' ?
@@ -368,7 +369,7 @@ app.ElevationProfileController.prototype.updateChart_ = function() {
 /**
  * @private
  */
-app.ElevationProfileController.prototype.resizeChart_ = function() {
+exports.prototype.resizeChart_ = function() {
   const wrapper = $('#elevation-profile').closest('.finfo');
   const width = wrapper.width() - this.margin.left - this.margin.right;
   const div = window.d3.select('#elevation-profile');
@@ -397,7 +398,7 @@ app.ElevationProfileController.prototype.resizeChart_ = function() {
 /**
  * @private
  */
-app.ElevationProfileController.prototype.mousemove_ = function() {
+exports.prototype.mousemove_ = function() {
   const d3 = window.d3;
   const bisectDistance = d3.bisector((d) => {
     return d.d;
@@ -454,7 +455,10 @@ app.ElevationProfileController.prototype.mousemove_ = function() {
   }
 };
 
-app.module.controller(
+appBase.module.controller(
   'appElevationProfileController',
-  app.ElevationProfileController
+  exports
 );
+
+
+export default exports;

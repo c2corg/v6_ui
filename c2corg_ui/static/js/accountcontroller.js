@@ -1,7 +1,7 @@
-goog.provide('app.AccountController');
-
-goog.require('app');
-
+/**
+ * @module app.AccountController
+ */
+import appBase from './index.js';
 
 /**
  * @param {angular.Scope} $scope Scope.
@@ -12,7 +12,7 @@ goog.require('app');
  * @constructor
  * @ngInject
  */
-app.AccountController = function($scope, appAuthentication, appAlerts,
+const exports = function($scope, appAuthentication, appAlerts,
   appApi, authUrl) {
 
   /**
@@ -45,7 +45,7 @@ app.AccountController = function($scope, appAuthentication, appAlerts,
       $scope['account'] = angular.copy(this.initialData_);
     });
   } else {
-    app.utils.redirectToLogin(authUrl);
+    appBase.utils.redirectToLogin(authUrl);
   }
 };
 
@@ -53,7 +53,7 @@ app.AccountController = function($scope, appAuthentication, appAlerts,
 /**
  * @export
  */
-app.AccountController.prototype.save = function() {
+exports.prototype.save = function() {
   const data = this.scope_['account'];
   const modifiedData = {};
   // Only keep modified data
@@ -70,4 +70,7 @@ app.AccountController.prototype.save = function() {
 };
 
 
-app.module.controller('appAccountController', app.AccountController);
+appBase.module.controller('appAccountController', exports);
+
+
+export default exports;

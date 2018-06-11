@@ -1,14 +1,14 @@
-goog.provide('app.slideInfoDirective');
-
-goog.require('app');
-
+/**
+ * @module app.slideInfoDirective
+ */
+import appBase from './index.js';
 
 /**
  * @param {angular.$compile} $compile Angular compile service.
  * @return {angular.Directive} Directive Definition Object.
  * @ngInject
  */
-app.slideInfoDirective = function($compile) {
+const exports = function($compile) {
   return {
     restrict: 'E',
     controller: 'AppSlideInfoController as slideCtrl',
@@ -22,4 +22,7 @@ app.slideInfoDirective = function($compile) {
   };
 };
 
-app.module.directive('appSlideInfo', app.slideInfoDirective);
+appBase.module.directive('appSlideInfo', exports);
+
+
+export default exports;

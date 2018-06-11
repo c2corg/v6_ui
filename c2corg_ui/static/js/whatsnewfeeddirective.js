@@ -1,15 +1,20 @@
-goog.provide('app.whatsnewFeedDirective');
-
-goog.require('app');
+/**
+ * @module app.whatsnewFeedDirective
+ */
+import appBase from './index.js';
 
 /**
  * @return {angular.Directive} The directive specs.
  */
-app.whatsnewFeedDirective = function() {
+const exports = function() {
   return {
     restrict: 'E',
     controller: 'appWhatsnewFeedController as wfeedCtrl',
     templateUrl: '/static/partials/whatsnew.html'
   };
 };
-app.module.directive('appWhatsnewFeed', app.whatsnewFeedDirective);
+
+appBase.module.directive('appWhatsnewFeed', exports);
+
+
+export default exports;

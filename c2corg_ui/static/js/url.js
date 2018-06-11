@@ -1,7 +1,7 @@
-goog.provide('app.Url');
-
-goog.require('app');
-
+/**
+ * @module app.Url
+ */
+import appBase from './index.js';
 
 /**
  * @param {function(string):string} slug angular-slug service.
@@ -9,7 +9,7 @@ goog.require('app');
  * @ngInject
  * @struct
  */
-app.Url = function(slug) {
+const exports = function(slug) {
 
   slug.defaults.modes['custom'] = {
     replacement: '-',
@@ -36,7 +36,7 @@ app.Url = function(slug) {
  * @param {string=} lang Lang.
  * @return {string} Url.
  */
-app.Url.prototype.buildDocumentUrl = function(documentType, documentId, locale, lang) {
+exports.prototype.buildDocumentUrl = function(documentType, documentId, locale, lang) {
   lang = lang || locale['lang'];
 
   if (documentType === 'profiles' || documentType === 'users') {
@@ -58,4 +58,7 @@ app.Url.prototype.buildDocumentUrl = function(documentType, documentId, locale, 
 };
 
 
-app.module.service('appUrl', app.Url);
+appBase.module.service('appUrl', exports);
+
+
+export default exports;

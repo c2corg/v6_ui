@@ -1,12 +1,12 @@
-goog.provide('app.addAssociationDirective');
-
-
+/**
+ * @module app.addAssociationDirective
+ */
 /**
  * @param {angular.$compile} $compile Angular compile service.
  * @ngInject
  * @return {angular.Directive} Directive Definition Object.
  */
-app.addAssociationDirective = function($compile) {
+const exports = function($compile) {
 
   const template = function(dataset) {
     return '<app-simple-search app-select="addCtrl.associate(doc)" ' +
@@ -29,4 +29,7 @@ app.addAssociationDirective = function($compile) {
   };
 };
 
-app.module.directive('appAddAssociation', app.addAssociationDirective);
+app.module.directive('appAddAssociation', exports);
+
+
+export default exports;

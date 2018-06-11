@@ -4,7 +4,8 @@
   },
   "extends": [
     "eslint:recommended",
-    "openlayers"
+    "openlayers",
+    ".eslintrc-googshift.yaml"
   ],
   "globals": {
     "DEBUG": false,

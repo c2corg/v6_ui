@@ -1,0 +1,29 @@
+plugins:
+  - googshift
+
+rules:
+  googshift/no-duplicate-requires: error
+
+  googshift/no-missing-requires:
+    - error
+    - prefix: []
+
+  googshift/no-unused-requires: warn
+
+  googshift/one-provide-or-module:
+    - error
+    - entryPoints: [app]
+      root: app
+
+  googshift/requires-first: error
+
+  googshift/valid-provide-and-module:
+    - warn
+    - entryPoints: [app]
+      root: src/module
+      replace: ../../c2corg_ui/static/js|app
+
+  googshift/valid-requires: error
+
+  no-unused-vars: warn
+  

@@ -1,7 +1,7 @@
-goog.provide('app.ImageUploaderModalController');
-
-goog.require('app');
-
+/**
+ * @module app.ImageUploaderModalController
+ */
+import appBase from './index.js';
 
 /**
  * We have to use a secondary controller for the modal so that we can inject
@@ -11,7 +11,7 @@ goog.require('app');
  * @ngInject
  * @returns {app.ImageUploaderModalController}
  */
-app.ImageUploaderModalController = function($scope, $uibModalInstance) {
+const exports = function($scope, $uibModalInstance) {
 
   /**
    * @type {!angular.Scope}
@@ -34,7 +34,7 @@ app.ImageUploaderModalController = function($scope, $uibModalInstance) {
 /**
  * @export
  */
-app.ImageUploaderModalController.prototype.close = function() {
+exports.prototype.close = function() {
   if (!this.scope_['uplCtrl'].saving) {
     this.modalInstance_.close();
   }
@@ -44,7 +44,7 @@ app.ImageUploaderModalController.prototype.close = function() {
 /**
  * @export
  */
-app.ImageUploaderModalController.prototype.save = function() {
+exports.prototype.save = function() {
   const uplCtrl = this.scope_['uplCtrl'];
   if (uplCtrl.saving) {
     // saving is already in progress
@@ -58,4 +58,7 @@ app.ImageUploaderModalController.prototype.save = function() {
 };
 
 
-app.module.controller('AppImageUploaderModalController', app.ImageUploaderModalController);
+appBase.module.controller('AppImageUploaderModalController', exports);
+
+
+export default exports;

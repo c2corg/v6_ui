@@ -1,14 +1,14 @@
-goog.provide('app.DocumentEditingController');
-
-goog.require('app');
-goog.require('app.utils');
-goog.require('goog.asserts');
-goog.require('ol');
-goog.require('ol.format.GeoJSON');
-goog.require('ol.geom.LineString');
-goog.require('ol.geom.MultiLineString');
-goog.require('ol.geom.Point');
-
+/**
+ * @module app.DocumentEditingController
+ */
+import appBase from './index.js';
+import appUtils from './utils.js';
+import googAsserts from 'goog/asserts.js';
+import olBase from 'ol.js';
+import olFormatGeoJSON from 'ol/format/GeoJSON.js';
+import olGeomLineString from 'ol/geom/LineString.js';
+import olGeomMultiLineString from 'ol/geom/MultiLineString.js';
+import olGeomPoint from 'ol/geom/Point.js';
 
 /**
  * @param {!angular.Scope} $scope Scope.
@@ -17,7 +17,7 @@ goog.require('ol.geom.Point');
  * @param {angular.$http} $http
  * @param {Object} $uibModal modal from angular bootstrap.
  * @param {angular.$compile} $compile Angular compile service.
- * @param {app.Lang} appLang Lang service.
+ * @param {app.Lang} LangService Lang service.
  * @param {app.Authentication} appAuthentication
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {app.Alerts} appAlerts
@@ -29,8 +29,8 @@ goog.require('ol.geom.Point');
  * @constructor
  * @ngInject
  */
-app.DocumentEditingController = function($scope, $element, $attrs, $http,
-  $uibModal, $compile, appLang, appAuthentication, ngeoLocation, appAlerts,
+const exports = function($scope, $element, $attrs, $http,
+  $uibModal, $compile, LangService, appAuthentication, ngeoLocation, appAlerts,
   appApi, authUrl, appDocument, appUrl, imageUrl) {
 
   /**
@@ -56,7 +56,7 @@ app.DocumentEditingController = function($scope, $element, $attrs, $http,
    * @private
    */
   this.module_ = $attrs['appDocumentEditing'];
-  goog.asserts.assert(goog.isDef(this.module_));
+  googAsserts.assert(goog.isDef(this.module_));
 
   /**
    * @type {string}
@@ -86,7 +86,7 @@ app.DocumentEditingController = function($scope, $element, $attrs, $http,
    * @type {ol.format.GeoJSON}
    * @private
    */
-  this.geojsonFormat_ = new ol.format.GeoJSON();
+  this.geojsonFormat_ = new olFormatGeoJSON();
 
   /**
    * @type {boolean}
@@ -141,18 +141,18 @@ app.DocumentEditingController = function($scope, $element, $attrs, $http,
   if (this.auth.isAuthenticated()) {
     if (this.id && this.lang_) {
       // Get document attributes from the API to feed the model:
-      goog.asserts.assert(!goog.isNull(this.id));
-      goog.asserts.assert(!goog.isNull(this.lang_));
+      googAsserts.assert(!goog.isNull(this.id));
+      googAsserts.assert(!goog.isNull(this.lang_));
       this.api_.readDocument(this.module_, this.id, this.lang_, true).then(
         this.successRead.bind(this)
       );
     } else if (!this.id) {
       // new doc lang = user interface lang
-      this.scope[this.modelName]['locales'][0]['lang'] = appLang.getLang();
+      this.scope[this.modelName]['locales'][0]['lang'] = LangService.getLang();
     }
   } else {
     // Redirect to the auth page
-    app.utils.redirectToLogin(this.authUrl_);
+    appUtils.redirectToLogin(this.authUrl_);
     return;
   }
 
@@ -171,7 +171,7 @@ app.DocumentEditingController = function($scope, $element, $attrs, $http,
  * @return {appx.Document}
  * @public
  */
-app.DocumentEditingController.prototype.filterData = function(data) {
+exports.prototype.filterData = function(data) {
   // To be overridden in child classes
   return data;
 };
@@ -181,7 +181,7 @@ app.DocumentEditingController.prototype.filterData = function(data) {
  * @param {Object} response Response from the API server.
  * @public
  */
-app.DocumentEditingController.prototype.successRead = function(response) {
+exports.prototype.successRead = function(response) {
   let data = response['data'];
   this.documentService.setAssociations(data['associations']);
 
@@ -205,7 +205,7 @@ app.DocumentEditingController.prototype.successRead = function(response) {
  * @param {string} str
  * @private
  */
-app.DocumentEditingController.prototype.toCoordinates_ = function(str) {
+exports.prototype.toCoordinates_ = function(str) {
   const point = /** @type {ol.geom.Point} */
       (this.geojsonFormat_.readGeometry(str));
   return this.getCoordinatesFromPoint_(point);
@@ -216,7 +216,7 @@ app.DocumentEditingController.prototype.toCoordinates_ = function(str) {
  * @param {Object} data
  * @private
  */
-app.DocumentEditingController.prototype.updateGeometry_ = function(data) {
+exports.prototype.updateGeometry_ = function(data) {
   if ('geometry' in data && data['geometry']) {
     const geometry = data['geometry'];
     // don't add lonlat for line or polygon geometries
@@ -237,7 +237,7 @@ app.DocumentEditingController.prototype.updateGeometry_ = function(data) {
 /**
  * @private
  */
-app.DocumentEditingController.prototype.isPointType_ = function() {
+exports.prototype.isPointType_ = function() {
   const nonPointModels = ['outing', 'route', 'area'];
   return $.inArray(this.modelName, nonPointModels) === -1;
 };
@@ -247,7 +247,7 @@ app.DocumentEditingController.prototype.isPointType_ = function() {
  * @param {boolean} isValid True if form is valid.
  * @export
  */
-app.DocumentEditingController.prototype.submitForm = function(isValid) {
+exports.prototype.submitForm = function(isValid) {
   if (!isValid) {
     this.alerts.addError('Form is not valid');
     return;
@@ -271,10 +271,10 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
   if ('lonlat' in data && data['lonlat']) {
     const lonlat = data['lonlat'];
     if ('longitude' in lonlat && 'latitude' in lonlat) {
-      const point = new ol.geom.Point([lonlat['longitude'], lonlat['latitude']]);
+      const point = new olGeomPoint([lonlat['longitude'], lonlat['latitude']]);
       point.transform(
-        app.constants.documentEditing.FORM_PROJ,
-        app.constants.documentEditing.DATA_PROJ
+        appBase.constants.documentEditing.FORM_PROJ,
+        appBase.constants.documentEditing.DATA_PROJ
       );
       // If creating a new document, the model has no geometry attribute yet:
       data['geometry'] = data['geometry'] || {};
@@ -336,7 +336,7 @@ app.DocumentEditingController.prototype.submitForm = function(isValid) {
  * @return {appx.Document}
  * @public
  */
-app.DocumentEditingController.prototype.prepareData = function(data) {
+exports.prototype.prepareData = function(data) {
   // Do nothing special in the standard editing controller.
   // Might be overridden in inheriting controllers.
   return data;
@@ -348,7 +348,7 @@ app.DocumentEditingController.prototype.prepareData = function(data) {
  * @param {string} index_url URL of index page.
  * @export
  */
-app.DocumentEditingController.prototype.cancel = function(view_url, index_url) {
+exports.prototype.cancel = function(view_url, index_url) {
   const url = !view_url || this.isNewLang_ ? index_url : view_url;
   window.location.href = url;
 };
@@ -358,13 +358,13 @@ app.DocumentEditingController.prototype.cancel = function(view_url, index_url) {
  * Called for instance when lon/lat inputs are modified.
  * @export
  */
-app.DocumentEditingController.prototype.updateMap = function() {
+exports.prototype.updateMap = function() {
   const data = this.scope[this.modelName];
   if ('lonlat' in data && data['lonlat']) {
     const lonlat = data['lonlat'];
     if ('longitude' in lonlat && 'latitude' in lonlat) {
-      const point = new ol.geom.Point([lonlat['longitude'], lonlat['latitude']]);
-      point.transform(app.constants.documentEditing.FORM_PROJ, app.constants.documentEditing.DATA_PROJ);
+      const point = new olGeomPoint([lonlat['longitude'], lonlat['latitude']]);
+      point.transform(appBase.constants.documentEditing.FORM_PROJ, appBase.constants.documentEditing.DATA_PROJ);
       // If creating a new document, the model has no geometry attribute yet:
       data['geometry'] = data['geometry'] || {};
       data['geometry']['geom'] = this.geojsonFormat_.writeGeometry(point);
@@ -379,7 +379,7 @@ app.DocumentEditingController.prototype.updateMap = function() {
  * @param {Array.<ol.Feature>} features
  * @private
  */
-app.DocumentEditingController.prototype.handleMapFeaturesChange_ = function(features) {
+exports.prototype.handleMapFeaturesChange_ = function(features) {
   const data = this.scope[this.modelName];
 
   // If creating a new document, the model has no geometry attribute yet:
@@ -394,8 +394,8 @@ app.DocumentEditingController.prototype.handleMapFeaturesChange_ = function(feat
   } else {
     const feature = features[0];
     const geometry = feature.getGeometry();
-    goog.asserts.assert(geometry);
-    const isPoint = geometry instanceof ol.geom.Point;
+    googAsserts.assert(geometry);
+    const isPoint = geometry instanceof olGeomPoint;
     if (isPoint) {
       data['geometry']['geom'] = this.geojsonFormat_.writeGeometry(geometry);
       const coords = this.getCoordinatesFromPoint_(
@@ -408,14 +408,14 @@ app.DocumentEditingController.prototype.handleMapFeaturesChange_ = function(feat
     } else {
       let center;
       // For lines, use the middle point as point geometry:
-      if (geometry instanceof ol.geom.LineString) {
+      if (geometry instanceof olGeomLineString) {
         center = geometry.getCoordinateAt(0.5);
-      } else if (geometry instanceof ol.geom.MultiLineString) {
+      } else if (geometry instanceof olGeomMultiLineString) {
         center = geometry.getLineString(0).getCoordinateAt(0.5);
       } else {
-        center = ol.extent.getCenter(geometry.getExtent());
+        center = olBase.extent.getCenter(geometry.getExtent());
       }
-      const centerPoint = new ol.geom.Point(center);
+      const centerPoint = new olGeomPoint(center);
       data['geometry']['geom'] = this.geojsonFormat_.writeGeometry(centerPoint);
       data['geometry']['geom_detail'] = this.geojsonFormat_.writeGeometry(geometry);
     }
@@ -429,7 +429,7 @@ app.DocumentEditingController.prototype.handleMapFeaturesChange_ = function(feat
  * @param {Object} initialGeometry
  * @private
  */
-app.DocumentEditingController.prototype.handleMapFeaturesReset_ = function(initialGeometry) {
+exports.prototype.handleMapFeaturesReset_ = function(initialGeometry) {
   const data = this.scope[this.modelName];
   data['geometry'] = initialGeometry;
   this.hasGeomChanged_ = false;
@@ -443,11 +443,11 @@ app.DocumentEditingController.prototype.handleMapFeaturesReset_ = function(initi
  * @return {ol.Coordinate}
  * @private
  */
-app.DocumentEditingController.prototype.getCoordinatesFromPoint_ = function(
+exports.prototype.getCoordinatesFromPoint_ = function(
   geometry) {
   geometry.transform(
-    app.constants.documentEditing.DATA_PROJ,
-    app.constants.documentEditing.FORM_PROJ
+    appBase.constants.documentEditing.DATA_PROJ,
+    appBase.constants.documentEditing.FORM_PROJ
   );
   const coords = geometry.getCoordinates();
   return coords.map(coord => Math.round(coord * 1000000) / 1000000);
@@ -460,9 +460,9 @@ app.DocumentEditingController.prototype.getCoordinatesFromPoint_ = function(
  * @export
  * @return {boolean | undefined}
  */
-app.DocumentEditingController.prototype.hasMissingProps = function(doc, showError) {
-  const type = doc.type ? app.utils.getDoctype(doc.type) : this.module_;
-  const requiredFields = app.constants.REQUIRED_FIELDS[type] || null;
+exports.prototype.hasMissingProps = function(doc, showError) {
+  const type = doc.type ? appUtils.getDoctype(doc.type) : this.module_;
+  const requiredFields = appBase.constants.REQUIRED_FIELDS[type] || null;
   if (!requiredFields) {
     return false;
   }
@@ -526,8 +526,8 @@ app.DocumentEditingController.prototype.hasMissingProps = function(doc, showErro
  * @param {goog.events.Event | jQuery.Event} event
  * @export
  */
-app.DocumentEditingController.prototype.pushToArray = function(object, property, value, event) {
-  app.utils.pushToArray(object, property, value, event);
+exports.prototype.pushToArray = function(object, property, value, event) {
+  appUtils.pushToArray(object, property, value, event);
 };
 
 
@@ -538,15 +538,15 @@ app.DocumentEditingController.prototype.pushToArray = function(object, property,
  * @param {goog.events.Event | jQuery.Event} e
  * @export
  */
-app.DocumentEditingController.prototype.toggleOrientation = function(orientation, document, e) {
-  app.utils.pushToArray(document, 'orientations', orientation, e);
+exports.prototype.toggleOrientation = function(orientation, document, e) {
+  appUtils.pushToArray(document, 'orientations', orientation, e);
 };
 
 
 /**
  * @export
  */
-app.DocumentEditingController.prototype.preview = function() {
+exports.prototype.preview = function() {
   const config = {
     headers: {
       'Content-Type': 'application/json; charset=UTF-8',
@@ -580,7 +580,7 @@ app.DocumentEditingController.prototype.preview = function() {
 /**
  * @export
  */
-app.DocumentEditingController.prototype.confirmSave = function(isValid) {
+exports.prototype.confirmSave = function(isValid) {
   if (!isValid) {
     this.alerts.addError('Form is not valid');
     return;
@@ -612,7 +612,7 @@ app.DocumentEditingController.prototype.confirmSave = function(isValid) {
  * @param {string} sizem
  * @export
  */
-app.DocumentEditingController.prototype.openModal = function(selector, sizem) {
+exports.prototype.openModal = function(selector, sizem) {
   const template = $(selector).clone();
   this.modal.open({
     animation: true,
@@ -625,7 +625,7 @@ app.DocumentEditingController.prototype.openModal = function(selector, sizem) {
  * @param {appx.Document} doc Document attributes.
  * @return {number}
  */
-app.DocumentEditingController.prototype.presetQuality = function(doc) {
+exports.prototype.presetQuality = function(doc) {
   // Do nothing special in the standard editing controller.
   // Will be overridden in inheriting controllers.
   return 1;
@@ -635,7 +635,7 @@ app.DocumentEditingController.prototype.presetQuality = function(doc) {
  * @param {appx.Document} doc Document attributes.
  * @param {number} score
  */
-app.DocumentEditingController.prototype.storeQuality = function(doc, score) {
+exports.prototype.storeQuality = function(doc, score) {
 
   switch (score) {
     case 0:
@@ -658,4 +658,7 @@ app.DocumentEditingController.prototype.storeQuality = function(doc, score) {
   }
 };
 
-app.module.controller('appDocumentEditingController', app.DocumentEditingController);
+appBase.module.controller('appDocumentEditingController', exports);
+
+
+export default exports;

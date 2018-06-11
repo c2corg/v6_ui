@@ -1,9 +1,9 @@
-goog.provide('app.OutingEditingController');
-
-goog.require('app');
-goog.require('app.DocumentEditingController');
-goog.require('ol');
-
+/**
+ * @module app.OutingEditingController
+ */
+import appBase from './index.js';
+import appDocumentEditingController from './DocumentEditingController.js';
+import olBase from 'ol.js';
 
 /**
  * @param {!angular.Scope} $scope Scope.
@@ -12,7 +12,7 @@ goog.require('ol');
  * @param {angular.$http} $http
  * @param {Object} $uibModal modal from angular bootstrap.
  * @param {angular.$compile} $compile Angular compile service.
- * @param {app.Lang} appLang Lang service.
+ * @param {app.Lang} LangService Lang service.
  * @param {app.Authentication} appAuthentication
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {app.Alerts} appAlerts
@@ -25,12 +25,12 @@ goog.require('ol');
  * @extends {app.DocumentEditingController}
  * @ngInject
  */
-app.OutingEditingController = function($scope, $element, $attrs, $http,
-  $uibModal, $compile, appLang, appAuthentication, ngeoLocation, appAlerts,
+const exports = function($scope, $element, $attrs, $http,
+  $uibModal, $compile, LangService, appAuthentication, ngeoLocation, appAlerts,
   appApi, authUrl, appDocument, appUrl, imageUrl) {
 
-  app.DocumentEditingController.call(this, $scope, $element, $attrs, $http,
-    $uibModal, $compile, appLang, appAuthentication, ngeoLocation, appAlerts,
+  appDocumentEditingController.call(this, $scope, $element, $attrs, $http,
+    $uibModal, $compile, LangService, appAuthentication, ngeoLocation, appAlerts,
     appApi, authUrl, appDocument, appUrl, imageUrl);
 
   /**
@@ -70,7 +70,7 @@ app.OutingEditingController = function($scope, $element, $attrs, $http,
     // allow association only for a new outing to existing route
     if (ngeoLocation.hasFragmentParam('r')) {
       const routeId = parseInt(ngeoLocation.getFragmentParam('r'), 10);
-      appApi.getDocumentByIdAndDoctype(routeId, 'r', appLang.getLang()).then(
+      appApi.getDocumentByIdAndDoctype(routeId, 'r', LangService.getLang()).then(
         (doc) => {
           this.documentService.pushToAssociations(
             doc.data['routes'].documents[0],
@@ -97,7 +97,8 @@ app.OutingEditingController = function($scope, $element, $attrs, $http,
     }
   }
 };
-ol.inherits(app.OutingEditingController, app.DocumentEditingController);
+
+olBase.inherits(exports, appDocumentEditingController);
 
 
 /**
@@ -105,8 +106,8 @@ ol.inherits(app.OutingEditingController, app.DocumentEditingController);
  * @override
  * @public
  */
-app.OutingEditingController.prototype.successRead = function(response) {
-  app.DocumentEditingController.prototype.successRead.call(this, response);
+exports.prototype.successRead = function(response) {
+  appDocumentEditingController.prototype.successRead.call(this, response);
 
   let outing = this.scope[this.modelName];
   // check if user has right to edit -> the user is one of the associated users
@@ -139,7 +140,7 @@ app.OutingEditingController.prototype.successRead = function(response) {
  * @override
  * @public
  */
-app.OutingEditingController.prototype.prepareData = function(data) {
+exports.prototype.prepareData = function(data) {
 
   this.formatOuting_(/** @type appx.Outing */ (data), true);
   // Length attributes are stored in meters but shown in kilometers:
@@ -191,7 +192,7 @@ app.OutingEditingController.prototype.prepareData = function(data) {
  * better edit-form checking before saving
  * @private
  */
-app.OutingEditingController.prototype.formatOuting_ = function(outing, submit) {
+exports.prototype.formatOuting_ = function(outing, submit) {
   if (submit) {
     // transform condition_levels to a string
     if (typeof outing.locales[0]['conditions_levels'] !== 'string') {
@@ -251,7 +252,7 @@ app.OutingEditingController.prototype.formatOuting_ = function(outing, submit) {
  * @return {number}
  * @override
  */
-app.OutingEditingController.prototype.presetQuality = function(doc) {
+exports.prototype.presetQuality = function(doc) {
   let score = 0;
   let score_ski = 0;
   let score_ice = 0;
@@ -429,7 +430,7 @@ app.OutingEditingController.prototype.presetQuality = function(doc) {
  * init empty conditions levels for ng-repeat
  * @private
  */
-app.OutingEditingController.prototype.initConditionsLevels_ = function() {
+exports.prototype.initConditionsLevels_ = function() {
   this.scope['outing']['locales'][0]['conditions_levels'] = [{
     'level_snow_height_soft': '',
     'level_snow_height_total': '',
@@ -446,9 +447,9 @@ app.OutingEditingController.prototype.initConditionsLevels_ = function() {
  * @return {appx.Document}
  * @export
  */
-app.OutingEditingController.prototype.handleAssociation = function(data, doc,
+exports.prototype.handleAssociation = function(data, doc,
   doctype) {
-  doctype = doctype || app.utils.getDoctype(doc['type']);
+  doctype = doctype || appBase.utils.getDoctype(doc['type']);
 
   // When creating an outing, set the default title and ratings using
   // the first associated route data.
@@ -483,4 +484,7 @@ app.OutingEditingController.prototype.handleAssociation = function(data, doc,
   return data;
 };
 
-app.module.controller('appOutingEditingController', app.OutingEditingController);
+appBase.module.controller('appOutingEditingController', exports);
+
+
+export default exports;

@@ -1,7 +1,7 @@
-goog.provide('app.UserProfileController');
-
-goog.require('app');
-
+/**
+ * @module app.UserProfileController
+ */
+import appBase from './index.js';
 
 /**
  * @param {!angular.Scope} $scope Scope.
@@ -12,7 +12,7 @@ goog.require('app');
  * @struct
  * @ngInject
  */
-app.UserProfileController = function($scope, $http, $compile, appAlerts) {
+const exports = function($scope, $http, $compile, appAlerts) {
 
   /**
    * @type {number}
@@ -52,4 +52,7 @@ app.UserProfileController = function($scope, $http, $compile, appAlerts) {
   });
 };
 
-app.module.controller('appUserProfileController', app.UserProfileController);
+appBase.module.controller('appUserProfileController', exports);
+
+
+export default exports;

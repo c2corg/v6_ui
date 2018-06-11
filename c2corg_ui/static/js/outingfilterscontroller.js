@@ -1,9 +1,9 @@
-goog.provide('app.OutingFiltersController');
-
-goog.require('app');
-goog.require('app.SearchFiltersController');
-goog.require('ol');
-
+/**
+ * @module app.OutingFiltersController
+ */
+import appBase from './index.js';
+import appSearchFiltersController from './SearchFiltersController.js';
+import olBase from 'ol.js';
 
 /**
  * @param {angular.Scope} $scope Scope.
@@ -14,7 +14,7 @@ goog.require('ol');
  * @extends {app.SearchFiltersController}
  * @ngInject
  */
-app.OutingFiltersController = function($scope, ngeoLocation, ngeoDebounce,
+const exports = function($scope, ngeoLocation, ngeoDebounce,
   advancedSearchFilters) {
 
   /**
@@ -44,11 +44,11 @@ app.OutingFiltersController = function($scope, ngeoLocation, ngeoDebounce,
    */
   this.dateMinEnd = null;
 
-  app.SearchFiltersController.call(this, $scope, ngeoLocation, ngeoDebounce,
+  appSearchFiltersController.call(this, $scope, ngeoLocation, ngeoDebounce,
     advancedSearchFilters);
 };
 
-ol.inherits(app.OutingFiltersController, app.SearchFiltersController);
+olBase.inherits(exports, appSearchFiltersController);
 
 
 /**
@@ -56,7 +56,7 @@ ol.inherits(app.OutingFiltersController, app.SearchFiltersController);
  * @override
  * @public
  */
-app.OutingFiltersController.prototype.setFilterFromPermalink = function(key) {
+exports.prototype.setFilterFromPermalink = function(key) {
   if (key in this.config && this.config[key]['type'] === 'date') {
     const val = this.location.getFragmentParam(key);
     if (val === '') {
@@ -69,7 +69,7 @@ app.OutingFiltersController.prototype.setFilterFromPermalink = function(key) {
     this.filters[key] = dates;
     this.updateMinMaxDates_();
   } else {
-    app.SearchFiltersController.prototype.setFilterFromPermalink.call(this, key);
+    appSearchFiltersController.prototype.setFilterFromPermalink.call(this, key);
   }
 };
 
@@ -78,9 +78,9 @@ app.OutingFiltersController.prototype.setFilterFromPermalink = function(key) {
  * @override
  * @export
  */
-app.OutingFiltersController.prototype.clear = function() {
+exports.prototype.clear = function() {
   this.resetDates_();
-  app.SearchFiltersController.prototype.clear.call(this);
+  appSearchFiltersController.prototype.clear.call(this);
 };
 
 
@@ -88,7 +88,7 @@ app.OutingFiltersController.prototype.clear = function() {
  * @param {string} filterName Name of the filter param.
  * @export
  */
-app.OutingFiltersController.prototype.setDate = function(filterName) {
+exports.prototype.setDate = function(filterName) {
   this.dates = this.dates.filter((date) => {
     return date !== null;
   });
@@ -108,7 +108,7 @@ app.OutingFiltersController.prototype.setDate = function(filterName) {
  * @return {string}
  * @private
  */
-app.OutingFiltersController.prototype.formatDate_ = function(date) {
+exports.prototype.formatDate_ = function(date) {
   return window.moment(date).format('YYYY-MM-DD');
 };
 
@@ -116,7 +116,7 @@ app.OutingFiltersController.prototype.formatDate_ = function(date) {
 /**
  * @private
  */
-app.OutingFiltersController.prototype.updateMinMaxDates_ = function() {
+exports.prototype.updateMinMaxDates_ = function() {
   const nb_dates = this.dates.length;
   if (nb_dates > 0) {
     this.dateMaxStart = nb_dates > 1 ? this.dates[1] : this.dateMaxStart;
@@ -130,7 +130,7 @@ app.OutingFiltersController.prototype.updateMinMaxDates_ = function() {
 /**
  * @private
  */
-app.OutingFiltersController.prototype.resetDates_ = function() {
+exports.prototype.resetDates_ = function() {
   this.dates = [];
   this.dateMaxStart = new Date();
   this.dateMaxEnd = new Date();
@@ -138,4 +138,7 @@ app.OutingFiltersController.prototype.resetDates_ = function() {
 };
 
 
-app.module.controller('appOutingFiltersController', app.OutingFiltersController);
+appBase.module.controller('appOutingFiltersController', exports);
+
+
+export default exports;

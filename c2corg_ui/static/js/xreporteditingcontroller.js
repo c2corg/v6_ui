@@ -1,9 +1,9 @@
-goog.provide('app.XreportEditingController');
-
-goog.require('app');
-goog.require('app.DocumentEditingController');
-goog.require('ol');
-
+/**
+ * @module app.XreportEditingController
+ */
+import appBase from './index.js';
+import appDocumentEditingController from './DocumentEditingController.js';
+import olBase from 'ol.js';
 
 /**
  * @param {!angular.Scope} $scope Scope.
@@ -12,7 +12,7 @@ goog.require('ol');
  * @param {angular.$http} $http
  * @param {Object} $uibModal modal from angular bootstrap.
  * @param {angular.$compile} $compile Angular compile service.
- * @param {app.Lang} appLang Lang service.
+ * @param {app.Lang} LangService Lang service.
  * @param {app.Authentication} appAuthentication
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {app.Alerts} appAlerts
@@ -24,12 +24,12 @@ goog.require('ol');
  * @extends {app.DocumentEditingController}
  * @ngInject
  */
-app.XreportEditingController = function($scope, $element, $attrs, $http,
-  $uibModal, $compile, appLang, appAuthentication, ngeoLocation, appAlerts,
+const exports = function($scope, $element, $attrs, $http,
+  $uibModal, $compile, LangService, appAuthentication, ngeoLocation, appAlerts,
   appApi, authUrl, appDocument, appUrl, imageUrl) {
 
-  app.DocumentEditingController.call(this, $scope, $element, $attrs, $http,
-    $uibModal, $compile, appLang, appAuthentication, ngeoLocation, appAlerts,
+  appDocumentEditingController.call(this, $scope, $element, $attrs, $http,
+    $uibModal, $compile, LangService, appAuthentication, ngeoLocation, appAlerts,
     appApi, authUrl, appDocument, appUrl, imageUrl);
 
   /**
@@ -60,7 +60,7 @@ app.XreportEditingController = function($scope, $element, $attrs, $http,
 
 };
 
-ol.inherits(app.XreportEditingController, app.DocumentEditingController);
+olBase.inherits(exports, appDocumentEditingController);
 
 
 /**
@@ -69,7 +69,7 @@ ol.inherits(app.XreportEditingController, app.DocumentEditingController);
  * @override
  * @public
  */
-app.XreportEditingController.prototype.filterData = function(data) {
+exports.prototype.filterData = function(data) {
   data['date'] = new Date(data['date']);
   return data;
 };
@@ -80,11 +80,14 @@ app.XreportEditingController.prototype.filterData = function(data) {
  * @return {appx.Document}
  * @public
  */
-app.XreportEditingController.prototype.prepareData = function(data) {
+exports.prototype.prepareData = function(data) {
   if (data['anonymous']) {
     data['associations']['users'] = [];
   }
   return data;
 };
 
-app.module.controller('appXreportEditingController', app.XreportEditingController);
+appBase.module.controller('appXreportEditingController', exports);
+
+
+export default exports;

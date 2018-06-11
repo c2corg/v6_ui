@@ -1,14 +1,14 @@
-goog.provide('app.simpleSearchDirective');
-
-goog.require('app');
-
+/**
+ * @module app.simpleSearchDirective
+ */
+import appBase from './index.js';
 
 /**
  * The directive for the auto-complete search field shown in the header
  * of every page.
  * @return {angular.Directive} Directive Definition Object.
  */
-app.simpleSearchDirective = function() {
+const exports = function() {
   return {
     restrict: 'E',
     controller: 'AppSimpleSearchController',
@@ -28,7 +28,7 @@ app.simpleSearchDirective = function() {
          */
         function($scope, element, attrs, ctrl) {
 
-          const phoneScreen = app.constants.SCREEN.SMARTPHONE;
+          const phoneScreen = appBase.constants.SCREEN.SMARTPHONE;
 
           // Empty the search field on focus and blur.
           $('.page-header').find('input').on('focus blur', function() {
@@ -77,4 +77,7 @@ app.simpleSearchDirective = function() {
   };
 };
 
-app.module.directive('appSimpleSearch', app.simpleSearchDirective);
+appBase.module.directive('appSimpleSearch', exports);
+
+
+export default exports;

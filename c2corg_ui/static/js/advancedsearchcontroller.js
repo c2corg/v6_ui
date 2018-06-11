@@ -1,10 +1,10 @@
-goog.provide('app.AdvancedSearchController');
-
-goog.require('app');
-goog.require('app.utils');
-goog.require('ol.Feature');
-goog.require('ol.format.GeoJSON');
-
+/**
+ * @module app.AdvancedSearchController
+ */
+import appBase from './index.js';
+import appUtils from './utils.js';
+import olFeature from 'ol/Feature.js';
+import olFormatGeoJSON from 'ol/format/GeoJSON.js';
 
 /**
  * @param {angular.Scope} $scope Directive scope.
@@ -16,7 +16,7 @@ goog.require('ol.format.GeoJSON');
  * @struct
  * @ngInject
  */
-app.AdvancedSearchController = function($scope, appApi, ngeoLocation,
+const exports = function($scope, appApi, ngeoLocation,
   gettextCatalog, $q) {
 
   /**
@@ -100,7 +100,7 @@ app.AdvancedSearchController = function($scope, appApi, ngeoLocation,
    * a document id is provided
    */
   this.recenter_ = !this.location_.hasFragmentParam('bbox') &&
-    app.utils.detectDocumentIdFilter(this.location_);
+    appUtils.detectDocumentIdFilter(this.location_);
 
   // Refresh the results when pagination or criterias have changed:
   this.scope_.$root.$on('searchFilterChange', (event, loadPrefs) => {
@@ -126,14 +126,14 @@ app.AdvancedSearchController = function($scope, appApi, ngeoLocation,
 /**
  * @private
  */
-app.AdvancedSearchController.prototype.getResults_ = function() {
+exports.prototype.getResults_ = function() {
   if (this.canceler_ !== null) {
     // cancel previous requests
     this.canceler_.resolve();
   }
 
   const url = this.location_.getUriString();
-  let qstr = app.utils.getFragment(url) || '';
+  let qstr = appUtils.getFragment(url) || '';
   qstr += '&pl=' + this.gettextCatalog_.currentLanguage;
 
   this.canceler_ = this.$q_.defer();
@@ -149,7 +149,7 @@ app.AdvancedSearchController.prototype.getResults_ = function() {
  * @param {angular.$http.Response} response Response from the API server.
  * @private
  */
-app.AdvancedSearchController.prototype.successList_ = function(response) {
+exports.prototype.successList_ = function(response) {
   if (!('data' in response)) {
     return;
   }
@@ -170,15 +170,15 @@ app.AdvancedSearchController.prototype.successList_ = function(response) {
  * @return {Array.<ol.Feature>}
  * @private
  */
-app.AdvancedSearchController.prototype.getFeatures_ = function() {
+exports.prototype.getFeatures_ = function() {
   const features = [];
-  const format = new ol.format.GeoJSON();
+  const format = new olFormatGeoJSON();
   for (let i = 0, n = this.documents.length; i < n; i++) {
     const doc = this.documents[i];
     if ('geometry' in doc && doc['geometry'] && doc['geometry']['geom']) {
       const properties = this.createFeatureProperties_(doc);
       properties['geometry'] = format.readGeometry(doc['geometry']['geom']);
-      features.push(new ol.Feature(properties));
+      features.push(new olFeature(properties));
     }
   }
   return features;
@@ -190,7 +190,7 @@ app.AdvancedSearchController.prototype.getFeatures_ = function() {
  * @return {Object}
  * @private
  */
-app.AdvancedSearchController.prototype.createFeatureProperties_ = function(doc) {
+exports.prototype.createFeatureProperties_ = function(doc) {
   // Since the request is done with the "pl" parameter (prefered language),
   // the API returns the best locale first.
   const locale = doc['locales'][0];
@@ -216,7 +216,7 @@ app.AdvancedSearchController.prototype.createFeatureProperties_ = function(doc) 
  * @param {number} id Document id.
  * @export
  */
-app.AdvancedSearchController.prototype.onMouseEnter = function(id) {
+exports.prototype.onMouseEnter = function(id) {
   this.scope_.$root.$emit('cardEnter', id);
 };
 
@@ -225,7 +225,7 @@ app.AdvancedSearchController.prototype.onMouseEnter = function(id) {
  * @param {number} id Document id.
  * @export
  */
-app.AdvancedSearchController.prototype.onMouseLeave = function(id) {
+exports.prototype.onMouseLeave = function(id) {
   this.scope_.$root.$emit('cardLeave', id);
 };
 
@@ -234,11 +234,14 @@ app.AdvancedSearchController.prototype.onMouseLeave = function(id) {
  * @param {?number} id Document id.
  * @private
  */
-app.AdvancedSearchController.prototype.onMapFeatureHover_ = function(id) {
+exports.prototype.onMapFeatureHover_ = function(id) {
   // Update feature id for card's ng-class in the partial
   this.highlightId = id;
   this.scope_.$apply();
 };
 
 
-app.module.controller('AppAdvancedSearchController', app.AdvancedSearchController);
+appBase.module.controller('AppAdvancedSearchController', exports);
+
+
+export default exports;

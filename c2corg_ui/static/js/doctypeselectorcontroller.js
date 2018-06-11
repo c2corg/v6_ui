@@ -1,7 +1,7 @@
-goog.provide('app.DoctypeSelectorController');
-
-goog.require('app');
-
+/**
+ * @module app.DoctypeSelectorController
+ */
+import appBase from './index.js';
 
 /**
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
@@ -9,7 +9,7 @@ goog.require('app');
  * @ngInject
  * @struct
  */
-app.DoctypeSelectorController = function(ngeoLocation) {
+const exports = function(ngeoLocation) {
 
   /**
    * @type {ngeo.Location}
@@ -59,7 +59,7 @@ app.DoctypeSelectorController = function(ngeoLocation) {
 /**
  * @export
  */
-app.DoctypeSelectorController.prototype.redirect = function() {
+exports.prototype.redirect = function() {
   switch (this.selected['id']) {
     case 'outings':
     case 'routes':
@@ -89,7 +89,7 @@ app.DoctypeSelectorController.prototype.redirect = function() {
 /**
  * @private
  */
-app.DoctypeSelectorController.prototype.setBbox_ = function() {
+exports.prototype.setBbox_ = function() {
   const bbox = this.location_.getFragmentParam('bbox');
   if (bbox) {
     this.params_.push('bbox=' + bbox);
@@ -100,7 +100,7 @@ app.DoctypeSelectorController.prototype.setBbox_ = function() {
 /**
  * @private
  */
-app.DoctypeSelectorController.prototype.setAreas_ = function() {
+exports.prototype.setAreas_ = function() {
   const a = this.location_.getFragmentParam('a');
   if (a) {
     this.params_.push('a=' + a);
@@ -111,7 +111,7 @@ app.DoctypeSelectorController.prototype.setAreas_ = function() {
 /**
  * @private
  */
-app.DoctypeSelectorController.prototype.setActivities_ = function() {
+exports.prototype.setActivities_ = function() {
   const act = this.location_.getFragmentParam('act');
   if (act) {
     this.params_.push('act=' + act);
@@ -119,4 +119,7 @@ app.DoctypeSelectorController.prototype.setActivities_ = function() {
 };
 
 
-app.module.controller('appDoctypeSelectorController', app.DoctypeSelectorController);
+appBase.module.controller('appDoctypeSelectorController', exports);
+
+
+export default exports;

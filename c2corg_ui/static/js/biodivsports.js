@@ -1,16 +1,17 @@
-goog.provide('app.Biodivsports');
-
-goog.require('app');
+/**
+ * @module app.Biodivsports
+ */
+import appBase from './index.js';
 
 /**
  * Service for accessing the Biodiv'sports API.
  * @param {angular.$http} $http
- * @param {app.Lang} appLang Lang service.
+ * @param {app.Lang} LangService Lang service.
  * @constructor
  * @struct
  * @ngInject
  */
-app.Biodivsports = function($http, appLang) {
+const exports = function($http, LangService) {
 
   /**
    * @type {angular.$http}
@@ -22,7 +23,7 @@ app.Biodivsports = function($http, appLang) {
    * @type {app.Lang}
    * @private
    */
-  this.langService_ = appLang;
+  this.langService_ = LangService;
 
   /**
    * @type {string}
@@ -36,7 +37,7 @@ app.Biodivsports = function($http, appLang) {
  * @param {Array.<string>|null} activities for filtering retrieved zones
  * @return {!angular.$http.HttpPromise}
  */
-app.Biodivsports.prototype.fetchData = function(extent, activities = null) {
+exports.prototype.fetchData = function(extent, activities = null) {
   // select language
   let language = this.langService_.getLang();
   if (language != 'fr' && language != 'en' && language != 'it') {
@@ -61,5 +62,7 @@ app.Biodivsports.prototype.fetchData = function(extent, activities = null) {
 };
 
 
-app.module.service('appBiodivsports', app.Biodivsports);
+appBase.module.service('appBiodivsports', exports);
 
+
+export default exports;

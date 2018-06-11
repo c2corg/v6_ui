@@ -6,7 +6,10 @@
     "type": "git",
     "url": "https://github.com/c2corg/v6_ui.git"
   },
+  "private": true,
   "scripts": {
+    "build": "webpack --config webpack.dev.js",
+    "build-prod": "webpack --config webpack.prod.js",
     "snyk-protect": "snyk protect",
     "prepublish": "npm run snyk-protect",
     "test": "snyk test"
@@ -21,6 +24,7 @@
     "angular-recaptcha": "4.1.5",
     "angular-sanitize": "1.5.8",
     "angular-slug": "0.0.4",
+    "babel-polyfill": "^6.26.0",
     "blueimp-load-image": "2.19.0",
     "bootstrap": "3.3.7",
     "bootstrap-markdown": "2.10.0",
@@ -42,15 +46,25 @@
   "devDependencies": {
     "angular-gettext-tools": "2.3.9",
     "async": "2.6.1",
+    "babel-core": "6.26.3",
+    "babel-loader": "7.1.4",
+    "babel-plugin-angularjs-annotate": "0.9.0",
+    "babel-preset-env": "1.7.0",
     "closure-util": "1.15.1",
     "eslint": "4.19.1",
-    "eslint-config-openlayers": "^9.0.0",
+    "eslint-config-openlayers": "9.0.0",
+    "eslint-plugin-googshift": "0.9.3",
+    "googshift": "^0.9.10",
+    "html-loader": "0.5.5",
     "less": "3.0.4",
     "less-plugin-clean-css": "1.5.1",
     "nomnom": "1.8.1",
-    "snyk": "^1.82.0",
+    "snyk": "1.82.0",
     "stylelint": "9.2.1",
-    "stylelint-config-standard": "18.2.0"
+    "stylelint-config-standard": "18.2.0",
+    "webpack": "4.11.1",
+    "webpack-cli": "3.0.3",
+    "webpack-merge": "4.1.2"
   },
   "snyk": true
 }

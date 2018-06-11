@@ -1,8 +1,8 @@
-goog.provide('app.PreferencesController');
-
-goog.require('app');
-goog.require('app.utils');
-
+/**
+ * @module app.PreferencesController
+ */
+import appBase from './index.js';
+import appUtils from './utils.js';
 
 /**
  * @param {angular.Scope} $scope Scope.
@@ -12,7 +12,7 @@ goog.require('app.utils');
  * @constructor
  * @ngInject
  */
-app.PreferencesController = function($scope, appAuthentication, appApi,
+const exports = function($scope, appAuthentication, appApi,
   authUrl) {
 
   /**
@@ -68,7 +68,7 @@ app.PreferencesController = function($scope, appAuthentication, appApi,
       });
     });
   } else {
-    app.utils.redirectToLogin(authUrl);
+    appUtils.redirectToLogin(authUrl);
   }
 };
 
@@ -77,7 +77,7 @@ app.PreferencesController = function($scope, appAuthentication, appApi,
  * @param {string} activity
  * @export
  */
-app.PreferencesController.prototype.updateActivities = function(activity) {
+exports.prototype.updateActivities = function(activity) {
   if (this.activities.indexOf(activity) > -1) {
     this.activities = this.activities.filter((item) => {
       return item !== activity;
@@ -93,7 +93,7 @@ app.PreferencesController.prototype.updateActivities = function(activity) {
  * @param {string} lang
  * @export
  */
-app.PreferencesController.prototype.updateLangs = function(lang) {
+exports.prototype.updateLangs = function(lang) {
   if (this.langs.indexOf(lang) > -1) {
     this.langs = this.langs.filter((item) => {
       return item !== lang;
@@ -109,7 +109,7 @@ app.PreferencesController.prototype.updateLangs = function(lang) {
  * @param {appx.Area} area
  * @export
  */
-app.PreferencesController.prototype.addArea = function(area) {
+exports.prototype.addArea = function(area) {
   const alreadyInList = this.areas.some((a) => {
     return a.document_id === area.document_id;
   });
@@ -125,7 +125,7 @@ app.PreferencesController.prototype.addArea = function(area) {
  * @param {number} id Area document_id.
  * @export
  */
-app.PreferencesController.prototype.removeArea = function(id) {
+exports.prototype.removeArea = function(id) {
   this.areas = this.areas.filter((item) => {
     return item.document_id !== id;
   });
@@ -136,7 +136,7 @@ app.PreferencesController.prototype.removeArea = function(id) {
 /**
  * @private
  */
-app.PreferencesController.prototype.save_ = function() {
+exports.prototype.save_ = function() {
   const data = {
     'activities': this.activities,
     'langs': this.langs,
@@ -147,4 +147,7 @@ app.PreferencesController.prototype.save_ = function() {
 };
 
 
-app.module.controller('appPreferencesController', app.PreferencesController);
+appBase.module.controller('appPreferencesController', exports);
+
+
+export default exports;

@@ -1,15 +1,15 @@
-goog.provide('app.GpxUploadController');
-
-goog.require('app');
-goog.require('ol.format.GPX');
-
+/**
+ * @module app.GpxUploadController
+ */
+import appBase from './index.js';
+import olFormatGPX from 'ol/format/GPX.js';
 
 /**
  * @param {angular.Scope} $scope Scope.
  * @constructor
  * @ngInject
  */
-app.GpxUploadController = function($scope) {
+const exports = function($scope) {
 
   /**
    * @type {angular.Scope}
@@ -39,8 +39,8 @@ app.GpxUploadController = function($scope) {
  * @param {string} gpx GPX document.
  * @private
  */
-app.GpxUploadController.prototype.importGpx_ = function(gpx) {
-  const gpxFormat = new ol.format.GPX();
+exports.prototype.importGpx_ = function(gpx) {
+  const gpxFormat = new olFormatGPX();
   const features = gpxFormat.readFeatures(gpx, {
     featureProjection: 'EPSG:3857'
   });
@@ -50,4 +50,7 @@ app.GpxUploadController.prototype.importGpx_ = function(gpx) {
 };
 
 
-app.module.controller('AppGpxUploadController', app.GpxUploadController);
+appBase.module.controller('AppGpxUploadController', exports);
+
+
+export default exports;

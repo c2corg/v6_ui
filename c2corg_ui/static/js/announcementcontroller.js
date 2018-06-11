@@ -1,16 +1,11 @@
-goog.provide('app.AnnouncementController');
-
-goog.require('app');
-
-
 /**
  * @param {app.Api} appApi Api service.
- * @param {app.Lang} appLang Lang service
+ * @param {app.Lang} LangService Lang service
  * @constructor
  * @ngInject
  * @struct
  */
-app.AnnouncementController = function(appApi, appLang) {
+const exports = function(appApi, LangService) {
 
   /**
    * @type {app.Api}
@@ -22,7 +17,7 @@ app.AnnouncementController = function(appApi, appLang) {
    * @type {app.Lang}
    * @private
    */
-  this.lang_ = appLang;
+  this.lang_ = LangService;
 
   /**
    * @type {boolean}
@@ -55,7 +50,7 @@ app.AnnouncementController = function(appApi, appLang) {
  * Get the announcement on the forum with the good language
  * @private
  */
-app.AnnouncementController.prototype.getAnnouncementFromForum_ = function() {
+exports.prototype.getAnnouncementFromForum_ = function() {
   this.api.readAnnouncement(this.lang_.getLang()).then((response) => {
     this.handleAnnouncement(response);
   });
@@ -67,7 +62,7 @@ app.AnnouncementController.prototype.getAnnouncementFromForum_ = function() {
  * @param response
  * @public
  */
-app.AnnouncementController.prototype.handleAnnouncement = function(response) {
+exports.prototype.handleAnnouncement = function(response) {
   const data = response['data'];
   if (data['tags'].indexOf('visible') > -1) {
     this.hasAnnouncement = true;
@@ -79,8 +74,11 @@ app.AnnouncementController.prototype.handleAnnouncement = function(response) {
 /**
  * @export
  */
-app.AnnouncementController.prototype.toggle = function() {
+exports.prototype.toggle = function() {
   this.isExpanded = !this.isExpanded;
 };
 
-app.module.controller('appAnnouncementController', app.AnnouncementController);
+appBase.module.controller('appAnnouncementController', exports);
+
+
+export default exports;

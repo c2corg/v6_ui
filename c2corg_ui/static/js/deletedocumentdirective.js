@@ -1,6 +1,7 @@
-goog.provide('app.deleteDocumentDirective');
-
-goog.require('app');
+/**
+ * @module app.deleteDocumentDirective
+ */
+import appBase from './index.js';
 
 /**
  * This directive is used to manage the dialog to delete a document.
@@ -8,7 +9,7 @@ goog.require('app');
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-app.deleteDocumentDirective = function() {
+const exports = function() {
   return {
     restrict: 'E',
     controller: 'AppDeleteDocumentController',
@@ -21,4 +22,7 @@ app.deleteDocumentDirective = function() {
   };
 };
 
-app.module.directive('appDeleteDocument', app.deleteDocumentDirective);
+appBase.module.directive('appDeleteDocument', exports);
+
+
+export default exports;

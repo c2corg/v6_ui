@@ -1,11 +1,12 @@
-goog.provide('app.elevationProfileDirective');
-
-goog.require('app');
+/**
+ * @module app.elevationProfileDirective
+ */
+import appBase from './index.js';
 
 /**
  * @return {angular.Directive} The directive specs.
  */
-app.elevationProfileDirective = function() {
+const exports = function() {
   return {
     restrict: 'E',
     controller: 'appElevationProfileController',
@@ -13,4 +14,8 @@ app.elevationProfileDirective = function() {
     templateUrl: '/static/partials/elevationprofile.html'
   };
 };
-app.module.directive('appElevationProfile', app.elevationProfileDirective);
+
+appBase.module.directive('appElevationProfile', exports);
+
+
+export default exports;

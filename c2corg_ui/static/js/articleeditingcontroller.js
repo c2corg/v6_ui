@@ -1,9 +1,9 @@
-goog.provide('app.ArticleEditingController');
-
-goog.require('app');
-goog.require('app.DocumentEditingController');
-goog.require('ol');
-
+/**
+ * @module app.ArticleEditingController
+ */
+import appBase from './index.js';
+import appDocumentEditingController from './DocumentEditingController.js';
+import olBase from 'ol.js';
 
 /**
  * @param {!angular.Scope} $scope Scope.
@@ -12,7 +12,7 @@ goog.require('ol');
  * @param {angular.$http} $http
  * @param {Object} $uibModal modal from angular bootstrap.
  * @param {angular.$compile} $compile Angular compile service.
- * @param {app.Lang} appLang Lang service.
+ * @param {app.Lang} LangService Lang service.
  * @param {app.Authentication} appAuthentication
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {app.Alerts} appAlerts
@@ -25,12 +25,12 @@ goog.require('ol');
  * @extends {app.DocumentEditingController}
  * @ngInject
  */
-app.ArticleEditingController = function($scope, $element, $attrs, $http,
-  $uibModal, $compile, appLang, appAuthentication, ngeoLocation, appAlerts,
+const exports = function($scope, $element, $attrs, $http,
+  $uibModal, $compile, LangService, appAuthentication, ngeoLocation, appAlerts,
   appApi, authUrl, appDocument, appUrl, imageUrl) {
 
-  app.DocumentEditingController.call(this, $scope, $element, $attrs, $http,
-    $uibModal, $compile, appLang, appAuthentication, ngeoLocation, appAlerts,
+  appDocumentEditingController.call(this, $scope, $element, $attrs, $http,
+    $uibModal, $compile, LangService, appAuthentication, ngeoLocation, appAlerts,
     appApi, authUrl, appDocument, appUrl, imageUrl);
 
   /**
@@ -39,7 +39,8 @@ app.ArticleEditingController = function($scope, $element, $attrs, $http,
    */
   this.initialArticleType = null;
 };
-ol.inherits(app.ArticleEditingController, app.DocumentEditingController);
+
+olBase.inherits(exports, appDocumentEditingController);
 
 
 /**
@@ -48,7 +49,7 @@ ol.inherits(app.ArticleEditingController, app.DocumentEditingController);
  * @override
  * @public
  */
-app.ArticleEditingController.prototype.filterData = function(data) {
+exports.prototype.filterData = function(data) {
   this.initialArticleType = data['article_type'];
   return data;
 };
@@ -58,7 +59,7 @@ app.ArticleEditingController.prototype.filterData = function(data) {
  * @return {number}
  * @override
  */
-app.ArticleEditingController.prototype.presetQuality = function(doc) {
+exports.prototype.presetQuality = function(doc) {
   let score = 0;
 
   if ('summary' in doc.locales[0] && doc.locales[0]['summary']) {
@@ -96,4 +97,7 @@ app.ArticleEditingController.prototype.presetQuality = function(doc) {
   return score;
 };
 
-app.module.controller('appArticleEditingController', app.ArticleEditingController);
+appBase.module.controller('appArticleEditingController', exports);
+
+
+export default exports;

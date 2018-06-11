@@ -1,7 +1,7 @@
-goog.provide('app.DeleteDocumentController');
-
-goog.require('app');
-
+/**
+ * @module app.DeleteDocumentController
+ */
+import appBase from './index.js';
 
 /**
  * @param {appx.Document} documentData Data set as module value in the HTML.
@@ -12,7 +12,7 @@ goog.require('app');
  * @constructor
  * @ngInject
  */
-app.DeleteDocumentController = function(documentData, appApi, appAlerts, gettextCatalog, $uibModalStack) {
+const exports = function(documentData, appApi, appAlerts, gettextCatalog, $uibModalStack) {
 
   /**
    * @type {appx.Document}
@@ -61,7 +61,7 @@ app.DeleteDocumentController = function(documentData, appApi, appAlerts, gettext
 /**
  * @export
  */
-app.DeleteDocumentController.prototype.deleteDocument = function() {
+exports.prototype.deleteDocument = function() {
   this.appApi_.deleteDocument(this.documentData.document_id).then(
     (response) => {
       this.closeDialog();
@@ -76,7 +76,7 @@ app.DeleteDocumentController.prototype.deleteDocument = function() {
 /**
  * @export
  */
-app.DeleteDocumentController.prototype.deleteLocale = function() {
+exports.prototype.deleteLocale = function() {
   this.appApi_.deleteLocale(this.documentData.document_id, this.lang).then(
     (response) => {
       this.closeDialog();
@@ -91,8 +91,11 @@ app.DeleteDocumentController.prototype.deleteLocale = function() {
 /**
  * @export
  */
-app.DeleteDocumentController.prototype.closeDialog = function() {
+exports.prototype.closeDialog = function() {
   this.$uibModalStack_.dismissAll();
 };
 
-app.module.controller('AppDeleteDocumentController', app.DeleteDocumentController);
+appBase.module.controller('AppDeleteDocumentController', exports);
+
+
+export default exports;

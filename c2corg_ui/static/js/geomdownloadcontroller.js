@@ -1,12 +1,13 @@
-goog.provide('app.GeomDownloadController');
+/**
+ * @module app.GeomDownloadController
+ */
+import appBase from './index.js';
+import olFormatGeoJSON from 'ol/format/GeoJSON.js';
+import olFormatGPX from 'ol/format/GPX.js';
+import olFormatKML from 'ol/format/KML.js';
 
-goog.require('app');
-goog.require('ol.format.GeoJSON');
-goog.require('ol.format.GPX');
-goog.require('ol.format.KML');
 
-
-app.module.directive('appGeomDownload', app.geomDownloadDirective);
+appBase.module.directive('appGeomDownload', appBase.geomDownloadDirective);
 
 
 /**
@@ -17,7 +18,7 @@ app.module.directive('appGeomDownload', app.geomDownloadDirective);
  * @struct
  * @ngInject
  */
-app.GeomDownloadController = function(ngeoDownload, mapFeatureCollection) {
+const exports = function(ngeoDownload, mapFeatureCollection) {
 
   /**
    * @type {ngeo.Download}
@@ -39,9 +40,9 @@ app.GeomDownloadController = function(ngeoDownload, mapFeatureCollection) {
  * @param {string} mimetype
  * @private
  */
-app.GeomDownloadController.prototype.downloadFeatures_ = function(
+exports.prototype.downloadFeatures_ = function(
   format, extension, mimetype) {
-  const geojson = new ol.format.GeoJSON();
+  const geojson = new olFormatGeoJSON();
   const features = geojson.readFeatures(this.featureCollection_);
   if (features.length) {
     // Export only the current document geometry, not the associated features
@@ -63,10 +64,10 @@ app.GeomDownloadController.prototype.downloadFeatures_ = function(
  * @param {goog.events.Event | jQuery.Event} event
  * @export
  */
-app.GeomDownloadController.prototype.downloadGpx = function(event) {
+exports.prototype.downloadGpx = function(event) {
   event.stopPropagation();
   this.downloadFeatures_(
-    new ol.format.GPX(), '.gpx', 'application/gpx+xml');
+    new olFormatGPX(), '.gpx', 'application/gpx+xml');
 };
 
 
@@ -74,12 +75,15 @@ app.GeomDownloadController.prototype.downloadGpx = function(event) {
  * @param {goog.events.Event | jQuery.Event} event
  * @export
  */
-app.GeomDownloadController.prototype.downloadKml = function(event) {
+exports.prototype.downloadKml = function(event) {
   event.stopPropagation();
   this.downloadFeatures_(
-    new ol.format.KML(), '.kml', 'application/vnd.google-earth.kml+xml');
+    new olFormatKML(), '.kml', 'application/vnd.google-earth.kml+xml');
 };
 
 
-app.module.controller(
-  'AppGeomDownloadController', app.GeomDownloadController);
+appBase.module.controller(
+  'AppGeomDownloadController', exports);
+
+
+export default exports;

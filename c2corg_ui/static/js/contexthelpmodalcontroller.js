@@ -1,7 +1,7 @@
-goog.provide('app.ContextHelpModalController');
-
-goog.require('app');
-
+/**
+ * @module app.ContextHelpModalController
+ */
+import appBase from './index.js';
 
 /**
  * We have to use a secondary controller for the modal so that we can inject
@@ -13,7 +13,7 @@ goog.require('app');
  * @ngInject
  * @returns {app.ContextHelpModalController}
  */
-app.ContextHelpModalController = function($uibModalInstance, content, title) {
+const exports = function($uibModalInstance, content, title) {
   /**
    * @type {string}
    * @export
@@ -33,9 +33,12 @@ app.ContextHelpModalController = function($uibModalInstance, content, title) {
   this.modalInstance_ = $uibModalInstance;
 };
 
-app.ContextHelpModalController.prototype.close = function() {
+exports.prototype.close = function() {
   this.modalInstance_.close();
 };
 
 
-app.module.controller('AppContextHelpModalController', app.ContextHelpModalController);
+appBase.module.controller('AppContextHelpModalController', exports);
+
+
+export default exports;

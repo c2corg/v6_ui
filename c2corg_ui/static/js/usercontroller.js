@@ -1,8 +1,8 @@
-goog.provide('app.UserController');
-
-goog.require('app');
-goog.require('app.utils');
-
+/**
+ * @module app.UserController
+ */
+import appBase from './index.js';
+import appUtils from './utils.js';
 
 /**
  * @param {app.Authentication} appAuthentication
@@ -15,7 +15,7 @@ goog.require('app.utils');
  * @constructor
  * @ngInject
  */
-app.UserController = function(appAuthentication, ngeoLocation,
+const exports = function(appAuthentication, ngeoLocation,
   appAlerts, appApi, authUrl, gettext) {
 
   /**
@@ -64,15 +64,15 @@ app.UserController = function(appAuthentication, ngeoLocation,
 /**
  * @export
  */
-app.UserController.prototype.showLogin = function() {
-  app.utils.redirectToLogin(this.authUrl_);
+exports.prototype.showLogin = function() {
+  appUtils.redirectToLogin(this.authUrl_);
 };
 
 
 /**
  * @export
  */
-app.UserController.prototype.logout = function() {
+exports.prototype.logout = function() {
   this.api_.logoutFromApiAndDiscourse().then(() => {
     this.alerts_.addSuccess(this.gettext('You have been disconnected'));
   }).finally(() => {
@@ -94,7 +94,7 @@ app.UserController.prototype.logout = function() {
  * @return {boolean}
  * @export
  */
-app.UserController.prototype.hasEditRights = function(doctype, options,
+exports.prototype.hasEditRights = function(doctype, options,
   opt_protected) {
   if (opt_protected && !this.isModerator()) {
     return false;
@@ -107,16 +107,19 @@ app.UserController.prototype.hasEditRights = function(doctype, options,
  * @return {boolean}
  * @export
  */
-app.UserController.prototype.isModerator = function() {
+exports.prototype.isModerator = function() {
   return this.auth.isModerator();
 };
 
 /**
  * @export
  */
-app.UserController.prototype.goToOutingsPage = function() {
+exports.prototype.goToOutingsPage = function() {
   window.location.href = '/outings#u=' + this.auth.userData.id;
   window.location.reload();
 };
 
-app.module.controller('AppUserController', app.UserController);
+appBase.module.controller('AppUserController', exports);
+
+
+export default exports;

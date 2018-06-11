@@ -1,9 +1,9 @@
-goog.provide('app.ImageEditingController');
-
-goog.require('app');
-goog.require('app.DocumentEditingController');
-goog.require('ol');
-
+/**
+ * @module app.ImageEditingController
+ */
+import appBase from './index.js';
+import appDocumentEditingController from './DocumentEditingController.js';
+import olBase from 'ol.js';
 
 /**
  * @param {!angular.Scope} $scope Scope.
@@ -12,7 +12,7 @@ goog.require('ol');
  * @param {angular.$http} $http
  * @param {Object} $uibModal modal from angular bootstrap.
  * @param {angular.$compile} $compile Angular compile service.
- * @param {app.Lang} appLang Lang service.
+ * @param {app.Lang} LangService Lang service.
  * @param {app.Authentication} appAuthentication
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {app.Alerts} appAlerts
@@ -25,12 +25,12 @@ goog.require('ol');
  * @extends {app.DocumentEditingController}
  * @ngInject
  */
-app.ImageEditingController = function($scope, $element, $attrs, $http,
-  $uibModal, $compile, appLang, appAuthentication, ngeoLocation, appAlerts,
+const exports = function($scope, $element, $attrs, $http,
+  $uibModal, $compile, LangService, appAuthentication, ngeoLocation, appAlerts,
   appApi, authUrl, appDocument, appUrl, imageUrl) {
 
-  app.DocumentEditingController.call(this, $scope, $element, $attrs, $http,
-    $uibModal, $compile, appLang, appAuthentication, ngeoLocation, appAlerts,
+  appDocumentEditingController.call(this, $scope, $element, $attrs, $http,
+    $uibModal, $compile, LangService, appAuthentication, ngeoLocation, appAlerts,
     appApi, authUrl, appDocument, appUrl, imageUrl);
 
   /**
@@ -57,7 +57,8 @@ app.ImageEditingController = function($scope, $element, $attrs, $http,
    */
   this.initialImageType = null;
 };
-ol.inherits(app.ImageEditingController, app.DocumentEditingController);
+
+olBase.inherits(exports, appDocumentEditingController);
 
 
 /**
@@ -66,7 +67,7 @@ ol.inherits(app.ImageEditingController, app.DocumentEditingController);
  * @override
  * @public
  */
-app.ImageEditingController.prototype.filterData = function(data) {
+exports.prototype.filterData = function(data) {
   // Image's date has to be converted to Date object because uib-datepicker
   // will treat it as invalid -> invalid form.
   data['date_time'] = new Date(data['date_time']);
@@ -79,7 +80,7 @@ app.ImageEditingController.prototype.filterData = function(data) {
  * @param {number} value
  * @export
  */
-app.ImageEditingController.prototype.convertExposureTime = function(value) {
+exports.prototype.convertExposureTime = function(value) {
   let exposure;
 
   if (value === 0) {
@@ -103,8 +104,8 @@ app.ImageEditingController.prototype.convertExposureTime = function(value) {
  * @param {string} filename
  * @return {string}
  */
-app.ImageEditingController.prototype.createImgUrl = function(filename) {
-  return this.imageUrl_ + app.utils.createImageUrl(filename, 'BI');
+exports.prototype.createImgUrl = function(filename) {
+  return this.imageUrl_ + appBase.utils.createImageUrl(filename, 'BI');
 };
 
 
@@ -113,7 +114,7 @@ app.ImageEditingController.prototype.createImgUrl = function(filename) {
  * @return {Array.<string>}
  * @export
  */
-app.ImageEditingController.prototype.filterImageTypes = function(imageTypes) {
+exports.prototype.filterImageTypes = function(imageTypes) {
   const removeCopyright = function(val) {
     return val !== 'copyright';
   };
@@ -125,7 +126,7 @@ app.ImageEditingController.prototype.filterImageTypes = function(imageTypes) {
  * @return {number}
  * @override
  */
-app.ImageEditingController.prototype.presetQuality = function(doc) {
+exports.prototype.presetQuality = function(doc) {
   let score = 0;
 
   if ('title' in doc.locales[0] && doc.locales[0]['title']) {
@@ -160,4 +161,7 @@ app.ImageEditingController.prototype.presetQuality = function(doc) {
   return score;
 };
 
-app.module.controller('appImageEditingController', app.ImageEditingController);
+appBase.module.controller('appImageEditingController', exports);
+
+
+export default exports;

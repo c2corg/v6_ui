@@ -1,6 +1,7 @@
-goog.provide('app.cotometerDirective');
-
-goog.require('app');
+/**
+ * @module app.cotometerDirective
+ */
+import appBase from './index.js';
 
 /**
  * This directive is used to manage the dialog of cotometer
@@ -8,7 +9,7 @@ goog.require('app');
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-app.cotometerDirective = function() {
+const exports = function() {
   return {
     restrict: 'E',
     controller: 'AppCotometerController',
@@ -21,4 +22,7 @@ app.cotometerDirective = function() {
   };
 };
 
-app.module.directive('appCotometer', app.cotometerDirective);
+appBase.module.directive('appCotometer', exports);
+
+
+export default exports;

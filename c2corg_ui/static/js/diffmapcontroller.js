@@ -1,20 +1,20 @@
-goog.provide('app.DiffMapController');
-
-goog.require('app');
-goog.require('app.MapController');
-goog.require('app.utils');
-goog.require('ol');
-goog.require('ol.Map');
-goog.require('ol.View');
-goog.require('ol.format.GeoJSON');
-goog.require('ol.interaction.MouseWheelZoom');
-goog.require('ol.layer.Vector');
-goog.require('ol.source.Vector');
-goog.require('ol.style.Circle');
-goog.require('ol.style.Fill');
-goog.require('ol.style.Stroke');
-goog.require('ol.style.Style');
-
+/**
+ * @module app.DiffMapController
+ */
+import appBase from './index.js';
+import appMapController from './MapController.js';
+import appUtils from './utils.js';
+import olBase from 'ol.js';
+import olMap from 'ol/Map.js';
+import olView from 'ol/View.js';
+import olFormatGeoJSON from 'ol/format/GeoJSON.js';
+import olInteractionMouseWheelZoom from 'ol/interaction/MouseWheelZoom.js';
+import olLayerVector from 'ol/layer/Vector.js';
+import olSourceVector from 'ol/source/Vector.js';
+import olStyleCircle from 'ol/style/Circle.js';
+import olStyleFill from 'ol/style/Fill.js';
+import olStyleStroke from 'ol/style/Stroke.js';
+import olStyleStyle from 'ol/style/Style.js';
 
 /**
  * @param {?GeoJSONFeatureCollection} mapFeatureCollection FeatureCollection
@@ -22,7 +22,7 @@ goog.require('ol.style.Style');
  * @constructor
  * @ngInject
  */
-app.DiffMapController = function(mapFeatureCollection) {
+const exports = function(mapFeatureCollection) {
 
   /**
    * @type {Array<ol.Feature>}
@@ -31,7 +31,7 @@ app.DiffMapController = function(mapFeatureCollection) {
   this.features_ = [];
 
   if (mapFeatureCollection) {
-    const format = new ol.format.GeoJSON();
+    const format = new olFormatGeoJSON();
     this.features_ = format.readFeatures(mapFeatureCollection);
   }
 
@@ -39,17 +39,17 @@ app.DiffMapController = function(mapFeatureCollection) {
    * @type {ol.Map}
    * @export
    */
-  this.map = new ol.Map({
-    interactions: ol.interaction.defaults({mouseWheelZoom: false}),
-    view: new ol.View({
-      center: ol.extent.getCenter(app.MapController.DEFAULT_EXTENT),
-      zoom: app.MapController.DEFAULT_ZOOM
+  this.map = new olMap({
+    interactions: olBase.interaction.defaults({mouseWheelZoom: false}),
+    view: new olView({
+      center: olBase.extent.getCenter(appMapController.DEFAULT_EXTENT),
+      zoom: appMapController.DEFAULT_ZOOM
     })
   });
 
-  const mouseWheelZoomInteraction = new ol.interaction.MouseWheelZoom();
+  const mouseWheelZoomInteraction = new olInteractionMouseWheelZoom();
   this.map.addInteraction(mouseWheelZoomInteraction);
-  app.utils.setupSmartScroll(mouseWheelZoomInteraction);
+  appUtils.setupSmartScroll(mouseWheelZoomInteraction);
 
   if (!this.features_.length) {
     // Recentering on the features extent requires that the map actually
@@ -63,18 +63,18 @@ app.DiffMapController = function(mapFeatureCollection) {
  * @return {ol.layer.Vector} Vector layer.
  * @private
  */
-app.DiffMapController.prototype.getVectorLayer_ = function() {
+exports.prototype.getVectorLayer_ = function() {
   if (!this.vectorLayer_) {
     // style for the first version
-    const fill1 = new ol.style.Fill({
+    const fill1 = new olStyleFill({
       color: 'rgba(237, 41, 39, 0.6)'
     });
-    const stroke1 = new ol.style.Stroke({
+    const stroke1 = new olStyleStroke({
       color: 'rgba(237, 41, 39, 1)',
       width: 3
     });
-    const style1 = new ol.style.Style({
-      image: new ol.style.Circle({
+    const style1 = new olStyleStyle({
+      image: new olStyleCircle({
         fill: fill1,
         stroke: stroke1,
         radius: 10
@@ -84,15 +84,15 @@ app.DiffMapController.prototype.getVectorLayer_ = function() {
     });
 
     // style for the second version
-    const fill2 = new ol.style.Fill({
+    const fill2 = new olStyleFill({
       color: 'rgba(31, 157, 61, 0.9)'
     });
-    const stroke2 = new ol.style.Stroke({
+    const stroke2 = new olStyleStroke({
       color: 'rgba(31, 157, 61, 1)',
       width: 2
     });
-    const style2 = new ol.style.Style({
-      image: new ol.style.Circle({
+    const style2 = new olStyleStyle({
+      image: new olStyleCircle({
         fill: fill2,
         stroke: stroke2,
         radius: 5
@@ -101,8 +101,8 @@ app.DiffMapController.prototype.getVectorLayer_ = function() {
       stroke: stroke2
     });
 
-    this.vectorLayer_ = new ol.layer.Vector({
-      source: new ol.source.Vector(),
+    this.vectorLayer_ = new olLayerVector({
+      source: new olSourceVector(),
       style: function(feature, style) {
         if (feature.get('type') === 'v1') {
           return style1;
@@ -122,7 +122,7 @@ app.DiffMapController.prototype.getVectorLayer_ = function() {
  * @param {Array<ol.Feature>} features Features to show.
  * @private
  */
-app.DiffMapController.prototype.showFeatures_ = function(features) {
+exports.prototype.showFeatures_ = function(features) {
   goog.asserts.assert(features.length > 0);
   const vectorLayer = this.getVectorLayer_();
   vectorLayer.getSource().addFeatures(features);
@@ -131,9 +131,12 @@ app.DiffMapController.prototype.showFeatures_ = function(features) {
   if (mapSize) {
     this.map.getView().fit(vectorLayer.getSource().getExtent(), mapSize, {
       padding: [10, 10, 10, 10],
-      maxZoom: app.MapController.DEFAULT_POINT_ZOOM
+      maxZoom: appMapController.DEFAULT_POINT_ZOOM
     });
   }
 };
 
-app.module.controller('AppDiffMapController', app.DiffMapController);
+appBase.module.controller('AppDiffMapController', exports);
+
+
+export default exports;

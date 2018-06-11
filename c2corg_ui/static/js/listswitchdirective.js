@@ -1,11 +1,12 @@
-goog.provide('app.listSwitchDirective');
-
-goog.require('app');
+/**
+ * @module app.listSwitchDirective
+ */
+import appBase from './index.js';
 
 /**
  * @return {angular.Directive} The directive specs.
  */
-app.listSwitchDirective = function() {
+const exports = function() {
   return {
     restrict: 'E',
     controller: 'appListSwitchController',
@@ -16,4 +17,8 @@ app.listSwitchDirective = function() {
     templateUrl: '/static/partials/listswitch.html'
   };
 };
-app.module.directive('appListSwitch', app.listSwitchDirective);
+
+appBase.module.directive('appListSwitch', exports);
+
+
+export default exports;

@@ -1,8 +1,8 @@
-goog.provide('app.searchFiltersDirective');
-
-goog.require('app');
-goog.require('app.utils');
-
+/**
+ * @module app.searchFiltersDirective
+ */
+import appBase from './index.js';
+import appUtils from './utils.js';
 
 /**
  * This directive is used to integrate a criterias form in the advanced search
@@ -11,7 +11,7 @@ goog.require('app.utils');
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-app.searchFiltersDirective = function() {
+const exports = function() {
   return {
     restrict: 'A',
     controller: '@',
@@ -25,13 +25,13 @@ app.searchFiltersDirective = function() {
       // that this menu is inside, it will not be shown entirely...
       // If someone can fix it using CSS only, you're da real MVP !
       element.on('click', '.dropdown-toggle', function() {
-        app.utils.repositionMenu({'menu': this, 'boxBoundEl': '.filters .simple-filters'});
+        appUtils.repositionMenu({'menu': this, 'boxBoundEl': '.filters .simple-filters'});
       });
 
       // This prevents to 'jump' or 'stutter' on phone - before, if you first
       // opened more-filters and scrolled, it would unfold filters on whole
       // page and make a stutter. Now it overflows.
-      if (window.innerWidth < app.constants.SCREEN.SMARTPHONE) {
+      if (window.innerWidth < appBase.constants.SCREEN.SMARTPHONE) {
         $('.more-filters-btn, .search-filters-btn, .less-filters-btn').click(() => {
           $('.filters').toggleClass('filters-phone');
         });
@@ -40,4 +40,7 @@ app.searchFiltersDirective = function() {
   };
 };
 
-app.module.directive('appSearchFilters', app.searchFiltersDirective);
+appBase.module.directive('appSearchFilters', exports);
+
+
+export default exports;

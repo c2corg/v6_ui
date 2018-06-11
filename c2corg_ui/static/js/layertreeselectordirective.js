@@ -1,8 +1,9 @@
-goog.provide('app.layertreeSelectorDirective');
+/**
+ * @module app.layertreeSelectorDirective
+ */
+import appBase from './index.js';
 
-goog.require('app');
-
-app.layertreeSelectorDirective = function() {
+const exports = function() {
   return {
     restrict: 'E',
     controller: 'AppLayertreeSelectorController',
@@ -15,4 +16,7 @@ app.layertreeSelectorDirective = function() {
   };
 };
 
-app.module.directive('appLayertreeSelector', app.layertreeSelectorDirective);
+appBase.module.directive('appLayertreeSelector', exports);
+
+
+export default exports;

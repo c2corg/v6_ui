@@ -1,7 +1,7 @@
-goog.provide('app.RevertDocumentController');
-
-goog.require('app');
-
+/**
+ * @module app.RevertDocumentController
+ */
+import appBase from './index.js';
 
 /**
  * @param {app.Authentication} appAuthentication
@@ -11,7 +11,7 @@ goog.require('app');
  * @constructor
  * @ngInject
  */
-app.RevertDocumentController = function(
+const exports = function(
   appAuthentication, appApi, appAlerts, gettextCatalog) {
 
   /**
@@ -46,7 +46,7 @@ app.RevertDocumentController = function(
  * @param {number} versionId
  * @export
  */
-app.RevertDocumentController.prototype.revert = function(
+exports.prototype.revert = function(
   documentId, lang, versionId) {
   const catalog = this.gettextCatalog_;
   const gettext = function(str) {
@@ -63,4 +63,7 @@ app.RevertDocumentController.prototype.revert = function(
   }
 };
 
-app.module.controller('appRevertDocumentController', app.RevertDocumentController);
+appBase.module.controller('appRevertDocumentController', exports);
+
+
+export default exports;

@@ -1,7 +1,7 @@
-goog.provide('app.advancedSearchDirective');
-
-goog.require('app');
-
+/**
+ * @module app.advancedSearchDirective
+ */
+import appBase from './index.js';
 
 /**
  * This directive is used to display the advanced search form and results.
@@ -9,7 +9,7 @@ goog.require('app');
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-app.advancedSearchDirective = function() {
+const exports = function() {
   return {
     restrict: 'E',
     controller: 'AppAdvancedSearchController',
@@ -23,4 +23,7 @@ app.advancedSearchDirective = function() {
   };
 };
 
-app.module.directive('appAdvancedSearch', app.advancedSearchDirective);
+appBase.module.directive('appAdvancedSearch', exports);
+
+
+export default exports;

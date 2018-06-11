@@ -1,11 +1,12 @@
-goog.provide('app.protectDocumentDirective');
-
-goog.require('app');
+/**
+ * @module app.protectDocumentDirective
+ */
+import appBase from './index.js';
 
 /**
  * @return {angular.Directive} The directive specs.
  */
-app.protectDocumentDirective = function() {
+const exports = function() {
   return {
     restrict: 'A',
     controller: 'appProtectDocumentController',
@@ -13,4 +14,8 @@ app.protectDocumentDirective = function() {
     templateUrl: '/static/partials/protectdocument.html'
   };
 };
-app.module.directive('appProtectDocument', app.protectDocumentDirective);
+
+appBase.module.directive('appProtectDocument', exports);
+
+
+export default exports;

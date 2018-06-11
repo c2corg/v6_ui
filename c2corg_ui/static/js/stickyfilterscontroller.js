@@ -1,13 +1,13 @@
-goog.provide('app.StickyFiltersController');
-
-goog.require('app');
-
+/**
+ * @module app.StickyFiltersController
+ */
+import appBase from './index.js';
 
 /**
  * @constructor
  * @struct
  */
-app.StickyFiltersController = function() {};
+const exports = function() {};
 
 
 /**
@@ -15,7 +15,7 @@ app.StickyFiltersController = function() {};
  * will have aria-expanded => don't add sticky filters! it prevents jumping and looks more natural.
  * @private
  */
-app.StickyFiltersController.prototype.addStickyFilters_ =  function() {
+exports.prototype.addStickyFilters_ =  function() {
   if ($('#moreFilters[aria-expanded="true"]').length === 0) {
     $('.more-filters-btn-container').addClass('sticky-filters-btn-container');
     $('#moreFilters').addClass('sticky-filters-moreFilters');
@@ -27,7 +27,7 @@ app.StickyFiltersController.prototype.addStickyFilters_ =  function() {
 /**
  * @private
  */
-app.StickyFiltersController.prototype.removeStickyFilters_ = function() {
+exports.prototype.removeStickyFilters_ = function() {
   $('.more-filters-btn-container').removeClass('sticky-filters-btn-container');
   $('#moreFilters').removeClass('overflow-scroll sticky-filters-moreFilters');
   this.adaptFiltersWidth_();
@@ -37,7 +37,7 @@ app.StickyFiltersController.prototype.removeStickyFilters_ = function() {
 /**
  * @private
  */
-app.StickyFiltersController.prototype.adaptFiltersWidth_ = function() {
+exports.prototype.adaptFiltersWidth_ = function() {
   const width = $('.documents-list-section').width();
   // sticky bar and filters width = filters width
   if ($('#moreFilters').hasClass('sticky-filters-moreFilters')) {
@@ -47,4 +47,7 @@ app.StickyFiltersController.prototype.adaptFiltersWidth_ = function() {
   }
 };
 
-app.module.controller('AppStickyFiltersController', app.StickyFiltersController);
+appBase.module.controller('AppStickyFiltersController', exports);
+
+
+export default exports;

@@ -1,18 +1,18 @@
-goog.provide('app.GeolocationController');
-
-goog.require('app');
-goog.require('ol.style.Circle');
-goog.require('ol.style.Fill');
-goog.require('ol.style.Stroke');
-goog.require('ol.style.Style');
-
+/**
+ * @module app.GeolocationController
+ */
+import appBase from './index.js';
+import olStyleCircle from 'ol/style/Circle.js';
+import olStyleFill from 'ol/style/Fill.js';
+import olStyleStroke from 'ol/style/Stroke.js';
+import olStyleStyle from 'ol/style/Style.js';
 
 /**
  * @constructor
  * @struct
  * @ngInject
  */
-app.GeolocationController = function() {
+const exports = function() {
 
   /**
    * @type {ol.Map}
@@ -20,17 +20,17 @@ app.GeolocationController = function() {
    */
   this.map;
 
-  const positionFeatureStyle = new ol.style.Style({
-    image: new ol.style.Circle({
+  const positionFeatureStyle = new olStyleStyle({
+    image: new olStyleCircle({
       radius: 6,
-      fill: new ol.style.Fill({color: 'rgba(230, 100, 100, 1)'}),
-      stroke: new ol.style.Stroke({color: 'rgba(230, 40, 40, 1)', width: 2})
+      fill: new olStyleFill({color: 'rgba(230, 100, 100, 1)'}),
+      stroke: new olStyleStroke({color: 'rgba(230, 40, 40, 1)', width: 2})
     })
   });
 
-  const accuracyFeatureStyle = new ol.style.Style({
-    fill: new ol.style.Fill({color: 'rgba(100, 100, 230, 0.3)'}),
-    stroke: new ol.style.Stroke({color: 'rgba(40, 40, 230, 1)', width: 2})
+  const accuracyFeatureStyle = new olStyleStyle({
+    fill: new olStyleFill({color: 'rgba(100, 100, 230, 0.3)'}),
+    stroke: new olStyleStroke({color: 'rgba(40, 40, 230, 1)', width: 2})
   });
 
   /**
@@ -45,4 +45,7 @@ app.GeolocationController = function() {
 };
 
 
-app.module.controller('AppGeolocationController', app.GeolocationController);
+appBase.module.controller('AppGeolocationController', exports);
+
+
+export default exports;

@@ -1,8 +1,8 @@
-goog.provide('app.cardDirective');
-
-goog.require('app');
-goog.require('app.utils');
-
+/**
+ * @module app.cardDirective
+ */
+import appBase from './index.js';
+import appUtils from './utils.js';
 
 /**
  * This directive is used to display a document card.
@@ -12,7 +12,7 @@ goog.require('app.utils');
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-app.cardDirective = function($compile, $templateCache) {
+const exports = function($compile, $templateCache) {
   const cardElementCache = {};
 
   const getCardElement = function(doctype) {
@@ -20,7 +20,7 @@ app.cardDirective = function($compile, $templateCache) {
       return cardElementCache[doctype];
     }
     const path = '/static/partials/cards/' + doctype + '.html';
-    const template = app.utils.getTemplate(path, $templateCache);
+    const template = appUtils.getTemplate(path, $templateCache);
     const element = angular.element(template);
     cardElementCache[doctype] = $compile(element);
     return cardElementCache[doctype];
@@ -42,3 +42,6 @@ app.cardDirective = function($compile, $templateCache) {
     }
   };
 };
+
+
+export default exports;

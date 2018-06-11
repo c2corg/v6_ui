@@ -1,7 +1,7 @@
-goog.provide('app.documentEditingDirective');
-
-goog.require('app');
-
+/**
+ * @module app.documentEditingDirective
+ */
+import appBase from './index.js';
 
 /**
  * Provides the "appDocumentEditing" directive, which applies to the forms
@@ -21,7 +21,7 @@ goog.require('app');
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-app.documentEditingDirective = function() {
+const exports = function() {
   return {
     restrict: 'A',
     scope: true,
@@ -33,4 +33,7 @@ app.documentEditingDirective = function() {
 };
 
 
-app.module.directive('appDocumentEditing', app.documentEditingDirective);
+appBase.module.directive('appDocumentEditing', exports);
+
+
+export default exports;

@@ -1,7 +1,7 @@
-goog.provide('app.Document');
-
-goog.require('app');
-
+/**
+ * @module app.Document
+ */
+import appBase from './index.js';
 
 /**
  * This service is used to access the document properties
@@ -14,7 +14,7 @@ goog.require('app');
  * @ngInject
  * @struct
  */
-app.Document = function(appAuthentication, $rootScope) {
+const exports = function(appAuthentication, $rootScope) {
 
   /**
    * @type {angular.Scope}
@@ -78,7 +78,7 @@ app.Document = function(appAuthentication, $rootScope) {
  * @param {appx.Document} doc
  * @export
  */
-app.Document.prototype.setDocument = function(doc) {
+exports.prototype.setDocument = function(doc) {
   for (const attr in doc) {
     if (attr === 'associations') {
       this.setAssociations(doc.associations);
@@ -93,7 +93,7 @@ app.Document.prototype.setDocument = function(doc) {
  * @param {appx.DocumentAssociations} associations
  * @export
  */
-app.Document.prototype.setAssociations = function(associations) {
+exports.prototype.setAssociations = function(associations) {
   for (const type in associations) {
     if (type in this.document.associations) {
       this.document.associations[type] = associations[type];
@@ -108,7 +108,7 @@ app.Document.prototype.setAssociations = function(associations) {
  * @param {number} id
  * @returns {boolean}
  */
-app.Document.prototype.hasAssociation = function(type, id) {
+exports.prototype.hasAssociation = function(type, id) {
   if (!this.associationsIds_[type].length) {
     this.associationsIds_[type] = [];
     if (this.document.associations[type]) {
@@ -127,8 +127,8 @@ app.Document.prototype.hasAssociation = function(type, id) {
  * @param {function(appx.Document, appx.SimpleSearchDocument, string=):appx.Document=} callback
  * @export
  */
-app.Document.prototype.pushToAssociations = function(doc, doctype, callback) {
-  doctype = doctype || app.utils.getDoctype(doc['type']);
+exports.prototype.pushToAssociations = function(doc, doctype, callback) {
+  doctype = doctype || appBase.utils.getDoctype(doc['type']);
   doc['new'] = true;
   this.document.associations[doctype].push(doc);
 
@@ -145,7 +145,7 @@ app.Document.prototype.pushToAssociations = function(doc, doctype, callback) {
  * @param {boolean=} editing
  * @export
  */
-app.Document.prototype.removeAssociation = function(id, type, event, editing) {
+exports.prototype.removeAssociation = function(id, type, event, editing) {
   const associations = this.document.associations[type];
 
   event.currentTarget.closest('.list-item').className += ' remove-item';
@@ -174,7 +174,7 @@ app.Document.prototype.removeAssociation = function(id, type, event, editing) {
  * @return boolean
  * @export
  */
-app.Document.prototype.isCollaborative = function(type) {
+exports.prototype.isCollaborative = function(type) {
   switch (type) {
     case 'waypoints':
     case 'routes':
@@ -193,4 +193,7 @@ app.Document.prototype.isCollaborative = function(type) {
   }
 };
 
-app.module.service('appDocument', app.Document);
+appBase.module.service('appDocument', exports);
+
+
+export default exports;

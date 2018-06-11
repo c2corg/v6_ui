@@ -1,14 +1,14 @@
-goog.provide('app.markdownEditorDirective');
-
-goog.require('app');
-
+/**
+ * @module app.markdownEditorDirective
+ */
+import appBase from './index.js';
 
 /**
  * This directive is used on textarea elements to display a markdown editor.
  * Inspired from https://github.com/ghiscoding/angular-markdown-editor
  * @return {angular.Directive} The directive specs.
  */
-app.markdownEditorDirective = function($rootScope, $compile, gettextCatalog, textFormatingUrl) {
+const exports = function($rootScope, $compile, gettextCatalog, textFormatingUrl) {
 
   const gettext = function(str) {
     return str;
@@ -154,4 +154,7 @@ app.markdownEditorDirective = function($rootScope, $compile, gettextCatalog, tex
   };
 };
 
-app.module.directive('appMarkdownEditor', ['$rootScope', '$compile', 'gettextCatalog', 'textFormatingUrl', app.markdownEditorDirective]);
+appBase.module.directive('appMarkdownEditor', ['$rootScope', '$compile', 'gettextCatalog', 'textFormatingUrl', exports]);
+
+
+export default exports;

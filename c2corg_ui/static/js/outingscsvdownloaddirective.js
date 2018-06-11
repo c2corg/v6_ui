@@ -1,6 +1,7 @@
-goog.provide('app.outingsCsvDownloadDirective');
-
-goog.require('app');
+/**
+ * @module app.outingsCsvDownloadDirective
+ */
+import appBase from './index.js';
 
 /**
  * This directive is used to display a download button for outings in CSV format.
@@ -8,7 +9,7 @@ goog.require('app');
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-app.outingsCsvDownloadDirective = function() {
+const exports = function() {
   return {
     restrict: 'E',
     controller: 'AppOutingsCsvDownloadController',
@@ -17,4 +18,7 @@ app.outingsCsvDownloadDirective = function() {
   };
 };
 
-app.module.directive('appOutingsCsvDownload', app.outingsCsvDownloadDirective);
+appBase.module.directive('appOutingsCsvDownload', exports);
+
+
+export default exports;

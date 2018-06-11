@@ -1,6 +1,7 @@
-goog.provide('app.AuthController');
-
-goog.require('app');
+/**
+ * @module app.AuthController
+ */
+import appBase from './index.js';
 
 /**
  * @param {angular.Scope} $scope Scope.
@@ -10,13 +11,13 @@ goog.require('app');
  * @param {app.Alerts} appAlerts
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @param {angular.$q} $q Angular q service.
- * @param {app.Lang} appLang Lang service.
+ * @param {app.Lang} LangService Lang service.
  * @param {VCRecaptcha} vcRecaptchaService The recatpcha service from VC.
  * @constructor
  * @ngInject
  */
-app.AuthController = function($scope, appApi, appAuthentication,
-  ngeoLocation, appAlerts, gettextCatalog, $q, appLang, vcRecaptchaService) {
+const exports = function($scope, appApi, appAuthentication,
+  ngeoLocation, appAlerts, gettextCatalog, $q, LangService, vcRecaptchaService) {
 
   /**
    * @type {VCRecaptcha}
@@ -66,7 +67,7 @@ app.AuthController = function($scope, appApi, appAuthentication,
    * @type {app.Lang}
    * @private
    */
-  this.langService_ = appLang;
+  this.langService_ = LangService;
 
   /**
    * @export
@@ -113,7 +114,7 @@ app.AuthController = function($scope, appApi, appAuthentication,
 /**
  * @export
  */
-app.AuthController.prototype.login = function() {
+exports.prototype.login = function() {
   const login = this.scope_['login'];
   const remember = !!login['remember']; // a true boolean
 
@@ -131,7 +132,7 @@ app.AuthController.prototype.login = function() {
 /**
  * @export
  */
-app.AuthController.prototype.ssoLogin = function() {
+exports.prototype.ssoLogin = function() {
   const login = this.scope_['login'];
   const remember = !!login['remember']; // a true boolean
 
@@ -151,7 +152,7 @@ app.AuthController.prototype.ssoLogin = function() {
  * @return {angular.$q.Promise}
  * @private
  */
-app.AuthController.prototype.loginToDiscourse_ = function(url) {
+exports.prototype.loginToDiscourse_ = function(url) {
   // https://developer.mozilla.org/fr/docs/Web/HTML/Element/iframe
   const deferred = this.q_.defer();
   const timeoutId = window.setTimeout(() => {
@@ -177,7 +178,7 @@ app.AuthController.prototype.loginToDiscourse_ = function(url) {
  * @param {string=} opt_location Redirect location (absolute URL).
  * @private
  */
-app.AuthController.prototype.redirect_ = function(opt_location) {
+exports.prototype.redirect_ = function(opt_location) {
   if (!opt_location) {
     let relativeUrl = this.ngeoLocation_.getFragmentParam('to');
     relativeUrl = relativeUrl ? decodeURIComponent(relativeUrl) : '/';
@@ -192,7 +193,7 @@ app.AuthController.prototype.redirect_ = function(opt_location) {
  * @param {Object} response Response from the API server.
  * @private
  */
-app.AuthController.prototype.successLogin_ = function(remember, response) {
+exports.prototype.successLogin_ = function(remember, response) {
   const data = /** @type {appx.AuthData} */ (response['data']);
   data.remember = remember;
   this.appAuthentication_.setUserData(data);
@@ -210,7 +211,7 @@ app.AuthController.prototype.successLogin_ = function(remember, response) {
 /**
  * @export
  */
-app.AuthController.prototype.register = function() {
+exports.prototype.register = function() {
   const alerts = this.alerts_;
   const lang = this.langService_.getLang();
   const form = this.scope_['register'];
@@ -232,7 +233,7 @@ app.AuthController.prototype.register = function() {
 /**
  * @export
  */
-app.AuthController.prototype.requestPasswordChange = function() {
+exports.prototype.requestPasswordChange = function() {
   const alerts = this.alerts_;
   /**
    * @type {appx.auth.RequestChangePassword}
@@ -249,7 +250,7 @@ app.AuthController.prototype.requestPasswordChange = function() {
 /**
  * @export
  */
-app.AuthController.prototype.validateNewPassword = function() {
+exports.prototype.validateNewPassword = function() {
   const remember = true;
   const onLogin = this.successLogin_.bind(this, remember);
   const password = this.scope_['changePassword']['password'];
@@ -260,9 +261,12 @@ app.AuthController.prototype.validateNewPassword = function() {
 /**
  * @export
  */
-app.AuthController.prototype.reloadCaptcha = function() {
+exports.prototype.reloadCaptcha = function() {
   this.vcRecaptchaService_.reload();
 };
 
 
-app.module.controller('appAuthController', app.AuthController);
+appBase.module.controller('appAuthController', exports);
+
+
+export default exports;

@@ -1,7 +1,7 @@
-goog.provide('app.LoadPreferencesController');
-
-goog.require('app');
-
+/**
+ * @module app.LoadPreferencesController
+ */
+import appBase from './index.js';
 
 /**
  * @param {angular.Scope} $scope Directive scope.
@@ -11,7 +11,7 @@ goog.require('app');
  * @ngInject
  * @struct
  */
-app.LoadPreferencesController = function($scope, ngeoLocation, appApi) {
+const exports = function($scope, ngeoLocation, appApi) {
 
   /**
    * @type {angular.Scope}
@@ -60,7 +60,7 @@ app.LoadPreferencesController = function($scope, ngeoLocation, appApi) {
 /**
  * @export
  */
-app.LoadPreferencesController.prototype.applyPreferences = function() {
+exports.prototype.applyPreferences = function() {
   if (this.preferences_) {
     this.loadPreferences_();
   } else {
@@ -75,7 +75,7 @@ app.LoadPreferencesController.prototype.applyPreferences = function() {
 /**
  * @private
  */
-app.LoadPreferencesController.prototype.loadPreferences_ = function() {
+exports.prototype.loadPreferences_ = function() {
   const params = this.getParams_();
   if (this.url) {
     const list = [];
@@ -98,7 +98,7 @@ app.LoadPreferencesController.prototype.loadPreferences_ = function() {
  * @return {Object}
  * @private
  */
-app.LoadPreferencesController.prototype.getParams_ = function() {
+exports.prototype.getParams_ = function() {
   const params = {};
   let areas, activities;
   switch (this.module) {
@@ -133,7 +133,7 @@ app.LoadPreferencesController.prototype.getParams_ = function() {
  * @return {string}
  * @private
  */
-app.LoadPreferencesController.prototype.getAreas_ = function() {
+exports.prototype.getAreas_ = function() {
   const data = this.preferences_.areas;
   const areas = [];
   for (let i = 0, n = data.length; i < n; i++) {
@@ -147,8 +147,11 @@ app.LoadPreferencesController.prototype.getAreas_ = function() {
  * @return {string}
  * @private
  */
-app.LoadPreferencesController.prototype.getActivities_ = function() {
+exports.prototype.getActivities_ = function() {
   return this.preferences_.activities.join(',');
 };
 
-app.module.controller('AppLoadPreferencesController', app.LoadPreferencesController);
+appBase.module.controller('AppLoadPreferencesController', exports);
+
+
+export default exports;

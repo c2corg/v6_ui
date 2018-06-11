@@ -1,7 +1,7 @@
-goog.provide('app.alertDirective');
-
-goog.require('app');
-
+/**
+ * @module app.alertDirective
+ */
+import appBase from './index.js';
 
 /**
  * This directive is used to display one alert message.
@@ -9,7 +9,7 @@ goog.require('app');
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-app.alertDirective = function() {
+const exports = function() {
   return {
     restrict: 'E',
     controller: 'AppAlertController',
@@ -34,4 +34,7 @@ app.alertDirective = function() {
 };
 
 
-app.module.directive('appAlert', app.alertDirective);
+appBase.module.directive('appAlert', exports);
+
+
+export default exports;

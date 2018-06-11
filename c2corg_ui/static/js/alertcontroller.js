@@ -1,7 +1,7 @@
-goog.provide('app.AlertController');
-
-goog.require('app');
-
+/**
+ * @module app.AlertController
+ */
+import appBase from './index.js';
 
 /**
  * @param {angular.$timeout} $timeout Angular timeout service.
@@ -9,7 +9,7 @@ goog.require('app');
  * @ngInject
  * @export
  */
-app.AlertController = function($timeout) {
+const exports = function($timeout) {
   if (this['timeout'] && this['close']) {
     const timeout = parseInt(this['timeout'], 10);
     if (timeout) {
@@ -20,4 +20,7 @@ app.AlertController = function($timeout) {
   }
 };
 
-app.module.controller('AppAlertController', app.AlertController);
+appBase.module.controller('AppAlertController', exports);
+
+
+export default exports;

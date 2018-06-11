@@ -1,7 +1,7 @@
-goog.provide('app.ProtectDocumentController');
-
-goog.require('app');
-
+/**
+ * @module app.ProtectDocumentController
+ */
+import appBase from './index.js';
 
 /**
  * @param {app.Authentication} appAuthentication
@@ -13,7 +13,7 @@ goog.require('app');
  * @ngInject
  * @struct
  */
-app.ProtectDocumentController = function(appAuthentication, appApi,
+const exports = function(appAuthentication, appApi,
   appAlerts, gettextCatalog, documentData) {
 
   /**
@@ -51,7 +51,7 @@ app.ProtectDocumentController = function(appAuthentication, appApi,
 /**
  * @export
  */
-app.ProtectDocumentController.prototype.protect = function() {
+exports.prototype.protect = function() {
   if (this.auth_.isModerator()) {
     this.api_.protectDocument(this.documentData.document_id).then((response) => {
       this.documentData['protected'] = true;
@@ -66,7 +66,7 @@ app.ProtectDocumentController.prototype.protect = function() {
 /**
  * @export
  */
-app.ProtectDocumentController.prototype.unprotect = function() {
+exports.prototype.unprotect = function() {
   if (this.auth_.isModerator()) {
     this.api_.unprotectDocument(this.documentData.document_id).then((response) => {
       this.documentData['protected'] = false;
@@ -77,4 +77,7 @@ app.ProtectDocumentController.prototype.unprotect = function() {
   }
 };
 
-app.module.controller('appProtectDocumentController', app.ProtectDocumentController);
+appBase.module.controller('appProtectDocumentController', exports);
+
+
+export default exports;

@@ -1,13 +1,14 @@
-goog.provide('app.ActivityFilterController');
-
-goog.require('app');
+/**
+ * @module app.ActivityFilterController
+ */
+import appBase from './index.js';
 
 /**
  * @constructor
  * @struct
  * @ngInject
  */
-app.ActivityFilterController = function() {
+const exports = function() {
 
   /**
    * @type {Array.<string>}
@@ -33,7 +34,7 @@ app.ActivityFilterController = function() {
  * @param {string} activity Activity to filter to.
  * @export
  */
-app.ActivityFilterController.prototype.toggle = function(activity) {
+exports.prototype.toggle = function(activity) {
   if (this.activities.indexOf(activity) != -1) {
     const index = this.selectedActivities.indexOf(activity);
     if (index == -1) {
@@ -54,7 +55,7 @@ app.ActivityFilterController.prototype.toggle = function(activity) {
  * @return {boolean}
  * @private
  */
-app.ActivityFilterController.prototype.filter_ = function(doc, index, array) {
+exports.prototype.filter_ = function(doc, index, array) {
   if (!this.selectedActivities.length) {
     return true;
   }
@@ -69,8 +70,11 @@ app.ActivityFilterController.prototype.filter_ = function(doc, index, array) {
  * @return {Array.<appx.Document>}
  * @export
  */
-app.ActivityFilterController.prototype.filter = function(docs) {
+exports.prototype.filter = function(docs) {
   return docs.filter(this.filter_.bind(this));
 };
 
-app.module.controller('appActivityFilterController', app.ActivityFilterController);
+appBase.module.controller('appActivityFilterController', exports);
+
+
+export default exports;

@@ -1,14 +1,14 @@
-goog.provide('app.xreportDirective');
-
-goog.require('app');
-
+/**
+ * @module app.xreportDirective
+ */
+import appBase from './index.js';
 
 /**
  * Directive managing the xreport.
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-app.xreportDirective = function() {
+const exports = function() {
   return {
     restrict: 'A',
     scope: {
@@ -22,4 +22,7 @@ app.xreportDirective = function() {
 };
 
 
-app.module.directive('appXreport', app.xreportDirective);
+appBase.module.directive('appXreport', exports);
+
+
+export default exports;

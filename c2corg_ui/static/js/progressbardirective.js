@@ -1,7 +1,7 @@
-goog.provide('app.progressBarDirective');
-
-goog.require('app');
-
+/**
+ * @module app.progressBarDirective
+ */
+import appBase from './index.js';
 
 /**
  * The progress bar on the top of editing pages.
@@ -9,11 +9,14 @@ goog.require('app');
  * by this directive.
  * @return {angular.Directive} The directive specs.
  */
-app.progressBarDirective = function() {
+const exports = function() {
   return {
     restrict: 'E',
     controller: 'appProgressBarController as progressBarCtrl'
   };
 };
 
-app.module.directive('appProgressBar', app.progressBarDirective);
+appBase.module.directive('appProgressBar', exports);
+
+
+export default exports;

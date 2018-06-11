@@ -1,7 +1,7 @@
-goog.provide('app.mapDirective');
-
-goog.require('app');
-
+/**
+ * @module app.mapDirective
+ */
+import appBase from './index.js';
 
 /**
  * This directive is used to display a pre-configured map in v6_ui pages.
@@ -9,7 +9,7 @@ goog.require('app');
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-app.mapDirective = function() {
+const exports = function() {
   return {
     restrict: 'E',
     scope: {
@@ -30,4 +30,7 @@ app.mapDirective = function() {
   };
 };
 
-app.module.directive('appMap', app.mapDirective);
+appBase.module.directive('appMap', exports);
+
+
+export default exports;

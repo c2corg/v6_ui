@@ -1,6 +1,7 @@
-goog.provide('app.mergeDocumentsDirective');
-
-goog.require('app');
+/**
+ * @module app.mergeDocumentsDirective
+ */
+import appBase from './index.js';
 
 /**
  * This directive is used to manage the dialog to merge documents.
@@ -8,7 +9,7 @@ goog.require('app');
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-app.mergeDocumentsDirective = function() {
+const exports = function() {
   return {
     restrict: 'E',
     controller: 'AppMergeDocumentsController',
@@ -20,4 +21,7 @@ app.mergeDocumentsDirective = function() {
   };
 };
 
-app.module.directive('appMergeDocuments', app.mergeDocumentsDirective);
+appBase.module.directive('appMergeDocuments', exports);
+
+
+export default exports;

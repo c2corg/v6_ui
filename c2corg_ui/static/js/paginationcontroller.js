@@ -1,7 +1,7 @@
-goog.provide('app.PaginationController');
-
-goog.require('app');
-
+/**
+ * @module app.PaginationController
+ */
+import appBase from './index.js';
 
 /**
  * @param {angular.Scope} $scope Directive scope.
@@ -9,7 +9,7 @@ goog.require('app');
  * @constructor
  * @ngInject
  */
-app.PaginationController = function($scope, ngeoLocation) {
+const exports = function($scope, ngeoLocation) {
 
   /**
    * @type {angular.Scope}
@@ -55,7 +55,7 @@ app.PaginationController = function($scope, ngeoLocation) {
  * @const
  * @type {number}
  */
-app.PaginationController.MAX_RESULT_OFFSET = 10000;
+exports.MAX_RESULT_OFFSET = 10000;
 
 /**
  * @param {Object} event
@@ -64,21 +64,21 @@ app.PaginationController.MAX_RESULT_OFFSET = 10000;
  * @param {boolean} recenter
  * @private
  */
-app.PaginationController.prototype.handleSearchChange_ = function(event,
+exports.prototype.handleSearchChange_ = function(event,
   features, total, recenter) {
   this.total = total;
   this.offset = this.location_.getFragmentParamAsInt('offset') || 0;
   // don't show the "Go to last page" button if the offset is above
   // maxResultOffset_, or the API will return an error
   this.showGoToLastPage =
-    this.total <= app.PaginationController.MAX_RESULT_OFFSET;
+    this.total <= exports.MAX_RESULT_OFFSET;
 };
 
 
 /**
  * @export
  */
-app.PaginationController.prototype.goToFirst = function() {
+exports.prototype.goToFirst = function() {
   this.location_.deleteFragmentParam('offset');
   this.scope_.$root.$emit('searchFilterChange');
   this.scrollToTop_();
@@ -88,7 +88,7 @@ app.PaginationController.prototype.goToFirst = function() {
 /**
  * @export
  */
-app.PaginationController.prototype.goToPrev = function() {
+exports.prototype.goToPrev = function() {
   const prevOffset = this.offset - this.limit;
   if (prevOffset > 0) {
     this.location_.updateFragmentParams({'offset': prevOffset});
@@ -103,7 +103,7 @@ app.PaginationController.prototype.goToPrev = function() {
 /**
  * @export
  */
-app.PaginationController.prototype.goToNext = function() {
+exports.prototype.goToNext = function() {
   const nextOffset = this.offset + this.limit;
   this.location_.updateFragmentParams({'offset': nextOffset});
   this.scope_.$root.$emit('searchFilterChange');
@@ -114,7 +114,7 @@ app.PaginationController.prototype.goToNext = function() {
 /**
  * @export
  */
-app.PaginationController.prototype.goToLast = function() {
+exports.prototype.goToLast = function() {
   const nextOffset = this.total - (this.total % this.limit);
   this.location_.updateFragmentParams({'offset': nextOffset});
   this.scope_.$root.$emit('searchFilterChange');
@@ -124,9 +124,12 @@ app.PaginationController.prototype.goToLast = function() {
 /**
  * @private
  */
-app.PaginationController.prototype.scrollToTop_ = function() {
+exports.prototype.scrollToTop_ = function() {
   document.querySelector('.documents-list-section').scrollTop = 0;
 };
 
 
-app.module.controller('AppPaginationController', app.PaginationController);
+appBase.module.controller('AppPaginationController', exports);
+
+
+export default exports;

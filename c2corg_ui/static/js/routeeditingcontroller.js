@@ -1,10 +1,10 @@
-goog.provide('app.RouteEditingController');
-
-goog.require('app');
-goog.require('app.DocumentEditingController');
-goog.require('app.utils');
-goog.require('ol');
-
+/**
+ * @module app.RouteEditingController
+ */
+import appBase from './index.js';
+import appDocumentEditingController from './DocumentEditingController.js';
+import appUtils from './utils.js';
+import olBase from 'ol.js';
 
 /**
  * @param {!angular.Scope} $scope Scope.
@@ -13,7 +13,7 @@ goog.require('ol');
  * @param {angular.$http} $http
  * @param {Object} $uibModal modal from angular bootstrap.
  * @param {angular.$compile} $compile Angular compile service.
- * @param {app.Lang} appLang Lang service.
+ * @param {app.Lang} LangService Lang service.
  * @param {app.Authentication} appAuthentication
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {app.Alerts} appAlerts
@@ -26,19 +26,19 @@ goog.require('ol');
  * @extends {app.DocumentEditingController}
  * @ngInject
  */
-app.RouteEditingController = function($scope, $element, $attrs, $http,
-  $uibModal, $compile, appLang, appAuthentication, ngeoLocation, appAlerts,
+const exports = function($scope, $element, $attrs, $http,
+  $uibModal, $compile, LangService, appAuthentication, ngeoLocation, appAlerts,
   appApi, authUrl, appDocument, appUrl, imageUrl) {
 
-  app.DocumentEditingController.call(this, $scope, $element, $attrs, $http,
-    $uibModal, $compile, appLang, appAuthentication, ngeoLocation, appAlerts,
+  appDocumentEditingController.call(this, $scope, $element, $attrs, $http,
+    $uibModal, $compile, LangService, appAuthentication, ngeoLocation, appAlerts,
     appApi, authUrl, appDocument, appUrl, imageUrl);
 
   if (this.auth.isAuthenticated()) {
     // allow association only for a new route to existing waypoint
     if (ngeoLocation.hasFragmentParam('w')) {
       const waypointId = parseInt(ngeoLocation.getFragmentParam('w'), 10);
-      appApi.getDocumentByIdAndDoctype(waypointId, 'w', appLang.getLang()).then(
+      appApi.getDocumentByIdAndDoctype(waypointId, 'w', LangService.getLang()).then(
         (doc) => {
           this.documentService.pushToAssociations(
             doc.data['waypoints'].documents[0],
@@ -50,7 +50,8 @@ app.RouteEditingController = function($scope, $element, $attrs, $http,
     }
   }
 };
-ol.inherits(app.RouteEditingController, app.DocumentEditingController);
+
+olBase.inherits(exports, appDocumentEditingController);
 
 
 /**
@@ -58,8 +59,8 @@ ol.inherits(app.RouteEditingController, app.DocumentEditingController);
  * @return {boolean}
  * @export
  */
-app.RouteEditingController.prototype.hasActivity = function(activities) {
-  return app.utils.hasActivity(this.scope['route'], activities);
+exports.prototype.hasActivity = function(activities) {
+  return appUtils.hasActivity(this.scope['route'], activities);
 };
 
 
@@ -67,7 +68,7 @@ app.RouteEditingController.prototype.hasActivity = function(activities) {
  * @return {boolean}
  * @export
  */
-app.RouteEditingController.prototype.showRatings = function() {
+exports.prototype.showRatings = function() {
   const activities = this.scope['route'].activities;
   if (activities.length === 0) {
     return false;
@@ -87,7 +88,7 @@ app.RouteEditingController.prototype.showRatings = function() {
  * @return {appx.Document}
  * @export
  */
-app.RouteEditingController.prototype.handleAssociation = function(data, doc,
+exports.prototype.handleAssociation = function(data, doc,
   doctype) {
   // when creating a route, make the first associated wp a main one
   if (!data.document_id && data.associations.waypoints.length === 1) {
@@ -101,4 +102,7 @@ app.RouteEditingController.prototype.handleAssociation = function(data, doc,
   return data;
 };
 
-app.module.controller('appRouteEditingController', app.RouteEditingController);
+appBase.module.controller('appRouteEditingController', exports);
+
+
+export default exports;

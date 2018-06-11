@@ -1,14 +1,14 @@
-goog.provide('app.loadingDirective');
-
-goog.require('app');
-
+/**
+ * @module app.loadingDirective
+ */
+import appBase from './index.js';
 
 /**
  * @param {angular.$http} $http
  * @return {angular.Directive} directive
  * @ngInject
  */
-app.loadingDirective = function($http) {
+const exports = function($http) {
   return {
     restrict: 'A',
     scope: true,
@@ -33,4 +33,7 @@ app.loadingDirective = function($http) {
 };
 
 
-app.module.directive('appLoading', app.loadingDirective);
+appBase.module.directive('appLoading', exports);
+
+
+export default exports;

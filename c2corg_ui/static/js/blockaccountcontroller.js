@@ -1,7 +1,7 @@
-goog.provide('app.BlockAccountController');
-
-goog.require('app');
-
+/**
+ * @module app.BlockAccountController
+ */
+import appBase from './index.js';
 
 /**
  * @param {app.Authentication} appAuthentication
@@ -10,7 +10,7 @@ goog.require('app');
  * @ngInject
  * @struct
  */
-app.BlockAccountController = function(appAuthentication, appApi) {
+const exports = function(appAuthentication, appApi) {
 
   /**
    * @type {app.Api}
@@ -47,7 +47,7 @@ app.BlockAccountController = function(appAuthentication, appApi) {
 /**
  * @export
  */
-app.BlockAccountController.prototype.block = function() {
+exports.prototype.block = function() {
   this.api_.blockAccount(this.userId).then((response) => {
     this.accountBlocked = true;
   });
@@ -57,10 +57,13 @@ app.BlockAccountController.prototype.block = function() {
 /**
  * @export
  */
-app.BlockAccountController.prototype.unblock = function() {
+exports.prototype.unblock = function() {
   this.api_.unblockAccount(this.userId).then((response) => {
     this.accountBlocked = false;
   });
 };
 
-app.module.controller('appBlockAccountController', app.BlockAccountController);
+appBase.module.controller('appBlockAccountController', exports);
+
+
+export default exports;

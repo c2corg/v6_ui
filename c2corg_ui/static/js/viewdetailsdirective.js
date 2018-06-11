@@ -1,11 +1,12 @@
-goog.provide('app.viewDetailsDirective');
-
-goog.require('app');
+/**
+ * @module app.viewDetailsDirective
+ */
+import appBase from './index.js';
 
 /**
  * @return {angular.Directive} directive for detailed views
  */
-app.viewDetailsDirective = function() {
+const exports = function() {
   return {
     restrict: 'A',
     controller: 'AppViewDetailsController',
@@ -33,4 +34,7 @@ app.viewDetailsDirective = function() {
   };
 };
 
-app.module.directive('appViewDetails', app.viewDetailsDirective);
+appBase.module.directive('appViewDetails', exports);
+
+
+export default exports;

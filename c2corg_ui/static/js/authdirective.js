@@ -1,7 +1,7 @@
-goog.provide('app.authDirective');
-
-goog.require('app');
-
+/**
+ * @module app.authDirective
+ */
+import appBase from './index.js';
 
 /**
  * This directive is used to manage the login/register forms.
@@ -9,7 +9,7 @@ goog.require('app');
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-app.authDirective = function() {
+const exports = function() {
   return {
     restrict: 'A',
     scope: true,
@@ -19,4 +19,7 @@ app.authDirective = function() {
   };
 };
 
-app.module.directive('appAuth', app.authDirective);
+appBase.module.directive('appAuth', exports);
+
+
+export default exports;

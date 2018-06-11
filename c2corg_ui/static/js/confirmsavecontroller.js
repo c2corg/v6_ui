@@ -1,17 +1,20 @@
-goog.provide('app.ConfirmSaveController');
+/**
+ * @module app.ConfirmSaveController
+ */
+import appBase from './index.js';
 
-goog.require('app');
-
-
-app.ConfirmSaveController = function() {
+const exports = function() {
 };
 
 /**
  * @export
  */
-app.ConfirmSaveController.prototype.close = function(action) {
+exports.prototype.close = function(action) {
   this.modalInstance_.close(action);
 };
 
 
-app.module.controller('appConfirmSaveModalController', app.ConfirmSaveController);
+appBase.module.controller('appConfirmSaveModalController', exports);
+
+
+export default exports;

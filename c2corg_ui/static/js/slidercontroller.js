@@ -1,7 +1,7 @@
-goog.provide('app.SliderController');
-
-goog.require('app');
-
+/**
+ * @module app.SliderController
+ */
+import appBase from './index.js';
 
 /**
  * @param {angular.Scope} $scope Scope.
@@ -12,7 +12,7 @@ goog.require('app');
  * @struct
  * @ngInject
  */
-app.SliderController = function($scope, $element, $attrs, ngeoLocation) {
+const exports = function($scope, $element, $attrs, ngeoLocation) {
 
   /**
    * @type {angular.Scope}
@@ -62,10 +62,10 @@ app.SliderController = function($scope, $element, $attrs, ngeoLocation) {
     this.step = 1;
   } else {
     this.boundaries = [
-      parseInt($attrs['min'], 10) || app.SliderController.MIN,
-      parseInt($attrs['max'], 10) || app.SliderController.MAX
+      parseInt($attrs['min'], 10) || exports.MIN,
+      parseInt($attrs['max'], 10) || exports.MAX
     ];
-    this.step = parseInt($attrs['step'], 10) || app.SliderController.STEP;
+    this.step = parseInt($attrs['step'], 10) || exports.STEP;
   }
 
   /**
@@ -84,7 +84,7 @@ app.SliderController = function($scope, $element, $attrs, ngeoLocation) {
    * @type {string}
    * @export
    */
-  this.unit = 'unit' in $attrs ? $attrs['unit'] : app.SliderController.UNIT;
+  this.unit = 'unit' in $attrs ? $attrs['unit'] : exports.UNIT;
 
   /**
    * @type {string}
@@ -132,7 +132,7 @@ app.SliderController = function($scope, $element, $attrs, ngeoLocation) {
 /**
  * @private
  */
-app.SliderController.prototype.getRangeFromUrl_ = function() {
+exports.prototype.getRangeFromUrl_ = function() {
   const param = this.filter ? this.location_.getFragmentParam(this.filter) : '';
   if (param) {
     let range = param.split(',');
@@ -158,7 +158,7 @@ app.SliderController.prototype.getRangeFromUrl_ = function() {
 /**
  * @private
  */
-app.SliderController.prototype.handleRangeChange_ = function() {
+exports.prototype.handleRangeChange_ = function() {
   if (!this.filter) {
     return;
   }
@@ -181,7 +181,7 @@ app.SliderController.prototype.handleRangeChange_ = function() {
 /**
  * @private
  */
-app.SliderController.prototype.handleClear_ = function() {
+exports.prototype.handleClear_ = function() {
   this.updateMinMax_(this.boundaries);
   $(this.element_).find('.range-between').slider('setValue', this.boundaries);
 };
@@ -191,7 +191,7 @@ app.SliderController.prototype.handleClear_ = function() {
  * @param {Array.<number>} values Array of min/max values.
  * @private
  */
-app.SliderController.prototype.updateMinMax_ = function(values) {
+exports.prototype.updateMinMax_ = function(values) {
   this.min = values[0];
   this.max = values[1];
   this.dispMin = this.getDisp_(this.min);
@@ -204,7 +204,7 @@ app.SliderController.prototype.updateMinMax_ = function(values) {
  * @return {number|string}
  * @private
  */
-app.SliderController.prototype.getDisp_ = function(value) {
+exports.prototype.getDisp_ = function(value) {
   return this.showStringValues_ ? this.valuesList[value] : value;
 };
 
@@ -213,28 +213,31 @@ app.SliderController.prototype.getDisp_ = function(value) {
  * @const
  * @type {number}
  */
-app.SliderController.MIN = 0;
+exports.MIN = 0;
 
 
 /**
  * @const
  * @type {number}
  */
-app.SliderController.MAX = 9999;
+exports.MAX = 9999;
 
 
 /**
  * @const
  * @type {number}
  */
-app.SliderController.STEP = 100;
+exports.STEP = 100;
 
 
 /**
  * @const
  * @type {string}
  */
-app.SliderController.UNIT = 'm';
+exports.UNIT = 'm';
 
 
-app.module.controller('AppSliderController', app.SliderController);
+appBase.module.controller('AppSliderController', exports);
+
+
+export default exports;

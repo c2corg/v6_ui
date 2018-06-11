@@ -1,12 +1,12 @@
-goog.provide('app.announcementDirective');
-
-goog.require('app');
-
+/**
+ * @module app.announcementDirective
+ */
+import appBase from './index.js';
 
 /**
  * @return {angular.Directive} The directive specs.
  */
-app.announcementDirective = function() {
+const exports = function() {
   return {
     restrict: 'E',
     controller: 'appAnnouncementController',
@@ -14,4 +14,8 @@ app.announcementDirective = function() {
     templateUrl: '/static/partials/announcement.html'
   };
 };
-app.module.directive('appAnnouncement', app.announcementDirective);
+
+appBase.module.directive('appAnnouncement', exports);
+
+
+export default exports;

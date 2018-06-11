@@ -1,15 +1,16 @@
-goog.require('app');
-
-goog.provide('app.constants');
+/**
+ * @module app.constants
+ */
+import appBase from './index.js';
 
 /**
  * @const
  * Constants for the module.
  * Access them like app.constants.SCREEN
  */
-app.module.constant('constants', app.constants);
+appBase.module.constant('constants', exports);
 
-app.constants = {
+const exports = {
   SCREEN: {
     SMARTPHONE: 768,
     TABLET: 1099,
@@ -50,3 +51,6 @@ app.constants = {
     'ski_rating', 'labande_rating', 'hiking_rating', 'snowshoe_rating', 'mtb_up_rating',
     'mtb_down_rating', 'hiking_mtb_exposition']
 };
+
+
+export default exports;

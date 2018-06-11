@@ -1,8 +1,8 @@
-goog.provide('app.MailinglistsController');
-
-goog.require('app');
-goog.require('app.utils');
-
+/**
+ * @module app.MailinglistsController
+ */
+import appBase from './index.js';
+import appUtils from './utils.js';
 
 /**
  * @param {app.Authentication} appAuthentication
@@ -11,7 +11,7 @@ goog.require('app.utils');
  * @constructor
  * @ngInject
  */
-app.MailinglistsController = function(appAuthentication, appApi, authUrl) {
+const exports = function(appAuthentication, appApi, authUrl) {
 
   /**
    * @type {app.Api}
@@ -30,7 +30,7 @@ app.MailinglistsController = function(appAuthentication, appApi, authUrl) {
       this.mailinglists = response['data'];
     });
   } else {
-    app.utils.redirectToLogin(authUrl);
+    appUtils.redirectToLogin(authUrl);
   }
 };
 
@@ -39,7 +39,7 @@ app.MailinglistsController = function(appAuthentication, appApi, authUrl) {
  * @param {string} listname
  * @export
  */
-app.MailinglistsController.prototype.toggle = function(listname) {
+exports.prototype.toggle = function(listname) {
   goog.asserts.assert(listname in this.mailinglists);
   const data = {};
   data[listname] = !this.mailinglists[listname];
@@ -47,4 +47,7 @@ app.MailinglistsController.prototype.toggle = function(listname) {
 };
 
 
-app.module.controller('appMailinglistsController', app.MailinglistsController);
+appBase.module.controller('appMailinglistsController', exports);
+
+
+export default exports;

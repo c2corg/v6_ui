@@ -1,14 +1,14 @@
-goog.provide('app.preferencesDirective');
-
-goog.require('app');
-
+/**
+ * @module app.preferencesDirective
+ */
+import appBase from './index.js';
 
 /**
  * Directive managing the user preferences.
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-app.preferencesDirective = function() {
+const exports = function() {
   return {
     restrict: 'A',
     controller: 'appPreferencesController',
@@ -16,4 +16,7 @@ app.preferencesDirective = function() {
   };
 };
 
-app.module.directive('appPreferences', app.preferencesDirective);
+appBase.module.directive('appPreferences', exports);
+
+
+export default exports;

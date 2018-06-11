@@ -1,17 +1,20 @@
-goog.provide('app.trustAsHtmlFilter');
-
-goog.require('app');
-
+/**
+ * @module app.trustAsHtmlFilter
+ */
+import appBase from './index.js';
 
 /**
  * @param {angular.$sce} $sce Angular sce service.
  * @ngInject
  * @return {function(angular.$sce):string}
  */
-app.trustAsHtmlFilter = function($sce) {
+const exports = function($sce) {
   return function(text) {
     return $sce.trustAsHtml(text);
   };
 };
 
-app.module.filter('appTrustAsHtml', app.trustAsHtmlFilter);
+appBase.module.filter('appTrustAsHtml', exports);
+
+
+export default exports;

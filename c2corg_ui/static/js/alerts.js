@@ -1,13 +1,13 @@
-goog.provide('app.Alerts');
-
-goog.require('app');
-
+/**
+ * @module app.Alerts
+ */
+import appBase from './index.js';
 
 /**
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @constructor
  */
-app.Alerts = function(gettextCatalog) {
+const exports = function(gettextCatalog) {
 
   /**
    * @type {Array.<appx.AlertMessage>}
@@ -32,7 +32,7 @@ app.Alerts = function(gettextCatalog) {
  * @param {string} str String to have extracted by gettext tool
  * @return {string}
  */
-app.Alerts.prototype.gettext = function(str) {
+exports.prototype.gettext = function(str) {
   return str;
 };
 
@@ -41,7 +41,7 @@ app.Alerts.prototype.gettext = function(str) {
  * @param {appx.AlertMessage} data Alert data.
  * @export
  */
-app.Alerts.prototype.add = function(data) {
+exports.prototype.add = function(data) {
   const timeout = data['timeout'] || 0;
   this.addLoading_(timeout);
   let msg = data['msg'];
@@ -59,7 +59,7 @@ app.Alerts.prototype.add = function(data) {
  * @param {(string|Object)} msg
  * @export
  */
-app.Alerts.prototype.addSuccess = function(msg) {
+exports.prototype.addSuccess = function(msg) {
   this.add({
     'type': 'success',
     'msg': msg,
@@ -72,7 +72,7 @@ app.Alerts.prototype.addSuccess = function(msg) {
  * @param {(string|Object)} msg
  * @export
  */
-app.Alerts.prototype.addError = function(msg) {
+exports.prototype.addError = function(msg) {
   this.add({
     'type': 'danger',
     'msg': msg,
@@ -86,7 +86,7 @@ app.Alerts.prototype.addError = function(msg) {
  * @param {Object} errors
  * @export
  */
-app.Alerts.prototype.addErrorWithMsg = function(msg, errors) {
+exports.prototype.addErrorWithMsg = function(msg, errors) {
   const content = this.filterStr_(msg) + '<br>' + this.formatErrorMsg_(errors);
   const timeout = 5000;
   this.addLoading_(timeout);
@@ -102,7 +102,7 @@ app.Alerts.prototype.addErrorWithMsg = function(msg, errors) {
  * @return {Array.<appx.AlertMessage>}
  * @export
  */
-app.Alerts.prototype.get = function() {
+exports.prototype.get = function() {
   return this.alerts_;
 };
 
@@ -111,7 +111,7 @@ app.Alerts.prototype.get = function() {
  * @param {number} timeout
  * @private
  */
-app.Alerts.prototype.addLoading_ = function(timeout) {
+exports.prototype.addLoading_ = function(timeout) {
   $('main, aside, .page-header').addClass('loading');
   setTimeout(() => {
     $('main, aside, .page-header').removeClass('loading');
@@ -124,7 +124,7 @@ app.Alerts.prototype.addLoading_ = function(timeout) {
  * @return {string}
  * @private
  */
-app.Alerts.prototype.formatErrorMsg_ = function(response) {
+exports.prototype.formatErrorMsg_ = function(response) {
   if (!('data' in response) || !response['data'] ||
       !('errors' in response['data']) ||
       !response['data']['errors']) {
@@ -148,7 +148,7 @@ app.Alerts.prototype.formatErrorMsg_ = function(response) {
  * @return {string}
  * @private
  */
-app.Alerts.prototype.filterStr_ = function(str) {
+exports.prototype.filterStr_ = function(str) {
   // FIXME use lodash str = _.escape(str);
   return this.gettextCatalog_.getString(str);
 };
@@ -160,7 +160,10 @@ app.Alerts.prototype.filterStr_ = function(str) {
  * @ngInject
  * @return {app.Alerts}
  */
-app.AlertsFactory_ = function(gettextCatalog) {
-  return new app.Alerts(gettextCatalog);
+appBase.AlertsFactory_ = function(gettextCatalog) {
+  return new exports(gettextCatalog);
 };
-app.module.factory('appAlerts', app.AlertsFactory_);
+appBase.module.factory('appAlerts', appBase.AlertsFactory_);
+
+
+export default exports;

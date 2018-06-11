@@ -1,11 +1,12 @@
-goog.provide('app.sidemenu');
-
-goog.require('app');
+/**
+ * @module app.sidemenu
+ */
+import appBase from './index.js';
 
 /**
  * @export
  */
-app.sidemenu = function() {
+const exports = function() {
   /* handle sidebar hiding */
   const body = $('body');
   const content = $('.page-content');
@@ -30,3 +31,6 @@ app.sidemenu = function() {
     $('#content-toggled').remove();
   });
 };
+
+
+export default exports;

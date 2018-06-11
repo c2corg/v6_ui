@@ -1,12 +1,12 @@
-goog.provide('app.followDirective');
-
-goog.require('app');
-
+/**
+ * @module app.followDirective
+ */
+import appBase from './index.js';
 
 /**
  * @return {angular.Directive} The directive specs.
  */
-app.followDirective = function() {
+const exports = function() {
   return {
     restrict: 'E',
     controller: 'appFollowController',
@@ -17,4 +17,8 @@ app.followDirective = function() {
     templateUrl: '/static/partials/follow.html'
   };
 };
-app.module.directive('appFollow', app.followDirective);
+
+appBase.module.directive('appFollow', exports);
+
+
+export default exports;

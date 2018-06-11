@@ -1,12 +1,12 @@
-goog.provide('app.loadPreferencesDirective');
-
-goog.require('app');
-
+/**
+ * @module app.loadPreferencesDirective
+ */
+import appBase from './index.js';
 
 /**
  * @return {angular.Directive}
  */
-app.loadPreferencesDirective = function() {
+const exports = function() {
   return {
     restrict: 'A',
     controller: 'AppLoadPreferencesController',
@@ -23,4 +23,7 @@ app.loadPreferencesDirective = function() {
   };
 };
 
-app.module.directive('appLoadPreferences', app.loadPreferencesDirective);
+appBase.module.directive('appLoadPreferences', exports);
+
+
+export default exports;

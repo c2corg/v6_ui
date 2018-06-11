@@ -1,11 +1,12 @@
-goog.provide('app.activityFilterDirective');
-
-goog.require('app');
+/**
+ * @module app.activityFilterDirective
+ */
+import appBase from './index.js';
 
 /**
  * @return {angular.Directive} The directive specs.
  */
-app.activityFilterDirective = function() {
+const exports = function() {
   return {
     restrict: 'E',
     controller: 'appActivityFilterController',
@@ -17,4 +18,8 @@ app.activityFilterDirective = function() {
     templateUrl: '/static/partials/activityfilter.html'
   };
 };
-app.module.directive('appActivityFilter', app.activityFilterDirective);
+
+appBase.module.directive('appActivityFilter', exports);
+
+
+export default exports;

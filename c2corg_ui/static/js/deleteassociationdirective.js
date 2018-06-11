@@ -1,12 +1,12 @@
-goog.provide('app.deleteAssociationDirective');
-
-goog.require('app');
-
+/**
+ * @module app.deleteAssociationDirective
+ */
+import appBase from './index.js';
 
 /**
  * @return {angular.Directive} Directive Definition Object.
  */
-app.deleteAssociationDirective = function() {
+const exports = function() {
   return {
     restrict: 'E',
     controller: 'AppDeleteAssociationController',
@@ -30,4 +30,7 @@ app.deleteAssociationDirective = function() {
   };
 };
 
-app.module.directive('appDeleteAssociation', app.deleteAssociationDirective);
+appBase.module.directive('appDeleteAssociation', exports);
+
+
+export default exports;

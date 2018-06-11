@@ -1,14 +1,14 @@
-goog.provide('app.doctypeSelectorDirective');
-
-goog.require('app');
-
+/**
+ * @module app.doctypeSelectorDirective
+ */
+import appBase from './index.js';
 
 /**
  * Directive managing the user mailinglists.
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-app.doctypeSelectorDirective = function() {
+const exports = function() {
   return {
     restrict: 'E',
     bindToController: {
@@ -21,4 +21,7 @@ app.doctypeSelectorDirective = function() {
 };
 
 
-app.module.directive('appDoctypeSelector', app.doctypeSelectorDirective);
+appBase.module.directive('appDoctypeSelector', exports);
+
+
+export default exports;

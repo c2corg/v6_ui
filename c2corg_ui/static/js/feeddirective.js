@@ -1,12 +1,12 @@
-goog.provide('app.feedDirective');
-
-goog.require('app');
-
+/**
+ * @module app.feedDirective
+ */
+import appBase from './index.js';
 
 /**
  * @return {angular.Directive} The directive specs.
  */
-app.feedDirective = function() {
+const exports = function() {
   return {
     restrict: 'E',
     controller: 'appFeedController',
@@ -17,4 +17,8 @@ app.feedDirective = function() {
     templateUrl: '/static/partials/feed.html'
   };
 };
-app.module.directive('appFeed', app.feedDirective);
+
+appBase.module.directive('appFeed', exports);
+
+
+export default exports;

@@ -1,14 +1,14 @@
-goog.provide('app.ForumFeedController');
-
-goog.require('app');
-
+/**
+ * @module app.ForumFeedController
+ */
+import appBase from './index.js';
 
 /**
  * @param {app.Api} appApi Api service.
  * @constructor
  * @ngInject
  */
-app.ForumFeedController = function(appApi) {
+const exports = function(appApi) {
 
   /**
    * @type {Array.<Object>}
@@ -44,7 +44,7 @@ app.ForumFeedController = function(appApi) {
  * @param response
  * @private
  */
-app.ForumFeedController.prototype.handleTopics_ = function(response) {
+exports.prototype.handleTopics_ = function(response) {
   const data = response['data'];
   this.errorForum = !('users' in data);
   if (!this.errorForum) {
@@ -62,4 +62,7 @@ app.ForumFeedController.prototype.handleTopics_ = function(response) {
   }
 };
 
-app.module.controller('appForumFeedController', app.ForumFeedController);
+appBase.module.controller('appForumFeedController', exports);
+
+
+export default exports;

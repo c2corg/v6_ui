@@ -1,15 +1,18 @@
-goog.provide('app.capitalize');
-
-goog.require('app');
-
+/**
+ * @module app.capitalize
+ */
+import appBase from './index.js';
 
 /**
  * @return {function(string):string}
  */
-app.capitalize = function() {
+const exports = function() {
   return function(token) {
     return token.charAt(0).toUpperCase() + token.slice(1);
   };
 };
 
-app.module.filter('capitalize', app.capitalize);
+appBase.module.filter('capitalize', exports);
+
+
+export default exports;

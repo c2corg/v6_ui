@@ -1,7 +1,7 @@
-goog.provide('app.SlideInfoController');
-
-goog.require('app');
-
+/**
+ * @module app.SlideInfoController
+ */
+import appBase from './index.js';
 
 /**
  * @param {app.Api} appApi Api service.
@@ -9,7 +9,7 @@ goog.require('app');
  * @constructor
  * @ngInject
  */
-app.SlideInfoController = function(appApi, $scope) {
+const exports = function(appApi, $scope) {
 
   /**
    * @type {app.Api}
@@ -24,4 +24,7 @@ app.SlideInfoController = function(appApi, $scope) {
   this.scope_ = $scope;
 };
 
-app.module.controller('AppSlideInfoController', app.SlideInfoController);
+appBase.module.controller('AppSlideInfoController', exports);
+
+
+export default exports;
