@@ -626,8 +626,11 @@ app.DocumentEditingController.prototype.confirmSave = function(isValid) {
   }
 
   const data = this.scope[this.modelName];
-  const score = this.presetQuality(data);
-  this.storeQuality(data, score);
+  const doctype = app.utils.getDoctype(data['type']);
+  if ((doctype != 'routes') && (doctype != 'waypoints') && (doctype != 'books') && (doctype != 'xreports') && (doctype != 'users') && (doctype != 'areas')) {
+    const score = this.presetQuality(data);
+    this.storeQuality(data, score);
+  }
 
   const template = angular.element('#save-confirmation-modal').clone();
   const modalInstance = this.modal.open({
