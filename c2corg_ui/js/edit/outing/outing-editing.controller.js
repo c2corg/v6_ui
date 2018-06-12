@@ -22,7 +22,9 @@ import DocumentEditingController from '../document/document-editing.controller';
  */
 export default class OutingEditingController extends DocumentEditingController {
   constructor($scope, $element, $attrs, $http, $uibModal, $compile, LangService, appAuthentication, ngeoLocation,
-    appAlerts, appApi, authUrl, appDocument, appUrl, imageUrl) {
+    appAlerts, appApi, authUrl, appDocument, appUrl, imageUrl, UtilsService) {
+    'ngInject';
+
     super($scope, $element, $attrs, $http, $uibModal, $compile, LangService, appAuthentication, ngeoLocation, appAlerts,
       appApi, authUrl, appDocument, appUrl, imageUrl);
 
@@ -59,6 +61,8 @@ export default class OutingEditingController extends DocumentEditingController {
      */
     this.differentDates;
 
+    this.utilsService = UtilsService;
+
     if (this.auth.isAuthenticated()) {
       // allow association only for a new outing to existing route
       if (ngeoLocation.hasFragmentParam('r')) {
@@ -89,7 +93,7 @@ export default class OutingEditingController extends DocumentEditingController {
         this.initConditionsLevels_();
       }
     }
-  };
+  }
 
   /**
    * @param {Object} response Response from the API server.
@@ -97,7 +101,7 @@ export default class OutingEditingController extends DocumentEditingController {
    * @public
    */
   successRead(response) {
-    appDocumentEditingController.prototype.successRead.call(this, response);
+    super.successRead(response);
 
     let outing = this.scope[this.modelName];
     // check if user has right to edit -> the user is one of the associated users
@@ -121,7 +125,7 @@ export default class OutingEditingController extends DocumentEditingController {
       }, 3000);
     }
 
-  };
+  }
 
 
   /**
@@ -173,7 +177,7 @@ export default class OutingEditingController extends DocumentEditingController {
     }
 
     return data;
-  };
+  }
 
 
   /**
@@ -235,7 +239,7 @@ export default class OutingEditingController extends DocumentEditingController {
     }
 
     return outing;
-  };
+  }
 
   /**
    * @param {appx.Document} doc Document attributes.
@@ -413,7 +417,7 @@ export default class OutingEditingController extends DocumentEditingController {
     score = Math.max(score_ski, score_ice, score_climbing);
     score = Math.floor(score);
     return score;
-  };
+  }
 
 
   /**
@@ -427,7 +431,7 @@ export default class OutingEditingController extends DocumentEditingController {
       'level_comment': '',
       'level_place': ''
     }];
-  };
+  }
 
 
   /**
@@ -437,9 +441,8 @@ export default class OutingEditingController extends DocumentEditingController {
    * @return {appx.Document}
    * @export
    */
-  handleAssociation(data, doc,
-    doctype) {
-    doctype = doctype || appBase.utils.getDoctype(doc['type']);
+  handleAssociation(data, doc, doctype) {
+    doctype = doctype || this.utilsService.getDoctype(doc['type']);
 
     // When creating an outing, set the default title and ratings using
     // the first associated route data.
@@ -472,5 +475,5 @@ export default class OutingEditingController extends DocumentEditingController {
     }
 
     return data;
-  };
+  }
 }

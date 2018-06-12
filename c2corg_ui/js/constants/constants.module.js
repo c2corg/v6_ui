@@ -1,22 +1,11 @@
-/**
- * @module app.constants
- */
-import appBase from './index.js';
-
-/**
- * @const
- * Constants for the module.
- * Access them like app.constants.SCREEN
- */
-appBase.module.constant('constants', exports);
-
-const exports = {
-  SCREEN: {
+export default angular
+  .module('c2c.constants', [])
+  .constant('SCREEN', {
     SMARTPHONE: 768,
     TABLET: 1099,
     DEKTOP: 1400
-  },
-  STEPS: {
+  })
+  .constant('STEPS', {
     'climbing_outdoor': 3,
     'climbing_indoor': 3,
     'hut': 3,
@@ -30,8 +19,8 @@ const exports = {
     'weather_station': 3,
     'webcam': 3,
     'slackline_spot': 3
-  },
-  REQUIRED_FIELDS: {
+  })
+  .constant('REQUIRED_FIELDS', {
     'waypoints': ['title', 'lang', 'waypoint_type', 'elevation', 'longitude', 'latitude', 'url'],
     'articles': ['title', 'activities', 'categories', 'article_type'],
     'books': ['title', 'activities', 'book_types'],
@@ -41,16 +30,28 @@ const exports = {
     'profiles': [],
     'xreports': ['title', 'lang', 'activities', 'event_type', 'longitude', 'latitude'],
     'areas': ['title', 'area_type']
-  },
-  documentEditing: {
+  })
+  .constant('documentEditing', {
     FORM_PROJ: 'EPSG:4326',
     DATA_PROJ: 'EPSG:3857'
-  },
-  fullRatingOrdered: ['global_rating', 'rock_rating', 'aid_rating', 'ice_rating', 'mixed_rating',
-    'via_ferrata_rating', 'engagement_rating', 'risk_rating', 'equipment_rating', 'exposition_rock_rating',
-    'ski_rating', 'labande_rating', 'hiking_rating', 'snowshoe_rating', 'mtb_up_rating',
-    'mtb_down_rating', 'hiking_mtb_exposition']
-};
-
-
-export default exports;
+  })
+  .constant('fullRatingOrdered', [
+    'global_rating',
+    'rock_rating',
+    'aid_rating',
+    'ice_rating',
+    'mixed_rating',
+    'via_ferrata_rating',
+    'engagement_rating',
+    'risk_rating',
+    'equipment_rating',
+    'exposition_rock_rating',
+    'ski_rating',
+    'labande_rating',
+    'hiking_rating',
+    'snowshoe_rating',
+    'mtb_up_rating',
+    'mtb_down_rating',
+    'hiking_mtb_exposition'
+  ])
+  .name;

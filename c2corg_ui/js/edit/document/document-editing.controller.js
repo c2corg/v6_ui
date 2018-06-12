@@ -27,8 +27,12 @@ import olGeomPoint from 'ol/geom/Point.js';
  */
 export default class DocumentEditingController {
   constructor($scope, $element, $attrs, $http, $uibModal, $compile, LangService, appAuthentication, ngeoLocation,
-    appAlerts, appApi, authUrl, appDocument, appUrl, imageUrl) {
+    appAlerts, appApi, authUrl, appDocument, appUrl, imageUrl, documentEditing, REQUIRED_FIELDS) {
     'ngInject';
+
+    this.documentEditing = documentEditing;
+
+    this.REQUIRED_FIELDS = REQUIRED_FIELDS;
 
     /**
      * @type {app.Document}
@@ -170,7 +174,7 @@ export default class DocumentEditingController {
   filterData(data) {
     // To be overridden in child classes
     return data;
-  };
+  }
 
 
   /**
@@ -194,7 +198,7 @@ export default class DocumentEditingController {
     this.scope['document'] = data;
     this.documentService.document = data;
     this.scope.$root.$emit('documentDataChange', data);
-  };
+  }
 
 
   /**
@@ -205,7 +209,7 @@ export default class DocumentEditingController {
     const point = /** @type {ol.geom.Point} */
         (this.geojsonFormat_.readGeometry(str));
     return this.getCoordinatesFromPoint_(point);
-  };
+  }
 
 
   /**
@@ -227,7 +231,7 @@ export default class DocumentEditingController {
         data['read_lonlat'] = angular.copy(data['lonlat']);
       }
     }
-  };
+  }
 
 
   /**
@@ -236,7 +240,7 @@ export default class DocumentEditingController {
   isPointType_() {
     const nonPointModels = ['outing', 'route', 'area'];
     return $.inArray(this.modelName, nonPointModels) === -1;
-  };
+  }
 
 
   /**
@@ -269,8 +273,8 @@ export default class DocumentEditingController {
       if ('longitude' in lonlat && 'latitude' in lonlat) {
         const point = new olGeomPoint([lonlat['longitude'], lonlat['latitude']]);
         point.transform(
-          appBase.constants.documentEditing.FORM_PROJ,
-          appBase.constants.documentEditing.DATA_PROJ
+          this.documentEditing.FORM_PROJ,
+          this.documentEditing.DATA_PROJ
         );
         // If creating a new document, the model has no geometry attribute yet:
         data['geometry'] = data['geometry'] || {};
@@ -324,7 +328,7 @@ export default class DocumentEditingController {
           this.module_, this.id, data['locales'][0]);
       });
     }
-  };
+  }
 
 
   /**
@@ -336,7 +340,7 @@ export default class DocumentEditingController {
     // Do nothing special in the standard editing controller.
     // Might be overridden in inheriting controllers.
     return data;
-  };
+  }
 
 
   /**
@@ -347,7 +351,7 @@ export default class DocumentEditingController {
   cancel(view_url, index_url) {
     const url = !view_url || this.isNewLang_ ? index_url : view_url;
     window.location.href = url;
-  };
+  }
 
 
   /**
@@ -360,7 +364,7 @@ export default class DocumentEditingController {
       const lonlat = data['lonlat'];
       if ('longitude' in lonlat && 'latitude' in lonlat) {
         const point = new olGeomPoint([lonlat['longitude'], lonlat['latitude']]);
-        point.transform(appBase.constants.documentEditing.FORM_PROJ, appBase.constants.documentEditing.DATA_PROJ);
+        point.transform(this.documentEditing.FORM_PROJ, this.documentEditing.DATA_PROJ);
         // If creating a new document, the model has no geometry attribute yet:
         data['geometry'] = data['geometry'] || {};
         data['geometry']['geom'] = this.geojsonFormat_.writeGeometry(point);
@@ -368,7 +372,7 @@ export default class DocumentEditingController {
         this.scope.$root.$emit('documentDataChange', data);
       }
     }
-  };
+  }
 
 
   /**
@@ -418,7 +422,7 @@ export default class DocumentEditingController {
     }
 
     this.hasGeomChanged_ = true;
-  };
+  }
 
 
   /**
@@ -431,7 +435,7 @@ export default class DocumentEditingController {
     this.hasGeomChanged_ = false;
     this.updateGeometry_(data);
     this.scope.$root.$emit('documentDataChange', data);
-  };
+  }
 
 
   /**
@@ -441,12 +445,12 @@ export default class DocumentEditingController {
    */
   getCoordinatesFromPoint_(geometry) {
     geometry.transform(
-      appBase.constants.documentEditing.DATA_PROJ,
-      appBase.constants.documentEditing.FORM_PROJ
+      this.documentEditing.DATA_PROJ,
+      this.documentEditing.FORM_PROJ
     );
     const coords = geometry.getCoordinates();
     return coords.map(coord => Math.round(coord * 1000000) / 1000000);
-  };
+  }
 
   /**
    * @param {appx.Document} doc
@@ -457,7 +461,7 @@ export default class DocumentEditingController {
    */
   hasMissingProps(doc, showError) {
     const type = doc.type ? appUtils.getDoctype(doc.type) : this.module_;
-    const requiredFields = appBase.constants.REQUIRED_FIELDS[type] || null;
+    const requiredFields = this.REQUIRED_FIELDS[type] || null;
     if (!requiredFields) {
       return false;
     }
@@ -510,7 +514,7 @@ export default class DocumentEditingController {
       this.alerts.addError(missing);
     }
     return hasError;
-  };
+  }
 
 
   /**
@@ -523,7 +527,7 @@ export default class DocumentEditingController {
    */
   pushToArray(object, property, value, event) {
     appUtils.pushToArray(object, property, value, event);
-  };
+  }
 
 
   /**
@@ -535,7 +539,7 @@ export default class DocumentEditingController {
    */
   toggleOrientation(orientation, document, e) {
     appUtils.pushToArray(document, 'orientations', orientation, e);
-  };
+  }
 
 
   /**
@@ -569,7 +573,7 @@ export default class DocumentEditingController {
           size: 'xl'
         });
       });
-  };
+  }
 
 
   /**
@@ -599,7 +603,7 @@ export default class DocumentEditingController {
         this.submitForm(isValid);
       }
     });
-  };
+  }
 
 
   /**
@@ -614,7 +618,7 @@ export default class DocumentEditingController {
       size: sizem || 'lg',
       template: this.compile(template)(this.scope)
     });
-  };
+  }
 
   /**
    * @param {appx.Document} doc Document attributes.
@@ -624,7 +628,7 @@ export default class DocumentEditingController {
     // Do nothing special in the standard editing controller.
     // Will be overridden in inheriting controllers.
     return 1;
-  };
+  }
 
   /**
    * @param {appx.Document} doc Document attributes.
@@ -650,5 +654,5 @@ export default class DocumentEditingController {
       default:
         doc['quality'] = 'draft';
     }
-  };
-};
+  }
+}

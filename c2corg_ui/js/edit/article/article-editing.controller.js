@@ -23,17 +23,17 @@ import DocumentEditingController from '../document/document-editing.controller';
 export default class ArticleEditingController extends DocumentEditingController {
   constructor($scope, $element, $attrs, $http, $uibModal, $compile, LangService, appAuthentication, ngeoLocation,
     appAlerts, appApi, authUrl, appDocument, appUrl, imageUrl) {
-      'ngInject';
+    'ngInject';
 
-      super($scope, $element, $attrs, $http, $uibModal, $compile, LangService, appAuthentication, ngeoLocation,
-        appAlerts, appApi, authUrl, appDocument, appUrl, imageUrl);
+    super($scope, $element, $attrs, $http, $uibModal, $compile, LangService, appAuthentication, ngeoLocation,
+      appAlerts, appApi, authUrl, appDocument, appUrl, imageUrl);
 
-      /**
-       * @type {?string}
-       * @export
-       */
-      this.initialArticleType = null;
-    }
+    /**
+     * @type {?string}
+     * @export
+     */
+    this.initialArticleType = null;
+  }
 
   /**
    * @param {appx.Document} data
@@ -44,7 +44,7 @@ export default class ArticleEditingController extends DocumentEditingController 
   filterData(data) {
     this.initialArticleType = data['article_type'];
     return data;
-  };
+  }
 
   /**
    * @param {appx.Document} doc Document attributes.
@@ -87,5 +87,5 @@ export default class ArticleEditingController extends DocumentEditingController 
 
     score = Math.min(score, 4);
     return score;
-  };
-};
+  }
+}
