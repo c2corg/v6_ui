@@ -1,5 +1,7 @@
 export default class ItemsController {
   constructor(ItemsService) {
+    'ngInject';
+
     this.items = [
       {
         name: ItemsService.toto()
@@ -11,4 +13,3 @@ export default class ItemsController {
   }
 }
 
-ItemsController.$inject = ['ItemsService'];

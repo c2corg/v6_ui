@@ -23,10 +23,10 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
     <label class="label label-primary" ng-bind="id ? ('Editing a report' | translate) : ('Creating a report' | translate)"></label>
   </h1>
 
-  <form app-loading app-document-editing="xreports" app-document-editing-model="xreport"
-    app-document-editing-controller-name="appXreportEditingController"
+  <form app-loading c2c-document-editing="xreports" c2c-document-editing-model="xreport"
+    c2c-document-editing-controller-name="appXreportEditingController"
   % if updating_doc:
-    app-document-editing-id="${xreport_id}" app-document-editing-lang="${xreport_lang}"
+    c2c-document-editing-id="${xreport_id}" c2c-document-editing-lang="${xreport_lang}"
   % endif
     class="document-editing" name="editForm" novalidate>
 

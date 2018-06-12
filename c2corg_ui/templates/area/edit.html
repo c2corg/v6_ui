@@ -23,10 +23,10 @@ from c2corg_common.attributes import default_langs, area_types
     <label class="label label-primary" ng-bind="id ? ('Editing an area' | translate) : ('Creating an area' | translate)"></label>
   </h1>
 
-  <form app-loading app-document-editing="areas" app-document-editing-model="area"
-    app-document-editing-controller-name="appDocumentEditingController"
+  <form app-loading c2c-document-editing="areas" c2c-document-editing-model="area"
+    c2c-document-editing-controller-name="appDocumentEditingController"
   % if updating_doc:
-    app-document-editing-id="${area_id}" app-document-editing-lang="${area_lang}"
+    c2c-document-editing-id="${area_id}" c2c-document-editing-lang="${area_lang}"
   % endif
     class="document-editing" name="editForm" novalidate>
 

@@ -9,8 +9,8 @@ import appBase from './index.js';
  * one. The fields and validations are set and performed in the form itself.
  *
  * @example
- * <form app-document-editing="waypoints" app-document-editing-model="waypoint"
- *   app-document-editing-id="42" app-document-editing-lang="fr"
+ * <form c2c-document-editing="waypoints" c2c-document-editing-model="waypoint"
+ *   c2c-document-editing-id="42" c2c-document-editing-lang="fr"
  *   name="editForm" novalidate
  *   ng-submit="editCtrl.submitForm(editForm.$valid)">
  *
@@ -21,19 +21,15 @@ import appBase from './index.js';
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-const exports = function() {
+const DocumentEditingDirective = () => {
   return {
     restrict: 'A',
     scope: true,
     controller: '@',
-    name: 'appDocumentEditingControllerName',
+    name: 'c2cDocumentEditingControllerName',
     controllerAs: 'editCtrl',
     bindToController: true
   };
 };
 
-
-appBase.module.directive('appDocumentEditing', exports);
-
-
-export default exports;
+export default DocumentEditingDirective;

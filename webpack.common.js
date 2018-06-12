@@ -3,7 +3,7 @@ const path = require('path');
 module.exports = {
   entry: [
     // 'babel-polyfill',
-    './c2corg_ui/static/js/app.js'
+    './c2corg_ui/js/app.js'
   ],
   output: {
     path: path.resolve(__dirname, 'dist'),

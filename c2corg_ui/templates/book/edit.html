@@ -20,10 +20,10 @@ from c2corg_common.attributes import default_langs, quality_types, activities, b
     <label class="label label-primary" ng-bind="id ? ('Editing a book' | translate) : ('Creating a book' | translate)"></label>
   </h1>
 
-  <form app-loading app-document-editing="books" app-document-editing-model="book"
-    app-document-editing-controller-name="appDocumentEditingController"
+  <form app-loading c2c-document-editing="books" c2c-document-editing-model="book"
+    c2c-document-editing-controller-name="appDocumentEditingController"
   % if updating_doc:
-    app-document-editing-id="${book_id}" app-document-editing-lang="${book_lang}"
+    c2c-document-editing-id="${book_id}" c2c-document-editing-lang="${book_lang}"
   % endif
     class="document-editing" name="editForm" novalidate>
 
