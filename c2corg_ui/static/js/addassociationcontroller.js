@@ -2,19 +2,19 @@
  * @module app.AddAssociationController
  */
 /**
- * @param {app.Api} appApi The API service
+ * @param {app.Api} ApiService The API service
  * @param {app.Document} appDocument service
  * @constructor
  * @struct
  * @ngInject
  */
-const exports = function(appApi, appDocument) {
+const exports = function(ApiService, appDocument) {
 
   /**
-   * @type {app.Api} appApi The API service
+   * @type {app.Api} ApiService The API service
    * @private
    */
-  this.api_ = appApi;
+  this.apiService_ = ApiService;
 
   /**
    * @type {app.Document}
@@ -67,7 +67,7 @@ exports.prototype.associate = function(doc) {
     parentId = this.parentId;
   }
 
-  this.api_.associateDocument(parentId, childId).then(() => {
+  this.apiService_.associateDocument(parentId, childId).then(() => {
     if (parentType === 'waypoints' && doc['type'] === 'w') {
       // associating a waypoint to a waypoint
       this.documentService_.pushToAssociations(doc, 'waypoint_children');

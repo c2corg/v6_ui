@@ -1,4 +1,3 @@
-import appUtils from './utils.js';
 import googAsserts from 'goog/asserts.js';
 import olBase from 'ol.js';
 import olFormatGeoJSON from 'ol/format/GeoJSON.js';
@@ -17,7 +16,7 @@ import olGeomPoint from 'ol/geom/Point.js';
  * @param {app.Authentication} appAuthentication
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {app.Alerts} appAlerts
- * @param {app.Api} appApi Api service.
+ * @param {app.Api} ApiService Api service.
  * @param {string} authUrl Base URL of the authentication page.
  * @param {app.Document} appDocument
  * @param {app.Url} appUrl URL service.
@@ -27,12 +26,14 @@ import olGeomPoint from 'ol/geom/Point.js';
  */
 export default class DocumentEditingController {
   constructor($scope, $element, $attrs, $http, $uibModal, $compile, LangService, appAuthentication, ngeoLocation,
-    appAlerts, appApi, authUrl, appDocument, appUrl, imageUrl, documentEditing, REQUIRED_FIELDS) {
+    appAlerts, ApiService, authUrl, appDocument, UrlService, imageUrl, documentEditing, REQUIRED_FIELDS, UtilsService) {
     'ngInject';
 
     this.documentEditing = documentEditing;
 
     this.REQUIRED_FIELDS = REQUIRED_FIELDS;
+
+    this.utilsService = UtilsService;
 
     /**
      * @type {app.Document}
@@ -44,7 +45,7 @@ export default class DocumentEditingController {
      * @type {string}
      * @private
      */
-    this.authUrl_ = authUrl;
+    this.authurlService = authUrl;
 
     /**
      * @type {app.Authentication}
@@ -111,13 +112,13 @@ export default class DocumentEditingController {
      * @type {app.Api}
      * @private
      */
-    this.api_ = appApi;
+    this.apiService_ = ApiService;
 
     /**
      * @type {app.Url}
      * @private
      */
-    this.url_ = appUrl;
+    this.urlService = UrlService;
 
     /**
      * @type {angular.$http}
@@ -144,7 +145,7 @@ export default class DocumentEditingController {
         // Get document attributes from the API to feed the model:
         googAsserts.assert(!goog.isNull(this.id));
         googAsserts.assert(!goog.isNull(this.lang_));
-        this.api_.readDocument(this.module_, this.id, this.lang_, true).then(
+        this.apiService_.readDocument(this.module_, this.id, this.lang_, true).then(
           this.successRead.bind(this)
         );
       } else if (!this.id) {
@@ -153,7 +154,7 @@ export default class DocumentEditingController {
       }
     } else {
       // Redirect to the auth page
-      appUtils.redirectToLogin(this.authUrl_);
+      this.utilsService.redirectToLogin(this.authurlService);
       return;
     }
 
@@ -313,8 +314,8 @@ export default class DocumentEditingController {
         'message': message,
         'document': data
       };
-      this.api_.updateDocument(this.module_, this.id, data).then(() => {
-        window.location.href = this.url_.buildDocumentUrl(
+      this.apiService_.updateDocument(this.module_, this.id, data).then(() => {
+        window.location.href = this.urlService.buildDocumentUrl(
           this.module_, this.id, this.documentService.document['locales'][0]);
       }
       );
@@ -322,9 +323,9 @@ export default class DocumentEditingController {
       // creating a new document
       this.lang_ = data['locales'][0]['lang'];
       data = this.prepareData(data);
-      this.api_.createDocument(this.module_, data).then((response) => {
+      this.apiService_.createDocument(this.module_, data).then((response) => {
         this.id = response['data']['document_id'];
-        window.location.href = this.url_.buildDocumentUrl(
+        window.location.href = this.urlService.buildDocumentUrl(
           this.module_, this.id, data['locales'][0]);
       });
     }
@@ -460,7 +461,7 @@ export default class DocumentEditingController {
    * @return {boolean | undefined}
    */
   hasMissingProps(doc, showError) {
-    const type = doc.type ? appUtils.getDoctype(doc.type) : this.module_;
+    const type = doc.type ? this.utilsService.getDoctype(doc.type) : this.module_;
     const requiredFields = this.REQUIRED_FIELDS[type] || null;
     if (!requiredFields) {
       return false;
@@ -526,7 +527,7 @@ export default class DocumentEditingController {
    * @export
    */
   pushToArray(object, property, value, event) {
-    appUtils.pushToArray(object, property, value, event);
+    this.utilsService.pushToArray(object, property, value, event);
   }
 
 
@@ -538,7 +539,7 @@ export default class DocumentEditingController {
    * @export
    */
   toggleOrientation(orientation, document, e) {
-    appUtils.pushToArray(document, 'orientations', orientation, e);
+    this.utilsService.pushToArray(document, 'orientations', orientation, e);
   }
 
 

@@ -8,7 +8,7 @@ import olFormatGeoJSON from 'ol/format/GeoJSON.js';
 
 /**
  * @param {angular.Scope} $scope Directive scope.
- * @param {app.Api} appApi Api service.
+ * @param {app.Api} ApiService Api service.
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @param {angular.$q} $q Angular promises/deferred service.
@@ -16,7 +16,7 @@ import olFormatGeoJSON from 'ol/format/GeoJSON.js';
  * @struct
  * @ngInject
  */
-const exports = function($scope, appApi, ngeoLocation,
+const exports = function($scope, ApiService, ngeoLocation,
   gettextCatalog, $q) {
 
   /**
@@ -47,7 +47,7 @@ const exports = function($scope, appApi, ngeoLocation,
    * @type {app.Api}
    * @private
    */
-  this.api_ = appApi;
+  this.apiService_ = ApiService;
 
   /**
    * @type {ngeo.Location}
@@ -137,7 +137,7 @@ exports.prototype.getResults_ = function() {
   qstr += '&pl=' + this.gettextCatalog_.currentLanguage;
 
   this.canceler_ = this.$q_.defer();
-  this.api_.listDocuments(this.doctype, qstr, this.canceler_.promise).
+  this.apiService_.listDocuments(this.doctype, qstr, this.canceler_.promise).
     then(resp => {
       this.canceler_ = null;
       this.successList_(resp);

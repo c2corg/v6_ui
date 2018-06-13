@@ -6,18 +6,18 @@ import appUtils from './utils.js';
 
 /**
  * @param {app.Authentication} appAuthentication
- * @param {app.Api} appApi Api service.
+ * @param {app.Api} ApiService Api service.
  * @param {string} authUrl Base URL of the authentication page.
  * @constructor
  * @ngInject
  */
-const exports = function(appAuthentication, appApi, authUrl) {
+const exports = function(appAuthentication, ApiService, authUrl) {
 
   /**
    * @type {app.Api}
    * @private
    */
-  this.api_ = appApi;
+  this.apiService_ = ApiService;
 
   /**
    * @type {Object}
@@ -26,7 +26,7 @@ const exports = function(appAuthentication, appApi, authUrl) {
   this.mailinglists = null;
 
   if (appAuthentication.isAuthenticated()) {
-    this.api_.readMailinglists().then((response) => {
+    this.apiService_.readMailinglists().then((response) => {
       this.mailinglists = response['data'];
     });
   } else {
@@ -43,7 +43,7 @@ exports.prototype.toggle = function(listname) {
   goog.asserts.assert(listname in this.mailinglists);
   const data = {};
   data[listname] = !this.mailinglists[listname];
-  this.api_.updateMailinglists(data);
+  this.apiService_.updateMailinglists(data);
 };
 
 

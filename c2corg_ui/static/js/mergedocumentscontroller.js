@@ -5,14 +5,14 @@ import appBase from './index.js';
 
 /**
  * @param {appx.Document} documentData Data set as module value in the HTML.
- * @param {app.Api} appApi appApi.
+ * @param {app.Api} ApiService Api service.
  * @param {app.Alerts} appAlerts
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @param {ui.bootstrap.$modalStack} $uibModalStack $uibModalStack.
  * @constructor
  * @ngInject
  */
-const exports = function(documentData, appApi, appAlerts, gettextCatalog, $uibModalStack) {
+const exports = function(documentData, ApiService, appAlerts, gettextCatalog, $uibModalStack) {
 
   /**
    * @type {appx.Document}
@@ -24,7 +24,7 @@ const exports = function(documentData, appApi, appAlerts, gettextCatalog, $uibMo
    * @type {app.Api}
    * @private
    */
-  this.appApi_ = appApi;
+  this.apiService_ = ApiService;
 
   /**
    * @type {app.Alerts}
@@ -77,7 +77,7 @@ exports.prototype.mergeDocuments = function() {
 
   const msg = this.gettextCatalog_.getString('Are you sure you want to merge?');
   if (window.confirm(msg)) {
-    this.appApi_.mergeDocuments(
+    this.apiService_.mergeDocuments(
       this.sourceDocument.document_id, this.targetDocument.document_id)
       .then(
         (response) => {

@@ -8,7 +8,7 @@ import appUtils from './utils.js';
  * @param {app.Authentication} appAuthentication
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {app.Alerts} appAlerts
- * @param {app.Api} appApi
+ * @param {app.Api} ApiService
  * @param {string} authUrl Base URL of the authentication page.
  * @param {function(string):string} gettext Marker function provided
  *   by angular-gettext.
@@ -16,7 +16,7 @@ import appUtils from './utils.js';
  * @ngInject
  */
 const exports = function(appAuthentication, ngeoLocation,
-  appAlerts, appApi, authUrl, gettext) {
+  appAlerts, ApiService, authUrl, gettext) {
 
   /**
    * @type {app.Authentication}
@@ -28,7 +28,7 @@ const exports = function(appAuthentication, ngeoLocation,
    * @type {app.Api}
    * @private
    */
-  this.api_ = appApi;
+  this.apiService_ = ApiService;
 
   /**
    * @type {string}
@@ -73,7 +73,7 @@ exports.prototype.showLogin = function() {
  * @export
  */
 exports.prototype.logout = function() {
-  this.api_.logoutFromApiAndDiscourse().then(() => {
+  this.apiService_.logoutFromApiAndDiscourse().then(() => {
     this.alerts_.addSuccess(this.gettext('You have been disconnected'));
   }).finally(() => {
     this.auth.removeUserData();

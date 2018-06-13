@@ -46,7 +46,7 @@ import appSimplify from './simplify.js';
  * @ngInject
  */
 const exports = function($scope, mapFeatureCollection, ngeoLocation,
-  ngeoDebounce, appUrl, appBiodivsports, LangService, $uibModal, imgPath) {
+  ngeoDebounce, UrlService, appBiodivsports, LangService, $uibModal, imgPath) {
 
   /**
    * @type {number}
@@ -213,7 +213,7 @@ const exports = function($scope, mapFeatureCollection, ngeoLocation,
    * @type {app.Url}
    * @private
    */
-  this.url_ = appUrl;
+  this.urlService = UrlService;
 
   /**
    * @type {app.Biodivsports}
@@ -939,7 +939,7 @@ exports.prototype.handleMapFeatureClick_ = function(event) {
       if (module === 'routes' && feature.get('title_prefix')) {
         locale['title_prefix'] = feature.get('title_prefix');
       }
-      window.location.href = this.url_.buildDocumentUrl(
+      window.location.href = this.urlService.buildDocumentUrl(
         module, id, /** @type {appx.DocumentLocale} */ (locale));
     } else if (source === 'biodivsports') {
       this.modal_.open({

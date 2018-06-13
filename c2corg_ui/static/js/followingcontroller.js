@@ -9,18 +9,18 @@ appBase.module.directive('appFollowing', appBase.followingDirective);
 
 /**
  * @param {app.Authentication} appAuthentication
- * @param {app.Api} appApi Api service.
+ * @param {app.Api} ApiService Api service.
  * @param {string} authUrl Base URL of the authentication page.
  * @constructor
  * @ngInject
  */
-const exports = function(appAuthentication, appApi, authUrl) {
+const exports = function(appAuthentication, ApiService, authUrl) {
 
   /**
    * @type {app.Api}
    * @private
    */
-  this.api_ = appApi;
+  this.apiService_ = ApiService;
 
   /**
    * @type {app.Authentication}
@@ -47,7 +47,7 @@ const exports = function(appAuthentication, appApi, authUrl) {
   this.pausedIds_ = [];
 
   if (this.auth_.isAuthenticated()) {
-    this.api_.getFollowing().then((response) => {
+    this.apiService_.getFollowing().then((response) => {
       this.following = response['data']['following'];
       this.followingIds = this.following.map((user) => {
         return user.document_id;
@@ -67,13 +67,13 @@ exports.prototype.toggle = function(id) {
   const index = this.followingIds.indexOf(id);
   if (index > -1) {
     // user was already followed => unfollow/paused them
-    this.api_.unfollow(id).then((response) => {
+    this.apiService_.unfollow(id).then((response) => {
       this.followingIds.splice(index, 1);
       this.pausedIds_.push(id);
     });
   } else {
     // user was paused/not followed => follow/unpause them
-    this.api_.follow(id).then((response) => {
+    this.apiService_.follow(id).then((response) => {
       this.followingIds.push(id);
       const pIndex = this.pausedIds_.indexOf(id);
       if (pIndex > -1) {
@@ -95,7 +95,7 @@ exports.prototype.addUser = function(user) {
     return;
   }
 
-  this.api_.follow(id).then((response) => {
+  this.apiService_.follow(id).then((response) => {
     this.followingIds.push(id);
     const pIndex = this.pausedIds_.indexOf(id);
     if (pIndex > -1) {

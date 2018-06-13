@@ -5,7 +5,7 @@ import appBase from './index.js';
 
 /**
  * @param {angular.Scope} $scope Scope.
- * @param {app.Api} appApi Api service.
+ * @param {app.Api} ApiService Api service.
  * @param {app.Authentication} appAuthentication
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {app.Alerts} appAlerts
@@ -16,7 +16,7 @@ import appBase from './index.js';
  * @constructor
  * @ngInject
  */
-const exports = function($scope, appApi, appAuthentication,
+const exports = function($scope, ApiService, appAuthentication,
   ngeoLocation, appAlerts, gettextCatalog, $q, LangService, vcRecaptchaService) {
 
   /**
@@ -43,7 +43,7 @@ const exports = function($scope, appApi, appAuthentication,
    * @type {app.Api}
    * @private
    */
-  this.api_ = appApi;
+  this.apiService_ = ApiService;
 
   /**
    * @type {app.Authentication}
@@ -91,12 +91,12 @@ const exports = function($scope, appApi, appAuthentication,
     const nonce1 = get_nonce('validate_register_email');
     const remember = true;
     const onLogin = this.successLogin_.bind(this, remember);
-    this.api_.validateRegisterEmail(nonce1).then(onLogin);
+    this.apiService_.validateRegisterEmail(nonce1).then(onLogin);
     this.uiStates = {};
   } else if (this.ngeoLocation_.hasFragmentParam('validate_change_email')) {
     // Activate the email and redirect
     const nonce2 = get_nonce('validate_change_email');
-    this.api_.validateChangeEmail(nonce2).then(() => {
+    this.apiService_.validateChangeEmail(nonce2).then(() => {
       this.redirect_();
     });
     this.uiStates = {};
@@ -125,7 +125,7 @@ exports.prototype.login = function() {
     login['sig'] = this.ngeoLocation_.getParam('sig');
   }
 
-  this.api_.login(login).then(this.successLogin_.bind(this, remember));
+  this.apiService_.login(login).then(this.successLogin_.bind(this, remember));
 };
 
 
@@ -142,7 +142,7 @@ exports.prototype.ssoLogin = function() {
   // SSO Token
   login['token'] = this.ngeoLocation_.getParam('token');
 
-  this.api_.ssoLogin(login).then(this.successLogin_.bind(this, remember));
+  this.apiService_.ssoLogin(login).then(this.successLogin_.bind(this, remember));
 };
 
 
@@ -217,7 +217,7 @@ exports.prototype.register = function() {
   const form = this.scope_['register'];
   form['lang'] = lang; // inject the current language
 
-  this.api_.register(form).then(() => {
+  this.apiService_.register(form).then(() => {
     const msg = alerts.gettext(
       'Thank you for your registration! ' +
       'We sent you an email, please click on the link to activate ' +
@@ -239,7 +239,7 @@ exports.prototype.requestPasswordChange = function() {
    * @type {appx.auth.RequestChangePassword}
    */
   const data = this.scope_['requestChangePassword'];
-  this.api_.requestPasswordChange(data.email).then(() => {
+  this.apiService_.requestPasswordChange(data.email).then(() => {
     const msg = alerts.gettext(
       'We sent you an email, please click on the link to reset password.');
     alerts.addSuccess(msg);
@@ -254,7 +254,7 @@ exports.prototype.validateNewPassword = function() {
   const remember = true;
   const onLogin = this.successLogin_.bind(this, remember);
   const password = this.scope_['changePassword']['password'];
-  this.api_.validateNewPassword(this.nonce_, password).then(onLogin);
+  this.apiService_.validateNewPassword(this.nonce_, password).then(onLogin);
 };
 
 

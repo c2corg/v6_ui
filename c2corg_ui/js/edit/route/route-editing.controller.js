@@ -11,7 +11,7 @@ import DocumentEditingController from '../document/document-editing.controller';
  * @param {app.Authentication} appAuthentication
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {app.Alerts} appAlerts
- * @param {app.Api} appApi Api service.
+ * @param {app.Api} ApiService Api service.
  * @param {string} authUrl Base URL of the authentication page.
  * @param {app.Document} appDocument
  * @param {app.Url} appUrl URL service.
@@ -22,11 +22,11 @@ import DocumentEditingController from '../document/document-editing.controller';
  */
 export default class RouteEditingController extends DocumentEditingController {
   constructor($scope, $element, $attrs, $http, $uibModal, $compile, LangService, appAuthentication, ngeoLocation,
-    appAlerts, appApi, authUrl, appDocument, appUrl, imageUrl, UtilsService) {
+    appAlerts, ApiService, authUrl, appDocument, appUrl, imageUrl, UtilsService) {
     'ngInject';
 
     super($scope, $element, $attrs, $http, $uibModal, $compile, LangService, appAuthentication, ngeoLocation, appAlerts,
-      appApi, authUrl, appDocument, appUrl, imageUrl);
+      ApiService, authUrl, appDocument, appUrl, imageUrl);
 
     this.utilsService = UtilsService;
 
@@ -34,7 +34,7 @@ export default class RouteEditingController extends DocumentEditingController {
       // allow association only for a new route to existing waypoint
       if (ngeoLocation.hasFragmentParam('w')) {
         const waypointId = parseInt(ngeoLocation.getFragmentParam('w'), 10);
-        appApi.getDocumentByIdAndDoctype(waypointId, 'w', LangService.getLang()).then(
+        ApiService.getDocumentByIdAndDoctype(waypointId, 'w', LangService.getLang()).then(
           (doc) => {
             this.documentService.pushToAssociations(
               doc.data['waypoints'].documents[0],

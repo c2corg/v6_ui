@@ -5,14 +5,13 @@ import appBase from './index.js';
 
 /**
  * @param {app.Authentication} appAuthentication
- * @param {app.Api} appApi appApi.
+ * @param {app.Api} ApiService Api service.
  * @param {app.Alerts} appAlerts
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @constructor
  * @ngInject
  */
-const exports = function(
-  appAuthentication, appApi, appAlerts, gettextCatalog) {
+const exports = function(appAuthentication, ApiService, appAlerts, gettextCatalog) {
 
   /**
    * @type {app.Authentication}
@@ -24,7 +23,7 @@ const exports = function(
    * @type {app.Api}
    * @private
    */
-  this.appApi_ = appApi;
+  this.apiService_ = ApiService;
 
   /**
    * @type {app.Alerts}
@@ -55,7 +54,7 @@ exports.prototype.revert = function(
   if (this.auth_.isModerator() && window.confirm(gettext(
     'Are you sure you want to revert to this version of the document?'
   ))) {
-    this.appApi_.revertDocument(documentId, lang, versionId).then(
+    this.apiService_.revertDocument(documentId, lang, versionId).then(
       (response) => {
         this.appAlerts_.addSuccess(gettext('Revert succeeded'));
       }

@@ -9,13 +9,13 @@ import appBase from './index.js';
  * @param {!angular.Scope} $scope Scope.
  * @param {angular.$compile} $compile Angular compile service.
  * @param {ui.bootstrap.$modal} $uibModal modal from angular bootstrap
- * @param {app.Api} appApi The API service
+ * @param {app.Api} ApiService The API service
  * @param {app.Document} appDocument service
  * @ngInject
  * @struct
  */
 const exports = function($rootScope, $scope, $compile,
-  $uibModal, appApi, appDocument) {
+  $uibModal, ApiService, appDocument) {
 
   /**
    * @type {angular.$compile}
@@ -45,7 +45,7 @@ const exports = function($rootScope, $scope, $compile,
    * @type {app.Api} The API service
    * @private
    */
-  this.api_ = appApi;
+  this.apiService_ = ApiService;
 
   /**
    * @type {app.Document}
@@ -94,7 +94,7 @@ exports.prototype.openModal_ = function() {
  * @private
  */
 exports.prototype.unassociateDocument_ = function(event) {
-  this.api_.unassociateDocument(this.parentId, this.childId).then(() => {
+  this.apiService_.unassociateDocument(this.parentId, this.childId).then(() => {
     this.documentService_.removeAssociation(this.childId, this.childDoctype, event);
   });
 };

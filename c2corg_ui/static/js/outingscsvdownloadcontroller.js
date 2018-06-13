@@ -5,15 +5,14 @@ import appBase from './index.js';
 
 /**
  * @param {app.Authentication} appAuthentication
- * @param {app.Api} appApi The API service
+ * @param {app.Api} ApiService The API service
  * @param {angular.$q} $q Angular q service.
  * @param {app.Lang} LangService Lang service.
  * @constructor
  * @struct
  * @ngInject
  */
-const exports = function(appAuthentication, appApi, $q,
-  LangService) {
+const exports = function(appAuthentication, ApiService, $q, LangService) {
 
   /**
    * @type {app.Authentication}
@@ -25,7 +24,7 @@ const exports = function(appAuthentication, appApi, $q,
    * @type {app.Api}
    * @export
    */
-  this.appApi = appApi;
+  this.apiService = ApiService;
 
   /**
    * @type {angular.$q}
@@ -94,9 +93,9 @@ exports.prototype.download = function(event) {
 exports.prototype.getOutings_ = function() {
   const promise = this.q_.defer().promise; // a promise that does... nothing
   const userId = this.auth.userData.id;
-  const appApi = this.appApi;
+  const apiService = this.apiService;
   const $q = this.q_;
-  return appApi.listDocuments('outings', 'u=' + userId, promise)
+  return apiService.listDocuments('outings', 'u=' + userId, promise)
     .then((resp) => {
       const total = resp.data.total;
       let outings = resp.data.documents.slice();
@@ -108,7 +107,7 @@ exports.prototype.getOutings_ = function() {
           });
         const additionalRequests = [];
         offsets.forEach((offset) => {
-          additionalRequests.push(appApi.listDocuments('outings',
+          additionalRequests.push(apiService.listDocuments('outings',
             'u=' + userId + '&offset=' + offset, promise));
         });
         return $q.all(additionalRequests).then((results) => {

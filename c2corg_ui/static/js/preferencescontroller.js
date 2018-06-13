@@ -7,13 +7,12 @@ import appUtils from './utils.js';
 /**
  * @param {angular.Scope} $scope Scope.
  * @param {app.Authentication} appAuthentication
- * @param {app.Api} appApi Api service.
+ * @param {app.Api} ApiService Api service.
  * @param {string} authUrl Base URL of the authentication page.
  * @constructor
  * @ngInject
  */
-const exports = function($scope, appAuthentication, appApi,
-  authUrl) {
+const exports = function($scope, appAuthentication, ApiService, authUrl) {
 
   /**
    * @type {angular.Scope}
@@ -25,7 +24,7 @@ const exports = function($scope, appAuthentication, appApi,
    * @type {app.Api}
    * @private
    */
-  this.api_ = appApi;
+  this.apiService_ = ApiService;
 
   /**
    * @type {Array.<string>}
@@ -52,7 +51,7 @@ const exports = function($scope, appAuthentication, appApi,
   this.followed_only = false;
 
   if (appAuthentication.isAuthenticated()) {
-    this.api_.readPreferences().then((response) => {
+    this.apiService_.readPreferences().then((response) => {
       const data = /** @type {appx.UserPreferences} */ (response['data']);
       this.activities = data.activities;
       this.langs = data.langs;
@@ -143,7 +142,7 @@ exports.prototype.save_ = function() {
     'areas': this.areas,
     'followed_only': this.followed_only
   };
-  this.api_.updatePreferences(data);
+  this.apiService_.updatePreferences(data);
 };
 
 

@@ -6,13 +6,13 @@ export default class LangService {
    *        GetBrowserLanguage Service.
    * @param {Array.<string>} langs List of available langs.
    * @param {amMoment} amMoment angular moment directive.
-   * @param {app.Api} appApi Api service.
+   * @param {app.Api} ApiService Api service.
    * @param {app.Authentication} appAuthentication Authentication service.
    * @param {string} langUrlTemplate Language URL template.
    * @param {string} langMomentPath Path to the moment.js language files.
    */
   constructor($cookies, gettextCatalog, ngeoGetBrowserLanguage, langs,
-    amMoment, appApi, appAuthentication, langUrlTemplate, langMomentPath) {
+    amMoment, ApiService, appAuthentication, langUrlTemplate, langMomentPath) {
     'ngInject';
 
     /**
@@ -53,7 +53,7 @@ export default class LangService {
      * @type {app.Api}
      * @private
      */
-    this.api_ = appApi;
+    this.apiService_ = ApiService;
 
     /**
      * @type {app.Authentication}
@@ -130,7 +130,7 @@ export default class LangService {
     });
 
     if (opt_syncWithApi && this.appAuthentication_.isAuthenticated()) {
-      this.api_.updatePreferredLanguage(lang);
+      this.apiService_.updatePreferredLanguage(lang);
     }
 
     if (lang === 'en') {

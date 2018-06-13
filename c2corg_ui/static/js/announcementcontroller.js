@@ -1,17 +1,17 @@
 /**
- * @param {app.Api} appApi Api service.
+ * @param {app.Api} ApiService Api service.
  * @param {app.Lang} LangService Lang service
  * @constructor
  * @ngInject
  * @struct
  */
-const exports = function(appApi, LangService) {
+const exports = function(ApiService, LangService) {
 
   /**
    * @type {app.Api}
    * @private
    */
-  this.api = appApi;
+  this.apiService_ = ApiService;
 
   /**
    * @type {app.Lang}
@@ -51,7 +51,7 @@ const exports = function(appApi, LangService) {
  * @private
  */
 exports.prototype.getAnnouncementFromForum_ = function() {
-  this.api.readAnnouncement(this.lang_.getLang()).then((response) => {
+  this.apiService_.readAnnouncement(this.lang_.getLang()).then((response) => {
     this.handleAnnouncement(response);
   });
 };

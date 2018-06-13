@@ -5,18 +5,18 @@ import appBase from './index.js';
 
 /**
  * @param {app.Authentication} appAuthentication
- * @param {app.Api} appApi Api service.
+ * @param {app.Api} ApiService Api service.
  * @constructor
  * @ngInject
  * @struct
  */
-const exports = function(appAuthentication, appApi) {
+const exports = function(appAuthentication, ApiService) {
 
   /**
    * @type {app.Api}
    * @private
    */
-  this.api_ = appApi;
+  this.apiService_ = ApiService;
 
   /**
    * @type {app.Authentication}
@@ -37,7 +37,7 @@ const exports = function(appAuthentication, appApi) {
   this.accountBlocked = false;
 
   if (this.auth_.isModerator()) {
-    this.api_.isAccountBlocked(this.userId).then((response) => {
+    this.apiService_.isAccountBlocked(this.userId).then((response) => {
       this.accountBlocked = response['data']['blocked'];
     });
   }
@@ -48,7 +48,7 @@ const exports = function(appAuthentication, appApi) {
  * @export
  */
 exports.prototype.block = function() {
-  this.api_.blockAccount(this.userId).then((response) => {
+  this.apiService_.blockAccount(this.userId).then((response) => {
     this.accountBlocked = true;
   });
 };
@@ -58,7 +58,7 @@ exports.prototype.block = function() {
  * @export
  */
 exports.prototype.unblock = function() {
-  this.api_.unblockAccount(this.userId).then((response) => {
+  this.apiService_.unblockAccount(this.userId).then((response) => {
     this.accountBlocked = false;
   });
 };

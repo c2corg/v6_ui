@@ -5,18 +5,18 @@ import appBase from './index.js';
 
 /**
  * @param {app.Authentication} appAuthentication
- * @param {app.Api} appApi Api service.
+ * @param {app.Api} ApiService Api service.
  * @constructor
  * @ngInject
  * @struct
  */
-const exports = function(appAuthentication, appApi) {
+const exports = function(appAuthentication, ApiService) {
 
   /**
    * @type {app.Api}
    * @private
    */
-  this.api_ = appApi;
+  this.apiService_ = ApiService;
 
   /**
    * @type {app.Authentication}
@@ -37,7 +37,7 @@ const exports = function(appAuthentication, appApi) {
   this.followed = false;
 
   if (this.canFollow()) {
-    this.api_.isFollowing(this.docId).then((response) => {
+    this.apiService_.isFollowing(this.docId).then((response) => {
       this.followed = response['data']['is_following'];
     });
   }
@@ -61,11 +61,11 @@ exports.prototype.canFollow = function() {
  */
 exports.prototype.toggle = function() {
   if (this.followed) {
-    this.api_.unfollow(this.docId).then((response) => {
+    this.apiService_.unfollow(this.docId).then((response) => {
       this.followed = false;
     });
   } else {
-    this.api_.follow(this.docId).then((response) => {
+    this.apiService_.follow(this.docId).then((response) => {
       this.followed = true;
     });
   }

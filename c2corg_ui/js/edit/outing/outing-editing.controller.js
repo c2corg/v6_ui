@@ -11,7 +11,7 @@ import DocumentEditingController from '../document/document-editing.controller';
  * @param {app.Authentication} appAuthentication
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {app.Alerts} appAlerts
- * @param {app.Api} appApi Api service.
+ * @param {app.Api} ApiService Api service.
  * @param {string} authUrl Base URL of the authentication page.
  * @param {app.Document} appDocument
  * @param {app.Url} appUrl URL service.
@@ -22,11 +22,11 @@ import DocumentEditingController from '../document/document-editing.controller';
  */
 export default class OutingEditingController extends DocumentEditingController {
   constructor($scope, $element, $attrs, $http, $uibModal, $compile, LangService, appAuthentication, ngeoLocation,
-    appAlerts, appApi, authUrl, appDocument, appUrl, imageUrl, UtilsService) {
+    appAlerts, ApiService, authUrl, appDocument, appUrl, imageUrl, UtilsService) {
     'ngInject';
 
     super($scope, $element, $attrs, $http, $uibModal, $compile, LangService, appAuthentication, ngeoLocation, appAlerts,
-      appApi, authUrl, appDocument, appUrl, imageUrl);
+      ApiService, authUrl, appDocument, appUrl, imageUrl);
 
     /**
      * Start cannot be after today nor end_date.
@@ -67,7 +67,7 @@ export default class OutingEditingController extends DocumentEditingController {
       // allow association only for a new outing to existing route
       if (ngeoLocation.hasFragmentParam('r')) {
         const routeId = parseInt(ngeoLocation.getFragmentParam('r'), 10);
-        appApi.getDocumentByIdAndDoctype(routeId, 'r', LangService.getLang()).then(
+        ApiService.getDocumentByIdAndDoctype(routeId, 'r', LangService.getLang()).then(
           (doc) => {
             this.documentService.pushToAssociations(
               doc.data['routes'].documents[0],

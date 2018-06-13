@@ -6,13 +6,13 @@ import appUtils from './utils.js';
 
 /**
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
- * @param {app.Api} appApi The API service
+ * @param {app.Api} ApiService The API service
  * @param {app.Authentication} appAuthentication
  * @param {string} authUrl Base URL of the authentication page.
  * @constructor
  * @ngInject
  */
-const exports = function($scope, gettextCatalog, appApi, appAuthentication, authUrl) {
+const exports = function($scope, gettextCatalog, ApiService, appAuthentication, authUrl) {
 
   /**
    * @type {angular.Scope}
@@ -30,7 +30,7 @@ const exports = function($scope, gettextCatalog, appApi, appAuthentication, auth
    * @type {app.Api}
    * @export
    */
-  this.appApi = appApi;
+  this.apiService = ApiService;
 
   /**
    * @type {app.Authentication}

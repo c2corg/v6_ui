@@ -7,7 +7,7 @@ import appBase from './index.js';
  * @param {!angular.Scope} $scope Scope.
  * @param {angular.$compile} $compile Angular compile service.
  * @param {Object} $uibModal modal from angular bootstrap
- * @param {app.Api} appApi Api service.
+ * @param {app.Api} ApiService Api service.
  * @param {app.Document} appDocument service
  * @param {appx.Document} documentData Data set as module value in the HTML.
  * @param {string} imageUrl URL to the image backend.
@@ -17,7 +17,7 @@ import appBase from './index.js';
  * @constructor
  * @ngInject
  */
-const exports = function($scope, $compile, $uibModal, appApi,
+const exports = function($scope, $compile, $uibModal, ApiService,
   appDocument, documentData, imageUrl, discourseUrl, appUrl, LangService) {
 
   /**
@@ -49,7 +49,7 @@ const exports = function($scope, $compile, $uibModal, appApi,
    * @type {app.Api}
    * @private
    */
-  this.api_ = appApi;
+  this.apiService_ = ApiService;
 
   /**
    * @type {boolean}
@@ -417,7 +417,7 @@ exports.prototype.getComments = function() {
   }
   const document = this.documentService.document;
   const lang = document.lang;
-  this.api_.readCommentsForum(topic_id, lang).then((response) => {
+  this.apiService_.readCommentsForum(topic_id, lang).then((response) => {
     this.handleCommentsForum_(response);
   }, () => { // Error msg is shown in the api service
   });
@@ -456,7 +456,7 @@ exports.prototype.createTopic = function() {
   const document = this.documentService.document;
   const document_id = document.document_id;
   const lang = document.lang;
-  this.api_.createTopic(document_id, lang).then((resp) => {
+  this.apiService_.createTopic(document_id, lang).then((resp) => {
     const topic_id = resp['data']['topic_id'];
     const url = this.discourseUrl + 't/' + document_id + '_' + lang + '/' + topic_id;
     window.location = url;
@@ -587,7 +587,7 @@ exports.prototype.getImageInfo_ = function(id) {
     $('.loading-infos').show();
     $('.images-infos-container').hide();
 
-    this.api_.readDocument('images', id, this.lang.getLang()).then((res) => {
+    this.apiService_.readDocument('images', id, this.lang.getLang()).then((res) => {
       const imgData = res.data;
       const scope = this.scope_.$new(true);
       angular.extend(scope, imgData);

@@ -7,13 +7,13 @@ import appBase from './index.js';
  * @param {angular.Scope} $scope Scope.
  * @param {app.Authentication} appAuthentication
  * @param {app.Alerts} appAlerts
- * @param {app.Api} appApi Api service.
+ * @param {app.Api} ApiService Api service.
  * @param {string} authUrl Base URL of the authentication page.
  * @constructor
  * @ngInject
  */
 const exports = function($scope, appAuthentication, appAlerts,
-  appApi, authUrl) {
+  ApiService, authUrl) {
 
   /**
    * @type {angular.Scope}
@@ -31,7 +31,7 @@ const exports = function($scope, appAuthentication, appAlerts,
    * @type {app.Api}
    * @private
    */
-  this.api_ = appApi;
+  this.apiService_ = ApiService;
 
   /**
    * @type {Object}
@@ -40,7 +40,7 @@ const exports = function($scope, appAuthentication, appAlerts,
   this.initialData_;
 
   if (appAuthentication.isAuthenticated()) {
-    this.api_.readAccount().then((data) => {
+    this.apiService_.readAccount().then((data) => {
       this.initialData_ = data['data'];
       $scope['account'] = angular.copy(this.initialData_);
     });
@@ -63,7 +63,7 @@ exports.prototype.save = function() {
     }
   }
   const alerts = this.alerts_;
-  this.api_.updateAccount(modifiedData).then(() => {
+  this.apiService_.updateAccount(modifiedData).then(() => {
     const msg = alerts.gettext('Update success');
     alerts.addSuccess(msg);
   });

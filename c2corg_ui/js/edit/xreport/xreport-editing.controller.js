@@ -11,7 +11,7 @@ import DocumentEditingController from '../document/document-editing.controller';
  * @param {app.Authentication} appAuthentication
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {app.Alerts} appAlerts
- * @param {app.Api} appApi Api service.
+ * @param {app.Api} ApiService Api service.
  * @param {string} authUrl Base URL of the authentication page.
  * @param {app.Document} appDocument
  * @param {app.Url} appUrl URL service.
@@ -21,11 +21,11 @@ import DocumentEditingController from '../document/document-editing.controller';
  */
 export default class XreportEditingController extends DocumentEditingController {
   constructor($scope, $element, $attrs, $http, $uibModal, $compile, LangService, appAuthentication, ngeoLocation,
-    appAlerts, appApi, authUrl, appDocument, appUrl, imageUrl) {
+    appAlerts, ApiService, authUrl, appDocument, appUrl, imageUrl) {
     'ngInject';
 
     super($scope, $element, $attrs, $http, $uibModal, $compile, LangService, appAuthentication, ngeoLocation, appAlerts,
-      appApi, authUrl, appDocument, appUrl, imageUrl);
+      ApiService, authUrl, appDocument, appUrl, imageUrl);
 
     /**
      * Start cannot be after today nor end_date.

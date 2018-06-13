@@ -5,14 +5,14 @@ import appBase from './index.js';
 
 /**
  * @param {appx.Document} documentData Data set as module value in the HTML.
- * @param {app.Api} appApi appApi.
+ * @param {app.Api} ApiService api service.
  * @param {app.Alerts} appAlerts
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @param {ui.bootstrap.$modalStack} $uibModalStack $uibModalStack.
  * @constructor
  * @ngInject
  */
-const exports = function(documentData, appApi, appAlerts, gettextCatalog, $uibModalStack) {
+const exports = function(documentData, ApiService, appAlerts, gettextCatalog, $uibModalStack) {
 
   /**
    * @type {appx.Document}
@@ -24,7 +24,7 @@ const exports = function(documentData, appApi, appAlerts, gettextCatalog, $uibMo
    * @type {app.Api}
    * @private
    */
-  this.appApi_ = appApi;
+  this.apiService_ = ApiService;
 
   /**
    * @type {app.Alerts}
@@ -62,7 +62,7 @@ const exports = function(documentData, appApi, appAlerts, gettextCatalog, $uibMo
  * @export
  */
 exports.prototype.deleteDocument = function() {
-  this.appApi_.deleteDocument(this.documentData.document_id).then(
+  this.apiService_.deleteDocument(this.documentData.document_id).then(
     (response) => {
       this.closeDialog();
       this.appAlerts_.addSuccess(this.gettextCatalog_.getString(
@@ -77,7 +77,7 @@ exports.prototype.deleteDocument = function() {
  * @export
  */
 exports.prototype.deleteLocale = function() {
-  this.appApi_.deleteLocale(this.documentData.document_id, this.lang).then(
+  this.apiService_.deleteLocale(this.documentData.document_id, this.lang).then(
     (response) => {
       this.closeDialog();
       this.appAlerts_.addSuccess(this.gettextCatalog_.getString(

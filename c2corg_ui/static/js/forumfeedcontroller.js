@@ -4,11 +4,11 @@
 import appBase from './index.js';
 
 /**
- * @param {app.Api} appApi Api service.
+ * @param {app.Api} ApiService Api service.
  * @constructor
  * @ngInject
  */
-const exports = function(appApi) {
+const exports = function(ApiService) {
 
   /**
    * @type {Array.<Object>}
@@ -28,7 +28,7 @@ const exports = function(appApi) {
    */
   this.errorForum = false;
 
-  appApi.readLatestForumTopics()
+  ApiService.readLatestForumTopics()
     .then(response => {
       this.busyForum = false;
       this.handleTopics_(response);

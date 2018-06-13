@@ -4,18 +4,18 @@
 import appBase from './index.js';
 
 /**
- * @param {app.Api} appApi Api service.
+ * @param {app.Api} ApiService Api service.
  * @param {!angular.Scope} $scope Scope.
  * @constructor
  * @ngInject
  */
-const exports = function(appApi, $scope) {
+const exports = function(ApiService, $scope) {
 
   /**
    * @type {app.Api}
    * @private
    */
-  this.api_ = appApi;
+  this.apiService_ = ApiService;
 
   /**
    * @type {!angular.Scope}

@@ -11,7 +11,7 @@ import olProj from 'ol/proj.js';
  * @param {Object} $uibModal modal from angular bootstrap
  * @param {angular.$compile} $compile Angular compile service.
  * @param {angular.$q} $q promise
- * @param {app.Api} appApi Api service.
+ * @param {app.Api} ApiService Api service.
  * @param {app.Alerts} appAlerts
  * @param {app.Document} appDocument service
  * @param {String} imageUrl URL to the image backend.
@@ -22,7 +22,7 @@ import olProj from 'ol/proj.js';
  * @ngInject
  */
 const exports = function($scope, $uibModal, $compile, $q,
-  appAlerts, appApi, appDocument, imageUrl, appUrl, appAuthentication) {
+  appAlerts, ApiService, appDocument, imageUrl, appUrl, appAuthentication) {
 
   /**
    * @type {app.Document}
@@ -40,7 +40,7 @@ const exports = function($scope, $uibModal, $compile, $q,
    * @type {app.Api}
    * @private
    */
-  this.api_ = appApi;
+  this.apiService_ = ApiService;
 
   /**
    * @type {app.Authentication}
@@ -214,7 +214,7 @@ exports.prototype.upload_ = function() {
  */
 exports.prototype.uploadFile_ = function(file) {
   const canceller = this.q_.defer();
-  const promise = this.api_.uploadImage(file, canceller.promise, ((file, event) => {
+  const promise = this.apiService_.uploadImage(file, canceller.promise, ((file, event) => {
     const progress = event.loaded / event.total;
     file['progress'] = 100 * progress;
   }).bind(this, file));
@@ -268,7 +268,7 @@ exports.prototype.areAllUploadedCheck_ = function() {
 exports.prototype.save = function() {
   const defer = this.q_.defer();
 
-  this.api_.createImages(this.files, this.documentService.document)
+  this.apiService_.createImages(this.files, this.documentService.document)
     .then((data) => {
       const images = data['config']['data']['images'];
       const imageIds = data['data']['images']; // newly created document_id

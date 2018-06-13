@@ -6,12 +6,12 @@ import appBase from './index.js';
 /**
  * @param {angular.Scope} $scope Directive scope.
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
- * @param {app.Api} appApi Api service.
+ * @param {app.Api} ApiService Api service.
  * @constructor
  * @ngInject
  * @struct
  */
-const exports = function($scope, ngeoLocation, appApi) {
+const exports = function($scope, ngeoLocation, ApiService) {
 
   /**
    * @type {angular.Scope}
@@ -29,7 +29,7 @@ const exports = function($scope, ngeoLocation, appApi) {
    * @type {app.Api}
    * @private
    */
-  this.api_ = appApi;
+  this.apiService_ = ApiService;
 
   /**
    * @type {string}
@@ -64,7 +64,7 @@ exports.prototype.applyPreferences = function() {
   if (this.preferences_) {
     this.loadPreferences_();
   } else {
-    this.api_.readPreferences().then((response) => {
+    this.apiService_.readPreferences().then((response) => {
       this.preferences_ = /** @type {appx.UserPreferences} */ (response['data']);
       this.loadPreferences_();
     });

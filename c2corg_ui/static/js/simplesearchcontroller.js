@@ -3,6 +3,7 @@
  */
 import appBase from './index.js';
 import appUtils from './utils.js';
+import UrlService from '../../js/url/url.service.js';
 
 /**
  * @constructor
@@ -18,7 +19,7 @@ import appUtils from './utils.js';
  * @ngInject
  */
 const exports = function(appDocument, $scope, $compile, $attrs, apiUrl,
-  gettextCatalog, $templateCache, appAuthentication, appUrl) {
+  gettextCatalog, $templateCache, appAuthentication, UrlService) {
 
   /**
    * @type {app.Document}
@@ -80,7 +81,7 @@ const exports = function(appDocument, $scope, $compile, $attrs, apiUrl,
    * @type {app.Url}
    * @private
    */
-  this.url_ = appUrl;
+  this.urlService = UrlService;
 
   /**
    * @type {TypeaheadOptions}
@@ -350,7 +351,7 @@ exports.select_ = function(event, doc, dataset) {
   if (this.selectHandler) {
     this.selectHandler({'doc': doc});
   } else {
-    window.location.href = this.url_.buildDocumentUrl(
+    window.location.href = this.urlService.buildDocumentUrl(
       doc.documentType, doc.document_id, doc.locales[0]);
   }
 };

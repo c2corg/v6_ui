@@ -12,7 +12,7 @@ import appUtils from './utils.js';
  * @struct
  * @ngInject
  */
-const exports = function(gettextCatalog, appUrl, imageUrl, moment) {
+const exports = function(gettextCatalog, UrlService, imageUrl, moment) {
 
   /**
    * @type {angularGettext.Catalog}
@@ -24,7 +24,7 @@ const exports = function(gettextCatalog, appUrl, imageUrl, moment) {
    * @type {app.Url}
    * @private
    */
-  this.url_ = appUrl;
+  this.url_ = UrlService;
 
   /**
    * @type {string}
@@ -213,7 +213,7 @@ exports.prototype.createURL = function() {
     type = this.type;
     doc = this.doc;
   }
-  return this.url_.buildDocumentUrl(type, doc['document_id'], doc['locales'][0]);
+  return this.urlService.buildDocumentUrl(type, doc['document_id'], doc['locales'][0]);
 };
 
 
@@ -253,7 +253,7 @@ exports.prototype.createAreaURL = function(areas) {
       doc = orderedAreas['country'][0];
     }
 
-    return this.url_.buildDocumentUrl(
+    return this.urlService.buildDocumentUrl(
       appUtils.getDoctype(doc['type']),
       doc['document_id'],
       doc['locales'][0]

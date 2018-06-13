@@ -6,14 +6,14 @@ import appUtils from './utils.js';
 
 /**
  * @param {!angular.Scope} $scope Scope.
- * @param {app.Api} appApi Api service.
+ * @param {app.Api} ApiService Api service.
  * @param {app.Lang} LangService Lang service.
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @constructor
  * @ngInject
  * @struct
  */
-const exports = function($scope, appApi, LangService, ngeoLocation) {
+const exports = function($scope, ApiService, LangService, ngeoLocation) {
 
   /**
    * @type {!angular.Scope}
@@ -25,7 +25,7 @@ const exports = function($scope, appApi, LangService, ngeoLocation) {
    * @type {app.Api}
    * @public
    */
-  this.api = appApi;
+  this.api = ApiService;
 
   /**
    * @type {app.Lang}
@@ -210,7 +210,7 @@ exports.prototype.initFeedColumnManager_ = function() {
  */
 exports.prototype.getDocumentsFromFeed = function() {
   this.busy = true;
-  this.api.readFeed(this.nextToken, this.lang_.getLang(), this.userId, this.isPersonal).then((response) => {
+  this.apiService_.readFeed(this.nextToken, this.lang_.getLang(), this.userId, this.isPersonal).then((response) => {
     this.busy = false;
     this.handleFeed(response);
   }, () => { // Error msg is shown in the api service

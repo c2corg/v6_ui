@@ -7,16 +7,16 @@ import olBase from 'ol.js';
 
 /**
  * @param {!angular.Scope} $scope Scope.
- * @param {app.Api} appApi Api service.
+ * @param {app.Api} ApiService Api service.
  * @param {app.Lang} LangService Lang service.
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @constructor
  * @extends {app.FeedController}
  * @ngInject
  */
-const exports = function($scope, appApi, LangService, ngeoLocation) {
+const exports = function($scope, ApiService, LangService, ngeoLocation) {
 
-  appBase.FeedController.call(this, $scope, appApi, LangService, ngeoLocation);
+  appBase.FeedController.call(this, $scope, ApiService, LangService, ngeoLocation);
 
   /**
    * @type {number}
