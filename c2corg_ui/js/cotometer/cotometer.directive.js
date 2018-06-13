@@ -1,7 +1,4 @@
-/**
- * @module app.cotometerDirective
- */
-import appBase from './index.js';
+import template from './cotometer.html';
 
 /**
  * This directive is used to manage the dialog of cotometer
@@ -9,12 +6,12 @@ import appBase from './index.js';
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-const exports = function() {
+const CotometerDirective = () => {
   return {
     restrict: 'E',
-    controller: 'AppCotometerController',
+    controller: 'CotometerController',
     controllerAs: 'cotmetCtrl',
-    templateUrl: '/static/partials/cotometer.html',
+    template,
     bindToController: {
       'module': '<',
       'lang': '@'
@@ -22,7 +19,4 @@ const exports = function() {
   };
 };
 
-appBase.module.directive('appCotometer', exports);
-
-
-export default exports;
+export default CotometerDirective;

@@ -69,7 +69,7 @@
         % if missing_langs:
           <li ng-click="detailsCtrl.openModal('#missing-langs')"><a><span class="glyphicon glyphicon-edit"></span> <translate>Translate into an other lang</translate></a></li>
         % endif
-        <li ng-if="userCtrl.isModerator()" app-block-account app-user-id="${doc_id}"></li>
+        <li ng-if="userCtrl.isModerator()" c2c-block-account c2c-user-id="${doc_id}"></li>
       </ul>
     </div>
 
