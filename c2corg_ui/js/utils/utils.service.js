@@ -1,5 +1,6 @@
 import olGeomLineString from 'ol/geom/LineString.js';
 import olGeomMultiLineString from 'ol/geom/MultiLineString.js';
+import escape from 'lodash/escape';
 
 
 /**
@@ -136,8 +137,7 @@ export default class UtilsService {
   createImageSlide(file, imageUrl) {
     const smallImage = exports.createImageUrl(file.filename, 'SI');
     const bigImage = exports.createImageUrl(file.filename, 'BI');
-    // FIXME use lodash const title = _.escape(file['locales'][0]['title']);
-    const title = file['locales'][0]['title'];
+    const title = escape(file['locales'][0]['title']);
     const ahref = '<a href="' + imageUrl + bigImage + '" data-info-id="' + file['image_id'] + '-slide" title="' + title + '">';
     const img = '<img src="' + imageUrl + smallImage + '"></a>';
 
