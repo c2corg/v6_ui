@@ -39,7 +39,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
       <div class="ng-hide">{{type = waypoint.waypoint_type}}</div>
 
       ## PROGRESS BAR
-      <app-progress-bar>
+      <c2c-progress-bar>
 
         <ul class="progress-bar-edit">
           <li class="nav-step-1" ng-click="progressBarCtrl.step(1, 'waypoint',  'backwards')"><span class="nav-text"><span translate>waypoint</span></span><span class="bullet-container"><span class="bullet"></span></span></li>
@@ -64,7 +64,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
           {{progressBarCtrl.waypointType = waypoint.waypoint_type}}
         </span>
 
-      </app-progress-bar>
+      </c2c-progress-bar>
 
       ${show_protected_warning('waypoint')}
 

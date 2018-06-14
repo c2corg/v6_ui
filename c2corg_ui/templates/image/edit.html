@@ -33,7 +33,7 @@ from c2corg_common.attributes import default_langs, activities, image_types, ima
     class="document-editing" name="editForm" novalidate>
 
     ## PROGRESS BAR
-    <app-progress-bar ng-init="progressBarCtrl.maxSteps = 2">
+    <c2c-progress-bar ng-init="progressBarCtrl.maxSteps = 2">
       <ul class="progress-bar-edit">
         <li class="nav-step-1"ng-click="progressBarCtrl.step(1, 'image',  'backwards')" ng-class="{'nav-step-selected': progressBarCtrl.currentStep == 1 }"><span class="nav-text"><span translate>image</span></span><span class="bullet-container"><span class="bullet"></span></span></li>
         <li class="nav-step-2"ng-click="progressBarCtrl.step(2, 'image',  'backwards')" ng-class="{'nav-step-selected': progressBarCtrl.currentStep == 2 }"><span class="nav-text"><span translate>comments</span> & <span translate>associations</span></span><span class="bullet-container"><span class="bullet"></span></span></li>
@@ -44,7 +44,7 @@ from c2corg_common.attributes import default_langs, activities, image_types, ima
         <button class="btn btn-primary prev" type="button" ng-if="progressBarCtrl.previousStep !== 0" ng-click="progressBarCtrl.step(progressBarCtrl.previousStep, 'image', 'backwards')"><span class="glyphicon glyphicon-triangle-left"></span></button>
         <button class="btn btn-primary next" type="button" ng-if="progressBarCtrl.nextStep <=  progressBarCtrl.maxSteps" ng-click="progressBarCtrl.step(progressBarCtrl.nextStep, 'image', 'forwards')"><span class="glyphicon glyphicon-triangle-right"></span></button>
       </div>
-    </app-progress-bar>
+    </c2c-progress-bar>
 
     ${show_protected_warning('image')}
 

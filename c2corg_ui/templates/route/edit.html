@@ -33,7 +33,7 @@ updating_doc = route_id and route_lang
     % endif
      name="editForm" novalidate class="document-editing">
 
-      <app-progress-bar>
+      <c2c-progress-bar>
         ## It won't work with ng-init
         <span class="ng-hide">{{progressBarCtrl.maxSteps = 3}} </span>
 
@@ -49,7 +49,7 @@ updating_doc = route_id and route_lang
           <button class="btn btn-primary prev" type="button" ng-if="progressBarCtrl.previousStep !== 0" ng-click="progressBarCtrl.step(progressBarCtrl.previousStep, 'route', 'backwards')"><span class="glyphicon glyphicon-triangle-left"></span></button>
           <button class="btn btn-primary next" type="button" ng-if="progressBarCtrl.nextStep <= progressBarCtrl.maxSteps" ng-click="progressBarCtrl.step(progressBarCtrl.nextStep, 'route', 'forwards')"><span class="glyphicon glyphicon-triangle-right"></span></button>
         </div>
-      </app-progress-bar>
+      </c2c-progress-bar>
 
       ${show_protected_warning('route')}
 

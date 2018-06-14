@@ -31,7 +31,7 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
     class="document-editing" name="editForm" novalidate>
 
     ## PROGRESS BAR
-    <app-progress-bar>
+    <c2c-progress-bar>
       ## It won't work with ng-init
       <span class="ng-hide">{{progressBarCtrl.maxSteps = 2}} </span>
 
@@ -46,7 +46,7 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
         <button class="btn btn-primary prev" type="button" ng-if="progressBarCtrl.previousStep !== 0" ng-click="progressBarCtrl.step(progressBarCtrl.previousStep, 'xreport', 'backwards')"><span class="glyphicon glyphicon-triangle-left"></span></button>
         <button class="btn btn-primary next" type="button" ng-if="progressBarCtrl.nextStep <= progressBarCtrl.maxSteps" ng-click="progressBarCtrl.step(progressBarCtrl.nextStep, 'xreport', 'forwards')"><span class="glyphicon glyphicon-triangle-right"></span></button>
       </div>
-    </app-progress-bar>
+    </c2c-progress-bar>
 
     ${show_protected_warning('xreport')}
 
