@@ -1,3 +1,4 @@
+import angular from 'angular';
 import DocumentEditingController from './document-editing.controller';
 import DocumentEditingDirective from './document-editing.directive';
 import c2cConstants from '../../constants/constants.module';

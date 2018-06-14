@@ -1,3 +1,4 @@
+import angular from 'angular';
 import slug from 'slug';
 
 export default class UrlService {

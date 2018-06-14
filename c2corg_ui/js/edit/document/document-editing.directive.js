@@ -1,9 +1,4 @@
 /**
- * @module app.documentEditingDirective
- */
-import appBase from './index.js';
-
-/**
  * Provides the "appDocumentEditing" directive, which applies to the forms
  * used to create a new document (whatever its type) or to edit an existing
  * one. The fields and validations are set and performed in the form itself.

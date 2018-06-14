@@ -1,4 +1,4 @@
-import 'angular';
+import angular from 'angular';
 
 import c2cLang from './lang/lang.module';
 import c2cConstants from './constants/constants-module';

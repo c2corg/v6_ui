@@ -1,3 +1,4 @@
+import angular from 'angular';
 import UtilsService from './utils.service.js';
 
 export default angular

@@ -1,3 +1,4 @@
+import angular from 'angular';
 import CotometerController from './items.controller';
 import CotometerDirective from './items.directive';
 

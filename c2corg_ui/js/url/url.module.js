@@ -1,3 +1,4 @@
+import angular from 'angular';
 import UrlService from './url.service';
 
 export default angular

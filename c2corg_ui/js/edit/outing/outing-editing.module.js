@@ -1,3 +1,4 @@
+import angular from 'angular';
 import OutingEditingController from './article-outing.controller';
 import c2cDocumentEditing from '../document/document-editing.module';
 import c2cUtils from '../../utils/utils.module';

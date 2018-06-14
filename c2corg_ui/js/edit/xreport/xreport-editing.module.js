@@ -1,3 +1,4 @@
+import angular from 'angular';
 import XreportEditingController from './xreport-outing.controller';
 import c2cDocumentEditing from '../document/document-editing.module';
 

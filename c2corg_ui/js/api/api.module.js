@@ -1,3 +1,4 @@
+import angular from 'angular';
 import ApiService from './api.service';
 
 export default angular

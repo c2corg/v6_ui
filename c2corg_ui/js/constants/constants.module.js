@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 export default angular
   .module('c2c.constants', [])
   .constant('SCREEN', {

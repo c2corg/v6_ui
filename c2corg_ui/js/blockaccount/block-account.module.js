@@ -1,3 +1,4 @@
+import angular from 'angular';
 import BlockAccountController from './block-account.controller';
 import BlockAccountDirective from './block-account.directive';
 

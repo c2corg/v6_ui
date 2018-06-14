@@ -1,3 +1,4 @@
+import angular from 'angular';
 import AccountController from './account.controller';
 import c2cUtils from '../utils/utils.module';
 

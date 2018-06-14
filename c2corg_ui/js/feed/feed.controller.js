@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 /**
  * @param {!angular.Scope} $scope Scope.
  * @param {app.Api} ApiService Api service.

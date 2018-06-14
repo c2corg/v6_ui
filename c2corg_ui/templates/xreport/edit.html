@@ -94,7 +94,7 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
 
             ## ACTIVITIES
             <div class="form-group data full" id="route-activities" ng-init="activities = ${activities}">
-              <label app-context-help context-help-title="{{'activities' | translate}}" context-help-content-url="/static/partials/contexthelp/activities.html"><span translate>activities</span> *</label>
+              <label c2c-context-help context-help-title="{{'activities' | translate}}" context-help-content-url="/static/partials/contexthelp/activities.html"><span translate>activities</span> *</label>
               <div class="route-activities">
                 <div ng-repeat="activity in activities" class="activity">
                   <div>
@@ -226,7 +226,7 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
 
             ## event_type
             <div class="form-group half half-group">
-              <label app-context-help context-help-title="{{'event_type' | translate}}" context-help-content="{{'Type of the occurred or potentially resulting event. More than one type may be selected. \'fall while roped\' must be used to clarify \'avalanche\', \'fall of a person or roped party\' and \'fall in a crevasse\', but cannot be selected alone.' | translate}}"><span translate>event_type</span> *</label>
+              <label c2c-context-help context-help-title="{{'event_type' | translate}}" context-help-content="{{'Type of the occurred or potentially resulting event. More than one type may be selected. \'fall while roped\' must be used to clarify \'avalanche\', \'fall of a person or roped party\' and \'fall in a crevasse\', but cannot be selected alone.' | translate}}"><span translate>event_type</span> *</label>
               <ul class="types">
                 <li ng-repeat="event_type in ${event_types}" ng-click="editCtrl.pushToArray(xreport, 'event_type', event_type, $event)">
                   <div class="checkbox"><input type="checkbox" ng-checked="xreport.event_type.indexOf(event_type) > -1"><span>{{event_type | translate}}</span></div>
@@ -256,7 +256,7 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
                  ng-class="{ 'has-feedback': editForm.nb_impacted.$touched,
                              'has-error': editForm.nb_impacted.$touched && editForm.nb_impacted.$invalid,
                              'has-success': xreport.nb_impacted }">
-              <label ng-class="{ 'control-label': editForm.nb_impacted.$touched && editForm.nb_impacted.$invalid }" app-context-help context-help-title="{{'nb_impacted' | translate}}" context-help-content="{{'Number of impacted persons. If no accident occurred or if no one has fallen, was buried or injured, put 0.' | translate}}" translate >nb_impacted</label>
+              <label ng-class="{ 'control-label': editForm.nb_impacted.$touched && editForm.nb_impacted.$invalid }" c2c-context-help context-help-title="{{'nb_impacted' | translate}}" context-help-content="{{'Number of impacted persons. If no accident occurred or if no one has fallen, was buried or injured, put 0.' | translate}}" translate >nb_impacted</label>
               <div class="input-group">
                 <input class="form-control" type="number" min="0" max="1000" minlength="1" name="nb_impacted" ng-model="xreport.nb_impacted"/>
                 <span class="input-group-addon" translate>persons</span>
@@ -270,14 +270,14 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
 
             ## severity
             <div class="form-group half" ng-class="{'has-success': xreport.severity}" ng-init="severities = ${severities}">
-              <label app-context-help context-help-title="{{'severity' | translate}}" context-help-content="{{'Have the impacted persons been injured and forced to temporarily cease the activity performed during this outing?' | translate}}" translate>severity</label>
+              <label c2c-context-help context-help-title="{{'severity' | translate}}" context-help-content="{{'Have the impacted persons been injured and forced to temporarily cease the activity performed during this outing?' | translate}}" translate>severity</label>
               <select class="form-control" ng-model="xreport.severity" ng-options="rat as mainCtrl.translate(rat) for rat in severities"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.severity"></span>
             </div>
 
             ## rescue
             <div class="form-group half" ng-class="{'has-success': xreport.rescue != undefined}">
-              <label app-context-help context-help-title="{{'rescue' | translate}}" context-help-content="{{'Has the event required a rescue service?' | translate}}" translate>rescue</label>
+              <label c2c-context-help context-help-title="{{'rescue' | translate}}" context-help-content="{{'Has the event required a rescue service?' | translate}}" translate>rescue</label>
               <input type="checkbox" ng-model="xreport.rescue" ng-checked="xreport.rescue == true">
               <span ng-click="editCtrl.pushToArray(xreport, 'rescue', !xreport.rescue, $event)"></span>
             </div>
@@ -285,7 +285,7 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
             ## avalanche_level
             <div class="form-group half" ng-if="xreport.event_type.indexOf('avalanche') > -1"
                  ng-class="{'has-success': xreport.avalanche_level}" ng-init="avalanche_levels = ${avalanche_levels}">
-              <label app-context-help context-help-title="{{'avalanche_level' | translate}}" context-help-content="{{'Avalanche danger level coming from the avalanche bulletin at the place and time of the event (the avalanche bulletin may indicate a different level depending on the altitude, orientation and time). If there is no avalanche bulletin or it did not mention an avalanche danger level, select \'unavailable\'.' | translate}}" translate>avalanche_level</label>
+              <label c2c-context-help context-help-title="{{'avalanche_level' | translate}}" context-help-content="{{'Avalanche danger level coming from the avalanche bulletin at the place and time of the event (the avalanche bulletin may indicate a different level depending on the altitude, orientation and time). If there is no avalanche bulletin or it did not mention an avalanche danger level, select \'unavailable\'.' | translate}}" translate>avalanche_level</label>
               <select class="form-control" ng-model="xreport.avalanche_level" ng-options="rat as mainCtrl.translate(rat) for rat in avalanche_levels"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.avalanche_level"></span>
             </div>
@@ -293,7 +293,7 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
             ## avalanche_slope
             <div class="form-group half" ng-if="xreport.event_type.indexOf('avalanche') > -1"
                  ng-class="{'has-success': xreport.avalanche_slope}" ng-init="avalanche_slopes = ${avalanche_slopes}">
-              <label app-context-help context-help-title="{{'avalanche_slope' | translate}}" context-help-content="{{'Slope of the steepest part of the start zone of the avalanche.' | translate}}" translate>avalanche_slope</label>
+              <label c2c-context-help context-help-title="{{'avalanche_slope' | translate}}" context-help-content="{{'Slope of the steepest part of the start zone of the avalanche.' | translate}}" translate>avalanche_slope</label>
               <select class="form-control" ng-model="xreport.avalanche_slope" ng-options="rat as mainCtrl.translate(rat) for rat in avalanche_slopes"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.avalanche_slope"></span>
             </div>
@@ -332,14 +332,14 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
 
             ## author_status
             <div class="form-group half" ng-class="{'has-success': xreport.author_status}" ng-init="author_statuses = ${author_statuses}">
-              <label app-context-help context-help-title="{{'author_status' | translate}}" context-help-content-url="/static/partials/contexthelp/xreport-author_status.html" translate>author_status</label>
+              <label c2c-context-help context-help-title="{{'author_status' | translate}}" context-help-content-url="/static/partials/contexthelp/xreport-author_status.html" translate>author_status</label>
               <select class="form-control" ng-model="xreport.author_status" ng-options="rat as mainCtrl.translate(rat) for rat in author_statuses"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.author_status"></span>
             </div>
 
             ## autonomy
             <div class="form-group half" ng-class="{'has-success': xreport.autonomies}" ng-init="autonomies = ${autonomies}">
-              <label app-context-help context-help-title="{{'autonomy' | translate}}" context-help-content="{{'Autonomy for practising this activity.' | translate}}" translate>autonomy</label>
+              <label c2c-context-help context-help-title="{{'autonomy' | translate}}" context-help-content="{{'Autonomy for practising this activity.' | translate}}" translate>autonomy</label>
               <select class="form-control" ng-model="xreport.autonomy" ng-options="rat as mainCtrl.translate(rat) for rat in autonomies"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.autonomy"></span>
             </div>
@@ -487,28 +487,28 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
 
             ## safety
             <div id="safety-group" class="form-group full">
-              <label app-context-help context-help-title="{{'safety' | translate}}" context-help-content-url="/static/partials/contexthelp/xreport-safety.html"	translate>safety</label>
+              <label c2c-context-help context-help-title="{{'safety' | translate}}" context-help-content-url="/static/partials/contexthelp/xreport-safety.html"	translate>safety</label>
               <textarea app-markdown-editor name="safety" ng-model="xreport.locales[0].safety" class="form-control" placeholder="{{'Types of belay and protection used, verifications between climbers, snowpack stability tests, testing of avalanche transceivers, etc.' | translate}}"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].safety"></span>
             </div>
 
             ## reduce_impact
             <div id="reduce_impact-group" class="form-group full">
-              <label app-context-help context-help-title="{{'reduce_impact' | translate}}" context-help-content-url="/static/partials/contexthelp/xreport-reduce_impact.html" translate>reduce_impact</label>
+              <label c2c-context-help context-help-title="{{'reduce_impact' | translate}}" context-help-content-url="/static/partials/contexthelp/xreport-reduce_impact.html" translate>reduce_impact</label>
               <textarea app-markdown-editor name="reduce_impact" ng-model="xreport.locales[0].reduce_impact" class="form-control"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].reduce_impact"></span>
             </div>
 
             ## increase_impact
             <div id="increase_impact-group" class="form-group full">
-              <label app-context-help context-help-title="{{'increase_impact' | translate}}" context-help-content-url="/static/partials/contexthelp/xreport-increase_impact.html" translate>increase_impact</label>
+              <label c2c-context-help context-help-title="{{'increase_impact' | translate}}" context-help-content-url="/static/partials/contexthelp/xreport-increase_impact.html" translate>increase_impact</label>
               <textarea app-markdown-editor name="increase_impact" ng-model="xreport.locales[0].increase_impact" class="form-control"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].increase_impact"></span>
             </div>
 
             ## modifications
             <div id="modifications-group" class="form-group full">
-              <label app-context-help context-help-title="{{'modifications' | translate}}" context-help-content-url="/static/partials/contexthelp/xreport-modifications.html" translate>modifications</label>
+              <label c2c-context-help context-help-title="{{'modifications' | translate}}" context-help-content-url="/static/partials/contexthelp/xreport-modifications.html" translate>modifications</label>
               <textarea app-markdown-editor name="modifications" ng-model="xreport.locales[0].modifications" class="form-control"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].modifications"></span>
             </div>

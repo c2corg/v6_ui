@@ -1,3 +1,4 @@
+import angular from 'angular';
 import FeedController from './feed.controller';
 import FeedDirective from './feed.directive';
 

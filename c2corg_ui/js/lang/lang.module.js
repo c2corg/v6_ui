@@ -1,3 +1,4 @@
+import angular from 'angular';
 import LangController from './lang.controller';
 import LangDirective from './lang.directive';
 import LangService from './lang.service';

@@ -1,7 +1,4 @@
-/**
- * @module app.contextHelpDirective
- */
-import appBase from './index.js';
+import angular from 'angular';
 
 /**
  * This directive is used to display a contextual help modal dialog.
@@ -11,29 +8,31 @@ import appBase from './index.js';
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-const exports = function($uibModal, $templateCache, $compile) {
+const ContextHelpDirective = ($uibModal, $templateCache, $compile, UtilsService) => {
+  'ngInject';
+
   return {
     restrict: 'A',
-    link: function(scope, element, attrs) {
-      element.append(' <span class="glyphicon glyphicon-info-sign context-help-sign">');
+    link(scope, element, attrs) {
+      element.append('<span class="glyphicon glyphicon-info-sign context-help-sign">');
       element.on('click', () => {
         $uibModal.open({
-          controller: 'AppContextHelpModalController',
+          controller: 'ContextHelpModalController',
           controllerAs: 'contextHelpModalCtrl',
           templateUrl: '/static/partials/contexthelpmodal.html',
           'windowClass': 'context-help-modal',
           resolve: {
-            content: function() {
+            content() {
               const templateUrl = attrs['contextHelpContentUrl'];
               if (templateUrl) {
-                const template = appBase.utils.getTemplate(templateUrl, $templateCache);
+                const template = UtilsService.getTemplate(templateUrl, $templateCache);
                 const elements = $compile(template)(scope);
                 return angular.element('<div></div>').append(elements).html();
               } else {
                 return attrs['contextHelpContent'];
               }
             },
-            title: function() {
+            title() {
               return attrs['contextHelpTitle'];
             }
           }
@@ -43,8 +42,4 @@ const exports = function($uibModal, $templateCache, $compile) {
   };
 };
 
-
-appBase.module.directive('appContextHelp', exports);
-
-
-export default exports;
+export default ContextHelpDirective;
