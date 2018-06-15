@@ -410,7 +410,7 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
                   <h5 translate ng-if="xreport.associations.users.length == 0">You can look up for users that were with you during the accident.</h5>
                   <div class="list users" ng-if="xreport.associations.users.length > 0">
                     <div class="list-item users new-item" ng-repeat="user in xreport.associations.users track by user.name">
-                      <app-card app-card-doc="{'document_id': user.document_id, 'name': user.name, 'type': 'u', 'locales': user.locales}"></app-card>
+                      <c2c-card c2c-card-doc="{'document_id': user.document_id, 'name': user.name, 'type': 'u', 'locales': user.locales}"></c2c-card>
                       <span class="glyphicon glyphicon-trash"
                             ng-click="editCtrl.documentService.removeAssociation(user.document_id, 'users', $event)"></span>
                     </div>

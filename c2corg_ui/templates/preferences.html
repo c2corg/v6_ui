@@ -51,7 +51,7 @@ from c2corg_common.attributes import activities, default_langs
         <div class="list areas" ng-show="prefCtrl.areas.length > 0">
           <div class="list-item areas new-item"
                ng-repeat="area in prefCtrl.areas">
-            <app-card app-card-doc="area" app-card-disable-click="true"></app-card>
+            <c2c-card c2c-card-doc="area" c2c-card-disable-click="true"></c2c-card>
             <span class="glyphicon glyphicon-trash" ng-click="prefCtrl.removeArea(area.document_id)"></span>
           </div>
           ${generate_empty_list_items(5)}

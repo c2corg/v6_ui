@@ -16,17 +16,17 @@
   <h3 class="title-feed" translate>Activity feed</h3>
   <div class="in-feed-col-1">
     <article ng-repeat="doc in feedCtrl.documentsCol[0] track by doc.id">
-      <app-card app-card-doc="::doc"></app-card>
+      <c2c-card c2c-card-doc="::doc"></c2c-card>
     </article>
   </div>
   <div class="in-feed-col-2">
     <article ng-repeat="doc in feedCtrl.documentsCol[1] track by doc.id">
-      <app-card app-card-doc="::doc"></app-card>
+      <c2c-card c2c-card-doc="::doc"></c2c-card>
     </article>
   </div>
   <div class="in-feed-col-3">
     <article ng-repeat="doc in feedCtrl.documentsCol[2] track by doc.id">
-      <app-card app-card-doc="::doc"></app-card>
+      <c2c-card c2c-card-doc="::doc"></c2c-card>
     </article>
   </div>
   <div style="clear:both;">&nbsp;</div>

@@ -11,7 +11,7 @@
       <div class="list-item waypoints ${'to-route' if model == 'route' else ''}"
            ng-repeat="wp in ${model}.associations.${type} | orderBy: 'waypoint_type'"
            ng-class="{'main-waypoint': ${model}.main_waypoint_id === wp.document_id, 'new-item': wp['new']}">
-        <app-card app-card-doc="wp" app-card-disable-click="true"></app-card>
+        <c2c-card c2c-card-doc="wp" c2c-card-disable-click="true"></c2c-card>
         % if model == 'route':
           <div class="principal">
             <b class="set-main-waypoint green-text" ng-if="${model}.main_waypoint_id === wp.document_id" ng-init="${model}.main_waypoint_title = wp.locales[0].title" translate>main waypoint</b>
@@ -41,7 +41,7 @@
   <section ng-show="${model}.associations.routes.length > 0" class="associated-section">
     <article class="associated-documents">
       <div class="list-item" ng-repeat="rte in ${model}.associations.routes" ng-class="{'new-item': rte['new']}">
-        <app-card app-card-doc="rte" app-card-disable-click="true"></app-card>
+        <c2c-card c2c-card-doc="rte" c2c-card-disable-click="true"></c2c-card>
         <span class="glyphicon glyphicon-trash" ng-click="editCtrl.documentService.removeAssociation(rte.document_id, 'routes', $event)"></span>
       </div>
       ${generate_empty_list_items(5)}
@@ -56,7 +56,7 @@
   <section ng-show="${model}.associations.outings.length > 0" class="associated-section">
     <article class="associated-documents">
       <div class="list-item" ng-repeat="out in ${model}.associations.outings" ng-class="{'new-item': out['new']}">
-        <app-card app-card-doc="out" app-card-disable-click="true"></app-card>
+        <c2c-card c2c-card-doc="out" c2c-card-disable-click="true"></c2c-card>
         <span class="glyphicon glyphicon-trash" ng-click="editCtrl.documentService.removeAssociation(out.document_id, 'outings', $event)"></span>
       </div>
       ${generate_empty_list_items(5)}
@@ -71,7 +71,7 @@
   <section ng-show="${model}.associations.books.length > 0" class="associated-section">
     <article class="associated-documents">
       <div class="list-item" ng-repeat="bk in ${model}.associations.books" ng-class="{'new-item': bk['new']}">
-        <app-card app-card-doc="bk" app-card-disable-click="true"></app-card>
+        <c2c-card c2c-card-doc="bk" c2c-card-disable-click="true"></c2c-card>
         <span class="glyphicon glyphicon-trash" ng-click="editCtrl.documentService.removeAssociation(bk.document_id, 'books', $event)"></span>
       </div>
       ${generate_empty_list_items(5)}
@@ -86,7 +86,7 @@
   <section ng-show="${model}.associations.articles.length > 0" class="associated-section">
     <article class="associated-documents">
       <div class="list-item" ng-repeat="art in ${model}.associations.articles" ng-class="{'new-item': art['new']}">
-        <app-card app-card-doc="art" app-card-disable-click="true"></app-card>
+        <c2c-card c2c-card-doc="art" c2c-card-disable-click="true"></c2c-card>
         <span class="glyphicon glyphicon-trash" ng-click="editCtrl.documentService.removeAssociation(art.document_id, 'articles', $event)"></span>
       </div>
       ${generate_empty_list_items(5)}

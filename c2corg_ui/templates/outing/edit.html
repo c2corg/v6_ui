@@ -678,7 +678,7 @@ updating_doc = outing_id and outing_lang
                   <h5 translate ng-if="outing.associations.users.length == 0">You can look up for users that were with you during the outing.</h5>
                   <div class="list users" ng-if="outing.associations.users.length > 0">
                     <div class="list-item users new-item" ng-repeat="user in outing.associations.users track by user.name">
-                      <app-card app-card-doc="{'document_id': user.document_id, 'name': user.name, 'type': 'u', 'locales': user.locales}"></app-card>
+                      <c2c-card c2c-card-doc="{'document_id': user.document_id, 'name': user.name, 'type': 'u', 'locales': user.locales}"></c2c-card>
                       <span class="glyphicon glyphicon-trash"
                             ng-click="editCtrl.documentService.removeAssociation(user.document_id, 'users', $event)"
                             ng-if="outing.associations.users.length > 1"></span>

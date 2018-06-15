@@ -277,7 +277,7 @@
     <section ng-show="${associations}.length > 0">
       <div class="associated-documents collapse in" id="associated-articles">
         <div class="list-item" ng-repeat="doc in ${associations}" ng-class="{'new-item': doc['new']}">
-          <app-card app-card-doc="doc"></app-card>
+          <c2c-card c2c-card-doc="doc"></c2c-card>
           % if type == 'articles':
               <app-delete-association child-doctype="articles" parent-id="${document['document_id']}" child-id="doc.document_id"
                 ng-if="${test_association_rights(document)}"></app-delete-association>
@@ -302,7 +302,7 @@
     <section ng-show="${associations}.length > 0">
       <div class="associated-documents collapse in" id="associated-books">
         <div class="list-item" ng-repeat="doc in ${associations}" ng-class="{'new-item': doc['new']}">
-          <app-card app-card-doc="doc"></app-card>
+          <c2c-card c2c-card-doc="doc"></c2c-card>
           % if type == 'books':
               <app-delete-association child-doctype="books" parent-id="${document['document_id']}" child-id="doc.document_id"
                 ng-if="${test_association_rights(document)}"></app-delete-association>
@@ -327,7 +327,7 @@
     <section ng-show="${associations}.length > 0">
       <div class="associated-documents collapse in" id="associated-xreports">
         <div class="list-item" ng-repeat="doc in ${associations}" ng-class="{'new-item': doc['new']}">
-          <app-card app-card-doc="doc"></app-card>
+          <c2c-card c2c-card-doc="doc"></c2c-card>
           % if type == 'xreports':
             <app-delete-association child-doctype="xreports" parent-id="${document['document_id']}" child-id="doc.document_id"
               ng-if="${test_association_rights(document)}"></app-delete-association>
@@ -364,7 +364,7 @@
         <app-activity-filter activities="${activities}" documents="${associations}"></app-activity-filter>
         <div class="associated-documents">
           <div class="list-item" ng-repeat="doc in afilterCtrl.filter(${associations})" ng-class="{'new-item': doc['new']}">
-            <app-card app-card-doc="doc"></app-card>
+            <c2c-card c2c-card-doc="doc"></c2c-card>
             % if type == 'routes':
               <app-delete-association child-doctype="routes" parent-id="${document['document_id']}" child-id="doc.document_id"
                 ng-if="${test_association_rights(document)}
@@ -419,7 +419,7 @@
              ng-class="{'new-item': doc['new']}"
            % endif
            ng-repeat="doc in ${associations} | orderBy: 'waypoint_type'">
-           <app-card app-card-doc="doc"></app-card>
+           <c2c-card c2c-card-doc="doc"></c2c-card>
         % if showDelete:
             <app-delete-association child-doctype="${type}" parent-id="${document['document_id']}" child-id="doc.document_id"
               ng-if="${test_association_rights(document)}
@@ -474,7 +474,7 @@
 
         <div class="list-item outings"
              ng-repeat="doc in detailsCtrl.documentService.document.associations.${'recent_outings.documents' if isRecentOutings else 'outings'}">
-          <app-card app-card-doc="doc"></app-card>
+          <c2c-card c2c-card-doc="doc"></c2c-card>
           <app-delete-association child-doctype="o" parent-id="${document['document_id']}" child-id="doc.document_id"
                                   ng-if="${test_association_rights(document)}"></app-delete-association>
         </div>

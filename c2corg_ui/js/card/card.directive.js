@@ -1,8 +1,4 @@
-/**
- * @module app.cardDirective
- */
-import appBase from './index.js';
-import appUtils from './utils.js';
+import angular from 'angular';
 
 /**
  * This directive is used to display a document card.
@@ -12,7 +8,9 @@ import appUtils from './utils.js';
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-const exports = function($compile, $templateCache) {
+const CardDirective = ($compile, $templateCache, UtilsService) => {
+  'ngInject';
+
   const cardElementCache = {};
 
   const getCardElement = function(doctype) {
@@ -20,7 +18,7 @@ const exports = function($compile, $templateCache) {
       return cardElementCache[doctype];
     }
     const path = '/static/partials/cards/' + doctype + '.html';
-    const template = appUtils.getTemplate(path, $templateCache);
+    const template = UtilsService.getTemplate(path, $templateCache);
     const element = angular.element(template);
     cardElementCache[doctype] = $compile(element);
     return cardElementCache[doctype];
@@ -28,13 +26,13 @@ const exports = function($compile, $templateCache) {
 
   return {
     restrict: 'E',
-    controller: 'AppCardController',
+    controller: 'CardController',
     controllerAs: 'cardCtrl',
     bindToController: true,
     scope: {
-      'doc': '<appCardDoc'
+      'doc': '<c2cCardDoc'
     },
-    link: function(scope, element, attrs, ctrl) {
+    link(scope, element, attrs, ctrl) {
       const cardElementFn = getCardElement(ctrl.type);
       cardElementFn(scope, (clone) => {
         element.append(clone);
@@ -43,5 +41,4 @@ const exports = function($compile, $templateCache) {
   };
 };
 
-
-export default exports;
+export default CardDirective;

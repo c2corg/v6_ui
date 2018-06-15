@@ -13,7 +13,7 @@ from c2corg_common.attributes import mailinglists
     <app-simple-search app-select="flCtrl.addUser(doc)" dataset="u"></app-simple-search>
     <div class="list users" ng-show="flCtrl.following.length > 0">
       <div class="list-item users" ng-repeat="user in flCtrl.following">
-        <app-card app-card-doc="user"></app-card>
+        <c2c-card c2c-card-doc="user"></c2c-card>
         <span class="glyphicon glyphicon-minus-sign follow-btn" ng-click="flCtrl.toggle(user.document_id)"
               ng-show="flCtrl.followingIds.indexOf(user.document_id) > -1" uib-tooltip="{{'Unfollow' | translate}}" tooltip-append-to-body="true"></span>
         <span class="glyphicon glyphicon-plus-sign follow-btn" ng-click="flCtrl.toggle(user.document_id)"
