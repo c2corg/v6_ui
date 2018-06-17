@@ -1,7 +1,4 @@
-/**
- * @module app.advancedSearchDirective
- */
-import appBase from './index.js';
+import template from 'advanced-search.html';
 
 /**
  * This directive is used to display the advanced search form and results.
@@ -9,21 +6,18 @@ import appBase from './index.js';
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-const exports = function() {
+const AdvancedSearchDirective = () => {
   return {
     restrict: 'E',
-    controller: 'AppAdvancedSearchController',
+    controller: 'AdvancedSearchController',
     controllerAs: 'searchCtrl',
     bindToController: {
       'doctype': '@documentType',
       'useMap': '='
     },
     scope: true,
-    templateUrl: '/static/partials/advancedsearch.html'
+    template
   };
 };
 
-appBase.module.directive('appAdvancedSearch', exports);
-
-
-export default exports;
+export default AdvancedSearchDirective;

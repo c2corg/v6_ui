@@ -361,7 +361,7 @@
       <span x-translate>Associated routes</span><span class="glyphicon glyphicon-menu-down"></span>
     </h3><app-list-switch class="pull-right"></app-list-switch>
       <div class="collapse in" id="associated-routes">
-        <app-activity-filter activities="${activities}" documents="${associations}"></app-activity-filter>
+        <c2c-activity-filter activities="${activities}" documents="${associations}"></c2c-activity-filter>
         <div class="associated-documents">
           <div class="list-item" ng-repeat="doc in afilterCtrl.filter(${associations})" ng-class="{'new-item': doc['new']}">
             <c2c-card c2c-card-doc="doc"></c2c-card>

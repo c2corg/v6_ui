@@ -13,7 +13,7 @@ const exports = function() {
     link: function(scope, el, attrs, ctrl) {
       // show/hide filters on click, only available on phone
       $('.show-documents-filters-phone').click(() => {
-        $('form[app-search-filters]').toggleClass('show');
+        $('form[c2c-search-filters]').toggleClass('show');
         $('.map-right').removeClass('show');
       });
       // hide/show map on mobile
