@@ -6,13 +6,13 @@ import appUtils from './utils.js';
 
 /**
  * @param {angular.Scope} $scope Scope.
- * @param {app.Authentication} appAuthentication
+ * @param {app.Authentication} AuthenticationService
  * @param {app.Api} ApiService Api service.
  * @param {string} authUrl Base URL of the authentication page.
  * @constructor
  * @ngInject
  */
-const exports = function($scope, appAuthentication, ApiService, authUrl) {
+const exports = function($scope, AuthenticationService, ApiService, authUrl) {
 
   /**
    * @type {angular.Scope}
@@ -50,7 +50,7 @@ const exports = function($scope, appAuthentication, ApiService, authUrl) {
    */
   this.followed_only = false;
 
-  if (appAuthentication.isAuthenticated()) {
+  if (AuthenticationService.isAuthenticated()) {
     this.apiService_.readPreferences().then((response) => {
       const data = /** @type {appx.UserPreferences} */ (response['data']);
       this.activities = data.activities;

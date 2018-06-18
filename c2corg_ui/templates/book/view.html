@@ -52,7 +52,7 @@ other_langs, missing_langs = get_lang_lists(book, lang)
 </%block>
   <div ng-cloak>
   <div class="viewdoc">
-    <app-announcement></app-announcement>
+    <c2c-announcement></c2c-announcement>
     <header class="view-title-without-bg">
       <h1 class="routes">
         <span class="title">${show_locale_title(locale)}</span><br>
@@ -85,7 +85,7 @@ other_langs, missing_langs = get_lang_lists(book, lang)
           <span class="lead" ng-cloak id="associated-documents">
               <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
                 <label translate>Add association</label>
-                <app-add-association parent-doctype="books" parent-id="${book_id}" dataset="wrc"></app-add-association>
+                <c2c-add-association parent-doctype="books" parent-id="${book_id}" dataset="wrc"></c2c-add-association>
               </div>
               <section>
                 ${show_associated_waypoints(book)}

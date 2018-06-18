@@ -8,13 +8,13 @@ import appBase from './index.js';
  * within other controllers, for example to set the properties in one
  * controller and then read them in another.
  * Also to do all functions common to all documents.
- * @param {app.Authentication} appAuthentication
+ * @param {app.Authentication} AuthenticationService
  * @param {angular.Scope} $rootScope Scope.
  * @constructor
  * @ngInject
  * @struct
  */
-const exports = function(appAuthentication, $rootScope) {
+const exports = function(AuthenticationService, $rootScope) {
 
   /**
    * @type {angular.Scope}
@@ -26,7 +26,7 @@ const exports = function(appAuthentication, $rootScope) {
    * @type {app.Authentication}
    * @private
    */
-  this.auth_ = appAuthentication;
+  this.auth_ = AuthenticationService;
 
   /**
    * @export
@@ -193,7 +193,7 @@ exports.prototype.isCollaborative = function(type) {
   }
 };
 
-appBase.module.service('appDocument', exports);
+appBase.module.service('DocumentService', exports);
 
 
 export default exports;

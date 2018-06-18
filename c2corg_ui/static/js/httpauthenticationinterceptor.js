@@ -6,10 +6,10 @@ import appBase from './index.js';
 /**
  * @ngInject
  * @param {string} apiUrl Base URL of the API.
- * @param {app.Authentication} appAuthentication
+ * @param {app.Authentication} AuthenticationService
  * @return {angular.$http.Interceptor}
  */
-const exports = function(apiUrl, appAuthentication) {
+const exports = function(apiUrl, AuthenticationService) {
   return {
     'request': (
       /**
@@ -20,9 +20,9 @@ const exports = function(apiUrl, appAuthentication) {
         const method = config.method;
         const url = config.url;
         goog.asserts.assert(method && url);
-        if (appAuthentication.needAuthorization(method, url)) {
+        if (AuthenticationService.needAuthorization(method, url)) {
           config.headers = config.headers || {};
-          appAuthentication.addAuthorizationToHeaders(url, config.headers);
+          AuthenticationService.addAuthorizationToHeaders(url, config.headers);
         }
         return config;
       }

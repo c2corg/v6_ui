@@ -1,12 +1,12 @@
 /**
- * @param {app.Authentication} appAuthentication
+ * @param {app.Authentication} AuthenticationService
  * @param {app.Api} ApiService Api service.
  * @param {string} authUrl Base URL of the authentication page.
  * @constructor
  * @ngInject
  */
 export default class MailingListsController {
-  constructor(appAuthentication, ApiService, authUrl, UtilsService) {
+  constructor(AuthenticationService, ApiService, authUrl, UtilsService) {
     'ngInject';
 
     /**
@@ -21,7 +21,7 @@ export default class MailingListsController {
     */
     this.mailinglists = null;
 
-    if (appAuthentication.isAuthenticated()) {
+    if (AuthenticationService.isAuthenticated()) {
       this.apiService_.readMailinglists().then((response) => {
         this.mailinglists = response['data'];
       });

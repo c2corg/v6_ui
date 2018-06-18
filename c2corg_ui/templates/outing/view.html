@@ -85,7 +85,7 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
 </%block>
 <div ng-cloak>
   <div class="viewdoc viewroute">
-  <app-announcement></app-announcement>
+  <c2c-announcement></c2c-announcement>
   <%block name="share">
     ${generate_share_metadata(outing, 'outings')}
   </%block>
@@ -174,7 +174,7 @@ other_langs, missing_langs = get_lang_lists(outing, lang)
                       <section>
                         <div ng-show="userCtrl.auth.isAuthenticated() && userCtrl.hasEditRights('outings', {'users': ${userIds}})" class="add-association">
                           <label translate>Add association</label>
-                          <app-add-association parent-id="${outing_id}" parent-doctype="outings" dataset="rcx"></app-add-association>
+                          <c2c-add-association parent-id="${outing_id}" parent-doctype="outings" dataset="rcx"></c2c-add-association>
                         </div>
                           ${show_associated_routes(outing)}
                         ${show_associated_articles(outing)}

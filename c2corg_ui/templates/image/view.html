@@ -73,7 +73,7 @@ from json import dumps
 </%block>
 <div ng-cloak>
   <div class="viewdoc">
-    <app-announcement></app-announcement>
+    <c2c-announcement></c2c-announcement>
     <header class="view-title-without-bg">
       <h1 class="routes">
         <span class="title">${locale['title']}</span>
@@ -120,7 +120,7 @@ from json import dumps
                       % endif
                     ">
                       <label translate>Add association</label>
-                      <app-add-association parent-doctype="images" parent-id="${image_id}" dataset="wrcb"></app-add-association>
+                      <c2c-add-association parent-doctype="images" parent-id="${image_id}" dataset="wrcb"></c2c-add-association>
                     </div>
 
                     ${show_associated_outings(image)}

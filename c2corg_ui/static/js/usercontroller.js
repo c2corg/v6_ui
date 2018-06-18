@@ -5,7 +5,7 @@ import appBase from './index.js';
 import appUtils from './utils.js';
 
 /**
- * @param {app.Authentication} appAuthentication
+ * @param {app.Authentication} AuthenticationService
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {app.Alerts} appAlerts
  * @param {app.Api} ApiService
@@ -15,14 +15,14 @@ import appUtils from './utils.js';
  * @constructor
  * @ngInject
  */
-const exports = function(appAuthentication, ngeoLocation,
+const exports = function(AuthenticationService, ngeoLocation,
   appAlerts, ApiService, authUrl, gettext) {
 
   /**
    * @type {app.Authentication}
    * @export
    */
-  this.auth = appAuthentication;
+  this.auth = AuthenticationService;
 
   /**
    * @type {app.Api}

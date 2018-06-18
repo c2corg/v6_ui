@@ -6,13 +6,13 @@
  * @param {angular.$http} $http
  * @param {app.Alerts} appAlerts The Alerts service
  * @param {angular.$q} $q
- * @param {app.Authentication} appAuthentication
+ * @param {app.Authentication} AuthenticationService
  * @constructor
  * @struct
  * @ngInject
  */
 export default class ApiService {
-  constructor(discourseUrl, apiUrl, imageBackendUrl, $http, appAlerts, $q, appAuthentication, UtilsService) {
+  constructor(discourseUrl, apiUrl, imageBackendUrl, $http, appAlerts, $q, AuthenticationService, UtilsService) {
     'ngInject';
 
     this.utilsService = UtilsService;
@@ -57,7 +57,7 @@ export default class ApiService {
      * @type {app.Authentication}
      * @private
      */
-    this.auth_ = appAuthentication;
+    this.auth_ = AuthenticationService;
 
     const excludedCategories = [
       95,  // Partenaires : Escalade, SAE

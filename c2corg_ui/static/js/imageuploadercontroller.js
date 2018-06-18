@@ -13,22 +13,22 @@ import olProj from 'ol/proj.js';
  * @param {angular.$q} $q promise
  * @param {app.Api} ApiService Api service.
  * @param {app.Alerts} appAlerts
- * @param {app.Document} appDocument service
+ * @param {app.Document} DocumentService service
  * @param {String} imageUrl URL to the image backend.
  * @param {app.Url} appUrl
- * @param {app.Authentication} appAuthentication
+ * @param {app.Authentication} AuthenticationService
  * @constructor
  * @struct
  * @ngInject
  */
 const exports = function($scope, $uibModal, $compile, $q,
-  appAlerts, ApiService, appDocument, imageUrl, appUrl, appAuthentication) {
+  appAlerts, ApiService, DocumentService, imageUrl, appUrl, AuthenticationService) {
 
   /**
    * @type {app.Document}
    * @export
    */
-  this.documentService = appDocument;
+  this.documentService = DocumentService;
 
   /**
    * @type {Object} angular bootstrap modal
@@ -46,7 +46,7 @@ const exports = function($scope, $uibModal, $compile, $q,
    * @type {app.Authentication}
    * @private
    */
-  this.auth_ = appAuthentication;
+  this.auth_ = AuthenticationService;
 
   /**
    * @type {app.Url}

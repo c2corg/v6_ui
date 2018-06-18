@@ -22,7 +22,7 @@
       document_versions.reverse()
       has_several_versions = len(document_versions) > 1
   %>
-  <form app-versions data-document-type="${module}" data-document-id="${document_id}"
+  <form c2c-versions data-document-type="${module}" data-document-id="${document_id}"
         data-lang="${lang}" ng-submit="versionsCtrl.compare()">
      % if has_several_versions and len(document_versions) > 10 :
       <p><button type="submit" class="btn btn-primary" translate>Compare selected versions</button></p>

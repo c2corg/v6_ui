@@ -8,24 +8,24 @@ import DocumentEditingController from '../document/document-editing.controller';
  * @param {Object} $uibModal modal from angular bootstrap.
  * @param {angular.$compile} $compile Angular compile service.
  * @param {app.Lang} LangService Lang service.
- * @param {app.Authentication} appAuthentication
+ * @param {app.Authentication} AuthenticationService
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {app.Alerts} appAlerts
  * @param {app.Api} ApiService Api service.
  * @param {string} authUrl Base URL of the authentication page.
- * @param {app.Document} appDocument
+ * @param {app.Document} DocumentService
  * @param {app.Url} appUrl URL service.
  * @constructor
  * @extends {app.DocumentEditingController}
  * @ngInject
  */
 export default class XreportEditingController extends DocumentEditingController {
-  constructor($scope, $element, $attrs, $http, $uibModal, $compile, LangService, appAuthentication, ngeoLocation,
-    appAlerts, ApiService, authUrl, appDocument, appUrl, imageUrl) {
+  constructor($scope, $element, $attrs, $http, $uibModal, $compile, LangService, AuthenticationService, ngeoLocation,
+    appAlerts, ApiService, authUrl, DocumentService, appUrl, imageUrl) {
     'ngInject';
 
-    super($scope, $element, $attrs, $http, $uibModal, $compile, LangService, appAuthentication, ngeoLocation, appAlerts,
-      ApiService, authUrl, appDocument, appUrl, imageUrl);
+    super($scope, $element, $attrs, $http, $uibModal, $compile, LangService, AuthenticationService, ngeoLocation, appAlerts,
+      ApiService, authUrl, DocumentService, appUrl, imageUrl);
 
     /**
      * Start cannot be after today nor end_date.

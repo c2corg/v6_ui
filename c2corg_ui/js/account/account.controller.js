@@ -2,7 +2,7 @@ import angular from 'angular';
 
 /**
  * @param {angular.Scope} $scope Scope.
- * @param {app.Authentication} appAuthentication
+ * @param {app.Authentication} AuthenticationService
  * @param {app.Alerts} appAlerts
  * @param {app.Api} ApiService Api service.
  * @param {string} authUrl Base URL of the authentication page.
@@ -10,7 +10,7 @@ import angular from 'angular';
  * @ngInject
  */
 export default class AccountController {
-  constructor($scope, appAuthentication, appAlerts, ApiService, authUrl, UtilsService) {
+  constructor($scope, AuthenticationService, appAlerts, ApiService, authUrl, UtilsService) {
     'ngInject';
 
     /**
@@ -37,7 +37,7 @@ export default class AccountController {
      */
     this.initialData_;
 
-    if (appAuthentication.isAuthenticated()) {
+    if (AuthenticationService.isAuthenticated()) {
       this.apiService_.readAccount().then((data) => {
         this.initialData_ = data['data'];
         $scope['account'] = angular.copy(this.initialData_);

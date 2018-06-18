@@ -1,3 +1,4 @@
+import angular from 'angular';
 import googAsserts from 'goog/asserts.js';
 import olBase from 'ol.js';
 import olFormatGeoJSON from 'ol/format/GeoJSON.js';
@@ -13,20 +14,20 @@ import olGeomPoint from 'ol/geom/Point.js';
  * @param {Object} $uibModal modal from angular bootstrap.
  * @param {angular.$compile} $compile Angular compile service.
  * @param {app.Lang} LangService Lang service.
- * @param {app.Authentication} appAuthentication
+ * @param {app.Authentication} AuthenticationService
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @param {app.Alerts} appAlerts
  * @param {app.Api} ApiService Api service.
  * @param {string} authUrl Base URL of the authentication page.
- * @param {app.Document} appDocument
+ * @param {app.Document} DocumentService
  * @param {app.Url} appUrl URL service.
  * @param {!string} imageUrl URL to the image backend.
  * @constructor
  * @ngInject
  */
 export default class DocumentEditingController {
-  constructor($scope, $element, $attrs, $http, $uibModal, $compile, LangService, appAuthentication, ngeoLocation,
-    appAlerts, ApiService, authUrl, appDocument, UrlService, imageUrl, documentEditing, REQUIRED_FIELDS, UtilsService) {
+  constructor($scope, $element, $attrs, $http, $uibModal, $compile, LangService, AuthenticationService, ngeoLocation,
+    appAlerts, ApiService, authUrl, DocumentService, UrlService, imageUrl, documentEditing, REQUIRED_FIELDS, UtilsService) {
     'ngInject';
 
     this.documentEditing = documentEditing;
@@ -39,7 +40,7 @@ export default class DocumentEditingController {
      * @type {app.Document}
      * @export
      */
-    this.documentService = appDocument;
+    this.documentService = DocumentService;
 
     /**
      * @type {string}
@@ -51,7 +52,7 @@ export default class DocumentEditingController {
      * @type {app.Authentication}
      * @public
      */
-    this.auth = appAuthentication;
+    this.auth = AuthenticationService;
 
     /**
      * @type {string}

@@ -254,7 +254,7 @@ export default class FeedController {
     const data = response['data']['feed'];
     const token = response['data']['pagination_token'];
     this.nextToken = token;
-    const whatsnew = angular.element(document.querySelector('app-whatsnew-feed'));
+    const whatsnew = angular.element(document.querySelector('c2c-whatsnew-feed'));
 
     this.initDocumentsCol_();
     if (window.innerWidth < 1400 || whatsnew.length > 0) {

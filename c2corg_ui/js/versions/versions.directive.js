@@ -1,19 +1,14 @@
 /**
- * @module app.versionsDirective
- */
-import appBase from './index.js';
-
-/**
  * This directive is used to manage the history form.
  *
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-const exports = function() {
+const VersionsDirective = () => {
   return {
     restrict: 'A',
     scope: true,
-    controller: 'appVersionsController',
+    controller: 'VersionsController',
     controllerAs: 'versionsCtrl',
     bindToController: {
       'documentType': '@',
@@ -23,7 +18,4 @@ const exports = function() {
   };
 };
 
-appBase.module.directive('appVersions', exports);
-
-
-export default exports;
+export default VersionsDirective;

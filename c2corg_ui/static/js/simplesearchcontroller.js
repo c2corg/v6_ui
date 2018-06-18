@@ -10,22 +10,22 @@ import UrlService from '../../js/url/url.service.js';
  * @param {!angular.Scope} $scope Angular scope.
  * @param {angular.$compile} $compile Angular compile service.
  * @param {angular.$templateCache} $templateCache service
- * @param {app.Document} appDocument service
- * @param {app.Authentication} appAuthentication service
+ * @param {app.Document} DocumentService service
+ * @param {app.Authentication} AuthenticationService service
  * @param {angular.Attributes} $attrs Angular attributes.
  * @param {string} apiUrl Base URL of the API.
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @param {app.Url} appUrl URL service.
  * @ngInject
  */
-const exports = function(appDocument, $scope, $compile, $attrs, apiUrl,
-  gettextCatalog, $templateCache, appAuthentication, UrlService) {
+const exports = function(DocumentService, $scope, $compile, $attrs, apiUrl,
+  gettextCatalog, $templateCache, AuthenticationService, UrlService) {
 
   /**
    * @type {app.Document}
    * @private
    */
-  this.documentService_ = appDocument;
+  this.documentService_ = DocumentService;
 
   /**
    * Bound from directive.
@@ -48,10 +48,10 @@ const exports = function(appDocument, $scope, $compile, $attrs, apiUrl,
   }
 
   /**
-   * @type  {app.Authentication} appAuthentication
+   * @type  {app.Authentication} AuthenticationService
    * @private
    */
-  this.auth_ = appAuthentication;
+  this.auth_ = AuthenticationService;
 
   /**
    * @type {angular.$templateCache}

@@ -1,12 +1,12 @@
 /**
- * @param {app.Authentication} appAuthentication
+ * @param {app.Authentication} AuthenticationService
  * @param {app.Api} ApiService Api service.
  * @constructor
  * @ngInject
  * @struct
  */
 export default class BlockAccountController {
-  constructor(appAuthentication, ApiService) {
+  constructor(AuthenticationService, ApiService) {
     'ngInject';
 
     /**
@@ -19,7 +19,7 @@ export default class BlockAccountController {
      * @type {app.Authentication}
      * @private
      */
-    this.auth_ = appAuthentication;
+    this.auth_ = AuthenticationService;
 
     /**
      * @type {number}

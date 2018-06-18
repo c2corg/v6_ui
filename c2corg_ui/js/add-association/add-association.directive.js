@@ -1,14 +1,12 @@
 /**
- * @module app.addAssociationDirective
- */
-/**
  * @param {angular.$compile} $compile Angular compile service.
  * @ngInject
  * @return {angular.Directive} Directive Definition Object.
  */
-const exports = function($compile) {
+const AddAssociationDirective = ($compile) => {
+  'ngInject';
 
-  const template = function(dataset) {
+  const template = dataset => {
     return '<app-simple-search app-select="addCtrl.associate(doc)" ' +
       'ignore-document-id="addCtrl.parentId" ' +
       'dataset="' + dataset + '"></app-simple-search>';
@@ -16,20 +14,17 @@ const exports = function($compile) {
 
   return {
     restrict: 'E',
-    controller: 'AppAddAssociationController',
+    controller: 'AddAssociationController',
     controllerAs: 'addCtrl',
     bindToController: {
       'parentId': '=',
       'parentDoctype': '@'
     },
-    link: function(scope, element, attrs) {
+    link(scope, element, attrs) {
       element.html(template(attrs.dataset));
       $compile(element.contents())(scope);
     }
   };
 };
 
-app.module.directive('appAddAssociation', exports);
-
-
-export default exports;
+export default AddAssociationDirective;

@@ -8,13 +8,13 @@ import appUtils from './utils.js';
 appBase.module.directive('appFollowing', appBase.followingDirective);
 
 /**
- * @param {app.Authentication} appAuthentication
+ * @param {app.Authentication} AuthenticationService
  * @param {app.Api} ApiService Api service.
  * @param {string} authUrl Base URL of the authentication page.
  * @constructor
  * @ngInject
  */
-const exports = function(appAuthentication, ApiService, authUrl) {
+const exports = function(AuthenticationService, ApiService, authUrl) {
 
   /**
    * @type {app.Api}
@@ -26,7 +26,7 @@ const exports = function(appAuthentication, ApiService, authUrl) {
    * @type {app.Authentication}
    * @private
    */
-  this.auth_ = appAuthentication;
+  this.auth_ = AuthenticationService;
 
   /**
    * @type {Object}

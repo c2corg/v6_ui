@@ -1,22 +1,17 @@
 /**
- * @module app.deleteAssociationDirective
- */
-import appBase from './index.js';
-
-/**
  * @return {angular.Directive} Directive Definition Object.
  */
-const exports = function() {
+const DeleteAssociationDirective = () => {
   return {
     restrict: 'E',
-    controller: 'AppDeleteAssociationController',
+    controller: 'DeleteAssociationController',
     controllerAs: 'unassociateCtrl',
     bindToController: {
       'parentId': '=',
       'childId': '=',
       'childDoctype': '@'
     },
-    link: function(scope, element, attrs, controller) {
+    link(scope, element, attrs, controller) {
       $(element).on('click', (e) => {
         const modal = controller.openModal_();
         modal.result.then((res) => {
@@ -30,7 +25,4 @@ const exports = function() {
   };
 };
 
-appBase.module.directive('appDeleteAssociation', exports);
-
-
-export default exports;
+export default DeleteAssociationDirective;

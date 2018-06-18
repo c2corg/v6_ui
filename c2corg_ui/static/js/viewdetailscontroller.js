@@ -8,7 +8,7 @@ import appBase from './index.js';
  * @param {angular.$compile} $compile Angular compile service.
  * @param {Object} $uibModal modal from angular bootstrap
  * @param {app.Api} ApiService Api service.
- * @param {app.Document} appDocument service
+ * @param {app.Document} DocumentService service
  * @param {appx.Document} documentData Data set as module value in the HTML.
  * @param {string} imageUrl URL to the image backend.
  * @param {string} discourseUrl URL to discourse.
@@ -18,13 +18,13 @@ import appBase from './index.js';
  * @ngInject
  */
 const exports = function($scope, $compile, $uibModal, ApiService,
-  appDocument, documentData, imageUrl, discourseUrl, appUrl, LangService) {
+  DocumentService, documentData, imageUrl, discourseUrl, appUrl, LangService) {
 
   /**
    * @type {app.Document}
    * @export
    */
-  this.documentService = appDocument;
+  this.documentService = DocumentService;
   this.documentService.setDocument(documentData);
 
   /**

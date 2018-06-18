@@ -4,13 +4,13 @@
 import appBase from './index.js';
 
 /**
- * @param {app.Authentication} appAuthentication
+ * @param {app.Authentication} AuthenticationService
  * @param {app.Api} ApiService Api service.
  * @constructor
  * @ngInject
  * @struct
  */
-const exports = function(appAuthentication, ApiService) {
+const exports = function(AuthenticationService, ApiService) {
 
   /**
    * @type {app.Api}
@@ -22,7 +22,7 @@ const exports = function(appAuthentication, ApiService) {
    * @type {app.Authentication}
    * @private
    */
-  this.auth_ = appAuthentication;
+  this.auth_ = AuthenticationService;
 
   /**
    * @type {number}

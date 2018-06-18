@@ -79,7 +79,7 @@ other_langs, missing_langs = get_lang_lists(xreport, lang)
   ${generate_share_metadata(xreport, 'xreports')}
 </%block>
 <div class="viewdoc" ng-cloak>
-  <app-announcement></app-announcement>
+  <c2c-announcement></c2c-announcement>
   <header class="view-title-without-bg">
     <h1 class="routes">
       <span class="title">${show_locale_title(locale)}</span>
@@ -139,7 +139,7 @@ other_langs, missing_langs = get_lang_lists(xreport, lang)
                 <div class="add-association" ng-show="userCtrl.auth.isAuthenticated()
                   && userCtrl.hasEditRights('xreports', {'authorId': ${xreport['author']['user_id']}, 'users': ${dumps([user['document_id'] for user in xreport['associations']['users']])}})">
                   <label translate>Add association</label>
-                  <app-add-association parent-doctype="xreports" parent-id="${xreport_id}" dataset="roc"></app-add-association>
+                  <c2c-add-association parent-doctype="xreports" parent-id="${xreport_id}" dataset="roc"></c2c-add-association>
                 </div>
                 <section>
                   ${show_associated_routes(xreport)}

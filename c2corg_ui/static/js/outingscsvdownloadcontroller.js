@@ -4,7 +4,7 @@
 import appBase from './index.js';
 
 /**
- * @param {app.Authentication} appAuthentication
+ * @param {app.Authentication} AuthenticationService
  * @param {app.Api} ApiService The API service
  * @param {angular.$q} $q Angular q service.
  * @param {app.Lang} LangService Lang service.
@@ -12,13 +12,13 @@ import appBase from './index.js';
  * @struct
  * @ngInject
  */
-const exports = function(appAuthentication, ApiService, $q, LangService) {
+const exports = function(AuthenticationService, ApiService, $q, LangService) {
 
   /**
    * @type {app.Authentication}
    * @export
    */
-  this.auth = appAuthentication;
+  this.auth = AuthenticationService;
 
   /**
    * @type {app.Api}

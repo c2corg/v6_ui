@@ -89,7 +89,7 @@ waypoint['doctype'] = 'waypoints'
 </%block>
 <div ng-cloak>
   <div class="viewdoc">
-    <app-announcement></app-announcement>
+    <c2c-announcement></c2c-announcement>
     <header class="view-title-with-bg" ng-if="detailsCtrl.hasHeadband">
       <div class="view-image-bg" ng-style="{'background-image': 'url('+this.headBands+')'}"><div class="view-filter-bg"></div></div>
 
@@ -160,7 +160,7 @@ waypoint['doctype'] = 'waypoints'
                   <section>
                     <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
                       <label translate>Add association</label>
-                      <app-add-association parent-id="${waypoint_id}" parent-doctype="waypoints" dataset="wcbx"></app-add-association>
+                      <c2c-add-association parent-id="${waypoint_id}" parent-doctype="waypoints" dataset="wcbx"></c2c-add-association>
                     </div>
                   ${show_associated_waypoints(waypoint, 'waypoint_children')}
                   </section>

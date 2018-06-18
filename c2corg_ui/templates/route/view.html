@@ -96,7 +96,7 @@
 
 <div ng-cloak>
   <div class="viewdoc viewroute">
-    <app-announcement></app-announcement>
+    <c2c-announcement></c2c-announcement>
     <header class="view-title-with-bg" ng-if="detailsCtrl.hasHeadband">
       <div class="view-image-bg" ng-style="{'background-image': 'url('+this.headBands+')'}">
         <div class="view-filter-bg"></div>
@@ -173,7 +173,7 @@
                   <section>
                     <div ng-show="userCtrl.auth.isAuthenticated()" class="add-association">
                       <label translate>Add association</label>
-                      <app-add-association parent-id="${route_id}" parent-doctype="routes" dataset="wrcbx"></app-add-association>
+                      <c2c-add-association parent-id="${route_id}" parent-doctype="routes" dataset="wrcbx"></c2c-add-association>
                     </div>
 
                     ${show_associated_routes(route)}

@@ -15,13 +15,13 @@ import olTilegridWMTS from 'ol/tilegrid/WMTS.js';
  * @constructor
  * @param {ngeo.BackgroundLayerMgr} ngeoBackgroundLayerMgr Background layer
  *   manager.
- * @param {app.Authentication} appAuthentication
+ * @param {app.Authentication} AuthenticationService
  * @param {appx.mapApiKeys} mapApiKeys Set of map API keys.
  * @ngInject
  * @export
  */
 const exports = function(ngeoBackgroundLayerMgr,
-  appAuthentication, mapApiKeys) {
+  AuthenticationService, mapApiKeys) {
 
   /**
    * @type {ngeo.BackgroundLayerMgr}
