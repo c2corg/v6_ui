@@ -38,7 +38,7 @@
   %>
   <div class="float-buttons">
 
-    <app-follow app-follow-id="${doc_id}" ng-if="userCtrl.auth.isAuthenticated()"></app-follow>
+    <c2c-follow c2c-follow-id="${doc_id}" ng-if="userCtrl.auth.isAuthenticated()"></c2c-follow>
 
     <div ng-if="userCtrl.hasEditRights('profiles', ${options | n})"
      tooltip-placement="left" uib-tooltip="{{'Edit' | translate}}" class="float-button float-edit"

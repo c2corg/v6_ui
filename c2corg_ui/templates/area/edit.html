@@ -94,7 +94,7 @@ from c2corg_common.attributes import default_langs, area_types
         <section class="section maps-info" ng-show="userCtrl.auth.isModerator()">
           <h2 class="heading show-phone"><span translate>geolocation</span></h2>
           <div class="content" id="edit-maps">
-            <app-map app-map-edit="true" app-map-draw-type="Polygon" class="map-edit"></app-map>
+            <c2c-map c2c-map-edit="true" c2c-map-draw-type="Polygon" class="map-edit"></c2c-map>
           </div>
         </section>
 
@@ -105,13 +105,13 @@ from c2corg_common.attributes import default_langs, area_types
             ## SUMMARY
             <div id="summary-group" class="form-group full">
               <label translate>summary</label>
-              <textarea app-markdown-editor name="summary" ng-model="area.locales[0].summary" class="form-control"></textarea>
+              <textarea c2c-markdown-editor name="summary" ng-model="area.locales[0].summary" class="form-control"></textarea>
             </div>
 
             ## DESCRIPTION
             <div id="description-group" class="form-group full">
               <label translate>description</label>
-              <textarea app-markdown-editor name="description" ng-model="area.locales[0].description" class="form-control description"></textarea>
+              <textarea c2c-markdown-editor name="description" ng-model="area.locales[0].description" class="form-control description"></textarea>
             </div>
 
           </div>

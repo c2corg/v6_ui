@@ -113,7 +113,7 @@
         <div class="icons-header routes">${get_activities(route, 'top')}</div> ${show_badge(route, 'route')}
       </h1>
     </header>
-    <section class="view-details-section" app-view-details ng-class="{'row-list' : switchCtrl.showList}">
+    <section class="view-details-section" c2c-view-details ng-class="{'row-list' : switchCtrl.showList}">
       % if version:
         ${show_archive_data('routes', route, locale, version)}
       % endif
@@ -127,9 +127,9 @@
                    class="fullimg"/>
             </div>
           </div>
-          <app-map class="view-details-map"
-                   app-map-show-biodivsports-areas="true"
-                   app-map-biodivsports-activities="${route.get('activities')}"></app-map>
+          <c2c-map class="view-details-map"
+                   c2c-map-show-biodivsports-areas="true"
+                   c2c-map-biodivsports-activities="${route.get('activities')}"></c2c-map>
           % if not version:
             ${display_app_smartphone_info('route')}
           % endif
@@ -200,7 +200,7 @@
 
   % if not version:
     <div class="ng-hide">
-      <div id="image-uploader" app-image-uploader activities="${activities}" 
+      <div id="image-uploader" c2c-image-uploader activities="${activities}" 
            categories="${image_categories}" types="${image_types}"></div>
       ${delete_association_confirmation_modal()}
       ${show_missing_langs_links('routes', route, missing_langs)}

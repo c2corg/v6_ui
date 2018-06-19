@@ -173,7 +173,7 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
               </div>
             </div>
 
-            <app-map app-map-edit="true" app-map-show-recenter-tools="true" app-map-draw-type="Point" class="map-edit"></app-map>
+            <c2c-map c2c-map-edit="true" c2c-map-show-recenter-tools="true" c2c-map-draw-type="Point" class="map-edit"></c2c-map>
 
           </div>
         </section>
@@ -185,8 +185,8 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
             You can add associated documents by searching in the field.
           </h5>
           <div class="content route-associations">
-            <app-simple-search parent-id="xreport.document_id"
-              app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="roc"></app-simple-search>
+            <c2c-simple-search parent-id="xreport.document_id"
+              c2c-select="editCtrl.documentService.pushToAssociations(doc)" dataset="roc"></c2c-simple-search>
      
           </div>
         </section>
@@ -381,13 +381,13 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
             ## SUMMARY
             <div id="summary-group" class="form-group full">
               <label translate>summary</label>
-              <textarea app-markdown-editor name="summary" ng-model="xreport.locales[0].summary" class="form-control"></textarea>
+              <textarea c2c-markdown-editor name="summary" ng-model="xreport.locales[0].summary" class="form-control"></textarea>
             </div>
 
             ## DESCRIPTION
             <div id="description-group" class="form-group full">
               <label translate>description</label>
-              <textarea app-markdown-editor name="description" ng-model="xreport.locales[0].description" class="form-control description" placeholder="{{'Details of the actual outing and the incident. If you have already written up your outing, you only need to describe the incident, then link it to your outing report (after first uploading it)' | translate}}"></textarea>
+              <textarea c2c-markdown-editor name="description" ng-model="xreport.locales[0].description" class="form-control description" placeholder="{{'Details of the actual outing and the incident. If you have already written up your outing, you only need to describe the incident, then link it to your outing report (after first uploading it)' | translate}}"></textarea>
             </div>
 
             ## ANONYMOUS REPORTS
@@ -404,8 +404,8 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
               <label translate>associated_participants</label>
 
               <section class="section associations">
-                <app-simple-search parent-id="xreport.document_id"
-                                   app-select="editCtrl.documentService.pushToAssociations(doc, 'users')" dataset="u"></app-simple-search>
+                <c2c-simple-search parent-id="xreport.document_id"
+                                   c2c-select="editCtrl.documentService.pushToAssociations(doc, 'users')" dataset="u"></c2c-simple-search>
                 <section class="associated-section flex wrap-row">
                   <h5 translate ng-if="xreport.associations.users.length == 0">You can look up for users that were with you during the accident.</h5>
                   <div class="list users" ng-if="xreport.associations.users.length > 0">
@@ -432,91 +432,91 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
             ## place
             <div id="place-group" class="form-group full">
               <label translate>place</label>
-              <textarea app-markdown-editor name="description" ng-model="xreport.locales[0].place" class="form-control" placeholder="{{'Information on the location of the incident.  Mark the location on the map above, even if you cannot do very accurately, (in which case give more details here).  After completing the report, you can associate it to a route, a climbing site or an outing.' | translate}}"></textarea>
+              <textarea c2c-markdown-editor name="description" ng-model="xreport.locales[0].place" class="form-control" placeholder="{{'Information on the location of the incident.  Mark the location on the map above, even if you cannot do very accurately, (in which case give more details here).  After completing the report, you can associate it to a route, a climbing site or an outing.' | translate}}"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].place"></span>
             </div>
 
             ## route_study
             <div id="route_study-group" class="form-group full">
               <label translate>route_study</label>
-              <textarea app-markdown-editor name="route_study" ng-model="xreport.locales[0].route_study" class="form-control" placeholder="{{'Maps, guidebooks and outings reports consulted. Evaluation of the route during the outing.' | translate}}"></textarea>
+              <textarea c2c-markdown-editor name="route_study" ng-model="xreport.locales[0].route_study" class="form-control" placeholder="{{'Maps, guidebooks and outings reports consulted. Evaluation of the route during the outing.' | translate}}"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].route_study"></span>
             </div>
 
             ## conditions
             <div id="conditions-group" class="form-group full">
               <label translate>conditions study</label>
-              <textarea app-markdown-editor name="conditions" ng-model="xreport.locales[0].conditions" class="form-control" placeholder="{{'Describe the information gathered before the outing and how these evolved once on route: weather forecast, avalanche risk reports, amount of refreezing, condition of the snow/ice/rock, reports from the previous days, etc.' | translate}}"></textarea>
+              <textarea c2c-markdown-editor name="conditions" ng-model="xreport.locales[0].conditions" class="form-control" placeholder="{{'Describe the information gathered before the outing and how these evolved once on route: weather forecast, avalanche risk reports, amount of refreezing, condition of the snow/ice/rock, reports from the previous days, etc.' | translate}}"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].conditions"></span>
             </div>
 
             ## training
             <div id="training-group" class="form-group full">
               <label translate>training</label>
-              <textarea app-markdown-editor name="training" ng-model="xreport.locales[0].training" class="form-control" placeholder="{{'At the time of the incident, describe your technical level, your physical condition, how tired you had become just prior to the incident, and, if at altitude, how well you were acclimatized, etc.' | translate}}"></textarea>
+              <textarea c2c-markdown-editor name="training" ng-model="xreport.locales[0].training" class="form-control" placeholder="{{'At the time of the incident, describe your technical level, your physical condition, how tired you had become just prior to the incident, and, if at altitude, how well you were acclimatized, etc.' | translate}}"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].training"></span>
             </div>
 
             ## motivations
             <div id="motivations-group" class="form-group full">
               <label translate>motivations</label>
-              <textarea app-markdown-editor name="motivations" ng-model="xreport.locales[0].motivations" class="form-control" placeholder="{{'Why did you choose this outing? When did you decide to engage. What influenced your decision (holiday time, long journey, hotel/hut bookings, time spent already in preparation, limited possibilities, etc.)?' | translate}}"></textarea>
+              <textarea c2c-markdown-editor name="motivations" ng-model="xreport.locales[0].motivations" class="form-control" placeholder="{{'Why did you choose this outing? When did you decide to engage. What influenced your decision (holiday time, long journey, hotel/hut bookings, time spent already in preparation, limited possibilities, etc.)?' | translate}}"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].motivations"></span>
             </div>
 
             ## group_management
             <div id="group_management-group" class="form-group full">
               <label translate>group_management</label>
-              <textarea app-markdown-editor name="group_management" ng-model="xreport.locales[0].group_management" class="form-control" placeholder="{{'Communication of the individual objectives and expectations, the thoughts and observations during the outing, discussions on new strategies, the way the group conducted itself and divided responsibilities, was the group used to working together, core aspirations, etc.' | translate}}"></textarea>
+              <textarea c2c-markdown-editor name="group_management" ng-model="xreport.locales[0].group_management" class="form-control" placeholder="{{'Communication of the individual objectives and expectations, the thoughts and observations during the outing, discussions on new strategies, the way the group conducted itself and divided responsibilities, was the group used to working together, core aspirations, etc.' | translate}}"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].group_management"></span>
             </div>
 
             ## risk
             <div id="risk-group" class="form-group full">
               <label translate>risk</label>
-              <textarea app-markdown-editor name="risk" ng-model="xreport.locales[0].risk" class="form-control" placeholder="{{'Have you (re)evaluated the risks at each change in the situation? What factors might have affected your awareness, such as tiredness, stress, relaxing having passed the main difficulties or on the descent, on a section reputed to be easy, presence of footprints or other people, complete confidence in the leader of the group, etc.' | translate}}"></textarea>
+              <textarea c2c-markdown-editor name="risk" ng-model="xreport.locales[0].risk" class="form-control" placeholder="{{'Have you (re)evaluated the risks at each change in the situation? What factors might have affected your awareness, such as tiredness, stress, relaxing having passed the main difficulties or on the descent, on a section reputed to be easy, presence of footprints or other people, complete confidence in the leader of the group, etc.' | translate}}"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].risk"></span>
             </div>
 
             ## time_management
             <div id="time_management-group" class="form-group full">
               <label translate>time_management</label>
-              <textarea app-markdown-editor name="time_management" ng-model="xreport.locales[0].time_management" class="form-control" placeholder="{{'Had a timetable for the route been foreseen? Did you maintain the schedule? Was time a factor in causing the incident?' | translate}}"></textarea>
+              <textarea c2c-markdown-editor name="time_management" ng-model="xreport.locales[0].time_management" class="form-control" placeholder="{{'Had a timetable for the route been foreseen? Did you maintain the schedule? Was time a factor in causing the incident?' | translate}}"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].time_management"></span>
             </div>
 
             ## safety
             <div id="safety-group" class="form-group full">
               <label c2c-context-help context-help-title="{{'safety' | translate}}" context-help-content-url="/static/partials/contexthelp/xreport-safety.html"	translate>safety</label>
-              <textarea app-markdown-editor name="safety" ng-model="xreport.locales[0].safety" class="form-control" placeholder="{{'Types of belay and protection used, verifications between climbers, snowpack stability tests, testing of avalanche transceivers, etc.' | translate}}"></textarea>
+              <textarea c2c-markdown-editor name="safety" ng-model="xreport.locales[0].safety" class="form-control" placeholder="{{'Types of belay and protection used, verifications between climbers, snowpack stability tests, testing of avalanche transceivers, etc.' | translate}}"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].safety"></span>
             </div>
 
             ## reduce_impact
             <div id="reduce_impact-group" class="form-group full">
               <label c2c-context-help context-help-title="{{'reduce_impact' | translate}}" context-help-content-url="/static/partials/contexthelp/xreport-reduce_impact.html" translate>reduce_impact</label>
-              <textarea app-markdown-editor name="reduce_impact" ng-model="xreport.locales[0].reduce_impact" class="form-control"></textarea>
+              <textarea c2c-markdown-editor name="reduce_impact" ng-model="xreport.locales[0].reduce_impact" class="form-control"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].reduce_impact"></span>
             </div>
 
             ## increase_impact
             <div id="increase_impact-group" class="form-group full">
               <label c2c-context-help context-help-title="{{'increase_impact' | translate}}" context-help-content-url="/static/partials/contexthelp/xreport-increase_impact.html" translate>increase_impact</label>
-              <textarea app-markdown-editor name="increase_impact" ng-model="xreport.locales[0].increase_impact" class="form-control"></textarea>
+              <textarea c2c-markdown-editor name="increase_impact" ng-model="xreport.locales[0].increase_impact" class="form-control"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].increase_impact"></span>
             </div>
 
             ## modifications
             <div id="modifications-group" class="form-group full">
               <label c2c-context-help context-help-title="{{'modifications' | translate}}" context-help-content-url="/static/partials/contexthelp/xreport-modifications.html" translate>modifications</label>
-              <textarea app-markdown-editor name="modifications" ng-model="xreport.locales[0].modifications" class="form-control"></textarea>
+              <textarea c2c-markdown-editor name="modifications" ng-model="xreport.locales[0].modifications" class="form-control"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].modifications"></span>
             </div>
 
             ## other_comments
             <div id="other_comments-group" class="form-group full">
               <label translate>other_comments</label>
-              <textarea app-markdown-editor name="other_comments" ng-model="xreport.locales[0].other_comments" class="form-control" placeholder="{{'Briefly describe any injuries. Comments that do not fit into any other fields can be entered here.' | translate}}"></textarea>
+              <textarea c2c-markdown-editor name="other_comments" ng-model="xreport.locales[0].other_comments" class="form-control" placeholder="{{'Briefly describe any injuries. Comments that do not fit into any other fields can be entered here.' | translate}}"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].other_comments"></span>
             </div>
 

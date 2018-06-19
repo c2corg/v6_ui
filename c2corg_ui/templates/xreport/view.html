@@ -88,7 +88,7 @@ other_langs, missing_langs = get_lang_lists(xreport, lang)
     </h1>
   </header>
 
-  <section class="view-details-section" app-view-details>
+  <section class="view-details-section" c2c-view-details>
 
       ${show_other_langs_links('xreports', xreport, other_langs)}
 
@@ -99,7 +99,7 @@ other_langs, missing_langs = get_lang_lists(xreport, lang)
             ${get_xreport_participants(xreport)}
             ${get_xreport_location(xreport)}
 
-            <app-map class="view-details-map"></app-map>
+            <c2c-map class="view-details-map"></c2c-map>
             <div c2c-xreport="${xreport_id}" c2c-xreport-lang="${lang}">
               <div id="xreport-data"></div>
             </div>
@@ -163,7 +163,7 @@ other_langs, missing_langs = get_lang_lists(xreport, lang)
 
 % if not version:
   <div class="ng-hide">
-    <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
+    <div id="image-uploader" c2c-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
     ${delete_association_confirmation_modal()}
     ${show_missing_langs_links('xreports', xreport, missing_langs)}
     ${show_merge_documents_dialog('xreports')}

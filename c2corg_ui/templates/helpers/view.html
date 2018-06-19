@@ -93,7 +93,7 @@
       <a href="${request.route_path(module + '_view_id_lang', id=document_id, lang=lang)}">
         <button class="btn btn-default" translate>See the latest version</button>
       </a>
-      <button class="btn btn-default" ng-if="userCtrl.isModerator()" app-revert-document c2c-loading
+      <button class="btn btn-default" ng-if="userCtrl.isModerator()" c2c-revert-document c2c-loading
         ng-click="revertCtrl.revert(${document_id}, '${lang}', ${version_id})" translate>Restore this version</button>
     </p>
   </article>
@@ -142,7 +142,7 @@
     <div class="modal-header">
       <h3 class="text-center"><span translate>Merge documents</span> (<span x-translate>${document_type}</span>)</h3>
     </div>
-    <app-merge-documents module="'${module}'"></app-merge-documents>
+    <c2c-merge-documents module="'${module}'"></c2c-merge-documents>
   </div>
 </%def>
 
@@ -279,8 +279,8 @@
         <div class="list-item" ng-repeat="doc in ${associations}" ng-class="{'new-item': doc['new']}">
           <c2c-card c2c-card-doc="doc"></c2c-card>
           % if type == 'articles':
-              <app-delete-association child-doctype="articles" parent-id="${document['document_id']}" child-id="doc.document_id"
-                ng-if="${test_association_rights(document)}"></app-delete-association>
+              <c2c-delete-association child-doctype="articles" parent-id="${document['document_id']}" child-id="doc.document_id"
+                ng-if="${test_association_rights(document)}"></c2c-delete-association>
           % endif
         </div>
         ${generate_empty_list_items(5)}
@@ -304,8 +304,8 @@
         <div class="list-item" ng-repeat="doc in ${associations}" ng-class="{'new-item': doc['new']}">
           <c2c-card c2c-card-doc="doc"></c2c-card>
           % if type == 'books':
-              <app-delete-association child-doctype="books" parent-id="${document['document_id']}" child-id="doc.document_id"
-                ng-if="${test_association_rights(document)}"></app-delete-association>
+              <c2c-delete-association child-doctype="books" parent-id="${document['document_id']}" child-id="doc.document_id"
+                ng-if="${test_association_rights(document)}"></c2c-delete-association>
           % endif
         </div>
         ${generate_empty_list_items(5)}
@@ -329,8 +329,8 @@
         <div class="list-item" ng-repeat="doc in ${associations}" ng-class="{'new-item': doc['new']}">
           <c2c-card c2c-card-doc="doc"></c2c-card>
           % if type == 'xreports':
-            <app-delete-association child-doctype="xreports" parent-id="${document['document_id']}" child-id="doc.document_id"
-              ng-if="${test_association_rights(document)}"></app-delete-association>
+            <c2c-delete-association child-doctype="xreports" parent-id="${document['document_id']}" child-id="doc.document_id"
+              ng-if="${test_association_rights(document)}"></c2c-delete-association>
           % endif
         </div>
         ${generate_empty_list_items(5)}
@@ -366,12 +366,12 @@
           <div class="list-item" ng-repeat="doc in afilterCtrl.filter(${associations})" ng-class="{'new-item': doc['new']}">
             <c2c-card c2c-card-doc="doc"></c2c-card>
             % if type == 'routes':
-              <app-delete-association child-doctype="routes" parent-id="${document['document_id']}" child-id="doc.document_id"
+              <c2c-delete-association child-doctype="routes" parent-id="${document['document_id']}" child-id="doc.document_id"
                 ng-if="${test_association_rights(document)}
                 % if document['type'] == 'o':
                     && ${associations}.length > 1
                 % endif
-              "></app-delete-association>
+              "></c2c-delete-association>
             % endif
           </div>
           % if type == 'all_routes':
@@ -421,12 +421,12 @@
            ng-repeat="doc in ${associations} | orderBy: 'waypoint_type'">
            <c2c-card c2c-card-doc="doc"></c2c-card>
         % if showDelete:
-            <app-delete-association child-doctype="${type}" parent-id="${document['document_id']}" child-id="doc.document_id"
+            <c2c-delete-association child-doctype="${type}" parent-id="${document['document_id']}" child-id="doc.document_id"
               ng-if="${test_association_rights(document)}
               % if document['doctype'] == 'routes':
                   && ${associations}.length > 1
               % endif
-            "></app-delete-association>
+            "></c2c-delete-association>
         % endif
       </div>
       ${generate_empty_list_items(5)}
@@ -475,8 +475,8 @@
         <div class="list-item outings"
              ng-repeat="doc in detailsCtrl.documentService.document.associations.${'recent_outings.documents' if isRecentOutings else 'outings'}">
           <c2c-card c2c-card-doc="doc"></c2c-card>
-          <app-delete-association child-doctype="o" parent-id="${document['document_id']}" child-id="doc.document_id"
-                                  ng-if="${test_association_rights(document)}"></app-delete-association>
+          <c2c-delete-association child-doctype="o" parent-id="${document['document_id']}" child-id="doc.document_id"
+                                  ng-if="${test_association_rights(document)}"></c2c-delete-association>
         </div>
 
         % if isRecentOutings and total > 0:
@@ -683,7 +683,7 @@
         <li ng-if="userCtrl.hasEditRights('${doctype}', ${options}, ${protected})"
             ng-click="detailsCtrl.openModal('#missing-langs')"><a><span class="glyphicon glyphicon-edit"></span> <translate>Translate into an other lang</translate></a></li>
         % endif
-        <li ng-if="userCtrl.isModerator()" app-protect-document></li>
+        <li ng-if="userCtrl.isModerator()" c2c-protect-document></li>
         <li ng-if="userCtrl.isModerator()"
             ng-click="detailsCtrl.openModal('#merge-documents-dialog')"><a><span class="glyphicon glyphicon-arrow-right"></span> <translate>Merge with other document</translate></a></li>
         % if doctype != 'areas':
@@ -1014,12 +1014,12 @@
     % if isLine and document.get('geometry').get('geom_detail'):
       <p class="hidden-print">
         <span translate class="value-title">Download track as</span>
-        <app-geom-download></app-geom-download>
+        <c2c-geom-download></c2c-geom-download>
       </p>
     % elif not isLine and document.get('geometry').get('geom'):
       <p class="hidden-print">
         <span translate class="value-title">Download waypoint as</span>
-        <app-geom-download></app-geom-download>
+        <c2c-geom-download></c2c-geom-download>
       </p>
     % endif
   % endif

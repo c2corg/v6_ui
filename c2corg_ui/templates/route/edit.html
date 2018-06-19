@@ -100,10 +100,10 @@ updating_doc = route_id and route_lang
               <div class="full form-group">
                 <label translate>Track</label>
                 <div class="track">
-                  <app-gpx-upload></app-gpx-upload>
+                  <c2c-gpx-upload></c2c-gpx-upload>
                   <div class="track-tip" translate>You may also drag, draw or edit the track on the map.</div>
                 </div>
-                <app-map app-map-edit="true" app-map-show-recenter-tools="true" app-map-draw-type="LineString" class="map-edit"></app-map>
+                <c2c-map c2c-map-edit="true" c2c-map-show-recenter-tools="true" c2c-map-draw-type="LineString" class="map-edit"></c2c-map>
               </div>
 
             </div>
@@ -116,8 +116,8 @@ updating_doc = route_id and route_lang
             </h5>
             <div class="content">
               ## wrcb = waypoints, routes, articles, books
-              <app-simple-search parent-id="route.document_id"
-                app-select="editCtrl.documentService.pushToAssociations(doc, null, false, true)" dataset="wrcb"></app-simple-search>
+              <c2c-simple-search parent-id="route.document_id"
+                c2c-select="editCtrl.documentService.pushToAssociations(doc, null, false, true)" dataset="wrcb"></c2c-simple-search>
             </div>
           </section>
 
@@ -457,7 +457,7 @@ updating_doc = route_id and route_lang
                 <label ng-class="{ 'control-label': editForm.route_length.$touched && editForm.route_length.$invalid }" translate>route_length</label>
                 <div class="input-group">
                   <input type="number" min="0" minlength="1" name="route_length"
-                         ng-model="route.route_length" app-length-converter
+                         ng-model="route.route_length" c2c-length-converter
                          class="form-control" />
                   <span class="input-group-addon">km</span>
                 </div>
@@ -477,7 +477,7 @@ updating_doc = route_id and route_lang
                 <label ng-class="{ 'control-label': editForm.mtb_length_asphalt.$touched && editForm.mtb_length_asphalt.$invalid }" translate>mtb_length_asphalt</label>
                 <div class="input-group">
                   <input type="number" min="0" minlength="1" name="mtb_length_asphalt"
-                         ng-model="route.mtb_length_asphalt" app-length-converter
+                         ng-model="route.mtb_length_asphalt" c2c-length-converter
                          class="form-control" />
                   <span class="input-group-addon">km</span>
                 </div>
@@ -497,7 +497,7 @@ updating_doc = route_id and route_lang
                 <label ng-class="{ 'control-label': editForm.mtb_length_trail.$touched && editForm.mtb_length_trail.$invalid }" translate>mtb_length_trail</label>
                 <div class="input-group">
                   <input type="number" min="0" minlength="1" name="mtb_length_trail"
-                         ng-model="route.mtb_length_trail" app-length-converter
+                         ng-model="route.mtb_length_trail" c2c-length-converter
                          class="form-control" />
                   <span class="input-group-addon">km</span>
                 </div>
@@ -881,37 +881,37 @@ updating_doc = route_id and route_lang
               ## SUMMARY
               <div id="summary-group" class="form-group data full">
                 <label translate>summary</label>
-                <textarea app-markdown-editor name="summary" ng-model="route.locales[0].summary" class="form-control"></textarea>
+                <textarea c2c-markdown-editor name="summary" ng-model="route.locales[0].summary" class="form-control"></textarea>
               </div>
 
               ## DESCRIPTION
               <div id="description-group" class="form-group data full">
                 <label translate>description</label>
-                <textarea app-markdown-editor name="description" ng-model="route.locales[0].description" class="form-control description"></textarea>
+                <textarea c2c-markdown-editor name="description" ng-model="route.locales[0].description" class="form-control description"></textarea>
               </div>
 
               ## Slackline Anchor 1
               <div id="slackline_anchor1-group" class="form-group data full" ng-if="editCtrl.hasActivity(['slacklining'])">
                 <label translate>slackline_anchor1</label>
-                <textarea app-markdown-editor name="slackline_anchor1" ng-model="route.locales[0].slackline_anchor1" class="form-control"></textarea>
+                <textarea c2c-markdown-editor name="slackline_anchor1" ng-model="route.locales[0].slackline_anchor1" class="form-control"></textarea>
               </div>
 
               ## Slackline Anchor 2
               <div id="slackline_anchor1-group" class="form-group data full" ng-if="editCtrl.hasActivity(['slacklining'])">
                 <label translate>slackline_anchor2</label>
-                <textarea app-markdown-editor name="slackline_anchor2" ng-model="route.locales[0].slackline_anchor2" class="form-control"></textarea>
+                <textarea c2c-markdown-editor name="slackline_anchor2" ng-model="route.locales[0].slackline_anchor2" class="form-control"></textarea>
               </div>
 
               ## REMARKS
               <div id="remarks-group" class="form-group data full">
                 <label translate>remarks</label>
-                <textarea app-markdown-editor name="remarks" ng-model="route.locales[0].remarks" class="form-control"></textarea>
+                <textarea c2c-markdown-editor name="remarks" ng-model="route.locales[0].remarks" class="form-control"></textarea>
               </div>
 
               ## ROUTE HISTORY
               <div class="form-group data full">
                 <label translate>route_history</label>
-                <textarea app-markdown-editor name="route_history"
+                <textarea c2c-markdown-editor name="route_history"
                           ng-model="route.locales[0].route_history"
                           class="form-control"
                         placeholder="{{'Describe historical information about the route (date, names..) here' | translate}}"></textarea>
@@ -923,7 +923,7 @@ updating_doc = route_id and route_lang
                        context-help-content-url="/static/partials/contexthelp/route-specific_gear.html">
                   <span translate>specific gear</span>
                 </label>
-                <textarea app-markdown-editor name="gear"
+                <textarea c2c-markdown-editor name="gear"
                           ng-model="route.locales[0].gear" class="form-control"
                           placeholder="{{'Describe here the gear needed for this route' | translate}}"></textarea>
               </div>
@@ -945,7 +945,7 @@ updating_doc = route_id and route_lang
               ## EXTERNAL RESOURCES
               <div class="form-group data full">
                 <label translate>external_resources</label>
-                <textarea app-markdown-editor name="external_resources" ng-model="route.locales[0].external_resources" class="form-control" placeholder="{{'Books and websites not already associated to this route' | translate}}"></textarea>
+                <textarea c2c-markdown-editor name="external_resources" ng-model="route.locales[0].external_resources" class="form-control" placeholder="{{'Books and websites not already associated to this route' | translate}}"></textarea>
               </div>
 
             </div>

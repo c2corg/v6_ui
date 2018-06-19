@@ -1,18 +1,11 @@
-/**
- * @module app.viewDetailsDirective
- */
-import appBase from './index.js';
 
-/**
- * @return {angular.Directive} directive for detailed views
- */
-const exports = function() {
+const ViewDetailsDirective = () => {
   return {
     restrict: 'A',
-    controller: 'AppViewDetailsController',
+    controller: 'ViewDetailsController',
     controllerAs: 'detailsCtrl',
     bindToController: true,
-    link: function(scope, el, attrs, ctrl) {
+    link(scope, el, attrs, ctrl) {
 
       function initGalleries() {
         ctrl.initPhotoswipe_();
@@ -34,7 +27,4 @@ const exports = function() {
   };
 };
 
-appBase.module.directive('appViewDetails', exports);
-
-
-export default exports;
+export default ViewDetailsDirective;

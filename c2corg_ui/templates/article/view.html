@@ -59,7 +59,7 @@ other_langs, missing_langs = get_lang_lists(article, lang)
     </h1>
   </header>
 
-  <section class="view-details-section" app-view-details ng-class="{'row-list' : switchCtrl.showList}">
+  <section class="view-details-section" c2c-view-details ng-class="{'row-list' : switchCtrl.showList}">
 
     % if version:
       ${show_archive_data('articles', article, locale, version)}
@@ -126,7 +126,7 @@ other_langs, missing_langs = get_lang_lists(article, lang)
 
 % if not version:
   <div class="ng-hide">
-    <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
+    <div id="image-uploader" c2c-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
     ${delete_association_confirmation_modal()}
     ${show_missing_langs_links('articles', article, missing_langs)}
     ${show_merge_documents_dialog('articles')}

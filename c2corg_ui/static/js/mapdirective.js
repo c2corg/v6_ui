@@ -14,10 +14,10 @@ const exports = function() {
     restrict: 'E',
     scope: {
       'edit': '=appMapEdit',
-      'drawType': '@appMapDrawType',
+      'drawType': '@c2cMapDrawType',
       'disableWheel': '=appMapDisableWheel',
       'advancedSearch': '=appMapAdvancedSearch',
-      'zoom': '@appMapZoom',
+      'zoom': '@c2cMapZoom',
       'defaultMapFilter': '=appMapDefaultMapFilter',
       'featureCollection': '=appMapFeatureCollection',
       'showRecenterTools': '=appMapShowRecenterTools',

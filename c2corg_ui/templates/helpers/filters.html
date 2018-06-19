@@ -24,7 +24,7 @@
     <button class="btn blue-btn search-filters-btn" ng-click="filtersCtrl.clear()"
             ng-show="filtersCtrl.filtersNb > 0"><span translate>Clear filters</span> ({{filtersCtrl.filtersNb}})</button>
     % if module:
-      <button class="btn green-btn search-filters-btn" c2c-loading app-load-preferences="${module}"
+      <button class="btn green-btn search-filters-btn" c2c-loading c2c-load-preferences="${module}"
               ng-show="userCtrl.auth.isAuthenticated()" translate>Load my preferences</button>
     % endif
   </div>
@@ -37,7 +37,7 @@
     <button class="btn blue-btn more-filters-btn" ng-click="filtersCtrl.clear()" ng-cloak
             ng-show="filtersCtrl.filtersNb > 0"><span translate>Clear filters</span> ({{filtersCtrl.filtersNb}})</button>
     % if module:
-      <button class="btn green-btn more-filters-btn" c2c-loading app-load-preferences="${module}"
+      <button class="btn green-btn more-filters-btn" c2c-loading c2c-load-preferences="${module}"
               ng-show="userCtrl.auth.isAuthenticated()" translate>Load my preferences</button>
     % endif
   </div>

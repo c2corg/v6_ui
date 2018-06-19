@@ -21,7 +21,7 @@
 
   <div class="row">
     <div class="col-xs-12 col-sm-6 col-md-5 col-lg-4">
-      <div app-view-details>
+      <div c2c-view-details>
         ${get_profile_general(profile)}
 
         <div ng-init="detailsCtrl.documentService.setAssociations(${profile['associations']});"></div>
@@ -42,7 +42,7 @@
               }
             }]
           };'></div>
-          <app-map class="view-details-map" app-map-feature-collection="profileFeature"></app-map>
+          <c2c-map class="view-details-map" c2c-map-feature-collection="profileFeature"></c2c-map>
 
           % if profile.get('areas'):
             <div class="finfo">

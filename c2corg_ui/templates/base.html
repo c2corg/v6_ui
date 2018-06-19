@@ -14,13 +14,13 @@
     <meta charset="utf-8">
     ## Mobile attributes
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-c2c-capable" content="yes">
     <meta name="theme-color" content="#F7931D">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-title" content="Camptocamp.org">
+    <meta name="mobile-web-c2c-capable" content="yes">
+    <meta name="apple-mobile-web-c2c-title" content="Camptocamp.org">
     <meta name="application-name" content="Camptocamp.org">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-c2c-capable" content="yes">
+    <meta name="apple-mobile-web-c2c-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
@@ -59,19 +59,19 @@
         <img src="${request.static_path('c2corg_ui:static/img/logo2.svg')}" alt="Camptocamp.org"/>
       </a>
       <div class="quick-search">
-        <app-simple-search app-simple-search-standard="true" dataset="wrcb"></app-simple-search>
+        <c2c-simple-search c2c-simple-search-standard="true" dataset="wrcb"></c2c-simple-search>
       </div>
-      <app-user></app-user>
+      <c2c-user></c2c-user>
 
       <button class="btn orange-btn" id="add-my-outing" protected-url-btn url="${request.route_path('outings_add')}"><span class="glyphicon glyphicon-plus-sign"></span><span translate>add an outing</span></button>
 
       <div class="lang-user">
         <div class="lang-selector">
-          <app-lang></app-lang>
+          <c2c-lang></c2c-lang>
         </div>
       </div>
     </div>
-    <app-alerts></app-alerts>
+    <c2c-alerts></c2c-alerts>
 
 % if debug:
     <script>
@@ -130,7 +130,7 @@
           e.preventDefault();
         },false);
 
-         var module = angular.module('app');
+         var module = angular.module('c2c');
          module.constant('langUrlTemplate', '${request.static_path("c2corg_ui:static/build/locale/__lang__/c2corg_ui.json")}');
          module.constant('langMomentPath', '${request.static_path("c2corg_ui:static/build/locale_moment")}');
          module.constant('imgPath', '${request.static_path("c2corg_ui:static/img")}');

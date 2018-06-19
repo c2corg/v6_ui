@@ -62,13 +62,13 @@ from c2corg_common.attributes import activities, user_categories
             ## SUMMARY
             <div id="summary-group" class="form-group full">
               <label translate>summary</label>
-              <textarea app-markdown-editor name="summary" ng-model="profile.locales[0].summary" class="form-control"></textarea>
+              <textarea c2c-markdown-editor name="summary" ng-model="profile.locales[0].summary" class="form-control"></textarea>
             </div>
 
             ## DESCRIPTION
             <div id="description-group" class="form-group full">
               <label translate>description</label>
-              <textarea app-markdown-editor name="description" ng-model="profile.locales[0].description" class="form-control description"></textarea>
+              <textarea c2c-markdown-editor name="description" ng-model="profile.locales[0].description" class="form-control description"></textarea>
             </div>
 
             ## ACTIVITIES
@@ -135,7 +135,7 @@ from c2corg_common.attributes import activities, user_categories
               </div>
             </div>
 
-            <app-map app-map-edit="true" app-map-show-recenter-tools="true" app-map-draw-type="Point" class="map-edit"></app-map>
+            <c2c-map c2c-map-edit="true" c2c-map-show-recenter-tools="true" c2c-map-draw-type="Point" class="map-edit"></c2c-map>
           </div>
         </section>
 

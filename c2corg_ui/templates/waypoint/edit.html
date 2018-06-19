@@ -231,7 +231,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
                 </div>
               </div>
 
-              <app-map app-map-edit="true" app-map-show-recenter-tools="true" app-map-draw-type="Point" class="map-edit"></app-map>
+              <c2c-map c2c-map-edit="true" c2c-map-show-recenter-tools="true" c2c-map-draw-type="Point" class="map-edit"></c2c-map>
 
               ## MAPS REF
               <div id="maps_info-group" class="input-group" ng-if="type != 'climbing_indoor' ">
@@ -847,8 +847,8 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               </h5>
             <div class="content">
               ## w = waypoints
-              <app-simple-search parent-id="waypoint.document_id" app-select="editCtrl.documentService.pushToAssociations(doc, 'waypoint_children')" dataset="w">
-              </app-simple-search>
+              <c2c-simple-search parent-id="waypoint.document_id" c2c-select="editCtrl.documentService.pushToAssociations(doc, 'waypoint_children')" dataset="w">
+              </c2c-simple-search>
 
             </div>
           </section>
@@ -870,14 +870,14 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               ## SUMMARY
               <div id="summary-group" class="form-group data full">
                 <label translate>summary</label>
-                <textarea app-markdown-editor name="summary" ng-model="waypoint.locales[0].summary" class="form-control" placeholder="{{'write a summary' | translate}}"></textarea>
+                <textarea c2c-markdown-editor name="summary" ng-model="waypoint.locales[0].summary" class="form-control" placeholder="{{'write a summary' | translate}}"></textarea>
               </div>
 
               ## DESCRIPTION
               <div id="description-group" class="form-group data full">
                 <label translate ng-if="type == 'access'">road access</label>
                 <label translate ng-if="type != 'access'">description</label>
-                <textarea app-markdown-editor name="description" ng-model="waypoint.locales[0].description" class="form-control description"
+                <textarea c2c-markdown-editor name="description" ng-model="waypoint.locales[0].description" class="form-control description"
                   placeholder="{{ type =='access' ? mainCtrl.translate('Describe here the waypoint') : mainCtrl.translate('Describe road access') | translate}}"></textarea>
               </div>
 
@@ -886,7 +886,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
                 <label translate ng-if="type == 'access'">public transportation access</label>
                 <label translate ng-if="type == 'hut' || type == 'climbing_indoor' || type == 'climbing_outdoor' || type == 'slackline_spot'">pedestrian access</label>
                 <label translate ng-if="type == 'local_product'">road or pedestrian access</label>
-                <textarea app-markdown-editor name="access" ng-model="waypoint.locales[0].access" class="form-control"
+                <textarea c2c-markdown-editor name="access" ng-model="waypoint.locales[0].access" class="form-control"
                   placeholder="{{ type == 'access' ? mainCtrl.translate('Describe pt access') :
                     ( (type == 'hut' || type == 'climbing_indoor' || type == 'climbing_outdoor') ?
                       mainCtrl.translate('Describe pedestrian access') :
@@ -900,7 +900,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
                 <label translate ng-if="type == 'hut' || type == 'gite' || type == 'camp_site'">opening_periods</label>
                 <label translate ng-if="type == 'local_product'">opening_hours</label>
                 <label translate ng-if="type == 'climbing_outdoor'">restricted_access</label>
-                <textarea app-markdown-editor name="access_period" ng-model="waypoint.locales[0].access_period" class="form-control"
+                <textarea c2c-markdown-editor name="access_period" ng-model="waypoint.locales[0].access_period" class="form-control"
                   placeholder="{{ (type == 'hut' || type == 'gite' || type == 'camp_site') ?
                     mainCtrl.translate('Describe opening periods') :
                     (type === 'local_product' ? mainCtrl.translate('Describe opening hours') :

@@ -27,12 +27,12 @@ activities = [activity for activity in activities if activity != 'paragliding']
     </div>
     <div class="filter">
       <label translate>elevation_max</label><br>
-      <app-slider filter="rmaxa" filters-list="filtersCtrl.filters" max="8850"></app-slider>
+      <c2c-slider filter="rmaxa" filters-list="filtersCtrl.filters" max="8850"></c2c-slider>
     </div>
   </div>
 </%def>
 
-<form c2c-search-filters c2c-search-filters-controller-name="SearchFiltersController" app-sticky-filters>
+<form c2c-search-filters c2c-search-filters-controller-name="SearchFiltersController" c2c-sticky-filters>
   <div class="filters">
     ${simple_filters()}
     <div class="row collapse" id="moreFilters">
@@ -49,7 +49,7 @@ activities = [activity for activity in activities if activity != 'paragliding']
            ng-if="filtersCtrl.filters.act.length
                && filtersCtrl.filters.act.indexOf('slacklining') !== -1">
         <label translate>length</label><br>
-        <app-slider filter="rlen" filters-list="filtersCtrl.filters" max="2000" step="10" unit="m"></app-slider>
+        <c2c-slider filter="rlen" filters-list="filtersCtrl.filters" max="2000" step="10" unit="m"></c2c-slider>
       </div>
 
 
@@ -58,26 +58,26 @@ activities = [activity for activity in activities if activity != 'paragliding']
                && filtersCtrl.filters.act.indexOf('skitouring') !== -1">
         <div class="col-xs-12 col-sm-6 filter">
           <label translate>ski_rating</label><br>
-          <app-slider filter="trat" filters-list="filtersCtrl.filters" unit=""
-            values-list="['${"','".join(ski_ratings) |n}']"></app-slider>
+          <c2c-slider filter="trat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(ski_ratings) |n}']"></c2c-slider>
         </div>
 
         <div class="col-xs-12 col-sm-6 filter">
           <label translate>ski_exposition</label><br>
-          <app-slider filter="sexpo" filters-list="filtersCtrl.filters" unit=""
-            values-list="['${"','".join(exposition_ratings) |n}']"></app-slider>
+          <c2c-slider filter="sexpo" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(exposition_ratings) |n}']"></c2c-slider>
         </div>
 
         <div class="col-xs-12 col-sm-6 filter">
           <label translate>labande_global_rating</label><br>
-          <app-slider filter="lrat" filters-list="filtersCtrl.filters" unit=""
-            values-list="['${"','".join(global_ratings) |n}']"></app-slider>
+          <c2c-slider filter="lrat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(global_ratings) |n}']"></c2c-slider>
         </div>
 
         <div class="col-xs-12 col-sm-6 filter">
           <label translate>labande_ski_rating</label><br>
-          <app-slider filter="srat" filters-list="filtersCtrl.filters" unit=""
-            values-list="['${"','".join(labande_ski_ratings) |n}']"></app-slider>
+          <c2c-slider filter="srat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(labande_ski_ratings) |n}']"></c2c-slider>
         </div>
       </div>
 
@@ -96,8 +96,8 @@ activities = [activity for activity in activities if activity != 'paragliding']
                    filtersCtrl.filters.act.indexOf('alpine_climbing') !== -1)">
         <div class="col-xs-12 col-sm-6 filter">
           <label translate>rock_free_rating</label><br>
-          <app-slider filter="frat" filters-list="filtersCtrl.filters" unit=""
-            values-list="['${"','".join(climbing_ratings) |n}']"></app-slider>
+          <c2c-slider filter="frat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(climbing_ratings) |n}']"></c2c-slider>
         </div>
 
         <div class="col-xs-12 col-sm-6 filter"
@@ -108,14 +108,14 @@ activities = [activity for activity in activities if activity != 'paragliding']
                      || filtersCtrl.filters.crtyp.length === 0
                      || filtersCtrl.filters.act.length > 1)">
           <label translate>rock_required_rating</label><br>
-          <app-slider filter="rrat" filters-list="filtersCtrl.filters" unit=""
-            values-list="['${"','".join(climbing_ratings) |n}']"></app-slider>
+          <c2c-slider filter="rrat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(climbing_ratings) |n}']"></c2c-slider>
         </div>
 
         <div class="col-xs-12 col-sm-6 filter">
           <label translate>exposition_rock_rating</label><br>
-          <app-slider filter="rexpo" filters-list="filtersCtrl.filters" unit=""
-            values-list="['${"','".join(exposition_rock_ratings) |n}']"></app-slider>
+          <c2c-slider filter="rexpo" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(exposition_rock_ratings) |n}']"></c2c-slider>
         </div>
 
         <div class="col-xs-12 col-sm-6 filter"
@@ -126,8 +126,8 @@ activities = [activity for activity in activities if activity != 'paragliding']
                      || filtersCtrl.filters.crtyp.length === 0
                      || filtersCtrl.filters.act.length > 1)">
           <label translate>aid_rating</label><br>
-          <app-slider filter="arat" filters-list="filtersCtrl.filters" unit=""
-            values-list="['${"','".join(aid_ratings) |n}']"></app-slider>
+          <c2c-slider filter="arat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(aid_ratings) |n}']"></c2c-slider>
         </div>
       </div>
 
@@ -142,8 +142,8 @@ activities = [activity for activity in activities if activity != 'paragliding']
                    filtersCtrl.filters.act.indexOf('ice_climbing') !== -1)">
         <div class="col-xs-12 col-sm-6 filter">
           <label translate>global_rating</label><br>
-          <app-slider filter="grat" filters-list="filtersCtrl.filters" unit=""
-            values-list="['${"','".join(global_ratings) |n}']"></app-slider>
+          <c2c-slider filter="grat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(global_ratings) |n}']"></c2c-slider>
         </div>
 
         <div class="col-xs-12 col-sm-6 filter"
@@ -152,14 +152,14 @@ activities = [activity for activity in activities if activity != 'paragliding']
                      || filtersCtrl.filters.crtyp.indexOf('multi') !== -1
                      || filtersCtrl.filters.act.length > 1)">
           <label translate>engagement_rating</label><br>
-          <app-slider filter="erat" filters-list="filtersCtrl.filters" unit=""
-            values-list="['${"','".join(engagement_ratings) |n}']"></app-slider>
+          <c2c-slider filter="erat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(engagement_ratings) |n}']"></c2c-slider>
         </div>
 
         <div class="col-xs-12 col-sm-6 filter">
           <label translate>risk_rating</label><br>
-          <app-slider filter="orrat" filters-list="filtersCtrl.filters" unit=""
-            values-list="['${"','".join(risk_ratings) |n}']"></app-slider>
+          <c2c-slider filter="orrat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(risk_ratings) |n}']"></c2c-slider>
         </div>
 
         <div class="col-xs-12 col-sm-6 filter"
@@ -170,24 +170,24 @@ activities = [activity for activity in activities if activity != 'paragliding']
                      || filtersCtrl.filters.crtyp.length === 0
                      || filtersCtrl.filters.act.length > 1)">
           <label translate>equipment_rating</label><br>
-          <app-slider filter="prat" filters-list="filtersCtrl.filters" unit=""
-            values-list="['${"','".join(equipment_ratings) |n}']"></app-slider>
+          <c2c-slider filter="prat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(equipment_ratings) |n}']"></c2c-slider>
         </div>
 
 
         <div class="col-xs-12 col-sm-6 filter">
           <label translate>difficulties_height</label><br>
-          <app-slider filter="ralt" filters-list="filtersCtrl.filters" max="6000"></app-slider>
+          <c2c-slider filter="ralt" filters-list="filtersCtrl.filters" max="6000"></c2c-slider>
         </div>
 
         <div class="col-xs-12 col-sm-6 filter">
           <label translate>height_diff_access</label><br>
-          <app-slider filter="rappr" filters-list="filtersCtrl.filters" max="3000"></app-slider>
+          <c2c-slider filter="rappr" filters-list="filtersCtrl.filters" max="3000"></c2c-slider>
         </div>
 
         <div class="col-xs-12 col-sm-6 filter">
           <label translate>height_diff_difficulties</label><br>
-          <app-slider filter="dhei" filters-list="filtersCtrl.filters" max="3000"></app-slider>
+          <c2c-slider filter="dhei" filters-list="filtersCtrl.filters" max="3000"></c2c-slider>
         </div>
 
       </div>
@@ -198,14 +198,14 @@ activities = [activity for activity in activities if activity != 'paragliding']
                    filtersCtrl.filters.act.indexOf('ice_climbing') !== -1)">
         <div class="col-xs-12 col-sm-6 filter">
           <label translate>ice_rating</label><br>
-          <app-slider filter="irat" filters-list="filtersCtrl.filters" unit=""
-            values-list="['${"','".join(ice_ratings) |n}']"></app-slider>
+          <c2c-slider filter="irat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(ice_ratings) |n}']"></c2c-slider>
         </div>
 
         <div class="col-xs-12 col-sm-6 filter">
           <label translate>mixed_rating</label><br>
-          <app-slider filter="mrat" filters-list="filtersCtrl.filters" unit=""
-            values-list="['${"','".join(mixed_ratings) |n}']"></app-slider>
+          <c2c-slider filter="mrat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(mixed_ratings) |n}']"></c2c-slider>
         </div>
       </div>
 
@@ -214,8 +214,8 @@ activities = [activity for activity in activities if activity != 'paragliding']
            ng-if="filtersCtrl.filters.act.length
                && filtersCtrl.filters.act.indexOf('via_ferrata') !== -1">
         <label translate>via_ferrata_rating</label><br>
-        <app-slider filter="krat" filters-list="filtersCtrl.filters" unit=""
-          values-list="['${"','".join(via_ferrata_ratings) |n}']"></app-slider>
+        <c2c-slider filter="krat" filters-list="filtersCtrl.filters" unit=""
+          values-list="['${"','".join(via_ferrata_ratings) |n}']"></c2c-slider>
       </div>
 
       ## HIKING
@@ -223,8 +223,8 @@ activities = [activity for activity in activities if activity != 'paragliding']
            ng-if="filtersCtrl.filters.act.length
                && filtersCtrl.filters.act.indexOf('hiking') !== -1">
         <label translate>hiking_rating</label><br>
-        <app-slider filter="hrat" filters-list="filtersCtrl.filters" unit=""
-          values-list="['${"','".join(hiking_ratings) |n}']"></app-slider>
+        <c2c-slider filter="hrat" filters-list="filtersCtrl.filters" unit=""
+          values-list="['${"','".join(hiking_ratings) |n}']"></c2c-slider>
       </div>
 
       ## SNOWSHOEING
@@ -232,8 +232,8 @@ activities = [activity for activity in activities if activity != 'paragliding']
            ng-if="filtersCtrl.filters.act.length
                && filtersCtrl.filters.act.indexOf('snowshoeing') !== -1">
         <label translate>snowshoe_rating</label><br>
-        <app-slider filter="wrat" filters-list="filtersCtrl.filters" unit=""
-          values-list="['${"','".join(snowshoe_ratings) |n}']"></app-slider>
+        <c2c-slider filter="wrat" filters-list="filtersCtrl.filters" unit=""
+          values-list="['${"','".join(snowshoe_ratings) |n}']"></c2c-slider>
       </div>
 
       ## MOUNTAIN BIKING
@@ -241,29 +241,29 @@ activities = [activity for activity in activities if activity != 'paragliding']
                && filtersCtrl.filters.act.indexOf('mountain_biking') !== -1">
         <div class="col-xs-12 col-sm-6 filter">
           <label translate>mtb_up_rating</label><br>
-          <app-slider filter="mbur" filters-list="filtersCtrl.filters" unit=""
-            values-list="['${"','".join(mtb_up_ratings) |n}']"></app-slider>
+          <c2c-slider filter="mbur" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(mtb_up_ratings) |n}']"></c2c-slider>
         </div>
 
         <div class="col-xs-12 col-sm-6 filter">
           <label translate>mtb_down_rating</label><br>
-          <app-slider filter="mbdr" filters-list="filtersCtrl.filters" unit=""
-            values-list="['${"','".join(mtb_down_ratings) |n}']"></app-slider>
+          <c2c-slider filter="mbdr" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(mtb_down_ratings) |n}']"></c2c-slider>
         </div>
 
         <div class="col-xs-12 col-sm-6 filter">
           <label translate>mtb_length_asphalt</label><br>
-          <app-slider filter="mbroad" filters-list="filtersCtrl.filters" max="50000" step="500" unit="m"></app-slider>
+          <c2c-slider filter="mbroad" filters-list="filtersCtrl.filters" max="50000" step="500" unit="m"></c2c-slider>
         </div>
 
         <div class="col-xs-12 col-sm-6 filter">
           <label translate>mtb_length_trail</label><br>
-          <app-slider filter="mbtrack" filters-list="filtersCtrl.filters" max="50000" step="500" unit="m"></app-slider>
+          <c2c-slider filter="mbtrack" filters-list="filtersCtrl.filters" max="50000" step="500" unit="m"></c2c-slider>
         </div>
 
         <div class="col-xs-12 col-sm-6 filter">
           <label translate>mtb_height_diff_portages</label><br>
-          <app-slider filter="mbpush" filters-list="filtersCtrl.filters" max="5000" step="100" unit="m"></app-slider>
+          <c2c-slider filter="mbpush" filters-list="filtersCtrl.filters" max="5000" step="100" unit="m"></c2c-slider>
         </div>
       </div>
 
@@ -273,23 +273,23 @@ activities = [activity for activity in activities if activity != 'paragliding']
                && (filtersCtrl.filters.act.indexOf('mountain_biking') !== -1 ||
                    filtersCtrl.filters.act.indexOf('hiking') !== -1)">
         <label translate>hiking_mtb_exposition</label><br>
-        <app-slider filter="hexpo" filters-list="filtersCtrl.filters" unit=""
-          values-list="['${"','".join(exposition_ratings) |n}']"></app-slider>
+        <c2c-slider filter="hexpo" filters-list="filtersCtrl.filters" unit=""
+          values-list="['${"','".join(exposition_ratings) |n}']"></c2c-slider>
       </div>
 
       <div class="col-xs-12 col-sm-6 filter">
         <label translate>elevation_min</label><br>
-        <app-slider filter="rmina" filters-list="filtersCtrl.filters" max="6000"></app-slider>
+        <c2c-slider filter="rmina" filters-list="filtersCtrl.filters" max="6000"></c2c-slider>
       </div>
 
       <div class="col-xs-12 col-sm-6 filter">
         <label translate>height_diff_up</label><br>
-        <app-slider filter="hdif" filters-list="filtersCtrl.filters" max="10000"></app-slider>
+        <c2c-slider filter="hdif" filters-list="filtersCtrl.filters" max="10000"></c2c-slider>
       </div>
 
       <div class="col-xs-12 col-sm-6 filter">
         <label translate>height_diff_down</label><br>
-        <app-slider filter="ddif" filters-list="filtersCtrl.filters" max="10000"></app-slider>
+        <c2c-slider filter="ddif" filters-list="filtersCtrl.filters" max="10000"></c2c-slider>
       </div>
 
       <div class="col-xs-12 col-sm-6 col-md-6 filter orientation">
@@ -299,8 +299,8 @@ activities = [activity for activity in activities if activity != 'paragliding']
 
       <div class="col-xs-12 col-sm-6 filter">
         <label translate>durations</label><br>
-        <app-slider filter="time" filters-list="filtersCtrl.filters" unit="days"
-          values-list="['${"','".join(route_duration_types) |n}']"></app-slider>
+        <c2c-slider filter="time" filters-list="filtersCtrl.filters" unit="days"
+          values-list="['${"','".join(route_duration_types) |n}']"></c2c-slider>
       </div>
 
       <div class="col-xs-12 col-sm-6 filter"
@@ -339,7 +339,7 @@ activities = [activity for activity in activities if activity != 'paragliding']
                    filtersCtrl.filters.act.indexOf('hiking') !== -1 ||
                    filtersCtrl.filters.act.indexOf('mountain_biking') !== -1)">
         <label translate>route_length</label><br>
-        <app-slider filter="rlen" filters-list="filtersCtrl.filters" max="100000" step="500" unit="m"></app-slider>
+        <c2c-slider filter="rlen" filters-list="filtersCtrl.filters" max="100000" step="500" unit="m"></c2c-slider>
       </div>
 
       ## SNOW_ICE_MIXED, ROCK AND ALPINE CLIMBING, VIA FERRATA
@@ -360,8 +360,8 @@ activities = [activity for activity in activities if activity != 'paragliding']
 
       <div class="col-xs-12 col-sm-6 filter">
         <label translate>quality</label><br>
-        <app-slider filter="qa" filters-list="filtersCtrl.filters" unit=""
-          values-list="['${"','".join(quality_types) |n}']"></app-slider>
+        <c2c-slider filter="qa" filters-list="filtersCtrl.filters" unit=""
+          values-list="['${"','".join(quality_types) |n}']"></c2c-slider>
       </div>
 
       ${show_results_buttons('routes')}

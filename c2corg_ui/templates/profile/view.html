@@ -38,13 +38,13 @@
   </header>
 
   <section class="view-details-section">
-    <div app-user-profile="${profile['document_id']}" app-user-profile-lang="${lang}">
+    <div c2c-user-profile="${profile['document_id']}" c2c-user-profile-lang="${lang}">
       <div id="user-profile-data" c2c-loading></div>
     </div>
   </section>
 
   <div class="ng-hide">
-    <div id="image-uploader" app-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
+    <div id="image-uploader" c2c-image-uploader activities="${activities}" categories="${image_categories}" types="${image_types}"></div>
   </div>
 
   ${photoswipe_gallery()}

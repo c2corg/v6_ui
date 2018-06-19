@@ -24,12 +24,12 @@ from c2corg_common.attributes import default_langs, waypoint_types, orientation_
 
       <div class="filter">
         <label translate>elevation</label><br>
-        <app-slider filter="walt" filters-list="filtersCtrl.filters" max="8850"></app-slider>
+        <c2c-slider filter="walt" filters-list="filtersCtrl.filters" max="8850"></c2c-slider>
       </div>
     </div>
 </%def>
 
-<form c2c-search-filters c2c-search-filters-controller-name="SearchFiltersController" app-sticky-filters>
+<form c2c-search-filters c2c-search-filters-controller-name="SearchFiltersController" c2c-sticky-filters>
   <div class="filters">
     ${simple_filters()}
     <div class="row collapse" id="moreFilters">
@@ -38,7 +38,7 @@ from c2corg_common.attributes import default_langs, waypoint_types, orientation_
       ## SUMMITS
       <div class="filter col-xs-12 col-sm-6" ng-show="filtersCtrl.filters.wtyp.length && filtersCtrl.filters.wtyp.indexOf('summit') !== -1">
         <label translate>prominence</label><br>
-        <app-slider filter="prom" filters-list="filtersCtrl.filters" min="0" max="1000" step="10"></app-slider>
+        <c2c-slider filter="prom" filters-list="filtersCtrl.filters" min="0" max="1000" step="10"></c2c-slider>
       </div>
 
       ## CLIMBING INDOOR SITES
@@ -71,26 +71,26 @@ from c2corg_common.attributes import default_langs, waypoint_types, orientation_
 
         <div class="filter col-xs-12 col-sm-6">
           <label translate>routes_quantity</label><br>
-          <app-slider filter="rqua" filters-list="filtersCtrl.filters"
-            min="0" max="500" step="20" unit=""></app-slider>
+          <c2c-slider filter="rqua" filters-list="filtersCtrl.filters"
+            min="0" max="500" step="20" unit=""></c2c-slider>
         </div>
 
         <div class="filter col-xs-12 col-sm-6">
           <label translate>equipment_ratings</label><br>
-          <app-slider filter="anchq" filters-list="filtersCtrl.filters" unit=""
-            values-list="['${"','".join(equipment_ratings) |n}']"></app-slider>
+          <c2c-slider filter="anchq" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(equipment_ratings) |n}']"></c2c-slider>
         </div>
 
         <div class="filter col-xs-12 col-sm-6">
           <label translate>climbing_ratings</label><br>
-          <app-slider filter="crat" filters-list="filtersCtrl.filters" unit=""
-            values-list="['${"','".join(climbing_ratings) |n}']"></app-slider>
+          <c2c-slider filter="crat" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(climbing_ratings) |n}']"></c2c-slider>
         </div>
 
         <div class="filter col-xs-12 col-sm-6">
           <label translate>climbing_rating_median</label><br>
-          <app-slider filter="tmedr" filters-list="filtersCtrl.filters" unit=""
-            values-list="['${"','".join(climbing_ratings) |n}']"></app-slider>
+          <c2c-slider filter="tmedr" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(climbing_ratings) |n}']"></c2c-slider>
         </div>
       </div>
 
@@ -105,18 +105,18 @@ from c2corg_common.attributes import default_langs, waypoint_types, orientation_
       <div ng-show="filtersCtrl.filters.wtyp.length && filtersCtrl.filters.wtyp.indexOf('climbing_outdoor') !== -1">
         <div class="col-xs-12 col-sm-6 col-md-6 filter">
           <label translate>height</label><br>
-          <app-slider filter="height" filters-list="filtersCtrl.filters" min="0" max="200" step="10"></app-slider>
+          <c2c-slider filter="height" filters-list="filtersCtrl.filters" min="0" max="200" step="10"></c2c-slider>
         </div>
 
         <div class="col-xs-12 col-sm-6 col-md-6 filter">
           <label translate>height_median</label><br>
-          <app-slider filter="tmedh" filters-list="filtersCtrl.filters" min="0" max="200" step="10"></app-slider>
+          <c2c-slider filter="tmedh" filters-list="filtersCtrl.filters" min="0" max="200" step="10"></c2c-slider>
         </div>
 
         <div class="filter col-xs-12 col-sm-6">
           <label translate>access_time</label><br>
-          <app-slider filter="tappt" filters-list="filtersCtrl.filters" unit=""
-            values-list="['${"','".join(access_times) |n}']"></app-slider>
+          <c2c-slider filter="tappt" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(access_times) |n}']"></c2c-slider>
         </div>
 
         <div class="filter col-xs-12 col-sm-6">
@@ -144,7 +144,7 @@ from c2corg_common.attributes import default_langs, waypoint_types, orientation_
         </div>
         <div class="filter col-xs-12 col-sm-6">
           <label translate>capacity_staffed</label><br>
-          <app-slider filter="hscap" filters-list="filtersCtrl.filters" min="0" max="200" step="10" unit=""></app-slider>
+          <c2c-slider filter="hscap" filters-list="filtersCtrl.filters" min="0" max="200" step="10" unit=""></c2c-slider>
         </div>
       </div>
 
@@ -171,13 +171,13 @@ from c2corg_common.attributes import default_langs, waypoint_types, orientation_
                     filtersCtrl.filters.wtyp.indexOf('paragliding_landing') !== -1)">
         <div class="col-xs-12 col-sm-6 col-md-6 filter">
           <label translate>paragliding_rating</label><br>
-          <app-slider filter="pgrat" filters-list="filtersCtrl.filters" min="1" max="6" step="1" unit=""></app-slider>
+          <c2c-slider filter="pgrat" filters-list="filtersCtrl.filters" min="1" max="6" step="1" unit=""></c2c-slider>
         </div>
 
         <div class="filter col-xs-12 col-sm-6">
           <label translate>exposition_rating</label><br>
-          <app-slider filter="pglexp" filters-list="filtersCtrl.filters" unit=""
-            values-list="['${"','".join(exposition_ratings) |n}']"></app-slider>
+          <c2c-slider filter="pglexp" filters-list="filtersCtrl.filters" unit=""
+            values-list="['${"','".join(exposition_ratings) |n}']"></c2c-slider>
         </div>
       </div>
 
@@ -189,8 +189,8 @@ from c2corg_common.attributes import default_langs, waypoint_types, orientation_
 
       <div class="filter col-xs-12 col-sm-6">
         <label translate>quality</label><br>
-        <app-slider filter="qa" filters-list="filtersCtrl.filters" unit=""
-          values-list="['${"','".join(quality_types) |n}']"></app-slider>
+        <c2c-slider filter="qa" filters-list="filtersCtrl.filters" unit=""
+          values-list="['${"','".join(quality_types) |n}']"></c2c-slider>
       </div>
 
       ${show_results_buttons('waypoints')}

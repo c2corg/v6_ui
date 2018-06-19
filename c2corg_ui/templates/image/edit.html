@@ -225,7 +225,7 @@ from c2corg_common.attributes import default_langs, activities, image_types, ima
               </div>
             </div>
 
-            <app-map app-map-edit="true" app-map-show-recenter-tools="true" app-map-draw-type="Point" class="map-edit"></app-map>
+            <c2c-map c2c-map-edit="true" c2c-map-show-recenter-tools="true" c2c-map-draw-type="Point" class="map-edit"></c2c-map>
 
           </div>
 
@@ -321,13 +321,13 @@ from c2corg_common.attributes import default_langs, activities, image_types, ima
             ## DESCRIPTION
             <div id="description-group" class="form-group full">
               <label translate>description</label>
-              <textarea app-markdown-editor name="description" ng-model="image.locales[0].description" class="form-control description"></textarea>
+              <textarea c2c-markdown-editor name="description" ng-model="image.locales[0].description" class="form-control description"></textarea>
             </div>
 
             ## SUMMARY
             <div id="summary-group" class="form-group full">
               <label translate>summary</label>
-              <textarea app-markdown-editor name="summary" ng-model="image.locales[0].summary" class="form-control"></textarea>
+              <textarea c2c-markdown-editor name="summary" ng-model="image.locales[0].summary" class="form-control"></textarea>
             </div>
 
             ## AUTHOR
@@ -340,7 +340,7 @@ from c2corg_common.attributes import default_langs, activities, image_types, ima
         <section class="section associations">
           <h2 class="heading show-phone" translate>associations</h2>
           <div class="content">
-            <app-simple-search parent-id="image.document_id" app-select="editCtrl.documentService.pushToAssociations(doc)" dataset="wro"></app-simple-search>
+            <c2c-simple-search parent-id="image.document_id" c2c-select="editCtrl.documentService.pushToAssociations(doc)" dataset="wro"></c2c-simple-search>
             ${show_editing_associated_routes('image')}
             ${show_editing_associated_waypoints('image')}
             ${show_editing_associated_outings('image')}

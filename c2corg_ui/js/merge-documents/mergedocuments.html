@@ -29,11 +29,11 @@
             target="_blank">{{ mergeCtrl.targetDocument.document_id }}</a>)
       </span>
     </p>
-    <app-simple-search app-select="mergeCtrl.selectTargetDocument(doc)"
-                       app-simple-search-standard="false"
+    <c2c-simple-search c2c-select="mergeCtrl.selectTargetDocument(doc)"
+                       c2c-simple-search-standard="false"
                        skip-association-filter="true"
                        ignore-document-id="mergeCtrl.sourceDocument.document_id"
-                       dataset="{{ mergeCtrl.sourceDocument.type }}"></app-simple-search>
+                       dataset="{{ mergeCtrl.sourceDocument.type }}"></c2c-simple-search>
   </div>
 </div>
 

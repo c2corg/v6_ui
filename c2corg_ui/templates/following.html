@@ -7,10 +7,10 @@ from c2corg_common.attributes import mailinglists
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
 
 <div class="following" c2c-loading>
-  <section app-following ng-cloak>
+  <section c2c-following ng-cloak>
     <h3 class="green-text" translate>Followed users</h3>
     <p translate>Here is the list of users you are following and whose activity you will see in your personal feed.</p>
-    <app-simple-search app-select="flCtrl.addUser(doc)" dataset="u"></app-simple-search>
+    <c2c-simple-search c2c-select="flCtrl.addUser(doc)" dataset="u"></c2c-simple-search>
     <div class="list users" ng-show="flCtrl.following.length > 0">
       <div class="list-item users" ng-repeat="user in flCtrl.following">
         <c2c-card c2c-card-doc="user"></c2c-card>

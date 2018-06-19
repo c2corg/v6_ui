@@ -7,7 +7,7 @@ from c2corg_common.attributes import activities, default_langs
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
 
 <div class="preferences" c2c-loading>
-  <section app-preferences ng-cloak>
+  <section c2c-preferences ng-cloak>
     <div class="preferences-filter">
       <h3 class="green-text" translate>Filter preferences</h3>
       <p translate>Here you may set activity and region filters that will apply to the homepage feed.</p>
@@ -46,7 +46,7 @@ from c2corg_common.attributes import activities, default_langs
 
       <div class="preferences-areas">
         <h3 translate class="green-text">Areas</h3>
-        <app-simple-search app-select="prefCtrl.addArea(doc)" dataset="a"></app-simple-search>
+        <c2c-simple-search c2c-select="prefCtrl.addArea(doc)" dataset="a"></c2c-simple-search>
         <p translate ng-show="prefCtrl.areas.length == 0">Select the region of your interest by typing in the fied.</p>
         <div class="list areas" ng-show="prefCtrl.areas.length > 0">
           <div class="list-item areas new-item"

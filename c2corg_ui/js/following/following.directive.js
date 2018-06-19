@@ -1,20 +1,14 @@
 /**
- * @module app.followingDirective
- */
-import appBase from './index.js';
-
-/**
  * Directive managing the list of followed users.
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-const exports = function() {
+const FollowingDirective = () => {
   return {
     restrict: 'A',
-    controller: 'appFollowingController',
+    controller: 'FollowingController',
     controllerAs: 'flCtrl'
   };
 };
 
-
-export default exports;
+export default FollowingDirective;

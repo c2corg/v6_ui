@@ -25,8 +25,8 @@
     <div class="documents-nav-buttons text-center">
       <button class="btn btn-default orange-btn show-documents-filters-phone" translate>Filters</button>
       <c2c-doctype-selector c2c-doctype="images"></c2c-doctype-selector>
-      <app-map-switch></app-map-switch>
-      <app-pagination></app-pagination>
+      <c2c-map-switch></c2c-map-switch>
+      <c2c-pagination></c2c-pagination>
       <div class="toggle-map">
         <button class="btn btn-default"><span class="glyphicon glyphicon-globe"></span></button>
       </div>
@@ -36,12 +36,12 @@
     <c2c-advanced-search document-type="images" use-map="true"></c2c-advanced-search>
 
     <div class="documents-nav-buttons text-center footer-pagination">
-      <app-pagination></app-pagination>
+      <c2c-pagination></c2c-pagination>
     </div>
   </section>
 
   <div class="map-right">
     ${toggle_map_btns()}
-    <app-map app-map-advanced-search="true" app-map-show-recenter-tools="true"></app-map>
+    <c2c-map c2c-map-advanced-search="true" c2c-map-show-recenter-tools="true"></c2c-map>
   </div>
 </div>
