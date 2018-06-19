@@ -25,7 +25,7 @@ from c2corg_common.attributes import default_langs, activities, image_types, ima
     <label class="label label-primary" ng-bind="id ? ('Editing an image' | translate) : ('Creating an image' | translate)"></label>
   </h1>
 
-  <form app-loading c2c-document-editing="images" c2c-document-editing-model="image"
+  <form c2c-loading c2c-document-editing="images" c2c-document-editing-model="image"
     c2c-document-editing-controller-name="appImageEditingController"
   % if updating_doc:
     c2c-document-editing-id="${image_id}" c2c-document-editing-lang="${image_lang}"

@@ -19,7 +19,7 @@ from c2corg_common.attributes import default_langs, activities, article_categori
     <label class="label label-primary" ng-bind="id ? ('Editing an article' | translate) : ('Creating an article' | translate)"></label>
   </h1>
 
-  <form app-loading c2c-document-editing="articles" c2c-document-editing-model="article"
+  <form c2c-loading c2c-document-editing="articles" c2c-document-editing-model="article"
     c2c-document-editing-controller-name="c2cArticleEditingController"
   % if updating_doc:
     c2c-document-editing-id="${article_id}" c2c-document-editing-lang="${article_lang}"

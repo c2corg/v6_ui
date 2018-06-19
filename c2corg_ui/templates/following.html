@@ -6,7 +6,7 @@ from c2corg_common.attributes import mailinglists
 <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Followed users')">${show_title('Followed users')}</title></%block>
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
 
-<div class="following" app-loading>
+<div class="following" c2c-loading>
   <section app-following ng-cloak>
     <h3 class="green-text" translate>Followed users</h3>
     <p translate>Here is the list of users you are following and whose activity you will see in your personal feed.</p>

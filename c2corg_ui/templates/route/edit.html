@@ -26,7 +26,7 @@ updating_doc = route_id and route_lang
 
     <h1 ng-cloak ng-init="id=${route_id if route_id else 0}" ng-bind="id ? ('Editing a route' | translate) : ('Creating a route' | translate)" class="text-center"></h1>
 
-    <form app-loading c2c-document-editing="routes" c2c-document-editing-model="route"
+    <form c2c-loading c2c-document-editing="routes" c2c-document-editing-model="route"
       c2c-document-editing-controller-name="appRouteEditingController"
     % if updating_doc:
       c2c-document-editing-id="${route_id}" c2c-document-editing-lang="${route_lang}"

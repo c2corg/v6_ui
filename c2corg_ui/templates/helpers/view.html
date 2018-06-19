@@ -93,7 +93,7 @@
       <a href="${request.route_path(module + '_view_id_lang', id=document_id, lang=lang)}">
         <button class="btn btn-default" translate>See the latest version</button>
       </a>
-      <button class="btn btn-default" ng-if="userCtrl.isModerator()" app-revert-document app-loading
+      <button class="btn btn-default" ng-if="userCtrl.isModerator()" app-revert-document c2c-loading
         ng-click="revertCtrl.revert(${document_id}, '${lang}', ${version_id})" translate>Restore this version</button>
     </p>
   </article>
@@ -138,7 +138,7 @@
       # to reuse existing translation strings
       document_type = module[:-1]
   %>\
-  <div id="merge-documents-dialog" app-loading>
+  <div id="merge-documents-dialog" c2c-loading>
     <div class="modal-header">
       <h3 class="text-center"><span translate>Merge documents</span> (<span x-translate>${document_type}</span>)</h3>
     </div>
@@ -152,18 +152,18 @@
       # to reuse existing translation strings
       document_type = module[:-1]
   %>\
-  <div id="delete-document-dialog" app-loading>
+  <div id="delete-document-dialog" c2c-loading>
     <div class="modal-header">
       <h3 class="text-center"><span translate>Delete this document</span> (<span x-translate>${document_type}</span>)</h3>
     </div>
-    <app-delete-document module="'${module}'"></app-delete-document>
+    <c2c-delete-document module="'${module}'"></c2c-delete-document>
   </div>
   % if other_langs:
-    <div id="delete-locale-dialog" app-loading>
+    <div id="delete-locale-dialog" c2c-loading>
       <div class="modal-header">
         <h3 class="text-center"><span translate>Delete this locale</span> (<span x-translate>${lang}</span>)</h3>
       </div>
-      <app-delete-document module="'${module}'" lang="${lang}"></app-delete-document>
+      <c2c-delete-document module="'${module}'" lang="${lang}"></c2c-delete-document>
     </div>
   % endif
 </%def>
@@ -359,7 +359,7 @@
     <h3 class="pull-left show-phone collapsible-title" ng-click="mainCtrl.animateHeaderIcon($event)"
         data-toggle="collapse" data-target="#associated-routes" aria-expanded="true" aria-controls="associated-routes">
       <span x-translate>Associated routes</span><span class="glyphicon glyphicon-menu-down"></span>
-    </h3><app-list-switch class="pull-right"></app-list-switch>
+    </h3><c2c-list-switch class="pull-right"></c2c-list-switch>
       <div class="collapse in" id="associated-routes">
         <c2c-activity-filter activities="${activities}" documents="${associations}"></c2c-activity-filter>
         <div class="associated-documents">
@@ -463,7 +463,7 @@
         % endif
         <span class="glyphicon glyphicon-menu-down"></span>
 
-      </h3><app-list-switch class="pull-right"></app-list-switch>
+      </h3><c2c-list-switch class="pull-right"></c2c-list-switch>
       % if document['doctype'] == 'routes':
             <a protected-url-btn
               url="${request.route_path('outings_add') + '#r=' + str(document['document_id'])}" class="center-mobile">

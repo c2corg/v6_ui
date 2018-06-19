@@ -1,4 +1,4 @@
-<div class="list advanced-search" app-loading>
+<div class="list advanced-search" c2c-loading>
   <div id="card{{doc.document_id}}" class="list-item" ng-class="[searchCtrl.doctype, {'highlight': doc.document_id === searchCtrl.highlightId}]"
        ng-repeat="doc in searchCtrl.documents track by doc.document_id">
     <c2c-card c2c-card-doc="::doc" ng-mouseenter="searchCtrl.onMouseEnter(doc.document_id)"

@@ -29,7 +29,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
       <label class="label label-primary" ng-bind="id ? ('Editing a waypoint' | translate) : ('Creating a waypoint' | translate)"></label>
     </h1>
 
-    <form app-loading c2c-document-editing="waypoints" c2c-document-editing-model="waypoint"
+    <form c2c-loading c2c-document-editing="waypoints" c2c-document-editing-model="waypoint"
       c2c-document-editing-controller-name="DocumentServiceEditingController"
     % if updating_doc:
       c2c-document-editing-id="${waypoint_id}" c2c-document-editing-lang="${waypoint_lang}"

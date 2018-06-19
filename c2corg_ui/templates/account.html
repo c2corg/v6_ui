@@ -3,7 +3,7 @@
 <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Account')">${show_title('Account')}</title></%block>
 
 <div class="auth-form">
-  <section app-loading ng-cloak>
+  <section c2c-loading ng-cloak>
     <div ng-controller="AccountController as accountCtrl">
       <h1 translate>Change account parameters</h1>
       <form name="accountForm" novalidate ng-submit="accountCtrl.save()">

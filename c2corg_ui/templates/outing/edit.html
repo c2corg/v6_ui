@@ -28,7 +28,7 @@ updating_doc = outing_id and outing_lang
       ng-bind="id ? ('Editing an outing' | translate) : ('Creating an outing' | translate)"
       class="text-center"></h1>
 
-  <form app-loading c2c-document-editing="outings" c2c-document-editing-model="outing"
+  <form c2c-loading c2c-document-editing="outings" c2c-document-editing-model="outing"
     c2c-document-editing-controller-name="appOutingEditingController"
   % if updating_doc:
     c2c-document-editing-id="${outing_id}" c2c-document-editing-lang="${outing_lang}"

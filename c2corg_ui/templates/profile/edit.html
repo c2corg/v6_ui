@@ -18,7 +18,7 @@ from c2corg_common.attributes import activities, user_categories
     <label class="label label-primary" translate>Editing a profile</label>
   </h1>
 
-  <form app-loading c2c-document-editing="profiles" c2c-document-editing-model="profile"
+  <form c2c-loading c2c-document-editing="profiles" c2c-document-editing-model="profile"
     c2c-document-editing-controller-name="DocumentServiceEditingController"
     c2c-document-editing-id="${user_id}" c2c-document-editing-lang="${profile_lang}"
     class="document-editing" name="editForm" novalidate>

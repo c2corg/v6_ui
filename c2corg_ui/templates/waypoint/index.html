@@ -33,8 +33,8 @@
 
     <div class="documents-nav-buttons text-center">
       <button class="btn btn-default orange-btn show-documents-filters-phone" translate>Filters</button>
-      <app-doctype-selector app-doctype="waypoints"></app-doctype-selector>
-      <app-list-switch></app-list-switch>
+      <c2c-doctype-selector c2c-doctype="waypoints"></c2c-doctype-selector>
+      <c2c-list-switch></c2c-list-switch>
       <app-map-switch></app-map-switch>
       <button class="btn btn-default orange-btn" protected-url-btn url="${request.route_path('waypoints_add')}"
               uib-tooltip="{{'Create a new waypoint' | translate }}" tooltip-placement="right">

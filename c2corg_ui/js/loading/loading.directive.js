@@ -1,14 +1,11 @@
 /**
- * @module app.loadingDirective
- */
-import appBase from './index.js';
-
-/**
  * @param {angular.$http} $http
  * @return {angular.Directive} directive
  * @ngInject
  */
-const exports = function($http) {
+const LoadingDirective = $http => {
+  'ngInject';
+
   return {
     restrict: 'A',
     scope: true,
@@ -32,8 +29,4 @@ const exports = function($http) {
   };
 };
 
-
-appBase.module.directive('appLoading', exports);
-
-
-export default exports;
+export default LoadingDirective;
