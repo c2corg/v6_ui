@@ -42,7 +42,7 @@
 
     <div ng-if="userCtrl.hasEditRights('profiles', ${options | n})"
      tooltip-placement="left" uib-tooltip="{{'Edit' | translate}}" class="float-button float-edit"
-     protected-url-btn url="${request.route_path('profiles_edit', id=doc_id, lang=doc_lang)}">
+     c2c-protected-url-btn url="${request.route_path('profiles_edit', id=doc_id, lang=doc_lang)}">
       <span class="glyphicon glyphicon-edit"></span>
       <p class="float-button-text" translate>Edit</p>
     </div>

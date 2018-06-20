@@ -1,33 +1,28 @@
-/**
- * @module app.imageUploaderDirective
- */
-import appBase from './index.js';
+import template from './image-uploader.html';
 
 /**
  * This directive is used to display a drag-drop area for images to upload.
  * @return {angular.Directive} The directive specs.
  */
-const exports = function() {
+const ImageUploaderDirective = UtilsService => {
+  'ngInject';
+
   return {
     restrict: 'A',
-    controller: 'AppImageUploaderController',
+    controller: 'ImageUploaderController',
     controllerAs: 'uplCtrl',
     bindToController: {
       'activities': '=',
       'categories': '=',
       'types': '='
     },
-    templateUrl: '/static/partials/imageuploader.html',
+    template,
     link: function(scope, el, attrs, ctrl) {
       el.on('click', '.dropdown-toggle', function() {
-        appBase.utils.repositionMenu({'menu': this, 'boxBoundEl': '.images-container', 'checkBottom': true});
+        UtilsService.repositionMenu({'menu': this, 'boxBoundEl': '.images-container', 'checkBottom': true});
       });
     }
   };
 };
 
-
-appBase.module.directive('appImageUploader', exports);
-
-
-export default exports;
+export default ImageUploaderDirective;

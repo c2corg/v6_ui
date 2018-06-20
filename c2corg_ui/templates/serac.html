@@ -13,7 +13,7 @@ from c2corg_common.attributes import activities, waypoint_types, area_types
       <h2 class="text-center" translate>Accident database</h2>
       <p class="text-center" translate>SERAC is a worldwide incidents and accidents database aiming at increasing safety in rock climbing and mountain sports.</p>
       <div class="text-center">
-        <button class="btn orange-btn" protected-url-btn url="${request.route_path('xreports_add')}"><span class="glyphicon glyphicon-plus-sign"></span><span translate>Create a new report</span></button>
+        <button class="btn orange-btn" c2c-protected-url-btn url="${request.route_path('xreports_add')}"><span class="glyphicon glyphicon-plus-sign"></span><span translate>Create a new report</span></button>
         <a href="${request.route_path('xreports_index')}">
           <button class="btn blue-btn">
             <span class="glyphicon glyphicon-th-list"></span>

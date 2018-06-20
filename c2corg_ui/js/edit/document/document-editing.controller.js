@@ -595,7 +595,7 @@ export default class DocumentEditingController {
     const modalInstance = this.modal.open({
       animation: true,
       template: this.compile(template)(this.scope),
-      controller: 'appConfirmSaveModalController as saveCtrl'
+      controller: 'ConfirmSaveModalController as saveCtrl'
     });
 
     modalInstance.result.then((res) => {
