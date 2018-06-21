@@ -1,14 +1,12 @@
-/**
- * @module app.markdownEditorDirective
- */
-import appBase from './index.js';
+import angular from 'angular';
 
 /**
  * This directive is used on textarea elements to display a markdown editor.
  * Inspired from https://github.com/ghiscoding/angular-markdown-editor
  * @return {angular.Directive} The directive specs.
  */
-const exports = function($rootScope, $compile, gettextCatalog, textFormatingUrl) {
+const MarkdownEditorDirective = ($rootScope, $compile, gettextCatalog, textFormatingUrl) => {
+  'ngInject';
 
   const gettext = function(str) {
     return str;
@@ -32,6 +30,7 @@ const exports = function($rootScope, $compile, gettextCatalog, textFormatingUrl)
     'enter image title here': gettext('enter image title here'),
     'list text here': gettext('list text here')
   };
+  // FIXME use es6 forEach
   angular.forEach(messages, (value, key) => {
     messages[key] = '{{\'' + value + '\'|translate}}';
   });
@@ -112,7 +111,7 @@ const exports = function($rootScope, $compile, gettextCatalog, textFormatingUrl)
   return {
     restrict: 'A',
     require: 'ngModel',
-    link: function(scope, element, attrs, ngModel) {
+    link(scope, element, attrs, ngModel) {
       // Only initialize the $.markdown plugin once.
       if (!element.hasClass('processed')) {
         element.addClass('processed');
@@ -154,7 +153,4 @@ const exports = function($rootScope, $compile, gettextCatalog, textFormatingUrl)
   };
 };
 
-appBase.module.directive('appMarkdownEditor', ['$rootScope', '$compile', 'gettextCatalog', 'textFormatingUrl', exports]);
-
-
-export default exports;
+export default MarkdownEditorDirective;

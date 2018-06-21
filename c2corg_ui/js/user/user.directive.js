@@ -1,7 +1,4 @@
-/**
- * @module app.userDirective
- */
-import appBase from './index.js';
+import template from './user.html';
 
 /**
  * This directive is used to display the user tools if authenticated or
@@ -10,17 +7,14 @@ import appBase from './index.js';
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-const exports = function() {
+const UserDirective = function() {
   return {
     restrict: 'E',
-    controller: 'AppUserController',
+    controller: 'UserController',
     controllerAs: 'userCtrl',
     bindToController: true,
-    templateUrl: '/static/partials/user.html'
+    template
   };
 };
 
-appBase.module.directive('appUser', exports);
-
-
-export default exports;
+export default UserDirective;

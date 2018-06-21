@@ -1,0 +1,5 @@
+<c2c-alert ng-repeat="alert in alertsCtrl.alerts"
+           type="{{alert.type}}"
+           close="alertsCtrl.close($index)"
+           timeout="{{alert.timeout}}"
+           msg="{{alert.msg}}"></c2c-alert>

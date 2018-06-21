@@ -1,7 +1,4 @@
-/**
- * @module app.alertsDirective
- */
-import appBase from './index.js';
+import template from './alert.html';
 
 /**
  * This directive is used to display feedbacks to user actions.
@@ -11,18 +8,14 @@ import appBase from './index.js';
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-const exports = function() {
+const AlertsDirective = function() {
   return {
     restrict: 'E',
-    controller: 'AppAlertsController',
+    controller: 'AlertsController',
     controllerAs: 'alertsCtrl',
     bindToController: true,
-    templateUrl: '/static/partials/alerts.html'
+    template
   };
 };
 
-
-appBase.module.directive('appAlerts', exports);
-
-
-export default exports;
+export default AlertsDirective;

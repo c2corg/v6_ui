@@ -1,4 +1,5 @@
 import angular from 'angular';
+import template from './context-help-modal.html';
 
 /**
  * This directive is used to display a contextual help modal dialog.
@@ -19,7 +20,7 @@ const ContextHelpDirective = ($uibModal, $templateCache, $compile, UtilsService)
         $uibModal.open({
           controller: 'ContextHelpModalController',
           controllerAs: 'contextHelpModalCtrl',
-          templateUrl: '/static/partials/contexthelpmodal.html',
+          template,
           'windowClass': 'context-help-modal',
           resolve: {
             content() {

@@ -1,7 +1,4 @@
-/**
- * @module app.alertDirective
- */
-import appBase from './index.js';
+import template from './alert.html';
 
 /**
  * This directive is used to display one alert message.
@@ -9,20 +6,20 @@ import appBase from './index.js';
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-const exports = function() {
+const AlertDirective = () => {
   return {
     restrict: 'E',
-    controller: 'AppAlertController',
+    controller: 'AlertController',
     controllerAs: 'alertCtrl',
     bindToController: true,
-    templateUrl: '/static/partials/alert.html',
+    template,
     scope: {
       'type': '@',
       'close': '&',
       'timeout': '@',
       'msg': '@'
     },
-    link: function() {
+    link() {
       $('body').click((e) => {
         if ($('.alert').length > 0 && $(e.target).closest('.alert').length === 0) {
           $('.loading').removeClass('loading');
@@ -33,8 +30,4 @@ const exports = function() {
   };
 };
 
-
-appBase.module.directive('appAlert', exports);
-
-
-export default exports;
+export default AlertDirective;

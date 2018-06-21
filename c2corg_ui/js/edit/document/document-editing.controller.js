@@ -570,7 +570,7 @@ export default class DocumentEditingController {
         this.modal.open({
           animation: true,
           template: this.compile(template)(this.scope),
-          controller: 'appPreviewModalController',
+          controller: 'PreviewModalController',
           controllerAs: 'previewModalCtrl',
           size: 'xl'
         });
