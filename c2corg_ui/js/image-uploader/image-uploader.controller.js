@@ -284,7 +284,7 @@ export default class ImageUploaderController {
           scope['photo'] = images[i];
           scope['photo']['image_id'] = 'image-' + id;
           this.documentService.document.associations['images'].push(scope['photo']);
-          this.compile_($('#image-' + id).contents())(scope); // compile the figure thumbnail with <app-slide-info>
+          this.compile_($('#image-' + id).contents())(scope); // compile the figure thumbnail with <c2c-slide-info>
 
         });
 

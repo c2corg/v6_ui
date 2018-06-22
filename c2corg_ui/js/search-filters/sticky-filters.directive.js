@@ -1,16 +1,11 @@
 /**
- * @module app.stickyFiltersDirective
- */
-import appBase from './index.js';
-
-/**
  * @return {angular.Directive} Directive Definition Object.
  */
-const exports = function() {
+const StickyFiltersDirective = SCREEN => {
   return {
     restrict: 'A',
-    controller: 'AppStickyFiltersController as stickyCtrl',
-    link: function(scope, el, attrs, ctrl) {
+    controller: 'StickyFiltersController as stickyCtrl',
+    link(scope, el, attrs, ctrl) {
       // show/hide filters on click, only available on phone
       $('.show-documents-filters-phone').click(() => {
         $('form[c2c-search-filters]').toggleClass('show');
@@ -23,7 +18,7 @@ const exports = function() {
       // on mobile, clicking on the 'all filters' btn will scroll up to the top
       // because opening the whole filters list would only show you the bottom end.
       $('.orange-btn.more-filters-btn').click(() => {
-        if (window.innerWidth < appBase.constants.SCREEN.SMARTPHONE) {
+        if (window.innerWidth < SCREEN.SMARTPHONE) {
           $('.documents-list-section').scrollTop(0);
         }
       });
@@ -49,7 +44,4 @@ const exports = function() {
   };
 };
 
-appBase.module.directive('appStickyFilters', exports);
-
-
-export default exports;
+export default StickyFiltersDirective;

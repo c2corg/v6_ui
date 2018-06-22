@@ -141,7 +141,7 @@ export default class UtilsService {
     const ahref = '<a href="' + imageUrl + bigImage + '" data-info-id="' + file['image_id'] + '-slide" title="' + title + '">';
     const img = '<img src="' + imageUrl + smallImage + '"></a>';
 
-    return '<figure id="' + file['image_id'] + '">' + ahref + img + '<app-slide-info></app-slide-info></figure>';
+    return '<figure id="' + file['image_id'] + '">' + ahref + img + '<c2c-slide-info></c2c-slide-info></figure>';
   }
 
 

@@ -495,7 +495,7 @@ export default class ViewDetailsController {
 
     // prepare the embedded images for slideshow
     $('[class^="embedded_"]').each((i, el) => {
-      $(el).append('<app-slide-info></app-slide-info>');
+      $(el).append('<c2c-slide-info></c2c-slide-info>');
       const img = $(el).find('img')[0];
       const id = img.getAttribute('img-id');
       const caption = $(el).find('figcaption')[0] ? $(el).find('figcaption')[0].textContent : '';

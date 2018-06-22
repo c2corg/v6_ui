@@ -5,6 +5,8 @@ import SearchFiltersController from './search-filters.controller';
 import SearchFiltersDirective from './search-filters.directive';
 import OutingFiltersController from './outing-filters.controller';
 import XreportFiltersController from './xreport-filters.controller';
+import StickFiltersController from './sticky-filters.controller';
+import StickyFiltersDirective from './sticky-filters.directive';
 
 export default angular
   .module('c2c.search-filters', [
@@ -15,4 +17,6 @@ export default angular
   .controller('OutingFiltersController', OutingFiltersController)
   .controller('XreportFiltersController', XreportFiltersController)
   .directive('c2cSearchFilters', SearchFiltersDirective)
+  .controller('StickyFiltersController', StickFiltersController)
+  .directive('c2cStickyFilters', StickyFiltersDirective)
   .name;
