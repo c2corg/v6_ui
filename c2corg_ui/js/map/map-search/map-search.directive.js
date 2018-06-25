@@ -1,25 +1,19 @@
 /**
- * @module app.mapSearchDirective
- */
-/**
  * Adapted from https://github.com/camptocamp/agridea_geoacorda/blob/master/jsapi/src/searchcontrol.js
  */
 
-import appBase from './index.js';
+import template from './map-search.html';
 
-/**
- * @return {angular.Directive} Directive Definition Object.
- */
-const exports = function() {
+const MapSearchDirective = () => {
   return {
     restrict: 'E',
     scope: {
-      'map': '=appMapSearchMap'
+      'map': '=c2cMapSearchMap'
     },
-    controller: 'AppMapSearchController',
+    controller: 'MapSearchController',
     bindToController: true,
     controllerAs: 'searchCtrl',
-    templateUrl: '/static/partials/map/search.html',
+    template,
     link:
         /**
          * @param {angular.Scope} scope Scope.
@@ -35,7 +29,4 @@ const exports = function() {
   };
 };
 
-appBase.module.directive('appMapSearch', exports);
-
-
-export default exports;
+export default MapSearchDirective;

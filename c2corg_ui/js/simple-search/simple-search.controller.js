@@ -214,9 +214,7 @@ export default class {
           suggestion: function(doc) {
             if (doc) {
               this.scope_['doc'] = doc;
-              return this.compile_(
-                '<app-suggestion class="tt-suggestion"></app-suggestion>'
-              )(this.scope_);
+              return this.compile_('<c2c-suggestion class="tt-suggestion"></c2c-suggestion>')(this.scope_);
             } else {
               return '<div class="ng-hide"></div>';
             }

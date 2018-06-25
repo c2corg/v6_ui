@@ -1,7 +1,4 @@
-/**
- * @module app.suggestionDirective
- */
-import appUtils from './utils.js';
+import angular from 'angular';
 
 /**
  * @param {angular.$compile} $compile Angular compile service.
@@ -10,7 +7,8 @@ import appUtils from './utils.js';
  * @return {angular.Directive} Directive Definition Object.
  * @ngInject
  */
-const exports = function($compile, $sce, $templateCache) {
+const SuggestionDirective = ($compile, $sce, $templateCache, UtilsService) => {
+  'ngInject';
   const cardElementCache = {};
 
   const getCardElement = function(doctype) {
@@ -18,7 +16,7 @@ const exports = function($compile, $sce, $templateCache) {
       return cardElementCache[doctype];
     }
     const path = '/static/partials/suggestions/' + doctype + '.html';
-    const template = appUtils.getTemplate(path, $templateCache);
+    const template = UtilsService.getTemplate(path, $templateCache);
 
     const element = angular.element(template);
     cardElementCache[doctype] = $compile(element);
@@ -60,7 +58,4 @@ const exports = function($compile, $sce, $templateCache) {
   };
 };
 
-app.module.directive('appSuggestion', exports);
-
-
-export default exports;
+export default SuggestionDirective;
