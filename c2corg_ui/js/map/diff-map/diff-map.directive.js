@@ -1,7 +1,4 @@
-/**
- * @module app.diffMapDirective
- */
-import appBase from './index.js';
+import template from './diff-map.html';
 
 /**
  * A directive to show a map with two geometries of two different document
@@ -10,18 +7,15 @@ import appBase from './index.js';
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-const exports = function() {
+const DiffMapDirective = () => {
   return {
     restrict: 'E',
     scope: {},
-    controller: 'AppDiffMapController',
+    controller: 'DiffMapController',
     controllerAs: 'diffMapCtrl',
     bindToController: true,
-    templateUrl: '/static/partials/map/diffmap.html'
+    template
   };
 };
 
-appBase.module.directive('appDiffMap', exports);
-
-
-export default exports;
+export default DiffMapDirective;

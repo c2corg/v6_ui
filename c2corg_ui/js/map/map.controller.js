@@ -27,6 +27,29 @@ import olStyleText from 'ol/style/Text.js';
 import appSimplify from './simplify.js';
 
 /**
+ * @const
+ * @type {Array.<number>}
+ */
+const DEFAULT_EXTENT = [-400000, 5200000, 1200000, 6000000];
+
+
+/**
+ * @const
+ * @type {number}
+ */
+const DEFAULT_ZOOM = 4;
+
+
+/**
+ * @const
+ * @type {number}
+ */
+const DEFAULT_POINT_ZOOM = 12;
+
+
+export {DEFAULT_EXTENT, DEFAULT_ZOOM, DEFAULT_POINT_ZOOM};
+
+/**
  * @param {angular.Scope} $scope Directive scope.
  * @param {?GeoJSONFeatureCollection} mapFeatureCollection FeatureCollection of
  *    features to show on the map.
@@ -233,26 +256,6 @@ export default class MapController {
     this.modal_ = $uibModal;
 
     /**
-     * @const
-     * @type {Array.<number>}
-     */
-    this.DEFAULT_EXTENT = [-400000, 5200000, 1200000, 6000000];
-
-
-    /**
-     * @const
-     * @type {number}
-     */
-    this.DEFAULT_ZOOM = 4;
-
-
-    /**
-     * @const
-     * @type {number}
-     */
-    this.DEFAULT_POINT_ZOOM = 12;
-
-    /**
      * @type {ol.Map}
      * @export
      */
@@ -260,8 +263,8 @@ export default class MapController {
       interactions: olInteraction.defaults({mouseWheelZoom: false}),
       controls: olControl.defaults().extend([new olControlScaleLine()]),
       view: new olView({
-        center: olExtent.getCenter(this.DEFAULT_EXTENT),
-        zoom: this.DEFAULT_ZOOM
+        center: olExtent.getCenter(DEFAULT_EXTENT),
+        zoom: DEFAULT_ZOOM
       })
     });
 
@@ -365,7 +368,7 @@ export default class MapController {
       if (this.features_.length > 0) {
         this.showFeatures_(this.features_, true);
       } else {
-        const extent = this.initialExtent_ || this.DEFAULT_EXTENT;
+        const extent = this.initialExtent_ || DEFAULT_EXTENT;
         this.recenterOnExtent_(extent);
       }
       if (this.showBiodivsportsAreas) {
@@ -422,7 +425,7 @@ export default class MapController {
     const mapSize = this.map.getSize();
     if (!mapSize || !olExtent.getWidth(extent) || !olExtent.getHeight(extent)) {
       this.view_.setCenter(olExtent.getCenter(extent));
-      this.view_.setZoom(this.zoom || this.DEFAULT_POINT_ZOOM);
+      this.view_.setZoom(this.zoom || DEFAULT_POINT_ZOOM);
     } else {
       options = options || {};
       this.view_.fit(extent, mapSize, options);
@@ -703,7 +706,7 @@ export default class MapController {
 
     if (!features.length) {
       if (recenter) {
-        this.recenterOnExtent_(this.DEFAULT_EXTENT);
+        this.recenterOnExtent_(DEFAULT_EXTENT);
       }
       return;
     }
@@ -750,7 +753,7 @@ export default class MapController {
       geomstr = data['geometry']['geom'];
       geometry = /** @type {ol.geom.Point} */ (this.geojsonFormat_.readGeometry(geomstr));
       this.view_.setCenter(geometry.getCoordinates());
-      this.view_.setZoom(this.zoom || this.DEFAULT_POINT_ZOOM);
+      this.view_.setZoom(this.zoom || DEFAULT_POINT_ZOOM);
     }
   }
 
