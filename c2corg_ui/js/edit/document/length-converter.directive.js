@@ -1,14 +1,9 @@
 /**
- * @module app.lengthConverterDirective
- */
-import appBase from './index.js';
-
-/**
  * Length attributes are stored in meters but shown in kilometers.
  * This directive is supposed to be used in document edit forms.
  * @return {angular.Directive} directive
  */
-const exports = function() {
+const LengthConverterDirective = () => {
   return {
     require: 'ngModel',
     link:
@@ -30,8 +25,4 @@ const exports = function() {
   };
 };
 
-
-appBase.module.directive('appLengthConverter', exports);
-
-
-export default exports;
+export default LengthConverterDirective;

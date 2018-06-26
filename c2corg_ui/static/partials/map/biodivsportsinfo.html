@@ -6,7 +6,7 @@
     <span translate>sensitive_months:</span>
     <span ng-repeat="month in modalCtrl.months">{{month}}{{$last ? '' : ', '}}</span>
   </p>
-  <p ng-bind-html="modalCtrl.description | appTrustAsHtml"></p>
+  <p ng-bind-html="modalCtrl.description | trustAsHtml"></p>
   <a ng-href="{{modalCtrl.infoUrl}}" target="_blank" translate>More info</a> |
   <a ng-href="{{modalCtrl.kmlUrl}}" target="_blank" tranlate>KML</a>
 </div>

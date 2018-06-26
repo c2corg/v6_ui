@@ -24,7 +24,6 @@ import olStyleIcon from 'ol/style/Icon.js';
 import olStyleStroke from 'ol/style/Stroke.js';
 import olStyleStyle from 'ol/style/Style.js';
 import olStyleText from 'ol/style/Text.js';
-import appSimplify from './simplify.js';
 
 /**
  * @const
@@ -65,11 +64,14 @@ export {DEFAULT_EXTENT, DEFAULT_ZOOM, DEFAULT_POINT_ZOOM};
  * @ngInject
  */
 export default class MapController {
-  constructor($scope, mapFeatureCollection, ngeoLocation, ngeoDebounce, UrlService, appBiodivsports, LangService,
-    $uibModal, imgPath, UtilsService) {
+  constructor($scope, mapFeatureCollection, ngeoLocation, ngeoDebounce, UrlService, BiodivsportsService, LangService,
+    $uibModal, imgPath, UtilsService, SimplifyService) {
     'ngInject';
 
     this.utilsService_ = UtilsService;
+
+    this.simplifyService_ = SimplifyService;
+
     /**
      * @type {number}
      * @export
@@ -241,7 +243,7 @@ export default class MapController {
      * @type {app.Biodivsports}
      * @private
      */
-    this.biodivSports_ = appBiodivsports;
+    this.biodivSportsService_ = BiodivsportsService;
 
     /**
      * @type {app.Lang}
@@ -375,7 +377,7 @@ export default class MapController {
         let extent = this.view_.calculateExtent(this.map.getSize() || null);
         // get extent in WGS format
         extent = olProj.transformExtent(extent, olProj.get('EPSG:3857'), olProj.get('EPSG:4326'));
-        this.biodivSports_.fetchData(extent, this.biodivSportsActivities).then(this.addBiodivsportsData_.bind(this));
+        this.biodivSportsService_.fetchData(extent, this.biodivSportsActivities).then(this.addBiodivsportsData_.bind(this));
       }
     });
   }
@@ -947,7 +949,7 @@ export default class MapController {
           animation: true,
           size: 'sm',
           templateUrl: '/static/partials/map/biodivsportsinfo.html',
-          controller: 'AppBiodivSportsModalController',
+          controller: 'BiodivSportsModalController',
           controllerAs: 'modalCtrl',
           resolve: {
             'title': () => feature.get('title'),
@@ -1053,7 +1055,7 @@ export default class MapController {
     let geometry = feature.getGeometry();
     goog.asserts.assert(geometry !== undefined);
     // simplify geometry with a tolerance of 20 meters
-    geometry = appSimplify.simplify(geometry, 20);
+    geometry = this.simplifyService_.simplify(geometry, 20);
     feature.setGeometry(geometry);
     return feature;
   }
