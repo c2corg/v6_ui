@@ -1,4 +1,4 @@
-import SearchFiltersController from './SearchFiltersController.js';
+import SearchFiltersController from './search-filters.controller';
 
 /**
  * @param {angular.Scope} $scope Scope.
@@ -8,46 +8,46 @@ import SearchFiltersController from './SearchFiltersController.js';
  * @extends {app.SearchFiltersController}
  * @ngInject
  */
-export default class OutingFiltersController extends SearchFiltersController {
+export default class XreportFilterController extends SearchFiltersController {
   constructor($scope, ngeoLocation, advancedSearchFilters) {
     'ngInject';
 
     super($scope, ngeoLocation, advancedSearchFilters);
 
     /**
-    * @type {Array.<Date>}
-    * @export
-    */
+     * @type {Array.<Date>}
+     * @export
+     */
     this.dates = [];
 
     /**
-    * Start cannot be after today nor end_date.
-    * @type {Date}
-    * @export
-    */
+     * Start cannot be after today nor end_date.
+     * @type {Date}
+     * @export
+     */
     this.dateMaxStart = new Date();
 
     /**
-    * The end date cannot be before start nor today.
-    * @type {Date}
-    * @export
-    */
+     * The end date cannot be before start nor today.
+     * @type {Date}
+     * @export
+     */
     this.dateMaxEnd = new Date();
 
     /**
-    * The end date cannot be before start.
-    * @type {?Date}
-    * @export
-    */
+     * The end date cannot be before start.
+     * @type {?Date}
+     * @export
+     */
     this.dateMinEnd = null;
   }
 
 
   /**
-  * @param {string} key Filter key.
-  * @override
-  * @public
-  */
+   * @param {string} key Filter key.
+   * @override
+   * @public
+   */
   setFilterFromPermalink(key) {
     if (key in this.config && this.config[key]['type'] === 'date') {
       const val = this.location.getFragmentParam(key);
@@ -61,15 +61,15 @@ export default class OutingFiltersController extends SearchFiltersController {
       this.filters[key] = dates;
       this.updateMinMaxDates_();
     } else {
-      super.setFilterFromPermalink.call(key);
+      super.setFilterFromPermalink(key);
     }
   }
 
 
   /**
-  * @override
-  * @export
-  */
+   * @override
+   * @export
+   */
   clear() {
     this.resetDates_();
     super.clear();
@@ -77,13 +77,11 @@ export default class OutingFiltersController extends SearchFiltersController {
 
 
   /**
-  * @param {string} filterName Name of the filter param.
-  * @export
-  */
+   * @param {string} filterName Name of the filter param.
+   * @export
+   */
   setDate(filterName) {
-    this.dates = this.dates.filter((date) => {
-      return date !== null;
-    });
+    this.dates = this.dates.filter(date => date !== null);
     if (this.dates.length) {
       this.updateMinMaxDates_();
       this.filters[filterName] = this.dates.map(this.formatDate_);
@@ -96,18 +94,18 @@ export default class OutingFiltersController extends SearchFiltersController {
 
 
   /**
-  * @param {Date} date
-  * @return {string}
-  * @private
-  */
+   * @param {Date} date
+   * @return {string}
+   * @private
+   */
   formatDate_(date) {
     return window.moment(date).format('YYYY-MM-DD');
   }
 
 
   /**
-  * @private
-  */
+   * @private
+   */
   updateMinMaxDates_() {
     const nb_dates = this.dates.length;
     if (nb_dates > 0) {
@@ -120,8 +118,8 @@ export default class OutingFiltersController extends SearchFiltersController {
 
 
   /**
-  * @private
-  */
+   * @private
+   */
   resetDates_() {
     this.dates = [];
     this.dateMaxStart = new Date();

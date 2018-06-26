@@ -1,3 +1,5 @@
+import escape from 'lodash/escape';
+
 /**
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @constructor
@@ -146,7 +148,6 @@ export default class AlertsService {
    * @private
    */
   filterStr_(str) {
-    // FIXME use lodash str = _.escape(str);
-    return this.gettextCatalog_.getString(str);
+    return this.gettextCatalog_.getString(escape(str));
   }
 }

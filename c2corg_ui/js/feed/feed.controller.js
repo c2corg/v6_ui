@@ -4,13 +4,12 @@ import angular from 'angular';
  * @param {!angular.Scope} $scope Scope.
  * @param {app.Api} ApiService Api service.
  * @param {app.Lang} LangService Lang service.
- * @param {ngeo.Location} ngeoLocation ngeo Location service.
  * @constructor
  * @ngInject
  * @struct
  */
 export default class FeedController {
-  constructor($scope, ApiService, LangService, ngeoLocation, UtilsService) {
+  constructor($scope, ApiService, LangService, UtilsService) {
     'ngInject';
 
     /**
@@ -98,12 +97,6 @@ export default class FeedController {
      * @export
      */
     this.isPersonal = !this.userId;
-
-    /**
-     * @type {ngeo.Location}
-     * @public
-     */
-    this.ngeoLocation = ngeoLocation;
 
     this.initFeedColumnManager_();
     this.getDocumentsFromFeed();

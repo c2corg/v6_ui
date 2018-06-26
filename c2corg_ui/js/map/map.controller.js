@@ -24,6 +24,7 @@ import olStyleIcon from 'ol/style/icon';
 import olStyleStroke from 'ol/style/stroke';
 import olStyleStyle from 'ol/style/style';
 import olStyleText from 'ol/style/text';
+import debounce from 'lodash/debounce';
 
 /**
  * @const
@@ -53,7 +54,6 @@ export {DEFAULT_EXTENT, DEFAULT_ZOOM, DEFAULT_POINT_ZOOM};
  * @param {?GeoJSONFeatureCollection} mapFeatureCollection FeatureCollection of
  *    features to show on the map.
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
- * @param {ngeo.Debounce} ngeoDebounce ngeo Debounce service.
  * @param {app.Url} appUrl URL service.
  * @param {app.Biodivsports} appBiodivsports service.
  * @param {app.Lang} LangService Lang service.
@@ -64,8 +64,8 @@ export {DEFAULT_EXTENT, DEFAULT_ZOOM, DEFAULT_POINT_ZOOM};
  * @ngInject
  */
 export default class MapController {
-  constructor($scope, mapFeatureCollection, ngeoLocation, ngeoDebounce, UrlService, BiodivsportsService, LangService,
-    $uibModal, imgPath, UtilsService, SimplifyService) {
+  constructor($scope, mapFeatureCollection, ngeoLocation, UrlService, BiodivsportsService, LangService, $uibModal,
+    imgPath, UtilsService, SimplifyService) {
     'ngInject';
 
     this.utilsService_ = UtilsService;
@@ -285,7 +285,7 @@ export default class MapController {
 
     // advanced search mode
     if (this.advancedSearch) {
-      this.scope_.$root.$on('resizeMap', ngeoDebounce(this.resizeMap_.bind(this), 300, true));
+      this.scope_.$root.$on('resizeMap', debounce(this.resizeMap_.bind(this), 300));
 
       if (this.location_.hasFragmentParam('bbox')) {
         this.enableMapFilter = true;
@@ -309,10 +309,7 @@ export default class MapController {
         this.toggleFeatureHighlight_(id, false);
       });
 
-      this.view_.on('propertychange', ngeoDebounce(
-        this.handleMapSearchChange_.bind(this),
-        500, /* invokeApply */ true
-      ));
+      this.view_.on('propertychange', debounce(this.handleMapSearchChange_.bind(this), 500));
 
       this.scope_.$watch(() => {
         return this.enableMapFilter;

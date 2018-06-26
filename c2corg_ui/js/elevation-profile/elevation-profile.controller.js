@@ -1,16 +1,16 @@
 import olProj from 'ol/proj';
+import debounce from 'lodash/debounce';
 
 /**
  * @param {angular.Scope} $scope Scope.
  * @param {?GeoJSONFeatureCollection} mapFeatureCollection FeatureCollection of
  *    features shown on the map.
  * @param {app.Lang} LangService Lang service.
- * @param {ngeo.Debounce} ngeoDebounce ngeo Debounce service.
  * @constructor
  * @ngInject
  */
 export default class ElevationProfileController {
-  constructor($scope, mapFeatureCollection, LangService, ngeoDebounce) {
+  constructor($scope, mapFeatureCollection, LangService) {
     'ngInject';
 
     /**
@@ -24,12 +24,6 @@ export default class ElevationProfileController {
      * @private
      */
     this.featureCollection_ = mapFeatureCollection;
-
-    /**
-     * @private
-     * @type {ngeo.Debounce}
-     */
-    this.ngeoDebounce_ = ngeoDebounce;
 
     /**
      * @export
@@ -338,10 +332,7 @@ export default class ElevationProfileController {
       this.updateChart_.bind(this)
     );
     // listen to width changes to redraw graph
-    $(window).on(
-      'resize',
-      this.ngeoDebounce_(this.resizeChart_.bind(this), 300, true)
-    );
+    $(window).on('resize', debounce(this.resizeChart_.bind(this), 300));
   }
 
   /**

@@ -21,13 +21,12 @@ import olExtent from 'ol/extent';
  * @param {string} authUrl Base URL of the authentication page.
  * @param {app.Document} DocumentService
  * @param {app.Url} appUrl URL service.
- * @param {!string} imageUrl URL to the image backend.
  * @constructor
  * @ngInject
  */
 export default class DocumentEditingController {
-  constructor($scope, $element, $attrs, $http, $uibModal, $compile, LangService, AuthenticationService, ngeoLocation,
-    appAlerts, ApiService, authUrl, DocumentService, UrlService, imageUrl, documentEditing, REQUIRED_FIELDS, UtilsService) {
+  constructor($scope, $attrs, $http, $uibModal, $compile, LangService, AuthenticationService, appAlerts, ApiService,
+    authUrl, DocumentService, UrlService, documentEditing, REQUIRED_FIELDS, UtilsService) {
     'ngInject';
 
     this.documentEditing = documentEditing;

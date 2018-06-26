@@ -1,15 +1,16 @@
+import debounce from 'lodash/debounce';
+
 const IGNORED_FILTERS = ['bbox', 'offset', 'limit'];
 
 /**
  * @param {angular.Scope} $scope Scope.
  * @param {ngeo.Location} ngeoLocation ngeo Location service.
- * @param {ngeo.Debounce} ngeoDebounce ngeo Debounce service.
  * @param {Object} advancedSearchFilters Config of the filters.
  * @constructor
  * @ngInject
  */
 export default class SearchFiltersController {
-  constructor($scope, ngeoLocation, ngeoDebounce, advancedSearchFilters, UtilsService) {
+  constructor($scope, ngeoLocation, advancedSearchFilters, UtilsService) {
     'ngInject';
 
     this.utilsService_ = UtilsService;
@@ -68,18 +69,12 @@ export default class SearchFiltersController {
     // Deep watch is used here because we need to watch the list filters as well
     // which a simple $watch or $watchCollection does not. Might cause
     // perf/memory issues though...
-    this.scope_.$watch(() => {
-      return this.filters;
-    }, ngeoDebounce(
-      this.handleFiltersChange_.bind(this),
-      500, /* invokeApply */ true),
+    this.scope_.$watch(() => this.filters,
+      debounce(this.handleFiltersChange_.bind(this), 500),
       /* deep watch */ true
     );
-    this.scope_.$watch(() => {
-      return this.checkboxes_;
-    }, ngeoDebounce(
-      this.handleCheckboxesChange_.bind(this),
-      700, /* invokeApply */ true),
+    this.scope_.$watch(() => this.checkboxes_,
+      debounce(this.handleCheckboxesChange_.bind(this), 700),
       /* deep watch */ true
     );
 
