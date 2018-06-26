@@ -1,7 +1,7 @@
 import angular from 'angular';
-import olCoordinate from 'ol/coordinate.js';
-import olExtent from 'ol/extent.js';
-import olProj from 'ol/proj.js';
+import olCoordinate from 'ol/coordinate';
+import olExtent from 'ol/extent';
+import olProj from 'ol/proj';
 
 /**
  * @param {!angular.Scope} $scope Scope.

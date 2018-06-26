@@ -1,4 +1,4 @@
-import olProj from 'ol/proj.js';
+import olProj from 'ol/proj';
 
 /**
  * @param {angular.Scope} $scope Scope.

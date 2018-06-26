@@ -2,8 +2,8 @@
  * Adapted from https://github.com/camptocamp/agridea_geoacorda/blob/master/jsapi/src/searchcontrol.js
  */
 
-import olFormatGeoJSON from 'ol/format/GeoJSON.js';
-import olProj from 'ol/proj.js';
+import olFormatGeoJSON from 'ol/format/geojson';
+import olProj from 'ol/proj';
 
 /**
  * @type {string}

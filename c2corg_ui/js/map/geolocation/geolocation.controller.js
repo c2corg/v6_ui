@@ -1,7 +1,7 @@
-import olStyleCircle from 'ol/style/Circle.js';
-import olStyleFill from 'ol/style/Fill.js';
-import olStyleStroke from 'ol/style/Stroke.js';
-import olStyleStyle from 'ol/style/Style.js';
+import olStyleCircle from 'ol/style/circle';
+import olStyleFill from 'ol/style/fill';
+import olStyleStroke from 'ol/style/stroke';
+import olStyleStyle from 'ol/style/style';
 
 /**
  * @constructor

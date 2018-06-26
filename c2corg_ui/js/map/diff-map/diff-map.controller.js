@@ -1,15 +1,16 @@
 import {DEFAULT_EXTENT, DEFAULT_ZOOM, DEFAULT_POINT_ZOOM} from '../map.controller';
-import olBase from 'ol.js';
-import olMap from 'ol/Map.js';
-import olView from 'ol/View.js';
-import olFormatGeoJSON from 'ol/format/GeoJSON.js';
-import olInteractionMouseWheelZoom from 'ol/interaction/MouseWheelZoom.js';
-import olLayerVector from 'ol/layer/Vector.js';
-import olSourceVector from 'ol/source/Vector.js';
-import olStyleCircle from 'ol/style/Circle.js';
-import olStyleFill from 'ol/style/Fill.js';
-import olStyleStroke from 'ol/style/Stroke.js';
-import olStyleStyle from 'ol/style/Style.js';
+import olMap from 'ol/map';
+import olView from 'ol/view';
+import olFormatGeoJSON from 'ol/format/geojson';
+import olInteraction from 'ol/interaction';
+import olInteractionMouseWheelZoom from 'ol/interaction/mousewheelzoom';
+import olLayerVector from 'ol/layer/vector';
+import olSourceVector from 'ol/source/vector';
+import olStyleCircle from 'ol/style/circle';
+import olStyleFill from 'ol/style/fill';
+import olStyleStroke from 'ol/style/stroke';
+import olStyleStyle from 'ol/style/style';
+import olExtent from 'ol/extent';
 
 /**
  * @param {?GeoJSONFeatureCollection} mapFeatureCollection FeatureCollection of features to show on the map.
@@ -36,9 +37,9 @@ export default class MapSwitchController {
      * @export
      */
     this.map = new olMap({
-      interactions: olBase.interaction.defaults({mouseWheelZoom: false}),
+      interactions: olInteraction.defaults({mouseWheelZoom: false}),
       view: new olView({
-        center: olBase.extent.getCenter(DEFAULT_EXTENT),
+        center: olExtent.getCenter(DEFAULT_EXTENT),
         zoom: DEFAULT_ZOOM
       })
     });

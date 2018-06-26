@@ -7,8 +7,8 @@
  */
 
 import googAsserts from 'goog/asserts.js';
-import olGeomLineString from 'ol/geom/LineString.js';
-import olGeomMultiLineString from 'ol/geom/MultiLineString.js';
+import olGeomLineString from 'ol/geom/linestring';
+import olGeomMultiLineString from 'ol/geom/multilinestring';
 
 export default class SimplifyService {
   constructor() {

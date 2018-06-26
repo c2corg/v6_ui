@@ -1,15 +1,12 @@
 /**
- * @module app.HttpAuthenticationInterceptor
- */
-import appBase from './index.js';
-
-/**
  * @ngInject
  * @param {string} apiUrl Base URL of the API.
  * @param {app.Authentication} AuthenticationService
  * @return {angular.$http.Interceptor}
  */
-const exports = function(apiUrl, AuthenticationService) {
+const HttpAuthenticationInterceptor = (apiUrl, AuthenticationService) => {
+  'ngInject';
+
   return {
     'request': (
       /**
@@ -30,8 +27,4 @@ const exports = function(apiUrl, AuthenticationService) {
   };
 };
 
-appBase.module.factory('appHttpAuthenticationInterceptor',
-  exports);
-
-
-export default exports;
+export default HttpAuthenticationInterceptor;

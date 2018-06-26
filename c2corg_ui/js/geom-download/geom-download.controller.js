@@ -1,6 +1,6 @@
-import olFormatGeoJSON from 'ol/format/GeoJSON.js';
-import olFormatGPX from 'ol/format/GPX.js';
-import olFormatKML from 'ol/format/KML.js';
+import olFormatGeoJSON from 'ol/format/geojson';
+import olFormatGPX from 'ol/format/gpx';
+import olFormatKML from 'ol/format/kml';
 
 /**
  * @param {ngeo.Download} ngeoDownload ngeo download service.

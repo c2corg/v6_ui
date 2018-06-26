@@ -1,11 +1,11 @@
-import olAttribution from 'ol/Attribution.js';
-import olLayerTile from 'ol/layer/Tile.js';
-import olExtent from 'ol/extent.js';
-import olProj from 'ol/proj.js';
-import olSourceBingMaps from 'ol/source/BingMaps.js';
-import olSourceWMTS from 'ol/source/WMTS.js';
-import olSourceXYZ from 'ol/source/XYZ.js';
-import olTilegridWMTS from 'ol/tilegrid/WMTS.js';
+import olAttribution from 'ol/attribution';
+import olLayerTile from 'ol/layer/tile';
+import olExtent from 'ol/extent';
+import olProj from 'ol/proj';
+import olSourceBingMaps from 'ol/source/bingmaps';
+import olSourceWMTS from 'ol/source/wmts';
+import olSourceXYZ from 'ol/source/xyz';
+import olTilegridWMTS from 'ol/tilegrid/wmts';
 
 /**
  * @constructor
