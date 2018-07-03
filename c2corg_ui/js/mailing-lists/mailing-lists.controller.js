@@ -1,3 +1,5 @@
+import {assert} from 'goog/asserts';
+
 /**
  * @param {app.Authentication} AuthenticationService
  * @param {app.Api} ApiService Api service.
@@ -35,7 +37,7 @@ export default class MailingListsController {
   * @export
   */
   toggle(listname) {
-    goog.asserts.assert(listname in this.mailinglists);
+    assert(listname in this.mailinglists);
     const data = {};
     data[listname] = !this.mailinglists[listname];
     this.apiService_.updateMailinglists(data);

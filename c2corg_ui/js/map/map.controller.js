@@ -25,6 +25,7 @@ import olStyleStroke from 'ol/style/Stroke';
 import olStyleStyle from 'ol/style/Style';
 import olStyleText from 'ol/style/Text';
 import debounce from 'lodash/debounce';
+import googAsserts from 'goog/asserts';
 
 /**
  * @const
@@ -1050,7 +1051,7 @@ export default class MapController {
    */
   simplifyFeature_(feature) {
     let geometry = feature.getGeometry();
-    goog.asserts.assert(geometry !== undefined);
+    googAsserts.assert(geometry !== undefined);
     // simplify geometry with a tolerance of 20 meters
     geometry = this.simplifyService_.simplify(geometry, 20);
     feature.setGeometry(geometry);

@@ -1,3 +1,5 @@
+import googAsserts from 'goog/asserts';
+
 /**
  * @param {string} apiUrl URL to the API.
  * @param {angular.Scope} $rootScope
@@ -270,7 +272,7 @@ export default class AuthenticationService {
    * @private
    */
   isExpired_() {
-    goog.asserts.assert(!!this.userData, 'this.userData should not be null');
+    googAsserts.assert(!!this.userData, 'this.userData should not be null');
 
     const now = Date.now() / 1000; // in seconds
     const expire = this.userData.expire;

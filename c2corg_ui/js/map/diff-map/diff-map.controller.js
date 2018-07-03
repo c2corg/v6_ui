@@ -11,6 +11,7 @@ import olStyleFill from 'ol/style/Fill';
 import olStyleStroke from 'ol/style/Stroke';
 import olStyleStyle from 'ol/style/Style';
 import olExtent from 'ol/extent';
+import googAsserts from 'goog/asserts';
 
 /**
  * @param {?GeoJSONFeatureCollection} mapFeatureCollection FeatureCollection of features to show on the map.
@@ -120,7 +121,7 @@ export default class MapSwitchController {
    * @private
    */
   showFeatures_(features) {
-    goog.asserts.assert(features.length > 0);
+    googAsserts.assert(features.length > 0);
     const vectorLayer = this.getVectorLayer_();
     vectorLayer.getSource().addFeatures(features);
 

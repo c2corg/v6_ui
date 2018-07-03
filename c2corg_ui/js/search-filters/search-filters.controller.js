@@ -1,4 +1,5 @@
 import debounce from 'lodash/debounce';
+import googAsserts from 'goog/asserts';
 
 const IGNORED_FILTERS = ['bbox', 'offset', 'limit'];
 
@@ -156,7 +157,7 @@ export default class SearchFiltersController {
         this.checkboxes_[key] = this.filters[key];
       }
     }
-    goog.asserts.assert(this.filters);
+    googAsserts.assert(this.filters);
     this.filtersNb = Object.keys(this.filters).length;
   }
 

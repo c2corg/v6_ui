@@ -1,7 +1,7 @@
 import olGeomLineString from 'ol/geom/LineString';
 import olGeomMultiLineString from 'ol/geom/MultiLineString';
 import escape from 'lodash/escape';
-
+import googAsserts from 'goog/asserts';
 
 /**
  * @param {string} type Short document type code.
@@ -35,7 +35,7 @@ export default class UtilsService {
       case 'f':
         return 'feeds';
       default:
-        goog.asserts.fail('Unrecognized type: ' + type);
+        googAsserts.fail('Unrecognized type: ' + type);
         return '';
     }
   }

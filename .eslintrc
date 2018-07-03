@@ -8,11 +8,6 @@
   ],
   "globals": {
     "DEBUG": false,
-    "goog": false,
-    "ol": false,
-    "ngeo": false,
-    "gmf": false,
-    "_": false,
     "$": false,
     "Bloodhound": false
   },

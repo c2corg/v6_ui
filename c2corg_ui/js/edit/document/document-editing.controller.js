@@ -58,7 +58,7 @@ export default class DocumentEditingController {
      * @private
      */
     this.module_ = $attrs['c2cDocumentEditing'];
-    googAsserts.assert(goog.isDef(this.module_));
+    googAsserts.assert(this.module_ !== undefined);
 
     /**
      * @type {string}
@@ -143,8 +143,8 @@ export default class DocumentEditingController {
     if (this.auth.isAuthenticated()) {
       if (this.id && this.lang_) {
         // Get document attributes from the API to feed the model:
-        googAsserts.assert(!goog.isNull(this.id));
-        googAsserts.assert(!goog.isNull(this.lang_));
+        googAsserts.assert(this.id !== null);
+        googAsserts.assert(this.lang_ !== null);
         this.apiService_.readDocument(this.module_, this.id, this.lang_, true).then(
           this.successRead.bind(this)
         );

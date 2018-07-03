@@ -1,3 +1,5 @@
+import googAsserts from 'goog/asserts';
+
 /**
  * @ngInject
  * @param {string} apiUrl Base URL of the API.
@@ -16,7 +18,7 @@ const HttpAuthenticationInterceptor = (apiUrl, AuthenticationService) => {
       function(config) {
         const method = config.method;
         const url = config.url;
-        goog.asserts.assert(method && url);
+        googAsserts.assert(method && url);
         if (AuthenticationService.needAuthorization(method, url)) {
           config.headers = config.headers || {};
           AuthenticationService.addAuthorizationToHeaders(url, config.headers);
