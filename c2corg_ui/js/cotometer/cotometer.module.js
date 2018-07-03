@@ -1,6 +1,6 @@
 import angular from 'angular';
-import CotometerController from './items.controller';
-import CotometerDirective from './items.directive';
+import CotometerController from './cotometer.controller';
+import CotometerDirective from './cotometer.directive';
 
 export default angular
   .module('c2c.cotometer', [])

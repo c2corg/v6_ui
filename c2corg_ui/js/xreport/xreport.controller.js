@@ -1,4 +1,4 @@
-import angular from 'nagular';
+import angular from 'angular';
 
 /**
  * @param {!angular.Scope} $scope Scope.

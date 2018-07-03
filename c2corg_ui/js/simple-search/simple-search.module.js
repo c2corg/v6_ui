@@ -7,7 +7,7 @@ import c2cAuthentication from '../authentication/authentication.module';
 import c2cUrl from '../url/url.module';
 import c2cUtils from '../utils/utils.module';
 import SuggestionDirective from './suggestion.directive';
-import ngeoSearch from 'ngeo/src/search/module';
+import ngeoSearch from 'ngeo/search/module';
 
 export default angular
   .module('c2c.simple-search', [

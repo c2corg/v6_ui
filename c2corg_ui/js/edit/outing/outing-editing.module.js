@@ -1,8 +1,8 @@
 import angular from 'angular';
-import OutingEditingController from './article-outing.controller';
+import OutingEditingController from './outing-editing.controller';
 import c2cDocumentEditing from '../document/document-editing.module';
 import c2cUtils from '../../utils/utils.module';
-import ngeoLocation from 'ngeo/src/statemanager/Location';
+import ngeoLocation from 'ngeo/statemanager/Location';
 
 export default angular
   .module('c2c.edit.outing', [

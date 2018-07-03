@@ -4,7 +4,7 @@ import UserController from './user.controller';
 import c2cAuthentication from '../authentication/authentication.module';
 import c2cApi from '../api/api.module';
 import c2cUtils from '../utils/utils.module';
-import ngeoLocation from 'ngeo/src/statemanager/Location';
+import ngeoLocation from 'ngeo/statemanager/Location';
 
 export default angular
   .module('c2c.user', [

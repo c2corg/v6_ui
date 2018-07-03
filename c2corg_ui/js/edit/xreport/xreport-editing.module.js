@@ -1,5 +1,5 @@
 import angular from 'angular';
-import XreportEditingController from './xreport-outing.controller';
+import XreportEditingController from './xreport-editing.controller';
 import c2cDocumentEditing from '../document/document-editing.module';
 
 export default angular

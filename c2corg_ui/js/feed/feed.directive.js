@@ -1,4 +1,4 @@
-import template from './fee.html';
+import template from './feed.html';
 
 const FeedDirective = () => {
   return {

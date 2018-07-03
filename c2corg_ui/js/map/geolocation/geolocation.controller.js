@@ -1,7 +1,7 @@
-import olStyleCircle from 'ol/style/circle';
-import olStyleFill from 'ol/style/fill';
-import olStyleStroke from 'ol/style/stroke';
-import olStyleStyle from 'ol/style/style';
+import olStyleCircle from 'ol/style/Circle';
+import olStyleFill from 'ol/style/Fill';
+import olStyleStroke from 'ol/style/Stroke';
+import olStyleStyle from 'ol/style/Style';
 
 /**
  * @constructor

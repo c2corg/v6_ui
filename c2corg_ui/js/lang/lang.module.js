@@ -2,7 +2,7 @@ import angular from 'angular';
 import LangController from './lang.controller';
 import LangDirective from './lang.directive';
 import LangService from './lang.service';
-import ngeoGetBrowserLanguage from 'ngeo/src/misc/getBrowserLanguage';
+import ngeoGetBrowserLanguage from 'ngeo/misc/getBrowserLanguage';
 
 /**
  * This directive is used to display a lang selector dropdown.

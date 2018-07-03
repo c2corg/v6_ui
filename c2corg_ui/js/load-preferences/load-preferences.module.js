@@ -2,7 +2,7 @@ import angular from 'angular';
 import LoadPreferencesController from './load-preferences.controller';
 import LoadPreferencesDirective from './load-preferences.directive';
 import c2cApi from '../api/api.module';
-import ngeoLocation from 'ngeo/src/statemanager/Location';
+import ngeoLocation from 'ngeo/statemanager/Location';
 
 export default angular
   .module('c2c.load-preferences', [

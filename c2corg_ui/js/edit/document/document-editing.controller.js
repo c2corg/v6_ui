@@ -1,9 +1,9 @@
 import angular from 'angular';
 import googAsserts from 'goog/asserts.js';
-import olFormatGeoJSON from 'ol/format/geojson';
-import olGeomLineString from 'ol/geom/linestring';
-import olGeomMultiLineString from 'ol/geom/multilinestring';
-import olGeomPoint from 'ol/geom/point';
+import olFormatGeoJSON from 'ol/format/GeoJSON';
+import olGeomLineString from 'ol/geom/LineString';
+import olGeomMultiLineString from 'ol/geom/MultiLineString';
+import olGeomPoint from 'ol/geom/Point';
 import olExtent from 'ol/extent';
 
 /**

@@ -1,4 +1,4 @@
-import olFormatGPX from 'ol/format/gpx';
+import olFormatGPX from 'ol/format/GPX';
 
 /**
  * @param {angular.Scope} $scope Scope.

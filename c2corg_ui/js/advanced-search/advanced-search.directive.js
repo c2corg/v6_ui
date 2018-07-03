@@ -1,4 +1,4 @@
-import template from 'advanced-search.html';
+import template from './advanced-search.html';
 
 /**
  * This directive is used to display the advanced search form and results.

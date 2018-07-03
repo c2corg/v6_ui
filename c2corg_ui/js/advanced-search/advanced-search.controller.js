@@ -1,5 +1,5 @@
-import olFeature from 'ol/feature';
-import olFormatGeoJSON from 'ol/format/geojson';
+import olFeature from 'ol/Feature';
+import olFormatGeoJSON from 'ol/format/GeoJSON';
 
 /**
  * @param {angular.Scope} $scope Directive scope.

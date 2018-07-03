@@ -1,5 +1,5 @@
-import olGeomLineString from 'ol/geom/linestring';
-import olGeomMultiLineString from 'ol/geom/multilinestring';
+import olGeomLineString from 'ol/geom/LineString';
+import olGeomMultiLineString from 'ol/geom/MultiLineString';
 import escape from 'lodash/escape';
 
 

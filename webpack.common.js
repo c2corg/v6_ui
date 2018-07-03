@@ -25,5 +25,14 @@ module.exports = {
         loader: 'css-loader'
       }
     ]
+  },
+  resolve: {
+    alias: {
+      'ngeo': path.resolve(__dirname, 'node_modules/ngeo/src'),
+      'ol': path.resolve(__dirname, 'node_modules/openlayers/src/ol'),
+      'proj4': path.resolve(__dirname, 'node_modules/proj4/lib'),
+      'goog/asserts': path.resolve(__dirname, 'node_modules/ngeo/src/goog.asserts.js'),
+      'goog/asserts.js': path.resolve(__dirname, 'node_modules/ngeo/src/goog.asserts.js')
+    }
   }
 };

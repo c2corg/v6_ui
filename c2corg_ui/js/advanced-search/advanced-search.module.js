@@ -1,10 +1,10 @@
 import angular from 'angular';
 import c2cUtils from '../utils/utils.module';
-import AdvancedSearchController from './advanced-search.cotnroller';
+import AdvancedSearchController from './advanced-search.controller';
 import AdvancedSearchDirective from './advanced-search.directive';
 import SliderController from './slider.controller';
 import SliderDirective from './slider.directive';
-import ngeoLocation from 'ngeo/src/statemanager/Location';
+import ngeoLocation from 'ngeo/statemanager/Location';
 
 export default angular
   .module('c2c.advanced-search', [

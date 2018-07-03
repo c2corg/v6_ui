@@ -1,7 +1,7 @@
 import angular from 'angular';
 import GpxUploadController from './gpx-upload.controller';
 import GpxUploadDirective from './gpx-upload.directive';
-import ngeoFilereader from 'ngeo/src/misc/filereaderComponent';
+import ngeoFilereader from 'ngeo/misc/filereaderComponent';
 
 export default angular
   .module('c2c.gpx-upload', [ngeoFilereader.name])

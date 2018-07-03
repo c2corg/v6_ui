@@ -7,7 +7,7 @@ import OutingFiltersController from './outing-filters.controller';
 import XreportFiltersController from './xreport-filters.controller';
 import StickFiltersController from './sticky-filters.controller';
 import StickyFiltersDirective from './sticky-filters.directive';
-import ngeoLocation from 'ngeo/src/statemanager/Location';
+import ngeoLocation from 'ngeo/statemanager/Location';
 
 export default angular
   .module('c2c.search-filters', [

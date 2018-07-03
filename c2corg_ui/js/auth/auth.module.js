@@ -1,7 +1,7 @@
 import angular from 'angular';
 import AuthController from './auth.controller';
 import AuthDirective from './auth.directive';
-import ngeoLocation from 'ngeo/src/statemanager/Location';
+import ngeoLocation from 'ngeo/statemanager/Location';
 
 export default angular
   .module('c2c.auth', [ngeoLocation])

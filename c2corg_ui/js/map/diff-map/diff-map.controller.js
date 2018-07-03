@@ -1,15 +1,15 @@
 import {DEFAULT_EXTENT, DEFAULT_ZOOM, DEFAULT_POINT_ZOOM} from '../map.controller';
-import olMap from 'ol/map';
-import olView from 'ol/view';
-import olFormatGeoJSON from 'ol/format/geojson';
+import olMap from 'ol/Map';
+import olView from 'ol/View';
+import olFormatGeoJSON from 'ol/format/GeoJSON';
 import olInteraction from 'ol/interaction';
-import olInteractionMouseWheelZoom from 'ol/interaction/mousewheelzoom';
-import olLayerVector from 'ol/layer/vector';
-import olSourceVector from 'ol/source/vector';
-import olStyleCircle from 'ol/style/circle';
-import olStyleFill from 'ol/style/fill';
-import olStyleStroke from 'ol/style/stroke';
-import olStyleStyle from 'ol/style/style';
+import olInteractionMouseWheelZoom from 'ol/interaction/MouseWheelZoom';
+import olLayerVector from 'ol/layer/Vector';
+import olSourceVector from 'ol/source/Vector';
+import olStyleCircle from 'ol/style/Circle';
+import olStyleFill from 'ol/style/Fill';
+import olStyleStroke from 'ol/style/Stroke';
+import olStyleStyle from 'ol/style/Style';
 import olExtent from 'ol/extent';
 
 /**

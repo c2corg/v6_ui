@@ -1,11 +1,11 @@
-import olAttribution from 'ol/attribution';
-import olLayerTile from 'ol/layer/tile';
+import olAttribution from 'ol/control/Attribution';
+import olLayerTile from 'ol/layer/Tile';
 import olExtent from 'ol/extent';
 import olProj from 'ol/proj';
-import olSourceBingMaps from 'ol/source/bingmaps';
-import olSourceWMTS from 'ol/source/wmts';
-import olSourceXYZ from 'ol/source/xyz';
-import olTilegridWMTS from 'ol/tilegrid/wmts';
+import olSourceBingMaps from 'ol/source/BingMaps';
+import olSourceWMTS from 'ol/source/WMTS';
+import olSourceXYZ from 'ol/source/XYZ';
+import olTilegridWMTS from 'ol/tilegrid/WMTS';
 
 /**
  * @constructor

@@ -1,4 +1,4 @@
-import SearchFiltersController from './SearchFiltersController.js';
+import SearchFiltersController from './search-filters.controller';
 
 /**
  * @param {angular.Scope} $scope Scope.
