@@ -11,7 +11,7 @@ import angular from 'angular';
  * @ngInject
  */
 export default class XreportController {
-  constructor($scope, $http, $compile, appAlerts) {
+  constructor($scope, $http, $compile, alertsService) {
     'ngInject';
 
     /**
@@ -30,7 +30,7 @@ export default class XreportController {
      * @type {app.Alerts}
      * @private
      */
-    this.alerts_ = appAlerts;
+    this.alerts_ = alertsService;
 
     /**
      * An authenticated request is made to the UI server to get the xreport

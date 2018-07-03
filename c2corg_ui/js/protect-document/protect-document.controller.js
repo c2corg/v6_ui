@@ -9,7 +9,7 @@
  * @struct
  */
 export default class ProtectDocumentController {
-  constructor(AuthenticationService, ApiService, appAlerts, gettextCatalog, documentData) {
+  constructor(AuthenticationService, ApiService, AlertsService, gettextCatalog, documentData) {
     'ngInject';
 
     /**
@@ -28,7 +28,7 @@ export default class ProtectDocumentController {
      * @type {app.Alerts}
      * @private
      */
-    this.appAlerts_ = appAlerts;
+    this.appAlerts_ = AlertsService;
 
     /**
      * @type {angularGettext.Catalog}

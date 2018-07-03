@@ -22,11 +22,11 @@ import DocumentEditingController from '../document/document-editing.controller';
  */
 export default class OutingEditingController extends DocumentEditingController {
   constructor($scope, $attrs, $http, $uibModal, $compile, LangService, AuthenticationService,
-    appAlerts, ApiService, authUrl, DocumentService, appUrl, UtilsService, ngeoLocation) {
+    AlertsService, ApiService, authUrl, DocumentService, UrlService, UtilsService, ngeoLocation) {
     'ngInject';
 
-    super($scope, $attrs, $http, $uibModal, $compile, LangService, AuthenticationService, appAlerts,
-      ApiService, authUrl, DocumentService, appUrl);
+    super($scope, $attrs, $http, $uibModal, $compile, LangService, AuthenticationService, AlertsService,
+      ApiService, authUrl, DocumentService, UrlService);
 
     /**
      * Start cannot be after today nor end_date.

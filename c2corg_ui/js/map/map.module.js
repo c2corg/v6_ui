@@ -7,12 +7,12 @@ import c2cGeolocation from './geolocation/geolocation.module';
 import c2cLayerTree from './layer-tree/layer-tree-selector.module';
 import c2cBiodivsports from './biodivsports/biodivsports.module';
 import SimplifyService from './simplify.service';
-import ngeoLocation from 'ngeo/statemanager/Location';
+import ngeoStatemanagerModule from 'ngeo/statemanager/module';
 import ngeoMap from 'ngeo/map/module';
 
 export default angular
   .module('c2c.map', [
-    ngeoLocation.name,
+    ngeoStatemanagerModule.name,
     ngeoMap.name,
     c2cUtils,
     c2cDiffMap,

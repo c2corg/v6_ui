@@ -10,7 +10,7 @@ import angular from 'angular';
  * @ngInject
  */
 export default class AccountController {
-  constructor($scope, AuthenticationService, appAlerts, ApiService, authUrl, UtilsService) {
+  constructor($scope, AuthenticationService, AlertsService, ApiService, authUrl, UtilsService) {
     'ngInject';
 
     /**
@@ -23,7 +23,7 @@ export default class AccountController {
      * @type {app.Alerts}
      * @private
      */
-    this.alerts_ = appAlerts;
+    this.alerts_ = AlertsService;
 
     /**
      * @type {app.Api}

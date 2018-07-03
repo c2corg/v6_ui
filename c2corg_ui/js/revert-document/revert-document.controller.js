@@ -7,7 +7,7 @@
  * @ngInject
  */
 export default class RevertDocumentController {
-  constructor(AuthenticationService, ApiService, appAlerts, gettextCatalog) {
+  constructor(AuthenticationService, ApiService, AlertsService, gettextCatalog) {
     'ngInject';
 
     /**
@@ -26,7 +26,7 @@ export default class RevertDocumentController {
      * @type {app.Alerts}
      * @private
      */
-    this.appAlerts_ = appAlerts;
+    this.appAlerts_ = AlertsService;
 
     /**
      * @type {angularGettext.Catalog}

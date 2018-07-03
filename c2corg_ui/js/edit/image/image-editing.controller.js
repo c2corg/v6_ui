@@ -22,13 +22,13 @@ import DocumentEditingController from '../document/document-editing.controller';
  */
 export default class ImageEditingController extends DocumentEditingController {
   constructor($scope, $attrs, $http, $uibModal, $compile, LangService,
-    AuthenticationService, appAlerts, ApiService, authUrl, DocumentService,
-    appUrl, UtilsService, imageUrl) {
+    AuthenticationService, AlertsService, ApiService, authUrl, DocumentService,
+    UrlService, UtilsService, imageUrl) {
     'ngInject';
 
     super($scope, $attrs, $http,
-      $uibModal, $compile, LangService, AuthenticationService, appAlerts,
-      ApiService, authUrl, DocumentService, appUrl);
+      $uibModal, $compile, LangService, AuthenticationService, AlertsService,
+      ApiService, authUrl, DocumentService, UrlService);
 
     /**
      * @type {Date}

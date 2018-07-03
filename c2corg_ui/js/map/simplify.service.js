@@ -85,7 +85,7 @@ export default class SimplifyService {
     for (let i = 1, len = points.length; i < len; i++) {
       point = points[i];
 
-      if (exports.getSqDist_(point, prevPoint) > sqTolerance) {
+      if (this.getSqDist_(point, prevPoint) > sqTolerance) {
         newPoints.push(point);
         prevPoint = point;
       }
@@ -113,7 +113,7 @@ export default class SimplifyService {
         index;
 
     for (let i = first + 1; i < last; i++) {
-      const sqDist = exports.getSqSegDist_(points[i], points[first], points[last]);
+      const sqDist = this.getSqSegDist_(points[i], points[first], points[last]);
 
       if (sqDist > maxSqDist) {
         index = i;
@@ -124,11 +124,11 @@ export default class SimplifyService {
     if (maxSqDist > sqTolerance) {
       googAsserts.assert(index !== undefined);
       if (index - first > 1) {
-        exports.simplifyDPStep_(points, first, index, sqTolerance, simplified);
+        this.simplifyDPStep_(points, first, index, sqTolerance, simplified);
       }
       simplified.push(points[index]);
       if (last - index > 1) {
-        exports.simplifyDPStep_(points, index, last, sqTolerance, simplified);
+        this.simplifyDPStep_(points, index, last, sqTolerance, simplified);
       }
     }
   }
@@ -146,7 +146,7 @@ export default class SimplifyService {
     const last = points.length - 1;
 
     const simplified = [points[0]];
-    exports.simplifyDPStep_(points, 0, last, sqTolerance, simplified);
+    this.simplifyDPStep_(points, 0, last, sqTolerance, simplified);
     simplified.push(points[last]);
 
     return simplified;
@@ -169,8 +169,8 @@ export default class SimplifyService {
 
     const sqTolerance = tolerance !== undefined ? tolerance * tolerance : 1;
 
-    points = highestQuality ? points : exports.simplifyRadialDist_(points, sqTolerance);
-    points = exports.simplifyDouglasPeucker_(points, sqTolerance);
+    points = highestQuality ? points : this.simplifyRadialDist_(points, sqTolerance);
+    points = this.simplifyDouglasPeucker_(points, sqTolerance);
 
     return points;
   }
@@ -187,11 +187,11 @@ export default class SimplifyService {
   simplify(geometry, tolerance) {
     if (geometry instanceof olGeomLineString) {
       const coords = geometry.getCoordinates();
-      geometry.setCoordinates(exports.simplify_(coords, tolerance, true));
+      geometry.setCoordinates(this.simplify_(coords, tolerance, true));
     } else if (geometry instanceof olGeomMultiLineString) {
       const coordss = geometry.getCoordinates();
       const simplifiedCoordss = coordss.map((coords) => {
-        return exports.simplify_(coords, tolerance, true);
+        return this.simplify_(coords, tolerance, true);
       });
       geometry.setCoordinates(simplifiedCoordss);
     }

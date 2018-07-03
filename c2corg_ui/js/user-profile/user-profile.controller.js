@@ -10,7 +10,7 @@ import angular from 'angular';
  * @ngInject
  */
 export default class UserProfileController {
-  constructor($scope, $http, $compile, appAlerts) {
+  constructor($scope, $http, $compile, AlertsService) {
     'ngInject';
 
     /**
@@ -29,7 +29,7 @@ export default class UserProfileController {
      * @type {app.Alerts}
      * @private
      */
-    this.alerts_ = appAlerts;
+    this.alerts_ = AlertsService;
 
     /**
      * An authenticated request is made to the ui server to get the profile data

@@ -5,7 +5,7 @@ CLOSURE_LIBRARY_PATH = $(shell node -e 'process.stdout.write(require("closure-ut
 CLOSURE_COMPILER_PATH = $(shell node -e 'process.stdout.write(require("closure-util").getCompilerPath())' 2> /dev/null)
 OL_JS_FILES = $(shell find node_modules/openlayers/src/ol -type f -name '*.js' 2> /dev/null)
 NGEO_JS_FILES = $(shell find node_modules/ngeo/src -type f -name '*.js' 2> /dev/null)
-APP_JS_FILES = $(shell find c2corg_ui/static/js -type f -name '*.js')
+APP_JS_FILES = $(shell find c2corg_ui/js -type f -name '*.js')
 APP_HTML_FILES = $(shell find c2corg_ui/templates -type f -name '*.html')
 APP_PARTIAL_FILES = $(shell find c2corg_ui/static/partials -type f -name '*.html')
 LESS_FILES = $(shell find less -type f -name '*.less')
@@ -22,35 +22,6 @@ TOUCHBACK_TXRC = $(TOUCH_DATE) "$(shell date --iso-8601=seconds)" $(HOME)/.trans
 else
 TOUCHBACK_TXRC = $(TOUCH_DATE) "$(shell $(STAT_LAST_MODIFIED) $(HOME)/.transifexrc)" $(HOME)/.transifexrc
 endif
-
-# JavaScript dependencies that are concatenated into a single file
-LIBS_JS_FILES += \
-    node_modules/jquery/dist/jquery.min.js \
-    node_modules/bootstrap-slider/dist/bootstrap-slider.min.js \
-    node_modules/bootstrap-markdown/js/bootstrap-markdown.js \
-    node_modules/angular/angular.min.js \
-    node_modules/bootstrap/dist/js/bootstrap.min.js \
-    c2corg_ui/static/lib/angular-bootstrap/ui-bootstrap-custom-2.5.0.min.js \
-    c2corg_ui/static/lib/angular-bootstrap/ui-bootstrap-custom-tpls-2.5.0.min.js \
-    node_modules/angular-gettext/dist/angular-gettext.min.js \
-    node_modules/angular-messages/angular-messages.min.js \
-    node_modules/angular-cookies/angular-cookies.min.js \
-    node_modules/angular-sanitize/angular-sanitize.min.js \
-    node_modules/corejs-typeahead/dist/typeahead.bundle.min.js \
-    node_modules/moment/min/moment.min.js \
-    node_modules/moment-timezone/builds/moment-timezone-with-data.min.js \
-    node_modules/angular-moment/angular-moment.min.js \
-    node_modules/angular-recaptcha/release/angular-recaptcha.min.js \
-    node_modules/ng-file-upload/dist/ng-file-upload.min.js \
-    node_modules/blueimp-load-image/js/load-image.all.min.js \
-    node_modules/photoswipe/dist/photoswipe.min.js \
-    node_modules/photoswipe/dist/photoswipe-ui-default.min.js \
-    node_modules/angular-slug/angular-slug.js \
-    node_modules/ng-infinite-scroll/build/ng-infinite-scroll.min.js \
-    node_modules/file-saver/FileSaver.min.js \
-    node_modules/slug/slug.js \
-    node_modules/d3/d3.min.js \
-		node_modules/lodash/lodash.min.js
 
 # CSS files of dependencies that are concatenated into a single file
 LIBS_CSS_FILES += \
@@ -98,7 +69,7 @@ help:
 check: flake8 lint build test
 
 .PHONY: build
-build: c2corg_ui/static/build/build.js less compile-catalog $(TEMPLATE_FILES) deps
+build: c2corg_ui/static/build/bundle.js less compile-catalog $(TEMPLATE_FILES) c2corg_ui/static/build/deps.css
 
 .PHONY: clean
 clean:
@@ -161,9 +132,6 @@ clear-cache: install development.ini
 clear-cache-prod: install production.ini
 	.build/venv/bin/python c2corg_ui/scripts/redis-flushdb.py production.ini
 
-c2corg_ui/closure/%.py: $(CLOSURE_LIBRARY_PATH)/closure/bin/build/%.py
-	cp $< $@
-
 # i18n and Transifex tools
 
 # if .transifexrc does not exist yet, create it for read only access (with fake user c2c)
@@ -205,9 +173,9 @@ c2corg_ui/static/build/locale/%/c2corg_ui.json: .build/locale/%/LC_MESSAGES/c2co
 
 # End of i18n and Transifex tools
 
-c2corg_ui/static/build/build.js: build.json c2corg_ui/static/build/templatecache.js $(OL_JS_FILES) $(NGEO_JS_FILES) $(APP_JS_FILES) .build/node_modules.timestamp
+c2corg_ui/static/build/bundle.js: $(APP_JS_FILES) .build/node_modules.timestamp
 	mkdir -p $(dir $@)
-	./node_modules/.bin/closure-util build $< $@
+	npm run build
 
 c2corg_ui/static/build/build.min.css: $(LESS_FILES) .build/node_modules.timestamp
 	mkdir -p $(dir $@)
@@ -232,10 +200,6 @@ c2corg_ui/static/build/build-discourse.min.css: $(LESS_DISCOURSE_FILES) .build/n
 c2corg_ui/static/build/build-discourse.css: $(LESS_DISCOURSE_FILES) .build/node_modules.timestamp
 	mkdir -p $(dir $@)
 	./node_modules/.bin/lessc less-discourse/discourse.less > $@
-
-c2corg_ui/static/build/templatecache.js: c2corg_ui/templates/templatecache.js .build/venv/bin/mako-render $(APP_PARTIAL_FILES)
-	mkdir -p $(dir $@)
-	.build/venv/bin/mako-render --var "partials=$(APP_PARTIAL_FILES)" $< > $@
 
 .build/node_modules.timestamp: package.json
 	mkdir -p $(dir $@)
@@ -288,13 +252,6 @@ $(TEMPLATE_FILES): %: %.in
 publish: template
 	scripts/travis-build.sh
 	scripts/travis-publish.sh
-
-deps: c2corg_ui/static/build/deps.js c2corg_ui/static/build/deps.css
-
-# concatenate all JS dependencies into one file
-c2corg_ui/static/build/deps.js: $(LIBS_JS_FILES) c2corg_ui/static/build/locale_moment
-	@echo "Creating deps.js"
-	awk 'FNR==1{print ";\n"}1' $(LIBS_JS_FILES) > $@
 
 # copy locales of moment.js
 c2corg_ui/static/build/locale_moment: .build/node_modules.timestamp

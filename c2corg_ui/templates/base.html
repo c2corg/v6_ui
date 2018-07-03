@@ -8,7 +8,7 @@
 %>\
 <%namespace file="helpers/common.html" import="show_title"/>\
 <!DOCTYPE html>
-<html <%block name="pagelang"></%block> ng-app="app" ng-controller="MainController as mainCtrl" itemscope itemtype="http://schema.org/Article">
+<html <%block name="pagelang"></%block> ng-app="c2c" ng-controller="MainController as mainCtrl" itemscope itemtype="http://schema.org/Article">
   <head>
     <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('Home')">${show_title('Home')}</title></%block>
     <meta charset="utf-8">
@@ -77,52 +77,7 @@
       </div>
     </div>
     <c2c-alerts></c2c-alerts>
-
-% if debug:
-    <script>
-      // We should really use the empty string for CLOSURE_BASE_PATH for there
-      // is a bug in Closure Library preventing us from doing it. See
-      // <https://github.com/google/closure-library/pull/418>.
-      window.CLOSURE_BASE_PATH = ' ';
-      window.CLOSURE_NO_DEPS = true;
-    </script>
-    <script src="${request.static_path('%s/jquery/dist/jquery.js' % node_modules_path)}"></script>
-    <script src="${request.static_path('%s/angular/angular.js' % node_modules_path)}"></script>
-    <script src="${request.static_path('%s/bootstrap/dist/js/bootstrap.js' % node_modules_path)}"></script>
-    <script src="${request.static_path('%s/bootstrap-slider/dist/bootstrap-slider.js' % node_modules_path)}"></script>
-    <script src="${request.static_path('c2corg_ui:static/lib/angular-bootstrap/ui-bootstrap-custom-2.5.0.js')}"></script>
-    <script src="${request.static_path('c2corg_ui:static/lib/angular-bootstrap/ui-bootstrap-custom-tpls-2.5.0.js')}"></script>
-    <script src="${request.static_path('%s/angular-gettext/dist/angular-gettext.js' % node_modules_path)}"></script>
-    <script src="${request.static_path('%s/angular-messages/angular-messages.js' % node_modules_path)}"></script>
-    <script src="${request.static_path('%s/angular-cookies/angular-cookies.js' % node_modules_path)}"></script>
-    <script src="${request.static_path('%s/angular-sanitize/angular-sanitize.js' % node_modules_path)}"></script>
-    <script src="${request.static_path('%s/closure/goog/base.js' % closure_library_path)}"></script>
-    <script src="${request.static_path('%s/corejs-typeahead/dist/typeahead.bundle.js' % node_modules_path)}"></script>
-    <script src="${request.static_path('%s/ng-infinite-scroll/build/ng-infinite-scroll.js' % node_modules_path)}"></script>
-    <script src="${request.static_path('%s/moment/moment.js' % node_modules_path)}"></script>
-    <script src="${request.static_path('%s/moment-timezone/builds/moment-timezone-with-data.js' % node_modules_path)}"></script>
-    <script src="${request.static_path('%s/angular-moment/angular-moment.js' % node_modules_path)}"></script>
-    <script src="${request.static_path('%s/angular-recaptcha/release/angular-recaptcha.js' % node_modules_path)}"></script>
-    <script src="${request.static_path('%s/ng-file-upload/dist/ng-file-upload.js' % node_modules_path)}"></script>
-    <script src="${request.static_path('%s/blueimp-load-image/js/load-image.js' % node_modules_path)}"></script>
-    <script src="${request.static_path('%s/blueimp-load-image/js/load-image-orientation.js' % node_modules_path)}"></script>
-    <script src="${request.static_path('%s/blueimp-load-image/js/load-image-meta.js' % node_modules_path)}"></script>
-    <script src="${request.static_path('%s/blueimp-load-image/js/load-image-exif.js' % node_modules_path)}"></script>
-    <script src="${request.static_path('%s/blueimp-load-image/js/load-image-exif-map.js' % node_modules_path)}"></script>
-    <script src="${request.static_path('%s/photoswipe/dist/photoswipe.js' % node_modules_path)}"></script>
-    <script src="${request.static_path('%s/photoswipe/dist/photoswipe-ui-default.js' % node_modules_path)}"></script>
-    <script src="${request.static_path('%s/angular-slug/angular-slug.js' % node_modules_path)}"></script>
-    <script src="${request.static_path('%s/slug/slug.js' % node_modules_path)}"></script>
-    <script src="${request.static_path('%s/file-saver/FileSaver.js' % node_modules_path)}"></script>
-    <script src="${request.static_path('%s/bootstrap-markdown/js/bootstrap-markdown.js' % node_modules_path)}"></script>
-    <script src="${request.static_path('%s/d3/d3.js' % node_modules_path)}"></script>
-    <script src="${request.route_path('deps.js')}"></script>
-    <script src="${request.static_path('c2corg_ui:static/js/main.js')}"></script>
-% else:
-    <script src="${request.static_path('c2corg_ui:static/build/deps.js')}"></script>
-    <script src="${request.static_path('c2corg_ui:static/build/build.js')}"></script>
-% endif
-
+    <script src="${request.static_path('c2corg_ui:static/build/bundle.js')}"></script>
     <script>
       (function() {
         // prevent loading a file from accidental image drag-drop outside the drop-box
@@ -156,8 +111,7 @@
          module.value('mapFeatureCollection', null);
          // </%block>
          document.querySelector('.loading-gif').style.display = 'none';
-         $('.on-load').removeClass('loading on-load');
-         app.sidemenu();
+         document.querySelector('.on-load').className = '';
       })();
     </script>
     <script>

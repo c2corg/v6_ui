@@ -8,7 +8,7 @@
  * @ngInject
  */
 export default class MergeDocumentsController {
-  constructor(documentData, ApiService, appAlerts, gettextCatalog, $uibModalStack) {
+  constructor(documentData, ApiService, AlertsService, gettextCatalog, $uibModalStack) {
     'ngInject';
 
     /**
@@ -27,7 +27,7 @@ export default class MergeDocumentsController {
      * @type {app.Alerts}
      * @private
      */
-    this.appAlerts_ = appAlerts;
+    this.appAlerts_ = AlertsService;
 
     /**
      * @type {angularGettext.Catalog}

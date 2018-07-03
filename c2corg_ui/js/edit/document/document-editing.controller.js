@@ -25,7 +25,7 @@ import olExtent from 'ol/extent';
  * @ngInject
  */
 export default class DocumentEditingController {
-  constructor($scope, $attrs, $http, $uibModal, $compile, LangService, AuthenticationService, appAlerts, ApiService,
+  constructor($scope, $attrs, $http, $uibModal, $compile, LangService, AuthenticationService, AlertsService, ApiService,
     authUrl, DocumentService, UrlService, documentEditing, REQUIRED_FIELDS, UtilsService) {
     'ngInject';
 
@@ -106,7 +106,7 @@ export default class DocumentEditingController {
      * @type {app.Alerts}
      * @public
      */
-    this.alerts = appAlerts;
+    this.alerts = AlertsService;
 
     /**
      * @type {app.Api}

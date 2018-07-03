@@ -162,7 +162,7 @@ export default class {
      * @export
      */
     this.listeners = /** @type {ngeox.SearchDirectiveListeners} */ ({
-      select: exports.select_.bind(this)
+      select: this.select_.bind(this)
     });
 
     /**

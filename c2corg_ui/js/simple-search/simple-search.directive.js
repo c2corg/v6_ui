@@ -42,7 +42,7 @@ const SimpleSearchDirective = (SCREEN) => {
           element.on('click', (e) => {
 
             // Collapse suggestions
-            if ($('app-simple-search .header').is(e.target)) {
+            if ($('c2c-simple-search .header').is(e.target)) {
               $(e.target).siblings('.tt-suggestion').slideToggle();
             }
 

@@ -7,7 +7,7 @@ const LayertreeSelectorDirective = function() {
     controllerAs: 'mapLayerCtrl',
     bindToController: true,
     scope: {
-      'map': '=appLayertreeSelectorMap'
+      'map': '=c2cLayertreeSelectorMap'
     },
     template
   };

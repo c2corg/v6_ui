@@ -135,8 +135,8 @@ export default class UtilsService {
    * @export
    */
   createImageSlide(file, imageUrl) {
-    const smallImage = exports.createImageUrl(file.filename, 'SI');
-    const bigImage = exports.createImageUrl(file.filename, 'BI');
+    const smallImage = this.createImageUrl(file.filename, 'SI');
+    const bigImage = this.createImageUrl(file.filename, 'BI');
     const title = escape(file['locales'][0]['title']);
     const ahref = '<a href="' + imageUrl + bigImage + '" data-info-id="' + file['image_id'] + '-slide" title="' + title + '">';
     const img = '<img src="' + imageUrl + smallImage + '"></a>';
@@ -211,7 +211,7 @@ export default class UtilsService {
           left = str.substring(0, p);
         }
         const right = str.substring(p + 1);
-        return left + spaceReplacer + exports.stringDivider(right, width, spaceReplacer);
+        return left + spaceReplacer + this.stringDivider(right, width, spaceReplacer);
       }
     }
     return str;

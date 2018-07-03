@@ -12,7 +12,7 @@
  * @ngInject
  */
 export default class ApiService {
-  constructor(discourseUrl, apiUrl, imageBackendUrl, $http, appAlerts, $q, AuthenticationService, UtilsService) {
+  constructor(discourseUrl, apiUrl, imageBackendUrl, $http, AlertsService, $q, AuthenticationService, UtilsService) {
     'ngInject';
 
     this.utilsService = UtilsService;
@@ -51,7 +51,7 @@ export default class ApiService {
      * @private
      * @type {app.Alerts}
      */
-    this.alerts_ = appAlerts;
+    this.alerts_ = AlertsService;
 
     /**
      * @type {app.Authentication}

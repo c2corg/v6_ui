@@ -4,7 +4,6 @@ import 'angular-messages';
 import 'angular-cookies';
 import 'angular-moment';
 import 'ng-file-upload';
-import 'angular-slug';
 import 'angular-recaptcha';
 import 'ng-infinite-scroll';
 import 'angular-sanitize';
@@ -17,6 +16,7 @@ import popover from 'angular-ui-bootstrap/src/popover';
 import tabs from 'angular-ui-bootstrap/src/tabs';
 import tooltip from 'angular-ui-bootstrap/src/tooltip';
 import rating from 'angular-ui-bootstrap/src/rating';
+import 'jquery';
 
 import c2cAccount from './account/account.module';
 import c2cActivityFilter from './activity-filter/activity-filter.module';
@@ -96,7 +96,6 @@ angular
     rating,
     'angularMoment',
     'ngFileUpload',
-    'slug',
     'vcRecaptcha',
     'infinite-scroll',
     'ngSanitize',

@@ -10,7 +10,7 @@
  * @ngInject
  */
 export default class UserController {
-  constructor(AuthenticationService, ngeoLocation, appAlerts, ApiService, authUrl, gettext, UtilsService) {
+  constructor(AuthenticationService, ngeoLocation, AlertsService, ApiService, authUrl, gettext, UtilsService) {
     'ngInject';
 
     this.utilsService_ = UtilsService;
@@ -43,7 +43,7 @@ export default class UserController {
      * @type {app.Alerts}
      * @private
      */
-    this.alerts_ = appAlerts;
+    this.alerts_ = AlertsService;
 
     /**
      * @type {function(string):string}

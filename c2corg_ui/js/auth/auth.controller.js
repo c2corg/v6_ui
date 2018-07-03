@@ -12,7 +12,7 @@
  * @ngInject
  */
 export default class AuthController {
-  constructor($scope, ApiService, AuthenticationService, ngeoLocation, appAlerts, gettextCatalog, $q, LangService,
+  constructor($scope, ApiService, AuthenticationService, ngeoLocation, AlertsService, gettextCatalog, $q, LangService,
     vcRecaptchaService) {
     'ngInject';
 
@@ -58,7 +58,7 @@ export default class AuthController {
      * @type {app.Alerts}
      * @private
      */
-    this.alerts_ = appAlerts;
+    this.alerts_ = AlertsService;
 
     /**
      * @type {app.Lang}

@@ -117,7 +117,7 @@ const MarkdownEditorDirective = ($rootScope, $compile, gettextCatalog, textForma
         element.addClass('processed');
 
         /** @type {bootstrapMarkdown.MarkdownConfig} */
-        const options = scope.$eval(attrs['appMarkdownEditor']) || {};
+        const options = scope.$eval(attrs['c2cMarkdownEditor']) || {};
 
         options.hiddenButtons = (options.hiddenButtons || []).concat([
           'cmdHeading',

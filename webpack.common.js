@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   entry: [
@@ -6,7 +7,7 @@ module.exports = {
     './c2corg_ui/js/app.js'
   ],
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'c2corg_ui/static/build'),
     filename: 'bundle.js'
   },
   module: {
@@ -26,6 +27,13 @@ module.exports = {
       }
     ]
   },
+  plugins: [
+    new webpack.ProvidePlugin({
+      jQuery: 'jquery',
+      $: 'jquery',
+      jquery: 'jquery'
+    })
+  ],
   resolve: {
     alias: {
       'ngeo': path.resolve(__dirname, 'node_modules/ngeo/src'),

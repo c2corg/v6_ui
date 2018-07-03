@@ -7,9 +7,9 @@ const AddAssociationDirective = ($compile) => {
   'ngInject';
 
   const template = dataset => {
-    return '<app-simple-search app-select="addCtrl.associate(doc)" ' +
+    return '<c2c-simple-search c2c-select="addCtrl.associate(doc)" ' +
       'ignore-document-id="addCtrl.parentId" ' +
-      'dataset="' + dataset + '"></app-simple-search>';
+      'dataset="' + dataset + '"></c2c-simple-search>';
   };
 
   return {
