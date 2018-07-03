@@ -65,6 +65,7 @@ import c2cProtectDocument from './protect-document/protect-document.directive';
 import c2cProtectedUrlBtn from './protected-url-btn/protected-url-btn.module';
 import c2cRevertDocument from './revert-document/revert-document.module';
 import c2cSearchFilters from './search-filters/search-filters.module';
+import c2cSideMenu from './side-menu/side-menu.module';
 import c2cSimpleSearch from './simple-search/simple-search.module';
 import c2cSlideInfo from './slide-info/slide-info.module';
 import c2cUrl from './url/url.module';
@@ -146,6 +147,7 @@ angular
     c2cProtectedUrlBtn,
     c2cRevertDocument,
     c2cSearchFilters,
+    c2cSideMenu,
     c2cSimpleSearch,
     c2cSlideInfo,
     c2cUrl,
