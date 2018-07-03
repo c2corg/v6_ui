@@ -33,7 +33,7 @@
     "moment-timezone": "0.5.20",
     "ng-file-upload": "12.2.13",
     "ng-infinite-scroll": "1.3.0",
-    "ngeo": "2.1.1",
+    "ngeo": "2.3.0",
     "openlayers": "3.19.1",
     "photoswipe": "4.1.2",
     "slug": "0.9.1"
