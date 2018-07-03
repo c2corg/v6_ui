@@ -61,7 +61,7 @@ import c2cOutingsCsvDownload from './outings-csv-download/outings-csv-download.m
 import c2cPagination from './pagination/pagination.module';
 import c2cPreferences from './preferences/preferences.module';
 import c2cProgressBar from './progress-bar/progress-bar.module';
-import c2cProtectDocument from './protect-document/protect-document.directive';
+import c2cProtectDocument from './protect-document/protect-document.module';
 import c2cProtectedUrlBtn from './protected-url-btn/protected-url-btn.module';
 import c2cRevertDocument from './revert-document/revert-document.module';
 import c2cSearchFilters from './search-filters/search-filters.module';

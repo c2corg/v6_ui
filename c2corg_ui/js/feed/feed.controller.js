@@ -24,7 +24,7 @@ export default class FeedController {
      * @type {app.Api}
      * @public
      */
-    this.api = ApiService;
+    this.apiService_ = ApiService;
 
     /**
      * @type {app.Lang}
