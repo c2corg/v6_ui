@@ -53,7 +53,7 @@
 % endif
   </head>
   <body class="on-load loading">
-    <c2c-side-menu></c2c-side-menu>
+    <%include file="sidemenu.html"/>
     <img src="${request.static_path('c2corg_ui:static/img/loading.gif')}" class="loading-gif"/>
     <main class="page-content">
       ${self.body()}
