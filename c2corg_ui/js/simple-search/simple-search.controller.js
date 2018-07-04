@@ -14,7 +14,7 @@ const MAX_RESULTS_NB = 7;
  * @ngInject
  */
 export default class {
-  const(DocumentService, $scope, $compile, $attrs, apiUrl, gettextCatalog, $templateCache, AuthenticationService,
+  constructor(DocumentService, $scope, $compile, $attrs, apiUrl, gettextCatalog, $templateCache, AuthenticationService,
     UrlService, UtilsService) {
     'ngInject';
 
@@ -39,7 +39,7 @@ export default class {
      */
     this.compile_ = $compile;
 
-    if (!$attrs['appSelect']) {
+    if (!$attrs['c2cSelect']) {
       // Angular puts a noop function when mapping an attribute to a
       // different local name. Hacking it out.
       // See https://docs.angularjs.org/api/ng/service/$compile#-scope-

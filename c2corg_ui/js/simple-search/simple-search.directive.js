@@ -5,7 +5,7 @@ import template from './simple-search.html';
  * of every page.
  * @return {angular.Directive} Directive Definition Object.
  */
-const SimpleSearchDirective = (SCREEN) => {
+const SimpleSearchDirective = SCREEN => {
   return {
     restrict: 'E',
     controller: 'SimpleSearchController',
