@@ -94,7 +94,7 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
 
             ## ACTIVITIES
             <div class="form-group data full" id="route-activities" ng-init="activities = ${activities}">
-              <label c2c-context-help context-help-title="{{'activities' | translate}}" context-help-content-url="/static/partials/contexthelp/activities.html"><span translate>activities</span> *</label>
+              <label c2c-context-help context-help-title="{{'activities' | translate}}" context-help-content-key="activities"><span translate>activities</span> *</label>
               <div class="route-activities">
                 <div ng-repeat="activity in activities" class="activity">
                   <div>
@@ -332,7 +332,7 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
 
             ## author_status
             <div class="form-group half" ng-class="{'has-success': xreport.author_status}" ng-init="author_statuses = ${author_statuses}">
-              <label c2c-context-help context-help-title="{{'author_status' | translate}}" context-help-content-url="/static/partials/contexthelp/xreport-author_status.html" translate>author_status</label>
+              <label c2c-context-help context-help-title="{{'author_status' | translate}}" context-help-content-key="xreport-author_status" translate>author_status</label>
               <select class="form-control" ng-model="xreport.author_status" ng-options="rat as mainCtrl.translate(rat) for rat in author_statuses"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.author_status"></span>
             </div>
@@ -487,28 +487,28 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
 
             ## safety
             <div id="safety-group" class="form-group full">
-              <label c2c-context-help context-help-title="{{'safety' | translate}}" context-help-content-url="/static/partials/contexthelp/xreport-safety.html"	translate>safety</label>
+              <label c2c-context-help context-help-title="{{'safety' | translate}}" context-help-content-key="xreport-safety"	translate>safety</label>
               <textarea c2c-markdown-editor name="safety" ng-model="xreport.locales[0].safety" class="form-control" placeholder="{{'Types of belay and protection used, verifications between climbers, snowpack stability tests, testing of avalanche transceivers, etc.' | translate}}"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].safety"></span>
             </div>
 
             ## reduce_impact
             <div id="reduce_impact-group" class="form-group full">
-              <label c2c-context-help context-help-title="{{'reduce_impact' | translate}}" context-help-content-url="/static/partials/contexthelp/xreport-reduce_impact.html" translate>reduce_impact</label>
+              <label c2c-context-help context-help-title="{{'reduce_impact' | translate}}" context-help-content-key="xreport-reduce_impact" translate>reduce_impact</label>
               <textarea c2c-markdown-editor name="reduce_impact" ng-model="xreport.locales[0].reduce_impact" class="form-control"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].reduce_impact"></span>
             </div>
 
             ## increase_impact
             <div id="increase_impact-group" class="form-group full">
-              <label c2c-context-help context-help-title="{{'increase_impact' | translate}}" context-help-content-url="/static/partials/contexthelp/xreport-increase_impact.html" translate>increase_impact</label>
+              <label c2c-context-help context-help-title="{{'increase_impact' | translate}}" context-help-content-key="xreport-increase_impact" translate>increase_impact</label>
               <textarea c2c-markdown-editor name="increase_impact" ng-model="xreport.locales[0].increase_impact" class="form-control"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].increase_impact"></span>
             </div>
 
             ## modifications
             <div id="modifications-group" class="form-group full">
-              <label c2c-context-help context-help-title="{{'modifications' | translate}}" context-help-content-url="/static/partials/contexthelp/xreport-modifications.html" translate>modifications</label>
+              <label c2c-context-help context-help-title="{{'modifications' | translate}}" context-help-content-key="xreport-modifications" translate>modifications</label>
               <textarea c2c-markdown-editor name="modifications" ng-model="xreport.locales[0].modifications" class="form-control"></textarea>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="xreport.locales[0].modifications"></span>
             </div>

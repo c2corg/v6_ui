@@ -144,7 +144,7 @@ updating_doc = route_id and route_lang
               ## ACTIVITIES
               <div class="form-group data full" id="route-activities" ng-init="activities = ${activities}">
                 <label c2c-context-help context-help-title="{{'activities' | translate}}"
-                       context-help-content-url="/static/partials/contexthelp/activities.html"><span translate>activities</span> *</label>
+                       context-help-content-key="activities"><span translate>activities</span> *</label>
                 <div class="route-activities">
                   <div ng-repeat="activity in activities" class="activity" ng-if="activity !== 'paragliding' ">
                     <div>
@@ -241,7 +241,7 @@ updating_doc = route_id and route_lang
                              || route.activities.length > 1)"
                      class="form-group">
                   <label c2c-context-help context-help-title="{{'route_types' | translate}}"
-                         context-help-content-url="/static/partials/contexthelp/route-types.html">
+                         context-help-content-key="route-types">
                     <span translate>route_types</span>
                   </label>
                   <ul class="types">
@@ -260,7 +260,7 @@ updating_doc = route_id and route_lang
                          || route.activities.indexOf('via_ferrata') > -1"
                      class="form-group">
                   <label c2c-context-help context-help-title="{{'route_configuration_types' | translate}}"
-                         context-help-content-url="/static/partials/contexthelp/route-configuration.html">
+                         context-help-content-key="route-configuration">
                     <span translate>route_configuration_types</span>
                   </label>
                   <ul class="types">
@@ -300,7 +300,7 @@ updating_doc = route_id and route_lang
                                'has-success': route.elevation_min }">
                 <label ng-class="{ 'control-label': editForm.elevation_min.$touched && editForm.elevation_min.$invalid }"
                        c2c-context-help context-help-title="{{'elevation_min' | translate}}"
-                       context-help-content-url="/static/partials/contexthelp/route-elevation_min_max.html">
+                       context-help-content-key="route-elevation_min_max">
                   <span translate>elevation_min</span>
                 </label>
                 <div class="input-group">
@@ -322,7 +322,7 @@ updating_doc = route_id and route_lang
                                'has-success': route.elevation_max }">
                 <label ng-class="{ 'control-label': editForm.elevation_max.$touched && editForm.elevation_max.$invalid }"
                        c2c-context-help context-help-title="{{'elevation_max' | translate}}"
-                       context-help-content-url="/static/partials/contexthelp/route-elevation_min_max.html">
+                       context-help-content-key="route-elevation_min_max">
                   <span translate>elevation_max</span>
                 </label>
                 <div class="input-group">
@@ -344,7 +344,7 @@ updating_doc = route_id and route_lang
                                'has-success': route.height_diff_up }">
                 <label ng-class="{ 'control-label': editForm.height_diff_up.$touched && editForm.height_diff_up.$invalid }"
                        c2c-context-help context-help-title="{{'height_diff_up' | translate}}"
-                       context-help-content-url="/static/partials/contexthelp/route-elevation_min_max.html">
+                       context-help-content-key="route-elevation_min_max">
                   <span translate>height_diff_up</span>
                 </label>
                 <div class="input-group">
@@ -562,7 +562,7 @@ updating_doc = route_id and route_lang
               <div class="form-group data half" ng-class="{ 'has-success': route.ski_rating}"
                    ng-if="route.activities.indexOf('skitouring') > -1">
                 <label c2c-context-help context-help-title="{{'ski_rating' | translate}}"
-                       context-help-content-url="/static/partials/contexthelp/route-ski_rating.html">
+                       context-help-content-key="route-ski_rating">
                   <span translate>ski_rating</span>
                 </label>
                 <div class="input-group">
@@ -578,7 +578,7 @@ updating_doc = route_id and route_lang
               <div class="form-group data half" ng-class="{ 'has-success': route.labande_ski_rating}"
                    ng-if="route.activities.indexOf('skitouring') > -1">
                 <label c2c-context-help context-help-title="{{'labande_ski_rating' | translate}}"
-                       context-help-content-url="/static/partials/contexthelp/route-labande_ski_rating.html">
+                       context-help-content-key="route-labande_ski_rating">
                   <span translate>labande_ski_rating</span>
                 </label>
                 <div class="input-group">
@@ -592,7 +592,7 @@ updating_doc = route_id and route_lang
               <div class="form-group data half" ng-class="{ 'has-success': route.labande_global_rating}"
                    ng-if="route.activities.indexOf('skitouring') > -1">
                 <label c2c-context-help context-help-title="{{'labande_global_rating' | translate}}"
-                       context-help-content-url="/static/partials/contexthelp/route-labande_global_rating.html">
+                       context-help-content-key="route-labande_global_rating">
                   <span translate>labande_global_rating</span>
                 </label>
                 <div class="input-group">
@@ -606,7 +606,7 @@ updating_doc = route_id and route_lang
               <div class="form-group data half" ng-class="{ 'has-success': route.snowshoe_rating}"
                    ng-if="route.activities.indexOf('snowshoeing') > -1">
                 <label c2c-context-help context-help-title="{{'snowshoe_rating' | translate}}"
-                       context-help-content-url="/static/partials/contexthelp/route-snowshoe_rating.html">
+                       context-help-content-key="route-snowshoe_rating">
                   <span translate>snowshoe_rating</span>
                 </label>
                 <div class="input-group">
@@ -623,7 +623,7 @@ updating_doc = route_id and route_lang
                        || route.activities.indexOf('rock_climbing') > -1 && route.climbing_outdoor_type === 'multi'
                        || route.activities.indexOf('ice_climbing') > -1">
                 <label c2c-context-help context-help-title="{{'global_rating' | translate}}"
-                       context-help-content-url="/static/partials/contexthelp/route-global_rating.html">
+                       context-help-content-key="route-global_rating">
                   <span translate>global_rating</span>
                 </label>
                 <div class="input-group">
@@ -641,7 +641,7 @@ updating_doc = route_id and route_lang
                        || route.activities.indexOf('ice_climbing') > -1
                        || route.activities.indexOf('via_ferrata') > -1">
                 <label c2c-context-help context-help-title="{{'engagement_rating' | translate}}"
-                       context-help-content-url="/static/partials/contexthelp/route-engagement_rating.html">
+                       context-help-content-key="route-engagement_rating">
                   <span translate>engagement_rating</span>
                 </label>
                 <div class="input-group">
@@ -660,7 +660,7 @@ updating_doc = route_id and route_lang
                        || route.activities.indexOf('ice_climbing') > -1
                        || route.activities.indexOf('via_ferrata') > -1">
                 <label c2c-context-help context-help-title="{{'equipment_rating' | translate}}"
-                       context-help-content-url="/static/partials/contexthelp/route-equipment_rating.html">
+                       context-help-content-key="route-equipment_rating">
                   <span translate>equipment_rating</span>
                 </label>
                 <div class="input-group">
@@ -674,7 +674,7 @@ updating_doc = route_id and route_lang
               <div class="form-group data half" ng-class="{ 'has-success': route.ice_rating}"
                    ng-if="route.activities.indexOf('snow_ice_mixed') > -1 || route.activities.indexOf('ice_climbing') > -1">
                 <label c2c-context-help context-help-title="{{'ice_rating' | translate}}"
-                       context-help-content-url="/static/partials/contexthelp/route-ice_rating.html">
+                       context-help-content-key="route-ice_rating">
                   <span translate>ice_rating</span>
                 </label>
                 <div class="input-group">
@@ -688,7 +688,7 @@ updating_doc = route_id and route_lang
               <div class="form-group data half" ng-class="{ 'has-success': route.mixed_rating}"
                    ng-if="route.activities.indexOf('snow_ice_mixed') > -1 || route.activities.indexOf('ice_climbing') > -1">
                 <label c2c-context-help context-help-title="{{'mixed_rating' | translate}}"
-                       context-help-content-url="/static/partials/contexthelp/route-mixed_rating.html">
+                       context-help-content-key="route-mixed_rating">
                   <span translate>mixed_rating</span>
                 </label>
                 <div class="input-group">
@@ -705,7 +705,7 @@ updating_doc = route_id and route_lang
                        || route.activities.indexOf('rock_climbing') > -1
                        || route.activities.indexOf('ice_climbing') > -1">
                 <label c2c-context-help context-help-title="{{'risk_rating' | translate}}"
-                       context-help-content-url="/static/partials/contexthelp/route-risk_rating.html">
+                       context-help-content-key="route-risk_rating">
                   <span translate>risk_rating</span>
                 </label>
                 <div class="input-group">
@@ -719,7 +719,7 @@ updating_doc = route_id and route_lang
               <div class="form-group data half" ng-class="{ 'has-success': route.via_ferrata_rating}"
                    ng-if="route.activities.indexOf('via_ferrata') > -1">
                 <label c2c-context-help context-help-title="{{'via_ferrata_rating' | translate}}"
-                       context-help-content-url="/static/partials/contexthelp/route-via_ferrata_rating.html">
+                       context-help-content-key="route-via_ferrata_rating">
                   <span translate>via_ferrata_rating</span>
                 </label>
                 <div class="input-group">
@@ -733,7 +733,7 @@ updating_doc = route_id and route_lang
               <div class="form-group data half" ng-class="{ 'has-success': route.hiking_rating}"
                    ng-if="route.activities.indexOf('hiking') > -1">
                 <label c2c-context-help context-help-title="{{'hiking_rating' | translate}}"
-                       context-help-content-url="/static/partials/contexthelp/route-hiking_rating.html">
+                       context-help-content-key="route-hiking_rating">
                   <span translate>hiking_rating</span>
                 </label>
                 <div class="input-group">
@@ -747,7 +747,7 @@ updating_doc = route_id and route_lang
               <div class="form-group data half" ng-class="{ 'has-success': route.mtb_down_rating}"
                    ng-if="route.activities.indexOf('mountain_biking') > -1">
                 <label c2c-context-help context-help-title="{{'mtb_down_rating' | translate}}"
-                       context-help-content-url="/static/partials/contexthelp/route-mtb_down_rating.html">
+                       context-help-content-key="route-mtb_down_rating">
                   <span translate>mtb_down_rating</span>
                 </label>
                 <div class="input-group">
@@ -761,7 +761,7 @@ updating_doc = route_id and route_lang
               <div class="form-group data half" ng-class="{ 'has-success': route.mtb_up_rating}"
                    ng-if="route.activities.indexOf('mountain_biking') > -1">
                 <label c2c-context-help context-help-title="{{'mtb_up_rating' | translate}}"
-                       context-help-content-url="/static/partials/contexthelp/route-mtb_up_rating.html">
+                       context-help-content-key="route-mtb_up_rating">
                   <span translate>mtb_up_rating</span>
                 </label>
                 <div class="input-group">
@@ -775,7 +775,7 @@ updating_doc = route_id and route_lang
               <div class="form-group data half" ng-class="{ 'has-success': route.rock_free_rating}"
                    ng-if="route.activities.indexOf('mountain_climbing') > -1 || route.activities.indexOf('rock_climbing') > -1">
                 <label c2c-context-help context-help-title="{{'rock_free_rating' | translate}}"
-                       context-help-content-url="/static/partials/contexthelp/route-rock_free_rating.html">
+                       context-help-content-key="route-rock_free_rating">
                   <span translate>rock_free_rating</span>
                 </label>
                 <div class="input-group">
@@ -789,7 +789,7 @@ updating_doc = route_id and route_lang
               <div class="form-group data half" ng-class="{ 'has-success': route.exposition_rock_rating}"
                    ng-if="route.activities.indexOf('rock_climbing') > -1 || route.activities.indexOf('mountain_climbing') > -1">
                 <label c2c-context-help context-help-title="{{'exposition_rock_rating' | translate}}"
-                       context-help-content-url="/static/partials/contexthelp/route-exposition_rock_rating.html">
+                       context-help-content-key="route-exposition_rock_rating">
                   <span translate>exposition_rock_rating</span>
                 </label>
                 <div class="input-group">
@@ -805,7 +805,7 @@ updating_doc = route_id and route_lang
                        || route.activities.indexOf('rock_climbing') > -1
                            && (route.climbing_outdoor_type === 'multi' || route.climbing_outdoor_type === 'single')">
                 <label c2c-context-help context-help-title="{{'rock_required_rating' | translate}}"
-                       context-help-content-url="/static/partials/contexthelp/route-rock_required_rating.html">
+                       context-help-content-key="route-rock_required_rating">
                   <span translate>rock_required_rating</span>
                 </label>
                 <div class="input-group">
@@ -821,7 +821,7 @@ updating_doc = route_id and route_lang
                        || route.activities.indexOf('rock_climbing') > -1
                            && (route.climbing_outdoor_type === 'multi' || route.climbing_outdoor_type === 'single')">
                 <label c2c-context-help context-help-title="{{'aid_rating' | translate}}"
-                       context-help-content-url="/static/partials/contexthelp/route-aid_rating.html">
+                       context-help-content-key="route-aid_rating">
                   <span translate>aid_rating</span>
                 </label>
                 <div class="input-group">
@@ -835,7 +835,7 @@ updating_doc = route_id and route_lang
               <div class="form-group data half" ng-if="route.activities.indexOf('skitouring') > -1"
                    ng-class="{ 'has-success': route.ski_exposition}">
                 <label c2c-context-help context-help-title="{{'ski_exposition' | translate}}"
-                       context-help-content-url="/static/partials/contexthelp/route-ski_exposition.html">
+                       context-help-content-key="route-ski_exposition">
                   <span translate>ski_exposition</span>
                 </label>
                 <div class="input-group">
@@ -849,7 +849,7 @@ updating_doc = route_id and route_lang
               <div class="form-group data half" ng-class="{ 'has-success': route.hiking_mtb_exposition}"
                    ng-if="route.activities.indexOf('hiking') > -1 || route.activities.indexOf('mountain_biking') > -1">
                 <label c2c-context-help context-help-title="{{'hiking_mtb_exposition' | translate}}"
-                       context-help-content-url="/static/partials/contexthelp/route-hiking_mtb_exposition.html">
+                       context-help-content-key="route-hiking_mtb_exposition">
                   <span translate>hiking_mtb_exposition</span>
                 </label>
                 <div class="input-group">
@@ -920,7 +920,7 @@ updating_doc = route_id and route_lang
               ## GEAR LOCALE
               <div id="gear-group" class="form-group data full">
                 <label c2c-context-help context-help-title="{{'specific gear' | translate}}"
-                       context-help-content-url="/static/partials/contexthelp/route-specific_gear.html">
+                       context-help-content-key="route-specific_gear">
                   <span translate>specific gear</span>
                 </label>
                 <textarea c2c-markdown-editor name="gear"

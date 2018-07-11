@@ -94,7 +94,7 @@ updating_doc = outing_id and outing_lang
 
             ## ACTIVITIES
             <div class="form-group full" id="outing-activities" ng-init="activities = ${activities}">
-              <label c2c-context-help context-help-title="{{'activities' | translate}}" context-help-content-url="/static/partials/contexthelp/activities.html"><span translate>activities</span> *</label>
+              <label c2c-context-help context-help-title="{{'activities' | translate}}" context-help-content-key="activities"><span translate>activities</span> *</label>
               <div class="route-activities">
                 <div ng-repeat="activity in activities" class="activity">
                   <div>
@@ -119,7 +119,7 @@ updating_doc = outing_id and outing_lang
 
             ## ROUTE TAKEN
             <div class="full form-group">
-              <label c2c-context-help context-help-title="{{'Taken routes' | translate}}" context-help-content-url="/static/partials/contexthelp/associate.html"><span translate>Taken routes</span> *</label>
+              <label c2c-context-help context-help-title="{{'Taken routes' | translate}}" context-help-content-key="associate"><span translate>Taken routes</span> *</label>
               <h5 translate ng-show="outing.associations.routes.length == 0">Choose at least one route taken during the outing.</h5>
               <c2c-simple-search parent-id="outing.document_id"
                 c2c-select="editCtrl.documentService.pushToAssociations(doc, 'routes', editCtrl.handleAssociation)" dataset="r"></c2c-simple-search>
@@ -244,7 +244,7 @@ updating_doc = outing_id and outing_lang
             ## SKI RATING
             <div class="form-group data half" ng-class="{ 'has-success': outing.ski_rating}"
                  ng-if="outing.activities.indexOf('skitouring') > -1">
-              <label c2c-context-help context-help-title="{{'ski_rating' | translate}}" context-help-content-url="/static/partials/contexthelp/route-ski_rating.html"><span translate>ski_rating</label>
+              <label c2c-context-help context-help-title="{{'ski_rating' | translate}}" context-help-content-key="route-ski_rating"><span translate>ski_rating</label>
               <div class="input-group">
                 <select class="form-control" ng-model="outing.ski_rating" ng-options="rat as rat for rat in ${ski_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
@@ -256,7 +256,7 @@ updating_doc = outing_id and outing_lang
             ## LABANDE GLOBAL RATING
             <div class="form-group data half" ng-class="{ 'has-success': outing.labande_global_rating}"
                  ng-if="outing.activities.indexOf('skitouring') > -1">
-              <label c2c-context-help context-help-title="{{'labande_global_rating' | translate}}" context-help-content-url="/static/partials/contexthelp/route-labande_global_rating.html"><span translate>labande_global_rating</label>
+              <label c2c-context-help context-help-title="{{'labande_global_rating' | translate}}" context-help-content-key="route-labande_global_rating"><span translate>labande_global_rating</label>
               <div class="input-group">
                 <select class="form-control" ng-model="outing.labande_global_rating" ng-options="rat as rat for rat in ${global_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
@@ -267,7 +267,7 @@ updating_doc = outing_id and outing_lang
             ## SNOWSHOE RATING
             <div class="form-group data half" ng-class="{ 'has-success': outing.snowshoe_rating}"
                  ng-if="outing.activities.indexOf('snowshoeing') > -1">
-              <label c2c-context-help context-help-title="{{'snowshoe_rating' | translate}}" context-help-content-url="/static/partials/contexthelp/route-snowshoe_rating.html"><span translate>snowshoe_rating</span></label>
+              <label c2c-context-help context-help-title="{{'snowshoe_rating' | translate}}" context-help-content-key="route-snowshoe_rating"><span translate>snowshoe_rating</span></label>
               <div class="input-group">
                 <select class="form-control" ng-model="outing.snowshoe_rating" ng-options="rat as rat for rat in ${snowshoe_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
@@ -280,7 +280,7 @@ updating_doc = outing_id and outing_lang
                  ng-if="outing.activities.indexOf('snow_ice_mixed') > -1
                      || outing.activities.indexOf('mountain_climbing') > -1
                      || outing.activities.indexOf('rock_climbing') > -1">
-              <label c2c-context-help context-help-title="{{'global_rating' | translate}}" context-help-content-url="/static/partials/contexthelp/route-global_rating.html"><span translate>global_rating</span></label>
+              <label c2c-context-help context-help-title="{{'global_rating' | translate}}" context-help-content-key="route-global_rating"><span translate>global_rating</span></label>
               <div class="input-group">
                 <select class="form-control" ng-model="outing.global_rating" ng-options="rat as rat for rat in ${global_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
@@ -292,7 +292,7 @@ updating_doc = outing_id and outing_lang
             <div class="form-group data half" ng-class="{ 'has-success': outing.engagement_rating}"
                  ng-if="outing.activities.indexOf('snow_ice_mixed') > -1
                      || outing.activities.indexOf('mountain_climbing') > -1">
-              <label c2c-context-help context-help-title="{{'engagement_rating' | translate}}" context-help-content-url="/static/partials/contexthelp/route-engagement_rating.html"><span translate>engagement_rating</span></label>
+              <label c2c-context-help context-help-title="{{'engagement_rating' | translate}}" context-help-content-key="route-engagement_rating"><span translate>engagement_rating</span></label>
               <div class="input-group">
                 <select class="form-control" ng-model="outing.engagement_rating" ng-options="rat as rat for rat in ${engagement_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
@@ -303,7 +303,7 @@ updating_doc = outing_id and outing_lang
             ## EQUIPMENT RATING
             <div class="form-group data half" ng-class="{ 'has-success': outing.equipment_rating}"
                  ng-if="outing.activities.indexOf('rock_climbing') > -1">
-              <label c2c-context-help context-help-title="{{'equipment_rating' | translate}}" context-help-content-url="/static/partials/contexthelp/route-equipment_rating.html"><span translate>equipment_rating</span></label>
+              <label c2c-context-help context-help-title="{{'equipment_rating' | translate}}" context-help-content-key="route-equipment_rating"><span translate>equipment_rating</span></label>
               <div class="input-group">
                 <select class="form-control" ng-model="outing.equipment_rating" ng-options="rat as rat for rat in ${equipment_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
@@ -314,7 +314,7 @@ updating_doc = outing_id and outing_lang
             ## ICE RATING
             <div class="form-group data half" ng-class="{ 'has-success': outing.ice_rating}"
                  ng-if="outing.activities.indexOf('ice_climbing') > -1">
-              <label c2c-context-help context-help-title="{{'ice_rating' | translate}}" context-help-content-url="/static/partials/contexthelp/route-ice_rating.html"><span translate>ice_rating</span></label>
+              <label c2c-context-help context-help-title="{{'ice_rating' | translate}}" context-help-content-key="route-ice_rating"><span translate>ice_rating</span></label>
               <div class="input-group">
                 <select class="form-control" ng-model="outing.ice_rating" ng-options="rat as rat for rat in ${ice_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
@@ -325,7 +325,7 @@ updating_doc = outing_id and outing_lang
             ## VIA FERRATA RATING
             <div class="form-group data half" ng-class="{ 'has-success': outing.via_ferrata_rating}"
                  ng-if="outing.activities.indexOf('via_ferrata') > -1">
-                            <label c2c-context-help context-help-title="{{'via_ferrata_rating' | translate}}" context-help-content-url="/static/partials/contexthelp/route-via_ferrata_rating.html"><span translate>via_ferrata_rating</span></label>
+                            <label c2c-context-help context-help-title="{{'via_ferrata_rating' | translate}}" context-help-content-key="route-via_ferrata_rating"><span translate>via_ferrata_rating</span></label>
               <div class="input-group">
                 <select class="form-control" ng-model="outing.via_ferrata_rating" ng-options="rat as rat for rat in ${via_ferrata_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
@@ -336,7 +336,7 @@ updating_doc = outing_id and outing_lang
             ## HIKING RATING
             <div class="form-group data half" ng-class="{ 'has-success': outing.hiking_rating}"
                  ng-if="outing.activities.indexOf('hiking') > -1">
-              <label c2c-context-help context-help-title="{{'hiking_rating' | translate}}" context-help-content-url="/static/partials/contexthelp/route-hiking_rating.html"><span translate>hiking_rating</span></label>
+              <label c2c-context-help context-help-title="{{'hiking_rating' | translate}}" context-help-content-key="route-hiking_rating"><span translate>hiking_rating</span></label>
               <div class="input-group">
                 <select class="form-control" ng-model="outing.hiking_rating" ng-options="rat as rat for rat in ${hiking_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
@@ -347,7 +347,7 @@ updating_doc = outing_id and outing_lang
             ## MTB DOWN RATING
             <div class="form-group data half" ng-class="{ 'has-success': outing.mtb_down_rating}"
                  ng-if="outing.activities.indexOf('mountain_biking') > -1">
-              <label c2c-context-help context-help-title="{{'mtb_down_rating' | translate}}" context-help-content-url="/static/partials/contexthelp/route-mtb_down_rating.html"><span translate>mtb_down_rating</span></label>
+              <label c2c-context-help context-help-title="{{'mtb_down_rating' | translate}}" context-help-content-key="route-mtb_down_rating"><span translate>mtb_down_rating</span></label>
               <div class="input-group">
                 <select class="form-control" ng-model="outing.mtb_down_rating" ng-options="rat as rat for rat in ${mtb_down_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
@@ -358,7 +358,7 @@ updating_doc = outing_id and outing_lang
             ## MTB UP RATING
             <div class="form-group data half" ng-class="{ 'has-success': outing.mtb_up_rating}"
                  ng-if="outing.activities.indexOf('mountain_biking') > -1">
-              <label c2c-context-help context-help-title="{{'mtb_up_rating' | translate}}" context-help-content-url="/static/partials/contexthelp/route-mtb_up_rating.html"><span translate>mtb_up_rating</span></label>
+              <label c2c-context-help context-help-title="{{'mtb_up_rating' | translate}}" context-help-content-key="route-mtb_up_rating"><span translate>mtb_up_rating</span></label>
               <div class="input-group">
                 <select class="form-control" ng-model="outing.mtb_up_rating" ng-options="rat as rat for rat in ${mtb_up_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
@@ -369,7 +369,7 @@ updating_doc = outing_id and outing_lang
             ## ROCK FREE RATING
             <div class="form-group data half" ng-class="{ 'has-success': outing.rock_free_rating}"
                  ng-if="outing.activities.indexOf('rock_climbing') > -1">
-              <label c2c-context-help context-help-title="{{'rock_free_rating' | translate}}" context-help-content-url="/static/partials/contexthelp/route-rock_free_rating.html"><span translate>rock_free_rating</span></label>
+              <label c2c-context-help context-help-title="{{'rock_free_rating' | translate}}" context-help-content-key="route-rock_free_rating"><span translate>rock_free_rating</span></label>
               <div class="input-group">
                 <select class="form-control" ng-model="outing.rock_free_rating" ng-options="rat as rat for rat in ${climbing_ratings}"><option value=""></option></select>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-star"></span></span>
@@ -413,7 +413,7 @@ updating_doc = outing_id and outing_lang
             ## CONDITIONS LEVELS
             <div class="full form-group"
                  ng-if="outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1 || outing.activities.indexOf('ice_climbing') > -1 || outing.activities.indexOf('snow_ice_mixed') > -1 ">
-               <label c2c-context-help context-help-title="{{'conditions_levels' | translate}}" context-help-content-url="/static/partials/contexthelp/outing-conditions_levels.html"><span translate>conditions_levels</span></label>
+               <label c2c-context-help context-help-title="{{'conditions_levels' | translate}}" context-help-content-key="outing-conditions_levels"><span translate>conditions_levels</span></label>
               <table class="table table-striped conditions-levels" ng-if="outing.locales[0].conditions_levels[0]">
                 <thead>
                   <tr>
@@ -535,7 +535,7 @@ updating_doc = outing_id and outing_lang
             ## AVALANCHES
             <div class="form-group  full"  ng-if="(outing.activities.indexOf('skitouring') > -1 || outing.activities.indexOf('snowshoeing') > -1
                       || outing.activities.indexOf('ice_climbing') > -1 || outing.activities.indexOf('snow_ice_mixed') > -1) && (outing.avalanche_signs != 'no' && outing.avalanche_signs != null) ">
-              <label c2c-context-help context-help-title="{{'conditions_levels' | translate}}" context-help-content-url="/static/partials/contexthelp/outing-avalanche_signs.html"><span translate>avalanches</span></label>
+              <label c2c-context-help context-help-title="{{'conditions_levels' | translate}}" context-help-content-key="outing-avalanche_signs"><span translate>avalanches</span></label>
               <textarea c2c-markdown-editor class="form-control" ng-model="outing.locales[0]['avalanches']"></textarea>
             </div>
 
@@ -559,7 +559,7 @@ updating_doc = outing_id and outing_lang
 
             ## FREQUENTATION
             <div class="form-group half" ng-class="{'has-success': outing.frequentation}" ng-init="frequentation_types = ${frequentation_types}">
-              <label c2c-context-help context-help-title="{{'frequentation' | translate}}" context-help-content-url="/static/partials/contexthelp/outing-frequentation.html"><span translate>frequentation</span></label>
+              <label c2c-context-help context-help-title="{{'frequentation' | translate}}" context-help-content-key="outing-frequentation"><span translate>frequentation</span></label>
               <select class="form-control" ng-model="outing.frequentation" ng-options="rat as mainCtrl.translate(rat) for rat in frequentation_types"><option value=""></option></select>
               <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="outing.frequentation"></span>
             </div>
