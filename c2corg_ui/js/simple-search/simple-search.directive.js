@@ -10,7 +10,7 @@ const SimpleSearchDirective = SCREEN => {
     restrict: 'E',
     controller: 'SimpleSearchController',
     bindToController: {
-      'selectHandler': '&c2cSelect',
+      'selectHandler': '&?c2cSelect',
       'isStandardSearch': '<c2cSimpleSearchStandard',
       'skipAssociationFilter': '<',
       'ignoreDocumentId': '<',
