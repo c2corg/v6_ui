@@ -1,4 +1,27 @@
 import angular from 'angular';
+import areasTemplate from './areas.html';
+import articlesTemplate from './articles.html';
+import booksTemplate from './books.html';
+import imagesTemplate from './images.html';
+import feedsTemplate from './feeds.html';
+import outingsTemplate from './outings.html';
+import routesTemplate from './routes.html';
+import usersTemplate from './users.html';
+import waypointsTemplate from './waypoints.html';
+import xreportsTemplate from './xreports.html';
+
+const templates = {
+  'areas': areasTemplate,
+  'articles': articlesTemplate,
+  'books': booksTemplate,
+  'images': imagesTemplate,
+  'feeds': feedsTemplate,
+  'outings': outingsTemplate,
+  'routes': routesTemplate,
+  'users': usersTemplate,
+  'waypoints': waypointsTemplate,
+  'xreports': xreportsTemplate
+};
 
 /**
  * This directive is used to display a document card.
@@ -8,7 +31,7 @@ import angular from 'angular';
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-const CardDirective = ($compile, $templateCache, UtilsService) => {
+const CardDirective = ($compile, UtilsService) => {
   'ngInject';
 
   const cardElementCache = {};
@@ -17,8 +40,7 @@ const CardDirective = ($compile, $templateCache, UtilsService) => {
     if (cardElementCache[doctype] !== undefined) {
       return cardElementCache[doctype];
     }
-    const path = '/static/partials/cards/' + doctype + '.html';
-    const template = UtilsService.getTemplate(path, $templateCache);
+    const template = templates[doctype];
     const element = angular.element(template);
     cardElementCache[doctype] = $compile(element);
     return cardElementCache[doctype];
@@ -33,8 +55,7 @@ const CardDirective = ($compile, $templateCache, UtilsService) => {
       'doc': '<c2cCardDoc'
     },
     link(scope, element, attrs, ctrl) {
-      const cardElementFn = getCardElement(ctrl.type);
-      cardElementFn(scope, (clone) => {
+      getCardElement(ctrl.type)(scope, clone => {
         element.append(clone);
       });
     }

@@ -217,25 +217,6 @@ export default class UtilsService {
     return str;
   }
 
-
-  /**
-   * @param {string} path Path of the partial.
-   * @param {angular.$templateCache} $templateCache service
-   * @return {string}
-   */
-  getTemplate(path, $templateCache) {
-    const tpl = $templateCache.get(path);
-    // if (DEBUG && !tpl) {
-    //   const req = new XMLHttpRequest();
-    //   req.open('GET', path, false /* synchronous */);
-    //   req.send(null);
-    //   tpl = req.status === 200 ? req.responseText : 'Partial not found';
-    //   $templateCache.put(path, tpl);
-    // }
-    return tpl;
-  }
-
-
   /**
    * @param {ngeo.Location} ngeoLocation ngeo Location service.
    * @return {boolean}

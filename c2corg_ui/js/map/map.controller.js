@@ -946,7 +946,7 @@ export default class MapController {
         this.modal_.open({
           animation: true,
           size: 'sm',
-          templateUrl: '/static/partials/map/biodivsportsinfo.html',
+          template: biodivsportsInfoTemplate,
           controller: 'BiodivSportsModalController',
           controllerAs: 'modalCtrl',
           resolve: {
