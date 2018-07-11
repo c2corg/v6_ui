@@ -1,3 +1,5 @@
+require('bootstrap-slider/dist/bootstrap-slider.js');
+
 /**
  * This directive displays a slider control used for instance in the advanced
  * search filters form.
