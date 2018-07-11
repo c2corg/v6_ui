@@ -1,20 +1,20 @@
 import angular from 'angular';
 import olCollection from 'ol/Collection';
-import olControl from 'ol/control';
+import {defaults as olControlDefaults} from 'ol/control';
 import olFeature from 'ol/Feature';
 import olMap from 'ol/Map';
 import olView from 'ol/View';
 import olControlScaleLine from 'ol/control/ScaleLine';
 import olFormatGeoJSON from 'ol/format/GeoJSON';
 import olFormatGPX from 'ol/format/GPX';
-import olExtent from 'ol/extent';
+import {getCenter, getWidth, getHeight} from 'ol/extent';
 import olEventsCondition from 'ol/events/condition';
 import olGeomMultiLineString from 'ol/geom/MultiLineString';
 import olInteractionDragAndDrop from 'ol/interaction/DragAndDrop';
 import olInteractionDraw from 'ol/interaction/Draw';
 import olInteractionModify from 'ol/interaction/Modify';
 import olInteractionMouseWheelZoom from 'ol/interaction/MouseWheelZoom';
-import olInteraction from 'ol/interaction';
+import {defaults as olInteractionDefaults} from 'ol/interaction';
 import olLayerVector from 'ol/layer/Vector';
 import olProj from 'ol/proj';
 import olSourceVector from 'ol/source/Vector';
@@ -265,10 +265,10 @@ export default class MapController {
      * @export
      */
     this.map = new olMap({
-      interactions: olInteraction.defaults({mouseWheelZoom: false}),
-      controls: olControl.defaults().extend([new olControlScaleLine()]),
+      interactions: olInteractionDefaults({mouseWheelZoom: false}),
+      controls: olControlDefaults().extend([new olControlScaleLine()]),
       view: new olView({
-        center: olExtent.getCenter(DEFAULT_EXTENT),
+        center: getCenter(DEFAULT_EXTENT),
         zoom: DEFAULT_ZOOM
       })
     });
@@ -425,8 +425,8 @@ export default class MapController {
    */
   recenterOnExtent_(extent, options) {
     const mapSize = this.map.getSize();
-    if (!mapSize || !olExtent.getWidth(extent) || !olExtent.getHeight(extent)) {
-      this.view_.setCenter(olExtent.getCenter(extent));
+    if (!mapSize || !getWidth(extent) || !getHeight(extent)) {
+      this.view_.setCenter(getCenter(extent));
       this.view_.setZoom(this.zoom || DEFAULT_POINT_ZOOM);
     } else {
       options = options || {};
