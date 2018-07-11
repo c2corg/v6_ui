@@ -3,7 +3,7 @@
  * @ngInject
  * @return {angular.Directive} Directive Definition Object.
  */
-const AddAssociationDirective = ($compile) => {
+const AddAssociationDirective = $compile => {
   'ngInject';
 
   const template = dataset => {
