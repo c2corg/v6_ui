@@ -61,7 +61,7 @@ export default class OutingFiltersController extends SearchFiltersController {
       this.filters[key] = dates;
       this.updateMinMaxDates_();
     } else {
-      super.setFilterFromPermalink.call(key);
+      super.setFilterFromPermalink(key);
     }
   }
 
