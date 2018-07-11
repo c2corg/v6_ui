@@ -100,7 +100,6 @@ const templates = {
 /**
  * This directive is used to display a contextual help modal dialog.
  * @param {ui.bootstrap.$modal} $uibModal modal from angular bootstrap.
- * @param {angular.$templateCache} $templateCache service.
  * @param {angular.$compile} $compile Angular compile service.
  * @return {angular.Directive} The directive specs.
  * @ngInject

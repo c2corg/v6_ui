@@ -30,18 +30,6 @@ export default class AdvancedSearchController {
     this.$q_ = $q;
 
     /**
-    * @type {string}
-    * @export
-    */
-    this.doctype;
-
-    /**
-    * @type {boolean}
-    * @export
-    */
-    this.useMap;
-
-    /**
     * @type {app.Api}
     * @private
     */
@@ -89,7 +77,9 @@ export default class AdvancedSearchController {
     * @private
     */
     this.canceler_ = null;
+  }
 
+  $onInit() {
     /**
     * @type {boolean}
     * @private

@@ -27,7 +27,6 @@ const templates = {
  * This directive is used to display a document card.
  *
  * @param {angular.$compile} $compile Angular compile service.
- * @param {angular.$templateCache} $templateCache service
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */

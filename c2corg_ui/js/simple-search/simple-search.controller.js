@@ -1,10 +1,17 @@
+
+import createTemplate from './create.html';
+import emptyTemplate from './empty.html';
+import tooManyTemplate from './too-many.html';
+
+require('corejs-typeahead/dist/typeahead.jquery.js');
+const Bloodhound = require('corejs-typeahead/dist/bloodhound.js');
+
 const MAX_RESULTS_NB = 7;
 
 /**
  * @constructor
  * @param {!angular.Scope} $scope Angular scope.
  * @param {angular.$compile} $compile Angular compile service.
- * @param {angular.$templateCache} $templateCache service
  * @param {app.Document} DocumentService service
  * @param {app.Authentication} AuthenticationService service
  * @param {angular.Attributes} $attrs Angular attributes.
@@ -14,7 +21,7 @@ const MAX_RESULTS_NB = 7;
  * @ngInject
  */
 export default class {
-  constructor(DocumentService, $scope, $compile, $attrs, apiUrl, gettextCatalog, $templateCache, AuthenticationService,
+  constructor(DocumentService, $scope, $compile, apiUrl, gettextCatalog, AuthenticationService,
     UrlService, UtilsService) {
     'ngInject';
 
@@ -27,36 +34,16 @@ export default class {
     this.documentService_ = DocumentService;
 
     /**
-     * Bound from directive.
-     * @type {function({doc: appx.SimpleSearchDocument})|undefined}
-     * @export
-     */
-    this.selectHandler;
-
-    /**
      * @type {angular.$compile}
      * @private
      */
     this.compile_ = $compile;
-
-    if (!$attrs['c2cSelect']) {
-      // Angular puts a noop function when mapping an attribute to a
-      // different local name. Hacking it out.
-      // See https://docs.angularjs.org/api/ng/service/$compile#-scope-
-      this.selectHandler = undefined;
-    }
 
     /**
      * @type  {app.Authentication} AuthenticationService
      * @private
      */
     this.auth_ = AuthenticationService;
-
-    /**
-     * @type {angular.$templateCache}
-     * @private
-     */
-    this.templatecache_ = $templateCache;
 
     /**
      * @type {string}
@@ -99,11 +86,21 @@ export default class {
     this.datasets = [];
 
     /**
-     * @type {string}
+     * @type {ngeox.SearchDirectiveListeners}
      * @export
      */
-    this.dataset;
+    this.listeners = /** @type {ngeox.SearchDirectiveListeners} */ ({
+      select: this.select_.bind(this)
+    });
 
+    /**
+     * @type {Object}
+     * @private
+     */
+    this.nbResults_ = {};
+  }
+
+  $onInit() {
     // create only given datasets
     for (let i = 0; i < this.dataset.length; i++) {
       switch (this.dataset[i]) {
@@ -138,40 +135,7 @@ export default class {
           break;
       }
     }
-
-    /**
-     * @type {boolean}
-     * @export
-     */
-    this.isStandardSearch;
-
-    /**
-     * @type {boolean}
-     * @export
-     */
-    this.skipAssociationFilter;
-
-    /**
-     * @type {number}
-     * @export
-     */
-    this.ignoreDocumentId;
-
-    /**
-     * @type {ngeox.SearchDirectiveListeners}
-     * @export
-     */
-    this.listeners = /** @type {ngeox.SearchDirectiveListeners} */ ({
-      select: this.select_.bind(this)
-    });
-
-    /**
-     * @type {Object}
-     * @private
-     */
-    this.nbResults_ = {};
   }
-
 
   /**
    * @param {string} type The document type.
@@ -184,19 +148,19 @@ export default class {
       /** @type {TypeaheadDataset} */{
         contents: type,
         source: bloodhoundEngine.ttAdapter(),
-        display: function(doc) {
+        display: doc => {
           if (doc) {
             return doc.label;
           }
         },
         limit: 20,
         templates: {
-          header: (function() {
+          header: () => {
             const typeUpperCase = type.charAt(0).toUpperCase() + type.substr(1);
             return '<div class="header" dataset="' + type + '">' +
               this.gettextCatalog_.getString(typeUpperCase) + '</div>';
-          }).bind(this),
-          footer: function(doc) {
+          },
+          footer: doc => {
             let template;
             if (this.isStandardSearch) {
               template = '<p class="suggestion-more"><a href="/' + type +
@@ -204,29 +168,25 @@ export default class {
                 this.gettextCatalog_.getString('see more results') + '</a></p>';
               return this.compile_(template)(this.scope_);
             } else if (this.nbResults_[type] > MAX_RESULTS_NB) {
-              template = this.utilsService_.getTemplate(
-                '/static/partials/suggestions/toomany.html',
-                this.templatecache_);
+              template = tooManyTemplate;
               return this.compile_(template)(this.scope_);
             }
             return '';
-          }.bind(this),
-          suggestion: function(doc) {
+          },
+          suggestion: doc => {
             if (doc) {
               this.scope_['doc'] = doc;
               return this.compile_('<c2c-suggestion class="tt-suggestion"></c2c-suggestion>')(this.scope_);
             } else {
               return '<div class="ng-hide"></div>';
             }
-          }.bind(this),
-          empty: function(res) {
+          },
+          empty: () => {
             if ($('.header.empty').length === 0) {
-              const partialFile = this.isStandardSearch ? 'create' : 'empty';
-              const template = this.utilsService_.getTemplate(`/static/partials/suggestions/${partialFile}.html`,
-                this.templatecache_);
+              const template = this.isStandardSearch ? createTemplate : emptyTemplate;
               return this.compile_(template)(this.scope_);
             }
-          }.bind(this)
+          }
         }
       }
     );
@@ -248,8 +208,7 @@ export default class {
         url: url,
         wildcard: '%QUERY',
         rateLimitWait: 300,
-        prepare: (function(query, settings) {
-
+        prepare: (query, settings) => {
           // reset results numbers
           this.nbResults_ = {};
 
@@ -267,37 +226,28 @@ export default class {
           }
           settings['url'] = url.replace('%QUERY', encodeURIComponent(query));
           return settings;
-        }).bind(this),
-
-        filter: (function(/** appx.SimpleSearchResponse */ resp) {
-          const documentResponse =
-            /** @type {appx.SimpleSearchDocumentResponse} */ (resp[type]);
+        },
+        filter: resp => {
+          const documentResponse = (resp[type]);
           if (documentResponse) {
             this.nbResults_[type] = documentResponse.total;
-            let documents = documentResponse.documents;
-            documents = documents.map((/** appx.SimpleSearchDocument */ doc) => {
-              if (this.ignoreDocumentId !== undefined && this.ignoreDocumentId === doc.document_id) {
-                return null;
-              }
-
-              doc.label = this.createDocLabel_(doc, this.gettextCatalog_.currentLanguage);
-              doc.documentType = type;
-              // Show result if:
-              // - in the frame of a standard simple-search
-              // - explicitly skipping the association check
-              // - if not already associated for other simple-searches
-              if (this.isStandardSearch || this.skipAssociationFilter ||
-                  !this.documentService_.hasAssociation(type,  doc.document_id)) {
+            return documentResponse.documents
+              .filter(doc => this.ignoreDocumentId === undefined || this.ignoreDocumentId !== doc.document_id)
+              .filter(doc => {
+                // Show result if:
+                // - in the frame of a standard simple-search
+                // - explicitly skipping the association check
+                // - if not already associated for other simple-searches
+                return (this.isStandardSearch || this.skipAssociationFilter ||
+                  !this.documentService_.hasAssociation(type,  doc.document_id));
+              })
+              .map(doc => {
+                doc.label = this.createDocLabel_(doc, this.gettextCatalog_.currentLanguage);
+                doc.documentType = type;
                 return doc;
-              }
-              return null;
-            });
-
-            return documents.filter((doc) => {
-              return doc !== null;
-            });
+              });
           }
-        }).bind(this)
+        }
       }
     }));
     bloodhound.initialize();

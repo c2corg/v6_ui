@@ -10,7 +10,7 @@ export default class CardController {
   constructor(gettextCatalog, UrlService, imageUrl, moment, UtilsService, fullRatingOrdered) {
     'ngInject';
 
-    this.utilsService = UtilsService;
+    this.utilsService_ = UtilsService;
 
     this.fullRatingOrdered = fullRatingOrdered;
 
@@ -24,7 +24,7 @@ export default class CardController {
      * @type {app.Url}
      * @private
      */
-    this.url_ = UrlService;
+    this.urlService_ = UrlService;
 
     /**
      * @type {string}
@@ -39,22 +39,10 @@ export default class CardController {
     this.lang = gettextCatalog.currentLanguage;
 
     /**
-     * @type {appx.Document}
-     * @export
-     */
-    this.doc;
-
-    /**
      * @type {boolean}
      * @export
      */
     this.remainingActivities = false;
-
-    /**
-     * @type {string}
-     * @public
-     */
-    this.type = UtilsService.getDoctype(this.doc['type']);
 
     /**
      * FIXME: find type declaration for MomentJs
@@ -67,6 +55,14 @@ export default class CardController {
      * @export
      */
     this.locale = {};
+  }
+
+  $onInit() {
+    /**
+     * @type {string}
+     * @public
+     */
+    this.type = this.utilsService_.getDoctype(this.doc['type']);
 
     const locales = this.type === 'feeds' ? this.doc.document.locales : this.doc.locales;
 
@@ -79,7 +75,6 @@ export default class CardController {
       }
     }
   }
-
 
   /**
    * Will be useful for verbs like 'created', 'updated', 'associated xx', 'went hiking with xx'.
@@ -111,7 +106,7 @@ export default class CardController {
    * @returns {string}
    */
   getDocumentType(type) {
-    return this.utilsService.getDoctype(type).slice(0, -1);
+    return this.utilsService_.getDoctype(type).slice(0, -1);
   }
 
   /**
@@ -207,13 +202,13 @@ export default class CardController {
   createURL() {
     let type, doc;
     if (this.type == 'feeds') {
-      type = this.utilsService.getDoctype(this.doc['document']['type']);
+      type = this.utilsService_.getDoctype(this.doc['document']['type']);
       doc = this.doc['document'];
     } else {
       type = this.type;
       doc = this.doc;
     }
-    return this.urlService.buildDocumentUrl(type, doc['document_id'], doc['locales'][0]);
+    return this.urlService_.buildDocumentUrl(type, doc['document_id'], doc['locales'][0]);
   }
 
 
@@ -224,7 +219,7 @@ export default class CardController {
    * @export
    */
   createImageUrl(filename, suffix) {
-    return this.imageUrl_ + this.utilsService.createImageUrl(filename, suffix);
+    return this.imageUrl_ + this.utilsService_.createImageUrl(filename, suffix);
   }
 
 
@@ -253,8 +248,8 @@ export default class CardController {
         doc = orderedAreas['country'][0];
       }
 
-      return this.urlService.buildDocumentUrl(
-        this.utilsService.getDoctype(doc['type']),
+      return this.urlService_.buildDocumentUrl(
+        this.utilsService_.getDoctype(doc['type']),
         doc['document_id'],
         doc['locales'][0]
       );
@@ -269,7 +264,7 @@ export default class CardController {
    * @return {string}
    */
   createImg(suffix) {
-    return this.imageUrl_ + this.utilsService.createImageUrl(this.doc['filename'], 'MI');
+    return this.imageUrl_ + this.utilsService_.createImageUrl(this.doc['filename'], 'MI');
   }
 
 
@@ -377,6 +372,6 @@ export default class CardController {
    */
   hasActivity(activities) {
     return (this.type === 'routes') ?
-      this.utilsService.hasActivity(/** @type{appx.Route}*/ (this.doc), activities) : false;
+      this.utilsService_.hasActivity(/** @type{appx.Route}*/ (this.doc), activities) : false;
   }
 }

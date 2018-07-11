@@ -3,12 +3,9 @@ import angular from 'angular';
 import areasTemplate from './areas.html';
 import articlesTemplate from './articles.html';
 import booksTemplate from './books.html';
-import createTemplate from './create.html';
-import emptyTemplate from './empty.html';
 import imagesTemplate from './images.html';
 import outingsTemplate from './outings.html';
 import routesTemplate from './routes.html';
-import tooManyTemplate from './too-many.html';
 import usersTemplate from './users.html';
 import waypointsTemplate from './waypoints.html';
 import xreportsTemplate from './xreports.html';
@@ -17,12 +14,9 @@ const templates = {
   'areas': areasTemplate,
   'articles': articlesTemplate,
   'books': booksTemplate,
-  'create': createTemplate,
-  'empty': emptyTemplate,
   'images': imagesTemplate,
   'outings': outingsTemplate,
   'routes': routesTemplate,
-  'too-many': tooManyTemplate,
   'users': usersTemplate,
   'waypoints': waypointsTemplate,
   'xreports': xreportsTemplate
@@ -31,7 +25,6 @@ const templates = {
 /**
  * @param {angular.$compile} $compile Angular compile service.
  * @param {angular.$sce} $sce Angular Strict Contextual Escaping service.
- * @param {angular.$templateCache} $templateCache service
  * @return {angular.Directive} Directive Definition Object.
  * @ngInject
  */

@@ -27,6 +27,8 @@ import olStyleText from 'ol/style/Text';
 import debounce from 'lodash/debounce';
 import googAsserts from 'goog/asserts';
 
+import biodivsportsInfoTemplate from './biodivsports-info.html';
+
 /**
  * @const
  * @type {Array.<number>}
