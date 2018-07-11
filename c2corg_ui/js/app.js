@@ -161,5 +161,9 @@ angular
   .controller('MainController', MainController)
   .factory('HttpAuthenticationInterceptor', HttpAuthenticationInterceptor)
   .config($httpProvider => $httpProvider.interceptors.push('HttpAuthenticationInterceptor'))
-  .filter('trustAsHtml', $sce => text => $sce.trustAsHtml(text))
-  .filter('capitalize', token => token.charAt(0).toUpperCase() + token.slice(1));
+  .filter('trustAsHtml', $sce => {
+    'ngInject';
+
+    return text => $sce.trustAsHtml(text);
+  })
+  .filter('capitalize', () => token => token.charAt(0).toUpperCase() + token.slice(1));
