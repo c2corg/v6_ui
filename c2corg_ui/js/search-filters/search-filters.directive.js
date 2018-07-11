@@ -11,7 +11,7 @@ const SearchFiltersDirective = (UtilsService, SCREEN) => {
   return {
     restrict: 'A',
     controller: '@',
-    name: 'SearchFiltersControllerName',
+    name: 'c2cSearchFiltersControllerName',
     bindToController: true,
     scope: true,
     controllerAs: 'filtersCtrl',
