@@ -4,7 +4,7 @@ import olFormatGeoJSON from 'ol/format/GeoJSON';
 import olGeomLineString from 'ol/geom/LineString';
 import olGeomMultiLineString from 'ol/geom/MultiLineString';
 import olGeomPoint from 'ol/geom/Point';
-import olExtent from 'ol/extent';
+import {getCenter} from 'ol/extent';
 
 /**
  * @param {!angular.Scope} $scope Scope.
@@ -414,7 +414,7 @@ export default class DocumentEditingController {
         } else if (geometry instanceof olGeomMultiLineString) {
           center = geometry.getLineString(0).getCoordinateAt(0.5);
         } else {
-          center = olExtent.getCenter(geometry.getExtent());
+          center = getCenter(geometry.getExtent());
         }
         const centerPoint = new olGeomPoint(center);
         data['geometry']['geom'] = this.geojsonFormat_.writeGeometry(centerPoint);

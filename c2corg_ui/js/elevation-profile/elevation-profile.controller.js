@@ -1,4 +1,4 @@
-import olProj from 'ol/proj';
+import {transform} from 'ol/proj';
 import debounce from 'lodash/debounce';
 
 /**
@@ -77,12 +77,12 @@ export default class ElevationProfileController {
       let d = 0;
       if (i > 0) {
         // convert from web mercator to lng/lat
-        const deg1 = olProj.transform(
+        const deg1 = transform(
           [coords[i][0], coords[i][1]],
           'EPSG:3857',
           'EPSG:4326'
         );
-        const deg2 = olProj.transform(
+        const deg2 = transform(
           [coords[i - 1][0], coords[i - 1][1]],
           'EPSG:3857',
           'EPSG:4326'

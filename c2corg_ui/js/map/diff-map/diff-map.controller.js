@@ -2,7 +2,7 @@ import {DEFAULT_EXTENT, DEFAULT_ZOOM, DEFAULT_POINT_ZOOM} from '../map.controlle
 import olMap from 'ol/Map';
 import olView from 'ol/View';
 import olFormatGeoJSON from 'ol/format/GeoJSON';
-import olInteraction from 'ol/interaction';
+import {defaults as olInteractionDefaults} from 'ol/interaction';
 import olInteractionMouseWheelZoom from 'ol/interaction/MouseWheelZoom';
 import olLayerVector from 'ol/layer/Vector';
 import olSourceVector from 'ol/source/Vector';
@@ -10,7 +10,7 @@ import olStyleCircle from 'ol/style/Circle';
 import olStyleFill from 'ol/style/Fill';
 import olStyleStroke from 'ol/style/Stroke';
 import olStyleStyle from 'ol/style/Style';
-import olExtent from 'ol/extent';
+import {getCenter} from 'ol/extent';
 import googAsserts from 'goog/asserts';
 
 /**
@@ -38,9 +38,9 @@ export default class MapSwitchController {
      * @export
      */
     this.map = new olMap({
-      interactions: olInteraction.defaults({mouseWheelZoom: false}),
+      interactions: olInteractionDefaults({mouseWheelZoom: false}),
       view: new olView({
-        center: olExtent.getCenter(DEFAULT_EXTENT),
+        center: getCenter(DEFAULT_EXTENT),
         zoom: DEFAULT_ZOOM
       })
     });

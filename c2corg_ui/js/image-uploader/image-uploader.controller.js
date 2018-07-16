@@ -1,7 +1,7 @@
 import angular from 'angular';
-import olCoordinate from 'ol/coordinate';
-import olExtent from 'ol/extent';
-import olProj from 'ol/proj';
+import {toStringHDMS} from 'ol/coordinate';
+import {containsXY} from 'ol/extent';
+import {transform, get} from 'ol/proj';
 
 /**
  * @param {!angular.Scope} $scope Scope.
@@ -415,14 +415,14 @@ export default class ImageUploaderController {
     let lon = file['exif']['GPSLongitude'].split(',');
     lat = this.utilsService_.convertDMSToDecimal(lat[0], lat[1], lat[2], file['exif']['GPSLatitudeRef']);
     lon = this.utilsService_.convertDMSToDecimal(lon[0], lon[1], lon[2], file['exif']['GPSLongitudeRef']);
-    const worldExtent = olProj.get('EPSG:4326').getExtent();
+    const worldExtent = get('EPSG:4326').getExtent();
 
-    if (!isNaN(lat) && !isNaN(lon) && olExtent.containsXY(worldExtent, lon, lat)) {
-      const location = olProj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857');
+    if (!isNaN(lat) && !isNaN(lon) && containsXY(worldExtent, lon, lat)) {
+      const location = transform([lon, lat], 'EPSG:4326', 'EPSG:3857');
       const geom = {'coordinates': location, 'type': 'Point'};
 
       file['metadata']['geometry'] = {'geom': JSON.stringify(geom)};
-      file['exif']['geo_label'] = olCoordinate.toStringHDMS([lon, lat]);
+      file['exif']['geo_label'] = toStringHDMS([lon, lat]);
     }
 
     const elevation = parseFloat(file['exif']['GPSAltitude']);
