@@ -1,7 +1,7 @@
 import olAttribution from 'ol/control/Attribution';
 import olLayerTile from 'ol/layer/Tile';
-import olExtent from 'ol/extent';
-import olProj from 'ol/proj';
+import {getWidth} from 'ol/extent';
+import {get} from 'ol/proj';
 import olSourceBingMaps from 'ol/source/BingMaps';
 import olSourceWMTS from 'ol/source/WMTS';
 import olSourceXYZ from 'ol/source/XYZ';
@@ -186,8 +186,8 @@ export default class LayertreeSelectorController {
   createIgnSource_(layer, format = 'jpeg') {
     const resolutions = [];
     const matrixIds = [];
-    const proj3857 = olProj.get('EPSG:3857');
-    const maxResolution = olExtent.getWidth(proj3857.getExtent()) / 256;
+    const proj3857 = get('EPSG:3857');
+    const maxResolution = getWidth(proj3857.getExtent()) / 256;
 
     for (let i = 0; i < 18; i++) {
       matrixIds[i] = i.toString();
