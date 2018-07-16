@@ -16,7 +16,7 @@ import olInteractionModify from 'ol/interaction/Modify';
 import olInteractionMouseWheelZoom from 'ol/interaction/MouseWheelZoom';
 import {defaults as olInteractionDefaults} from 'ol/interaction';
 import olLayerVector from 'ol/layer/Vector';
-import olProj from 'ol/proj';
+import {transformExtent} from 'ol/proj';
 import olSourceVector from 'ol/source/Vector';
 import olStyleCircle from 'ol/style/Circle';
 import olStyleFill from 'ol/style/Fill';
@@ -376,7 +376,7 @@ export default class MapController {
       if (this.showBiodivsportsAreas) {
         let extent = this.view_.calculateExtent(this.map.getSize() || null);
         // get extent in WGS format
-        extent = olProj.transformExtent(extent, olProj.get('EPSG:3857'), olProj.get('EPSG:4326'));
+        extent = transformExtent(extent, 'EPSG:3857', 'EPSG:4326');
         this.biodivSportsService_.fetchData(extent, this.biodivSportsActivities).then(this.addBiodivsportsData_.bind(this));
       }
     });

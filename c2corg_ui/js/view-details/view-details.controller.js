@@ -15,7 +15,7 @@ import angular from 'angular';
  * @ngInject
  */
 export default class ViewDetailsController {
-  constructor($scope, $compile, $uibModal, ApiService, DocumentService, documentData, imageUrl, discourseUrl, appUrl,
+  constructor($scope, $compile, $uibModal, ApiService, DocumentService, documentData, imageUrl, discourseUrl,
     LangService, UtilsService, SCREEN) {
     'ngInject';
 
@@ -35,12 +35,6 @@ export default class ViewDetailsController {
      * @private
      */
     this.modal_ = $uibModal;
-
-    /**
-     * @type {app.Url}
-     * @private
-     */
-    this.url_ = appUrl;
 
     /**
      * @type {angular.$compile}

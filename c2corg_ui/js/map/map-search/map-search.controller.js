@@ -3,7 +3,7 @@
  */
 
 import olFormatGeoJSON from 'ol/format/geojson';
-import olProj from 'ol/proj';
+import {transformExtent, toLonLat} from 'ol/proj';
 
 /**
  * @type {string}
@@ -107,7 +107,7 @@ export default class MapSearchController {
           const center = this.map.getView().getCenter();
           if (center !== undefined) {
             // give priority to nearby results
-            const centerWgs84 = olProj.toLonLat(center);
+            const centerWgs84 = toLonLat(center);
             url += '&lon=' + centerWgs84[0] + '&lat=' + centerWgs84[1];
           }
 
@@ -158,7 +158,7 @@ export default class MapSearchController {
     let geomOrExtent;
     if (feature.get('extent')) {
       const extent = /** @type{ol.Extent} */ (feature.get('extent'));
-      geomOrExtent = olProj.transformExtent(extent, 'EPSG:4326', 'EPSG:3857');
+      geomOrExtent = transformExtent(extent, 'EPSG:4326', 'EPSG:3857');
     } else {
       geomOrExtent = /** @type {ol.geom.SimpleGeometry} */
         (feature.getGeometry());

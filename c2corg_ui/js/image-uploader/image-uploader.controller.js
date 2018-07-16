@@ -19,7 +19,7 @@ import olProj from 'ol/proj';
  * @ngInject
  */
 export default class ImageUploaderController {
-  constructor($scope, $uibModal, $compile, $q, AlertsService, ApiService, DocumentService, imageUrl, appUrl,
+  constructor($scope, $uibModal, $compile, $q, AlertsService, ApiService, DocumentService, imageUrl,
     AuthenticationService, UtilsService) {
     'ngInject';
 
@@ -50,16 +50,10 @@ export default class ImageUploaderController {
     this.auth_ = AuthenticationService;
 
     /**
-     * @type {app.Url}
-     * @private
-     */
-    this.url_ = appUrl;
-
-    /**
      * @type {String}
      * @private
      */
-    this.imageUrl_ = imageUrl;
+    this.imageurlService_ = imageUrl;
 
     /**
      * @type {app.Alerts}
