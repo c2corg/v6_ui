@@ -16,7 +16,7 @@ import olTilegridWMTS from 'ol/tilegrid/WMTS';
  * @ngInject
  * @export
  */
-export default class LayerTreeSelectorController {
+export default class LayertreeSelectorController {
   constructor(ngeoBackgroundLayerMgr, mapApiKeys) {
     'ngInject';
 
@@ -88,7 +88,9 @@ export default class LayerTreeSelectorController {
         }]
       }]
     };
+  }
 
+  $onInit() {
     /**
      * @type {Object|null}
      * @export

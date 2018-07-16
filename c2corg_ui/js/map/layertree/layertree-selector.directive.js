@@ -1,4 +1,4 @@
-import template from './layer-tree-selector.html';
+import template from './layertree-selector.html';
 
 const LayertreeSelectorDirective = function() {
   return {

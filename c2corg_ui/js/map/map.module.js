@@ -4,7 +4,7 @@ import MapDirective from './map.directive';
 import c2cUtils from '../utils/utils.module';
 import c2cDiffMap from './diff-map/diff-map.module';
 import c2cGeolocation from './geolocation/geolocation.module';
-import c2cLayerTree from './layer-tree/layer-tree-selector.module';
+import c2cLayerTree from './layertree/layertree-selector.module';
 import c2cBiodivsports from './biodivsports/biodivsports.module';
 import SimplifyService from './simplify.service';
 import ngeoStatemanagerModule from 'ngeo/statemanager/module';
