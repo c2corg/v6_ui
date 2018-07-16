@@ -75,11 +75,7 @@ export default class MapController {
 
     this.simplifyService_ = SimplifyService;
 
-    /**
-     * @type {number}
-     * @export
-     */
-    this.zoom;
+    this.mapFeatureCollection_ = mapFeatureCollection;
 
     /**
      * @type {angular.Scope}
@@ -116,64 +112,10 @@ export default class MapController {
     this.features_ = [];
 
     /**
-     * @type {?ol.geom.GeometryType}
-     * @export
-     */
-    this.drawType; // For Closure, comes from isolated scope.
-
-    /**
-     * @type {boolean}
-     * @export
-     */
-    this.advancedSearch;
-
-    /**
-     * @type {boolean}
-     * @export
-     */
-    this.edit;
-
-    /**
-     * @type {boolean}
-     * @export
-     */
-    this.disableWheel;
-
-    /**
-     * @type {boolean}
-     * @export
-     */
-    this.showRecenterTools;
-
-    /**
-     * @type {boolean}
-     * @export
-     */
-    this.showBiodivsportsAreas;
-
-    /**
-     * @type {Array.<string>}
-     * @export
-     */
-    this.biodivSportsActivities;
-
-    /**
-     * @type {boolean}
-     * @export
-     */
-    this.defaultMapFilter;
-
-    /**
      * @type {boolean}
      * @export
      */
     this.enableMapFilter = !!this.defaultMapFilter;
-
-    /**
-     * @type {?GeoJSONFeatureCollection}
-     * @export
-     */
-    this.featureCollection;
 
     /**
      * @type {ngeo.Location}
@@ -260,6 +202,9 @@ export default class MapController {
      */
     this.modal_ = $uibModal;
 
+  }
+
+  $onInit() {
     /**
      * @type {ol.Map}
      * @export
@@ -325,9 +270,9 @@ export default class MapController {
       this.utilsService_.setupSmartScroll(mouseWheelZoomInteraction);
     }
 
-    if (this.featureCollection || mapFeatureCollection) {
+    if (this.featureCollection || this.mapFeatureCollection_) {
       this.features_ = this.geojsonFormat_.readFeatures(
-        this.featureCollection || mapFeatureCollection);
+        this.featureCollection || this.mapFeatureCollection_);
     }
 
     // add the features interactions
