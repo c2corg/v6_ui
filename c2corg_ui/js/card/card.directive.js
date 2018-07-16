@@ -30,7 +30,7 @@ const templates = {
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-const CardDirective = ($compile, UtilsService) => {
+const CardDirective = ($compile) => {
   'ngInject';
 
   const cardElementCache = {};
