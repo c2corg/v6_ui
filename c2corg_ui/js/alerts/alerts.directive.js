@@ -8,7 +8,7 @@ import template from './alert.html';
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-const AlertsDirective = function() {
+const AlertsDirective = () => {
   return {
     restrict: 'E',
     controller: 'AlertsController',

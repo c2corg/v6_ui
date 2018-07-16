@@ -1,5 +1,14 @@
 import {transform} from 'ol/proj';
 import debounce from 'lodash/debounce';
+import {mouse, select} from 'd3-selection';
+import {scaleLinear, scaleTime} from 'd3-scale';
+import {bisector, extent} from 'd3-array';
+import {format} from 'd3-format';
+import {timeFormat} from 'd3-time-format';
+import {geoDistance} from 'd3-geo';
+import {axisBottom, axisLeft} from 'd3-axis';
+import {timeHour} from 'd3-time';
+import {line} from 'd3-shape';
 
 /**
  * @param {angular.Scope} $scope Scope.
@@ -88,7 +97,7 @@ export default class ElevationProfileController {
           'EPSG:4326'
         );
         // arc distance x earth radius
-        d = window.d3.geo.distance(deg1, deg2) * 6371;
+        d = geoDistance(deg1, deg2) * 6371;
       }
       totalDist += d;
       return {
@@ -133,11 +142,8 @@ export default class ElevationProfileController {
       $('.xaxis-dimension').hide();
     }
 
-    const d3 = window.d3;
-
     // Add an SVG element with the desired dimensions and margin
-    this.svg = d3
-      .select('#elevation-profile-chart')
+    this.svg = select('#elevation-profile-chart')
       .append('svg')
       .attr('width', width + this.margin.left + this.margin.right)
       .attr('height', height + this.margin.top + this.margin.bottom)
@@ -148,52 +154,42 @@ export default class ElevationProfileController {
       );
 
     // Scales and axes
-    this.x1 = d3.scale.linear().range([0, width]);
+    this.x1 = scaleLinear().range([0, width]);
 
-    this.y = d3.scale.linear().range([height, 0]);
+    this.y = scaleLinear().range([height, 0]);
 
-    this.x1Axis = d3.svg.axis().scale(this.x1).orient('bottom');
+    this.x1Axis = axisBottom(this.x1);
 
-    this.yAxis = d3.svg
-      .axis()
-      .scale(this.y)
-      .tickFormat(d3.format('.0f'))
-      .orient('left');
+    this.yAxis = axisLeft(this.y)
+      .tickFormat(format('.0f'));
 
     this.x1
-      .domain(
-        d3.extent(this.data, (d) => {
-          return d.d;
-        })
-      )
+      .domain(extent(this.data, d => d.d))
       .nice();
 
-    const yExtent = d3.extent(this.data, (d) => {
+    const yExtent = extent(this.data, (d) => {
       return d.ele;
     });
     this.y.domain(yExtent).nice();
 
     if (this.timeAvailable) {
-      this.x2 = d3.time.scale().range([0, width]);
+      this.x2 = scaleTime().range([0, width]);
 
-      this.x2Axis = d3.svg
-        .axis()
-        .scale(this.x2)
+      this.x2Axis = axisBottom(this.x2)
         .tickFormat((t) => {
           // force display of elapsed time as hrs:mins. It is not datetime!
           return (
-            ~~(t / 3600000) + ':' + d3.format('02d')(~~(t % 3600000 / 60000))
+            ~~(t / 3600000) + ':' + format('02d')(~~(t % 3600000 / 60000))
           );
-        })
-        .orient('bottom');
+        });
 
       this.x2
         .domain(
-          d3.extent(this.data, (d) => {
+          extent(this.data, (d) => {
             return d.elapsed;
           })
         )
-        .nice(d3.time.hour);
+        .nice(timeHour);
     }
 
     this.svg
@@ -220,32 +216,14 @@ export default class ElevationProfileController {
       .text(this.i18n_.distance_legend);
 
     // data lines
-    this.dLine = d3.svg
-      .line()
-      .x(
-        (d) => {
-          return this.x1(d.d);
-        }
-      )
-      .y(
-        (d) => {
-          return this.y(d.ele);
-        }
-      );
+    this.dLine = line()
+      .x(d => this.x1(d.d))
+      .y(d => this.y(d.ele));
 
     if (this.timeAvailable) {
-      this.tLine = d3.svg
-        .line()
-        .x(
-          (d) => {
-            return this.x2(d.elapsed);
-          }
-        )
-        .y(
-          (d) => {
-            return this.y(d.ele);
-          }
-        );
+      this.tLine = line()
+        .x(d => this.x2(d.elapsed))
+        .y(d => this.y(d.ele));
     }
 
     // display line path
@@ -346,8 +324,8 @@ export default class ElevationProfileController {
       this.i18n_.duration_legend;
     this.line.transition().duration(1000).attr('d', nLine);
 
-    window.d3.select('.x.axis').call(axis);
-    window.d3.select('.x.axis.legend').text(legend);
+    select('.x.axis').call(axis);
+    select('.x.axis.legend').text(legend);
   }
 
   /**
@@ -356,7 +334,7 @@ export default class ElevationProfileController {
   resizeChart_() {
     const wrapper = $('#elevation-profile').closest('.finfo');
     const width = wrapper.width() - this.margin.left - this.margin.right;
-    const div = window.d3.select('#elevation-profile');
+    const div = select('#elevation-profile');
 
     this.x1.range([0, width]);
     if (this.timeAvailable) {
@@ -383,21 +361,20 @@ export default class ElevationProfileController {
    * @private
    */
   mousemove_() {
-    const d3 = window.d3;
-    const bisectDistance = d3.bisector((d) => {
+    const bisectDistance = bisector(d => {
       return d.d;
     }).left;
-    const bisectDate = d3.bisector((d) => {
+    const bisectDate = bisector(d => {
       return d.elapsed;
     }).left;
-    const formatDistance = d3.format('.2f');
-    const formatDate = d3.time.format('%H:%M');
-    const formatMinutes = d3.format('02d');
+    const formatDistance = format('.2f');
+    const formatDate = timeFormat('%H:%M');
+    const formatMinutes = format('02d');
 
     const bisect = this.mode === 'distance' ? bisectDistance : bisectDate;
     const x0 = this.mode === 'distance' ?
-      this.x1.invert(d3.mouse(this.svg.node())[0]) :
-      this.x2.invert(d3.mouse(this.svg.node())[0]);
+      this.x1.invert(mouse(this.svg.node())[0]) :
+      this.x2.invert(mouse(this.svg.node())[0]);
     const i = bisect(this.data, x0, 1, this.data.length - 1);
     const d0 = this.data[i - 1];
     const d1 = this.data[i];

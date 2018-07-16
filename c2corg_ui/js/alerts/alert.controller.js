@@ -8,11 +8,15 @@ export default class AlertController {
   constructor($timeout) {
     'ngInject';
 
-    if (this['timeout'] && this['close']) {
-      const timeout = parseInt(this['timeout'], 10);
+    this.$timeout = $timeout;
+  }
+
+  $onInit() {
+    if (this.timeout && this.close) {
+      const timeout = parseInt(this.timeout, 10);
       if (timeout) {
-        $timeout(() => {
-          this['close']();
+        this.$timeout(() => {
+          this.close();
         }, timeout);
       }
     }
