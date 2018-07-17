@@ -1,4 +1,4 @@
-import angular from 'angular';
+require('bootstrap-markdown/js/bootstrap-markdown');
 
 /**
  * This directive is used on textarea elements to display a markdown editor.
@@ -8,9 +8,7 @@ import angular from 'angular';
 const MarkdownEditorDirective = ($rootScope, $compile, gettextCatalog, textFormatingUrl) => {
   'ngInject';
 
-  const gettext = function(str) {
-    return str;
-  };
+  const gettext = str => str;
 
   const messages = {
     'Bold': gettext('Bold'),
@@ -30,10 +28,9 @@ const MarkdownEditorDirective = ($rootScope, $compile, gettextCatalog, textForma
     'enter image title here': gettext('enter image title here'),
     'list text here': gettext('list text here')
   };
-  // FIXME use es6 forEach
-  angular.forEach(messages, (value, key) => {
-    messages[key] = '{{\'' + value + '\'|translate}}';
-  });
+  for (const key in messages) {
+    messages[key] = '{{\'' + messages[key] + '\'|translate}}';
+  }
   $.fn.markdown.messages['angular'] = messages;
 
   const createHeadingCallback = function(prefix) {
