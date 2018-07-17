@@ -1,6 +1,7 @@
 import {transform} from 'ol/proj';
 import debounce from 'lodash/debounce';
 import {mouse, select} from 'd3-selection';
+import {transition} from 'd3-transition'; // eslint-disable-line no-unused-vars
 import {scaleLinear, scaleTime} from 'd3-scale';
 import {bisector, extent} from 'd3-array';
 import {format} from 'd3-format';
@@ -86,32 +87,20 @@ export default class ElevationProfileController {
       let d = 0;
       if (i > 0) {
         // convert from web mercator to lng/lat
-        const deg1 = transform(
-          [coords[i][0], coords[i][1]],
-          'EPSG:3857',
-          'EPSG:4326'
-        );
-        const deg2 = transform(
-          [coords[i - 1][0], coords[i - 1][1]],
-          'EPSG:3857',
-          'EPSG:4326'
-        );
+        const deg1 = transform([coords[i][0], coords[i][1]], 'EPSG:3857', 'EPSG:4326');
+        const deg2 = transform([coords[i - 1][0], coords[i - 1][1]], 'EPSG:3857', 'EPSG:4326');
         // arc distance x earth radius
         d = geoDistance(deg1, deg2) * 6371;
       }
       totalDist += d;
       return {
-        date: date,
+        date,
         ele: coord[2] || 0,
         d: totalDist,
         elapsed: timeAvailable ? date - startDate : undefined
       };
     });
-    if (
-      !this.data.find((coord) => {
-        return coord.ele > 0;
-      })
-    ) {
+    if (!this.data.find(coord => coord.ele > 0)) {
       $('#elevation-profile-title').remove();
       $('#elevation-profile').closest('.finfo').remove();
       return;
@@ -126,7 +115,7 @@ export default class ElevationProfileController {
     const wrapper = $('#elevation-profile').closest('.finfo');
     let width = wrapper.width();
     const size = {
-      width: width,
+      width,
       height: 300
     };
     this.margin = {
@@ -148,10 +137,7 @@ export default class ElevationProfileController {
       .attr('width', width + this.margin.left + this.margin.right)
       .attr('height', height + this.margin.top + this.margin.bottom)
       .append('g')
-      .attr(
-        'transform',
-        'translate(' + this.margin.left + ',' + this.margin.top + ')'
-      );
+      .attr('transform', `translate(${this.margin.left},${this.margin.top})`);
 
     // Scales and axes
     this.x1 = scaleLinear().range([0, width]);
@@ -167,28 +153,18 @@ export default class ElevationProfileController {
       .domain(extent(this.data, d => d.d))
       .nice();
 
-    const yExtent = extent(this.data, (d) => {
-      return d.ele;
-    });
+    const yExtent = extent(this.data, d => d.ele);
     this.y.domain(yExtent).nice();
 
     if (this.timeAvailable) {
       this.x2 = scaleTime().range([0, width]);
 
       this.x2Axis = axisBottom(this.x2)
-        .tickFormat((t) => {
-          // force display of elapsed time as hrs:mins. It is not datetime!
-          return (
-            ~~(t / 3600000) + ':' + format('02d')(~~(t % 3600000 / 60000))
-          );
-        });
+        // force display of elapsed time as hrs:mins. It is not datetime!
+        .tickFormat(t => ~~(t / 3600000) + ':' + format('02d')(~~(t % 3600000 / 60000)));
 
       this.x2
-        .domain(
-          extent(this.data, (d) => {
-            return d.elapsed;
-          })
-        )
+        .domain(extent(this.data, d => d.elapsed))
         .nice(timeHour);
     }
 
@@ -206,7 +182,7 @@ export default class ElevationProfileController {
     this.svg
       .append('g')
       .attr('class', 'x axis')
-      .attr('transform', 'translate(0,' + height + ')')
+      .attr('transform', `translate(0,${height})`)
       .call(this.x1Axis)
       .append('text')
       .attr('x', size.width - this.margin.left - this.margin.right)
@@ -303,12 +279,7 @@ export default class ElevationProfileController {
       .on('mousemove', this.mousemove_.bind(this));
 
     // listen to changes to mode variable to update chart
-    this.scope_.$watch(
-      () => {
-        return this.mode;
-      },
-      this.updateChart_.bind(this)
-    );
+    this.scope_.$watch(() => this.mode, this.updateChart_.bind(this));
     // listen to width changes to redraw graph
     $(window).on('resize', debounce(this.resizeChart_.bind(this), 300));
   }
@@ -361,12 +332,8 @@ export default class ElevationProfileController {
    * @private
    */
   mousemove_() {
-    const bisectDistance = bisector(d => {
-      return d.d;
-    }).left;
-    const bisectDate = bisector(d => {
-      return d.elapsed;
-    }).left;
+    const bisectDistance = bisector(d => d.d).left;
+    const bisectDate = bisector(d => d.elapsed).left;
     const formatDistance = format('.2f');
     const formatDate = timeFormat('%H:%M');
     const formatMinutes = format('02d');
@@ -385,9 +352,9 @@ export default class ElevationProfileController {
     const dy = this.y(d.ele);
     const dx = this.mode === 'distance' ? this.x1(d.d) : this.x2(d.elapsed);
 
-    this.focus.attr('transform', 'translate(' + dx + ',' + dy + ')');
-    this.focush.attr('transform', 'translate(0,' + dy + ')');
-    this.focusv.attr('transform', 'translate(' + dx + ',0)');
+    this.focus.attr('transform', `translate(${dx},${dy})`);
+    this.focush.attr('transform', `translate(0,${dy})`);
+    this.focusv.attr('transform', `translate(${dx},0)`);
 
     this.bubble1.text(
       this.i18n_.elevation +
