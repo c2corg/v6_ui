@@ -334,7 +334,7 @@ export default class ElevationProfileController {
   mousemove_() {
     const bisectDistance = bisector(d => d.d).left;
     const bisectDate = bisector(d => d.elapsed).left;
-    const formatDistance = format('.2f');
+    const formatDistance = format('.2r');
     const formatDate = timeFormat('%H:%M');
     const formatMinutes = format('02d');
 
@@ -359,7 +359,7 @@ export default class ElevationProfileController {
     this.bubble1.text(
       this.i18n_.elevation +
         ' ' +
-        d.ele +
+        Math.round(d.ele) +
         this.i18n_.meters +
         ' / ' +
         this.i18n_.distance +
