@@ -5,7 +5,7 @@ import escape from 'lodash/escape';
  * @constructor
  */
 export default class AlertsService {
-  constructor(gettextCatalog) {
+  constructor($rootScope, gettextCatalog) {
     'ngInject';
 
     /**
@@ -19,6 +19,8 @@ export default class AlertsService {
      * @private
      */
     this.gettextCatalog_ = gettextCatalog;
+
+    this.$rootScope = $rootScope;
   }
 
 
@@ -41,16 +43,22 @@ export default class AlertsService {
    * @export
    */
   add(data) {
-    const timeout = data['timeout'] || 0;
+    const timeout = data.timeout || 0;
     this.addLoading_(timeout);
-    let msg = data['msg'];
-    msg = msg instanceof Object ? this.formatErrorMsg_(msg) :
-      this.filterStr_(msg);
-    this.alerts_.push({
-      type: data['type'] || 'warning',
-      msg: msg,
-      timeout: timeout
-    });
+    let msg = data.msg;
+    msg = msg instanceof Object ? this.formatErrorMsg_(msg) : this.filterStr_(msg);
+    const alert = {
+      type: data.type || 'warning',
+      msg,
+      timeout
+    };
+    this.alerts_.push(alert);
+    this.$rootScope.$broadcast('alertsUpdated');
+  }
+
+  remove(index) {
+    this.alerts_.splice(index, 1);
+    this.$rootScope.$broadcast('alertsUpdated');
   }
 
 
@@ -60,9 +68,9 @@ export default class AlertsService {
    */
   addSuccess(msg) {
     this.add({
-      'type': 'success',
-      'msg': msg,
-      'timeout': 5000
+      type: 'success',
+      msg,
+      timeout: 5000
     });
   }
 
@@ -73,9 +81,9 @@ export default class AlertsService {
    */
   addError(msg) {
     this.add({
-      'type': 'danger',
-      'msg': msg,
-      'timeout': 5000
+      type: 'danger',
+      msg,
+      timeout: 5000
     });
   }
 
@@ -92,7 +100,7 @@ export default class AlertsService {
     this.alerts_.push({
       type: 'danger',
       msg: content,
-      timeout: timeout
+      timeout
     });
   }
 
@@ -124,21 +132,19 @@ export default class AlertsService {
    * @private
    */
   formatErrorMsg_(response) {
-    if (!('data' in response) || !response['data'] ||
-        !('errors' in response['data']) ||
-        !response['data']['errors']) {
+    if (!response.data || !response.data.errors) {
       return this.gettextCatalog_.getString('Unknown error');
     }
-    const errors = response['data']['errors'];
+    const errors = response.data.errors;
     const len = errors.length;
     if (len > 1) {
       let msg = '<ul>';
       for (let i = 0; i < len; i++) {
-        msg += '<li>' + this.filterStr_(errors[i]['name']) + ' : ' + this.filterStr_(errors[i]['description']) + '</li>';
+        msg += '<li>' + this.filterStr_(errors[i].name) + ' : ' + this.filterStr_(errors[i].description) + '</li>';
       }
       return msg + '</ul>';
     }
-    return this.filterStr_(errors[0]['name']) + ' : ' + this.filterStr_(errors[0]['description']);
+    return this.filterStr_(errors[0].name) + ' : ' + this.filterStr_(errors[0].description);
   }
 
 

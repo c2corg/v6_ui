@@ -20,7 +20,7 @@ const AlertDirective = () => {
       'msg': '@'
     },
     link() {
-      $('body').click((e) => {
+      $('body').click(e => {
         if ($('.alert').length > 0 && $(e.target).closest('.alert').length === 0) {
           $('.loading').removeClass('loading');
           $('.alert').hide();

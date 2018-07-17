@@ -1,4 +1,4 @@
-import template from './alert.html';
+import template from './alerts.html';
 
 /**
  * This directive is used to display feedbacks to user actions.

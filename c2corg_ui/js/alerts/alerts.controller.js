@@ -4,14 +4,18 @@
  * @ngInject
  */
 export default class AlertsController {
-  constructor(AlertsService) {
+  constructor($rootScope, AlertsService) {
     'ngInject';
+
+    this.alertsService_ = AlertsService;
 
     /**
      * @type {Array.<appx.AlertMessage>}
      * @export
      */
     this.alerts = AlertsService.get();
+
+    $rootScope.$on('alertsUpdated', () => this.alerts = this.alertsService_.get());
   }
 
 
@@ -20,7 +24,7 @@ export default class AlertsController {
    * @export
    */
   close(index) {
-    this.alerts.splice(index, 1);
     $('.loading').removeClass('loading');
+    this.alertsService_.remove(index);
   }
 }
