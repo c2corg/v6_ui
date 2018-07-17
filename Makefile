@@ -173,7 +173,7 @@ c2corg_ui/static/build/locale/%/c2corg_ui.json: .build/locale/%/LC_MESSAGES/c2co
 
 # End of i18n and Transifex tools
 
-c2corg_ui/static/build/bundle.js: $(APP_JS_FILES) .build/node_modules.timestamp
+c2corg_ui/static/build/bundle.js: $(APP_JS_FILES) $(APP_PARTIAL_FILES) .build/node_modules.timestamp
 	mkdir -p $(dir $@)
 	npm run build
 
