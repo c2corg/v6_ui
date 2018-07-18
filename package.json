@@ -15,7 +15,7 @@
   "dependencies": {
     "angular": "1.5.8",
     "angular-cookies": "1.5.8",
-    "angular-gettext": "2.4.0",
+    "angular-gettext": "2.4.1",
     "angular-messages": "1.5.8",
     "angular-moment": "1.2.0",
     "angular-recaptcha": "4.1.5",
