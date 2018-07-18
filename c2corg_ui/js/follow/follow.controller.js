@@ -19,23 +19,19 @@ export default class FollowController {
      * @type {app.Authentication}
      * @private
      */
-    this.auth_ = AuthenticationService;
-
-    /**
-     * @type {number}
-     * @export
-     */
-    this.docId;
+    this.authService_ = AuthenticationService;
 
     /**
      * @type {boolean}
      * @export
      */
     this.followed = false;
+  }
 
+  $onInit() {
     if (this.canFollow()) {
-      this.apiService_.isFollowing(this.docId).then((response) => {
-        this.followed = response['data']['is_following'];
+      this.apiService_.isFollowing(this.docId).then(response => {
+        this.followed = response.data.is_following;
       });
     }
   }
@@ -49,7 +45,7 @@ export default class FollowController {
    * @export
    */
   canFollow() {
-    return this.auth_.isAuthenticated() && this.auth_.userData.id !== this.docId;
+    return this.authService_.isAuthenticated() && this.authService_.userData.id !== this.docId;
   }
 
 
@@ -58,11 +54,11 @@ export default class FollowController {
    */
   toggle() {
     if (this.followed) {
-      this.apiService_.unfollow(this.docId).then((response) => {
+      this.apiService_.unfollow(this.docId).then(() => {
         this.followed = false;
       });
     } else {
-      this.apiService_.follow(this.docId).then((response) => {
+      this.apiService_.follow(this.docId).then(() => {
         this.followed = true;
       });
     }
