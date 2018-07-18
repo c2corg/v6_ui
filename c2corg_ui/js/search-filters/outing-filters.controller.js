@@ -9,10 +9,12 @@ import SearchFiltersController from './search-filters.controller';
  * @ngInject
  */
 export default class OutingFiltersController extends SearchFiltersController {
-  constructor($scope, ngeoLocation, advancedSearchFilters) {
+  constructor($scope, ngeoLocation, advancedSearchFilters, moment) {
     'ngInject';
 
     super($scope, ngeoLocation, advancedSearchFilters);
+
+    this.moment = moment;
 
     /**
     * @type {Array.<Date>}
@@ -56,7 +58,7 @@ export default class OutingFiltersController extends SearchFiltersController {
       }
       const dates = val.split(',');
       dates.forEach((date) => {
-        this.dates.push(window.moment(date).toDate());
+        this.dates.push(this.moment(date).toDate());
       });
       this.filters[key] = dates;
       this.updateMinMaxDates_();
@@ -101,7 +103,7 @@ export default class OutingFiltersController extends SearchFiltersController {
   * @private
   */
   formatDate_(date) {
-    return window.moment(date).format('YYYY-MM-DD');
+    return this.moment(date).format('YYYY-MM-DD');
   }
 
 

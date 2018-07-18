@@ -11,7 +11,7 @@
  * @ngInject
  */
 export default class BiodivsportsModalController {
-  constructor($uibModalInstance, title, description, infoUrl, kmlUrl, period) {
+  constructor($uibModalInstance, title, description, infoUrl, kmlUrl, period, moment) {
     'ngInject';
 
     /**
@@ -52,7 +52,7 @@ export default class BiodivsportsModalController {
 
     for (let i = 0; i < period.length; i++) {
       if (period[i]) {
-        this.months.push(window.moment().month(i).format('MMMM'));
+        this.months.push(moment().month(i).format('MMMM'));
       }
     }
   }

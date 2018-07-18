@@ -22,11 +22,11 @@ import DocumentEditingController from '../document/document-editing.controller';
  */
 export default class ArticleEditingController extends DocumentEditingController {
   constructor($scope, $attrs, $http, $uibModal, $compile, LangService, AuthenticationService,
-    AlertsService, ApiService, authUrl, DocumentService, UrlService) {
+    AlertsService, ApiService, authUrl, DocumentService, UrlService, documentEditing, REQUIRED_FIELDS, UtilsService) {
     'ngInject';
 
     super($scope, $attrs, $http, $uibModal, $compile, LangService, AuthenticationService,
-      AlertsService, ApiService, authUrl, DocumentService, UrlService);
+      AlertsService, ApiService, authUrl, DocumentService, UrlService, documentEditing, REQUIRED_FIELDS, UtilsService);
 
     /**
      * @type {?string}

@@ -20,9 +20,10 @@ import {transform, get} from 'ol/proj';
  */
 export default class ImageUploaderController {
   constructor($scope, $uibModal, $compile, $q, AlertsService, ApiService, DocumentService, imageUrl,
-    AuthenticationService, UtilsService) {
+    AuthenticationService, UtilsService, moment) {
     'ngInject';
 
+    this.moment = moment;
     this.utilsService_ = UtilsService;
 
     /**
@@ -401,7 +402,7 @@ export default class ImageUploaderController {
       return null;
     }
     const exifDate = exifData[exifTag];
-    const date = window.moment(exifDate, 'YYYY:MM:DD HH:mm:ss');
+    const date = this.moment(exifDate, 'YYYY:MM:DD HH:mm:ss');
     return date.isValid() ? date.format() : null;
   }
 

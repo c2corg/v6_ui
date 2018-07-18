@@ -166,4 +166,5 @@ angular
 
     return text => $sce.trustAsHtml(text);
   })
-  .filter('capitalize', () => token => token.charAt(0).toUpperCase() + token.slice(1));
+  .filter('capitalize', () => token => token.charAt(0).toUpperCase() + token.slice(1))
+  .constant('moment', require('moment-timezone'));

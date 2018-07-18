@@ -22,11 +22,12 @@ import DocumentEditingController from '../document/document-editing.controller';
  */
 export default class OutingEditingController extends DocumentEditingController {
   constructor($scope, $attrs, $http, $uibModal, $compile, LangService, AuthenticationService,
-    AlertsService, ApiService, authUrl, DocumentService, UrlService, UtilsService, ngeoLocation) {
+    AlertsService, ApiService, authUrl, DocumentService, UrlService, UtilsService, ngeoLocation, moment,
+    documentEditing, REQUIRED_FIELDS) {
     'ngInject';
 
     super($scope, $attrs, $http, $uibModal, $compile, LangService, AuthenticationService, AlertsService,
-      ApiService, authUrl, DocumentService, UrlService);
+      ApiService, authUrl, DocumentService, UrlService, documentEditing, REQUIRED_FIELDS, UtilsService);
 
     /**
      * Start cannot be after today nor end_date.
@@ -62,6 +63,8 @@ export default class OutingEditingController extends DocumentEditingController {
     this.differentDates;
 
     this.utilsService = UtilsService;
+
+    this.moment = moment;
 
     if (this.auth.isAuthenticated()) {
       // allow association only for a new outing to existing route
@@ -112,7 +115,7 @@ export default class OutingEditingController extends DocumentEditingController {
 
     if (this.auth.hasEditRights('outings', {'users': userIds})) {
       outing = this.formatOuting_(outing);
-      this.differentDates = window.moment(outing['date_start']).diff(outing['date_end']) !== 0;
+      this.differentDates = this.moment(outing['date_start']).diff(outing['date_end']) !== 0;
       if (!this.differentDates) {
         outing['date_end'] = undefined;
       }
@@ -194,13 +197,13 @@ export default class OutingEditingController extends DocumentEditingController {
           JSON.stringify(outing['locales'][0]['conditions_levels']);
       }
       if (outing.date_start instanceof Date) {
-        outing.date_start = window.moment(outing.date_start).format('YYYY-MM-DD');
+        outing.date_start = this.moment(outing.date_start).format('YYYY-MM-DD');
       }
       // if no date end -> make it the same as date start
       if (!outing.date_end && outing.date_start) {
         outing.date_end = outing.date_start;
       } else if (outing.date_end instanceof Date) {
-        outing.date_end = window.moment(outing.date_end).format('YYYY-MM-DD');
+        outing.date_end = this.moment(outing.date_end).format('YYYY-MM-DD');
       }
 
       // remove 'null' from the array, it's not accepted by the API
@@ -215,10 +218,10 @@ export default class OutingEditingController extends DocumentEditingController {
     } else {
       // convert existing date from string to a date object
       if (outing.date_end && typeof outing.date_end === 'string') {
-        outing.date_end = window.moment(outing.date_end).toDate();
+        outing.date_end = this.moment(outing.date_end).toDate();
       }
       if (outing.date_start && typeof outing.date_start === 'string') {
-        outing.date_start = window.moment(outing.date_start).toDate();
+        outing.date_start = this.moment(outing.date_start).toDate();
       }
       // if only date_start -> date_start = date_end
       if (outing.date_start.toDateString() === outing.date_end.toDateString()) {

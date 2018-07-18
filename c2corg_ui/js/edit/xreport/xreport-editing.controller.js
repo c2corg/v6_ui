@@ -21,11 +21,11 @@ import DocumentEditingController from '../document/document-editing.controller';
  */
 export default class XreportEditingController extends DocumentEditingController {
   constructor($scope, $attrs, $http, $uibModal, $compile, LangService, AuthenticationService,
-    AlertsService, ApiService, authUrl, DocumentService, UrlService) {
+    AlertsService, ApiService, authUrl, DocumentService, UrlService, documentEditing, REQUIRED_FIELDS, UtilsService) {
     'ngInject';
 
     super($scope, $attrs, $http, $uibModal, $compile, LangService, AuthenticationService, AlertsService,
-      ApiService, authUrl, DocumentService, UrlService);
+      ApiService, authUrl, DocumentService, UrlService, documentEditing, REQUIRED_FIELDS, UtilsService);
 
     /**
      * Start cannot be after today nor end_date.
