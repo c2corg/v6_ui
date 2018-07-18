@@ -1,12 +1,12 @@
 export default class ConfirmSaveController {
-  constructor($uibModalInstance, DocumentService, appLang) {
+  constructor($uibModalInstance, DocumentService, LangService) {
     'ngInject';
 
     /**
      * @export
      * @type {app.Lang}
      */
-    this.langService = appLang;
+    this.langService = LangService;
 
     /**
      * @type {Object} $uibModalInstance angular bootstrap
