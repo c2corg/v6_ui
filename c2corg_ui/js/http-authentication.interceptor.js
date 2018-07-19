@@ -6,7 +6,7 @@ import googAsserts from 'goog/asserts';
  * @param {app.Authentication} AuthenticationService
  * @return {angular.$http.Interceptor}
  */
-const HttpAuthenticationInterceptor = (apiUrl, AuthenticationService) => {
+const HttpAuthenticationInterceptor = (AuthenticationService) => {
   'ngInject';
 
   return {

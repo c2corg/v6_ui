@@ -3,14 +3,13 @@
  * within other controllers, for example to set the properties in one
  * controller and then read them in another.
  * Also to do all functions common to all documents.
- * @param {app.Authentication} AuthenticationService
  * @param {angular.Scope} $rootScope Scope.
  * @constructor
  * @ngInject
  * @struct
  */
 export default class DocumentService {
-  constructor(AuthenticationService, UtilsService, $rootScope) {
+  constructor(UtilsService, $rootScope) {
     'ngInject';
 
     this.utilsService_ = UtilsService;
@@ -20,12 +19,6 @@ export default class DocumentService {
      * @private
      */
     this.rootScope_ = $rootScope;
-
-    /**
-     * @type {app.Authentication}
-     * @private
-     */
-    this.authService_ = AuthenticationService;
 
     /**
      * @export

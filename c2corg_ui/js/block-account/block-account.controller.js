@@ -19,7 +19,7 @@ export default class BlockAccountController {
      * @type {app.Authentication}
      * @private
      */
-    this.auth_ = AuthenticationService;
+    this.authenticationService_ = AuthenticationService;
 
     /**
      * @type {number}
@@ -33,7 +33,7 @@ export default class BlockAccountController {
      */
     this.accountBlocked = false;
 
-    if (this.auth_.isModerator()) {
+    if (this.authenticationService_.isModerator()) {
       this.apiService_.isAccountBlocked(this.userId).then((response) => {
         this.accountBlocked = response['data']['blocked'];
       });

@@ -4,6 +4,7 @@ import UserController from './user.controller';
 import c2cAuthentication from '../authentication/authentication.module';
 import c2cApi from '../api/api.module';
 import c2cUtils from '../utils/utils.module';
+import c2cConstants from '../constants/constants.module';
 import ngeoStatemanagerModule from 'ngeo/statemanager/module';
 
 export default angular
@@ -11,7 +12,8 @@ export default angular
     ngeoStatemanagerModule.name,
     c2cAuthentication,
     c2cApi,
-    c2cUtils
+    c2cUtils,
+    c2cConstants
   ])
   .controller('UserController', UserController)
   .directive('c2cUser', UserDirective)

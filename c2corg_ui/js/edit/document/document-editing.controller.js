@@ -45,13 +45,13 @@ export default class DocumentEditingController {
      * @type {string}
      * @private
      */
-    this.authurlService = authUrl;
+    this.authurl = authUrl;
 
     /**
      * @type {app.Authentication}
      * @public
      */
-    this.auth = AuthenticationService;
+    this.authenticationService = AuthenticationService;
 
     /**
      * @type {string}
@@ -140,7 +140,7 @@ export default class DocumentEditingController {
 
     this.scope[this.modelName] = this.documentService.document;
 
-    if (this.auth.isAuthenticated()) {
+    if (this.authenticationService.isAuthenticated()) {
       if (this.id && this.lang_) {
         // Get document attributes from the API to feed the model:
         googAsserts.assert(this.id !== null);
@@ -154,7 +154,7 @@ export default class DocumentEditingController {
       }
     } else {
       // Redirect to the auth page
-      this.utilsService.redirectToLogin(this.authurlService);
+      this.utilsService.redirectToLogin(this.authurl);
       return;
     }
 
@@ -254,7 +254,7 @@ export default class DocumentEditingController {
       return;
     }
 
-    if (!this.auth.isAuthenticated()) {
+    if (!this.authenticationService.isAuthenticated()) {
       this.alerts.addError('You must log in to edit this document.');
       return;
     }

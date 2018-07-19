@@ -1,21 +1,21 @@
 <div class="btn-group" id="user-menu">
   <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-          ng-if="!userCtrl.auth.isAuthenticated()" ng-click="userCtrl.showLogin()">
+          ng-if="!userCtrl.authenticationService.isAuthenticated()" ng-click="userCtrl.showLogin()">
       <span class="login-text" translate>Login</span>
       <span class="glyphicon glyphicon-log-in"></span>
   </button>
   <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-          ng-if="userCtrl.auth.isAuthenticated()">
-    <span class="user-info" ng-show="userCtrl.auth.userData.username">{{userCtrl.auth.userData.username}}</span>
-    <span class="icon-user" ng-show="userCtrl.auth.userData.username"></span>
+          ng-if="userCtrl.authenticationService.isAuthenticated()">
+    <span class="user-info" ng-show="userCtrl.authenticationService.userData.username">{{userCtrl.authenticationService.userData.username}}</span>
+    <span class="icon-user" ng-show="userCtrl.authenticationService.userData.username"></span>
     <span class="caret"></span>
   </button>
-  <ul class="dropdown-menu" ng-show="userCtrl.auth.isAuthenticated()">
-    <li><a translate ng-href="/profiles/{{userCtrl.auth.userData.id}}">My profile</a></li>
+  <ul class="dropdown-menu" ng-show="userCtrl.authenticationService.isAuthenticated()">
+    <li><a translate ng-href="/profiles/{{userCtrl.authenticationService.userData.id}}">My profile</a></li>
     <li><a translate href="/account">My account</a></li>
     <li><a translate href="/preferences">My preferences</a></li>
     <li>
-      <a translate ng-href="/outings#u={{userCtrl.auth.userData.id}}" ng-click="userCtrl.goToOutingsPage()">My outings</a>
+      <a translate ng-href="/outings#u={{userCtrl.authenticationService.userData.id}}" ng-click="userCtrl.goToOutingsPage()">My outings</a>
       <c2c-outings-csv-download></c2c-outings-csv-download>
     </li>
     <li><a translate href="/following">My followed users</a></li>

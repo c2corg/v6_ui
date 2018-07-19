@@ -59,7 +59,7 @@ export default class LangService {
      * @type {app.Authentication}
      * @private
      */
-    this.AuthenticationService_ = AuthenticationService;
+    this.authenticationService_ = AuthenticationService;
 
     /**
      * @type {string}
@@ -129,7 +129,7 @@ export default class LangService {
       'expires': d
     });
 
-    if (opt_syncWithApi && this.AuthenticationService_.isAuthenticated()) {
+    if (opt_syncWithApi && this.authenticationService_.isAuthenticated()) {
       this.apiService_.updatePreferredLanguage(lang);
     }
 

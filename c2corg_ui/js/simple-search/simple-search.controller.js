@@ -43,7 +43,7 @@ export default class {
      * @type  {app.Authentication} AuthenticationService
      * @private
      */
-    this.auth_ = AuthenticationService;
+    this.authenticationService_ = AuthenticationService;
 
     /**
      * @type {string}
@@ -217,9 +217,9 @@ export default class {
 
           if (this.dataset) {
             // add the Auth header if searching for users
-            if (this.dataset.indexOf('u') > -1 && this.auth_.isAuthenticated()) {
+            if (this.dataset.indexOf('u') > -1 && this.authenticationService_.isAuthenticated()) {
               settings['headers'] = {
-                'Authorization': 'JWT token="' + this.auth_.userData.token + '"'
+                'Authorization': 'JWT token="' + this.authenticationService_.userData.token + '"'
               };
             }
             url = url + '&t=' + this.dataset.split('').join(',');

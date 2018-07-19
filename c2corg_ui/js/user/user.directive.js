@@ -7,7 +7,9 @@ import template from './user.html';
  * @return {angular.Directive} The directive specs.
  * @ngInject
  */
-const UserDirective = function() {
+const UserDirective = () => {
+  'ngInject';
+
   return {
     restrict: 'E',
     controller: 'UserController',

@@ -22,7 +22,7 @@ export default class ProtectDocumentController {
      * @type {app.Authentication}
      * @private
      */
-    this.auth_ = AuthenticationService;
+    this.authenticationService_ = AuthenticationService;
 
     /**
      * @type {app.Alerts}
@@ -48,7 +48,7 @@ export default class ProtectDocumentController {
    * @export
    */
   protect() {
-    if (this.auth_.isModerator()) {
+    if (this.authenticationService_.isModerator()) {
       this.apiService_.protectDocument(this.documentData.document_id).then((response) => {
         this.documentData['protected'] = true;
         this.appAlerts_.addSuccess(this.gettextCatalog_.getString(
@@ -63,7 +63,7 @@ export default class ProtectDocumentController {
    * @export
    */
   unprotect() {
-    if (this.auth_.isModerator()) {
+    if (this.authenticationService_.isModerator()) {
       this.apiService_.unprotectDocument(this.documentData.document_id).then(response => {
         this.documentData['protected'] = false;
         this.appAlerts_.addSuccess(this.gettextCatalog_.getString('Document is no longer protected'));

@@ -14,7 +14,7 @@ export default class RevertDocumentController {
      * @type {app.Authentication}
      * @private
      */
-    this.auth_ = AuthenticationService;
+    this.authenticationService_ = AuthenticationService;
 
     /**
      * @type {app.Api}
@@ -48,7 +48,7 @@ export default class RevertDocumentController {
     const gettext = function(str) {
       return catalog.getString(str);
     };
-    if (this.auth_.isModerator() && window.confirm(gettext(
+    if (this.authenticationService_.isModerator() && window.confirm(gettext(
       'Are you sure you want to revert to this version of the document?'
     ))) {
       this.apiService_.revertDocument(documentId, lang, versionId).then(

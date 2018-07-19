@@ -12,7 +12,7 @@ export default class ProtectUrlBtnController {
      * @type {app.Authentication}
      * @private
      */
-    this.auth_ = AuthenticationService;
+    this.authenticationService_ = AuthenticationService;
 
     /**
      * @type {string}
@@ -22,7 +22,7 @@ export default class ProtectUrlBtnController {
   }
 
   redirectToProtectedUrl(url) {
-    if (this.auth_.isAuthenticated()) {
+    if (this.authenticationService_.isAuthenticated()) {
       window.location.href = url;
     } else {
       window.location.href = '{authUrl}#to={redirect}'

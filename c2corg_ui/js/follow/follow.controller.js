@@ -19,7 +19,7 @@ export default class FollowController {
      * @type {app.Authentication}
      * @private
      */
-    this.authService_ = AuthenticationService;
+    this.authenticationService_ = AuthenticationService;
 
     /**
      * @type {boolean}
@@ -45,7 +45,7 @@ export default class FollowController {
    * @export
    */
   canFollow() {
-    return this.authService_.isAuthenticated() && this.authService_.userData.id !== this.docId;
+    return this.authenticationService_.isAuthenticated() && this.authenticationService_.userData.id !== this.docId;
   }
 
 

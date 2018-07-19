@@ -40,14 +40,14 @@ export default class XreportEditingController extends DocumentEditingController 
      */
     this.today = new Date();
 
-    if (this.auth.isAuthenticated()) {
+    if (this.authenticationService.isAuthenticated()) {
 
       this.scope[this.modelName]['associations']['users'].push({
-        'document_id': this.auth.userData.id,
-        'name': this.auth.userData.name,
+        'document_id': this.authenticationService.userData.id,
+        'name': this.authenticationService.userData.name,
         'locales': [
           {
-            'lang': this.auth.userData.lang
+            'lang': this.authenticationService.userData.lang
           }
         ]
       });

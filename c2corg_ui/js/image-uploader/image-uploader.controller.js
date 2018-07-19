@@ -48,7 +48,7 @@ export default class ImageUploaderController {
      * @type {app.Authentication}
      * @private
      */
-    this.auth_ = AuthenticationService;
+    this.authenticationService_ = AuthenticationService;
 
     /**
      * @type {String}
@@ -482,7 +482,7 @@ export default class ImageUploaderController {
    * @export
    */
   filterImageTypes(imageTypes) {
-    if (this.auth_.isModerator()) {
+    if (this.authenticationService_.isModerator()) {
       // moderators have access to all image types
       return imageTypes;
     }

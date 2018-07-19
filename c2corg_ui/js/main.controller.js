@@ -1,13 +1,12 @@
 /**
  * @param {angularGettext.Catalog} gettextCatalog Gettext catalog.
  * @param {app.Api} ApiService The API service
- * @param {app.Authentication} AuthenticationService
  * @param {string} authUrl Base URL of the authentication page.
  * @constructor
  * @ngInject
  */
 export default class MainController {
-  constructor($scope, gettextCatalog, ApiService, AuthenticationService, authUrl, UtilsService) {
+  constructor($scope, gettextCatalog, ApiService, authUrl, UtilsService) {
     'ngInject';
 
     this.utilsService_ = UtilsService;
@@ -29,18 +28,6 @@ export default class MainController {
      * @export
      */
     this.apiService = ApiService;
-
-    /**
-     * @type {app.Authentication}
-     * @private
-     */
-    this.auth_ = AuthenticationService;
-
-    /**
-     * @type {string}
-     * @private
-     */
-    this.authUrl_ = authUrl;
   }
 
 

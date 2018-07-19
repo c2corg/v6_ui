@@ -66,7 +66,7 @@ export default class OutingEditingController extends DocumentEditingController {
 
     this.moment = moment;
 
-    if (this.auth.isAuthenticated()) {
+    if (this.authenticationService.isAuthenticated()) {
       // allow association only for a new outing to existing route
       if (ngeoLocation.hasFragmentParam('r')) {
         const routeId = parseInt(ngeoLocation.getFragmentParam('r'), 10);
@@ -84,11 +84,11 @@ export default class OutingEditingController extends DocumentEditingController {
       if (!this.id) {
         // for a new outing, associate author
         this.scope[this.modelName]['associations']['users'].push({
-          'document_id': this.auth.userData.id,
-          'name': this.auth.userData.name,
+          'document_id': this.authenticationService.userData.id,
+          'name': this.authenticationService.userData.name,
           'locales': [
             {
-              'lang': this.auth.userData.lang,
+              'lang': this.authenticationService.userData.lang,
               'version': 1
             }
           ]
@@ -113,7 +113,7 @@ export default class OutingEditingController extends DocumentEditingController {
       userIds.push(user['document_id']);
     });
 
-    if (this.auth.hasEditRights('outings', {'users': userIds})) {
+    if (this.authenticationService.hasEditRights('outings', {'users': userIds})) {
       outing = this.formatOuting_(outing);
       this.differentDates = this.moment(outing['date_start']).diff(outing['date_end']) !== 0;
       if (!this.differentDates) {

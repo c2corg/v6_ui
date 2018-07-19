@@ -57,7 +57,7 @@ export default class ApiService {
      * @type {app.Authentication}
      * @private
      */
-    this.auth_ = AuthenticationService;
+    this.authenticationService_ = AuthenticationService;
 
     const excludedCategories = [
       95,  // Partenaires : Escalade, SAE
@@ -493,7 +493,7 @@ export default class ApiService {
     if (userId) {
       url = '/profile-feed';
       params['u'] = userId;
-    } else if (this.auth_.isAuthenticated() && isPersonal) {
+    } else if (this.authenticationService_.isAuthenticated() && isPersonal) {
       url = '/personal-feed';
     } else {
       url = '/feed';

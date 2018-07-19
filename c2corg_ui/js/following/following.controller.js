@@ -21,7 +21,7 @@ export default class FollowingController {
      * @type {app.Authentication}
      * @private
      */
-    this.auth_ = AuthenticationService;
+    this.authenticationService_ = AuthenticationService;
 
     /**
      * @type {Object}
@@ -41,7 +41,7 @@ export default class FollowingController {
      */
     this.pausedIds_ = [];
 
-    if (this.auth_.isAuthenticated()) {
+    if (this.authenticationService_.isAuthenticated()) {
       this.apiService_.getFollowing().then((response) => {
         this.following = response['data']['following'];
         this.followingIds = this.following.map((user) => {
@@ -85,7 +85,7 @@ export default class FollowingController {
    */
   addUser(user) {
     const id = user.document_id;
-    if (this.followingIds.indexOf(id) > -1 || this.auth_.userData.id === id) {
+    if (this.followingIds.indexOf(id) > -1 || this.authenticationService_.userData.id === id) {
       // do nothing if user to add is already followed or is the current user
       return;
     }

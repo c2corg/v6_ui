@@ -19,7 +19,7 @@ export default class UserController {
      * @type {app.Authentication}
      * @export
      */
-    this.auth = AuthenticationService;
+    this.authenticationService = AuthenticationService;
 
     /**
      * @type {app.Api}
@@ -53,7 +53,7 @@ export default class UserController {
 
     if (this.ngeoLocation_.hasParam('logout')) {
       // Logout from API by removing User data
-      this.auth.removeUserData();
+      this.authenticationService.removeUserData();
     }
   }
 
@@ -73,7 +73,7 @@ export default class UserController {
     this.apiService_.logoutFromApiAndDiscourse().then(() => {
       this.alerts_.addSuccess(this.gettext('You have been disconnected'));
     }).finally(() => {
-      this.auth.removeUserData();
+      this.authenticationService.removeUserData();
       const path = this.ngeoLocation_.getPath();
       if (path.indexOf('/edit/') !== -1 || path.indexOf('/account') !== -1) {
         // The user is editing a document or viewing the account configuration.
@@ -95,7 +95,7 @@ export default class UserController {
     if (opt_protected && !this.isModerator()) {
       return false;
     }
-    return this.auth.hasEditRights(doctype, options);
+    return this.authenticationService.hasEditRights(doctype, options);
   }
 
 
@@ -104,14 +104,14 @@ export default class UserController {
    * @export
    */
   isModerator() {
-    return this.auth.isModerator();
+    return this.authenticationService.isModerator();
   }
 
   /**
    * @export
    */
   goToOutingsPage() {
-    window.location.href = '/outings#u=' + this.auth.userData.id;
+    window.location.href = '/outings#u=' + this.authenticationService.userData.id;
     window.location.reload();
   }
 }

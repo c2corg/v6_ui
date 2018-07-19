@@ -31,7 +31,7 @@ export default class RouteEditingController extends DocumentEditingController {
 
     this.utilsService = UtilsService;
 
-    if (this.auth.isAuthenticated()) {
+    if (this.authenticationService.isAuthenticated()) {
       // allow association only for a new route to existing waypoint
       if (ngeoLocation.hasFragmentParam('w')) {
         const waypointId = parseInt(ngeoLocation.getFragmentParam('w'), 10);
