@@ -15,7 +15,7 @@ module.exports = merge(common, {
       sourceMap: true
     }),
     new webpack.DefinePlugin({
-      'DEBUG': true
+      'DEBUG': false
     })
   ]
 });
