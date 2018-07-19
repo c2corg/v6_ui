@@ -1,3 +1,5 @@
+require('moment');
+
 import angular from 'angular';
 import 'angular-gettext';
 import 'angular-messages';
@@ -161,10 +163,5 @@ angular
   .controller('MainController', MainController)
   .factory('HttpAuthenticationInterceptor', HttpAuthenticationInterceptor)
   .config($httpProvider => $httpProvider.interceptors.push('HttpAuthenticationInterceptor'))
-  .filter('trustAsHtml', $sce => {
-    'ngInject';
-
-    return text => $sce.trustAsHtml(text);
-  })
   .filter('capitalize', () => token => token.charAt(0).toUpperCase() + token.slice(1))
   .constant('moment', require('moment-timezone'));

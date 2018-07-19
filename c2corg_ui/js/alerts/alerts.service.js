@@ -69,7 +69,7 @@ export default class AlertsService {
   addSuccess(msg) {
     this.add({
       type: 'success',
-      msg,
+      msg: this.gettextCatalog_.getString(msg),
       timeout: 5000
     });
   }
@@ -82,7 +82,7 @@ export default class AlertsService {
   addError(msg) {
     this.add({
       type: 'danger',
-      msg,
+      msg: this.gettextCatalog_.getString(msg),
       timeout: 5000
     });
   }
