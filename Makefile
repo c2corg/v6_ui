@@ -23,12 +23,27 @@ else
 TOUCHBACK_TXRC = $(TOUCH_DATE) "$(shell $(STAT_LAST_MODIFIED) $(HOME)/.transifexrc)" $(HOME)/.transifexrc
 endif
 
+# JavaScript dependencies that are concatenated into a single file
+LIBS_JS_FILES += \
+		node_modules/jquery/dist/jquery.min.js \
+		node_modules/bootstrap-slider/dist/bootstrap-slider.min.js \
+		node_modules/bootstrap-markdown/js/bootstrap-markdown.js \
+		node_modules/bootstrap/dist/js/bootstrap.min.js \
+		node_modules/bootstrap/dist/js/bootstrap.min.js \
+		node_modules/corejs-typeahead/dist/typeahead.bundle.min.js \
+		node_modules/moment/min/moment.min.js \
+		node_modules/moment-timezone/builds/moment-timezone-with-data.min.js \
+		node_modules/blueimp-load-image/js/load-image.all.min.js \
+		node_modules/photoswipe/dist/photoswipe.min.js \
+		node_modules/photoswipe/dist/photoswipe-ui-default.min.js \
+		node_modules/file-saver/FileSaver.min.js
+
 # CSS files of dependencies that are concatenated into a single file
 LIBS_CSS_FILES += \
-    node_modules/bootstrap-slider/dist/css/bootstrap-slider.css \
-    node_modules/bootstrap-markdown/css/bootstrap-markdown.min.css \
-    node_modules/photoswipe/dist/photoswipe.css \
-    node_modules/photoswipe/dist/default-skin/default-skin.css
+		node_modules/bootstrap-slider/dist/css/bootstrap-slider.css \
+		node_modules/bootstrap-markdown/css/bootstrap-markdown.min.css \
+		node_modules/photoswipe/dist/photoswipe.css \
+		node_modules/photoswipe/dist/default-skin/default-skin.css
 
 
 # variables used in config files (*.in)
@@ -69,7 +84,7 @@ help:
 check: flake8 lint build test
 
 .PHONY: build
-build: c2corg_ui/static/build/bundle.js less compile-catalog $(TEMPLATE_FILES) c2corg_ui/static/build/deps.css
+build: c2corg_ui/static/build/bundle.js less compile-catalog $(TEMPLATE_FILES) deps
 
 .PHONY: clean
 clean:
@@ -252,6 +267,13 @@ $(TEMPLATE_FILES): %: %.in
 publish: template
 	scripts/travis-build.sh
 	scripts/travis-publish.sh
+
+deps: c2corg_ui/static/build/deps.js c2corg_ui/static/build/deps.css
+
+# concatenate all JS dependencies into one file
+c2corg_ui/static/build/deps.js: $(LIBS_JS_FILES) c2corg_ui/static/build/locale_moment
+	@echo "Creating deps.js"
+	awk 'FNR==1{print ";\n"}1' $(LIBS_JS_FILES) > $@
 
 # copy locales of moment.js
 c2corg_ui/static/build/locale_moment: .build/node_modules.timestamp

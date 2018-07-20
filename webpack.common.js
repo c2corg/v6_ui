@@ -27,14 +27,6 @@ module.exports = {
       }
     ]
   },
-  plugins: [
-    new webpack.ProvidePlugin({
-      jQuery: 'jquery',
-      $: 'jquery',
-      jquery: 'jquery',
-      'window.jQuery': 'jquery'
-    })
-  ],
   resolve: {
     alias: {
       'ngeo': path.resolve(__dirname, 'node_modules/ngeo/src'),
