@@ -20,10 +20,13 @@ import {transform, get} from 'ol/proj';
  */
 export default class ImageUploaderController {
   constructor($scope, $uibModal, $compile, $q, AlertsService, ApiService, DocumentService, imageUrl,
-    AuthenticationService, UtilsService, moment) {
+    AuthenticationService, UtilsService, moment, documentEditing) {
     'ngInject';
 
     this.moment = moment;
+
+    this.documentEditing = documentEditing;
+
     this.utilsService_ = UtilsService;
 
     /**
@@ -416,10 +419,10 @@ export default class ImageUploaderController {
     let lon = file['exif']['GPSLongitude'].split(',');
     lat = this.utilsService_.convertDMSToDecimal(lat[0], lat[1], lat[2], file['exif']['GPSLatitudeRef']);
     lon = this.utilsService_.convertDMSToDecimal(lon[0], lon[1], lon[2], file['exif']['GPSLongitudeRef']);
-    const worldExtent = get('EPSG:4326').getExtent();
+    const worldExtent = get(this.documentEditing.FORM_PROJ).getExtent();
 
     if (!isNaN(lat) && !isNaN(lon) && containsXY(worldExtent, lon, lat)) {
-      const location = transform([lon, lat], 'EPSG:4326', 'EPSG:3857');
+      const location = transform([lon, lat], this.documentEditing.FORM_PROJ, this.documentEditing.DATA_PROJ);
       const geom = {'coordinates': location, 'type': 'Point'};
 
       file['metadata']['geometry'] = {'geom': JSON.stringify(geom)};
@@ -441,7 +444,7 @@ export default class ImageUploaderController {
     this.modal_.open({
       animation: true,
       template: this.compile_(template)(this.scope_),
-      controller: 'AppImageUploaderModalController as imageModalCtrl',
+      controller: 'ImageUploaderModalController as imageModalCtrl',
       size: 'xl'
     });
   }

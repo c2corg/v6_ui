@@ -17,8 +17,10 @@ import olTilegridWMTS from 'ol/tilegrid/WMTS';
  * @export
  */
 export default class LayertreeSelectorController {
-  constructor(ngeoBackgroundLayerMgr, mapApiKeys) {
+  constructor(ngeoBackgroundLayerMgr, mapApiKeys, documentEditing) {
     'ngInject';
+
+    this.documentEditing = documentEditing;
 
     /**
      * @type {ngeo.BackgroundLayerMgr}
@@ -186,7 +188,7 @@ export default class LayertreeSelectorController {
   createIgnSource_(layer, format = 'jpeg') {
     const resolutions = [];
     const matrixIds = [];
-    const proj3857 = get('EPSG:3857');
+    const proj3857 = get(this.documentEditing.DATA_PROJ);
     const maxResolution = getWidth(proj3857.getExtent()) / 256;
 
     for (let i = 0; i < 18; i++) {
@@ -205,7 +207,7 @@ export default class LayertreeSelectorController {
       layer: layer,
       matrixSet: 'PM',
       format: `image/${format}`,
-      projection: 'EPSG:3857',
+      projection: this.documentEditing.DATA_PROJ,
       tileGrid: tileGrid,
       style: 'normal',
       attributions: [new olAttribution({

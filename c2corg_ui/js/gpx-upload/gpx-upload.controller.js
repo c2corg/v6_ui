@@ -6,7 +6,7 @@ import olFormatGPX from 'ol/format/GPX';
  * @ngInject
  */
 export default class GpxUploadController {
-  constructor($scope) {
+  constructor($scope, documentEditing) {
     'ngInject';
 
     /**
@@ -14,6 +14,8 @@ export default class GpxUploadController {
      * @private
      */
     this.scope_ = $scope;
+
+    this.documentEditing = documentEditing;
 
     /**
      * @type {boolean|undefined}
@@ -40,7 +42,7 @@ export default class GpxUploadController {
   importGpx_(gpx) {
     const gpxFormat = new olFormatGPX();
     const features = gpxFormat.readFeatures(gpx, {
-      featureProjection: 'EPSG:3857'
+      featureProjection: this.documentEditing.DATA_PROJ
     });
     if (features.length) {
       this.scope_.$root.$emit('featuresUpload', features);

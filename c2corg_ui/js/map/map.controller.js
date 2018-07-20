@@ -8,7 +8,7 @@ import olControlScaleLine from 'ol/control/ScaleLine';
 import olFormatGeoJSON from 'ol/format/GeoJSON';
 import olFormatGPX from 'ol/format/GPX';
 import {getCenter, getWidth, getHeight} from 'ol/extent';
-import olEventsCondition from 'ol/events/condition';
+import {shiftKeyOnly, singleClick} from 'ol/events/condition';
 import olGeomMultiLineString from 'ol/geom/MultiLineString';
 import olInteractionDragAndDrop from 'ol/interaction/DragAndDrop';
 import olInteractionDraw from 'ol/interaction/Draw';
@@ -68,7 +68,7 @@ export {DEFAULT_EXTENT, DEFAULT_ZOOM, DEFAULT_POINT_ZOOM};
  */
 export default class MapController {
   constructor($scope, mapFeatureCollection, ngeoLocation, UrlService, BiodivsportsService, LangService, $uibModal,
-    imgPath, UtilsService, SimplifyService) {
+    imgPath, UtilsService, SimplifyService, documentEditing) {
     'ngInject';
 
     this.utilsService_ = UtilsService;
@@ -76,6 +76,8 @@ export default class MapController {
     this.simplifyService_ = SimplifyService;
 
     this.mapFeatureCollection_ = mapFeatureCollection;
+
+    this.documentEditing = documentEditing;
 
     /**
      * @type {angular.Scope}
@@ -300,10 +302,7 @@ export default class MapController {
           // the SHIFT key must be pressed to delete vertices, so
           // that new vertices can be drawn at the same position
           // of existing vertices
-          deleteCondition: function(event) {
-            return olEventsCondition.shiftKeyOnly(event) &&
-              olEventsCondition.singleClick(event);
-          }
+          deleteCondition: event => shiftKeyOnly(event) && singleClick(event)
         });
         modify.on('modifyend', this.handleModify_.bind(this));
         this.map.addInteraction(modify);
@@ -321,7 +320,7 @@ export default class MapController {
       if (this.showBiodivsportsAreas) {
         let extent = this.view_.calculateExtent(this.map.getSize() || null);
         // get extent in WGS format
-        extent = transformExtent(extent, 'EPSG:3857', 'EPSG:4326');
+        extent = transformExtent(extent, this.documentEditing.DATA_PROJ, this.documentEditing.FORM_PROJ);
         this.biodivSportsService_.fetchData(extent, this.biodivSportsActivities).then(this.addBiodivsportsData_.bind(this));
       }
     });
@@ -339,8 +338,8 @@ export default class MapController {
       const result = results[i];
       let geometry = result['geometry'];
       geometry = this.geojsonFormat_.readGeometry(geometry, {
-        dataProjection: 'EPSG:4326',
-        featureProjection: 'EPSG:3857'
+        dataProjection: this.documentEditing.FORM_PROJ,
+        featureProjection: this.documentEditing.DATA_PROJ
       });
       const feature = new olFeature({
         geometry,

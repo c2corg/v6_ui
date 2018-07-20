@@ -20,8 +20,10 @@ const SEARCH_URL = 'https://photon.komoot.de/api/';
  * @ignore
  */
 export default class MapSearchController {
-  constructor($rootScope, $compile, gettextCatalog, documentEditing) {
+  constructor(gettextCatalog, documentEditing) {
     'ngInject';
+
+    this.documentEditing = documentEditing;
 
     /**
      * @type {ol.Map}
@@ -158,7 +160,7 @@ export default class MapSearchController {
     let geomOrExtent;
     if (feature.get('extent')) {
       const extent = /** @type{ol.Extent} */ (feature.get('extent'));
-      geomOrExtent = transformExtent(extent, 'EPSG:4326', 'EPSG:3857');
+      geomOrExtent = transformExtent(extent, this.documentEditing.FORM_PROJ, this.documentEditing.DATA_PROJ);
     } else {
       geomOrExtent = /** @type {ol.geom.SimpleGeometry} */
         (feature.getGeometry());

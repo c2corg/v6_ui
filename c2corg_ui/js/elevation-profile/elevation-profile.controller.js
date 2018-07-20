@@ -20,7 +20,7 @@ import {line} from 'd3-shape';
  * @ngInject
  */
 export default class ElevationProfileController {
-  constructor($scope, mapFeatureCollection, LangService) {
+  constructor($scope, mapFeatureCollection, LangService, documentEditing) {
     'ngInject';
 
     /**
@@ -34,6 +34,8 @@ export default class ElevationProfileController {
      * @private
      */
     this.featureCollection_ = mapFeatureCollection;
+
+    this.documentEditing = documentEditing;
 
     /**
      * @export
@@ -87,8 +89,8 @@ export default class ElevationProfileController {
       let d = 0;
       if (i > 0) {
         // convert from web mercator to lng/lat
-        const deg1 = transform([coords[i][0], coords[i][1]], 'EPSG:3857', 'EPSG:4326');
-        const deg2 = transform([coords[i - 1][0], coords[i - 1][1]], 'EPSG:3857', 'EPSG:4326');
+        const deg1 = transform([coords[i][0], coords[i][1]], this.documentEditing.DATA_PROJ, this.documentEditing.FORM_PROJ);
+        const deg2 = transform([coords[i - 1][0], coords[i - 1][1]], this.documentEditing.DATA_PROJ, this.documentEditing.FORM_PROJ);
         // arc distance x earth radius
         d = geoDistance(deg1, deg2) * 6371;
       }

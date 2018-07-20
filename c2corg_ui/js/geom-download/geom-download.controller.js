@@ -11,7 +11,7 @@ import olFormatKML from 'ol/format/KML';
  * @ngInject
  */
 export default class GeomDownloadController {
-  constructor(ngeoDownload, mapFeatureCollection) {
+  constructor(ngeoDownload, mapFeatureCollection, documentEditing) {
     'ngInject';
 
     /**
@@ -25,6 +25,8 @@ export default class GeomDownloadController {
      * @private
      */
     this.featureCollection_ = mapFeatureCollection;
+
+    this.documentEditing = documentEditing;
   }
 
 
@@ -47,7 +49,7 @@ export default class GeomDownloadController {
       }
       const filename = feature.get('documentId') + extension;
       const content = format.writeFeatures([feature], {
-        featureProjection: 'EPSG:3857'
+        featureProjection: this.documentEditing.DATA_PROJ
       });
       this.download_(content, filename, mimetype + ';charset=utf-8');
     }
