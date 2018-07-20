@@ -137,11 +137,11 @@ export default class UtilsService {
   createImageSlide(file, imageUrl) {
     const smallImage = this.createImageUrl(file.filename, 'SI');
     const bigImage = this.createImageUrl(file.filename, 'BI');
-    const title = escape(file['locales'][0]['title']);
-    const ahref = '<a href="' + imageUrl + bigImage + '" data-info-id="' + file['image_id'] + '-slide" title="' + title + '">';
+    const title = escape(file.locales[0].title);
+    const ahref = '<a href="' + imageUrl + bigImage + '" data-info-id="' + file.image_id + '-slide" title="' + title + '">';
     const img = '<img src="' + imageUrl + smallImage + '"></a>';
 
-    return '<figure id="' + file['image_id'] + '">' + ahref + img + '<c2c-slide-info></c2c-slide-info></figure>';
+    return '<figure id="' + file.image_id + '">' + ahref + img + '<c2c-slide-info></c2c-slide-info></figure>';
   }
 
 

@@ -57,7 +57,7 @@ export default class ImageUploaderController {
      * @type {String}
      * @private
      */
-    this.imageurlService_ = imageUrl;
+    this.imageUrl_ = imageUrl;
 
     /**
      * @type {app.Alerts}
@@ -91,27 +91,9 @@ export default class ImageUploaderController {
 
     /**
      * @type {Array.<string>}
-     * @export
-     */
-    this.activities;
-
-    /**
-     * @type {Array.<string>}
      * @private
      */
     this.defaultActivities_ = this.documentService.document.activities || [];
-
-    /**
-     * @type {Array.<string>}
-     * @export
-     */
-    this.types;
-
-    /**
-     * @type {Array.<string>}
-     * @export
-     */
-    this.categories;
 
     /**
      * @type {string}
@@ -131,9 +113,17 @@ export default class ImageUploaderController {
      */
     this.saving = false;
 
-    this.scope_['activities'] = this.activities;
-    this.scope_['types'] = this.types;
-    this.scope_['categories'] = this.categories;
+    /**
+     * @type {boolean}
+     * @export
+     */
+    this.areAllUploaded = false;
+  }
+
+  $onInit() {
+    this.scope_.activities = this.activities;
+    this.scope_.types = this.types;
+    this.scope_.categories = this.categories;
 
     this.scope_.$watch(() => {
       return this.files;
@@ -142,12 +132,6 @@ export default class ImageUploaderController {
         this.processFiles_();
       }
     });
-
-    /**
-     * @type {boolean}
-     * @export
-     */
-    this.areAllUploaded = false;
   }
 
 
@@ -160,19 +144,19 @@ export default class ImageUploaderController {
 
     for (let i = 0; i < this.files.length; i++) {
       file = this.files[i];
-      if (!file['metadata']) {
+      if (!file.metadata) {
         angular.extend(file, {
-          'src': this.utilsService_.getImageFileBase64Source(file),
-          'queued': true,
-          'progress': 0,
-          'processed': false,
-          'metadata': {
-            'id': file['name'] + '-' + new Date().toISOString(),
-            'activities': angular.copy(this.defaultActivities_),
-            'categories': [],
-            'image_type': this.image_type_,
-            'elevation': null,
-            'geometry': null
+          src: this.utilsService_.getImageFileBase64Source(file),
+          queued: true,
+          progress: 0,
+          processed: false,
+          metadata: {
+            id: file.name + '-' + new Date().toISOString(),
+            activities: angular.copy(this.defaultActivities_),
+            categories: [],
+            image_type: this.image_type_,
+            elevation: null,
+            geometry: null
           }
         });
         this.getImageMetadata_(file);
@@ -192,11 +176,11 @@ export default class ImageUploaderController {
       file = this.files[i];
 
       // avoid uploading multiple files at the same time
-      if (!file['queued'] && !file['processed'] && !file['failed']) {
+      if (!file.queued && !file.processed && !file.failed) {
         return;
       }
 
-      if (file['queued']) {
+      if (file.queued) {
         this.uploadFile_(file).then(() => {
           this.upload_();
         });
@@ -215,30 +199,30 @@ export default class ImageUploaderController {
     const canceller = this.q_.defer();
     const promise = this.apiService_.uploadImage(file, canceller.promise, ((file, event) => {
       const progress = event.loaded / event.total;
-      file['progress'] = 100 * progress;
+      file.progress = 100 * progress;
     }).bind(this, file));
 
-    file['queued'] = false;
-    file['uploading'] = promise;
-    file['canceller'] = canceller;
+    file.queued = false;
+    file.uploading = promise;
+    file.canceller = canceller;
 
     return promise.then((resp) => {
       const image = new Image();
-      image['src'] = file['src'];
+      image.src = file.src;
 
-      file['metadata']['filename'] = resp['data']['filename'];
-      file['processed'] = true;
+      file.metadata.filename = resp.data.filename;
+      file.processed = true;
 
     }, (resp) => {
-      if (file['manuallyAborted']) {
+      if (file.manuallyAborted) {
         return;
       }
       if (resp.status === -1) {
-        file['failed'] = 'Timeout';
+        file.failed = 'Timeout';
       } else {
-        file['failed'] = resp.statusText;
+        file.failed = resp.statusText;
       }
-      file['progress'] = 0;
+      file.progress = 0;
     });
   }
 
@@ -251,7 +235,7 @@ export default class ImageUploaderController {
     let file;
     for (let i = 0; i < this.files.length; i++) {
       file = this.files[i];
-      if (!file['processed']) {
+      if (!file.processed) {
         this.areAllUploaded = false;
         return;
       }
@@ -268,20 +252,20 @@ export default class ImageUploaderController {
     const defer = this.q_.defer();
 
     this.apiService_.createImages(this.files, this.documentService.document)
-      .then((data) => {
-        const images = data['config']['data']['images'];
-        const imageIds = data['data']['images']; // newly created document_id
+      .then(data => {
+        const images = data.config.data.images;
+        const imageIds = data.data.images; // newly created document_id
 
         $('.img-container').each((i) => {
-          const id = imageIds[i]['document_id'];
-          images[i]['image_id'] = 'image-' + id;
+          const id = imageIds[i].document_id;
+          images[i].image_id = 'image-' + id;
           const element = this.utilsService_.createImageSlide(images[i], this.imageUrl_);
           $('.photos').append(element);
 
           const scope = this.scope_.$new(true);
-          scope['photo'] = images[i];
-          scope['photo']['image_id'] = 'image-' + id;
-          this.documentService.document.associations['images'].push(scope['photo']);
+          scope.photo = images[i];
+          scope.photo.image_id = 'image-' + id;
+          this.documentService.document.associations.images.push(scope.photo);
           this.compile_($('#image-' + id).contents())(scope); // compile the figure thumbnail with <c2c-slide-info>
 
         });
@@ -312,8 +296,8 @@ export default class ImageUploaderController {
    * @export
    */
   retryFileUpload(file) {
-    file['failed'] = false;
-    file['queued'] = true;
+    file.failed = false;
+    file.queued = true;
     this.upload_();
   }
 
@@ -323,9 +307,9 @@ export default class ImageUploaderController {
    * @export
    */
   abortFileUpload(file) {
-    if (!file['queued'] && !file['failed']) {
-      file['manuallyAborted'] = true;
-      file['canceller'].resolve();
+    if (!file.queued && !file.failed) {
+      file.manuallyAborted = true;
+      file.canceller.resolve();
     }
     this.deleteImage(this.files.indexOf(file));
     this.areAllUploadedCheck_();
@@ -362,10 +346,10 @@ export default class ImageUploaderController {
     window.loadImage.parseMetaData(file, (data) => {
       const exif = data.exif;
       if (exif) {
-        file['exif'] = exif.getAll();
+        file.exif = exif.getAll();
 
         this.setExifData_(file);
-        if (file['exif']['GPSLatitude']) {
+        if (file.exif.GPSLatitude) {
           this.setGeolocation_(file);
         }
       }
@@ -378,19 +362,19 @@ export default class ImageUploaderController {
    * @private
    */
   setExifData_(file) {
-    const exif = file['exif'];
-    const metadata = file['metadata'];
+    const exif = file.exif;
+    const metadata = file.metadata;
 
     let date = this.parseExifDate_(exif, 'DateTimeOriginal');
     if (date === null) {
       date = this.parseExifDate_(exif, 'DateTime');
     }
-    metadata['date_time'] = date;
-    metadata['exposure_time'] = exif['ExposureTime'];
-    metadata['iso_speed'] = exif['PhotographicSensitivity'];
-    metadata['focal_length'] = exif['FocalLengthIn35mmFilm'];
-    metadata['fnumber'] = exif['FNumber'];
-    metadata['camera_name'] = (exif['Make'] && exif['Model']) ? (exif['Make'] + ' ' + exif['Model']) : null;
+    metadata.date_time = date;
+    metadata.exposure_time = exif.ExposureTime;
+    metadata.iso_speed = exif.PhotographicSensitivity;
+    metadata.focal_length = exif.FocalLengthIn35mmFilm;
+    metadata.fnumber = exif.FNumber;
+    metadata.camera_name = (exif.Make && exif.Model) ? (exif.Make + ' ' + exif.Model) : null;
   }
 
 
@@ -415,23 +399,23 @@ export default class ImageUploaderController {
    * @private
    */
   setGeolocation_(file) {
-    let lat = file['exif']['GPSLatitude'].split(',');
-    let lon = file['exif']['GPSLongitude'].split(',');
-    lat = this.utilsService_.convertDMSToDecimal(lat[0], lat[1], lat[2], file['exif']['GPSLatitudeRef']);
-    lon = this.utilsService_.convertDMSToDecimal(lon[0], lon[1], lon[2], file['exif']['GPSLongitudeRef']);
+    let lat = file.exif.GPSLatitude.split(',');
+    let lon = file.exif.GPSLongitude.split(',');
+    lat = this.utilsService_.convertDMSToDecimal(lat[0], lat[1], lat[2], file.exif.GPSLatitudeRef);
+    lon = this.utilsService_.convertDMSToDecimal(lon[0], lon[1], lon[2], file.exif.GPSLongitudeRef);
     const worldExtent = get(this.documentEditing.FORM_PROJ).getExtent();
 
     if (!isNaN(lat) && !isNaN(lon) && containsXY(worldExtent, lon, lat)) {
       const location = transform([lon, lat], this.documentEditing.FORM_PROJ, this.documentEditing.DATA_PROJ);
       const geom = {'coordinates': location, 'type': 'Point'};
 
-      file['metadata']['geometry'] = {'geom': JSON.stringify(geom)};
-      file['exif']['geo_label'] = toStringHDMS([lon, lat]);
+      file.metadata.geometry = {'geom': JSON.stringify(geom)};
+      file.exif.geo_label = toStringHDMS([lon, lat]);
     }
 
-    const elevation = parseFloat(file['exif']['GPSAltitude']);
+    const elevation = parseFloat(file.exif.GPSAltitude);
     if (!isNaN(elevation)) {
-      file['metadata']['elevation'] = elevation;
+      file.metadata.elevation = elevation;
     }
   }
 
