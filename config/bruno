@@ -4,6 +4,6 @@ export debug_port = 6555
 export instanceid = brunobesson
 export base_url = /${instanceid}
 export api_url = https://api.demov6.camptocamp.org
-export image_backend_url = //images.demov6.camptocamp.org
+export image_backend_url = https://images.demov6.camptocamp.org
 export image_url = //sos.exo.io/c2corg_demov6_active/
 export ign_api_key = he1odfqcapzxc4h25neelhuu
