@@ -52,6 +52,12 @@ export default class XreportEditingController extends DocumentEditingController 
         ]
       });
     }
+
+    this.openDate = false;
+  }
+
+  openDatePicker() {
+    this.openDate = true;
   }
 
   /**

@@ -55,6 +55,12 @@ export default class ImageEditingController extends DocumentEditingController {
     this.initialImageType = null;
 
     this.utilsService = UtilsService;
+
+    this.openDate = false;
+  }
+
+  openDatePicker() {
+    this.openDate = true;
   }
 
   /**

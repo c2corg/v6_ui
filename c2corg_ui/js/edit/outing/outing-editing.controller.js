@@ -63,17 +63,26 @@ export default class OutingEditingController extends DocumentEditingController {
     this.differentDates;
 
     this.utilsService = UtilsService;
+    this.langService_ = LangService;
+    this.apiService_ = ApiService;
+
+    this.ngeoLocation = ngeoLocation;
 
     this.moment = moment;
 
+    this.openDateStart = false;
+    this.openDateEnd = false;
+  }
+
+  $onInit() {
     if (this.authenticationService.isAuthenticated()) {
       // allow association only for a new outing to existing route
-      if (ngeoLocation.hasFragmentParam('r')) {
-        const routeId = parseInt(ngeoLocation.getFragmentParam('r'), 10);
-        ApiService.getDocumentByIdAndDoctype(routeId, 'r', LangService.getLang()).then(
+      if (this.ngeoLocation.hasFragmentParam('r')) {
+        const routeId = parseInt(this.ngeoLocation.getFragmentParam('r'), 10);
+        this.apiService_.getDocumentByIdAndDoctype(routeId, 'r', this.langService_.getLang()).then(
           (doc) => {
             this.documentService.pushToAssociations(
-              doc.data['routes'].documents[0],
+              doc.data.routes.documents[0],
               'routes',
               this.handleAssociation
             );
@@ -83,19 +92,23 @@ export default class OutingEditingController extends DocumentEditingController {
 
       if (!this.id) {
         // for a new outing, associate author
-        this.scope[this.modelName]['associations']['users'].push({
-          'document_id': this.authenticationService.userData.id,
-          'name': this.authenticationService.userData.name,
-          'locales': [
+        this.scope[this.modelName].associations.users.push({
+          document_id: this.authenticationService.userData.id,
+          name: this.authenticationService.userData.name,
+          locales: [
             {
-              'lang': this.authenticationService.userData.lang,
-              'version': 1
+              lang: this.authenticationService.userData.lang,
+              version: 1
             }
           ]
         });
         this.initConditionsLevels_();
       }
     }
+  }
+
+  openDateStartPicker() {
+    this.openDateStart = true;
   }
 
   /**
@@ -109,18 +122,18 @@ export default class OutingEditingController extends DocumentEditingController {
     let outing = this.scope[this.modelName];
     // check if user has right to edit -> the user is one of the associated users
     const userIds = [];
-    outing['associations']['users'].forEach((user) => {
-      userIds.push(user['document_id']);
+    outing.associations.users.forEach(user => {
+      userIds.push(user.document_id);
     });
 
     if (this.authenticationService.hasEditRights('outings', {'users': userIds})) {
       outing = this.formatOuting_(outing);
-      this.differentDates = this.moment(outing['date_start']).diff(outing['date_end']) !== 0;
+      this.differentDates = this.moment(outing.date_start).diff(outing.date_end) !== 0;
       if (!this.differentDates) {
-        outing['date_end'] = undefined;
+        outing.date_end = undefined;
       }
       // Length attributes are stored in meters but shown in kilometers:
-      outing['length_total'] /= 1000;
+      outing.length_total /= 1000;
     } else {
       this.alerts.addError('You have no rights to edit this document.');
       setTimeout(() => { // redirect to the details-view page
@@ -141,42 +154,42 @@ export default class OutingEditingController extends DocumentEditingController {
 
     this.formatOuting_(/** @type appx.Outing */ (data), true);
     // Length attributes are stored in meters but shown in kilometers:
-    data['length_total'] *= 1000;
+    data.length_total *= 1000;
     // filtering outing ratings on activities
-    const activities = data['activities'];
+    const activities = data.activities;
     if (activities.indexOf('skitouring') === -1) {
-      delete data['ski_rating'];
-      delete data['labande_global_rating'];
+      delete data.ski_rating;
+      delete data.labande_global_rating;
     }
     if (activities.indexOf('snowshoeing') === -1) {
-      delete data['snowshoe_rating'];
+      delete data.snowshoe_rating;
     }
     if (activities.indexOf('hiking') === -1) {
-      delete data['hiking_rating'];
+      delete data.hiking_rating;
     }
     if (activities.indexOf('snow_ice_mixed') === -1 &&
         activities.indexOf('mountain_climbing') === -1 &&
         activities.indexOf('rock_climbing') === -1) {
-      delete data['global_rating'];
+      delete data.global_rating;
     }
     if (activities.indexOf('snow_ice_mixed') === -1 &&
         activities.indexOf('mountain_climbing') === -1) {
-      delete data['height_diff_difficulties'];
-      delete data['engagement_rating'];
+      delete data.height_diff_difficulties;
+      delete data.engagement_rating;
     }
     if (activities.indexOf('rock_climbing') === -1) {
-      delete data['equipment_rating'];
-      delete data['rock_free_rating'];
+      delete data.equipment_rating;
+      delete data.rock_free_rating;
     }
     if (activities.indexOf('ice_climbing') === -1) {
-      delete data['ice_rating'];
+      delete data.ice_rating;
     }
     if (activities.indexOf('via_ferrata') === -1) {
-      delete data['via_ferrata_rating'];
+      delete data.via_ferrata_rating;
     }
     if (activities.indexOf('mountain_biking') === -1) {
-      delete data['mtb_up_rating'];
-      delete data['mtb_down_rating'];
+      delete data.mtb_up_rating;
+      delete data.mtb_down_rating;
     }
 
     return data;
@@ -192,9 +205,9 @@ export default class OutingEditingController extends DocumentEditingController {
   formatOuting_(outing, submit) {
     if (submit) {
       // transform condition_levels to a string
-      if (typeof outing.locales[0]['conditions_levels'] !== 'string') {
-        outing.locales[0]['conditions_levels'] =
-          JSON.stringify(outing['locales'][0]['conditions_levels']);
+      if (typeof outing.locales[0].conditions_levels !== 'string') {
+        outing.locales[0].conditions_levels =
+          JSON.stringify(outing.locales[0].conditions_levels);
       }
       if (outing.date_start instanceof Date) {
         outing.date_start = this.moment(outing.date_start).format('YYYY-MM-DD');
@@ -231,11 +244,11 @@ export default class OutingEditingController extends DocumentEditingController {
         this.dateMaxStart = outing.date_end;
       }
 
-      let conditions = outing.locales[0]['conditions_levels'];
+      let conditions = outing.locales[0].conditions_levels;
       // conditions_levels -> to Object, snow_height -> to INT
       if (conditions && typeof conditions === 'string') {
         conditions = JSON.parse(conditions);
-        this.scope[this.modelName]['locales'][0]['conditions_levels'] = conditions;
+        this.scope[this.modelName].locales[0].conditions_levels = conditions;
       } else {
         this.initConditionsLevels_();
       }
@@ -256,63 +269,63 @@ export default class OutingEditingController extends DocumentEditingController {
     let score_climbing = 0;
     let score_route = 0;
     let score_conditions = 0;
-    const activities = doc['activities'];
+    const activities = doc.activities;
 
     if ((activities.indexOf('skitouring') > -1) ||
         (activities.indexOf('snowshoeing') > -1)) {
 
-      if ('description' in doc.locales[0] && doc.locales[0]['description']) {
+      if ('description' in doc.locales[0] && doc.locales[0].description) {
         score_ski = score_ski + 0.5;
       }
 
       score_conditions = 0;
-      if ('geometry' in doc && doc['geometry']) {
-        const geometry = doc['geometry'];
-        if ('geom_detail' in geometry && geometry['geom_detail']) {
+      if ('geometry' in doc && doc.geometry) {
+        const geometry = doc.geometry;
+        if ('geom_detail' in geometry && geometry.geom_detail) {
           score_route++;
         }
       }
-      if ('route_description' in doc.locales[0] && doc.locales[0]['route_description']) {
+      if ('route_description' in doc.locales[0] && doc.locales[0].route_description) {
         score_route++;
       }
       if (score_route > 0) {
         score_ski = score_ski + 0.5;
       }
 
-      if (('elevation_up_snow' in doc && doc['elevation_up_snow']) ||
-          ('elevation_down_snow' in doc && doc['elevation_down_snow']) ||
-          ('snow_quantity' in doc && doc['snow_quantity']) ||
-          ('snow_quality' in doc && doc['snow_quality']) ||
-          ('length_total' in doc && doc['length_total']) ||
-          ('glacier_rating' in doc && doc['glacier_rating'])) {
+      if (('elevation_up_snow' in doc && doc.elevation_up_snow) ||
+          ('elevation_down_snow' in doc && doc.elevation_down_snow) ||
+          ('snow_quantity' in doc && doc.snow_quantity) ||
+          ('snow_quality' in doc && doc.snow_quality) ||
+          ('length_total' in doc && doc.length_total) ||
+          ('glacier_rating' in doc && doc.glacier_rating)) {
         score_ski = score_ski + 0.5;
       }
 
-      if ('weather' in doc.locales[0] && doc.locales[0]['weather']) {
+      if ('weather' in doc.locales[0] && doc.locales[0].weather) {
         score_ski = score_ski + 0.5;
       }
 
-      if ((('access_condition' in doc && doc['access_condition']) && (doc['access_condition'] !== 'snowy') && (doc['elevation_access'])) ||
-          ((doc['access_condition'] === 'snowy') && (doc['elevation_access']) && ('access_comment' in doc.locales[0] && doc.locales[0]['access_comment']))) {
+      if ((('access_condition' in doc && doc.access_condition) && (doc.access_condition !== 'snowy') && (doc.elevation_access)) ||
+          ((doc.access_condition === 'snowy') && (doc.elevation_access) && ('access_comment' in doc.locales[0] && doc.locales[0].access_comment))) {
         score_ski = score_ski + 0.5;
       }
 
-      if ((doc['avalanche_signs'] !== 'no') && ('avalanches' in doc.locales[0] && doc.locales[0]['avalanches'])) {
+      if ((doc.avalanche_signs !== 'no') && ('avalanches' in doc.locales[0] && doc.locales[0].avalanches)) {
         score_ski = score_ski + 0.5;
       }
 
-      if ('condition_rating' in doc && doc['condition_rating']) {
+      if ('condition_rating' in doc && doc.condition_rating) {
         score_ski = score_ski + 0.5;
       }
 
-      if (('level_place' in doc.locales[0]['conditions_levels'][0] && doc.locales[0]['conditions_levels'][0]['level_place']) ||
-          ('level_comment' in doc.locales[0]['conditions_levels'][0] && doc.locales[0]['conditions_levels'][0]['level_comment']) ||
-          ('level_snow_height_total' in doc.locales[0]['conditions_levels'][0] && doc.locales[0]['conditions_levels'][0]['level_snow_height_total']) ||
-          ('level_snow_height_soft' in doc.locales[0]['conditions_levels'][0] && doc.locales[0]['conditions_levels'][0]['level_snow_height_soft'])) {
+      if (('level_place' in doc.locales[0].conditions_levels[0] && doc.locales[0].conditions_levels[0].level_place) ||
+          ('level_comment' in doc.locales[0].conditions_levels[0] && doc.locales[0].conditions_levels[0].level_comment) ||
+          ('level_snow_height_total' in doc.locales[0].conditions_levels[0] && doc.locales[0].conditions_levels[0].level_snow_height_total) ||
+          ('level_snow_height_soft' in doc.locales[0].conditions_levels[0] && doc.locales[0].conditions_levels[0].level_snow_height_soft)) {
         score_conditions = score_conditions + 1;
       }
 
-      if ('conditions' in doc.locales[0] && doc.locales[0]['conditions']) {
+      if ('conditions' in doc.locales[0] && doc.locales[0].conditions) {
         score_conditions = score_conditions + 1;
       }
 
@@ -328,45 +341,45 @@ export default class OutingEditingController extends DocumentEditingController {
         (activities.indexOf('ice_climbing') > -1) ||
         (activities.indexOf('mountain_climbing') > -1)) {
 
-      if ('description' in doc.locales[0] && doc.locales[0]['description']) {
+      if ('description' in doc.locales[0] && doc.locales[0].description) {
         score_ice = score_ice + 1;
       }
 
       score_route = 0;
-      if ('geometry' in doc && doc['geometry']) {
-        const geometry = doc['geometry'];
-        if ('geom_detail' in geometry && geometry['geom_detail']) {
+      if ('geometry' in doc && doc.geometry) {
+        const geometry = doc.geometry;
+        if ('geom_detail' in geometry && geometry.geom_detail) {
           score_route++;
         }
       }
-      if ('route_description' in doc.locales[0] && doc.locales[0]['route_description']) {
+      if ('route_description' in doc.locales[0] && doc.locales[0].route_description) {
         score_route++;
       }
       if (score_route > 0) {
         score_ice = score_ice + 0.5;
       }
 
-      if ('condition_rating' in doc && doc['condition_rating']) {
+      if ('condition_rating' in doc && doc.condition_rating) {
         score_ice = score_ice + 0.5;
       }
 
-      if ('timing' in doc.locales[0] && doc.locales[0]['timing']) {
+      if ('timing' in doc.locales[0] && doc.locales[0].timing) {
         score_ice = score_ice + 0.5;
       }
 
-      if ('weather' in doc.locales[0] && doc.locales[0]['weather']) {
+      if ('weather' in doc.locales[0] && doc.locales[0].weather) {
         score_ice = score_ice + 0.5;
       }
 
       score_conditions = 0;
-      if (('level_place' in doc.locales[0]['conditions_levels'][0] && doc.locales[0]['conditions_levels'][0]['level_place']) ||
-          ('level_comment' in doc.locales[0]['conditions_levels'][0] && doc.locales[0]['conditions_levels'][0]['level_comment']) ||
-          ('level_snow_height_total' in doc.locales[0]['conditions_levels'][0] && doc.locales[0]['conditions_levels'][0]['level_snow_height_total']) ||
-          ('level_snow_height_soft' in doc.locales[0]['conditions_levels'][0] && doc.locales[0]['conditions_levels'][0]['level_snow_height_soft'])) {
+      if (('level_place' in doc.locales[0].conditions_levels[0] && doc.locales[0].conditions_levels[0].level_place) ||
+          ('level_comment' in doc.locales[0].conditions_levels[0] && doc.locales[0].conditions_levels[0].level_comment) ||
+          ('level_snow_height_total' in doc.locales[0].conditions_levels[0] && doc.locales[0].conditions_levels[0].level_snow_height_total) ||
+          ('level_snow_height_soft' in doc.locales[0].conditions_levels[0] && doc.locales[0].conditions_levels[0].level_snow_height_soft)) {
         score_conditions = score_conditions + 1;
       }
 
-      if ('conditions' in doc.locales[0] && doc.locales[0]['conditions']) {
+      if ('conditions' in doc.locales[0] && doc.locales[0].conditions) {
         score_conditions = score_conditions + 1;
       }
 
@@ -384,33 +397,33 @@ export default class OutingEditingController extends DocumentEditingController {
         (activities.indexOf('paragliding') > -1) ||
         (activities.indexOf('slacklining') > -1)) {
 
-      if ('description' in doc.locales[0] && doc.locales[0]['description']) {
+      if ('description' in doc.locales[0] && doc.locales[0].description) {
         score_climbing = score_climbing + 1;
       }
 
-      if ('timing' in doc.locales[0] && doc.locales[0]['timing']) {
+      if ('timing' in doc.locales[0] && doc.locales[0].timing) {
         score_climbing = score_climbing + 0.5;
       }
 
-      if ('weather' in doc.locales[0] && doc.locales[0]['weather']) {
+      if ('weather' in doc.locales[0] && doc.locales[0].weather) {
         score_climbing = score_climbing + 0.5;
       }
 
       score_route = 0;
-      if ('geometry' in doc && doc['geometry']) {
-        const geometry = doc['geometry'];
-        if ('geom_detail' in geometry && geometry['geom_detail']) {
+      if ('geometry' in doc && doc.geometry) {
+        const geometry = doc.geometry;
+        if ('geom_detail' in geometry && geometry.geom_detail) {
           score_route++;
         }
       }
-      if ('route_description' in doc.locales[0] && doc.locales[0]['route_description']) {
+      if ('route_description' in doc.locales[0] && doc.locales[0].route_description) {
         score_route++;
       }
       if (score_route > 0) {
         score_climbing = score_climbing + 0.5;
       }
 
-      if ('conditions' in doc.locales[0] && doc.locales[0]['conditions']) {
+      if ('conditions' in doc.locales[0] && doc.locales[0].conditions) {
         score_climbing = score_climbing + 2;
       } else {
         score_climbing = Math.min(score_climbing, 2);
@@ -428,7 +441,7 @@ export default class OutingEditingController extends DocumentEditingController {
    * @private
    */
   initConditionsLevels_() {
-    this.scope['outing']['locales'][0]['conditions_levels'] = [{
+    this.scope.outing.locales[0].conditions_levels = [{
       'level_snow_height_soft': '',
       'level_snow_height_total': '',
       'level_comment': '',
@@ -445,36 +458,36 @@ export default class OutingEditingController extends DocumentEditingController {
    * @export
    */
   handleAssociation(data, doc, doctype) {
-    doctype = doctype || this.utilsService.getDoctype(doc['type']);
+    doctype = doctype || this.utilsService.getDoctype(doc.type);
 
     // When creating an outing, set the default title and ratings using
     // the first associated route data.
     if (!data.document_id && doctype === 'routes' &&
         data.associations.routes.length === 1) {
       let title = 'title_prefix' in doc.locales[0] &&
-        doc.locales[0]['title_prefix'] ?
-        doc.locales[0]['title_prefix'] + ' : ' : '';
-      title += doc.locales[0]['title'];
-      data.locales[0]['title'] = title;
+        doc.locales[0].title_prefix ?
+        doc.locales[0].title_prefix + ' : ' : '';
+      title += doc.locales[0].title;
+      data.locales[0].title = title;
 
-      data['ski_rating'] = doc['ski_rating'];
-      data['labande_global_rating'] = doc['labande_global_rating'];
-      data['snowshoe_rating'] = doc['snowshoe_rating'];
-      data['hiking_rating'] = doc['hiking_rating'];
-      data['global_rating'] = doc['global_rating'];
-      data['height_diff_difficulties'] = doc['height_diff_difficulties'];
-      data['engagement_rating'] = doc['engagement_rating'];
-      data['equipment_rating'] = doc['equipment_rating'];
-      data['rock_free_rating'] = doc['rock_free_rating'];
-      data['ice_rating'] = doc['ice_rating'];
-      data['via_ferrata_rating'] = doc['via_ferrata_rating'];
-      data['mtb_up_rating'] = doc['mtb_up_rating'];
-      data['mtb_down_rating'] = doc['mtb_down_rating'];
+      data.ski_rating = doc.ski_rating;
+      data.labande_global_rating = doc.labande_global_rating;
+      data.snowshoe_rating = doc.snowshoe_rating;
+      data.hiking_rating = doc.hiking_rating;
+      data.global_rating = doc.global_rating;
+      data.height_diff_difficulties = doc.height_diff_difficulties;
+      data.engagement_rating = doc.engagement_rating;
+      data.equipment_rating = doc.equipment_rating;
+      data.rock_free_rating = doc.rock_free_rating;
+      data.ice_rating = doc.ice_rating;
+      data.via_ferrata_rating = doc.via_ferrata_rating;
+      data.mtb_up_rating = doc.mtb_up_rating;
+      data.mtb_down_rating = doc.mtb_down_rating;
 
-      data['elevation_min'] = doc['elevation_min'];
-      data['elevation_max'] = doc['elevation_max'];
-      data['height_diff_up'] = doc['height_diff_up'];
-      data['height_diff_down'] = doc['height_diff_down'];
+      data.elevation_min = doc.elevation_min;
+      data.elevation_max = doc.elevation_max;
+      data.height_diff_up = doc.height_diff_up;
+      data.height_diff_down = doc.height_diff_down;
     }
 
     return data;

@@ -214,12 +214,12 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
             ## DATE
             <div class="date form-group">
               <label><span translate>date</span> *</label>
-              <div class="input-group" ng-init="openDateStart = false" ng-model="xreport.date"
-                   uib-datepicker-popup="dd MM yyyy" is-open="openDateStart"
+              <div class="input-group" ng-model="xreport.date"
+                   uib-datepicker-popup="dd MM yyyy" is-open="editCtrl.openDate"
                    datepicker-options="{maxDate : editCtrl.today}">
                 <input type="text" disabled class="form-control" value="{{xreport.date | amDateFormat:'Do MMMM YYYY' }}"/>
                 <span class="input-group-btn">
-                  <button type="button" class="btn btn-default" ng-click="openDateStart = true"><span class="glyphicon glyphicon-calendar"></span></button>
+                  <button type="button" class="btn btn-default" ng-click="editCtrl.openDatePicker()"><span class="glyphicon glyphicon-calendar"></span></button>
                 </span>
               </div>
             </div>

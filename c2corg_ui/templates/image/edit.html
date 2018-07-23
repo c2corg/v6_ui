@@ -131,11 +131,11 @@ from c2corg_common.attributes import default_langs, activities, image_types, ima
 
               ## DATE
               <label translate>date</label>
-              <div class="input-group" ng-init="openDateStart = false" ng-model="image.date_time" datepicker-options="{maxDate : editCtrl.today}"
-                   uib-datepicker-popup="dd MM yyyy" is-open="openDateStart">
+              <div class="input-group" ng-model="image.date_time" datepicker-options="{maxDate : editCtrl.today}"
+                   uib-datepicker-popup="dd MM yyyy" is-open="editCtrl.openDatePicker()">
                 <input type="text" disabled class="form-control" value="{{image.date_time | amDateFormat: 'Do MMMM YYYY' }}"/>
                 <span class="input-group-btn">
-                  <button type="button" class="btn btn-default" ng-click="openDateStart = true"><span class="glyphicon glyphicon-calendar"></span></button>
+                  <button type="button" class="btn btn-default" ng-click="openDate = true"><span class="glyphicon glyphicon-calendar"></span></button>
                 </span>
               </div>
 
