@@ -26,9 +26,7 @@ export default class AlertsService {
 
   /**
    * Use this function to annotate a string for extraction by the
-   * gettext extract tool. The call to this function will be eliminated
-   * by the Closure compiler when minifying, so it should not have any
-   * performance effect.
+   * gettext extract tool.
    * See https://angular-gettext.rocketeer.be/dev-guide/annotate-js/
    * @param {string} str String to have extracted by gettext tool
    * @return {string}

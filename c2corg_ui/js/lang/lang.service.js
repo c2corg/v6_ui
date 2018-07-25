@@ -103,6 +103,7 @@ export default class LangService {
   /**
    * Alias of the translate() function, to be used in JS files
    * to have passed strings extracted.
+   * See https://angular-gettext.rocketeer.be/dev-guide/annotate-js/
    * @export
    * @param {string} str
    * @return {string}

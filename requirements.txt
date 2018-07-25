@@ -1,5 +1,3 @@
--e git+https://github.com/camptocamp/pyramid_closure@1.0.0#egg=pyramid_closure
-
 pyramid==1.9.1
 pyramid-debugtoolbar==4.4
 pyramid-mako==1.0.2

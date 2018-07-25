@@ -62,12 +62,6 @@ def main(global_config, **settings):
     # robots.txt
     config.add_asset_views('c2corg_ui:static', 'robots.txt')
 
-    # static views only used in debug mode
-    config.add_static_view('node_modules', settings.get('node_modules_path'),
-                           cache_max_age=3600)
-    config.add_static_view('closure', settings.get('closure_library_path'),
-                           cache_max_age=3600)
-
     # page views
     config.add_route('index', '/')
 

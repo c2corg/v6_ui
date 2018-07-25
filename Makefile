@@ -1,8 +1,6 @@
 SITE_PACKAGES = $(shell .build/venv/bin/python -c "import distutils; print(distutils.sysconfig.get_python_lib())" 2> /dev/null)
 TEMPLATE_FILES_IN = $(filter-out ./.build/% ./node_modules/% ./v6_api/%, $(shell find . -type f -name '*.in'))
 TEMPLATE_FILES = $(TEMPLATE_FILES_IN:.in=)
-CLOSURE_LIBRARY_PATH = $(shell node -e 'process.stdout.write(require("closure-util").getLibraryPath())' 2> /dev/null)
-CLOSURE_COMPILER_PATH = $(shell node -e 'process.stdout.write(require("closure-util").getCompilerPath())' 2> /dev/null)
 OL_JS_FILES = $(shell find node_modules/openlayers/src/ol -type f -name '*.js' 2> /dev/null)
 NGEO_JS_FILES = $(shell find node_modules/ngeo/src -type f -name '*.js' 2> /dev/null)
 APP_JS_FILES = $(shell find c2corg_ui/js -type f -name '*.js')
@@ -261,7 +259,6 @@ apache/wsgi.conf: apache/app-c2corg_ui.wsgi
 $(TEMPLATE_FILES): %: %.in
 	scripts/env_replace < $< > $@
 	chmod --reference $< $@
-	sed -i 's|__CLOSURE_LIBRARY_PATH__|$(CLOSURE_LIBRARY_PATH)|g' $@
 
 .PHONY: publish
 publish: template

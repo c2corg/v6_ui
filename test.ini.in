@@ -2,7 +2,6 @@
 use = config:common.ini
 
 pyramid.includes =
-    pyramid_closure
     pyramid_mako
 
 redis.cache_key_prefix = {redis_cache_key_prefix}_tests
