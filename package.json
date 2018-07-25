@@ -11,7 +11,7 @@
     "build": "webpack --config webpack.dev.js",
     "build-prod": "webpack --config webpack.prod.js",
     "snyk-protect": "snyk protect",
-    "prepublish": "npm run snyk-protect",
+    "prepare": "npm run snyk-protect",
     "test": "snyk test"
   },
   "license": "AGPL-3.0",
