@@ -34,7 +34,7 @@ RUN set -x \
     curl \
  && curl -sL https://deb.nodesource.com/setup_8.x | bash - \
  && apt-get install -y nodejs \
- && make -f config/dev install \
+ && make -f config/dev install ENV=prod \
  && py3compile -f -X '^.*gevent/_util_py2.py$' .build/venv/ \
  && rm -fr .cache/ .npm/ /root/.cache/ /root/.npm/ \
  && apt-get -y purge \

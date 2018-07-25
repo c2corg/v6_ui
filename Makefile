@@ -1,3 +1,5 @@
+ENV ?= dev
+
 SITE_PACKAGES = $(shell .build/venv/bin/python -c "import distutils; print(distutils.sysconfig.get_python_lib())" 2> /dev/null)
 TEMPLATE_FILES_IN = $(filter-out ./.build/% ./node_modules/% ./v6_api/%, $(shell find . -type f -name '*.in'))
 TEMPLATE_FILES = $(TEMPLATE_FILES_IN:.in=)
@@ -187,8 +189,13 @@ c2corg_ui/static/build/locale/%/c2corg_ui.json: .build/locale/%/LC_MESSAGES/c2co
 # End of i18n and Transifex tools
 
 c2corg_ui/static/build/bundle.js: $(APP_JS_FILES) $(APP_PARTIAL_FILES) .build/node_modules.timestamp
+ifeq ($(ENV),prod)
+	mkdir -p $(dir $@)
+	npm run build-prod
+else
 	mkdir -p $(dir $@)
 	npm run build
+endif
 
 c2corg_ui/static/build/build.min.css: $(LESS_FILES) .build/node_modules.timestamp
 	mkdir -p $(dir $@)
