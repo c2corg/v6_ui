@@ -501,7 +501,8 @@
   % for wp_category in ['waypoints', 'waypoint_children']:
     % if document.get('associations').get(wp_category):
       % for wp in document.get('associations').get(wp_category):
-        % if wp.get('geometry') and not (document['doctype'] == 'routes' and wp['waypoint_type'] == 'virtual'):
+        % if wp.get('geometry') and \
+            not (document['doctype'] == 'routes' and wp['waypoint_type'] == 'virtual'):
           ,
           {
             "type": "Feature",
@@ -781,7 +782,9 @@
 
 ## GET GLOBAL RATING
 <%def name="get_global_rating(document)">\
-  % if 'snow_ice_mixed' in document.get('activities') or 'via_ferrata' in document.get('activities') or 'mountain_climbing' in document.get('activities') or 'rock_climbing' in document.get('activities') or 'ice_climbing' in document.get('activities'):
+  % if 'snow_ice_mixed' in document.get('activities') or 'via_ferrata' in document.get('activities') \
+        or 'mountain_climbing' in document.get('activities') or 'rock_climbing' in document.get('activities') \
+        or 'ice_climbing' in document.get('activities'):
   <div class="rating-block b">
     % if document.get('global_rating'):
       <span uib-tooltip="{{'global_rating' | translate}}" class="value">${document['global_rating']}</span>&nbsp;&nbsp;

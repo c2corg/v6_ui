@@ -111,7 +111,11 @@ from c2corg_ui.templates.utils import get_route_gear_articles, format_length
 
 ## RATING
 <%def name="get_route_rating(route)">\
-% if route.get('global_rating') or route.get('engagement_rating') or route.get('risk_rating') or route.get('exposition_rock_rating') or route.get('rock_free_rating') or route.get('rock_required_rating') or route.get('hiking_rating') or route.get('hiking_mtb_exposition') or route.get('ice_rating') or route.get('mixed_rating') or route.get('snowshoe_rating') or route.get('mtb_down_rating') or route.get('mtb_up_rating') or route.get('via_ferrata_rating') or route.get('equipment_rating') or route.get('ski_rating') or route.get('labande_ski_rating') or route.get('labande_global_rating') or route.get('ski_exposition') :
+% if route.get('global_rating') or route.get('engagement_rating') or route.get('risk_rating') or route.get('exposition_rock_rating') \
+  or route.get('rock_free_rating') or route.get('rock_required_rating') or route.get('hiking_rating') \
+  or route.get('hiking_mtb_exposition') or route.get('ice_rating') or route.get('mixed_rating') or route.get('snowshoe_rating')  \
+  or route.get('mtb_down_rating') or route.get('mtb_up_rating') or route.get('via_ferrata_rating') or route.get('equipment_rating') \
+  or route.get('ski_rating') or route.get('labande_ski_rating') or route.get('labande_global_rating') or route.get('ski_exposition') :
   <div class="col-sm-6 col-lg-3">
   <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
     <h4><span class="glyphicon glyphicon-sort-by-attributes"></span> <span translate>Rating</span><span class="glyphicon pull-right rotate-arrow-down"></span></h4>
@@ -142,7 +146,11 @@ from c2corg_ui.templates.utils import get_route_gear_articles, format_length
 
 ## HEIGHTS
 <%def name="get_route_heights(route, locale)">\
-  % if route.get('route_length') or route.get('mtb_height_diff_portages') or route.get('height_diff_difficulties') or route.get('difficulties_height') or route.get('mtb_length_asphalt') or route.get('mtb_length_trail') or locale.get('slope') or route.get('elevation_max') or route.get('elevation_min') or route.get('height_diff_max') or route.get('height_diff_min') or route.get('slackline_height'):
+  % if route.get('route_length') or route.get('mtb_height_diff_portages') \
+        or route.get('height_diff_difficulties') or route.get('difficulties_height') \
+        or route.get('mtb_length_asphalt') or route.get('mtb_length_trail') \
+        or locale.get('slope') or route.get('elevation_max') or route.get('elevation_min') \
+        or route.get('height_diff_max') or route.get('height_diff_min') or route.get('slackline_height'):
   <div class="col-sm-6 col-lg-3">
     <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
       <h4><span class="glyphicon glyphicon-stats"></span> <span translate>heights</span><span class="glyphicon pull-right rotate-arrow-down"></span></h4>

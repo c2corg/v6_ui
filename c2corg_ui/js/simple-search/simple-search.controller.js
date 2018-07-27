@@ -3,6 +3,9 @@ import createTemplate from './create.html';
 import emptyTemplate from './empty.html';
 import tooManyTemplate from './too-many.html';
 
+require('corejs-typeahead/dist/typeahead.jquery.js');
+const Bloodhound = require('corejs-typeahead/dist/bloodhound.js');
+
 const MAX_RESULTS_NB = 7;
 
 /**
