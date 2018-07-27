@@ -1,5 +1,3 @@
-require('bootstrap-markdown/js/bootstrap-markdown');
-
 /**
  * This directive is used on textarea elements to display a markdown editor.
  * Inspired from https://github.com/ghiscoding/angular-markdown-editor

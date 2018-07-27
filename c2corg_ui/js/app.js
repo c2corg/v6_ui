@@ -1,5 +1,3 @@
-require('moment');
-
 import angular from 'angular';
 import 'angular-gettext';
 import 'angular-messages';
@@ -18,7 +16,6 @@ import popover from 'angular-ui-bootstrap/src/popover/index-nocss';
 import tabs from 'angular-ui-bootstrap/src/tabs';
 import tooltip from 'angular-ui-bootstrap/src/tooltip/index-nocss';
 import rating from 'angular-ui-bootstrap/src/rating';
-import 'jquery';
 
 import c2cAccount from './account/account.module';
 import c2cActivityFilter from './activity-filter/activity-filter.module';
@@ -164,4 +161,4 @@ angular
   .factory('HttpAuthenticationInterceptor', HttpAuthenticationInterceptor)
   .config($httpProvider => $httpProvider.interceptors.push('HttpAuthenticationInterceptor'))
   .filter('capitalize', () => token => token.charAt(0).toUpperCase() + token.slice(1))
-  .constant('moment', require('moment-timezone'));
+  .constant('moment', window.moment);

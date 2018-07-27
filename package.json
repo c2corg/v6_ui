@@ -1,5 +1,9 @@
 {
   "name": "c2corg_ui",
+  "sideEffects": [
+    "*.css",
+    "*.html"
+  ],
   "version": "0.0.1",
   "description": "Camptocamp.org UI",
   "repository": {

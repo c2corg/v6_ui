@@ -9,8 +9,6 @@ module.exports = merge(common, {
   plugins: [
     // ignore the So.js unicode table file (mainly it contains Arabic & tibitan unicode data) - brought by slug module
     new webpack.IgnorePlugin(/unicode\/category\/So/, /node_modules/),
-    // ignore moment locales
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new UglifyJSPlugin({
       sourceMap: true
     }),

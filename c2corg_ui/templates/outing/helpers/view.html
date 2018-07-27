@@ -70,9 +70,7 @@
 </%def>
 
 <%def name="get_outing_snow(outing)">\
-  % if outing.get('elevation_up_snow') or outing.get('snow_quantity') \
-        or outing.get('snow_quality') or outing.get('glacier_rating') \
-        or outing.get('avalanche_signs') or outing.get('elevation_down_snow'):
+  % if outing.get('elevation_up_snow') or outing.get('snow_quantity') or outing.get('snow_quality') or outing.get('glacier_rating') or outing.get('avalanche_signs') or outing.get('elevation_down_snow'):
       <div class="col-sm-6 col-lg-3">
     <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
       <h4><span class="glyphicon glyphicon-asterisk"></span> <span translate>snow</span></h4>
@@ -181,8 +179,7 @@
 </%def>
 
 <%def name="get_outing_heights(outing)">\
-  % if outing.get('elevation_min') or outing.get('elevation_max') or outing.get('elevation_access') or outing.get('height_diff_up') \
-  or outing.get('height_diff_down') or outing.get('length_total'):
+  % if outing.get('elevation_min') or outing.get('elevation_max') or outing.get('elevation_access') or outing.get('height_diff_up') or outing.get('height_diff_down') or outing.get('length_total'):
     <div class="col-sm-6 col-lg-3">
       <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
         <h4><span class="glyphicon glyphicon-stats"></span> <span translate>heights</span></h4>
@@ -296,11 +293,7 @@
 
 ## RATING
 <%def name="get_outing_rating(outing)">\
-% if outing.get('global_rating') or outing.get('engagement_rating')  \
-  or outing.get('rock_free_rating') or outing.get('hiking_rating') \
-  or outing.get('ice_rating') or outing.get('mixed_rating') or outing.get('snowshoe_rating')  \
-  or outing.get('mtb_down_rating') or outing.get('mtb_up_rating') or outing.get('via_ferrata_rating') or outing.get('equipment_rating') \
-  or outing.get('ski_rating') or outing.get('labande_global_rating') :
+% if outing.get('global_rating') or outing.get('engagement_rating') or outing.get('rock_free_rating') or outing.get('hiking_rating') or outing.get('ice_rating') or outing.get('mixed_rating') or outing.get('snowshoe_rating') or outing.get('mtb_down_rating') or outing.get('mtb_up_rating') or outing.get('via_ferrata_rating') or outing.get('equipment_rating') or outing.get('ski_rating') or outing.get('labande_global_rating') :
   <div class="col-sm-6 col-lg-3">
   <div class="name-icon-value" ng-click="detailsCtrl.toggleTab($event)">
     <h4><span class="glyphicon glyphicon-sort-by-attributes"></span> <span translate>Rating</span><span class="glyphicon pull-right rotate-arrow-down"></span></h4>

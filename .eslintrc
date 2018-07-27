@@ -9,8 +9,7 @@
   "globals": {
     "DEBUG": false,
     "$": false,
-    "Bloodhound": false,
-    "moment": false
+    "Bloodhound": false
   },
   "rules": {
     "no-console": 1,
