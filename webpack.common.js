@@ -36,5 +36,5 @@ module.exports = {
       'goog/asserts.js': path.resolve(__dirname, 'node_modules/ngeo/src/goog.asserts.js')
     }
   },
-  externals: /^(jquery|\$|moment)$/i
+  externals: /^(jquery|\$|moment|corejs-typeahead)$/i
 };
