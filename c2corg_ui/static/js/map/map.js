@@ -394,6 +394,11 @@ app.MapController = function($scope, mapFeatureCollection, ngeoLocation,
       this.biodivSports_.fetchData(extent, this.biodivSportsActivities).then(this.addBiodivsportsData_.bind(this));
     }
   });
+
+  this.scope_.$root.$on('requestMap', () => {
+    this.scope_.$root.$emit('responseMap', {map: this.map});
+  });
+
 };
 
 

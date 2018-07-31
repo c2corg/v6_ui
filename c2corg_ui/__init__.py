@@ -185,6 +185,7 @@ def main(global_config, **settings):
     config.add_route('sso-login', '/sso-login')
 
     config.add_route('topoguide', '/topoguide')
+    config.add_route('yeti', '/yeti')
     config.add_route('serac', '/serac')
 
     config.add_route('account', '/account')

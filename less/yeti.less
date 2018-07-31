@@ -1,0 +1,524 @@
+#yeti {
+  .documents-list-section {
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media only screen and (max-width: 768px) {
+    .documents-list-section {
+      padding-top: 0;
+      height: calc(100vh - 120px);
+    }
+  }
+
+  .yetiForm {
+    padding: 10px;
+  }
+
+  .yetiForm-fieldset {
+    margin: 20px 0;
+  }
+
+  .yetiForm-control {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+
+  .yetiForm-control label {
+    margin-bottom: 0;
+  }
+
+  .yetiForm-control input {
+    margin-top: 0;
+  }
+
+  .yetiForm-control span {
+    min-height: 20px;
+  }
+
+  h4 .yetiForm-control span {
+    margin-left: 8px;
+  }
+
+  .yetiForm-bra {
+    display: flex;
+    position: relative;
+    margin-top: -10px;
+    margin-left: -10px;
+    margin-right: -10px;
+    padding: 10px;
+    background: white;
+  }
+
+  .yetiForm-bra h4 {
+    margin-top: 0;
+  }
+
+  .yetiForm-bra-controls {
+    position: relative;
+    min-height: 150px;
+    min-width: 250px;
+  }
+
+  .yetiForm-bra-control {
+    position: absolute;
+    width: 55px;
+  }
+
+  .yetiForm-bra-control--haut {
+    left: 47px;
+    top: 52px;
+  }
+
+  .yetiForm-bra-control--bas {
+    left: 47px;
+    top: 92px;
+  }
+
+  .yetiForm-bra-control--alti {
+    left: 137px;
+    top: 72px;
+    width: 85px;
+  }
+
+  .yetiForm-bra-control--isDifferent {
+    width: auto;
+    bottom: -10px;
+  }
+
+  .yetiForm-btn-container {
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+  }
+
+  .yetiForm-btn-container a {
+    align-self: flex-end;
+    color: #333;
+    text-decoration: underline;
+  }
+
+  .yetiForm-btn-container label {
+    display: block;
+  }
+
+  .yetiForm-btn-container button {
+    width: 150px;
+    justify-content: flex-end;
+    margin-top: auto;
+    margin-left: auto;
+  }
+
+  .yetiForm-error {
+    font-size: 0.8em;
+    font-style: italic;
+    margin-top: 10px;
+    text-align: right;
+    opacity: 0.75;
+  }
+
+  .yetiForm-isProcessing {
+    margin-bottom: 10px;
+  }
+
+  .orientation-svg {
+    display: block;
+    margin: 0 auto 10px;
+  }
+
+  .orientation-svg path,
+  .orientation-svg text {
+    cursor: pointer;
+  }
+
+  .yetiForm-methods {
+    margin: 10px 0;
+  }
+
+  .yetiForm-danger {
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  .yetiForm-danger-row td:first-child,
+  .yetiForm-danger-row td:last-child {
+    width: 100px;
+    text-align: center;
+  }
+
+  .yetiForm-danger-row td img {
+    height: 50px;
+  }
+
+  .yetiForm-danger--low {
+    background: #bfe12b;
+  }
+
+  .yetiForm-danger--medium {
+    background: #fff200;
+  }
+
+  .yetiForm-danger--strong {
+    background: #f68712;
+  }
+
+  .yetiForm-danger--high {
+    background: #ed1c24;
+  }
+
+  .yetiForm-danger--insane {
+    background: #c01a2c;
+  }
+
+  .yetiForm-note {
+    font-size: 0.9em;
+    opacity: 0.8;
+    padding: 1em 0;
+  }
+
+  .potentielDangerLabel {
+    display: flex;
+    align-items: stretch;
+    padding: 0;
+    margin-bottom: 20px;
+    height: 30px;
+    background: linear-gradient(to right, #bfe12b, #bfe12b 12%, #fff200 20%, #fff200 32%, #f68712 40%, #f68712 72%, #ed1c24 80%, #ed1c24 95%, #c01a2c);
+  }
+
+  .potentielDangerLabel-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1 1 20px;
+    text-align: center;
+    font-size: 0.8em;
+    border-bottom: 2px solid transparent;
+  }
+
+  .potentielDangerLabel-item--step {
+    font-size: 1.3em;
+  }
+
+  .potentielDangerLabel-item--selected {
+    border-color: black;
+  }
+
+  input[type=range] {
+    -webkit-appearance: none;
+    margin: 10px;
+  }
+
+  input[type=range][disabled] {
+    opacity: 0.5;
+  }
+
+  input[type=range]:focus {
+    outline: none;
+  }
+
+  input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 10px;
+    cursor: pointer;
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+    background: #bababa;
+    border-radius: 4px;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #ffaa45;
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -5px;
+  }
+
+  input[type=range]::-moz-range-track {
+    width: 100%;
+    height: 10px;
+    cursor: pointer;
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+    background: #bababa;
+    border-radius: 4px;
+  }
+
+  input[type=range]::-moz-range-thumb {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #ffaa45;
+    cursor: pointer;
+  }
+
+  input[type=range]::-ms-track {
+    width: 100%;
+    height: 10px;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+  }
+
+  input[type=range]::-ms-fill-lower {
+    background: #bababa;
+    border-radius: 4px;
+  }
+
+  input[type=range]::-ms-fill-upper {
+    background: #bababa;
+    border-radius: 4px;
+  }
+
+  input[type=range]::-ms-thumb {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #ffaa45;
+    cursor: pointer;
+  }
+
+  .yetiLogos {
+    display: flex;
+    flex: 0 0 auto;
+    margin-top: auto;
+    margin-bottom: 0;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+  }
+
+  .yetiLogos-item {
+    flex: 1;
+    max-width: 15%;
+    display: block;
+    margin: 1em;
+  }
+
+  .yetiLogos-item img {
+    max-width: 100%;
+  }
+
+  .yetiLogos-link {
+    display: block;
+  }
+
+  .yetiForm-tooltipInfo {
+    font-size: 0.6em;
+    color: #999;
+  }
+
+  .yetiMap-legend {
+    min-width: 150px;
+    bottom: auto;
+    top: 90px;
+    right: 10px;
+  }
+
+  .yetiMap-legend.ol-collapsed ul {
+    display: none;
+  }
+
+  .yetiMap-legend ul,
+  .yetiMap-legend li {
+    display: block;
+    text-align: left;
+  }
+
+  /**
+  * tab panel widget
+  */
+  .tabPanel-widget {
+    position: relative;  /* containing block for headings (top:0) */
+  }
+
+  /**
+  * because labels come first in source order - we use z-index to move them in front of the headings
+  */
+  .tabPanel-widget > label {
+    position: absolute;
+    z-index: 1;
+  }
+
+  /**
+  * labels and headings must share same values so grouping declarations in this rule prevents async edits (risk of breakage)
+  * line-height == height -> vertical centering
+  * the width dictates the offset for all headings but the first one: left offset = width * number of previous heading(s)
+  * note that width and offset of label/heading pair can be customized if necessary
+  */
+
+  .tabPanel-widget > label,
+  .tabPanel-widget > h4 {
+    font-size: 1.1em;
+    width: calc(100% / 3);
+    height: 2em;
+    line-height: 2em;
+  }
+
+  /**
+  * position:relative is for the markers (the down arrow in tabs)
+  */
+  .tabPanel-widget > h4 {
+    position: relative;
+    margin: 0;
+    text-align: center;
+    background: #999;
+    color: #fff;
+  }
+
+  .tabPanel-widget > label {
+    border-right: 1px solid #fff;
+  }
+
+  /**
+  * all first level labels and headings after the very first ones
+  */
+  .tabPanel-widget > label ~ label,
+  .tabPanel-widget > h4 ~ h4 {
+    position: absolute;
+    top: 0;
+  }
+
+  /**
+  * We target all the label/heading pairs
+  * we increment the :nth-child() params by 4 as well as the left value (according to "tab" width)
+  */
+
+  .tabPanel-widget label:nth-child(1),
+  .tabPanel-widget h4:nth-child(3) {
+    left: 0;
+  }
+
+  .tabPanel-widget label:nth-child(5),
+  .tabPanel-widget h4:nth-child(7) {
+    left: calc(100% / 3 * 1);
+  }
+
+  .tabPanel-widget label:nth-child(9),
+  .tabPanel-widget h4:nth-child(11) {
+    left: calc(100% / 3 * 2);
+  }
+
+  /**
+  * we visually hide all the panels
+  * https://developer.yahoo.com/blogs/ydn/clip-hidden-content-better-accessibility-53456.html
+  */
+  .tabPanel-widget input + h4 + div {
+    position: absolute;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  /**
+  * we reveal a panel depending on which control is selected
+  */
+  .tabPanel-widget input:checked + h4 + div {
+    position: static;
+    height: auto;
+    padding: 1em;
+  }
+
+  /**
+  * shows a hand cursor only to pointing device users
+  */
+  .tabPanel-widget label:hover {
+    cursor: pointer;
+  }
+
+  .tabPanel-widget > div {
+    background: #f0f0f0;
+    padding: 1em;
+  }
+
+  /**
+  * we hide radio buttons and also remove them from the flow
+  */
+  .tabPanel-widget input[name="tabs"] {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+  }
+
+  /**
+  * this is to style the tabs when they get focus (visual cue)
+  */
+  .tabPanel-widget input[name="tabs"]:focus + h4 {
+    outline: 1px dotted #000;
+  }
+
+  /**
+  * reset of the above within the tab panel (for pointing-device users)
+  */
+  .tabPanel-widget:hover h4 {
+    outline: none !important;
+  }
+
+  /**
+  * visual cue of the selection
+  */
+  .tabPanel-widget input[name="tabs"]:checked + h4 {
+    background: #a9d361;
+  }
+
+  .tabPanel-widget input[name="tabs"][disabled] + h4 {
+    opacity: 0.3;
+  }
+
+  .tabPanel-widget img {
+    max-width: 100%;
+  }
+
+  @media only screen and (max-width: 535px), only screen and (min-width: 768px) and (max-width: 955px) {
+    .tabPanel-widget > label {
+      position: relative !important;
+      z-index: 1;
+      left: 0 !important;
+      width: 100%;
+      border: none;
+    }
+
+    .tabPanel-widget h4 {
+      position: static !important;
+      margin-top: -2.75em;
+      width: 100%;
+    }
+
+    .tabPanel-widget input:checked + h4 + div {
+      position: static;
+    }
+  }
+
+  @media only screen and (max-width: 768px) {
+    .yetiMap-legend {
+      top: 10px;
+    }
+  }
+
+  @media only screen and (max-width: 535px) {
+    .yetiForm-bra {
+      flex-direction: column;
+    }
+
+    .yetiForm-bra-controls {
+      align-self: center;
+      margin-right: 75px;
+    }
+
+    .yetiForm-btn-container {
+      height: 80px;
+      margin-left: 0;
+      flex-wrap: wrap;
+    }
+
+    .yetiForm-btn-container a {
+      align-self: initial;
+      height: 100%;
+      display: flex;
+      align-items: flex-end;
+    }
+  }
+}

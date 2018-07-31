@@ -72,3 +72,4 @@ goog.require('app.userDirective');
 goog.require('app.userProfileDirective');
 goog.require('app.versionsDirective');
 goog.require('app.viewDetailsDirective');
+goog.require('app.YetiController');
