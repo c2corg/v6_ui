@@ -43,7 +43,11 @@
 .view-details-comments,
 .view-details-map,
 .badge,
-.icons-header {
+.icons-header,
+.announcement,
+.glyphicon,
+.icon-glacier,
+.list-green ul li::before{
   display: none !important;
 }
 
@@ -165,4 +169,20 @@ h3 {
   font-size: 1em;
   font-weight: bold;
   padding: 5px 0 5px 0;
+}
+
+.route-activity::before {
+  content:attr(uib-tooltip);
+  font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size:10.5px;
+  font-weight:700;
+}
+
+[class^="route-activity icon-"] {
+  line-height:0 !important;
+}
+
+.ficontent .row {
+  display:flex;
+  flex-flow:row wrap;
 }
