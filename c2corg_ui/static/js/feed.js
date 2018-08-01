@@ -252,10 +252,10 @@ app.FeedController.prototype.estimateSize = function(doc) {
   if (doc['document']['elevation_max'] !== null || doc['document']['height_diff_up'] !== null || doc['document']['height_diff_difficulties'] !== null) {
     size += 51;
   }
-  if (doc['image1'] !== null)  {
+  if (doc['image1'] !== null) {
     size += 275;
   }
-  if (doc['image2'] !== null)  {
+  if (doc['image2'] !== null) {
     size += 100;
   }
   return size;

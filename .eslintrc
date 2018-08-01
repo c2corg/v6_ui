@@ -21,6 +21,7 @@
     "valid-jsdoc": 0,
     "prefer-arrow-callback": 2,
     "no-var": 2,
-    "no-multi-assign": 2
+    "no-multi-assign": 2,
+    "no-multi-spaces": [2, { "ignoreEOLComments": true }]
   }
 }
