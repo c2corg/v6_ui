@@ -65,7 +65,7 @@ app.StickyFiltersController = function() {};
  * will have aria-expanded => don't add sticky filters! it prevents jumping and looks more natural.
  * @private
  */
-app.StickyFiltersController.prototype.addStickyFilters_ =  function() {
+app.StickyFiltersController.prototype.addStickyFilters_ = function() {
   if ($('#moreFilters[aria-expanded="true"]').length === 0) {
     $('.more-filters-btn-container').addClass('sticky-filters-btn-container');
     $('#moreFilters').addClass('sticky-filters-moreFilters');

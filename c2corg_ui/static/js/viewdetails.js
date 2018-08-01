@@ -560,7 +560,7 @@ app.ViewDetailsController.prototype.openEmbeddedImage = function(imgUrl, imgId) 
   const items = [];
   let index;
 
-  for (let i = 0; i <  embeddedImages.length;  i++) {
+  for (let i = 0; i < embeddedImages.length; i++) {
     const src = embeddedImages[i].src.slice(0, -2) + 'BI';
     const id = parseInt($(embeddedImages[i]).attr('img-id'), 10);
     let title;

@@ -110,7 +110,7 @@ app.CotometerController.prototype.cotometerRating_ = function() {
     this.rating = '1.2';
   } else if (this.slope < 30 && diff < 800) {
     this.rating = '1.3';
-  } else if ((this.slope < 35 && diff < 800) || (this.slope < 23 &&  diff > 800)) {
+  } else if ((this.slope < 35 && diff < 800) || (this.slope < 23 && diff > 800)) {
     this.rating = '2.1';
   } else if (this.slope < 35 && diff <= 950) {
     this.rating = '2.2';

@@ -532,7 +532,7 @@ app.MapController.prototype.createStyleFunction_ = function() {
 app.MapController.prototype.createBiodivsportsAreaStyle_ = function(feature, resolution) {
   const id = /** @type {number} */ (feature.get('id'));
   const highlight = /** @type {boolean} */ (!!feature.get('highlight'));
-  const key = 'lines_biodivsports'  + (highlight ? ' _highlight' : '') + '_' + id;
+  const key = 'lines_biodivsports' + (highlight ? ' _highlight' : '') + '_' + id;
   const opacityFactor = highlight ? 1.5 : 1;
   let style = this.styleCache[key];
   if (!style) {

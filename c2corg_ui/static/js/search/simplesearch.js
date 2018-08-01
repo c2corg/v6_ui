@@ -377,7 +377,7 @@ app.SimpleSearchController.prototype.createAndInitBloodhound_ = function(type) {
             // - explicitly skipping the association check
             // - if not already associated for other simple-searches
             if (this.isStandardSearch || this.skipAssociationFilter ||
-                !this.documentService_.hasAssociation(type,  doc.document_id)) {
+                !this.documentService_.hasAssociation(type, doc.document_id)) {
               return doc;
             }
             return null;
