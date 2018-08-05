@@ -1,88 +1,20 @@
-UI Application for camptocamp.org v6
+UI application for [camptocamp.org](https://www.camptocamp.org/)
 ====================================
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/c2corg/v6_ui.svg)](https://greenkeeper.io/)
 
-Requirements
-------------
-
- * Python 3.4 (3.5 seems OK as well)
- * Node (0.10.x or higher, there are known issues with 0.10.29)
- * Java (1.7 or higher)
- * gettext (0.18 or higher)
- * virtualenv (1.7 or higher)
- * Redis 2.8
- * GEOS (3.4 or higher)
-
-On Debian/Ubuntu systems the required components may be installed using
-
-    sudo apt-get install virtualenv python3-dev nodejs-legacy npm openjdk-7-jdk gettext libgeos-dev redis-server
-
-On Ubuntu 16.04, `openjdk-7-jdk` is no longer available but can be replaced by `openjdk-8-jdk`.
-
-Checkout
---------
-
-    git clone https://github.com/c2corg/v6_ui.git
-
-Build
------
-
-    cd v6_ui
-    make -f config/{user} install
-
-Run the application
--------------------
-
-    make -f config/{user} serve
-
-Open your browser at http://localhost:6543/ or http://localhost:6543/?debug (debug mode). Make sure you are
-using the port that is set in `config/{user}`.
-
-Available actions may be listed using:
-
-    make help
-
-Run the tests
+camptocamp.org
 --------------
 
-    make -f config/{user} test
-    
-Or with the `check` target, which runs `flake8` and `test`:
+[camptocamp.org](https://www.camptocamp.org/) is the reference for free information about mountain sports. It includes climbing, mountainering and icefall routes, but also skitouring, hiking, slacklining or paragliding data. All data are Creative Commons licensed, and our API is free.
 
-    make -f config/{user} check
+Documentation
+-------------
 
-To run a specific test:
+See our [wiki](https://github.com/c2corg/v6_ui/wiki), and in particular our pages for contributing with [Linux](https://github.com/c2corg/v6_ui/wiki/Contributing-with-Linux), [Mac or Windows](https://github.com/c2corg/v6_ui/wiki/Howto-Contribute-on-Windows-or-Mac).
 
-    .build/venv/bin/nosetests c2corg_ui/tests/views/test_summit.py
+----
+----
 
-To see the debug output:
+![image](https://user-images.githubusercontent.com/11915659/43614924-9e272e6c-96b5-11e8-8394-4ba086dc6921.png)
 
-    .build/venv/bin/nosetests -s
-
-
-Captcha
--------
-
-Captcha configuration is done through https://www.google.com/recaptcha/admin .
-The public key is used in the UI. The corresponding secret key is used in the API.
-
-
-Health service
---------------
-
-To get information about a running UI instance, e.g. its version and the
-status of its components, the health service `/health` can be used:
-
-    GET http://localhost:6543/health
-
-
-Developer Tips
---------------
-
-The UI is mainly built using the following components:
-* Pyramid (Python framework) http://docs.pylonsproject.org/en/latest/
-* AngularJS (Javascript framework) https://angularjs.org/
-* Maps:
- * OpenLayers 3 http://openlayers.org/
- * ngeo https://github.com/camptocamp/ngeo
