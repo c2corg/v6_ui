@@ -11,6 +11,7 @@ ui:
     - ./less:/var/www/less
     - ./less-discourse:/var/www/less-discourse
     - ./less-print:/var/www/less-print
+    - ./.git:/var/www/.git
   command: make -f config/docker serve
 # links:
 #    - redis
