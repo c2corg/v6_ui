@@ -1,25 +1,16 @@
-import angular from 'angular';
-import slug from 'slug';
+import slugify from 'slugify';
 
 export default class UrlService {
   constructor() {
     'ngInject';
 
-    slug.defaults.modes['custom'] = {
-      replacement: '-',
-      symbols: false,
-      remove: null,
-      lower: true,
-      charmap: angular.extend({'\'': ' '}, slug.defaults.charmap),
-      multicharmap: slug.defaults.multicharmap
-    };
-    slug.defaults.mode = 'custom';
+    slugify.extend({'\'': ' '});
 
     /**
      * @type {function(string):string}
      * @private
      */
-    this.slug_ = slug;
+    this.slugify_ = slugify;
   }
 
   /**
@@ -47,6 +38,6 @@ export default class UrlService {
       .replace('{type}', documentType)
       .replace('{id}', String(documentId))
       .replace('{lang}', lang)
-      .replace('{slug}', this.slug_(title) || '-');
+      .replace('{slug}', this.slugify_(title, {lower: true}) || '-');
   }
 }
