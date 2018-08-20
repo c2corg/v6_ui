@@ -44,11 +44,11 @@
     "closure-util": "1.15.1",
     "eslint": "5.0.1",
     "eslint-config-openlayers": "11.0.0",
-    "less": "3.8.0",
+    "less": "3.8.1",
     "less-plugin-clean-css": "1.5.1",
     "nomnom": "1.8.1",
     "snyk": "1.92.2",
-    "stylelint": "9.4.0",
+    "stylelint": "9.5.0",
     "stylelint-config-standard": "18.2.0"
   },
   "snyk": true
