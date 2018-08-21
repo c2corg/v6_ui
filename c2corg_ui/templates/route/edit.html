@@ -540,9 +540,9 @@ updating_doc = route_id and route_lang
               <div class="form-group data half" ng-class="{ 'has-success': route.lift_access }">
                 <label translate>lift_access</label>
                 <div class="input-group">
-                 <select class="form-control" ng-model="route.lift_access">
-                    <option value="true" ng-selected="route.lift_access == true" translate>yes</option>
-                    <option value="false" ng-selected="route.lift_access == false" translate>no</option>
+                 <select class="form-control"
+                         ng-model="route.lift_access"
+                         ng-options="la.value as la.i18n for la in editCtrl.lift_access">
                     <option value="" translate>no info</option>
                   </select>
                   <span class="input-group-addon"><span class="glyphicon glyphicon-resize-vertical"></span></span>
@@ -588,7 +588,7 @@ updating_doc = route_id and route_lang
                 <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.labande_ski_rating"></span>
               </div>
 
-              ## LABANDE GLOBAL  RATING
+              ## LABANDE GLOBAL RATING
               <div class="form-group data half" ng-class="{ 'has-success': route.labande_global_rating}"
                    ng-if="route.activities.indexOf('skitouring') > -1">
                 <label app-context-help context-help-title="{{'labande_global_rating' | translate}}"
@@ -602,7 +602,7 @@ updating_doc = route_id and route_lang
                 <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.labande_global_rating"></span>
               </div>
 
-              ## SNOWSHOE  RATING
+              ## SNOWSHOE RATING
               <div class="form-group data half" ng-class="{ 'has-success': route.snowshoe_rating}"
                    ng-if="route.activities.indexOf('snowshoeing') > -1">
                 <label app-context-help context-help-title="{{'snowshoe_rating' | translate}}"
@@ -616,7 +616,7 @@ updating_doc = route_id and route_lang
                 <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.snowshoe_rating"></span>
               </div>
 
-              ## GLOBAL  RATING
+              ## GLOBAL RATING
               <div class="form-group data half" ng-class="{ 'has-success': route.global_rating}"
                    ng-if="route.activities.indexOf('snow_ice_mixed') > -1
                        || route.activities.indexOf('mountain_climbing') > -1
@@ -633,7 +633,7 @@ updating_doc = route_id and route_lang
                 <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.global_rating"></span>
               </div>
 
-              ## ENGAGEMENT  RATING
+              ## ENGAGEMENT RATING
               <div class="form-group data half" ng-class="{ 'has-success': route.engagement_rating}"
                    ng-if="route.activities.indexOf('snow_ice_mixed') > -1
                        || route.activities.indexOf('mountain_climbing') > -1
@@ -651,7 +651,7 @@ updating_doc = route_id and route_lang
                 <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.engagement_rating"></span>
               </div>
 
-              ## EQUIPMENT  RATING
+              ## EQUIPMENT RATING
               <div class="form-group data half" ng-class="{ 'has-success': route.equipment_rating}"
                    ng-if="route.activities.indexOf('snow_ice_mixed') > -1
                        || route.activities.indexOf('mountain_climbing') > -1
@@ -670,7 +670,7 @@ updating_doc = route_id and route_lang
                 <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.equipment_rating"></span>
               </div>
 
-              ## ICE  RATING
+              ## ICE RATING
               <div class="form-group data half" ng-class="{ 'has-success': route.ice_rating}"
                    ng-if="route.activities.indexOf('snow_ice_mixed') > -1 || route.activities.indexOf('ice_climbing') > -1">
                 <label app-context-help context-help-title="{{'ice_rating' | translate}}"
@@ -684,7 +684,7 @@ updating_doc = route_id and route_lang
                 <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.ice_rating"></span>
               </div>
 
-              ## MIXED  RATING
+              ## MIXED RATING
               <div class="form-group data half" ng-class="{ 'has-success': route.mixed_rating}"
                    ng-if="route.activities.indexOf('snow_ice_mixed') > -1 || route.activities.indexOf('ice_climbing') > -1">
                 <label app-context-help context-help-title="{{'mixed_rating' | translate}}"
@@ -698,7 +698,7 @@ updating_doc = route_id and route_lang
                 <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.mixed_rating"></span>
               </div>
 
-              ## RISK  RATING
+              ## RISK RATING
               <div class="form-group data half" ng-class="{ 'has-success': route.risk_rating}"
                    ng-if="route.activities.indexOf('snow_ice_mixed') > -1
                        || route.activities.indexOf('mountain_climbing') > -1
@@ -715,7 +715,7 @@ updating_doc = route_id and route_lang
                 <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.risk_rating"></span>
               </div>
 
-              ## VIA FERRATA  RATING
+              ## VIA FERRATA RATING
               <div class="form-group data half" ng-class="{ 'has-success': route.via_ferrata_rating}"
                    ng-if="route.activities.indexOf('via_ferrata') > -1">
                 <label app-context-help context-help-title="{{'via_ferrata_rating' | translate}}"
@@ -729,7 +729,7 @@ updating_doc = route_id and route_lang
                 <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.via_ferrata_rating"></span>
               </div>
 
-              ## HIKING  RATING
+              ## HIKING RATING
               <div class="form-group data half" ng-class="{ 'has-success': route.hiking_rating}"
                    ng-if="route.activities.indexOf('hiking') > -1">
                 <label app-context-help context-help-title="{{'hiking_rating' | translate}}"
@@ -743,7 +743,7 @@ updating_doc = route_id and route_lang
                 <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.hiking_rating"></span>
               </div>
 
-              ## MTB DOWN  RATING
+              ## MTB DOWN RATING
               <div class="form-group data half" ng-class="{ 'has-success': route.mtb_down_rating}"
                    ng-if="route.activities.indexOf('mountain_biking') > -1">
                 <label app-context-help context-help-title="{{'mtb_down_rating' | translate}}"
@@ -757,7 +757,7 @@ updating_doc = route_id and route_lang
                 <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.mtb_down_rating"></span>
               </div>
 
-              ## MTB UP  RATING
+              ## MTB UP RATING
               <div class="form-group data half" ng-class="{ 'has-success': route.mtb_up_rating}"
                    ng-if="route.activities.indexOf('mountain_biking') > -1">
                 <label app-context-help context-help-title="{{'mtb_up_rating' | translate}}"
@@ -771,7 +771,7 @@ updating_doc = route_id and route_lang
                 <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.mtb_up_rating"></span>
               </div>
 
-              ## ROCK FREE  RATING
+              ## ROCK FREE RATING
               <div class="form-group data half" ng-class="{ 'has-success': route.rock_free_rating}"
                    ng-if="route.activities.indexOf('mountain_climbing') > -1 || route.activities.indexOf('rock_climbing') > -1">
                 <label app-context-help context-help-title="{{'rock_free_rating' | translate}}"
@@ -799,7 +799,7 @@ updating_doc = route_id and route_lang
                 <span class="glyphicon glyphicon-ok form-control-feedback" ng-if="route.exposition_rock_rating"></span>
               </div>
 
-              ## ROCK REQUIRED  RATING
+              ## ROCK REQUIRED RATING
               <div class="form-group data half" ng-class="{ 'has-success': route.rock_required_rating}"
                    ng-if="route.activities.indexOf('mountain_climbing') > -1
                        || route.activities.indexOf('rock_climbing') > -1

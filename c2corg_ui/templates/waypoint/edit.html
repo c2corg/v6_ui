@@ -688,11 +688,11 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
               <div class="form-group data half" ng-class="{'has-success': waypoint.lift_access}">
                 <label translate>lift_access</label>
                 <div class="input-group">
-                  <select class="form-control" ng-model="waypoint.lift_access">
-                    <option value="" translate>no info</option>
-                    <option value="true" ng-selected="waypoint.lift_access == true" translate>yes</option>
-                    <option value="false" ng-selected="waypoint.lift_access == false" translate>no</option>
-                  </select>
+                  <select class="form-control"
+                          ng-model="waypoint.lift_access"
+                          ng-options="la as la for la in ['yes', 'no']">
+                     <option value="" translate>no info</option>
+                   </select>
                   <span class="input-group-addon"><span class="glyphicon glyphicon-resize-vertical"></span></span>
                 </div>
                 <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="waypoint.lift_access"></span>

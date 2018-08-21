@@ -38,6 +38,11 @@ app.RouteEditingController = function($scope, $element, $attrs, $http,
     appLang, appAuthentication, ngeoLocation, appAlerts, appApi, authUrl,
     appDocument, appUrl, imageUrl);
 
+  this.lift_access = [
+    {value: 'yes', 'i18n': appLang.translate('yes')},
+    {value: 'no', 'i18n': appLang.translate('no')}
+  ];
+
   if (this.auth.isAuthenticated()) {
     // allow association only for a new route to existing waypoint
     if (ngeoLocation.hasFragmentParam('w')) {
