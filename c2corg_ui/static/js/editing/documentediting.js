@@ -175,6 +175,14 @@ app.DocumentEditingController = function($scope, $element, $attrs, $http,
 
   this.scope[this.modelName] = this.documentService.document;
 
+  /**
+   * @public
+   */
+  this.yesno_options = [
+    {value: 'yes', i18n: appLang.translate('yes')},
+    {value: 'no', i18n: appLang.translate('no')}
+  ];
+
   if (this.auth.isAuthenticated()) {
     if (this.id && this.lang_) {
       // Get document attributes from the API to feed the model:

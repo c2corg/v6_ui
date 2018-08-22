@@ -690,7 +690,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
                 <div class="input-group">
                   <select class="form-control"
                           ng-model="waypoint.lift_access"
-                          ng-options="la as la for la in ['yes', 'no']">
+                          ng-options="la.value as la.i18n for la in editCtrl.yesno_options">
                      <option value="" translate>no info</option>
                    </select>
                   <span class="input-group-addon"><span class="glyphicon glyphicon-resize-vertical"></span></span>
