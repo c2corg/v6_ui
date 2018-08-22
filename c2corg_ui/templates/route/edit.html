@@ -540,9 +540,9 @@ updating_doc = route_id and route_lang
               <div class="form-group data half" ng-class="{ 'has-success': route.lift_access }">
                 <label translate>lift_access</label>
                 <div class="input-group">
-                 <select class="form-control" ng-model="route.lift_access">
-                    <option value="true" ng-selected="route.lift_access == true" translate>yes</option>
-                    <option value="false" ng-selected="route.lift_access == false" translate>no</option>
+                 <select class="form-control"
+                         ng-model="route.lift_access"
+                         ng-options="la.value as la.i18n for la in editCtrl.yesno_options">
                     <option value="" translate>no info</option>
                   </select>
                   <span class="input-group-addon"><span class="glyphicon glyphicon-resize-vertical"></span></span>

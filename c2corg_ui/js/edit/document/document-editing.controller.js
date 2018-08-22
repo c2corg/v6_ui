@@ -54,31 +54,6 @@ export default class DocumentEditingController {
     this.authenticationService = AuthenticationService;
 
     /**
-     * @type {string}
-     * @private
-     */
-    this.module_ = $attrs['c2cDocumentEditing'];
-    googAsserts.assert(this.module_ !== undefined);
-
-    /**
-     * @type {string}
-     * @public
-     */
-    this.modelName = $attrs['c2cDocumentEditingModel'];
-
-    /**
-     * @type {number}
-     * @public
-     */
-    this.id = $attrs['c2cDocumentEditingId'];
-
-    /**
-     * @type {string}
-     * @private
-     */
-    this.lang_ = $attrs['c2cDocumentEditingLang'];
-
-    /**
      * @type {!angular.Scope}
      * @export
      */
@@ -138,6 +113,18 @@ export default class DocumentEditingController {
      */
     this.compile = $compile;
 
+    this.$attrs = $attrs;
+
+    this.langService_ = LangService;
+  }
+
+  $onInit() {
+    this.module_ = this.$attrs.c2cDocumentEditing;
+    googAsserts.assert(this.module_ !== undefined);
+    this.modelName = this.$attrs.c2cDocumentEditingModel;
+    this.id = this.$attrs.c2cDocumentEditingId;
+    this.lang_ = this.$attrs.c2cDocumentEditingLang;
+
     this.scope[this.modelName] = this.documentService.document;
 
     if (this.authenticationService.isAuthenticated()) {
@@ -150,13 +137,18 @@ export default class DocumentEditingController {
         );
       } else if (!this.id) {
         // new doc lang = user interface lang
-        this.scope[this.modelName]['locales'][0]['lang'] = LangService.getLang();
+        this.scope[this.modelName].locales[0].lang = this.langService_.getLang();
       }
     } else {
       // Redirect to the auth page
       this.utilsService.redirectToLogin(this.authurl);
       return;
     }
+
+    this.yesno_options = [
+      {value: 'yes', i18n: this.langService_.translate('yes')},
+      {value: 'no', i18n: this.langService_.translate('no')}
+    ];
 
     this.scope.$root.$on('mapFeaturesChange', (event, features) => {
       this.handleMapFeaturesChange_(features);
@@ -482,7 +474,7 @@ export default class DocumentEditingController {
       } else if (field === 'latitude' || field === 'longitude') {
         hasError = (!doc['lonlat'] || (doc['lonlat'][field] === null || doc['lonlat'][field] === undefined));
       } else if (field === 'date_start') {
-        hasError = (doc['date_start'] === null || doc['date_start']  === undefined);
+        hasError = (doc['date_start'] === null || doc['date_start'] === undefined);
       } else if (field === 'elevation' && doc['waypoint_type'] === 'climbing_indoor') {
         // waypoint climbing indoor is the only one that does not require 'elevation'
         continue;
