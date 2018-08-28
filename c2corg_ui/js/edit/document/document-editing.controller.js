@@ -145,11 +145,6 @@ export default class DocumentEditingController {
       return;
     }
 
-    this.yesno_options = [
-      {value: 'yes', i18n: this.langService_.translate('yes')},
-      {value: 'no', i18n: this.langService_.translate('no')}
-    ];
-
     this.scope.$root.$on('mapFeaturesChange', (event, features) => {
       this.handleMapFeaturesChange_(features);
     });

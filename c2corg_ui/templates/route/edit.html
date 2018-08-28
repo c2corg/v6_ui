@@ -542,7 +542,7 @@ updating_doc = route_id and route_lang
                 <div class="input-group">
                  <select class="form-control"
                          ng-model="route.lift_access"
-                         ng-options="la.value as la.i18n for la in editCtrl.yesno_options">
+                         ng-options="la.key as la.i18n | translate for la in [ {key: true, 'i18n': '1d_to3d'}, {key: false, 'i18n': 'false'} ]">
                     <option value="" translate>no info</option>
                   </select>
                   <span class="input-group-addon"><span class="glyphicon glyphicon-resize-vertical"></span></span>
