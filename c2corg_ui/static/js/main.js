@@ -72,3 +72,6 @@ goog.require('app.userDirective');
 goog.require('app.userProfileDirective');
 goog.require('app.versionsDirective');
 goog.require('app.viewDetailsDirective');
+goog.require('app.WaypointEditingController');
+goog.require('app.BookEditingController');
+goog.require('app.AreaEditingController');
