@@ -18,6 +18,7 @@
       <a translate ng-href="/outings#u={{userCtrl.auth.userData.id}}" ng-click="userCtrl.goToOutingsPage()">My outings</a>
       <app-outings-csv-download></app-outings-csv-download>
     </li>
+    <li><a translate href="/whatsnew#u={{userCtrl.auth.userData.id}}">My changes</a></li>
     <li><a translate href="/following">My followed users</a></li>
     <!--<li><a translate href="/mailinglists">My mailing lists</a></li>-->
     <li><a translate ng-click="userCtrl.logout()" class="logout">Logout</a></li>
