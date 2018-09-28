@@ -6,6 +6,10 @@
       <a ng-href="/outings#u={{feedCtrl.userId}}">
         <button class="orange-btn btn" translate>Show this user's outings</button>
       </a>
+
+      <a ng-href="/whatsnew#u={{feedCtrl.userId}}">
+        <button class="orange-btn btn" translate>Show this user's changes</button>
+      </a>
     </div>
 </article>
 <div class="feed-list" ng-show="feedCtrl.documents.length > 0"
