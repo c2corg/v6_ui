@@ -21,7 +21,7 @@ from c2corg_common.attributes import default_langs, quality_types, activities, b
   </h1>
 
   <form app-loading app-document-editing="books" app-document-editing-model="book"
-    app-document-editing-controller-name="appDocumentEditingController"
+    app-document-editing-controller-name="appBookEditingController"
   % if updating_doc:
     app-document-editing-id="${book_id}" app-document-editing-lang="${book_lang}"
   % endif

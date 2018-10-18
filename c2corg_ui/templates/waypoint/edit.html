@@ -30,7 +30,7 @@ from c2corg_common.attributes import default_langs, climbing_outdoor_types, publ
     </h1>
 
     <form app-loading app-document-editing="waypoints" app-document-editing-model="waypoint"
-      app-document-editing-controller-name="appDocumentEditingController"
+      app-document-editing-controller-name="appWaypointEditingController"
     % if updating_doc:
       app-document-editing-id="${waypoint_id}" app-document-editing-lang="${waypoint_lang}"
     % endif

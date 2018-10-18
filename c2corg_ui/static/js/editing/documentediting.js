@@ -627,7 +627,9 @@ app.DocumentEditingController.prototype.confirmSave = function(isValid) {
 
   const data = this.scope[this.modelName];
   const doctype = app.utils.getDoctype(data['type']);
-  if ((doctype != 'routes') && (doctype != 'waypoints') && (doctype != 'books') && (doctype != 'xreports') && (doctype != 'users') && (doctype != 'areas')) {
+  if (doctype == 'users') {
+    data['quality'] = 'medium';
+  } else {
     const score = this.presetQuality(data);
     this.storeQuality(data, score);
   }
@@ -648,7 +650,6 @@ app.DocumentEditingController.prototype.confirmSave = function(isValid) {
   });
 };
 
-
 /**
  * @param {string} selector
  * @param {string} sizem
@@ -668,9 +669,10 @@ app.DocumentEditingController.prototype.openModal = function(selector, sizem) {
  * @return {number}
  */
 app.DocumentEditingController.prototype.presetQuality = function(doc) {
-  // Do nothing special in the standard editing controller.
+  // compute Quality score depending on the activity.
   // Will be overridden in inheriting controllers.
-  return 1;
+  const score = 1;
+  return score;
 };
 
 /**
