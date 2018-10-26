@@ -139,7 +139,7 @@ app.YetiController = function($scope, $http, $timeout, appAlerts, appAuthenticat
    * @type {string}
    * @export
    */
-  this.actualError = '';
+  this.currentError = '';
 
   /**
    * @type {boolean}
@@ -207,11 +207,11 @@ app.YetiController.prototype.setInitialData_ = function() {
     }
     // set actual error
     if (this.formOK) {
-      this.actualError = this.errors_['ok'];
+      this.currentError = this.errors_['ok'];
     } else {
-      this.actualError = this.errors_[this.formOKError_]['simple'];
+      this.currentError = this.errors_[this.formOKError_]['simple'];
       if (this.formOKError_ === 'zoom') {
-        this.actualError += ' (actuel: ' + this.map_.getView().getZoom() + ')';
+        this.currentError += ' (actuel: ' + this.map_.getView().getZoom() + ')';
       }
     }
     // also
