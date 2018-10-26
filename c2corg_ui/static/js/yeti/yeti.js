@@ -180,51 +180,75 @@ app.YetiController.prototype.setInitialData_ = function() {
     'bra.altiseuil',
     'bra.isDifferent',
     'mapZoomOK'
-  ], (newValues, oldValues, scope) => {
-    // verif form
-    if (!this.scope_['bra']['haut']) {
-      this.formOK = false;
-      this.formOKError_ = 'bra';
-    } else if (!this.scope_['method']) {
-      this.formOK = false;
-      this.formOKError_ = 'methode';
-    } else if (
-      this.scope_['bra']['haut'] === 4 &&
-      this.scope_['method'] === 'mrd') {
-      this.formOK = false;
-      this.formOKError_ = 'methode_bra';
-    } else if (
-      this.scope_['bra']['bas'] &&
-      (this.scope_['bra']['haut'] != this.scope_['bra']['bas']) &&
-      !this.scope_['bra']['altiseuil']) {
-      this.formOK = false;
-      this.formOKError_ = 'altitude';
-    } else if (!this.scope_['mapZoomOK']) {
-      this.formOK = false;
-      this.formOKError_ = 'zoom';
-    } else {
-      this.formOK = true;
+  ], this.checkFormData_.bind(this));
+
+  // watch bra.isDifferent
+  this.scope_.$watch('bra.isDifferent', this.checkBraIsDifferent_.bind(this));
+};
+
+/**
+ * Checking form data
+ * @private
+ */
+app.YetiController.prototype.checkFormData_ = function(newValues, oldValues, scope) {
+  // verif form
+  if (!this.scope_['bra']['haut']) {
+    this.formOK = false;
+    this.formOKError_ = 'bra';
+  } else if (!this.scope_['method']) {
+    this.formOK = false;
+    this.formOKError_ = 'methode';
+  } else if (
+    this.scope_['bra']['haut'] === 4 &&
+    this.scope_['method'] === 'mrd') {
+    this.formOK = false;
+    this.formOKError_ = 'methode_bra';
+  } else if (
+    this.scope_['bra']['bas'] &&
+    (this.scope_['bra']['haut'] != this.scope_['bra']['bas']) &&
+    !this.scope_['bra']['altiseuil']) {
+    this.formOK = false;
+    this.formOKError_ = 'altitude';
+  } else if (!this.scope_['mapZoomOK']) {
+    this.formOK = false;
+    this.formOKError_ = 'zoom';
+  } else {
+    this.formOK = true;
+  }
+  // also
+  // verif if bra = 4, method MRD forbidden
+  if (this.scope_['bra']['haut'] == 4 && this.scope_['method'] === 'mrd') {
+    delete this.scope_['method'];
+  }
+  // then set errors
+  this.setCurrentError_();
+};
+
+/**
+ * Check if bra is different (checkbox)
+ * @private
+ */
+app.YetiController.prototype.checkBraIsDifferent_ = function(newValue, oldValue, scope) {
+  // verif bra.isDifferent: empty inputs
+  if (!this.scope_['bra']['isDifferent']) {
+    delete this.scope_['bra']['bas'];
+    delete this.scope_['bra']['altiseuil'];
+  }
+};
+
+/**
+ * Set current error when filling form data
+ * @private
+ */
+app.YetiController.prototype.setCurrentError_ = function() {
+  if (this.formOK) {
+    this.currentError = this.errors_['ok'];
+  } else {
+    this.currentError = this.errors_[this.formOKError_]['simple'];
+    if (this.formOKError_ === 'zoom') {
+      this.currentError += ' (actuel: ' + this.map_.getView().getZoom() + ')';
     }
-    // set actual error
-    if (this.formOK) {
-      this.currentError = this.errors_['ok'];
-    } else {
-      this.currentError = this.errors_[this.formOKError_]['simple'];
-      if (this.formOKError_ === 'zoom') {
-        this.currentError += ' (actuel: ' + this.map_.getView().getZoom() + ')';
-      }
-    }
-    // also
-    // verif if bra = 4, method MRD forbidden
-    if (this.scope_['bra']['haut'] == 4 && this.scope_['method'] === 'mrd') {
-      delete this.scope_['method'];
-    }
-    // verif bra.isDifferent: empty inputs
-    if (!this.scope_['bra']['isDifferent']) {
-      delete this.scope_['bra']['bas'];
-      delete this.scope_['bra']['altiseuil'];
-    }
-  });
+  }
 };
 
 /**
@@ -248,29 +272,35 @@ app.YetiController.prototype.setDanger_ = function() {
     }
     this.scope_['potentielDangerLabel'].push(data);
   }
-  this.scope_.$watch('bra.haut', (newValue, oldValue) => {
-    if (newValue) {
-      const min = this.DANGER.bra[newValue - 1].min;
-      const max = this.DANGER.bra[newValue - 1].max;
-      const val = this.DANGER.bra[newValue - 1].val;
+  this.scope_.$watch('bra.haut', this.checkBraHaut_.bind(this));
+};
 
-      this.scope_['potentielDangerMin'] = min;
-      this.scope_['potentielDangerMax'] = max;
+/**
+ * Check bra.haut
+ * @private
+ */
+app.YetiController.prototype.checkBraHaut_ = function(newValue, oldValue, scope) {
+  if (newValue) {
+    const min = this.DANGER.bra[newValue - 1].min;
+    const max = this.DANGER.bra[newValue - 1].max;
+    const val = this.DANGER.bra[newValue - 1].val;
 
-      // compute width / margin-left
-      this.scope_['potentielDangerStyle'] = {
-        width: 'calc(' + (((max - min) + 1) * 100 / this.DANGER.max) + '% - (100% / ' + this.DANGER.max + ' / 2 - 10px) * 2)',
-        marginLeft: 'calc(' + ((min - 1) * 100 / this.DANGER.max) + '% + 100% / ' + this.DANGER.max + ' / 2 - 10px)'
-      };
+    this.scope_['potentielDangerMin'] = min;
+    this.scope_['potentielDangerMax'] = max;
 
-      this.scope_['potentielDanger'] = val;
-      // hotfix Angular 1.5.8
-      // updating min/max AND value of input[range] fails
-      this.timeout_(() => {
-        angular.element('#inputPotentielDanger').val(val);
-      });
-    }
-  });
+    // compute width / margin-left
+    this.scope_['potentielDangerStyle'] = {
+      width: 'calc(' + (((max - min) + 1) * 100 / this.DANGER.max) + '% - (100% / ' + this.DANGER.max + ' / 2 - 10px) * 2)',
+      marginLeft: 'calc(' + ((min - 1) * 100 / this.DANGER.max) + '% + 100% / ' + this.DANGER.max + ' / 2 - 10px)'
+    };
+
+    this.scope_['potentielDanger'] = val;
+    // hotfix Angular 1.5.8
+    // updating min/max AND value of input[range] fails
+    this.timeout_(() => {
+      angular.element('#inputPotentielDanger').val(val);
+    });
+  }
 };
 
 /**
