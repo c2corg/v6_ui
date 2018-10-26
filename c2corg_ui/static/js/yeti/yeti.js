@@ -96,16 +96,10 @@ app.YetiController = function($scope, $http, $timeout, appAlerts, appAuthenticat
   });
 
   /**
-   * @type {boolean}
+   * @type {string|boolean}
    * @export
    */
-  this.formOK = false;
-
-  /**
-   * @type {string}
-   * @private
-   */
-  this.formOKError_ = 'bra';
+  this.formError = 'bra';
 
   /**
    * @type {Object}
@@ -196,25 +190,20 @@ app.YetiController.prototype.setInitialData_ = function() {
 app.YetiController.prototype.checkFormData_ = function(newValues, oldValues, scope) {
   // verif form
   if (!this.scope_['bra']['haut']) {
-    this.formOK = false;
-    this.formOKError_ = 'bra';
+    this.formError = 'bra';
   } else if (!this.scope_['method']) {
-    this.formOK = false;
-    this.formOKError_ = 'methode';
+    this.formError = 'methode';
   } else if (this.mrdIsNotApplicable_()) {
-    this.formOK = false;
-    this.formOKError_ = 'methode_bra';
+    this.formError = 'methode_bra';
   } else if (
     this.scope_['bra']['bas'] &&
     (this.scope_['bra']['haut'] != this.scope_['bra']['bas']) &&
     !this.scope_['bra']['altiseuil']) {
-    this.formOK = false;
-    this.formOKError_ = 'altitude';
+    this.formError = 'altitude';
   } else if (!this.scope_['mapZoomOK']) {
-    this.formOK = false;
-    this.formOKError_ = 'zoom';
+    this.formError = 'zoom';
   } else {
-    this.formOK = true;
+    this.formError = false;
   }
   // also
   // verif if bra = 4, method MRD forbidden
@@ -250,13 +239,13 @@ app.YetiController.prototype.mrdIsNotApplicable_ = function() {
  * @private
  */
 app.YetiController.prototype.setCurrentError_ = function() {
-  if (this.formOK) {
-    this.currentError = this.errors_['ok'];
-  } else {
-    this.currentError = this.errors_[this.formOKError_]['simple'];
-    if (this.formOKError_ === 'zoom') {
+  if (this.formError) {
+    this.currentError = this.errors_[this.formError]['simple'];
+    if (this.formError === 'zoom') {
       this.currentError += ' (actuel: ' + this.map_.getView().getZoom() + ')';
     }
+  } else {
+    this.currentError = this.errors_['ok'];
   }
 };
 
@@ -356,8 +345,8 @@ app.YetiController.prototype.setZoomOK_ = function() {
  * @export
  */
 app.YetiController.prototype.compute = function() {
-  if (!this.formOK) {
-    this.alerts_.addError(this.errors_[this.formOKError_]['full']);
+  if (this.formError) {
+    this.alerts_.addError(this.errors_[this.formError]['full']);
   } else {
     this.setYetiLayer_();
   }

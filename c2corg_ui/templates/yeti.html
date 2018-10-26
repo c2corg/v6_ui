@@ -53,7 +53,7 @@
 
           <div class="yetiForm-btn-container">
             <a href="${request.static_path('c2corg_ui:static/img/yeti/faq.pdf')}">FAQ ?</a>
-            <button class="btn orange-btn" type="submit" ng-class="{'gray-btn': !yetiCtrl.formOK || yetiCtrl.isProcessing }" ng-disabled="yetiCtrl.isProcessing">
+            <button class="btn orange-btn" type="submit" ng-class="{'gray-btn': yetiCtrl.formError || yetiCtrl.isProcessing }" ng-disabled="yetiCtrl.isProcessing">
               <img ng-show="yetiCtrl.isProcessing" ng-cloak src="${request.static_path('c2corg_ui:static/img/loading.gif')}" width="20">
               <span ng-show="!yetiCtrl.isProcessing">Voir sur la carte</span>
             </button>
