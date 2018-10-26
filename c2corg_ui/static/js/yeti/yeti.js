@@ -269,8 +269,8 @@ app.YetiController.prototype.setDanger_ = function() {
   this.scope_['potentielDangerMin'] = this.DANGER.min;
   this.scope_['potentielDangerMax'] = this.DANGER.max;
   this.scope_['potentielDangerStyle'] = {
-    width: 'calc(100% - (100% / ' + this.DANGER.max + ' / 2 - 10px) * 2)',
-    marginLeft: 'calc(100% / ' + this.DANGER.max + ' / 2 - 10px)'
+    width: this.setWidthCalc_(100),
+    marginLeft: this.setMarginLeftCalc_(0)
   };
   this.scope_['potentielDangerLabel'] = [];
   for (let i = 1; i <= this.scope_['potentielDangerMax']; i++) {
@@ -282,6 +282,22 @@ app.YetiController.prototype.setDanger_ = function() {
     this.scope_['potentielDangerLabel'].push(data);
   }
   this.scope_.$watch('bra.haut', this.checkBraHaut_.bind(this));
+};
+
+/**
+ * Set with: calc()
+ * @private
+ */
+app.YetiController.prototype.setWidthCalc_ = function(percent) {
+  return 'calc(' + percent + '% - (100% / ' + this.DANGER.max + ' / 2 - 10px) * 2)';
+};
+
+/**
+ * Set marginLeft: calc()
+ * @private
+ */
+app.YetiController.prototype.setMarginLeftCalc_ = function(percent) {
+  return 'calc(' + percent + '% + 100% / ' + this.DANGER.max + ' / 2 - 10px)';
 };
 
 /**
@@ -299,8 +315,8 @@ app.YetiController.prototype.checkBraHaut_ = function(newValue, oldValue, scope)
 
     // compute width / margin-left
     this.scope_['potentielDangerStyle'] = {
-      width: 'calc(' + (((max - min) + 1) * 100 / this.DANGER.max) + '% - (100% / ' + this.DANGER.max + ' / 2 - 10px) * 2)',
-      marginLeft: 'calc(' + ((min - 1) * 100 / this.DANGER.max) + '% + 100% / ' + this.DANGER.max + ' / 2 - 10px)'
+      width: this.setWidthCalc_(((max - min) + 1) * 100 / this.DANGER.max),
+      marginLeft: this.setMarginLeftCalc_((min - 1) * 100 / this.DANGER.max)
     };
 
     this.scope_['potentielDanger'] = val;
