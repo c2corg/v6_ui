@@ -34,10 +34,13 @@ app.YetiController = function($scope, $http, $timeout, appAlerts, appAuthenticat
 
   /**
    * @const
-   * @type {number}
+   * @type {Object}
    * @private
    */
-  this.MIN_ZOOM = 13;
+  this.VALID_FORM_DATA = {
+    minZoom: 13,
+    braMaxMrd: 3
+  };
 
   /**
    * @type {angular.Scope}
@@ -127,7 +130,7 @@ app.YetiController = function($scope, $http, $timeout, appAlerts, appAuthenticat
     },
     'zoom': {
       'simple': 'Zoom carte trop important',
-      'full': 'Veuillez zoomer au niveau ' + this.MIN_ZOOM + ' minimum'
+      'full': 'Veuillez zoomer au niveau ' + this.VALID_FORM_DATA.minZoom + ' minimum'
     },
     'ok': 'Tout semble correct :)',
     'yeti': 'Le service ne fonctionne pas actuellement',
@@ -198,9 +201,7 @@ app.YetiController.prototype.checkFormData_ = function(newValues, oldValues, sco
   } else if (!this.scope_['method']) {
     this.formOK = false;
     this.formOKError_ = 'methode';
-  } else if (
-    this.scope_['bra']['haut'] === 4 &&
-    this.scope_['method'] === 'mrd') {
+  } else if (this.mrdIsNotApplicable_()) {
     this.formOK = false;
     this.formOKError_ = 'methode_bra';
   } else if (
@@ -217,7 +218,7 @@ app.YetiController.prototype.checkFormData_ = function(newValues, oldValues, sco
   }
   // also
   // verif if bra = 4, method MRD forbidden
-  if (this.scope_['bra']['haut'] == 4 && this.scope_['method'] === 'mrd') {
+  if (this.mrdIsNotApplicable_()) {
     delete this.scope_['method'];
   }
   // then set errors
@@ -234,6 +235,14 @@ app.YetiController.prototype.checkBraIsDifferent_ = function(newValue, oldValue,
     delete this.scope_['bra']['bas'];
     delete this.scope_['bra']['altiseuil'];
   }
+};
+
+/**
+ * Method mrd is not applicable when bra is max
+ * @private
+ */
+app.YetiController.prototype.mrdIsNotApplicable_ = function() {
+  return this.scope_['bra']['haut'] > this.VALID_FORM_DATA.braMaxMrd && this.scope_['method'] === 'mrd';
 };
 
 /**
@@ -322,7 +331,7 @@ app.YetiController.prototype.setZoomOK_ = function() {
   this.scope_['mapZoomOK'] = !this.scope_['mapZoomOK'];
   this.scope_.$apply();
   // then real update
-  this.scope_['mapZoomOK'] = this.map_.getView().getZoom() >= this.MIN_ZOOM;
+  this.scope_['mapZoomOK'] = this.map_.getView().getZoom() >= this.VALID_FORM_DATA.minZoom;
   this.scope_.$apply();
 };
 
@@ -452,11 +461,11 @@ app.YetiController.prototype.setUrlRdv_ = function(rdv) {
 };
 
 /**
- * Warn about specific case: BRA > 3 and method is MRD
+ * Warn about specific case: BRA > 3 when clicking method MRD
  * @export
  */
 app.YetiController.prototype.warnAboutMethodBra = function() {
-  if (this.scope_['bra']['haut'] == 4) {
+  if (this.scope_['bra']['haut'] > this.VALID_FORM_DATA.braMaxMrd) {
     this.alerts_.addError(this.errors_['methode_bra']['full']);
   }
 };
