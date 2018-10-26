@@ -318,14 +318,46 @@
     right: 10px;
   }
 
-  .yetiMap-legend.ol-collapsed ul {
+  .yetiMap-legend.ol-collapsed ul,
+  .yetiMap-legend.ol-collapsed p {
     display: none;
+  }
+
+  .yetiMap-legend p {
+    text-align: left;
+    font-weight: bold;
+    margin-top: -20px;
+    margin-left: 5px;
   }
 
   .yetiMap-legend ul,
   .yetiMap-legend li {
     display: block;
     text-align: left;
+  }
+
+  .yetiMap-legend li {
+    display: flex;
+    align-items: center;
+    height: 22px;
+  }
+
+  .yetiMap-legend-color {
+    width: 21px;
+    height: 21px;
+    margin-right: 5px;
+  }
+
+  .yetiMap-legend-color--low {
+    background: #60b5e4;
+  }
+
+  .yetiMap-legend-color--medium {
+    background: #2723ac;
+  }
+
+  .yetiMap-legend-color--high {
+    background: #9c22e7;
   }
 
   /**

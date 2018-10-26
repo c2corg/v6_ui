@@ -314,10 +314,11 @@
   <div class="map-right">
     <div class="yetiMap-legend ol-attribution ol-control" ng-class="{'ol-collapsed': !clicked }" ng-cloak>
       <button type="button" ng-click="clicked = !clicked"><span>?</span></button>
+      <p>Légende</p>
       <ul>
-        <li>1 Faible</li>
-        <li>2 Moyen</li>
-        <li>3 Risqué</li>
+        <li><span class="yetiMap-legend-color yetiMap-legend-color--low"></span><span>Faible</span></li>
+        <li><span class="yetiMap-legend-color yetiMap-legend-color--medium"></span><span>Moyen</span></li>
+        <li><span class="yetiMap-legend-color yetiMap-legend-color--high"></span><span>Risqué</span></li>
       </ul>
     </div>
     <app-map></app-map>
