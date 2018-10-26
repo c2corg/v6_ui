@@ -106,11 +106,11 @@ app.YetiController = function($scope, $http, $timeout, appAlerts, appAuthenticat
    * @private
    */
   this.errors_ = {
-    'methode': {
+    'method': {
       'simple': 'Méthode manquante',
       'full': 'Veuillez sélectionner une méthode pour le calcul'
     },
-    'methode_bra': {
+    'method_bra': {
       'simple': 'Méthode et BRA incompatible',
       'full': 'La méthode MRD (débutant) est autorisée avec un BRA de 3 maximum'
     },
@@ -163,8 +163,8 @@ app.YetiController.prototype.setInitialData_ = function() {
   this.scope_['rdv'] = {'none': true};
   // MRP
   this.setDanger_();
-  this.scope_['neigeMouillee'] = false;
-  this.scope_['tailleGroupe'] = 1;
+  this.scope_['wetSnow'] = false;
+  this.scope_['groupSize'] = 1;
 
   // map
   this.scope_['mapZoomOK'] = true;
@@ -172,9 +172,9 @@ app.YetiController.prototype.setInitialData_ = function() {
   // watch every input
   this.scope_.$watchGroup([
     'method',
-    'bra.haut',
-    'bra.bas',
-    'bra.altiseuil',
+    'bra.high',
+    'bra.low',
+    'bra.altiThreshold',
     'bra.isDifferent',
     'mapZoomOK'
   ], this.checkFormData_.bind(this));
@@ -189,16 +189,16 @@ app.YetiController.prototype.setInitialData_ = function() {
  */
 app.YetiController.prototype.checkFormData_ = function(newValues, oldValues, scope) {
   // verif form
-  if (!this.scope_['bra']['haut']) {
+  if (!this.scope_['bra']['high']) {
     this.formError = 'bra';
   } else if (!this.scope_['method']) {
-    this.formError = 'methode';
+    this.formError = 'method';
   } else if (this.mrdIsNotApplicable_()) {
-    this.formError = 'methode_bra';
+    this.formError = 'method_bra';
   } else if (
-    this.scope_['bra']['bas'] &&
-    (this.scope_['bra']['haut'] != this.scope_['bra']['bas']) &&
-    !this.scope_['bra']['altiseuil']) {
+    this.scope_['bra']['low'] &&
+    (this.scope_['bra']['high'] != this.scope_['bra']['low']) &&
+    !this.scope_['bra']['altiThreshold']) {
     this.formError = 'altitude';
   } else if (!this.scope_['mapZoomOK']) {
     this.formError = 'zoom';
@@ -221,8 +221,8 @@ app.YetiController.prototype.checkFormData_ = function(newValues, oldValues, sco
 app.YetiController.prototype.checkBraIsDifferent_ = function(newValue, oldValue, scope) {
   // verif bra.isDifferent: empty inputs
   if (!this.scope_['bra']['isDifferent']) {
-    delete this.scope_['bra']['bas'];
-    delete this.scope_['bra']['altiseuil'];
+    delete this.scope_['bra']['low'];
+    delete this.scope_['bra']['altiThreshold'];
   }
 };
 
@@ -231,7 +231,7 @@ app.YetiController.prototype.checkBraIsDifferent_ = function(newValue, oldValue,
  * @private
  */
 app.YetiController.prototype.mrdIsNotApplicable_ = function() {
-  return this.scope_['bra']['haut'] > this.VALID_FORM_DATA.braMaxMrd && this.scope_['method'] === 'mrd';
+  return this.scope_['bra']['high'] > this.VALID_FORM_DATA.braMaxMrd && this.scope_['method'] === 'mrd';
 };
 
 /**
@@ -250,27 +250,27 @@ app.YetiController.prototype.setCurrentError_ = function() {
 };
 
 /**
- * Set potentielDanger
+ * Set potentialDanger
  * @private
  */
 app.YetiController.prototype.setDanger_ = function() {
-  this.scope_['potentielDanger'] = this.DANGER.min;
-  this.scope_['potentielDangerMin'] = this.DANGER.min;
-  this.scope_['potentielDangerMax'] = this.DANGER.max;
-  this.scope_['potentielDangerStyle'] = {
+  this.scope_['potentialDanger'] = this.DANGER.min;
+  this.scope_['potentialDangerMin'] = this.DANGER.min;
+  this.scope_['potentialDangerMax'] = this.DANGER.max;
+  this.scope_['potentialDangerStyle'] = {
     width: this.setWidthCalc_(100),
     marginLeft: this.setMarginLeftCalc_(0)
   };
-  this.scope_['potentielDangerLabel'] = [];
-  for (let i = 1; i <= this.scope_['potentielDangerMax']; i++) {
+  this.scope_['potentialDangerLabel'] = [];
+  for (let i = 1; i <= this.scope_['potentialDangerMax']; i++) {
     const data = {};
     data['nb'] = i;
     if (i === 2 || i === 4 || i === 8 || i === 16) {
       data['val'] = i;
     }
-    this.scope_['potentielDangerLabel'].push(data);
+    this.scope_['potentialDangerLabel'].push(data);
   }
-  this.scope_.$watch('bra.haut', this.checkBraHaut_.bind(this));
+  this.scope_.$watch('bra.high', this.checkBraHigh_.bind(this));
 };
 
 /**
@@ -290,29 +290,29 @@ app.YetiController.prototype.setMarginLeftCalc_ = function(percent) {
 };
 
 /**
- * Check bra.haut
+ * Check bra.high
  * @private
  */
-app.YetiController.prototype.checkBraHaut_ = function(newValue, oldValue, scope) {
+app.YetiController.prototype.checkBraHigh_ = function(newValue, oldValue, scope) {
   if (newValue) {
     const min = this.DANGER.bra[newValue - 1].min;
     const max = this.DANGER.bra[newValue - 1].max;
     const val = this.DANGER.bra[newValue - 1].val;
 
-    this.scope_['potentielDangerMin'] = min;
-    this.scope_['potentielDangerMax'] = max;
+    this.scope_['potentialDangerMin'] = min;
+    this.scope_['potentialDangerMax'] = max;
 
     // compute width / margin-left
-    this.scope_['potentielDangerStyle'] = {
+    this.scope_['potentialDangerStyle'] = {
       width: this.setWidthCalc_(((max - min) + 1) * 100 / this.DANGER.max),
       marginLeft: this.setMarginLeftCalc_((min - 1) * 100 / this.DANGER.max)
     };
 
-    this.scope_['potentielDanger'] = val;
+    this.scope_['potentialDanger'] = val;
     // hotfix Angular 1.5.8
     // updating min/max AND value of input[range] fails
     this.timeout_(() => {
-      angular.element('#inputPotentielDanger').val(val);
+      angular.element('#inputPotentialDanger').val(val);
     });
   }
 };
@@ -416,39 +416,39 @@ app.YetiController.prototype.setYetiUrl_ = function(bbox) {
   // all methods
   const method = this.scope_['method'];
   const bra = this.scope_['bra'];
-  // set bra.bas / altiseuil
-  const braHaut = bra['haut'];
-  const braBas = bra['bas'] || braHaut;
-  const braAltiseuil = bra['altiseuil'] || 0;
+  // set bra.low / altiThreshold
+  const braHigh = bra['high'];
+  const braLow = bra['low'] || braHigh;
+  const braAltiThreshold = bra['altiThreshold'] || 0;
   // mre
-  let roseDesVents = 'none';
+  let compass = 'none';
   // mrp
-  let potentielDanger = 0;
-  let neigeMouillee = false;
-  let tailleGroupe = 0;
+  let potentialDanger = 0;
+  let wetSnow = false;
+  let groupSize = 0;
 
   if (method === 'mre') {
-    roseDesVents = this.setUrlRdv_(this.scope_['rdv']);
+    compass = this.setUrlRdv_(this.scope_['rdv']);
   }
 
   if (method === 'mrp') {
-    potentielDanger = this.scope_['potentielDanger'];
-    neigeMouillee = this.scope_['neigeMouillee'];
-    tailleGroupe = parseInt(this.scope_['tailleGroupe'], 10);
+    potentialDanger = this.scope_['potentialDanger'];
+    wetSnow = this.scope_['wetSnow'];
+    groupSize = parseInt(this.scope_['groupSize'], 10);
   }
   // create url
   this.yetiUrl_ = this.yetiUrlBase_;
   this.yetiUrl_ += `methode=${method};`;
   this.yetiUrl_ += `BBox=${bbox[0]},${bbox[1]},${bbox[2]},${bbox[3]};`;
-  this.yetiUrl_ += `risque_haut=${braHaut};`;
-  this.yetiUrl_ += `risque_bas=${braBas};`;
-  this.yetiUrl_ += `seuil_alti=${braAltiseuil};`;
+  this.yetiUrl_ += `risque_haut=${braHigh};`;
+  this.yetiUrl_ += `risque_bas=${braLow};`;
+  this.yetiUrl_ += `seuil_alti=${braAltiThreshold};`;
 
-  this.yetiUrl_ += `rdv=${roseDesVents};`;
+  this.yetiUrl_ += `rdv=${compass};`;
 
-  this.yetiUrl_ += `PotDan=${potentielDanger};`;
-  this.yetiUrl_ += `NeiMou=${neigeMouillee};`;
-  this.yetiUrl_ += `taille_groupe=${tailleGroupe}`;
+  this.yetiUrl_ += `PotDan=${potentialDanger};`;
+  this.yetiUrl_ += `NeiMou=${wetSnow};`;
+  this.yetiUrl_ += `taille_groupe=${groupSize}`;
 
   // username
   const userData = this.auth_.userData;
@@ -470,8 +470,8 @@ app.YetiController.prototype.setUrlRdv_ = function(rdv) {
  * @export
  */
 app.YetiController.prototype.warnAboutMethodBra = function() {
-  if (this.scope_['bra']['haut'] > this.VALID_FORM_DATA.braMaxMrd) {
-    this.alerts_.addError(this.errors_['methode_bra']['full']);
+  if (this.scope_['bra']['high'] > this.VALID_FORM_DATA.braMaxMrd) {
+    this.alerts_.addError(this.errors_['method_bra']['full']);
   }
 };
 

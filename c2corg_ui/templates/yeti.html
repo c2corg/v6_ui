@@ -23,8 +23,8 @@
               <polygon class="st1" points="2.2,89.5 97.5,89.5 62.7,11.9 48,32.9 31.8,25.5 "/>
               <line ng-cloak ng-show="bra.isDifferent" class="st1" x1="10" y1="59.5" x2="90" y2="59.5"/>
             </svg>
-            <div ng-cloak class="yetiForm-bra-control yetiForm-bra-control--haut yetiForm-control" ng-style="{ top: (bra.isDifferent ? 52 : 72) + 'px' }">
-              <select name="BRA_haut" ng-model="bra.haut" class="form-control" aria-label="Niveau de risque BRA haut" ng-change="yetiCtrl.setDanger()">
+            <div ng-cloak class="yetiForm-bra-control yetiForm-bra-control--high yetiForm-control" ng-style="{ top: (bra.isDifferent ? 52 : 72) + 'px' }">
+              <select name="BRA_high" ng-model="bra.high" class="form-control" aria-label="Niveau de risque BRA haut" ng-change="yetiCtrl.setDanger()">
                 <option selected></option>
                 <option>1</option>
                 <option>2</option>
@@ -38,10 +38,10 @@
               <label for="checkboxIsDifferent">BRA haut/bas différents ?</label>
             </div>
             <div ng-cloak ng-show="bra.isDifferent" class="yetiForm-bra-control yetiForm-bra-control--alti yetiForm-control">
-              <input class="form-control" type="number" step="50" name="altiseuil" ng-model="bra.altiseuil" id="altiseuil" maxlength="4" aria-label="Altitude seuil">
+              <input class="form-control" type="number" step="50" name="altiThreshold" ng-model="bra.altiThreshold" id="altiThreshold" maxlength="4" aria-label="Altitude seuil">
             </div>
-            <div ng-cloak ng-show="bra.isDifferent" class="yetiForm-bra-control yetiForm-bra-control--bas yetiForm-control">
-              <select name="BRA_bas" ng-model="bra.bas" class="form-control" aria-label="Niveau de risque BRA bas">
+            <div ng-cloak ng-show="bra.isDifferent" class="yetiForm-bra-control yetiForm-bra-control--low yetiForm-control">
+              <select name="BRA_low" ng-model="bra.low" class="form-control" aria-label="Niveau de risque BRA bas">
                 <option selected></option>
                 <option>1</option>
                 <option>2</option>
@@ -72,7 +72,7 @@
           <h4>Méthodes</h4>
           <div class="tabPanel-widget">
             <label for="tab-1" tabindex="0" ng-click="yetiCtrl.warnAboutMethodBra()"></label>
-            <input id="tab-1" type="radio" name="tabs" ng-model="method" value="mrd" ng-disabled="bra.haut == 4">
+            <input id="tab-1" type="radio" name="tabs" ng-model="method" value="mrd" ng-disabled="bra.high == 4">
             <h4>
               <div class="yetiForm-control">
                 <input type="checkbox" ng-checked="method === 'mrd'">
@@ -87,28 +87,28 @@
               </div>
               <table class="yetiForm-danger">
                 <tr class="yetiForm-danger-row yetiForm-danger--low">
-                  <td><img src="static/img/yeti/niveaux-danger.svg#niveau1" alt="X"></td>
+                  <td><img src="static/img/yeti/levels-danger.svg#level1" alt="X"></td>
                   <td>Danger faible</td>
                   <td>Pente &lt;40°</td>
-                  <td><img src="static/img/yeti/niveaux-danger-pente.svg#niveau1" alt="X"></td>
+                  <td><img src="static/img/yeti/levels-danger-slope.svg#level1" alt="X"></td>
                 </tr>
                 <tr class="yetiForm-danger-row yetiForm-danger--medium">
-                  <td><img src="static/img/yeti/niveaux-danger.svg#niveau2" alt="X"></td>
+                  <td><img src="static/img/yeti/levels-danger.svg#level2" alt="X"></td>
                   <td>Danger limité</td>
                   <td>Pente &lt;35°</td>
-                  <td><img src="static/img/yeti/niveaux-danger-pente.svg#niveau2" alt="X"></td>
+                  <td><img src="static/img/yeti/levels-danger-slope.svg#level2" alt="X"></td>
                 </tr>
                 <tr class="yetiForm-danger-row yetiForm-danger--strong">
-                  <td><img src="static/img/yeti/niveaux-danger.svg#niveau3" alt="X"></td>
+                  <td><img src="static/img/yeti/levels-danger.svg#level3" alt="X"></td>
                   <td>Danger marqué</td>
                   <td>Pente &lt;30°</td>
-                  <td><img src="static/img/yeti/niveaux-danger-pente.svg#niveau3" alt="X"></td>
+                  <td><img src="static/img/yeti/levels-danger-slope.svg#level3" alt="X"></td>
                 </tr>
                 <tr class="yetiForm-danger-row yetiForm-danger--high">
-                  <td><img src="static/img/yeti/niveaux-danger.svg#niveau4" alt="X"></td>
+                  <td><img src="static/img/yeti/levels-danger.svg#level4" alt="X"></td>
                   <td>Danger fort</td>
                   <td>Renoncer à sortir</td>
-                  <td><img src="static/img/yeti/niveaux-danger-pente.svg#niveau4" alt="X"></td>
+                  <td><img src="static/img/yeti/levels-danger-slope.svg#level4" alt="X"></td>
                 </tr>
               </table>
             </div>
@@ -172,34 +172,34 @@
 
               <table class="yetiForm-danger">
                 <tr class="yetiForm-danger-row yetiForm-danger--low">
-                  <td><img src="static/img/yeti/niveaux-danger.svg#niveau1" alt="X"></td>
+                  <td><img src="static/img/yeti/levels-danger.svg#level1" alt="X"></td>
                   <td>Danger faible</td>
                   <td>Skier avec précaution</td>
                   <td></td>
                 </tr>
                 <tr class="yetiForm-danger-row yetiForm-danger--medium">
-                  <td><img src="static/img/yeti/niveaux-danger.svg#niveau2" alt="X"></td>
+                  <td><img src="static/img/yeti/levels-danger.svg#level2" alt="X"></td>
                   <td>Danger limité</td>
                   <td>Pente &lt;40°</td>
-                  <td><img src="static/img/yeti/niveaux-danger-pente.svg#niveau1" alt="X"></td>
+                  <td><img src="static/img/yeti/levels-danger-slope.svg#level1" alt="X"></td>
                 </tr>
                 <tr class="yetiForm-danger-row yetiForm-danger--strong">
-                  <td><img src="static/img/yeti/niveaux-danger.svg#niveau3" alt="X"></td>
+                  <td><img src="static/img/yeti/levels-danger.svg#level3" alt="X"></td>
                   <td>Danger marqué</td>
                   <td>Pente &lt;35°</td>
-                  <td><img src="static/img/yeti/niveaux-danger-pente.svg#niveau2" alt="X"></td>
+                  <td><img src="static/img/yeti/levels-danger-slope.svg#level2" alt="X"></td>
                 </tr>
                 <tr class="yetiForm-danger-row yetiForm-danger--high">
-                  <td><img src="static/img/yeti/niveaux-danger.svg#niveau4" alt="X"></td>
+                  <td><img src="static/img/yeti/levels-danger.svg#level4" alt="X"></td>
                   <td>Danger fort</td>
                   <td>Pente &lt;30°</td>
-                  <td><img src="static/img/yeti/niveaux-danger-pente.svg#niveau3" alt="X"></td>
+                  <td><img src="static/img/yeti/levels-danger-slope.svg#level3" alt="X"></td>
                 </tr>
                 <tr class="yetiForm-danger-row yetiForm-danger--insane">
-                  <td><img src="static/img/yeti/niveaux-danger.svg#niveau4" alt="X"></td>
+                  <td><img src="static/img/yeti/levels-danger.svg#level4" alt="X"></td>
                   <td>Danger très fort</td>
                   <td>Renoncer à sortir</td>
-                  <td><img src="static/img/yeti/niveaux-danger-pente.svg#niveau4" alt="X"></td>
+                  <td><img src="static/img/yeti/levels-danger-slope.svg#level4" alt="X"></td>
                 </tr>
               </table>
 
@@ -218,12 +218,12 @@
 
               <fieldset class="yetiForm-fieldset">
                 <legend>Potentiel de danger</legend>
-                <p ng-if="bra.haut">BRA actuel: {{bra.haut}}</p>
-                <p ng-if="!bra.haut">Pas de BRA sélectionné</p>
-                <input type="range" id=inputPotentielDanger name="potentielDanger" ng-model="potentielDanger" min="{{potentielDangerMin}}" max="{{potentielDangerMax}}" ng-style="potentielDangerStyle" ng-disabled="!bra.haut">
-                <ul class="potentielDangerLabel">
-                  <li class="potentielDangerLabel-item" ng-class="{'potentielDangerLabel-item--selected': potentielDanger == label.nb}" ng-repeat="label in potentielDangerLabel" ng-switch="!!label.val">
-                    <strong ng-switch-when="true" class="potentielDangerLabel-item--step">
+                <p ng-if="bra.high">BRA actuel: {{bra.high}}</p>
+                <p ng-if="!bra.high">Pas de BRA sélectionné</p>
+                <input type="range" id=inputPotentialDanger name="potentialDanger" ng-model="potentialDanger" min="{{potentialDangerMin}}" max="{{potentialDangerMax}}" ng-style="potentialDangerStyle" ng-disabled="!bra.high">
+                <ul class="potentialDangerLabel">
+                  <li class="potentialDangerLabel-item" ng-class="{'potentialDangerLabel-item--selected': potentialDanger == label.nb}" ng-repeat="label in potentialDangerLabel" ng-switch="!!label.val">
+                    <strong ng-switch-when="true" class="potentialDangerLabel-item--step">
                       {{label.nb}}
                     </strong>
                     <span ng-switch-when="false">
@@ -236,9 +236,9 @@
                 </div>
                 
                 <div class="yetiForm-control">
-                  <input type="checkbox" name="neigeMouillee" id="checkboxNeigeMouille" ng-model="neigeMouillee">
-                  <span ng-click="neigeMouillee = !neigeMouillee"></span>
-                  <label for="checkboxNeigeMouille">Neige mouillée: pas de prise en compte de l'orientation</label>
+                  <input type="checkbox" name="wetSnow" id="checkboxWetSnow" ng-model="wetSnow">
+                  <span ng-click="wetSnow = !wetSnow"></span>
+                  <label for="checkboxWetSnow">Neige mouillée: pas de prise en compte de l'orientation</label>
                 </div>
                 <div class="yetiForm-note">
                   <p>Attention, par neige mouillée, aucun facteur de réduction d'orientation ou de fréquentation ne peut être appliqué</p>
@@ -248,24 +248,24 @@
               <fieldset class="yetiForm-fieldset">
                 <legend>Groupe</legend>
                 <div class="yetiForm-control">
-                  <input type="radio" name="tailleGroupe" id="radioTailleGroupe1" ng-model="tailleGroupe" value="2.1">
+                  <input type="radio" name="groupSize" id="radioGroupSize1" ng-model="groupSize" value="2.1">
                   <span></span>
-                  <label for="radioTailleGroupe1">Grand groupe avec distance de délestage</label>
+                  <label for="radioGroupSize1">Grand groupe avec distance de délestage</label>
                 </div>
                 <div class="yetiForm-control">
-                  <input type="radio" name="tailleGroupe" id="radioTailleGroupe2" ng-model="tailleGroupe" value="2.2">
+                  <input type="radio" name="groupSize" id="radioGroupSize2" ng-model="groupSize" value="2.2">
                   <span></span>
-                  <label for="radioTailleGroupe2">Petit groupe sans distance</label>
+                  <label for="radioGroupSize2">Petit groupe sans distance</label>
                 </div>
                 <div class="yetiForm-control">
-                  <input type="radio" name="tailleGroupe" id="radioTailleGroupe3" ng-model="tailleGroupe" value="3">
+                  <input type="radio" name="groupSize" id="radioGroupSize3" ng-model="groupSize" value="3">
                   <span></span>
-                  <label for="radioTailleGroupe3">Petit groupe avec distance de délestage</label>
+                  <label for="radioGroupSize3">Petit groupe avec distance de délestage</label>
                 </div>
                 <div class="yetiForm-control">
-                  <input type="radio" name="tailleGroupe" id="radioTailleGroupe4" ng-model="tailleGroupe" value="1" checked>
+                  <input type="radio" name="groupSize" id="radioGroupSize4" ng-model="groupSize" value="1" checked>
                   <span></span>
-                  <label for="radioTailleGroupe4">Aucun facteur de reduction lié au groupe</label>
+                  <label for="radioGroupSize4">Aucun facteur de reduction lié au groupe</label>
                 </div>
                 <div class="yetiForm-note">
                   <p>Taille du groupe</p>
