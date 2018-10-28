@@ -36,7 +36,7 @@
     "ngeo": "2.1.1",
     "openlayers": "3.19.1",
     "photoswipe": "4.1.2",
-    "slug": "0.9.1"
+    "slug": "0.9.2"
   },
   "devDependencies": {
     "angular-gettext-tools": "2.3.13",
