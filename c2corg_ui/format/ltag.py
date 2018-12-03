@@ -37,15 +37,15 @@ def _get_ltag_pattern():
 
     # let's build multi pitch pattern, like L#1-2 or L#12bis-14
     multi_pitch_label = p("multi_pitch_label", raw_label)
-    first_offset = p("first_offset", "\d+")
-    last_offset = p("last_offset", "\d+")
+    first_offset = p("first_offset", r"\d+")
+    last_offset = p("last_offset", r"\d+")
     first_pitch = p("first_pitch", first_offset + multi_pitch_label + "?")
     last_pitch = p("last_pitch", last_offset)
     multi_pitch = p("multi_pitch", first_pitch + "-" + last_pitch)
 
     # mono pitch, like L#, L#12 or L#13bis
     mono_pitch_label = p("mono_pitch_label", raw_label)
-    mono_pitch_value = p("mono_pitch_value", "\d*")
+    mono_pitch_value = p("mono_pitch_value", r"\d*")
     mono_pitch = p("mono_pitch", mono_pitch_value + mono_pitch_label + "?")
 
     numbering = p("numbering", multi_pitch + "|" + mono_pitch)

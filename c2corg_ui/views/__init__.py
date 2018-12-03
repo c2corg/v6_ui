@@ -126,7 +126,7 @@ def get_with_etag(settings, url, old_api_cache_key=None):
     return False, api_cache_key, document
 
 
-IF_NONE_MATCH = re.compile('(?:W/)?(?:"([^"]*)",?\s*)')
+IF_NONE_MATCH = re.compile(r'(?:W/)?(?:"([^"]*)",?\s*)')
 
 
 def _get_api_cache_key_from_etag(etag):
