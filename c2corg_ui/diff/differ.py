@@ -1,7 +1,7 @@
 from difflib import HtmlDiff
 import re
 
-TABLE_CLEANUP_REGEX = re.compile('<td class="diff_next"[^>]*?>.*?<\/td>')
+TABLE_CLEANUP_REGEX = re.compile(r'<td class="diff_next"[^>]*?>.*?<\/td>')
 
 
 def diff_text(text1, text2):
