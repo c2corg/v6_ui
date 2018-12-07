@@ -71,7 +71,7 @@ app.YetiController = function($scope, $http, $timeout, appAlerts, appAuthenticat
    * @type {string}
    * @private
    */
-  this.yetiUrlBase_ = 'http://yeti.ensg.eu/wps?request=Execute&service=WPS&version=1.0.0&identifier=Yeti&datainputs=';
+  this.yetiUrlBase_ = 'https://api.ensg.eu/yeti-wps?request=Execute&service=WPS&version=1.0.0&identifier=Yeti&datainputs=';
 
   /**
    * @type {string}
@@ -449,15 +449,15 @@ app.YetiController.prototype.setYetiUrl_ = function(bbox) {
   // create url
   this.yetiUrl_ = this.yetiUrlBase_;
   this.yetiUrl_ += `methode=${method};`;
-  this.yetiUrl_ += `BBox=${bbox[0]},${bbox[1]},${bbox[2]},${bbox[3]};`;
+  this.yetiUrl_ += `bbox=${bbox[0]},${bbox[1]},${bbox[2]},${bbox[3]};`;
   this.yetiUrl_ += `risque_haut=${braHigh};`;
   this.yetiUrl_ += `risque_bas=${braLow};`;
   this.yetiUrl_ += `seuil_alti=${braAltiThreshold};`;
 
   this.yetiUrl_ += `rdv=${compass};`;
 
-  this.yetiUrl_ += `PotDan=${potentialDanger};`;
-  this.yetiUrl_ += `NeiMou=${wetSnow};`;
+  this.yetiUrl_ += `potentiel_danger=${potentialDanger};`;
+  this.yetiUrl_ += `neige_mouillee=${wetSnow};`;
   this.yetiUrl_ += `taille_groupe=${groupSize}`;
 
   // username
