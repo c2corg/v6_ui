@@ -96,6 +96,12 @@ app.YetiController = function($scope, $http, $timeout, appAlerts, appAuthenticat
   });
 
   /**
+   * @type {Object}
+   * @export
+   */
+  this.mapLegend = {};
+
+  /**
    * @type {string|boolean}
    * @export
    */
@@ -391,6 +397,10 @@ app.YetiController.prototype.setYetiLayer_ = function() {
 
     this.yetiLayer_.setMap(this.map_);
 
+    // set map legend
+    const legend = xml.getElementsByTagName('wps:ComplexData')[2].textContent;
+    this.setMapLegend_(legend);
+
   }).catch(err => {
     let errorText = this.errors_['yeti'];
     if (err.status == 400) {
@@ -463,6 +473,19 @@ app.YetiController.prototype.setYetiUrl_ = function(bbox) {
  */
 app.YetiController.prototype.setUrlRdv_ = function(rdv) {
   return Object.keys(rdv).join(',');
+};
+
+
+/**
+ * Set map legend
+ * @private
+ */
+app.YetiController.prototype.setMapLegend_ = function(legend) {
+  legend = JSON.parse(legend);
+  legend.items.forEach(item => {
+    item.color = `rgb(${item.color[0]}, ${item.color[1]}, ${item.color[2]})`;
+  });
+  this.mapLegend = /** @type {Object} */ (legend);
 };
 
 /**

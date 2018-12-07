@@ -3,7 +3,7 @@
 <%inherit file="base.html"/>
 <%block name="pagetitle"><title ng-bind="mainCtrl.page_title('YETI')">${show_title('YETI')}</title></%block>
 
-<section id="yeti">
+<section id="yeti" ng-controller="appYetiController as yetiCtrl">
   <header class="page-main-title">
     <h3>
       <span translate>YETI - Un outil pour la vie</span>
@@ -11,7 +11,7 @@
   </header>
   <div class="documents-list-section-container">
     <section class="documents-list-section">
-      <div ng-controller="appYetiController as yetiCtrl">
+      <div>
       <form name="yetiForm" ng-submit="yetiCtrl.compute()" class="yetiForm">
         <div class="yetiForm-bra">
           <h4>Info BRA</h4>
@@ -314,12 +314,15 @@
   <div class="map-right">
     <div class="yetiMap-legend ol-attribution ol-control" ng-class="{'ol-collapsed': !clicked }" ng-cloak>
       <button type="button" ng-click="clicked = !clicked"><span>?</span></button>
-      <p>Légende</p>
+      <p class="yetiMap-legendTitle">Légende</p>
+      <p class="yetiMap-legendComment" ng-if="!yetiCtrl.mapLegend.items">La légende apparaîtra automatiquement avec l'image générée</p>
       <ul>
-        <li><span class="yetiMap-legend-color yetiMap-legend-color--low"></span><span>Faible</span></li>
-        <li><span class="yetiMap-legend-color yetiMap-legend-color--medium"></span><span>Moyen</span></li>
-        <li><span class="yetiMap-legend-color yetiMap-legend-color--high"></span><span>Risqué</span></li>
+        <li ng-repeat="item in yetiCtrl.mapLegend.items">
+          <span class="yetiMap-legend-color" ng-style="{'background': item.color}"></span>
+          <span>{{item.text['fr']}}</span>
+        </li>
       </ul>
+      <p class="yetiMap-legendComment">{{yetiCtrl.mapLegend.comment['fr']}}</p>
     </div>
     <app-map></app-map>
   </div>
