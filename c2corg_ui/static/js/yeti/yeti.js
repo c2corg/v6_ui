@@ -135,7 +135,7 @@ app.YetiController = function($scope, $http, $timeout, appAlerts, appAuthenticat
     'ok': 'Tout semble correct :)',
     'yeti': 'Le service ne fonctionne pas actuellement',
     'yeti_prefix': 'YETI Service: ',
-    'yeti_unauthorized': 'Vous devez être autorisé pour effectuer cette requête. Contactez jbl77 si vous êtes intéressé.'
+    'yeti_unauthorized': 'Vous devez être autorisé pour effectuer cette requête. Contactez les administrateurs du service si vous êtes intéressé.'
   };
 
   /**
