@@ -1,0 +1,329 @@
+<%namespace file="helpers/common.html" import="show_title"/>
+<%namespace file="helpers/list.html" import="toggle_map_btns"/>
+<%inherit file="base.html"/>
+<%block name="pagetitle"><title ng-bind="mainCtrl.page_title('YETI')">${show_title('YETI')}</title></%block>
+
+<section id="yeti" ng-controller="appYetiController as yetiCtrl">
+  <header class="page-main-title">
+    <h3>
+      <span translate>YETI - Un outil pour la vie</span>
+    </h3>
+  </header>
+  <div class="documents-list-section-container">
+    <section class="documents-list-section">
+      <div>
+      <form name="yetiForm" ng-submit="yetiCtrl.compute()" class="yetiForm">
+        <div class="yetiForm-bra">
+          <h4>Info BRA</h4>
+          <div class="yetiForm-bra-controls">
+            <svg viewBox="0 0 100 100" width="150" height="150">
+              <style type="text/css">
+                .st1{fill:none;stroke:#000;stroke-miterlimit:10;}
+              </style>
+              <polygon class="st1" points="2.2,89.5 97.5,89.5 62.7,11.9 48,32.9 31.8,25.5 "/>
+              <line ng-cloak ng-show="bra.isDifferent" class="st1" x1="10" y1="59.5" x2="90" y2="59.5"/>
+            </svg>
+            <div ng-cloak class="yetiForm-bra-control yetiForm-bra-control--high yetiForm-control" ng-style="{ top: (bra.isDifferent ? 52 : 72) + 'px' }">
+              <select name="BRA_high" ng-model="bra.high" class="form-control" aria-label="Niveau de risque BRA haut" ng-change="yetiCtrl.setDanger()">
+                <option selected></option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+              </select>
+            </div>
+            <div class="yetiForm-bra-control yetiForm-bra-control--isDifferent yetiForm-control">
+              <input class="form-control" id="checkboxIsDifferent" type="checkbox" name="isBraDifferent" ng-model="bra.isDifferent">
+              <span ng-click="bra.isDifferent = !bra.isDifferent"></span>
+              <label for="checkboxIsDifferent">BRA haut/bas différents ?</label>
+            </div>
+            <div ng-cloak ng-show="bra.isDifferent" class="yetiForm-bra-control yetiForm-bra-control--alti yetiForm-control">
+              <input class="form-control" type="number" step="50" name="altiThreshold" ng-model="bra.altiThreshold" id="altiThreshold" maxlength="4" aria-label="Altitude seuil">
+            </div>
+            <div ng-cloak ng-show="bra.isDifferent" class="yetiForm-bra-control yetiForm-bra-control--low yetiForm-control">
+              <select name="BRA_low" ng-model="bra.low" class="form-control" aria-label="Niveau de risque BRA bas">
+                <option selected></option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="yetiForm-btn-container">
+            <a href="${request.static_path('c2corg_ui:static/img/yeti/faq.pdf')}">FAQ ?</a>
+            <button class="btn orange-btn" type="submit" ng-class="{'gray-btn': yetiCtrl.formError || yetiCtrl.isProcessing }" ng-disabled="yetiCtrl.isProcessing">
+              <img ng-show="yetiCtrl.isProcessing" ng-cloak src="${request.static_path('c2corg_ui:static/img/loading.gif')}" width="20">
+              <span ng-show="!yetiCtrl.isProcessing">Voir sur la carte</span>
+            </button>
+            <p class="yetiForm-error">
+              &nbsp;
+              <span ng-cloak>
+                <strong>Info: </strong>
+                {{yetiCtrl.currentError}}
+              </span>
+            </p>
+          </div>
+
+        </div>
+
+        <fieldset class="yetiForm-methods">
+          <h4>Méthodes</h4>
+          <div class="tabPanel-widget">
+            <label for="tab-1" tabindex="0" ng-click="yetiCtrl.warnAboutMethodBra()"></label>
+            <input id="tab-1" type="radio" name="tabs" ng-model="method" value="mrd" ng-disabled="bra.high == 4">
+            <h4>
+              <div class="yetiForm-control">
+                <input type="checkbox" ng-checked="method === 'mrd'">
+                <span></span>
+                <label>MRD (débutant)</label>
+              </div>
+            </h4>
+            <div>
+              <p>Avec la Méthode de Réduction pour Débutant (MRD), vous n'avez pas d'autres paramètres à entrer que le (ou les) niveau(x) de risque donné par le BRA.</p>
+              <div class="yetiForm-note">
+                <p>Comme son nom l'indique, cette méthode est destinée aux pratiquants débutants. De ce fait, la marge de securité se doit d'être très importante. On ne spécifie pas d'autre paramètre que le niveau de risque du BRA. Il n'est pas tenu compte de l'orientation.</p>
+              </div>
+              <table class="yetiForm-danger">
+                <tr class="yetiForm-danger-row yetiForm-danger--low">
+                  <td><img src="static/img/yeti/levels-danger.svg#level1" alt="X"></td>
+                  <td>Danger faible</td>
+                  <td>Pente &lt;40°</td>
+                  <td><img src="static/img/yeti/levels-danger-slope.svg#level1" alt="X"></td>
+                </tr>
+                <tr class="yetiForm-danger-row yetiForm-danger--medium">
+                  <td><img src="static/img/yeti/levels-danger.svg#level2" alt="X"></td>
+                  <td>Danger limité</td>
+                  <td>Pente &lt;35°</td>
+                  <td><img src="static/img/yeti/levels-danger-slope.svg#level2" alt="X"></td>
+                </tr>
+                <tr class="yetiForm-danger-row yetiForm-danger--strong">
+                  <td><img src="static/img/yeti/levels-danger.svg#level3" alt="X"></td>
+                  <td>Danger marqué</td>
+                  <td>Pente &lt;30°</td>
+                  <td><img src="static/img/yeti/levels-danger-slope.svg#level3" alt="X"></td>
+                </tr>
+                <tr class="yetiForm-danger-row yetiForm-danger--high">
+                  <td><img src="static/img/yeti/levels-danger.svg#level4" alt="X"></td>
+                  <td>Danger fort</td>
+                  <td>Renoncer à sortir</td>
+                  <td><img src="static/img/yeti/levels-danger-slope.svg#level4" alt="X"></td>
+                </tr>
+              </table>
+            </div>
+            <label for="tab-2" tabindex="0"></label>
+            <input id="tab-2" type="radio" name="tabs" ng-model="method" value="mre">
+            <h4>
+              <div class="yetiForm-control">
+                <input type="checkbox" ng-checked="method === 'mre'">
+                <span></span>
+                <label>MRE (élémentaire)</label>
+              </div>
+            </h4>
+            <div>
+              <p>Avec la Méthode de Réduction élémentaire (MRE), vous pouvez saisir les secteurs sur la rose des vents qui d'apres le BRA consitituent des orientations critiques.</p>
+              <svg class="orientation-svg" xmlns="http://www.w3.org/2000/svg" width="150" height="150" version="1.1" viewBox="0 0 454.00715 454.00714">
+                <g ng-click="yetiCtrl.setRdv('e')">
+                  <path class="ori-e" d="m370.28 168.82-142.14 58.18 142.14 58.185h0.005l83.722-58.185z"
+                    ng-class="{ 'orientation-selected': rdv['e'] }"/>
+                  <text class="text-e" y="247.58344" x="350" font-size="60">E</text>
+                </g>
+                <g ng-click="yetiCtrl.setRdv('w')">
+                  <path class="ori-w" d="m83.727 168.82 142.14 58.18-142.14 58.185h-0.0046l-83.725-58.18z"
+                    ng-class="{ 'orientation-selected': rdv['w'] }"/>
+                  <text class="text-w" y="247.58344" x="56" font-size="60">W</text>
+                </g>
+                <g ng-click="yetiCtrl.setRdv('s')">
+                  <path class="ori-s" d="m285.19 370.28-58.18-142.14-58.185 142.14v0.005l58.185 83.722z"
+                    ng-class="{ 'orientation-selected': rdv['s'] }"/>
+                  <text class="text-s" y="390.00714" x="206.10295" font-size="60">S</text>
+                </g>
+                <g ng-click="yetiCtrl.setRdv('n')">
+                  <path class="ori-n" d="m285.19 83.727-58.18 142.14-58.19-142.14v-0.005l58.19-83.725z"
+                    ng-class="{ 'orientation-selected': rdv['n'] }"/>
+                  <text class="text-n" y="105.007141" x="205.0424" font-size="60">N</text>
+                </g>
+                <path class="ori-se" d="m369.46 287.17-141.65-59.371 59.368 141.65 0.002 0.002 100.34 18.058z"
+                  ng-click="yetiCtrl.setRdv('se')"
+                  ng-class="{ 'orientation-selected': rdv['se'] }"/>
+                <path class="ori-nw" d="m166.83 84.55 59.371 141.65-141.65-59.368-0.0032-0.002l-18.058-100.34z"
+                  ng-click="yetiCtrl.setRdv('nw')"
+                  ng-class="{ 'orientation-selected': rdv['nw'] }"/>
+                <path class="ori-sw" d="m166.83 369.46 59.371-141.65-141.65 59.368-0.0032 0.002-18.058 100.34z"
+                  ng-click="yetiCtrl.setRdv('sw')"
+                  ng-class="{ 'orientation-selected': rdv['sw'] }"/>
+                <path class="ori-ne" d="m369.46 166.83-141.65 59.371 59.368-141.65 0.002-0.002 100.34-18.058z"
+                  ng-click="yetiCtrl.setRdv('ne')"
+                  ng-class="{ 'orientation-selected': rdv['ne'] }"/>
+              </svg>
+              <div class="yetiForm-note">
+                <p>On notera que toutes les orientations possèdent le niveau de risque du BRA, avec un caractère plus critique dans les pentes sélectionnées sur la rose des vents.</p>
+              </div>
+
+              <input type="hidden" name="chk" ng-model="rdv.nw" value="nw">
+              <input type="hidden" name="chk" ng-model="rdv.n" value="n">
+              <input type="hidden" name="chk" ng-model="rdv.ne" value="ne">
+              <input type="hidden" name="chk" ng-model="rdv.w" value="w">
+              <input type="hidden" name="chk" ng-model="rdv.e" value="e">
+              <input type="hidden" name="chk" ng-model="rdv.sw" value="sw">
+              <input type="hidden" name="chk" ng-model="rdv.s" value="s">
+              <input type="hidden" name="chk" ng-model="rdv.se" value="se">
+
+              <table class="yetiForm-danger">
+                <tr class="yetiForm-danger-row yetiForm-danger--low">
+                  <td><img src="static/img/yeti/levels-danger.svg#level1" alt="X"></td>
+                  <td>Danger faible</td>
+                  <td>Skier avec précaution</td>
+                  <td></td>
+                </tr>
+                <tr class="yetiForm-danger-row yetiForm-danger--medium">
+                  <td><img src="static/img/yeti/levels-danger.svg#level2" alt="X"></td>
+                  <td>Danger limité</td>
+                  <td>Pente &lt;40°</td>
+                  <td><img src="static/img/yeti/levels-danger-slope.svg#level1" alt="X"></td>
+                </tr>
+                <tr class="yetiForm-danger-row yetiForm-danger--strong">
+                  <td><img src="static/img/yeti/levels-danger.svg#level3" alt="X"></td>
+                  <td>Danger marqué</td>
+                  <td>Pente &lt;35°</td>
+                  <td><img src="static/img/yeti/levels-danger-slope.svg#level2" alt="X"></td>
+                </tr>
+                <tr class="yetiForm-danger-row yetiForm-danger--high">
+                  <td><img src="static/img/yeti/levels-danger.svg#level4" alt="X"></td>
+                  <td>Danger fort</td>
+                  <td>Pente &lt;30°</td>
+                  <td><img src="static/img/yeti/levels-danger-slope.svg#level3" alt="X"></td>
+                </tr>
+                <tr class="yetiForm-danger-row yetiForm-danger--insane">
+                  <td><img src="static/img/yeti/levels-danger.svg#level4" alt="X"></td>
+                  <td>Danger très fort</td>
+                  <td>Renoncer à sortir</td>
+                  <td><img src="static/img/yeti/levels-danger-slope.svg#level4" alt="X"></td>
+                </tr>
+              </table>
+
+            </div>
+            <label for="tab-3"></label>
+            <input id="tab-3" type="radio" name="tabs" ng-model="method" value="mrp">
+            <h4>
+              <div class="yetiForm-control">
+                <input type="checkbox" ng-checked="method === 'mrp'">
+                <span></span>
+                <label>MRP (expert)</label>
+              </div>
+            </h4>
+            <div>
+              <p>Avec la Méthode de Réduction Professionnelle (MRP), vous pouvez affiner le potentiel de danger, tenir compte de la taille du groupe et des mesures de précaution envisagées.</p>
+
+              <fieldset class="yetiForm-fieldset">
+                <legend>Potentiel de danger</legend>
+                <p ng-if="bra.high">BRA actuel: {{bra.high}}</p>
+                <p ng-if="!bra.high">Pas de BRA sélectionné</p>
+                <input type="range" id=inputPotentialDanger name="potentialDanger" ng-model="potentialDanger" min="{{potentialDangerMin}}" max="{{potentialDangerMax}}" ng-style="potentialDangerStyle" ng-disabled="!bra.high">
+                <ul class="potentialDangerLabel">
+                  <li class="potentialDangerLabel-item" ng-class="{'potentialDangerLabel-item--selected': potentialDanger == label.nb}" ng-repeat="label in potentialDangerLabel" ng-switch="!!label.val">
+                    <strong ng-switch-when="true" class="potentialDangerLabel-item--step">
+                      {{label.nb}}
+                    </strong>
+                    <span ng-switch-when="false">
+                      {{label.nb}}
+                    </span>
+                  </li>
+                </ul>
+                <div class="yetiForm-note">
+                  <p>Le potentiel de danger est calculé à partir du niveau de risque du BRA. Il peut être affiné en agissant directement sur le slider. Par exemple: Le BRA évoque un risque 3 juste après une période en risque 4. On pourra alors indiquer un potentiel de danger de 12 au lieu de 8.</p>
+                </div>
+                
+                <div class="yetiForm-control">
+                  <input type="checkbox" name="wetSnow" id="checkboxWetSnow" ng-model="wetSnow">
+                  <span ng-click="wetSnow = !wetSnow"></span>
+                  <label for="checkboxWetSnow">Neige mouillée: pas de prise en compte de l'orientation</label>
+                </div>
+                <div class="yetiForm-note">
+                  <p>Attention, par neige mouillée, aucun facteur de réduction d'orientation ou de fréquentation ne peut être appliqué</p>
+                </div>
+              </fieldset>
+
+              <fieldset class="yetiForm-fieldset">
+                <legend>Groupe</legend>
+                <div class="yetiForm-control">
+                  <input type="radio" name="groupSize" id="radioGroupSize1" ng-model="groupSize" value="2.1">
+                  <span></span>
+                  <label for="radioGroupSize1">Grand groupe avec distance de délestage</label>
+                </div>
+                <div class="yetiForm-control">
+                  <input type="radio" name="groupSize" id="radioGroupSize2" ng-model="groupSize" value="2.2">
+                  <span></span>
+                  <label for="radioGroupSize2">Petit groupe sans distance</label>
+                </div>
+                <div class="yetiForm-control">
+                  <input type="radio" name="groupSize" id="radioGroupSize3" ng-model="groupSize" value="3">
+                  <span></span>
+                  <label for="radioGroupSize3">Petit groupe avec distance de délestage</label>
+                </div>
+                <div class="yetiForm-control">
+                  <input type="radio" name="groupSize" id="radioGroupSize4" ng-model="groupSize" value="1" checked>
+                  <span></span>
+                  <label for="radioGroupSize4">Aucun facteur de reduction lié au groupe</label>
+                </div>
+                <div class="yetiForm-note">
+                  <p>Taille du groupe</p>
+                  <ul>
+                    <li>Grand groupe = 5 personnes et plus</li>
+                    <li>Petit groupe = 2 à 4 personnes</li>
+                  </ul>
+                  <p>Distances de sécurité</p>
+                  <ul>
+                    <li>10 mètres au minimum à la montée</li>
+                    <li>50 mètres à la descente</li>
+                  </ul>
+                </div>
+              </fieldset>
+
+              <p>Le facteur "pente parcourue fréquemment" n'est pas pris en compte par l'outil car cet aspect ne peut être constaté que sur le terrain.</p>
+
+            </div>
+          </div>
+        </fieldset>
+      </form>
+      </div>
+
+      <ul class="yetiLogos">
+        <li class="yetiLogos-item">
+          <a class="yetiLogos-link" href="http://www.ensg.eu">
+            <img src="${request.static_path('c2corg_ui:static/img/yeti/logo-ensg.png')}" alt="Logo ENSG">
+          </a>
+        </li>
+        <li class="yetiLogos-item">
+          <a class="yetiLogos-link" href="http://www.geoportail.gouv.fr">
+            <img src="${request.static_path('c2corg_ui:static/img/yeti/logo-geoportail.png')}" alt="Logo Geoportail IGN">
+          </a>
+        </li>
+        <li class="yetiLogos-item">
+          <a class="yetiLogos-link" href="https://www.petzl.com/fondation/fondation-petzl?language=fr">
+            <img src="${request.static_path('c2corg_ui:static/img/yeti/logo-fondation-petzl.jpg')}" alt="Logo Fondation Petzl">
+          </a>
+        </li>
+      </ul>
+
+      <div class="toggle-map" onclick="$('.map-right').toggleClass('show')">
+        <button class="btn btn-default"><span class="glyphicon glyphicon-globe"></span></button>
+      </div>
+    </section>
+  <div class="map-right">
+    <div class="yetiMap-legend ol-attribution ol-control" ng-class="{'ol-collapsed': !clicked }" ng-cloak>
+      <button type="button" ng-click="clicked = !clicked"><span>?</span></button>
+      <p class="yetiMap-legendTitle">Légende</p>
+      <p class="yetiMap-legendComment" ng-if="!yetiCtrl.mapLegend.items">La légende apparaîtra automatiquement avec l'image générée</p>
+      <ul>
+        <li ng-repeat="item in yetiCtrl.mapLegend.items">
+          <span class="yetiMap-legend-color" ng-style="{'background': item.color}"></span>
+          <span>{{item.text['fr']}}</span>
+        </li>
+      </ul>
+      <p class="yetiMap-legendComment">{{yetiCtrl.mapLegend.comment['fr']}}</p>
+    </div>
+    <app-map></app-map>
+  </div>
+</section>

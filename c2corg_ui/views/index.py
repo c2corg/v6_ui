@@ -47,6 +47,11 @@ class Pages(object):
         return self._get_page(
             'topoguide', 'c2corg_ui:templates/topoguide.html')
 
+    @view_config(route_name='yeti')
+    def yeti(self):
+        return self._get_page(
+            'yeti', 'c2corg_ui:templates/yeti.html')
+
     @view_config(route_name='serac')
     def serac(self):
         return self._get_page(
