@@ -40,6 +40,12 @@ app.LayertreeSelectorController = function(ngeoBackgroundLayerMgr,
   appAuthentication, mapApiKeys) {
 
   /**
+   * @type {app.Authentication}
+   * @private
+   */
+  this.auth_ = appAuthentication;
+
+  /**
    * @type {ngeo.BackgroundLayerMgr}
    * @private
    */
@@ -73,40 +79,7 @@ app.LayertreeSelectorController = function(ngeoBackgroundLayerMgr,
    * @type {Object|undefined}
    * @export
    */
-  this.tree = {
-    'name': 'Root',
-    'children': [{
-      'name': 'Base layer',
-      'children': [{
-        'name': 'esri',
-        'type': 'background'
-      }, {
-        'name': 'opentopomap',
-        'type': 'background'
-      }, {
-        'name': 'bing',
-        'type': 'background'
-      }, {
-        'name': 'ign maps',
-        'type': 'background'
-      }, {
-        'name': 'ign ortho',
-        'type': 'background'
-      }, {
-        'name': 'swisstopo',
-        'type': 'background',
-        'auth': true
-      }]
-    }, {
-      'name': 'Slopes',
-      'children': [{
-        'name': 'ign slopes'
-      }, {
-        'name': 'swisstopo slopes',
-        'auth': true
-      }]
-    }]
-  };
+  this.tree = this.createLayerTree_();
 
   /**
    * @type {Object|null}
@@ -142,6 +115,60 @@ app.LayertreeSelectorController.prototype.setBgLayer = function(layerSpec) {
     return layerSpec;
   }
   return null;
+};
+
+/**
+ * Build layer tree depending on user credentials.
+ * @return {Object} The tree.
+ * @private
+ */
+app.LayertreeSelectorController.prototype.createLayerTree_ = function() {
+  let baseLayers = [{
+    'name': 'esri',
+    'type': 'background'
+  }, {
+    'name': 'opentopomap',
+    'type': 'background'
+  }, {
+  /* TODO To be added back when Bing quota is reset
+    'name': 'bing',
+    'type': 'background'
+  }, {
+  */
+    'name': 'ign maps',
+    'type': 'background'
+  }, {
+    'name': 'ign ortho',
+    'type': 'background'
+  }, {
+    'name': 'swisstopo',
+    'type': 'background',
+    'auth': true
+  }];
+  baseLayers = baseLayers.filter(
+    layer => !layer['auth'] || this.auth_.isAuthenticated()
+  );
+
+  let slopeLayers = [{
+    'name': 'ign slopes'
+  }, {
+    'name': 'swisstopo slopes',
+    'auth': true
+  }];
+  slopeLayers = slopeLayers.filter(
+    layer => !layer['auth'] || this.auth_.isAuthenticated()
+  );
+
+  return {
+    'name': 'Root',
+    'children': [{
+      'name': 'Base layer',
+      'children': baseLayers
+    }, {
+      'name': 'Slopes',
+      'children': slopeLayers
+    }]
+  };
 };
 
 /**
