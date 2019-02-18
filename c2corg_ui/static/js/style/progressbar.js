@@ -27,10 +27,10 @@ app.module.directive('appProgressBar', app.progressBarDirective);
  */
 app.ProgressBarController = function($interval) {
 
-/**
- * @type  {angular.$interval} $interval service
- * @private
- */
+  /**
+   * @type  {angular.$interval} $interval service
+   * @private
+   */
   this.interval_ = $interval;
 
   /**

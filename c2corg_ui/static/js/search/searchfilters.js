@@ -111,19 +111,15 @@ app.SearchFiltersController = function($scope, ngeoLocation, ngeoDebounce,
   // Deep watch is used here because we need to watch the list filters as well
   // which a simple $watch or $watchCollection does not. Might cause
   // perf/memory issues though...
-  this.scope_.$watch(() => {
-    return this.filters;
-  }, ngeoDebounce(
-    this.handleFiltersChange_.bind(this),
-    500, /* invokeApply */ true),
-    /* deep watch */ true
+  this.scope_.$watch(
+    () => this.filters,
+    ngeoDebounce(this.handleFiltersChange_.bind(this), 500, /* invokeApply */ true),
+    true /* deep watch */
   );
-  this.scope_.$watch(() => {
-    return this.checkboxes_;
-  }, ngeoDebounce(
-    this.handleCheckboxesChange_.bind(this),
-    700, /* invokeApply */ true),
-    /* deep watch */ true
+  this.scope_.$watch(
+    () => this.checkboxes_,
+    ngeoDebounce(this.handleCheckboxesChange_.bind(this), 700, /* invokeApply */ true),
+    true /* deep watch */
   );
 
   this.scope_.$root.$on('searchFilterChange', (event, loadPrefs) => {
