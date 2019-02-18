@@ -22,7 +22,7 @@
     "angular-sanitize": "1.5.8",
     "angular-slug": "0.0.4",
     "blueimp-load-image": "2.20.1",
-    "bootstrap": "3.4.0",
+    "bootstrap": "3.4.1",
     "bootstrap-markdown": "2.10.0",
     "bootstrap-slider": "10.5.0",
     "corejs-typeahead": "1.2.1",
@@ -47,7 +47,7 @@
     "less": "3.9.0",
     "less-plugin-clean-css": "1.5.1",
     "nomnom": "1.8.1",
-    "snyk": "1.133.0",
+    "snyk": "1.130.0",
     "stylelint": "9.10.0",
     "stylelint-config-standard": "18.2.0"
   },
