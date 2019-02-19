@@ -39,7 +39,7 @@
     "slug": "0.9.3"
   },
   "devDependencies": {
-    "angular-gettext-tools": "2.3.14",
+    "angular-gettext-tools": "2.3.16",
     "async": "2.6.1",
     "closure-util": "1.15.1",
     "eslint": "5.14.1",
