@@ -42,7 +42,7 @@
     "angular-gettext-tools": "2.4.1",
     "async": "2.6.1",
     "closure-util": "1.15.1",
-    "eslint": "5.14.1",
+    "eslint": "5.15.0",
     "eslint-config-openlayers": "11.0.0",
     "less": "3.9.0",
     "less-plugin-clean-css": "1.5.1",
