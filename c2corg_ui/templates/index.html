@@ -78,7 +78,10 @@ from c2corg_common.attributes import activities
             <div class="fpcontent">
               <div class="fleft">
                 <div class="fportrait">
-                  <img ng-src="${discourse_url}{{::post['avatar_template']}}">
+                  <img ng-src="{{::post['avatar_template']}}"
+                       ng-if="!post['avatar_template'].startsWith('/')">
+                  <img ng-src="${discourse_url}{{::post['avatar_template']}}"
+                       ng-if="post['avatar_template'].startsWith('/')">
                 </div>
                 <div class="ftxt">
                   <div class="ftitle"><span class="title">{{::post['title']}}</span><span class="title fage"> - {{::post['last_posted_at'] | amUtc | amLocal | amTimeAgo}}</span></div>
