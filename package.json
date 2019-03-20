@@ -47,7 +47,7 @@
     "less": "3.9.0",
     "less-plugin-clean-css": "1.5.1",
     "nomnom": "1.8.1",
-    "snyk": "1.140.0",
+    "snyk": "1.141.0",
     "stylelint": "9.10.0",
     "stylelint-config-standard": "18.2.0"
   },
