@@ -1,3 +1,9 @@
+# Repo Archived
+
+This repo corresponds to the camptocamp.org user interface used from November 2016 to April 2019. The actual repo is <https://github.com/c2corg/c2c_ui>
+
+----
+
 UI application for [camptocamp.org](https://www.camptocamp.org/)
 ====================================
 
