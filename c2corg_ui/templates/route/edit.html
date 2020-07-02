@@ -14,7 +14,7 @@ updating_doc = route_id and route_lang
 <%namespace file="../helpers/edit.html" import="show_editing_associated_waypoints,
     show_editing_associated_routes, show_editing_associated_articles,
     show_editing_associated_books, show_preview_container, show_editing_buttons,
-    show_save_confirmation_modal, show_protected_warning"/>
+    show_save_confirmation_modal, show_protected_warning, show_edit_framework"/>
 <%namespace file="../helpers/orientations.svg" import="show_orientations"/>
 <%namespace file="../helpers/cotometer.html" import="show_cotometer_dialog"/>
 
@@ -56,6 +56,7 @@ updating_doc = route_id and route_lang
       <section class="editing route">
 
         <div class="step step-1">
+          ${show_edit_framework('route')}
 
           <section class="section title">
             <h2 class="heading show-phone" translate>general informations</h2>

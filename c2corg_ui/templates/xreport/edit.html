@@ -12,7 +12,7 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
 <%namespace file="../helpers/edit.html" import="show_save_confirmation_modal, show_preview_container,
   show_editing_buttons, show_editing_associated_waypoints, show_editing_associated_routes,
   show_editing_associated_outings, show_editing_associated_articles,
-  show_protected_warning"/>
+  show_protected_warning, show_edit_framework"/>
 
 <%block name="pagetitle"><title ng-init="id = ${xreport_id if xreport_id else 0}" ng-bind="id ? mainCtrl.page_title('Editing a report') : mainCtrl.page_title('Creating a report')">${show_title('Create/edit report')}</title></%block>
 <%block name="metarobots"><meta name="robots" content="noindex,nofollow"></%block>
@@ -53,6 +53,7 @@ from c2corg_common.attributes import default_langs, activities, event_types, \
     <section class="editing">
 
       <div class="step step-1">
+        ${show_edit_framework('xreport')}
 
         ## TITLE
         <section class="section title">

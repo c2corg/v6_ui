@@ -4,7 +4,7 @@ from c2corg_common.attributes import activities, user_categories
 <%inherit file="../base.html"/>
 <%namespace file="../helpers/common.html" import="show_title"/>
 <%namespace file="../helpers/edit.html" import="show_preview_container, show_editing_buttons,
-    show_protected_warning"/>
+    show_protected_warning, show_edit_framework"/>
 
 <%block name="pagetitle">
 <title ng-bind="mainCtrl.page_title('Editing a profile')">${show_title('Editing a profile')}</title>
@@ -28,6 +28,7 @@ from c2corg_common.attributes import activities, user_categories
     <section class="editing">
 
       <div class="step step-1">
+        ${show_edit_framework('profile')}
 
         <section class="section">
           <h2 class="heading show-phone" translate>description</h2>
